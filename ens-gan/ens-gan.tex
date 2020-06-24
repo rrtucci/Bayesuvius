@@ -1,0 +1,181 @@
+
+\chapter{IN PROGRESS: Generative Adversarial Networks, Ensemble GANs}
+\begin{refsection}
+Bayesian GAN, 
+ Ref.\cite{wilson2017} (2017)
+
+Replace $\theta_a$ by $\vtheta_a$ and 
+$\theta'_a$ by $\vtheta'_a$ for $a=G,D$
+
+
+
+\beq
+\delta V(\vtheta_G, \vtheta_D)=0
+\eeq
+
+\beq
+ \partial_{\vtheta_G}V(\vtheta_G, \vtheta_D)=
+ \partial_{\vtheta_D}V(\vtheta_G, \vtheta_D)=0
+\eeq
+
+\beq
+V_{opt}=\min_{\vtheta_G}\max_{\vtheta_D} V(\vtheta_G, \vtheta_D)
+\eeq
+
+\beq
+P(\vtheta_G)=\prod_i P(\theta_G[i])
+\eeq
+
+\beq
+P(\vtheta_D)=\prod_i P(\theta_D[i])
+\eeq
+
+
+\beq
+P(\vecu)=\prod_i P(u[i])
+\eeq
+
+\beq
+P(\vecr)=\prod_i P(r[i])
+\eeq
+
+
+\beq
+P(f[i]|\vecu, \vtheta_G)= \prod_i\delta[f[i], G(u[i],\vtheta_G)]
+\eeq
+
+\beq
+P(c[i]|\vecf, \vtheta_D) = \delta(c[i], \ol{D}(f[i], \vtheta_D))
+\eeq
+
+\beq
+P(d[j]|\vecr, \vtheta_D)= \delta(d[j], D(r[j], \vtheta_D))
+\eeq
+
+
+\beq
+P(V| \vecd,  \vecc)=
+\delta(V, \frac{1}{N}\log \prod_{i,j}(c[i]d[j]))
+\eeq
+where $N=nsam(\rvr)nsam(\rvu)$
+
+
+
+
+
+
+
+$\eta_G, \eta_D> 0$, maximize wrt $\theta_D$, 
+minimize wrt $\theta_G$
+\beq
+P(\theta'_G|V,\vtheta_G )=
+\delta(\vtheta'_G, \vtheta_G - \eta_G 
+\partial_{\vtheta_G}V)
+\eeq
+
+\beq
+P(\theta'_D|V,\vtheta_D )=
+\delta(\vtheta'_D, \vtheta_D + \eta_D 
+\partial_{\vtheta_D}V)
+\eeq
+
+
+\hrule
+Emulated B net
+
+\beq
+P(\vtheta_G)=\;\prod_i P(\theta_G[i])
+\eeq
+
+\beq
+P(\vtheta_D)=\;\prod_i P(\theta_D[i])
+\eeq
+
+
+\beq
+P(u[i]|\vtheta_G, \vtheta_D)=  
+\ol{D}(G(u[i],\vtheta_G), \vtheta_D)
+\eeq
+
+
+\beq
+P(r[i]|\vtheta_D)=  
+D(r[i], \vtheta_D)
+\eeq
+
+\beq
+P(V| \vecd,  \vecc)=
+\delta(V, \prod_{i,j,a,b}(u[i]r[j]\theta_G[a]\theta_D[b]))
+\eeq
+
+
+
+$\eta_G, \eta_D > 0$, maximize wrt $\theta_D$, 
+minimize wrt $\theta_G$
+\beq
+P(\vtheta'_G|V,\vtheta_G )=
+\prod_i \delta(\theta'_G[i], \theta_G[i] - \eta_G 
+\partial_{\theta_G[i]}\log V)
+\eeq
+
+\beq
+P(\vtheta'_D|V,\vtheta_D )=\prod_i
+\delta(\theta'_D[i], \theta_D[i] + \eta_D 
+\partial_{\theta_D[i]}\log V)
+\eeq
+
+\beq
+P(\vecr, \vecu, \vtheta_G, \vtheta_D)=
+\prod_{i,j,a,b}
+\left\{
+P(\theta_G[a])P(\theta_D[b])\\
+ \frac{D(r[i], \theta_D[b])}{\lam(\theta_D[b])}
+\frac{\ol{D}(G(u[j],\theta_G[a]),\theta_D[b]))}
+{\ol{\lam}(\theta_G[a], \theta_D[b])}
+\right\}
+\eeq
+
+
+$N=nsam(\vecr)nsam(\vecu)
+nsam(\vtheta_G)nsam(\vtheta_D)$
+
+\beq
+\log P(\vecr, \vecu, \vtheta_G, \vtheta_D) = 
+N\left\{
+\begin{array}{l}
+-H(P_{\ul{\theta}_D})+ \sum_{r,\theta_D}P(r)P(\theta_D)
+\log \frac{D(r, \theta_D)}{\lam(\theta_D)}
+\\
+-H(P_{\ul{\theta}_G})+ \sum_{u,\theta_G,\theta_D}P(u)
+P(\theta_G)P(\theta_D)\log
+\frac{\ol{D}(G(u,\theta_G),\theta_D)}{\ol{\lam}(\theta_G, \theta_D)}
+\end{array}
+\right.
+\eeq
+
+\beq
+\log P(\vecr, \vecu) = 
+N\left\{
+\begin{array}{l}
+ \sum_{r}P(r)
+\log \sum_{\theta_D}P(\theta_D)\frac{D(r, \theta_D)}{\lam(\theta_D)}
+\\
++ \sum_{u}P(u)
+\log \sum_{\theta_D, \theta_G}
+P(\theta_G)P(\theta_D)
+\frac{\ol{D}(G(u,\theta_G),\theta_D)}{\ol{\lam}(\theta_G, \theta_D)}
+\end{array}
+\right.
+\eeq
+
+\beqa
+V(\vtheta_G, \vtheta_D) &=&\frac{1}{N} \log P(\vtheta_G, \vtheta_D|\vecr,\vecu,)\\&=&
+\frac{1}{N} [
+\log P(\vecr,\vecu,\vtheta_G, \vtheta_D)
+-\log P(\vecr,\vecu)]
+\eeqa
+
+
+
+\printbibliography[heading=subbibliography]
+\end{refsection}

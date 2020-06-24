@@ -1,0 +1,129 @@
+\section{Notational Conventions}
+\hrule
+bnet=B net=Bayesian Network
+\hrule
+
+Random Variables will be indicated by underlined variables and their values by non-underlined variables. Each node of a bnet will be labelled by a random variable. Thus, $\rvx=x$ means that node $\rvx$ is in state $x$.
+\smallskip
+\hrule
+ $P_\rvx(x)=P(\rvx=x)=P(x)$ is the probability that random variable $\rvx$ equals $x\in S_\rvx$. $S_\rvx$ is the set of states (i.e., values) that $\rvx$ can assume and $n_\rvx = |S_\rvx|$ is the size (aka cardinality) of that set. Hence, 
+\beq
+\sum_{x\in S_\rvx}P_\rvx(x)=1
+\eeq
+\hrule
+\beq
+P_{\rvx,\rvy}(x,y)=P(\rvx=x, \rvy=y)=P(x,y)
+\eeq
+\beq
+P_{\rvx|\rvy}(x|y)=P(\rvx=x| \rvy=y)=P(x|y)=\frac{P(x,y)}{P(y)}
+\eeq
+\hrule
+Kronecker delta function: For $x,y$ in discrete set $S$, 
+\beq
+\delta(x,y)=\left\{
+\begin{array}{l}
+1\;{\rm if}\; x=y
+\\
+0 \;{\rm if}\; x\neq y
+\end{array}
+\right.
+\eeq
+\hrule
+Dirac delta function: For $x,y\in\RR$,
+\beq
+\int^{+\infty}_{-\infty}dx\;\delta(x-y)f(x)=f(y)
+\eeq
+\hrule
+Indicator function:
+\beq
+\indi(\cals)=\left\{
+\begin{array}{l}
+1\;{\rm if\; \cals\; is\; true} 
+\\
+0 \;{\rm if \;\cals\; is \;false}
+\end{array}
+\right.
+\eeq
+For example, $\delta(x,y)=\indi(x=y)$.
+\hrule
+\beq
+\vec{x}= (x[0], x[1], x[2] \ldots, x[nsam(\vecx)-1])=x[:]
+\eeq
+
+ $nsam(\vecx)$ is the number of samples  of $\vecx$. $\rvx[i]$ are i.d.d. (independent identically distributed) samples with
+
+ \beq
+x[i]\sim P(\rvx=x)=\frac{1}{nsam(\vecx)}\sum_i \indi(x[i]=x)
+\eeq 
+
+If we use two sampled variables, say $\vecx$ and $\vecy$, in a given bnet, their number of samples $nsam(\vecx)$ and $nsam(\vecy)$ need not be equal.
+\hrule
+\beq
+P(\vecx) = \prod_i P(x[i])
+\eeq
+
+\beq
+\sum_\vecx = \prod_i\sum_{x[i]}
+\eeq
+
+\beq
+\partial_\vecx = 
+[\partial_{x[0]}, \partial_{x[1]},\partial_{x[2]}, \dots, \partial_{x[nsam(\vecx)-1]}]
+\eeq
+\hrule 
+\beqa
+P(\vecx)&\approx& [\prod_x P(x)^{P(x)}]^{nsam(\vecx)} \\
+&=& e^{nsam(\vecx)\sum_x P(x)\log P(x)}\\
+&=& e^{-nsam(\vecx)H(P_\rvx)}
+\eeqa
+
+\hrule 
+
+\beq
+f^{[1, \partial_x, \partial_y]}(x,y) =
+[f, \partial_x f , \partial_y f]
+\eeq
+
+\beq
+f^+=
+f^{[1, \partial_x, \partial_y]}
+\eeq
+\hrule
+For probabilty distributions $p(x), q(x)$ of $x\in S_\rvx$
+\begin{itemize}
+\item 
+Entropy:
+\beq
+H(p)=-\sum_x p(x)\log p(x)\geq 0
+\eeq
+
+\item
+Kullback-Liebler divergence:
+
+\beq
+D_{KL}(p\parallel q)=\sum_{x} p(x)\log \frac{p(x)}{q(x)}\geq 0
+\eeq
+\item 
+Cross entropy:
+\beqa
+CE(p\rarrow q) &=& -\sum_x p(x)\log q(x)\\
+&=& H(p) + D_{KL}(p\parallel q)
+\eeqa
+\end{itemize}
+
+\hrule
+Normal Distribution: $x, \mu, \sigma\in \RR$, $\sigma >0$
+
+\beq 
+\caln(\mu, \sigma)(x)=
+\frac{1}{\sigma\sqrt{2\pi}}
+e^{-\frac{1}{2}\left(
+\frac{x-\mu}{\sigma}\right)^2}
+\eeq
+\hrule
+Uniform Distribution: $a<b$, $x\in [a,b]$
+
+\beq
+\calu(a,b)(x) =
+\frac{1}{b-a}
+\eeq
