@@ -155,64 +155,36 @@ P(\theta'_D|V,\theta_D )=
 \hrule
 \begin{figure}[h!]
 \centering
-\includegraphics[width=6in]{gan/gan-emulate.png}
-\caption{GAN, Emulated Bayesian Network}
+\includegraphics[width=2in]{gan/gan-emulate.png}
+\caption{GAN, Constraining Bayesian Network}
 \label{fig-gan-emulate} 
 \end{figure}
 
-Emulated B net given in Fig.\ref{fig-gan-emulate}.
-Node transition probabilities for
-B net of Fig.\ref{fig-gan-emulate} given next in blue:
+Constraining B net given in Fig.\ref{fig-gan-emulate}. It adds 2 new nodes, namely $\ul{\vec{U}}$ and $\ul{\vec{R}}$, to  the bnet of Fig.\ref{fig-gan}. The purpose of these 2  barren (childrenless) nodes is to constrain certain functions to be probability distributions.
 
-\beq\color{blue}
-P(\theta_G)=\;{\rm given}
-\eeq
-
-\beq\color{blue}
-P(\theta_D)=\;{\rm given}
-\eeq
-
+Node transition probabilities for the 2 new nodes given next in blue. 
 
 
 \beq\color{blue}
-P(u[i]|\theta_G)= 
-\frac{\ol{D}(G(u[j],\theta_G),\theta_D))}
+P(U[i]|\theta_G)= 
+\frac{\ol{D}(G(U[i],\theta_G),\theta_D))}
 {\ol{\lam}(\theta_G, \theta_D)}
 \eeq
-where  $\ol{\lam}(\theta_G, \theta_D)=\sum_u\ol{D}(G(u, \theta_G), \theta_D))$ 
-and $u[i]\sim P_\rvu$.
+where  $S_{\ul{U[i]}}=S_\rvu$ and $\ol{\lam}(\theta_G, \theta_D)=\sum_u\ol{D}(G(u, \theta_G), \theta_D))$.
 
 \beq\color{blue}
-P(r[i]|\theta_G, \theta_D)= \frac{D(r[i], \theta_D)}{\lam(\theta_D)}
+P(R[i]|\theta_G, \theta_D)= \frac{D(R[i], \theta_D)}{\lam(\theta_D)}
 \eeq
-where $\lam(\theta_D)=\sum_r D(r, \theta_D)$ and $r[i]\sim P_\rvr$.
+where $S_{\ul{R[i]}}=S_\rvr$ and  $\lam(\theta_D)=\sum_r D(r, \theta_D)$.
 
 
 \beq\color{blue}
 P(V| \vecu,  \vecr)=
 \delta(V, \frac{1}{N}\log \prod_{i,j}(
-P(r[i]|\theta_G, \theta_D)P(u[j]|\theta_G)))
+P(\ul{R[i]}=r[i]|\theta_G, \theta_D)P(\ul{U[i]}=u[j]|\theta_G)))
 \eeq
 where $N=nsam(\vecr)nsam(\vecu)$.
 
-
-
-
-
-
-Let $\eta_G, \eta_D> 0$. Maximize $V$ wrt $\theta_D$ and
-minimize it wrt $\theta_G$.
-\beq\color{blue}
-P(\theta'_G|V,\theta_G )=
-\delta(\theta'_G, \theta_G - \eta_G 
-\partial_{\theta_G}V)
-\eeq
-
-\beq\color{blue}
-P(\theta'_D|V,\theta_D )=
-\delta(\theta'_D, \theta_D + \eta_D 
-\partial_{\theta_D}V)
-\eeq
 
 $\call=$ likelihood
 \beqa
