@@ -11,3 +11,4 @@ I will add new chapters gradually.
 Link to pdf of book:
 https://github.com/rrtucci/Bayesuvius/raw/master/main.pdf
 
+Brought to you by www.ar-tiste.xyz
