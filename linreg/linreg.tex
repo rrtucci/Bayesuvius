@@ -45,16 +45,26 @@ We want to minimize $V(b,m)$ (called a cost or loss function) wrt $b$ and $m$.
 Node transition probabilities of B net of Fig.\ref{fig-linreg} given next in blue.
 
 \beq\color{blue}
-P(b,m) = \;{\rm given}
+P(b,m) \text{ = given}
 \eeq
+On the first time, $P(b,m)$ is arbitrary.
+After the first time, it is determined 
+by previous stage.
 
+Let 
+\beq
+P_{\rvx, \rvy}(x,y)=
+\frac{1}{nsam(\vecx)}
+\sum_i \hat{1}(x=x[i], y=y[i])
+\;.
+\eeq
 
 \beq\color{blue}
 P(\vecx)=\prod_i P(x[i])
 \eeq
 
 \beq\color{blue}
-P(\vecy|\vecx)=\prod_i P(y[i]|x[i])
+P(\vecy|\vecx)=\prod_i P(y[i]\cond x[i])
 \eeq
 
 \beq\color{blue}
@@ -64,10 +74,16 @@ P(\vec{\hat{y}}|\vecx, b, m)=\prod_i \delta(\hat{y}[i], \hat{y}(x[i],b,m))
 
 \beq\color{blue}
 P(V|\vec{\hat{y}}, \vecy)=
-\delta(V, \frac{1}{nsam(\vecx)}\log \prod_i |\hat{y}[i]-y[i]|^2)
+\delta(V, \frac{1}{nsam(\vecx)}\sum_i |y[i]-\hat{y}[i]|^2)
 \label{eq-replace2}
 \eeq
-Let $\eta_b, \eta_m>0$. For $x=b,m$, if $x'-x=\Delta x = -\eta\frac{\partial V}{\partial x}$, then $\Delta V\approx \frac{-1}{\eta}(\Delta x)^2   \leq 0$ for $\eta>0$. This is called ``gradient descent".	
+Let $\eta_b, \eta_m>0$. 
+For $x=b,m$, if 
+$x'-x=\Delta x = 
+-\eta\frac{\partial V}{\partial x}$,
+ then $\Delta V\approx
+ \frac{-1}{\eta}(\Delta x)^2   \leq 0$
+ for $\eta>0$. This is called ``gradient descent".	
 \beq\color{blue}
 P(b'|V, b)=\delta(b', b-\eta_b\partial_b V)
 \eeq
@@ -123,7 +139,7 @@ y[i]\log \hat{y}[i] +
 \log \left\{\hat{y}[i]^{y[i]}(1- \hat{y}[i])^{(1-y[i])}\right\}\\
 &=&
 \frac{-1}{nsam(\vecx)}\sum_i 
-\log P(\ul{Y}=y[i]|\hat{y}=\hat{y}[i])\\
+\log P(\ul{Y}=y[i]\cond \hat{y}=\hat{y}[i])\\
 &=&
 -\sum_{x,y} P(x, y)
 \log P(\ul{Y}=y|\hat{y}=\hat{y}(x,b,m))
@@ -140,8 +156,8 @@ There is no node corresponding to $\ul{Y}$
 in the B net of Fig.\ref{fig-linreg}. Fig.\ref{fig-linreg-emul} shows a new B net that has a new node called $\vec{\ul{Y}}$ compared to the B net of Fig.\ref{fig-linreg}. One defines the transition probabilities for all nodes of Fig.\ref{fig-linreg-emul} except $\vec{\ul{Y}}$ and $\ul{V}$ the same as for Fig.\ref{fig-linreg}. For $\vec{\ul{Y}}$ and $\ul{V}$, one defines
 
 \beq\color{blue}
-P(Y[i]|\vec{\hat{y}})=
-P(\ul{Y}=Y[i]|\hat{y}[i])
+P(Y[i]\cond \vec{\hat{y}})=
+P(\ul{Y}=Y[i]\cond \hat{y}[i])
 \eeq
 
 \beq\color{blue}
@@ -149,7 +165,7 @@ P(V|\vec{Y}, \vecy)=
 \delta(V, \frac{-1}{nsam(\vec{x})}\log \call)
 \;,
 \eeq
-where $\call =\prod_i P(\ul{Y}=y[i]|\hat{y}[i] )$=likelihood.
+where $\call =\prod_i P(\ul{Y}=y[i]\cond \hat{y}[i] )$=likelihood.
 
 
 

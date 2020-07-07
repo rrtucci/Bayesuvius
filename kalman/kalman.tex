@@ -1,0 +1,195 @@
+\chapter{Kalman Filter}
+
+\begin{figure}[h!]
+\centering
+$$\xymatrix{
+\rvx_0\ar[d]\ar[r]&
+\rvx_1\ar[d]\ar[r]&
+\rvx_2\ar[d]\ar[r]&
+\rvx_3\\
+\rvz_0&
+\rvz_1&
+\rvz_2&
+\rvz_3
+}$$
+\caption{Kalman Filter bnet.}
+\label{fig-kal}
+\end{figure}
+
+Let $t=0, 1, 2, \dots , T-1$.
+
+$\rvx_t\in S_\rvx$ are
+random variables that represent
+the hidden (unobserved) true
+state of the system.
+
+$\rvz_t\in S_\rvz$ are 
+random variables that represent
+the measured (observed) state of the system.
+
+
+The Kalman Filter bnet Fig.\ref{fig-kal}
+has the following
+node probability transition matrices,
+printed in blue:
+
+
+\beq\color{blue}
+P(x_t|x_{t-1})=
+\caln(F_tx_{t-1} + B_tu_t, Q_t)\;,
+\eeq
+where $F_t, Q_t, B_t, u_t$
+are given. $P(x_t|x_{t-1})$ becomes $P(x_t)$
+for $t=0$.
+
+\beq\color{blue}
+P(z_t|x_t)=
+\caln(H_tx_t, R_t)
+\;,
+\eeq
+where $H_t, R_t$ are given.
+
+Define
+
+\beq
+\rvZ_t= (\rvz_{t'})_{t'\leq t}
+\;.
+\eeq
+Define $\hat{x}_t$ and $P_t$ by
+
+\beq
+P(x_t|Z_t)=
+\caln(\hat{x}_t, P_t)
+\;.
+\eeq
+\hrule
+\medskip
+\noindent
+Problem: Find $\hat{x}_t$ and $P_t$
+in terms of 
+\begin{enumerate}
+\item
+ current (at time $t$)
+ given values of
+$F,Q,H,R,
+ B ,u$
+\item
+ current (at time $t$)
+observed  value of 
+$z$
+\item
+prior (previous)
+value (at time $t-1$) of $\hat{x}$
+and $P$.
+\end{enumerate}
+See Fig.\ref{fig-kal-plus}.
+For that figure,
+
+\beq \color{blue}
+P(\hat{x}_t, P_t | z_t,
+\hat{x}_{t-1}, P_{t-1})
+=\delta(\hat{x}_t,?)
+\delta(P_t, ?)
+\;.
+\eeq
+
+\begin{figure}[h!]
+\centering
+$$\xymatrix{
+\rvx_0\ar[d]\ar[r]&
+\rvx_1\ar[d]\ar[r]&
+\rvx_2\ar[d]\ar[r]&
+\rvx_3\\
+\rvz_0\ar[d]&
+\rvz_1\ar[d]&
+\rvz_2\ar[d]&
+\rvz_3\\
+\ul{\hat{x}}_0, 
+\ul{P}_0\ar[r]&
+\ul{\hat{x}}_1, 
+\ul{P}_1\ar[r]&
+\ul{\hat{x}}_2, 
+\ul{P}_2\ar[r]&
+\ul{\hat{x}}_3, 
+\ul{P}_3
+}$$
+\caption{Kalman Filter bnet
+with deterministic nodes for 
+$\hat{x}_t, P_t$.}
+\label{fig-kal-plus}
+\end{figure}
+
+\hrule \noindent
+Solution copied from Wikipedia Ref.\cite{wiki-kalman}:
+
+
+Define $\eta_{t|t}=\eta_t$ for 
+$\eta=\hat{x}, P$.
+
+\noindent \textbf{=== Predict ===}
+
+Predicted (a priori) state estimate
+\beq
+\hat{\mymathbf{x}}_{t\mid t-1} =
+ \mymathbf{F}_t
+\hat{\mymathbf{x}}_{t-1\mid t-1}
+ + \mymathbf{B}_t \mymathbf{u}_{t}
+\eeq
+
+Predicted (a priori) estimate covariance
+\beq
+\mymathbf{P}_{t\mid t-1} =
+ \mymathbf{F}_t 
+\mymathbf{P}_{t-1\mid t-1}
+ \mymathbf{F}_t^\textsf{T} +
+ \mymathbf{Q}_t
+\eeq
+
+\noindent\textbf{=== Update ===}
+
+Innovation (or measurement 
+pre-fit residual)
+\beq
+\tilde{\mymathbf{y}}_{t|t-1}= 
+\mymathbf{z}_t - 
+\mymathbf{H}_t\hat{\mymathbf{x}}_{t\mid t-1}
+\eeq
+
+Innovation (or pre-fit residual)
+ covariance
+\beq
+\mymathbf{S}_t = \mymathbf{H}_t 
+\mymathbf{P}_{t\mid t-1} 
+\mymathbf{H}_t^\textsf{T} +
+ \mymathbf{R}_t
+\eeq
+
+
+Optimal Kalman gain
+\beq
+\mymathbf{K}_t = \mymathbf{P}_{t\mid t-1}
+\mymathbf{H}_t^\textsf{T}
+ \mymathbf{S}_t^{-1}
+\eeq
+
+
+Updated (a posteriori) state estimate
+\beq
+\hat{\mymathbf{x}}_{t\mid t} =
+ \hat{\mymathbf{x}}_{t\mid t-1} +
+ \mymathbf{K}_t\tilde{\mymathbf{y}}_t
+\eeq
+
+Updated (a posteriori) estimate covariance
+\beq
+\mymathbf{P}_{t|t} = \left(\mymathbf{I} -
+ \mymathbf{K}_t \mymathbf{H}_t\right) 
+\mymathbf{P}_{t|t-1} 
+\eeq
+
+Measurement post-fit residual
+\beq
+\tilde{\mymathbf{y}}_{t\mid t} =
+ \mymathbf{z}_t - \mymathbf{H}_t
+\hat{\mymathbf{x}}_{t\mid t}
+\eeq

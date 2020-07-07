@@ -1,0 +1,103 @@
+\chapter{Basic Curve Fitting
+Using Gradient Descent}
+\label{chap-basic-fit}
+
+\begin{figure}[h!]
+\centering
+$$\xymatrix{
+&\vec{\rvx}\ar[d]\ar[r]&\ul{\vecy}
+\ar[d]&\\
+\phi\ar[r]\ar@/_1pc/[rrr]&
+\vec{\hat{\rvy}}\ar[r]&\cale\ar[r]&\phi'
+}$$
+\caption{Basic curve fitting bnet.}
+\label{fig-bfit}
+\end{figure}
+
+
+Samples 
+$(x[i], y[i])\in S_\rvx\times S_\rvy$
+are given. $nsam(\vecx)=nsam(\vecy)$.
+
+Estimator function 
+$\hat{y}(x; \phi)$
+for $x\in S_\rvx$ and $\phi\in\RR$
+is given.
+
+Let 
+\beq
+P_{\rvx, \rvy}(x,y)=
+\frac{1}{nsam(\vecx)}
+\sum_i \hat{1}(x=x[i], y=y[i])
+\;.
+\eeq
+
+
+Let 
+\beq
+\cale(\vecx, \vecy, \phi)=
+\frac{1}{nsam(\vec{y})}
+\sum_i
+|y[i]-\hat{y}(x[i]; \phi)|^2
+\;
+\eeq
+$\cale$ is called the mean square error.
+
+Best fit is parameters $\phi^*$
+such that
+
+\beq 
+\phi^*= \text{argmin}_\phi
+\cale(\vecx, \vecy, \phi)
+\;.
+\eeq
+
+The node transition matrices for
+the basic curve fitting bnet
+ Fig.\ref{fig-bfit} are
+printed below in blue.
+
+\beq\color{blue}
+P(\phi) \text{ = given}
+\;.
+\eeq
+On the first time, $P(\phi)$ is arbitrary.
+After the first time, it is determined 
+by previous stage.
+
+\beq\color{blue}
+P(\vecx)=\prod_i P_\rvx(x[i])
+\eeq
+
+\beq\color{blue}
+P(\vecy|\vecx)=\prod_i P_{\rvy|\rvx}(y[i]\cond x[i])
+\eeq
+
+\beq\color{blue}
+P(\hat{y}[i]|\phi, \vecx)=
+\delta(\hat{y}[i], \hat{y}(x[i];\phi))
+\eeq
+
+
+\beq\color{blue}
+P(\cale|\vec{\hat{y}}, \vecy)=
+\delta(\cale,\frac{1}{nsam(\vecx)}
+\sum_i |y[i]-\hat{y}[i]|^2)
+\;.
+\eeq
+
+
+\beq\color{blue}
+P(\phi'|\phi, \cale)=
+\delta(\phi',
+\phi-\eta\partial_\phi\cale)
+\eeq
+$\eta>0$ is the descent rate.
+If $\Delta \phi=\phi'-\phi=-\eta 
+\frac{\partial\cale}
+{\partial \phi}$, then
+ $\Delta \cale=\frac{-1}{\eta}
+(\Delta\phi)^2<0$  so this will
+minimize the error
+$\cale$.
+This is called ``gradient descent".

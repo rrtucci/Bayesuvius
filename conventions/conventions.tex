@@ -1,23 +1,36 @@
 \section{Notational Conventions}
-\hrule
+\hrule\noindent
 bnet=B net=Bayesian Network
-\hrule
+\hrule\noindent
+Define $\ZZ, \RR, \CC$ to be
+ the integers, real numbers
+ and complex numbers, respectively. 
 
+For $a<b$, define $\ZZ_{I}$ 
+to be the integers in the 
+interval $I$, where 
+$I=[a,b],[a,b),(a,b],(a,b)$ 
+(i.e, $I$ can be closed or
+ open on either side).
+
+$A_{>0}=\{k\in A: k>0\}$ for $A=\ZZ, \RR$.
+
+\hrule\noindent
 Random Variables will be indicated by underlined letters and their values by non-underlined letters. Each node of a bnet will be labelled by a random variable. Thus, $\rvx=x$ means that node $\rvx$ is in state $x$.
 \smallskip
-\hrule
+\hrule\noindent
  $P_\rvx(x)=P(\rvx=x)=P(x)$ is the probability that random variable $\rvx$ equals $x\in S_\rvx$. $S_\rvx$ is the set of states (i.e., values) that $\rvx$ can assume and $n_\rvx = |S_\rvx|$ is the size (aka cardinality) of that set. Hence, 
 \beq
 \sum_{x\in S_\rvx}P_\rvx(x)=1
 \eeq
-\hrule
+\hrule\noindent
 \beq
 P_{\rvx,\rvy}(x,y)=P(\rvx=x, \rvy=y)=P(x,y)
 \eeq
 \beq
 P_{\rvx|\rvy}(x|y)=P(\rvx=x| \rvy=y)=P(x|y)=\frac{P(x,y)}{P(y)}
 \eeq
-\hrule
+\hrule\noindent
 Kronecker delta function: For $x,y$ in discrete set $S$, 
 \beq
 \delta(x,y)=\left\{
@@ -28,12 +41,12 @@ Kronecker delta function: For $x,y$ in discrete set $S$,
 \end{array}
 \right.
 \eeq
-\hrule
+\hrule\noindent
 Dirac delta function: For $x,y\in\RR$,
 \beq
 \int^{+\infty}_{-\infty}dx\;\delta(x-y)f(x)=f(y)
 \eeq
-\hrule
+\hrule\noindent
 Transition probability matrix of a node of a bnet can be either a discrete or a continuous probability distribution. To go from continuous to discrete, one replaces integrals over states of node by sums over new states, and Dirac delta functions by Kronecker delta functions. More precisely, consider a function $f: S\rarrow \RR$. Let $S_\rvx\subset S$ and $S\rarrow S_\rvx$ upon discretization (binning). Then
 
 \beq 
@@ -53,7 +66,7 @@ Both sides of last equation are 1 when $f(x)=1$. Furthermore, if $y\in S_\rvx$, 
 
 
 
-\hrule
+\hrule\noindent
 Indicator function:
 \beq
 \indi(\cals)=\left\{
@@ -65,7 +78,7 @@ Indicator function:
 \right.
 \eeq
 For example, $\delta(x,y)=\indi(x=y)$.
-\hrule
+\hrule\noindent
 \beq
 \vec{x}= (x[0], x[1], x[2] \ldots, x[nsam(\vecx)-1])=x[:]
 \eeq
@@ -81,7 +94,7 @@ P(\rvx=x)=\frac{1}{nsam(\vecx)}\sum_i \indi(x[i]=x)
 \eeq 
 
 If we use two sampled variables, say $\vecx$ and $\vecy$, in a given bnet, their number of samples $nsam(\vecx)$ and $nsam(\vecy)$ need not be equal.
-\hrule
+\hrule\noindent
 \beq
 P(\vecx) = \prod_i P(x[i])
 \eeq
@@ -94,14 +107,14 @@ P(\vecx) = \prod_i P(x[i])
 \partial_\vecx = 
 [\partial_{x[0]}, \partial_{x[1]},\partial_{x[2]}, \dots, \partial_{x[nsam(\vecx)-1]}]
 \eeq
-\hrule 
+\hrule\noindent 
 \beqa
 P(\vecx)&\approx& [\prod_x P(x)^{P(x)}]^{nsam(\vecx)} \\
 &=& e^{nsam(\vecx)\sum_x P(x)\log P(x)}\\
 &=& e^{-nsam(\vecx)H(P_\rvx)}
 \eeqa
 
-\hrule 
+\hrule\noindent 
 
 \beq
 f^{[1, \partial_x, \partial_y]}(x,y) =
@@ -112,7 +125,7 @@ f^{[1, \partial_x, \partial_y]}(x,y) =
 f^+=
 f^{[1, \partial_x, \partial_y]}
 \eeq
-\hrule
+\hrule\noindent
 For probabilty distributions $p(x), q(x)$ of $x\in S_\rvx$
 \begin{itemize}
 \item 
@@ -135,19 +148,57 @@ CE(p\rarrow q) &=& -\sum_x p(x)\log q(x)\\
 \eeqa
 \end{itemize}
 
-\hrule
+\hrule\noindent
 Normal Distribution: $x, \mu, \sigma\in \RR$, $\sigma >0$
 
 \beq 
-\caln(\mu, \sigma)(x)=
+\caln(\mu, \sigma^2)(x)=
 \frac{1}{\sigma\sqrt{2\pi}}
 e^{-\frac{1}{2}\left(
 \frac{x-\mu}{\sigma}\right)^2}
 \eeq
-\hrule
+\hrule\noindent
 Uniform Distribution: $a<b$, $x\in [a,b]$
 
 \beq
 \calu(a,b)(x) =
 \frac{1}{b-a}
 \eeq
+\hrule\noindent
+Expected Value
+
+Given a random variable $\rvx$ with states $S_\rvx$ and a function $f:S_\rvx\rarrow \RR$, define
+
+\beq
+E_\rvx[f(\rvx)]=
+E_{x\sim P(x)}[f(x)] = \sum_x P(x) f(x)
+\eeq
+\hrule\noindent
+Conditional Expected Value
+
+Given a random variable $\rvx$ with states $S_\rvx$, a random variable $\rvy$ with states $S_\rvy,$ and a function $f:S_\rvx\times S_\rvy\rarrow \RR$, define
+
+\beq
+E_{\rvx|\rvy}[f(\rvx, \rvy)]=
+\sum_x P(x|\rvy) f(x, \rvy)
+\;,
+\eeq
+
+\beq
+E_{\rvx|\rvy=y}[f(\rvx, y)]=
+E_{\rvx|y}[f(\rvx, y)]= \sum_x P(x| y) f(x, y)
+\;.
+\eeq
+Note that
+
+\beqa
+E_\rvy[E_{\rvx|\rvy}[f(\rvx, \rvy)]]&=&
+\sum_{x,y}P(x|y)P(y)f(x,y)
+\\&=&
+\sum_{x,y}P(x,y)f(x,y)
+\\&=&
+E_{\rvx, \rvy}[f(\rvx, \rvy)]
+\;.
+\eeqa
+
+
