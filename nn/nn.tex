@@ -1,0 +1,510 @@
+\chapter{Neural Networks}
+
+In this chapter, we discuss
+ Neural Networks (NNs) of the
+feedforward kind,
+which is the most popular kind. In their
+ plain, vanilla form, NNs only
+have deterministic nodes.
+But the nodes of a bnet can
+be deterministic too, because
+the transition probability matrix
+of a node
+can reduce to a delta function.
+Hence, NNs should be expressible
+as bnets. We will confirm this
+in this chapter.
+
+Henceforth in this chapter,
+if we replace an index of an
+index quantity by a dot, 
+it will mean the collection
+of the indexed quantity
+for all values of that
+index. For example, $x.$
+will mean the 
+array of $x_i$ for all $i$.
+
+
+\begin{figure}[h!]
+\centering
+$$\xymatrix{
+\rvx_0\ar@/^1pc/[rr]
+\ar@/^2pc/[rrr]
+\ar[d]\ar[dr]\ar[drr]\ar[r]&
+\rvx_1\ar@/^1pc/[rr]
+ \ar[dl]\ar[d]\ar[dr]\ar[r]&
+\rvx_2\ar[dll]\ar[dl]\ar[d]\ar[r]&
+\rvx_3\ar[dlll]\ar[dll]\ar[dl]\\
+\rvh_0^0\ar[d]\ar[dr]&
+\rvh_1^0\ar[dl]\ar[d]&
+\rvh_2^0\ar[dll]\ar[dl]\\
+\rvh_0^1\ar[d]\ar[dr]&
+\rvh_1^1\ar[dl]\ar[d]\\
+\rvy_0&
+\rvy_1
+}$$
+\caption{Neural Network (feed forward)
+with 4 layers: input layer $\rvx.$,
+2 hidden layers $\rvh^0.$,
+$\rvh^1.$ and
+output layer $\rvy.$ }
+\label{fig-nn}
+\end{figure}
+
+Consider Fig.\ref{fig-nn}.
+
+$\rvx_i\in 
+\{0,1\}$ for 
+$i=0, 1, 2, \dots,numx-1$
+is the \textbf{input layer}.
+
+$\rvh_i^\lam\in 
+\{0,1\}$ for 
+$i=0, 1, 2, \dots,numh(\lam)-1$
+is the $\lam$\textbf{-th hidden layer}.
+$\lam=0, 1, 2, \ldots, \Lambda-1$.
+A NN is said to be {\bf deep} if
+$\Lambda>1$, i.e., it has 
+more than one hidden layer.
+
+$\rvy_i\in 
+\{0,1\}$ for 
+$i=0, 1, 2, \dots,numy-1$
+is the \textbf{output layer}.
+
+The number of nodes in each layer 
+and the number of layers are arbitrary.
+Fig.\ref{fig-nn} is fully connected 
+(aka dense), meaning that every node
+of a layer has an incoming
+arrow coming 
+from every node of the preceding
+layer. Later on in this chapter,
+we will
+discuss non-dense layers.
+
+Let
+  $w^\lam_{i|j}, b_i^\lam\in \RR$
+be given,
+for $i\in\ZZ_{[0, numh(\lam))}$,
+$j\in\ZZ_{[0, numh(\lam-1))}$, 
+and $\lam\in\ZZ_{[0, \Lambda)}$.
+
+These are the
+transition probability matrices,
+printed in blue, for 
+the nodes of the bnet 
+Fig.\ref{fig-nn}:
+ 
+
+\beq\color{blue}
+P(x_i\cond x_{i-1},
+x_{i-1},\dots, x_0)\text{ = given}
+\eeq
+
+\beq\color{blue}
+P(h^{\lam}_i\cond h^{\lam-1}_.)=
+\delta\left(h^{\lam}_i,
+\cala_i^\lam(\sum_j w^{\lam-1}_{i|j}
+h^{\lam-1}_j + b^{\lam-1}_i)\right)
+\eeq
+
+\beq\color{blue}
+P(y_i\cond h^{\Lambda-1}_.)=
+\delta\left(y_i,
+\cala_i^\Lambda(\sum_j w^{\Lambda-1}_{i|j}
+h^{\Lambda-1}_j + b^{\Lambda-1}_i)\right)
+\eeq
+
+
+
+
+\begin{center}
+\LARGE\textbf{{Activation Functions} 
+$\cala_i^\lam:\RR\rarrow \RR$}
+\end{center}
+Activation functions must be
+nonlinear.
+
+\begin{itemize}
+\item {\bf Step function (Perceptron)}
+
+\beq
+\cala(x)=\indi(x>0)
+\eeq
+Zero for $x\leq 0$, one for $x>0$.
+
+\item {\bf Sigmoid function}
+
+\beq
+\cala(x)=\frac{1}{1+e^{-x}}
+\eeq
+Smooth, monotonically increasing 
+function.
+$\cala(-\infty)=0$,$\cala(0)=0.5$,
+$\cala(\infty)=1$
+
+\item {\bf Hyperbolic tangent}
+\beq
+\cala(x)=\tanh(x)
+\eeq
+As with sigmoid: smooth,
+ monotonically increasing function,
+goes
+from 0 to 1 as $x$ goes 
+from $-\infty$ to
+$\infty$.
+\item {\bf ReLU (Rectified Linear Unit)}
+
+For some $c>0$,
+\beq
+\cala(x)=cx\indi(x>0)
+\;.
+\eeq
+Compare this with step function.
+
+\item {\bf Swish}
+\beq
+\cala(x)=x*sigmoid(x)
+\eeq
+\item {\bf Softmax}
+
+\beq
+\cala(x_i
+|x.)=\frac{e^{x_i}}{\sum_i e^{x_i}}
+\eeq
+The softmax definition implies
+that the bnet nodes
+ within a softmax layer
+are fully connected by arrows
+to form a ``clique".
+
+\end{itemize}
+
+\begin{center}
+\LARGE\textbf{{Weight 
+optimization via
+supervised training and
+gradient descent}}
+\end{center}
+
+The bnet of Fig.\ref{fig-nn}
+is used for classification
+of a single data point $x.$.
+It assumes that the
+weights $w^\lam_{i|j}, b_i^\lam$
+are given.
+
+To find the optimum
+weights via supervised
+training and gradient descent,
+one uses the bnet Fig.\ref{fig-nn-ext}.
+
+In Fig.\ref{fig-nn-ext},
+the nodes in
+Fig.\ref{fig-nn} become 
+sampling space vectors.
+For example, $\rvx.$ becomes
+$\ranvec{x.}$, where the
+components of 
+$\ranvec{x.}$ in sampling space are
+$\rvx.[s]\in \{0,1\}^{numx}$
+for $s=0, 1, \ldots, nsam(\vecx)-1$.
+
+
+$nsam(\vecx)$
+is the number of
+samples used to calculate the
+gradient
+during each {\bf stage (aka iteration)} of
+Fig.\ref{fig-nn-ext}.
+We will also  refer to
+$nsam(\vecx)$ as the {\bf mini-batch size}.
+A {\bf mini-batch} is a subset 
+of the training data set.
+
+
+
+To train a bnet with a data
+set (d-set),
+the standard procedure
+is to split the d-set into 3 parts:
+\begin{enumerate}
+\item
+{\bf training d-set}, 
+\item
+{\bf testing1 d-set}, for
+tuning
+of hyperparameters 
+like $nsam(\vecx)$,  $\Lambda$,
+and $nunh(i)$
+for each $i$. 
+\item
+{\bf testing2 d-set}, for measuring
+how well the model
+tuned with the testing1 d-set
+performs.
+\end{enumerate}
+
+The training d-set is 
+itself split into mini-batches.
+An {\bf epoch} is a pass through all 
+the training d-set.
+
+Define
+\beq
+W^\lam_{i|j}=(w^\lam_{i|j}, b^\lam_i)
+\;.
+\eeq
+
+These are the
+transition probability matrices,
+printed in blue, for 
+the nodes of the bnet 
+Fig.\ref{fig-nn-ext}:
+
+\begin{figure}[h!]
+\centering
+$$\xymatrix{
+&&\ranvec{x.}\ar[d]\ar[r]&
+\ranvec{Y.}\ar[dddd]\\
+&\rvW^0_{.|.}, \ar[r]&
+\ranvec{h^0_.}\ar[d]\\
+&\rvW^1_{.|.}\ar[r]&
+\ranvec{h^1_.}\ar[d]\\
+&\rvW^2_{.|.}\ar[r]&
+\ranvec{h^2_.}\ar[d]\\
+\rvW^._{.|.}\ar[ru]\ar[ruu]\ar[ruuu]
+\ar@/_2pc/[rrrr]
+&&
+\vec{\rvy}.\ar[r]&\cale\ar[r]&
+(\rvW')^._{.|.}
+}$$
+\caption{bnet 
+for 
+finding optimum
+weights of the bnet 
+Fig.\ref{fig-nn} via
+supervised training
+and gradient descent.
+}
+\label{fig-nn-ext}
+\end{figure}
+
+\beq\color{blue}
+P(x.[s])
+\text{ = given}
+\;.
+\eeq
+
+\beq\color{blue}
+P(Y.[s]\cond x.[s])
+\text{ = given}
+\;.
+\eeq
+
+\beq\color{blue}
+P(h^{\lam}_i[s]\cond h^{\lam-1}_.[s])=
+\delta\left(h^{\lam}_i[s],
+\cala_i^\lam(\sum_j w^{\lam-1}_{i|j}
+h^{\lam-1}_j[s] + b^{\lam-1}_i)\right)
+\eeq
+
+\beq\color{blue}
+P(y_i[s]\cond h^{\Lambda-1}_.[s])=
+\delta\left(y_i[s],
+\cala_i^\Lambda(\sum_j
+ w^{\Lambda-1}_{i|j}
+h^{\Lambda-1}_j[s] + b^{\Lambda-1}_i)\right)
+\eeq
+
+\beq\color{blue}
+P(W^._{.|.})\text{ = given}
+\eeq
+The first time it is used,
+ $W^._{.|.}$ is arbitrary.
+After the first time, it is determined 
+by previous stage.
+
+
+
+\beq\color{blue}
+P(W^\lam_{.|.}|W^._{.|.})
+=
+\delta(W^\lam_{.|.},
+(W^._{.|.})^\lam)
+\eeq
+
+\beq\color{blue}
+P(\cale|\vec{Y}., \vec{y}.)=
+\frac{1}{nsam(\vecx)}\sum_s\sum_i|Y_i[s]-y_i[s]|^2
+\eeq
+
+\beq\color{blue}
+P((W')^\lam_{i|j}|\cale, W^._{.|.})
+=
+\delta((W')^\lam_{i|j},
+W_{i|j}^\lam -\alpha
+\partial_{W_{i|j}^\lam} \cale
+)
+\eeq
+$\alpha>0$ is called the learning rate.
+\begin{center}
+\LARGE{\bf Non-dense layers}
+\end{center}
+
+As you read this section, note that
+for  some
+non-dense layers (e.g., 
+convolution
+and pooling), the bnet nodes
+$\rvh_i^\lam$
+ within the non-dense layer
+are connected by some arrows, 
+similar to
+what happens in a softmax 
+layer.
+
+The transition
+probability matrix for
+a non-dense layer is of the
+form: 
+
+\beq\color{blue}
+P(h^\lam_i[s]\cond h^{\lam-1}_.[s])=
+\delta(h^\lam_i[s],H^\lam_i[s])
+\;,
+\eeq
+where
+$H^\lam_i[s]$ will
+be specified below for each type of
+non-dense layer.
+
+\begin{itemize}
+\item{\bf Dropout Layer}
+
+The dropout layer was
+invented in Ref.\cite{dropout}.
+To dropout nodes from a fixed 
+layer $\lam$:
+For all $i$ of layer $\lam$, 
+define a new node $\rvr^\lam_i$
+with an arrow 
+$\rvr^\lam_i\rarrow\rvh^\lam_i$.
+For $r\in \{0,1\}$, 
+and some $p\in (0,1)$, define
+
+\beq\color{blue}
+P(r^\lam_i=r)=[p]^r
+[1-p]^{1-r}
+\text{ (Bernouilli dist.)}
+\;.
+\eeq
+Now one has
+
+\beq \color{blue}
+P(h^\lam_i[s]\cond h^{\lam-1}_.[s], r^\lam_i)=
+\delta(h^\lam_i[s],H^\lam_i[s])
+\;,
+\eeq
+where
+
+\beq
+H^\lam_i[s]=
+\cala^\lam_i(
+r^\lam_i\sum_j w^\lam_{i|j}h^{\lam-1}_j[s]
++b^\lam_i
+)
+\;.
+\eeq
+
+This reduces ovefitting.
+Overfitting might 
+occur if the weights follow too closely
+several similar minibatches.
+This dropout procedure adds a random
+component to each minibatch
+making groups of similar minibatches
+less likely.
+
+Note that dropout adds non-deterministic
+nodes to a NN, 
+which in their vanilla form only have
+deterministic modes.
+
+
+\item {\bf Convolutional Layer}
+
+\begin{itemize}
+\item 1-dim
+
+Filter function $\calf:\{0, 1, \ldots, 
+numf-1\}\rarrow \RR$.
+
+$\sigma$=stride length
+
+For $i\in \{0,1,\dots,numh(\lam)-1\}$,
+let
+
+\beq
+H^\lam_i[s]=
+\sum_{ j=0}^{numf-1}
+h^{\lam-1}_{j+i\sigma}[s] \calf(j)
+\;.
+\label{eq-conv1}
+\eeq
+For the indices not to
+go out of bounds in Eq.(\ref{eq-conv1}),
+we must have
+
+\beq
+numh(\lam-1)-1=(numh(\lam)-1)\sigma+numf-1
+\;.
+\eeq
+so
+\beq
+numh(\lam)=\frac{1}{\sigma}[numh(\lam-1)-
+numf] + 1
+\eeq
+\item 2-dim
+
+$h_i^\lam[s]$ becomes
+$h_{(i,j)}^\lam[s]$.
+Do 1-dim convolution
+along both $i$ and $j$ axes.
+
+\end{itemize}
+\item{\bf Pooling Layers 
+(MaxPool, AvgPool)}
+
+Here each node $i$ 
+of layer $\lam$ is impinged by
+arrows from  a subset $Pool(i)$
+of the set of all
+nodes of the previous layer $\lam-1$.
+Partition set
+$\{0,,1,\dots,numh(\lam-1)-1\}
+$ into $numh(\lam)$ mutually
+disjoint, nonempty sets
+called $Pool(i)$, where
+$i\in \{0, 1, \ldots,numh(\lam)-1\}$.
+
+\begin{itemize}
+\item AvgPool
+\beq
+H^\lam_i[s]=\frac{1}
+{size(Pool(i))}
+\sum_{j\in Pool(i)}h^{\lam-1}_j[s]
+\eeq
+\item MaxPool
+\beq
+H^\lam_i[s]=
+\max_{j\in Pool(i)}h^{\lam-1}_j[s]
+\eeq
+
+\end{itemize}
+
+
+\end{itemize}
+
