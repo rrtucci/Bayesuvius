@@ -41,14 +41,14 @@ $$\xymatrix{
 \rvh_2^0\ar[dll]\ar[dl]\\
 \rvh_0^1\ar[d]\ar[dr]&
 \rvh_1^1\ar[dl]\ar[d]\\
-\rvy_0&
-\rvy_1
+\rvY_0&
+\rvY_1
 }$$
 \caption{Neural Network (feed forward)
 with 4 layers: input layer $\rvx.$,
 2 hidden layers $\rvh^0.$,
 $\rvh^1.$ and
-output layer $\rvy.$ }
+output layer $\rvY.$ }
 \label{fig-nn}
 \end{figure}
 
@@ -59,8 +59,7 @@ $\rvx_i\in
 $i=0, 1, 2, \dots,numx-1$
 is the \textbf{input layer}.
 
-$\rvh_i^\lam\in 
-\{0,1\}$ for 
+$\rvh_i^\lam\in \RR$ for 
 $i=0, 1, 2, \dots,numh(\lam)-1$
 is the $\lam$\textbf{-th hidden layer}.
 $\lam=0, 1, 2, \ldots, \Lambda-1$.
@@ -68,10 +67,24 @@ A NN is said to be {\bf deep} if
 $\Lambda>1$; i.e., if it has 
 more than one hidden layer.
 
-$\rvy_i\in 
-\{0,1\}$ for 
+$\rvY_i\in \RR$ for 
 $i=0, 1, 2, \dots,numy-1$
 is the \textbf{output layer}.
+We use a upper case y
+here because in the training phase,
+we will use pairs $(x.[s],y.[s])$ where
+$y_i[s]\in \{0,1\}$ 
+for $i=0, 1, \ldots, numy-1$.
+$Y=\hat{y}$
+is an estimate of $y$.
+Note that lower case y is 
+either 0 or 1, 
+but upper case y may be 
+any real. Often, the
+activation
+functions are chosen so that
+$Y\in[0,1]$. 
+ 
 
 The number of nodes in each layer 
 and the number of layers are arbitrary.
@@ -111,8 +124,8 @@ h^{\lam-1}_j + b^{\lam-1}_i)\right)
 \eeq
 
 \beq\color{blue}
-P(y_i\cond h^{\Lambda-1}_.)=
-\delta\left(y_i,
+P(Y_i\cond h^{\Lambda-1}_.)=
+\delta\left(Y_i,
 \cala_i^\Lambda(\sum_j w^{\Lambda-1}_{i|j}
 h^{\Lambda-1}_j + b^{\Lambda-1}_i)\right)
 \eeq
@@ -162,7 +175,7 @@ For some $c>0$,
 \cala(x)=cx\indi(x>0)
 \;.
 \eeq
-Compare this with step function.
+Compare this to the step function.
 
 \item {\bf Swish}
 \beq
@@ -173,7 +186,20 @@ Compare this with step function.
 \beq
 \cala(x_i
 |x.)=\frac{e^{x_i}}{\sum_i e^{x_i}}
+\label{eq-softmax}
 \eeq
+It's called softmax because if we 
+approximate the exponentials,
+ both in the numerator and denominator
+of Eq.(\ref{eq-softmax}),
+by the largest one,
+we get
+
+\beq
+\cala(x_i|x.)\approx \indi(x_i=\max_k x_k)
+\;.
+\eeq
+
 The softmax definition implies
 that the bnet nodes
  within a softmax layer
@@ -254,7 +280,7 @@ the training d-set.
 
 Define
 \beq
-W^\lam_{i|j}=(w^\lam_{i|j}, b^\lam_i)
+W^\lam_{i|j}=[w^\lam_{i|j}, b^\lam_i]
 \;.
 \eeq
 
@@ -268,7 +294,7 @@ Fig.\ref{fig-nn-ext}:
 \centering
 $$\xymatrix{
 &&\ranvec{x.}\ar[d]\ar[r]&
-\ranvec{Y.}\ar[dddd]\\
+\ranvec{y.}\ar[dddd]\\
 &\rvW^0_{.|.}, \ar[r]&
 \ranvec{h^0_.}\ar[d]\\
 &\rvW^1_{.|.}\ar[r]&
@@ -278,7 +304,7 @@ $$\xymatrix{
 \rvW^._{.|.}\ar[ru]\ar[ruu]\ar[ruuu]
 \ar@/_2pc/[rrrr]
 &&
-\vec{\rvy}.\ar[r]&\cale\ar[r]&
+\vec{\rvY}.\ar[r]&\cale\ar[r]&
 (\rvW')^._{.|.}
 }$$
 \caption{bnet 
@@ -299,7 +325,7 @@ P(x.[s])
 \eeq
 
 \beq\color{blue}
-P(Y.[s]\cond x.[s])
+P(y.[s]\cond x.[s])
 \text{ = given}
 \;.
 \eeq
@@ -312,8 +338,8 @@ h^{\lam-1}_j[s] + b^{\lam-1}_i)\right)
 \eeq
 
 \beq\color{blue}
-P(y_i[s]\cond h^{\Lambda-1}_.[s])=
-\delta\left(y_i[s],
+P(Y_i[s]\cond h^{\Lambda-1}_.[s])=
+\delta\left(Y_i[s],
 \cala_i^\Lambda(\sum_j
  w^{\Lambda-1}_{i|j}
 h^{\Lambda-1}_j[s] + b^{\Lambda-1}_i)\right)
@@ -337,9 +363,25 @@ P(W^\lam_{.|.}|W^._{.|.})
 \eeq
 
 \beq\color{blue}
-P(\cale|\vec{Y}., \vec{y}.)=
-\frac{1}{nsam(\vecx)}\sum_s\sum_i|Y_i[s]-y_i[s]|^2
+P(\cale|\vec{y}., \vec{Y}.)=
+\frac{1}{nsam(\vecx)}
+\sum_s\sum_i d(y_i[s], Y_i[s])
+\;,
 \eeq
+where 
+
+\beq
+d(y,Y)=|y-Y|^2
+\;.
+\eeq
+If $y, Y\in [0,1]$, 
+one can use 
+
+\beq
+d(y,Y)=XE(y\rarrow Y)=
+-y\log Y - (1-y)\log (1-Y)
+\eeq
+instead.
 
 \beq\color{blue}
 P((W')^\lam_{i|j}|\cale, W^._{.|.})
