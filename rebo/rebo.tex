@@ -1,0 +1,112 @@
+\chapter{Restricted Boltzmann Machines}
+In what follows, we will
+abbreviate "restricted Boltzmann machine'
+by rebo.
+
+Let
+
+$v\in \{0,1\}^{numv}$
+
+$h\in \{0,1\}^{numh}$
+
+$b\in \RR^{numv}$ (mnemonic, $v$ and $b$
+sound the same)
+
+$a\in \RR^{numh}$
+
+$W^{v|h}\in \RR^{numv\times numh}$
+
+Energy:
+\beq
+E(v,h)= -(b^Tv + a^Th + v^T W^{v|h} h)
+\eeq
+
+Boltzmann distribution:
+\beq
+P(v,h)=
+\frac{e^{-E(v,h)}}
+{Z}
+\eeq
+
+Partition function:
+\beq
+Z=\sum_{v,h}e^{-E(v,h)}=Z(a,b,W^{v|h})
+\eeq
+
+\beqa
+P(v|h)&=&
+\frac{e^{b^Tv+a^Th + v^T W^{v|h}h}}
+{\sum_ve^{b^Tv+a^Th + v^T W^{v|h}h}}
+\\&=&
+\frac{e^{b^Tv + v^T W^{v|h}h}}
+{\sum_v e^{b^Tv+ v^T W^{v|h}h}}
+\\
+&=&
+\prod_i\frac{ e^{v_i(b_i
++ \sum_jW^{v|h}_{i,j}h_j)}}
+{\sum_{v_i=0,1}e^{v_i(b_i
++ \sum_j W^{v|h}_{i,j}h_j)}}\\
+&=&
+\prod_i P(v_i|h)
+\eeqa
+
+
+\beq
+P(v_i|h)=
+\frac{e^{v_i(b_i
++ \sum_jW^{v|h}_{i,j}h_j)}}{Z_i(h)}
+\label{eq-pv}
+\eeq
+
+Eq.\ref{eq-pv}
+implies that a rebo
+can be
+represented by the bnet
+Fig.\ref{fig-rebo}.
+
+\begin{figure}[h!]
+\centering
+$$\xymatrix{
+\rvh\ar[d]\ar[dr]\ar[drr]\\
+\rvv_0 & \rvv_1 &\rvv_2
+}$$
+\caption{
+bnet for a Restricted 
+Boltzmann Machine (rebo)
+with $numv=3$}
+\label{fig-rebo}
+\end{figure}
+
+Let
+\beq
+x_i=b_i+\sum_j W^{v|h}_{ij}h_j
+\;.
+\eeq
+Then
+
+\beqa
+P(v_i=1|h)&=&
+\frac{e^{x_i}}
+{1 + e^{x_i}}\\
+&=&
+\frac{1}
+{1 + e^{-x_i}}\\
+&=&
+sigmoid(x_i)
+\;.
+\eeqa
+
+One could
+also expand the node $\rvh$
+in Fig.\ref{fig-rebo}
+into $numh$ nodes.
+But note that $P(h)\neq \prod_jP(h_j)$
+so there would be arrows among the $h_j$ 
+nodes.
+
+Note that the rebo bnet
+is a special case of Naive Bayes
+(See Chapter \ref{ch-naive})
+with binary nodes $v_i, h_i$
+and specific $P(h)$
+and $P(v_i|h)$ node matrices.
