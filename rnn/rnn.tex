@@ -1,3 +1,602 @@
 \chapter{Recurrent Neural Networks}
 
-Coming soon!
+This chapter is mostly
+based on Ref.\cite{ng-rnn}.
+
+This chapter
+assumes you are
+familiar 
+with the material
+and notation of Chapter \ref{ch-nn}
+on plain Neural Nets.
+
+
+\begin{figure}[h!]
+\centering
+$$\xymatrix{
+\rvx(0)\ar[d]&
+\rvx(1)\ar[d]&
+\rvx(2)\ar[d]\\
+\rvh(0)\ar[d]\ar[r]&
+\rvh(1)\ar[d]\ar[r]&
+\rvh(2)\ar[d]\\
+\rvY(0)&
+\rvY(1)&
+\rvY(2)
+}$$
+\caption{Simple example of 
+RNN witb $T=3$}
+\label{fig-rnn}
+\end{figure}
+
+Suppose
+
+$T$ is a positive integer.
+
+$t=0, 1, \ldots, T-1$,
+
+$\rvx_i(t)\in \RR$ for
+ $i=0,1, \ldots,numx-1$,
+
+$\rvh_i(t)\in \RR$ for
+ $i=0,1, \ldots,numh-1$,
+
+$\rvY_i(t)\in \RR$ for
+ $i=0,1, \ldots,numy-1$,
+
+$W^{h|x}\in\RR^{numh\times numx}$,
+
+$W^{h|h}\in\RR^{numh\times numh}$,
+
+$W^{y|h}\in\RR^{numy\times numh}$,
+
+$b^y\in \RR^{numy}$,
+
+$b^h\in \RR^{numh}$.
+
+The simplest kind of
+recurrent neural network (RNN)
+has
+the bnet Fig.\ref{fig-rnn}
+with arbitrary $T$.
+The node
+transition matrices, printed in
+blue, for this bnet, are as follows.
+
+\beq\color{blue}
+P(x(t))\text{ = given}
+\eeq
+
+\beq\color{blue}
+P(h(t)\cond h(t-1), x(t))=
+\delta(h(t),
+\cala(W^{h|x}x(t) +
+ W^{h|h}h(t-1) + b^h))
+\;,
+\eeq
+where
+$h(-1)=0$.
+
+\beq\color{blue}
+P(Y(t)\cond h(t))=
+\delta(h(t),
+\cala(W^{y|h}h(t) + b^y))
+\eeq
+
+Define
+
+\beq
+W^h=[W^{h|x}, W^{h|h}, b^h]
+\;,
+\eeq
+and
+
+\beq
+W^y=[W^{y|h}, b^y]
+\;.
+\eeq
+
+The bnet of Fig.\ref{fig-rnn}
+can be used for
+classification once 
+its parameters 
+$W^h$ and $W^y$
+have been optimized.
+To optimize
+those parameters via gradient
+descent,
+one can use the bnet 
+of Fig.\ref{fig-rnn-ext}.
+
+Let $s=0,1, \ldots, nsam(\vecx)-1$
+be the labels for a minibatch of samples.
+The node transition matrices,
+ printed in blue,
+for bnet Fig.\ref{fig-rnn-ext},
+ are as follows.
+
+
+
+\begin{figure}[h!]
+\centering
+$$\xymatrix{
+&\vec{\rvx}(0)\ar[d]\ar@/^1pc/[ddd]&
+\vec{\rvx}(1)\ar[d]&
+\vec{\rvx}(2)\ar[d]\\
+\rvW^h\ar[r]\ar@/^2pc/[rr]\ar@/^2pc/[rrr]
+\ar@/_3pc/[ddddd]
+&\vec{\rvh}(0)\ar[d]\ar[r]&
+\vec{\rvh}(1)\ar[d]\ar[r]&
+\vec{\rvh}(2)\ar[d]\\
+\rvW^y\ar[r]\ar@/^2pc/[rr]\ar@/^2pc/[rrr]
+\ar@/_3pc/[ddddd]
+&\vec{\rvY}(0)\ar@/^1pc/[dd]&
+\vec{\rvY}(1)\ar@/^1pc/[dd]&
+\vec{\rvY}(2)\ar@/^1pc/[dd]
+\\
+&
+\vec{\rvy}(0)\ar[d]&
+\vec{\rvy}(1)\ar[d]&
+\vec{\rvy}(2)\ar[d]
+\\
+\ul{\cale}\ar[dd]
+\ar@/_2pc/[ddd]&
+\ul{\cale}(0)\ar[l]&
+\ul{\cale}(1)\ar@/_1pc/[ll]&
+\ul{\cale}(2)\ar@/_2pc/[lll]
+\\
+&
+\vec{\rvx}(0)'
+&\vec{\rvx}(1)'
+&\vec{\rvx}(2)'
+\\
+(\rvW^h)'\\
+(\rvW^y)'
+}
+$$
+\caption{RNN bnet used
+to optimze parameters $W^h$
+and $W^y$ of RNN bnet Fig.\ref{fig-rnn}.}
+\label{fig-rnn-ext}
+\end{figure}
+
+\beq\color{blue}
+P(x(t)[s])\text{ = given}
+\eeq
+
+\beq\color{blue}
+P(h(t)[s]\cond h(t-1)[s], x(t)[s])=
+\delta(h(t)[s],
+\cala(W^{h|x}x(t)[s] + W^{h|h}h(t-1)[s] + b^h)
+\eeq
+
+\beq\color{blue}
+P(Y(t)[s]\cond h(t-1)[s])=
+\delta(Y(t)[s],
+\cala(W^{y|h}h(t-1)[s] + b^y)
+\eeq
+
+\beq\color{blue}
+P(y(t)[s]\cond x(t)[s])\text{ = given}
+\eeq
+
+\beq\color{blue}
+P(\cale(t)\cond \vecy(t), \vec{Y}(t))
+=\frac{1}{nsam(\vecx)}
+\sum_s d(y(t)[s], Y(t)[s])
+\;,
+\eeq
+where 
+
+\beq
+d(y,Y)=|y-Y|^2
+\;.
+\eeq
+If $y, Y\in [0,1]$, 
+one can use 
+
+\beq
+d(y,Y)=XE(y\rarrow Y)=
+-y\log Y - (1-y)\log (1-Y)
+\eeq
+instead.
+
+\beq\color{blue}
+P(\cale\cond [\cale(t)]_{\forall t})=
+\delta(\cale, \sum_t \cale(t))
+\eeq
+
+For $a=h,y$,
+\beq\color{blue}
+P(W^a)\text{ = given}
+\;.
+\eeq
+The first time it is used,
+$W^a$ is fairly arbitrary. Afterwards,
+it is determined by previous 
+horizontal
+stage.
+
+\beq\color{blue}
+P((W^a)'|\cale, W^a)=
+\delta((W^a)', W^a -
+\eta ^a\partial_{W^a}\cale)
+\;.
+\eeq
+$\eta ^a>0$ is the learning rate
+for $W^a$.
+
+\section*{Language Sequence Modeling}
+
+Figs.\ref{fig-rnn}, and \ref{fig-rnn-ext}
+with arbirary $T$ can be used 
+as follows to do
+Language Sequence Modeling.
+
+For this usecase, one must
+train with the following
+transition matrix for node $\vecy(t)$:
+
+\beq\color{blue}
+P(y(t)[s]\cond [x(t)[s]]_{t'\leq t})=
+\indi(\;\;\;y(t)[s]=
+P(x(t)[s]\cond [x(t')[s]]_{t'<t})
+\;\;\;)
+\eeq
+
+With such training, one gets
+
+\beq
+P(Y(t)|h(t))=
+\indi(\;\;\;
+Y(t)=P(x(t)\cond [x(t')]_{t'<t})\;\;\;)
+\;.
+\eeq
+Therefore,
+
+\beq
+Y(0)=P(x(0))
+\;,
+\eeq
+
+\beq
+Y(1)=P(x(1)|x(0))
+\;,
+\eeq
+
+\beq
+Y(2)=P(x(2)|x(0), x(1))
+\;,
+\eeq
+and so on.
+
+We can use this to: 
+\begin{itemize}
+\item
+predict the probability 
+of a sentence,
+
+example: Get $P(x(0), x(1), x(2))$.
+\item
+predict 
+the most likely 
+next word in a sentence,
+
+example: Get $P(x(2)| x(0), x(1))$.
+\item generate fake sentences.
+
+example: 
+
+Get $x(0)\sim P(x(0))$.
+
+Next get $x(1)\sim P(x(1)|x(0))$.
+
+Next get $x(2)\sim P(x(2)|x(0), x(1))$.
+
+
+\end{itemize}
+
+ 
+\section*{Other types of RNN}
+
+\begin{figure}[h!]
+\centering
+$$\xymatrix{
+\rvx(0)\ar[d]&
+\rvx(1)\ar[d]&
+\\
+\rvh(0)\ar[r]&
+\rvh(1)\ar[r]&
+\rvh(2)\ar[d]\ar[r]&
+\rvh(3)\ar[d]\\
+&
+&
+\rvY(2)&
+\rvY(3)
+}$$
+\caption{RNN bnet of the
+many to many kind. This
+one can be used for  translation.
+$x(0)$ and $x(1)$ might
+denote two words of an English
+sentence, and $Y(2)$ 
+and $Y(3)$ might be
+their Italian translation.}
+\label{fig-rnn-translation}
+\end{figure}
+
+Let $\calt=\{0,1, \dots , T-1\}$,
+and
+$\calt^x, \calt^y\subset \calt$.
+Above, 
+we assumed that 
+$\rvx(t)$ and $\rvY(t)$
+were both defined 
+for all $t\in \calt$.
+More generally, they 
+might be defined only
+for subsets of $\calt$:
+$\rvx(t)$ for $t\in \calt^x$
+and 
+$\rvY(t)$ for $t\in \calt^y$.
+If $|\calt^x|=1$ and
+$|\calt^y|>1$, 
+we say the RNN bnet is of
+the 1 to many kind.
+In general, can have 
+{\bf 1 to 1, 1 to many, many to 1, 
+many to many} RNN bnets.
+
+Plain RNNs can suffer 
+from the
+{\bf vanishing or exploding
+ gradients problem}.
+There are various ways to
+mitigate this (good choice of initial
+$W^h$ and $W^y$, 
+good choice of activation 
+functions, regularization).
+Or by using GRU or LSTM (discussed below).
+ {\bf GRU and LSTM}
+were designed to mitigate
+vanishing or exploding gradients problem.
+They are very popular in NLP (Natural
+Language Processing).
+
+
+
+\newpage
+
+\section*{Long  
+Short Term Memory (LSTM) unit (1997)}
+
+This section
+is based on Wikipedia article 
+Ref.\cite{lstm}. In this section,
+$\odot$
+will denote the Hadamard matrix product
+(elementwise product)  
+and $\sigma$ the sigmoid function.
+
+\begin{figure}[h!]
+\centering
+$$\xymatrix{
+&&\rvx(t)\ar[ddd]\ar[dl]\ar[ldd]\ar[lddd]
+\\
+&\rvi(t)\ar[rddd]
+&\\
+&\rvf(t)\ar[rdd]&\\
+&\rvo(t)\ar[ddr]
+&\tilde{\rvc}(t)\ar[d]
+\\
+\rvc(t-1)\ar[rr]
+&&\rvc(t)\ar[d]
+\\
+\rvh(t-1)\ar[ruuuu]\ar[ruuu]\ar[ruu]\ar[rruu]
+&&\rvh(t)\ar[d]\\
+&&\rvY(t)
+}$$
+\caption{
+bnet for a Long Short Term Memory
+ (LSTM) unit.}
+\label{fig-rnn-lstm}
+\end{figure}
+
+Let
+
+$\rvx_{t}\in \RR^{numx}$: 
+input vector to the LSTM unit
+
+$\rvf_{t}\in \RR^{numh}$:
+forget gate's activation vector
+
+$\rvi_{t}\in \RR^{numh}$: 
+input/update gate's activation vector
+
+$\rvo_{t}\in \RR^{numh}$: 
+output gate's activation vector
+
+$\rvh_{t}\in \RR^{numh}$: 
+hidden state vector also known as
+ output vector of the LSTM unit
+
+${\tilde {\rvc}}_{t}\in \RR^{numh}$: 
+cell input activation vector
+
+$\rvc_{t}\in \RR^{numh}$: 
+cell state vector
+
+$\rvY(t)\in \RR^{numy}$: 
+classification of $x(t)$.
+
+$W\in \RR^{numh\times numx}$, 
+$U\in \RR^{numh\times numh}$
+and 
+$b\in \RR^{numh}$: 
+weight matrices and bias vectors,
+ parameters learned by training.
+
+$\calw^{y|h}\in \RR^{numy\times numh}$:
+ weight matrix
+
+
+Fig.\ref{fig-rnn-lstm}
+is a bnet net
+for a LSTM unit.
+The node transition matrices, printed in blue,
+for this bnet, are
+as follows.
+
+\beq\color{blue}
+P(f(t)|x(t), h(t-1))=\indi(\;\;\;
+f(t)=\sigma(W^{f|x}x(t)+
+U^{f|h}h(t-1)+b^{f})
+\;\;\;)
+\;,
+\eeq
+where $h(-1)=0$.
+
+\beq\color{blue}
+P(i(t)|x(t), h(t-1))=\indi(\;\;\;
+i(t)=\sigma(W^{i|x}x(t)
++U^{i|h}h(t-1)+b^{i})
+\;\;\;)
+\eeq
+
+\beq\color{blue}
+P(o(t)|x(t), h(t-1))=\indi(\;\;\;
+o(t)=\sigma(W^{o|x}x(t)
++U^{o|h}h(t-1)+b^{o})
+\;\;\;)
+\eeq
+
+\beq\color{blue}
+P(\tilde{c}(t)|x(t), h(t-1))=\indi(\;\;\;
+\tilde{c}(t)=\tanh
+(W^{c|x}x(t)+U^{c|h}h(t-1)+b^{c})
+\;\;\;)
+\eeq
+
+\beq\color{blue}
+P(c(t)|f(t), c(t-1), i(t),
+ \tilde{c}(t))
+=\indi(\;\;\;
+c(t)=f(t)\odot c(t-1)+
+i(t)\odot {\tilde {c}}(t)
+\;\;\;)
+\eeq
+
+\beq\color{blue}
+P(h(t)|o(t), c(t))=\indi(\;\;\;
+h(t)=o(t)\odot \tanh
+(c(t))
+\;\;\;)
+\eeq
+
+
+
+\beq\color{blue}
+P(Y(t)|h(t))=\indi(\;\;\;
+Y(t)= \cala(\calw^{y|h}h(t) + b^y)
+\;\;\;)
+\eeq
+
+\newpage
+\section*{Gated Recurrence Unit
+ (GRU) (2014)}
+
+This 
+section is based 
+on Wikipedia article Ref.\cite{gru}. In this section,
+$\odot$
+will denote the Hadamard matrix product
+(elementwise product)  
+and $\sigma$ the sigmoid function.
+
+GRU is a more recent (17 years later)
+attempt at simplifying LSTM unit.
+
+\begin{figure}[h!]
+\centering
+$$\xymatrix{
+&\rvr(t)\ar[dr]&\rvx(t)\ar[d]\ar[dl]\ar[l]
+\\
+&\rvz(t)\ar[dr]
+&\hat{\rvh}(t)\ar[d]
+\\
+\rvh(t-1)\ar[ur]\ar[rr]\ar[urr]\ar[uur]
+&&\rvh(t)\ar[d]
+\\
+&&\rvY(t)
+}$$
+\caption{bnet for a Gated
+Recurrent Unit (GRU).}
+\label{fig-rnn-gru}
+\end{figure}
+
+Let
+
+$\rvx(t)\in \RR^{numx}$: input vector
+
+$\rvh(t)\in\RR^{numh}$: output vector
+
+$\hat{\rvh}(t)\in\RR^{numh}$: candidate activation vector
+
+$\rvz(t)\in\RR^{numh}$: update gate vector
+
+$\rvr(t)\in\RR^{numh}$: reset gate vector
+
+$\rvY(t)\in \RR^{numy}$: 
+classification of $x(t)$.
+
+$W\in \RR^{numh\times numx}$, 
+$U\in \RR^{numh\times numh}$
+and 
+$b\in \RR^{numh}$: 
+weight matrices and bias vectors,
+ parameters learned by training.
+
+$\calw^{y|h}\in \RR^{numy\times numh}$:
+ weight matrix
+
+Fig.\ref{fig-rnn-gru}
+is a bnet net
+for a GRU.
+The node transition matrices, printed in blue,
+for this bnet, are
+as follows.
+
+
+\beq\color{blue}
+P(z(t)|x(t),h(t-1))=\indi(\;\;\;
+z(t) = \sigma(W^{z|x} x(t) + U^{z|h} h(t-1) + b^z)
+\;\;\;)
+\;,
+\eeq
+where $h(-1)=0$.
+
+\beq\color{blue}
+P(r(t)|x(t), h(t-1))=\indi(\;\;\;
+r(t) = \sigma(W^{r|x} x(t) + U^{r|h} h(t-1) + b^r)
+\;\;\;)
+\eeq
+
+\beq\color{blue}
+P(\hat{h}(t)|x(t), r(t), h(t-1))=
+\indi(\;\;\;
+\hat{h}(t) = \tanh(W^{h|x} x(t) +
+ U^{h|h} (r(t) \odot h(t-1)) + b^h)
+\;\;\;)
+\eeq
+
+\beq\color{blue}
+P(h(t)|z(t), h(t-1),\hat{h}(t))=\indi(\;\;\;
+h(t) =  (1 - z(t)) \odot h(t-1) +
+ z(t) \odot \hat{h}(t)
+\;\;\;)
+\eeq
+
+\beq\color{blue}
+P(Y(t)|h(t))=\indi(\;\;\;
+Y(t)= \cala(\calw^{y|h}h(t) + b^y)\;\;\;)
+\eeq
