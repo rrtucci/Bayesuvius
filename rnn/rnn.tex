@@ -14,6 +14,7 @@ on plain Neural Nets.
 \begin{figure}[h!]
 \centering
 $$\xymatrix{
+\rvx(\cdot)\ar[d]\ar[dr]\ar[drr]\\
 \rvx(0)\ar[d]&
 \rvx(1)\ar[d]&
 \rvx(2)\ar[d]\\
@@ -64,7 +65,11 @@ transition matrices, printed in
 blue, for this bnet, are as follows.
 
 \beq\color{blue}
-P(x(t))\text{ = given}
+P(x(\cdot))\text{ = given}
+\eeq
+
+\beq\color{blue}
+P(x(t))=\delta(x(t), [x(\cdot)]_t)
 \eeq
 
 \beq\color{blue}
@@ -79,7 +84,7 @@ $h(-1)=0$.
 
 \beq\color{blue}
 P(Y(t)\cond h(t))=
-\delta(h(t),
+\delta(Y(t),
 \cala(W^{y|h}h(t) + b^y))
 \eeq
 
@@ -120,48 +125,51 @@ for bnet Fig.\ref{fig-rnn-ext},
 \begin{figure}[h!]
 \centering
 $$\xymatrix{
-&\vec{\rvx}(0)\ar[d]\ar@/^1pc/[ddd]&
+&\ranvec{x}(\cdot)\ar[d]\ar[dr]\ar[drr]
+\ar@/^1pc/[dddd]
+\\
+&\vec{\rvx}(0)\ar[d]&
 \vec{\rvx}(1)\ar[d]&
 \vec{\rvx}(2)\ar[d]\\
 \rvW^h\ar[r]\ar@/^2pc/[rr]\ar@/^2pc/[rrr]
-\ar@/_3pc/[ddddd]
+\ar@/_3pc/[dddddd]
 &\vec{\rvh}(0)\ar[d]\ar[r]&
 \vec{\rvh}(1)\ar[d]\ar[r]&
 \vec{\rvh}(2)\ar[d]\\
 \rvW^y\ar[r]\ar@/^2pc/[rr]\ar@/^2pc/[rrr]
-\ar@/_3pc/[ddddd]
+\ar@/_3pc/[dddddd]
 &\vec{\rvY}(0)\ar@/^1pc/[dd]&
 \vec{\rvY}(1)\ar@/^1pc/[dd]&
 \vec{\rvY}(2)\ar@/^1pc/[dd]
 \\
 &
-\vec{\rvy}(0)\ar[d]&
-\vec{\rvy}(1)\ar[d]&
-\vec{\rvy}(2)\ar[d]
+\ranvec{y}(\cdot)\ar[d]\ar[dr]\ar[drr]
 \\
-\ul{\cale}\ar[dd]
-\ar@/_2pc/[ddd]&
+\ul{\cale}\ar[ddd]
+\ar@/_2pc/[dddd]&
 \ul{\cale}(0)\ar[l]&
 \ul{\cale}(1)\ar@/_1pc/[ll]&
 \ul{\cale}(2)\ar@/_2pc/[lll]
 \\
-&
-\vec{\rvx}(0)'
-&\vec{\rvx}(1)'
-&\vec{\rvx}(2)'
+\\
 \\
 (\rvW^h)'\\
 (\rvW^y)'
 }
 $$
 \caption{RNN bnet used
-to optimze parameters $W^h$
+to optimize parameters $W^h$
 and $W^y$ of RNN bnet Fig.\ref{fig-rnn}.}
 \label{fig-rnn-ext}
 \end{figure}
 
 \beq\color{blue}
-P(x(t)[s])\text{ = given}
+P(x(\cdot)[s])\text{ = given}
+\eeq
+
+\beq\color{blue}
+P(x(t)[s])=\delta(x(t)[s], 
+[x(\cdot)]_t[s])
 \eeq
 
 \beq\color{blue}
@@ -177,11 +185,11 @@ P(Y(t)[s]\cond h(t-1)[s])=
 \eeq
 
 \beq\color{blue}
-P(y(t)[s]\cond x(t)[s])\text{ = given}
+P(y(\cdot)[s]\cond x(\cdot)[s])\text{ = given}
 \eeq
 
 \beq\color{blue}
-P(\cale(t)\cond \vecy(t), \vec{Y}(t))
+P(\cale(t)\cond \vecy(\cdot), \vec{Y}(t))
 =\frac{1}{nsam(\vecx)}
 \sum_s d(y(t)[s], Y(t)[s])
 \;,
@@ -191,15 +199,16 @@ where
 \beq
 d(y,Y)=|y-Y|^2
 \;.
+\label{eq-d-err-sq}
 \eeq
 If $y, Y\in [0,1]$, 
-one can use 
+one can use this instead
 
 \beq
 d(y,Y)=XE(y\rarrow Y)=
 -y\log Y - (1-y)\log (1-Y)
+\;.
 \eeq
-instead.
 
 \beq\color{blue}
 P(\cale\cond [\cale(t)]_{\forall t})=
@@ -235,11 +244,11 @@ Language Sequence Modeling.
 
 For this usecase, one must
 train with the following
-transition matrix for node $\vecy(t)$:
+transition matrix for node $\vecy(\cdot)$:
 
 \beq\color{blue}
-P(y(t)[s]\cond [x(t)[s]]_{t'\leq t})=
-\indi(\;\;\;y(t)[s]=
+P(y(\cdot)[s]\cond x(\cdot)[s])=
+\prod_t\indi(\;\;\;y(t)[s]=
 P(x(t)[s]\cond [x(t')[s]]_{t'<t})
 \;\;\;)
 \eeq
@@ -302,6 +311,7 @@ Next get $x(2)\sim P(x(2)|x(0), x(1))$.
 \begin{figure}[h!]
 \centering
 $$\xymatrix{
+\rvx(\cdot)\ar[d]\ar[dr]\\
 \rvx(0)\ar[d]&
 \rvx(1)\ar[d]&
 \\
@@ -358,7 +368,7 @@ good choice of activation
 functions, regularization).
 Or by using GRU or LSTM (discussed below).
  {\bf GRU and LSTM}
-were designed to mitigate
+were designed to mitigate the
 vanishing or exploding gradients problem.
 They are very popular in NLP (Natural
 Language Processing).
@@ -404,26 +414,26 @@ bnet for a Long Short Term Memory
 
 Let
 
-$\rvx_{t}\in \RR^{numx}$: 
+$\rvx(t)\in \RR^{numx}$: 
 input vector to the LSTM unit
 
-$\rvf_{t}\in \RR^{numh}$:
+$\rvf(t)\in \RR^{numh}$:
 forget gate's activation vector
 
-$\rvi_{t}\in \RR^{numh}$: 
+$\rvi(t)\in \RR^{numh}$: 
 input/update gate's activation vector
 
-$\rvo_{t}\in \RR^{numh}$: 
+$\rvo(t)\in \RR^{numh}$: 
 output gate's activation vector
 
-$\rvh_{t}\in \RR^{numh}$: 
+$\rvh(t)\in \RR^{numh}$: 
 hidden state vector also known as
  output vector of the LSTM unit
 
-${\tilde {\rvc}}_{t}\in \RR^{numh}$: 
+${\tilde {\rvc}}(t)\in \RR^{numh}$: 
 cell input activation vector
 
-$\rvc_{t}\in \RR^{numh}$: 
+$\rvc(t)\in \RR^{numh}$: 
 cell state vector
 
 $\rvY(t)\in \RR^{numy}$: 
