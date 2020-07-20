@@ -139,7 +139,7 @@ nonlinear.
 \begin{itemize}
 \item {\bf Step function (Perceptron)}
 
-\beq
+\beq\
 \cala(x)=\indi(x>0)
 \eeq
 Zero for $x\leq 0$, one for $x>0$.
@@ -147,16 +147,24 @@ Zero for $x\leq 0$, one for $x>0$.
 \item {\bf Sigmoid function}
 
 \beq
-\cala(x)=\frac{1}{1+e^{-x}}
+\cala(x)=\frac{1}{1+e^{-x}}=\sig(x)
 \eeq
 Smooth, monotonically increasing 
 function.
-$\cala(-\infty)=0$,$\cala(0)=0.5$,
-$\cala(\infty)=1$
+$\sig(-\infty)=0$,$\sig(0)=0.5$,
+$\sig(\infty)=1$.
+
+\beqa
+\sig(x)+\sig(-x)&=&
+\frac{1}{1+e^{-x}}+\frac{1}{1+e^x}\\
+&=&\frac{2+e^x+e^{-x}}{2+e^x+e^{-x}}
+\\&=&1
+\eeqa
 
 \item {\bf Hyperbolic tangent}
 \beq
-\cala(x)=\tanh(x)
+\cala(x)=\tanh(x)=\frac{e^x-e^{-x}}
+{e^x+e^{-x}}
 \eeq
 As with sigmoid: smooth,
  monotonically increasing function,
@@ -174,7 +182,7 @@ Compare this to the step function.
 
 \item {\bf Swish}
 \beq
-\cala(x)=x*sigmoid(x)
+\cala(x)=x\;\sig(x)
 \eeq
 \item {\bf Softmax}
 
@@ -200,6 +208,19 @@ that the bnet nodes
  within a softmax layer
 are fully connected by arrows
 to form a ``clique".
+
+For 2 nodes $x_0, x_1$,
+\beqa
+\cala(x_0|x.)&=&
+\frac{e^{x_0}}{e^{x_0} + e^{x_1}}\\
+&=&\sig(x_0-x_1)
+\;,
+\eeqa 
+
+\beq
+\cala(x_1|x.)=\sig(x_1-x_0)
+\;.
+\eeq
 
 \end{itemize}
 
