@@ -1,0 +1,99 @@
+\chapter{Non-negative Matrix Factorization}
+
+Based on Ref.\cite{wiki-nmf}.
+
+Given
+ matrix $V$, factor it
+ into product of two matrices
+
+\beq
+V=WH
+\;,
+\eeq 
+
+where all 3 matrices
+have non-negative entries.
+
+$V\in \RR^{nv\times na}_{\geq 0}$: visible info matrix
+
+$W\in \RR^{nv\times nh}_{\geq 0}$: weight info matrix
+
+$H\in \RR^{nh\times na}_{\geq 0}$: hidden info matrix
+
+
+Usually, $nv > nh<na$ so compression of
+information (aka dimensional reduction,
+ clustering)
+\hrule\noindent
+B net 
+interpretation:
+ Express node $\rvv$ as a chain of 
+ two nodes.
+
+
+\beq
+\rvv\larrow \rva=\;\;\; \rvw\larrow\rvh\larrow\rva
+\eeq
+
+\beq\color{blue}
+P(\rvv=w|a)=\frac{V_{w,a}}{\sum_w V_{w,a}}
+\eeq
+
+\beq\color{blue}
+P(w|h)=\frac{W_{w,h}}{\sum_w W_{w,h}}
+\eeq
+
+\beq\color{blue}
+P(h|a)=\frac{\sum_w W_{w,h}}{ \sum_w V_{w,a}}H_{h,a}
+\eeq
+\hrule\noindent
+Simplest recursive algorithm:
+
+Initialize: Choose $nh$. Choose $W(0)$ and $H(0)$
+that have non-negative entries. 
+
+Update: For $n=0, 1 , \dots $,
+do
+
+\beq
+H_{i,j}^{(n+1)}\leftarrow H_{i,j}^{(n)}
+\frac{
+[(W^{(n)})^T V]_{i,j}
+}{
+[(W^{(n)})^T 
+\underbrace{W^{(n)} H^{(n)}}_{\approx V}
+]_{i,j}
+}
+\eeq
+and
+\beq
+W_{i,j}^{(n+1)}\leftarrow W_{i,j}^{(n)}
+\frac{
+[V(H^{(n+1)})^T]_{i,j}
+}
+{
+[
+\underbrace{W^{(n)} H^{(n+1)}}_{\approx V}
+(H^{(n+1)})^T]_{i,j}
+}
+\eeq
+
+After each step, record error defined by
+
+\beq
+\cale(n) =\parallel V-W(n)H(n)\parallel_2
+\;.
+\eeq
+Using 2-norm, aka. Frobenius matrix norm.
+Continue until reach acceptable error.
+
+Can also use Kullback-Lieber divergence for error:
+
+\beq
+\cale = 
+\sum_a P(a)
+ D_{KL}(P(\rvv=w|a)\parallel \sum_hP(w|h)P(h|a))
+\;,
+\eeq
+for some arbitrary choice of prior $P(a)$. For 
+example, can choose $P(a)$ uniform.
