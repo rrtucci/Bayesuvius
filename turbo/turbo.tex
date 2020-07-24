@@ -1,0 +1,426 @@
+\chapter{Turbo Codes}
+This chapter is based
+ on Ref.\cite{mackay98}.
+
+In this chapter, vectors
+with $n$ components
+will be indicated by 
+an $n$ superscript. For example,
+$a^n=(a_0, a_1, \ldots, a_{n-1})$.
+
+
+
+Consider
+an  n-letter message $u^n=
+(u_0, u_1, \dots, u_{n-1})$,
+where for all $i$,
+$u_i\in \cala$ is an element of
+an alphabet $\cala$,
+and where 
+for all $i$, the $\rvu_i$ are i.i.d..
+Suppose $u^n$
+is encoded 
+deterministically in
+two different ways, $e_1(u^n)$
+and $e_2(u^n)$.
+After passing through 
+the same memoryless channel, the variables
+$u^n,e_1, e_2$
+become $\tilu^n, \tile_1,
+\tile_2$, respectively.
+The letter $u$ stands 
+for unencoded, and $e$ for
+encoded. Quantities with a tilde
+$\tilu^n, \tile_1,
+\tile_2$
+occur after channel passage
+and are visible (measurable). Quantities
+without a tilde
+$u^n, e_1,
+e_2$ are hidden (unmeasurable).
+
+
+The situation just described
+can be represented by
+the bnet Fig.\ref{fig-turbo-ext},
+or by its abridged version
+Fig.\ref{fig-turbo-simple}.
+But note that the abridged version does not
+show explicitly the memorylessness  
+of the channel (i.e., that
+the $u_i$ for $i=0,1, \ldots, n-1$
+pass independently
+through the channel).
+
+\begin{figure}[h!]
+\centering
+$$\xymatrix{
+\rvu_0\ar[rr]\ar[rddd]\ar[rdddd]
+&&\tilu_0\\
+\rvu_1\ar[rr]\ar[rdd]\ar[rddd]
+&&\tilu_1\\
+\rvu_2\ar[rr]\ar[rd]\ar[rdd]
+&&\tilu_2\\
+&\rve_1\ar[r]&\tile_1\\
+&\rve_2\ar[r]&\tile_2
+}$$
+\caption{Turbo coding B net 
+representing a message
+being 
+encoded two
+different ways 
+and then the
+original 
+message and the 2
+encodings
+pass through a memoryless channel.
+}
+\label{fig-turbo-ext}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+$$\xymatrix{
+\rvu^n\ar[rr]\ar[rd]\ar[rdd]
+&&\tilu^n\\
+&\rve_1\ar[r]&\tile_1\\
+&\rve_2\ar[r]&\tile_2
+}$$
+\caption{Abridged version of Fig.\ref
+{fig-turbo-ext}.}
+\label{fig-turbo-simple}
+\end{figure}
+
+Define 
+
+
+\beq
+x=(u^n, e_1, e_2)
+\eeq
+and
+
+\beq
+\tilx=(
+\tilu^n,
+\tile_1, 
+\tile_2)
+\;.
+\eeq
+
+Fig.\ref{fig-turbo-ext} 
+implies that
+
+\beq
+P(x, \tilx)
+=
+P(\tilu^n|u^n)\left[\prod_{r=1,2}
+ P(\tile_r|e_r)
+P(e_r|u^n)\right]
+P(u^n)
+\;.
+\eeq
+
+Because the channel is memoryless, 
+
+\beq\color{blue}
+P(\tilu^n|u^n)=\prod_i P(\tilu_i|u_i)
+\;.
+\eeq
+
+Because the encoding
+is deterministic, we must have
+for  $r=1,2$
+\beq\color{blue}
+P(e_r|u^n)=\delta(e_r, e_r(u^n))
+\;.
+\eeq
+
+Define the belief functions
+
+\beq
+BEL_i=BEL_i(\rvu_i=a)=P(\rvu_i=a|\tilx)
+\;.
+\eeq
+The best estimate of $u_j$
+given all visible evidence $\tilx$
+is
+
+\beq
+\hat{u}_i=
+\text{argmax}_{u_i}BEL_i(u_i)
+\;.
+\eeq
+
+
+Define the probability functions
+\beq
+\pi_i=\pi_i(u_i)=P(u_i)
+\;,
+\eeq
+and the likelihood functions
+
+\beq
+\lam_i=\lam_i(u_i)=P(\tilu_i|u_i)
+\;.
+\eeq
+
+For $r=1,2$, define the Kernel functions
+
+\beq
+K_r=K_r(u^n)=
+P(\tile_r|e_r=e_r(u^n))
+\;.
+\eeq
+
+In this book,
+$\caln(!a)$ denotes
+a normalization constant 
+that does not depend
+on $a$. Define
+\beq
+\caln_i=\caln(!u_i)
+\;.
+\eeq
+
+\begin{claim}
+\beq
+BEL_i=\caln_i\lam_i\pi_i
+\calt_i^{K_1K_2}
+[\prod_{j\neq i} \lam_j\pi_j]
+\label{eq-bel-exact}
+\;,
+\eeq
+where $\calt^{K_1K_2}_i(\cdot)$
+is an operator (transform)
+acting on functions of $u^n$:
+
+\beq
+\calt^K(\cdot)=
+\sum_{u^n}\delta(u_i=a)K(u^n)(\cdot)
+\;.
+\eeq
+
+\end{claim}
+\proof
+
+\beqa
+\lefteqn{P(\rvu_i=a|\tilx) =}\nonumber\\
+&=&\sum_{x}\delta(u_i, a)P(x|\tilx)\\
+&=&\sum_{x}\delta(u_i, a)
+\frac{P(\tilx|x)P(x)}{P(\tilx)}\\
+&=&\caln(!a)
+\sum_{x}\delta(u_i, a)
+P(\tilx|x)P(x)\\
+&=&
+\caln(!a)
+\sum_{x}\delta(u_i, a)P(u^n)
+\left[
+\prod_{r=1,2}
+P(\tile_r|e_r)\delta(e_r,e_r(u^n))
+\right]
+\prod_j P(\tilu_j|u_j)\\
+&=&\caln(!a)
+\lam_i(a)\pi_i(a) R
+\;, 
+\eeqa
+where
+
+\beqa
+R&=&
+\sum_{u^n}\delta(u_i, a)
+\left[
+\prod_{r=1,2}
+P(\tile_r|e_r(u^n))\right]
+\prod_{j\neq i} P(\tilu_j|u_j)P(u_j)\\
+&=&
+\sum_{u^n}\delta(u_i, a)
+\left[
+\prod_{r=1,2}
+K_r(u^n)\right]
+\prod_{j\neq i} \lam_j(u_j)\pi_j(u_j)\\
+&=&\calt_i^{K_1K_2}
+[\prod_{j\neq i} \lam_j(u_j)\pi_j(u_j)]
+\;.
+\eeqa
+Hence
+
+\beq
+BEL_i(a)=\caln(!a)\lam_i(a)\pi_i(a)
+\calt_i^{K_1K_2}
+[\prod_{j\neq i} \lam_j(u_j)\pi_j(u_j)]
+\;.
+\eeq
+\qed
+
+
+\section*{Decoding Algorithm}
+The Turbo algorithm for
+decoding the encode message
+ is as follows.
+For $m=0$, let
+
+\beq
+\pi_j^{(0)}(u_j) = \frac{1}{n_{\rvu_j}}
+\;.
+\eeq
+Then for $m=1, 2, \dots $, let
+
+\beq
+\pi_i^{(m)}=\caln_i
+\calt_i^{K_{m\%2}}
+[\prod_{j\neq i} \lam_j\pi_j^{(m-1)}]
+\;,
+\eeq
+ where $m\%2=1$ if $m$ is odd and 
+$m\%2=2$ if $m$ is even. 
+Furthermore, for $m>0$, let
+
+\beqa
+BEL_i^{(m)}&=&\caln_i \lam_i
+\pi_i^{(m-1)}\pi_i^{(m)}
+\\
+&=&
+\caln_i\lam_i \pi_i^{(m-1)}\calt_i^{K_{m\%2}}
+[\prod_{j\neq i} \lam_j
+\pi_j^{(m-1)}]
+\;.
+\label{eq-bel-approx}
+\eeqa
+As $m\rarrow\infty$, 
+$BEL_i^{(m)}$ given 
+by Eq.(\ref{eq-bel-approx}) is
+ expected to 
+converge to the the exact 
+$BEL_i$ given
+by Eq.(\ref{eq-bel-exact}).
+
+Turbo decoding 
+can be represented by the bnets 
+Figs.\ref{fig-turbo-decode}
+and \ref{fig-turbo-decode-ext}.
+
+
+\begin{figure}[h!]
+\centering
+$$\xymatrix{
+\ul{\tilu}^n
+\ar[r]
+\ar@/^1pc/[rr]
+\ar@/^1pc/[rrr]
+\ar@/^1pc/[rrrr]
+\ar@/^1pc/[rrrrr]
+&\rvd^{(1)}
+&\rvd^{(2)}
+&\rvd^{3)}
+&\rvd^{(4)}
+&\rvd^{(5)}
+\\
+\ul{\tile}_1\ar[urr]\ar[urrrr]\\
+\ul{\tile}_2\ar[uur]\ar[uurrr]\ar[uurrrrr]
+}$$
+\caption{B net 
+describing Turbo code
+generation of $BEL_i^{(m)}$
+for $m=1,2, \ldots$.}
+\label{fig-turbo-decode}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+$$\xymatrix{
+&
+&\ul{BEL}^{n(1)}(\cdot)
+&\ul{BEL}^{n(2)}(\cdot)
+&\ul{BEL}^{n(3)}(\cdot)
+&\ul{BEL}^{n(4)}(\cdot)
+\\
+\ul{\rvu}^n
+&\ul{\pi}^{n(0)}(\cdot)\ar[r]\ar[ur]
+&\ul{\pi}^{n(1)}(\cdot)\ar[r]\ar[u]\ar[ur]
+&\ul{\pi}^{n(2)}(\cdot)\ar[r]\ar[u]\ar[ur]
+&\ul{\pi}^{n(3)}(\cdot)\ar[r]\ar[u]\ar[ur]
+&\ul{\pi}^{n(4)}(\cdot)\ar[u]
+\\
+\ul{\tile}_1\ar[urr]\ar[urrrr]\\
+\ul{\tile}_2\ar[uur]\ar[uurrr]\ar[uurrrrr]
+\\
+\ul{\tilu}^n\ar[r]
+&\ul{\lam}^{(n)}(\cdot)
+}$$
+\caption{
+B net 
+describing Turbo code
+generation of $BEL_i^{(m)}$ and
+$\pi^{n(m)}(\cdot)$ 
+for $m=0,1,2 \ldots$.
+The following arrows 
+were not drawn
+so a not to unduly 
+clutter the diagram:
+Arrows pointing from node
+ $\ul{\lam}^n(\cdot)$ to nodes 
+$\ul{\pi}^{n(m)}(\cdot)$ 
+and $\ul{BEL}^{n(m)}(\cdot)$ for 
+$m=0,1,2, 
+\ldots$.
+}
+\label{fig-turbo-decode-ext}
+\end{figure}
+
+The node transition
+matrices, printed in blue, 
+for Fig.\ref{fig-turbo-decode}, 
+are given by:
+
+
+\beq\color{blue}
+P(d^{(m)}=a\cond
+\tilu^n, \tile_{m\%2})=BEL^{(m)}_i(a)
+\;.
+\eeq
+
+The node transition
+matrices, printed in blue, 
+for Fig.\ref{fig-turbo-decode-ext}, 
+are given by:
+
+
+
+\beq\color{blue}
+P(\lam'(\cdot)|\tilu^n)=\delta(\lam'(\cdot),
+ \lam(\cdot))
+\eeq
+
+\beq\color{blue}
+P(\pi^{n(m)}(\cdot)|\lam^n(\cdot), 
+\pi^{n(m-1)}(\cdot))=
+\prod_i\prod_{u_i}
+\delta(\pi^{(m)}(u_i),
+\caln_i
+\calt_i^{K_{m\%2}}
+[\prod_{j\neq i} \lam_j\pi_j^{(m-1)}])
+\eeq
+
+\beq\color{blue}
+P(BEl^{n(m)}(\cdot)|\lam^n(\cdot),
+\pi^{n(m)}(\cdot)
+\pi^{n(m-1)}(\cdot))=
+\prod_i\prod_{u_i}
+\delta(
+BEL_i(u_i),
+\caln_i \lam_i(u_i)
+\pi_i^{(m-1)}(u_i)\pi_i^{(m)})(u_i)
+\eeq
+
+
+\section*{Message Passing 
+Interpretation of Decoding Algorithm}
+
+Ref.\cite{mackay98} shows that
+the  Turbo code
+decoding algo can be
+interpreted
+as an 
+application of Message Passing.
+We explain Message Passing in a separate
+chapter, Chapter \ref{ch-mp}.
