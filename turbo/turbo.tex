@@ -196,13 +196,13 @@ BEL_i=\caln_i\lam_i\pi_i
 \label{eq-bel-exact}
 \;,
 \eeq
-where $\calt^{K_1K_2}_i(\cdot)$
+where $\calt^K_i(\cdot)$ with $K=K_1K_2$
 is an operator (transform)
-acting on functions of $u^n$:
+that acts on functions of $u^n$:
 
 \beq
-\calt^K(\cdot)=
-\sum_{u^n}\delta(u_i=a)K(u^n)(\cdot)
+\calt_i^K(\cdot)=
+\sum_{u^n}\delta(u_i,a)K(u^n)(\cdot)
 \;.
 \eeq
 
@@ -315,18 +315,20 @@ $$\xymatrix{
 \ar@/^1pc/[rrr]
 \ar@/^1pc/[rrrr]
 \ar@/^1pc/[rrrrr]
-&\rvd^{(1)}
-&\rvd^{(2)}
-&\rvd^{3)}
-&\rvd^{(4)}
-&\rvd^{(5)}
+&\rvd_i^{(1)}
+&\rvd_i^{(2)}
+&\rvd_i^{3)}
+&\rvd_i^{(4)}
+&\rvd_i^{(5)}
 \\
-\ul{\tile}_1\ar[urr]\ar[urrrr]\\
-\ul{\tile}_2\ar[uur]\ar[uurrr]\ar[uurrrrr]
+\ul{\tile}_1
+\ar[ur]\ar[urrr]\ar[urrrrr]\\
+\ul{\tile}_2
+\ar[uurr]\ar[uurrrr]
 }$$
 \caption{B net 
 describing Turbo code
-generation of $BEL_i^{(m)}$
+generation of $BEL_i^{(m)}(a)$
 for $m=1,2, \ldots$.}
 \label{fig-turbo-decode}
 \end{figure}
@@ -340,7 +342,7 @@ $$\xymatrix{
 &\ul{BEL}^{n(3)}(\cdot)
 &\ul{BEL}^{n(4)}(\cdot)
 \\
-\ul{\rvu}^n
+\rvu^n
 &\ul{\pi}^{n(0)}(\cdot)\ar[r]\ar[ur]
 &\ul{\pi}^{n(1)}(\cdot)\ar[r]\ar[u]\ar[ur]
 &\ul{\pi}^{n(2)}(\cdot)\ar[r]\ar[u]\ar[ur]
@@ -351,17 +353,17 @@ $$\xymatrix{
 \ul{\tile}_2\ar[uur]\ar[uurrr]\ar[uurrrrr]
 \\
 \ul{\tilu}^n\ar[r]
-&\ul{\lam}^{(n)}(\cdot)
+&\ul{\lam}^{n}(\cdot)
 }$$
 \caption{
 B net 
 describing Turbo code
-generation of $BEL_i^{(m)}$ and
+generation of $BEL^{n(m)}(\cdot)$ and
 $\pi^{n(m)}(\cdot)$ 
 for $m=0,1,2 \ldots$.
 The following arrows 
 were not drawn
-so a not to unduly 
+so as not to unduly 
 clutter the diagram:
 Arrows pointing from node
  $\ul{\lam}^n(\cdot)$ to nodes 
@@ -380,7 +382,7 @@ are given by:
 
 
 \beq\color{blue}
-P(d^{(m)}=a\cond
+P(d_i^{(m)}=a\cond
 \tilu^n, \tile_{m\%2})=BEL^{(m)}_i(a)
 \;.
 \eeq
@@ -393,15 +395,16 @@ are given by:
 
 
 \beq\color{blue}
-P(\lam'(\cdot)|\tilu^n)=\delta(\lam'(\cdot),
- \lam(\cdot))
+P((\lam^n)'(\cdot)|\tilu^n)=
+\delta((\lam^n)'(\cdot),
+ \lam^n(\cdot))
 \eeq
 
 \beq\color{blue}
 P(\pi^{n(m)}(\cdot)|\lam^n(\cdot), 
-\pi^{n(m-1)}(\cdot))=
+\pi^{n(m-1)}(\cdot), \tile_{m\%2})=
 \prod_i\prod_{u_i}
-\delta(\pi^{(m)}(u_i),
+\delta(\pi_i^{(m)}(u_i),
 \caln_i
 \calt_i^{K_{m\%2}}
 [\prod_{j\neq i} \lam_j\pi_j^{(m-1)}])
@@ -409,13 +412,13 @@ P(\pi^{n(m)}(\cdot)|\lam^n(\cdot),
 
 \beq\color{blue}
 P(BEl^{n(m)}(\cdot)|\lam^n(\cdot),
-\pi^{n(m)}(\cdot)
+\pi^{n(m)}(\cdot),
 \pi^{n(m-1)}(\cdot))=
 \prod_i\prod_{u_i}
 \delta(
 BEL_i(u_i),
-\caln_i \lam_i(u_i)
-\pi_i^{(m-1)}(u_i)\pi_i^{(m)})(u_i)
+\caln_i \lam_i
+\pi_i^{(m-1)}\pi_i^{(m)})
 \eeq
 
 
@@ -428,5 +431,6 @@ decoding algo can be
 interpreted
 as an 
 application of Message Passing.
-We explain Message Passing in a separate
+We leave all talk of Message Passing to
+a separate
 chapter, Chapter \ref{ch-mp}.
