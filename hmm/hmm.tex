@@ -1,0 +1,298 @@
+\chapter{Hidden Markov Model}\label{ch-hmm}
+
+A Hidden Markov Model (HMM) is
+ a  generalization of a
+Kalman Filter. Their
+bnets are the same.
+The only difference is that a
+KF assumes
+special node
+transition matrices.
+ Kalman Filters are
+ discussed in Chapter \ref{ch-kalman}.
+
+See Wikipedia article 
+Ref.\cite{wiki-hmm} to learn 
+about the history 
+and many uses of HMMs. This
+chapter is based on
+Ref.\cite{nuel}.
+
+\begin{figure}[h!]
+\centering
+$$\xymatrix{
+\rvx_0\ar[d]\ar[r]&
+\rvx_1\ar[d]\ar[r]&
+\rvx_2\ar[d]\ar[r]&
+\rvx_3\ar[d]\\
+\rvv_0&
+\rvv_1&
+\rvv_2&
+\rvv_3
+}$$
+\caption{HMM bnet
+with $n=4$.}
+\label{fig-hmm}
+\end{figure}
+
+Suppose 
+
+$\rvv^n=(\rvv_0, \rvv_1, 
+\ldots, \rvv_{n-1})$
+are $n$ visible nodes that
+are measured,
+and 
+
+$\rvx^n=(\rvx_0, \rvx_1, 
+\ldots, \rvx_{n-1})$
+are the $n$ hidden, unmeasurable 
+state nodes of a system
+that is being monitored.
+
+
+For the bnet of Fig.\ref{fig-hmm},
+one has
+\beq
+P(x^n, v^n)=\prod_{i=0}^{n-1}
+P(x_i|x_{i-1})P(v_i|x_i)
+\;,
+\eeq
+where $x_{-1}=0$.
+
+For $i=0,1, \dots, n-1$, define
+
+$\calf_i$=future measurements probability
+
+\beq
+\calf_i(x_i)=
+P(v_{> i}|x_i)
+\eeq
+
+$\ol{\calf}_i$= 
+past and present measurements  probability
+
+\beq
+\ol{\calf}_i(x_i)=
+P(v_{<i},v_i, x_i)
+\eeq
+
+$\lam_i$=
+present measurement probability
+
+\beq
+\lam_i(x_i)=
+P(v_i|x_i)
+\eeq
+
+$\calf_i$, $\ol{\calf}_i$
+and $\lam_i$ 
+can be represented graphically
+as follows:
+
+\beq
+\begin{array}{cc}
+\calf_i(x_i)
+=
+\frac{1}
+{P(x_i)}
+\sum_{x_{>i}}&
+\xymatrix{
+x_i\ar[r]
+&x_{>i}\ar[d]
+\\
+&v_{>i}
+}
+\end{array}
+\eeq
+
+\beq
+\begin{array}{cc}
+\ol{\calf}_i(x_i)
+=
+\sum_{x_{<i}}&
+\xymatrix{
+x_{<i}\ar[r]\ar[d]
+&x_i\ar[d]
+\\
+v_{<i}&v_i
+}
+\end{array}
+\eeq
+
+\beq
+\begin{array}{cc}
+\lam_i(x_i)
+=
+\frac{1}
+{P(x_i)}
+&
+\xymatrix{
+x_i\ar[d]
+\\
+v_{i}
+}
+\end{array}
+\eeq
+
+\begin{claim}
+For $i\geq 0$, 
+\beq
+P(x_i, v^n)=
+\ol{\calf}_i(x_i)\calf_i(x_i)
+\;.
+\eeq
+For $i>0$,
+
+\beq
+P(x_{i-1},x_i, v^n)=
+ \ol{\calf}_{i-1}(x_{i-1})
+\lam_i(x_i)P(x_i|x_{i-1})\calf_i(x_i)
+\;.
+\eeq
+
+
+\end{claim}
+\proof
+
+\beqa
+P(x_i,v^n)
+&=&
+\sum_{x_{< i}}\sum_{x_{> i}}
+P(x^n, v^n)
+\\
+&=&
+\sum_{x_{< i}}\sum_{x_{> i}}
+P(x^n, v^n|x_i)P(x_i)
+\\
+&=&
+\sum_{x_{< i}}\sum_{x_{> i}}
+P(x_{< i}, v_{< i}, v_i|x_i)
+P(x_{>i}, v_{>  i}|x_i)
+P(x_i)
+\\
+&=&
+P( v_{< i}, v_i|x_i)
+P(v_{>  i}|x_i)
+P(x_i)
+\\
+&=&
+\ol{\calf}_i(x_i)\calf_i(x_i)
+\eeqa
+
+\beqa
+P(x_{i-1},x_i,v^n)
+&=&
+\sum_{x_{< i-1}}\sum_{x_{>i}}
+P(x^n, v^n)
+\\
+&=&
+\sum_{x_{< i-1}}\sum_{x_{>i}}
+P(x^n, v^n|x_{i-1}, x_i)P(x_{i-1}, x_i)
+\\
+&=&
+\sum_{x_{< i-1}}\sum_{x_{>i}}
+P(x_{<i-1}, v_{<i-1}, v_{i-1}|x_{i-1})
+P(v_i|x_i)
+P(x_{i-1}, x_i)
+P(x_{>  i}, v_{> i}|x_i)
+\\
+&=&
+P( v_{<i-1}, v_{i-1}|x_{i-1})
+P(v_i|x_i)
+P(x_{i-1}, x_i)
+P( v_{> i}|x_i)
+\\&=&
+ \ol{\calf}_{i-1}(x_{i-1})
+\lam_i(x_i)
+P(x_i|x_{i-1})
+\calf_i(x_i)
+\eeqa
+\qed
+
+\begin{claim}
+For $i>0$, $\calf_i$ and
+$\ol{\calf}_i$ can be calculated 
+recursively as follows:
+
+
+\beq
+\ol{\calf}_i(x_{i})
+=
+\sum_{x_{i-1}}
+\ol{\calf}_{i-1}(x_{i-1})
+\lam_i(x_i)
+P(x_i|x_{i-1})
+\eeq
+
+\beq
+\calf_{ i-1}(x_{i-1})
+=
+\sum_{x_i}\lam_i(x_i)
+P(x_i|x_{i-1})
+\calf_i(x_{i})
+\eeq
+
+\end{claim}
+\proof
+
+\beqa
+\ol{\calf}_i(x_i)\calf_i(x_i)
+&=&
+P(x_i, v^n)\\
+&=&
+\sum_{x_{i-1}}P(x_{i-1},x_i, 
+v^n)\\
+&=&\sum_{x_{i-1}}
+\ol{\calf}_{i-1}(x_{i-1})
+\lam_i(x_i)
+P(x_i|x_{i-1})\calf_i(x_i)
+\eeqa
+
+\beqa
+\ol{\calf}_{i-1}(x_{i-1}
+)\calf_{i-1}(x_{i-1})
+&=&
+P(x_{i-1}, v^n)\\
+&=&
+\sum_{x_i}P(x_{i-1},x_i, 
+v^n)\\
+&=&\sum_{x_i}
+\ol{\calf}_{i-1}(x_{i-1})
+\lam_i(x_i)
+P(x_i|x_{i-1})\calf_i(x_i)
+\eeqa
+\qed
+
+\begin{claim}
+\beq
+P(x_i|x_{i-1}, v^n)=
+\frac{\lam_i(x_i)\calf_{i}(x_i)}
+{\calf_{i-1}(x_{i-1})}P(x_i|x_{i-1})
+\eeq
+
+\beq
+P(x_{i-1}|x_i, v^n)=
+\frac{\lam_i(x_i)\ol{\calf}_{i-1}(x_{i-1})}
+{\ol{\calf}_i(x_{i})}P(x_i|x_{i-1})
+\label{eq-update-2}
+\eeq
+\end{claim}
+\proof
+\beqa
+P(x_i|x_{i-1}, v^n)&=&
+\frac{P(x_{i-1}, x_i, v^n)}
+{P(x_{i-1}, v^n)}
+\\&=&
+\frac{
+\ol{\calf}_{i-1}(x_{i-1})
+\lam_i(x_i)
+P(x_i|x_{i-1})\calf_i(x_i)
+}{
+\ol{\calf}_{i-1}
+(x_{i-1})\calf_{i-1}(x_{i-1})
+}
+\eeqa
+Analogous 
+proof for Eq.(\ref{eq-update-2}).
+\qed
+
