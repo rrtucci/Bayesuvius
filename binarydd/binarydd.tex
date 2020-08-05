@@ -4,10 +4,8 @@
 \includegraphics[width=4in]{binarydd/bdd-tree.png}
 \caption{Binary decision tree and truth table 
 for the function $
-f(x_{1},
-x_{2},x_{3})={\bar  {x}}_{1}{\bar 
- {x}}_{2}{\bar  {x}}_{3}+
-x_{1}x_{2}+x_{2}x_{3} $ }
+f(x_1, x_2,x_3)=
+\bar{x}_1(x_2+\bar{x}_3)  + x_1 x_2 $ }
 \label{fig-bdd-tree}
 \end{figure}
 
@@ -30,7 +28,7 @@ assume
 that the reader has read
 Chapter \ref{ch-dtree} 
 on dtrees before
-tackling this chapter.
+reading this chapter.
 
 Both Figs.\ref{fig-bdd-tree}
 and \ref{fig-bdd} were taken
@@ -44,9 +42,9 @@ Fig.\ref{fig-bdd-tree} as a
 decision diagram (BDD)}.
 The goal 
 of this chapter is
-to represent both
-figures as bnets with
-almost the same graph structures.
+to find for each  of those 
+figures a bnet with
+the same graph structure.
 
 We begin by noting
 that the function
@@ -101,6 +99,12 @@ In that tree,
 the nodes
 pose questions
 with 3 possible answers $0,1,null$.
+In Eq.(\ref{eq-bdd-full-tree}),
+$x_2|a?$ stands for 
+``what is $x_2$ if $x_1=a?$" and
+$x_3|a,b?$ stands for ``what is 
+$x_3$ if $x_1=a,x_2=b$?".
+
 
 
 \beq
@@ -167,11 +171,38 @@ and has
 the same graph structure
 as the binary decision
 tree Fig.\ref{fig-bdd-tree}.
+As when we were
+converting dtrees to
+their image bnets, the
+info in the endpoint nodes
+of Fig.\ref{fig-bdd-tree}
+is implicit
+in the
+transition matrices
+of the image bnet
+Eq.(\ref{eq-bdd-full-tree}).
+If one
+wants to make the endpoint  node info
+more explicit in the image bnet,
+one can add it to the names of
+the states of the leaf nodes
+of the image bnet.
+For example,
+one can rename the
+ ``0" or ``1" state of
+those leaf nodes by ``gives $f=0$"
+or ``gives $f=1$".
 
 The bnet shown in
 Fig.\ref{fig-bdd}
-appears to 
-correspond to
+emphasizes the
+fact that
+
+\beq
+P(x_1,x_2,x_3|x_1=1)=P(x_2|x_1=1)=x_2
+\eeq
+Fig.\ref{fig-bdd} to 
+corresponds to
 the bnet of
 Eq.(\ref{eq-bdd-bnet}).
 
@@ -192,7 +223,7 @@ Eq.(\ref{eq-bdd-bnet}).
 
 \hrule
 What happens
-if we find out that
+if we consider an $f$ such that
 $P(x_3|x_1, x_2)=P(x_3|x_2)$ so that
 one of the arcs of the
 fully connected bnet Eq.(\ref{eq-bdd-full-bnet})
