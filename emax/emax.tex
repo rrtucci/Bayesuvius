@@ -65,7 +65,8 @@ we infer the state of the root node.
 EM is used for clustering; i.e.,
 given many i.i.d. samples,
 we fit their distribution by a weighted sum
-of clustering distributions.
+of prob distributions,
+usually Gaussians.
 
 Let
  
@@ -74,7 +75,8 @@ function.
 
 $nsam=$ number of samples.
 
-$\vecx=(x[0], x[1], \ldots, x[nsam-1])$,
+$\vecx=(x[0], x[1], \ldots, x[nsam-1])$ =
+{\bf observed data}.
  $x[i]\in S_\rvx$ for all $i$.
 
 $\vech=(h[0], h[1], \ldots, h[nsam-1])$
@@ -136,7 +138,8 @@ E_{\vech|\vecx,\theta^{(t)}}\ln P(\vecx,\vech|\theta)
 Q(\theta|\theta^{(t)})
 \eeq
 \end{enumerate}
-Claim: $\theta^{(t)}\rarrow \theta^*$.
+Claim: $\lim_{t\rarrow \infty}
+\theta^{(t)}=\theta^*$.
 
 \;
 \hrule
@@ -177,7 +180,9 @@ and $Q(\theta|\theta)$ is max at $\theta=\theta^*$,
 then $\ln P(\vecx|\theta)$
 is max at $\theta=\theta^*$ too.
 
-For a  more rigorous proof,
+For a  more rigorous proof
+that $\lim_{t\rarrow \infty}\theta^{(t)}
+=\theta^*$,
 see Wikipedia article Ref.\cite{wiki-em}
 and references therein.
 
@@ -193,7 +198,7 @@ Let
 \theta = [w_h, \mu_h, \Sigma_h]_{h\in S_\rvh}
 \;,
 \eeq
-where the
+where
 $[w_h]_{h\in S_\rvh}$ is a probability
 distribution of weights, and 
 where $\mu_h\in\RR^d$
@@ -208,7 +213,7 @@ for the special case
 of a mixture of Gaussians, are as follows:
 
 \beq\color{blue}
-P(x[i]\cond h[i],\theta)=
+P(x[i]\cond h[i]\cond \theta)=
 \caln_d(x[i];\mu_{h[i]}, \Sigma_{h[i]})
 \eeq
 
@@ -261,3 +266,50 @@ Two clusters of points
 in a plane are fitted
 by 
 a mixture of 2 Gaussians.
+
+{\bf K-means clustering} is often
+presented as the main competitor
+to EM for doing 
+{\bf clustering (non-supervised
+learning)}. In K-means clustering,
+the sample points are 
+split into $K$
+mutually
+disjoint sets $S_0, S_1, \ldots, S_{K-1}$. 
+The algorithm is easy
+to describe:
+\begin{enumerate}
+\item
+Initialize by 
+choosing  at random
+$K$ data points $(\mu_k)_{k=0}^{K-1}$
+called means or centroids
+and placing $\mu_k$ in $S_k$
+for all $k$.
+ \item {\bf STEP 1:}
+For each data point,
+add it to the $S_k$
+whose centroid $\mu_k$
+is closest to it.
+\item {\bf STEP 2:}
+Recalculate the centroids.
+Set $\mu_k$ equal to the mean value of set
+$S_k$.
+\item Repeat steps 1 and 2 until the
+centroids stop changing 
+by much.
+\end{enumerate}
+Step 1 is analogous
+to the expectation step in EM,
+and Step 2 to the maximization
+step in EM ($\theta$
+estimation versus 
+$\mu_k$ estimation).
+We won't say anything further
+about K-means clustering because
+it
+isn't related to bnets in any 
+way, and this is a book about bnets.
+For more info about
+K-means clustering, 
+see Ref.\cite{wiki-k-means}.
