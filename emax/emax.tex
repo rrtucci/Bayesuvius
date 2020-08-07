@@ -1,1 +1,261 @@
-\chapter{Expectation Maximization: COMING SOON}
+\chapter{Expectation Maximization}
+
+\begin{figure}[h!]
+\centering
+$$\begin{array}{ccc}
+\xymatrix{
+\ul{\theta}\ar[d]\ar[dr]
+\\
+\ul{\vecx}&\ul{\vech}\ar[l]
+}
+&=&
+\xymatrix{
+\ul{\theta}
+\ar[d]
+\ar@/_1pc/[dd]
+\ar@/_1pc/[ddd]
+\ar[rd]\ar[rdd]\ar[rddd]
+\\
+\rvx[0]
+&\rvh[0]\ar[l]
+\\
+\rvx[1]
+&\rvh[1]\ar[l]
+\\
+\rvx[2]
+&\rvh[2]\ar[l]
+}
+\end{array}
+$$
+\caption{bnet for EM with $nsam=3$.}
+\label{fig-em-bnet}
+\end{figure}
+
+This chapter is based on Wikipedia 
+Ref.\cite{wiki-em}.
+
+The bnet for Expectation
+Maximization (EM)
+is given by Fig.\ref{fig-em-bnet}
+for $nsam=3$.
+Later on in this chapter,
+we will give the node transition prob matrices
+for this bnet for
+the special
+case in which $P(x[i]\cond \theta)$
+is a mixture (i.e., weighted sum)
+of Gaussians.
+
+Note that if we 
+erase the $\rvh[i]$ nodes
+from Fig.\ref{fig-em-bnet},
+we get the bnet for naive Bayes,
+which is used for classification
+into the states of $\ul{\theta}$.
+However, there is one big
+difference. 
+With naive Bayes,
+the leaf nodes have
+different transition prob matrices.
+Here, we will assume they are i.i.d.
+Naive Bayes is used for classification: i.e., 
+given the states 
+of the leaf nodes,
+we infer the state of the root node.
+EM is used for clustering; i.e.,
+given many i.i.d. samples,
+we fit their distribution by a weighted sum
+of clustering distributions.
+
+Let
+ 
+$\call=$likelihood 
+function.
+
+$nsam=$ number of samples.
+
+$\vecx=(x[0], x[1], \ldots, x[nsam-1])$,
+ $x[i]\in S_\rvx$ for all $i$.
+
+$\vech=(h[0], h[1], \ldots, h[nsam-1])$
+= {\bf hidden or missing data}.
+$h[i]\in S_\rvh$ for all $i$.
+
+We assume that the samples $(x[i],h[i])$
+are i.i.d. for different $i$ at fixed 
+$\theta$.
+What this means is that 
+there are
+probability distributions
+$P_{\rvx|\rvh,\ul{\theta}}$
+and $P_{\rvh|\ul{\theta}}$
+such that
+
+\beq
+P(\vecx, \vech|\theta)=
+\prod_i \left[P_{\rvx|\rvh,\ul{\theta}}
+(x[i]\cond h[i], \theta)
+P_{\rvh|\ul{\theta}}(h[i]\cond \theta)\right]
+\;.
+\eeq
+
+Definition of likelihood functions:
+\beqa
+\underbrace{P(\vecx|\theta)}
+_{\call(\theta;\vecx)}
+&=&
+\sum_{\vech}
+\underbrace{P(\vecx,\vech|\theta)}
+_{\call(\theta;\vecx,\vech)}
+\eeqa
+
+
+$\theta^*=$ maximum likelihood
+estimate of $\theta$ (no prior $P(\theta)$
+assumed):
+
+\beq
+\theta^*=
+\text{argmax}_\theta\call(\theta;\vecx)
+\eeq
+
+\hrule\noindent
+{\bf The EM algorithm:}
+\begin{enumerate}
+\item{\bf Expectation step:} 
+\beq
+Q(\theta|\theta^{(t)})
+=
+E_{\vech|\vecx,\theta^{(t)}}\ln P(\vecx,\vech|\theta)
+\eeq
+
+\item{\bf Minimization step:}
+
+\beq
+\theta^{(t+1)}=\text{argmax}_\theta 
+Q(\theta|\theta^{(t)})
+\eeq
+\end{enumerate}
+\hrule
+\section*{Motivation}
+
+\beqa
+Q(\theta|\theta)
+&=&
+E_{\vech|\vecx,\theta}
+\ln P(\vecx,\vech|\theta)
+\\
+&=&
+E_{\vech|\vecx,\theta}[
+\ln P(\vech|\vecx, \theta) 
++\ln P(\vecx|\theta)]
+\\
+&=&
+-H[P(\ul{\vech}|\vecx, \theta)]+
+\ln P(\vecx|\theta)
+\eeqa
+
+\beqa
+\partial_\theta Q(\theta|\theta)
+&=&
+-\sum_{\vech}\partial_\theta
+P(\ul{\vech}|\vecx, \theta)
++
+\partial_\theta
+\ln P(\vecx|\theta)
+\\
+&=&
+\partial_\theta
+\ln P(\vecx|\theta)
+\eeqa
+
+So if $\theta^{(t)}\rarrow \theta$
+and $Q(\theta|\theta)$ is max at $\theta=\theta^*$,
+then $\ln P(\vecx|\theta)$
+is max at $\theta=\theta^*$ too.
+
+For a  more rigorous proof,
+see Wikipedia article Ref.\cite{wiki-em}
+and references therein.
+
+\section*{EM for Gaussian mixture}
+
+$x[i]\in \RR^d=S_\rvx$. $S_\rvh$ discrete and
+not too large. $n_\rvh=|S_\rvh|$ is
+number of Gaussians that we are 
+going to fit the samples with.
+
+Let
+\beq
+\theta = [w_h, \mu_h, \Sigma_h]_{h\in S_\rvh}
+\;,
+\eeq
+where the
+$[w_h]_{h\in S_\rvh}$ is a probability
+distribution of weights, and 
+where $\mu_h\in\RR^d$
+and $\Sigma_h\in\RR^{d\times d}$
+are the mean value vector 
+and covariance matrix of
+a $d$-dimensional Gaussian distribution.
+
+The transition prob matrices, printed in blue,
+for the nodes of Fig.\ref{fig-em-bnet},
+for the special case
+of a mixture of Gaussians, are as follows:
+
+\beq\color{blue}
+P(x[i]\cond h[i],\theta)=
+\caln_d(x[i];\mu_{h[i]}, \Sigma_{h[i]})
+\eeq
+
+\beq\color{blue}
+P(h[i]\cond \theta)=w_{h[i]}
+\eeq
+
+Note that
+
+\beqa
+P(x[i]\cond \theta)&=&
+\sum_h P(x[i]\cond h[i]=h, \theta)
+P(h[i]=h\cond\theta)
+\\
+&=&
+\sum_hw_h\caln_d(x[i];\mu_h, \Sigma_h)
+\eeqa
+
+\beqa
+P(\vecx, \vech|\theta)&=&
+\prod_i \left[
+w_{h[i]}
+\caln_d(x[i];\mu_{h[i]}, \Sigma_{h[i]})
+\right]
+\\
+&=&
+\prod_i\prod_h
+\left[w_h
+\caln_d(x[i];\mu_h, \Sigma_h)]
+^{\indi(h=h[i])}\right]
+\eeqa
+
+{\bf Old Faithful:}
+See Wikipedia Ref.\cite{wiki-em}
+for an animated
+gif of a  classic example
+of using EM to fit
+samples with a Gaussian mixture.
+Unfortunately,
+could
+not include it
+here because pdflatex
+does not support animated gifs. 
+It shows samples in a 2 dimensional
+space
+(eruption time, delay time)
+from the Old Faithful geyser.
+In that example, $d=2$ and $n_\rvh=2$.
+Two clusters of points
+in a plane are fitted
+by 
+a mixture of 2 Gaussians.
+
