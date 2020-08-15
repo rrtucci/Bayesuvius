@@ -1,4 +1,5 @@
 \section{Notational Conventions}
+\label{ch-not-cons}
 \hrule\noindent
 bnet=B net=Bayesian Network
 \hrule\noindent
@@ -223,3 +224,79 @@ single entry which is zero.
 For example, if $x^n=(x_0, x_1, \ldots,
 x_{n-1})$ and
 $x_i=\delta(i,0)$ then $x^n$ is one hot.
+
+\hrule\noindent
+Short Summary of Boolean Algebra. 
+See Ref.\cite{wiki-bool} for more info
+about this topic.
+
+Suppose $x, y, z\in \bool$. Define
+
+\beq
+x\text{ or }y=x\V y= x+y-xy
+\;,
+\eeq
+
+\beq
+x \text{ and }y=x\A y= xy
+\;,
+\eeq
+and
+
+\beq
+\text{not }x=\ol{x}=1-x
+\;,
+\eeq
+where we are using
+normal addition and multiplication 
+on right hand sides.
+
+
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|
+>{\columncolor[HTML]{ECF4FF}}l |l|}
+\hline
+Associativity & \begin{tabular}[c]{@{}l@{}}$x \V (y \V z)=(x \V y) \V z$\\ $x \A (y \A z)=(x \A y) \A z$\end{tabular} \\ \hline
+Commutativity & \begin{tabular}[c]{@{}l@{}}$x \V y=y \V x$\\ $x \A y=y \A x$\end{tabular} \\ \hline
+Distributivity & \begin{tabular}[c]{@{}l@{}}$x \A (y \V z)=(x \A y) \V (x \A z)$\\ $x \V (y \A z)=(x \V y) \A (x \V z)$\end{tabular} \\ \hline
+Identity & \begin{tabular}[c]{@{}l@{}}$x \V 0=x$\\ $x \A 1=x$\end{tabular} \\ \hline
+Annihilator & \begin{tabular}[c]{@{}l@{}}$x \A 0=0$\\ $x \V 1= 1$\end{tabular} \\ \hline
+Idempotence & \begin{tabular}[c]{@{}l@{}}$x \V x= x$\\ $x \A x= x$\end{tabular} \\ \hline
+Absorption & \begin{tabular}[c]{@{}l@{}}$x \A (x \V y)= x$\\ $x \V (x \A y)= x$\end{tabular} \\ \hline
+Complementation & \begin{tabular}[c]{@{}l@{}}$x \A \ol{x} = 0$\\ $x \V \ol{x}   = 1$\end{tabular} \\ \hline
+Double negation & $\ol{(\ol{x})} = x$ \\ \hline
+De Morgan Laws & \begin{tabular}[c]{@{}l@{}}$\ol{x} \A \ol{y} =\ol{(x \V y)}$\\ $\ol{x} \V \ol{y} = \ol{(x \A y)}$\end{tabular} \\ \hline
+\end{tabular}
+\caption{Boolean Algebra Identities}
+\label{tab-bool-alg}
+\end{table}
+
+Actually, since
+$x\A y=xy$, we can omit writing
+the symbol $\A$. The symbol
+$\A$ is useful to
+exhibit the symmetry
+of the identities, and
+to remark
+about
+the analogous identities
+for sets, where
+$\A$ becomes intersection $\cap$
+and $\V$ becomes union $\cup$. However,
+for practical calculations,
+$\A$ is an unnecessary nuisance.
+
+Since $x\in \bool$,
+\beq
+P(\ol{x})=1-P(x)
+\;.
+\eeq
+
+Clearly, from analyzing
+the simple event space $(x,y)\in \bool^2$,
+\beq
+P(x\V y)= P(x) + P(y) - P(x\A y)
+\;.
+\eeq
