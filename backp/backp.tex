@@ -1,2 +1,711 @@
 \chapter{Back Propagation
- (Auto Differentiation): COMING SOON}
+ (Automatic Differentiation)}
+
+\section*{General Theory}
+
+\hrule\noindent
+{\bf Jacobians}
+
+Suppose
+ $f:\RR^{nx}\rarrow \RR^{nf}$
+and 
+
+\beq
+y=f(x)
+\;.
+\eeq
+Then the Jacobian $\pder{y}{x}$
+is defined as the matrix with entries\footnote{
+Mnemonic for remembering 
+order of indices: $i$ in numerator/$j$ in denominator
+becomes index $i/j$ of Jacobian matrix.}
+
+\beq
+\left[\pder{y}{x}\right]_{i,j}=
+\pder{y_i}{x_j}
+\;.
+\eeq
+
+
+
+
+Jacobian of function composition.
+Supoose $f:\RR^{nx}\rarrow\RR^{nf}$,
+$g:\RR^{nf}\rarrow \RR^{ng}$. If
+
+\beq
+y=g\circ f (x)
+\;,
+\eeq
+then
+
+\beq
+\pder{y}{x}
+=
+\pder{g}{f}
+\pder{f}{x}
+\;.
+\eeq
+Right hand side
+of last equation 
+is a product
+of two matrices
+so order of matrices is important.
+
+\hrule
+
+
+
+\begin{figure}[h!]
+\centering
+$$
+\xymatrix{
+\rvf^4
+&
+\rvf^3\ar[l]
+&
+\rvf^2\ar[l]
+&
+\rvf^1\ar[l]
+&
+\rvf^0\ar[l]
+\\
+&&\text{$(a)$ Composition}
+\\
+\ul{\pder{f^4}{x}}
+&
+\ul{\pder{f^3}{x}}\ar[l]
+&
+\ul{\pder{f^2}{x}}\ar[l]
+&
+\ul{\pder{f^1}{x}}\ar[l]
+&
+\ul{1}\ar[l]
+\\
+&&\text{$(b)$ Forward-p}
+\\
+\ul{1}\ar[r]
+&
+\ul{\pder{y}{f^3}}\ar[r]
+&
+\ul{\pder{y}{f^2}}\ar[r]
+&
+\ul{\pder{y}{f^1}}\ar[r]
+&
+\ul{\pder{y}{f^0}}
+\\
+&&\text{$(c)$ Back-p}
+}
+$$
+\caption{bnets for function
+composition,
+forward propagation and back propagation
+for $nf=5$ nodes.}
+\label{fig-backp-abc}
+\end{figure}
+
+
+Let
+\beq
+y=f^4\circ f^3 \circ f^2 \circ f^1 (x)
+\eeq
+This function composition chain can be
+represented by the bnet
+Fig.\ref{fig-backp-abc}$(a)$
+with transition prob matrices
+
+\beq\color{blue}
+P(f^\mu|f^{\mu-1})=
+\indi(f^\mu=f^\mu(f^{\mu-1}))
+\;
+\eeq
+for $\mu=1, 2,3,4$.
+
+
+Note that
+\beqa
+\pder{y}{x}&=&
+\pder{y}{f^3}
+\pder{f^3}{f^2}
+\left[
+\pder{f^2}{f^1}
+\pder{f^1}{x}
+\right]
+\\
+&=&
+\pder{y}{f^3}
+\left[
+\pder{f^3}{f^2}
+\pder{f^2}{x}
+\right]
+\\
+&=&
+\left[
+\pder{y}{f^3}
+\pder{f^3}{x}
+\right]
+\\
+&=&
+\pder{y}{x}
+\;.
+\eeqa
+This forward propagation can be
+represented by the bnet
+Fig.\ref{fig-backp-abc}$(b)$
+with transition prob matrices
+
+\beq\color{blue}
+P(\pder{f^{\mu+1}}{x}\cond
+ \pder{f^{\mu}}{x})=
+\indi(\pder{f^{\mu+1}}{x}=
+\pder{f^{\mu+1}}{f^{\mu}}
+\pder{f^{\mu}}{x} 
+)\;
+\eeq
+for $\mu=1,2,3$.
+
+Note that
+
+\beqa
+\pder{y}{x}&=&
+\left[
+\pder{y}{f^3}
+\pder{f^3}{f^2}
+\right]
+\pder{f^2}{f^1}
+\pder{f^1}{x}
+\\
+&=&
+\left[
+\pder{y}{f^2}
+\pder{f^2}{f^1}
+\right]
+\pder{f^1}{x}
+\\
+&=&
+\left[
+\pder{y}{f^1}
+\pder{f^1}{x}
+\right]
+\\
+&=&
+\pder{y}{x}\;.
+\eeqa
+This back propagation can be
+represented by the bnet
+Fig.\ref{fig-backp-abc}$(c)$
+with transition prob matrices
+
+\beq\color{blue}
+P(
+\pder{y}{f^{\mu}}
+\cond 
+\pder{y}{f^{\mu+1}}
+)=
+\indi(
+\pder{y}{f^{\mu}}
+=
+\pder{y}{f^{\mu+1}}
+\pder{f^{\mu+1}}{f^{\mu}}) 
+\;
+\eeq
+for $\mu=2,1,0$.
+
+$\pder{f^{\mu+1}}{f^{\mu}}$
+is a Jacobian matrix
+so the order of multiplication
+matters. In forward prop,
+it pre-multiplies,
+and in back prop it post-multiplies.
+
+\section*{Application to Neural Networks}
+
+\hrule\noindent
+{\bf Absorbing $b^\lam_i$ into $w_{i|j}$.}
+
+\begin{figure}[h!]
+$$\xymatrix
+{
+\rvx\ar[r]\ar[rd]
+&\rvh^0_2\ar[r]\ar[rd]
+&\rvh^1_2\ar[r]\ar[rd] 
+& Y_2
+\\
+& \rvh^0_1 \ar[r]\ar[ru]
+&\rvh^1_1 \ar[r]\ar[ru]
+& Y_1
+\\
+& \rvh^0_0 \ar[u]\ar@/^1pc/[uu]
+&\rvh^1_0\ar[u]\ar@/^1pc/[uu]
+& \rvY_0\ar[u]\ar@/^1pc/[uu]
+}$$
+\caption{Nodes $\rvh^0_0, \rvh^1_0, \rvY_0$
+are all set to 1. They
+allow us to absorb $b^\lam_i$
+into the first column of
+$w^\lam_{i|j}$.}
+\label{fig-backp-abs}
+\end{figure}
+
+Below are, printed 
+in blue, the transition
+prob matrices
+for the nodes of a NN bnet,
+as given in Chapter \ref{ch-nn}.
+
+For all hidden layers $\lam=0, 1, \dots,
+\Lambda-2$,
+
+\beq\color{blue}
+P(h^{\lam}_i\cond h^{\lam-1}_.)=
+\delta\left(h^{\lam}_i,
+\cala_i^\lam(\sum_{j=0}^{nh(\lam-1)-1}
+ w^{\lam}_{i|j}
+h^{\lam-1}_j + b^{\lam}_i)\right)
+\eeq
+for $i=0, 1, \ldots, nh(\lam)-1$.
+For the output visible layer $\lam=\Lambda-1$:
+
+\beq\color{blue}
+P(Y_i\cond h^{\Lambda-2}_.)=
+\delta \left(Y_i,
+\cala_i^{\Lambda-1}(\sum_j w^{\Lambda-1}_{i|j}
+h^{\Lambda-2}_j + b^{\Lambda-1}_i)\right)
+\;
+\eeq
+for $i=0, 1, \ldots, ny-1$.
+
+
+For each $\lam$, replace the matrix
+ $w^\lam_{\cdot|\cdot}$ 
+by 
+the augmented matrix
+$[b^\lam., w^\lam_{\cdot|\cdot}]$
+so that the new
+ $w^\lam_{\cdot|\cdot}$ satisfies
+
+\beq
+w^{\lam}_{i|0}=b_i^{\lam}
+\;
+\eeq
+
+Make the nodes $\rvh_0^\lam$
+for all $\lam$ and $\rvY_0$
+root nodes (so no arrows pointing into them).
+For each $\lam$, draw arrows from 
+$\rvh_0^\lam$ to all other nodes 
+in that same layer.
+Draw arrows from 
+$\rvY_0$ to all other nodes 
+in that same layer.
+
+After performing the
+above steps,
+the transition prob matrices,
+printed in blue,
+for the nodes of the NN bnet are as follows.
+
+\beq\color{blue}
+P(h^\lam_0)=1
+\eeq
+
+\beq\color{blue}
+P(Y_0)=1
+\eeq
+For all hidden layers $\lam=0, 1, \dots,
+\Lambda-2$,
+
+\beq\color{blue}
+P(h^{\lam}_i\cond h^{\lam-1}_., h_0^\lam=1)=
+\delta\left(h^{\lam}_i,
+\cala_i^\lam(\sum_{j}
+ w^{\lam}_{i|j}
+h^{\lam-1}_j)\right)
+\eeq
+for $i=1, \ldots, nh(\lam)-1$.
+For the output visible layer $\lam=\Lambda-1$:
+
+\beq\color{blue}
+P(Y_i\cond h^{\Lambda-2}_., Y_0=1)=
+\delta \left(Y_i,
+\cala_i^{\Lambda-1}(\sum_j w^{\Lambda-1}_{i|j}
+h^{\Lambda-2}_j)\right)
+\;
+\eeq
+for $i=1, 2, \ldots, ny-1$.
+
+\hrule
+\begin{figure}[h!]
+\centering
+$$
+\xymatrix{
+\ul{\cala^3}
+&
+\ul{\calb^3}\ar[l]
+&
+\ul{\cala^2}\ar[l]
+&
+\ul{\calb^2}\ar[l]
+&
+\ul{\cala^1}\ar[l]
+&
+\ul{\calb^1}\ar[l]
+&
+\ul{\cala^0}\ar[l]
+&
+\ul{\calb^0}\ar[l]
+&
+\rvx\ar[l]
+\\
+&&\text{$(a)$}
+\\
+\ul{\pder{\cala^3}{x}}
+&
+\ul{\pder{\calb^3}{x}}\ar[l]
+&
+\ul{\pder{\cala^2}{x}}\ar[l]
+&
+\ul{\pder{\calb^2}{x}}\ar[l]
+&
+\ul{\pder{\cala^1}{x}}\ar[l]
+&
+\ul{\pder{\calb^1}{x}}\ar[l]
+&
+\ul{\pder{\cala^0}{x}}\ar[l]
+&
+\ul{\pder{\calb^0}{x}}\ar[l]
+&
+\ul{1}\ar[l]
+\\
+&&\text{$(b)$}
+\\
+\ul{1}\ar[r]
+&
+\ul{\pder{Y}{\calb^3}}\ar[r]
+&
+\ul{\pder{Y}{\cala^2}}\ar[r]
+&
+\ul{\pder{Y}{\calb^2}}\ar[r]
+&
+\ul{\pder{Y}{\cala^1}}\ar[r]
+&
+\ul{\pder{Y}{\calb^1}}\ar[r]
+&
+\ul{\pder{Y}{\cala^0}}\ar[r]
+&
+\ul{\pder{Y}{\calb^0}}\ar[r]
+&
+\ul{\pder{Y}{x}}
+\\
+&&\text{$(c)$}
+}
+$$
+\caption{bnets for $(a)$ function
+composition, $(b)$
+forward propagation and $(c)$ back propagation
+for a neural net with 4 layers (3 hidden and
+output visible).}
+\label{fig-backp-nn}
+\end{figure}
+
+From here on, we will rename $y$ above
+by $Y=\hat{y}$ and 
+consider samples $y[i]$ for 
+$i=0, 1, \ldots, nsam-1$.
+The Error (aka loss or cost function) is
+
+\beq
+\cale =\frac{1}{nsam}
+\sum_{s=0}^{nsam-1}\sum_{i=0}^{ny-1}
+|Y_i-y_i[s]|^2
+\eeq
+To perform simple gradient descent,
+one uses:
+
+\beq
+(w_{i|j}^\lam)'=w_{i|j}^\lam
+-\eta\pder{\cale}{w^\lam_{i|j}}
+\;.
+\eeq
+One has
+
+\beq
+\pder{\cale}{w^\lam_{i|j}}=
+\frac{1}{nsam}
+\sum_{s=0}^{nsam-1}\sum_{i=0}^{ny-1}
+2(Y_i-y_i[s])\pder{Y}{w^\lam_{i|j}}
+\;.
+\eeq
+Define $\calb^\lam_i$ thus
+
+
+\beq
+\calb^\lam_i(h^{\lam-1})=
+\sum_j w^{\lam}_{i|j}h^{\lam-1}_j
+\;.
+\label{eq-calb}
+\eeq
+Then
+
+\beqa
+\pder{Y}{w^\lam_{i|j}}&=&
+\pder{Y}{\calb^\lam_i}
+\pder{\calb_i^\lam}{w^\lam_{i|j}}
+\\
+&=&\pder{Y}{\calb^\lam_i}
+h^{\lam-1}_j
+\eeqa
+
+\beqa
+\pder{\cale}{w^\lam_{i|j}}&=&
+\pder{\cale}{\calb^\lam_j}
+\pder{\calb^\lam_j}{w^\lam_{i|j}}
+\\
+&=&
+\pder{\cale}{\calb^\lam_j}
+h^{\lam-1}_j
+\;.
+\eeqa
+This suggest that
+we can calculate 
+the derivatives of the error
+$\cale$
+with respect to the weights
+$w^\lam_{i|j}$ in two 
+stages, using an intermediate 
+quantity $\delta^\lam_j$:
+
+\beq
+\left\{
+\begin{array}{l}
+\delta^\lam_j=\pder{\cale}{\calb^\lam_j}
+\\
+\pder{\cale}{w^\lam_{i|j}}=\delta^\lam_j h^{\lam-1}_j
+\end{array}
+\right.
+\eeq
+
+To 
+apply what we learned in the earlier
+General Theory
+section of this chapter, 
+consider a NN with 4
+layers (3 hidden, and the
+output visible one). Define the
+functions $f_i$
+as follows:
+
+
+\beq
+f^0_i=x_i
+\eeq
+
+\beqa
+\text{Layer 0:}&
+f^1_i=\calb_i^0(x_i),&
+f^2_i=\cala_i^0(\calb_i^0)
+\\
+\text{Layer 1:}&
+f^3_i=\calb_i^1(\cala_i^0),&
+f^4_i=\cala_i^1(\calb_i^1)
+\\
+\text{Layer 2:}&
+f^5_i=\calb_i^2(\cala_i^1),&
+f^6_i=\cala_i^2(\calb_i^2)
+\\
+\text{Layer 3:}&
+f^7_i=\calb_i^3(\cala_i^2),&
+f^8_i=\cala_i^3(\calb_i^3)
+\eeqa
+
+
+
+
+%\beq\color{blue}
+%P(\cala^\lam|\cala^{\lam-1})=
+%\indi(\cala^\lam=\cala^\lam\circ\calb^\lam(\cala^{\lam-1}))
+%\;
+%\eeq
+
+%\beq\color{blue}
+%P(\pder{\cala^{\lam+1}}{x}\cond
+%\pder{\cala^{\lam}}{x})=
+%\indi(\pder{\cala^{\lam+1}}{x}=
+%\pder{\cala^{\lam+1}}{\calb^{\lam+1}}
+%\pder{\calb^{\lam+1}}{\cala^{\lam}}
+%\pder{\cala^{\lam}}{x} 
+%)\;
+%\eeq
+
+See Fig.\ref{fig-backp-nn}. The
+transition
+prob matrices, printed in blue,
+for the nodes
+of  the bnet $(c)$
+for back propagation, are:
+
+\beq\color{blue}
+P(
+\pder{Y}{\calb^{\lam}}
+\cond 
+\pder{Y}{\calb^{\lam+1}}
+)=
+\indi(
+\pder{Y}{\calb^{\lam}}
+=
+\pder{Y}{\calb^{\lam+1}}
+\pder{\calb^{\lam+1}}{\cala^{\lam}}
+\pder{\cala^{\lam}}{\calb^{\lam}}) 
+\;.
+\label{eq-backp-nn-1}
+\eeq
+One has
+
+\beq
+\pder{\cala^{\lam}_i}{\calb^{\lam}_j}
+=
+D{\cala_i}^\lam(\calb_i^\lam)\delta(i,j)
+\eeq
+where $D{\cala}^\lam_i(z)$
+is the derivative of 
+$\cala^\lam_i(z)$.
+
+From Eq.(\ref{eq-calb})
+
+\beq
+\calb^{\lam+1}_i(\cala^{\lam})=
+\sum_j w^{\lam+1}_{i|j}\cala^{\lam}_j
+\eeq
+so
+
+\beq
+\pder{\calb_i^{\lam+1}}{\cala_j^{\lam}}
+=w^{\lam+1}_{i|j}
+\;.
+\eeq
+Therefore, Eq.(\ref{eq-backp-nn-1})
+implies
+
+\beq\color{blue}
+P(
+\pder{Y}{\calb^{\lam}_j}
+\cond 
+\pder{Y}{\calb^{\lam+1}_j}
+)=
+\indi(
+\pder{Y}{\calb^{\lam}_j}
+=
+\sum_i
+\pder{Y}{\calb_i^{\lam+1}}
+D{\cala}^\lam_j(\calb^\lam_j)
+w^{\lam+1}_{i|j}
+) 
+\;,
+\eeq
+
+\beq\color{blue}
+P(
+\pder{\cale}{\calb^{\lam}_j}
+\cond 
+\pder{\cale}{\calb^{\lam+1}_j}
+)=
+\indi(
+\pder{\cale}{\calb^{\lam}_j}
+=
+\sum_i
+\pder{\cale}{\calb_i^{\lam+1}}
+D{\cala}^\lam_j(\calb^\lam_j)
+w^{\lam+1}_{i|j}
+) 
+\;,
+\eeq
+
+\beq\color{blue}
+\boxed{
+P(
+\delta^{\lam}_j
+\cond 
+\delta^{\lam+1}_j
+)=
+\indi(
+\delta^{\lam}_j
+=
+\sum_i
+\delta_i^{\lam+1}
+D{\cala}^\lam_j(\calb^\lam_j))
+w^{\lam+1}_{i|j}
+)
+}
+\;.
+\eeq
+
+First delta of iteration, belonging to output 
+layer $\lam=\Lambda-1$:
+
+\beqa
+\delta^{\Lambda-1}_j&=&
+\pder{\cale}{\calb^{\Lambda-1}_j}
+\\
+&=&
+\frac{1}{nsam}
+\sum_{s=0}^{nsam-1}\sum_{i=0}^{ny-1}
+2(Y_i-y_i[s])
+D{\cala}^{\Lambda-1}_i(\calb^{\Lambda-1}_i)\delta(i,j)
+\\
+&=&
+\frac{1}{nsam}
+\sum_{s=0}^{nsam-1}
+2(Y_j-y_j[s])
+D{\cala}^{\Lambda-1}_j(\calb^{\Lambda-1}_j)
+\eeqa
+
+Cute:
+\beq
+D\sig(x)=
+\sig (x)(1-\sig(x))
+\eeq
+
+\hrule\noindent
+{\bf Generalization to bnets (instead of Markov chains
+induced by layered structure of NNs):}
+
+\beq
+P(
+\delta_\rvx
+\cond 
+(\delta_\rva)_{\rva\in ch(\rvx)}
+)=
+\indi(
+\delta_\rvx
+=
+\sum_{\rva\in ch(\rvx)}
+\delta_\rva
+D{\cala}_\rvx(\calb_\rvx))
+w_{\rva|\rvx}
+)
+\;
+\eeq
+
+Reverse arrows of original bnet
+and define the transition prob matrix
+of nodes of ``time reversed" bnet by
+
+\beq\color{blue}
+\boxed{
+P(
+\delta_\rvx
+\cond 
+(\delta_\rva)_{\rva\in pa(\rvx)}
+)=
+\indi(
+\delta_\rvx
+=
+\sum_{\rva\in pa(\rvx)}
+\delta_\rva
+D{\cala}_\rvx(\calb_\rvx))
+w^T_{\rvx|\rva}
+)
+}
+\;
+\eeq
+

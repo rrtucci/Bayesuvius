@@ -56,25 +56,25 @@ Consider Fig.\ref{fig-nn}.
 
 $\rvx_i\in 
 \{0,1\}$ for 
-$i=0, 1, 2, \dots,numx-1$
+$i=0, 1, 2, \dots,nx-1$
 is the \textbf{input layer}.
 
 $\rvh_i^\lam\in \RR$ for 
-$i=0, 1, 2, \dots,numh(\lam)-1$
+$i=0, 1, 2, \dots,nh(\lam)-1$
 is the $\lam$\textbf{-th hidden layer}.
-$\lam=0, 1, 2, \ldots, \Lambda-1$.
+$\lam=0, 1, 2, \ldots, \Lambda-2$.
 A NN is said to be {\bf deep} if
-$\Lambda>1$; i.e., if it has 
+$\Lambda>2$; i.e., if it has 
 more than one hidden layer.
 
 $\rvY_i\in \RR$ for 
-$i=0, 1, 2, \dots,numy-1$
+$i=0, 1, 2, \dots,ny-1$
 is the \textbf{output layer}.
 We use a upper case y
 here because in the training phase,
 we will use pairs $(x.[s],y.[s])$ where
 $y_i[s]\in \{0,1\}$ 
-for $i=0, 1, \ldots, numy-1$.
+for $i=0, 1, \ldots, ny-1$.
 $Y=\hat{y}$
 is an estimate of $y$.
 Note that lower case y is 
@@ -100,8 +100,8 @@ discuss non-dense layers.
 Let
   $w^\lam_{i|j}, b_i^\lam\in \RR$
 be given,
-for $i\in\ZZ_{[0, numh(\lam))}$,
-$j\in\ZZ_{[0, numh(\lam-1))}$, 
+for $i\in\ZZ_{[0, nh(\lam))}$,
+$j\in\ZZ_{[0, nh(\lam-1))}$, 
 and $\lam\in\ZZ_{[0, \Lambda)}$.
 
 These are the
@@ -119,16 +119,20 @@ x_{i-1},\dots, x_0)\text{ = given}
 \beq\color{blue}
 P(h^{\lam}_i\cond h^{\lam-1}_.)=
 \delta\left(h^{\lam}_i,
-\cala_i^\lam(\sum_j w^{\lam-1}_{i|j}
-h^{\lam-1}_j + b^{\lam-1}_i)\right)
+\cala_i^\lam(\sum_j w^{\lam}_{i|j}
+h^{\lam-1}_j + b^{\lam}_i)\right)
+\;,
 \eeq
+where $P(h^0_i|h^{-1})=P(h^0_i|x)$.
 
 \beq\color{blue}
-P(Y_i\cond h^{\Lambda-1}_.)=
-\delta\left(Y_i,
-\cala_i^\Lambda(\sum_j w^{\Lambda-1}_{i|j}
-h^{\Lambda-1}_j + b^{\Lambda-1}_i)\right)
+P(Y_i\cond h^{\Lambda-2}_.)=
+\delta \left(Y_i,
+\cala_i^{\Lambda-1}(\sum_j w^{\Lambda-1}_{i|j}
+h^{\Lambda-2}_j + b^{\Lambda-1}_i)\right)
+\;.
 \eeq
+
 
 \section*{Activation Functions
 $\cala_i^\lam:\RR\rarrow \RR$}
@@ -257,7 +261,7 @@ For example, $\rvx.$ becomes
 $\ranvec{x.}$, where the
 components of 
 $\ranvec{x.}$ in sampling space are
-$\rvx.[s]\in \{0,1\}^{numx}$
+$\rvx.[s]\in \{0,1\}^{nx}$
 for $s=0, 1, \ldots, nsam(\vecx)-1$.
 
 
@@ -355,16 +359,15 @@ P(y.[s]\cond x.[s])
 \beq\color{blue}
 P(h^{\lam}_i[s]\cond h^{\lam-1}_.[s])=
 \delta\left(h^{\lam}_i[s],
-\cala_i^\lam(\sum_j w^{\lam-1}_{i|j}
-h^{\lam-1}_j[s] + b^{\lam-1}_i)\right)
+\cala_i^\lam(\sum_j w^{\lam}_{i|j}
+h^{\lam-1}_j[s] + b^{\lam}_i)\right)
 \eeq
 
 \beq\color{blue}
-P(Y_i[s]\cond h^{\Lambda-1}_.[s])=
+P(Y_i[s]\cond h^{\Lambda-2}_.[s])=
 \delta\left(Y_i[s],
-\cala_i^\Lambda(\sum_j
- w^{\Lambda-1}_{i|j}
-h^{\Lambda-1}_j[s] + b^{\Lambda-1}_i)\right)
+\cala_i^{\Lambda-1}(\sum_j w^{\Lambda-1}_{i|j}
+h^{\Lambda-2}_j[s] + b^{\Lambda-1}_i)\right)
 \eeq
 
 \beq\color{blue}
@@ -515,16 +518,16 @@ deterministic nodes.
 \item 1-dim
 
 Filter function $\calf:\{0, 1, \ldots, 
-numf-1\}\rarrow \RR$.
+nf-1\}\rarrow \RR$.
 
 $\sigma$=stride length
 
-For $i\in \{0,1,\dots,numh(\lam)-1\}$,
+For $i\in \{0,1,\dots,nh(\lam)-1\}$,
 let
 
 \beq
 H^\lam_i[s]=
-\sum_{ j=0}^{numf-1}
+\sum_{ j=0}^{nf-1}
 h^{\lam-1}_{j+i\sigma}[s] \calf(j)
 \;.
 \label{eq-conv1}
@@ -534,14 +537,14 @@ go out of bounds in Eq.(\ref{eq-conv1}),
 we must have
 
 \beq
-numh(\lam-1)-1=numf-1 +
-(numh(\lam)-1)\sigma
+nh(\lam-1)-1=nf-1 +
+(nh(\lam)-1)\sigma
 \;
 \eeq
 so
 \beq
-numh(\lam)=\frac{1}{\sigma}[numh(\lam-1)-
-numf] + 1
+nh(\lam)=\frac{1}{\sigma}[nh(\lam-1)-
+nf] + 1
 \;.
 \eeq
 \item 2-dim
@@ -561,11 +564,11 @@ arrows from  a subset $Pool(i)$
 of the set of all
 nodes of the previous layer $\lam-1$.
 Partition set
-$\{0,,1,\dots,numh(\lam-1)-1\}
-$ into $numh(\lam)$ mutually
+$\{0,,1,\dots,nh(\lam-1)-1\}
+$ into $nh(\lam)$ mutually
 disjoint, nonempty sets
 called $Pool(i)$, where
-$i\in \{0, 1, \ldots,numh(\lam)-1\}$.
+$i\in \{0, 1, \ldots,nh(\lam)-1\}$.
 
 \begin{itemize}
 \item AvgPool
@@ -591,13 +594,13 @@ H^\lam_i[s]=
 If the sequence 
 
 \beq
-numx, numh(0), numh(1), \ldots,
-numh(\Lambda-1),numy
+nx, nh(0), nh(1), \ldots,
+nh(\Lambda-2),ny
 \eeq
 first decreases monotonically 
 up to layer $\lam_{min}$, then
 increases monotonically until
-$numy=numx$, then
+$ny=nx$, then
 the NN is called an {\bf
 autoencoder NN}.
 Autoencoders
