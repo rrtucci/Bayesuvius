@@ -108,6 +108,7 @@ for $nf=5$ nodes.}
 Let
 \beq
 y=f^4\circ f^3 \circ f^2 \circ f^1 (x)
+\;.
 \eeq
 This function composition chain can be
 represented by the bnet
@@ -259,7 +260,7 @@ For all hidden layers $\lam=0, 1, \dots,
 \beq\color{blue}
 P(h^{\lam}_i\cond h^{\lam-1}_.)=
 \delta\left(h^{\lam}_i,
-\cala_i^\lam(\sum_{j=0}^{nh(\lam-1)-1}
+\cala_i^\lam(\sum_j
  w^{\lam}_{i|j}
 h^{\lam-1}_j + b^{\lam}_i)\right)
 \eeq
@@ -289,9 +290,10 @@ w^{\lam}_{i|0}=b_i^{\lam}
 \;
 \eeq
 
-Make the nodes $\rvh_0^\lam$
-for all $\lam$ and $\rvY_0$
-root nodes (so no arrows pointing into them).
+Let the nodes $\rvh_0^\lam$
+for all $\lam$ and $\rvY_0$ be
+root nodes (so no arrows 
+pointing into them).
 For each $\lam$, draw arrows from 
 $\rvh_0^\lam$ to all other nodes 
 in that same layer.
@@ -303,17 +305,17 @@ After performing the
 above steps,
 the transition prob matrices,
 printed in blue,
-for the nodes of the NN bnet are as follows.
+for the nodes of the NN bnet
+ are as follows:
 
-\beq\color{blue}
-P(h^\lam_0)=1
-\eeq
-
-\beq\color{blue}
-P(Y_0)=1
-\eeq
 For all hidden layers $\lam=0, 1, \dots,
 \Lambda-2$,
+
+\beq\color{blue}
+P(h^\lam_0)=\delta(h^\lam_0,1)
+\;,
+\eeq
+and
 
 \beq\color{blue}
 P(h^{\lam}_i\cond h^{\lam-1}_., h_0^\lam=1)=
@@ -326,6 +328,12 @@ for $i=1, \ldots, nh(\lam)-1$.
 For the output visible layer $\lam=\Lambda-1$:
 
 \beq\color{blue}
+P(Y_0)=\delta(Y_0,1)
+\;,
+\eeq
+and
+
+\beq\color{blue}
 P(Y_i\cond h^{\Lambda-2}_., Y_0=1)=
 \delta \left(Y_i,
 \cala_i^{\Lambda-1}(\sum_j w^{\Lambda-1}_{i|j}
@@ -335,6 +343,7 @@ h^{\Lambda-2}_j)\right)
 for $i=1, 2, \ldots, ny-1$.
 
 \hrule
+
 \begin{figure}[h!]
 \centering
 $$
@@ -407,7 +416,7 @@ for a neural net with 4 layers (3 hidden and
 output visible).}
 \label{fig-backp-nn}
 \end{figure}
-
+.\\
 From here on, we will rename $y$ above
 by $Y=\hat{y}$ and 
 consider samples $y[i]$ for 
@@ -659,7 +668,8 @@ D{\cala}^{\Lambda-1}_i(\calb^{\Lambda-1}_i)\delta(i,j)
 D{\cala}^{\Lambda-1}_j(\calb^{\Lambda-1}_j)
 \eeqa
 
-Cute:
+Cute expression for 
+derivative of sigmoid function:
 \beq
 D\sig(x)=
 \sig (x)(1-\sig(x))
