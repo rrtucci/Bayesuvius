@@ -605,6 +605,72 @@ P(c_j\cond[m_i: \forall i \ni\rvm_i\in MB(\rvc_j)])
 where for any node $\rva$,
 we denote its Markov blanket by $MB(\rva)$.
 
+\begin{figure}[h!]
+$$\xymatrix{
+\rvm^{(t-1)}
+\ar[r]\ar[rd]\ar[rdd]\ar[rddd]
+&\rvc^{(t)}_0
+\ar[d]
+\ar@/^2pc/[dd]
+\ar@/^2pc/[ddd]
+\\
+&\rvc^{(t)}_1
+\ar[d]
+\ar@/^1pc/[dd]
+\\
+&\rvc^{(t)}_2
+\ar[d]
+\\
+&\rvc^{(t)}_3
+}$$
+\caption{In Gibbs sampling,
+the proposal distribution $P_{\rvc|\rvx}$
+can be defined by making
+the components $c^{(t)}_j$ of 
+candidate sample $c^{(t)}$ depend on 
+the previous components $(c^{(t)}_i)_{i<j}$.}
+\label{fig-gibbs-candidate}
+\end{figure}
+
+An alternative proposal distribution
+function that leads to much faster
+convergence is as follows.
+The idea is to make the components $c^{(t)}_j$ of 
+candidate sample $c^{(t)}$ depend on 
+the previous components $(c^{(t)}_i)_{i<j}$.
+See the bnet Fig.\ref{fig-gibbs-candidate}.
+The transition prob matrix for the nodes
+of that bnet are
+
+
+\beq\color{blue}
+P(c^{(t)}_j=c_j\cond(c^{(t)}_i)_{i<j}=
+(c_i)_{i<j}
+,m^{(t-1)}=m)=
+P(c_j|(c_i)_{i<j}, (m_i)_{i>j})
+\eeq
+for $j=0, 1, \ldots, N-1$. This implies
+
+\beq
+P_{\rvc|\rvx}(c^{(t)}=c|m^{(t-1)}=m)=
+\prod_{j=0}^{N-1}
+P(c_j|(c_i)_{i<j}, (m_i)_{i>j})
+\;.
+\eeq
+As before, we can condition
+only on the Markov blanket
+of each node $\rvc_j$.
+
+\beq
+P_{\rvc|\rvx}(c^{(t)}=c|m^{(t-1)}=m)=
+\prod_{j=0}^{N-1}
+P(c_j|(c_i)_{i<j}, (m_i)_{i>j}, 
+\text{ remove components that
+are not in $MB(\rvc_j)$}
+)
+\;.
+\eeq
+
 
 \section*{Importance Sampling}
 
@@ -666,3 +732,4 @@ E_\rvy[(\frac{P_\rvx(y)}{P_\rvy(y)}f(y))^2]-
 E_\rvx[\frac{P_\rvx(x)}{P_\rvy(x)}(f(x))^2]-
 (E_\rvx[f(x)])^2
 \eeqa
+
