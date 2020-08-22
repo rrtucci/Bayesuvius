@@ -276,19 +276,31 @@ $(constant)P_\rvx$
 because it 
 only uses ratios of
 $P_\rvx$ at two different points.
+Another advantage
+of this method
+is that it scales much 
+better than other sampling
+methods as the number
+of dimensions of the
+sampled variable $\rvx$
+increases.
 
-This method produces samples that are 
+This method produces samples that 
+take a finite amount of
+time to reach steady state. The samples
+are also
 theoretically correlated instead
 of being i.i.d. as one desires.
-To mitigate for this correlation,
+To mitigate for the steady state problem,
 one discards an initial set
-of samples (the ``burnout" period)
-and one calculates the autocorrelation
+of samples (the ``burn-in" period).
+To mitigate for the correlation problem,
+one calculates the autocorrelation
 between the samples
 and keeps only samples separated
 by a time interval 
 after which the samples 
-cease to be correlated to
+cease to be autocorrelated to
 a good approximation.
 
 
@@ -461,6 +473,8 @@ P_\rvx(x)=\pi(x)
 \eeq
 
 {\bf Reversibility (detailed balance):}
+For all $x, x'\in S_\rvx$,
+
 \beq
 P(x'|x)\pi(x)=P(x|x')\pi(x')
 \;.
@@ -468,8 +482,26 @@ P(x'|x)\pi(x)=P(x|x')\pi(x')
 Detailed balance
 is a sufficient (although not
 necessary) condition
-for the stationary 
-distribution $\pi$ to exist.
+for a unique stationary prob
+distribution $\pi$ to exist.\footnote{
+As explained lucidly in 
+Ref.\cite{bendel-metro-hast},
+besides detailed
+balance, 2 other properties
+must also be satisfied
+by the Markov chain,
+irreducibiity
+and aperiodicity. 
+However,  
+because of how it
+is constructed, the
+Metropolis-Hastings
+algorithm 
+automatically
+produces a Markov
+chain that has those
+2 properties.}
+
 
 Let
 \beq
@@ -634,7 +666,3 @@ E_\rvy[(\frac{P_\rvx(y)}{P_\rvy(y)}f(y))^2]-
 E_\rvx[\frac{P_\rvx(x)}{P_\rvy(x)}(f(x))^2]-
 (E_\rvx[f(x)])^2
 \eeqa
-
-
-
-
