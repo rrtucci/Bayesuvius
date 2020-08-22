@@ -21,6 +21,12 @@ This chapter covers both, MH and Gibbs sampling.
 It also covers a few 
 other types of sampling.
 
+Throughout this chapter,
+we use $P_\rvx:S_\rvx\rarrow [0,1]$
+to denote the target probability
+distribution
+that we wish to obtain samples from.
+
 
 \section*{Inverse Cumulative Sampling}
 For more info about this topic 
@@ -91,7 +97,7 @@ P(u^{(t)})=1
 
 \beq\color{blue}
 P(\vecx^{(t)}|\vecx^{(t-1)}, u^{(t)})=
-\indi(\;\;\;\vecx^{(t)}=
+\delta(\;\;\;\vecx^{(t)},
 [\vecx^{(t-1)}, CUM^{-1}_\rvx(u^{(t)})]
 \;\;\;)
 \eeq
@@ -140,6 +146,15 @@ P_\rvx(x)dx=dP(CUM^{-1}_\rvx(\rvu)<x)
 For more info about this topic 
 and some original references, 
 see Ref.\cite{wiki-reject}.
+
+This method samples
+from a ``candidates" probability distribution
+$P_\rvc:S_\rvx\rarrow [0,1]$,
+in cases where sampling directly
+from the
+target probability distribution
+$P_\rvx:S_\rvx\rarrow [0,1]$
+is not possible.
 
 
 \begin{figure}[h!]
@@ -255,13 +270,26 @@ some original references,
 see Refs.\cite{bendel-metro-hast}
 and \cite{wiki-metro-hast}.
 
-A very convenient
-feature of this method is that it can sample
+An advantage of this method is that it can sample
 unnormalized probability distributions
 $(constant)P_\rvx$ 
 because it 
 only uses ratios of
 $P_\rvx$ at two different points.
+
+This method produces samples that are 
+theoretically correlated instead
+of being i.i.d. as one desires.
+To mitigate for this correlation,
+one discards an initial set
+of samples (the ``burnout" period)
+and one calculates the autocorrelation
+between the samples
+and keeps only samples separated
+by a time interval 
+after which the samples 
+cease to be correlated to
+a good approximation.
 
 
 
@@ -553,22 +581,25 @@ original references,
 see Ref.\cite{wiki-imp-sam}.
 
 Suppose random
-variables $\rvx[s]$ for
+variables $\rvx[s]\in S_\rvx$ for
 $s=0, 1, \ldots nsam-1$ are i.i.d.
-with probability distribution$P_\rvx$. Then
+with probability distribution $P_\rvx$.
+ Then
 \beq
 E_{\rvx}[f(x)]\approx 
 \frac{1}{nsam}\sum_{s=0}^{nsam-1}
 f(x[s])
-\;.
+\;
 \eeq
+for any $f:S_\rvx\rarrow \RR$.
 Sometimes,
 instead of using i.i.d.
-samples $x[s]\sim P_\rvx$,
+samples 
+$\rvx[s]\in S_\rvx$
+where $\rvx[s]\sim P_\rvx$,
 we wish to use i.i.d. samples
-$y[s]\sim P_\rvy$,
-where both $\rvx[s]\in S_\rvx$
-and $\rvy[s]\in S_\rvx$.
+$\rvy[s]\in S_\rvx$ where
+$\rvy[s]\sim P_\rvy$.
 
 
 \beqa
@@ -576,7 +607,7 @@ E_\rvx[f(\rvx)]
 &=&
 \sum_x P_\rvx(x)f(x)
 \\&=&
-\sum_x P_\rvy(x))\frac{P_\rvx(x)}{P_\rvy(x)}f(x
+\sum_x P_\rvy(x))\frac{P_\rvx(x)}{P_\rvy(x)}f(x)
 \\&=&
 E_{\rvy}[
 \frac{P_\rvx(y)}{P_\rvy(y)}f(y)
