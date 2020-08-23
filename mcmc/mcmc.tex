@@ -82,7 +82,8 @@ $\rvu^{(t)}\in [0,1]$= random variable,
 uniformly
 distributed over $[0,1]$.
 
-$\ul{\vecx}^{(t)}=[\rvx^{(t)}_i]_{i=0,1, nsam(t)-1}$
+$\ul{\vecx}^{(t)}=[\rvx^{(t)}_i]_{i=0,1, 
+\ldots, nsam(t)-1}$
 where $\rvx^{(t)}_i \in S_\rvx$ for all $i$. 
 Vector of samples collected 
 up to time $t$.
@@ -110,7 +111,7 @@ P(\vecx^{(t)}|\vecx^{(t-1)}, u^{(t)})=
 \includegraphics[width=3in]
 {mcmc/inverse.png}
 \caption{Motivation 
-for Inverse of Cumulative Sampling.} 
+for Inverse Cumulative Sampling.} 
 \label{fig-mcmc-inverse}
 \end{figure}
 See Fig.\ref{fig-mcmc-inverse}.
@@ -136,7 +137,8 @@ P(CUM^{-1}_\rvx(\rvu)<x)
 Therefore,
 
 \beq
-P_\rvx(x)dx=dP(CUM^{-1}_\rvx(\rvu)<x)
+dP(CUM^{-1}_\rvx(\rvu)<x)=
+P_\rvx(x)dx
 \;.
 \eeq
 
@@ -193,7 +195,7 @@ $\rvc^{(t)}\in S_\rvx$=  sample that is a
 candidate for being accepted
 
 $\ul{\vecx}^{(t)}=
-[\rvx^{(t)}_i]_{i=0,1, nsam(t)-1}$
+[\rvx^{(t)}_i]_{i=0,1,\dots, nsam(t)-1}$
 where $\rvx^{(t)}_i \in S_\rvx$ for all $i$. 
 Vector of samples collected 
 up to time $t$.
@@ -249,6 +251,11 @@ P(\vecx^{(t)}|
 \end{array}
 \right.
 \eeq
+This
+last equation is only defined for $t>0$.
+For $t=0$, the left hand side reduces to
+$P(\vecx^{(0)})$ which must 
+be specified a priori.
 
 \hrule\noindent
 {\bf Motivation}
@@ -347,7 +354,8 @@ candidate for being accepted
 $\rvm^{(t)}\in S_\rvx$= memory
 of last accepted sample
 
-$\ul{\vecx}^{(t)}=[\rvx^{(t)}_i]_{i=0,1, nsam(t)-1}$
+$\ul{\vecx}^{(t)}=[\rvx^{(t)}_i]_{i=0,1,
+\ldots, nsam(t)-1}$
 where $\rvx^{(t)}_i \in S_\rvx$ for all $i$. 
 Vector of samples collected 
 up to time $t$.
@@ -366,12 +374,12 @@ P(u^{(t)}=u)=1
 \eeq
 
 \beq\color{blue}
-P(\rvc^{(t)}=c|m^{(t)}=m)=P_{\rvc|\rvx}(c|m)
+P(\rvc^{(t)}=c|\rvm^{(t)}=m)=P_{\rvc|\rvx}(c|m)
 \eeq
 
 \beq\color{blue}
 P(\rva^{(t)}=a|\rvc^{(t)}=c,
-\rvu^{(t)}=u,m^{(t)}=m)=
+\rvu^{(t)}=u,\rvm^{(t)}=m)=
 \left\{
 \begin{array}{ll}
 \delta(a, 0)&\text{ if }
@@ -420,6 +428,12 @@ P(\vecx^{(t)}|
 \end{array}
 \right.
 \eeq
+This
+last equation is only defined for $t>0$.
+For $t=0$, the left hand side reduces to
+$P(\vecx^{(0)})$ which must 
+be specified a priori.
+
 
 \beq\color{blue}
 P(\rvm^{(t)}=m|
@@ -454,7 +468,7 @@ transition
 matrix is the same for all times)
 Markov chain with
 transition prob $P(x'|x)=[T]_{x', x}$.
-It's {\bf stationary distribution}, 
+Its {\bf stationary distribution}, 
 if it exists, is
 defined as 
 
@@ -581,7 +595,7 @@ with the
 random variable  $\rvx$ used in 
 Metropolis-Hastings sampling.
 For Gibbs sampling,
-we use the following proposal function:
+we use the following proposal distribution:
 
 \beq
 P_{\rvc|\rvx}(c|m)=
@@ -599,10 +613,10 @@ to the following:
 \beq
 P_{\rvc|\rvx}(c|m)=
 \prod_{j=0}^{N-1}
-P(c_j\cond[m_i: \forall i \ni\rvm_i\in MB(\rvc_j)])
+P(c_j\cond[m_i: \forall i \ni\rvx_i\in MB(\rvx_j)])
 \;,
 \eeq
-where for any node $\rva$,
+where, for any node $\rva$,
 we denote its Markov blanket by $MB(\rva)$.
 
 \begin{figure}[h!]
@@ -633,7 +647,7 @@ the previous components $(c^{(t)}_i)_{i<j}$.}
 \end{figure}
 
 An alternative proposal distribution
-function that leads to much faster
+ that leads to much faster
 convergence is as follows.
 The idea is to make the components $c^{(t)}_j$ of 
 candidate sample $c^{(t)}$ depend on 
@@ -659,14 +673,13 @@ P(c_j|(c_i)_{i<j}, (m_i)_{i>j})
 \eeq
 As before, we can condition
 only on the Markov blanket
-of each node $\rvc_j$.
+of each node $\rvx_j$.
 
 \beq
 P_{\rvc|\rvx}(c^{(t)}=c|m^{(t-1)}=m)=
 \prod_{j=0}^{N-1}
 P(c_j|(c_i)_{i<j}, (m_i)_{i>j}, 
-\text{ remove components that
-are not in $MB(\rvc_j)$}
+\text{ use only $c_i$ and  $m_i \ni \rvx_i \in MB(\rvx_j)$}
 )
 \;.
 \eeq
@@ -680,7 +693,7 @@ see Ref.\cite{wiki-imp-sam}.
 
 Suppose random
 variables $\rvx[s]\in S_\rvx$ for
-$s=0, 1, \ldots nsam-1$ are i.i.d.
+$s=0, 1, \ldots, nsam-1$ are i.i.d.
 with probability distribution $P_\rvx$.
  Then
 \beq
