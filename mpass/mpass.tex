@@ -298,12 +298,12 @@ we get
 
 
 \beq
-\underbrace{\pi_{\rvb_j\lcond\rvx}
+\underbrace{\pi_{\rvb_i\lcond\rvx}
 (x)}_{OUT}=
 \caln(!x)
 \underbrace{\pi_{\rvx\lcond}(x)}_{IN}
-\prod_{i\neq j}
-\underbrace{\lam_{\rvb_i\rcond \rvx}(x)}_{IN}
+\prod_{k\neq i}
+\underbrace{\lam_{\rvb_k\rcond \rvx}(x)}_{IN}
 \eeq
 \end{enumerate}
 
@@ -323,10 +323,11 @@ Then
 \;.
 \eeq
 This  says that
-the belief in $x$
+the belief in $\rvx=x$
+converges to $P(x)$ and it
 equals the product 
 of messages received from all
-parents and children.
+parents and children of $\rvx=x$.
 
 
 \hrule
@@ -380,7 +381,6 @@ $$\xymatrix{
 &\ucalm_{\rvA_{00}}^{(0)}
 \ar[r]
 &\ucalm_{\rvA_{00}}^{(1)}
-v
 &\ucalm_{\rvA_{00}}^{(2)}
 \\
 \rvA_{01}
@@ -415,7 +415,7 @@ is the {\bf messages-bnet}
 The node TPMs,
 printed in blue,
 for the bnet
-Fig.\ref{fig-mp-bnet-for-tree}
+Fig.\ref{fig-mp-bnet-for-tree},
 are as follows.
 
 
@@ -536,7 +536,7 @@ then,
 in the MP procedure,  replace that
 node's TPM by
 a Kronecker delta function.
-$BEL(x)$ should
+$BEL^{(t)}(x)$ should
 now  converge to $P(x|\text{ a priori
 evidence for
  all nodes})$.
@@ -657,7 +657,7 @@ and we are using $x_S$ to denote
 $(x_i)_{i\in S}$.
 Then we define the node TPMs, printed
 in blue, for the
-image bipartite bnet to be
+image bipartite bnet, to be
 
 
 
@@ -757,7 +757,7 @@ $$\xymatrix{
 \\
 \rvA_0\ar[u]\ar[d]\ar[rd]&&\rvA_1\ar[u]
 \\
-\ul{P_{\rvA_{00}|\rvA}}&\ul{P_{\rvA_{01}|\rvA_0}}
+\ul{P_{\rvA_{00}|\rvA_0}}&\ul{P_{\rvA_{01}|\rvA_0}}
 \\
 \rvA_{00}\ar[u]&\rvA_{01}\ar[u]
 }
@@ -791,7 +791,7 @@ the bnet Fig.\ref{fig-part3-tree-junc-tree}.}
 
 The node  TPMs, printed in blue,
 for the image bipartite bnet 
-Fig.\ref{fig-part3-tree-junc-tree}
+Fig.\ref{fig-part3-tree-junc-tree},
 are as follows. We express the
 TPMs of the image bnet
 in terms of the 
@@ -933,30 +933,30 @@ $m_{\rvx_2\larrow\rvf_1 }$ panel
 of Fig.\ref{fig-messages-bip}.
 
 For $\alp=0, 1, \ldots, nf-1$, if
- $j\in nb(\alp)$, then
+ $i\in nb(\alp)$, then
 
 
 \beqa
-m^{(t)}_{j\larrow \alp}(x_j)
+m^{(t)}_{i\larrow \alp}(x_i)
 &=&
-\sum_{(x_k)_{k\in nb(\alpha)-j}}
+\sum_{(x_k)_{k\in nb(\alpha)-i}}
 f_\alpha(x_{nb(\alpha)})
-\prod_{k\in nb(\alpha)-j}
+\prod_{k\in nb(\alpha)-i}
 m^{(t-1)}_{\alp\larrow k }
 (x_k)
 \\
 &=&
-E^{(t-1)}_{(x_k)_{k\in nb(\alpha)-j}}[
+E^{(t-1)}_{(x_k)_{k\in nb(\alpha)-i}}[
 f_\alpha(x_{nb(\alpha)})]
 \;,
 \label{eq-mp-iter2}
 \eeqa
-whereas if $j\notin nb(\alp)$
+whereas if $i\notin nb(\alp)$
 
 \beq
-m^{(t)}_{j\larrow \alp}(x_j)
+m^{(t)}_{i\larrow \alp}(x_i)
 =
-m^{(t-1)}_{j\larrow \alp}(x_j)
+m^{(t-1)}_{i\larrow \alp}(x_i)
 \;.
 \eeq
 
@@ -1020,12 +1020,13 @@ in this chapter.
 Expressing the marginals of a bnet
 as RSOPs,
 which is what MP does,
-reduces the complexity (i.e.,
+reduces the complexity 
+of the calculation.
+(i.e.,
 the total number
 of additions
 and multiplications
 that need to be performed)
-of the calculation.
 That makes 
 using the MP
 algo very advantageous.
@@ -1065,13 +1066,13 @@ P(A) = P_\rvA(A)
 \eeq
 
 \beq\color{blue}
-P(m^{(t)}_{j\larrow \alp}(\cdot)\cond
-pa[m^{(t)}_{j\larrow \alp}(\cdot)]
+P(m^{(t)}_{i\larrow \alp}(\cdot)\cond
+pa[m^{(t)}_{i\larrow \alp}(\cdot)]
 )=
 \indi(\;\;\;
-m^{(t)}_{j\larrow \alp}(x_j)
+m^{(t)}_{i\larrow \alp}(x_i)
 =
-E^{(t-1)}_{(x_k)_{k\in nb(\alpha)-j}}[
+E^{(t-1)}_{(x_k)_{k\in nb(\alpha)-i}}[
 f_\alpha(x_{nb(\alpha)})]
 \;\;\;)
 \eeq
