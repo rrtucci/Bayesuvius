@@ -66,17 +66,39 @@ Dirac delta function: For $x,y\in\RR$,
 \int^{+\infty}_{-\infty}dx\;\delta(x-y)f(x)=f(y)
 \eeq
 \hrule\noindent
-Transition probability matrix of a node of a bnet can be either a discrete or a continuous probability distribution. To go from continuous to discrete, one replaces integrals over states of node by sums over new states, and Dirac delta functions by Kronecker delta functions. More precisely, consider a function $f: S\rarrow \RR$. Let $S_\rvx\subset S$ and $S\rarrow S_\rvx$ upon discretization (binning). Then
+The TPM of a node 
+of a bnet can be either a discrete or 
+a continuous probability distribution. 
+To go from continuous to discrete, one 
+replaces integrals over states of a node
+ by sums over new states, and Dirac delta 
+functions by Kronecker delta functions.
+ More precisely, consider a function 
+$f: [a, b]\rarrow \RR$. Express
+ $[a,b]$ as 
+a union of
+small, disjoint (except for
+one point) closed sub-intervals (bins) of
+length $\Delta x$.
+Name one point
+in each bin to be the representative of that bin,
+and  let $S_\rvx$ be the
+set of all the bin representatives. This is called 
+discretization or binning. Then
 
 \beq 
-\int_S dx \; P_\rvx(x)f(x)\rarrow
-\frac{1}{n_\rvx}\sum_{x\in S_\rvx}f(x)
+\frac{1}{(b-a)}
+\int_{[a,b]} dx \; f(x)\rarrow
+\frac{\Delta x}{(b-a)} \sum_{x\in S_\rvx}f(x)
+=
+\frac{1}{n_\rvx} \sum_{x\in S_\rvx}f(x)
  \;.
 \eeq
-Both sides of last equation are 1 when $f(x)=1$. Furthermore, if $y\in S_\rvx$, then
+Both sides of last equation are 1 when $f(x)=1$.
+ Furthermore, if $y\in S_\rvx$, then
 
 \beq 
-\int_S dx \; \delta(x-y)f(x)=f(y)
+\int_{[a,b]} dx \; \delta(x-y)f(x)=f(y)
 \rarrow \sum_{x\in S_\rvx}\delta(x,y)f(x)
 =f(y)
 \;.
@@ -113,6 +135,12 @@ x[i]\sim P_\rvx\;\;({\rm i.e.}\; P_{\ul{x[i]}}=P_\rvx)
 \beq
 P(\rvx=x)=\frac{1}{nsam(\vecx)}\sum_i \indi(x[i]=x)
 \eeq 
+Hence, for any $f:S_\rvx\rarrow \RR$,
+\beq
+\sum_x P(\rvx=x)f(x)
+=\frac{1}{nsam(\vecx)}\sum_i f(x[i])
+\eeq 
+
 
 If we use two sampled variables, say $\vecx$ and $\vecy$, in a given bnet, their number of samples $nsam(\vecx)$ and $nsam(\vecy)$ need not be equal.
 \hrule\noindent
