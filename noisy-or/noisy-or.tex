@@ -1,0 +1,169 @@
+\chapter{Noisy-OR gate}
+The Noisy-OR gate was first
+proposed by Judea Pearl in his 1988 book
+ Ref.\cite{pearl-1988book}.
+\begin{figure}[h!]
+$$\xymatrix{
+\rvx_0\ar@/_1pc/[ddrr]
+&&\rvx_1\ar@/_1pc/[dd]
+&&\rvx_2\ar@/_1pc/[ddll]
+\\
+&\ul{\pi}_0\ar[dr]
+&\ul{\pi}_1\ar[d]
+&\ul{\pi}_2\ar[dl]
+\\
+&\ul{\lam}\ar[r]
+&\rvy
+}$$
+\caption{Noisy-OR gate $\rvy\in\bool$
+with $n=3$ Boolean inputs $(\rvx_i)_{i=0,1,2}$
+and parameters 
+$\ul{\lam}, (\ul{\pi})_{i=0,1,2}$.
+}
+\label{fig-noisy-or-1}
+\end{figure}
+
+Let
+
+$\ul{\lam}\in [0, 1]=${\bf gate leakage}.
+
+$y\in \bool$ = gate  output
+
+$\rvx^n=(\rvx_i)_{i=0,1, \ldots, n-1}$, where
+$\rvx_i\in\bool$ are
+ gate inputs.
+
+$\ul{\pi}^n=(\ul{\pi}_i)_{i=0,1, \ldots, n-1}$, where
+$\ul{\pi}_i\in[0,1]$ are
+ gate parameters.
+
+
+The TPM, printed in blue,
+ for the Noisy-OR gate $\rvy$ 
+shown in Fig.\ref{fig-noisy-or-1}, is
+
+\beq\color{blue}
+P(y=1|x^n, \lam, \pi^n)=
+1-(1-\lam)\prod_i[1-\pi_i x_i]
+\label{eq-noisy-or-tmp-1}
+\eeq
+
+Note
+that if $\lam=0$ and $\pi_i=1$ for all $i$,
+then this becomes 
+a deterministic OR-gate. Indeed,
+
+\beq
+P(y=1|x^n, \lam=0, \pi^n=1^n)= 1-\prod_i[1-x_i]=
+\V_{i=0}^{n-1}x_i
+\;,
+\eeq
+so 
+
+\beq
+P(y|x^n, \lam=0, \pi^n=1^n)=
+\delta(y, \V_{i=0}^{n-1}x_i)
+\;.
+\eeq
+
+
+Note that if $\lam=0$ and $x^n$ is one hot (i.e., 
+$x^n=e^n_i$, where $e^n_i$
+is the vector with all components 
+zero except for the $i$-th
+component which equals 1), then
+
+\beq
+P(y=1|x^n=e^n_i, \lam=0, \pi^n)=
+1-[1-\pi_i]=\pi_i
+\;.
+\eeq
+This gives a meaning to the
+parameters $\pi_i$.
+
+Another way to
+give a meaning to the 
+parameters $\pi_i$
+is to associate each of 
+them with an
+empirical probability 
+distribution associated 
+with a vector of samples
+$\vec{\rva}_i$.
+Suppose
+$\vec{\rva}_i=(\rva_i[s])_
+{s=0, 1, \ldots, nsam-1}$ 
+and  the samples $\rva_i[s]$
+ are i.i.d. with
+$\rva_i[s]\sim P_{\rva_i|\rvx_i}$
+for all $s$.
+Define
+
+\beq
+P_{\rva_i|\rvx_i}(1|x_i)=1-\pi_i x_i
+\;.
+\eeq
+Note that for each $i$,
+$P_{\rva_i|\rvx_i}(1|x_i)$
+can be 
+obtained
+from the vector of samples
+$\vec{\rva}_i$ 
+as follows:
+
+
+\beq\color{blue}
+P_{\rva_i|\rvx_i}(1|x_i)=
+\frac{1}{nsam}
+\sum_{s=0}^{nsam-1} \indi(a_i[s]=1)
+\;.
+\eeq
+Now we represent 
+the same noisy-or gate $\rvy$
+of 
+Fig.\ref{fig-noisy-or-1}
+by 
+Fig.\ref{fig-noisy-or-2}
+instead.
+The TPM, printed in blue,
+for  
+the nodes $\rvy$
+and $(\vec{\rva}_i)_{i=0,1,\ldots, n-1}$
+of Fig.\ref{fig-noisy-or-2} are  as follows:
+From Eq.(\ref{eq-noisy-or-tmp-1}),
+we get:
+
+\beq\color{blue}
+P(y=1|x^n, \lam, \veca^n)=
+1-(1-\lam)\prod_i P_{\rva_i|\rvx_i}(1|x_i)
+\;.
+\eeq
+Furthermore, 
+
+\beq\color{blue}
+P(\veca_i|x_i)=
+\prod_s P_{\rva_i|\rvx_i}(a_i[s]\cond x_i)
+\;.
+\eeq
+
+\begin{figure}[h!]
+$$\xymatrix{
+\rvx_0\ar[dr]\ar@/_1pc/[ddrr]
+&&\rvx_1\ar[d]\ar@/_1pc/[dd]
+&&\rvx_2\ar@/_1pc/[ddll]\ar[dl]
+\\
+&\vec{\rva}_0\ar[dr]
+&\vec{\rva}_1\ar[d]
+&\vec{\rva}_2\ar[dl]
+\\
+&\ul{\lam}\ar[r]
+&\rvy
+}$$
+\caption{ Fig.\ref{fig-noisy-or-1}
+after replacing parameters 
+$(\ul{\pi})_{i=0,1,2}$
+by 
+vectors 
+of samples $(\vec{\rva})_{i=0,1,2}$.}
+\label{fig-noisy-or-2}
+\end{figure}
