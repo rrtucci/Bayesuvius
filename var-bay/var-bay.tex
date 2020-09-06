@@ -259,7 +259,7 @@ This system
 is usually solved recursively.
 
 
-\section*{ELBO}
+\section*{Free Energy $\calf(\vecx)$}
 
 To simplify the notation
 below, let us
@@ -292,38 +292,49 @@ P_{\rvh|\vec{\rvx}})&=&
 + \ln P(\vecx)
 \\
 &=&
--ELBO(\vecx)+ \ln P(\vecx)
+\calf(\vecx)+ \ln P(\vecx)
 \eeqa
-Hence, ELBO is defined as
+Hence, the {\bf Free energy} $\calf(\vecx)$
+ is defined as
 
 \beqa
-ELBO(\vecx)&=&
+\calf(\vecx)&=&
 \sum_h P_{\rvq|\vec{\rvx}}(h|\vecx)\ln
- \frac{P(h,\vecx)}{P_{\rvq|\vec{\rvx}}(h|\vecx)}
+ \frac{P_{\rvq|\vec{\rvx}}(h|\vecx)}{P(h,\vecx)}
 \\
 &=&
 E_{\rvq|\vec{\rvx}}\left[
 \ln
- \frac{P_{\rvh, \vec{\rvx}}(q,\vecx)}
+ \frac
 {P_{\rvq|\vec{\rvx}}(q|\vecx)}
+{P_{\rvh, \vec{\rvx}}(q,\vecx)}
 \right]
 \;.
 \eeqa
+The name free energy is justified because
 
-Some properties of ELBO are:
-\begin{itemize}
-
-\item{\bf  ELBO is $\leq 0$.}
-
-\beq
-\underbrace{D_{KL}(P_{\rvq|\vec{\rvx}}\parallel 
-P_{\rvh|\vec{\rvx}})}_{\geq 0}
-+ \underbrace{\ln\frac{1}
-{ P_{\vec{\rvx}}(\vecx)]}}_{\geq 0}
-= -ELBO(\vecx)\geq 0
+\beq 
+\calf(\vecx)=
+\underbrace{-\sum_h P_{\rvq|\vec{\rvx}}(h|\vecx)\ln
+P_{\rvh, \vec{\rvx}}(h,\vecx)}_
+{U, \text{ Internal Energy}}
++
+\underbrace{\sum_h P_{\rvq|\vec{\rvx}}(h|\vecx)
+\ln P_{\rvq|\vec{\rvx}}(h|\vecx)}_
+{-S, \text{ minus Entropy}}
+\;.
 \eeq
 
-\item {\bf ELBO=``Evidence Lower BOund"}
+It is also common to define a
+quantity called ``ELBO" to be the negative
+of the free energy.
+
+\beq
+ELBO(\vecx)=-\calf(\vecx)
+\eeq
+ELBO stands for ``Evidence Lower BOund".
+That name
+is justified because
 
 \beq
 \underbrace{\ln P_{\vec{\rvx}}(\vecx)}
@@ -332,22 +343,47 @@ _{\text{evidence} \leq 0}
 \underbrace{D_{KL}(P_{\rvq|\vec{\rvx}}\parallel
 P_{\rvh|\vec{\rvx}})}_{\geq 0}
 -|ELBO(\vecx)|
+\;.
 \eeq
 
-\item {\bf KL divergence is  min  iff ELBO is max
-at fixed data $\vecx$.}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2in]
+{var-bay/elbo.png}
+\caption{
+$D_{KL}+\ln \frac{1}{P(\vecx)}=\calf$.
+}
+\label{fig-kl-q-support}
+\end{figure}
+
+Some properties of $\calf$ are:
+\begin{itemize}
+
+\item{\bf  $\calf$ is non-negative.}
+
+\beq
+\underbrace{D_{KL}(P_{\rvq|\vec{\rvx}}\parallel 
+P_{\rvh|\vec{\rvx}})}_{\geq 0}
++ \underbrace{\ln\frac{1}
+{ P_{\vec{\rvx}}(\vecx)]}}_{\geq 0}
+= \calf(\vecx)
+\eeq
+
+
+
+\item {\bf KL divergence is  min  iff $\calf$ is min
+at fixed $P(\vecx)$.}
 
 During a variation $\delta$ that holds
-the data $\vecx$ fixed, 
-only KL divergence and ELBO change, 
-and they change in 
-opposite directions:
+$P(\vecx)$ fixed, 
+the KL divergence and $\calf$ change
+by the same amount:
 
 \beq
 \delta D_{KL}(P_{\rvq|\vec{\rvx}}\parallel
 P_{\rvh|\vec{\rvx}})
 =
--\delta ELBO(\vecx)
+\delta \calf(\vecx)
 \eeq
 
 \end{itemize}
