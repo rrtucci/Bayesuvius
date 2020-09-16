@@ -27,11 +27,11 @@ them into single nodes.
 
 For more information
 about Belief Propagation,
-see Ref.\cite{wiki-mp}.
+see Refs.\cite{wiki-mp}, \cite{pearl-1988book}
+and \cite{neapolitan2004learning}.
 
 
 \section*{Pearl MP for arbitrary bnets}
-
 
 
 Consider Fig.\ref{fig-pi-lam},
@@ -40,7 +40,11 @@ a bnet node $\rvx$ receiving and sending
 messages to its neighbors.
 
 Note that in Fig.\ref{fig-pi-lam}, 
-a function is labeled
+the $\lam$ or $\pi$
+subscripts $\rarrow$
+and $\larrow$
+indicate  the direction of the message.
+A function is labeled
 $\lam$ (a likelihood
 function)  if the
 message direction,
@@ -52,30 +56,24 @@ function is labeled $\pi$
 (a probability function)  if 
 they point in the same direction
 (i.e, message ``swimming downstream").
-In the symbols $\rcond$
-and $\lcond$, the arrow
-indicates  the direction of the message,
-whereas the vertical line indicates
-the direction of the graph arrow.
-For  example, in 
-$\lam_{\rvb\rcond\rvx}(x)$
+For example, in
+$\lam_{\rvb\rarrow\rvx}(x)$,
 the message goes from
 $\rvb$ to $\rvx$ and the 
 graph arrow
 points in the opposite direction.
 In 
-$\pi_{\rvb\lcond\rvx}(x)$
+$\pi_{\rvb\larrow\rvx}(x)$,
 the message goes from
 $\rvx$ to $\rvb$ and the 
 graph arrow
 points in the same direction.
-The argument of the $\pi$
-and $\lam$
+
+Note that argument $arg$ of the $\pi(arg)$
+and $\lam(arg)$
 functions is always the same 
 as the letter in the subscript 
-that is closest to argument; i.e., the
-letter in the subscript that is
-to the right of the vertical bar.
+that is closest to the argument.
 
 Note that in Fig.\ref{fig-pi-lam},
 we indicate
@@ -121,18 +119,18 @@ each parent and child of $\rvx$)
 
 \begin{itemize}
 \item 
-$[\lam_{\rvb\rcond\rvx}(\cdot)]_
+$[\lam_{\rvb\rarrow\rvx}(\cdot)]_
 {\rvb\in ch(\rvx)}$
 \item
-$[\pi_{\rvx\lcond\rva}(\cdot)]_
+$[\pi_{\rvx\larrow\rva}(\cdot)]_
 {\rva\in  pa(\rvx)}$
 \end{itemize}
 
 \beqa
 IN_\rvx&=&
-([\lam_{\rvb\rcond\rvx}(\cdot)]_
+([\lam_{\rvb\rarrow\rvx}(\cdot)]_
 {\rvb\in ch(\rvx)},
-[\pi_{\rvx\lcond\rva}(\cdot)]_
+[\pi_{\rvx\larrow\rva}(\cdot)]_
 {\rva\in  pa(\rvx)})
 \\
 &=&
@@ -146,18 +144,18 @@ and child of $\rvx$)
 
 \begin{itemize}
 \item
-$[\pi_{\rvb\lcond\rvx}(\cdot)]_
+$[\pi_{\rvb\larrow\rvx}(\cdot)]_
 {\rvb\in ch(\rvx)}$
 \item 
-$[\lam_{\rvx\rcond\rva}(\cdot)]_
+$[\lam_{\rvx\rarrow\rva}(\cdot)]_
 {\rva\in  pa(\rvx)}$
 \end{itemize}
 
 \beqa
 OUT_\rvx&=&
-([\pi_{\rvb\lcond\rvx}(\cdot)]_
+([\pi_{\rvb\larrow\rvx}(\cdot)]_
 {\rvb\in ch(\rvx)},
-[\lam_{\rvx\rcond\rva}(\cdot)]_
+[\lam_{\rvx\rarrow\rva}(\cdot)]_
 {\rva\in  pa(\rvx)})
 \\
 &=&
@@ -245,67 +243,91 @@ its children.
 Define
 
 \beqa
-\pi_{\rvx\lcond}(x)&=&
+\pi_\rvx(x)&=&
 \sum_{a^{na}} P(x|a^{na})
 \prod_i
-\pi_{\rvx\lcond\rva_i}
+\pi_{\rvx\larrow\rva_i}
 (a_i)\\
 &=&E_{\rva^{na}}[P(x|a^{na})]
 \eeqa
+(boundary case: if $\rvx$
+is a root node, use $\pi_\rvx(x)=P(x)$.)
 and
 
 \beq
-\lam_{\rcond\rvx}(x)=
+\lam_\rvx(x)=
 \prod_i
-\lam_{\rvb_i\rcond \rvx}(x)
+\lam_{\rvb_i\rarrow \rvx}(x)
 \;.
 \eeq
+(boundary case: if $\rvx$
+is a leaf node, use $\lam_\rvx(x)=1$.)
+\begin{itemize}
+
+\item{\bf RULE 1: (red parent)}
 
 From 
-the $m_{\rva \larrow\rvx}$
+the $\lam_{\rvx \rarrow\rva}$
 panel of Fig.\ref{fig-messages-gen}, 
  we get\footnote{As usual in this book,
 $\caln(!x)$ means
 a constant that is independent of $x$.}
 
 \beqa
-\underbrace{\lam_{\rvx\rcond\rva_i}
+\underbrace{\lam_{\rvx\rarrow\rva_i}
 (a_i)}_{OUT}&=&
 \caln(!a_i)
 \sum_x\left[
-\underbrace{\lam_{\rcond\rvx}(x)}_{IN}
+\underbrace{\lam_\rvx(x)}_{IN}
 \sum_{(a_k)_{k\neq i}}\left(
 P(x|a^{na})\prod_{k\neq i}
 \underbrace{\pi_
-{\rvx\lcond\rva_k}
+{\rvx\larrow\rva_k}
 (a_k)}_{IN}
 \right)\right]
 \\&=&
 \caln(!a_i)
 \sum_x\left[
-\lam_{\rcond\rvx}(x)
+\lam_\rvx(x)
 E_{(\rva_k)_{k\neq i}}[P(x|a^{na})]\right]
 \\&=&
 \caln(!a_i)
 E_{(\rva_k)_{k\neq i}}E_{\rvx|a^{na}}
-\lam_{\rcond\rvx}(x)
+\lam_\rvx(x)
 \eeqa
+(boundary case:
+if $\rvx$ is a root node, use
+$\lam_{\rvx\rarrow\rva_i}
+(a_i)=\caln(!a_i)$.)
 
-From the $m_{\rvb \larrow\rvx}$
+\item{\bf RULE 2: (red child)}
+
+From the $\pi_{\rvb \larrow\rvx}$
 panel of
 Fig.\ref{fig-messages-gen}, 
 we get
 
 
 \beq
-\underbrace{\pi_{\rvb_i\lcond\rvx}
+\underbrace{\pi_{\rvb_i\larrow\rvx}
 (x)}_{OUT}=
 \caln(!x)
-\underbrace{\pi_{\rvx\lcond}(x)}_{IN}
+\underbrace{\pi_\rvx(x)}_{IN}
 \prod_{k\neq i}
-\underbrace{\lam_{\rvb_k\rcond \rvx}(x)}_{IN}
+\underbrace{\lam_{\rvb_k\rarrow \rvx}(x)}_{IN}
 \eeq
+(boundary case:
+if $\rvx$ is a leaf node, use
+$\pi_{\rvb_i\larrow\rvx}(x)=P(x)$
+.)
+
+\end{itemize}
 \end{enumerate}
+In the above
+equations, if the
+range set of a product is empty, then
+ define the product as 1; i.e., 
+$\prod_{k\in \emptyset}F(k)=1$.
 
 
 \hrule\noindent
@@ -313,21 +335,375 @@ we get
 
 \beq
 BEL^{(t)}(x)=\caln(!x)
-\lam^{(t)}_{\rcond\rvx}(x)
-\pi^{(t)}_{\rvx\lcond}(x)
+\lam^{(t)}_\rvx(x)
+\pi^{(t)}_\rvx(x)
 \;.\eeq
 Then
 
 \beq
-\lim_{t\rarrow \infty}BEL^{(t)}(x)=P(x)
+\lim_{t\rarrow \infty}BEL^{(t)}(x)=P(x|e.)
 \;.
 \eeq
 This  says that
 the belief in $\rvx=x$
-converges to $P(x)$ and it
+converges to $P(x|e.)$ and it
 equals the product 
 of messages received from all
 parents and children of $\rvx=x$.
+
+\section*{Proof of Pearl MP Algorithm}
+
+This proof is taken from
+ the 1988 book Ref.\cite{pearl-1988book}
+by Judea Pearl, where it
+is presented very lucidly. We only
+made some minor
+changes in notation.
+
+\hrule\noindent
+ {\bf Notation}
+
+Pearl's MP algorithm yields an expansion
+ for $P(x|e.)$.
+
+$\rvx$= the focus node, 
+arbitrary node of bnet that we are 
+focusing on to calculate its $P(x|e.)$.
+
+$\rve.$= vector\footnote{The dot
+in $\rve.$, although
+sometimes omitted,  is
+to remind us that it's a vector 
+with components 
+$\rve_i$} of nodes for which
+ there is evidence; that is,
+$\rve.=e.$, so 
+the state of these nodes is fixed.
+We always assume $\rvx\notin \rve.$
+because if $\rvx\in \rve.$, 
+and $\rve.$ assigns $x'$ to $\rvx$,
+then it follows immediately, without 
+any need for MP, that
+$P(x|e.)=\delta(x,x')$.
+
+%Pearl's MP algorithm yields yields 
+%a tautology $P(x)=P(x)$
+%if $\rve.=\emptyset$
+%so use an $\rve.$ containing
+%the root nodes $\rvr.$. Since $P(r.)$
+%is known and 
+%the Pearl MP algo can give $P(x|r.)$ 
+%, one can use
+%P(x)=\sum_{r.}P(x|r.)P(r.)
+%to evaluate $P(x)$.
+
+
+$(\rva_i)_{i=0,1, \ldots, na-1}$. = parent nodes
+ (mnemonic: a=ancestor) of $\rvx$
+
+$(\rvb_i)_{i=0,1, \ldots, nb-1}$. = 
+children nodes of $\rvx$
+
+For any node $\rvy$, including 
+the focus node $\rvx$ and 
+$\rvx$'s parents $\rva_i$ and children $\rvb_i$,
+define:
+
+$\ul{de}(\rvy)$=set of
+nodes that are descendants of $\rvy$,
+including $\rvy$.
+
+$\rvD_\rvy=\rve.\cap \ul{de}(\rvy)$
+
+$\rvN_\rvy=\rve.- \ul{de}(\rvy)$= all evidence
+nodes not in $\rvD_\rvy$
+
+\beq
+\pi_{ \rvx}(x)
+=
+P(x|N_\rvx)
+\eeq
+
+\beq
+\pi_{ \rvx\larrow \rva_i}(a_i)
+=
+P(a_i|N_{\rva_i})
+\eeq
+
+\beq
+\pi_{ \rvb_i\larrow \rvx}(x)
+=
+P(x|N_{\rvb_i})
+\eeq
+
+\beq
+\lam_{\rvx} (x)=P(D_\rvx|x)
+\eeq
+
+\beq
+\lam_{\rvb_i\rarrow \rvx} (x)
+=P(D_{\rvb_i}|x)
+\eeq
+
+\beq
+\lam_{\rvx\rarrow \rva_i} (a_i)
+=P(D_{\rva_i}|a_i)
+\eeq
+
+Mnemonic: All these probabilities 
+are conditioned on where the messages
+originate: the $\pi$ messages
+originate from the 
+ancestors $N$,
+and the $\lam$ messages originate
+from the descendants  $D$.
+
+\hrule\noindent
+{\bf Expansions
+of $\lam_\rvx(x)$ and $\pi_\rvx(x)$
+into products of single node messages.}
+
+Note that
+\beq
+D_\rvx=\cup_i D_{\rvb_i}
+\;,
+\eeq
+and
+
+\beq
+N_\rvx=\cup_i N_{\rva_i}
+\;.
+\eeq
+Therefore, 
+
+
+\beqa
+\underbrace{
+P(x|N_\rvx)
+}_{\pi_\rvx(x)}
+&=&
+P(x|\cup_i N_{\rva_i})
+\\
+&=&
+\sum_{a^{na}}
+P(x|a^{na})
+P( a^{na}|\cup_i N_{\rva_i})
+\\
+&=&
+\sum_{a^{na}}
+P(x|a^{na})
+\prod_i 
+\underbrace{
+P(a_i| N_{\rva_i})}_{
+\pi_{\rvx\larrow \rva_i}(a_i)
+}
+\eeqa
+
+\beq
+\underbrace{
+P(D_\rvx|x)
+}_{\lam_\rvx(x)}
+=\prod_i 
+\underbrace{
+P(D_{\rvb_i}|x)
+}_{\lam_{\rvb_i\rarrow \rvx}(x)}
+\eeq
+\hrule
+
+Note that past and future evidences
+$N_\rvx$ and $D_\rvx$ 
+that are
+causally connected to $\rvx$
+are 
+conditionally
+independent at fixed $\rvx$:
+
+\beq
+P(D_\rvx, N_\rvx|x)
+=
+P(D_\rvx|x) P(N_\rvx|x)
+\;.
+\eeq
+
+This observation is key to the proof of
+the following claim:
+
+\begin{claim}
+\beqa
+P(x| D_\rvx, N_\rvx)
+&=&
+P(D_\rvx|x) P(x|N_\rvx
+)\frac{1}{P(D_\rvx|N_\rvx)}
+\\
+&=&
+\caln(!x)
+P(D_\rvx|x)P(x|N_\rvx)
+\\
+&=&
+\caln(!x)\;\;\;
+(D_\rvx\larrow x \larrow N_\rvx)
+\\&=&
+\caln(!x)
+\lam_\rvx (x)
+\pi_\rvx(x)
+\eeqa   
+
+
+\end{claim}
+\proof
+
+\beqa
+ P(x|D_\rvx, N_\rvx)
+&=&
+P(D_\rvx, N_\rvx|x)\frac{P(x)}{P(D_\rvx, N_\rvx)}
+\\
+&=&
+P(D_\rvx|x) P(N_\rvx|x)\frac{P(x)}{P(D_\rvx, N_\rvx)}
+\\
+&=&
+P(D_\rvx|x) P(x|N_\rvx
+)\frac{P(N_\rvx)}{P(D_\rvx, N_\rvx)}
+\\
+&=&
+P(D_\rvx|x) P(x|N_\rvx
+)\frac{1}{P(D_\rvx|N_\rvx)}
+\eeqa
+\qed
+
+Next we prove Pearl's MP rules 1 and 2.
+
+\begin{itemize}
+\item {\bf RULE 1 (red parent)}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=3in]
+{mpass/mpass-rule-1.png}
+\caption{This figure is
+used in the derivation of the Pearl MP
+RULE 1.} 
+\label{fig-mpass-rule-1}
+\end{figure}
+
+Note that
+
+\beqa
+D_\rvx \cup \cup_{k\neq i}N_{\rva_k}
+&=&
+(D_\rvx\cup N_\rvx) - N_{\rva_i}
+\\
+&=&
+D_{\rva_i}
+\eeqa
+
+Let $y=(a_k)_{k\neq i}$ and
+$N_\rvy=(N_{\rva_k})_{k\neq i}$.
+
+\beqa
+\underbrace{
+P(D_{\rva_i}|a_i)
+}_{\lam_{\rvx\rarrow\rva_i}(a_i)}
+&=&
+P(D_\rvx, N_\rvy|a_i)
+\\
+&=&
+\sum_x 
+\sum_y
+P(D_\rvx, N_\rvy|x,y)
+P(x, y|a_i)
+\\
+&=&
+\sum_x 
+\sum_y
+P(D_\rvx|x)
+P(N_\rvy|y)
+P(x|y, a_i )P(y|a_i)
+\\
+&=&
+P(N_\rvy)
+\sum_x 
+\sum_y
+P(D_\rvx|x)
+\frac{P(y|N_\rvy)}{P(y)}
+P(x|y, a_i )
+\underbrace{P(y|a_i)}_{=P(y)}
+\\
+&=&
+\caln(!a_i)
+\sum_x 
+\sum_y
+P(D_\rvx|x)
+P(x|
+\underbrace{
+y, a_i 
+}_{a^{na}}
+)P(y|N_\rvy)
+\\
+&=&
+\caln(!a_i)
+\sum_x
+\underbrace{
+P(D_\rvx|x)
+}_{\lam_{\rvx}(x)}
+\sum_{(a_k)_{k\neq i}}
+P(x| a^{na})
+\prod_{k\neq i}
+\underbrace{
+P(a_k|N_{\rva_k})
+}_{\pi_{\rvx\larrow \rva_k}(a_k)}
+\eeqa
+
+\item{\bf RULE 2 (red child)}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=3in]
+{mpass/mpass-rule-2.png}
+\caption{This figure is
+used in the derivation of the Pearl MP
+RULE 2.} 
+\label{fig-mpass-rule-2}
+\end{figure}
+
+Note that
+
+\beqa
+(\cup _{k\neq i}
+D_{\rvb_k})\cup N_\rvx
+&=&
+(D_\rvx\cup N_\rvx) - D_{\rvb_i}
+\\
+&=&
+N_{\rvb_i}
+\eeqa
+
+
+\beqa
+\underbrace{
+P(x| N_{\rvb_i})
+}_{\pi_{\rvb_i\larrow \rvx}(x)}
+&=&
+P(x| (D_{\rvb_k})_{k\neq i}, N_\rvx)
+\\
+&=&
+\caln(!x)
+P((D_{\rvb_k})_{k\neq i}|x)P(x|N_\rvx)
+\\&=&
+\caln(!x)
+\left(
+\prod_{k\neq i}
+\underbrace{
+P(D_{\rvb_k}|x)
+}_{\lam_{\rvb_k\rarrow\rvx}(x)}
+\right)
+\underbrace{
+P(x|N_\rvx)
+}_{\pi_\rvx(x)}
+\eeqa
+
+\end{itemize}
+
+
 
 
 \hrule
@@ -346,7 +722,7 @@ $$\xymatrix{
 &\rvA_{10}
 &\rvA_{11}
 }$$
-\caption{bnet for a full binary 
+\caption{bnet for a binary 
 tree with 3 levels. $\rvA$ is
 the apex root node.}
 \label{fig-full3-tree}
@@ -356,56 +732,87 @@ the apex root node.}
 \centering
 $$\xymatrix{
 \rvA\ar[d]\ar@/_2pc/[dd]
-&\ucalm_\rvA^{(0)}\ar[rd]\ar[rdd]
+&\ucalm_\rvA^{(0)}
 \ar[r]
 &\ucalm_\rvA^{(1)}
 \ar[r]
-&\ucalm_{\rvA}^{(2)}
+&\ucalm_\rvA^{(2)}\ar[rd]\ar[rdd]
+\ar[r]
+&\ucalm_\rvA^{(3)}
+\ar[r]
+&\ucalm_{\rvA}^{(4)}
 \\
 \rvA_{0}\ar@/_2pc/[dd]\ar@/_2pc/[ddd]
 &\ucalm_{\rvA_{0}}^{(0)}
 \ar[r]
-&\ucalm_{\rvA_{0}}^{(1)}
-\ar[r]\ar[rddd]\ar[rdd]
+&\ucalm_{\rvA_{0}}^{(1)}\ar[ru]
+\ar[r]
 &\ucalm_{\rvA_{0}}^{(2)}
+\ar[r]
+&\ucalm_{\rvA_{0}}^{(3)}
+\ar[rdd]\ar[rddd]
+\ar[r]
+&\ucalm_{\rvA_{0}}^{(4)}
 \\
 \rvA_{1}\ar@/_2pc/[ddd]\ar@/_2pc/[dddd]
 &\ucalm_{\rvA_{1}}^{(0)}
 \ar[r]
-&\ucalm_{\rvA_{1}}^{(1)}
-\ar[rddd]\ar[rdddd]
+&\ucalm_{\rvA_{1}}^{(1)}\ar[ruu]
 \ar[r]
 &\ucalm_{\rvA_{1}}^{(2)}
+\ar[r]
+&\ucalm_{\rvA_{1}}^{(3)}
+\ar[rddd]\ar[rdddd]
+\ar[r]
+&\ucalm_{\rvA_{1}}^{(4)}
 \\
 \rvA_{00}
-&\ucalm_{\rvA_{00}}^{(0)}
+&\ucalm_{\rvA_{00}}^{(0)}\ar[ruu]
 \ar[r]
 &\ucalm_{\rvA_{00}}^{(1)}
+\ar[r]
 &\ucalm_{\rvA_{00}}^{(2)}
+\ar[r]
+&\ucalm_{\rvA_{00}}^{(3)}
+v
+&\ucalm_{\rvA_{00}}^{(4)}
 \\
 \rvA_{01}
-&\ucalm_{\rvA_{01}}^{(0)}
+&\ucalm_{\rvA_{01}}^{(0)}\ar[ruuu]
 \ar[r]
 &\ucalm_{\rvA_{01}}^{(1)}
 \ar[r]
 &\ucalm_{\rvA_{01}}^{(2)}
+\ar[r]
+&\ucalm_{\rvA_{01}}^{(3)}
+\ar[r]
+&\ucalm_{\rvA_{01}}^{(4)}
 \\
 \rvA_{10}
-&\ucalm_{\rvA_{10}}^{(0)}
+&\ucalm_{\rvA_{10}}^{(0)}\ar[ruuu]
 \ar[r]
 &\ucalm_{\rvA_{10}}^{(1)}
 \ar[r]
 &\ucalm_{\rvA_{10}}^{(2)}
+\ar[r]
+&\ucalm_{\rvA_{10}}^{(3)}
+\ar[r]
+&\ucalm_{\rvA_{10}}^{(4)}
 \\
 \rvA_{11}
-&\ucalm_{\rvA_{11}}^{(0)}
+&\ucalm_{\rvA_{11}}^{(0)}\ar[ruuuu]
 \ar[r]
 &\ucalm_{\rvA_{11}}^{(1)}
 \ar[r]
 &\ucalm_{\rvA_{11}}^{(2)}
+\ar[r]
+&\ucalm_{\rvA_{11}}^{(3)}
+\ar[r]
+&\ucalm_{\rvA_{11}}^{(4)}
 }$$
 \caption{messages-bnet
-for the source-bnet Fig.\ref{fig-full3-tree}.}
+for the source-bnet
+ Fig.\ref{fig-full3-tree}.}
 \label{fig-mp-bnet-for-tree}
 \end{figure}
 Fig.\ref{fig-mp-bnet-for-tree} 
@@ -454,17 +861,15 @@ P(\calm_{\rvx}^{(t)}\cond
 \;.
 \eeq
 
-As for the root nodes
+As for the leaf nodes
 of the messages-bnet  at time $t=0$,
-they should encode the prior
-prob  distributions
-of the source bnet Fig.\ref{fig-full3-tree}.
-In this example, the only root node 
-of the source bnet is $\rvA$. Thus, let
+let
+
 
 \beq
 IN^{(0)}_\rvA=0,\;\;
-OUT^{(0)}_\rvA= P_\rvA(\cdot),\;\;
+OUT^{(0)}_\rvA= \text{1 at each
+leaf node},\;\;
 \calm^{(0)}_\rvA=(IN^{(0)}_\rvA,OUT^{(0)}_\rvA)
 \eeq
 
@@ -480,6 +885,34 @@ P(\calm^{(0)}_\rvA)=
 \centering
 $$
 \begin{array}{cc}
+\xymatrix{
+\rvA\ar[d]\ar[dr]
+\\
+\rvA_{0}\ar[d]\ar[dr]
+&\rvA_{1}\ar[dr]\ar[drr]
+\\
+\rvA_{00}\ar@[red]@{.>}@<2ex>[u]
+&\rvA_{01}\ar@[red]@{.>}@<2ex>[ul]
+&\rvA_{10}\ar@[red]@{.>}@<2ex>[ul]
+&\rvA_{11}\ar@[red]@{.>}@<2ex>[ull]
+}
+&
+\xymatrix{
+\rvA\ar[d]\ar[dr]
+\\
+\rvA_{0}\ar[d]\ar[dr]
+\ar@[red]@{.>}@<2ex>[u]
+&\rvA_{1}\ar[dr]\ar[drr]
+\ar@[red]@{.>}@<2ex>[ul]
+\\
+\rvA_{00}
+&\rvA_{01}
+&\rvA_{10}
+&\rvA_{11}
+}
+\\
+\text{t= 0-1}&\text{t= 1-2}
+\\
 \xymatrix{
 \rvA\ar[d]\ar[dr]
 \ar@[red]@{-->}@<2ex>[d]
@@ -510,7 +943,7 @@ $$
 &\rvA_{11}
 }
 \\
-\text{t= 0-1}&\text{t= 1-2}
+\text{t= 2-3}&\text{t= 3-4}
 \end{array}
 $$
 \caption{
@@ -522,33 +955,16 @@ Fig.\ref{fig-full3-tree}.
 As usual, we use arrows with
 dashed (resp., dotted) shafts for
 downstream (resp., upstream) messages. 
-In this diagram, there are only
-dashed arrows.
 }
 \label{fig-full3-tree-messages}
 \end{figure}
 
-If the state of a node
-is known a priori (i.e., 
-there is a prior  ``evidence"
-for that node),
-then,
-in the MP procedure,  replace that
-node's TPM by
-a Kronecker delta function.
-$BEL^{(t)}(x)$ should
-now  converge to $P(x|\text{ a priori
-evidence for
- all nodes})$.
 
 In Fig.\ref{fig-full3-tree-messages},
 the messages passed in the messages-bnet
 are indicated by red arrows
 on the source bnet.
 
-
-
-\newpage
 \section*{Bipartite bnets}
 
 By a {\bf bipartite bnet}
@@ -576,9 +992,12 @@ equivalent bipartite bnets:
 
 Consider a product $g=\prod_\alp f_\alp$
 of scalar functions
- $f_\alp:\RR^{nx(\alp)}\rarrow \RR$
+ $f_\alp:S_{\rvx_0}
+\times S_{\rvx_1}
+\times \ldots S_{\rvx_{nx-1}}\rarrow \RR$
 for $\alp=0, 1, \ldots nf-1$. For instance, 
-consider $g:\RR^3\rarrow \RR$
+consider $g:S_{\rvx_0}
+\times S_{\rvx_1} \times S_{\rvx_2}\rarrow \RR$
 defined by:
 
 \beq
@@ -629,7 +1048,7 @@ can map
 any factor graph (the ``source")
 to a special bipartite bnet (the ``image"),
 as follows.
-Replace each $x_i$ by $\rvx_i\in\RR$
+Replace each $x_i$ by $\rvx_i\in S_{\rvx_i}$
 for $i=0,1, \ldots, nx-1$
  and each
  $f_\alpha$ by $\rvf_\alpha\in \RR$
@@ -640,7 +1059,7 @@ of the factor graph
 by arrows from $\rvx_i$ to
 $\rvf_\alpha$. For example,
 Fig.\ref{fig-bip-bnet}
-is the image of the factor 
+is the image bnet of the source factor 
 graph Fig.\ref{fig-fac-graph}.
 
 
@@ -664,8 +1083,8 @@ image bipartite bnet, to be
 
 \beq\color{blue}
 P(f_\alpha|x_{nx(\rvf_\alpha)})= 
-\caln(!x_{nb(\rvf_\alpha)})
-f_\alpha(x_{nb(\rvf_\alpha)})
+\delta(f_\alp, 
+f_\alpha(x_{nb(\rvf_\alpha)}))
 \;
 \eeq
 for $\alp=0, 1, \ldots , nf-1$
@@ -679,8 +1098,7 @@ for $i=0, 1, \ldots, nx-1$.
 Note that
 
 \beq
-P(f^{nf}|x^{nx})=
-\caln(!x^{nx})
+E_{\rvf^{nf}}\left[\prod_\alp f_\alp\right]=
 \prod_\alpha 
 f_\alpha(x_{nb(\rvf_\alpha)})
 \;.
@@ -799,7 +1217,8 @@ TPMs of the source bnet
 Fig.\ref{fig-part3-tree}.
 
 \beq\color{blue}
-P(P_{\rvy|\rvx}| x, y)=P_{\rvy|\rvx}(y|x)
+P(P_{\rvy|\rvx}| x, y)=
+\delta(P_{\rvy|\rvx}, P_{\rvy|\rvx}(y|x))
 \eeq
 for all the
 \ul{leaf} 
@@ -855,16 +1274,16 @@ nb( \rvf_\alpha)\}
 m_{\alp\larrow i}
 (x_i)
 =
-\pi_{\rvf_\alpha \lcond\rvx_i }
+\pi_{\rvf_\alpha \larrow\rvx_i }
 (x_i)
 \;,
 \eeq
 
 \beq
-m_{i\larrow \alp}
+m_{\alp\rarrow i}
 (x_i)
 =
-\lam_{\rvf_\alp\rcond \rvx_i}
+\lam_{\rvf_\alp\rarrow \rvx_i}
 (x_i)
 \;,
 \eeq
@@ -890,7 +1309,7 @@ node.}
 Next we will
 show how
 to find $m_{\alp\larrow i}^{(t)}$
-and $m_{i\larrow \alp}^{(t)}$
+and $m_{\alp\rarrow i}^{(t)}$
 from other messages at times
  $t$ and  $t-1$.
 
@@ -913,7 +1332,7 @@ m^{(t)}_{\alp\larrow i }(x_i)
 =
 \prod_{
 \beta\in nb(i)-\alpha}
-m^{(t-1)}_{i\larrow \beta}(x_i)
+m^{(t-1)}_{\beta\rarrow i}(x_i)
 \;,
 \label{eq-mp-iter1}
 \eeq
@@ -926,10 +1345,10 @@ m^{(t-1)}_{\alp\larrow i}
 \eeq
 
 \item {\bf
-We find $m_{i\larrow \alp}^{(t)}$ as follows.}
+We find $m_{\alp\rarrow i}^{(t)}$ as follows.}
 
 See the
-$m_{\rvx_2\larrow\rvf_1 }$ panel
+$m_{\rvf_1\rarrow \rvx_2}$ panel
 of Fig.\ref{fig-messages-bip}.
 
 For $\alp=0, 1, \ldots, nf-1$, if
@@ -937,7 +1356,7 @@ For $\alp=0, 1, \ldots, nf-1$, if
 
 
 \beqa
-m^{(t)}_{i\larrow \alp}(x_i)
+m^{(t)}_{\alp\rarrow i}(x_i)
 &=&
 \sum_{(x_k)_{k\in nb(\alpha)-i}}
 f_\alpha(x_{nb(\alpha)})
@@ -954,18 +1373,16 @@ f_\alpha(x_{nb(\alpha)})]
 whereas if $i\notin nb(\alp)$
 
 \beq
-m^{(t)}_{i\larrow \alp}(x_i)
+m^{(t)}_{\alp\rarrow i}(x_i)
 =
-m^{(t-1)}_{i\larrow \alp}(x_i)
+m^{(t-1)}_{\alp\rarrow i}(x_i)
 \;.
 \eeq
 
 \end{enumerate}
 
 In the above
-equations for
-$m_{\alp\larrow i}^{ (t)}$
-and $m_{i\larrow \alp}^{ (t)}$, if the
+equations, if the
 range set of a product is empty, then
  define the product as 1; i.e., 
 $\prod_{k\in \emptyset}F(k)=1$.
@@ -979,7 +1396,7 @@ $\prod_{k\in \emptyset}F(k)=1$.
 P(x_i)=
 \lim_{t\rarrow 
 \infty}\caln(!x_i)\prod_{\alp\in nb(i)}
-m^{(t)}_{i\larrow \alp}(x_i)
+m^{(t)}_{\alp\larrow i}(x_i)
 \;
 \label{eq-m-prod}
 \eeq
@@ -990,7 +1407,7 @@ P(x_{nb(\alp)})=\lim_{t\rarrow \infty}
 \caln(!x_{nb(\alp)})
 f_\alp(x_{nb(\alp)})
 \prod_{i\in nb(\alp)}
-m^{(t)}_{\alp\larrow i}(x_i)
+m^{(t)}_{\alp\rarrow i}(x_i)
 \;.
 \label{eq-f-m-prod}
 \eeq
@@ -1035,7 +1452,10 @@ algo very advantageous.
 
 
 Note that given
-a function $g:\RR^{nx}\rarrow \RR$,
+a function $g:
+S_{\rvx_0}\times S_{\rvx_1}
+\times \ldots \times S_{\rvx_{nx-1}}
+\rarrow \RR$,
 one can find
 $\argmax_{x^{nx}} g(x^{nx})$ (or
 argmin)
@@ -1066,11 +1486,11 @@ P(A) = P_\rvA(A)
 \eeq
 
 \beq\color{blue}
-P(m^{(t)}_{i\larrow \alp}(\cdot)\cond
-pa[m^{(t)}_{i\larrow \alp}(\cdot)]
+P(m^{(t)}_{\alp\rarrow i}(\cdot)\cond
+pa[m^{(t)}_{\alp\rarrow i}(\cdot)]
 )=
 \indi(\;\;\;
-m^{(t)}_{i\larrow \alp}(x_i)
+m^{(t)}_{\alp\rarrow i}(x_i)
 =
 E^{(t-1)}_{(x_k)_{k\in nb(\alpha)-i}}[
 f_\alpha(x_{nb(\alpha)})]
@@ -1089,7 +1509,7 @@ m^{(t)}_{\alp\larrow i }(x_i)
 =
 \prod_{
 \beta\in nb(i)-\alpha}
-m^{(t-1)}_{i\larrow \beta}(x_i)
+m^{(t-1)}_{\beta\rarrow i}(x_i)
 \;\;\;)
 \eeq
 
@@ -1102,10 +1522,10 @@ m^{(1)}_{\ul{P_{\rvA_0|\rvA}}\larrow\rvA}\ar[d]
 &&
 m^{(1)}_{\ul{P_{\rvA_1|\rvA}}\larrow\rvA}\ar[d]
 \\
-mm^{(2)}_{\rvA_0\larrow \ul{P_{\rvA_0|\rvA}}}
+m^{(2)}_{ \ul{P_{\rvA_0|\rvA}}\rarrow\rvA_0}
 \ar[d]\ar[dr]
 &&
-m^{(2)}_{\rvA_1\larrow \ul{P_{\rvA_1|\rvA}}}
+m^{(2)}_{ \ul{P_{\rvA_1|\rvA}}\rarrow\rvA_1}
 \\
 m^{(3)}_{
 \ul{P_{\rvA_{00}|\rvA_0}}\larrow \rvA_0}\ar[d]
@@ -1113,10 +1533,10 @@ m^{(3)}_{
 m^{(3)}_{
 \ul{P_{\rvA_{01}|\rvA_0}}\larrow \rvA_0}\ar[d]
 \\
-m^{(4)}_{\rvA_{00}
-\larrow \ul{P_{\rvA_{00}|\rvA_0}}}
-&m^{(4)}_{\rvA_{00}
-\larrow \ul{P_{\rvA_{01}|\rvA_0}}}
+m^{(4)}_{
+ \ul{P_{\rvA_{00}|\rvA_0}}\rarrow\rvA_{00}}
+&m^{(4)}_{
+ \ul{P_{\rvA_{01}|\rvA_0}}\rarrow\rvA_{00}}
 }
 $$
 \caption{messages-bnet
@@ -1170,11 +1590,11 @@ from the MP algorithm:
 \beq
 P(A_{00})=
 \caln(!A_{00})
-m_{\rvA_{00}\larrow \ul{P_{\rvA_{00}|\rvA_0}}}(A_{00})
+m_{ \ul{P_{\rvA_{00}|\rvA_0}}\rarrow\rvA_{00}}(A_{00})
 \eeq
 
 \beq
-m_{\rvA_{00}\larrow \ul{P_{\rvA_{00}|\rvA_0}}}(A_{00})
+m_{ \ul{P_{\rvA_{00}|\rvA_0}}\rarrow\rvA_{00}}(A_{00})
 =
 \sum_{A_0}
 P(A_{00}|A_0)
@@ -1184,11 +1604,11 @@ m_{\ul{P_{\rvA_{00}|\rvA_0}}\larrow \rvA_0}(A_0)
 \beq
 m_{\ul{P_{\rvA_{00}|\rvA_0}}\larrow \rvA_0}(A_0)
 =
-m_{\rvA_0\larrow\ul{P_{\rvA_{0}|\rvA}} }(A_0)
+m_{\ul{P_{\rvA_{0}|\rvA}}\rarrow\rvA_0 }(A_0)
 \eeq
 
 \beq
-m_{\rvA_0\larrow\ul{P_{\rvA_{0}|\rvA}} }(A_0)=
+m_{\ul{P_{\rvA_{0}|\rvA}}\rarrow \rvA_0}(A_0)=
 \sum_{A}P(A_0|A)
 m_{\ul{P_{\rvA_{0}|\rvA}}\larrow \rvA}(A)
 \eeq
