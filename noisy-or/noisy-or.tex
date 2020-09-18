@@ -40,7 +40,8 @@ $\ul{\pi}_i\in[0,1]$ are
 
 The TPM, printed in blue,
  for the Noisy-OR gate $\rvy$ 
-shown in Fig.\ref{fig-noisy-or-simple}, is
+shown in Fig.\ref{fig-noisy-or-simple},
+ is
 
 \beq\color{blue}
 P(y=1|x^n, \lam, \pi^n)=
@@ -110,7 +111,7 @@ $(\ul{\pi}_i)_{i=0,1,2}$
 by 
 hidden nodes
 $(\rvh_i)_{i=0,1,2}$.}
-\label{fig-noisy-hi-nodes}
+\label{fig-noisy-or-hid}
 \end{figure}
 
 
@@ -123,9 +124,14 @@ $\rvh_i\in \bool$
 associated exclusively 
 with each $\rvx_i$.
 More precisely, 
-consider Fig.\ref{fig-noisy-hi-nodes}.
+consider Fig.\ref{fig-noisy-or-hid}.
+
+Let $\rvx_i, \rvh_i, \rvA_i, \rvy\in \bool$.
+
 The TPMs, printed  in blue, for the
-nodes of that bnet are as follows:
+nodes of the bnet
+Fig.\ref{fig-noisy-or-hid},
+are as follows:
 
 \beq\color{blue}
 P(h_i)=\pi_i\delta(h_i,1)
@@ -133,22 +139,25 @@ P(h_i)=\pi_i\delta(h_i,1)
 \eeq
 
 \beq\color{blue}
-P(y|A^n)= \delta(y, 1-(1-\lam) \A_{i=0}^{n-1}A_i)=
-\delta(y, 1 - (1-\lam) \prod_{0}^{n-1}A_i)
+P(y|A^n)= \delta(y, 1-(1-\lam) \A_{i=0}^{n-1}
+\ol{A}_i)=
+\delta(y, 1 - (1-\lam) \prod_{0}^{n-1}(1-A_i))
 \eeq
 
 \beq\color{blue}
-P(A_i|h_i, x_i)= \delta(A_i, \ol{h_i\A x_i})
-= \delta(A_i, 1-h_i x_i)
+P(A_i|h_i, x_i)= \delta(A_i, h_i\A x_i)
+= \delta(A_i, h_i x_i)
 \eeq
 Note that
 
 \beqa
 P(y=1|x^n, \lam)&=&
-\sum_{A^n}\sum_{h^n}
+\sum_{h^n}
+\sum_{A^n}
 \left[
- 1 - (1-\lam) \prod_{0}^{n-1}A_i\right]
-\delta(A_i, 1-h_i x_i)P(h^n)
+ 1 - (1-\lam) 
+\prod_{0}^{n-1}(1-A_i)\right]
+\delta(A_i, h_i[s] x_i)P(h^n[s])
 \\
 &=&
 E_{\rvh^n}\left[
@@ -180,23 +189,27 @@ P(y=1|x^n, \lam)=
 
 \begin{figure}[h!]
 $$\xymatrix{
-\rvx_0\ar[dr]\ar@/_1pc/[ddrr]
-&&\rvx_1\ar[d]\ar@/_1pc/[dd]
-&&\rvx_2\ar@/_1pc/[ddll]\ar[dl]
+\ul{\vech}_0\ar[ddr]
+&&\ul{\vech}_1\ar@/_1pc/[dd]
+&&\ul{\vech}_2\ar[ddl]
 \\
-&\vec{\rva}_0\ar[dr]
-&\vec{\rva}_1\ar[d]
-&\vec{\rva}_2\ar[dl]
+\rvx_0\ar[rd]
+&&\rvx_1\ar[d]
+&&\rvx_2\ar[ld]
+\\
+&\rvA_0\ar[dr]
+&\rvA_1\ar[d]
+&\rvA_2\ar[dl]
 \\
 &\ul{\lam}\ar[r]
 &\rvy
 }$$
-\caption{ Fig.\ref{fig-noisy-or-simple}
-after replacing parameters 
-$(\ul{\pi}_i)_{i=0,1,2}$
+\caption{ Fig.\ref{fig-noisy-or-hid}
+after replacing the hidden nodes 
+$(\rvh_i)_{i=0,1,2}$
 by 
 vectors 
-of samples $(\vec{\rva}_i)_{i=0,1,2}$.}
+of samples $(\vec{\rvh}_i)_{i=0,1,2}$.}
 \label{fig-noisy-or-sams}
 \end{figure}
 
@@ -208,67 +221,94 @@ them with an
 empirical probability 
 distribution associated 
 with a vector of samples
-$\vec{\rva}_i$.
-Suppose
-$\vec{\rva}_i=(\rva_i[s])_
-{s=0, 1, \ldots, nsam-1}$ 
-and  the 
-boolean samples $\rva_i[s]\in \bool$
- are i.i.d. with
-$\rva_i[s]\sim P_{\rva_i|\rvx_i}$
-for all $s$.
-Define
+$\vec{\rvh}_i$.
+More precisely,
+consider Fig.\ref{fig-noisy-or-sams}.
+
+Suppose  $\rvh_i\in \bool$ and
+define
 
 \beq
-P_{\rva_i|\rvx_i}(a_i|x_i)=
-(1-\pi_i x_i)\delta(a_i, 1)
+P_{\rvh_i}(h_i)=
+\pi_i\delta(h_i, 1)
 +
-\pi_i x_i \delta(a_i, 0)
+(1-\pi_i)\delta(h_i, 0)
 \;.
 \eeq
+Suppose $\vec{\rvh}_i=(\rvh_i[s])_
+{s=0, 1, \ldots, nsam-1}$ 
+and  the 
+boolean samples $\rvh_i[s]\in \bool$
+ are i.i.d. with
+$\rvh_i[s]\sim P_{\rvh_i}$
+for all $s$.
+
 Note that for each $i$,
-$P_{\rva_i|\rvx_i}(a_i|x_i)$
+an estimate 
+$\hat{P}_{\rvh_i}(h_i)$
+of
+$P_{\rvh_i}(h_i)$
 can be 
 obtained
 from the vector of samples
-$\vec{\rva}_i$ 
+$\vec{\rvh}_i$ 
 as follows:
 
 
 \beq
-P_{\rva_i|\rvx_i}(a_i|x_i)=
+\hat{P}_{\rvh_i}(h_i)=
 \frac{1}{nsam}
-\sum_{s=0}^{nsam-1} \indi(a_i[s]=a_i)
+\sum_{s=0}^{nsam-1} \indi(h_i[s]=h_i)
 \;.
 \eeq
-The same noisy-or gate $\rvy$
-that we first defined with
-Fig.\ref{fig-noisy-or-simple}
-can also be defined using
-Fig.\ref{fig-noisy-or-sams}.
-The TPM, printed in blue,
-for  
-the nodes $\rvy$
-and $(\vec{\rva}_i)_{i=0,1,\ldots, n-1}$
-of Fig.\ref{fig-noisy-or-sams}, are  as follows:
-From Eq.(\ref{eq-noisy-or-tmp-1}),
-we get:
+
+
+Let $\rvx_i, \rvh_i[s], \rvA_i, \rvy\in \bool$.
+
+The TPMs, printed  in blue, for the
+nodes of the bnet
+Fig.\ref{fig-noisy-or-sams},
+are as follows:
 
 \beq\color{blue}
-P(y=1|x^n, \lam, \veca^n=(1^{nsam})^n)=
-1-(1-\lam)\prod_i P_{\rva_i|\rvx_i}(1|x_i)
-\;.
+P(\vech_i)=\prod_{s=0}^{nsam-1}
+P_\rvh(h_i[s])
 \eeq
-From the i.i.d. of 
-the samples, $\veca_i$, we get 
 
 \beq\color{blue}
-P(\veca_i|x_i)=
-\prod_s P_{\rva_i|\rvx_i}(a_i[s]\cond x_i)
-\;.
+P(y|A^n)= \delta(y, 1-(1-\lam) \A_{i=0}^{n-1}
+\ol{A}_i)=
+\delta(y, 1 - (1-\lam) \prod_{0}^{n-1}(1-A_i))
 \eeq
 
+\beq\color{blue}
+P(A_i|\vech_i, x_i)=
+\frac{1}{nsam}\sum_s
+ \delta(A_i, h_i[s]\A x_i)
+= \frac{1}{nsam}\sum_s
+\delta(A_i, h_i[s] x_i)
+\eeq
+Note that
 
+\beqa
+P(y=1|x^n, \lam, \vech^n)&=&
+\frac{1}{nsam}\sum_s \sum_{A^n}
+\left[
+ 1 - (1-\lam) \prod_{0}^{n-1}
+(1-A_i)\right]
+\delta(A_i, h_i[s] x_i)
+\\
+&=&
+\frac{1}{nsam}\sum_s 
+\left[
+[ 1 - (1-\lam) \prod_{0}^{n-1
+}(1-h_i[s] x_i)
+\right]
+\\
+&=&
+1 - (1-\lam) \prod_{0}^{n-1}(1-\pi_i x_i)
+\;.
+\eeqa
 
 
 \end{enumerate}
