@@ -20,7 +20,7 @@ with $n=3$, Boolean inputs $(\rvx_i)_{i=0,1,2}$
 and parameters 
 $\ul{\lam}, (\ul{\pi})_{i=0,1,2}$.
 }
-\label{fig-noisy-or-1}
+\label{fig-noisy-or-simple}
 \end{figure}
 
 Let
@@ -40,7 +40,7 @@ $\ul{\pi}_i\in[0,1]$ are
 
 The TPM, printed in blue,
  for the Noisy-OR gate $\rvy$ 
-shown in Fig.\ref{fig-noisy-or-1}, is
+shown in Fig.\ref{fig-noisy-or-simple}, is
 
 \beq\color{blue}
 P(y=1|x^n, \lam, \pi^n)=
@@ -66,7 +66,11 @@ P(y|x^n, \lam=0, \pi^n=1^n)=
 \;.
 \eeq
 
-
+\hrule\noindent
+{\bf 3 ways to interpret
+the parameters $\pi_i$:}
+\begin{enumerate}
+\item
 Note that if $\lam=0$ and $x^n$ is one hot (i.e., 
 $x^n=e^n_i$, where $e^n_i$
 is the vector with all components 
@@ -78,71 +82,101 @@ P(y=1|x^n=e^n_i, \lam=0, \pi^n)=
 1-[1-\pi_i]=\pi_i
 \;.
 \eeq
-This gives a meaning to the
+This gives an interpretation to the
 parameters $\pi_i$.
 
-Another way to
-give a meaning to the 
+\item
+
+\begin{figure}[h!]
+$$\xymatrix{
+\rvh_0\ar[ddr]
+&&\rvh_1\ar@/_1pc/[dd]
+&&\rvh_2\ar[ddl]
+\\
+\rvx_0\ar[rd]
+&&\rvx_1\ar[d]
+&&\rvx_2\ar[ld]
+\\
+&\rvA_0\ar[dr]
+&\rvA_1\ar[d]
+&\rvA_2\ar[dl]
+\\
+&\ul{\lam}\ar[r]
+&\rvy
+}$$
+\caption{Fig.\ref{fig-noisy-or-simple}
+after replacing parameters 
+$(\ul{\pi}_i)_{i=0,1,2}$
+by 
+hidden nodes
+$(\rvh_i)_{i=0,1,2}$.}
+\label{fig-noisy-hi-nodes}
+\end{figure}
+
+
+Another way of
+interpreting the 
 parameters $\pi_i$
-is to associate each of 
-them with an
-empirical probability 
-distribution associated 
-with a vector of samples
-$\vec{\rva}_i$.
-Suppose
-$\vec{\rva}_i=(\rva_i[s])_
-{s=0, 1, \ldots, nsam-1}$ 
-and  the samples $\rva_i[s]$
- are i.i.d. with
-$\rva_i[s]\sim P_{\rva_i|\rvx_i}$
-for all $s$.
-Define
-
-\beq
-P_{\rva_i|\rvx_i}(1|x_i)=1-\pi_i x_i
-\;.
-\eeq
-Note that for each $i$,
-$P_{\rva_i|\rvx_i}(1|x_i)$
-can be 
-obtained
-from the vector of samples
-$\vec{\rva}_i$ 
-as follows:
-
-
-\beq
-P_{\rva_i|\rvx_i}(1|x_i)=
-\frac{1}{nsam}
-\sum_{s=0}^{nsam-1} \indi(a_i[s]=1)
-\;.
-\eeq
-The same noisy-or gate $\rvy$
-that we first defined with
-Fig.\ref{fig-noisy-or-1}
-can also be defined using
-Fig.\ref{fig-noisy-or-2}.
-The TPM, printed in blue,
-for  
-the nodes $\rvy$
-and $(\vec{\rva}_i)_{i=0,1,\ldots, n-1}$
-of Fig.\ref{fig-noisy-or-2}, are  as follows:
-From Eq.(\ref{eq-noisy-or-tmp-1}),
-we get:
+is as averages of a hidden 
+node
+$\rvh_i\in \bool$
+associated exclusively 
+with each $\rvx_i$.
+More precisely, 
+consider Fig.\ref{fig-noisy-hi-nodes}.
+The TPMs, printed  in blue, for the
+nodes of that bnet are as follows:
 
 \beq\color{blue}
-P(y=1|x^n, \lam, \veca^n)=
-1-(1-\lam)\prod_i P_{\rva_i|\rvx_i}(1|x_i)
-\;.
+P(h_i)=\pi_i\delta(h_i,1)
++(1-\pi_i)\delta(h_i,0)
 \eeq
-Furthermore, 
 
 \beq\color{blue}
-P(\veca_i|x_i)=
-\prod_s P_{\rva_i|\rvx_i}(a_i[s]\cond x_i)
+P(y|A^n)= \delta(y, 1-(1-\lam) \A_{i=0}^{n-1}A_i)=
+\delta(y, 1 - (1-\lam) \prod_{0}^{n-1}A_i)
+\eeq
+
+\beq\color{blue}
+P(A_i|h_i, x_i)= \delta(A_i, \ol{h_i\A x_i})
+= \delta(A_i, 1-h_i x_i)
+\eeq
+Note that
+
+\beqa
+P(y=1|x^n, \lam)&=&
+\sum_{A^n}\sum_{h^n}
+\left[
+ 1 - (1-\lam) \prod_{0}^{n-1}A_i\right]
+\delta(A_i, 1-h_i x_i)P(h^n)
+\\
+&=&
+E_{\rvh^n}\left[
+[ 1 - (1-\lam) \prod_{0}^{n-1}(1-h_i x_i)
+\right]
+\;.
+\eeqa
+But
+
+
+\beq
+E_{\rvh_i}[h_i x_i]=
+\sum_{h_i=0,1} P(h_i)h_i x_i
+=
+\pi_i x_i
+\eeq
+so
+
+
+\beq
+P(y=1|x^n, \lam)=
+1 - (1-\lam) \prod_{0}^{n-1}(1-\pi_i x_i)
 \;.
 \eeq
+
+
+
+\item
 
 \begin{figure}[h!]
 $$\xymatrix{
@@ -157,11 +191,84 @@ $$\xymatrix{
 &\ul{\lam}\ar[r]
 &\rvy
 }$$
-\caption{ Fig.\ref{fig-noisy-or-1}
+\caption{ Fig.\ref{fig-noisy-or-simple}
 after replacing parameters 
 $(\ul{\pi}_i)_{i=0,1,2}$
 by 
 vectors 
 of samples $(\vec{\rva}_i)_{i=0,1,2}$.}
-\label{fig-noisy-or-2}
+\label{fig-noisy-or-sams}
 \end{figure}
+
+Another way to
+interpret the 
+parameters $\pi_i$
+is to associate each of 
+them with an
+empirical probability 
+distribution associated 
+with a vector of samples
+$\vec{\rva}_i$.
+Suppose
+$\vec{\rva}_i=(\rva_i[s])_
+{s=0, 1, \ldots, nsam-1}$ 
+and  the 
+boolean samples $\rva_i[s]\in \bool$
+ are i.i.d. with
+$\rva_i[s]\sim P_{\rva_i|\rvx_i}$
+for all $s$.
+Define
+
+\beq
+P_{\rva_i|\rvx_i}(a_i|x_i)=
+(1-\pi_i x_i)\delta(a_i, 1)
++
+\pi_i x_i \delta(a_i, 0)
+\;.
+\eeq
+Note that for each $i$,
+$P_{\rva_i|\rvx_i}(a_i|x_i)$
+can be 
+obtained
+from the vector of samples
+$\vec{\rva}_i$ 
+as follows:
+
+
+\beq
+P_{\rva_i|\rvx_i}(a_i|x_i)=
+\frac{1}{nsam}
+\sum_{s=0}^{nsam-1} \indi(a_i[s]=a_i)
+\;.
+\eeq
+The same noisy-or gate $\rvy$
+that we first defined with
+Fig.\ref{fig-noisy-or-simple}
+can also be defined using
+Fig.\ref{fig-noisy-or-sams}.
+The TPM, printed in blue,
+for  
+the nodes $\rvy$
+and $(\vec{\rva}_i)_{i=0,1,\ldots, n-1}$
+of Fig.\ref{fig-noisy-or-sams}, are  as follows:
+From Eq.(\ref{eq-noisy-or-tmp-1}),
+we get:
+
+\beq\color{blue}
+P(y=1|x^n, \lam, \veca^n=(1^{nsam})^n)=
+1-(1-\lam)\prod_i P_{\rva_i|\rvx_i}(1|x_i)
+\;.
+\eeq
+From the i.i.d. of 
+the samples, $\veca_i$, we get 
+
+\beq\color{blue}
+P(\veca_i|x_i)=
+\prod_s P_{\rva_i|\rvx_i}(a_i[s]\cond x_i)
+\;.
+\eeq
+
+
+
+
+\end{enumerate}
