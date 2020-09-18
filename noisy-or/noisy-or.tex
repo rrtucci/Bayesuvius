@@ -118,11 +118,11 @@ $(\rvh_i)_{i=0,1,2}$.}
 Another way of
 interpreting the 
 parameters $\pi_i$
-is as averages of a hidden 
-node
+is to associate 
+each of them with a hidden 
+variable
 $\rvh_i\in \bool$
-associated exclusively 
-with each $\rvx_i$.
+whose average equals $\pi_i$.
 More precisely, 
 consider Fig.\ref{fig-noisy-or-hid}.
 
@@ -138,11 +138,17 @@ P(h_i)=\pi_i\delta(h_i,1)
 +(1-\pi_i)\delta(h_i,0)
 \eeq
 
-\beq\color{blue}
-P(y|A^n)= \delta(y, 1-(1-\lam) \A_{i=0}^{n-1}
-\ol{A}_i)=
-\delta(y, 1 - (1-\lam) \prod_{0}^{n-1}(1-A_i))
-\eeq
+\beqa\color{blue}
+P(y|A^n)&=&
+\color{blue}
+ \delta(y, 1-(1-\lam) \A_{i=0}^{n-1}
+\ol{A}_i)
+\\
+&=&
+\color{blue}
+\delta(y, 1 - (1-\lam) 
+\prod_i(1-A_i))
+\eeqa
 
 \beq\color{blue}
 P(A_i|h_i, x_i)= \delta(A_i, h_i\A x_i)
@@ -156,12 +162,12 @@ P(y=1|x^n, \lam)&=&
 \sum_{A^n}
 \left[
  1 - (1-\lam) 
-\prod_{0}^{n-1}(1-A_i)\right]
-\delta(A_i, h_i[s] x_i)P(h^n[s])
+\prod_i(1-A_i)\right]
+[\prod_i \delta(A_i, h_i x_i)]P(h^n)
 \\
 &=&
 E_{\rvh^n}\left[
-[ 1 - (1-\lam) \prod_{0}^{n-1}(1-h_i x_i)
+[ 1 - (1-\lam) \prod_i(1-h_i x_i)
 \right]
 \;.
 \eeqa
@@ -179,7 +185,7 @@ so
 
 \beq
 P(y=1|x^n, \lam)=
-1 - (1-\lam) \prod_{0}^{n-1}(1-\pi_i x_i)
+1 - (1-\lam) \prod_i(1-\pi_i x_i)
 \;.
 \eeq
 
@@ -217,11 +223,9 @@ Another way to
 interpret the 
 parameters $\pi_i$
 is to associate each of 
-them with an
-empirical probability 
-distribution associated 
-with a vector of samples
-$\vec{\rvh}_i$.
+them a vector of samples
+$\vec{\rvh}_i$
+whose average is $\pi_i$.
 More precisely,
 consider Fig.\ref{fig-noisy-or-sams}.
 
@@ -238,7 +242,7 @@ P_{\rvh_i}(h_i)=
 Suppose $\vec{\rvh}_i=(\rvh_i[s])_
 {s=0, 1, \ldots, nsam-1}$ 
 and  the 
-boolean samples $\rvh_i[s]\in \bool$
+Boolean samples $\rvh_i[s]\in \bool$
  are i.i.d. with
 $\rvh_i[s]\sim P_{\rvh_i}$
 for all $s$.
@@ -275,38 +279,40 @@ P(\vech_i)=\prod_{s=0}^{nsam-1}
 P_\rvh(h_i[s])
 \eeq
 
-\beq\color{blue}
-P(y|A^n)= \delta(y, 1-(1-\lam) \A_{i=0}^{n-1}
-\ol{A}_i)=
-\delta(y, 1 - (1-\lam) \prod_{0}^{n-1}(1-A_i))
-\eeq
+\beqa\color{blue}
+P(y|A^n)&=& 
+\color{blue}
+\delta(y, 1-(1-\lam)
+ \A_{i=0}^{n-1}
+\ol{A}_i)
+\\
+&=&
+\color{blue}
+\delta(y, 1 - (1-\lam) \prod_i(1-A_i))
+\eeqa
 
-\beq\color{blue}
-P(A_i|\vech_i, x_i)=
-\frac{1}{nsam}\sum_s
- \delta(A_i, h_i[s]\A x_i)
-= \frac{1}{nsam}\sum_s
-\delta(A_i, h_i[s] x_i)
-\eeq
+\beqa\color{blue}
+P(A_i\cond \vech_i, x_i)
+&=&\color{blue}
+\delta(A_i, \frac{1}{nsam}\sum_s
+ h_i[s]\A x_i)
+\\
+&=&\color{blue}
+\delta(A_i, 
+ \pi_i x_i)
+\eeqa
 Note that
 
 \beqa
 P(y=1|x^n, \lam, \vech^n)&=&
-\frac{1}{nsam}\sum_s \sum_{A^n}
+\sum_{A^n}
 \left[
- 1 - (1-\lam) \prod_{0}^{n-1}
-(1-A_i)\right]
-\delta(A_i, h_i[s] x_i)
+ 1 - (1-\lam) \prod_i
+(1-A_i)\right]\prod_i
+\delta(A_i, \pi_i x_i)
 \\
 &=&
-\frac{1}{nsam}\sum_s 
-\left[
-[ 1 - (1-\lam) \prod_{0}^{n-1
-}(1-h_i[s] x_i)
-\right]
-\\
-&=&
-1 - (1-\lam) \prod_{0}^{n-1}(1-\pi_i x_i)
+1 - (1-\lam) \prod_i(1-\pi_i x_i)
 \;.
 \eeqa
 
