@@ -209,3 +209,136 @@
 &&#3\ar[u]
 }
 }
+
+
+\newcommand{\ruleone}[0]{
+If $(\rvb. \perp \rva. 
+|\rvr., \rvs.)$
+in $\rho_{\rvr.} G$, then
+$
+P(b.|a., \rho\rvr.=r.,s.)=
+P(b.|\rho\rvr.=r., s.)
+$.
+}
+
+\newcommand{\ruletwo}[0]{
+If $(\rvb.\perp \rva. |
+ \rvr., \rvs.)$
+in $\lam_{\rva.}\rho_{\rvr.} G$, 
+then $
+P(b.|\rho\rva.=a., \rho\rvr.=r., s.)=
+P(b.|a., \rho\rvr.=r.,  s.)
+$.
+}
+
+\newcommand{\rulethree}[0]{
+If $
+(\rvb. \perp
+\rva.
+| \rvr., \rvs.)$
+in $
+\rho_{\rva.-an(\rvs.)}
+\rho_{\rvr.}G$,
+ then
+$
+P(b.|\rho\rva.=a.,\rho\rvr.=r.,  s.)=
+P(b.|\rho\rvr.=r., s.)$.
+}
+
+\newcommand{\bdoordef}[0]{
+Suppose we have access to data
+that allows us to 
+estimate a probability
+distribution 
+ $P(x., y., z.)$.
+Hence, the variables
+$\rvx., \rvy., \rvz.$ are 
+all observed (i.e, not hidden).
+Then we say that
+$\rvz.$ satisfies the 
+{\bf backdoor criterion} 
+relative to $(\rvx., \rvy.)$
+if
+\begin{enumerate}
+\item 
+All paths from $\rvx.$ 
+to $\rvy.$ that start with an arrow
+pointing 
+into $\rvx.$ (i.e., ``a backdoor"),
+ are blocked by  
+ $\rvz.$.
+\item 
+$\rvz. \notin de(\rvx.)$.
+\end{enumerate}
+}
+
+\newcommand{\bdoorclaim}[0]{
+If $\rvz.$ satisfies the 
+backdoor criterion relative to
+ $(\rvx., \rvy.)$, then
+
+\beqa
+P(y. | \rho \rvx.=x.)&=&
+\sum_{z.} P(y.|x., z.)P(z.)
+\\
+&=&\sum_{z.}
+\left\{\xymatrix{
+\rvz.=z.\ar[dr]
+\\
+\rho\rvx.=x.\ar[r]&\rvy.
+}\right\}
+\eeqa
+}
+
+\newcommand{\fdoordef}[0]{
+If $\rvz.$ satisfies the 
+Suppose we have access to data
+that allows us to 
+estimate a probability
+distribution 
+ $P(x., m., y.)$.
+Hence, the variables
+$\rvx., \rvm., \rvy.$ are 
+all observed (i.e, not hidden).
+Then we say that
+$\rvm.$ satisfies the 
+{\bf front-door criterion} relative
+ to $(\rvx., \rvy.)$
+if
+\begin{enumerate}
+\item 
+All directed paths from
+$\rvx.$ to $\rvy.$ are intercepted by
+(i.e., have a node in) $\rvm.$.
+\item 
+All backdoor paths from $\rvx.$ to
+$\rvm.$ are blocked.
+\item 
+All backdoor paths from
+on $\rvm.$ to $\rvy.$
+are blocked by $\rvx.$.
+\end{enumerate}
+}
+
+\newcommand{\fdoorclaim}[0]{
+If $\rvm.$ satisfies the 
+front-door criterion 
+relative to $(\rvx., \rvy.)$,
+and $P(x.,m.)>0$, then
+
+\beqa
+P(y. | \rho \rvx.=x.)&=&\sum_{m.}
+\underbrace{\left[\sum_{x.'}
+P(y.|x'., m.)P(x'.)\right]}_
+{P(y.|\rho \rvm.=m.)} 
+\underbrace{P(m.|x.)}_
+{P(m.|\rho \rvx.=x.)}
+\\
+&=&\sum_{m., x.'}\left\{\xymatrix{
+&\rvx.=x.'\ar[dr]
+\\
+\rho\rvx.=x.´\ar[r]
+&\rvm.=m.\ar[r]&\rvy.
+}\right\}
+\eeqa
+}

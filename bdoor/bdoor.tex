@@ -1,0 +1,252 @@
+\chapter{Backdoor Adjustment}
+\label{chap-bdoor}
+
+The backdoor (BD) adjustment
+theorem is proven in 
+Chapter \ref{chap-do-calc}
+from the rules of do-calculus.
+The goal 
+of this chapter is
+to give examples
+of the use of that
+theorem.
+We will restate
+the theorem in this chapter,
+sans proof.
+There is no need
+to understand the
+theorem's
+proof in order to use it.
+However, you
+will
+need to skim Chapter \ref{chap-do-calc}
+in order to familiarize 
+yourself with
+the notation used to state the 
+theorem.
+This chapter also assumes
+that you are comfortable 
+with the  rules 
+for checking for d-separation. Those rules
+are covered in Chapter \ref{chap-dsep}.
+
+
+
+\bdoordef
+\begin{claim} {\bf Backdoor Adjustment
+ Theorem}
+
+\bdoorclaim
+\end{claim}
+\proof 
+See Chapter \ref{chap-do-calc}
+\qed
+
+Examples:
+\begin{enumerate}
+\hrule\item
+\beq
+\xymatrix{
+&\rvz\ar[dr]
+\\
+\rvx\ar[rr]\ar[ru]&&\rvy
+}
+\eeq
+
+BD criterion satisfied if
+$\rvx.=\rvx, \rvy.=\rvy, \rvz.=\emptyset$.
+ No adjustment necessary.
+
+\beq
+P(y|\rho \rvx=x)=P(y|x)
+\eeq
+
+\hrule\item
+\beq
+\xymatrix{
+&\rvz\ar[dl]\ar[dr]
+\\
+\rvx\ar[rr]&&\rvy
+}
+\eeq
+BD criterion satisfied if
+$\rvx.=\rvx, \rvy.=\rvy, \rvz.=\rvz$.
+
+Note that 
+here the backdoor formula adjusts
+the parents  of $\rvx.$.
+
+\hrule\item
+\beq
+\xymatrix{
+&\rvz\ar[dl]\ar[dr]
+\\
+\rvx\ar[r]&\rvm\ar[r]&\rvy
+}
+\eeq
+BD criterion satisfied if
+$\rvx.=\rvx, \rvy.=\rvy, \rvz.=\rvz$.
+
+This bnet
+is also used
+to demonstrate
+the front-door criterion.
+
+\hrule\item
+\beq
+\xymatrix{
+*+[F]{\rvw}\ar[d]\ar[r]
+&\rvz\ar[d]
+\\
+\rvx\ar[r]&\rvy
+}
+\eeq
+
+BD criterion satisfied if
+$\rvx.=\rvx, \rvy.=\rvy, \rvz.=\rvz$.
+Note that 
+here the backdoor formula cannot
+adjust the single parent $\rvw$
+of $\rvx$ because it is hidden, 
+but we are able to 
+block the backdoor path 
+by conditioning on $\rvz$ 
+instead.
+
+
+\hrule\item
+\beq
+\xymatrix{
+*+[F]{\rve}\ar[d]\ar[r]
+&\rvz\ar[dl]\ar[dr]
+&\rva\ar[d]\ar[l]
+\\
+\rvx\ar[rr]&&\rvy
+}
+\eeq
+
+Conditioning
+on $\rvz$
+blocks 
+backdoor path
+$\rvx-\rvz-\rvy$, 
+but 
+opens path $\rvx-\rve-\rvz-\rva-\rvy$
+because $\rvz$ is a collider
+for that path. That
+path is blocked
+if we also
+condition on $\rva$, 
+which is possible
+because $\rva$ is
+observed.
+In conclusion,
+the BD criterion is satisfied if
+$\rvx.=\rvx$, 
+$\rvy.=\rvy$
+and 
+$\rvz.=(\rvz, \rva)$.
+
+Conditioning on 
+the parents of 
+$\rvx.$
+is often
+enough
+to block
+all
+backdoor paths.
+However, sometimes
+some of the 
+parents are unobserved 
+and one most 
+condition on other
+nodes that
+are not parents of $\rvx.$
+in order to satisfy
+the BD criterion. 
+
+
+\hrule\item
+\beq
+\xymatrix{
+\rvz\ar[d]&&\rvt\ar[ll]\ar[d]
+\\
+\rvw&\rvx\ar[r]\ar[l]&\rvy
+}
+\eeq
+
+No need to control
+anything 
+because only possible
+backdoor path is blocked by collider $\rvw$.
+Hence,
+
+\beq
+P(y|\rho\rvx=x)=P(y|x)
+\;.
+\eeq
+
+However, 
+if for some reason 
+we want to control
+$\rvw$, we
+can block the  path
+by controlling $\rvt$ too.
+Thus, the
+BD criterion is
+satisfied if
+ $\rvx.=\rvx$,
+$\rvy.=\rvy$ and 
+$\rvz.=(\rvw, \rvt)$.
+Therefore, 
+
+\beq
+P(y|\rho \rvx=x)=
+\sum_{t,w} P(y|x, t, w)P(t, w)
+\label{eq-bdoor-tw-sum}
+\;.
+\eeq
+
+Alternatively,
+can condition
+on $\rvw$ a priori,
+and satisfy the
+BD criterion with
+$\rvx.=\rvx$, $\rvy.=\rvy$
+and $\rvz.=\rvt$;
+thus,
+
+\beq
+P(y|\rho \rvx=x, w)=
+\sum_t P(y|x, t, w)P(t|w)
+\label{eq-bdoor-t-sum}
+\;.
+\eeq
+Multiplying
+Eq.(\ref{eq-bdoor-t-sum})
+by $P(w)$
+and summing
+over $w$
+gives Eq.(\ref{eq-bdoor-tw-sum}).
+
+\item
+Discuss reasons why 
+multiple possible sets $\rvz.$
+that satisfy the BD criterion
+can be advantageous.
+\begin{itemize}
+\item
+Can evaluate $P(y.|\rho \rvx.=x.)$
+multiple ways and compare the results.
+This is a test that the causal bnet 
+is correct.
+\item
+Some $\rvz.$ might 
+be easier or 
+less expensive to get data on.
+\end{itemize}
+  
+
+
+
+\end{enumerate}

@@ -1,0 +1,236 @@
+\chapter{Linear Systems with Exogenous 
+Noise}
+
+In this chapter, we will consider 
+bnets which were referred to,
+prior to the invention of bnets, as:
+Sewall Wright's Path Analysis (PA) and
+linear Structural Equations Model (SEM).
+Judea Pearl in his
+books calls them
+linear Structural Causal Models (SCM),
+because they are very 
+convenient for doing causal analysis.
+We will follow 
+Judea's convention
+and refer to them as scum.
+
+
+To 
+build a SCM,
+start with a deterministic bnet $G$.
+Now  
+add to each node $\rva$ of $G$ a 
+root node $\rvU_\rva$
+pointing into $\rva$ only.
+The nodes $\rvU_\rva$ are called
+the {\bf exogenous (external) variables}.
+The exogenous
+variables make their children noisy.
+Their TPMs are
+priors and are assumed 
+to be unobserved.
+Of course, by the
+fact that they are 
+root nodes, they are assumed 
+to be mutually independent.
+
+Examples:
+\hrule
+
+
+\begin{figure}[h!]
+$$\xymatrix{
+&\rvx\ar[dl]_\beta\ar[dr]^\alp
+\\
+\rvw\ar[dr]_\epsilon&&\rvz\ar[ll]_\gamma\ar[dl]^\delta
+\\
+&\rvy
+}$$
+\caption{}
+\label{fig-scm-diamond}
+\end{figure}
+
+\beq\color{blue}
+P(y|w, z, U_\rvy)=
+\indi(y=\epsilon w +\delta z
++ U_\rvy)
+\eeq
+
+\beq\color{blue}
+P(w|x, z, U_\rvw)=
+\indi(w=\beta x +\gamma z + U_\rvw)
+\eeq
+
+\beq\color{blue}
+P(z|x, U_\rvz)=
+\indi(z=\alpha x + U_\rvz)
+\eeq
+
+\beq\color{blue}
+P(x|U_\rvx)=
+\indi(x=U_\rvx)
+\eeq
+
+\beqa
+y&=&
+\epsilon w +\delta z
++ U_\rvy
+\\
+&=&
+\epsilon (\beta x +\gamma z + U_\rvw)
+ +\delta z
++ U_\rvy
+\\
+&=&
+(\epsilon\gamma + \delta)z
++ \epsilon\beta x
++\epsilon U_\rvw U_\rvy
+\\
+&=&
+(\epsilon\gamma + \delta)z
++ \epsilon\beta U_\rvx
++\epsilon U_\rvw U_\rvy
+\eeqa
+
+\beq
+\left(\pder{y}{z}\right)_{U.}=
+\epsilon\gamma + \delta
+\eeq
+sum of terms,
+each of those terms
+represents a different
+causal (not blocked)
+path from $\rvz$ to $\rvy(\rvz)$.
+
+
+\hrule
+bnet
+with 
+deterministic nodes
+$\rvx.=(\rvx_k)_{k=0, 1, \ldots nx-1}$
+and 
+corresponding exogenous nodes 
+$\rvU.=(\rvU_k)_{k=0, 1, \ldots nx-1}$.
+Assume $\av{\rvU_i, \rvU_j}=0$
+if $i\neq j$. The {\bf structural
+coefficient} $\alp_{j|i}> 0$
+measures the strength of
+the connection 
+$\rvx_i\rarrow \rvx_j$.
+$\av{\rvx, \rvy}$ notation,
+for 
+covariances 
+of any two random variables $\rvx, \rvy$
+is explained in the 
+Notational
+Conventions chapter \ref{ch-not-cons}.
+
+\begin{itemize}
+
+\item {\bf Fully connected graph with $nx=2$}
+
+\begin{figure}[h!]
+$$
+\xymatrix{
+\rvx_0
+\ar[d]^{\alp{1|0}}
+\\
+\rvx_1
+}$$
+\caption{
+Fully connected graph with 2 $\rvx_j$
+(exogenous nodes $\rvU_j$
+not shown).}
+\label{fig-fully-conn-2}
+\end{figure}
+
+\begin{subequations}
+\label{eq-fully-conn-2}
+\beqa
+\rvx_0&=&\rvU_0
+\\
+\rvx_1&=&\alp_{1|0}\rvx_0  + \rvU_1
+\eeqa
+\end{subequations}
+Eqs.\ref{eq-fully-conn-2}
+constitute a system of 2 
+linear equations in 2 unknowns
+(the $\rvx$'s) so can solve
+for the $\rvx$'s in terms 
+of the $\alpha$'s and $\rvU$'s.
+
+
+\beq
+\av{\rvx_1, \rvx_0}=
+\alp_{1|0}\av{\rvx_0, \rvx_0}
+\eeq
+Thus, $\alp_{1|0}$
+can be estimated  
+from the covariances $\av{\rvx_i, \rvx_j}$.
+
+\item {\bf Fully connected graph with $nx=3$}
+
+\begin{figure}[h!]
+$$
+\xymatrix{
+\rvx_0\ar[d]_{\alp_{1|0}}
+\ar[dr]^{\alp_{2|0}}
+\\
+\rvx_1\ar[r]^{\alp_{2|1}}
+&\rvx_2
+}$$
+\caption{
+Fully connected graph with 3 $\rvx_j$
+(exogenous nodes $\rvU_j$
+not shown).}
+\label{fig-fully-conn-3}
+\end{figure}
+
+
+\begin{subequations}
+\label{eq-fully-conn-3}
+\beqa
+\rvx_0 &=& \rvU_0
+\\
+\rvx_1&=&\alp_{1|0}\rvx_0 + \rvU_1
+\\
+\rvx_2&=&\alp_{2|1}\rvx_1 +
+\alp_{2|0}\rvx_0 +\rvU_2
+\eeqa
+\end{subequations}
+Eqs.\ref{eq-fully-conn-3}
+constitute a system of
+3 linear  equations in 3 unknowns
+(the $\rvx$'s) so can solve
+for the $\rvx$'s in terms 
+of the $\alpha$'s and $\rvU$'s.
+
+
+\begin{subequations}
+\label{eq-fully-conn-3-covs}
+\beqa
+\av{\rvx_1, \rvx_0}&=&
+\alp_{1|0}\av{\rvx_0, \rvx_0}
+\\
+\av{\rvx_2, \rvx_0}&=&
+\alp_{2|1}\av{\rvx_1, \rvx_0}
++
+\alp_{2|0}\av{\rvx_0, \rvx_0}
+\\
+\av{\rvx_2, \rvx_1}&=&
+\alp_{2|1}\av{\rvx_1, \rvx_1}
++
+\alp_{2|0}\av{\rvx_0, \rvx_1}
+\eeqa
+\end{subequations}
+Eqs.\ref{eq-fully-conn-3-covs}
+constitute a system of
+3 linear  equations in 3 unknowns
+(the $\alpha$'s) so can solve
+solve for the $\alpha$'s in terms
+of covariances $\av{\rvx_i, \rvx_j}$.
+This gives an estimate
+for the $\alp$'s. 
+
+\end{itemize}
