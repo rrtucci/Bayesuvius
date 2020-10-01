@@ -1,34 +1,73 @@
 \chapter{Do-Calculus}\label{chap-do-calc}
 
 
-The Do-calculus and associated ideas were
+The do-calculus and associated ideas were
 invented by
 Judea Pearl and collaborators.
-This chapter is heavily
+This chapter is 
 based on Judea Pearl's
 books. (See \ref{ch-nav-pearl}).
 
 
-$\rvX.=\rvV. \cup \rvH.$,
-$\rvV. \cap \rvH.=\emptyset$.
-$\rvV.$= visible, observed.
-$\rvH.$= hidden, uobserved.
-Hidden nodes will 
+When
+doing
+do-calculus,
+it is 
+convenient
+to separate
+the nodes
+of a bnet
+into
+2  types:
+{\bf visible (observed)},
+and {\bf non-visible (not observed,
+hidden)},
+depending
+on
+whether data
+describing
+the
+state 
+of that
+node
+is available 
+(visible) or not (non-visible).
+In this chapter, hidden nodes will 
 be indicated 
-either
-by
+in a bnet
+diagram by
+either: (1)
 enclosing
-them their random variable
+their random variable
 in a box (as
 if it were a black box) or
-by making
+(2) making
 the arrows
 coming
 out of them
 dashed.
+Accordingly, 
+the 
+3 diagrams 
+in
+Fig.\ref{fig-hidden-dashes}
+all mean the same thing.
+A {\bf confounder node
+for $\rvx\rarrow \rvy$}
+(such as node
+$\rvc$
+in Fig.\ref{fig-hidden-dashes})
+is a hidden node 
+with arrows
+pointing
+from it to
+both
+$\rvx$ and $\rvy$.
 
-\beq
-\xymatrix{
+
+
+\begin{figure}[h!]
+$$\xymatrix{
 &*+[F]{\rvc}\ar[dl]\ar[dr]
 \\
 \rvx\ar[rr]&&\rvy
@@ -43,8 +82,76 @@ dashed.
 &\rvc\ar@{-->}[dl]\ar@{-->}[dr]
 \\
 \rvx\ar[rr]&&\rvy
-}
-\eeq
+}$$
+\caption{
+These 3 diagrams
+are equivalent.
+They
+mean that node $\rvc$
+is hidden.
+Node $\rvc$
+is implicit
+in the
+middle diagram.}
+\label{fig-hidden-dashes}
+\end{figure}
+
+
+
+Define
+an
+operator
+$\rho_\rvx$
+that acts on
+a node
+$\rvx$
+of a bnet
+to
+delete
+all
+the 
+arrows
+entering
+$\rvx$,
+thus
+coverting
+$\rvx$
+into
+a new
+node $\rho \rvx$
+that
+is a root node.
+Define 
+an analogous 
+operator
+$\lam\rvx$
+that acts on
+a node
+$\rvx$
+of a bnet
+to
+delete
+all
+the 
+arrows
+leaving
+$\rvx$,
+thus
+coverting
+$\rvx$
+into
+a new
+node $\lam \rvx$
+that
+is a leaf node.
+$\rho_\rvx$
+and
+$\lam_\rvx$
+are
+depicted
+in Fig.\ref{fig-do-rho-lam}.
+
+
 
 \begin{figure}[h!]
 \centering
@@ -61,13 +168,51 @@ into a leaf node $\lam\rvx$.
 \label{fig-do-rho-lam}
 \end{figure}
 
+
+If
+you don't
+know yet
+what we mean by a
+a multi-node
+$\rva.$, see
+Chapter \ref{ch-bnet-def}
+
+Given a bnet
+$G$,
+we define
+as follows
+the operators
+$\rho_{\rva.}$
+and
+$\lam_{\rva.}$
+for a multi-node
+$\rva.$.
+
 \beq
 \rho_{\rva.}G =
-\prod_j \rho_{\rva_j}G
+\left[\prod_j \rho_{\rva_j}\right]G
 \;,\;\;\;\;
 \lam_{\rva.}G =
-\prod_j \lam_{\rva_j}G
+\left[\prod_j \lam_{\rva_j}\right]G
+\;.
 \eeq
+
+Consider a bnet 
+whose totality of nodes
+is labelled $\rvX.$.
+Recall that 
+
+\beq
+P(X.)=
+\prod_j P(X_j|pa(X_j))
+\;.
+\eeq
+Now define an
+operator $\rho$
+that acts as follows\footnote{As usual,
+$\caln(!x)$ denotes 
+a constant 
+that is independent of $x$.}
 
 \beq
 P(X.-a.|\rho\rva.=a.)
@@ -75,68 +220,123 @@ P(X.-a.|\rho\rva.=a.)
 \caln(!(X.-a.))
 \prod_{j:\rvX_j\notin \rva.}
 P(X_j|pa(X_j))
+\;.
 \eeq
+Furthermore, for
+$\rvb.\subset \rvX.-\rva.$,
+define
 
-$\rvb.\subset \rvX.-\rva.$
 \beq
 P(b.|\rho\rva. =a.)=
 \sum_{X.-a.-b.}
 P(X.-a.|\rho\rva.=a.)
+\;,
 \eeq
+and for
+$\rvs.\subset \rvX.-\rva.-\rvb.$,
+define
 
-$\rvr.\subset \rvX.-\rva.-\rvb.$
 \beq
-P(b.|\rho \rva.=a., r.)=
-\frac{P(b., r.|\rho\rva.=a.)}
-{P(r.|\rho\rva.=a.)}
+P(b.|\rho \rva.=a., s.)=
+\frac{P(b., s.|\rho\rva.=a.)}
+{P(s.|\rho\rva.=a.)}
+\;.
 \eeq
 
-
-
-Usually
 $P(b.|\rho \rva.=a., s.)$
-is denoted by
+is usually denoted instead  by
 $P(b.|do(\rva.=a.), s.)$.
-
+I prefer to 
+use $\rho$
+instead of $do()$ to remind me that
+it generates root nodes.
+I'll still call $\rho$
+a do operator.
 
 
 $P(b.|\rho \rva.=a., s.)$
 is said to be {\bf identifiable}
 if it can be
-expressed as a product of
-conditional prob distributions
+expressed in terms of
+probability distributions
 that only
 depend on observed 
 variables and that
-have no $do()$
-conditions in them.
+have no do operators
+in them.
 
-For $\rvx, rvy\in \bool$,
-``causal effect difference¨ ,
-or `average causal effect¨ (ACE)
+For $\rvx, \rvy\in \bool$, the
+``causal effect difference" ,
+or ``average causal effect" (ACE)
+is defined as
+
 \beq
 ACE=
 P(y=1|\rho \rvx=1)-
 P(y=1|\rho \rvx=0)
 \eeq
-Risk Difference
+and the 
+Risk Difference (RD) as
+
 \beq
 RD=
 P(y=1|\rvx=1)-
 P(y=1|\rvx=0)
+\;.
 \eeq
 
 
 \section*{3 Rules of do-calculus}
+Throughout 
+this section, suppose
+$\rva., \rvb., \rvr., 
+\rvs.$ are disjoint
+multinodes in a bnet $G$.
 
-If $(\rvb.\perp \rva.|\rvr., \rvs.)$
-in $G$, then $P(b.|a., r., s.)=P(b.|r., s.)$
+
+Recall
+from Chapter \ref{chap-dsep}
+on d-separation,
+that  $(\rvb.\perp \rva.|\rvr., \rvs.)$
+means that 
+we have established
+from the d-separation
+rules that 
+that all 
+paths in $G$
+ from
+$\rva.$ to
+$\rvb.$
+are blocked
+if we condition
+on $\rvr.\cup \rvs.$.
+Recall also that:
+
+\begin{itemize}
+\item {\bf Rule 0:} Insertion or
+ deletion of
+ observations, without
+do operators.
+($\rva.=a. \leftrightarrow 1$ )
+
+
+If 
+ $(\rvb.\perp \rva.|\rvr., 
+\rvs.)$ in $G$, then 
+$P(b.|a., r., s.)=P(b.|r., s.)$
+\end{itemize}
+
+The 3 rules of do-calculus
+can be presented in the same
+format. 
+
 
 \begin{color}{red}
 \begin{itemize}
 \item {\bf Rule 1:} 
 Insertion or deletion of
- observations ($\rva.=a. \leftrightarrow 1$ )
+ observations 
+($\rva.=a. \leftrightarrow 1$ )
 
 \ruleone
 
@@ -156,21 +356,48 @@ observation exchange
 \end{itemize}
 \end{color}
 
+These rules have been
+proven to be 
+sufficient
+for removing
+all do operators
+from an expression
+for 
+which it 
+is possible to do so.
+
+Next we discuss
+two theorems that can be
+proven using
+do-calculus:
+the backdoor and the
+front-door
+adjustment theorems.
+
+We say that 
+we are {\bf adjusting 
+or controlling a variable $\rva$}
+if we condition 
+a probability on $\rva$ and 
+then we average 
+that probability over $\rva$.
+The 
+backdoor theorem does
+one adjustment
+and the 
+front-door theorem does two.
+
 
 \section*{Backdoor Adjustment}
-Back and front
-door {\bf adjustment formulas}.
-Adjust a variable , average
-over it, control it.
 
 See Chapter \ref{chap-bdoor}
 for examples of the use of the 
-backdoor adjustment formula.
+backdoor adjustment theorem.
 In this section,
-we are mainly
+we shall mainly be
 concerned with
-proving that
-formula
+proving this
+theorem
 using do-calculus.
 
 
@@ -181,6 +408,26 @@ using do-calculus.
 \bdoorclaim
 \end{claim}
 \proof
+
+For simplicity,
+let us omit
+the dots from the
+multinodes.
+If
+$z$
+satisfies the
+backdoor
+criterion
+relative
+to
+$(\rvx, \rvy)$,
+then
+$\rvx, \rvy, \rvz$
+must 
+have the following 
+structure.
+
+
 \beq
 \xymatrix{
 {\rvz}\ar[d]\ar[rd]
@@ -244,6 +491,9 @@ P(z)
 \eeq
 \qed
 
+Note that the backdoor adjustment  formula
+can be written as
+
 \beqa
 P(y.|\rho \rvx. =x.)
 &=&
@@ -253,18 +503,22 @@ P(y.|\rho \rvx. =x.)
 \sum_{z.}\frac{P(y.,x., z.)}
 {P(x.|z.)}
 \eeqa
-$P(x.|z.)$ called propensity
-score, can be approximated.
+$P(x.|z.)$ is called the {\bf propensity
+score}, and one
+can approximate it
+to get
+an approximation
+to  $P(y|\rho\rvx=x)$.
 
 \section*{Front Door Adjustment}
 See Chapter \ref{chap-fdoor}
 for examples of the use of the 
-backdoor adjustment formula.
+front-door adjustment theorem.
 In this section,
-we are mainly
+we shall mainly be
 concerned with
-proving that
-formula
+proving this
+theorem
 using do-calculus.
 
 \fdoordef
@@ -275,7 +529,29 @@ using do-calculus.
 
 \end{claim}
 \proof
-$\rvc$ confounder, hidden
+
+For simplicity,
+let us omit
+the dots from the
+multinodes.
+If
+$\rvm$
+satisfies the
+front-door
+criterion
+relative
+to
+$(\rvx, \rvy)$,
+then
+$\rvx, \rvm, \rvy$
+must 
+have the following 
+structure,
+where
+node $\rvc$
+is hidden. 
+
+
 
 \beq
 \xymatrix{
@@ -285,10 +561,12 @@ $\rvc$ confounder, hidden
 }
 \eeq
 
+Continues in next page.
+\newpage
 \beq
 \begin{array}{lllll}
 &&\color{red}
-Pcc(y|\rho\rvx=x)=
+P(y|\rho\rvx=x)=
 \\
 &=&
 \color{red}
