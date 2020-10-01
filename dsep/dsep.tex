@@ -1,2 +1,132 @@
-\chapter{D-Separation: COMING SOON}
+\chapter{D-Separation}
 \label{chap-dsep}
+Before reading this chapter,
+I  recommend
+that you
+read
+Chapter \ref{ch-bnet-def}
+on the definition of bnets.
+
+
+A path $\gamma$ that
+isn't a loop can have 
+3 types of intermediate nodes $\rvx$ (
+an intermediate node is one  which 
+isn't either
+of the two end nodes).
+Suppose $\rva$ and $\rvb$
+are the two neighbors of $\rvx$. Then
+the 3 possible cases are:
+\begin{enumerate}
+\item {\bf mediator node:}
+$(\rva\larrow\rvx\larrow \rvb)$
+or
+$(\rva\rarrow\rvx\rarrow \rvb)$
+\item {\bf fork node:}
+$(\rva\larrow\rvx\rarrow \rvb)$
+\item {\bf collider node:}
+$(\rva\rarrow\rvx\larrow \rvb)$
+\end{enumerate}
+
+We say that a non-loop path 
+$\gamma=
+(\rva:\rvb)$ with
+end nodes $\rva, \rvb$
+is {\bf blocked} by a multinode $\rvZ.$
+if one or more 
+of the following
+statements is true:
+
+\begin{enumerate}
+\item 
+There is a node $\rvx\in \rvZ.$
+which is a mediator 
+or a fork of $\gamma$.
+\item
+$\gamma$ contains a collider
+node $\rvc$
+and 
+$(\rvc\cup de(\rvc))\cap\rvZ.=\emptyset$
+(i.e., neither 
+$\rvc$ nor the descendant of $\rvc$
+are contained in $\rvZ.$)
+\end{enumerate}
+
+This definition of a blocked 
+path is easy to remember
+if one thinks 
+of the following analogy
+with pipes carrying a fluid.
+Think of path
+$\gamma$ as if it
+were a pipe
+carrying a fluid.
+Think of
+the nodes 
+of $\gamma$ as junctions in the pipe.
+If $\rvZ.$
+intersects $\gamma$
+at either a mediator
+or a fork junction,
+that blocks the pipe flow.
+A collider junction $\rvc$
+is like a blackhole 
+or a huge leak.
+Its presence
+blocks passage
+of the fluid
+as long
+as neither
+$\rvc$
+nor any of
+the descendants 
+of $\rvc$
+are in $\rvZ.$.
+If,
+on the 
+other hand,
+$\rvc\in\rvZ.$,
+or $\rvc'\in \rvZ.$
+where $\rvc'\in de(\rvc)$,
+then
+that acts
+as a complete
+(in the case of $\rvc\in\rvZ.$)
+or a partial 
+(in the case of $\rvc'\in\rvZ.$)
+bridge across the blackhole.
+
+Given 3 
+disjoint multinodes 
+$\rvA., \rvB., \rvZ.$
+of a graph $G$,
+we write 
+$\rvA.\perp \rvB.|\rvZ.$
+in $G$
+iff there exists 
+no path
+$\gamma=(\rva:\rvb)$
+where $\rva\in \rvA.$,
+and
+$\rvb\in\rvB.$
+which is not 
+blocked blocked by $\rvZ.$.
+
+We are finally ready
+to state the d-separation
+theorem, without proof.
+
+\begin{claim}
+Given 3 disjoint
+multinodes
+$\rvA., \rvB., \rvZ.$
+of a graph $G$,
+
+if 
+$\rvA.\perp \rvB.|\rvZ.$
+in $G$, then
+$P(B.|A., Z.)=P(B.Z.)$.
+
+\end{claim}
+
+
