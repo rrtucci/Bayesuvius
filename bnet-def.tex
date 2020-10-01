@@ -1,19 +1,117 @@
 \section{Definition of a Bayesian Network}
 \label{ch-bnet-def}
 
-A Bayesian network (bnet)
+A {\bf directed graph} $G=(V,E)$
+consists of two sets, $V$
+and $E$. $V$ contains
+the {\bf vertices (nodes)}
+and $E$ contains the {\bf edges (arrows)}.
+An arrow $a\rarrow b$ is an
+ordered pair 
+$(a,b)$ where $a, b\in V$.
+The {\bf parents} 
+of a node $x$ are 
+those nodes $a$
+such that there are arrows 
+$a\rarrow x$.
+The {\bf children} of a node
+$x$
+are those nodes $b$
+such that there are arrows $x\rarrow b$.
+The {\bf neighbors}
+of a node $x$
+is the set of parents and 
+children of $x$.
+A {\bf path} is a 
+set of nodes that 
+are connected 
+by arrows, so 
+that all nodes
+have 1 or 2 neighbors.
+A {\bf directed path}
+is a path in
+which all the arrows point
+in the same direction.
+A {\bf loop}
+is a closed path.
+A {\bf cycle} is a directed loop.
+A {\bf Directed Acyclic Graph (DAG)}
+is a directed graph that has no
+cycles. 
+
+
+A {\bf fully connected directed graph}
+is 
+a directed graph
+in which 
+every node has all other 
+nodes as neighbors.
+Figs.\ref{fig-full-conn-4-line}
+and
+\ref{fig-full-conn-4-square}
+show 2 different
+ways of drawing
+the same directed graph,
+a fully connected graph with 4 nodes.
+Note that a convenient
+way
+to label
+the nodes of a fully
+connected directed
+graph
+with $N$ nodes
+is to point
+arrows
+from 
+$\rvx_j$ to $\rvx_k$
+where $j=0, 1, \ldots, N-1$
+and 
+$k=j+1, j+2, \ldots, N-1$.
+
+
+\begin{figure}[h!]
+$$
+\xymatrix{
+\rvx_3
+&\rvx_2\ar[l]
+&\rvx_1\ar[l]\ar@/_1pc/[ll]
+&\rvx_0\ar[l]\ar@/_2pc/[ll]\ar@/_2pc/[lll]
+}
+$$
+\caption{Fully 
+connected directed  graph with 4 nodes,
+drawn as a line.}
+\label{fig-full-conn-4-line}
+\end{figure}
+
+\begin{figure}[h!]
+$$
+\xymatrix{
+\rvx_0\ar[r]\ar[d]\ar[rd]&\rvx_1\ar[d]\ar[ld]
+\\
+\rvx_2\ar[r]&\rvx_3
+}
+$$
+\caption{Fully 
+connected directed  graph with 4 nodes,
+drawn as a square.}
+\label{fig-full-conn-4-square}
+\end{figure}
+
+\hrule
+
+A {\bf Bayesian network (bnet)}
 consists of a DAG 
-(Directed Acyclic Graph)
 and a 
-Transition 
-Probability Matrix (TPM)
+{\bf Transition 
+Probability Matrix (TPM)}
 associated 
 with each node
 of the graph.
 A TPM is often 
-called a Conditional Probability
+called a {\bf Conditional Probability
 Table 
-(CPT).
+(CPT)}.
 
 In 
 this book,
@@ -25,6 +123,7 @@ by non-underlined letters.
  labelled by a random variable.
  Thus, $\rvx=x$ means that node 
 $\rvx$ is in state $x$.
+
 
 \hrule\noindent
 {\bf Some sets of nodes 
@@ -100,6 +199,40 @@ P(x.)=
 \prod_j
 P(\rvx_j=x_j|pa(\rvx_j) =pa(x_j))
 \;.
+\label{eq-chain-rule-bnet}
 \eeq
+
+Note that
+for a fully connected bnet
+with $N$ nodes,
+Eq.(\ref{eq-chain-rule-bnet})
+becomes
+
+\beq
+P(x.)=
+\prod_{j=0}^{N-1}
+P(x_j| 
+(x_k)_{k=j-1, j-2, \ldots, 0})
+\;.
+\label{eq-chain-rule-cond-probs}
+\eeq
+For example, if $N=4$,
+Eq.(\ref{eq-chain-rule-cond-probs})
+ becomes
+
+\beq
+P(x_0, x_1,x_2, x_3)=
+P(x_3|x_2, x_1, x_0)
+P(x_2|x_1, x_0)
+P(x_1|x_0)
+P(x_0)
+\;.
+\eeq
+We see that 
+Eq.(\ref{eq-chain-rule-cond-probs})
+is just the chain rule for 
+conditional probabilities.
+
+
 
 
