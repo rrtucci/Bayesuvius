@@ -137,7 +137,7 @@ arrows
 leaving
 $\rvx$,
 thus
-coverting
+converting
 $\rvx$
 into
 a new
@@ -216,15 +216,27 @@ $\caln(!x)$ denotes
 a constant 
 that is independent of $x$.}
 
-\beq
+\beqa
 P(X.-a.|\rho\rva.=a.)
-=
+&=&
+\caln(!(X.-a.))
+\frac{P(X.)}
+{
+\prod_{j:\rvX_j\in \rva.}
+P(X_j|(X_k)
+_{k:\rvX_k\in pa(\rvX_j)})
+}
+\\
+&=&
 \caln(!(X.-a.))
 \prod_{j:\rvX_j\notin \rva.}
 P(X_j|(X_k)
 _{k:\rvX_k\in pa(\rvX_j)})
+\\
+&\neq&
+P(X.-a.|\rva.=a.)
 \;.
-\eeq
+\eeqa
 
 For instance, for the bnet
 
@@ -257,7 +269,7 @@ For the bnet
 
 \beq
 \xymatrix{
-\rva\ar[d]\ar[rd]
+\rvc\ar[d]\ar[rd]
 \\
 \rvx\ar[r]&\rvy
 }
@@ -265,15 +277,23 @@ For the bnet
 with 
 
 \beq
-P(x,y, a)=P(y|x, a)P(x|a)P(a)
+P(x,y, c)=P(y|x, c)P(x|c)P(c)
 \;,
 \eeq
 one has 
 
 \beq
-P(y|\rho\rvx=x)=P(y|x, a)
+P(y, c|\rho\rvx=x)=P(y|x, c)P(c)
 \;.
 \eeq
+Hence,
+
+\beq
+P(y|\rho\rvx=x)=\sum_c P(y|x,c)P(c)
+\;.
+\eeq
+This is called {\bf adjusting the parents
+of $\rvx$}.
 
 For
 $\rvb.\subset \rvX.-\rva.$,
@@ -304,7 +324,38 @@ use $\rho$
 instead of $do()$ to remind me that
 it generates root nodes.
 I'll still call $\rho$
-a do operator.
+a {\bf do operator}. 
+
+In $P(y|\rho \rvx=x)$,
+node $\rvx$ is turned 
+into a root node. This guarantees
+that there is
+no confounding node
+connecting $\rvx$ and
+$\rvy$. Such 
+confounding nodes 
+are unwelcomed 
+when calculating
+causal effects
+between 
+the 2 variables $\rvx$ and $\rvy$
+ because they 
+ introduce 
+non-causal
+correlations between
+the two.
+This is also 
+what happens
+in a {\bf Randomized 
+Clinical Trial (RCT)}.
+In a RCT
+ with treatment $\rvx$,
+the value
+of $\rvx$ for each patient
+is determined by a coin toss,
+effectively
+turning $\rvx$ into a root node.
+Hence, the do operator mimics a RCT.
 
 
 $P(b.|\rho \rva.=a., s.)$
@@ -317,10 +368,31 @@ depend on observed
 variables and that
 have no do operators
 in them.
+For example,
+$P(y|\rho\rvx=x)$ is identifiable
+for the bnet
 
-For $\rvx, \rvy\in \bool$, the
-``causal effect difference" ,
-or ``average causal effect" (ACE)
+\beq
+\xymatrix{
+\rvz\ar[d]\ar[dr]
+\\
+\rvx\ar[r]&\rvy
+}
+\eeq
+but it is non-identifiable for the bnet
+
+\beq
+\xymatrix{
+*+[F]{\rvz}\ar[d]\ar[dr]
+\\
+\rvx\ar[r]&\rvy
+}
+\eeq
+
+
+For $\rvx, \rvy\in \bool$, the {\bf
+causal effect difference} ,
+or {\bf average causal effect (ACE)}
 is defined as
 
 \beq
@@ -329,7 +401,7 @@ P(y=1|\rho \rvx=1)-
 P(y=1|\rho \rvx=0)
 \eeq
 and the 
-Risk Difference (RD) as
+{\bf Risk Difference (RD)} as
 
 \beq
 RD=
@@ -337,6 +409,73 @@ P(y=1|\rvx=1)-
 P(y=1|\rvx=0)
 \;.
 \eeq
+
+\section*{Parent Adjustment}
+
+
+Suppose 
+that $\rvx., \rvy., \rvz.$
+are disjoint multinodes
+and their union equals
+ the
+totality of all nodes of
+a bnet. 
+Suppose we have data
+available that allows us  to
+estimate $P(x., y., z.)$.
+Hence, all nodes of the bnet
+are observable.
+Furthermore,
+suppose $\rvz.=pa(\rvx.)$.
+In other words,
+we are 
+considering the bnet
+
+\beq
+\xymatrix{
+\rvz.\ar[d]\ar[dr]
+\\
+\rvx.\ar[r]&\rvy.
+}
+\;.
+\eeq
+
+Then
+
+\beq
+P(y., z.|\rho \rvx.=x.)
+=P(y.|x., z.)P(z.)
+\eeq
+so
+
+\beq
+P(y.|\rho \rvx.=x.)
+=\sum_{z.}P(y.|x., z.)P(z.)
+\;.
+\eeq
+This is called
+{\bf adjusting the parents}
+of $\rvx.$.
+Later on,
+we will introduce 
+a generalization
+of 
+this parent adjustment
+called the 
+backdoor adjustment.
+
+We say that 
+we are {\bf adjusting 
+or controlling a variable $\rva$}
+if we condition 
+a probability on $\rva$ and 
+then we average 
+that probability over $\rva$.
+More generally, 
+we can adjust a whole
+multinode $\rva.$ together.
+
+
 
 
 \section*{3 Rules of do-calculus}
@@ -427,18 +566,11 @@ the backdoor and the
 front-door
 adjustment theorems.
 
-We say that 
-we are {\bf adjusting 
-or controlling a variable $\rva$}
-if we condition 
-a probability on $\rva$ and 
-then we average 
-that probability over $\rva$.
 The 
-backdoor theorem does
-one adjustment
+backdoor theorem 
+adjusts one multinode
 and the 
-front-door theorem does two.
+front-door theorem adjusts two.
 
 
 \section*{Backdoor Adjustment}
@@ -456,7 +588,7 @@ using do-calculus.
 
 
 \bdoordef
-\begin{claim} Backdoor Adjustment
+\begin{claim} Backdoor Adjustment Theorem
 
 \bdoorclaim
 \end{claim}
@@ -546,7 +678,7 @@ P(z)
 
 Note that the backdoor adjustment  formula
 can be written as
-
+ 
 \beqa
 P(y.|\rho \rvx. =x.)
 &=&
@@ -557,7 +689,9 @@ P(y.|\rho \rvx. =x.)
 {P(x.|z.)}
 \eeqa
 $P(x.|z.)$ is called the {\bf propensity
-score}, and one
+score}
+or {\bf inverse probability weight}
+, and one
 can approximate it
 to get
 an approximation
@@ -577,6 +711,7 @@ using do-calculus.
 \fdoordef
 
 \begin{claim} Front-Door Adjustment
+Theorem
 
 \fdoorclaim
 
