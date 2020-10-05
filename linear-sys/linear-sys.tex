@@ -1,14 +1,15 @@
 \chapter{Linear Deterministic Bnets with Exogenous 
-Noise}
+Noise}\label{ch-linear-sys}
 
 In this chapter, we will consider 
 bnets which were referred to,
 prior to the invention of bnets, as:
-Sewall Wright's Path Analysis (PA) and
-linear Structural Equations Model (SEM).
+Sewall Wright's {\bf Path Analysis (PA)}
+ and
+{\bf Structural Equations Models (SEM)}.
 Judea Pearl in his
 books calls them
-linear Structural Causal Models (SCM),
+{\bf Structural Causal Models (SCM)},
 because they are very 
 convenient for doing causal analysis.
 We will refer  to
@@ -16,14 +17,20 @@ them as PA diagrams
 in honor of Sewall Wright.
 
 
+A {\bf PA diagram}
+is a special kind of bnet.
 To 
-build a PA bnet,
-start with a deterministic bnet $G$.
-Now  
-add to each node $\rva$ of $G$ a 
-root node $\rvU_\rva$
+build a PA diagram,
+start with a 
+linear deterministic bnet $G$.
+Now make a bigger bnet $\ol{G}$
+called a PA diagram
+by 
+adding to each node $\rva$ of $G$ a
+non-deterministic  
+root node $\rvu_\rva$
 pointing into $\rva$ only.
-The nodes $\rvU_\rva$ are called
+The nodes $\rvu_\rva$ are called
 the {\bf exogenous (external) variables}.
 The exogenous
 variables make their children noisy.
@@ -33,17 +40,14 @@ and their TPMs are priors.
 Since they are 
 root nodes, they are 
 mutually independent.
-When
-drawing
-bnets for PA,
+When we
+draw
+a PA diagram,
 we will
 never draw the exogenous nodes,
 leaving them implicit.
 
-Examples:
-\begin{enumerate}
-\hrule
-\item
+\hrule\noindent{\bf Example:}
 
 
 \begin{figure}[h!]
@@ -56,7 +60,7 @@ $$\xymatrix{
 }$$
 \caption{
 Example of a
-PA bnet wherein
+PA diagram wherein
 $\rvx$ splits
 into two nodes $\rvz$
 and $\rvw$,
@@ -69,56 +73,56 @@ nodes are not shown.}
 \end{figure}
 
 The TPMs, printed in blue,
-for the nodes of the bnet 
+for the nodes of the PA diagram 
 Fig.\ref{fig-scm-diamond},
 are as follows.
 
 \beq\color{blue}
-P(y|w, z, U_\rvy)=
+P(y|w, z, u_\rvy)=
 \indi(y=\epsilon w +\delta z
-+ U_\rvy)
++ u_\rvy)
 \eeq
 
 \beq\color{blue}
-P(w|x, z, U_\rvw)=
-\indi(w=\beta x +\gamma z + U_\rvw)
+P(w|x, z, u_\rvw)=
+\indi(w=\beta x +\gamma z + u_\rvw)
 \eeq
 
 \beq\color{blue}
-P(z|x, U_\rvz)=
-\indi(z=\alpha x + U_\rvz)
+P(z|x, u_\rvz)=
+\indi(z=\alpha x + u_\rvz)
 \eeq
 
 \beq\color{blue}
-P(x|U_\rvx)=
-\indi(x=U_\rvx)
+P(x|u_\rvx)=
+\indi(x=u_\rvx)
 \eeq
 
 Hence,
 \beqa
 y&=&
 \epsilon w +\delta z
-+ U_\rvy
++ u_\rvy
 \\
 &=&
-\epsilon (\beta x +\gamma z + U_\rvw)
+\epsilon (\beta x +\gamma z + u_\rvw)
  +\delta z
-+ U_\rvy
++ u_\rvy
 \\
 &=&
 (\epsilon\gamma + \delta)z
 + \epsilon\beta x
-+\epsilon U_\rvw+ U_\rvy
++\epsilon u_\rvw+ u_\rvy
 \\
 &=&
 (\epsilon\gamma + \delta)z
-+ \epsilon\beta U_\rvx
-+\epsilon U_\rvw+ U_\rvy
++ \epsilon\beta u_\rvx
++\epsilon u_\rvw+ u_\rvy\;.
 \eeqa
-and
+Therefore
 
 \beq
-\left(\pder{y}{z}\right)_{U.-U_\rvz}=
+\left(\pder{y}{z}\right)_{u.-u_\rvz}=
 \epsilon\gamma + \delta
 \;,
 \eeq
@@ -128,7 +132,7 @@ derivative holds fixed
 all
 exogenous
 variables except
-$U_\rvz$.
+$u_\rvz$.
 Note that
 this partial
 derivative is a 
@@ -140,41 +144,49 @@ from $\rvz$ to $\rvy(\rvz)$.
 This
 is a general
 property
-of linear PA
+of PA
 diagrams.
-
 \hrule
-\item
-Our next example
+
+\section*{Fully Connected PA diagrams}
+The bnets
+considered in this section
+are all fully connected.
+Fully connected
+bnets are
+defined in Chapter \ref{ch-bnet-def}.
+This section
 uses the notation
 $\av{\rvx, \rvy}$
 for 
-covariances 
+covariance
 of any two random variables $\rvx, \rvy$.
 This $\av{\rvx, \rvy}$ notation
 is defined in the 
 Notational
 Conventions Chapter \ref{ch-not-cons}.
 
+
 Consider a
-bnet
+PA diagram
 with 
 deterministic nodes
 $\rvx.=(\rvx_k)_{k=0, 1, \ldots nx-1}$
 and 
 corresponding exogenous nodes 
-$\rvU.=(\rvU_k)_{k=0, 1, \ldots nx-1}$.
-Assume $\av{\rvU_i, \rvU_j}=0$
-if $i\neq j$. The {\bf structural
-coefficient} $\alp_{j|i}> 0$
-measures the strength of
-the connection 
-$\rvx_i\rarrow \rvx_j$.
+$\rvu.=(\rvu_k)_{k=0, 1, \ldots nx-1}$.
+Assume $\av{\rvu_i, \rvu_j}=0$
+if $i\neq j$. The strength
+of each 
+connection 
+$\rvx_i\rarrow \rvx_j$
+of the PA diagram 
+is measured by a
+{\bf structural
+coefficient} $\alp_{j|i}\geq 0$.
 
-
-\begin{itemize}
-
-\item {\bf Fully connected graph with $nx=2$}
+\hrule\noindent
+{\bf Fully connected PA diagram with $nx=2$}
 
 \begin{figure}[h!]
 $$
@@ -185,20 +197,24 @@ $$
 \rvx_1
 }$$
 \caption{
-Fully connected graph with two $\rvx_j$
+Fully connected PA
+diagram with two $\rvx_j$
 nodes
-(exogenous nodes $\rvU_j$
+(exogenous nodes $\rvu_j$
 not shown).}
 \label{fig-fully-conn-2}
 \end{figure}
 
-Note that
+Consider the 
+PA diagram of Fig.\ref{fig-fully-conn-2}.
+This diagram represents the 
+following {\bf structural equations}:
 \begin{subequations}
 \label{eq-fully-conn-2}
 \beqa
-\rvx_0&=&\rvU_0
+\rvx_0&=&\rvu_0
 \\
-\rvx_1&=&\alp_{1|0}\rvx_0  + \rvU_1
+\rvx_1&=&\alp_{1|0}\rvx_0  + \rvu_1
 \;.
 \eeqa
 \end{subequations}
@@ -207,7 +223,7 @@ constitute a system of 2
 linear equations in 2 unknowns
 (the $\rvx$'s) so we can solve
 for the $\rvx$'s in terms 
-of the $\alpha$'s and $\rvU$'s.
+of the $\alpha$'s and $\rvu$'s.
 
 Note also that
 \beq
@@ -219,7 +235,9 @@ Thus, $\alp_{1|0}$
 can be estimated  
 from the covariances $\av{\rvx_i, \rvx_j}$.
 
-\item {\bf Fully connected graph with $nx=3$}
+\hrule\noindent
+{\bf Fully connected
+PA diagram with $nx=3$}
 
 \begin{figure}[h!]
 $$
@@ -231,23 +249,26 @@ $$
 &\rvx_2
 }$$
 \caption{
-Fully connected graph with 
+Fully connected PA diagram with 
 three $\rvx_j$ nodes
-(exogenous nodes $\rvU_j$
+(exogenous nodes $\rvu_j$
 not shown).}
 \label{fig-fully-conn-3}
 \end{figure}
 
-Note that
+Consider the PA diagram
+of Fig.\ref{fig-fully-conn-3}.
+This diagram represents the 
+following {\bf structural equations}:
 \begin{subequations}
 \label{eq-fully-conn-3}
 \beqa
-\rvx_0 &=& \rvU_0
+\rvx_0 &=& \rvu_0
 \\
-\rvx_1&=&\alp_{1|0}\rvx_0 + \rvU_1
+\rvx_1&=&\alp_{1|0}\rvx_0 + \rvu_1
 \\
 \rvx_2&=&\alp_{2|1}\rvx_1 +
-\alp_{2|0}\rvx_0 +\rvU_2
+\alp_{2|0}\rvx_0 +\rvu_2
 \;.
 \eeqa
 \end{subequations}
@@ -256,7 +277,7 @@ constitute a system of
 3 linear  equations in 3 unknowns
 (the $\rvx$'s) so we can solve
 for the $\rvx$'s in terms 
-of the $\alpha$'s and $\rvU$'s.
+of the $\alpha$'s and $\rvu$'s.
 
 Note also that
 \begin{subequations}
@@ -283,7 +304,149 @@ constitute a system of
 solve for the $\alpha$'s in terms
 of covariances $\av{\rvx_i, \rvx_j}$.
 This gives an estimate
-for the $\alp$'s. 
+for the $\alp$'s.
 
-\end{itemize}
-\end{enumerate}
+
+\hrule\noindent{\bf Fully
+connected 
+PA diagram with arbitrary $nx$.} 
+
+Let $\rvx.=(x_i)_{i=0, 1,
+ \ldots, nx-1}$
+and $\rvx_{<i}=
+(x_k)_{k=0, 1, \ldots, i-1}$.
+Consider
+a fully connected
+PA diagram
+with  deterministic nodes labeled
+$\rvx_i$.
+The $\rvx_i$ labels 
+are assumed
+to be in {\bf topological order}
+(i.e., the parents of
+node $\rvx_i$ are $\rvx_{<i}$).
+Let the TPMs,
+printed in blue, for the nodes $\rvx.$
+of the 
+PA diagram, be
+
+\beq\color{blue}
+P(x_i|x_{<i}, u_i)=
+\indi(
+x_i=\sum_{k<i}\alp_{i|k}x_k
+ + u_i)
+\;,
+\eeq
+for some parameters $\alp_{i|k}\geq 0$.
+The exogenous 
+nodes $\rvu.$ are not draw; 
+they are implicit. They are assumed
+to be independent so
+
+\beq
+P(u.)=\prod_i P(u_i)
+\eeq
+and
+
+\beq
+\av{\rvu_i, \rvu_j}=0
+\text{  if $i\neq j$}
+\;.
+\eeq
+Note that
+
+\beqa
+P(x.)&=&\sum_{u.}P(u.)
+\prod_i P(x_i|x_{<i}, u_i)
+\\
+&=&
+E_{\rvu.}[\prod_i P(x_i|x_{<i}, u_i)]
+\;.
+\eeqa
+
+
+In terms of random variables,
+this system
+is described by the following 
+{\bf structural equations}:
+
+\beq
+\rvx_i=\sum_{k<i}\alp_{i|k}\rvx_k
+ + \rvu_i
+\;.
+\eeq
+The structural equations can be
+wriiten in matrix form
+as follows.
+Define a lower triangular
+matrix $A$
+with the connection 
+strengths $\alp_{i|k}\geq 0$
+as entries.
+For example, for $nx=4$,
+
+\beq
+A=
+\left[
+\begin{array}{cccc}
+0&0&0&0
+\\
+\alp_{1|0}&0&0&0
+\\
+\alp_{2|0}&\alp_{2|1}&0&0
+\\
+\alp_{3|0}&\alp_{3|1}&\alp_{3|2}&0
+\end{array}\right]
+\;.
+\eeq
+If we now represent the multinodes
+$\rvx.$ and $\rvu.$ as column vectors
+$\rvx$ and $\rvu$, we get
+
+\beq
+\rvx = A \rvx +\rvu
+\label{eq-mat-fully-conn}
+\;.
+\eeq
+Note that
+
+\beq
+\rvx=(1-A)^{-1}\rvu
+\;.
+\eeq
+Therefore,
+
+
+\beq
+\rvx_i=f_i(\rvu_{\leq i})
+\;.
+\eeq
+Therefore,
+if $i>j$,
+
+\beq
+\av{\rvu_i, \rvx_j}
+=\av{\rvu_i, f_j(\rvu_{\leq j})}=0
+\;.
+\eeq
+Thus,
+
+\beqa
+\av{\rvx_i, \rvx_j}&=&
+\sum_{k<i}\alp_{i|k}\av{\rvx_k, \rvx_j}
++
+\av{\rvu_i, \rvx_j}
+\\
+&=&
+\sum_{k<i}\alp_{i|k}\av{\rvx_k, \rvx_j}
+\label{eq-alp-covs-gen}
+\eeqa
+Eqs.\ref{eq-alp-covs-gen}
+constitute a system of
+$(nx^2-nx)/2$ linear  equations in 
+$(nx^2-nx)/2$ unknowns
+(the $\alpha$'s) so we can solve
+solve for the $\alpha$'s in terms
+of covariances $\av{\rvx_i, \rvx_j}$.
+This gives an estimate
+for the $\alp$'s.
