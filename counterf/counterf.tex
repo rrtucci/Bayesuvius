@@ -6,7 +6,7 @@ assumes that the reader has read
 Chapter \ref{ch-linear-sys}  
 on linear 
 deterministic systems
-with exogenous nodes.
+with exogenous noise.
 
 Let
 us repeat
@@ -15,8 +15,8 @@ from Chapter \ref{ch-linear-sys}.
 
 
 \beq
-\rvx = A \rvx +\rvu
-\label{eq-mat-fully-conn-copy}
+\rvx = A \rvx+\rvu
+\label{eq-mat-fully-conn-1}
 \eeq
 This equation
 represents the 
@@ -24,37 +24,84 @@ structural equations
 for a 
 fully connected PA diagram.
 
+Actually, 
+we want to consider 
+$nsam$ copies of equation 
+Eq.(\ref{eq-mat-fully-conn-1})
+
+\beq
+\rvx[s] = A \rvx[s]+\rvu[s]
+\label{eq-mat-fully-conn-nsam}
+\;,
+\eeq
+where each $s=0, 1, \ldots, nsam-1$.
+Each $s$ represents a separate
+individual or ``unit"
+in a population.
+
+
 
 \hrule
 \begin{enumerate}
-\item Solve Eqs.\ref{eq-mat-fully-conn-copy} 
+\item Solve
+ Eqs.\ref{eq-mat-fully-conn-nsam} 
 for $\rvu$.
 
 \beq
 \rvu(\rvx,A)=(1-A)\rvx
 \eeq
 \item
-Modify Eqs.\ref{eq-mat-fully-conn-copy}
-and corresponding bnet
- with intervention
-that sets $\rvx_{i^*}=a$.
+Modify Eqs.\ref{eq-mat-fully-conn-nsam}
+by replacing equation 
+for $\rvx_{i^*}$ by
 
-Define $A^*$
-to equal to matrix $A$ for all 
-rows except the row $i^*$,
-which is set to zero.
+\beq
+\rvx_{i^*}=a
+\eeq
+for some $a\in S_{\rvx_{i^*}}$. 
+Modify the PA diagram
+correspondingly
+by deleting
+all arrows 
+entering
+node $\rvx_{i^*}$.
+This is an
+intervention
+similar to
+those done in do-calculus.
 
-Define $\rvu^*$
-to equal $\rvu(\rvx, a)$ for all 
-rows except the row $i^*$,
-which is set to $a$.
+Define $A^*$ by
+
+\beq
+A^*_{r,c}=\left\{
+\begin{array}{ll}
+A_{r,c}&\text{if row $r\neq i^*$}
+\\
+0& \text{if row $r=i^*$}
+\\
+\end{array}\right.
+\eeq
+
+
+Define $\rvu^*$ by
+\beq
+\rvu^*_{r}=\left\{
+\begin{array}{ll}
+\rvu_{r}(\rvx, A)&\text{if row $r\neq i^*$}
+\\
+a& \text{if row $r=i^*$}
+\\
+\end{array}\right.
+\eeq
 
 Define new random variables $\rvx^*$
 that satisfy
 
 \beq
 \rvx^* = A^* \rvx^* +\rvu^*
+\;.
 \eeq
+Thus,
 
 \beq
 \rvx^*=
@@ -67,6 +114,7 @@ P(x^*_i|x^*_{<i})=
 \indi(
 x^*_i=\sum_{k<i}\alp^*_{i|k}x^*_k
  + u^*_i)
+\;.
 \eeq
 
 \beqa
