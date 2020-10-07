@@ -193,7 +193,12 @@ is measured by a
 {\bf structural
 coefficient} $\alp_{j|i}\in \RR$.
 Some of the $\alp_{j|i}$ may
-be zero.
+be zero,
+in which case
+the
+corresponding arrow
+$i\rarrow j$
+would not be drawn.
 
 \hrule\noindent
 {\bf Fully connected PA diagram with $nx=2$}
@@ -346,6 +351,7 @@ P(x_i|x_{<i}, u_i)=
 x_i=\sum_{k<i}\alp_{i|k}x_k
  + u_i)
 \;,
+\label{eq-linear-pa-tpm}
 \eeq
 for some parameters $\alp_{i|k}\in \RR$.
 The exogenous 
@@ -459,3 +465,80 @@ solve for the $\alpha$'s in terms
 of covariances $\av{\rvx_i, \rvx_j}$.
 This gives an estimate
 for the $\alp$'s.
+
+\section*{Non-linear PA diagrams}
+This chapter 
+is dedicated to
+linear PA diagrams. This
+implicitly
+assumes that 
+the deterministic
+nodes $\rvx.$
+of the 
+PA diagram have
+an interval of
+real values as their
+possible states.
+A trivial
+but very useful
+generalization
+of linear PA diagrams is to
+replace Eq.(\ref{eq-linear-pa-tpm})
+for the TPMs
+of the
+deterministic nodes
+of the diagram by
+
+\beq\color{blue}
+P(x_i|x_{<i}, u_i)=
+\indi(
+x_i=f_i(x_{<i}, u_i))
+\;,
+\label{eq-nonlinear-pa-tpm}
+\eeq
+with structure equations
+
+\beq
+\rvx_i=f_i(\rvx_{<i}, \rvu_i)
+\;,
+\label{eq-pa-nonlinear-struc}
+\eeq
+for $i=0, 1, \ldots, nx-1$.
+Here the $f_i$ are 
+possibly non-linear
+functions
+that depend
+the states
+$x_{<i}$ and $u_i$
+of nodes $\rvx_{<i}$
+and $\rvu_i$.
+If a node $\rvx_i$
+has no arrows
+entering it (i.e., is
+a root node), then
+
+\beq\color{blue}
+P(x_i|x_{<i}, u_i)=P(x_i)=\delta(x_i, a)
+\eeq
+and
+
+\beq
+\rvx_i=a
+\eeq
+for some $a\in S_{\rvx_i}$.
+
+
+With this generalization,
+we can make
+$f_i()$
+represent a
+non-linear
+but continuous probability
+distribution
+such as a Gaussian,
+or a discrete-valued Boolean
+function
+such as an OR gate.
+
+
+

@@ -1,131 +1,272 @@
-\chapter{Counterfactual Reasoning:
- COMING SOON}
+\chapter{Counterfactual Reasoning: COMING SOON}\label{ch-counterf}
+This chapter is mostly based on 
+Ref.\cite{pearl-2019review}, a 2019
+ review of causality by Pearl.
 
-This chapter 
+
+According to 
+Judea Pearl,
+there are 3 rungs in the
+ladder of causal AI:
+\begin{enumerate}
+\item
+{\bf Dumb Observation:} Curve fitting the
+data
+dumbly
+without any plan 
+designed to
+investigate Nature's 
+causal connections.
+\item {\bf Doing causal
+experiments:} 
+Doing experiments 
+consciously designed to
+elucidate
+Nature's causal connections.
+Even cats do this!, but current AI doesn't.
+\item {\bf Counterfactual reasoning:}
+Imagining gedanken experiments
+to further understand
+Nature's causal connections,
+and to decide what future
+courses of action are
+more likely to succeed,
+even if there is zero
+prior data for 
+those courses of action.
+This might be possible if there
+is some similar
+data that can be transported
+(transplanted, applied)
+to the situation of
+interest--what we call
+an analogy.
+\end{enumerate}
+Chapter \ref{ch-mp}
+on message passing
+is about rung 1.
+Chapter \ref{chap-do-calc}
+on do-calculus is about rung 2.
+This chapter is dedicated to rung 3.
+
+This chapter
+assumes that the reader
+has read
+Chapter \ref{chap-do-calc}
+on do-calculus.
+This chapter also 
 assumes that the reader has read 
 Chapter \ref{ch-linear-sys}  
 on linear 
 deterministic systems
 with exogenous noise.
 
-
-
-
-
-
-
-
+\hrule
 Let
 us repeat
-Eq.(\ref{eq-mat-fully-conn})
-from Chapter \ref{ch-linear-sys}.
+Eqs.(\ref{eq-nonlinear-pa-tpm})
+and
+(\ref{eq-pa-nonlinear-struc})
+from Chapter \ref{ch-linear-sys}:
 
+
+\beq\color{blue}
+P(x_i|x_{<i}, u_i)=
+\indi(
+x_i=f_i(x_{<i}, u_i))
+\;,
+\label{eq-nonlinear-pa-tpm-copy}
+\eeq
 
 \beq
-\rvx = A \rvx+\rvu
-\label{eq-mat-fully-conn-1}
+\rvx_i=f_i(\rvx_{<i}, \rvu_i)
+\;,
+\label{eq-pa-nonlinear-struc-copy}
 \eeq
-This equation
-represents the 
+for $i=0, 1, \ldots, nx-1$.
+These equations
+are the TPMs and
 structural equations
 for a 
-fully connected PA diagram.
-
-Actually, 
-we want to consider 
-$nsam$ copies of equation 
-Eq.(\ref{eq-mat-fully-conn-1})
-
-\beq
-\rvx[s] = A \rvx[s]+\rvu[s]
-\label{eq-mat-fully-conn-nsam}
-\;,
-\eeq
-where each $s=0, 1, \ldots, nsam-1$.
-Each $s$ represents a separate
-individual or ``unit"
-in a population.
-
-
-
-\hrule
-\begin{enumerate}
-\item Solve
- Eqs.\ref{eq-mat-fully-conn-nsam} 
-for $\rvu$.
-
-\beq
-\rvu(\rvx,A)=(1-A)\rvx
-\eeq
+fully connected, non-linear PA diagram.
+For a non-fully connected 
+diagram, 
+\begin{itemize}
 \item
-Modify Eqs.\ref{eq-mat-fully-conn-nsam}
-by replacing equation 
-for $\rvx_{i^*}$ by
+replace the multinode $x_{<i}$
+in 
+Eqs.(\ref{eq-nonlinear-pa-tpm-copy})
+and (\ref{eq-pa-nonlinear-struc-copy})
+,
+and
+\item
+delete
+the corresponding arrows
+from the bnet.
+\end{itemize}
+
+
+\hrule\noindent{\bf Intervention (do operation)
+$\rho_{\rva=a}$  for linear PA diagram}.
+
+
 
 \beq
-\rvx_{i^*}=a
+\rvx=A\rvx +\rvu
 \eeq
-for some $a\in S_{\rvx_{i^*}}$. 
-Modify the PA diagram
-correspondingly
-by deleting
-all arrows 
-entering
-node $\rvx_{i^*}$.
-This is an
-intervention
-similar to
-those done in do-calculus.
-
-Define $A^*$ by
 
 \beq
-A^*_{r,c}=\left\{
-\begin{array}{ll}
-A_{r,c}&\text{if row $r\neq i^*$}
-\\
-0& \text{if row $r=i^*$}
-\\
-\end{array}\right.
+\rvx=(1-A)^{-1}\rvu
 \eeq
-
-
-Define $\rvu^*$ by
-\beq
-\rvu^*_{r}=\left\{
-\begin{array}{ll}
-\rvu_{r}(\rvx, A)&\text{if row $r\neq i^*$}
-\\
-a& \text{if row $r=i^*$}
-\\
-\end{array}\right.
-\eeq
-
-Define new random variables $\rvx^*$
-that satisfy
 
 \beq
-\rvx^* = A^* \rvx^* +\rvu^*
-\;.
-\eeq
-Thus,
+\rvx_i = x_i(\rvu.)
+\eeq 
+
+
+Let $\pi_\rva$
+be an $nx\times nx$ matrix with all entries equal
+to  zero
+except the $(i,i)$ entry, which is 1, 
+where 
+$i$  is such that $\rvx_i=\rva$.
 
 \beq
-\rvx^*=
-(1-A^*)^{-1}\rvu^*
+(\pi_\rva)_{i,j}= \indi(i=j, \rva=\rvx_i)
 \eeq
-\end{enumerate}
+
+Let
+
+\beq
+\pi_{!\rva}=1-\pi_\rva
+\eeq
+
+\beq
+A^*=\pi_{!\rva} A +a\pi_\rva
+\eeq
+
+\beq
+\rvu_{!\rva}=\pi_{!\rva} \rvu
+\eeq
+
+\beq
+\rvx^*= A^* \rvx^* + \rvu_{!\rva}
+\eeq
+
+\beq
+\rvx^*=(1-A^*)^{-1} \rvu_{!\rva}
+\eeq
+
+
+
+\beq
+\rvx^*_i=x^*_i(\pi_{!\rva}\rvu,a)
+\eeq
+
 \hrule
-\beq\color{blue}
-P(x^*_i|x^*_{<i})=
-\indi(
-x^*_i=\sum_{k<i}\alp^*_{i|k}x^*_k
- + u^*_i)
-\;.
+For any bnet,
+
+\beq
+P(\rvy=y|\rvx=x)
+=
+P_{G}(\rvy=y|\rvx=x)
 \eeq
+
+\beq
+P(\rvy=y|\rho\rvx=x)
+=
+P_{\rho_{\rvx=x}G}(\rvy=y)
+\eeq
+
+
+\begin{claim}
+For a non-linear PA diagram,
+
+
 
 \beqa
-P(x^*.)=
-\prod_i P(x^*_i|x^*_{<i})
+P(y|\rho\rvx=x)&=&
+\sum_{\pi_{!\rvx}u}P(\pi_{!\rvx}u)
+\delta[y, y(\pi_{!\rvx}u,x)]
+\\
+&=&
+E_{\pi_{!\rvx}\rvu}\left[
+\delta[y, y(\pi_{!\rvx}\rvu,x)]\right]
+\\
+&=&
+E\left[
+\delta[y, y(\pi_{!\rvx}\rvu,x)]\right]
+\;.
+\eeqa
+\end{claim}
+\proof
+Follows trivially from probability axioms.
+\qed
+
+\begin{claim}
+For a nonlinear PA diagram,
+
+\beq
+E[\rvy|\rho \rvx=x]=
+E[y(\pi_{!\rvx}\rvu, x)]
+\;.
+\eeq
+\end{claim}
+\proof
+
+\beqa
+E[\rvy|\rho \rvx=x]
+&=&
+\sum_{y}
+yP(\rvy=y|\rho\rvx=x)
+\\
+&=&
+\sum_{y}
+yP_{\rho_{\rvx=x}G}(\rvy=y)
+\\
+&=&\sum_{\pi_{!\rvx}u}P(\pi_{!\rvx}u)
+\sum_{y}
+yP_{\rho_{\rvx=x}G}
+(\rvy=y|\pi_{!\rvx}u)
+\\
+&=&\sum_{\pi_{!\rvx}u}P(\pi_{!\rvx}u)
+\sum_{y}
+y\delta[y, y(\pi_{!\rvx}u,x)]
+\\
+&=&\sum_{\pi_{!\rvx}u}P(\pi_{!\rvx}u)
+y(\pi_{!\rvx}u,x)
+\\
+&=&
+E_{\pi_{!\rvx}\rvu}
+[y(\pi_{!\rvx}u, x)]
+\\
+&=&
+E[y(\pi_{!\rvx}\rvu, x)]
+\eeqa
+\qed
+
+
+For any bnet
+\beqa
+P(y|\rho\rvx=x, z)&=&
+\frac{P(y, z|\rho\rvx=x)}
+{P(z|\rho\rvx=x)}
+=
+P_{\rho_{\rvx=x}G}(y|x, z)
 \eeqa
 
+For a nonlinear PA diagram,
+\beq
+P(y, z|\rho\rvx=x)
+=
+\sum_{\pi_{!\rvx}u}P(\pi_{!\rvx}u)
+\delta[y, y(\pi_{!\rvx}u,x)]
+\delta[z, z(\pi_{!\rvx}u,x)]
+\eeq
+
+\beq
+P(z|\rho\rvx=x)=
+\sum_{\pi_{!\rvx}u}P(\pi_{!\rvx}u)
+\delta[z, z(\pi_{!\rvx}u,x)]
+\;.
+\eeq
