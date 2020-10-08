@@ -1,4 +1,5 @@
-\chapter{Counterfactual Reasoning: COMING SOON}\label{ch-counterf}
+\chapter{Counterfactual Reasoning: COMING SOON}
+\label{ch-counterf}
 This chapter is mostly based on 
 Ref.\cite{pearl-2019review}, a 2019
  review of causality by Pearl.
@@ -7,12 +8,21 @@ Ref.\cite{pearl-2019review}, a 2019
 According to 
 Judea Pearl,
 there are 3 rungs in the
-ladder of causal AI:
+ladder of causal AI.
+These are\footnote{This is my
+own version of them. They differ 
+slightly from Pearl's.  By now
+you probably realize 
+from reading
+this book that I am a compulsive taylor
+who can't resist  
+altering the clothes I am gifted  so that they fit
+me comfortably.}
 \begin{enumerate}
 \item
-{\bf Dumb Observation:} Curve fitting the
+{\bf Dumb Observation:} Collecting 
 data
-dumbly
+and fitting curves to it,
 without any plan 
 designed to
 investigate Nature's 
@@ -57,9 +67,23 @@ on do-calculus.
 This chapter also 
 assumes that the reader has read 
 Chapter \ref{ch-linear-sys}  
-on linear 
+on LDEN (linear 
 deterministic systems
-with exogenous noise.
+with external noise).
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=3in]
+{counterf/rho-kappa.png}
+\caption{Action
+of operator $\rho_{\rvx=5}$
+on node $\rvx$
+and of operator 
+$\kappa_{\rvx\rarrow \rvb}(5)$
+on arrow $\rvx\rarrow \rvb$.} 
+\label{fig-rho-kappa}
+\end{figure}
 
 \hrule
 Let
@@ -88,12 +112,13 @@ These equations
 are the TPMs and
 structural equations
 for a 
-fully connected, non-linear PA diagram.
+fully connected, non-linear DEN diagram.
 For a non-fully connected 
 diagram, 
 \begin{itemize}
 \item
 replace the multinode $x_{<i}$
+by a subset of itself,
 in 
 Eqs.(\ref{eq-nonlinear-pa-tpm-copy})
 and (\ref{eq-pa-nonlinear-struc-copy})
@@ -102,12 +127,12 @@ and
 \item
 delete
 the corresponding arrows
-from the bnet.
+from the graph.
 \end{itemize}
 
 
 \hrule\noindent{\bf Intervention (do operation)
-$\rho_{\rva=a}$  for linear PA diagram}.
+$\rho_{\rva=a}$  for LDEN diagram}.
 
 
 
@@ -180,31 +205,41 @@ P_{\rho_{\rvx=x}G}(\rvy=y)
 
 
 \begin{claim}
-For a non-linear PA diagram,
+For a non-linear DEN diagram,
 
 
 
-\beqa
-P(y|\rho\rvx=x)&=&
-\sum_{\pi_{!\rvx}u}P(\pi_{!\rvx}u)
-\delta[y, y(\pi_{!\rvx}u,x)]
-\\
-&=&
-E_{\pi_{!\rvx}\rvu}\left[
-\delta[y, y(\pi_{!\rvx}\rvu,x)]\right]
-\\
-&=&
+\beq
+P(y|\rho\rvx=x)=
 E\left[
 \delta[y, y(\pi_{!\rvx}\rvu,x)]\right]
 \;.
-\eeqa
+\eeq
 \end{claim}
 \proof
-Follows trivially from probability axioms.
+\beqa
+P(\rvy=y|\rho\rvx=x)
+&=&
+P_{\rho_{\rvx=x}G}(\rvy=y)
+\\
+&=&\sum_{\pi_{!\rvx}u}P(\pi_{!\rvx}u)
+P_{\rho_{\rvx=x}G}
+(\rvy=y|\pi_{!\rvx}u)
+\\
+&=&\sum_{\pi_{!\rvx}u}P(\pi_{!\rvx}u)
+\delta[y, y(\pi_{!\rvx}u,x)]
+\\
+&=&
+E_{\pi_{!\rvx}\rvu}
+[\delta[y, y(\pi_{!\rvx}u, x)]]
+\\
+&=&
+E[\delta[y,y(\pi_{!\rvx}\rvu, x)]]
+\eeqa
 \qed
 
 \begin{claim}
-For a nonlinear PA diagram,
+For a nonlinear DEN diagram,
 
 \beq
 E[\rvy|\rho \rvx=x]=
@@ -222,23 +257,8 @@ yP(\rvy=y|\rho\rvx=x)
 \\
 &=&
 \sum_{y}
-yP_{\rho_{\rvx=x}G}(\rvy=y)
-\\
-&=&\sum_{\pi_{!\rvx}u}P(\pi_{!\rvx}u)
-\sum_{y}
-yP_{\rho_{\rvx=x}G}
-(\rvy=y|\pi_{!\rvx}u)
-\\
-&=&\sum_{\pi_{!\rvx}u}P(\pi_{!\rvx}u)
-\sum_{y}
-y\delta[y, y(\pi_{!\rvx}u,x)]
-\\
-&=&\sum_{\pi_{!\rvx}u}P(\pi_{!\rvx}u)
-y(\pi_{!\rvx}u,x)
-\\
-&=&
-E_{\pi_{!\rvx}\rvu}
-[y(\pi_{!\rvx}u, x)]
+yE[
+\delta[y, y(\pi_{!\rvx}u,x)]]
 \\
 &=&
 E[y(\pi_{!\rvx}\rvu, x)]
@@ -255,7 +275,7 @@ P(y|\rho\rvx=x, z)&=&
 P_{\rho_{\rvx=x}G}(y|x, z)
 \eeqa
 
-For a nonlinear PA diagram,
+For a nonlinear DEN diagram,
 \beq
 P(y, z|\rho\rvx=x)
 =
@@ -270,3 +290,184 @@ P(z|\rho\rvx=x)=
 \delta[z, z(\pi_{!\rvx}u,x)]
 \;.
 \eeq
+
+\section*{Mediation Analysis}
+
+
+\begin{figure}[h!]
+$$\xymatrix{
+\rvu_\rvt\ar[dd]
+&\rvu_\rvm\ar[d]
+&\rvu_\rvy\ar[dd]
+\\
+&\rvm\ar[rd]
+\\
+\rvt\ar[ru]\ar[rr]&&\rvy
+\\
+&G
+}
+\;\;\;\;\;\;\;\;\;\;\;\;
+\xymatrix{
+\rvu_\rvt\ar[dd]\ar@/^2pc/@{<-->}[r]
+&\rvu_\rvm\ar[d]\ar@/^2pc/@{<-->}[r]
+&\rvu_\rvy\ar[dd]
+\\
+&\rvm\ar[rd]
+\\
+\rvt\ar[ru]\ar[rr]&&\rvy
+\\
+&G^*
+}$$
+\caption{Graphs $G$ and $G^*$
+are used to 
+discuss mediation.}
+\label{fig-mediation-bnets}
+\end{figure}
+\beqa
+\rvt&=&f_\rvt(\rvu_\rvt)
+\\
+\rvm&=&f_\rvm(\rvt, \rvu_\rvm)
+\\
+\rvy&=&f_\rvy(\rvt, \rvm, \rvu_\rvy)
+\eeqa
+
+$\rho_{\rvt=5}G$
+\beqa
+\rvt&=&5
+\\
+\rvm&=&f_\rvm(\rvt, \rvu_\rvm)
+\\
+\rvy&=&f_\rvy(\rvt, \rvm, \rvu_\rvy)
+\eeqa
+
+$\kappa_{\rvt\rarrow\rvm}(5)G$
+\beqa
+\rvt&=&f_\rvt(\rvu_\rvt)
+\\
+\rvm&=&f_\rvm(5, \rvu_\rvm)
+\\
+\rvy&=&f_\rvy(\rvt, \rvm, \rvu_\rvy)
+\eeqa
+
+\beq
+\rvy=f_\rvy(f_\rvt(u_\rvt), f_\rvm(\rvu_\rvt, \rvu_m))
+\eeq
+
+
+
+\begin{figure}[h!]
+\centering
+\begin{tabular}{m{6cm}m{6cm}}
+$
+\xymatrix{
+\rvu_\rvt
+&\rvu_\rvm\ar[d]
+&\rvu_\rvy\ar[dd]
+\\
+&\rvm\ar[rd]
+\\
+\rvt=t\ar[ru]
+\ar[rr]&&\rvy
+}$
+&
+$
+\xymatrix{
+\rvu_\rvt
+&\rvu_\rvm
+&\rvu_\rvy\ar[dd]
+\\
+&\rvm=m\ar[rd]
+\\
+\rvt=t
+\ar[rr]&&\rvy
+}$
+\\
+$\;\;\;\;\;\;\;\;
+\rho_{\rvt=t}G$
+&
+$\;\;\;\;\;\;\;\;
+\rho_{\rvt=t}\rho_{\rvm=m}G$
+\end{tabular}
+\label{fig-mediation-rho}
+\caption{Graph $G$
+of Fig.\ref{fig-mediation-bnets}
+with do operator $\rho$ applied to nodes
+$\rvt$ and $(\rvt, \rvm)$.}
+\end{figure}
+Total Effect (TE),
+Controlled Direct Effect (CDE)
+\beqa
+TE&=& E[
+\rvy_{\rho_{\rvt=1}G}
+-\rvy_{\rho_{\rvt=0}G}
+]
+\\
+CDE(m)&=&
+E[
+\rvy_{\rho_{\rvt=1}\rho_{\rvm=m}G}
+-\rvy_{\rho_{\rvt=0}\rho_{ \rvm=m}G}
+]
+\eeqa
+\hrule
+
+\begin{figure}[h!]
+\centering
+\begin{tabular}{m{4cm}m{3cm}}
+$
+\kappa_{\rvt\rarrow\rvy}(a)
+\kappa_{\rvt\rarrow\rvm}(b)G
+=$
+&
+$\xymatrix{
+\rvu_\rvt\ar[dd]
+&\rvu_\rvm\ar[d]
+&\rvu_\rvy\ar[dd]
+\\
+&\rvm\ar[rd]
+\\
+\rvt\ar[ru]^{\kappa(b)}
+\ar[rr]^{\kappa(a)}&&\rvy
+}$
+\end{tabular}
+\label{fig-mediation-kappa}
+\caption{
+Graph $G$
+of Fig.\ref{fig-mediation-bnets}
+with counterfactual
+ operator $\kappa$
+ applied to arrows
+$\rvt\rarrow\rvm$ and $\rvt\rarrow\rvy$.}
+\end{figure}
+
+
+\beq
+E^{b}_{a}=
+ E[
+\rvy_{\kappa_{\rvt\rarrow\rvy}(a)
+\kappa_{\rvt\rarrow\rvm}(b)G}
+]
+\eeq
+
+
+
+Natural Direct Effect (NDE),
+Natural Indirect Effect (NIE)
+\beqa
+NDE
+&=&E_1^0 - E_0^0
+\\
+NIE(t)
+&=&E_t^1 - E_t^0
+\eeqa
+
+
+\beqa
+NDE+NIE(1)&=&(E_1^0-E_0^0)+(E_1^1 - E_1^0)
+\\
+&=&E_1^1-E_0^0
+\\
+&=&
+TE
+\eeqa
+
+
