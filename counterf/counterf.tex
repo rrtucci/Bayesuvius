@@ -24,7 +24,7 @@ own version of them. They differ
 slightly from Pearl's.  By now
 you probably realize 
 from reading
-this book that I am a compulsive tailor
+this book that I am a obsessive tailor
 who can't resist  
 altering the clothes I am gifted 
 by others so that they fit
@@ -86,7 +86,7 @@ This chapter is dedicated to rung 3.
 In Chapter \ref{chap-do-calc},
 we introduced a {\bf do operator}
 $\rho_{\rvx=x}$ (
-it's identical to what Pearl 
+this is our notation for what Pearl 
 symbolizes by $do(\rvx)=x$).
 The study of counterfactuals 
 requires that we
@@ -143,7 +143,7 @@ explicit name $\kappa_\rvb\rvx$.
 \end{itemize}
 
 Now that we have 
-both do and imagine operators,
+both a do and an imagine operator,
 we realize,
 as Pearl did long ago,
 that we can create
@@ -166,18 +166,18 @@ do-calculus,
 this reduction
 is not 
 always possible,
-and we say a probabiity is
+and we say a probability is
 {\bf identifiable}
 if it  can be reduced
 in that manner.
 Such a do-imagine-calculus
 has already
-been invented
+been developed
 by Pearl and collaborators,
 but
 we won't 
 discuss it in this chapter (perhaps
-we  will
+we  will discuss it
 in a future one).
 
 
@@ -213,13 +213,13 @@ the already familiar
 do operator to
 DEN diagrams.
 
-Recall 
+Recall that
 the structural
 equations
 for a linear DEN, as
 given
 by Eq.(\ref{eq-mat-fully-conn})
-of Chapter \ref{ch-linear-sys}:
+of Chapter \ref{ch-linear-sys}, are:
 
 \beq
 \rvx=A\rvx +\rvu
@@ -276,23 +276,35 @@ nodes
 of the DEN 
 diagram post intervention.
 
-Eqs.(\ref{eq-ith-struc-post-rho}0
-for the structural equations
+Eqs.(\ref{eq-ith-struc-post-rho})
 can be expressed in matrix notation
 as follows.
 Define $\pi_\rva$ to
-be an $nx\times nx$ matrix 
+be the $nx\times nx$ matrix 
 with all entries equal
 to  zero
-except the $(i_0,i_0)$ entry, which is 1, 
-where 
-$i_0$  is such that $\rvx_{i_0}=\rva$.
-In other words,
-
+except for the $(i_0,i_0)$ entry, which is 1.
+And define $e_\rva$
+to be the column vector
+with all entries zero
+except for the $i_0$'th one, 
+which is 1. 
+Here
+$i_0$  
+is
+defined so that $\rvx_{i_0}=\rva$.
+In other words, $\pi_\rva$ and $e_\rva$
+are defined by
 
 \beq
 (\pi_\rva)_{i,j}= \indi(i=j, \rva=\rvx_i)
 \;
+\eeq
+and
+
+\beq
+e_\rva=\indi(\rva=\rvx_i)
+\;,
 \eeq
 for $i, j\in \{0, 1, \ldots, nx-1\}$.
 Next define
@@ -303,7 +315,7 @@ Next define
 \eeq
 
 \beq
-A^*=\pi_{!\rva} A +a\pi_\rva
+A^*=\pi_{!\rva} A
 \;,
 \eeq
 and
@@ -315,7 +327,7 @@ and
 The effect
 of pre-multiplying
 the matrix
-$A$ and 
+$A$ 
 and the column vector $\rvu$ by
 $\pi_{!\rva}$
 is to leave all rows
@@ -336,13 +348,14 @@ post intervention, as
 
 
 \beq
-\rvx^*= A^* \rvx^* + \rvu_{!\rva}
+\rvx^*= A^* \rvx^* + \rvu_{!\rva} +
+ae_\rva
 \;.
 \eeq
 Thus,
 
 \beq
-\rvx^*=(1-A^*)^{-1} \rvu_{!\rva}
+\rvx^*=(1-A^*)^{-1} (\rvu_{!\rva}+ae_\rva)
 \;.
 \eeq
 which
@@ -353,7 +366,7 @@ and non-linear DEN
 diagrams by:
 
 \beq
-\rvx^*_i=x^*_i(\pi_{!\rva}\rvu,a)
+\rvx^*_i=x^*_i(\rvu_{!\rva},a)
 \;.
 \eeq
 
@@ -382,7 +395,7 @@ For a non-linear DEN diagram,
 \beq
 P(y|\rho\rvx=x)=
 E\left[
-\delta[y, y(\pi_{!\rvx}\rvu,x)]\right]
+\delta[y, y(\rvu_{!\rvx},x)]\right]
 \;.
 \eeq
 \end{claim}
@@ -392,19 +405,19 @@ P(\rvy=y|\rho\rvx=x)
 &=&
 P_{\rho_{\rvx=x}G}(\rvy=y)
 \\
-&=&\sum_{\pi_{!\rvx}u}P(\pi_{!\rvx}u)
+&=&\sum_{u_{!\rvx}}P(u_{!\rvx})
 P_{\rho_{\rvx=x}G}
-(\rvy=y|\pi_{!\rvx}u)
+(\rvy=y|u_{!\rvx})
 \\
-&=&\sum_{\pi_{!\rvx}u}P(\pi_{!\rvx}u)
-\delta[y, y(\pi_{!\rvx}u,x)]
-\\
-&=&
-E_{\pi_{!\rvx}\rvu}
-[\delta[y, y(\pi_{!\rvx}u, x)]]
+&=&\sum_{u_{!\rvx}}P(u_{!\rvx})
+\delta[y, y(u_{!\rvx},x)]
 \\
 &=&
-E[\delta[y,y(\pi_{!\rvx}\rvu, x)]]
+E_{\rvu_{!\rvx}}
+[\delta[y, y(u_{!\rvx}, x)]]
+\\
+&=&
+E[\delta[y,y(\rvu_{!\rvx}, x)]]
 \eeqa
 \qed
 
@@ -413,7 +426,7 @@ For a nonlinear DEN diagram,
 
 \beq
 E[\rvy|\rho \rvx=x]=
-E[y(\pi_{!\rvx}\rvu, x)]
+E[y(\rvu_{!\rvx}, x)]
 \;.
 \eeq
 \end{claim}
@@ -428,10 +441,10 @@ yP(\rvy=y|\rho\rvx=x)
 &=&
 \sum_{y}
 yE[
-\delta[y, y(\pi_{!\rvx}u,x)]]
+\delta[y, y(u_{!\rvx},x)]]
 \\
 &=&
-E[y(\pi_{!\rvx}\rvu, x)]
+E[y(\rvu_{!\rvx}, x)]
 \eeqa
 \qed
 
@@ -449,15 +462,15 @@ For a nonlinear DEN diagram,
 \beq
 P(y, z|\rho\rvx=x)
 =
-\sum_{\pi_{!\rvx}u}P(\pi_{!\rvx}u)
-\delta[y, y(\pi_{!\rvx}u,x)]
-\delta[z, z(\pi_{!\rvx}u,x)]
+\sum_{u_{!\rvx}}P(u_{!\rvx})
+\delta[y, y(u_{!\rvx},x)]
+\delta[z, z(u_{!\rvx},x)]
 \eeq
 
 \beq
 P(z|\rho\rvx=x)=
-\sum_{\pi_{!\rvx}u}P(\pi_{!\rvx}u)
-\delta[z, z(\pi_{!\rvx}u,x)]
+\sum_{u_{!\rvx}}P(u_{!\rvx})
+\delta[z, z(u_{!\rvx},x)]
 \;.
 \eeq
 
@@ -518,7 +531,7 @@ of the DEN diagram
 $G$
 in Fig.\ref{fig-mediation-bnets}.
 In that diagram,
-node $\rvx$ 
+node $\rvt$ 
 influences node
 $\rvy$
 both
@@ -572,6 +585,7 @@ $\xymatrix{
 \ar[rr]
 &&\rvy
 }$
+\\
 \\
 $\;\;\;\;\;\;\;\;
 \rho_{\rvt=t}G$
@@ -652,6 +666,7 @@ $
 \rvt=t
 \ar[rr]&&\rvy
 }$
+\\
 \\
 $\;\;\;\;\;\;\;\;
 \rho_{\rvt=t}G$
