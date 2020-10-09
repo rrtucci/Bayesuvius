@@ -1,10 +1,20 @@
-\chapter{Counterfactual Reasoning: COMING SOON}
+\chapter{Counterfactual Reasoning}
 \label{ch-counterf}
 This chapter is mostly based on 
 Ref.\cite{pearl-2019review}, a 2019
  review of causality by Pearl.
 
+This chapter
+assumes that the reader
+has read
+Chapter \ref{chap-do-calc}
+on do-calculus and
+Chapter \ref{ch-linear-sys}  
+on LDEN (linear 
+deterministic systems
+with external noise).
 
+\section*{The 3 Rungs of Causal AI}
 According to 
 Judea Pearl,
 there are 3 rungs in the
@@ -14,13 +24,14 @@ own version of them. They differ
 slightly from Pearl's.  By now
 you probably realize 
 from reading
-this book that I am a compulsive taylor
+this book that I am a compulsive tailor
 who can't resist  
-altering the clothes I am gifted  so that they fit
+altering the clothes I am gifted 
+by others so that they fit
 me comfortably.}
 \begin{enumerate}
 \item
-{\bf Dumb Observation:} Collecting 
+{\bf Observing Dumbly:} Collecting 
 data
 and fitting curves to it,
 without any plan 
@@ -34,7 +45,8 @@ consciously designed to
 elucidate
 Nature's causal connections.
 Even cats do this!, but current AI doesn't.
-\item {\bf Counterfactual reasoning:}
+\item {\bf Imagining
+ counterfactual situations, Analogizing:}
 Imagining gedanken experiments
 to further understand
 Nature's causal connections,
@@ -42,15 +54,23 @@ and to decide what future
 courses of action are
 more likely to succeed,
 even if there is zero
-prior data for 
+direct data for 
 those courses of action.
-This might be possible if there
-is some similar
+Making
+predictions based
+on zero direct data is a very Bayesian
+concern, well out of the purview of 
+frequentists. Nevertheless,
+humans do such
+``analogizing" 
+all the time to great advantage.
+It becomes
+possible if there
+is some indirect but similar
 data that can be transported
 (transplanted, applied)
 to the situation of
-interest--what we call
-an analogy.
+interest.
 \end{enumerate}
 Chapter \ref{ch-mp}
 on message passing
@@ -59,17 +79,106 @@ Chapter \ref{chap-do-calc}
 on do-calculus is about rung 2.
 This chapter is dedicated to rung 3.
 
-This chapter
-assumes that the reader
-has read
-Chapter \ref{chap-do-calc}
-on do-calculus.
-This chapter also 
-assumes that the reader has read 
-Chapter \ref{ch-linear-sys}  
-on LDEN (linear 
-deterministic systems
-with external noise).
+
+
+\section*{Two kinds of
+ intervention operators}
+In Chapter \ref{chap-do-calc},
+we introduced a {\bf do operator}
+$\rho_{\rvx=x}$ (
+it's identical to what Pearl 
+symbolizes by $do(\rvx)=x$).
+The study of counterfactuals 
+requires that we
+introduce a new
+kind of intervention
+operator that we will
+call an {\bf imagine operator}
+and denote by $\kappa_{\rvx\rarrow\rva}(x)$.
+
+The 2  types of
+intervention operators
+are defined 
+graphically in Fig.\ref{fig-rho-kappa}.
+\begin{itemize}
+\item
+The do operator $\rho_{\rvx=5}$
+(called $\rho$ because  it turns $\rvx$
+into a root node)
+amputates
+the incoming arrows of node $\rvx$
+and sets the TPM
+of the new root node $\rvx$
+to a delta function $\delta(x, 5)$
+(or some state of $\rvx$ other than 5).
+Sometimes it is convenient,
+rather than calling the
+new node $\rvx$ like
+the old one, to call
+it by the new name $\rho\rvx$.
+\item
+The imagine operator $\kappa_{\rvx=5}$
+(called $\kappa$ because it
+ creates konstant nodes)
+operates on arrows
+rather than nodes like the 
+$\rho$ operator does.
+$\kappa_{\rvx\rarrow\rvb}(5)$
+deletes
+arrow $\rvx\rarrow\rvb$
+and
+creates a new root node 
+$\rvx'$
+and a new arrow
+$\rvx'\rarrow \rvb$. The
+TPM of the new node $\rvx'$ is a 
+delta function $\delta(x', 5)$
+(or some state of $\rvx$ other than 5).
+Sometimes it is convenient,
+rather than calling the
+new node $\rvx'$, to call
+it by the 
+more
+explicit name $\kappa_\rvb\rvx$.
+\end{itemize}
+
+Now that we have 
+both do and imagine operators,
+we realize,
+as Pearl did long ago,
+that we can create
+a {\bf do-imagine-calculus}
+whose
+objective
+is to 
+express
+probabilities such as 
+$P(\rvy|\rho\rvr=r, 
+\kappa_\rvb \rvs=s, t)$
+in terms of observable 
+probabilities
+that do not
+contain
+any do or imagine
+operators in them.
+As with
+do-calculus,
+this reduction
+is not 
+always possible,
+and we say a probabiity is
+{\bf identifiable}
+if it  can be reduced
+in that manner.
+Such a do-imagine-calculus
+has already
+been invented
+by Pearl and collaborators,
+but
+we won't 
+discuss it in this chapter (perhaps
+we  will
+in a future one).
 
 
 \begin{figure}[h!]
@@ -85,110 +194,171 @@ on arrow $\rvx\rarrow \rvb$.}
 \label{fig-rho-kappa}
 \end{figure}
 
-\hrule
-Let
-us repeat
-Eqs.(\ref{eq-nonlinear-pa-tpm})
-and
-(\ref{eq-pa-nonlinear-struc})
-from Chapter \ref{ch-linear-sys}:
 
+\section*{Do operator
+$\rho_{\rva=a}$  for DEN diagrams}
+By the end of
+this chapter,
+the two kinds of
+intervention operators
+will be applied to
+DEN diagrams.
+Let us begin that 
+journey
+by showing 
+in this section
+how
+to apply  
+the already familiar
+do operator to
+DEN diagrams.
 
-\beq\color{blue}
-P(x_i|x_{<i}, u_i)=
-\indi(
-x_i=f_i(x_{<i}, u_i))
-\;,
-\label{eq-nonlinear-pa-tpm-copy}
-\eeq
-
-\beq
-\rvx_i=f_i(\rvx_{<i}, \rvu_i)
-\;,
-\label{eq-pa-nonlinear-struc-copy}
-\eeq
-for $i=0, 1, \ldots, nx-1$.
-These equations
-are the TPMs and
-structural equations
-for a 
-fully connected, non-linear DEN diagram.
-For a non-fully connected 
-diagram, 
-\begin{itemize}
-\item
-replace the multinode $x_{<i}$
-by a subset of itself,
-in 
-Eqs.(\ref{eq-nonlinear-pa-tpm-copy})
-and (\ref{eq-pa-nonlinear-struc-copy})
-,
-and
-\item
-delete
-the corresponding arrows
-from the graph.
-\end{itemize}
-
-
-\hrule\noindent{\bf Intervention (do operation)
-$\rho_{\rva=a}$  for LDEN diagram}.
-
-
+Recall 
+the structural
+equations
+for a linear DEN, as
+given
+by Eq.(\ref{eq-mat-fully-conn})
+of Chapter \ref{ch-linear-sys}:
 
 \beq
 \rvx=A\rvx +\rvu
+\;.
+\label{eq-struc-pre-rho}
 \eeq
+Therefore,
 
 \beq
 \rvx=(1-A)^{-1}\rvu
 \eeq
+which
+can be 
+represented for
+both linear
+and non-linear DEN
+diagrams by:
 
 \beq
 \rvx_i = x_i(\rvu.)
 \eeq 
 
+If now
+we apply the
+operator
+$\rho_{\rva=a}$
+to 
+the diagram
+described by
+the structural
+equations Eqs.\ref{eq-struc-pre-rho},
+we get the following
+new
+structural
+equations:
 
-Let $\pi_\rva$
-be an $nx\times nx$ matrix with all entries equal
+\beq
+\rvx^*_i =\left\{
+\begin{array}{lll}
+ \sum_{j<i} A_{i|j}\rvx^*_j + u_i&
+ \text{if $\rvx_i\neq \rva$}
+\\
+a&
+\text{if $\rvx_i=\rva$}
+\end{array}
+\right.
+\label{eq-ith-struc-post-rho}
+\;,
+\eeq
+where we are
+calling 
+$\rvx^*_i$ the
+nodes
+of the DEN 
+diagram post intervention.
+
+Eqs.(\ref{eq-ith-struc-post-rho}0
+for the structural equations
+can be expressed in matrix notation
+as follows.
+Define $\pi_\rva$ to
+be an $nx\times nx$ matrix 
+with all entries equal
 to  zero
-except the $(i,i)$ entry, which is 1, 
+except the $(i_0,i_0)$ entry, which is 1, 
 where 
-$i$  is such that $\rvx_i=\rva$.
+$i_0$  is such that $\rvx_{i_0}=\rva$.
+In other words,
+
 
 \beq
 (\pi_\rva)_{i,j}= \indi(i=j, \rva=\rvx_i)
+\;
 \eeq
-
-Let
+for $i, j\in \{0, 1, \ldots, nx-1\}$.
+Next define
 
 \beq
 \pi_{!\rva}=1-\pi_\rva
+\;,
 \eeq
 
 \beq
 A^*=\pi_{!\rva} A +a\pi_\rva
+\;,
 \eeq
+and
 
 \beq
 \rvu_{!\rva}=\pi_{!\rva} \rvu
+\;.
 \eeq
+The effect
+of pre-multiplying
+the matrix
+$A$ and 
+and the column vector $\rvu$ by
+$\pi_{!\rva}$
+is to leave all rows
+intact except for
+the $i_0$
+row, which is set to zero. Here
+ $i_0$ is defined by
+ $\rva=\rvx_{i_0}$.
+Finally,
+using 
+all
+of the
+variables just defined,
+we can express the
+structural equations
+of the linear DEN diagram,
+post intervention, as
+
 
 \beq
 \rvx^*= A^* \rvx^* + \rvu_{!\rva}
+\;.
 \eeq
+Thus,
 
 \beq
 \rvx^*=(1-A^*)^{-1} \rvu_{!\rva}
+\;.
 \eeq
-
-
+which
+can be 
+represented for
+both linear
+and non-linear DEN
+diagrams by:
 
 \beq
 \rvx^*_i=x^*_i(\pi_{!\rva}\rvu,a)
+\;.
 \eeq
 
-\hrule
+
+
 For any bnet,
 
 \beq
@@ -292,6 +462,17 @@ P(z|\rho\rvx=x)=
 \eeq
 
 \section*{Mediation Analysis}
+In
+the previous section,
+we applied the do operator 
+to DEN diagrams.
+Mediation analysis
+is a nice example
+which applies
+both
+do and 
+imagine operators
+to DEN diagrams.
 
 
 \begin{figure}[h!]
@@ -320,40 +501,130 @@ $$\xymatrix{
 }$$
 \caption{Graphs $G$ and $G^*$
 are used to 
-discuss mediation.}
+discuss mediation.
+In graph
+$G$,
+the exogenous
+variables are independent,
+whereas in graph $G^*$
+they are not.}
 \label{fig-mediation-bnets}
 \end{figure}
+
+The term mediation analysis
+refers
+to  the analysis
+of the DEN diagram
+$G$
+in Fig.\ref{fig-mediation-bnets}.
+In that diagram,
+node $\rvx$ 
+influences node
+$\rvy$
+both
+directly
+and via the mediator node $\rvm$.
+The structural 
+equations for that diagram
+are of the form:
+
+\begin{subequations}
+\label{eq-struc-eqs-med}
 \beqa
 \rvt&=&f_\rvt(\rvu_\rvt)
 \\
 \rvm&=&f_\rvm(\rvt, \rvu_\rvm)
 \\
 \rvy&=&f_\rvy(\rvt, \rvm, \rvu_\rvy)
+\;.
 \eeqa
+\end{subequations}
+Thus,
 
+\beq
+\rvy=f_\rvy(f_\rvt(u_\rvt), 
+f_\rvm(\rvu_\rvt, \rvu_m), \rvu_\rvy)
+\;.
+\eeq
+
+\begin{figure}[h!]
+\centering
+\begin{tabular}{m{6cm}m{6cm}}
+$\xymatrix{
+\rvu_\rvt
+&\rvu_\rvm\ar[d]
+&\rvu_\rvy\ar[dd]
+\\
+&\rvm\ar[rd]
+\\
+\rvt=t\ar[ru]
+\ar[rr]&&\rvy
+}$
+&
+$\xymatrix{
+\rvu_\rvt\ar[dd]
+&\rvu_\rvm\ar[d]
+&\rvu_\rvy\ar[dd]
+\\
+&\rvm\ar[rd]
+\\
+\rvt\ar[ru]^{\kappa(5)}
+\ar[rr]
+&&\rvy
+}$
+\\
+$\;\;\;\;\;\;\;\;
+\rho_{\rvt=t}G$
+&
+$\;\;\;\;\;\;\;\;
+\kappa_{\rvt\rarrow\rvm}(5)G$
+\end{tabular}
+\caption{Graph $G$
+of Fig.\ref{fig-mediation-bnets}
+after applying do operator $\rho_{\rvt=5}$
+and imagine operator 
+$\kappa_{\rvt\rarrow\rvm}(5)$.}
+\label{fig-mediation-ops-egs}
+\end{figure}
+
+If we apply
 $\rho_{\rvt=5}G$
+to Eqs.(\ref{eq-struc-eqs-med}), we get
+
+\begin{subequations}
+\label{eq-mediation-rho-egs}
 \beqa
 \rvt&=&5
 \\
 \rvm&=&f_\rvm(\rvt, \rvu_\rvm)
 \\
 \rvy&=&f_\rvy(\rvt, \rvm, \rvu_\rvy)
+\;.
 \eeqa
+\end{subequations}
+Eqs.\ref{eq-mediation-rho-egs}
+are represented graphically
+in Fig.\ref{fig-mediation-ops-egs}.
 
+If we apply
 $\kappa_{\rvt\rarrow\rvm}(5)G$
+to Eqs.(\ref{eq-struc-eqs-med}), we get
+
+\begin{subequations}
+\label{eq-mediation-kappa-egs}
 \beqa
 \rvt&=&f_\rvt(\rvu_\rvt)
 \\
 \rvm&=&f_\rvm(5, \rvu_\rvm)
 \\
 \rvy&=&f_\rvy(\rvt, \rvm, \rvu_\rvy)
+\;.
 \eeqa
-
-\beq
-\rvy=f_\rvy(f_\rvt(u_\rvt), f_\rvm(\rvu_\rvt, \rvu_m))
-\eeq
-
-
+\end{subequations}
+Eqs.\ref{eq-mediation-kappa-egs}
+are represented graphically
+in Fig.\ref{fig-mediation-ops-egs}.
+\hrule
 
 \begin{figure}[h!]
 \centering
@@ -388,14 +659,17 @@ $\;\;\;\;\;\;\;\;
 $\;\;\;\;\;\;\;\;
 \rho_{\rvt=t}\rho_{\rvm=m}G$
 \end{tabular}
-\label{fig-mediation-rho}
 \caption{Graph $G$
 of Fig.\ref{fig-mediation-bnets}
-with do operator $\rho$ applied to nodes
-$\rvt$ and $(\rvt, \rvm)$.}
+after applying the 
+do operators $\rho_{\rvt=t}$
+and
+$\rho_{\rvt=t}\rho_{\rvm=m}$.}
+\label{fig-mediation-rho}
 \end{figure}
-Total Effect (TE),
-Controlled Direct Effect (CDE)
+Define the Total Effect (TE),
+and the
+Controlled Direct Effect (CDE) by
 \beqa
 TE&=& E[
 \rvy_{\rho_{\rvt=1}G}
@@ -408,6 +682,13 @@ E[
 -\rvy_{\rho_{\rvt=0}\rho_{ \rvm=m}G}
 ]
 \eeqa
+The two DEN diagrams
+$\rho_{\rvt=t}G$
+and
+$\rho_{\rvt=t}\rho_{\rvm=m}G$
+used in the definitions
+of $TE$ and $CDE$
+are given in Fig.\ref{fig-mediation-rho}.
 \hrule
 
 \begin{figure}[h!]
@@ -429,38 +710,49 @@ $\xymatrix{
 \ar[rr]^{\kappa(a)}&&\rvy
 }$
 \end{tabular}
-\label{fig-mediation-kappa}
 \caption{
 Graph $G$
 of Fig.\ref{fig-mediation-bnets}
-with counterfactual
- operator $\kappa$
- applied to arrows
+after
+applying the 
+imagine operator
+ $\kappa$
+ to arrows
 $\rvt\rarrow\rvm$ and $\rvt\rarrow\rvy$.}
+\label{fig-mediation-kappa}
 \end{figure}
 
+Let
 
 \beq
-E^{b}_{a}=
+E^b_a=
  E[
 \rvy_{\kappa_{\rvt\rarrow\rvy}(a)
 \kappa_{\rvt\rarrow\rvm}(b)G}
 ]
 \eeq
+Fig.\ref{fig-mediation-kappa}
+shows the diagram 
+$\kappa_{\rvt\rarrow\rvy}(a)
+\kappa_{\rvt\rarrow\rvm}(b)G$
+used in
+the definition of $E^b_a$.
 
 
-
-Natural Direct Effect (NDE),
+Now define the
+Natural Direct Effect (NDE), and the
 Natural Indirect Effect (NIE)
+by
 \beqa
 NDE
 &=&E_1^0 - E_0^0
 \\
 NIE(t)
 &=&E_t^1 - E_t^0
+\;.
 \eeqa
 
-
+Note that
 \beqa
 NDE+NIE(1)&=&(E_1^0-E_0^0)+(E_1^1 - E_1^0)
 \\
@@ -468,6 +760,7 @@ NDE+NIE(1)&=&(E_1^0-E_0^0)+(E_1^1 - E_1^0)
 \\
 &=&
 TE
+\;.
 \eeqa
 
 
