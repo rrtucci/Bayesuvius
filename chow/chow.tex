@@ -92,7 +92,7 @@ where, for the root node 0,
 $P_T(x_0|x_{\mu(0)})=P_T(x_0)$.
 
 \begin{claim}\label{claim-chow1}
-$D_{KL}P\parallel P_T)$
+$D_{KL}(P\parallel P_T)$
 is minimized 
 over all
 probability
@@ -305,7 +305,7 @@ $P_T$
 for a tree bnet
 that 
 best
-approximate
+approximates
 an a priori given
 probability
 distribution $P$,
@@ -368,10 +368,19 @@ has no loops. Otherwise discard $e$ and $w$.
 
 \item{\bf  Give directions to edges in $T$.
 (see Fig.\ref{fig-tree-dir})}\\
-Choose any node as root node, and point arrows away 
-from it.\\ 
-Repeat this until all edges have directions:\\
-\hspace*{1cm}Point arrows away from children. 
+Let $DT$ be a list of directed edges.
+Initialize $DT$ to empty.\\
+Choose any node as root node.\\
+Point arrows along edges in $T$,
+away 
+from root node.\\
+Add new arrows to $DT$.\\ 
+Repeat this until $DT$ has $n-1$ elements:\\
+\hspace*{1cm}Point arrows
+along edges in $T$,
+away from 
+leaf nodes of current  $DT$.\\
+\hspace*{1cm}Add new arrows to $DT$.
 \end{enumerate}
 
 \begin{figure}[h!]
@@ -453,11 +462,11 @@ but at least
 it adds a bit
 of correlation between
 the feature nodes
-of Naive Bayes.
+of the Naive Bayes bnet.
 Those nodes are independent
 at fixed $\rvc$
 in the Naive Bayes
-bnet but are no longer so
+bnet, but are no longer so
 in the TAN bnet.
 See Figs.\ref{fig-naive-tree}
 and \ref{fig-tan}
@@ -600,13 +609,12 @@ from empirical data as follows:
 
 Calculate a Chow-Liu Tree
 for each $c\in S_\rvc$.
-With each of those trees,
-create a TAN bnet.
-For each of those TAN bnets,
+For each of those trees,
+create a TAN bnet, and 
 calculate its
 score given by
   Eq.(\ref{eq-score-tan}).
 Keep
-the TAN with
+the TAN bnet with
 the largest score.
 
