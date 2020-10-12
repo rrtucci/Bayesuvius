@@ -528,7 +528,7 @@ Note that
 \min_\mu H(\rvx^n, \rvc)
 =
 \max_\mu
-\sum_i H(\rvx_i:\rvx_{\mu(i)}, \rvc)
+\sum_i H(\rvx_i:\rvx_{\mu(i)}| \rvc)
 \eeq
 \end{claim}
 \proof
@@ -543,12 +543,21 @@ H(\rvx^n, \rvc)
 \ln P(x_i|x_{\mu(i)}, c)
 \right]
 \\
+&=&-
+\sum_{x^n,c}P(x^n,c)
+\left[
+\ln P(c)+
+\sum_i
+\ln \left(\frac{P(x_i, x_{\mu(i)}|c)}
+{P(x_i|c)P(x_{\mu(x_i)}|c)}
+P(x_i| c)
+\right)
+\right]
+\\
 &=&
-H(\rvc)
-+
-\sum_i H(\rvx_i)
+\sum_i H(\rvx_i, \rvc)
 -
-\sum_i H(\rvx_i:\rvx_{\mu(i)}, \rvc)
+\sum_i H(\rvx_i:\rvx_{\mu(i)}|\rvc)
 \eeqa 
 \qed
 
@@ -580,7 +589,7 @@ the score defined by
 
 \beq
 \text{score}
-=\sum_i H(\rvx_i:\rvx_{\mu(i)}, \rvc)
+=\sum_i H(\rvx_i:\rvx_{\mu(i)}|\rvc)
 \label{eq-score-tan}
 \eeq
 \end{enumerate}
