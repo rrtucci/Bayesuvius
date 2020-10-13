@@ -1,7 +1,106 @@
-\chapter{Observational Equivalence of Bnets: 
-COMING SOON}\label{ch-obs-equi}
+\chapter{Observational
+ Equivalence of Bnets}\label{ch-obs-equi}
 
-\begin{figure}
+This chapter is based on Chapter 1 of
+Ref.\cite{pearl-2013book}
+and on a blog post by 
+Bruno Gon\c{c}alves 
+(Ref.\cite{bruno-obs-equiv}).
+
+
+
+Two bnets are {\bf observationally
+equivalent (OE)}
+if they
+represent
+the same
+probability distribution.
+For example,
+$\rva\rarrow\rvb$
+and $\rva\larrow\rvb$
+are OE because
+
+\beq
+P(a|b)P(b)=P(a,b)=P(b|a)P(a)
+\label{eq-two-node-prob}
+\;.
+\eeq
+
+The {\bf
+skeleton}
+of a bnet is its
+undelying undirected graph.
+
+A {\bf v-structure}
+in
+a bnet consists of
+two arrows 
+converging to
+a node and
+such 
+that their tails
+are not 
+connected 
+by a third arrow.
+Fig.\ref{fig-v-strucs}
+shows in red all the v-structures 
+of a particular bnet.
+
+\begin{figure}[h!]
+$$\xymatrix{
+\rvz_1\ar[dd]\ar[rd]
+&&\rvz_2\ar@[red][dd]\ar[ld]
+\\
+&\rvz_3\ar[dl]\ar[dr]
+\\
+\rvx\ar[r]&\rvw\ar@[red][r]&\rvy
+\\
+&(a)
+}
+\xymatrix{
+\rvz_1\ar[dd]\ar@[red][rd]
+&&\rvz_2\ar[dd]\ar@[red][ld]
+\\
+&\rvz_3\ar[dl]\ar[dr]
+\\
+\rvx\ar[r]&\rvw\ar[r]&\rvy
+\\
+&(b)
+}
+\xymatrix{
+\rvz_1\ar[dd]\ar[rd]
+&&\rvz_2\ar[dd]\ar[ld]
+\\
+&\rvz_3\ar[dl]\ar@[red][dr]
+\\
+\rvx\ar[r]&\rvw\ar@[red][r]&\rvy
+\\
+&(c)
+}$$
+\caption{Example showing in red
+all v-structures 
+of a particular bnet.}
+\label{fig-v-strucs}
+\end{figure}
+
+
+
+
+
+\begin{claim}Observational Equivalence
+Theorem (by Verma and Pearl, 1990.)
+
+Two bnets are
+OE
+iff they
+have the same
+skeletons and
+the same v-structures.
+\end{claim}
+
+\hrule\noindent {\bf Example}
+
+\begin{figure}[h!]
 $$\xymatrix{
 &\rvx_1
 \ar[dl]
@@ -45,8 +144,39 @@ $$\xymatrix{
 &(c)
 }$$
 \caption{These 3 bnets are observational equivalent.}
-\label{}
+\label{fig-obs-equi-eg}
 \end{figure}
+
+One can prove
+that
+the 3 bnets
+in Fig.\ref{fig-obs-equi-eg}
+are OE
+in the following 3 ways:
+
+
+\begin{enumerate}
+\item
+Write
+the generic
+probability
+distributions
+represented by
+the 3 bnets,
+and show
+that they are equal, as we did 
+in Eq.\ref{eq-two-node-prob}.
+That is the low brow way
+of proving OE.
+\item
+Use d-separation
+(see Chapter \ref{chap-dsep}).
+One must prove that 
+the following 3 statements
+are true for each of
+the 3 bnets. Hence, one must
+prove 9 statement
+of d-separation:
 
 \beqa
 \rvx_3 \perp \rvx_2 &|& \rvx_1
@@ -56,37 +186,14 @@ $$\xymatrix{
 \rvx_5 \perp (\rvx_1, \rvx_2, \rvx_3) &|& \rvx_4
 \eeqa
 
-\begin{figure}[h!]
-$$\xymatrix{
-\rvz_1\ar[dd]\ar[rd]
-&&\rvz_2\ar@[red][dd]\ar[ld]
-\\
-&\rvz_3\ar[dl]\ar[dr]
-\\
-\rvx\ar[r]&\rvw\ar@[red][r]&\rvy
-\\
-&(a)
-}
-\xymatrix{
-\rvz_1\ar[dd]\ar@[red][rd]
-&&\rvz_2\ar[dd]\ar@[red][ld]
-\\
-&\rvz_3\ar[dl]\ar[dr]
-\\
-\rvx\ar[r]&\rvw\ar[r]&\rvy
-\\
-&(b)
-}
-\xymatrix{
-\rvz_1\ar[dd]\ar[rd]
-&&\rvz_2\ar[dd]\ar[ld]
-\\
-&\rvz_3\ar[dl]\ar@[red][dr]
-\\
-\rvx\ar[r]&\rvw\ar@[red][r]&\rvy
-\\
-&(c)
-}$$
-\caption{}
-\label{}
-\end{figure}
+\item
+Use the OE Theorem. All three
+bnets have the same
+skeleton,
+and the same
+single
+v-structure
+$\rvx_2\rarrow\rvx_4\larrow\rvx_3$.
+
+\end{enumerate}
+
