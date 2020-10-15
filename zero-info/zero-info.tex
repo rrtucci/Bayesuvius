@@ -1,0 +1,220 @@
+\chapter{Zero Information Transmission 
+(Graphoid Axioms)}
+
+This chapter
+assumes that you
+have read Chapter \ref{chap-dsep}
+on d-separation.
+
+
+The
+following
+quantities
+play a very prominent
+role
+in the d-separation Theorem
+that we enunciated in Chapter  \ref{chap-dsep}.
+
+\begin{itemize}
+\item
+the mutual
+information (MI)\\
+ (aka information transmission) $H(\rva:\rvb)$
+\item
+the conditional mutual
+information (CMI)\\
+(aka conditional
+information
+transmission) $H(\rva:\rvb|\rvc)$
+\end{itemize}
+MI can be viewed
+as the special 
+case of CMI,
+when the set 
+of variables being
+conditioned on is empty.
+Particularly prominent
+in d-separation discussions
+are probability
+distributions
+for which CMI vanishes.
+The goal
+of this chapter
+is to study such 
+probability distributions.
+
+
+Recall that CMI
+is non-negative and symmetric
+in its first two variables (i.e.,
+$H(\rva:\rvb|\rvc)=H(\rvb:\rva|\rvc)$).
+Another very useful
+property of CMI
+is its chain rule
+(easy to prove from the definition of CMI):
+\beq
+H(\rvy:\rvx^n)=
+\sum_i
+H(\rvy:\rvx_i|\rvx_{<i})
+\;,
+\eeq
+where $\rvx^n=(\rvx_0, \rvx_1, \ldots, \rvx_{n-1})$
+and 
+$\rvx_{<i}=(\rvx_0, \rvx_1, \dots, \rvx_{i-1})$.
+
+A trivial
+but
+very useful
+consequence
+of the chain rule
+for CMI is:
+
+\beq\boxed{
+H(\rvy:\rvx^n)=0
+\implies
+H(\rvy:\rvx_i|\rvx_{<i})=0 \text{ for all $i$}}
+\;.
+\label{eq-conseq-cmi-chain-rule}
+\eeq
+
+\section*{Consequences of 
+Eq.\ref{eq-conseq-cmi-chain-rule}.}
+Table \ref{tab-zero-info} gives
+a set 
+of statements about CMI
+referred to as  the Graphoid Axioms
+in
+ chapter 1 
+of Ref.\cite{pearl-2013book}. See 
+Ref.\cite{pearl-2013book}
+to learn
+the history of these axioms.
+The purpose
+of this 
+section
+is to prove
+that the graphoid 
+axioms
+are all
+a simple consequence
+of Eq.(\ref{eq-conseq-cmi-chain-rule}).
+
+
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|
+>{\columncolor[HTML]{ECF4FF}}l |l|}
+\hline
+Symmetry & \begin{tabular}[c]{@{}l@{}}\symrule\\ \symruleH\end{tabular} \\ \hline
+Decomposition & \begin{tabular}[c]{@{}l@{}}\decrule\\ \decruleH\end{tabular} \\ \hline
+Weak Union & \begin{tabular}[c]{@{}l@{}}\wearule\\ \wearuleH\end{tabular} \\ \hline
+Contraction & \begin{tabular}[c]{@{}l@{}}\conrule\\ \conruleH\end{tabular} \\ \hline
+Intersection & \begin{tabular}[c]{@{}l@{}}\intrule\\ \intruleH\end{tabular} \\ \hline
+\end{tabular}
+\caption{Graphoid Axioms}
+\label{tab-zero-info}
+\end{table}
+
+
+
+\begin{claim}
+ Table \ref{tab-zero-info}
+is true.
+\end{claim}
+\proof
+
+\begin{itemize}
+\item{\bf Symmetry}
+
+Follows trivially from 
+$H(\rva:\rvb)=H(\rvb:\rva)$.
+\item{\bf Decomposition}
+
+From the chain rule for CMI, we have
+\beq
+H(\rva:\rvb,\rvc)=
+H(\rva:\rvb|\rvc)+H(\rva:\rvc)
+\;,
+\eeq
+and
+\beq
+H(\rva:\rvb,\rvc)=
+H(\rva:\rvc|\rvb)+H(\rva:\rvb)
+\;.
+\eeq
+Hence, 
+\beq
+H(\rva:\rvb,\rvc)=0
+\;
+\eeq
+implies
+
+\beq
+H(\rva:\rvb|\rvc)=H(\rva:\rvc)=0
+\;,
+\eeq
+and
+
+\beq
+H(\rva:\rvc|\rvb)=H(\rva:\rvb)=0
+\;.
+\eeq
+
+
+\item{\bf Weak Union}
+
+Already proven in proof of Decomposition.
+
+\item{\bf Contraction}
+
+From chain rule for CMI, we have
+\beq
+H(\rva:\rvb,\rvc)=
+H(\rva:\rvb|\rvc)+H(\rva:\rvc)
+\;.
+\eeq
+\item{\bf Intersection}
+
+From the chain rule for CMI, we have
+\beq
+H(\rva:\rvb,\rvd|\rvc)=
+H(\rva:\rvb|\rvd, \rvc)
++
+H(\rva:\rvd|\rvc)
+\;,
+\eeq
+and
+
+\beq
+H(\rva:\rvb,\rvd|\rvc)=
+H(\rva:\rvd|\rvb, \rvc)
++
+H(\rva:\rvb|\rvc)
+\;.
+\eeq
+Thus,
+
+\beq
+H(\rva:\rvb,\rvd|\rvc)=0
+\;
+\eeq
+implies
+
+\beq
+H(\rva:\rvb|\rvd, \rvc)
+=
+H(\rva:\rvd|\rvc)=0
+\;,
+\eeq
+and
+
+\beq
+H(\rva:\rvd|\rvb, \rvc)
+=
+H(\rva:\rvb|\rvc)=0
+\;.
+\eeq
+\end{itemize}
+\;.
+\qed
