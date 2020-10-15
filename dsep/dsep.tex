@@ -178,12 +178,11 @@ Given 3
 disjoint multinodes 
 $\rvA., \rvB., \rvZ.$
 of a graph $G$,
-we say ``
-$\rvA.\perp \rvB.|\rvZ.$
-in $G$"
-or `` {\bf$\rvA.$ and
+we write ``
+$\rvA.\perp_G \rvB.|\rvZ.$"
+or say `` {\bf$\rvA.$ and
 $\rvB.$ are d-separated
-by $\rvZ.$}"
+by $\rvZ.$ in $G$}"
 iff there exists 
 no path
 $\gamma$ from
@@ -199,7 +198,7 @@ Markov blanket (see Chapter
 of a node $\rva$
 is the smallest 
 multinode $\rvZ.$
-such that $\rva\perp\rvb|\rvZ.$
+such that $\rva\perp_G\rvb|\rvZ.$
 for all $\rvb\notin \rva\cup\rvZ.$.
 
 We are finally ready
@@ -214,8 +213,7 @@ are disjoint multinodes
 of a DAG  $G$.
 
 If 
-$\rvA.\perp \rvB.|\rvZ.$
-in $G$, then
+$\rvA.\perp_G \rvB.|\rvZ.$, then
 $P(B.|A., Z.)=P(B.|Z.)$
 for all $B.,A., Z.$,
 for all $P$
@@ -230,14 +228,12 @@ in this book.
 
 Often, the right hand side
 of this theorem is stated as 
-``$\rvA.\perp \rvB.|\rvZ.$
-in $P$ for all $P$" (rather than in $G$).
+``$\rvA.\perp_P \rvB.|\rvZ.$
+for all $P$".
 Then the theorem is stated:
 ``If 
-$\rvA.\perp \rvB.|\rvZ.$
-in $G$, then
-$\rvA.\perp \rvB.|\rvZ.$
-in $P$ for all $P$."  
+$\rvA.\perp_G \rvB.|\rvZ.$, then
+$\rvA.\perp_P \rvB.|\rvZ.$ for all $P$."  
 
 \hrule
 Note that 
@@ -246,12 +242,58 @@ the following are equivalent:
 \item
 $P(B.|A., Z.)=P(B.|Z.)$ for all $B., A., Z.$.
 \item
-$\rvA.\perp \rvB.|\rvZ.$
-in $P$
+$\rvA.\perp_P \rvB.|\rvZ.$
 \item
 $H(\rvA.:\rvB.|\rvZ.)=0$
 (see Chapter \ref{ch-not-cons}
 for definition of
  conditional mutual information (CMI))
 \end{itemize}
+\hrule\noindent
+{\bf Extra stuff: mostly only for 
+ pure mathematicians}
 
+Given a DAG $G$, define 
+its set of d-separations by
+\beq
+DS(G)=\{\rvA.\perp_G\rvB.|\rvZ.:
+\text{ $\rvA.,\rvB.,\rvZ.$ are multinodes of $G$\}}
+\;.
+\eeq
+Given a probability distribution  $P$, define 
+its set of conditional independencies by
+\beq
+CI(P)=\{\rvA.\perp_P\rvB.|\rvZ.:
+\text{ $\rvA.,\rvB.,\rvZ.$ are multinodes of $P$\}}
+\;.
+\eeq
+
+In general, a probability
+distribution $P$
+can be compatible with several $G$.
+For example, $P$
+might be compatible with
+the fully connected
+DAG and with a DAG that
+has fewer edges than the 
+fully connected DAG.
+
+For a DAG $G$
+and a probability
+distribution $P$
+with the same random variables,
+define  a map $\phi$
+by
+\beqa
+\phi:DS(G) &\rarrow& CI(P)
+\\
+\phi: \rvA.\perp_G\rvB.|\rvZ.&\mapsto&
+\rvA.\perp_P\rvB.|\rvZ.
+\eeqa
+
+\begin{claim}
+For a bnet 
+with a DAG $G$
+and a total probability distribution $P$,
+the map $\phi$ is a bijection.
+\end{claim}
