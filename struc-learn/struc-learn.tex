@@ -1,9 +1,13 @@
 \chapter{Structure and Parameter Learning for bnets:
- COMING SOON}
+ COMING SOON}\label{ch-struc-learn}
+
+Ref.\cite{bnlearn}
+
+\cite{scutari2019}
 
 \section*{Overview}
 
-Ref.\cite{bnlearn}
+
 
 \dirtree{%
 .1 Parameter Learning (PL)-post SL.
@@ -69,3 +73,161 @@ Ref.\cite{bnlearn}
 }
      
 \section*{Tidbits}
+\hrule\noindent
+{\bf linear regression}
+
+\beq
+\rvy = \beta_0 +\sum_{j=1}^N\beta_j \rvx_j
+\eeq
+
+For $k=1, \ldots, N$,
+\beq
+\av{\rvx_k, \rvy}
+=
+\sum_{j=1}^N\beta_j\av{\rvx_k, \rvx_j}
+\eeq
+
+$\rvx=(\rvx_1, \ldots, \rvx_N)^T$
+\beq
+\av{\rvx, \rvy}=
+\av{\rvx, \rvx^T}\beta
+\eeq
+
+\beq
+\beta=
+\av{\rvx, \rvx^T}^{-1}\av{ \rvx, \rvy}
+\eeq
+\hrule\noindent
+{\bf Categorical and Dirichlet
+Distributions} 
+
+Ref.\cite{wiki-categorical}
+Ref.\cite{wiki-diri}
+
+$q_+=\sum_i q_i$, 
+$q.=(q_0, q_1, \ldots, q_{nq-1})$
+
+\beq
+cat(x;\pi.)
+=\pi_x
+=\prod_k\pi_k^{\indi(k=x)}
+\eeq
+
+
+\beq
+Dir(\pi.;\alp.)=
+\indi(\pi_+=1)
+\Gamma(\alp_+)
+\prod_k
+\frac{\pi_k^{\alp_k-1}}
+{\Gamma(\alp_k)}
+\eeq
+
+
+\beq
+cat(x;\pi.)Dir(\pi.;\alp.)
+=
+\caln(!\pi.)Dir(\pi.;\alp.')
+\eeq
+
+\beq
+\alp'_k = \alp_k + \indi(x=k)
+\eeq
+
+\beq
+P(x|\pi.)=
+cat(x;\pi.)
+\eeq
+
+\beq
+P(\pi.)=Dir(\pi.;\alp.)
+\eeq
+
+\beq
+P(x|\pi.)P(\pi.)=
+\caln(!\pi.)
+P(\pi.|x)
+\eeq
+
+\beqa
+P(\pi.|x)
+&=&\caln(!\pi.)
+cat(x; \pi.) Dir(\pi.;\alp.)
+\\
+&=&
+Dir(\pi.;\alp'.)
+\eeqa
+
+
+
+\hrule\noindent{\bf 
+Most popular prob distributions
+used to model PTMs}
+
+D=Discrete
+C=Continuous
+
+\beq
+\xymatrix{
+\rvx_i&\ul{\Theta^i}\ar[l]
+}
+\eeq
+
+
+\begin{itemize}
+\item (D|D)
+
+\beq
+cat(k;\pi_{\cdot|j}^i)=\pi_{k|j}^i
+\eeq
+
+\beq
+[\Theta^i]_{k,j}=\pi^i_{k|j}
+\eeq
+
+\beq\color{blue}
+P(\rvx_i=k|pa(\rvx_i)=j, \Theta^i)=
+cat(k;\pi_{\cdot|j}^i)
+\eeq
+
+
+\beq\color{blue}
+P(\Theta^i)=
+\prod_jDir(\pi^i_{.|j}; \alp^i_{.|j})
+\eeq
+
+\beq
+P(\rvx_i=k|pa(\rvx_i)=j, \Theta^i)P(\Theta^i)
+=
+\caln(!\Theta^i)
+P(\Theta^i|\rvx_i=k,pa(\rvx_i)=j)
+\eeq
+
+\beqa
+P(\Theta^i|\rvx_i=k,pa(\rvx_i)=j)
+&=&
+\caln(!\Theta^i)
+cat(k;\pi_{\cdot|j}^i)
+\prod_{j'}Dir(\pi^i_{.|j'}; \alp^i_{.|j'})
+\\
+&=&
+\prod_{j'}Dir(\pi^i_{.|j'}; \beta^i_{.|j'})
+\eeqa
+
+\beq
+ \beta^i_{k'|j'}=
+ \alp^i_{k'|j'}
++\indi(k=k', j=j')
+\eeq
+
+
+
+\item (C|C)
+
+\item (C|D)
+\item (D|C)
+\end{itemize}
+
+
+
+

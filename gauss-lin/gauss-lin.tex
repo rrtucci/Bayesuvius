@@ -1,0 +1,213 @@
+\chapter{Gaussian Nodes with
+ Linear Dependence on Parents}
+\label{ch-gauss-lin}
+
+Bnet nodes
+that 
+have a Gaussian TPM
+with a linear dependence
+on their parent nodes (GLP)
+are a very
+popular way 
+of modeling continuous
+nodes of bnets.
+A 
+convenient
+aspect of them
+is that their
+parent nodes can be either
+continuous or discrete.
+Also,
+they can be learned 
+easily
+from the data
+because
+their
+parameters
+can
+be expressed as
+two node
+covariances.
+For these reasons, 
+they are commonly
+used when 
+doing
+structure learning of 
+bnets 
+with continuous nodes (see Chapter \ref{ch-struc-learn}).
+
+\begin{figure}[h!]
+$$\xymatrix{
+\rvy
+&\rvx_1\ar[l]
+\\
+&\rvx_2\ar[lu]
+\\
+&\rvx_3\ar[luu]
+}$$
+\caption{GLP node
+$\rvy$ with 3 parent nodes $\rvx^3
+=
+(\rvx_1, \rvx_2, \rvx_3)$.}
+\label{fig-glp-3}
+\end{figure}
+
+Recall our
+notation
+for a Gaussian distribution:
+\beq
+\caln(x;\mu, \sigma^2)
+=
+\frac{1}{\sigma\sqrt{2\pi}}
+e^{\frac{-(x-\mu)^2}{2\sigma^2}}
+\;,
+\eeq
+where 
+$x, \mu\in \RR$
+and $\sigma>0$.
+
+A GLP node $\rvy$ with 
+$n$ parents
+ $\rvx^n=(\rvx_1, \rvx_2, \ldots, \rvx_n)$
+has the following TPM:
+\beq\color{blue}
+P(y|x^n)=
+\caln(y; \beta_0 + 
+\beta^{nT}x^n, \sigma^2)
+\eeq
+where $\rvy, \beta_0, \in\RR$
+and $\sigma^2>0$, and where
+$\rvx^n, \beta^n\in \RR^n$ 
+are **column vectors**.
+The $T$ 
+in $\beta^{nT}$ stands for transpose.
+Any $\rvx_i$
+can have
+a discrete
+set of states
+as long as they are real
+valued and ordinal (ordered by size).
+ Fig.\ref{fig-glp-3}
+shows a diagrammatic
+representation
+of a GPL node with 3 parents.
+
+
+An equivalent
+way of defining a GLP node $\rvy$
+is in terms of a random variable
+equation expressing
+$\rvy$ as a hyperplane
+function of the parents $\rvx^n$
+plus a  Gaussian noise variable.
+Define an estimator $\hat{\rvy}$
+of $\rvy$ by
+\begin{subequations}
+\beq
+\hat{\rvy}=\beta_0 + \beta^{nT}\rvx^n
+\eeq
+and
+
+\beq
+\rvy=\hat{\rvy}+\ul{\epsilon}
+\eeq
+where the residual $\ul{\epsilon}$
+satisfies 
+
+\beq
+P(\epsilon)=\caln(\epsilon; 0, \sigma^2)
+\eeq
+and
+
+
+\beq
+\av{\rvx^n, \ul{\epsilon}}
+=0
+\;.
+\eeq
+\end{subequations}
+
+The notation $\av{\rvx, \rvy}$
+for the covariance
+of random variables
+$\rvx$ and $\rvy$
+is explained
+in Chapter \ref{ch-not-cons}.
+
+\begin{claim}
+The
+parameters of
+a GLP node
+can be expressed
+as 2-node
+covariances.
+Specifically,
+
+\beq
+\beta^n=
+\av{\rvx^n, \rvx^{nT}}^{-1}
+\av{\rvy, \rvx^n}
+\eeq
+
+\beq
+\beta_0=
+\av{\rvy}-
+\beta^{nT}\av{\rvx^n}
+\eeq
+
+\beq
+\sigma^2
+=
+\av{\rvy, \rvy}
+-\beta^{nT}
+\av{\rvx^n, \rvy}
+\eeq
+\end{claim}
+\proof
+
+Note that $\av{\rvx^n, \rvx^{nT}}^T
+=\av{\rvx^n, \rvx^{nT}}$
+and 
+$\av{\rvy, \rvx^{nT}}^T
+=\av{\rvy, \rvx^n}$.
+
+
+\beq
+\av{\rvy, \rvx^{nT}}
+=
+\beta^{nT}\av{\rvx^n, \rvx^{nT}}
+\eeq
+
+\beq
+\av{\rvy, \rvx^n}=
+\av{\rvx^n, \rvx^{nT}}\beta^n
+\eeq
+
+\beq
+\beta^n
+=
+\av{\rvx^n, \rvx^{nT}}^{-1}
+\av{\rvy, \rvx^n}
+\eeq
+
+\beq
+\av{\rvy}=
+\beta_0 + 
+\beta^{nT}\av{\rvx^n}
+\eeq
+
+\beqa
+\av{\rvy, \rvy}
+&=&
+\av{
+\beta_0 + \beta^{nT}\rvx^n +
+\ul{\epsilon},
+\rvy}
+\\
+&=&
+\beta^{nT}\av{\rvx^n,
+\rvy}
++
+\sigma^2
+\eeqa
+\qed
