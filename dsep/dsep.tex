@@ -253,20 +253,64 @@ for definition of
 {\bf Extra stuff: mostly only for 
  pure mathematicians}
 
+Below, we will use
+the notation $nde(\rva)$
+to denote
+all nondescendants,
+including $\rva$ itself, 
+of a node $\rva$
+in a DAG $G$; i.e.,
+all nodes of $G$ that are not
+in $de(\rva)\cup \rva$, where
+$de(\rva)$
+is defined in Chapter \ref{ch-bnet-def}.
+
 Given a DAG $G$, define 
-its set of d-separations by
+the following
+sets of d-separations:\footnote{
+Note that
+$(\rvA.\perp_G
+nde(\rvA.)\cond pa(\rvA.))$ and
+$(\rvA.\perp_G
+nde(\rvA.)-pa(\rvA.)\cond pa(\rvA.))$
+are
+equivalent
+because
+$H(\rva:\rvb, \rvc|\rvc)=
+H(\rva:\rvb|\rvc)$.
+}
 \beq
-DS(G)=\{\rvA.\perp_G\rvB.|\rvZ.:
+DS(G)=\{(\rvA.\perp_G\rvB.\cond\rvZ.):
 \text{ $\rvA.,\rvB.,\rvZ.$ are multinodes of $G$\}}
 \;.
 \eeq
-Given a probability distribution  $P$, define 
-its set of conditional independencies by
 \beq
-CI(P)=\{\rvA.\perp_P\rvB.|\rvZ.:
-\text{ $\rvA.,\rvB.,\rvZ.$ are multinodes of $P$\}}
+DS_{min}(G)=\{(\rvA.\perp_G
+nde(\rvA.)\cond pa(\rvA.)):
+\text{ $\rvA.$ is a multinode of $G$\}}
 \;.
 \eeq
+
+See Chapter \ref{ch-obs-equi}
+for an example
+where set $DS_{min}(G)$
+is calculated for 
+a particular DAG $G$.
+
+\begin{claim}
+For all $G$, $DS(G)=DS_{min}(G)$.
+\end{claim}
+
+Given a probability distribution  $P$, 
+define the following
+set of conditional independencies:
+
+\beq
+CI(P)=\{(\rvA.\perp_P\rvB.\cond \rvZ.):
+\text{ $\rvA.,\rvB.,\rvZ.$ are multinodes of $P$\}}
+\;,
+\eeq
+
 
 In general, a probability
 distribution $P$
@@ -287,13 +331,24 @@ by
 \beqa
 \phi:DS(G) &\rarrow& CI(P)
 \\
-\phi: \rvA.\perp_G\rvB.|\rvZ.&\mapsto&
+\phi: \rvA.\perp_G\rvB.\cond\rvZ.&\mapsto&
 \rvA.\perp_P\rvB.|\rvZ.
 \eeqa
+
 
 \begin{claim}
 For a bnet 
 with a DAG $G$
 and a total probability distribution $P$,
-the map $\phi$ is a bijection.
+the map $\phi$ is a bijection
+given by
+
+\beqa
+\phi:DS_{min}(G) &\rarrow& CI(P)
+\\
+\phi: \rvA.\perp_G nde(\rvA.)\cond pa(\rvA.)
+&\mapsto&
+\rvA.\perp_P nde(\rvA.)\cond pa(\rvA.)
+\eeqa
+
 \end{claim}
