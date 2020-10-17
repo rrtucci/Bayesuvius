@@ -15,8 +15,11 @@ A
 convenient
 aspect of them
 is that their
-parent nodes can be either
-continuous or discrete.
+parents can be discrete
+or continuous nodes,
+and their
+children can be discrete
+or continuous nodes too.
 Also,
 they can be learned 
 easily
@@ -25,7 +28,7 @@ because
 their
 parameters
 can
-be expressed as
+be expressed in terms of
 two node
 covariances.
 For these reasons, 
@@ -119,19 +122,19 @@ $\rvy$ by
 and
 
 \beq
-\rvy=\hat{\rvy}+\ul{\epsilon}
+\rvy=\hat{\rvy}+\ul{\eps}
 \eeq
-where the residual $\ul{\epsilon}$
+where the residual $\ul{\eps}$
 satisfies 
 
 \beq
-P(\epsilon)=\caln(\epsilon; 0, \sigma^2)
+P(\eps)=\caln(\eps; 0, \sigma^2)
 \eeq
 and
 
 
 \beq
-\av{\rvx^n, \ul{\epsilon}}
+\av{\rvx^n, \ul{\eps}}
 =0
 \;.
 \eeq
@@ -149,7 +152,7 @@ The
 parameters of
 a GLP node
 can be expressed
-as 2-node
+in terms of 2-node
 covariances.
 Specifically,
 
@@ -211,7 +214,7 @@ $\av{\rvy, \rvx^{nT}}^T
 &=&
 \av{
 \beta_0 + \beta^{nT}\rvx^n +
-\ul{\epsilon},
+\ul{\eps},
 \rvy}
 \\
 &=&
@@ -221,3 +224,45 @@ $\av{\rvy, \rvx^{nT}}^T
 \sigma^2
 \eeqa
 \qed
+
+\hrule
+Let  D=Discrete, GLP=Gaussian with  Linear
+ dependence in Parents
+
+The following arrows are possible
+in a bnet.
+
+\begin{itemize}
+\item $GLP\larrow GLP$
+\item $GLP\larrow D$
+
+Pass to GLP a separate
+set of regression
+coefficients $\beta_0, \beta^n$
+for each state 
+of D.
+\beq\color{blue}
+P(y|(x^n)_d, d)=
+\caln(y; (\beta_0)_d + 
+(\beta^{nT})_d (x^n)_d, \sigma_d^2)
+\eeq
+for each $d\in S_{\rvD}$.
+
+\item $D\larrow GLP$
+
+If D expects
+a continuous parent,
+no need to preprocess GLP output.
+If D expects a discrete parent,
+break
+the interval $[a,b]$
+that
+contains
+most of
+the range
+of the GPL node into
+sub-intervals and 
+assign a discrete label
+to each subinterval.
+\item $D\larrow D$
+\end{itemize}

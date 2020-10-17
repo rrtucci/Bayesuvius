@@ -74,10 +74,23 @@ Ref.\cite{bnlearn}
      
 \section*{Tidbits}
 \hrule\noindent
-{\bf linear regression}
+{\bf linear regression }
+
+$\rvy=$  true value
+$\hat{\rvy}=$ estimator
+$\ul{\eps}=$ residual
 
 \beq
-\rvy = \beta_0 +\sum_{j=1}^N\beta_j \rvx_j
+\hat{\rvy}=
+\beta_0 +\sum_{j=1}^N\beta_j \rvx_j
+\eeq
+
+\beq
+\rvy = \hat{\rvy}+\ul{\eps}
+\eeq
+
+\beq
+\av{\rvx_j, \ul{\eps}}=0
 \eeq
 
 For $k=1, \ldots, N$,
@@ -101,8 +114,11 @@ $\rvx=(\rvx_1, \ldots, \rvx_N)^T$
 {\bf Categorical and Dirichlet
 Distributions} 
 
-Ref.\cite{wiki-categorical}
-Ref.\cite{wiki-diri}
+Categorical 
+distribution Ref.\cite{wiki-categorical}
+
+Dirichlet 
+distribution Ref.\cite{wiki-diri}
 
 $q_+=\sum_i q_i$, 
 $q.=(q_0, q_1, \ldots, q_{nq-1})$
@@ -228,6 +244,77 @@ cat(k;\pi_{\cdot|j}^i)
 \item (D|C)
 \end{itemize}
 
+\begin{figure}[h!]
+$$
+\xymatrix{
+&\ul{\Theta}\ar[d]\ar[dl]
+\\
+\ul{D}&\ul{G}\ar[l]
+}
+$$
+\caption{}
+\label{}
+\end{figure}
 
+$\ul{G}=$ the DAG
 
+$\ul{D}=$ samples consisting of 
+states of each node
+
+$\ul{\Theta}=$ the TPMs of all nodes
+
+\beq
+score_{B}
+=P(G|D)
+\eeq
+
+\beq
+score_{ML}
+=P(D|G)
+\eeq
+
+Score each node
+independently
+\beq
+score_{ML}=
+\prod_i
+P(D_i|G)
+\eeq
+
+\beq
+P(D_i|G)
+=
+\sum_{\Theta_i}
+P(D_i|G,\Theta_i)P(\Theta_i|G)
+\eeq
+
+\beq
+P(D_i|G,\Theta_i)=
+\caln(!D_i, !\Theta_i)P(\Theta_i)
+\eeq
+
+\beq
+P(D_i|G)
+=\caln(!D_i)
+\sum_{\Theta_i}
+P(\Theta_i)P(\Theta_i|G)
+=\caln(!D_i)
+E_{\ul{\Theta}_i}
+[P(\Theta_i|G)]
+\eeq
+
+\beq
+score_{ML}=
+\prod_i
+E_{\ul{\Theta}_i}
+[P(\Theta_i|G)]
+\eeq
+
+$P(\Theta_i)=$
+Dirichlet
+
+$P(D_i|\Theta_i)=$ categorical
+
+$P(\Theta_i|D_i)=$ Dirichlet again (Dir is
+conjuagte prior of cat)
 
