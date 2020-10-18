@@ -22,7 +22,7 @@ Ref.\cite{bnlearn}
 .3 algorithms.
 .4 hill climbing (HC).
 .4 HC with random restarts.
-.4 Tabu search (Tabu).
+.4 HC with Tabu list (Tabu).
 .4 simulated annealing.
 .4 genetic algorithms.
 .3 scoring functions.
@@ -40,7 +40,7 @@ Ref.\cite{bnlearn}
 .5 locally averaged BDe score (BDla).
 .2 constraint based.
 .3 algorithms.
-.4 Inductive Causation (IC).
+.5 Inductive Causation (IC).
 .4 Parents \& Children (PC) family.
 .5 PC (the stable version).
 .5 Max-Min Parents \& Children (MMPC).
@@ -66,7 +66,7 @@ Ref.\cite{bnlearn}
 .1 parallel programming structure learning.
 .1 node types.
 .2 discrete.
-.3 categorical (unordered) (multinomial distribution).
+.3 Categorical (unordered) (multinomial distribution).
 .3 ordinal (ordered).
 .2 continuous  (multivariate normal distribution).
 .2 mixed  (conditional Gaussian distribution).
@@ -124,7 +124,7 @@ $q_+=\sum_i q_i$,
 $q.=(q_0, q_1, \ldots, q_{nq-1})$
 
 \beq
-cat(x;\pi.)
+Cat(x;\pi.)
 =\pi_x
 =\prod_k\pi_k^{\indi(k=x)}
 \eeq
@@ -141,7 +141,7 @@ Dir(\pi.;\alp.)=
 
 
 \beq
-cat(x;\pi.)Dir(\pi.;\alp.)
+Cat(x;\pi.)Dir(\pi.;\alp.)
 =
 \caln(!\pi.)Dir(\pi.;\alp.')
 \eeq
@@ -152,7 +152,7 @@ cat(x;\pi.)Dir(\pi.;\alp.)
 
 \beq
 P(x|\pi.)=
-cat(x;\pi.)
+Cat(x;\pi.)
 \eeq
 
 \beq
@@ -168,7 +168,7 @@ P(\pi.|x)
 \beqa
 P(\pi.|x)
 &=&\caln(!\pi.)
-cat(x; \pi.) Dir(\pi.;\alp.)
+Cat(x; \pi.) Dir(\pi.;\alp.)
 \\
 &=&
 Dir(\pi.;\alp'.)
@@ -176,12 +176,9 @@ Dir(\pi.;\alp'.)
 
 
 
-\hrule\noindent{\bf 
-Most popular prob distributions
-used to model PTMs}
+\hrule\noindent 
 
-D=Discrete
-C=Continuous
+Discrete  nodes only for now
 
 \beq
 \xymatrix{
@@ -189,12 +186,8 @@ C=Continuous
 }
 \eeq
 
-
-\begin{itemize}
-\item (D|D)
-
 \beq
-cat(k;\pi_{\cdot|j}^i)=\pi_{k|j}^i
+Cat(k;\pi_{\cdot|j}^i)=\pi_{k|j}^i
 \eeq
 
 \beq
@@ -203,7 +196,7 @@ cat(k;\pi_{\cdot|j}^i)=\pi_{k|j}^i
 
 \beq\color{blue}
 P(\rvx_i=k|pa(\rvx_i)=j, \Theta^i)=
-cat(k;\pi_{\cdot|j}^i)
+Cat(k;\pi_{\cdot|j}^i)
 \eeq
 
 
@@ -223,7 +216,7 @@ P(\Theta^i|\rvx_i=k,pa(\rvx_i)=j)
 P(\Theta^i|\rvx_i=k,pa(\rvx_i)=j)
 &=&
 \caln(!\Theta^i)
-cat(k;\pi_{\cdot|j}^i)
+Cat(k;\pi_{\cdot|j}^i)
 \prod_{j'}Dir(\pi^i_{.|j'}; \alp^i_{.|j'})
 \\
 &=&
@@ -238,12 +231,6 @@ cat(k;\pi_{\cdot|j}^i)
 
 
 
-\item (C|C)
-
-\item (C|D)
-\item (D|C)
-\end{itemize}
-
 \begin{figure}[h!]
 $$
 \xymatrix{
@@ -256,12 +243,26 @@ $$
 \label{}
 \end{figure}
 
-$\ul{G}=$ the DAG
+$\ul{G}=$ the DAG, the structure
 
 $\ul{D}=$ samples consisting of 
 states of each node
 
-$\ul{\Theta}=$ the TPMs of all nodes
+$\ul{\Theta}=$ the TPMs of all nodes, the 
+parameters
+
+PL=parameters learning
+
+SL= structure learning
+
+
+\beq
+P(\Theta, G|D)=
+\underbrace{P(\Theta|G,D)}_{PL \text{ once know structure $G$}}
+\underbrace{P(G|D)}_{SL}
+\eeq
+
+SL scores
 
 \beq
 score_{B}
@@ -313,8 +314,8 @@ E_{\ul{\Theta}_i}
 $P(\Theta_i)=$
 Dirichlet
 
-$P(D_i|\Theta_i)=$ categorical
+$P(D_i|\Theta_i)=$ Categorical
 
 $P(\Theta_i|D_i)=$ Dirichlet again (Dir is
-conjuagte prior of cat)
+conjuagte prior of Cat)
 
