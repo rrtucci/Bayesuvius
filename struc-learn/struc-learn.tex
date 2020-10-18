@@ -231,6 +231,7 @@ Cat(k;\pi_{\cdot|j}^i)
 +\indi(k=k', j=j')
 \eeq
 
+\hrule\noindent{\bf Learning in General}
 
 
 \begin{figure}[h!]
@@ -258,6 +259,16 @@ PL=parameters learning
 SL= structure learning
 
 \beq
+\underbrace{
+P(\alp, G|D)
+}_{\text{learning}}
+=
+\underbrace{P(\alp|G,D)}_{PL \text{ once know structure $G$}}
+\underbrace{P(G|D)}_{SL}
+\eeq
+
+\hrule\noindent{\bf Parameter Learning (PL)}
+\beq
 P(x^{nx})
 =\prod_i P(x_i|pa_i)
 \eeq
@@ -272,12 +283,32 @@ P(\rvx_i=k|\ul{pa}_i=j)
 }_{\hat{\pi}^i_{k|j}}
 \eeq
 
+\beq
+P(D|\alp, G)=\prod_i P(D_i|\alp_i, G)
+\eeq
 
 \beq
-P(\alp, G|D)=
-\underbrace{P(\alp|G,D)}_{PL \text{ once know structure $G$}}
-\underbrace{P(G|D)}_{SL}
+P(D_i|\alp_i, G)=
+\prod_{j, k}\hat{\pi}^i_{k|j}
 \eeq
+
+\beq
+P(\alp_i|D_i, G)=
+\caln!(\alp_i)P(D_i|\alp_i, G)P(\alp_i|G)
+\eeq
+
+$P(\alp_i|G)=$
+Dirichlet
+
+$P(D_i|\alp_i, G)=$ Categorical
+
+$P(\alp_i|D_i, G)=$ Dirichlet again (Dir is
+conjuagte prior of Cat)
+
+GBN (Gaussian Bayesian Networks)
+
+
+\hrule\noindent{\bf Structure Learning (SL)}
 
 SL scores
 
@@ -336,12 +367,3 @@ P(\alp_i|G)
 \eeq
 
 
-$P(\alp_i)=$
-Dirichlet
-
-$P(D_i|\alp_i)=$ Categorical
-
-$P(\alp_i|D_i)=$ Dirichlet again (Dir is
-conjuagte prior of Cat)
-
-GBN (Gaussian Bayesian Networks)
