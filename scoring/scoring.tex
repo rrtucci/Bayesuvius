@@ -7,11 +7,11 @@ to learn a bnet  from data.
 Many algorithms for
 doing this require scoring
 how well
-a bnet fits
+a particular bnet fits
 the data.
 This chapter 
 is an introduction to
-such scores.
+such scoring.
  
 
 In this chapter,
@@ -51,9 +51,9 @@ to get a negative entropy:
 -H(P_{\rvx|\theta})
 \;.
 \eeq
-Thus maximizing a 
+Thus, maximizing a 
 likelihood function
-and minimizing its entropy
+and minimizing its entropy both
 have the
 same goal,
 to find 
@@ -110,7 +110,8 @@ articles that will be used later on.
 Below,
 we will abbreviate
 $q_+=\sum_i q_i$, and
-$q.=(q_0, q_1, \ldots, q_{nq-1})$.
+$q.=(q_0, q_1, \ldots, q_{nq-1})$
+for various quantities $q$
 
 {\bf Gamma function}. If $n>0$ is an integer,
 \beq
@@ -208,11 +209,14 @@ E[\ul{\pi_k}]=\frac{N_k}{N_+}
 \hrule\noindent
 Dir() is {\bf conjugate prior} of  Mul()
 
+Note that
+
 \beq
 Mul(N.;\pi., N)Dir(\pi.;\alp.)
 =
 \calk( N.,\alp.)
 Dir(\pi.;N.+\alp.)
+\;,
 \eeq
 where
 
@@ -226,7 +230,7 @@ where
 Dir() swappable with Mul()
 for large concentration parameters
 
-If $N_k$ is a positive  integer
+Note that if $N_k$ is a positive  integer
 and
 $\alp_k=N_k+1$ for all $k$, then
 
@@ -237,6 +241,7 @@ C(N.)\prod_k \pi_k^{N_k}
 \\
 &=&
 Mul(N.; \pi., N_+)
+\;.
 \eeqa
 
 \section*{Single node with no parents}
@@ -303,7 +308,8 @@ $$
 For a bnet
 consisting
 of a single node
-with no parents, a
+with no parents, 
+this is a
 Markov chain of
 current counts ($\rvN.$), TPM ($\ul{\pi.}$),
 and
@@ -368,6 +374,10 @@ P(N.|\alp.)=
 \eeq
 
 If $N_k>>1$ for all $k$,
+then the Dir()
+in Eq.(\ref{eq-calk-dir})
+can be swapped by a Mul()
+
 
 \beq
 P(N., \pi.|\alp.)
@@ -541,7 +551,8 @@ $$
 Generalization
 of Fig.\ref{fig-n-pi-alp-single}.
 For a bnet with multiple nodes
-each of which may have multiple parents, a
+each of which may have multiple parents,
+this is  a
 Markov chain of
 current counts ($\ul{N^i_\dotmu}$),
 TPM ($\ul{\pi^i_\dotbarmu}$),
@@ -576,7 +587,7 @@ of node $\rvx_i$
 
 $\mu\in
 S_{\ul{\mu}^i}=\{0, 1, \dots, n\mu^i-1\}$=
-parents of node $\rvx_i$.
+states of parents of node $\rvx_i$.
 
 In the previous section,
 we assumed a single node ($ni=1$)
@@ -632,7 +643,7 @@ N^i_\kbarmu=
 \eeq
 Note that
 $N^i_\kmu$
-is positive integer whereas
+is a positive integer whereas
 $N^i_\kbarmu\in[0,1]$.
 
 Let's denote
@@ -769,7 +780,10 @@ P(N^i_\dotmu|
 \alp^i_\kmu=
 \alp'N^i_\kmu
 \right)
+\;,
 \eeqa
+where $\alp'$
+is a free parameter.
 
 \item BD equivalent unified (BDeu)
 \beqa
@@ -781,8 +795,10 @@ P(N^i_\dotmu|
 \alp^i_\kmu=
 \frac{\alp'}{nk^in\mu^i}
 \right)
+\;,
 \eeqa
-
+where $\alp'$
+is a free parameter.
 The BDeu 
 score satisfies {\bf score equivalence};
 i.e.,
