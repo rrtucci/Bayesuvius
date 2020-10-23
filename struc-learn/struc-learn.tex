@@ -10,9 +10,9 @@ Ref.\cite{bnlearn}
 
 
 \dirtree{%
-.1 Parameter Learning (PL)-post SL.
+.1 Parameter Learning.
 .2 missing data.
-.1 Structure Learning (SL)-pre PL.
+.1 Structure Learning.
 .2 tree-like structures given a priori.
 .3 Naive Bayes.
 .3 Chow-Liu tree.
@@ -26,344 +26,133 @@ Ref.\cite{bnlearn}
 .4 simulated annealing.
 .4 genetic algorithms.
 .3 scoring functions.
-.4 log-likelihood (LL).
-.4 predictive log-likelihood (PLL).
-.4 Akaike Information Criterion (AIC).
+.4 Information Theoretic scores.
 .4 Bayesian Information Criterion (BIC).
-.4 Minimum Description Length (MDL) (same as BIC).
 .4 Bayesian Dirichlet (BD) family.
-.5 K2 score.
-.5 score equivalent Dirichlet posterior density (BDe).
-.5 sparse Dirichlet posterior density (BDs).
-.5 Dirichlet posterior density based on Jeffrey's prior (BDJ).
-.5 modified Bayesian Dirichlet for mixtures of interventional and observational data.
-.5 locally averaged BDe score (BDla).
 .2 constraint based.
 .3 algorithms.
-.5 Inductive Causation (IC).
 .4 Parents \& Children (PC) family.
-.5 PC (the stable version).
-.5 Max-Min Parents \& Children (MMPC).
-.5 Semi-Interleaved Hiton-PC (SI-HITON-PC).
-.5 Hybrid Parents \& Children (HPC).
 .4 Grow-Shrink (GS).
-.4 IAMB family.
-.5 Incremental Association Markov Blanket (IAMB).
-.5 Fast Incremental Association (Fast-IAMB).
-.5 Interleaved Incremental Association (Inter-IAMB).
-.5 Incremental Association with FDR Correction (IAMB-FDR).
+.4 Incremental Association Markov Blanket (IAMB) family.
 .3 conditional independence tests.
 .4 mutual information (parametric, semiparametric and permutation tests).
 .4 shrinkage-estimator for the mutual information.
-.4 Pearson's X2 (parametric, semiparametric and permutation tests).
-.4 Jonckheere-Terpstra (parametric and permutation tests).
-.4 linear correlation (parametric, semiparametric and permutation tests).
-.4 Fisher's Z (parametric, semiparametric and permutation tests).
 .2 hybrid.
 .3 Max-Min Hill Climbing (MMHC).
 .3 Hybrid HPC (H2PC).
 .3 General 2-Phase Restricted Maximization (RSMAX2).
 .1 parallel programming structure learning.
 .1 node types.
-.2 discrete.
-.3 Categorical (unordered) (multinomial distribution).
-.3 ordinal (ordered).
-.2 continuous  (multivariate normal distribution).
-.2 mixed  (conditional Gaussian distribution).
+.2 all-discrete.
+.2 all-continuous.
+.2 mixed.
 }
      
+
+\hrule
+Let
+\begin{itemize}
+\item
+PL=parameters (i.e, the TPMs) learning
+\item
+SL= structure (i.e., the DAG) learning
+\end{itemize}
+
+PL is easy, once the
+structure is known. PL 
+assuming no missing data
+goes as follows.
+Using the notation of Chapter 
+\ref{ch-scoring}, define
+\beq
+\pi_\kbarmu^i=
+P(\rvx_i=k\cond pa(\rvx_i)=\mu )
+\;.
+\eeq
+Then $\pi_\kbarmu^i$
+can be estimated
+from the data $N^i_\kmu$ 
+as follows:
+
+\beq
+\pi_\kbarmu^i
+\approx 
+N^i_\kbarmu
+=
+\frac{N^i_\kmu}{N^i_\plusmu}
+\;.
+\label{eq-PL-simple}
+\eeq
+PL
+described by Eq.(\ref{eq-PL-simple})
+ is only for discrete nodes
+with no missing data.
+bnlearn can also do PL
+with missing data
+and continuous 
+(Gaussian linear only) nodes. 
+See Chapter \ref{ch-missing-d}
+on missing data
+and Chapter \ref{ch-gauss-lin}
+on Gaussian linear nodes.
+
+SL
+actually
+does PL and SL
+at the same time.  
+There are 3 main 
+types of SL: score based,
+constraint based, and hybrid score-constraint
+based.
+bnlearn can perform many
+ algorithms
+of each of these 3 types
+of SL.
+Some
+algorithms can
+handle either all-discrete,
+or all-continuous
+or mixed nodes.
+
+Score based SL methods
+require
+scoring bnets (with either
+all-discrete, all-continuous
+or mixed nodes).
+See Chapter \ref{ch-scoring}
+for an introduction
+to scoring bnets.
+The BIC score
+explained
+in that chapter is
+very popular
+and works for all-discrete,
+all-continuous or mixed nodes.
+
+
+Constraint based SL methods
+require
+estimating from the data
+the conditional independence
+$\rvx.\perp_P \rvy.|\rva.$ 
+for any 3 disjoint
+multinodes $\rvx., \rvy., \rva.$.
+This can be done by
+estimating the conditional
+mutual information (CMI)
+$H(\rvx.:\rvy.|\rva.)$.
+bnlearn can calculate CMI and
+other metrics
+of $\rvx.\perp_P \rvy.|\rva.$.
+All these metrics are very
+similar; they 
+all measure
+how close
+$P(x.|y., a.)$
+and $P(x.|a.)$ are.
+
 \section*{Tidbits}
-\hrule\noindent
-{\bf linear regression }
 
-$\rvy=$  true value
-$\hat{\rvy}=$ estimator
-$\ul{\eps}=$ residual
 
-\beq
-\hat{\rvy}=
-\beta_0 +\sum_{j=1}^N\beta_j \rvx_j
-\eeq
-
-\beq
-\rvy = \hat{\rvy}+\ul{\eps}
-\eeq
-
-\beq
-\av{\rvx_j, \ul{\eps}}=0
-\eeq
-
-For $k=1, \ldots, N$,
-\beq
-\av{\rvx_k, \rvy}
-=
-\sum_{j=1}^N\beta_j\av{\rvx_k, \rvx_j}
-\eeq
-
-$\rvx=(\rvx_1, \ldots, \rvx_N)^T$
-\beq
-\av{\rvx, \rvy}=
-\av{\rvx, \rvx^T}\beta
-\eeq
-
-\beq
-\beta=
-\av{\rvx, \rvx^T}^{-1}\av{ \rvx, \rvy}
-\eeq
-\hrule\noindent
-{\bf Categorical and Dirichlet
-Distributions} 
-
-Categorical 
-distribution Ref.\cite{wiki-categorical}
-
-Dirichlet 
-distribution Ref.\cite{wiki-diri}
-
-$q_+=\sum_i q_i$, 
-$q.=(q_0, q_1, \ldots, q_{nq-1})$
-
-\beq
-Cat(x;\pi.)
-=\pi_x
-=\prod_k\pi_k^{\indi(k=x)}
-\eeq
-
-
-\beq
-Dir(\pi.;\alp.)=
-\indi(\pi_+=1)
-\Gamma(\alp_+)
-\prod_k
-\frac{\pi_k^{\alp_k-1}}
-{\Gamma(\alp_k)}
-\eeq
-
-
-\beq
-Cat(x;\pi.)Dir(\pi.;\alp.)
-=
-\caln(!\pi.)Dir(\pi.;\alp.')
-\eeq
-
-\beq
-\alp'_k = \alp_k + \indi(x=k)
-\eeq
-
-\beq
-P(x|\pi.)=
-Cat(x;\pi.)
-\eeq
-
-\beq
-P(\pi.)=Dir(\pi.;\alp.)
-\eeq
-
-\beq
-P(x|\pi.)P(\pi.)=
-\caln(!\pi.)
-P(\pi.|x)
-\eeq
-
-\beqa
-P(\pi.|x)
-&=&\caln(!\pi.)
-Cat(x; \pi.) Dir(\pi.;\alp.)
-\\
-&=&
-Dir(\pi.;\alp'.)
-\eeqa
-
-
-
-\hrule\noindent 
-
-
-
-\beq
-\xymatrix{
-\rvx_i&\ul{\theta^i}\ar[l]
-}
-\eeq
-
-\beq
-Cat(k;\pi_{\cdot|j}^i)=\pi_{k|j}^i
-\eeq
-
-\beq
-[\theta^i]_{k,j}=\pi^i_{k|j}
-\eeq
-
-\beq\color{blue}
-P(\rvx_i=k|pa(\rvx_i)=j, \theta^i)=
-Cat(k;\pi_{\cdot|j}^i)
-\eeq
-
-assuming no missing data,
-\beq\color{blue}
-P(\theta^i)=
-\prod_jDir(\pi^i_{.|j}; \alp^i_{.|j})
-\eeq
-
-
-
-\beq
-P(\rvx_i=k|pa(\rvx_i)=j, \theta^i)P(\theta^i)
-=
-\caln(!\theta^i)
-P(\theta^i|\rvx_i=k,pa(\rvx_i)=j)
-\eeq
-
-\beqa
-P(\theta^i|\rvx_i=k,pa(\rvx_i)=j)
-&=&
-\caln(!\theta^i)
-Cat(k;\pi_{\cdot|j}^i)
-\prod_{j'}Dir(\pi^i_{.|j'}; \alp^i_{.|j'})
-\\
-&=&
-\prod_{j'}Dir(\pi^i_{.|j'}; \beta^i_{.|j'})
-\eeqa
-
-\beq
- \beta^i_{k'|j'}=
- \alp^i_{k'|j'}
-+\indi(k=k', j=j')
-\eeq
-
-\hrule\noindent{\bf Learning in General}
-
-
-\begin{figure}[h!]
-$$
-\xymatrix{
-&\ul{\alp}_i\ar[d]\ar[dl]
-\\
-\ul{D}_i&\ul{G}\ar[l]
-}
-$$
-\caption{}
-\label{}
-\end{figure}
-
-$\ul{G}=$ the DAG, the structure
-
-$\ul{\alp}=$ hyperparameters
-used to fit parameters(=TPMs of bnet) 
-
-$\ul{D}=$ samples consisting of 
-states of each node
-
-PL=parameters learning
-
-SL= structure learning
-
-\beq
-\underbrace{
-P(\alp, G|D)
-}_{\text{learning}}
-=
-\underbrace{P(\alp|G,D)}_{PL \text{ once know structure $G$}}
-\underbrace{P(G|D)}_{SL}
-\eeq
-
-\hrule\noindent{\bf Parameter Learning (PL)}
-\beq
-P(x^{nx})
-=\prod_i P(x_i|pa_i)
-\eeq
-
-\beq
-\underbrace{
-P(\rvx_i=k|\ul{pa}_i=j)
-}_{\pi^i_{k|j}}
-\approx
-\underbrace{
-\hat{P}(\rvx_i=k|\ul{pa}_i=j, \alp^i_{k|j})
-}_{\hat{\pi}^i_{k|j}}
-\eeq
-
-\beq
-P(D|\alp, G)=\prod_i P(D_i|\alp_i, G)
-\eeq
-
-\beq
-P(D_i|\alp_i, G)=
-\prod_{j, k}\hat{\pi}^i_{k|j}
-\eeq
-
-\beq
-P(\alp_i|D_i, G)=
-\caln!(\alp_i)P(D_i|\alp_i, G)P(\alp_i|G)
-\eeq
-
-$P(\alp_i|G)=$
-Dirichlet
-
-$P(D_i|\alp_i, G)=$ Categorical
-
-$P(\alp_i|D_i, G)=$ Dirichlet again (Dir is
-conjuagte prior of Cat)
-
-GBN (Gaussian Bayesian Networks)
-
-
-\hrule\noindent{\bf Structure Learning (SL)}
-
-SL scores
-
-\beq
-score_{B}
-=P(G|D)
-\eeq
-
-\beq
-score_{ML}
-=P(D|G)
-\eeq
-
-Score each node
-independently
-\beq
-score_{ML}=
-\prod_i
-P(D_i|G)
-\eeq
-
-\beq
-P(D_i|G)
-=
-\sum_{\alp_i}
-P(D_i|G,\alp_i)P(\alp_i|G)
-\eeq
-
-\beq
-\alp_i= \alp^i_{\cdot|\cdot}
-\eeq
-
-
-\beq
-P(D_i|G,\alp_i)=
-\prod_{k,j}\hat{\pi}^i_{k|j}
-\eeq
-
-\beq
-P(D_i|G)
-=
-\sum_{\alp_i}
-\left(\prod_{k,j}\hat{\pi}^i_{k|j}
-\right)
-P(\alp_i|G)
-\eeq
-
-\beq
-score_{ML}=\prod_i
-\sum_{\alp_i}
-\left(
-\prod_{k,j}
-\hat{\pi}^i_{k|j}
-\right)
-P(\alp_i|G)
-\eeq
 
 

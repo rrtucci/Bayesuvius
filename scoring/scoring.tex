@@ -1,0 +1,841 @@
+\chapter{Scoring the Nodes of a Learned Bnet}
+\label{ch-scoring}
+
+Chapter \ref{ch-struc-learn}
+discusses how 
+to learn a bnet  from data.
+Many algorithms for
+doing this require scoring
+how well
+a bnet fits
+the data.
+This chapter 
+is an introduction to
+such scores.
+ 
+
+In this chapter,
+scores are defined 
+so that a higher score
+is a better fit.
+By taking
+the negative
+of such a score,
+one can 
+always get a score
+such that a lower score is a
+ better fit.
+
+There are 2 main types of
+bnet scores: Maximum Likelihood (ML) scores,
+and Shannon Information Theory (SIT)
+scores.
+For ML scores,
+one takes
+the log
+of a maximum
+likelihood function $P(x|\theta)$:
+
+\beq
+\text{ML-score}=\ln(P(x|\theta))
+\;,
+\eeq
+and for a SIT score, 
+one averages over the ML score
+to get a negative entropy:
+
+\beq
+\text{Info-score}
+=\sum_x P(x|\theta)\ln P(x|\theta)
+=
+-H(P_{\rvx|\theta})
+\;.
+\eeq
+Thus maximizing a 
+likelihood function
+and minimizing its entropy
+have the
+same goal,
+to find 
+good estimates of the
+hidden parameters $\theta$. 
+
+\section*{
+Probability Distributions
+and Special Functions}
+
+While
+writing
+this chapter,
+I briefly consulted 
+the following Wikipedia articles
+about
+the definitions
+and properties of
+certain
+probability
+distributions
+and special
+functions.
+\begin{itemize}
+\item
+Categorical Distribution
+ Ref.\cite{wiki-categorical}
+\item
+Multinomial Distribution
+ Ref.\cite{wiki-multi-dist}
+\item
+Dirichlet Distribution 
+Ref.\cite{wiki-diri}
+\item 
+Multivariate Normal Distribution
+Ref.\cite{wiki-multi-normal}
+
+\item
+Beta function 
+Ref.\cite{wiki-beta-fun}
+\item
+Multinomial Coefficients
+ Ref.\cite{wiki-multi-thm}
+\item 
+Gamma Function
+Ref.\cite{wiki-gamma-fun}
+\end{itemize}
+
+Here are a few 
+results 
+from those Wikipedia
+articles that will be used later on.
+
+Below,
+we will abbreviate
+$q_+=\sum_i q_i$, and
+$q.=(q_0, q_1, \ldots, q_{nq-1})$.
+
+{\bf Gamma function}. If $n>0$ is an integer,
+\beq
+\Gamma(n+1)=n!
+\eeq
+
+The {\bf multivariate Beta function} 
+is defined by
+\beq
+B(\alp.)=
+\frac{\prod_k\Gamma(\alp_k)}
+{\Gamma(\alp_+)}
+\eeq
+where $\alp_k>0$ for all $k$.
+
+The {\bf multinomial coefficient}
+is defined by
+\beq
+C(N.)=
+\frac{N_+!}{\prod_k N_k!}
+\eeq
+where $N_k$ are non-negative
+integers.
+
+The {\bf inverse of the multinomial 
+coefficient} will
+be denoted by
+\beq
+CI(N.)
+=
+\frac{1}{C(N.)}
+=
+\frac{\prod_k N_k!}{N_+!}
+\eeq
+
+The {\bf Categorical Distribution}
+is defined by
+\beq
+Cat(x; \pi.)
+=\pi_x=
+\prod_{k} \pi_k^{\indi(k=x)}
+\eeq
+for $k, x\in S_\rvx$,
+where 
+$\pi.$ is a
+probability dist.(i.e., $\pi_k\geq 0$,
+and $\pi_+=1$).
+
+
+
+The {\bf Multinomial Distribution}
+is defined by
+\beq
+Mul(N.;\pi., N)
+=
+C(N.)
+\prod_k \pi_k^{N_k}
+\;,
+\eeq
+where $N_k$
+is a non-negative
+integer for all $k$,
+and $\pi.$
+is a probability dist.
+Mul() satisfies:
+\beq
+E[\ul{N_k}]=N\pi_k
+\;.
+\label{eq-exp-val-mul}
+\eeq
+
+The {\bf Dirichlet Distribution}
+is defined by
+\beq
+Dir(\pi.;\alp.)=
+\frac{1}{B(\alp.)}
+\prod_k
+\pi_k^{\alp_k-1}
+\eeq
+where $\alp_k>0$
+for all $k$,
+and $\pi.$
+is a probability dist.
+The
+$\alp.$ are called 
+{\bf concentration parameters}.
+Dir() satisfies:
+\beq
+E[\ul{\pi_k}]=\frac{N_k}{N_+}
+\;.
+\label{eq-exp-val-dir}
+\eeq
+
+
+\hrule\noindent
+Dir() is {\bf conjugate prior} of  Mul()
+
+\beq
+Mul(N.;\pi., N)Dir(\pi.;\alp.)
+=
+\calk( N.,\alp.)
+Dir(\pi.;N.+\alp.)
+\eeq
+where
+
+\beq
+\calk(N., \alp.)=
+\frac{B(N.+\alp.)}
+{CI(N.)B(\alp.)}
+\;.
+\eeq
+\hrule\noindent
+Dir() swappable with Mul()
+for large concentration parameters
+
+If $N_k$ is a positive  integer
+and
+$\alp_k=N_k+1$ for all $k$, then
+
+\beqa 
+Dir(\pi.;\alp_k=N_k+1)
+&=&
+C(N.)\prod_k \pi_k^{N_k}
+\\
+&=&
+Mul(N.; \pi., N_+)
+\eeqa
+
+\section*{Single node with no parents}
+In this
+section,
+we consider a 
+learned bnet
+consisting of
+a single node with
+no parents.
+We will consider
+arbitrary
+learned
+bnets
+in the next section.
+But we start with 
+this simplified
+case so as to reduce
+the number of indices
+in most quantities
+from 3 to 1.
+All the results
+that we derive
+in this section
+will
+be used in the next 
+section
+after 
+adding the extra indices.
+This way,
+we will
+avoid
+carrying
+the extra indices
+throughout
+the intermediate steps.
+
+For state
+$k\in\{0, 1, \ldots, 
+nk-1\}$
+of a single node $\rvx$, let
+
+
+$\rvN_k$=
+current count number
+(an integer, data)
+
+$\ul{\pi}.$=
+a probability dist, the TPM for the node
+
+$\ul{\alp}_k$=
+prior count
+number
+
+
+
+\begin{figure}[h!]
+$$
+\xymatrix{
+\rvN.&\ul{\pi.}\ar[l]&
+\ul{\alp.}\ar[l]
+}$$
+\caption{
+For a bnet
+consisting
+of a single node
+with no parents, a
+Markov chain of
+current counts ($\rvN.$), TPM ($\ul{\pi.}$),
+and
+prior counts ($\ul{\alp.}$)
+.}
+\label{fig-n-pi-alp-single}
+\end{figure}
+
+Consider
+the Markov chain
+bnet
+of Fig.\ref{fig-n-pi-alp-single},
+with the following
+TPMs, given in blue.
+
+\beq\color{blue}
+P(N.|\pi.)=
+Mul(N.;\pi., N_+)
+\eeq
+
+\beq\color{blue}
+P(\pi.|\alp.)=Dir(\pi.;\alp.)
+\eeq
+
+It follows that
+\beqa
+P(N., \pi.|\alp.)
+&=&
+P(N.|\pi.)P(\pi.|\alp.)
+\\
+&=&
+Mul(N.; \pi., N_+) Dir(\pi.;\alp.)
+\\
+&=&
+\calk(N., \alp.)
+Dir(\pi.;N.+\alp.)
+\;.
+\label{eq-calk-dir}
+\eeqa 
+From
+Eq.(\ref{eq-exp-val-dir})
+for the expected value of Dir(),
+we get
+
+\beq
+\hat{\pi}.= E[\ul{\pi}.]=
+\frac{N.+\alp.}
+{N_+ + \alp_+}
+\;.
+\eeq
+Integrating
+both 
+sides
+of Eq.(\ref{eq-calk-dir})
+over $\pi.$, 
+we find that
+
+\beq
+P(N.|\alp.)=
+\calk(N., \alp.)
+\;.
+\eeq
+
+If $N_k>>1$ for all $k$,
+
+\beq
+P(N., \pi.|\alp.)
+\approx
+\calk(N., \alp.)
+Mul(N.+\alp.; \pi., N_+ + \alp_+)
+\;.
+\eeq
+Therefore,
+
+\beqa
+P(N.|\pi., \alp.)
+&=&
+\frac{P(N., \pi., \alp.)}
+{P(N.,\alp.)}
+\\
+&=&
+Mul(N.+\alp.; \pi., N_+ + \alp_+)
+\;.
+\eeqa
+
+\begin{claim}
+\beqa
+\ln P(N.|\hat{\pi}., \alp.)
+&=&
+-
+(N_+  +\alp_+)
+H\left(\frac{N.+\alp.}
+{N_+  +\alp_+}\right)
++
+\ln C(N.+\alp.)
+\\
+&>&
+-
+(N_+  +\alp_+)
+H\left(\frac{N.+\alp.}
+{N_+  +\alp_+}\right)
+-\frac{1}{2}(nk-1)\ln N_+
+\eeqa
+\end{claim}
+\proof
+
+
+\beqa
+\ln P(N.|\hat{\pi}., \alp.)
+&=&
+\sum_k (N_k+\alp_k)
+\ln \hat{\pi}_k
++
+\ln C(N.+\alp.)
+\\
+&=&
+\sum_k (N_k+\alp_k)
+\ln 
+\frac{N_k+\alp_k}
+{N_+  +\alp_+}
++
+\ln C(N.+\alp.)
+\\
+&=&
+-
+(N_+  +\alp_+)
+H\left(\frac{N.+\alp.}
+{N_+  +\alp_+}\right)
++
+\ln C(N.+\alp.)
+\eeqa
+
+Recall Stirling's approximation
+of a factorial
+\beq
+\ln n!
+\approx 
+(n+\frac{1}{2})\ln n -n
+\;.
+\eeq
+Assume $N_k>>1$ for all $k$.
+Applying Stirling's
+approximation
+to all factorials in $C(N)$,
+we get
+
+
+\beqa
+\ln C(N.)
+&\approx &
+(N_+ + \frac{1}{2})\ln N_+ -
+N_+
+-
+\sum_k
+\left[
+(N_k+\frac{1}{2})\ln N_k
+-N_k
+\right]
+\\
+&=&
+(N_+ + \frac{1}{2})\ln N_+ 
+-
+\sum_k
+(N_k+\frac{1}{2})\ln N_k
+\;.
+\eeqa
+Next assume that
+
+\beq
+N_k\approx \frac{N_+}{nk}
+\;.
+\eeq
+Then
+
+\beqa
+\ln C(N.)
+&=&
+(N_+ + \frac{1}{2})\ln N_+
+-nk(\frac{N_+}{nk} +
+ \frac{1}{2})[\ln N_+
+-\ln nk]
+\\
+&=&
+-\frac{1}{2}(nk-1)\ln N_+
++(N_+ +\frac{nk}{2})\ln nk
+\\
+&>&
+-\frac{1}{2}(nk-1)\ln N_+
+\;.
+\eeqa
+\qed
+
+
+\section*{
+Multiple nodes with any number of parents}
+
+In the previous
+section,
+we considered a 
+bnet consisting of a single node
+with no parents,
+so we only
+needed a single index $k$
+for the states of the single node.
+In this section,
+we consider an arbitrary 
+bnet with multiple nodes
+each of which may have
+multiple parents. Most
+of the results in
+the previous section
+are valid for the 
+general case if we make the
+following replacements:
+$\pi.\rarrow \pi^i_\dotbarmu$
+$N.\rarrow N^i_\dotmu$
+$\alp.\rarrow \alp^i_\dotmu$.
+Upon this replacement, 
+Fig.\ref{fig-n-pi-alp-single}
+becomes
+Fig.\ref{fig-n-pi-alp-many}.
+The TPMs, printed in blue, of the new 
+Markov chain, are as follows: 
+
+
+\begin{figure}[h!]
+$$
+\xymatrix{
+\ul{N^i_\dotmu}
+&\ul{\pi^i_\dotbarmu}\ar[l]
+&
+\ul{\alp^i_\dotmu}\ar[l]
+}$$
+\caption{
+Generalization
+of Fig.\ref{fig-n-pi-alp-single}.
+For a bnet with multiple nodes
+each of which may have multiple parents, a
+Markov chain of
+current counts ($\ul{N^i_\dotmu}$),
+TPM ($\ul{\pi^i_\dotbarmu}$),
+and
+prior counts ($\ul{\alp^i_\dotmu}$)
+.}
+\label{fig-n-pi-alp-many}
+\end{figure}
+
+\beq\color{blue}
+P(N^i_\dotmu|\pi^i_\dotbarmu)=
+Mul(N^i_\dotmu;
+\pi_\dotbarmu^i, N^i_\plusmu)
+\eeq
+
+\beq\color{blue}
+P(\pi^i_\dotbarmu)=
+Dir(\pi^i_\dotbarmu; \alp^i_\dotmu)
+\eeq
+
+In these TPMs,
+
+$i\in
+S_\rvi=\{0, 1, \dots, ni-1\}$= node index
+
+$\rvx.=(\rvx_i)_{i\in S_\rvi}$= the 
+nodes of the learned bnet.
+
+$k\in
+S_{\rvk^i}=\{0, 1, \dots, nk^i-1\}$= states 
+of node $\rvx_i$
+
+$\mu\in
+S_{\ul{\mu}^i}=\{0, 1, \dots, n\mu^i-1\}$=
+parents of node $\rvx_i$.
+
+In the previous section,
+we assumed a single node ($ni=1$)
+with no parents ($n\mu=1$)
+so that 
+we could drop  the $i, \mu$
+indices.
+In this section, we eliminate
+that restriction.
+
+
+It is 
+convenient
+to define the magnitude of a  bnet
+ $G$
+to equal the sum
+over nodes of the number 
+of free parameters in each TPM:
+
+\beq
+|G|=\sum_i
+(nk^i-1)n\mu^i
+\;.
+\eeq
+
+Suppose that 
+we are given $nsam$ samples 
+$
+\vec{\rvx}_i=
+(\rvx_i[\sigma])_
+{\sigma=0, 1, \ldots, nsam-1}
+$ of 
+our learned bnet. The count numbers
+$N^i_\kmu$ are defined 
+in terms of those samples 
+as follows:
+ 
+
+\beq
+N^i_\kmu=\sum_\sigma
+\indi(\rvx_i[\sigma]=k, pa(\rvx_i[\sigma])=\mu )
+\;.
+\eeq
+It is also convenient
+to
+defined
+count number ratios
+
+\beq
+N^i_\kbarmu=
+\frac{N^i_\kmu}{N^i_{+, \mu }}
+\;.
+\eeq
+Note that
+$N^i_\kmu$
+is positive integer whereas
+$N^i_\kbarmu\in[0,1]$.
+
+Let's denote
+the components of the TPMs by
+$\pi^i_\kbarmu$:
+
+
+\beq
+\pi_\kbarmu^i=
+P(\rvx_i=k\cond pa(\rvx_i)=\mu )
+\approx
+N^i_\kbarmu
+\;.
+\eeq
+
+
+The rest
+of this section
+lists equations that
+we obtained 
+from the previous
+section, by adding the new indices
+$i, \mu$:
+
+\beq
+\calk(N^i_\dotmu,
+ \alp^i_\dotmu)=
+\frac{B(
+N^i_\dotmu+
+\alp^i_\dotmu)
+}
+{CI(N^i_\dotmu)B(\alp^i_\dotmu)}
+\eeq
+
+
+\beq
+\hat{\pi}^i_\kbarmu=
+\frac{N^i_\kmu+\alp^i_\kmu}
+{N^i_\plusmu + \alp^i_\plusmu}
+\eeq
+
+
+\beq
+P(N^i_\dotmu|
+\alp^i_\dotmu
+)
+=
+\calk(N^i_\dotmu, \alp^i_\dotmu)
+\eeq
+
+\beq
+P(N^i_\dotmu| 
+\pi^i_\dotbarmu, 
+\alp^i_\dotmu)
+\approx
+Mul(N^i_\dotmu+
+\alp^i_\dotmu; 
+\pi^i_\dotbarmu, 
+N^i_\plusmu + \alp^i_\plusmu)
+\eeq
+
+\begin{claim}
+\beqa
+\ln P(N^i_\dotmu|\hat{\pi}^i_\dotbarmu, 
+\alp^i_\dotmu)
+&=&
+\sum_k
+(N^i_\kmu +\alp^i_\kmu)
+\ln\left(\frac{N^i_\kmu + \alp^i_\kmu}
+{N^i_\plusmu  +\alp^i_\plusmu}\right)
++
+\ln C(N^i_\dotmu+\alp^i_\dotmu)
+\\
+&>&
+\sum_k
+(N^i_\kmu +\alp^i_\kmu)
+\ln\left(\frac{N^i_\kmu + \alp^i_\kmu}
+{N^i_\plusmu  +\alp^i_\plusmu}\right)
+-\frac{1}{2}(nk^i-1)\ln N^i_\plusmu
+\eeqa
+\end{claim}
+
+\section*{Bayesian Scores}
+
+\begin{itemize}
+\item Bayesian Information Criterion (BIC)
+\beqa\color{red}
+\text{BIC-score}
+&=&
+-\sum_i\sum_{k, \mu}
+N^i_\kmu
+\ln\left(
+\frac{N^i_\kmu}{N^i_\plusmu}
+\right)+
+\underbrace{
+\left[-\frac{|G|}{2}\ln N^+_{+,+}\right]
+}_{\sum_i\sum_\mu\ln C(N^i_\dotmu)
+\text{ would be more accurate}}
+\\
+&\approx&
+\sum_i
+\sum_\mu
+\ln P(N^i_\dotmu|\hat{\pi}^i_\dotbarmu, 
+\alp^i_\dotmu=0)
+\eeqa
+
+\item Bayesian Dirichlet (BD)
+\beqa
+\color{red}
+\text{BD-score}
+&=&
+\sum_{i}\sum_\mu\ln 
+\frac
+{B(N^i_\dotmu+\alp^i_\dotmu)}
+{B(N^i_\dotmu)}
+\\
+&=&
+\sum_i \sum_\mu
+\ln
+\left[
+CI(N^i_\dotmu)
+P(N^i_\dotmu|
+\alp^i_\dotmu)
+\right]
+\eeqa
+
+\item BD equivalent (BDe)
+\beqa
+\color{red}
+\text{BDe-score}
+&=&
+\text{BD-score}
+\left(
+\alp^i_\kmu=
+\alp'N^i_\kmu
+\right)
+\eeqa
+
+\item BD equivalent unified (BDeu)
+\beqa
+\color{red}
+\text{BDeu-score}
+&=&
+\text{BD-score}
+\left(
+\alp^i_\kmu=
+\frac{\alp'}{nk^in\mu^i}
+\right)
+\eeqa
+
+The BDeu 
+score satisfies {\bf score equivalence};
+i.e.,
+it is the same
+for all DAGs in 
+an equivalence class
+of observational
+equivalent DAGs. See
+Chapter \ref{ch-obs-equi}
+for more information about observational 
+equivalence.
+
+\end{itemize}
+
+\section*{Information Theoretic scores}
+
+
+\begin{itemize}
+\item Maximum likelihood
+\beqa
+\color{red}\text{ML-score}
+&=&
+\sum_i \sum_\kmu
+N^i_\kmu\ln N^i_\kbarmu
+\\
+&=&
+-\sum_i H(N^i_\dotbarmu)
+\eeqa
+
+\item Bayesian Information
+Criterion(BIC), aka Minimum Description Length (MDL)
+\beqa\color{red}
+\text{BIC-score}
+&=&\text{ML-score} -\frac{|G|}{2}\ln N^+_{+,+}
+\\
+&\approx&
+\sum_i \sum_\kmu
+N^i_\kmu\ln \frac{N^i_\kbarmu}
+{\sqrt{N^+_{+,+}}}
+\eeqa
+
+
+
+\item Akaike Information Criterion (AIC)
+
+\beqa\color{red}
+\text{AIC-score}
+&=&
+\text{ML-score} -|G|
+\\
+&\approx&
+\sum_i \sum_\kmu
+N^i_\kmu\left[\ln N^i_\kbarmu-1
+\right]
+\eeqa
+\end{itemize}
