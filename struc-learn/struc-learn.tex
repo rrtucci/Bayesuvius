@@ -14,7 +14,7 @@ approximately. A huge number
 of such algorithms have been tried
 and continue to be tried.
 Luckily,
-there is a free open source
+there exists a free open source
  software library
 called \bnlearn
 that covers many of
@@ -48,12 +48,14 @@ I highly recommend looking
 at both. Refs.
 \cite{carvalho} and \cite{margaritis}
 were also
-helpful in understanding the subject.
+helpful to me in understanding the subject.
 
 
 How things stand
-in bnet learning software reminds me
-of how things stand in linear 
+in the field of
+bnet learning software reminds me
+of how things stand in 
+the field of linear 
 algebra (LA) software. Perfecting and
 optimizing
 LA software
@@ -132,7 +134,7 @@ subjects covered by \bnlearn.
 .3 Max-Min Hill Climbing (MMHC).
 .3 Hybrid HPC (H2PC).
 .3 General 2-Phase Restricted Maximization (RSMAX2).
-.1 parallel programming structure learning.
+.1 parallel mode structure learning.
 .1 node types.
 .2 all-discrete.
 .2 all-continuous.
@@ -337,32 +339,40 @@ for some bnet learning algorithms}
     \SetKwInOut{KwIn}{Input}
     \SetKwInOut{KwOut}{Output}
 
-    \KwIn{Data $D$, Vertices (nodes) $V$}
+    \KwIn{Data $D$, Vertices $V$}
     \KwOut{a bnet $B=(G, T)$,
-	where $G=(V, E)$ is a DAG, and $E$ are the edges (arrows).
- 	$T$ are Transition Probability Matrices (TPMs)
+	where $G=(V, E)$ is a DAG, where
+	$V$ are its vertices (nodes) and $E$ 
+	are its edges (arrows).
+ 	$T$ are all its
+	Transition Probability Matrices (TPMs)
  	$T=TPMs(G, D)$. }
 
     $E\larrow \emptyset$\;
 	$T\larrow \emptyset$\;
 	$B\larrow (V, E, T)$\;
-	$score \larrow-\infty$\;
+	$maxscore \larrow-\infty$\;
 	\tcp{$DE$= all possible directed edges}
 	$DE=\{\rvx\rarrow\rvy\in V\times V: \rvx\neq \rvy\}$\;
-	\While{$score> maxscore$}{
-		$maxscore\larrow score$\;
+	$again\larrow True$\;
+	\While{$again$}{
 		\For{all $\rvx\rarrow\rvy\in DE$}{
+			\tcp{add arrow}
 			$E_+\larrow E\cup\{\rvx\rarrow\rvy\}$\;
+			\tcp{delete arrow}
 			$E_-\larrow E-\{\rvx\rarrow\rvy\}$\;
+			\tcp{reverse arrow}
 			$E_R\larrow E_-\cup\{\rvy\rarrow\rvx\}$\;
 			\For{$E'=E_+,E_-, E_R$}{
 				\If{$E'\neq E$ and $G'=(V, E')$ is a legal DAG}{
 					$T'\larrow TPMs(G', D)$\;
 					$B'\larrow (G', T')$\;
 					$newscore= \text{BIC-score}(B')$\;
-					\If{$newscore>score$}{
+					\eIf{$newscore>maxscore$}{
 						$B\larrow B'$\;
-						$score\larrow newscore$\;
+						$maxscore\larrow newscore$\;
+					}{
+						$again\larrow False$
 					}
 				}
 			}
@@ -381,7 +391,7 @@ for some bnet learning algorithms}
     \KwIn{Data $D$, Vertices (nodes) $V$,
 	tolerance in CMI $\eps>0$}
     \KwOut{partially oriented
-	acyclic graph $G=(V, E, EU)$, where $V$ are 
+	acyclic graph $G=(V, E, UE)$, where $V$ are 
 	the vertices (nodes),
 	$E$ are the oriented edges (arrows)
 	and $UE$ are the unoriented edges.}
@@ -390,7 +400,7 @@ for some bnet learning algorithms}
 	undirected graph} 
 	$UE\larrow \{\rvx-\rvy\in V\times V: \rvx-\rvy=\rvy-\rvx,
 	\rvx\neq \rvy\}$\;
-	\tcp{Shrink phase. Deletes edges.}
+	\tcp{Shrink phase. Deletes edges from $E$.}
 	\For{all $\rvx-\rvy\in UE$}{
 		$info\_transmission\larrow True$\;
 		\For{all $S\subset V-\{\rvx, \rvy\}$}{
@@ -402,12 +412,14 @@ for some bnet learning algorithms}
 		}
 		\If{$!info\_transmission$}{
 			$UE\larrow UE-\{\rvx-\rvy\}$\;
+			$E\larrow E-\{\rvx\rarrow\rvy,
+			\rvy\rarrow\rvx\}$\;
 		}
 	}
-	\tcp{Growth phase. Adds v structures.}
+	\tcp{Growth phase. Adds v structures to $E$.}
 	\For{$\rvx,\rvy, \rva$ such that
 	$\rvx-\rva\in UE, \rva-\rvy\in UE,
-	\rvx-\rvy\not \in uE$}{
+	\rvx-\rvy\not \in UE$}{
 		$info\_transmission \larrow False$\;
 		\For{$S\subset V-\{\rvx, \rvy,\rva\}$}{
 			\If{$H(\rvx:\rvy|S\cup\{\rva\})>\eps$}{
@@ -416,31 +428,37 @@ for some bnet learning algorithms}
 			}
 		}
 		\If{$info\_transmission$}{
-			$UE\larrow E-\{\rvx-\rva, \rva-\rvy\}$\;
+			$UE\larrow UE-\{\rvx-\rva, \rva-\rvy\}$\;
 			$E\larrow E\cup \{\rvx\rarrow\rva, \rvy\rarrow\rva\}$\;
 		}
 	}
 	\tcp{Orienting edges.}
-	\While{$newsize\neq size$}{
-		$size\larrow |UE|$\;
+	$again\larrow True$\;
+	$size\larrow |UE|$\;
+	\While{$again$}{
 		\For{all $\rvx-\rvy\in UE$}{
 			\If{$\rvx\rarrow\rvy\in E$,
 			$\rvy-\rvz\in UE$,
 			$\rvx-\rvz\not\in UE$,
 			$\not\exists \rvw \ni \rvw\rarrow\rvy\in E$}{
 				\tcp{to avoid introducing new v structure}
-				$UE\larrow E- \{\rvy-\rvz\}$\;
+				$UE\larrow UE- \{\rvy-\rvz\}$\;
 				$E\larrow E\cup \{\rvy\rarrow \rvz\}$\;
 			}
 			\If{$\rvx\rarrow\rvy\in E$
 			and there is directed path from $\rvx$ to
 			$\rvy$ in $E$}{
 				\tcp{to avoid introducing cycles}
-				$UE\larrow E- \{\rvx-\rvy\}$\;
+				$UE\larrow UE- \{\rvx-\rvy\}$\;
 				$E\larrow E\cup \{\rvx\rarrow \rvy\}$\;
 			}
 		}
 		$newsize\larrow |UE|$\;
+		\eIf{$size==newsize$}{
+			$again\larrow False$\;
+		}{
+			$size\larrow newsize$\;
+		}
 	}
     \KwRet{$G=(V, E, UE)$}
     \caption{Pseudo-code for Grow Shrink algorithm}

@@ -17,20 +17,20 @@ such scoring.
 In this chapter,
 scores are defined 
 so that a higher score
-is a better fit.
+means a better fit.
 By taking
 the negative
 of such a score,
 one can 
 always get a score
-such that a lower score is a
+such that a lower score means a
  better fit.
 
 There are 2 main types of
 bnet scores: Maximum Likelihood (ML) scores,
 and Shannon Information Theory (SIT)
 scores.
-For ML scores,
+For an ML score,
 one takes
 the log
 of a maximum
@@ -51,13 +51,11 @@ to get a negative entropy:
 -H(P_{\rvx|\theta})
 \;.
 \eeq
-Thus, maximizing a 
+Thus, one maximizes a 
 likelihood function
-and minimizing its entropy both
-have the
-same goal,
-to find 
-good estimates of the
+or minimizes its entropy,
+to obtain the same thing, namely,
+a good estimate of the
 hidden parameters $\theta$. 
 
 \section*{
@@ -105,7 +103,9 @@ Ref.\cite{wiki-gamma-fun}
 Here are a few 
 results 
 from those Wikipedia
-articles that will be used later on.
+articles that we
+will use later on
+in this chapter.
 
 Below,
 we will abbreviate
@@ -157,7 +157,8 @@ Cat(x; \pi.)
 for $k, x\in S_\rvx$,
 where 
 $\pi.$ is a
-probability dist.(i.e., $\pi_k\geq 0$,
+probability dist.(i.e., $\pi_k\geq 0$
+for all $k$,
 and $\pi_+=1$).
 
 
@@ -174,6 +175,7 @@ C(N.)
 where $N_k$
 is a non-negative
 integer for all $k$,
+$N_+=N$,
 and $\pi.$
 is a probability dist.
 Mul() satisfies:
@@ -197,7 +199,8 @@ and $\pi.$
 is a probability dist.
 The
 $\alp.$ are called 
-{\bf concentration parameters}.
+{\bf concentration parameters}
+or {\bf hyperparameters}.
 Dir() satisfies:
 \beq
 E[\ul{\pi_k}]=\frac{N_k}{N_+}
@@ -227,7 +230,7 @@ where
 \;.
 \eeq
 \hrule\noindent
-Dir() swappable with Mul()
+Dir() is replaceable by a Mul()
 for large concentration parameters
 
 Note that if $N_k$ is a positive  integer
@@ -277,7 +280,8 @@ avoid
 carrying
 the extra indices
 throughout
-the intermediate steps.
+the intermediate steps
+of many derivations.
 
 For state
 $k\in\{0, 1, \ldots, 
@@ -376,7 +380,7 @@ P(N.|\alp.)=
 If $N_k>>1$ for all $k$,
 then the Dir()
 in Eq.(\ref{eq-calk-dir})
-can be swapped by a Mul()
+can be replaced by a Mul()
 
 
 \beq
@@ -391,8 +395,8 @@ Therefore,
 \beqa
 P(N.|\pi., \alp.)
 &=&
-\frac{P(N., \pi., \alp.)}
-{P(N.,\alp.)}
+\frac{P(N., \pi.| \alp.)}
+{P(N.|\alp.)}
 \\
 &=&
 Mul(N.+\alp.; \pi., N_+ + \alp_+)
@@ -569,7 +573,7 @@ Mul(N^i_\dotmu;
 \eeq
 
 \beq\color{blue}
-P(\pi^i_\dotbarmu)=
+P(\pi^i_\dotbarmu|\alp^i_\dotmu)=
 Dir(\pi^i_\dotbarmu; \alp^i_\dotmu)
 \eeq
 
@@ -602,13 +606,13 @@ that restriction.
 It is 
 convenient
 to define the magnitude of a  bnet
- $G$
+ $B$
 to equal the sum
 over nodes of the number 
 of free parameters in each TPM:
 
 \beq
-|G|=\sum_i
+|B|=\sum_i
 (nk^i-1)n\mu^i
 \;.
 \eeq
@@ -739,7 +743,7 @@ N^i_\kmu
 \frac{N^i_\kmu}{N^i_\plusmu}
 \right)+
 \underbrace{
-\left[-\frac{|G|}{2}\ln N^+_{+,+}\right]
+\left[-\frac{|B|}{2}\ln N^+_{+,+}\right]
 }_{\sum_i\sum_\mu\ln C(N^i_\dotmu)
 \text{ would be more accurate}}
 \\
@@ -825,14 +829,18 @@ equivalence.
 N^i_\kmu\ln N^i_\kbarmu
 \\
 &=&
--\sum_i H(N^i_\dotbarmu)
+-\sum_i H(\rvk^i|\ul{\mu}^i)
+\;,
 \eeqa
+where $P_{\rvk^i|\ul{\mu}^i}(k|\mu)=
+N^i_{k|\mu}$.
+
 
 \item Bayesian Information
-Criterion(BIC), aka Minimum Description Length (MDL)
+Criterion (BIC), aka Minimum Description Length (MDL)
 \beqa\color{red}
 \text{BIC-score}
-&=&\text{ML-score} -\frac{|G|}{2}\ln N^+_{+,+}
+&=&\text{ML-score} -\frac{|B|}{2}\ln N^+_{+,+}
 \\
 &\approx&
 \sum_i \sum_\kmu
@@ -847,7 +855,7 @@ N^i_\kmu\ln \frac{N^i_\kbarmu}
 \beqa\color{red}
 \text{AIC-score}
 &=&
-\text{ML-score} -|G|
+\text{ML-score} -|B|
 \\
 &\approx&
 \sum_i \sum_\kmu
