@@ -1,11 +1,102 @@
-\chapter{Structure and Parameter Learning for bnets:
- COMING SOON}\label{ch-struc-learn}
+\chapter{Structure and Parameter
+ Learning for Bnets}\label{ch-struc-learn}
 
-Ref.\cite{bnlearn}
 
+Learning a bnet
+from data
+is a difficult NP-complete
+problem. 
+Therefore,
+the best one can hope
+for is for heuristic algorithms 
+that solve this problem
+approximately. A huge number 
+of such algorithms have been tried
+and continue to be tried.
+Luckily,
+there is a free open source
+ software library
+called \bnlearn
+that covers many of
+them. The goal
+of this chapter
+is to give
+a brief
+overview
+of the subject
+of bnet 
+learning,
+after 
+which
+we recommend
+to
+those readers who
+want to
+pursue this subject
+further,
+to 
+learn \bnlearn.
+
+This chapter
+is based on  
+the \bnlearn website Ref.\cite{bnlearn}, and
+on a 2019 survey
+paper 
 \cite{scutari2019}
+by Scutari et al.
+I highly recommend looking
+at both. Refs.
+\cite{carvalho} and \cite{margaritis}
+were also
+helpful in understanding the subject.
+
+
+How things stand
+in bnet learning software reminds me
+of how things stand in linear 
+algebra (LA) software. Perfecting and
+optimizing
+LA software
+takes many years so
+I would not
+advise you to write your own
+LA software library starting
+from scratch.
+There is no need to do so. You
+can use LAPACK (free, open source)
+instead, which
+has been perfected and expanded
+for decades by world experts. 
+I view \bnlearn as the LAPACK
+of bnet learning. 
+
+\bnlearn was
+written by Marco Scutari
+and collaborators
+over a time period of
+more than 10 years,
+and is still
+under active development.
+Marco is a very kind and friendly
+person who does his best to
+answer the emails he receives.
+Here is the \bnlearn website: Ref.\cite{bnlearn}.
+
+
 
 \section*{Overview}
+
+To give
+the reader an overview
+of the subject
+and of \bnlearn itself,
+here is a highly
+simplified tree,
+compiled from
+the \bnlearn website
+and documentation,
+of some of the
+subjects covered by \bnlearn.
 
 
 
@@ -46,6 +137,17 @@ Ref.\cite{bnlearn}
 .2 all-discrete.
 .2 all-continuous.
 .2 mixed.
+.1 utility functions.
+.2 model comparison and manipulation.
+.2 random data generation.
+.2 arc orientation testing.
+.2 simple and advanced plots.
+.2 parameter estimation (maximum likelihood 
+and Bayesian).
+.2 inference, conditional probability queries. 
+.2 cross-validation.
+.2 bootstrap.
+.2 model averaging.
 }
      
 
@@ -53,9 +155,11 @@ Ref.\cite{bnlearn}
 Let
 \begin{itemize}
 \item
-PL=parameters (i.e, the TPMs) learning
+PL=parameters learning (i.e, 
+learning the TPMs)
 \item
-SL= structure (i.e., the DAG) learning
+SL= structure learning 
+(i.e.,learning the DAG)
 \end{itemize}
 
 PL is easy, once the
@@ -72,7 +176,7 @@ P(\rvx_i=k\cond pa(\rvx_i)=\mu )
 Then $\pi_\kbarmu^i$
 can be estimated
 from the data $N^i_\kmu$ 
-as follows:
+using:
 
 \beq
 \pi_\kbarmu^i
@@ -87,7 +191,7 @@ PL
 described by Eq.(\ref{eq-PL-simple})
  is only for discrete nodes
 with no missing data.
-bnlearn can also do PL
+\bnlearn  can also do PL
 with missing data
 and continuous 
 (Gaussian linear only) nodes. 
@@ -95,26 +199,38 @@ See Chapter \ref{ch-missing-d}
 on missing data
 and Chapter \ref{ch-gauss-lin}
 on Gaussian linear nodes.
-
 SL
 actually
 does PL and SL
-at the same time.  
+at the same time. 
+ 
 There are 3 main 
 types of SL: score based,
-constraint based, and hybrid score-constraint
-based.
-bnlearn can perform many
+constraint based, and hybrid.
+\bnlearn 
+ can perform many
  algorithms
 of each of these 3 types
 of SL.
-Some
-algorithms can
-handle either all-discrete,
+It can perform
+most of them with either all-discrete,
 or all-continuous
 or mixed nodes.
+It can perform
+many of them
+in parallel mode.
+The 2019 survey paper
+Ref.\cite{scutari2019} by
+Scutari et al
+compares 
+the performance 
+of many different
+bnet learning algorithms.
 
-Score based SL methods
+\hrule\noindent
+{\bf Score based SL algorithms}
+
+Score based SL algorithms
 require
 scoring bnets (with either
 all-discrete, all-continuous
@@ -129,8 +245,48 @@ very popular
 and works for all-discrete,
 all-continuous or mixed nodes.
 
+Score-based SL algorithms apply
+standard
+optimisation techniques. 
+In the Hill Climbing algorithm,
+the current best
+bnet is changed
+slightly
+and then given a score
+that measures how well
+it fits the data.
+The bnet with the highest (=best) 
+score so far, as well as that highest score,
+are stored. (Hence,
+this is called a greedy search).
+The process continues
+until the latest highest score stops changing.
+The problem with being
+greedy all the time is that
+the answer might
+converge to a local maximum.
+To mitigate
+this problem
+and allow some
+probability of visiting more
+than one
+local maximum, one uses a
+Tabu Table, random restarts,
+simulated annealing, genetic algorithms,
+etc.
 
-Constraint based SL methods
+\hrule\noindent
+{\bf Constraint based SL algorithms}
+
+To fully understand
+ constraint based SL 
+algorithms,
+the reader 
+is advised to read Chapters 
+\ref{ch-dsep} and \ref{ch-obs-equi}
+first.
+
+Constraint based SL algorithms
 require
 estimating from the data
 the conditional independence
@@ -141,7 +297,7 @@ This can be done by
 estimating the conditional
 mutual information (CMI)
 $H(\rvx.:\rvy.|\rva.)$.
-bnlearn can calculate CMI and
+\bnlearn  can calculate CMI and
 other metrics
 of $\rvx.\perp_P \rvy.|\rva.$.
 All these metrics are very
@@ -151,8 +307,142 @@ how close
 $P(x.|y., a.)$
 and $P(x.|a.)$ are.
 
-\section*{Tidbits}
+The first
+constraint-based SL algorithm
+was the Inductive Causation (IC) algorithm
+ proposed by Pearl and Verma in 1991.
+Incremental
+improvements
+have been
+proposed since then, such as
+the Parents \& Children (PC) family
+of algorithms,
+Grow-Shrink and
+the
+Incremental Association Markov Blanket (IAMB)
+family of algorithms.
+
+\newpage
+\section*{Pseudo-code 
+for some bnet learning algorithms}
 
 
 
+
+\newcommand\mycommfont[1]{\small\ttfamily\textcolor{blue}{#1}}
+\SetCommentSty{mycommfont}
+
+\begin{algorithm}
+	\DontPrintSemicolon
+    \SetKwInOut{KwIn}{Input}
+    \SetKwInOut{KwOut}{Output}
+
+    \KwIn{Data $D$, Vertices (nodes) $V$}
+    \KwOut{a bnet $B=(G, T)$,
+	where $G=(V, E)$ is a DAG, and $E$ are the edges (arrows).
+ 	$T$ are Transition Probability Matrices (TPMs)
+ 	$T=TPMs(G, D)$. }
+
+    $E\larrow \emptyset$\;
+	$T\larrow \emptyset$\;
+	$B\larrow (V, E, T)$\;
+	$score \larrow-\infty$\;
+	\tcp{$DE$= all possible directed edges}
+	$DE=\{\rvx\rarrow\rvy\in V\times V: \rvx\neq \rvy\}$\;
+	\While{$score> maxscore$}{
+		$maxscore\larrow score$\;
+		\For{all $\rvx\rarrow\rvy\in DE$}{
+			$E_+\larrow E\cup\{\rvx\rarrow\rvy\}$\;
+			$E_-\larrow E-\{\rvx\rarrow\rvy\}$\;
+			$E_R\larrow E_-\cup\{\rvy\rarrow\rvx\}$\;
+			\For{$E'=E_+,E_-, E_R$}{
+				\If{$E'\neq E$ and $G'=(V, E')$ is a legal DAG}{
+					$T'\larrow TPMs(G', D)$\;
+					$B'\larrow (G', T')$\;
+					$newscore= \text{BIC-score}(B')$\;
+					\If{$newscore>score$}{
+						$B\larrow B'$\;
+						$score\larrow newscore$\;
+					}
+				}
+			}
+		}
+	}
+    \KwRet{$B$}
+    \caption{Pseudo-code for Hill Climbing algorithm}
+\end{algorithm}
+
+
+\begin{algorithm}
+	\DontPrintSemicolon
+    \SetKwInOut{KwIn}{Input}
+    \SetKwInOut{KwOut}{Output}
+
+    \KwIn{Data $D$, Vertices (nodes) $V$,
+	tolerance in CMI $\eps>0$}
+    \KwOut{partially oriented
+	acyclic graph $G=(V, E, EU)$, where $V$ are 
+	the vertices (nodes),
+	$E$ are the oriented edges (arrows)
+	and $UE$ are the unoriented edges.}
+	$E\larrow \emptyset$\;
+	\tcp{initialize $UE$ to fully-connected
+	undirected graph} 
+	$UE\larrow \{\rvx-\rvy\in V\times V: \rvx-\rvy=\rvy-\rvx,
+	\rvx\neq \rvy\}$\;
+	\tcp{Shrink phase. Deletes edges.}
+	\For{all $\rvx-\rvy\in UE$}{
+		$info\_transmission\larrow True$\;
+		\For{all $S\subset V-\{\rvx, \rvy\}$}{
+			\If{$H(\rvx:\rvy|S)<\eps$}{
+				$info\_transmission \larrow
+ 				False$\;
+				break out of loop\;
+			}
+		}
+		\If{$!info\_transmission$}{
+			$UE\larrow UE-\{\rvx-\rvy\}$\;
+		}
+	}
+	\tcp{Growth phase. Adds v structures.}
+	\For{$\rvx,\rvy, \rva$ such that
+	$\rvx-\rva\in UE, \rva-\rvy\in UE,
+	\rvx-\rvy\not \in uE$}{
+		$info\_transmission \larrow False$\;
+		\For{$S\subset V-\{\rvx, \rvy,\rva\}$}{
+			\If{$H(\rvx:\rvy|S\cup\{\rva\})>\eps$}{
+				$info\_transmission \larrow True$\;
+				break out of loop\;
+			}
+		}
+		\If{$info\_transmission$}{
+			$UE\larrow E-\{\rvx-\rva, \rva-\rvy\}$\;
+			$E\larrow E\cup \{\rvx\rarrow\rva, \rvy\rarrow\rva\}$\;
+		}
+	}
+	\tcp{Orienting edges.}
+	\While{$newsize\neq size$}{
+		$size\larrow |UE|$\;
+		\For{all $\rvx-\rvy\in UE$}{
+			\If{$\rvx\rarrow\rvy\in E$,
+			$\rvy-\rvz\in UE$,
+			$\rvx-\rvz\not\in UE$,
+			$\not\exists \rvw \ni \rvw\rarrow\rvy\in E$}{
+				\tcp{to avoid introducing new v structure}
+				$UE\larrow E- \{\rvy-\rvz\}$\;
+				$E\larrow E\cup \{\rvy\rarrow \rvz\}$\;
+			}
+			\If{$\rvx\rarrow\rvy\in E$
+			and there is directed path from $\rvx$ to
+			$\rvy$ in $E$}{
+				\tcp{to avoid introducing cycles}
+				$UE\larrow E- \{\rvx-\rvy\}$\;
+				$E\larrow E\cup \{\rvx\rarrow \rvy\}$\;
+			}
+		}
+		$newsize\larrow |UE|$\;
+	}
+    \KwRet{$G=(V, E, UE)$}
+    \caption{Pseudo-code for Grow Shrink algorithm}
+\end{algorithm}
 
