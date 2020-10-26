@@ -331,8 +331,7 @@ for some bnet learning algorithms}
 
 
 
-\newcommand\mycommfont[1]{\small\ttfamily\textcolor{blue}{#1}}
-\SetCommentSty{mycommfont}
+
 
 \begin{algorithm}
 	\DontPrintSemicolon
@@ -383,6 +382,7 @@ for some bnet learning algorithms}
 \end{algorithm}
 
 
+
 \begin{algorithm}
 	\DontPrintSemicolon
     \SetKwInOut{KwIn}{Input}
@@ -401,34 +401,30 @@ for some bnet learning algorithms}
 	$UE\larrow \{\rvx-\rvy\in V\times V: \rvx-\rvy=\rvy-\rvx,
 	\rvx\neq \rvy\}$\;
 	\tcp{Shrink phase. Deletes edges from $E$.}
-	\For{all $\rvx-\rvy\in UE$}{
-		$info\_transmission\larrow True$\;
-		\For{all $S\subset V-\{\rvx, \rvy\}$}{
-			\If{$H(\rvx:\rvy|S)<\eps$}{
-				$info\_transmission \larrow
- 				False$\;
-				break out of loop\;
+	\For{$\lam=0, 1, 2, \ldots, |V|-2$}{
+		\For{all $\rvx_i-\rvx_j\in UE$}{
+			\For{all $S=\{\rvx_k\in V:\rvx_i-\rvx_k\in UE, 
+			k\neq j, i\} \ni |S|=\lam$}{
+				\If{$H(\rvx_i:\rvx_j|S)<\eps$}{
+					\tcc{If there were an arrow between $\rvx_i$ and $\rvx_j$, 
+						then conditioning on $S$ would not be enough
+						to interrupt info transmission $H(\rvx_i:\rvx_j|S)$
+						 between $\rvx_i$ and $\rvx_j$}
+					$UE\larrow UE-\{\rvx_i-\rvx_j\}$\;
+					$S(\rvx_i-\rvx_j)\larrow S$\;
+				}
 			}
-		}
-		\If{$!info\_transmission$}{
-			$UE\larrow UE-\{\rvx-\rvy\}$\;
 		}
 	}
 	\tcp{Growth phase. Adds v structures to $E$.}
-	\For{$\rvx,\rvy, \rva$ such that
+	\For{all $\rvx,\rvy, \rva$ such that
 	$\rvx-\rva\in UE, \rva-\rvy\in UE,
-	\rvx-\rvy\not \in UE$}{
-		$info\_transmission \larrow False$\;
-		\For{$S\subset V-\{\rvx, \rvy,\rva\}$}{
-			\If{$H(\rvx:\rvy|S\cup\{\rva\})>\eps$}{
-				$info\_transmission \larrow True$\;
-				break out of loop\;
-			}
-		}
-		\If{$info\_transmission$}{
-			$UE\larrow UE-\{\rvx-\rva, \rva-\rvy\}$\;
-			$E\larrow E\cup \{\rvx\rarrow\rva, \rvy\rarrow\rva\}$\;
-		}
+	\rvx-\rvy\not \in UE, \rva\not\in S(\rvx_i-\rvx_j)$}{
+		\tcc{If there were no collider at $\rva$, then 
+		there would be info transmission  between $\rvx_i$ and
+		$\rvx_j$}
+		$UE\larrow UE-\{\rvx-\rva, \rva-\rvy\}$\;
+		$E\larrow E\cup \{\rvx\rarrow\rva, \rvy\rarrow\rva\}$\;
 	}
 	\tcp{Orienting edges.}
 	$again\larrow True$\;
@@ -459,6 +455,5 @@ for some bnet learning algorithms}
 		}
 	}
     \KwRet{$G=(V, E, UE)$}
-    \caption{Pseudo-code for Grow Shrink algorithm}
+    \caption{Pseudo-code for PC-Stable algorithm}
 \end{algorithm}
-
