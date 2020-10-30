@@ -1,7 +1,26 @@
 \chapter{Expectation Maximization}
 
-This chapter is based on Wikipedia 
-Ref.\cite{wiki-em}.
+This chapter is based on 
+Refs.\cite{wiki-em}
+and \cite{emory-biostat}.
+
+The Expectation Maximization (EM) 
+algorithm 
+is commonly used in Data Science 
+to find the maximum
+over an ``unknown parameter" $\theta$ of a
+ likelihood function 
+
+\beq
+P(\vecx|\theta)=
+\sum_\vech P(\vecx, \vech|\theta)
+\;.
+\eeq
+where $\vecx$
+is the observed data,
+and $\vech$ is some ``hidden, missing, 
+unobserved but latent"
+data.
 
 
 \begin{figure}[h!]
@@ -143,7 +162,45 @@ Q(\theta|\theta^{(t)})
 Claim: $\lim_{t\rarrow \infty}
 \theta^{(t)}=\theta^*$.
 
-\;
+\begin{figure}[h!]
+$$\xymatrix{
+\ul{\theta}^{(0)}\ar[d]\ar[dr]\ar[r]
+&\ul{\theta}^{(1)}\ar[r]
+&\ul{\theta}^{(2)}\ar[r]
+&\cdots\theta^*
+\\
+\ul{\vecx}\ar[r]\ar[ru]\ar[rru]\ar[urrr]
+&\ul{\vech}
+}$$
+\caption{
+The EM algo generates 
+a sequence of 
+parameter estimates 
+$(\theta^{(t)})_{t=0, 1,2, \ldots}$
+that converges to the optimum (i.e., 
+best-fit) parameter $\theta^*$.
+}
+\label{fig-emax-dynamical-bnet}
+\end{figure}
+
+Fig.\ref{fig-emax-dynamical-bnet}
+portrays the 
+recursive nature of 
+the EM algo as a dynamical, recurrent bnet.
+For Fig.\ref{fig-emax-dynamical-bnet},
+the TPMs, printed in blue,
+for the
+$\ul{\theta}^{(t)}$
+nodes for $t=1, 2, \ldots$, are
+as follows:
+
+\beq\color{blue}
+P(\theta^{(t+1)}|\vecx, \theta^{(t)})=
+\delta(\theta^{(t+1)}, \argmax_\theta
+ Q(\theta|\theta^{(t)}))
+\;.
+\eeq
+
 \hrule
 \section*{Motivation}
 
@@ -205,8 +262,7 @@ see Wikipedia article Ref.\cite{wiki-em}
 and references therein.
 
 \section*{Minorize-Maximize (MM) algorithms}
-(This  section is based on 
-Ref.\cite{emory-biostat}.)
+
 
 \begin{figure}[h!]
 \centering
@@ -240,15 +296,16 @@ it satisfies the
 
 
 \beq
-\call(\theta)\geq \mu(\theta|\theta^{(t)})
+\mu(\theta|\theta^{(t)})\leq
+\call(\theta)
 \;,
 \eeq
 and
 the ``$\mu=\call$ property"
 
 \beq
-\call(\theta^{(t)})=
- \mu(\theta^{(t)}|\theta^{(t)})
+\mu(\theta^{(t)}|\theta^{(t)})=
+\call(\theta^{(t)})
 \;.
 \eeq
 
