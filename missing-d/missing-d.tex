@@ -1,3 +1,129 @@
 \chapter{Missing Data
  (in parameter learning for bnets): COMING SOON}
 \label{ch-missing-d}
+
+
+\begin{figure}[h!]
+$$\xymatrix{
+\ul{\theta}^{(0)}\ar[d]\ar[dr]\ar[r]
+&\ul{\theta}^{(1)}\ar[r]
+&\ul{\theta}^{(2)}\ar[r]
+&\cdots\theta^*
+\\
+\ul{\vecx}\ar[r]\ar[ru]\ar[rru]\ar[urrr]
+&\ul{\vech}
+}$$
+\caption{
+The EM algo generates 
+a sequence of 
+parameter estimates 
+$(\theta^{(t)})_{t=0, 1,2, \ldots}$
+that converges to the optimum
+best parameter $\theta^*$.
+}
+\label{fig-emax-dynamical-bnet}
+\end{figure}
+
+For $t=0, 1, \ldots$
+\beq\color{blue}
+P(\theta^{(t+1)}|\vecx, \theta^{(t)})=
+\delta(\theta^{(t+1)}, \argmax_\theta
+ Q(\theta|\theta^{(t)}))
+\eeq
+
+The Expectation Maximization (EM) 
+algorithm 
+is commonly used in Data Science 
+to find the maximum
+over an ``unknown parameter" $\theta$ of a
+ likelihood function 
+
+\beq
+P(\vecx|\theta)=
+\sum_\vech P(\vecx, \vech|\theta)
+\;.
+\eeq
+where $\vecx$
+is the observed data,
+and $\vech$ is some ``hidden, missing, 
+unobserved but latent"
+data.
+
+Consider a random variable $\rvx$
+with possible values $S_\rvx$.
+Suppose we are given
+data that allows us to construct
+a distribution of counts
+$N_x$
+for $x\in S_\rvx-H$,
+where $H=\{a,b\}$.
+Unfortunately,
+ data for $x\in H$
+was missing.
+Since we don't 
+know $N_a$
+and $N_b$,
+we can't normalize
+$N()$ to obtain
+a probability distribution
+$P_e(x)=\frac{N_x}
+{\sum_{x\in S_\rvx}N_x}$.
+Thus, we would
+like to find 
+reasonable guesses for $N_a$
+and $N_b$.
+We might proceed as follows.
+Suppose we think
+$N_x$ 
+can be fitted well by
+a family
+of functions
+$f(x;\theta)$,
+with finite $\sum_{x\in S_\rvx}f(x;\theta)$,
+parameterized by
+a parameter $\theta$.
+If we can find
+the value $\theta^*$
+which
+gives the best fit,
+then we can 
+guess $N_x=f(x; \theta^*)$
+for $x=a,b$.
+To find $\theta^*$,
+we might minimize
+an error function
+
+\beq
+\cale(\theta)=\sum_{x\in S_\rvx-H}
+|N_x-f(x; \theta)|^2
+\;.
+\eeq
+over $\theta$.
+If we can
+solve analytically
+$\partial_\theta \cale(\theta)=0$
+for $\theta$,
+great, but that is seldom the case.
+So one can use one
+of many
+well
+known numerically
+minimization
+techniques (e.g., 
+gradient descent)
+to find 
+a sequence
+$(\theta^{(t)})_{t=0, 1, 2, \ldots}$
+that converges to $\theta^*$.
+
+
+$\theta= (\pi_x)_{x\in S_\rvx-H}, N_+, (N_x)_{x\in H}$
+
+$(N_x)_{x\in S_x-H}$
+
+$h=(N_i)_{i\in H}$
+
+\beq
+f(x;\theta)=N_+\pi_x
+\eeq
+
