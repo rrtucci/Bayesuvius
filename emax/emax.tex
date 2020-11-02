@@ -386,9 +386,10 @@ How an MM algo works
 is portrayed in Fig.\ref{fig-minorize}.
 
 
+\section*{Examples}
 
+\hrule\noindent{\bf Example (Gaussian mixture)}
 
-\section*{EM for Gaussian mixture}
 
 $x[i]\in \RR^d=S_\rvx$. $S_\rvh$ discrete and
 not too large. $n_\rvh=|S_\rvh|$ is
@@ -515,4 +516,213 @@ way, and this is a book about bnets.
 For more info about
 K-means clustering, 
 see Ref.\cite{wiki-k-means}.
+
+\hrule\noindent{\bf
+ Example (Blood Genotypes and Phenotypes):}
+
+Notation:
+$\vec{\rva}=
+(\rva[\sigma])_{\sigma=0, 1, \ldots,nsam-1}
+$, where $nsam$
+is the number of samples.
+Will
+sometimes
+denote
+$a\sqsig$ by $a^\sqsig$.
+
+
+Suppose
+$\vec{\rvx}=
+(\vec{\rvx}_0)
+$ (i.e., just one component)
+
+$\vec{\rvh}=
+(\vec{\rvh}_0)
+$ (i.e., just one component)
+
+
+
+$\rvh[\sigma]\in S_\rvh=
+\{AA, AO, BB, BO, OO, AB\}$ (the 6 blood genotypes)
+
+$\rvx[\sigma]\in S_\rvx=
+\{A,B,O,AB\}$ (the 4 blood phenotypes)
+
+\begin{figure}[h!]
+$$
+\xymatrix{
+\ul{\theta}\ar[d]\ar[dr]
+\\
+\rvx[\sigma]&\rvh[\sigma]\ar[l]
+}$$
+\caption{bnet 
+for blood phenotypes $x\sqsig$
+and genotypes $h\sqsig$.}
+\label{fig-phenotypes}
+\end{figure}
+
+For the bnet of Fig.\ref{fig-phenotypes},
+the TPMs, printed in blue, are:
+\beq\color{blue}
+P(h^\sqsig| \theta)=
+\begin{array}{c|c}
+&
+\\\hline
+AA&p_A^2
+\\
+AO&2p_Ap_O
+\\
+BB&p_B^2
+\\
+BO&2p_Bp_O
+\\
+OO&p_O^2
+\\
+AB&2p_Ap_B
+\end{array}
+\;,
+\label{eq-pheno-ph}
+\eeq
+where $p_A+p_B+p_O=1$.
+
+
+\beq\color{blue}
+P(x^\sqsig\cond h^\sqsig, \theta)=
+\begin{array}{l|llllll}
+&AA&AO&BB&BO&OO&AB
+\\\hline
+A&1&1&0&0&0&0
+\\
+B&0&0&1&1&0&0
+\\
+O&0&0&0&0&1&0
+\\
+AB&0&0&0&0&0&1
+\end{array}
+\label{eq-pheno-pxbarh}
+\eeq
+
+\beq
+\theta=(p_A, p_B)
+\eeq
+
+Multiplying the TPMs in
+Eqs.(\ref{eq-pheno-ph}
+and (\ref{eq-pheno-pxbarh}), we get
+\beq
+P(x^\sqsig\cond \theta)=
+\begin{array}{l|l}
+\\\hline
+A&p_A^2+2p_Ap_O(=\pi_A)
+\\
+B&p_B^2+2p_Bp_O(=\pi_B)
+\\
+O&p_O^2(=\pi_O)
+\\
+AB&2p_Ap_B(=\pi_{AB})
+\end{array}
+\eeq
+
+
+Note that 
+\beqa
+P(\vec{x}|\theta)
+&=&
+\prod_\sigma
+P(x^\sqsig|\theta)
+\\
+&=&
+(\pi_A)^{N_A}
+(\pi_B)^{N_B}
+(\pi_O)^{N_O}
+(\pi_{AB})^{N_{AB}}
+\;,
+\eeqa 
+where 
+$N_x$ for $x\in S_\rvx=\{A, B, O, AB\}$
+are
+the counts from the data.
+We can get estimates
+for the parameters $p_A$ and $p_B$
+right
+here without doing EM.
+Just note that
+
+\beq
+\hat{\pi}_x=
+\frac{N_x}
+{N_+}
+\label{eq-quads-pi-x}
+\eeq
+for $x\in S_\rvx$,
+where
+$N_+=\sum_x N_x$. 
+Eqs.(\ref{eq-quads-pi-x})
+give  4 quadratic equations
+that can be solved for the
+parameters $p_A, p_B$
+in terms of the observed 
+counts $N_x$
+for $x\in S_\rvx$.
+
+
+If, instead,  you want to
+find the optimum
+parameters $p_A, p_B$
+using EM, note that
+
+\beqa
+Q(\theta|\theta^{(t)})
+&=&
+\sum_{\vec{h}}
+P(\vec{h}|\theta^{(t)})
+\ln P(\vec{x}, \vec{h}|\theta)
+\\
+&=&
+\sum_{\vec{h}}
+\left[\prod_\sigma
+P(h^\sqsig|\theta^{(t)})
+\right]
+\ln \left[
+\prod_\sigma P(x^\sqsig, h^\sqsig |\theta)
+\right]
+\\
+&=&\sum_\sigma 
+\sum_{h^\sqsig}
+P(h^\sqsig|\theta^{(t)})
+\ln
+ P(x^\sqsig, h^\sqsig |\theta)
+\\
+&=&\sum_\sigma 
+\sum_{h^\sqsig}
+P(h^\sqsig|\theta^{(t)})
+[\ln
+ P(x^\sqsig| h^\sqsig ,\theta)
++
+\ln
+ P(h^\sqsig |\theta)
+]
+\\
+&=&nsam 
+\sum_{h^\sqsig}
+P(h^\sqsig|\theta^{(t)})
+\ln
+ P(h^\sqsig |\theta)
+\;.
+\eeqa
+
+\hrule\noindent{\bf
+ Example (Missing Data/Imputation):}
+
+The previous example
+on blood genotypes and phenotypes
+assumed no missing
+data in compiling the
+counts $N_x$. 
+But what if there is missing
+data? Can one
+still apply
+the EM algo in that case?
+Yes! See Chapter \ref{ch-missing-d}.
+
 

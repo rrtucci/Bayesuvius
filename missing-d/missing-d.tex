@@ -1,8 +1,6 @@
-\chapter{Missing Data
+\chapter{Missing Data, Imputation 
  (in parameter learning for bnets): COMING SOON}
 \label{ch-missing-d}
-
-
 
 
 Consider a random variable $\rvx$
@@ -71,8 +69,6 @@ to find
 a sequence
 $(\theta^{(t)})_{t=0, 1, 2, \ldots}$
 that converges to $\theta^*$.
-
-
 $\theta= (\pi_x)_{x\in S_\rvx-H}, N_+, (N_x)_{x\in H}$
 
 $(N_x)_{x\in S_x-H}$
@@ -82,4 +78,381 @@ $h=(N_i)_{i\in H}$
 \beq
 f(x;\theta)=N_+\pi_x
 \eeq
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[h!]
+$$
+\begin{array}{ccc}
+\xymatrix{
+&\ul{\theta}\ar[d]\ar[ld]\ar[rd]
+\\
+\vec{\rvm}
+&\vec{\rvx}
+&\vec{\rvh}\ar[l]
+}
+&
+\xymatrix{
+&\ul{\theta}\ar[d]\ar[ld]\ar[rd]
+\\
+\vec{\rvm}
+&\vec{\rvx}\ar[l]
+&\vec{\rvh}\ar[l]
+}
+&
+\xymatrix{
+&\ul{\theta}\ar[d]\ar[ld]\ar[rd]
+\\
+\vec{\rvm}
+&\vec{\rvx}\ar[l]
+&\vec{\rvh}\ar[l]\ar@/^1pc/[ll]
+}
+\\
+\\
+\text{won't use}
+&MAR
+&\text{won't use}
+\end{array}
+$$
+\end{figure}
+
+MAR
+\beq
+P(\vec{m}|\vec{x},
+\vec{h}, \theta)=
+\left\{
+\begin{array}{ll}
+P(\vec{m}| \theta)&\text{won't use}
+\\
+P(\vec{m}|\vec{x}, \theta)&\text{MAR}
+\\
+P(\vec{m}|\vec{x}, \vec{h}, \theta)&\text{won't use}
+\end{array}
+\right.
+\eeq
+
+\section*{Imputation using EM}
+\hrule\noindent{\bf
+ Example 1:}
+
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|
+>{\columncolor[HTML]{ECF4FF}}l |l|l|l|l|}
+\hline
+ & \cellcolor[HTML]{ECF4FF}$h_0$ & \cellcolor[HTML]{ECF4FF}$x_0$ & \cellcolor[HTML]{ECF4FF}$x_1$ & \cellcolor[HTML]{ECF4FF}$x_2$ \\ \hline
+1 & NA & 0 & 1 & 1 \\ \hline
+2 & NA & 0 & 0 & 0 \\ \hline
+3 & NA & 1 & 1 & 0 \\ \hline
+4 & NA & NA & 1 & NA \\ \hline
+5 & NA & 0 & NA & 1 \\ \hline
+6 & NA & 0 & 0 & 1 \\ \hline
+\end{tabular}
+\;\;\;\;
+\begin{tabular}{|
+>{\columncolor[HTML]{ECF4FF}}l |l|l|l|l|l|}
+\hline
+ & \cellcolor[HTML]{ECF4FF}$h_0$ & \cellcolor[HTML]{ECF4FF}$x_0$
+ & \cellcolor[HTML]{ECF4FF}$x_1$ & \cellcolor[HTML]{ECF4FF}$x_2$ 
+& \cellcolor[HTML]{DAE8FC}$m$ \\ \hline
+1 & NA & 0 & 1 & 1 & (0,0,0) \\ \hline
+2 & NA & 0 & 0 & 0 & (0,0,0) \\ \hline
+3 & NA & 1 & 1 & 0 & (0,0,0) \\ \hline
+4 & NA & \begin{tabular}[c]{@{}l@{}}0\\ 0\\ 1\\ 1\end{tabular} & 1 & \begin{tabular}[c]{@{}l@{}}0\\ 1\\ 0\\ 1\end{tabular} & (1,0,1) \\ \hline
+5 & NA & 0 & \begin{tabular}[c]{@{}l@{}}0\\ 1\end{tabular} & 1 & (0,1,0) \\ \hline
+6 & NA & 0 & 0 & 1 & (0,0,0) \\ \hline
+\end{tabular}
+\caption{{\bf Left Table:}
+Data sample set 
+for Example 1 with 
+$nsam=6$ and some missing entries,
+ for 4 binary variables $h_0, x_0, x_1, x_2$.
+ NA=not available.
+The $h_0$  column is completely missing 
+because $h_0$ is an unobserved latent 
+variable.
+{\bf Right Table:} All possibilities
+for
+$x_i=NA$ cells of left table have
+been enumerated. A new column
+labeled $m$ has been added.
+$m_i=\indi(x_i \text{ is missing})$.}
+\label{tab-missing-data}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|
+>{\columncolor[HTML]{ECF4FF}}l |l|l|l|l|l|
+>{\columncolor[HTML]{CBCEFB}}l |}
+\hline
+ & \cellcolor[HTML]{ECF4FF}$h_0$ & \cellcolor[HTML]{ECF4FF}$x_0$ & \cellcolor[HTML]{ECF4FF}$x_1$ & \cellcolor[HTML]{ECF4FF}$x_2$ & \cellcolor[HTML]{ECF4FF}$m$ & $P(m)$ \\ \hline
+1 & NA & 0 & 1 & 1 & (0,0,0) & $\frac{1}{nsam}$ \\ \hline
+2 & NA & 0 & 0 & 0 & (0,0,0) & $\frac{1}{nsam}$ \\ \hline
+3 & NA & 1 & 1 & 0 & (0,0,0) & $\frac{1}{nsam}$ \\ \hline
+4 & NA & \begin{tabular}[c]{@{}l@{}}0\\ 0\\ 1\\ 1\end{tabular} & 1 & \begin{tabular}[c]{@{}l@{}}0\\ 1\\ 0\\ 1\end{tabular} & (1,0,1) & $\misscellone$ \\ \hline
+5 & NA & 0 & \begin{tabular}[c]{@{}l@{}}0\\ 1\end{tabular} & 1 & (0,1,0) & $\misscelltwo$ \\ \hline
+6 & NA & 0 & 0 & 1 & (0,0,0) & $\frac{1}{nsam}$ \\ \hline
+\end{tabular}
+\caption{$P(m)$ column added to 
+ Table \ref{tab-missing-data}.
+Note that $\sum_m P(m)=1$.}
+\label{tab-missing-data-prob-m}
+\end{table}
+
+
+
+
+$\vec{\rvx}=(\vec{\rvx}_0, \vec{\rvx}_1, 
+\vec{\rvx}_2)$
+
+$\vec{\rvh}=(\vec{\rvh}_0)$
+
+
+$\vec{\rva}=
+(\rva[\sigma])_{\sigma=0, 1, \ldots,nsam-1}$
+
+$\rvh_0[\sigma]\in\bool$,
+
+$\rvx_i[\sigma]\in\bool$
+for $i=0,1,2$,
+
+$\rvm_i[\sigma]\in\bool$
+for $i=0,1,2$.
+
+
+\begin{figure}[h!]
+$$
+\begin{array}{ccc}
+\xymatrix{
+&\ul{\theta}\ar[d]\ar[dr]\ar[dl]
+\\
+\vec{\rvm}
+&\ul{\vecx}\ar[l]
+&\ul{\vech}\ar[l]
+}
+&=&
+\xymatrix{
+&\ul{\theta}\ar[ld]\ar[ldd]\ar[lddd]
+\ar[d]
+\ar@/_1pc/[dd]
+\ar@/_1pc/[ddd]
+\ar[rd]\ar[rdd]\ar[rddd]
+\\
+\rvm[0]
+&
+\rvx[0]\ar[l]
+&\rvh[0]\ar[l]
+\\
+\rvm[1]
+&
+\rvx[1]\ar[l]
+&\rvh[1]\ar[l]
+\\
+\rvm[2]
+&
+\rvx[2]\ar[l]
+&\rvh[2]\ar[l]
+}
+\end{array}
+$$
+\caption{bnet for Example 1
+with $nsam=3$.}
+\label{fig-miss-bnet}
+\end{figure}
+
+\begin{figure}[h!]
+$$\xymatrix{
+\rvm[0]
+&\rvx[0]\ar[l]
+&\rvh[0]\ar[l]
+}=
+\;\;\;\;\;
+\xymatrix{
+\rvm[0]
+&\rvx_0[0]\ar[l]\ar[d]\ar@/^1pc/[dd]
+&\rvh[0]\ar[ld]
+\\
+&\rvx_1[0]\ar[ul]\ar[d]
+\\
+&\rvx_2[0]\ar[uul]
+}
+$$
+\caption{Example 1
+assumes this bnet
+between nodes
+$\rvm[\sigma],
+\rvx[\sigma], \rvh[\sigma]$.}
+\label{fig-miss-sub-bnet}
+\end{figure}
+
+
+Parameterization:
+Categorical distribution
+for each column of TPMs.
+
+\beq\color{blue}
+P(h_0^\sqsig| \theta)=
+\begin{array}{l|l}
+\\\hline
+&1-\theta_0
+\\
+{\scriptstyle 1}&\theta_0
+\end{array}
+\eeq
+
+\beq\color{blue}
+P(x_0^\sqsig| \theta)=
+\begin{array}{l|l}
+\\\hline
+&1-\theta_1
+\\
+{\scriptstyle 1}&\theta_1
+\end{array}
+\eeq
+
+
+\beq\color{blue}
+P(x_1^\sqsig\cond x_0^\sqsig, h^\sqsig, \theta)=
+\begin{array}{l|llll}
+&{\scriptstyle 00}
+&{\scriptstyle 01}
+&{\scriptstyle 10}
+&{\scriptstyle 11}
+\\\hline
+{\scriptstyle 0}
+&1-\theta_2
+&1-\theta_3
+&1-\theta_4
+&1-\theta_5
+\\
+{\scriptstyle 1}
+&\theta_2
+&\theta_3
+&\theta_4
+&\theta_5
+\end{array}
+\eeq
+
+
+\beq\color{blue}
+P(x_2^\sqsig\cond
+ x_1^\sqsig, x_0^\sqsig, \theta)=
+\begin{array}{l|llll}
+&{\scriptstyle 00}
+&{\scriptstyle 01}
+&{\scriptstyle 10}
+&{\scriptstyle 11}
+\\\hline
+{\scriptstyle 0}
+&1-\theta_6
+&1-\theta_7
+&1-\theta_8
+&1-\theta_9
+\\
+{\scriptstyle 1}
+&\theta_6
+&\theta_7
+&\theta_8
+&\theta_9
+\end{array}
+\eeq
+
+\beq\color{blue}
+P(m^\sqsig|x^\sqsig, \theta)=
+\frac{1}{nsam}
+P((x_i)_{\forall i\ni m_i=1}\cond
+(x_i)_{\forall i\ni m_i=0},\theta)
+\eeq
+
+\beq
+\theta=(\theta_i)_{i=0, 1, \ldots, 9}
+\eeq
+
+\beq
+P(m^\sqsig, x^\sqsig, h^\sqsig|\theta)=
+P(m^\sqsig| x^\sqsig, \theta)
+P(x^\sqsig| h^\sqsig, \theta)
+P(h^\sqsig|\theta)
+\eeq
+
+
+\beq
+P(x^\sqsig| h^\sqsig, \theta)=
+P(x_2^\sqsig|x_1^\sqsig, x_0^\sqsig, \theta)
+P(x_1^\sqsig|x_0^\sqsig, h^\sqsig, \theta)
+P(x_0^\sqsig| \theta)
+\eeq
+
+\beq
+P(x_1^\sqsig|x_0^\sqsig, \theta)=
+\sum_h 
+P(x_1^\sqsig|x_0^\sqsig, h^\sqsig, \theta)
+P(h^\sqsig|\theta)
+\eeq
+
+\beq
+P(x^\sqsig| \theta)=
+P(x_2^\sqsig|x_1^\sqsig, x_0^\sqsig, \theta)
+P(x_1^\sqsig|x_0^\sqsig,\theta)
+P(x_0^\sqsig| \theta)
+\eeq
+
+\beqa
+Q(\theta|\theta^{(t)})
+&=&
+\sum_{ \vec{m},\vec{h}}
+P(\vec{m},\vec{h}\cond
+\vec{x}, \theta^{(t)})
+\ln P(\vec{m}, \vec{x}, \vec{h}|\theta)
+\\
+&=&
+\sum_{\vec{m}, \vec{h}}
+\left[ \prod_\sigma 
+P(m^\sqsig,h^\sqsig\cond
+x^\sqsig, \theta^{(t)})
+\right]
+\ln 
+\left[
+\prod_\sigma 
+P(m^\sqsig, 
+x^\sqsig, h^\sqsig|\theta)
+\right]
+\\
+&=&
+\sum_\sigma
+\sum_{m^\sqsig, h^\sqsig}
+P(m^\sqsig,h^\sqsig\cond
+x^\sqsig, \theta^{(t)})
+\ln P(m^\sqsig, x^\sqsig, h^\sqsig|\theta)
+\\
+&=&
+\sum_\sigma
+\sum_{m^\sqsig, h^\sqsig}
+\frac{P(m^\sqsig,h^\sqsig,
+x^\sqsig\cond \theta^{(t)})}
+{
+P(
+x^\sqsig\cond \theta^{(t)})
+}
+\ln P(m^\sqsig, x^\sqsig, h^\sqsig|\theta)
+\eeqa
+
+Once find optimal
+parameters $\theta^*$,
+can evaluate
+numerically, the
+$P(m)$ 
+column 
+of Table \ref{tab-missing-data-prob-m}.
+Out of four
+sub-rows for row 4,
+choose the one with
+the highest probability.
+Similarly,
+out of 2 sub-rows for row 5,
+choose the one with 
+the highest probability.
+
 
