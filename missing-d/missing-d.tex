@@ -2,84 +2,15 @@
  (in parameter learning for bnets): COMING SOON}
 \label{ch-missing-d}
 
-
-Consider a random variable $\rvx$
-with possible values $S_\rvx$.
-Suppose we are given
-data that allows us to construct
-a distribution of counts
-$N_x$
-for $x\in S_\rvx-H$,
-where $H=\{a,b\}$.
-Unfortunately,
- data for $x\in H$
-was missing.
-Since we don't 
-know $N_a$
-and $N_b$,
-we can't normalize
-$N()$ to obtain
-a probability distribution
-$P_e(x)=\frac{N_x}
-{\sum_{x\in S_\rvx}N_x}$.
-Thus, we would
-like to find 
-reasonable guesses for $N_a$
-and $N_b$.
-We might proceed as follows.
-Suppose we think
-$N_x$ 
-can be fitted well by
-a family
-of functions
-$f(x;\theta)$,
-with finite $\sum_{x\in S_\rvx}f(x;\theta)$,
-parameterized by
-a parameter $\theta$.
-If we can find
-the value $\theta^*$
-which
-gives the best fit,
-then we can 
-guess $N_x=f(x; \theta^*)$
-for $x=a,b$.
-To find $\theta^*$,
-we might minimize
-an error function
-
-\beq
-\cale(\theta)=\sum_{x\in S_\rvx-H}
-|N_x-f(x; \theta)|^2
-\;.
-\eeq
-over $\theta$.
-If we can
-solve analytically
-$\partial_\theta \cale(\theta)=0$
-for $\theta$,
-great, but that is seldom the case.
-So one can use one
-of many
-well
-known numerically
-minimization
-techniques (e.g., 
-gradient descent)
-to find 
-a sequence
-$(\theta^{(t)})_{t=0, 1, 2, \ldots}$
-that converges to $\theta^*$.
-$\theta= (\pi_x)_{x\in S_\rvx-H}, N_+, (N_x)_{x\in H}$
-
-$(N_x)_{x\in S_x-H}$
-
-$h=(N_i)_{i\in H}$
-
-\beq
-f(x;\theta)=N_+\pi_x
-\eeq
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Notation:
+$\vec{\rva}=
+(\rva[\sigma])_{\sigma=0, 1, \ldots,nsam-1}
+$, where $nsam$
+is the number of samples.
+Will
+sometimes
+denote
+$a\sqsig$ by $a^\sqsig$.
 
 \begin{figure}[h!]
 $$
@@ -177,7 +108,8 @@ for
 $x_i=NA$ cells of left table have
 been enumerated. A new column
 labeled $m$ has been added.
-$m_i=\indi(x_i \text{ is missing})$.}
+$m_i=\indi(x_i \text{ is missing})$
+for $i=0,1,2$.}
 \label{tab-missing-data}
 \end{table}
 
@@ -208,10 +140,6 @@ $\vec{\rvx}=(\vec{\rvx}_0, \vec{\rvx}_1,
 \vec{\rvx}_2)$
 
 $\vec{\rvh}=(\vec{\rvh}_0)$
-
-
-$\vec{\rva}=
-(\rva[\sigma])_{\sigma=0, 1, \ldots,nsam-1}$
 
 $\rvh_0[\sigma]\in\bool$,
 
@@ -306,7 +234,7 @@ P(h_0^\sqsig| \theta)=
 P(x_0^\sqsig| \theta)=
 \begin{array}{l|l}
 \\\hline
-&1-\theta_1
+{\scriptstyle 0}&1-\theta_1
 \\
 {\scriptstyle 1}&\theta_1
 \end{array}
@@ -442,11 +370,13 @@ x^\sqsig\cond \theta^{(t)})
 Once find optimal
 parameters $\theta^*$,
 can evaluate
-numerically, the
+numerically the
 $P(m)$ 
 column 
 of Table \ref{tab-missing-data-prob-m}.
-Out of four
+In Table
+\ref{tab-missing-data-prob-m},
+out of four
 sub-rows for row 4,
 choose the one with
 the highest probability.
