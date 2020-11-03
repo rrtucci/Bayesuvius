@@ -1,6 +1,136 @@
-\chapter{Missing Data, Imputation 
- (in parameter learning for bnets): COMING SOON}
+\chapter{Missing Data, Imputation}
 \label{ch-missing-d}
+
+This chapter assumes
+that the reader has
+read some parts of
+Chapter \ref{ch-emax}
+on the Expectation
+Maximization
+(EM) algo
+and Chapter \ref{ch-mcmc}
+on Markov Chain Monte Carlo
+(MCMC).
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|
+>{\columncolor[HTML]{ECF4FF}}l |l|l|l|l|}
+\hline
+ & \cellcolor[HTML]{ECF4FF}$h_0$ & \cellcolor[HTML]{ECF4FF}$x_0$ & \cellcolor[HTML]{ECF4FF}$x_1$ & \cellcolor[HTML]{ECF4FF}$x_2$ \\ \hline
+1 & NA & 0 & 1 & 1 \\ \hline
+2 & NA & 0 & 0 & 0 \\ \hline
+3 & NA & 1 & 1 & 0 \\ \hline
+4 & NA & NA & 1 & NA \\ \hline
+5 & NA & 0 & NA & 1 \\ \hline
+6 & NA & 0 & 0 & 1 \\ \hline
+\end{tabular}
+\;\;\;\;
+\begin{tabular}{|
+>{\columncolor[HTML]{ECF4FF}}l |l|l|l|l|l|}
+\hline
+ & \cellcolor[HTML]{ECF4FF}$h_0$ & \cellcolor[HTML]{ECF4FF}$x_0$
+ & \cellcolor[HTML]{ECF4FF}$x_1$ & \cellcolor[HTML]{ECF4FF}$x_2$ 
+& \cellcolor[HTML]{DAE8FC}$m$ \\ \hline
+1 & NA & 0 & 1 & 1 & (0,0,0) \\ \hline
+2 & NA & 0 & 0 & 0 & (0,0,0) \\ \hline
+3 & NA & 1 & 1 & 0 & (0,0,0) \\ \hline
+4 & NA & \begin{tabular}[c]{@{}l@{}}0\\ 0\\ 1\\ 1\end{tabular} & 1 & \begin{tabular}[c]{@{}l@{}}0\\ 1\\ 0\\ 1\end{tabular} & (1,0,1) \\ \hline
+5 & NA & 0 & \begin{tabular}[c]{@{}l@{}}0\\ 1\end{tabular} & 1 & (0,1,0) \\ \hline
+6 & NA & 0 & 0 & 1 & (0,0,0) \\ \hline
+\end{tabular}
+\caption{{\bf Left Table:}
+Dataset 
+with 
+$nsam=6$ and some missing entries,
+ for 4 binary variables $h_0, x_0, x_1, x_2$.
+ NA=not available.
+The $h_0$  column is completely missing 
+because $h_0$ is an unobserved latent 
+variable.
+{\bf Right Table:} All possibilities
+for
+$x_i=NA$ cells of left table have
+been enumerated. A new column
+labeled $m$ has been added.
+$m_i=\indi(x_i \text{ is missing})$
+for $i=0,1,2$.}
+\label{tab-missing-data}
+\end{table}
+
+
+Suppose you
+have compiled a dataset
+from a study.
+It consists 
+of $nsam$ number 
+of samples (sample= row), 
+and $nx$ columns (each column is a different 
+feature, or observation).
+Suppose that some of the
+cells
+in this matrix 
+are empty.
+Throwing
+away all the incomplete
+rows is okay 
+if the 
+number
+of incomplete rows
+is much smaller  than
+$nsam$.
+If not,
+throwing 
+them
+away would
+throw away
+a substantial amount of
+information 
+from all the
+filled cells
+in those incomplete rows, 
+plus it might
+bias your dataset.
+This chapter
+deals with
+how to fill
+those empty cells 
+with plausible
+fake data.
+A fancy name
+for this process
+is {\bf imputation}.
+There is no unique
+way of 
+fabricating
+fake data,
+but
+some fakes
+are
+better than others
+by some metrics.
+This chapter will
+consider
+two popular
+ways (EM
+and MCMC)
+of 
+filling those
+empty 
+cells
+with
+their
+``most likely" values
+based on the cells
+of the dataset that
+aren't missing,
+and perhaps
+also based
+on some 
+model (DAG)
+that is 
+expected to describe well the
+dataset.
 
 Notation:
 $\vec{\rva}=
@@ -11,6 +141,63 @@ Will
 sometimes
 denote
 $a\sqsig$ by $a^\sqsig$.
+
+
+For concreteness,
+we will
+apply
+the concepts
+of this chapter
+to
+the dataset
+with missing data
+given by Table \ref{tab-missing-data}.
+
+
+\section*{Imputation via EM}
+
+We begin by augmenting
+Fig.\ref{fig-em-bnet} (the first figure
+in Chapter \ref{ch-emax}).
+We augment it 
+to Figs.\ref{fig-mar}
+and \ref{fig-mar-multi}
+by adding a new node
+$\vec{\rvm}$
+called the
+{\bf missingness variable}.
+There are 
+3
+popular
+ways of 
+connecting node $\vec{\rvm}$
+ to the
+other nodes
+in the graph.
+For
+doing imputation
+via EM, 
+we connect node
+$\vec{\rvm}$
+as shown in the
+middle bnet (called MAR)
+of Fig.\ref{fig-mar}.
+Recall
+that node
+$\ul{\theta}$
+represents
+the {\bf unknown parameters},
+node $\vec{\rvx}$
+represents the
+{\bf observed variables},
+and 
+node $\vec{\rvh}$
+represents the {\bf latent
+variables}.
+Both $\ul{\theta}$
+and $\vec{\rvh}$
+are hidden (i.e., unobserved).
+
 
 \begin{figure}[h!]
 $$
@@ -45,110 +232,13 @@ $$
 &\text{won't use}
 \end{array}
 $$
+\caption{The 
+middle bnet 
+is often referred to as the MAR (missing
+at random) imputation
+strategy.}
+\label{fig-mar}
 \end{figure}
-
-MAR
-\beq
-P(\vec{m}|\vec{x},
-\vec{h}, \theta)=
-\left\{
-\begin{array}{ll}
-P(\vec{m}| \theta)&\text{won't use}
-\\
-P(\vec{m}|\vec{x}, \theta)&\text{MAR}
-\\
-P(\vec{m}|\vec{x}, \vec{h}, \theta)&\text{won't use}
-\end{array}
-\right.
-\eeq
-
-\section*{Imputation using EM}
-\hrule\noindent{\bf
- Example 1:}
-
-
-\begin{table}[h!]
-\centering
-\begin{tabular}{|
->{\columncolor[HTML]{ECF4FF}}l |l|l|l|l|}
-\hline
- & \cellcolor[HTML]{ECF4FF}$h_0$ & \cellcolor[HTML]{ECF4FF}$x_0$ & \cellcolor[HTML]{ECF4FF}$x_1$ & \cellcolor[HTML]{ECF4FF}$x_2$ \\ \hline
-1 & NA & 0 & 1 & 1 \\ \hline
-2 & NA & 0 & 0 & 0 \\ \hline
-3 & NA & 1 & 1 & 0 \\ \hline
-4 & NA & NA & 1 & NA \\ \hline
-5 & NA & 0 & NA & 1 \\ \hline
-6 & NA & 0 & 0 & 1 \\ \hline
-\end{tabular}
-\;\;\;\;
-\begin{tabular}{|
->{\columncolor[HTML]{ECF4FF}}l |l|l|l|l|l|}
-\hline
- & \cellcolor[HTML]{ECF4FF}$h_0$ & \cellcolor[HTML]{ECF4FF}$x_0$
- & \cellcolor[HTML]{ECF4FF}$x_1$ & \cellcolor[HTML]{ECF4FF}$x_2$ 
-& \cellcolor[HTML]{DAE8FC}$m$ \\ \hline
-1 & NA & 0 & 1 & 1 & (0,0,0) \\ \hline
-2 & NA & 0 & 0 & 0 & (0,0,0) \\ \hline
-3 & NA & 1 & 1 & 0 & (0,0,0) \\ \hline
-4 & NA & \begin{tabular}[c]{@{}l@{}}0\\ 0\\ 1\\ 1\end{tabular} & 1 & \begin{tabular}[c]{@{}l@{}}0\\ 1\\ 0\\ 1\end{tabular} & (1,0,1) \\ \hline
-5 & NA & 0 & \begin{tabular}[c]{@{}l@{}}0\\ 1\end{tabular} & 1 & (0,1,0) \\ \hline
-6 & NA & 0 & 0 & 1 & (0,0,0) \\ \hline
-\end{tabular}
-\caption{{\bf Left Table:}
-Data sample set 
-for Example 1 with 
-$nsam=6$ and some missing entries,
- for 4 binary variables $h_0, x_0, x_1, x_2$.
- NA=not available.
-The $h_0$  column is completely missing 
-because $h_0$ is an unobserved latent 
-variable.
-{\bf Right Table:} All possibilities
-for
-$x_i=NA$ cells of left table have
-been enumerated. A new column
-labeled $m$ has been added.
-$m_i=\indi(x_i \text{ is missing})$
-for $i=0,1,2$.}
-\label{tab-missing-data}
-\end{table}
-
-\begin{table}[h!]
-\centering
-\begin{tabular}{|
->{\columncolor[HTML]{ECF4FF}}l |l|l|l|l|l|
->{\columncolor[HTML]{CBCEFB}}l |}
-\hline
- & \cellcolor[HTML]{ECF4FF}$h_0$ & \cellcolor[HTML]{ECF4FF}$x_0$ & \cellcolor[HTML]{ECF4FF}$x_1$ & \cellcolor[HTML]{ECF4FF}$x_2$ & \cellcolor[HTML]{ECF4FF}$m$ & $P(m)$ \\ \hline
-1 & NA & 0 & 1 & 1 & (0,0,0) & $\frac{1}{nsam}$ \\ \hline
-2 & NA & 0 & 0 & 0 & (0,0,0) & $\frac{1}{nsam}$ \\ \hline
-3 & NA & 1 & 1 & 0 & (0,0,0) & $\frac{1}{nsam}$ \\ \hline
-4 & NA & \begin{tabular}[c]{@{}l@{}}0\\ 0\\ 1\\ 1\end{tabular} & 1 & \begin{tabular}[c]{@{}l@{}}0\\ 1\\ 0\\ 1\end{tabular} & (1,0,1) & $\misscellone$ \\ \hline
-5 & NA & 0 & \begin{tabular}[c]{@{}l@{}}0\\ 1\end{tabular} & 1 & (0,1,0) & $\misscelltwo$ \\ \hline
-6 & NA & 0 & 0 & 1 & (0,0,0) & $\frac{1}{nsam}$ \\ \hline
-\end{tabular}
-\caption{$P(m)$ column added to 
- Table \ref{tab-missing-data}.
-Note that $\sum_m P(m)=1$.}
-\label{tab-missing-data-prob-m}
-\end{table}
-
-
-
-
-$\vec{\rvx}=(\vec{\rvx}_0, \vec{\rvx}_1, 
-\vec{\rvx}_2)$
-
-$\vec{\rvh}=(\vec{\rvh}_0)$
-
-$\rvh_0[\sigma]\in\bool$,
-
-$\rvx_i[\sigma]\in\bool$
-for $i=0,1,2$,
-
-$\rvm_i[\sigma]\in\bool$
-for $i=0,1,2$.
-
 
 \begin{figure}[h!]
 $$
@@ -185,10 +275,50 @@ $$
 }
 \end{array}
 $$
-\caption{bnet for Example 1
+\caption{MAR bnet
 with $nsam=3$.}
-\label{fig-miss-bnet}
+\label{fig-mar-multi}
 \end{figure}
+
+From Fig.\ref{fig-mar}, we have
+\beq
+P(\vec{m}|\vec{x},
+\vec{h}, \theta)=
+\left\{
+\begin{array}{ll}
+P(\vec{m}| \theta)&\text{won't use}
+\\
+P(\vec{m}|\vec{x}, \theta)&\text{MAR}
+\\
+P(\vec{m}|\vec{x}, \vec{h}, \theta)&\text{won't use}
+\end{array}
+\right.
+\;.
+\eeq
+
+For the example of
+Table \ref{tab-missing-data},
+we have
+variables
+$\vec{\rvm},\vec{\rvx}$
+and $\vec{\rvh}$
+whose values range over the 
+following sets:
+
+$\vec{\rvx}=(\vec{\rvx}_0, \vec{\rvx}_1, 
+\vec{\rvx}_2)$
+
+$\vec{\rvh}=(\vec{\rvh}_0)$
+
+$\rvh_0[\sigma]\in\bool$,
+
+$\rvx_i[\sigma]\in\bool$
+for $i=0,1,2$,
+
+$\rvm_i[\sigma]\in\bool$
+for $i=0,1,2$.
+
+
 
 \begin{figure}[h!]
 $$\xymatrix{
@@ -201,24 +331,64 @@ $$\xymatrix{
 \rvm[0]
 &\rvx_0[0]\ar[l]\ar[d]\ar@/^1pc/[dd]
 &\rvh[0]\ar[ld]
+\ar@{-->}[ldd]
+\ar@{-->}[l]
 \\
 &\rvx_1[0]\ar[ul]\ar[d]
 \\
 &\rvx_2[0]\ar[uul]
 }
 $$
-\caption{Example 1
+\caption{Our example for imputation via
+ EM
 assumes this bnet
 between nodes
 $\rvm[\sigma],
 \rvx[\sigma], \rvh[\sigma]$.}
-\label{fig-miss-sub-bnet}
+\label{fig-miss-subnet}
 \end{figure}
 
-
-Parameterization:
-Categorical distribution
-for each column of TPMs.
+For
+concreteness,
+we will assume
+that 
+the Markov
+chain
+$\rvm[\sigma]\larrow
+\rvx[\sigma]\larrow\rvh[\sigma]$
+has a finer grained DAG structure
+given by Fig.\ref{fig-miss-subnet}.
+where we will
+omit the dashed arrows.
+If one
+doesn't
+want
+to assume that the data
+can be fitted
+well by the
+bnet
+of 
+Fig.\ref{fig-miss-subnet}
+without
+the dashed arrows,
+one can include those arrows too,
+at the expense of more 
+unknown parameters
+(i.e., degrees of freedom)
+to be lumped into $\theta$.
+We will parmaterize
+the TPMs 
+corresponding
+to Fig.\ref{fig-miss-subnet}
+using a 
+Categorical Distribution
+for each column of the
+TPMs.
+We will thus assume
+that the bnet of 
+Fig.\ref{fig-miss-subnet}
+has the following TPMs,
+printed in blue.
 
 \beq\color{blue}
 P(h_0^\sqsig| \theta)=
@@ -292,7 +462,36 @@ P(m^\sqsig|x^\sqsig, \theta)=
 \frac{1}{nsam}
 P((x_i)_{\forall i\ni m_i=1}\cond
 (x_i)_{\forall i\ni m_i=0},\theta)
+\label{eq-prob-miss}
 \eeq
+
+Eq.(\ref{eq-prob-miss})
+can be illustrated 
+as follows.
+In Table \ref{tab-missing-data-prob-m},
+we added a $P(m)$ column
+to Table \ref{tab-missing-data}.
+
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|
+>{\columncolor[HTML]{ECF4FF}}l |l|l|l|l|l|
+>{\columncolor[HTML]{CBCEFB}}l |}
+\hline
+ & \cellcolor[HTML]{ECF4FF}$h_0$ & \cellcolor[HTML]{ECF4FF}$x_0$ & \cellcolor[HTML]{ECF4FF}$x_1$ & \cellcolor[HTML]{ECF4FF}$x_2$ & \cellcolor[HTML]{ECF4FF}$m$ & $P(m)$ \\ \hline
+1 & NA & 0 & 1 & 1 & (0,0,0) & $\frac{1}{nsam}$ \\ \hline
+2 & NA & 0 & 0 & 0 & (0,0,0) & $\frac{1}{nsam}$ \\ \hline
+3 & NA & 1 & 1 & 0 & (0,0,0) & $\frac{1}{nsam}$ \\ \hline
+4 & NA & \begin{tabular}[c]{@{}l@{}}0\\ 0\\ 1\\ 1\end{tabular} & 1 & \begin{tabular}[c]{@{}l@{}}0\\ 1\\ 0\\ 1\end{tabular} & (1,0,1) & $\misscellone$ \\ \hline
+5 & NA & 0 & \begin{tabular}[c]{@{}l@{}}0\\ 1\end{tabular} & 1 & (0,1,0) & $\misscelltwo$ \\ \hline
+6 & NA & 0 & 0 & 1 & (0,0,0) & $\frac{1}{nsam}$ \\ \hline
+\end{tabular}
+\caption{$P(m)$ column added to 
+ Table \ref{tab-missing-data}.
+Note that $\sum_m P(m)=1$.}
+\label{tab-missing-data-prob-m}
+\end{table}
 
 \beq
 \theta=(\theta_i)_{i=0, 1, \ldots, 9}
@@ -367,8 +566,10 @@ x^\sqsig\cond \theta^{(t)})
 \ln P(m^\sqsig, x^\sqsig, h^\sqsig|\theta)
 \eeqa
 
-Once find optimal
-parameters $\theta^*$,
+Once you find optimal
+parameters $\theta^*$
+by recursing this $Q(\theta|\theta^{(t)})$,
+you
 can evaluate
 numerically the
 $P(m)$ 
@@ -376,13 +577,13 @@ column
 of Table \ref{tab-missing-data-prob-m}.
 In Table
 \ref{tab-missing-data-prob-m},
-out of four
+out of the 4
 sub-rows for row 4,
 choose the one with
 the highest probability.
 Similarly,
-out of 2 sub-rows for row 5,
+out of the  2 sub-rows for row 5,
 choose the one with 
 the highest probability.
 
-
+\section*{Imputation via MCMC}
