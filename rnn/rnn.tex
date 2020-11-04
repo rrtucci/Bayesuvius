@@ -116,7 +116,7 @@ descent,
 one can use the bnet 
 of Fig.\ref{fig-rnn-ext}.
 
-Let $s=0,1, \ldots, nsam(\vecx)-1$
+Let $\sigma=0,1, \ldots, nsam(\vecx)-1$
 be the labels for a minibatch of samples.
 The node TPMs,
  printed in blue,
@@ -167,34 +167,34 @@ and $W^y$ of RNN bnet Fig.\ref{fig-rnn}.}
 \end{figure}
 
 \beq\color{blue}
-P(x(\cdot)[s])\text{ = given}
+P(x(\cdot)[\sigma])\text{ = given}
 \eeq
 
 \beq\color{blue}
-P(x(t)[s])=\delta(x(t)[s], 
-[x(\cdot)]_t[s])
+P(x(t)[\sigma])=\delta(x(t)[\sigma],
+[x(\cdot)]_t[\sigma])
 \eeq
 
 \beq\color{blue}
-P(h(t)[s]\cond h(t-1)[s], x(t)[s])=
-\delta(h(t)[s],
-\cala(W^{h|x}x(t)[s] + W^{h|h}h(t-1)[s] + b^h)
+P(h(t)[\sigma]\cond h(t-1)[\sigma], x(t)[\sigma])=
+\delta(h(t)[\sigma],
+\cala(W^{h|x}x(t)[\sigma] + W^{h|h}h(t-1)[\sigma] + b^h)
 \eeq
 
 \beq\color{blue}
-P(Y(t)[s]\cond h(t-1)[s])=
-\delta(Y(t)[s],
-\cala(W^{y|h}h(t-1)[s] + b^y)
+P(Y(t)[\sigma]\cond h(t-1)[\sigma])=
+\delta(Y(t)[\sigma],
+\cala(W^{y|h}h(t-1)[\sigma] + b^y)
 \eeq
 
 \beq\color{blue}
-P(y(\cdot)[s]\cond x(\cdot)[s])\text{ = given}
+P(y(\cdot)[\sigma]\cond x(\cdot)[\sigma])\text{ = given}
 \eeq
 
 \beq\color{blue}
 P(\cale(t)\cond \vecy(\cdot), \vec{Y}(t))
 =\frac{1}{nsam(\vecx)}
-\sum_s d(y(t)[s], Y(t)[s])
+\sum_\sigma d(y(t)[\sigma], Y(t)[\sigma])
 \;,
 \eeq
 where 
@@ -250,9 +250,9 @@ train with the following
 TPM for node $\vecy(\cdot)$:
 
 \beq\color{blue}
-P(y(\cdot)[s]\cond x(\cdot)[s])=
-\prod_t\indi(\;\;\;y(t)[s]=
-P(x(t)[s]\cond [x(t')[s]]_{t'<t})
+P(y(\cdot)[\sigma]\cond x(\cdot)[\sigma])=
+\prod_t\indi(\;\;\;y(t)[\sigma]=
+P(x(t)[\sigma]\cond [x(t')[\sigma]]_{t'<t})
 \;\;\;)
 \eeq
 

@@ -227,16 +227,19 @@ $$
 }
 \\
 \\
-\text{won't use}
-&MAR
-&\text{won't use}
+\text{Seldom assumed}
+&\text{MAR}
+&\text{not-MAR (NMAR)}
 \end{array}
 $$
 \caption{The 
+left bnet is seldom assumed. The
 middle bnet 
-is often referred to as the MAR (missing
-at random) imputation
-strategy.}
+is referred to as the MAR (missing
+at random)
+assumption. The right bnet
+is referred to as the not-MAR  (NMAR)
+assumption.}
 \label{fig-mar}
 \end{figure}
 
@@ -286,11 +289,12 @@ P(\vec{m}|\vec{x},
 \vec{h}, \theta)=
 \left\{
 \begin{array}{ll}
-P(\vec{m}| \theta)&\text{won't use}
+P(\vec{m}| \theta)&\text{Seldom assumed. Called missing-CAR (MCAR)}
 \\
 P(\vec{m}|\vec{x}, \theta)&\text{MAR}
 \\
-P(\vec{m}|\vec{x}, \vec{h}, \theta)&\text{won't use}
+P(\vec{m}|\vec{x}, \vec{h}, \theta)
+&\text{not-MAR (NMAR)}
 \end{array}
 \right.
 \;.
@@ -587,3 +591,91 @@ choose the one with
 the highest probability.
 
 \section*{Imputation via MCMC}
+A simple 
+and popular way to do inputation via MCMC
+is described in 
+Ref.\cite{taka2017}. It goes as follows.
+
+Let
+\beq
+\rvH[\sigma]=(\rvh[\sigma], \rvm[\sigma])
+\eeq
+for $\sigma=0, 1, \ldots, nsam-1$.
+Initialize $\theta^{(0)}$ 
+to a random value
+within the allowed ranges.
+Do the following 2 steps, 
+for $t=0, 1, \ldots, T-1$,
+where $T$
+is large enough 
+that $\theta^{(t)}$ has 
+reached a steady value
+that is independent of $\theta^{(0)}$.
+To do the
+sampling, use a 
+standard sampling technique such as Gibbs sampling.
+
+\begin{subequations}
+\begin{itemize}
+\item{\bf STEP 1:}
+For $\sigma=0, 1, \ldots, nsam-1$, find a sample
+
+\beq
+(H^\sqsig)^{(t+1)}\sim P(H^\sqsig|x^\sqsig, \theta^{(t)})
+\;.
+\eeq
+\item {\bf STEP 2:} Find a sample
+\beq
+\theta^{(t+1)}\sim \prod_\sigma P(\theta|x^\sqsig, (H^\sqsig)^{(t+1)})
+\eeq
+where
+
+\beq
+ P(\theta|x^\sqsig, H^\sqsig)=
+\caln(!\theta)P(x^\sqsig, H^\sqsig|\theta)
+\;.
+\eeq
+\end{itemize}
+\label{eq-impu-mcmc}
+\end{subequations}
+Fig.\ref{fig-impu-mcmc} illustrates 
+this two step
+process using a bnet.
+
+\begin{figure}[h!]
+$$\xymatrix{
+\vec{\rvx}\ar[dr]\ar[drr]\ar[drrr]
+\\
+\ul{\theta}^{(0)}\ar[dr]
+&\ul{\theta}^{(1)}\ar[dr]
+&\ul{\theta}^{(2)}\ar[dr]
+&\ul{\theta}^{(3)}
+\\
+&\vec{\rvH}^{(1)}\ar[u]
+&\vec{\rvH}^{(2)}\ar[u]
+&\vec{\rvH}^{(3)}\ar[u]
+\\
+\vec{\rvx}\ar[ur]\ar[urr]\ar[urrr]
+}$$
+\caption{bnet illustrating Eqs.(\ref{eq-impu-mcmc})
+for doing imputation via MCMC.
+The {\bf same} node $\vec{\rvx}$
+appears twice 
+to make the graph
+clearer.}
+\label{fig-impu-mcmc}
+\end{figure}
+\section*{Multiple Imputations}
+{\bf Multiple imputations} means calculating
+$\theta^*$ (i.e.,
+the optimum $\theta$) 
+via any method
+(such as EM or MCMC).
+Doing so a large number $N$
+of times,
+starting from different, randomly
+chosen  $\theta^{(0)}$
+initial parameters,
+and then calculating
+the average and the variance 
+of $\theta^*$.
