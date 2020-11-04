@@ -27,7 +27,7 @@ are hidden (i.e.,
 unobserved).\footnote{
 The term
 ``unknown parameter"
-is frequentist lingo.
+is mainly of frequentist origin.
 For Bayesians, $\theta$
 is a random variable with
 a delta function prior,
@@ -78,12 +78,12 @@ Later on in this chapter,
 we will give the node TPMs
 for this bnet for
 the special
-case in which $P(x[i]\cond \theta)$
+case in which $P(x[\sigma]\cond \theta)$
 is a mixture (i.e., weighted sum)
 of Gaussians.
 
 Note that if we 
-erase the $\rvh[i]$ nodes
+erase the $\rvh[\sigma]$ nodes
 from Fig.\ref{fig-em-bnet},
 we get the bnet for naive Bayes,
 which is used for classification
@@ -111,16 +111,14 @@ function.
 
 $nsam=$ number of samples.
 
-$\vecx=(x[0], x[1], \ldots, x[nsam-1])$ =
-{\bf observed data}.
- $x[i]\in S_\rvx$ for all $i$.
+$\vecx=(x[0], x[1], \ldots, x[nsam-1])$
+ $x[\sigma]\in S_\rvx$ for all $\sigma$.
 
 $\vech=(h[0], h[1], \ldots, h[nsam-1])$
-= {\bf hidden or missing data}.
-$h[i]\in S_\rvh$ for all $i$.
+$h[\sigma]\in S_\rvh$ for all $\sigma$.
 
-We assume that the samples $(x[i],h[i])$
-are i.i.d. for different $i$ at fixed 
+We assume that the samples $(x[\sigma],h[\sigma])$
+are i.i.d. for different $\sigma$ at fixed 
 $\theta$.
 What this means is that 
 there are
@@ -131,9 +129,9 @@ such that
 
 \beq
 P(\vecx, \vech|\theta)=
-\prod_i \left[P_{\rvx|\rvh,\ul{\theta}}
-(x[i]\cond h[i], \theta)
-P_{\rvh|\ul{\theta}}(h[i]\cond \theta)\right]
+\prod_\sigma \left[P_{\rvx|\rvh,\ul{\theta}}
+(x[\sigma]\cond h[\sigma], \theta)
+P_{\rvh|\ul{\theta}}(h[\sigma]\cond \theta)\right]
 \;.
 \eeq
 
@@ -161,17 +159,12 @@ assumed):
 {\bf The EM algorithm:}
 \begin{enumerate}
 \item{\bf Expectation step:}\footnote{
-Note that, at first, you might 
- think erroneously
+Note that
 that
-$Q(\theta|\theta^{(t)})$
-is a function of $\vec{x}$ too.
-This is not the case
- because
 the right hand side of
 Eq.(\ref{eq-exp-step})
- ends up
-being of the form $\sum_\sigma 
+is expressible 
+in the form $\sum_\sigma 
 \sum_{h[\sigma]}f(x[\sigma],
 h[\sigma])$.}
  
@@ -411,7 +404,7 @@ is portrayed in Fig.\ref{fig-minorize}.
 \hrule\noindent{\bf Example (Gaussian mixture)}
 
 
-$x[i]\in \RR^d=S_\rvx$. $S_\rvh$ discrete and
+$x[\sigma]\in \RR^d=S_\rvx$. $S_\rvh$ discrete and
 not too large. $n_\rvh=|S_\rvh|$ is
 number of Gaussians that we are 
 going to fit the samples with.
@@ -436,37 +429,37 @@ for the special case
 of a mixture of Gaussians, are as follows:
 
 \beq\color{blue}
-P(x[i]\cond h[i]\cond \theta)=
-\caln_d(x[i];\mu_{h[i]}, \Sigma_{h[i]})
+P(x[\sigma]\cond h[\sigma]\cond \theta)=
+\caln_d(x[\sigma];\mu_{h[\sigma]}, \Sigma_{h[\sigma]})
 \eeq
 
 \beq\color{blue}
-P(h[i]\cond \theta)=w_{h[i]}
+P(h[\sigma]\cond \theta)=w_{h[\sigma]}
 \eeq
 
 Note that
 
 \beqa
-P(x[i]\cond \theta)&=&
-\sum_h P(x[i]\cond h[i]=h, \theta)
-P(h[i]=h\cond\theta)
+P(x[\sigma]\cond \theta)&=&
+\sum_h P(x[\sigma]\cond h[\sigma]=h, \theta)
+P(h[\sigma]=h\cond\theta)
 \\
 &=&
-\sum_hw_h\caln_d(x[i];\mu_h, \Sigma_h)
+\sum_hw_h\caln_d(x[\sigma];\mu_h, \Sigma_h)
 \eeqa
 
 \beqa
 P(\vecx, \vech|\theta)&=&
-\prod_i \left[
-w_{h[i]}
-\caln_d(x[i];\mu_{h[i]}, \Sigma_{h[i]})
+\prod_\sigma \left[
+w_{h[\sigma]}
+\caln_d(x[\sigma];\mu_{h[\sigma]}, \Sigma_{h[\sigma]})
 \right]
 \\
 &=&
-\prod_i\prod_h
+\prod_\sigma\prod_h
 \left[w_h
-\caln_d(x[i];\mu_h, \Sigma_h)\right]
-^{\indi(h=h[i])}
+\caln_d(x[\sigma];\mu_h, \Sigma_h)\right]
+^{\indi(h=h[\sigma])}
 \eeqa
 
 {\bf Old Faithful:}
