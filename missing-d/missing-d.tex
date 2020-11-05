@@ -127,7 +127,7 @@ their
 based on the cells
 of the dataset that
 aren't missing,
-and perhaps
+and
 also based
 on some 
 model (DAG)
@@ -161,30 +161,11 @@ given by Table \ref{tab-missing-data}.
 
 We begin by augmenting
 Fig.\ref{fig-em-bnet} (the first figure
-in Chapter \ref{ch-emax}).
-We augment it 
-to Figs.\ref{fig-mar}
-and \ref{fig-mar-multi}
-by adding a new node
+in Chapter \ref{ch-emax})
+by adding to it a new node
 $\vec{\rvm}$
 called the
 {\bf missingness variable}.
-There are 
-3
-popular
-ways of 
-connecting node $\vec{\rvm}$
- to the
-other nodes
-in the graph.
-For
-doing imputation
-via EM, 
-we connect node
-$\vec{\rvm}$
-as shown in the
-middle bnet (called MAR)
-of Fig.\ref{fig-mar}.
 Recall
 that node
 $\ul{\theta}$
@@ -200,6 +181,16 @@ variables}.
 Both $\ul{\theta}$
 and $\vec{\rvh}$
 are hidden (i.e., unobserved).
+Fig.\ref{fig-mar}
+shows
+3
+popular
+ways of 
+connecting node $\vec{\rvm}$
+ to the
+other nodes
+in the graph Fig.\ref{fig-em-bnet}.
+
 
 
 \begin{figure}[h!]
@@ -246,6 +237,36 @@ assumption.}
 \label{fig-mar}
 \end{figure}
 
+
+
+From Fig.\ref{fig-mar}, we have
+\beq
+P(\vec{m}|\vec{x},
+\vec{h}, \theta)=
+\left\{
+\begin{array}{ll}
+P(\vec{m}| \theta)&\text{Seldom assumed. Called missing-CAR (MCAR)}
+\\
+P(\vec{m}|\vec{x}, \theta)&\text{MAR}
+\\
+P(\vec{m}|\vec{x}, \vec{h}, \theta)
+&\text{not-MAR (NMAR)}
+\end{array}
+\right.
+\;.
+\eeq
+
+For
+doing imputation
+via EM, 
+we connect node
+$\vec{\rvm}$
+as shown in the
+middle bnet (called MAR)
+of Fig.\ref{fig-mar}
+and in Fig.\ref{fig-mar-multi}.
+
+
 \begin{figure}[h!]
 $$
 \begin{array}{ccc}
@@ -285,23 +306,6 @@ $$
 with $nsam=3$.}
 \label{fig-mar-multi}
 \end{figure}
-
-From Fig.\ref{fig-mar}, we have
-\beq
-P(\vec{m}|\vec{x},
-\vec{h}, \theta)=
-\left\{
-\begin{array}{ll}
-P(\vec{m}| \theta)&\text{Seldom assumed. Called missing-CAR (MCAR)}
-\\
-P(\vec{m}|\vec{x}, \theta)&\text{MAR}
-\\
-P(\vec{m}|\vec{x}, \vec{h}, \theta)
-&\text{not-MAR (NMAR)}
-\end{array}
-\right.
-\;.
-\eeq
 
 For the example of
 Table \ref{tab-missing-data},
@@ -646,7 +650,7 @@ P(x^\sqsig, (H^\sqsig)^{(t+1)}|\theta)
 \label{eq-impu-mcmc}
 \end{subequations}
 Fig.\ref{fig-impu-mcmc} illustrates 
-this two step
+this two step recursive
 process using a bnet.
 
 \begin{figure}[h!]
