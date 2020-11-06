@@ -35,31 +35,47 @@ There are 2 main types of
 bnet scores: Maximum Likelihood (ML) scores,
 and Shannon Information Theory (SIT)
 scores.
-For an ML score,
-one takes
+ML scores consist of
 the log
 of a maximum
-likelihood function $P(x|\theta)$:
+likelihood function $P(\vecx|\theta)$
+for i.i.d. samples
+ $\vecx=(x[\sigma])_{\sigma=0,1, \ldots, nsam-1}$,
+where
+$x[\sigma]\sim P_{\rvx|\theta}(x|\theta)$:
 
-\beq
-\text{ML-score}=\ln(P(x|\theta))
+\beqa
+\text{ML-score}
+&=&\ln(P(\vecx|\theta))
+\\
+&=&
+\ln \prod_\sigma P(x[\sigma]\cond \theta)
+\\
+&=&
+\sum_\sigma \ln P(x[\sigma]\cond \theta)
+\\
+&\approx&
+nsam \sum_x P(x|\theta)\ln P(x|\theta)
+\\
+&=&
+-nsam H(P_{\rvx|\theta})
 \;,
-\eeq
-and for a SIT score, 
-one averages over the ML score
-to get a negative entropy:
+\eeqa
+and SIT scores consist of
+a negative entropy:
 
 \beq
-\text{Info-score}
-=\sum_x P(x|\theta)\ln P(x|\theta)
-=
+\text{Info-score}=
 -H(P_{\rvx|\theta})
 \;.
 \eeq
-Thus, one maximizes a 
+Thus, up to a factor of $nsam$,
+they are the same thing.
+Maximizing a log
 likelihood function
-or minimizes its entropy,
-to obtain the same thing, namely,
+for i.i.d. samples
+or minimizing the corresponding entropy,
+are the same thing, and they both yield
 a good estimate of the
 hidden parameters $\theta$. 
 
