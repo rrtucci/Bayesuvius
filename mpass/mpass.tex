@@ -1,37 +1,1005 @@
-\chapter{Message Passing 
+\chapter{Message Passing
 (Belief Propagation)}\label{ch-mp}
 
 Message Passing (aka Belief Propagation)
 was first proposed in 1982
 Ref.\cite{pearl1982reverend} by Judea Pearl
 to simplify
-the exact evaluation of probability marginals
-of bnets (exact inference).
+the exact evaluation of the probability
+of one node conditioned 
+on other nodes
+of a bnet (exact inference).
 It gives exact results for trees and
 polytrees (i.e. bnets with
 a single connected component and
- no acyclic
+ no
 loops). For bnets with loops,
-it gives approximate results 
+it gives approximate results
 (loopy belief propagation),
 and it has been generalized to
-the junction tree algorithm 
+the junction tree algorithm
 (see Chapter \ref{ch-junc-tree})
 which can do exact inference
 for general bnets with loops.
 The basic idea behind
 the junction tree algorithm
-is to eliminate 
+is to eliminate
 loops by clustering
 them into single nodes.
 
-For more information
-about Belief Propagation,
-see Refs.\cite{wiki-mp}, \cite{pearl-1988book}
-and \cite{neapolitan2004learning}.
+This chapter is mostly
+based on chapter 4 of 
+Ref.\cite{pearl-1988book}
+by Pearl.
+Refs.\cite{wiki-mp},
+and \cite{neapolitan2004learning}
+were also helpful.
+
+\section*{Distributed Soldier Counting}
+Consider
+a group of soldiers marching single file.
+Fig.\ref{fig-soldiers}
+shows several methods by which 
+a member of the group 
+can obtain a count 
+of the soldiers without
+breaking the line to do 
+global operations.
+This can be done in
+a distributed fashion, 
+with every soldier doing
+only local operations
+(i.e.,
+each soldier 
+can only 
+send
+messages
+to either
+the soldier in front
+or the one in
+back).
+Such 
+distributed soldier counting is a rudimentary
+type of message passing (MP).
+In the next section,
+we will
+generalize this MP for soldiers
+to MP for a Markov chain.
+\newpage
 
 
-\section*{Pearl MP for arbitrary bnets}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4in]
+{mpass/soldiers.png}
+\caption{Distributed soldier counting 
+(This example
+comes from Chapter 4 of
+Ref.\cite{pearl-1988book}). 
+Green dots indicate the
+beginning and red dots the end
+of a count. Only
+first soldier can calculate
+total count in (a). Only 
+third soldier can calculate total count
+in (b,c). 
+All soldiers can calculate
+the total count in 
+(d,e). One starting point
+in (a,b,e).
+Two ends as starting points
+in (c,d).
+} 
+\label{fig-soldiers}
+\end{figure}
+
+
+\section*{MP for Markov Chains}
+\begin{figure}[h!]
+$$\xymatrix{
+\rveps^+
+\ar@{<--}@<2ex>[rr]^{\pi_{\rveps^+\ldart\rvx}}
+\ar@{.>}@<-2ex>[rr]_{\lam_{\rveps^+\rdart\rvx}}
+&&
+\rvx\ar[ll]
+\ar@{<--}@<2ex>[rr]^{\pi_{\rvx\ldart\rveps^-}}
+\ar@{.>}@<-2ex>[rr]_{\lam_{\rvx\rdart\rveps^-}}
+&&
+\rveps^-\ar[ll]
+}$$
+\caption{3 node Markov chain
+$\rveps^+\larrow\rvx\larrow \rveps^-$.
+The $\pi$  messages
+(probability functions)
+travel downstream (i.e., 
+in the direction
+of the graph arrows, towards the future)
+and are indicated by dashed arrows. 
+The $\lam$  messages 
+(likelihood functions) travel 
+upstream (i.e., opposite to 
+direction of the graph arrows,
+towards the past)
+and are indicated
+by dotted arrows.
+I call 
+the symbols $\ldart$ and
+$\rdart$,
+a left dart and a right dart. These darts
+ indicate the direction
+in which
+the $\pi$ and $\lam$ messages travel.
+$\rveps^+$
+stands for future evidence and 
+$\rveps^-$ for past evidence. 
+}
+\label{fig-mp-3chain}
+\end{figure}
+
+Consider the 
+3 node Markov chain
+$\rveps^+\larrow\rvx\larrow \rveps^-$
+shown in 
+Fig.\ref{fig-mp-3chain}.
+Define
+
+
+\beq
+\pi_{\rveps^+\ldart \rvx}(x)=
+P(x|\eps^-)
+\text{ (past of $\rvx$)}
+\eeq
+
+\beq 
+\lam_{\rveps^+\rdart \rvx}(x)=
+P(\eps^+|x)
+\text{ (future of $\rvx$)}
+\eeq
+
+\beq
+\pi_{\rvx\ldart \rveps^-}(\eps^-)=
+P(\eps^-)=\delta(\eps^-, \eps^-_0)
+\text{ (past of $\rveps^-$)}
+\eeq
+
+\beq 
+\lam_{\rvx\rdart \rveps^-}(\eps^-)=
+P(\eps^+|\eps^-)
+\text{ (future of $\rveps^-$)}
+\eeq
+Furthermore,
+define the Belief BEL
+in $x$
+to be 
+
+\beq
+BEL_\rvx(x)
+=
+P(x|\eps)
+\;,
+\eeq
+where
+
+\beq
+\rveps=\rveps^+\cup\rveps^-
+\;.
+\eeq
+It follows that
+
+\beqa
+BEL_\rvx(x)
+&=&
+P(x|\eps^+, \eps^-)=
+\\
+&=&
+\caln(!x)
+P(\eps^+, x,\eps^-)
+\\
+&=&
+\caln(!x)
+P(\eps^+|x)P(x|\eps^-)
+\\
+&=&
+\caln(!x)
+\lam_{\rveps^+\rdart \rvx}(x)
+\pi_{\rveps^+\ldart \rvx}(x)
+\label{eq-2-sided-bayes}
+\;.
+\eeqa
+Note that Bayes rule would affirm that
+\beq
+P(x|\eps^+)=
+\caln(!x)
+\underbrace{P(\eps^+|x)}_
+{\lam_{\rveps^+\rdart \rvx}(x)}
+P(x)
+\;.
+\eeq
+Thus, Eq.(\ref{eq-2-sided-bayes})
+is like a 2-sided Janus Bayes rule.
+
+Note that the $\pi$ messages and
+$\lam$ messages propagate 
+independently
+of each other, via the 
+ TPM $P(x|\eps^-)$:
+
+\begin{subequations}
+\beq
+\underbrace{\pi_{\rveps^+\ldart\rvx}(x)}_
+{P(x|\eps^-_0)}
+=\sum_{\eps^-}P(x|\eps^-)
+\underbrace{\pi_{\rvx\ldart \rveps^-}(\eps^-)}_
+{\delta(\eps^-, \eps^-_0)}
+\eeq
+
+\beq
+\underbrace{
+\lam_{\rvx\rdart \rveps^-}(\eps^-)}_
+{P(\eps^+|\eps^-)}
+=
+\sum_x P(x|\eps^-)
+\underbrace{
+\lam_{\rveps^+\rdart \rvx}(x)}_
+{P(\eps^+|x)}
+\eeq
+\label{eq-pi-lam-propagate}
+\end{subequations}
+
+Eqs.(\ref{eq-pi-lam-propagate})
+suggest that we define an edge bnet
+for the $\pi$ and $\lam$
+messages (these messages
+live in the edges
+between the nodes
+$\rveps^+, \rvx, \rveps^-$).
+Such an edge bnet, shown
+in Fig.\ref{fig-BEL-2pi}, is 
+complementary to 
+bnet for the nodes themselves.
+We will call it
+the {\bf MP 2-track bnet}
+for the bnet Fig.\ref{fig-mp-3chain},
+because it has two ``tracks",
+one for $\pi$ messages and another
+for $\lam$ ones.
+The TPMs, shown in blue,
+for the nodes of bnet
+Fig.\ref{fig-BEL-2pi}, are 
+as follows:
+
+\begin{figure}[h!]
+$$\xymatrix{
+&\ul{\pi}_{\rveps^+\ldart\rvx}\ar[dr]
+&&\ul{\pi}_{\rvx\ldart\rveps^-}\ar[ll]
+\\
+&&\rvB_\rvx
+\\
+&\ul{\lam}_{\rveps^+\rdart\rvx}\ar[rr]\ar[ru]
+&&\ul{\lam}_{\rvx\rdart\rveps^-}
+}$$
+\caption{MP 2-track
+bnet for the bnet
+ Fig.\ref{fig-mp-3chain}.}
+\label{fig-BEL-2pi}
+\end{figure}
+
+\beq\color{blue}
+P(\pi_{\rvx\ldart \rveps^-})= 
+\prod_{\eps^-}
+\indi(\pi_{\rvx\ldart \rveps^-}(\eps^-)
+=P(\eps^-))
+\eeq
+
+\beq\color{blue}
+P(\pi_{\rveps^+\ldart \rvx}|
+\pi_{\rvx\ldart \rveps^-})=
+\prod_x
+\indi\left(
+\pi_{\rveps^+\ldart \rvx}(x)=
+\sum_{\eps^-}P(x|\eps^-)
+\pi_{\rvx\ldart \rveps^-}(\eps^-)
+\right)
+\eeq
+
+\beq\color{blue}
+P(B_\rvx|
+\pi_{\rveps^+\ldart \rvx},
+\lam_{\rveps^+\rdart \rvx})=
+\prod_x
+\indi\left(
+B_\rvx(x)=BEL_\rvx(x)
+\right)
+\eeq
+
+\beq\color{blue}
+P(
+\lam_{\rveps^+\rdart \rvx})=
+\prod_{x}
+\indi\left(
+\lam_{\rveps^+\rdart \rvx}(x)
+=
+P(\eps^+_0|x)
+\right)
+\eeq
+
+\beq\color{blue}
+P(\lam_{\rvx\rdart \rveps^-}|
+\lam_{\rveps^+\rdart \rvx})=
+\prod_{\eps^-}
+\indi\left(
+\lam_{\rvx\rdart \rveps^-}(\eps^-)
+=
+\sum_x P(x|\eps^-)
+\lam_{\rveps^+\rdart \rvx}(x)
+\right)
+\eeq
+
+\hrule
+
+\begin{figure}[h!]
+$$\xymatrix{
+\rveps^+
+\ar@{<--}@<2ex>[rr]^{\pi_{\rveps^+\ldart\rvb}}
+\ar@{.>}@<-2ex>[rr]_{\lam_{\rveps^+\rdart\rvb}}
+&&
+\rvb\ar[ll]
+\ar@{<--}@<2ex>[rr]^{\pi_{\rvb\ldart\rvx}}
+\ar@{.>}@<-2ex>[rr]_{\lam_{\rvb\rdart\rvx}}
+&&
+\rvx\ar[ll]
+\ar@{<--}@<2ex>[rr]^{\pi_{\rvx\ldart\rva}}
+\ar@{.>}@<-2ex>[rr]_{\lam_{\rvx\rdart\rva}}
+&&
+\rva\ar[ll]
+\ar@{<--}@<2ex>[rr]^{\pi_{\rva\ldart\rveps^-}}
+\ar@{.>}@<-2ex>[rr]_{\lam_{\rva\rdart\rveps^-}}
+&&
+\rveps^-\ar[ll]
+}$$
+\caption{5 node Markov chain}
+\label{fig-mp-5chain}
+\end{figure}
+
+So far in 
+this section, we have considered Markov
+chains with 3 nodes.
+Before 
+concluding our
+discussion of MP for Markov chains,
+let us consider MP
+for a slightly longer chain.
+Let us consider
+the 5 node Markov
+chain
+$\rveps^+\larrow\rvb\larrow\rvx\larrow\rva\larrow\rveps^-$
+shown in Fig.\ref{fig-mp-5chain}.
+We have already dealt 
+with the end nodes
+of a Markov chain in the 
+3 node Markov chain
+example above,
+so in the 
+5 node case, let us
+focus on the internal (i.e., not at
+an end) node $\rvx$ and its neighbors
+$\rva$ and $\rvb$. Define
+
+
+
+\beq
+\pi_{\rvb\ldart \rvx}(x)=
+P(x|\eps^-)
+\text{ (past of $\rvx$)}
+\;,
+\eeq
+
+\beq 
+\lam_{\rvb\rdart \rvx}(x)=
+P(\eps^+|x)
+\text{ (future of $\rvx$)}
+\;,
+\eeq
+
+\beq
+\pi_{\rvx\ldart \rva}(a)=
+P(a|\eps^-)
+\text{ (past of $\rva$)}
+\;
+\eeq
+and
+
+\beq 
+\lam_{\rvx\rdart \rva}(a)=
+P(\eps^+|a)
+\text{ (future of $\rva$)}
+\;.
+\eeq
+Define the Belief BEL in $x$ to be
+
+\beq
+BEL_\rvx(x)
+=
+P(x|\eps)
+\;,
+\eeq
+where
+
+\beq
+\rveps=\rveps^+\cup\rveps^-
+\;.
+\eeq
+Then
+
+
+\beqa
+BEL_\rvx(x)
+&=&
+\caln(!x)
+P(\eps^+|x)P(x|\eps^-)
+\\
+&=&
+\caln(!x)
+\lam_{\rvb\rdart \rvx}(x)
+\pi_{\rvb\ldart \rvx}(x)
+\;.
+\eeqa
+
+In analogy
+with the case of MP for a 3 node Markov
+chain, we can define the bnet
+Fig.\ref{fig-BEL-4pi},
+which we refer to as the
+{\bf MP
+2-track bnet} for Fig.\ref{fig-mp-5chain}.
+The TPMs, printed in blue,
+ for the 
+nodes of bnet Fig.\ref{fig-BEL-4pi}, are
+as follows:
+
+
+
+
+
+\begin{figure}[h!]
+$$\xymatrix{
+&\ul{\pi}_{\rveps^+\ldart\rvb}\ar[dr]
+&&\ul{\pi}_{\rvb\ldart\rvx}\ar[ll]\ar@[red][dr]
+&&\ul{\pi}_{\rvx\ldart\rva}\ar@[red][ll]\ar[dr]
+&&\ul{\pi}_{\rva\ldart\rveps^-}\ar[ll]
+\\
+&&\rvB_\rvb
+&&\rvB_\rvx
+&&\rvB_\rva
+\\
+&\ul{\lam}_{\rveps^+\rdart\rvb}\ar[rr]\ar[ur]
+&&\ul{\lam}_{\rvb\rdart\rvx}\ar@[red][rr]\ar@[red][ur]
+&&\ul{\lam}_{\rvx\rdart\rva}\ar[rr]\ar[ur]
+&&\ul{\lam}_{\rva\rdart\rveps^-}
+}$$
+\caption{MP 2-track bnet for the bnet
+Fig.\ref{fig-mp-5chain}.}
+\label{fig-BEL-4pi}
+\end{figure}
+
+
+\beq\color{blue}
+P(\pi_{\rvb\ldart\rvx}|\pi_{\rvx\ldart\rva})=
+\prod_{x}\indi\left(
+\pi_{\rvb\ldart\rvx}(x)=\sum_a P(x|a)
+\pi_{\rvx\ldart\rva}(a)
+\right)
+\label{eq-pr-pi-bar-pi}
+\eeq
+
+\beq\color{blue}
+P(B_\rvx|
+\pi_{\rvb\ldart \rvx},
+\lam_{\rvb\rdart \rvx})=
+\prod_x
+\indi\left(
+B_\rvx(x)=BEL_\rvx(x)
+\right)
+\eeq
+
+\beq\color{blue}
+P(\lam_{\rvx\rdart \rva}|
+\lam_{\rvb\rdart \rvx})=
+\prod_{a}
+\indi\left(
+\lam_{\rvx\rdart \rva}(a)
+=
+\sum_x P(x|a)
+\lam_{\rvb\rdart \rvx}(x)
+\right)
+\label{eq-pr-lam-bar-lam}
+\eeq
+
+Let us represent the Markov
+chain of Fig.\ref{fig-mp-5chain}
+by
+$\rvx_{nx-1}
+\larrow \ldots, \rvx_2\larrow \rvx_1\larrow \rvx_0$
+where $nx=5$.
+For any node 
+$\rvx_i$
+with
+parent $\ul{px}_i=\rvx_{i-1}$
+and child $\ul{cx}_i=\rvx_{i+1}$, 
+define
+the {\bf memory matrix}
+$\calm_{\rvx_i}$
+for node $\rvx_i$
+as
+
+\beq
+\calm_{\rvx_i}=
+[
+\calm^+_{\rvx_i},
+\calm^-_{\rvx_i}]
+\;,
+\eeq
+where $+=$future, $-=$past, and 
+
+\beq
+\calm^+_{ \rvx_i}=
+\left[
+\begin{array}{c}
+\pi_{\ul{cx}_i\ldart \rvx_i}(\cdot)
+\\
+\lam_{\ul{cx}_i\rdart \rvx_i}(\cdot)
+\end{array}
+\right]
+\;, 
+\;\;\;
+\calm^-_{\rvx_i}=
+\left[
+\begin{array}{c}
+\pi_{\rvx_i \ldart \ul{px}_i}(\cdot)
+\\
+\lam_{\rvx_i \rdart \ul{px}_i}(\cdot)
+\end{array}
+\right]
+\;.
+\eeq 
+Note that
+
+\beq
+\calm^-_{\rvx_i}=
+\calm^+_{\ul{px}_i}
+\label{eq-mem-overlap}
+\eeq
+for all nodes $\rvx_i$.
+We will refer to
+Eqs.(\ref{eq-mem-overlap}) as
+the {\bf memory overlap
+conditions}.
+
+We will also use a permuted version of the 
+memory matrix
+
+\beq
+\calm'_{\rvx_i}=
+[
+\calm^{OUT}_{\rvx_i},
+\calm^{IN}_{\rvx_i}]
+\;,
+\eeq
+where
+
+\beq
+\calm^{OUT}_{ \rvx_i}=
+\left[
+\begin{array}{c}
+\pi_{\ul{cx}_i\ldart \rvx_i}(\cdot)
+\\
+\lam_{\rvx_i \rdart \ul{px}_i}(\cdot)
+\end{array}
+\right]
+\;, 
+\;\;\;
+\calm^{IN}_{\rvx_i}=
+\left[
+\begin{array}{c}
+\pi_{\rvx_i \ldart \ul{px}_i}(\cdot)
+\\
+\lam_{\ul{cx}_i\rdart \rvx_i}(\cdot)
+\end{array}
+\right]
+\;.
+\eeq
+
+\begin{figure}[h!]
+$$\xymatrix{
+\ucalm_{\rveps^+}
+&
+\ucalm_\rvb\ar[l]
+&
+\ucalm_\rvx\ar[l]
+&
+\ucalm_\rva\ar[l]
+&
+\calm_{\rveps^-}\ar[l]
+}$$
+\caption{MP Memory Bnet for the bnet
+Fig.\ref{fig-mp-5chain}. }
+\label{fig-mem-5chain}
+\end{figure}
+
+Unfortunately,
+2-track bnets cannot be
+ generalized in any
+obvious way  from 
+Markov chains to more
+complicated DAGs.
+An alternative to 2-track bnets
+that still
+carries message
+info in its nodes,
+are memory bnets. An MP
+{\bf memory bnet}
+is a bnet 
+which takes each node
+of an original
+bnet and
+adds a local memory to it.
+More specifically,
+it keeps tha DAG
+but replaces each node
+$\rvx_i$
+by a memory $\ucalm_{\rvx_i}$.
+Fig.\ref{fig-mem-5chain} shows 
+the memory bnet for
+the bnet Fig.\ref{fig-mp-5chain}.
+The TPM, printed in blue,
+for the  node $\ucalm_\rvx$
+of the memory bnet 
+Fig.\ref{fig-mp-5chain}, is as follows
+
+\beq\color{blue}
+P(\calm_{\rvx_i}|
+\calm_{\rvn\in nb(\rvx_i)}
+)= A B
+\;,
+\eeq
+where
+
+\beq
+A=
+\indi(\calm^{-}_{\rvx_i}=\calm^{+}_{\ul{px}_i})
+\;,
+\eeq
+and
+
+\beq
+B=
+\indi(\calm^{OUT}_{\rvx_i}=\calc(\calm^{IN}_{\rvx_i}))
+\label{eq-mp-update-static}
+\;.
+\eeq
+The function $\calc$,
+which 
+we will call the {\bf MP local computation},
+maps $\calm^{IN}_{\rvx_i}$
+into $\calm^{OUT}_{\rvx_i}$. More explicitly,
+$\calc$ is defined so that
+
+\beq
+B
+=
+\underbrace{P(\pi_{\rvb\ldart\rvx}|
+\pi_{\rvx\ldart\rva})}_{B_\pi}
+\underbrace{P(\lam_{\rvx\rdart \rva}|
+\lam_{\rvb\rdart \rvx})}_{B_\pi}
+\;,
+\eeq
+where
+$B_\pi$ and $B_\lam$
+are given by Eqs.(\ref{eq-pr-pi-bar-pi})
+and (\ref{eq-pr-lam-bar-lam}),
+respectively.
+
+
+
+The MP memory bnet
+ Fig.
+\ref{fig-mem-5chain}
+is a deterministic bnet.
+A deterministic bnet
+is basically
+just a coupled system
+of equations (CSE)
+for some unknowns $x_i$. 
+A CSE per se does not
+include with it a method for  
+solving for the $x_i$. Such methods are not
+unique.
+For example,
+for the 
+distributed
+soldier counting 
+problem,
+the various 
+methods that
+we described
+for counting soldiers
+are just different
+methods 
+for solving the same
+CSE.
+One can describe 
+a method for solving a
+CSE using a dynamic
+bnet.\footnote{
+The term
+dynamic bnet
+was used in Chapter \ref{ch-dyn-bnet}
+to mean a time inhomogeneous
+Markov chain, but 
+here we are stretching its meaning to
+include
+Markov chains
+that aren't 
+time inhomogeneous.}
+To solve
+the CSE
+represented by
+the memory bnet Fig.\ref{fig-mem-5chain},
+we will use the 
+dynamic bnet 
+Fig.\ref{fig-propagation-5chain}.
+Henceforth, 
+we will refer to
+Fig.\ref{fig-propagation-5chain} as
+an {\bf MP dynamic bnet}
+for Fig.\ref{fig-mem-5chain}.
+
+\begin{figure}
+$$\xymatrix{
+\rveps^-\ar[d]
+&\ucalm^{(0)}_{\rveps^-}\ar[r]\ar[dr]
+&\ucalm^{(1)}_{\rveps^-}\ar[r]
+&\ucalm^{(2)}_{\rveps^-}\ar[r]
+&\ucalm^{(3)}_{\rveps^-}\ar[r]
+&\ucalm^{(4)}_{\rveps^-}
+&
+\\
+\rva\ar[d]
+&\ucalm^{(0)}_{\rva}\ar[r]
+&\ucalm^{(1)}_{\rva}\ar[r]\ar[dr]
+&\ucalm^{(2)}_{\rva}\ar[r]
+&\ucalm^{(3)}_{\rva}\ar[r]\ar[ur]
+&\ucalm^{(4)}_{\rva}
+\\
+\rvx\ar[d]
+&\ucalm^{(0)}_{\rvx}\ar[r]
+&\ucalm^{(1)}_{\rvx}\ar[r]
+&\ucalm^{(2)}_{\rvx}\ar[r]\ar[dr]\ar[ur]
+&\ucalm^{(3)}_{\rvx}\ar[r]
+&\ucalm^{(4)}_{\rvx}
+\\
+\rvb\ar[d]
+&\ucalm^{(0)}_{\rvb}\ar[r]
+&\ucalm^{(1)}_{\rvb}\ar[r]\ar[ur]
+&\ucalm^{(2)}_{\rvb}\ar[r]
+&\ucalm^{(3)}_{\rvb}\ar[r]\ar[dr]
+&\ucalm^{(4)}_{\rvb}
+\\
+\rveps^+
+&\ucalm^{(0)}_{\rveps^+}\ar[r]\ar[ur]
+&\ucalm^{(1)}_{\rveps^+}\ar[r]
+&\ucalm^{(2)}_{\rveps^+}\ar[r]
+&\ucalm^{(3)}_{\rveps^+}\ar[r]
+&\ucalm^{(4)}_{\rveps^+}
+}$$
+\caption{MP dynamic bnet for the bnet
+  Fig.\ref{fig-mem-5chain}.}
+\label{fig-propagation-5chain}
+\end{figure}
+
+\begin{figure}[h!]
+$$
+\xymatrix{
+\rveps^+\ar@[red]@{.>}@<-2ex>[r]
+&\rvb\ar[l]
+&\rvx\ar[l]
+&\rva\ar[l]
+&\rveps^-\ar[l]\ar@[red]@{-->}@<-2ex>[l]
+\\
+\rveps^+
+&\rvb\ar[l]\ar@[red]@{.>}@<-2ex>[r]
+&\rvx\ar[l]
+&\rva\ar[l]\ar@[red]@{-->}@<-2ex>[l]
+&\rveps^-\ar[l]
+\\
+\rveps^+
+&\rvb\ar[l]
+&\rvx\ar[l]\ar@[red]@{.>}@<-2ex>[r]
+\ar@[red]@{-->}@<-2ex>[l]
+&\rva\ar[l]
+&\rveps^-\ar[l]
+\\
+\rveps^+
+&\rvb\ar[l]\ar@[red]@{-->}@<-2ex>[l]
+&\rvx\ar[l]
+&\rva\ar[l]\ar@[red]@{.>}@<-2ex>[r]
+&\rveps^-\ar[l]
+}$$
+\caption{
+Steps encoded in the 
+bnet 
+Fig.\ref{fig-propagation-5chain}.
+Note the 
+similarity 
+of this figure 
+to Fig.\ref{fig-soldiers} (d)
+for soldier counting.
+} 
+\label{fig-multiframe-5chain}
+\end{figure}
+
+Next, we will
+explain the meaning
+of Fig.\ref{fig-propagation-5chain}.
+Fig.\ref{fig-propagation-5chain}
+is a step by step
+recipe (i.e., algorithm)
+for solving a SCE,
+where the unknowns are
+memory matrices.
+Each step
+encoded in
+Fig.\ref{fig-propagation-5chain}
+corresponds to a
+specific
+message sending event,
+where the messages
+are sent
+along the edges 
+of the Markov chain
+Fig.\ref{fig-mp-5chain}.
+These message sending
+events are portrayed in
+chronological order
+in Fig.\ref{fig-multiframe-5chain}.
+In that figure,
+$\pi$ messages
+are indicated by
+dashed red arrows,
+and $\lam$ messages
+by dotted red arrows.  
+These steps, or
+message  sending events,
+lead to an updating
+of the memory matrices
+that we are solving for.
+Each step propagates information
+between the memory nodes.
+In the usual Pearl MP algo, 
+the evidence nodes 
+initiate the MP
+chain of 
+message passing events.
+These events 
+continue
+until 
+the 
+memory 
+matrices
+reach an equilibrium
+and the SCE is solved.
+
+
+To use
+bnet 
+Fig.\ref{fig-propagation-5chain},
+we need to specify
+the {\bf initial conditions}
+(i.e., the value of 
+$\calm^{(0)}_{\rvx_i}$ 
+for all $i$).
+For that, one can use
+
+\beq
+\pi^{(0)}_{\rvx_0}
+=
+\delta(x_0,x'_0)
+\;,
+\eeq
+
+\beq
+\lam^{(0)}_{\rvx_{nx-1}}
+=
+\delta(x_{nx-1}, x'_{nx-1})
+\;.
+\eeq
+All other $\calm^{(0)}_{\rvx_i}$ entries
+for all $i$ can be set to 1.
+
+The TPMs, printed in blue, for
+the nodes of Fig.\ref{fig-propagation-5chain},
+can all be summarized by
+
+\beq\color{blue}
+P(\calm^{(t)}_{\rvx_i}|
+\calm^{(t-1)}_{\rvn\in nb(\rvx_i)},
+\calm^{(t-1)}_{\rvx_i}
+)= A B
+\;,
+\eeq
+where
+
+\beq
+A=\left\{
+\begin{array}{ll}
+\indi(\calm^{(t)-}_{\rvx_i}=\calm^{(t-1)+}_{\ul{px}_i})
+&\text{ if input from $\ul{px}_i$}
+\\
+\\
+\indi(\calm^{(t)+}_{\rvx_i}=\calm^{(t-1)-}_{\ul{cx}_i})
+&\text{ if input from $\ul{cx}_i$}
+\end{array}
+\right.
+\;,
+\eeq
+and
+
+\beq
+B=
+\indi(\calm^{(t)OUT}_{\rvx_i}=\calc(\calm^{(t)IN}_{\rvx_i}))
+\label{eq-mp-update}
+\;.
+\eeq
+The function $\calc$,
+which 
+we will call the {\bf MP local computation},
+maps $\calm^{(t)IN}_{\rvx_i}$
+into $\calm^{(t)OUT}_{\rvx_i}$. More explicitly,
+$\calc$ is defined so that
+
+\beq
+B
+=
+B_\pi B_\lam
+\eeq
+where
+
+\beq
+B_\pi=
+\prod_{x}\indi\left(
+\underbrace{\pi^{(t)}_{\rvb\ldart\rvx}(x)}_
+{OUT}
+=\sum_a P(x|a)
+\underbrace{\pi^{(t)}_{\rvx\ldart\rva}(a)}_{IN}
+\right)
+\eeq
+and
+
+\beq
+B_\lam=
+\prod_{a}
+\indi\left(
+\underbrace{\lam^{(t)}_{\rvx\rdart \rva}(a)}_{OUT}
+=
+\sum_x P(x|a)
+\underbrace{\lam^{(t)}_{\rvb\rdart \rvx}(x)}_{IN}
+\right)
+\;.
+\eeq
+
+The basic idea behind Eq.(\ref{eq-mp-update}),
+which we will call the
+{\bf memory updating equation}, is simple:
+the memory overlap conditions translate the information
+from time $t-1$ to $t$, and
+then the local computation translates 
+$IN$ to $OUT$ at fixed time $t$
+and location $\rvx_i$.
+
+
+
+
+\section*{MP Algorithm for Polytrees}
 
 
 Consider Fig.\ref{fig-pi-lam},
@@ -39,52 +1007,70 @@ which illustrates
 a bnet node $\rvx$ receiving and sending
 messages to its neighbors.
 
-Note that in Fig.\ref{fig-pi-lam}, 
+Note that in Fig.\ref{fig-pi-lam},
 the $\lam$ or $\pi$
-subscripts $\rarrow$
-and $\larrow$
-indicate  the direction of the message.
+subscripts $\rdart$
+and $\ldart$
+indicate  the direction of the
+ message.\footnote{I call 
+the symbols $\ldart$ and
+$\rdart$,
+a left dart and a right dart.
+The feathers at the end 
+are intended to evoke
+a payload of
+$\pi \& \lam$ 
+ (i.e., past \& future) information.
+On the other hand, 
+I denote the DAG arrows with 
+plain arrows 
+with no feathers because they are
+causal direction indicators 
+rather than
+carriers of $\pi\& \lam$ information.}
 A function is labeled
 $\lam$ (a likelihood
 function)  if the
 message direction,
  and the  graph arrow,
  point in opposite directions
-(i.e, message ``swimming upstream"),
-whereas a 
+(i.e, message ``swimming upstream",
+towards the past),
+whereas a
 function is labeled $\pi$
-(a probability function)  if 
+(a probability function)  if
 they point in the same direction
-(i.e, message ``swimming downstream").
+(i.e, message ``swimming downstream",
+towards  the future).
 For example, in
-$\lam_{\rvb\rarrow\rvx}(x)$,
+$\lam_{\rvb\rdart\rvx}(x)$,
 the message goes from
-$\rvb$ to $\rvx$ and the 
+$\rvb$ to $\rvx$ and the
 graph arrow
 points in the opposite direction.
-In 
-$\pi_{\rvb\larrow\rvx}(x)$,
+In
+$\pi_{\rvb\ldart\rvx}(x)$,
 the message goes from
-$\rvx$ to $\rvb$ and the 
+$\rvx$ to $\rvb$ and the
 graph arrow
 points in the same direction.
 
 Note that argument $arg$ of the $\pi(arg)$
 and $\lam(arg)$
-functions is always the same 
-as the letter in the subscript 
+functions is always the same
+as the letter in the subscript
 that is closest to the argument.
 
 Note that in Fig.\ref{fig-pi-lam},
 we indicate
-messages that travel 
-``downstream" 
+messages that travel
+``downstream"
 (resp., ``upstream"), by
 arrows with dashed (resp., dotted)
  lines as shafts.
 Mnemonic: think of the shaft as a
  velocity vector field
-for the message. 
+for the message.
 You travel faster when
 you swim downstream as opposed
 to upstream.
@@ -93,7 +1079,7 @@ $pa(\rvx)=$ parents of node $\rvx$
 
 $ch(\rvx)=$ children of node $\rvx$
 
-$nb(\rvx)=pa(\rvx)\cup ch(\rvx)=$ 
+$nb(\rvx)=pa(\rvx)\cup ch(\rvx)=$
 neighbors of node $\rvx$
 
 
@@ -105,77 +1091,117 @@ neighbors of node $\rvx$
 and sending messages to
  its neighbors. (neighbors=
 parents and children).
-} 
+}
 \label{fig-pi-lam}
 \end{figure}
 
 
-
-
-\hrule\noindent
-$\rvx$'s incoming messages (one
-comes from
-each parent and child of $\rvx$)
-
-\begin{itemize}
-\item 
-$[\lam_{\rvb\rarrow\rvx}(\cdot)]_
-{\rvb\in ch(\rvx)}$
-\item
-$[\pi_{\rvx\larrow\rva}(\cdot)]_
-{\rva\in  pa(\rvx)}$
-\end{itemize}
-
-\beqa
-IN_\rvx&=&
-([\lam_{\rvb\rarrow\rvx}(\cdot)]_
-{\rvb\in ch(\rvx)},
-[\pi_{\rvx\larrow\rva}(\cdot)]_
-{\rva\in  pa(\rvx)})
-\\
-&=&
-[IN_{\rvx,\rvn}]_{\rvn\in nb(\rvx)}
-\eeqa
-
-\hrule\noindent
-$\rvx$'s outgoing messages
- (one goes to each parent 
-and child of $\rvx$)
-
-\begin{itemize}
-\item
-$[\pi_{\rvb\larrow\rvx}(\cdot)]_
-{\rvb\in ch(\rvx)}$
-\item 
-$[\lam_{\rvx\rarrow\rva}(\cdot)]_
-{\rva\in  pa(\rvx)}$
-\end{itemize}
-
-\beqa
-OUT_\rvx&=&
-([\pi_{\rvb\larrow\rvx}(\cdot)]_
-{\rvb\in ch(\rvx)},
-[\lam_{\rvx\rarrow\rva}(\cdot)]_
-{\rva\in  pa(\rvx)})
-\\
-&=&
-[OUT_{\rvx,\rvn}]_{\rvn\in nb(\rvx)}
-\eeqa
-\hrule\noindent
-$\rvx$'s memory
+We define a {\bf memory matrix}
+$\calm_{\rvx}$ for node $\rvx$
+as
 
 \beq
-\calm_\rvx =
-(IN_\rvx,OUT_\rvx)
+\calm_{\rvx}=
+[
+\calm^+_{\rvx},
+\calm^-_{\rvx}]
+\;,
 \eeq
+where $+=$future, $-=$past, and 
+
+\beq
+\calm^+_{ \rvx}=
+\left[
+\begin{array}{cc}
+\pi_{\rvb\ldart\rvx}(\cdot)
+&
+\lam_{\rvb\rdart\rvx}(\cdot)
+\end{array}
+\right]_{\rvb\in ch(\rvx)}
+=[\calm^+_{\rvb, \rvx}]_{\rvb\in ch(\rvx)}
+\;,
+\eeq
+
+\beq
+\calm^-_{\rvx}=
+\left[
+\begin{array}{c}
+\pi_{\rvx\ldart\rva}(\cdot)
+\\
+\lam_{\rvx\rdart\rva}(\cdot)
+\end{array}
+\right]_{\rva\in  pa(\rvx)}
+=[\calm^-_{\rvx, \rva}]_{\rva\in pa(\rvx)}
+\;.
+\eeq 
+Note that
+
+\beq
+\calm^-_{\rvx, \rva}=
+\calm^+_{\rva, \rvx}
+\label{eq-mem-overlap-poly}
+\eeq
+for every arrow $\rvx\larrow\rva$.
+We will refer to
+Eqs.(\ref{eq-mem-overlap-poly}) as
+the {\bf memory overlap
+conditions}.
+
+We will also use a permuted version of the 
+memory matrix
+
+\beq
+\calm'_{\rvx}=
+[
+\calm^{OUT}_{\rvx},
+\calm^{IN}_{\rvx}]
+\;,
+\eeq
+where
+
+\beq
+\calm^{OUT}_{ \rvx}=
+\left(
+\begin{array}{c}
+[\pi_{\rvb\ldart\rvx}(\cdot)]_
+{\rvb\in ch(\rvx)}
+\\
+{[}\lam_{\rvx\rdart\rva}(\cdot)]_
+{\rva\in  pa(\rvx)}\;,
+\end{array}
+\right)
+\\
+=
+[\calm^{OUT}_{\rvx,\rvn}]_{\rvn\in nb(\rvx)}
+\;, 
+\eeq
+
+\beq
+\calm^{IN}_{\rvx}=
+\left(
+\begin{array}{c}
+[\pi_{\rvx\ldart\rva}(\cdot)]_
+{\rva\in  pa(\rvx)}
+\\
+{[}\lam_{\rvb\rdart\rvx}(\cdot)]_
+{\rvb\in ch(\rvx)}
+\end{array}
+\right)
+\\
+=
+[\calm^{IN}_{\rvx,\rvn}]_{\rvn\in nb(\rvx)}
+\;.
+\eeq
+
 
 \hrule
 
 For times $t=0, 1, \dots, T-1$,
  we calculate $\calm^{(t)}_\rvx$ in
-two steps: first we calculate $IN^{(t)}_\rvx$,
+two steps: first we calculate $\calm^{(t)IN}_\rvx$
+from earlier memories at time $t-1$,
  then
-we calculate $OUT^{(t)}_\rvx$:
+we calculate $\calm^{(t)OUT}_\rvx$:
 
 \begin{figure}[h!]
 \centering
@@ -189,48 +1215,64 @@ and then it relays a joint
 message to the red node.
 Union of green nodes and the red node = full
  neighborhood of yellow node.
-There are two possible 
+There are two possible
 cases: the
-red node is either a parent 
-or a child of the yellow 
+red node is either a parent
+or a child of the yellow
 one. As usual, we use arrows with
 dashed (resp., dotted) shafts for
-downstream (resp., upstream) messages.  } 
+downstream (resp., upstream) messages. 
+Blue boxes indicate Markov chain case. }
 \label{fig-messages-gen}
 \end{figure}
+
+An {\bf evidence node} is a
+node whose TPM is a delta function
+set to a particular state of the node. 
+We will assume, without loss of generality,
+that all evidence nodes are leaf nodes.
+If that is not the case, 
+any
+evidence node $\rve$
+that is not
+a leaf node,
+can be given a new
+companion leaf node $\rvl$
+connected to $\rve$ by 
+an arrow $\rvl\larrow \rve$,
+and such that
+$\rvl$ has a delta
+function TPM.
 
 
 
 \begin{enumerate}
-\item {\bf Calculating 
-$IN^{(t)}_\rvx$
+\item {\bf Calculating
+$\calm^{(t)IN}_\rvx$
 from signals received from
- $\rvn\in R\subset nb(\rvx)$:}
+ $\rvn\in nb(\rvx)$, sent at earlier time $t-1$:}
 
-For all $\rvn\in nb(\rvx)$,
+Set
+
 \beq
-IN^{(t)}_{\rvx, \rvn}=\left\{
-\begin{array}{l}
-IN^{(t-1)}_{\rvx, \rvn}
-\text{ if $\rvn\notin R$}
-\\
-OUT^{(t-1)}_{\rvn,\rvx}
- \text{ if $\rvn\in R$}
-\end{array}
-\right.
+\calm^{(t)-}_{\rvx, \rva}|_\pi=
+\calm^{(t-1)+}_{\rva, \rvx}|_\pi
+\;,
 \eeq
+for all $\rva\in pa(\rvx)$,
+and 
+\beq
+\calm^{(t)+}_{\rvb, \rvx}|_\lam=
+\calm^{(t-1)-}_{\rvx, \rvb}|_\lam
+\;,
+\eeq
+for all $\rvb\in ch(\rvx)$.
+By $X|_\lam$ (resp., $X|_\pi$)
+we mean the $\lam$ (resp., $\pi$)
+component of $X$.
 
-No instantaneous replies (message backflow):
-If $\rvx$ receives signals
-from $R\subset nb(\rvx)$
-and sends them to
-$S\subset nb(\rvx)$,
-then $S$ and $R$
-are disjoint and 
- $R\cup S=nb(\rvx)$.
-
-\item {\bf Calculating $OUT_\rvx^{(t)}$
-from already calculated $IN_\rvx^{(t)}$:}
+\item {\bf Calculating $\calm^{(t)OUT}_\rvx$
+from already calculated $\calm^{(t)IN}_\rvx$:}
 
 Let $\rva^{na}=
 (\rva_i)_{i=0, 1, \ldots, na-1}$
@@ -243,10 +1285,11 @@ its children.
 Define
 
 \beqa
+\label{eq-mp-pix}
 \pi_\rvx(x)&=&
 \sum_{a^{na}} P(x|a^{na})
 \prod_i
-\pi_{\rvx\larrow\rva_i}
+\pi_{\rvx\ldart\rva_i}
 (a_i)\\
 &=&E_{\rva^{na}}[P(x|a^{na})]
 \eeqa
@@ -257,8 +1300,9 @@ and
 \beq
 \lam_\rvx(x)=
 \prod_i
-\lam_{\rvb_i\rarrow \rvx}(x)
+\lam_{\rvb_i\rdart \rvx}(x)
 \;.
+\label{eq-mp-lamx}
 \eeq
 (boundary case: if $\rvx$
 is a leaf node, use $\lam_\rvx(x)=1$.)
@@ -266,15 +1310,16 @@ is a leaf node, use $\lam_\rvx(x)=1$.)
 
 \item{\bf RULE 1: (red parent)}
 
-From 
-the $\lam_{\rvx \rarrow\rva}$
-panel of Fig.\ref{fig-messages-gen}, 
+From
+the $\lam_{\rvx \rdart\rva}$
+panel of Fig.\ref{fig-messages-gen},
  we get\footnote{As usual in this book,
 $\caln(!x)$ means
 a constant that is independent of $x$.}
 
 \beqa
-\underbrace{\lam_{\rvx\rarrow\rva_i}
+\label{eq-mp-rule1}
+\underbrace{\lam_{\rvx\rdart\rva_i}
 (a_i)}_{OUT}&=&
 \caln(!a_i)
 \sum_x\left[
@@ -282,7 +1327,7 @@ a constant that is independent of $x$.}
 \sum_{(a_k)_{k\neq i}}\left(
 P(x|a^{na})\prod_{k\neq i}
 \underbrace{\pi_
-{\rvx\larrow\rva_k}
+{\rvx\ldart\rva_k}
 (a_k)}_{IN}
 \right)\right]
 \\&=&
@@ -297,28 +1342,29 @@ E_{(\rva_k)_{k\neq i}}E_{\rvx|a^{na}}
 \eeqa
 (boundary case:
 if $\rvx$ is a root node, use
-$\lam_{\rvx\rarrow\rva_i}
+$\lam_{\rvx\rdart\rva_i}
 (a_i)=\caln(!a_i)$.)
 
 \item{\bf RULE 2: (red child)}
 
-From the $\pi_{\rvb \larrow\rvx}$
+From the $\pi_{\rvb \ldart\rvx}$
 panel of
-Fig.\ref{fig-messages-gen}, 
+Fig.\ref{fig-messages-gen},
 we get
 
 
 \beq
-\underbrace{\pi_{\rvb_i\larrow\rvx}
+\underbrace{\pi_{\rvb_i\ldart\rvx}
 (x)}_{OUT}=
 \caln(!x)
 \underbrace{\pi_\rvx(x)}_{IN}
 \prod_{k\neq i}
-\underbrace{\lam_{\rvb_k\rarrow \rvx}(x)}_{IN}
+\underbrace{\lam_{\rvb_k\rdart \rvx}(x)}_{IN}
+\label{eq-mp-rule2}
 \eeq
 (boundary case:
 if $\rvx$ is a leaf node, use
-$\pi_{\rvb_i\larrow\rvx}(x)=P(x)$
+$\pi_{\rvb_i\ldart\rvx}(x)=P(x)$
 .)
 
 \end{itemize}
@@ -326,7 +1372,7 @@ $\pi_{\rvb_i\larrow\rvx}(x)=P(x)$
 In the above
 equations, if the
 range set of a product is empty, then
- define the product as 1; i.e., 
+ define the product as 1; i.e.,
 $\prod_{k\in \emptyset}F(k)=1$.
 
 
@@ -341,17 +1387,77 @@ BEL^{(t)}(x)=\caln(!x)
 Then
 
 \beq
-\lim_{t\rarrow \infty}BEL^{(t)}(x)=P(x|e.)
+\lim_{t\rarrow \infty}BEL^{(t)}(x)=P(x|\eps)
 \;.
 \eeq
 This  says that
 the belief in $\rvx=x$
-converges to $P(x|e.)$ and it
-equals the product 
+converges to $P(x|\eps)$ and it
+equals the product
 of messages received from all
 parents and children of $\rvx=x$.
 
-\section*{Derivation of Pearl MP Algorithm}
+\hrule\noindent{\bf How MP algo
+for polytrees reduces to 
+MP algo for Markov chains}
+
+It is instructive
+to see
+how the
+MP algo
+for polytrees reduces to 
+MP algo for Markov chains.
+
+For a Markov chain, node
+$\rvx$ has a single parent (i.e., ancestor) $\rva$
+and a single child $\rvb$.
+
+Therefore, 
+Eqs.(\ref{eq-mp-pix}) and (\ref{eq-mp-lamx}) reduce to
+
+\beq
+\pi_\rvx(x)=
+\sum_a
+P(x|a)\pi_{\rvx\ldart\rva}(a)
+\eeq
+and
+
+\beq
+\lam_\rvx(x)=
+\lam_{\rvb\rdart \rvx}(x)
+\;.
+\eeq
+
+RULE 1 given by Eq.(\ref{eq-mp-rule1}) reduces to
+
+\beqa
+\lam_{\rvx\rdart \rva}(a)
+&=&
+\caln(!a)\sum_x
+\lam_\rvx(x)P(x|a) 
+\\
+&=&
+\caln(!a)\sum_x
+\lam_{\rvb\rdart \rvx}(x)P(x|a) 
+\eeqa
+
+RULE 2 given by Eq.(\ref{eq-mp-rule2}) reduces to
+
+\beqa
+\pi_{\rvb\ldart \rvx}
+&=&
+\caln(!x)\pi_\rvx(x)
+\\
+&=&
+\sum_a
+P(x|a)\pi_{\rvx\ldart\rva}(a)
+\;.
+\eeqa
+
+
+
+\section*{Derivation of MP Algorithm
+for Polytrees}
 
 This derivation is taken from
  the 1988 book Ref.\cite{pearl-1988book}
@@ -363,100 +1469,92 @@ changes in notation.
 \hrule\noindent
  {\bf Notation}
 
-Pearl's MP algorithm yields an expansion
- for $P(x|e.)$.
+The MP algorithm yields an expansion
+ for $P(x|\eps)$.
 
-$\rvx$= the focus node, 
-arbitrary node of bnet that we are 
-focusing on to calculate its $P(x|e.)$.
+$\rvx$= the focus node,
+arbitrary node of bnet that we are
+focusing on to calculate its $P(x|\eps)$.
 
-$\rve.$= vector\footnote{The dot
-in $\rve.$, although
-sometimes omitted,  is
-to remind us that it's a vector 
-with components 
-$\rve_i$} of nodes for which
- there is evidence; that is,
-$\rve.=e.$, so 
-the state of these nodes is fixed.
-We always assume $\rvx\notin \rve.$
-because if $\rvx\in \rve.$, 
-and $\rve.$ assigns $x'$ to $\rvx$,
-then it follows immediately, without 
-any need for MP, that
-$P(x|e.)=\delta(x,x')$.
-
-%Pearl's MP algorithm yields yields 
-%a tautology $P(x)=P(x)$
-%if $\rve.=\emptyset$
-%so use an $\rve.$ containing
-%the root nodes $\rvr.$. Since $P(r.)$
-%is known and 
-%the Pearl MP algo can give $P(x|r.)$ 
-%, one can use
-%P(x)=\sum_{r.}P(x|r.)P(r.)
-%to evaluate $P(x)$.
 
 
 $(\rva_i)_{i=0,1, \ldots, na-1}$. = parent nodes
  (mnemonic: a=ancestor) of $\rvx$
 
-$(\rvb_i)_{i=0,1, \ldots, nb-1}$. = 
-children nodes of $\rvx$
+$(\rvb_i)_{i=0,1, \ldots, nb-1}$. =
+children nodes of $\rvx$.
 
-For any node $\rvy$, including 
-the focus node $\rvx$ and 
-$\rvx$'s parents $\rva_i$ and children $\rvb_i$,
-define:
+$\rveps$= set of nodes for which
+ there is evidence; that is,
+$\rveps=\eps$, so
+the state of these nodes is fixed.
+We always assume $\rvx\notin \rveps$
+because if $\rvx\in \rveps$,
+and $\rveps$ assigns $b$ to $\rvx$,
+then one can add an arrow 
+coming out of $\rvx$
+to a new leaf node $\rvb$ with TPM
+$P(b|x)=\delta(b,x)$.
 
-$\ul{de}(\rvy)$=set of
-nodes that are descendants of $\rvy$,
-including $\rvy$.
+$\rveps^+_\rvx$= set of
+evidence
+nodes that are 
+descendants (in its 
+future) of $\rvx$.
 
-$\rvD_\rvy=\rve.\cap \ul{de}(\rvy)$
+$\rveps^-_\rvx$= set of
+evidence
+nodes that are
+ancestors (in its 
+past) of $\rvx$.\footnote{
+Careful:
+Chapter 4
+of Ref.\cite{pearl-1988book}
+uses $-$ indicate the future
+and $+$ to indicate
+ the past. This
+is the opposite of us.}
 
-$\rvN_\rvy=\rve.- \ul{de}(\rvy)$= all evidence
-nodes not in $\rvD_\rvy$
+$\rveps=\rveps^+_\rvx \cup \eps^-_\rvx$
 
 \beq
 \pi_{ \rvx}(x)
 =
-P(x|N_\rvx)
+P(x|\eps^-_\rvx)
 \eeq
 
 \beq
-\pi_{ \rvx\larrow \rva_i}(a_i)
-=
-P(a_i|N_{\rva_i})
+\pi_{ \rvx\ldart\rva_i}(a_i)=
+\pi(\rvx\ldart\rva_i=a_i)=
+\pi(\rvx\ldart a_i)=
+P(a_i|\eps^-_{\rvx \rva_i})
 \eeq
 
 \beq
-\pi_{ \rvb_i\larrow \rvx}(x)
-=
-P(x|N_{\rvb_i})
+\pi_{ \rvb_i\ldart\rvx}(x)=
+\pi(\rvb_i\ldart\rvx=x)=
+\pi(\rvb_i\ldart x)=
+P(x|\eps^-_{\rvx \rvb_i})
 \eeq
 
 \beq
-\lam_{\rvx} (x)=P(D_\rvx|x)
+\lam_{\rvx} (x)=P(\eps^+_\rvx|x)
 \eeq
 
 \beq
-\lam_{\rvb_i\rarrow \rvx} (x)
-=P(D_{\rvb_i}|x)
+\lam_{\rvb_i\rdart \rvx} (x)=
+\lam(\rvb_i\rdart \rvx=x)=
+\lam(\rvb_i\rdart x)=
+P(\eps^+_{\rvx \rvb_i}|x)
 \eeq
 
 \beq
-\lam_{\rvx\rarrow \rva_i} (a_i)
-=P(D_{\rva_i}|a_i)
+\lam_{\rvx\rdart \rva_i} (a_i)=
+\lam(\rvx\rdart \rva_i=a_i)=
+\lam(\rvx\rdart a_i)=
+P(\eps^+_{\rvx \rva_i}|a_i)
 \eeq
 
-Mnemonic: All these probabilities 
-are conditioned on where the messages
-originate: the $\pi$ messages
-originate from the 
-ancestors $N$,
-and the $\lam$ messages originate
-from the descendants  $D$.
 
 \hrule\noindent
 {\bf Expansions
@@ -465,63 +1563,63 @@ into products of single node messages.}
 
 Note that
 \beq
-D_\rvx=\cup_i D_{\rvb_i}
+\eps^+_\rvx=\cup_i \eps^+_{\rvx \rvb_i}
 \;,
 \eeq
 and
 
 \beq
-N_\rvx=\cup_i N_{\rva_i}
+\eps^-_\rvx=\cup_i \eps^-_{\rvx \rva_i}
 \;.
 \eeq
-Therefore, 
+Therefore,
 
 
 \beqa
 \underbrace{
-P(x|N_\rvx)
+P(x|\eps^-_\rvx)
 }_{\pi_\rvx(x)}
 &=&
-P(x|\cup_i N_{\rva_i})
+P(x|\cup_i \eps^-_{\rvx \rva_i})
 \\
 &=&
 \sum_{a^{na}}
 P(x|a^{na})
-P( a^{na}|\cup_i N_{\rva_i})
+P( a^{na}|\cup_i \eps^-_{\rvx \rva_i})
 \\
 &=&
 \sum_{a^{na}}
 P(x|a^{na})
-\prod_i 
+\prod_i
 \underbrace{
-P(a_i| N_{\rva_i})}_{
-\pi_{\rvx\larrow \rva_i}(a_i)
+P(a_i| \eps^-_{\rvx \rva_i})}_{
+\pi_{\rvx\ldart \rva_i}(a_i)
 }
 \eeqa
 
 \beq
 \underbrace{
-P(D_\rvx|x)
+P(\eps^+_\rvx|x)
 }_{\lam_\rvx(x)}
-=\prod_i 
+=\prod_i
 \underbrace{
-P(D_{\rvb_i}|x)
-}_{\lam_{\rvb_i\rarrow \rvx}(x)}
+P(\eps^+_{\rvx \rvb_i}|x)
+}_{\lam_{\rvb_i\rdart \rvx}(x)}
 \eeq
 \hrule
 
 Note that past and future evidences
-$N_\rvx$ and $D_\rvx$ 
+$\eps^-_\rvx$ and $\eps^+_\rvx$
 that are
 causally connected to $\rvx$
-are 
+are
 conditionally
 independent at fixed $\rvx$:
 
 \beq
-P(D_\rvx, N_\rvx|x)
+P(\eps^+_\rvx, \eps^-_\rvx|x)
 =
-P(D_\rvx|x) P(N_\rvx|x)
+P(\eps^+_\rvx|x) P(\eps^-_\rvx|x)
 \;.
 \eeq
 
@@ -530,138 +1628,138 @@ the following claim:
 
 \begin{claim}
 \beqa
-P(x| D_\rvx, N_\rvx)
+P(x| \eps^+_\rvx, \eps^-_\rvx)
 &=&
-P(D_\rvx|x) P(x|N_\rvx
-)\frac{1}{P(D_\rvx|N_\rvx)}
+P(\eps^+_\rvx|x) P(x|\eps^-_\rvx
+)\frac{1}{P(\eps^+_\rvx|\eps^-_\rvx)}
 \\
 &=&
 \caln(!x)
-P(D_\rvx|x)P(x|N_\rvx)
+P(\eps^+_\rvx|x)P(x|\eps^-_\rvx)
 \\
 &=&
 \caln(!x)\;\;\;
-(D_\rvx\larrow x \larrow N_\rvx)
+(\eps^+_\rvx\larrow x \larrow \eps^-_\rvx)
 \\&=&
 \caln(!x)
 \lam_\rvx (x)
 \pi_\rvx(x)
-\eeqa   
+\eeqa
 
 
 \end{claim}
 \proof
 
 \beqa
- P(x|D_\rvx, N_\rvx)
+ P(x|\eps^+_\rvx, \eps^-_\rvx)
 &=&
-P(D_\rvx, N_\rvx|x)\frac{P(x)}{P(D_\rvx, N_\rvx)}
+P(\eps^+_\rvx, \eps^-_\rvx|x)\frac{P(x)}{P(\eps^+_\rvx, \eps^-_\rvx)}
 \\
 &=&
-P(D_\rvx|x) P(N_\rvx|x)\frac{P(x)}{P(D_\rvx, N_\rvx)}
+P(\eps^+_\rvx|x) P(\eps^-_\rvx|x)\frac{P(x)}{P(\eps^+_\rvx, \eps^-_\rvx)}
 \\
 &=&
-P(D_\rvx|x) P(x|N_\rvx
-)\frac{P(N_\rvx)}{P(D_\rvx, N_\rvx)}
+P(\eps^+_\rvx|x) P(x|\eps^-_\rvx
+)\frac{P(\eps^-_\rvx)}{P(\eps^+_\rvx, \eps^-_\rvx)}
 \\
 &=&
-P(D_\rvx|x) P(x|N_\rvx
-)\frac{1}{P(D_\rvx|N_\rvx)}
+P(\eps^+_\rvx|x) P(x|\eps^-_\rvx
+)\frac{1}{P(\eps^+_\rvx|\eps^-_\rvx)}
 \eeqa
 \qed
 
-Next we prove Pearl's MP rules 1 and 2.
+Next we prove MP rules 1 and 2.
 
 \begin{itemize}
 \item {\bf RULE 1 (red parent)}
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=3in]
+\includegraphics[width=2.65in]
 {mpass/mpass-rule-1.png}
 \caption{This figure is
-used in the derivation of the Pearl MP
-RULE 1.} 
+used in the derivation of the MP
+RULE 1.}
 \label{fig-mpass-rule-1}
 \end{figure}
 
 Note that
 
 \beqa
-D_\rvx \cup \cup_{k\neq i}N_{\rva_k}
+\eps^+_\rvx \cup \cup_{k\neq i}\eps^-_{\rvx \rva_k}
 &=&
-(D_\rvx\cup N_\rvx) - N_{\rva_i}
+(\eps^+_\rvx\cup \eps^-_\rvx) - \eps^-_{\rvx \rva_i}
 \\
 &=&
-D_{\rva_i}
+\eps^+_{\rvx \rva_i}
 \eeqa
 
 Let $y=(a_k)_{k\neq i}$ and
-$N_\rvy=(N_{\rva_k})_{k\neq i}$.
+$\eps^-_\rvy=(\eps^-_{\rvx \rva_k})_{k\neq i}$.
 
 \beqa
 \underbrace{
-P(D_{\rva_i}|a_i)
-}_{\lam_{\rvx\rarrow\rva_i}(a_i)}
+P(\eps^+_{\rvx \rva_i}|a_i)
+}_{\lam_{\rvx\rdart\rva_i}(a_i)}
 &=&
-P(D_\rvx, N_\rvy|a_i)
+P(\eps^+_\rvx, \eps^-_\rvy|a_i)
 \\
 &=&
-\sum_x 
+\sum_x
 \sum_y
-P(D_\rvx, N_\rvy|x,y)
+P(\eps^+_\rvx, \eps^-_\rvy|x,y)
 P(x, y|a_i)
 \\
 &=&
-\sum_x 
+\sum_x
 \sum_y
-P(D_\rvx|x)
-P(N_\rvy|y)
+P(\eps^+_\rvx|x)
+P(\eps^-_\rvy|y)
 P(x|y, a_i )P(y|a_i)
 \\
 &=&
-P(N_\rvy)
-\sum_x 
+P(\eps^-_\rvy)
+\sum_x
 \sum_y
-P(D_\rvx|x)
-\frac{P(y|N_\rvy)}{P(y)}
+P(\eps^+_\rvx|x)
+\frac{P(y|\eps^-_\rvy)}{P(y)}
 P(x|y, a_i )
 \underbrace{P(y|a_i)}_{=P(y)}
 \\
 &=&
 \caln(!a_i)
-\sum_x 
+\sum_x
 \sum_y
-P(D_\rvx|x)
+P(\eps^+_\rvx|x)
 P(x|
 \underbrace{
-y, a_i 
+y, a_i
 }_{a^{na}}
-)P(y|N_\rvy)
+)P(y|\eps^-_\rvy)
 \\
 &=&
 \caln(!a_i)
 \sum_x
 \underbrace{
-P(D_\rvx|x)
+P(\eps^+_\rvx|x)
 }_{\lam_{\rvx}(x)}
 \sum_{(a_k)_{k\neq i}}
 P(x| a^{na})
 \prod_{k\neq i}
 \underbrace{
-P(a_k|N_{\rva_k})
-}_{\pi_{\rvx\larrow \rva_k}(a_k)}
+P(a_k|\eps^-_{\rvx \rva_k})
+}_{\pi_{\rvx\ldart \rva_k}(a_k)}
 \eeqa
 
 \item{\bf RULE 2 (red child)}
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=3in]
+\includegraphics[width=2.5in]
 {mpass/mpass-rule-2.png}
 \caption{This figure is
-used in the derivation of the Pearl MP
-RULE 2.} 
+used in the derivation of the MP
+RULE 2.}
 \label{fig-mpass-rule-2}
 \end{figure}
 
@@ -669,35 +1767,35 @@ Note that
 
 \beqa
 (\cup _{k\neq i}
-D_{\rvb_k})\cup N_\rvx
+\eps^+_{\rvx \rvb_k})\cup \eps^-_\rvx
 &=&
-(D_\rvx\cup N_\rvx) - D_{\rvb_i}
+(\eps^+_\rvx\cup \eps^-_\rvx) - \eps^+_{\rvx \rvb_i}
 \\
 &=&
-N_{\rvb_i}
+\eps^-_{\rvx \rvb_i}
 \eeqa
 
 
 \beqa
 \underbrace{
-P(x| N_{\rvb_i})
-}_{\pi_{\rvb_i\larrow \rvx}(x)}
+P(x| \eps^-_{\rvx \rvb_i})
+}_{\pi_{\rvb_i\ldart \rvx}(x)}
 &=&
-P(x| (D_{\rvb_k})_{k\neq i}, N_\rvx)
+P(x| (\eps^+_{\rvx \rvb_k})_{k\neq i}, \eps^-_\rvx)
 \\
 &=&
 \caln(!x)
-P((D_{\rvb_k})_{k\neq i}|x)P(x|N_\rvx)
+P((\eps^+_{\rvx \rvb_k})_{k\neq i}|x)P(x|\eps^-_\rvx)
 \\&=&
 \caln(!x)
 \left(
 \prod_{k\neq i}
 \underbrace{
-P(D_{\rvb_k}|x)
-}_{\lam_{\rvb_k\rarrow\rvx}(x)}
+P(\eps^+_{\rvx \rvb_k}|x)
+}_{\lam_{\rvb_k\rdart\rvx}(x)}
 \right)
 \underbrace{
-P(x|N_\rvx)
+P(x|\eps^-_\rvx)
 }_{\pi_\rvx(x)}
 \eeqa
 
@@ -706,279 +1804,176 @@ P(x|N_\rvx)
 
 
 
-\hrule
-\section*{Example of Pearl MP}
+
+
+\section*{Example of MP algo for a  Tree}
+
+In this section, we 
+describe how to apply
+the MP algo
+to the tree bnet Fig.\ref{fig-mp-9tree}.
+In Fig.\ref{fig-mp-9tree}, if we 
+replace each integer $i$ by 
+the random variable $\rvA_i$,
+we get an {\bf original bnet}, 
+and if we replace each
+$i$
+by $\ucalm_{\rvA_i}$,
+we get the {\bf MP memory bnet}
+of the original bnet.
+In Fig.\ref{fig-mp-9tree},
+the fushia nodes are evidence nodes 
+and the green ones aren't.
+
+We want to solve for the 
+memory matrices of the 
+memory bnet. To do so,
+we use the {\bf MP dynamic bnet}
+Fig.\ref{fig-propagation-9tree}.
+The steps encoded
+in the dynamic bnet 
+are shown in Fig.\ref{fig-multiframe-9tree}.
+Fig.\ref{fig-multiframe-9tree}
+has frames in chronological order,
+showing the direction of travel
+of the $\pi\&\lam$ information. 
+This sequence of frames also indicates 
+the order
+in which we solve for the entries of
+ the memory matrices.
+The information first emanates from the evidence nodes.
+It propagates generally upstream,
+although some nodes
+can generate downstream flow. Some of the 
+info  reaches the root node and is  reflected there.
+The root node is the only one that 
+is capable of reflection (i.e., instant output
+along an arrow, 
+in response to input along that arrow).
+Eventually, all info
+reaches the leaf nodes 
+via downstream propagation and is absorbed there.
+
 
 \begin{figure}[h!]
 \centering
+\includegraphics[width=2.5in]
+{mpass/mp-9tree.png}
+\caption{Example tree bnet
+used to illustrate MP.
+} 
+\label{fig-mp-9tree}
+\end{figure}
+
+
+
+\begin{figure}[h!]
 $$\xymatrix{
-\rvA\ar[d]\ar[dr]
+\rvA_1 
+&\ucalm^{(0)}_{\rvA_1}\ar[r]
+&\ucalm^{(1)}_{\rvA_1}\ar[r]
+&\ucalm^{(2)}_{\rvA_1}\ar[r]\ar[dr]\ar[ddr]
+&\ucalm^{(3)}_{\rvA_1}\ar[r]
+&\ucalm^{(4)}_{\rvA_1}\ar[r]
+&\ucalm^{(5)}_{\rvA_1}
 \\
-\rvA_{0}\ar[d]\ar[dr]
-&\rvA_{1}\ar[dr]\ar[drr]
+\rvA_2 
+&\ucalm^{(0)}_{\rvA_2}\ar[r]
+&\ucalm^{(1)}_{\rvA_2}\ar[r]\ar[ur]\ar[ddr]
+&\ucalm^{(2)}_{\rvA_2}\ar[r]
+&\ucalm^{(3)}_{\rvA_2}\ar[r]\ar[ddr]\ar[dddr]
+&\ucalm^{(4)}_{\rvA_2}\ar[r]
+&\ucalm^{(5)}_{\rvA_2}
 \\
-\rvA_{00}
-&\rvA_{01}
-&\rvA_{10}
-&\rvA_{11}
+\rvA_3 
+&\ucalm^{(0)}_{\rvA_3}\ar[r]
+&\ucalm^{(1)}_{\rvA_3}\ar[r]\ar[uur]\ar[dddr]
+&\ucalm^{(2)}_{\rvA_3}\ar[r]
+&\ucalm^{(3)}_{\rvA_3}\ar[r]\ar[dddr]\ar[ddddr]
+&\ucalm^{(4)}_{\rvA_3}\ar[r]
+&\ucalm^{(5)}_{\rvA_3}
+\\
+\rvA_4 
+&\ucalm^{(0)}_{\rvA_4}\ar[r]
+&\ucalm^{(1)}_{\rvA_4}\ar[r]
+&\ucalm^{(2)}_{\rvA_4}\ar[r]
+&\ucalm^{(3)}_{\rvA_4}\ar[r]
+&\ucalm^{(4)}_{\rvA_4}\ar[r]
+&\ucalm^{(5)}_{\rvA_4}
+\\
+\rvA_5 
+&\ucalm^{(0)}_{\rvA_5}\ar[r]\ar[uuur]
+&\ucalm^{(1)}_{\rvA_5}\ar[r]
+&\ucalm^{(2)}_{\rvA_5}\ar[r]
+&\ucalm^{(3)}_{\rvA_5}\ar[r]
+&\ucalm^{(4)}_{\rvA_5}\ar[r]
+&\ucalm^{(5)}_{\rvA_5}
+\\
+\rvA_6 
+&\ucalm^{(0)}_{\rvA_6}\ar[r]
+&\ucalm^{(1)}_{\rvA_6}\ar[r]
+&\ucalm^{(2)}_{\rvA_6}\ar[r]\ar[ddr]\ar[dddr]
+&\ucalm^{(3)}_{\rvA_6}\ar[r]
+&\ucalm^{(4)}_{\rvA_6}\ar[r]\ar[ddr]\ar[dddr]
+&\ucalm^{(5)}_{\rvA_6}
+\\
+\rvA_7 
+&\ucalm^{(0)}_{\rvA_7}\ar[r]\ar[uuuur]
+&\ucalm^{(1)}_{\rvA_7}\ar[r]
+&\ucalm^{(2)}_{\rvA_7}\ar[r]
+&\ucalm^{(3)}_{\rvA_7}\ar[r]
+&\ucalm^{(4)}_{\rvA_7}\ar[r]
+&\ucalm^{(5)}_{\rvA_7}
+\\
+\rvA_8 
+&\ucalm^{(0)}_{\rvA_8}\ar[r]
+&\ucalm^{(1)}_{\rvA_8}\ar[r]
+&\ucalm^{(2)}_{\rvA_8}\ar[r]
+&\ucalm^{(3)}_{\rvA_8}\ar[r]
+&\ucalm^{(4)}_{\rvA_8}\ar[r]
+&\ucalm^{(5)}_{\rvA_8}
+\\
+\rvA_9 
+&\ucalm^{(0)}_{\rvA_9}\ar[r]
+&\ucalm^{(1)}_{\rvA_9}\ar[r]
+&\ucalm^{(2)}_{\rvA_9}\ar[r]
+&\ucalm^{(3)}_{\rvA_9}\ar[r]
+&\ucalm^{(4)}_{\rvA_9}\ar[r]
+&\ucalm^{(5)}_{\rvA_9}
+\\
 }$$
-\caption{bnet for a binary 
-tree with 3 levels. $\rvA$ is
-the apex root node.}
-\label{fig-full3-tree}
+\caption{MP dynamic bnet for the bnet
+Fig.\ref{fig-mp-9tree}.}
+\label{fig-propagation-9tree}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
-$$\xymatrix{
-\rvA\ar[d]\ar@/_2pc/[dd]
-&\ucalm_\rvA^{(0)}
-\ar[r]
-&\ucalm_\rvA^{(1)}
-\ar[r]
-&\ucalm_\rvA^{(2)}\ar[rd]\ar[rdd]
-\ar[r]
-&\ucalm_\rvA^{(3)}
-\ar[r]
-&\ucalm_{\rvA}^{(4)}
-\\
-\rvA_{0}\ar@/_2pc/[dd]\ar@/_2pc/[ddd]
-&\ucalm_{\rvA_{0}}^{(0)}
-\ar[r]
-&\ucalm_{\rvA_{0}}^{(1)}\ar[ru]
-\ar[r]
-&\ucalm_{\rvA_{0}}^{(2)}
-\ar[r]
-&\ucalm_{\rvA_{0}}^{(3)}
-\ar[rdd]\ar[rddd]
-\ar[r]
-&\ucalm_{\rvA_{0}}^{(4)}
-\\
-\rvA_{1}\ar@/_2pc/[ddd]\ar@/_2pc/[dddd]
-&\ucalm_{\rvA_{1}}^{(0)}
-\ar[r]
-&\ucalm_{\rvA_{1}}^{(1)}\ar[ruu]
-\ar[r]
-&\ucalm_{\rvA_{1}}^{(2)}
-\ar[r]
-&\ucalm_{\rvA_{1}}^{(3)}
-\ar[rddd]\ar[rdddd]
-\ar[r]
-&\ucalm_{\rvA_{1}}^{(4)}
-\\
-\rvA_{00}
-&\ucalm_{\rvA_{00}}^{(0)}\ar[ruu]
-\ar[r]
-&\ucalm_{\rvA_{00}}^{(1)}
-\ar[r]
-&\ucalm_{\rvA_{00}}^{(2)}
-\ar[r]
-&\ucalm_{\rvA_{00}}^{(3)}
-v
-&\ucalm_{\rvA_{00}}^{(4)}
-\\
-\rvA_{01}
-&\ucalm_{\rvA_{01}}^{(0)}\ar[ruuu]
-\ar[r]
-&\ucalm_{\rvA_{01}}^{(1)}
-\ar[r]
-&\ucalm_{\rvA_{01}}^{(2)}
-\ar[r]
-&\ucalm_{\rvA_{01}}^{(3)}
-\ar[r]
-&\ucalm_{\rvA_{01}}^{(4)}
-\\
-\rvA_{10}
-&\ucalm_{\rvA_{10}}^{(0)}\ar[ruuu]
-\ar[r]
-&\ucalm_{\rvA_{10}}^{(1)}
-\ar[r]
-&\ucalm_{\rvA_{10}}^{(2)}
-\ar[r]
-&\ucalm_{\rvA_{10}}^{(3)}
-\ar[r]
-&\ucalm_{\rvA_{10}}^{(4)}
-\\
-\rvA_{11}
-&\ucalm_{\rvA_{11}}^{(0)}\ar[ruuuu]
-\ar[r]
-&\ucalm_{\rvA_{11}}^{(1)}
-\ar[r]
-&\ucalm_{\rvA_{11}}^{(2)}
-\ar[r]
-&\ucalm_{\rvA_{11}}^{(3)}
-\ar[r]
-&\ucalm_{\rvA_{11}}^{(4)}
-}$$
-\caption{messages-bnet
-for the source-bnet
- Fig.\ref{fig-full3-tree}.}
-\label{fig-mp-bnet-for-tree}
-\end{figure}
-Fig.\ref{fig-mp-bnet-for-tree} 
-is the {\bf messages-bnet}
- for the 
-{\bf source bnet} Fig.\ref{fig-full3-tree}.
-The node TPMs,
-printed in blue,
-for the bnet
-Fig.\ref{fig-mp-bnet-for-tree},
-are as follows.
-
-
-The following equation
-applies with  $t=1$,
-and $\rvx\in\{\rvA_0, \rvA_1\}$.
-It also applies with
- $t=2$ and $\rvx\in\{
- \rvA_{00},\rvA_{01},
-\rvA_{10},\rvA_{11}\}$.
-
-\beqa\color{blue}
-P(\calm_{\rvx}^{(t)}\cond 
-[\calm_{\rva}^{(t-1)}]_
-{\rva\in pa(\rvx)\cup \rvx})&=&\color{blue}
-\delta(
-\calm_{\rvx}^{(t)},
-\calm_{\rvx}^{(t)}
-( 
-[\calm_{\rva}^{(t-1)}]_
-{\rva\in pa(\rvx)\cup   \rvx})
-)
-\eeqa
-
-Whenever the only arrow
-entering $\calm_{\rvx}^{(t)}$
-is from $\calm_{\rvx}^{(t-1)}$,
-there is no change in $\calm_{\rvx}^{(t)}$:
-
-\beq\color{blue}
-P(\calm_{\rvx}^{(t)}\cond
-\calm_{\rvx}^{(t-1)})=
-\delta(
-\calm_{\rvx}^{(t)},
-\calm_{\rvx}^{(t-1)})
-\;.
-\eeq
-
-As for the leaf nodes
-of the messages-bnet  at time $t=0$,
-let
-
-
-\beq
-IN^{(0)}_\rvA=0,\;\;
-OUT^{(0)}_\rvA= \text{1 at each
-leaf node},\;\;
-\calm^{(0)}_\rvA=(IN^{(0)}_\rvA,OUT^{(0)}_\rvA)
-\eeq
-
-\beq\color{blue}
-P(\calm^{(0)}_\rvA)=
-\delta(\calm^{(0)}_\rvA,
-\calm^{(0)}_\rvA(\ldots))
-\;.
-\eeq
-
-
-\begin{figure}[h!]
-\centering
-$$
-\begin{array}{cc}
-\xymatrix{
-\rvA\ar[d]\ar[dr]
-\\
-\rvA_{0}\ar[d]\ar[dr]
-&\rvA_{1}\ar[dr]\ar[drr]
-\\
-\rvA_{00}\ar@[red]@{.>}@<2ex>[u]
-&\rvA_{01}\ar@[red]@{.>}@<2ex>[ul]
-&\rvA_{10}\ar@[red]@{.>}@<2ex>[ul]
-&\rvA_{11}\ar@[red]@{.>}@<2ex>[ull]
-}
-&
-\xymatrix{
-\rvA\ar[d]\ar[dr]
-\\
-\rvA_{0}\ar[d]\ar[dr]
-\ar@[red]@{.>}@<2ex>[u]
-&\rvA_{1}\ar[dr]\ar[drr]
-\ar@[red]@{.>}@<2ex>[ul]
-\\
-\rvA_{00}
-&\rvA_{01}
-&\rvA_{10}
-&\rvA_{11}
-}
-\\
-\text{t= 0-1}&\text{t= 1-2}
-\\
-\xymatrix{
-\rvA\ar[d]\ar[dr]
-\ar@[red]@{-->}@<2ex>[d]
-\ar@[red]@{-->}@<2ex>[dr]
-\\
-\rvA_{0}\ar[d]\ar[dr]
-&\rvA_{1}\ar[dr]\ar[drr]
-\\
-\rvA_{00}
-&\rvA_{01}
-&\rvA_{10}
-&\rvA_{11}
-}
-&
-\xymatrix{
-\rvA\ar[d]\ar[dr]
-\\
-\rvA_{0}\ar[d]\ar[dr]
-\ar@[red]@{-->}@<2ex>[d]
-\ar@[red]@{-->}@<2ex>[dr]
-&\rvA_{1}\ar[dr]\ar[drr]
-\ar@[red]@{-->}@<2ex>[dr]
-\ar@[red]@{-->}@<2ex>[drr]
-\\
-\rvA_{00}
-&\rvA_{01}
-&\rvA_{10}
-&\rvA_{11}
-}
-\\
-\text{t= 2-3}&\text{t= 3-4}
-\end{array}
-$$
-\caption{
-The messages passed in 
-Fig.\ref{fig-mp-bnet-for-tree}
-are indicated by red arrows
-on the source bnet 
-Fig.\ref{fig-full3-tree}.
-As usual, we use arrows with
-dashed (resp., dotted) shafts for
-downstream (resp., upstream) messages. 
-}
-\label{fig-full3-tree-messages}
+\includegraphics[width=7in]
+{mpass/mp-multiframe-9tree.png}
+\caption{Steps encoded in
+the bnet 
+Fig.\ref{fig-propagation-9tree}.
+} 
+\label{fig-multiframe-9tree}
 \end{figure}
 
-
-In Fig.\ref{fig-full3-tree-messages},
-the messages passed in the messages-bnet
-are indicated by red arrows
-on the source bnet.
-
+\clearpage
+\newpage
 \section*{Bipartite bnets}
 
 By a {\bf bipartite bnet}
 we will mean a bnet
-all of whose nodes 
+all of whose nodes
 are root nodes (parentless)
 or leaf nodes (childless).
-Pearl MP  
-simplifies when dealing with 
+MP
+simplifies when dealing with
 bipartite bnets. In this section,
 we will explain how
 it simplifies. But
 before doing so,
-let us explain how the 
+let us explain how the
 following two types of
 diagrams
 can be replaced by
@@ -995,7 +1990,7 @@ of scalar functions
  $f_\alp:S_{\rvx_0}
 \times S_{\rvx_1}
 \times \ldots S_{\rvx_{nx-1}}\rarrow \RR$
-for $\alp=0, 1, \ldots nf-1$. For instance, 
+for $\alp=0, 1, \ldots nf-1$. For instance,
 consider $g:S_{\rvx_0}
 \times S_{\rvx_1} \times S_{\rvx_2}\rarrow \RR$
 defined by:
@@ -1038,7 +2033,7 @@ $$\xymatrix{
 \rvf_0&\rvf_1&\rvf_2&\rvf_3
 }$$
 \caption{Bipartite bnet
-corresponding to factor 
+corresponding to factor
 graph Fig.\ref{fig-fac-graph}.}
 \label{fig-bip-bnet}
 \end{figure}
@@ -1059,7 +2054,7 @@ of the factor graph
 by arrows from $\rvx_i$ to
 $\rvf_\alpha$. For example,
 Fig.\ref{fig-bip-bnet}
-is the image bnet of the source factor 
+is the image bnet of the source factor
 graph Fig.\ref{fig-fac-graph}.
 
 
@@ -1069,7 +2064,7 @@ and
 $\rvf^{nf}=
 (\rvf_0, \rvf_1, \ldots, \rvf_{nf-1})$.
 Let\footnote{
-Note that we are using 
+Note that we are using
 $f_\alpha$
 to denote both a function
 $f_\alp(\cdot)$  and a boolean
@@ -1077,12 +2072,12 @@ value. Which one we mean
 will be clear from context.
 Normally,
 $f_\alp$ is used to
-denote 
+denote
 the real number
 $y_\alp=f_\alpha(x_{nb(\rvf_\alpha)})$,
 but we won't be using it that
 way.}
-$f_\alp\in \bool$ for all $\alp$, 
+$f_\alp\in \bool$ for all $\alp$,
 and $y_\alp=
 f_\alpha(x_{nb(\rvf_\alpha)})$.
 Here we are using $nb(\rvf_\alp)$
@@ -1123,21 +2118,21 @@ Note that
 
 \beq
 P(f^{nf}=1^{nf}|x^{nx})=
-\prod_\alpha 
+\prod_\alpha
 f_\alpha(x_{nb(\rvf_\alpha)})
 \;.
 \eeq
 
 \hrule
 A {\bf tree bnet}
-is a bnet for which all 
+is a bnet for which all
 nodes have exactly
 one parent except
-for the apex root 
+for the apex root
 node which has none.
-A tree bnet 
+A tree bnet
 is very much like
-the filing system 
+the filing system
 in a computer.
 
 One can map a tree
@@ -1167,7 +2162,7 @@ of the tree bnet by
 \eeq
 For example,
 the tree bnet Fig.\ref{fig-part3-tree}
-has the image 
+has the image
 bipartite bnet given by
 Fig.\ref{fig-part3-tree-junc-tree}.
 The
@@ -1226,18 +2221,18 @@ $$\xymatrix{
 }$$
 \caption{
 Different
-way of drawing 
+way of drawing
 the bnet Fig.\ref{fig-part3-tree-junc-tree}.}
 \label{fig-part3-tree-bip-bnet}
 \end{figure}
 
 The node  TPMs, printed in blue,
-for the image bipartite bnet 
+for the image bipartite bnet
 Fig.\ref{fig-part3-tree-junc-tree},
 are as follows. We express the
 TPMs of the image bnet
-in terms of the 
-TPMs of the source bnet 
+in terms of the
+TPMs of the source bnet
 Fig.\ref{fig-part3-tree}.
 
 \beq\color{blue}
@@ -1249,7 +2244,7 @@ P_{\rvy|\rvx}(y|x)
 \delta(P_{\rvy|\rvx}, 0)
 \eeq
 for all the
-\ul{leaf} 
+\ul{leaf}
 nodes $\ul{P_{\rvy|\rvx}}\in \bool$ of the
 image bipartite bnet.
 Also
@@ -1260,7 +2255,7 @@ P_\rvy(y')= \delta(y', y)
 \eeq
 for all the \ul{root} nodes $\rvy$ of the
 image bipartite bnet
-except when 
+except when
 $\rvy$ corresponds to
 the root node $\rvA$
 of the source tree bnet.
@@ -1278,7 +2273,7 @@ P_\rvy(y')= P_\rvA(y')
 \section*{MP for
 bipartite bnets}
 For
-a bipartite 
+a bipartite
 bnet as defined before,
 with
 root nodes $\rvx_i$
@@ -1299,19 +2294,19 @@ nb( \rvf_\alpha)\}
 \eeq
 
 \beq
-m_{\alp\larrow i}
+m_{\alp\ldart i}
 (x_i)
 =
-\pi_{\rvf_\alpha \larrow\rvx_i }
+\pi_{\rvf_\alpha \ldart\rvx_i }
 (x_i)
 \;,
 \eeq
 
 \beq
-m_{\alp\rarrow i}
+m_{\alp\rdart i}
 (x_i)
 =
-\lam_{\rvf_\alp\rarrow \rvx_i}
+\lam_{\rvf_\alp\rdart \rvx_i}
 (x_i)
 \;,
 \eeq
@@ -1323,60 +2318,60 @@ m_{\alp\rarrow i}
 {mpass/mpass-messages-bip.png}
 \caption{This figure is equivalent to
 Fig.\ref{fig-messages-gen}
-for the special case of a 
+for the special case of a
 bipartite bnet. Union of green nodes and the red node = full
  neighborhood of yellow node.
-There are two possible 
+There are two possible
 cases:  the
 red node is either a parent
-or a child  of the yellow 
-node.}  
+or a child  of the yellow
+node.}
 \label{fig-messages-bip}
 \end{figure}
 
 Next we will
 show how
-to find $m_{\alp\larrow i}^{(t)}$
-and $m_{\alp\rarrow i}^{(t)}$
+to find $m_{\alp\ldart i}^{(t)}$
+and $m_{\alp\rdart i}^{(t)}$
 from other messages at times
  $t$ and  $t-1$.
 
 \begin{enumerate}
 
-\item {\bf 
-We find $m_{\alp\larrow i}^{(t)}$
+\item {\bf
+We find $m_{\alp\ldart i}^{(t)}$
  as follows.}
 
-See 
-the 
-$m_{\rvf_2\larrow\rvx_1 }$ panel of
+See
+the
+$m_{\rvf_2\ldart\rvx_1 }$ panel of
 Fig.\ref{fig-messages-bip}.
 
 For $i=0, 1, \ldots , nx-1$, if
  $\alp\in nb(i)$, then
 
 \beq
-m^{(t)}_{\alp\larrow i }(x_i)
+m^{(t)}_{\alp\ldart i }(x_i)
 =
 \prod_{
 \beta\in nb(i)-\alpha}
-m^{(t-1)}_{\beta\rarrow i}(x_i)
+m^{(t-1)}_{\beta\rdart i}(x_i)
 \;,
 \label{eq-mp-iter1}
 \eeq
-whereas if  $\alp\notin nb(i)$ 
+whereas if  $\alp\notin nb(i)$
 
 \beq
-m^{(t)}_{\alp\larrow i}=
-m^{(t-1)}_{\alp\larrow i}
+m^{(t)}_{\alp\ldart i}=
+m^{(t-1)}_{\alp\ldart i}
 \;.
 \eeq
 
 \item {\bf
-We find $m_{\alp\rarrow i}^{(t)}$ as follows.}
+We find $m_{\alp\rdart i}^{(t)}$ as follows.}
 
 See the
-$m_{\rvf_1\rarrow \rvx_2}$ panel
+$m_{\rvf_1\rdart \rvx_2}$ panel
 of Fig.\ref{fig-messages-bip}.
 
 For $\alp=0, 1, \ldots, nf-1$, if
@@ -1384,16 +2379,16 @@ For $\alp=0, 1, \ldots, nf-1$, if
 
 
 \beqa
-m^{(t)}_{\alp\rarrow i}(x_i)
+m^{(t)}_{\alp\rdart i}(x_i)
 &=&
 \sum_{(x_k)_{k\in nb(\alpha)-i}}
 f_\alpha(x_{nb(\alpha)})
 \prod_{k\in nb(\alpha)-i}
-m^{(t-1)}_{\alp\larrow k }
+m^{(t-1)}_{\alp\ldart k }
 (x_k)
 \\
 &=&
-E^{(t-1)}_{(x_k)_{k\in nb(\alpha)-i}}[
+\eps^{(t-1)}_{(x_k)_{k\in nb(\alpha)-i}}[
 f_\alpha(x_{nb(\alpha)})]
 \;,
 \label{eq-mp-iter2}
@@ -1401,9 +2396,9 @@ f_\alpha(x_{nb(\alpha)})]
 whereas if $i\notin nb(\alp)$
 
 \beq
-m^{(t)}_{\alp\rarrow i}(x_i)
+m^{(t)}_{\alp\rdart i}(x_i)
 =
-m^{(t-1)}_{\alp\rarrow i}(x_i)
+m^{(t-1)}_{\alp\rdart i}(x_i)
 \;.
 \eeq
 
@@ -1412,7 +2407,7 @@ m^{(t-1)}_{\alp\rarrow i}(x_i)
 In the above
 equations, if the
 range set of a product is empty, then
- define the product as 1; i.e., 
+ define the product as 1; i.e.,
 $\prod_{k\in \emptyset}F(k)=1$.
 
 
@@ -1422,9 +2417,9 @@ $\prod_{k\in \emptyset}F(k)=1$.
 
 \beq
 P(x_i)=
-\lim_{t\rarrow 
+\lim_{t\rarrow
 \infty}\caln(!x_i)\prod_{\alp\in nb(i)}
-m^{(t)}_{\alp\larrow i}(x_i)
+m^{(t)}_{\alp\ldart i}(x_i)
 \;
 \label{eq-m-prod}
 \eeq
@@ -1435,7 +2430,7 @@ P(x_{nb(\alp)})=\lim_{t\rarrow \infty}
 \caln(!x_{nb(\alp)})
 f_\alp(x_{nb(\alp)})
 \prod_{i\in nb(\alp)}
-m^{(t)}_{\alp\rarrow i}(x_i)
+m^{(t)}_{\alp\rdart i}(x_i)
 \;.
 \label{eq-f-m-prod}
 \eeq
@@ -1450,14 +2445,14 @@ on the right hand side of
 Eq.(\ref{eq-m-prod}), together
 yield what
 is often
-referred to as 
+referred to as
 a {\bf  sum-product decomposition}.
-I don't like that name 
+I don't like that name
 because it is unnecessarily
 confusing and it fails to convey the
 recursive nature of the decomposition.
 I prefer to call it a {\bf
-recursive sum of products 
+recursive sum of products
 (RSOP) decomposition},
 and will call it so henceforth
 in this chapter.
@@ -1465,14 +2460,14 @@ in this chapter.
 Expressing the marginals of a bnet
 as RSOPs,
 which is what MP does,
-reduces the complexity 
+reduces the complexity
 of the calculation.
 (i.e.,
 the total number
 of additions
 and multiplications
 that need to be performed)
-That makes 
+That makes
 using the MP
 algo very advantageous.
 
@@ -1499,10 +2494,10 @@ bipartite bnets}
 
 Consider
 the bipartite
-bnet \ref{fig-part3-tree}. 
+bnet \ref{fig-part3-tree}.
 We define its messages-bnet
 to be Fig.\ref{fig-part3-tree-mp-bnet}.
-For that messages-bnet, 
+For that messages-bnet,
 the node TPMs, printed in blue,
 are as follows.
 They come directly
@@ -1514,30 +2509,30 @@ P(A) = P_\rvA(A)
 \eeq
 
 \beq\color{blue}
-P(m^{(t)}_{\alp\rarrow i}(\cdot)\cond
-pa[m^{(t)}_{\alp\rarrow i}(\cdot)]
+P(m^{(t)}_{\alp\rdart i}(\cdot)\cond
+pa[m^{(t)}_{\alp\rdart i}(\cdot)]
 )=
 \indi(\;\;\;
-m^{(t)}_{\alp\rarrow i}(x_i)
+m^{(t)}_{\alp\rdart i}(x_i)
 =
-E^{(t-1)}_{(x_k)_{k\in nb(\alpha)-i}}[
+\eps^{(t-1)}_{(x_k)_{k\in nb(\alpha)-i}}[
 f_\alpha(x_{nb(\alpha)})]
 \;\;\;)
 \eeq
 
 \beq\color{blue}
 P(
-m^{(t)}_{\alp\larrow i }(\cdot)
+m^{(t)}_{\alp\ldart i }(\cdot)
 \cond
-pa[m^{(t)}_{\alp\larrow i }(\cdot)]
+pa[m^{(t)}_{\alp\ldart i }(\cdot)]
 )
 =
 \indi(\;\;\;
-m^{(t)}_{\alp\larrow i }(x_i)
+m^{(t)}_{\alp\ldart i }(x_i)
 =
 \prod_{
 \beta\in nb(i)-\alpha}
-m^{(t-1)}_{\beta\rarrow i}(x_i)
+m^{(t-1)}_{\beta\rdart i}(x_i)
 \;\;\;)
 \eeq
 
@@ -1546,25 +2541,25 @@ m^{(t-1)}_{\beta\rarrow i}(x_i)
 $$\xymatrix{
 \rvA\ar[d]\ar[rrd]
 \\
-m^{(1)}_{\ul{P_{\rvA_0|\rvA}}\larrow\rvA}\ar[d]
+m^{(1)}_{\ul{P_{\rvA_0|\rvA}}\ldart\rvA}\ar[d]
 &&
-m^{(1)}_{\ul{P_{\rvA_1|\rvA}}\larrow\rvA}\ar[d]
+m^{(1)}_{\ul{P_{\rvA_1|\rvA}}\ldart\rvA}\ar[d]
 \\
-m^{(2)}_{ \ul{P_{\rvA_0|\rvA}}\rarrow\rvA_0}
+m^{(2)}_{ \ul{P_{\rvA_0|\rvA}}\rdart\rvA_0}
 \ar[d]\ar[dr]
 &&
-m^{(2)}_{ \ul{P_{\rvA_1|\rvA}}\rarrow\rvA_1}
+m^{(2)}_{ \ul{P_{\rvA_1|\rvA}}\rdart\rvA_1}
 \\
 m^{(3)}_{
-\ul{P_{\rvA_{00}|\rvA_0}}\larrow \rvA_0}\ar[d]
+\ul{P_{\rvA_{00}|\rvA_0}}\ldart \rvA_0}\ar[d]
 &
 m^{(3)}_{
-\ul{P_{\rvA_{01}|\rvA_0}}\larrow \rvA_0}\ar[d]
+\ul{P_{\rvA_{01}|\rvA_0}}\ldart \rvA_0}\ar[d]
 \\
 m^{(4)}_{
- \ul{P_{\rvA_{00}|\rvA_0}}\rarrow\rvA_{00}}
+ \ul{P_{\rvA_{00}|\rvA_0}}\rdart\rvA_{00}}
 &m^{(4)}_{
- \ul{P_{\rvA_{01}|\rvA_0}}\rarrow\rvA_{00}}
+ \ul{P_{\rvA_{01}|\rvA_0}}\rdart\rvA_{00}}
 }
 $$
 \caption{messages-bnet
@@ -1573,8 +2568,8 @@ to tree bnet Fig.\ref{fig-part3-tree}.}
 \label{fig-part3-tree-mp-bnet}
 \end{figure}
 
-Note that 
-for the tree bnet 
+Note that
+for the tree bnet
 Fig.\ref{fig-part3-tree}, one has
 \beqa
 P(A_{00})&=&
@@ -1593,10 +2588,10 @@ P(A_0|A)P(A)
 \eeqa
 The right hand side
 of Eq.(\ref{eq-sum-p})
- is expressed as a 
+ is expressed as a
 recursive
 sum of products (RSOP).
-In fact, 
+In fact,
 if we consider
 the path
 
@@ -1618,34 +2613,31 @@ from the MP algorithm:
 \beq
 P(A_{00})=
 \caln(!A_{00})
-m_{ \ul{P_{\rvA_{00}|\rvA_0}}\rarrow\rvA_{00}}(A_{00})
+m_{ \ul{P_{\rvA_{00}|\rvA_0}}\rdart\rvA_{00}}(A_{00})
 \eeq
 
 \beq
-m_{ \ul{P_{\rvA_{00}|\rvA_0}}\rarrow\rvA_{00}}(A_{00})
+m_{ \ul{P_{\rvA_{00}|\rvA_0}}\rdart\rvA_{00}}(A_{00})
 =
 \sum_{A_0}
 P(A_{00}|A_0)
-m_{\ul{P_{\rvA_{00}|\rvA_0}}\larrow \rvA_0}(A_0)
+m_{\ul{P_{\rvA_{00}|\rvA_0}}\ldart \rvA_0}(A_0)
 \eeq
 
 \beq
-m_{\ul{P_{\rvA_{00}|\rvA_0}}\larrow \rvA_0}(A_0)
+m_{\ul{P_{\rvA_{00}|\rvA_0}}\ldart \rvA_0}(A_0)
 =
-m_{\ul{P_{\rvA_{0}|\rvA}}\rarrow\rvA_0 }(A_0)
+m_{\ul{P_{\rvA_{0}|\rvA}}\rdart\rvA_0 }(A_0)
 \eeq
 
 \beq
-m_{\ul{P_{\rvA_{0}|\rvA}}\rarrow \rvA_0}(A_0)=
+m_{\ul{P_{\rvA_{0}|\rvA}}\rdart \rvA_0}(A_0)=
 \sum_{A}P(A_0|A)
-m_{\ul{P_{\rvA_{0}|\rvA}}\larrow \rvA}(A)
+m_{\ul{P_{\rvA_{0}|\rvA}}\ldart \rvA}(A)
 \eeq
 
 \beq
-m_{\ul{P_{\rvA_{0}|\rvA}}\larrow \rvA}(A)
+m_{\ul{P_{\rvA_{0}|\rvA}}\ldart \rvA}(A)
 =P(A)
 \eeq
-
-
-
 
