@@ -1,7 +1,18 @@
 \chapter{Message Passing
 (Belief Propagation)}\label{ch-mp}
 
-Message Passing (aka Belief Propagation)
+In Ref.\cite{pearl1982reverend},
+Pearl explains two types 
+of Message Passing (i.e., distributed 
+computing in a bnet). In Chapter 4, he discusses
+one type of MP which he call Belief Propagation (BP)
+or Belief Updating. In Chapter 5, he introduces
+a second type of MP which is he calls Belief Revision but
+I prefer to call
+Explanation Optimization (EO).
+This chapter will be devoted to BP only.
+
+BP
 was first proposed in 1982
 Ref.\cite{pearl1982reverend} by Judea Pearl
 to simplify
@@ -60,11 +71,11 @@ or the one in
 back).
 Such 
 distributed soldier counting is a rudimentary
-type of message passing (MP).
+type of BP.
 In the next section,
 we will
-generalize this MP for soldiers
-to MP for a Markov chain.
+generalize this BP for soldiers
+to BP for a Markov chain.
 \newpage
 
 
@@ -94,7 +105,7 @@ in (c,d).
 \end{figure}
 
 
-\section*{MP for Markov Chains}
+\section*{BP for Markov Chains}
 \begin{figure}[h!]
 $$\xymatrix{
 \rveps^+
@@ -258,7 +269,7 @@ in Fig.\ref{fig-BEL-2pi}, is
 complementary to 
 bnet for the nodes themselves.
 We will call it
-the {\bf MP 2-track bnet}
+the {\bf BP 2-track bnet}
 for the bnet Fig.\ref{fig-mp-3chain},
 because it has two ``tracks",
 one for $\pi$ messages and another
@@ -278,7 +289,7 @@ $$\xymatrix{
 &\ul{\lam}_{\rveps^+\rdart\rvx}\ar[rr]\ar[ru]
 &&\ul{\lam}_{\rvx\rdart\rveps^-}
 }$$
-\caption{MP 2-track
+\caption{BP 2-track
 bnet for the bnet
  Fig.\ref{fig-mp-3chain}.}
 \label{fig-BEL-2pi}
@@ -366,8 +377,8 @@ this section, we have considered Markov
 chains with 3 nodes.
 Before 
 concluding our
-discussion of MP for Markov chains,
-let us consider MP
+discussion of BP for Markov chains,
+let us consider BP
 for a slightly longer chain.
 Let us consider
 the 5 node Markov
@@ -446,11 +457,11 @@ P(\eps^+|x)P(x|\eps^-)
 \eeqa
 
 In analogy
-with the case of MP for a 3 node Markov
+with the case of BP for a 3 node Markov
 chain, we can define the bnet
 Fig.\ref{fig-BEL-4pi},
 which we refer to as the
-{\bf MP
+{\bf BP
 2-track bnet} for Fig.\ref{fig-mp-5chain}.
 The TPMs, printed in blue,
  for the 
@@ -477,7 +488,7 @@ $$\xymatrix{
 &&\ul{\lam}_{\rvx\rdart\rva}\ar[rr]\ar[ur]
 &&\ul{\lam}_{\rva\rdart\rveps^-}
 }$$
-\caption{MP 2-track bnet for the bnet
+\caption{BP 2-track bnet for the bnet
 Fig.\ref{fig-mp-5chain}.}
 \label{fig-BEL-4pi}
 \end{figure}
@@ -621,7 +632,7 @@ $$\xymatrix{
 &
 \calm_{\rveps^-}\ar[l]
 }$$
-\caption{MP Memory Bnet for the bnet
+\caption{BP Memory Bnet for the bnet
 Fig.\ref{fig-mp-5chain}. }
 \label{fig-mem-5chain}
 \end{figure}
@@ -636,7 +647,7 @@ An alternative to 2-track bnets
 that still
 carries message
 info in its nodes,
-are memory bnets. An MP
+are memory bnets. An BP
 {\bf memory bnet}
 is a bnet 
 which takes each node
@@ -679,7 +690,7 @@ B=
 \eeq
 The function $\calc$,
 which 
-we will call the {\bf MP local computation},
+we will call the {\bf BP local computation},
 maps $\calm^{IN}_{\rvx_i}$
 into $\calm^{OUT}_{\rvx_i}$. More explicitly,
 $\calc$ is defined so that
@@ -701,7 +712,7 @@ respectively.
 
 
 
-The MP memory bnet
+The BP memory bnet
  Fig.
 \ref{fig-mem-5chain}
 is a deterministic bnet.
@@ -751,7 +762,7 @@ Fig.\ref{fig-propagation-5chain}.
 Henceforth, 
 we will refer to
 Fig.\ref{fig-propagation-5chain} as
-an {\bf MP dynamic bnet}
+an {\bf BP dynamic bnet}
 for Fig.\ref{fig-mem-5chain}.
 
 \begin{figure}
@@ -792,7 +803,7 @@ $$\xymatrix{
 &\ucalm^{(3)}_{\rveps^+}\ar[r]
 &\ucalm^{(4)}_{\rveps^+}
 }$$
-\caption{MP dynamic bnet for the bnet
+\caption{BP dynamic bnet for the bnet
   Fig.\ref{fig-mem-5chain}.}
 \label{fig-propagation-5chain}
 \end{figure}
@@ -875,9 +886,9 @@ of the memory matrices
 that we are solving for.
 Each step propagates information
 between the memory nodes.
-In the usual Pearl MP algo, 
+In the usual Pearl BP algo, 
 the evidence nodes 
-initiate the MP
+initiate the BP
 chain of 
 message passing events.
 These events 
@@ -952,7 +963,7 @@ B=
 \eeq
 The function $\calc$,
 which 
-we will call the {\bf MP local computation},
+we will call the {\bf BP local computation},
 maps $\calm^{(t)IN}_{\rvx_i}$
 into $\calm^{(t)OUT}_{\rvx_i}$. More explicitly,
 $\calc$ is defined so that
@@ -999,7 +1010,7 @@ and location $\rvx_i$.
 
 
 
-\section*{MP Algorithm for Polytrees}
+\section*{BP Algorithm for Polytrees}
 
 
 Consider Fig.\ref{fig-pi-lam},
@@ -1207,7 +1218,12 @@ we calculate $\calm^{(t)OUT}_\rvx$:
 \centering
 \includegraphics[width=3.5in]
 {mpass/mpass-messages.png}
-\caption{The yellow
+\caption{
+Subgraph of a bnet
+showing two cases (RULE 1
+ and RULE 2)
+of message info flow.
+The yellow
 node is a gossip monger.
 It receives messages from
 all the green nodes,
@@ -1397,16 +1413,16 @@ equals the product
 of messages received from all
 parents and children of $\rvx=x$.
 
-\hrule\noindent{\bf How MP algo
+\hrule\noindent{\bf How BP algo
 for polytrees reduces to 
-MP algo for Markov chains}
+BP algo for Markov chains}
 
 It is instructive
 to see
 how the
-MP algo
+BP algo
 for polytrees reduces to 
-MP algo for Markov chains.
+BP algo for Markov chains.
 
 For a Markov chain, node
 $\rvx$ has a single parent (i.e., ancestor) $\rva$
@@ -1456,7 +1472,7 @@ P(x|a)\pi_{\rvx\ldart\rva}(a)
 
 
 
-\section*{Derivation of MP Algorithm
+\section*{Derivation of BP Algorithm
 for Polytrees}
 
 This derivation is taken from
@@ -1469,7 +1485,7 @@ changes in notation.
 \hrule\noindent
  {\bf Notation}
 
-The MP algorithm yields an expansion
+The BP algorithm yields an expansion
  for $P(x|\eps)$.
 
 $\rvx$= the focus node,
@@ -1668,7 +1684,7 @@ P(\eps^+_\rvx|x) P(x|\eps^-_\rvx
 \eeqa
 \qed
 
-Next we prove MP rules 1 and 2.
+Next we prove BP rules 1 and 2.
 
 \begin{itemize}
 \item {\bf RULE 1 (red parent)}
@@ -1678,7 +1694,7 @@ Next we prove MP rules 1 and 2.
 \includegraphics[width=2.65in]
 {mpass/mpass-rule-1.png}
 \caption{This figure is
-used in the derivation of the MP
+used in the derivation of the BP
 RULE 1.}
 \label{fig-mpass-rule-1}
 \end{figure}
@@ -1758,7 +1774,7 @@ P(a_k|\eps^-_{\rvx \rva_k})
 \includegraphics[width=2.5in]
 {mpass/mpass-rule-2.png}
 \caption{This figure is
-used in the derivation of the MP
+used in the derivation of the BP
 RULE 2.}
 \label{fig-mpass-rule-2}
 \end{figure}
@@ -1802,15 +1818,11 @@ P(x|\eps^-_\rvx)
 \end{itemize}
 
 
-
-
-
-
-\section*{Example of MP algo for a  Tree}
+\section*{Example of BP algo for a  Tree}
 
 In this section, we 
 describe how to apply
-the MP algo
+the BP algo
 to the tree bnet Fig.\ref{fig-mp-9tree}.
 In Fig.\ref{fig-mp-9tree}, if we 
 replace each integer $i$ by 
@@ -1819,7 +1831,7 @@ we get an {\bf original bnet},
 and if we replace each
 $i$
 by $\ucalm_{\rvA_i}$,
-we get the {\bf MP memory bnet}
+we get the {\bf BP memory bnet}
 of the original bnet.
 In Fig.\ref{fig-mp-9tree},
 the fushia nodes are evidence nodes 
@@ -1828,7 +1840,7 @@ and the green ones aren't.
 We want to solve for the 
 memory matrices of the 
 memory bnet. To do so,
-we use the {\bf MP dynamic bnet}
+we use the {\bf BP dynamic bnet}
 Fig.\ref{fig-propagation-9tree}.
 The steps encoded
 in the dynamic bnet 
@@ -1860,7 +1872,7 @@ via downstream propagation and is absorbed there.
 \includegraphics[width=2.5in]
 {mpass/mp-9tree.png}
 \caption{Example tree bnet
-used to illustrate MP.
+used to illustrate BP.
 } 
 \label{fig-mp-9tree}
 \end{figure}
@@ -1942,7 +1954,7 @@ $$\xymatrix{
 &\ucalm^{(5)}_{\rvA_9}
 \\
 }$$
-\caption{MP dynamic bnet for the bnet
+\caption{BP dynamic bnet for the bnet
 Fig.\ref{fig-mp-9tree}.}
 \label{fig-propagation-9tree}
 \end{figure}
@@ -1964,10 +1976,10 @@ Fig.\ref{fig-propagation-9tree}.
 
 By a {\bf bipartite bnet}
 we will mean a bnet
-all of whose nodes
-are root nodes (parentless)
+in which all nodes
+are either root nodes (parentless)
 or leaf nodes (childless).
-MP
+BP
 simplifies when dealing with
 bipartite bnets. In this section,
 we will explain how
@@ -2054,7 +2066,7 @@ of the factor graph
 by arrows from $\rvx_i$ to
 $\rvf_\alpha$. For example,
 Fig.\ref{fig-bip-bnet}
-is the image bnet of the source factor
+is the image bipartite bnet of the source factor
 graph Fig.\ref{fig-fac-graph}.
 
 
@@ -2070,13 +2082,13 @@ to denote both a function
 $f_\alp(\cdot)$  and a boolean
 value. Which one we mean
 will be clear from context.
-Normally,
-$f_\alp$ is used to
-denote
+$f_\alp$ could also used to
+denote, not a function or a boolean value,
+but
 the real number
 $y_\alp=f_\alpha(x_{nb(\rvf_\alpha)})$,
-but we won't be using it that
-way.}
+but we won't be using it that way
+in this chapter.}
 $f_\alp\in \bool$ for all $\alp$,
 and $y_\alp=
 f_\alpha(x_{nb(\rvf_\alpha)})$.
@@ -2110,7 +2122,7 @@ for $\alp=0, 1, \ldots , nf-1$
 and
 
 \beq\color{blue}
-P_{\rvx_i}(x_i')=\delta(x_i', x_i)
+P_{\rvx_i}(x_i)= \text{arbitrary prior}
 \eeq
 for $i=0, 1, \ldots, nx-1$.
 
@@ -2233,7 +2245,7 @@ are as follows. We express the
 TPMs of the image bnet
 in terms of the
 TPMs of the source bnet
-Fig.\ref{fig-part3-tree}.
+Fig.\ref{fig-part3-tree}. Let
 
 \beq\color{blue}
 P(P_{\rvy|\rvx}| x, y)=
@@ -2244,16 +2256,17 @@ P_{\rvy|\rvx}(y|x)
 \delta(P_{\rvy|\rvx}, 0)
 \eeq
 for all the
-\ul{leaf}
+leaf
 nodes $\ul{P_{\rvy|\rvx}}\in \bool$ of the
 image bipartite bnet.
-Also
+Also, let
 
 \beq\color{blue}
-P_\rvy(y')= \delta(y', y)
+P_\rvy(y)= \text{arbitrary prior}
 \;
 \eeq
-for all the \ul{root} nodes $\rvy$ of the
+for all the root nodes 
+$\rvy$ of the
 image bipartite bnet
 except when
 $\rvy$ corresponds to
@@ -2262,19 +2275,16 @@ of the source tree bnet.
 In that exceptional case,
 
 \beq\color{blue}
-P_\rvy(y')= P_\rvA(y')
+P_\rvy(y)= P_\rvA(y)
 \;.
 \eeq
 
 
-\hrule
-
-
-\section*{MP for
-bipartite bnets}
+\section*{BP for
+bipartite bnets (BP-BB)}
 For
 a bipartite
-bnet as defined before,
+bnet as defined above,
 with
 root nodes $\rvx_i$
 and leaf nodes $\rvf_\alp$,
@@ -2314,10 +2324,11 @@ m_{\alp\rdart i}
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=3.5in]
+\includegraphics[width=3in]
 {mpass/mpass-messages-bip.png}
-\caption{This figure is equivalent to
+\caption{
 Fig.\ref{fig-messages-gen}
+becomes this figure
 for the special case of a
 bipartite bnet. Union of green nodes and the red node = full
  neighborhood of yellow node.
@@ -2333,22 +2344,21 @@ Next we will
 show how
 to find $m_{\alp\ldart i}^{(t)}$
 and $m_{\alp\rdart i}^{(t)}$
-from other messages at times
- $t$ and  $t-1$.
-
+from 
+$m_{\alp\ldart i}^{(t-1)}$
+and $m_{\alp\rdart i}^{(t-1)}$.
 \begin{enumerate}
 
 \item {\bf
-We find $m_{\alp\ldart i}^{(t)}$
- as follows.}
+Traversing an $x$ (i.e., root) node.}
 
 See
 the
-$m_{\rvf_2\ldart\rvx_1 }$ panel of
+$m_{\rvf_2\ldart\rvx_2 }$ panel of
 Fig.\ref{fig-messages-bip}.
 
 For $i=0, 1, \ldots , nx-1$, if
- $\alp\in nb(i)$, then
+ $\alp\in nb(i)$, then,
 
 \beq
 m^{(t)}_{\alp\ldart i }(x_i)
@@ -2362,16 +2372,16 @@ m^{(t-1)}_{\beta\rdart i}(x_i)
 whereas if  $\alp\notin nb(i)$
 
 \beq
-m^{(t)}_{\alp\ldart i}=
-m^{(t-1)}_{\alp\ldart i}
+m^{(t)}_{\alp\ldart i}(x_i)=
+m^{(t-1)}_{\alp\ldart i}(x_i)
 \;.
 \eeq
 
 \item {\bf
-We find $m_{\alp\rdart i}^{(t)}$ as follows.}
+Traversing an $f$ (i.e., leaf) node.}
 
 See the
-$m_{\rvf_1\rdart \rvx_2}$ panel
+$m_{\rvf_2\rdart \rvx_2}$ panel
 of Fig.\ref{fig-messages-bip}.
 
 For $\alp=0, 1, \ldots, nf-1$, if
@@ -2388,7 +2398,7 @@ m^{(t-1)}_{\alp\ldart k }
 (x_k)
 \\
 &=&
-\eps^{(t-1)}_{(x_k)_{k\in nb(\alpha)-i}}[
+E^{(t-1)}_{(x_k)_{k\in nb(\alpha)-i}}[
 f_\alpha(x_{nb(\alpha)})]
 \;,
 \label{eq-mp-iter2}
@@ -2416,41 +2426,436 @@ $\prod_{k\in \emptyset}F(k)=1$.
 {\bf Claim:}
 
 \beq
-P(x_i)=
+P(x_i|\eps)=
 \lim_{t\rarrow
 \infty}\caln(!x_i)\prod_{\alp\in nb(i)}
-m^{(t)}_{\alp\ldart i}(x_i)
+m^{(t)}_{\alp\rdart i}(x_i)
 \;
 \label{eq-m-prod}
 \eeq
 and
 
 \beq
-P(x_{nb(\alp)})=\lim_{t\rarrow \infty}
+P(x_{nb(\alp)}|\eps)=\lim_{t\rarrow \infty}
 \caln(!x_{nb(\alp)})
 f_\alp(x_{nb(\alp)})
-\prod_{i\in nb(\alp)}
-m^{(t)}_{\alp\rdart i}(x_i)
+\prod_{k\in nb(\alp)}
+m^{(t)}_{\alp\ldart k}(x_k)
 \;.
 \label{eq-f-m-prod}
 \eeq
-\hrule
 
-Eq.(\ref{eq-m-prod})
-and the recursive  message
-passing equations
-that yield
-the messages
-on the right hand side of
-Eq.(\ref{eq-m-prod}), together
-yield what
+
+\hrule\noindent{\bf 
+BP-BB and general BP agree on Markov chains}
+
+It is instructive to 
+compare the belief values (i.e., $P(x_i|\eps)$)
+obtained by
+ applying the 
+general (i.e., polytree)  BP  
+and  BP-BB algorithms  to a Markov chain.
+Next we show that both algorithms 
+yield the same belief values.
+
+\begin{figure}[h!]
+$$
+\begin{array}{cc}
+\xymatrix{
+&2\ar[dr]\ar[dl]\ar@[red]@{-->}@<-1ex>[dl]
+\\
+\beta
+&&\alp\ar@[red]@{.>}@<-1ex>[ul]
+}
+&
+\xymatrix{
+&2\ar[dr]\ar[dl]\ar@[red]@{-->}@<1ex>[dr]
+\\
+\beta\ar@[red]@{.>}@<1ex>[ur]
+&&\alp
+}
+\\
+\\
+(a)&(b)
+\end{array}
+$$
+\caption{Traversing a root node of a Markov chain
+(a)Propagation towards left (i.e., towards future).
+(b)Propagation towards right (i.e., towards past).}
+\label{fig-mp-markov-trans-root}
+\end{figure}
+
+Consider
+the BP-BB rule for traversing a root node. 
+When traveling
+towards the left
+as in Fig.\ref{fig-mp-markov-trans-root} (a), 
+it implies that
+
+\beq
+m_{\alp \rdart 2}(x_2)= m_{\beta \ldart 2}(x_2)
+\;,
+\eeq
+and
+when traveling
+towards the right
+as in Fig.\ref{fig-mp-markov-trans-root} (b), 
+it implies that
+
+\beq
+m_{\beta\rdart 2}(x_2)=m_{\alp\ldart 2}(x_2)
+\;.
+\eeq
+
+
+
+\begin{figure}[h!]
+$$
+\begin{array}{cc}
+\xymatrix{
+3\ar[dr]
+&&
+2\ar[rd]\ar[dl]\ar@[red]@{-->}@<-1ex>[dl]
+&&
+1\ar[ld]\ar@[red]@{-->}@<1ex>[dl]
+\\
+&\beta
+&&\alp\ar@[red]@{.>}@<-1ex>[ul]
+}
+&
+\;\;\;\;\;
+\xymatrix{
+3\ar[dr]
+&&
+2\ar[rd]\ar[dl]\ar@[red]@{-->}@<1ex>[dr]
+&&
+1\ar[ld]
+\\
+&\beta\ar@[red]@{.>}@<1ex>[ur]
+&&\alp\ar@[red]@{.>}@<-1ex>[ur]
+}
+\\
+\\
+(a)&(b)
+\end{array}
+$$
+\caption{Traversing a leaf node of a Markov chain
+(a)Propagation towards left (i.e., towards future).
+(b)Propagation towards right (i.e., towards past).}
+\label{fig-mp-markov-trans-leaf}
+\end{figure}
+
+Now consider the BP-BB rule for traversing a leaf node.
+When
+traveling to the left as
+in Fig.\ref{fig-mp-markov-trans-leaf} (a),
+it implies that
+
+\beq
+\underbrace{m_{\alp\rdart 2}(x_2)}_{\lam}
+=
+\sum_{x_1}
+P(x_2|x_1) 
+\underbrace{m_{\alp\ldart 1}(x_1)}_
+{\pi}
+\;.
+\label{eq-markov-leaf-left}
+\eeq
+One can rewrite the
+left and right
+hand sides (LHS, RHS)
+of Eq.(\ref{eq-markov-leaf-left})
+as follows
+ 
+
+
+\beq
+RHS=
+\sum_{x_1}
+P(x_2|x_1) 
+\pi_{\alp\ldart 1}(x_1)
+\;,
+\eeq
+and
+
+\beq
+LHS=m_{\alp\rdart 2}(x_2)
+=
+m_{\beta\ldart 2}(x_2)
+=
+\pi_{\beta\ldart 2}(x_2)
+\;,
+\eeq
+Therefore
+ 
+\beq
+\pi_{\beta\ldart 2}(x_2)
+\sum_{x_1}
+P(x_2|x_1) 
+\pi_{\alp\ldart 1}(x_1)
+\;.
+\eeq
+
+
+Once again, consider the BP-BB rule
+ for traversing a leaf node.
+When
+traveling to the right as
+in Fig.\ref{fig-mp-markov-trans-leaf} (b),
+it implies that
+
+
+\beq
+\underbrace{m_{\alp\rdart1}(x_1)}_{\lam}
+=
+\sum_{x_2}
+P(x_2|x_1) 
+\underbrace{m_{\alp\ldart 2}(x_2)}_
+{\pi}
+\label{eq-markov-leaf-right}
+\;.
+\eeq
+One can rewrite the
+left and right
+hand sides (LHS, RHS)
+of Eq.(\ref{eq-markov-leaf-right})
+as follows
+
+
+\beqa
+RHS=
+&=&
+\sum_{x_2}
+P(x_2|x_1) 
+\pi_{\alp\ldart 2}(x_2)
+\\
+&=&
+\sum_{x_2}
+P(x_2|x_1) 
+\lam_{\beta\rdart 2}(x_2)
+\;,
+\eeqa
+and
+
+\beq
+LHS=
+\lam_{\alp\rdart 1}(x_1)
+\;.
+\eeq
+Therefore,
+
+\beq
+\lam_{\alp\rdart 1}(x_1)=
+\sum_{x_2}
+P(x_2|x_1) 
+\lam_{\beta\rdart 2}(x_2)
+\;.
+\eeq
+
+Finally, note that
+\beqa
+P(x_2|\eps)&=&
+\caln(!x_2)
+m_{\beta\rdart 2}(x_2)
+m_{\alp\rdart 2}(x_2)
+\\
+&=&
+\caln(!x_2)
+m_{\alp\ldart 2}(x_2)
+m_{\alp\rdart 2}(x_2)
+\\
+&=&
+\caln(!x_2)
+\pi_{\alp\ldart 2}(x_2)
+\lam_{\alp\rdart 2}(x_2)
+\\
+&=&
+\caln(!x_2)
+P(x_2|\eps^-)
+P(x_2|\eps^+)
+\eeqa
+and
+
+\beqa
+P(x_2, x_1)
+&=&
+\caln(!x_2, !x_1)
+P(x_2|x_1)
+m_{\alp\ldart 1}(x_1)
+m_{\alp\ldart 2}(x_2)
+\\
+&=&
+\caln(!x_2, !x_1)
+P(x_2|x_1)
+\pi_{\alp\ldart 1}(x_1)
+\pi_{\alp\ldart 2}(x_2)
+\;.
+\eeqa
+
+\hrule\noindent {\bf BP-BB and general BP 
+agree on tree bnets.}
+
+It is instructive to 
+compare the belief values (i.e., $P(x_i|\eps)$)
+obtained by
+ applying the 
+general (i.e., polytree)  BP  
+and  BP-BB algorithms  to a tree bnet.
+Next we show that both algorithms 
+yield the same belief values.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4in]
+{mpass/mpass-messages-bip-tree.png}
+\caption{Subgraph of a tree bnet. 
+This 
+is the same as 
+Fig.\ref{fig-messages-gen},
+except that here the yellow
+node has a single
+parent because 
+this is a subgraph of a tree
+bnet, not
+of an arbitrary
+bnet like Fig.\ref{fig-messages-gen}.
+The subgraph has been
+converted to a subgraph
+of a bipartite bnet
+by  adding a root node, labeled
+by a Greek letter, 
+at the center
+of each arrow of the tree bnet.
+Red arrows indicate
+the direction
+of message info flow.}
+\label{fig-messages-bip-tree}
+\end{figure}
+
+Applying to the left panel of
+Fig.\ref{fig-messages-bip-tree}
+ the BP-BB rule
+for traversing a root node, we get
+
+\beq
+m_{\alp\ldart \rvx}(x)=
+\prod_{i}
+m_{\beta_i\rdart \rvx}(x)
+\;.
+\label{eq-mp-tree-trans-x-rule1}
+\eeq
+Applying to the left panel of
+Fig.\ref{fig-messages-bip-tree}
+ the BP-BB rule
+for traversing a leaf node, we get
+
+\beq
+m_{\alp\rdart\rva}(a)=
+\caln(!a)
+\sum_x
+m_{\alp\ldart \rvx}(x)P(x|a)
+\;.
+\label{eq-mp-tree-trans-alp-rule1}
+\eeq
+Combining Eqs.(\ref{eq-mp-tree-trans-x-rule1})
+and (\ref{eq-mp-tree-trans-alp-rule1}), we get
+
+\beq
+m_{\alp\rdart\rva}(a)=
+\caln(!a)
+\sum_x P(x|a)
+\prod_{i}
+m_{\beta_i\rdart \rvx}(x)
+\;,
+\eeq
+which can be
+rewritten as 
+
+\beq
+\lam_{\rvx\rdart\rva}(a)=
+\caln(!a)
+\sum_x P(x|a)
+\underbrace{\prod_{i}
+\lam_{\rvb_i\rdart \rvx}(x)}_
+{\lam_\rvx(x)}
+\;.
+\label{eq-tree-rule1}
+\eeq
+Eq.\ref{eq-tree-rule1} is just RULE 1
+for general BP.
+
+Applying to the right panel of
+Fig.\ref{fig-messages-bip-tree}
+ the BP-BB rule
+for traversing a root node, we get
+
+\beq
+m_{\beta_i\ldart \rvx}(x)=
+\caln(!x)
+m_{\alp\rdart \rvx}(x)
+\prod_{k\neq i}m_{\beta_k\rdart\rvx}(x)
+\label{eq-mp-tree-trans-x-rule2}
+\eeq
+Applying to the right panel of
+Fig.\ref{fig-messages-bip-tree}
+ the BP-BB rule
+for traversing a leaf node, we get
+
+\beqa
+m_{\alp\rdart\rvx}(x)
+&=&
+\sum_a P(x|a) m_{\alp\ldart a}(a)
+\\
+&=&
+\sum_a P(x|a) \pi_{\rvx\ldart a}(a)
+\\
+&=&
+\pi_\rvx(x)
+\label{eq-mp-tree-trans-alp-rule2}
+\;.
+\eeqa
+Combining Eqs.(\ref{eq-mp-tree-trans-x-rule2})
+and (\ref{eq-mp-tree-trans-alp-rule2}),
+we get
+
+\beq
+\pi_{\rvb_i\ldart \rvx}(x)=
+\caln(!x)
+\pi_\rvx(x)
+\prod_{k\neq i}\lam_{\rvb_k\rdart\rvx}(x)
+\;.
+\label{eq-tree-rule2}
+\eeq
+Eq.(\ref{eq-tree-rule2}) is just RULE 2
+of general BP.
+
+
+
+
+\section*{BP-BB and sum-product decomposition}
+
+
+BP-BB
+yields what
 is often
 referred to as
 a {\bf  sum-product decomposition}.
 I don't like that name
 because it is unnecessarily
-confusing and it fails to convey the
-recursive nature of the decomposition.
+confusing, and it fails to convey the
+recursive nature\footnote{
+By ``recursive nature",
+we mean bootstraped definitions 
+that lead to nested sums. 
+The recursive nature 
+of BP
+is evident from 
+RULES 1 and 2
+that define $\lam$'s 
+and $\pi$'s
+in terms of other 
+$\lam$'s and $\pi$'s.}
+of the decomposition.
 I prefer to call it a {\bf
 recursive sum of products
 (RSOP) decomposition},
@@ -2459,7 +2864,7 @@ in this chapter.
 
 Expressing the marginals of a bnet
 as RSOPs,
-which is what MP does,
+which is what BP does,
 reduces the complexity
 of the calculation.
 (i.e.,
@@ -2468,176 +2873,39 @@ of additions
 and multiplications
 that need to be performed)
 That makes
-using the MP
+using the BP
 algo very advantageous.
-
-
-
-
-Note that given
-a function $g:
-S_{\rvx_0}\times S_{\rvx_1}
-\times \ldots \times S_{\rvx_{nx-1}}
-\rarrow \RR$,
-one can find
-$\argmax_{x^{nx}} g(x^{nx})$ (or
-argmin)
-by replacing all
-sums over $x$
-components by argmax's (or argmin's)
-in the MP algorithm.
-
-
-
-\section*{Example of MP for
-bipartite bnets}
-
-Consider
-the bipartite
-bnet \ref{fig-part3-tree}.
-We define its messages-bnet
-to be Fig.\ref{fig-part3-tree-mp-bnet}.
-For that messages-bnet,
-the node TPMs, printed in blue,
-are as follows.
-They come directly
-from Eqs.(\ref{eq-mp-iter1}
-and (\ref{eq-mp-iter2}).
-
-\beq\color{blue}
-P(A) = P_\rvA(A)
-\eeq
-
-\beq\color{blue}
-P(m^{(t)}_{\alp\rdart i}(\cdot)\cond
-pa[m^{(t)}_{\alp\rdart i}(\cdot)]
-)=
-\indi(\;\;\;
-m^{(t)}_{\alp\rdart i}(x_i)
-=
-\eps^{(t-1)}_{(x_k)_{k\in nb(\alpha)-i}}[
-f_\alpha(x_{nb(\alpha)})]
-\;\;\;)
-\eeq
-
-\beq\color{blue}
-P(
-m^{(t)}_{\alp\ldart i }(\cdot)
-\cond
-pa[m^{(t)}_{\alp\ldart i }(\cdot)]
-)
-=
-\indi(\;\;\;
-m^{(t)}_{\alp\ldart i }(x_i)
-=
-\prod_{
-\beta\in nb(i)-\alpha}
-m^{(t-1)}_{\beta\rdart i}(x_i)
-\;\;\;)
-\eeq
-
-
-\begin{figure}[h!]
-$$\xymatrix{
-\rvA\ar[d]\ar[rrd]
-\\
-m^{(1)}_{\ul{P_{\rvA_0|\rvA}}\ldart\rvA}\ar[d]
-&&
-m^{(1)}_{\ul{P_{\rvA_1|\rvA}}\ldart\rvA}\ar[d]
-\\
-m^{(2)}_{ \ul{P_{\rvA_0|\rvA}}\rdart\rvA_0}
-\ar[d]\ar[dr]
-&&
-m^{(2)}_{ \ul{P_{\rvA_1|\rvA}}\rdart\rvA_1}
-\\
-m^{(3)}_{
-\ul{P_{\rvA_{00}|\rvA_0}}\ldart \rvA_0}\ar[d]
-&
-m^{(3)}_{
-\ul{P_{\rvA_{01}|\rvA_0}}\ldart \rvA_0}\ar[d]
-\\
-m^{(4)}_{
- \ul{P_{\rvA_{00}|\rvA_0}}\rdart\rvA_{00}}
-&m^{(4)}_{
- \ul{P_{\rvA_{01}|\rvA_0}}\rdart\rvA_{00}}
-}
-$$
-\caption{messages-bnet
-corresponding
-to tree bnet Fig.\ref{fig-part3-tree}.}
-\label{fig-part3-tree-mp-bnet}
-\end{figure}
-
-Note that
-for the tree bnet
-Fig.\ref{fig-part3-tree}, one has
-\beqa
-P(A_{00})&=&
-\sum_{A, A_0}
-P(A_{00}|A_0)P(A_0|A)P(A)
-\\
-&=&
-\sum_{A_0}\left\{
-P(A_{00}|A_0)
-\sum_A
-\left\{
-P(A_0|A)P(A)
-\right\}
-\right\}
-\label{eq-sum-p}
-\eeqa
-The right hand side
-of Eq.(\ref{eq-sum-p})
- is expressed as a
-recursive
-sum of products (RSOP).
-In fact,
-if we consider
-the path
+For instance, consider 
+a Markov chain
+$\rvx_{n-1}\larrow\cdots\larrow\rvx_1\larrow \rvx_0$.
+Note that if one calculates 
+$P(x_{n-1})$ as follows
 
 \beq
-\xymatrix{
-\rvA_{00}\ar[r]
-&\ul{P_{\rvA_{00}|\rvA_0}}
-&\rvA_0\ar[l]\ar[r]
-&\ul{P_{\rvA_0|\rvA}}
-&\rvA\ar[l]\ar[r]
-&\ul{P_\rvA}
-}
+P(x_{n-1})=
+\left[\sum_{x_{n-2}} P(x_{n-1}|x_{n-2})\ldots
+\left[\sum_{x_1} P(x_2|x_1)
+\left[\sum_{x_0}P(x_1|x_0)P(x_0)\right]\right]\ldots\right]
+\;,
 \eeq
-in the bipartite bnet
- Fig.\ref{fig-part3-tree-junc-tree},
-we get the same RSOP
-from the MP algorithm:
+we need to perform 
+ $2(n-1)$ additions and $3(n-1)$ multiplications.
+On the other hand, if we calculate $P(x_{n-1})$
+as follows 
 
 \beq
-P(A_{00})=
-\caln(!A_{00})
-m_{ \ul{P_{\rvA_{00}|\rvA_0}}\rdart\rvA_{00}}(A_{00})
+P(x_{n-1})=
+\sum_{x_{n-2}} \ldots
+\sum_{x_1} 
+\sum_{x_0}
+P(x_{n-1}|x_{n-2})
+\ldots
+P(x_2|x_1)
+P(x_1|x_0)
+P(x_0)
+\;,
 \eeq
-
-\beq
-m_{ \ul{P_{\rvA_{00}|\rvA_0}}\rdart\rvA_{00}}(A_{00})
-=
-\sum_{A_0}
-P(A_{00}|A_0)
-m_{\ul{P_{\rvA_{00}|\rvA_0}}\ldart \rvA_0}(A_0)
-\eeq
-
-\beq
-m_{\ul{P_{\rvA_{00}|\rvA_0}}\ldart \rvA_0}(A_0)
-=
-m_{\ul{P_{\rvA_{0}|\rvA}}\rdart\rvA_0 }(A_0)
-\eeq
-
-\beq
-m_{\ul{P_{\rvA_{0}|\rvA}}\rdart \rvA_0}(A_0)=
-\sum_{A}P(A_0|A)
-m_{\ul{P_{\rvA_{0}|\rvA}}\ldart \rvA}(A)
-\eeq
-
-\beq
-m_{\ul{P_{\rvA_{0}|\rvA}}\ldart \rvA}(A)
-=P(A)
-\eeq
+we must perform $3^n-1$ additions and
+ $3^n(n-1)$
+multiplications.
 
