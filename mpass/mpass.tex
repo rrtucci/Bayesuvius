@@ -124,23 +124,20 @@ $\rveps^+\larrow\rvx\larrow \rveps^-$.
 The $\pi$  messages
 (probability functions)
 travel downstream (i.e., 
+they carry info
 in the direction
 of the graph arrows, towards the future)
-and are indicated by dashed arrows. 
+and are indicated by a dashed arrow
+or by a left double arrow $\ldart$. 
 The $\lam$  messages 
 (likelihood functions) travel 
-upstream (i.e., opposite to 
+upstream (i.e., they 
+carry info opposite to 
 direction of the graph arrows,
 towards the past)
 and are indicated
-by dotted arrows.
-I call 
-the symbols $\ldart$ and
-$\rdart$,
-a left dart and a right dart. These darts
- indicate the direction
-in which
-the $\pi$ and $\lam$ messages travel.
+by a dotted arrow
+or by a right double arrow $\rdart$.
 $\rveps^+$
 stands for future evidence and 
 $\rveps^-$ for past evidence. 
@@ -240,7 +237,11 @@ P(\eps^+|x)P(x|\eps^-)
 \label{eq-2-sided-bayes}
 \;.
 \eeqa
-Note that Bayes rule would affirm that
+Note that Bayes rule would affirm
+ that\footnote{As usual in this book,
+$\caln(!x)$ means
+a constant that is independent of $x$.}
+
 \beq
 P(x|\eps^+)=
 \caln(!x)
@@ -688,7 +689,7 @@ the bnet Fig.\ref{fig-mp-5chain}.
 The TPM, printed in blue,
 for the  node $\ucalm_\rvx$
 of the memory bnet 
-Fig.\ref{fig-mp-5chain}, is as follows
+Fig.\ref{fig-mem-5chain}, is as follows
 
 \beq\color{blue}
 P(\calm_{\rvx_i}|
@@ -935,14 +936,14 @@ for all $i$).
 For that, one can use
 
 \beq
-\pi^{(0)}_{\rvx_0}
+\pi^{(0)}_{\ul{px}_0\ldart \rvx_0}
 =
-\delta(x_0,x'_0)
+P(x_0)
 \;,
 \eeq
 
 \beq
-\lam^{(0)}_{\rvx_{nx-1}}
+\lam^{(0)}_{\ul{cx}_i\rdart\rvx_{nx-1}}(x_{nx-1})
 =
 \delta(x_{nx-1}, x'_{nx-1})
 \;.
@@ -1027,8 +1028,7 @@ which we will call the
 the memory overlap conditions translate the information
 from time $t-1$ to $t$, and
 then the local computation translates 
-$IN$ to $OUT$ at fixed time $t$
-and location $\rvx_i$.
+$IN$ to $OUT$ at fixed time $t$.
 
 
 
@@ -1040,54 +1040,23 @@ Consider Fig.\ref{fig-pi-lam},
 which illustrates
 a bnet node $\rvx$ receiving and sending
 messages to its neighbors.
-
-Note that in Fig.\ref{fig-pi-lam},
-the $\lam$ or $\pi$
-subscripts $\rdart$
-and $\ldart$
-indicate  the direction of the
- message.\footnote{I call 
-the symbols $\ldart$ and
-$\rdart$,
-a left and right darts (or implies, or fat arrows).
-Their fatness is intended to evoke
-a payload of
-$\pi \& \lam$ 
- (i.e., past \& future) information.
-On the other hand, 
-I denote the DAG arrows with thin, 
-emaciated  
-plain arrows 
- because they are
-causal direction indicators 
-rather than
-carriers of $\pi\& \lam$ information.}
-A function is labeled
-$\lam$ (a likelihood
-function)  if the
-message direction,
- and the  graph arrow,
- point in opposite directions
-(i.e, message ``swimming upstream",
-towards the past),
-whereas a
-function is labeled $\pi$
-(a probability function)  if
-they point in the same direction
-(i.e, message ``swimming downstream",
-towards  the future).
-For example, in
-$\lam_{\rvb\rdart\rvx}(x)$,
-the message goes from
-$\rvb$ to $\rvx$ and the
-graph arrow
-points in the opposite direction.
-In
-$\pi_{\rvb\ldart\rvx}(x)$,
-the message goes from
-$\rvx$ to $\rvb$ and the
-graph arrow
-points in the same direction.
+The $\pi$  messages
+(probability functions)
+travel downstream (i.e., 
+they carry info
+in the direction
+of the graph arrows, towards the future)
+and are indicated by a dashed arrow
+or by a left double arrow $\ldart$. 
+The $\lam$  messages 
+(likelihood functions) travel 
+upstream (i.e., they 
+carry info opposite to 
+direction of the graph arrows,
+towards the past)
+and are indicated
+by a dotted arrow
+or by a right double arrow $\rdart$.
 
 Note that argument $arg$ of the $\pi(arg)$
 and $\lam(arg)$
@@ -1352,9 +1321,7 @@ is a leaf node, use $\lam_\rvx(x)=1$.)
 From
 the $\lam_{\rvx \rdart\rva}$
 panel of Fig.\ref{fig-messages-gen},
- we get\footnote{As usual in this book,
-$\caln(!x)$ means
-a constant that is independent of $x$.}
+ we get
 
 \beqa
 \label{eq-mp-rule1}
@@ -1403,7 +1370,8 @@ we get
 \eeq
 (boundary case:
 if $\rvx$ is a leaf node, use
-$\pi_{\rvb_i\ldart\rvx}(x)=P(x)$
+$\pi_{\rvb_i\ldart\rvx}(x)=
+\caln(!x)\pi_\rvx(x)$
 .)
 
 \end{itemize}
@@ -1437,7 +1405,7 @@ of messages received from all
 parents and children of $\rvx=x$.
 
 \hrule\noindent{\bf How BP algo
-for polytrees reduces to 
+for polytrees reduces to the 
 BP algo for Markov chains}
 
 It is instructive
@@ -1483,7 +1451,7 @@ RULE 1 given by Eq.(\ref{eq-mp-rule1}) reduces to
 RULE 2 given by Eq.(\ref{eq-mp-rule2}) reduces to
 
 \beqa
-\pi_{\rvb\ldart \rvx}
+\pi_{\rvb\ldart \rvx}(x)
 &=&
 \caln(!x)\pi_\rvx(x)
 \\
@@ -1552,7 +1520,7 @@ of Ref.\cite{pearl-1988book}
 uses $-$ indicate the future
 and $+$ to indicate
  the past. This
-is the opposite of us.}
+is the opposite of our notation.}
 
 $\rveps=\rveps^+_\rvx \cup \eps^-_\rvx$
 
@@ -1564,15 +1532,11 @@ P(x|\eps^-_\rvx)
 
 \beq
 \pi_{ \rvx\ldart\rva_i}(a_i)=
-\pi(\rvx\ldart\rva_i=a_i)=
-\pi(\rvx\ldart a_i)=
 P(a_i|\eps^-_{\rvx \rva_i})
 \eeq
 
 \beq
 \pi_{ \rvb_i\ldart\rvx}(x)=
-\pi(\rvb_i\ldart\rvx=x)=
-\pi(\rvb_i\ldart x)=
 P(x|\eps^-_{\rvx \rvb_i})
 \eeq
 
@@ -1582,15 +1546,11 @@ P(x|\eps^-_{\rvx \rvb_i})
 
 \beq
 \lam_{\rvb_i\rdart \rvx} (x)=
-\lam(\rvb_i\rdart \rvx=x)=
-\lam(\rvb_i\rdart x)=
 P(\eps^+_{\rvx \rvb_i}|x)
 \eeq
 
 \beq
 \lam_{\rvx\rdart \rva_i} (a_i)=
-\lam(\rvx\rdart \rva_i=a_i)=
-\lam(\rvx\rdart a_i)=
 P(\eps^+_{\rvx \rva_i}|a_i)
 \eeq
 
