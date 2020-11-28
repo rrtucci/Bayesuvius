@@ -1495,25 +1495,10 @@ $\rveps$= set of nodes for which
  there is evidence; that is,
 $\rveps=\eps$, so
 the state of these nodes is fixed.
-We always assume $\rvx\notin \rveps$
-because if $\rvx\in \rveps$,
-and $\rveps$ assigns $b$ to $\rvx$,
-then one can add an arrow 
-coming out of $\rvx$
-to a new leaf node $\rvb$ with TPM
-$P(b|x)=\delta(b,x)$.
 
-$\rveps^+_\rvx$= set of
-evidence
-nodes that are 
-descendants (in its 
-future) of $\rvx$.
 
-$\rveps^-_\rvx$= set of
-evidence
-nodes that are
-ancestors (in its 
-past) of $\rvx$.\footnote{
+$\rveps^-_\rvx= \rveps\cap an(\rvx)$
+(evidence in past of $\rvx$)\footnote{
 Careful:
 Chapter 4
 of Ref.\cite{pearl-1988book}
@@ -1522,7 +1507,23 @@ and $+$ to indicate
  the past. This
 is the opposite of our notation.}
 
-$\rveps=\rveps^+_\rvx \cup \eps^-_\rvx$
+$\eps^-_{\rvx \rva_i}=
+\eps^-_{\rvx}\cap an(\rva_i)$.
+
+Note that $\eps^-_\rvx=\cup_i 
+\eps^-_{\rvx \rva_i}$
+
+$\rveps^+_\rvx= \rveps\cap [de(\rvx)\cup\rvx]$
+(evidence in future of $\rvx$)
+
+$\eps^+_{\rvx \rvb_i}=
+\eps^+_{\rvx}\cap
+ [de(\rvb_i)\cup \rvb_i]$.
+
+Note that $\eps^+_\rvx=\cup_i 
+\eps^+_{\rvx \rvb_i}$
+
+Note that $\rveps=\rveps^+_\rvx \cup \eps^-_\rvx$
 
 \beq
 \pi_{ \rvx}(x)
@@ -1559,20 +1560,6 @@ P(\eps^+_{\rvx \rva_i}|a_i)
 {\bf Expansions
 of $\lam_\rvx(x)$ and $\pi_\rvx(x)$
 into products of single node messages.}
-
-Note that
-\beq
-\eps^+_\rvx=\cup_i \eps^+_{\rvx \rvb_i}
-\;,
-\eeq
-and
-
-\beq
-\eps^-_\rvx=\cup_i \eps^-_{\rvx \rva_i}
-\;.
-\eeq
-Therefore,
-
 
 \beqa
 \underbrace{
