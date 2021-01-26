@@ -16,7 +16,7 @@ use Pearl's causal DAGs to discuss PO theory.
 Pearl has shown that PO theory
 can be substantially clarified
 and extended by using
-the language causal DAGs.
+the language of causal DAGs.
 The d-separation theorem 
 that we discuss in  Chapter \ref{ch-dsep}
 is especially
@@ -65,7 +65,7 @@ Suppose a {\bf population
 of individuals} $\s=0,1,2, \ldots, nsam-1$
 is given ($d^\s=1$) or
 not given ($d^\s=0$)
-a {\bf treatment drug dose},
+a {\bf treatment drug dose} $d^\s$,
 and that
 the 
  {\bf treatment outcome (i.e., response)}
@@ -211,8 +211,8 @@ are
 our starting
 point in discussing PO theory. 
  $G$ is for 
-a single unit $\s$ of the 
-population. 
+a single individual $\s$ of the 
+population.
 Bnet $G_{den}$ is the 
 DEN counterpart 
 to $G$.
@@ -227,10 +227,10 @@ abbreviate
 $\rvX\sqsig=\rvX^\s$
 for
 $X\in \{d, x, y\}$ 
-and $\s=\{0,1,2, \ldots, nsam-1\}$.
+and for $\s=\{0,1,2, \ldots, nsam-1\}$.
 
 
-For each unit (aka individual, sample) 
+For each individual (aka unit, sample) 
 $\s=0, 1, 2, \ldots nsam-1$, let:
 
 $\rvd^\s\in\bool$: treatment discrete drug dose,  1 if treated and 0 if untreated
@@ -284,7 +284,7 @@ P_{\rvx}(x^\s)
 \eeq
 
 \beq\color{blue}
-P(d^\s)=
+P(d^\s|x^\s)=
 P_{\rvd|\rvx}(d^\s|x^\s)
 \eeq
 
@@ -325,7 +325,7 @@ P(x|u_\rvx)= \indi(\;\;x=u_\rvx\;\;)
 
 \beq\color{blue}
 P(d|x, u_\rvd)=
-\indi( \;\; d= f_\rvd(c, u_\rvd)
+\indi( \;\; d= f_\rvd(x, u_\rvd)
 \;\;)
 \eeq
 
@@ -482,7 +482,7 @@ the following
 expected values of
 $\rvy^\s$
 in terms of the TPMs of
-bnet $G_{do}$:
+bnet $G_{do+}$:
 
 \beq
 \caly_{|\td,x}=E_\s E_{|\td,x,\s}[\rvy^\s(\td)]
@@ -576,7 +576,7 @@ dose he actually takes.
 If $\rvd=\rvtd$, the
 patient is compliant,
 and if $\rvd\neq\rvtd$, he is
-non-complaint.
+non-compliant.
 
 
 It is convenient to define
@@ -606,8 +606,8 @@ are defined in terms
 of the TPMs of bnet $G$.
 Note that
 the prior
-$P(\td)$ is not arbitrary,
-but one also obtained from
+$P(\td)$ is not arbitrary;
+it's calculated from
 the TPMs of bnet $G$.
 
 
@@ -693,10 +693,12 @@ E_{|d} [\rvy(\td)]
 
 
 $\caly_{0|0}, \caly_{1|1}$
-are {\bf factual} (i.e., complaint)
+are {\bf factual} 
+(for compliant patients)
 whereas 
 $\caly_{0|1}, \caly_{1|0}$
-are {\bf counterfactual} (i.e., non-complaint).
+are {\bf counterfactual} 
+(for non-compliant patients).
 
 \section*{Translation Dictionary}
 
@@ -750,9 +752,9 @@ translating
 from the standard PO notation 
 of Ref.\cite{book-mixtape}
 to our notation. $d,\td\in \bool$.
-PO doesn't use $\caly_{|\td}$ so often
+PO rarely uses $\caly_{|\td}$, so
 $E[Y_i(d)]$ and 
-$E[Y_i|D_i=d]$ are both used to mean $\caly_d$.
+$E[Y_i|D_i=d]$ are often  both used to mean $\caly_d$.
 I find
  the standard PO notation 
 confusing because it often uses $D_i$
@@ -778,23 +780,24 @@ which is not necessarily true.
 differences (aka treatment effects)}
 
 
-Note the difference
-between $\caly_d$ and $\caly_\td$.
+Note the 
+ $\caly_d$ and $\caly_{|\td}$
+are not the same thing.
 \beq
 \caly_{|\td}=
 \sum_d \caly_{d|\td}
 =
-\caly_{\td|\td} +
- \caly_{!\td|\td}
+\caly_{0|\td} +
+ \caly_{1|\td}
 \eeq
 whereas
 
 \beq
 \caly_d=
 \sum_\td \caly_{d|\td}P(\td)
-= \caly_{d|d}\pi_d
+= \caly_{d|0}\pi_0
 +
-\caly_{d|!d}\pi_{!d}
+\caly_{d|1}\pi_{1}
 \;.
 \eeq
 
@@ -929,15 +932,17 @@ from confounders)
 \rvy^\s(\rvtd^\s)\perp_P \rvd^\s
 \;.
 \eeq
-This is satisfied by $G_{do}$, as implied by 
-the d-separation theorem 
-(see Chapter \ref{ch-dsep})
-after checking that
+This is satisfied by $G_{do}$.
+To prove so,
+check that
 
 \beq
 \rvy^\s(\rvtd^\s)\perp_{G_{do}} \rvd^\s
-\;.
+\;
 \eeq
+and then invoke
+the d-separation theorem 
+(see Chapter \ref{ch-dsep}).
 When confounders are ignorable, we have
 
 \beq
@@ -986,18 +991,19 @@ from confounders)
  if
 
 \beq
-\rvy^\s(\rvtd^\s)\perp_P \rvd^\s, \rvx^\s
+\rvy^\s(\rvtd^\s)\perp_P \rvd^\s|\rvx^\s
 \;.
 \eeq
-This is satisfied by $G_{im}$, as implied by 
-the d-separation theorem 
-(see Chapter \ref{ch-dsep})
-after checking that
+This is satisfied by $G_{im}$. To
+prove this, check that
 
 \beq
-\rvy^\s(\rvtd^\s)\perp_{G_{im}} \rvd^\s, \rvx^\s
-\;.
+\rvy^\s(\rvtd^\s)\perp_{G_{im}} \rvd^\s|\rvx^\s
+\;
 \eeq
+and then invoke
+the d-separation theorem 
+(see Chapter \ref{ch-dsep}).
 When confounders are 
 conditionally ignorable, we have
 
@@ -1163,8 +1169,8 @@ to Tables
 and
 \ref{tab-pot-out-missing3}, 
 $\xi(\vec{d})=1$
-for the true (i.e., $H_0$
-satisfying)  vector $\vec{d}=\vec{d}_0$,
+for the true (i.e., $H_0$-satisfying) 
+ vector $\vec{d}=\vec{d}_0$,
 and $\xi(\vec{d})=2$ for
 one possible
 $H_1$-satisfying vector  
@@ -1376,16 +1382,16 @@ $\eps\neq 0$
 To do an approximate strata-match,
 replace $y^{s(\s)}$ 
 by
-$\bar{y}^\s$ 
+$\av{y}^\s$ 
 in 
 the estimators 
 given above 
 for a 1-1 strata-match.
-$\bar{y}^\s$ 
+$\av{y}^\s$ 
 is defined by
 
 \beq
-\bar{y}^\s=
+\av{y}^\s=
 \frac{1}{|\calm_{\eps}(\s)|}
 \sum_{s\in \calm_{\eps}(\s)}
 y^\s
@@ -1541,7 +1547,7 @@ g^\s d^\s + (1-g^\s)(1-d^\s)
 \eeq
 
 Note that
-these equations are self-consistent because
+these TPMs are self-consistent because
 
 \beqa
 P(d|x)&=&
