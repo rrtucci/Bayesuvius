@@ -1540,79 +1540,83 @@ P(d^\s|g^\s)=
 g^\s d^\s + (1-g^\s)(1-d^\s)
 \eeq
 
-We end this section
-by calculating $P(y,d)$
-for the bnet $G_{ps}$.
-
-From the TPMs, one has
+Note that
+these equations are self-consistent because
 
 \beqa
-\sum_{g^\s}P(d^\s|g^\s)P(g^\s|x^\s)
-&=&
-g(x^\s) d^\s + (1-g(x^\s))(1-d^\s)
+P(d|x)&=&
+\sum_g P(d|g)P(g|x)
 \\
 &=&
-P(d^\s|x^\s)
-\;.
+g(x)d + [1-g(x)](1-d)
+\\
+&=&
+P(d=1|x)d + [1-P(d=1|x)](1-d)
+\\
+&=&
+P(d|x)
 \eeqa
-Therefore,
+
+
+We would like to do
+{\bf propensity score strata-matching} by
+matching g-strata instead of x-strata.
+ PO calculations
+for x-strata matching
+use the TPMs
+for $P(d|x)$, $P(x)$
+and $P(y|d,x)$.
+To do g-strata matching
+using the same
+equations, but 
+with $x$ replaced by $g$,
+we would need to solve for
+$P(d|g)$, $P(g)$
+and $P(y|d,g)$
+in terms of
+$P(d|x)$, $P(x)$
+and $P(y|d,x)$.
+We solve for those next.
+
+From the TPMs
+for $G_{ps}$, one has
 
 \beq
-E_{g|x}P(d|g)=P(d|x)
-\;.
+\boxed{
+P(d|g)= 
+g d + (1-g)(1-d)}
 \eeq
-Furthermore,
+and
 
 \beq
-P(g)=\sum_x \delta(g,g(x))P(x)
+\boxed{
+P(g)=\sum_x \overbrace{
+\delta(g,g(x))}^{P(g|x)}
+P(x)}
 \;.
 \eeq
-Hence,
+Next, note that
+
+
+\beq
+P(y| d,g)=
+\sum_x P(y|d,x)P(x|g)
+\eeq
+so we need to find $P(x|g)$. Since
 
 \beqa
 P(x|g)&=&\frac{P(g|x)P(x)}{P(g)}
 \\
 &=&
-\frac{\delta(g,g(x))P(x)}{P(g)}
+\frac{\delta(g, g(x))P(x)}{P(g)}
 \eeqa
-and
-
-
-\beqa
-P(y, d) &=& E_x P(y, d|x)
-\\
-&=&
-E_x P(y|d,x)P(d|x)
-\\
-&=&
-E_x E_{g|x}P(y|d,x)P(d|g)
-\\
-&=&
-E_g E_{x|g}\left[P(y|d,x)\right]P(d|g)
-\\
-&=&
-E_g P(y|d,g)P(d|g)
-\label{eq-ps-g-strata}
-\eeqa
-where
+we finally get
 
 \beq
-P(d|g)= 
-g d + (1-g)(1-d)
-\eeq
-and
-
-\beqa
-P(y|d,g)&=& E_{x|g}P(y|d,x)
-\\
-&=&
-\frac{1}{P(g)}
-\sum_x \delta(g, g(x))P(x)P(y|d,x)
+\boxed{
+P(y| d,g)=
+\sum_x P(y|d,x)
+\frac{\delta(g, g(x))P(x)}{P(g)}
+}
 \;.
-\eeqa
-
-Using Eq.(\ref{eq-ps-g-strata}),
-one is equipped to do
-{\bf propensity score strata-matching} by
-matching g-strata instead of x-strata.
-
+\eeq
