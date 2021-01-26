@@ -1,0 +1,363 @@
+\chapter{Instrumental Variables}
+\label{ch-instrumental}
+
+
+This chapter is based on
+Refs.\cite{book-mixtape} and \cite{wiki-inst-vars}.
+
+The theory of potential outcomes (PO)
+discussed in Chapter \ref{ch-po}
+assumes that confounders can be ignored
+by conditioning on them, if need be.
+However, there are cases when
+that is not possible, as when there are some
+unmeasured (i.e., unobserved, hidden)
+confounder nodes in the bnet,
+because one can
+only condition on observed random 
+variables, by definition.
+So what if confounders can't be ignored?
+Are we then precluded from using PO theory?
+Not necessarily.
+It might still be possible to
+use PO theory if one can find a suitable
+instrumental variable (IV) for the problem.
+
+IVs were actually invented 
+by Sewall Wright and his father Philip
+Wright long before
+PO theory was invented  by Rubin.
+The reason why IVs save PO theory
+is greatly clarified by using
+Pearl causal DAGs and his d-separation theorem 
+(see Chapter \ref{ch-dsep}).
+
+Most of the discussion in this chapter
+is  limited to LDEN (linear deterministic
+bnets with external noise). These
+are discussed in Chapter \ref{ch-linear-sys}.
+However, as will become
+obvious to the reader, IVs are 
+also applicable
+and useful
+in general bnet modeling.
+
+
+
+\section*{$\delta$ with unnmeasured confounder}
+
+In this section,
+we explain using LDENs 
+why
+unmeasured confounders 
+prejudice PO calculations.
+
+\begin{figure}[h!]
+$$
+\xymatrix{
+&\rvh\ar@{-->}[dl]_\nu\ar@{-->}[dr]^\mu
+\\
+\rvd\ar[rr]_\delta&&\rvy
+}$$
+\caption{An LDEN bnet. The direct path $\rvd\rarrow\rvy$
+is confounded by
+a hidden variable $\rvh$.
+} 
+\label{fig-iv-G-start}
+\end{figure}
+
+Consider 
+the LDEN bnet of Fig.\ref{fig-iv-G-start},
+For some $\delta, \mu\in \RR$, we have
+
+\beq
+\rvy = \delta \rvd +
+\underbrace{ \mu \rvh + \rvu_\rvy}_{\rvn_y}
+\;.
+\eeq
+If $\av{\rvn_\rvy, \rvd}=0$, then
+
+\beq
+\av{\rvy, \rvd} = \delta_0 \av{\rvd, \rvd}
+\;,
+\eeq
+whereas if
+$\av{\rvn_\rvy, \rvd}\neq 0$, then
+
+\beq
+\av{\rvy, \rvd} = \delta_1 \av{\rvd, \rvd}
++ \av{\rvn_\rvy, \rvd}
+\;.
+\eeq
+Therefore,
+
+
+\beq
+\delta_0 = \frac{\av{\rvy, \rvd}}{\av{\rvd, \rvd}}
+\;,
+\eeq
+
+\beq
+\delta_1 =
+\underbrace{\frac{\av{\rvy, \rvd}}{\av{\rvd, \rvd}}}_{\delta_0}
+-
+\frac{\av{\rvn_\rvy, \rvd}}{\av{\rvd, \rvd}}
+\;.
+\eeq  
+If we assume no confounders
+and there is one, this gives the difference
+between the estimate $\delta_1$ of $\delta$ for
+the truth, versus
+the naive estimate $\delta_0$.
+
+If the confounder $\rvh$
+had been measured, then
+we would be calculating 
+the covariances at fixed $\rvn_\rvy$,
+and 
+the conditional covariance $\av{\rvn_\rvy, \rvd}_{|\rvn_\rvy}=0$
+
+\section*{$\delta$
+(with unmeasured confounder)
+can be
+inferred via IV}
+
+
+
+\begin{figure}[h!]
+$$
+\begin{array}{ccc}
+\xymatrix{
+&&\rvh\ar@{-->}[dl]_\nu\ar@{-->}[dr]^\mu
+\\
+\rvA\ar[r]_\alpha
+&\rvd\ar[rr]_\delta
+&&\rvy
+}
+&&
+\xymatrix{
+&&\rvh\ar@{-->}[dl]_\nu\ar@{-->}[dr]^\mu
+\\
+\rvA\ar[r]_\alpha
+&\rvd&
+\rvtd\ar[r]_\delta
+&\rvy}
+\\
+\\
+G&&G_{im+}
+\end{array}
+$$
+\caption{
+Two LDEN bnets. The direct path $\rvd\rarrow\rvy$
+is confounded by
+a hidden variable $\rvh$, but
+by using the IV $\rvA$, we are still
+able to 
+identify (i.e. calculate)
+$\delta$.
+}
+\label{fig-iv-G-im}
+\end{figure}
+
+Now consider the two LDEN bnets 
+shown in Fig.\ref{fig-iv-G-im}.
+Note that there are no arrows
+$\rvA\rarrow\rvy$
+or 
+$\rvA\rarrow\rvh$. Note that
+node $\rvd$ is a collider
+in the path 
+$\rvA-\rvd-\rvh-\rvy$, 
+Therefore,
+the only unblocked path
+from $\rvA$ to 
+$\rvy$ in G 
+is $\rvA\rarrow\rvd\rarrow\rvy$
+and that path has been
+removed in $G_{im+}$. These
+observations are 
+encapsulated in the following statements.
+
+\beq
+\rvd\perp_{G} \rvy =\text{false}, 
+\;\; \rvA\perp_{G} \rvy= \text{false}
+\;.
+\eeq
+
+\beq
+\rvd\perp_{G_{im+}} \rvy =\text{false}, 
+\;\; \rvA\perp_{G_{im+}} \rvy= \text{true}
+\;.
+\eeq
+
+
+The following is true for $G$:
+
+\beq
+\rvy = \delta\rvd + 
+\underbrace{\mu\rvh + \rvu_\rvy}_
+{\rvn_\rvy}
+\eeq
+
+\beq
+\rvd= \alp \rvA + 
+\underbrace{\nu\rvh + \rvu_\rvd}
+_{\rvn_\rvd}
+\;.
+\eeq
+
+Since 
+$\av{\rvn_\rvy, \rvA}=\av{\rvn_\rvd, \rvA}=0$
+is true in $G$, we have
+\beq
+\av{\rvy, \rvA}= \delta \av{\rvd, \rvA}
+\;
+\eeq
+and
+
+\beq
+\av{\rvd, \rvA}= \alp \av{\rvA, \rvA}
+\;.
+\eeq
+Note that $\av{\rvy, \rvA}=\delta=0$
+for $G_{im+}$
+but not for $G$,
+so we are speaking about $G$
+from here on. It 
+follows that
+
+
+
+\beq
+\alp=\frac{ \av{\rvd, \rvA}}{ \av{\rvA, \rvA}}
+\eeq
+and
+
+\beqa
+\delta&=&\frac{ \av{\rvy, \rvA}}{ \av{\rvd, \rvA}}
+\\
+&=&
+\frac{ \av{\rvy, \rvA}}{ \av{\rvA, \rvA}}
+\frac{\av{\rvA, \rvA}}{ \av{\rvd, \rvA}}
+\\
+&=&
+\frac{ \av{\rvy, \rvA}}{ \av{\rvA, \rvA}}
+\frac{1}{\alp}
+\\
+&=&
+\frac{ \av{\rvy, \alp\rvA}}{ \av{\alp\rvA,\alp \rvA}}
+\;.
+\eeqa
+
+\section*{More general bnets with IVs}
+
+\begin{figure}[h!]
+$$
+\begin{array}{ccc}
+\xymatrix{
+&&\rvh\ar@{-->}[dl]\ar@{-->}[dr]
+\\
+\rvA\ar[r]\ar[drr]
+&\rvd\ar[rr]_\delta
+&&\rvy\ar[dl]
+\\
+&&\rvv
+}
+&&
+\xymatrix{
+&&\rvh\ar@{-->}[dl]\ar@{-->}[dr]
+\\
+\rvA\ar[r]\ar[drr]
+&\rvd&
+\rvtd\ar[r]_\delta
+&\rvy\ar[dl]
+\\
+&&\rvv
+}
+\\
+\\
+G&&G_{im+}
+\end{array}
+$$
+\caption{The 2 paths in $G_{im+}$
+from
+IV variable $\rvA$
+to $\rvy$ are blocked by colliders $\rvv$ 
+and $\rvd$. Thus,
+$
+\rvd\perp_{G_{im+}} \rvy =\text{false}, 
+\;\; \rvA\perp_{G_{im+}} \rvy= \text{true}
+$
+}
+\label{fig-iv-G-im-blocked}
+\end{figure}
+
+
+
+
+\begin{figure}[h!]
+$$
+\begin{array}{ccc}
+\xymatrix{
+&&\rvh\ar@{-->}[dl]\ar@{-->}[dr]
+\\
+\rvA\ar[r]
+&\rvd\ar[rr]_\delta
+&&\rvy
+\\
+&&\rvv\ar[ur]\ar[ull]
+}
+&&
+\xymatrix{
+&&\rvh\ar@{-->}[dl]\ar@{-->}[dr]
+\\
+\rvA\ar[r]
+&\rvd
+&
+\rvtd\ar[r]_\delta
+&\rvy
+\\
+&&\rvv\ar[ur]\ar[ull]
+}
+\\
+\\
+G&&G_{im+}
+\end{array}
+$$
+\caption{
+The are 2 paths in $G_{im+}$
+from
+IV variable $\rvA$
+to $\rvy$. One is
+blocked
+by the collider $\rvd$
+and the other
+can be blocked by 
+conditioning on $\rvv$. Thus,
+$
+\rvd\perp_{G_{im+}} \rvy|\rvv =\text{false}, 
+\;\; \rvA\perp_{G_{im+}} \rvy|\rvv= \text{true}
+$
+}
+\label{fig-iv-G-im-strata}
+\end{figure}
+
+Figs.\ref{fig-iv-G-im-blocked}
+and \ref{fig-iv-G-im-strata}
+are examples of 
+other bnets 
+for which the
+effect $\delta$
+is identifiable
+thanks
+to the
+IV $\rvA$.
+
+
+\section*{Instrumental Inequality}
+Pearl's instrumental inequality
+and related inequalities are discussed in
+ Chapter
+ \ref{ch-inst-ineq}.
+
+
