@@ -1,7 +1,8 @@
-\section{Notational Conventions and Preliminaries}
+\chapter*{Notational Conventions and Preliminaries}
+\addcontentsline{toc}{chapter}{Notational Conventions and Preliminaries}
+
 \label{ch-not-cons}
-\hrule\noindent
-{\bf Some abbreviations frequently
+\subsection{Some abbreviations frequently
 used throughout this book.}
 
 \begin{itemize}
@@ -23,7 +24,7 @@ same as CPT
 
 
 
-\hrule\noindent
+\subsection{Special sets}
 Define $\ZZ, \RR, \CC$ to be
  the integers, real numbers
  and complex numbers, respectively. 
@@ -37,7 +38,7 @@ $I=[a,b],[a,b),(a,b],(a,b)$
 
 $A_{>0}=\{k\in A: k>0\}$ for $A=\ZZ, \RR$.
 
-\hrule\noindent
+\subsection{Underlined letters}
 Random variables will be indicated by 
 underlined letters and their values 
 by non-underlined letters.
@@ -75,21 +76,24 @@ or, conversely, define certain upper
 case letters to 
 be non-random variables.
 
-\smallskip
-\hrule\noindent
+\subsection{Probability distributions}
  $P_\rvx(x)=P(\rvx=x)=P(x)$ is the probability that random variable $\rvx$ equals $x\in S_\rvx$. $S_\rvx$ is the set of states (i.e., values) that $\rvx$ can assume and $n_\rvx = |S_\rvx|$ is the size (aka cardinality) of that set. Hence, 
 \beq
 \sum_{x\in S_\rvx}P_\rvx(x)=1
 \eeq
-\hrule\noindent
+
+\hrule
 \beq
 P_{\rvx,\rvy}(x,y)=P(\rvx=x, \rvy=y)=P(x,y)
 \eeq
 \beq
 P_{\rvx|\rvy}(x|y)=P(\rvx=x| \rvy=y)=P(x|y)=\frac{P(x,y)}{P(y)}
 \eeq
-\hrule\noindent
-Kronecker delta function: For $x,y$ in discrete set $S$, 
+
+\subsection{Kronecker 
+delta function}
+
+ For $x,y$ in discrete set $S$, 
 \beq
 \delta(x,y)=\left\{
 \begin{array}{l}
@@ -99,12 +103,19 @@ Kronecker delta function: For $x,y$ in discrete set $S$,
 \end{array}
 \right.
 \eeq
-\hrule\noindent
-Dirac delta function: For $x,y\in\RR$,
+
+\subsection{
+Dirac delta function}
+ For $x,y\in\RR$,
 \beq
 \int^{+\infty}_{-\infty}dx\;\delta(x-y)f(x)=f(y)
 \eeq
-\hrule\noindent
+
+\subsection{
+Discretization
+of continuous
+probability distributions}
+
 The TPM of a node 
 of a bnet can be either a discrete or 
 a continuous probability distribution. 
@@ -143,8 +154,9 @@ Both sides of last equation are 1 when $f(x)=1$.
 \;.
 \eeq
 
-\hrule\noindent
-Indicator function (aka Truth function):
+\subsection{
+Indicator function 
+(aka Truth function)}
 \beq
 \indi(\cals)=\left\{
 \begin{array}{l}
@@ -155,7 +167,9 @@ Indicator function (aka Truth function):
 \right.
 \eeq
 For example, $\delta(x,y)=\indi(x=y)$.
-\hrule\noindent
+
+\subsection{Samples, 
+i.i.d. variables}
 \beq
 \vec{x}= (x[0], x[1], x[2] \ldots,
  x[nsam(\vecx)-1])=x[:]
@@ -184,7 +198,8 @@ Hence, for any $f:S_\rvx\rarrow \RR$,
 If we use two sampled variables, say $\vecx$ and $\vecy$, 
 in a given bnet, their number of samples 
 $nsam(\vecx)$ and $nsam(\vecy)$ need not be equal.
-\hrule\noindent
+
+\hrule
 \beq
 P(\vecx) = \prod_\sigma P(x[\sigma])
 \eeq
@@ -197,49 +212,18 @@ P(\vecx) = \prod_\sigma P(x[\sigma])
 \partial_\vecx = 
 [\partial_{x[0]}, \partial_{x[1]},\partial_{x[2]}, \dots, \partial_{x[nsam(\vecx)-1]}]
 \eeq
-\hrule\noindent 
+
+\hrule
 \beqa
 P(\vecx)&\approx& [\prod_x P(x)^{P(x)}]^{nsam(\vecx)} \\
 &=& e^{nsam(\vecx)\sum_x P(x)\ln P(x)}\\
 &=& e^{-nsam(\vecx)H(P_\rvx)}
 \eeqa
 
-\hrule\noindent 
 
-\beq
-f^{[1, \partial_x, \partial_y]}(x,y) =
-[f, \partial_x f , \partial_y f]
-\eeq
-
-\beq
-f^+=
-f^{[1, \partial_x, \partial_y]}
-\eeq
-\hrule\noindent
-For probabilty distributions $p(x), q(x)$ of $x\in S_\rvx$
-\begin{itemize}
-\item 
-Entropy:
-\beq
-H(p)=-\sum_x p(x)\ln p(x)\geq 0
-\eeq
-
-\item
-Kullback-Liebler divergence:
-
-\beq
-D_{KL}(p\parallel q)=\sum_{x} p(x)\ln \frac{p(x)}{q(x)}\geq 0
-\eeq
-\item 
-Cross entropy:
-\beqa
-CE(p\rarrow q) &=& -\sum_x p(x)\ln q(x)\\
-&=& H(p) + D_{KL}(p\parallel q)
-\eeqa
-\end{itemize}
-
-\hrule\noindent
-Normal Distribution: $x, \mu, \sigma\in \RR$, $\sigma >0$
+\subsection{
+Normal Distribution}
+For $x, \mu, \sigma\in \RR$, $\sigma >0$
 
 \beq 
 \caln(x; \mu, \sigma^2)=
@@ -247,15 +231,17 @@ Normal Distribution: $x, \mu, \sigma\in \RR$, $\sigma >0$
 e^{-\frac{1}{2}\left(
 \frac{x-\mu}{\sigma}\right)^2}
 \eeq
-\hrule\noindent
-Uniform Distribution: $a<b$, $x\in [a,b]$
+
+\subsection{
+Uniform Distribution}
+For $a<b$, $x\in [a,b]$
 
 \beq
 \calu(x;a,b) =
 \frac{1}{b-a}
 \eeq
-\hrule\noindent
-Expected Value and Variance
+\subsection{
+Expected Value and Variance}
 
 Given a random variable
  $\rvx$ with states $S_\rvx$ and 
@@ -283,8 +269,8 @@ Var[\rvx]=
 Var_\rvx[\rvx]
 \eeq
 
-\hrule\noindent
-Conditional Expected Value
+\subsection{
+Conditional Expected Value}
 
 Given a random variable $\rvx$ with states $S_\rvx$, a random variable $\rvy$ with states $S_\rvy,$ and a function $f:S_\rvx\times S_\rvy\rarrow \RR$, define
 
@@ -311,7 +297,7 @@ E_{\rvx, \rvy}[f(\rvx, \rvy)]
 \;.
 \eeqa
 
-\hrule\noindent {\bf Law of Total Variance}
+\subsection{Law of Total Variance}
 
 \begin{claim}
 Suppose $P:S_\rvx\times S_\rvy\rarrow [0,1]$
@@ -386,48 +372,61 @@ A-\left( \sum_{x,y} P(x,y) f\right)^2
 \eeqa
 \qed
 
-\hrule\noindent
-$\av{\rvx, \rvy}$ notation,
-for 
-covariances 
-of any two random variables $\rvx, \rvy$.
+\subsection{
+notation
+for covariances
+}
+Consider two random variables $\rvx, \rvy$.
 
+\begin{itemize}
+\item
 Mean value of $\rvx$
 \beq
 \av{\rvx}=
 E_\rvx[\rvx]
 \eeq
 
+\item
 Signed distance of $\rvx$ to its mean value
 \beq
 \Delta \rvx = \rvx - \av{\rvx}
 \eeq
 
+\item
 Covariance of $(\rvx, \rvy)$
 \beq
-\av{\rvx, \rvy}=
+Cov(\rvx, \rvy)=\av{\rvx, \rvy}=
 \av{\Delta \rvx \Delta \rvy}
-=Cov(\rvx, \rvy)
+=
+\av{\rvx\rvy}-\av{\rvx}\av{\rvy}
 \eeq
 
+$\av{\rvx, \rvy}$ is bilinear.
+
+
+\item
 Variance of $\rvx$
 \beq
 Var(\rvx)=\av{\rvx, \rvx}
 \eeq
 
+\item
 Standard deviation or $\rvx$
 \beq
 \sigma_\rvx=\sqrt{\av{\rvx, \rvx}}
 \eeq
 
+\item
 Correlation of $(\rvx, \rvy)$
 \beq
 \rho_{\rvx, \rvy}=
 \frac{\av{\rvx, \rvy}}
 {\sqrt{\av{\rvx, \rvx}\av{\rvy, \rvy}}}
 \eeq
-\hrule\noindent
-{\bf linear regression }
+\end{itemize}
+
+\subsection{linear regression}
+
 
 $\rvy=$  true value
 
@@ -473,7 +472,25 @@ Then
 \eeq
 
 
-\hrule\noindent{\bf Sigmoid and logit functions}
+
+\subsection{$\caln(!a)$}
+$\caln(!a)$ will denote 
+a normalization constant that does not depend
+on $a$. For example, $P(x)=\caln(!x)e^{-x}$
+where $\int_0^\infty dx \;P(x)=1$.
+
+\subsection{One hot}
+A {\bf one hot } vector of zeros and 
+ones is a vector with all entries 
+zero with
+the exception of a single entry which is one.
+A {\bf one cold} vector has all entries
+equal to one with the exception of  a
+single entry which is zero.
+For example, if $x^n=(x_0, x_1, \ldots,
+x_{n-1})$ and
+$x_i=\delta(i,0)$ then $x^n$ is one hot.
+\subsection{Sigmoid and logit functions}
 
 The sigmoid function sig:$\RR\rarrow [0,1]$
 is defined by
@@ -498,26 +515,8 @@ logit() is the inverse of sig():
 
 
 
-\hrule\noindent
-$\caln(!a)$ will denote 
-a normalization constant that does not depend
-on $a$. For example, $P(x)=\caln(!x)e^{-x}$
-where $\int_0^\infty dx \;P(x)=1$.
-
-\hrule\noindent
-A {\bf one hot } vector of zeros and 
-ones is a vector with all entries 
-zero with
-the exception of a single entry which is one.
-A {\bf one cold} vector has all entries
-equal to one with the exception of  a
-single entry which is zero.
-For example, if $x^n=(x_0, x_1, \ldots,
-x_{n-1})$ and
-$x_i=\delta(i,0)$ then $x^n$ is one hot.
-
-\hrule\noindent
-{\bf Short Summary of Boolean Algebra.}\\ 
+\subsection{Short Summary of 
+Boolean Algebra.} 
 See Ref.\cite{wiki-bool} for more info
 about this topic.
 
@@ -595,7 +594,31 @@ P(x\V y)= P(x) + P(y) - P(x\A y)
 \;.
 \eeq
 
-\hrule\noindent {\bf Definition of various
+\subsection{Entropy}
+
+For probabilty distributions $p(x), q(x)$ of $x\in S_\rvx$
+\begin{itemize}
+\item 
+Entropy:
+\beq
+H(p)=-\sum_x p(x)\ln p(x)\geq 0
+\eeq
+
+\item
+Kullback-Liebler divergence:
+
+\beq
+D_{KL}(p\parallel q)=\sum_{x} p(x)\ln \frac{p(x)}{q(x)}\geq 0
+\eeq
+\item 
+Cross entropy:
+\beqa
+CE(p\rarrow q) &=& -\sum_x p(x)\ln q(x)\\
+&=& H(p) + D_{KL}(p\parallel q)
+\eeqa
+\end{itemize}
+
+\subsection{Definition of various
 entropies used in Shannon Information Theory}
 
 \begin{itemize}
