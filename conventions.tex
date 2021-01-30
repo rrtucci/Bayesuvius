@@ -464,8 +464,349 @@ Correlation of $(\rvx, \rvy)$
 \eeq
 \end{itemize}
 
-\section{Linear regression}
+\section{Linear regression, Ordinary Least Squares (OLS)}
+Wikipedia articles
+\begin{enumerate}
+\item
+Linear Regression (LR)
+\begin{itemize}
+\item
+linear regression, Ref.\cite{wiki-lr}
+\item
+ simple linear regression, Ref.\cite{wiki-slr}
+\item
+errors in variable, Ref.\cite{wiki-errors-in-iv}
 
+\end{itemize}
+\item
+Least squares (LS)
+\begin{itemize}
+\item
+least squares, Ref.\cite{wiki-ls}
+\item
+ordinary least squares (OLS), Ref.\cite{wiki-ols}
+\end{itemize}
+\end{enumerate}
+
+
+In LR, the {\bf dependent variables} 
+$y$
+equal
+a linear combination of some
+{\bf independent variables} $x$ 
+ plus some external noise variables
+$\eps$ called the {\bf residuals}.
+
+Below, we consider two types of LR:
+
+\begin{enumerate}
+\item
+LR
+in which the independent
+ variables are non-random.
+\item
+LR
+in which the independent
+ variables are random
+and i.i.d.
+\end{enumerate}
+
+Once one assumes that certain
+variables are random, a ``model" (i.e., a bnet)
+for the random variables must be 
+specified.
+
+For LR of type 2,
+there is randomness in $y$ 
+coming from the randomness in $x$
+and in the residuals.
+For LR of type 1,
+there  is randomness in $y$
+too, but
+it is comes 
+from the residuals
+only. 
+
+OLS provides a
+cost function which
+when minimized, yields LR.
+The  term OLS
+is often used to refer to LR 
+of type 1.
+
+\subsection{
+LR, assuming
+$x^\s$ are non-random}
+
+Let
+
+$\s\in\{0, 1, 2, \ldots, nsam-1\}$ : sample index
+
+$y_\s\in \RR$: dependent variables
+
+$x_{\s j}\in \RR$: independent variables
+
+$\eps_\s\in \RR$: residuals
+
+$\beta_0, \beta_j$: real coefficients
+
+
+\beq
+y_\s= \beta_0 +
+\sum_{j=1}^n x_{\s j}\beta_j + \eps_\s
+\eeq
+
+If we define
+\beq
+x_{\s 0}=1
+\;
+\eeq
+for all $\s$, then
+
+\beq
+y_\s=
+\sum_{j=0}^n x_{\s j}\beta_j + \eps_\s
+\;.
+\eeq
+If $y$ and $\eps$ are $nsam\times 1$
+ column vectors and $\beta$
+is an $(n+1)\times 1$ column vector, 
+then can write previous equation in matrix
+form as:
+
+
+\beq
+y=X\beta+\eps
+\;.
+\eeq
+
+Define 
+\beq
+\A=X(X^TX)^{-1}X^T
+\;,\;\;\V=1-\A
+\eeq
+A square matrix $M$ 
+is symmetric if $M^T=M$
+and is idempotent if $M^2=M$.
+$\A$ is symmetric
+and idempotent 
+and so is $\V$.
+Note that $\A$ and $\V$ 
+also satisfy:
+
+\beq
+\A X=X\;,\;\; \V X=0
+\;.
+\eeq
+
+One has
+\beq
+\beta=
+(X^TX)^{-1}X^T(y-\eps)
+\;.
+\eeq
+
+
+Define 
+
+\begin{subequations}
+\beq
+\hat{\beta}=
+(X^TX)^{-1}X^Ty=By
+\;,
+\eeq
+
+
+
+\beq
+\hat{y}=
+X\hat{\beta}= \A y
+\;,
+\eeq
+and
+
+\beq
+\hat{\eps}=
+y-X\hat{\beta}=
+y-\hat{y}=(1-\A)y=\V y
+\;.
+\eeq
+\end{subequations}
+$\A$ is called the {\bf hat matrix},
+because it gives $y$ a hat. 
+
+Given any function $f=f(y,X,\eps)$
+and a scalar factor $\xi\in \RR$,
+suppose 
+$f(\xi y, \xi X, \xi\eps)=\xi^\calo f(y,X,\eps)$.
+Then we will say that $f(\cdot)$
+is of {\bf order $\calo$ under $\xi$ scaling}.
+Note that $y,X, \eps,
+\hat{y}, \hat{\eps}$
+are all of order 1 under scaling, whereas
+$\beta, \hat{\beta}, \A, \V$
+are all of order 0 under scaling.
+Thus, the estimator variables (i.e, those
+with a hat) 
+scale the same way as the variables
+without a hat that they are estimating. And
+the projection matrices $\A, \V$
+are invariant ($\calo=0$) under scaling.
+
+
+
+Fig.\ref{fig-y-yhay-ehat}
+illustrates that $y$ 
+can be expressed as
+a sum of 2 estimators:
+ 
+
+
+\beq
+y= \underbrace{\hat{y}}_{\A y} + 
+\underbrace{\hat{\eps}}_{\V y}
+\;.
+\eeq
+
+\begin{figure}[h!]
+$$
+\xymatrix{
+&&
+\\
+&&{}
+\\
+{}\ar[uurr]^{y}
+\ar[rr]_{\hat{y}=\A y}
+&&{}\ar[uu]_{\hat{\eps}=\V y}
+}
+$$
+\caption{
+Decomposition of $y$
+into sum of two estimators, $\hat{y}$ and
+$\hat{\eps}$.
+}
+\label{fig-y-yhay-ehat}
+\end{figure}
+
+
+
+\hrule
+\noindent{\bf model dependent results}:
+
+Assume $\eps$ 
+are random over $\s$
+so
+
+\beq
+E_\s[\rveps]=\av{\rveps}=0
+\eeq
+
+
+
+Assume $X$ and $\beta$ are not random.
+This makes $\rvy=X\beta +\rveps$ and $\ul{\hat{\beta}}=
+(X^TX)^{-1}X^T\rvy
+$
+random.
+One finds that
+
+\beq
+\av{\rvy}=X\beta
+\eeq
+
+\begin{subequations}
+\beq
+\av{\hat{\rvy}}=\A\av{\rvy}=\av{\rvy}
+\eeq
+
+\beq
+\av{\hat{\rveps}}=\V\av{\rvy}=0
+\eeq
+
+\beq
+\av{\ul{\hat{\beta}}}=\beta
+\eeq
+
+
+So far, we have
+assumed a zero mean value for $\eps$.
+Next, assume  
+{\bf  ``homoscedasticity" (HS)}, which
+means that 
+
+\beq
+\av{\rveps, \rveps^T}=\xi^2 I_{nsam}
+\eeq
+\end{subequations}
+where
+$\xi\geq 0$,  $nsam=\sum_\s$ and 
+$I_{nsam}$ is the
+$nsam\times nsam$ identity matrix.
+It follows that
+
+\beq
+\av{\rvy, \rvy^T}=
+\av{\rveps, \rveps^T}=
+\xi^2 I_{nsam}
+\;,
+\eeq
+
+\beq
+\av{\hat{\rveps},
+\hat{\rveps}^T}=
+\V\av{\rvy, \rvy^T}\V^T=\xi^2\V
+\label{eq-homo}
+\;,
+\eeq
+
+\beq
+\av{\hat{\rvy},
+\hat{\rvy}^T}=
+\A\av{\rvy, \rvy^T}\A^T=\xi^2\A
+\eeq
+and
+
+\beq
+\av{\hat{\ul{\beta}},
+\hat{\ul{\beta}}^T}=
+B\av{\rvy, \rvy^T}B^T=\xi^2 (X^TX)^{-1}
+\;.
+\eeq
+
+The goodness of fit
+for this model
+is often measured using  the
+{\bf coefficient of determination}
+$R^2$. $R^2$  is defined by
+
+
+\beq
+R^2=
+\frac{
+\norm{\hat{\rvy}-\av{\hat{\rvy}}}^2
+}{
+\norm{\rvy-\av{\rvy}}^2
+}
+=
+\frac{
+\tr\av{\hat{\rvy},
+\hat{\rvy}^T}
+}{
+\tr\av{\rvy,\rvy^T}
+}
+\eeq
+If HS holds, then
+$R^2$ reduces to
+
+
+\beq
+R^2 =\frac{\tr\; \A}{nsam}
+\;.
+\eeq
+
+\subsection{LR, assuming
+$x^\s$ are random and i.i.d.}
+Let
 
 $\rvy=$  true value
 
@@ -482,6 +823,11 @@ $\ul{\eps}=$ residual
 \rvy = \hat{\rvy}+\ul{\eps}
 \eeq
 Assume 
+
+\beq
+\av{\rveps}=0
+\eeq
+and
 \beq
 \av{\rvx_j, \ul{\eps}}=0
 \eeq
@@ -510,9 +856,10 @@ Then
 \;.
 \eeq
 
-
-
-
+\beq
+\beta_0=
+\av{\rvy}-(\beta^n)^T \av{\rvx^n}
+\eeq
 
 
 \section{Short Summary of 
