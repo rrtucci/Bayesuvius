@@ -712,28 +712,26 @@ In standard PO notation&
 In our notation 
 (for $G_{im+}$, unless otherwise specified)\\
 \hline
-$i$ (unit, sample index)& $\s$ \\ 
+$i$, individual (i.e., unit, sample) index& $\s$ \\ 
 \hline 
-$D_i$ (treatment dose) & $\rvd^\s$\\
+$D_i=d_i$, treatment dose & $\rvd^\s=d^\s$\\
 \hline 
-$Y_i=y_i$ (treatment outcome)& $\rvy^\s=y^\s$ \\ 
+$Y_i=y_i$, treatment outcome& $\rvy^\s=y^\s$ \\ 
 \hline 
-$X_i=x_i$ (treatment confounders)& $\rvx^\s=x^\s$ \\ 
+$X_i=x_i$, treatment confounders& $\rvx^\s=x^\s$ \\ 
 \hline 
 $Y_i(\td)$ & $\rvy^\s=\rvy^\s(\td)$ for $G_{im}$\\
-\hline 
-$Y_i$ & $\rvy^\s$ for $G_{im+}$\\
 \hline
-$E[Y_i(\td)]$ & 
-$E_{\s}[\rvy^\s(\td)]=\caly_{|\td}$ for $G_{im}$\\
+$E[Y_i(d)]$ & 
+$E_{\s}[\rvy^\s(d)]=\caly_{d}$ \\
 \hline
-$E[Y_i|D_i=d]$ & 
-$E_\s E_{|d, \s}[\rvy^\s]=\caly_{d}$\\
+$E[Y_i|D_i=\td]$ & 
+$E_\s E_{|\td, \s}[\rvy^\s]=\caly_{|\td}$\\
 \hline
-$E[Y_i(\td)|D_i=d]$ & 
+$E[Y_i(d)|D_i=\td]$ & 
 $E_\s E_{|d,\td, \s}[\rvy^\s]=\caly_{d|\td}$\\
 \hline
-$E[Y_i(\td)|D_i=d, X=x]$ & 
+$E[Y_i(d)|D_i=\td, X=x]$ & 
 $E_\s E_{|d,\td,x, \s}[\rvy^\s]=\caly_{d|\td,x}$\\
 \hline
 \end{tabular}
@@ -752,9 +750,6 @@ translating
 from the standard PO notation 
 of Ref.\cite{book-mixtape}
 to our notation. $d,\td\in \bool$.
-PO rarely uses $\caly_{|\td}$, so
-$E[Y_i(d)]$ and 
-$E[Y_i|D_i=d]$ are often  both used denote $\caly_d$.
 I find
  the standard PO notation 
 confusing because it often uses $D_i$
@@ -838,7 +833,7 @@ a difference of two  $\caly_{d|\td}$.
 \begin{itemize}
 
 \item average controlled effect  
- (ACE), used when doing a CRT.
+ (ACE), used when doing an RCT.
 
 \beq
 {\color{red}ACE}=
@@ -1354,7 +1349,18 @@ and an individual $\s$
 with $d^\s=1$,
 define
 the {\bf strata-matching set} 
-$\calm_{\eps}(\s)$ by
+$\calm_{\eps}(\s)$ by\footnote{
+One can use an $\eps$
+that depends on $\s$.
+Let $\eps(\s, 5)$
+be the radius necessary
+so that $\calm_{\eps(\s, 5)}(\s)$
+contains exactly 5 elements $s$..
+Thus, $\calm_{\eps(\s, 5)}(\s)$
+contains the $s$ of the
+ 5 points $x^s$ that are the
+nearest neighbors of $x^\s$
+in the $dist()$ metric.}
 
 \beq
 \calm_{\eps}(\s)=
