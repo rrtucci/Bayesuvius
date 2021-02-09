@@ -3,7 +3,7 @@
 
 \label{ch-not-cons}
 \section{Some abbreviations frequently
-used throughout this book.}
+used throughout this book}
 
 \begin{itemize}
 \item
@@ -417,8 +417,7 @@ A-\left( \sum_{x,y} P(x,y) f\right)^2
 \qed
 
 \section{Notation
-for covariances
-}
+for covariances}
 Consider two random variables $\rvx, \rvy$.
 
 \begin{itemize}
@@ -552,7 +551,8 @@ $x_{\s j}\in \RR$: independent variables
 
 $\eps_\s\in \RR$: residuals
 
-$\beta_0, \beta_j$: real coefficients
+$\beta_0, \beta_j\in \RR$: 
+regression coefficients
 
 
 \beq
@@ -610,6 +610,7 @@ and
 \eeq
 
 One has
+
 \beq
 \beta=
 (X^TX)^{-1}X^T(y-\eps)
@@ -620,10 +621,12 @@ One has
 Define 
 
 \begin{subequations}
-\beq
+\beq \boxed{
 \hat{\beta}=
 (X^TX)^{-1}X^Ty=By
 \;,
+}
+\label{eq-beta-nonrandom-lin-reg}
 \eeq
 
 
@@ -820,11 +823,18 @@ R^2 =\frac{\tr\; \A}{nsam}
 $x_\s$ are random and i.i.d.}
 Let
 
-$\rvy=$  true value
+$\rvy\in\RR$:  true value
+of dependent variable
 
-$\hat{\rvy}=$ estimator
+$\hat{\rvy}\in\RR$: estimator
+of dependent variable
 
-$\ul{\eps}=$ residual
+$\ul{\eps}\in\RR$: residual
+
+$\rvx_j\in \RR$: independent variables
+
+$\beta_0, \beta_j\in\RR$:
+regression coefficients
 
 \beq
 \hat{\rvy}=
@@ -862,10 +872,12 @@ Then
 \eeq
 
 \beq
+\boxed{
 \beta^n=
 \av{\rvx^n, (\rvx^n)^T}^{-1}
 \av{ \rvx^n, \rvy}
-\;.
+\;.}
+\label{eq-beta-random-lin-reg}
 \eeq
 
 \beq
@@ -873,9 +885,169 @@ Then
 \av{\rvy}-(\beta^n)^T \av{\rvx^n}
 \eeq
 
+Notice that 
+the equations for the regression coefficients
+are very similar
+for the two cases of $x_\s$-nonrandom
+and $x_\s$-random.
+In fact, if  we replace bilinears as follows
+
+\beq
+X^T y\longrightarrow\av{\rvx^n, \rvy} 
+\eeq
+
+\beq
+X^T X
+\longrightarrow \av{\rvx^n, (\rvx^n)^T}
+\eeq
+we go from the estimator  
+of $\beta$ for one case
+to the estimator 
+of $\beta$ for the other case:
+
+\beq
+\text{
+Eq.(\ref{eq-beta-nonrandom-lin-reg})}
+\longrightarrow
+\text{
+Eq.(\ref{eq-beta-random-lin-reg})}
+\eeq
+
+Next, we will
+write 
+ Eq.(\ref{eq-beta-random-lin-reg})
+for the special cases
+$n=1$ and $n=2$,
+where $n$ is the 
+number of independent 
+variables $\rvx_j$
+
+\begin{enumerate}
+\item $n=1$ ($\rvy$ fitted by a line)
+
+\beq
+\rvy = \beta_0 + \beta\rvx + \rveps
+\eeq
+
+Eq.\ref{eq-beta-random-lin-reg} becomes
+\beq
+\beta_{\rvy,\rvx}=
+\beta=
+\frac{\av{\rvy,\rvx}}{\av{\rvx,\rvx}}
+\eeq
+
+
+\item $n=2$ ($\rvy$ fitted by a plane)
+
+
+\beq
+\rvy = \beta_0 + \beta_1 \rvx_1 + \beta_2 \rvx_2 +\rveps
+\eeq
+Define
+
+
+\beq 
+C_{i,j}=\av{\rvx_i, \rvx_j}
+\eeq  
+for all $i,j$.
+Then Eq.\ref{eq-beta-random-lin-reg}
+becomes\footnote{
+Recall that if
+$
+M=
+\left[
+\begin{array}{cc}
+a&b
+\\
+c&d
+\end{array}
+\right]
+$
+then
+$
+M^{-1}
+=
+\frac{1}{\det M}
+\left[
+\begin{array}{cc}
+d&-b
+\\
+-c&a
+\end{array}
+\right]
+$
+}
+
+
+\beqa
+\left[
+\begin{array}{c}
+\beta_1
+\\
+\beta_2
+\end{array}
+\right]
+&=&
+C^{-1}
+\left[
+\begin{array}{c}
+\av{\rvy, \rvx_1}
+\\
+\av{\rvy, \rvx_2}
+\end{array}
+\right]
+\\
+&=&
+\frac{1}{\det C}
+\left[
+\begin{array}{cc}
+C_{22}&-C_{12}
+\\
+-C_{21}&C_{11}
+\end{array}
+\right]
+\left[
+\begin{array}{c}
+\av{\rvy, \rvx_1}
+\\
+\av{\rvy, \rvx_2}
+\end{array}
+\right]
+\eeqa  
+
+
+Hence,
+\beq
+ \beta_{\rvy,\rvx_1|\rvx_2}=
+\beta_1
+=
+\frac{
+C_{22}\av{\rvy, \rvx_1}
+-C_{12}\av{\rvy, \rvx_2}
+}
+{
+C_{11}C_{12}-C_{12}^2
+}
+\label{eq-beta-lr-plane}
+\eeq
+Eq.(\ref{eq-beta-lr-plane})
+ agrees with 
+the
+value of $\beta_{YX| Z}$ in
+Ref.\cite{pearl-lin-reg} 
+by Pearl,
+if  we replace in Pearl's 
+formulae $X\rarrow \rvx_1$,
+$Y\rarrow \rvy$, $Z\rarrow \rvx_2$.
+
+
+\end{enumerate}
+
+
+
 
 \section{Short Summary of 
-Boolean Algebra.} 
+Boolean Algebra} 
 See Ref.\cite{wiki-bool} for more info
 about this topic.
 
