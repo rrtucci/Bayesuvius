@@ -4,17 +4,6 @@
 This chapter is based on
 Ref.\cite{book-mixtape}.
 
-This chapter assumes that the
-reader has read Chapter \ref{ch-po}
-on Potential Outcomes.
-DID theory 
-applies the basic single-time
-PO theory described in Chapter \ref{ch-po}
-to 2
-well separated times
-in which
-different conditions prevail.
-
 
 The Difference-in-Differences (DID)
 method was first used by John Snow
@@ -37,6 +26,17 @@ after the treatment (rather than during it)
 not  subject to 
 active intervention
 by the experimenter. 
+
+This chapter assumes that the
+reader has read Chapter \ref{ch-po}
+on Potential Outcomes (PO).
+The DID method
+applies the basic single-time
+PO theory described in Chapter \ref{ch-po},
+to 2
+well separated times
+in which
+different conditions prevail.
 
 
 
@@ -62,18 +62,23 @@ $d\in \bool$
 
 $t\in \{t_0, t_1\}$, $t_0< t_1$
 
-$y=f(d,t)\in \RR$
+$y=f(d,t)\in \RR$.
+
+Define
 
 \beq
 \Delta_t f(d,t)= f(d, t_1)-f(d, t_0)
+\;,
 \eeq
 
 \beq
 \Delta_d f(d, t)= f(1, t)-f(0, t)
+\;,
 \eeq
 
 \beq
 DID=\delta=\Delta_d\Delta_t f(d,t)
+\;.
 \eeq
 DID is illustrated in
  Fig.\ref{fig-dif-dif}. 
@@ -81,8 +86,7 @@ DID is illustrated in
 
 A {\bf time series} 
 is  any function of time
-(the domain of the function
-is usually a discrete set of times).
+for which the domain is a discrete set of times.
 
 
 In DID, one calculates the slope,
@@ -152,7 +156,9 @@ for $d\in\bool$.
 \\
 &=& \delta
 \eeqa
-
+When $\vec{r}_0$ and $\vec{r}_1$ are 
+parallel, $\vec{r}_0\times \vec{r}_1=0$
+so $\delta=0$.
 
 \begin{table}[h!]
 \centering
@@ -160,10 +166,10 @@ for $d\in\bool$.
 \begin{tabular}{|c|c|c|}
 \hline 
 \rowcolor[HTML]{ECF4FF} 
- & $t=t_0 $ (1849) & $t=t_1$$\}$ (1854) \\ 
+ & $t=t_0 $ (1849) & $t=t_1$ (1854) \\ 
 \hline
 $\td=1 $ (town 1)\cellcolor[HTML]{ECF4FF}
-&85 deaths, polluted DW&19 death, unpolluted DW\\
+&85 deaths, polluted DW&19 deaths, unpolluted DW\\
 \hline 
 $\td=0 $ (town 0)\cellcolor[HTML]{ECF4FF} 
 &135 deaths, polluted DW& 147 deaths, polluted DW\\ 
@@ -193,17 +199,19 @@ From that data, we find that
 \section{PO analysis}
 In this section,
 we show how
-to analyze
-DID 
+to analyze the
+DID method
 using the formalism of PO theory.
 
 We will speak of a treatment 
 outcome
-$\rvy^\s(\rvtd, x^\s; t, g^\s)$
+$\rvy^\s_{t, g^\s}
+(\rvtd^\s, \rvx^\s)$
 for individual $\s$
 that depends, not 
-just on the treatment dose $\td^\s\in \bool$
-and the confounder state $x^\s$,
+just on the treatment dose 
+$\td^\s\in \bool$
+and the confounder state $\rvx^\s$,
 but also
 on a group parameter (i.e., which population
 or town)
@@ -213,16 +221,16 @@ and on a time parameter $t\in\{t_0, t_1\}$
 Actually,
 we will assume $g^\s=\td^\s$,
 so we will just speak of
-$\rvy^\s(\rvtd, x^\s; t)$
+$\rvy^\s_t(\rvtd^\s, \rvx^\s)$
 with no explicit $g^\s$
 dependence. As usual for PO theory,
 we will consider
-expected values of $y^\s$:
+expected values of $y^\s_t$:
 
 
 \beq
-E_{\s|d,\td, x}[y^\s(\td^\s, x^\s; t)]=
- E_{y|d, \td, x}[\rvy(\td, x; t)]=
+E_{\s|d,\td, x}[y^\s_t(\td^\s, x^\s)]=
+ E_{y_t|d, \td, x}[\rvy_t(\td, x)]=
 \caly_{d|\td, x}(t)
 \eeq
 
@@ -234,23 +242,20 @@ In this case,
 the needed model and probability
 distributions are
 provided by the
-bnets depicted in Fig.\ref{fig-did-G-im}.
+bnets depicted in Fig.\ref{fig-did-G_t-im}.
 The TPMs,
 printed in blue,
 for the 
-two bnets
-$G(t_0)$
-and $G(t_1)$ shown
-in Fig.\ref{fig-did-G-im},
+ bnet
+$G_{t, im}$
+in Fig.\ref{fig-did-G_t-im},
 are as follows.
 Note
 that the
-TPMs for the
-bnets $G(t_0)$
-and $G(t_1)$
+TPMs for the bnet $G_{t, im}$
 are defined in 
 terms
-of the TPMs for the bnet $G$.
+of the TPMs for the bnet $G_t$.
 
 
 \begin{figure}[h!]
@@ -259,42 +264,28 @@ $$
 \xymatrix{
 &\rvx^\s\ar[dl]\ar[dr]
 \\
-\rvd^\s\ar[rr]&&\rvy^\s
+\rvd^\s\ar[rr]&&\rvy^\s_t
 }
 &&
 \xymatrix{
 &\rvx^\s\ar[dl]\ar[dr]
 \\
-\rvd^\s=0&\rvtd^\s=\td^\s\ar[r]&\rvy^\s
-}
-&&
-\xymatrix{
-&\rvx^\s\ar[dl]\ar[dr]
-\\
-\rvd^\s=\td^\s&\rvtd^\s=\td^\s\ar[r]&\rvy^\s
+\rvd^\s=d^\s&\rvtd^\s=\td^\s\ar[r]&\rvy^\s_t
 }
 \\
 \\
-G&&G(t_0)= \left.G_{im}\right|_{d^\s=0}
-&&
-G(t_1)=
-\left. G_{im}\right|_{d^\s=\td^\s}
+G_t&&G_{t, im}
 \end{array}
 $$
-\caption{Bnet 
-$G_{im}= \kappa_{\rvd^\s\rarrow\rvy^\s}
-(\td^\s)G$
+\caption{$t\in \{t_0, t_1\}$.
+Bnet 
+$G_{t, im}= \kappa_{\rvd^\s\rarrow\rvy^\s_t}
+(\td^\s)G_t$
 is obtained by applying 
 the imagine operator to arrow 
-$\rvd^\s\rarrow\rvy^\s$
-of bnet $G$. Bnet $ G_{im}(t_0)$
-is obtained
-by setting $\rvd^\s=0$ in bnet $G_{im}$.
-Bnet $ G_{im}(t_1)$
-is obtained
-by setting $\rvtd^\s=\rvd^\s$ in bnet $G_{im}$.
-} 
-\label{fig-did-G-im}
+$\rvd^\s\rarrow\rvy^\s_t$
+of bnet $G_t$.}
+\label{fig-did-G_t-im}
 \end{figure}
 
 \beq\color{blue}
@@ -303,20 +294,12 @@ P(x^\s)=P_\rvx(x^\s)
 
 \beq\color{blue}
 P(d^\s|x^\s)= 
-\left\{
-\begin{array}{ll}
-P_{\rvd|\rvx}(d^\s|x^\s)\delta(d^\s,0)
-& \text{ for graph } G(t_0)
-\\
-P_{\rvd|\rvx}(d^\s|x^\s)\delta(d^\s,\td^\s)
-& \text{ for graph } G(t_1)
-\end{array}
-\right.
+P_{\rvd|\rvx}(d^\s|x^\s)
 \eeq
  
 \beq\color{blue}
-P(y^\s|\td^\s, x^\s)=
-P_{\rvy|\rvtd, \rvx}(y^\s|\td^\s, x^\s)
+P(y^\s_t|\td^\s, x^\s)=
+P_{\rvy_t|\rvd, \rvx}(y^\s_t|\td^\s, x^\s)
 \eeq
 
 \beq\color{blue}
@@ -331,15 +314,10 @@ P((\td^\s)')=\delta(
 \caption{
 Four different time-dependent
 expected 
-values $\caly_{d|\td}(t)$ of $y^\s$.
-Bnets $G(t_0)$
-and $G(t_1)$
-are  defined in Fig.\ref{fig-dif-dif}.
-The $\caly$ coordinates of the
-2 magenta  stars at time
-$t=t_0$ (resp., $t=t_1$)
-can be calculated using bnet $G(t_0)$
-(resp., $G(t_1)$).
+values $\caly_{d|\td}(t)$ of $y^\s_t$
+for bnet $G_{t, im}$
+The 4 magenta  stars
+represents the 4 DID measurements.
 } 
 \label{fig-dif-dif-bc}
 \end{figure}
@@ -412,8 +390,7 @@ and for $d,\td\in \bool$.
 The $\caly$ coordinates
 of the four magenta stars in 
 Fig.\ref{fig-dif-dif-bc} can 
-be calculated using bnets $G(t_0)$
-and $G(t_1)$.
+be calculated using bnet $G_t$.
 
 Define
 the {\bf parallel trends} (PT)
@@ -510,13 +487,13 @@ to the PO analysis of DID.
 
 
 As before, let
-$y^\s$ be the treatment outcome
+$y^\s_t(\td^\s)$ be the treatment outcome
 for individual $\s$,
 who receives
 a treatment dose
 $\td^\s$
 at times $t\in\{t_0, t_1\}$.
-$y^\s(\td^\s;t)$
+$y^\s_t(\td^\s)$
 can be fitted as follows.
 Here $\eps^\s$
 is the residual
@@ -526,7 +503,7 @@ are the fit parameters.
 
 %
 \beq
-y^\s = [b_0 + m_0 t](1-\td^\s)
+y^\s_t = [b_0 + m_0 t](1-\td^\s)
 +  [b_1 + m_1 t]\td^\s
 + \eps^\s
 \;.
@@ -534,7 +511,7 @@ y^\s = [b_0 + m_0 t](1-\td^\s)
 \eeq  
 Note that Eq.(\ref{eq-did-lr})
  yields a straight line
-in the $y^\s-t$ plane
+in the $y^\s_t-t$ plane
 for $d^\s=0$,
 and another 
 straight line for $d^\s=1$.
@@ -558,12 +535,12 @@ of Eq.(\ref{eq-did-lr}), we get
 with $d=0$ for $t=t_0$
 and $d=\td$ for $t=t_1$.
 
-Let $T=t_1-t_0$. Since
-$\Delta_t t=T$ and $\Delta_d d=1$, one gets
+Let $\Delta t=t_1-t_0$. Since
+$\Delta_t t=\Delta t$ and $\Delta_d d=1$, one gets
 
 \beq
 \delta=\Delta_d\Delta_t \calm\caly_{d|\td}(t)=
-\Delta_d\Delta_t y^\s=(m_1-m_0)T
+\Delta_d\Delta_t y^\s_t=(m_1-m_0)\Delta t
 \;.
 \eeq
 
@@ -581,16 +558,10 @@ and $F_0$,
 and between points
 $S_1$ and $F_1$.
 (S=starting, F=finishing).
-The $\caly$
-coordinates
-of $S_0, S_1, F_0, F_1$
-are given by Table \ref{tab-did-points}.
-The $\caly$
-coordinates of points
-$I$ (image of point $F_0$)
-and $C$ (counterfactual point)
-are 
-given by Eqs.(\ref{eq-c-i-pts}).
+$S_0, S_1, F_0, F_1$ are the measurement points.
+Point
+$I$ is an image of point $F_0$.
+Point $C$ is a counterfactual point.
 } 
 \label{fig-parallel-trends}
 \end{figure}
