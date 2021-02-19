@@ -186,11 +186,9 @@ whereas the $G_t$ in
 this chapter is defined for
  more than 2  measurement times.
 Second, the $G_t$ in this chapter 
-adds an additional
-root node $\rvw$ to
-the $G_t$ of the DID chapter.
-$\rvw$ acts as a prior to the
-treatment outcome node $\rvy_t$.
+defines $\rvy_t$ 
+for $d=0$ as a weighted
+average over control subpopulations.
 
 
 
@@ -209,8 +207,6 @@ $$
 \\
 \rvd\ar[rr]&
 &\rvy_t
-\\
-&&\rvw\ar[u]
 }
 \\
 \\
@@ -233,29 +229,29 @@ following unit counts:
 
 
 \beq
-N^\xi_{d,y_t,x, w}=
+N^\xi_{d,y_t,x}=
 \sum_{\s \in S_\xi}
 \indi(d=d^\s, y_t=y_t^\xi,
- x=x^\s, w=w^\s)
+ x=x^\s)
 \;.
 \eeq
 Define also
 
 \beq
-N_{d,y_t,x, w}=\sum_{\xi\in\bool}
+N_{d,y_t,x}=\sum_{\xi\in\bool}
 \indi(\xi, d) 
-N^\xi_{d,y_t,x, w}
+N^\xi_{d,y_t,x}
 \;.
 \eeq
 
 Henceforth,
 sums over the subscripts of 
-$N_{d,y_t,x, w}$ will
+$N_{d,y_t,x}$ will
 be indicated by a dot.
 For example,
-$N_{\cdot,y_t,x, w}
+$N_{\cdot,y_t,x}
 =
-\sum_d N_{d,y_t,x, w}
+\sum_d N_{d,y_t,x}
 $.
 
 The TPMs,
@@ -269,23 +265,20 @@ are as follows.
 
 
 \beq\color{blue}
-P_{\rvx}(x)=  \frac{N_{\cdot,\cdot,x, \cdot}}
-{N_{\cdot, \cdot, \cdot, \cdot}}
+P_{\rvx}(x)=  
+\frac{N_{\cdot,\cdot,x}}
+{N_{\cdot, \cdot, \cdot}}
 \eeq
  
 \beq\color{blue}
-P_{\rvd|\rvx}(d|x)= \frac{N_{d,\cdot,x, \cdot}}
-{N_{\cdot, \cdot, x, \cdot}}
+P_{\rvd|\rvx}(d|x)= 
+\frac{N_{d,\cdot,x}}
+{N_{\cdot, \cdot, x}}
 \eeq
 
 \beq\color{blue}
-P_{\rvy_t|\rvd, \rvx, \rvw}(y_t|d,x, w)=
-\frac{N_{d,y_t,x,w}}{N_{d,\cdot,x,w}}
-\eeq
-
-\beq\color{blue}
-P_{\rvw}(w)=  \frac{N_{\cdot,\cdot,\cdot, w}}
-{N_{\cdot, \cdot, \cdot, \cdot}}
+P_{\rvy_t|\rvd, \rvx}(y_t|d,x)=
+\frac{N_{d,y_t,x}}{N_{d,\cdot,x}}
 \eeq
 
 \section{PO analysis}
@@ -304,16 +297,12 @@ $$
 &\rvx\ar[dl]\ar[dr]
 \\
 \rvd\ar[rr]&&\rvy_t
-\\
-&&\rvw\ar[u]
 }
 &&
 \xymatrix{
 &\rvx\ar[dl]\ar[dr]
 \\
 \rvd=d&\rvtd=\td\ar[r]&\rvy_t
-\\
-&&\rvw\ar[u]
 }
 \\
 \\
@@ -378,18 +367,14 @@ P_{\rvd|\rvx}(d|x)
 \eeq
  
 \beq\color{blue}
-P(y_t|\td, x,w)=
-P_{\rvy_t|\rvt, \rvx, w}
-(y_t|\td, x, w)
+P(y_t|\td, x)=
+P_{\rvy_t|\rvd, \rvx}
+(y_t|\td, x)
 \eeq
 
 \beq\color{blue}
 P((\td)')=\delta(
 (\td)', \td)
-\eeq
-
-\beq\color{blue}
-P(w)=P_{\rvw}(w)
 \eeq
 
 \begin{figure}[h!]
@@ -462,11 +447,10 @@ Note that in Fig.\ref{fig-syn-con-bc},
 we display a large gap
 between the curves $\caly_{0|\td}(t)$
 for $\td\in \bool$.
-In reality, the priors
-$\rvw$ have been
+In reality, $P(y_t|\td,x)$ has been
 calculated so as to make that
 gap as small as possible.
-Hence, to a good approximation,
+Thus, to a good(?) approximation,
 
 \beq
 \delta_t\approx ATT_t
