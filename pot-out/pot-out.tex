@@ -1644,3 +1644,216 @@ P(y| d,g)=
 }
 \;.
 \eeq
+
+\section{Multi-time PO bnets (Panel Data)}
+
+In this section, we will
+discuss Multi-time PO bnets (MT-PO).
+
+A {\bf time-series} is a function $f:D\rarrow \RR$
+whose domain $D$ is a discrete set. A time-series 
+usually describes a single
+unit $\s$ (i.e., an individual)
+in a population.
+
+An {\bf observational study (or analysis or model)}
+can be cross-sectional or longitudinal.
+A {\bf cross-sectional study} 
+collects and analyzes a {\bf cross-sectional dataset};
+i.e., a dataset for a population
+at a single time. A {\bf longitudinal study
+or panel study} collects and analyzes 
+a {\bf longitudinal dataset};
+i.e., a dataset for a population
+at  multiple times. 
+Thus, a longitudinal study 
+consists of one or more time-series.
+
+Let $\calt=\{t_0, t_1, \ldots, t_{ntimes-1}\}$.
+For any time-series $a_t: \calt\rarrow\RR$,
+define
+
+\beq
+E_t a_t=
+\frac{1}{ntimes}\sum_{t\in \calt} a_t
+\eeq
+
+\beq
+\Delta_t a_t = a_t -E_t a_t
+\eeq
+
+\beq
+\av{a_t, b_t}_t= E_t \Delta_t a_t \Delta_t b_t
+\eeq
+
+Consider a quantity $a^\s_t$
+that is a function of  the time $t$
+and of the particular unit $\s$
+in a population.
+$a^\s_t$ is said to be a {\bf fixed (in time) effect} 
+if it is $t$-independent.
+$a^\s_t$ is said to be a
+{\bf homogeneous effect}
+(antonym: {\bf heterogeneous effect})
+if it is
+$\s$-independent.
+Henceforth, we will avoid 
+using the word ``effect" for these,
+because that word
+ has already been used for something else in
+PO theory.
+Instead, we will use the word ``quantity".
+
+\begin{figure}[h!]
+$$\xymatrix @C=4pc {
+\rvu^\s\ar@/^1pc/@{-->}[dd]\ar@/^2pc/@{-->}[ddd]
+&\rvu^\s\ar@/^1pc/@{-->}[dd]\ar@/^2pc/@{-->}[ddd]
+&\rvu^\s\ar@/^1pc/@{-->}[dd]\ar@/^2pc/@{-->}[ddd]
+\\
+\rvx^\s\ar[d]_\gamma\ar@/_1.5pc/[dd]_\beta
+&\rvx^\s\ar[d]\ar@/_1.5pc/[dd]
+&\rvx^\s\ar[d]\ar@/_1.5pc/[dd]
+\\
+\rvd^\s_0\ar[d]_\delta\ar[r]_\alp
+&\rvd^\s_1\ar[d]\ar[r]
+&\rvd^\s_2\ar[d]
+\\
+\rvy^\s_0
+&\rvy^\s_1
+&\rvy^\s_2
+}$$
+\caption{Example 
+of multi-time PO bnet
+with fixed quantities $\rvx^\s, \rvu^\s$.
+The 
+3 nodes $\rvx^\s$
+should be identified
+as a single node. 
+ Likewise, the 
+3 nodes $\rvu^\s$
+should be identified
+as a single node. 
+}
+\label{fig-dynamic-po}
+\end{figure}
+
+Fig.\ref{fig-dynamic-po}
+gives an example
+of a multi-time PO bnet (MT-PO).
+Note that in this example, $\rvx^\s$
+and $\rvu^\s$ are fixed quantities (i.e.,
+ they are $t-$independent).
+$\rvu^\s$ is an unobserved confounder
+and $\rvx^\s$ is an observed confounder. 
+For convenience and simplicity, we will assume linear
+deterministic TPMs  for
+the internal (i.e., non-root)  nodes.
+The TPMs for the bnet Fig.\ref{fig-dynamic-po},
+printed in blue, are as follows:
+
+\beq\color{blue}
+P(x^\s)=P_\rvx(x^\s)
+\eeq
+
+\beq\color{blue}
+P(u^\s)=P_\rvu(u^\s)
+\eeq
+
+\beq\color{blue}
+P(y^\s_t|d^\s_t,x^\s, u^\s)=\indi(\;\;
+y^\s_t=  
+\delta d^\s_t + \beta x^\s  +u^\s\;\;)
+\eeq
+
+\beq\color{blue}
+P(d^\s_{t+1}|d^\s_t, x^\s, u^\s)=\indi(\;\;
+d^\s_{t+1}=  \alp d^\s_t + \gamma x^\s+ u^\s\;\;)
+\eeq
+
+Taking time averages
+of the treatment dose and 
+treatment outcome, we get
+
+
+\beq
+E_t \rvy^\s_t=  
+\delta E_t \rvd^\s_t + \beta \rvx^\s  +\rvu^\s
+\;,
+\eeq
+
+\beq
+E_t \rvd^\s_{t+1}=  \alp E_t \rvd^\s_t +
+ \gamma \rvx^\s+ \rvu^\s
+\;.
+\eeq
+Subtracting the time averages from the
+quantities being averaged, we get
+
+
+\beq
+\Delta_t \rvy^\s_t=    
+\delta\Delta_t  \rvd^\s_t 
+\;,
+\eeq
+
+\beq
+\Delta_t \rvd^\s_{t+1}=  \alp \Delta_t \rvd^\s_t
+\;.
+\eeq
+This allows us to find estimators for $\delta$
+and $\alp$:
+
+
+
+\beq
+E_\s\av{\rvy^\s_t, \rvy^\s_t}_t
+=\delta E_\s\av{\rvy^\s_t, \rvd^\s_t}_t
+\eeq
+
+\beq
+\delta=
+\frac{E_\s\av{\rvy^\s_t, \rvy^\s_t}_t
+}{
+E_\s\av{\rvy^\s_t, \rvd^\s_t}_t
+}
+\eeq
+
+\beq
+E_\s\av{\rvd^\s_{t+1}, \rvd^\s_{t+1}}_t
+=\alp E_\s\av{\rvd^\s_{t+1}, \rvd^\s_t}_t
+\eeq
+
+\beq
+\alp=
+\frac{E_\s\av{\rvd^\s_{t+1}, \rvd^\s_{t+1}}_t
+}{
+E_\s\av{\rvd^\s_{t+1}, \rvd^\s_t}_t
+}
+\eeq
+
+As shown in Fig.\ref{fig-dynamic-po-avg},
+ subtraction 
+of time averages 
+from each node removes the 
+confounder nodes from the bnet
+of Fig.\ref{fig-dynamic-po} (However, this
+assumes that the
+confounders are time independent
+and that the TPMs 
+for the internal nodes
+are linear deterministic,
+two very strong assumptions). 
+
+\begin{figure}[h!]
+$$\xymatrix @C=4pc {
+\Delta_t\rvd^\s_{t}\ar[d]_\delta\ar[r]_\alp
+&\Delta_t\rvd^\s_{t+1}\ar[d]
+\\
+\Delta_t\rvy^\s_t
+&\Delta_t\rvy^\s_{t+1}
+}$$
+\caption{time-average-subtracted (TAS) bnet for the bnet 
+of Fig.\ref{fig-dynamic-po}.
+}
+\label{fig-dynamic-po-avg}
+\end{figure}
