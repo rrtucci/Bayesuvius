@@ -41,7 +41,7 @@ of do and imagine operators.
 \begin{tabular}{|l|l|l|l|l|}
 \hline
 \rowcolor[HTML]{ECF4FF} 
-$\s$ & $\rvd^\s$ & $\rvy^\s$ & $(1-\rvd^\s)\rvy^\s$ & $\rvd^\s\rvy^\s$ \\ \hline
+$\s$ & $\rvd^\s$ & $\rvy^\s$ & $\rvy^\s(0)$ & $\rvy^\s(1)$ \\ \hline
 Andy & \cellcolor[HTML]{FFFFC7}1 & 10 & . & 10 \\ \hline
 Ben & \cellcolor[HTML]{FFFFC7}1 & 5 & . & 5 \\ \hline
 Chad & \cellcolor[HTML]{FFFFC7}1 & 16 & . & 16 \\ \hline
@@ -739,6 +739,10 @@ $E_{\s|d,\td,x}[\rvy^\s]=\caly_{d|\td,x}$\\
 translating
 from standard PO notation
 of Ref.\cite{book-mixtape} to our notation.
+Note that in our
+notation,
+we ever use $Y_i(D)=\rvy^\s(d)$. 
+We use $\rvy^\s(\td)$ instead..
 }
 \label{tab-pot-out-dict}
 \end{table}
@@ -758,18 +762,14 @@ $\rvd^\s$ and $\rvtd^\s$ in $G_{im+}$. This confusion
 becomes particularly distressing
 when we are told in PO notation that
 
-\beq Y_i=D_i Y_i(0) + (1
--D_i)Y_i(1)\;.\eeq
-This could mean
+\beq Y_i^{obs}=D_i Y_i(1) + (1
+-D_i)Y_i(0)\;.
+\eeq
+In our notation,
+this is saying that
 
-\beq \rvy^\s= \rvtd^\s \rvy^\s(\td^\s=1) 
-+ (1-\rvtd^\s)\rvy^\s(\td^\s=0)
-\;,
-\eeq 
-or
-it could mean 
-\beq \rvy^\s= \rvd^\s \rvy^\s(d^\s=1) +
- (1-\rvd^\s)\rvy^\s(d^\s=0)
+\beq (\rvy^\s)^{obs}= \rvtd^\s \rvy^\s(\td^\s=1) +
+ (1-\rvtd^\s)\rvy^\s(\td^\s=0)
 \;.
 \eeq
 
@@ -933,17 +933,15 @@ linearly related
 
 \section{Ignorability}
 
-Confounders are said to be {\bf
-ignorable} (i.e., there is independence
-from confounders)
- if
+A treatment dose $\rvd^\s$ is said to be {\bf
+ignorable} if
 
 \beq
 \rvy^\s(\rvtd^\s)\perp_P \rvd^\s
 \;.
 \eeq
 This is satisfied by $G_{do}$.
-To prove so,
+To prove this,
 check that
 
 \beq
@@ -953,7 +951,7 @@ check that
 and then invoke
 the d-separation theorem 
 (see Chapter \ref{ch-dsep}).
-When confounders are ignorable, we have
+When treatment $\td$ is ignorable, we have
 
 \beq
 \caly_{d|\td}=
@@ -990,14 +988,16 @@ defined for a fixed stratum $x$
 by replacing $\caly_{d|\td}$
 with  $\caly_{d|\td, x}$. 
 We will denote such
-an extension by $\cale_x$,
+an extension by $\cale_{|x}$,
 or, sometimes, simply by $\cale$.
+ATE$_{|x}$ is often called 
+the {\bf Conditional
+Average Treatment Effect (CATE)}.
 
 
-Confounders are said to be {\bf conditionally
-ignorable} (i.e., there is
-conditional independence
-from confounders)
+A treatment dose $ \rvd^\s$ is
+ said to be {\bf conditionally
+ignorable} 
  if
 
 \beq
@@ -1014,7 +1014,7 @@ prove this, check that
 and then invoke
 the d-separation theorem 
 (see Chapter \ref{ch-dsep}).
-When confounders are 
+When treatment $\td$ is 
 conditionally ignorable, we have
 
 \beq
@@ -1069,7 +1069,7 @@ hypothesis}.
 \begin{tabular}{|l|l|l|l|l|}
 \hline
 \rowcolor[HTML]{ECF4FF} 
-$\s$ & $\rvd^\s$ & $\rvy^\s$ & $(1-\rvd^\s)\rvy^\s$ & $\rvd^\s\rvy^\s$ \\ \hline
+$\s$ & $\rvd^\s$ & $\rvy^\s$ & $\rvy^\s(0)$ & $\rvy^\s(1)$ \\ \hline
 Andy & \cellcolor[HTML]{FFFFC7}1 & 10 & 10 & 10 \\ \hline
 Ben & \cellcolor[HTML]{FFFFC7}1 & 5 & 5 & 5 \\ \hline
 Chad & \cellcolor[HTML]{FFFFC7}1 & 16 & 16 & 16 \\ \hline
@@ -1098,7 +1098,7 @@ $\xi=|34-30|/4=1$
 \begin{tabular}{|l|l|l|l|l|}
 \hline
 \rowcolor[HTML]{ECF4FF} 
-$\s$ & $\rvd^\s$ & $\rvy^\s$ & $(1-\rvd^\s)\rvy^\s$ & $\rvd^\s\rvy^\s$ \\ \hline
+$\s$ & $\rvd^\s$ & $\rvy^\s$ & $\rvy^\s(0)$ & $\rvy^\s(1)$ \\ \hline
 Andy & \cellcolor[HTML]{FFFFC7}1 & 10 & 10 & 10 \\ \hline
 Ben & 0 & 5 & 5 & 5 \\ \hline
 Chad & \cellcolor[HTML]{FFFFC7}1 & 16 & 16 & 16 \\ \hline
@@ -1302,8 +1302,9 @@ match for individual $\s$.
 \beqa
 \widehat{ATT}
 &=&
-\frac{1}{N_1}\sum_\s d^\s y^\s - 
-\frac{1}{N_1}\sum_\s d_\s y^{s(\s)}
+\overbrace{\frac{1}{N_1}\sum_\s d^\s y^\s}^{\caly_{1|1}}
+ - 
+\overbrace{\frac{1}{N_1}\sum_\s d^\s y^{s(\s)}}^{\caly_{0|1}}
 \\
 &=&
 \frac{1}{N_1}\sum_\s d^\s (y^\s - y^{s(\s)})
@@ -1311,6 +1312,11 @@ match for individual $\s$.
 
 \beqa
 \widehat{ATU}
+&=&
+\overbrace{\frac{1}{N_0}\sum_\s (1-d^\s) y^{s(\s)} }^{\caly_{1|0}}
+ - 
+\overbrace{\frac{1}{N_0}\sum_\s (1-d^\s)y^\s}^{\caly_{0|0}}
+\\
 &=&
 \frac{1}{N_0}\sum_\s (1-d^\s) ( y^{s(\s)}-y^\s)
 \eeqa
@@ -1451,7 +1457,7 @@ If positivity is violated,
 then 
 for some 
 layer $x$, 
- $\caly_{0|\td,x}$ or $\caly_{1|\td,x}$ 
+ $\caly_{0|d,x}$ or $\caly_{1|d,x}$ 
 is zero,
 so we can't calculate effect
 estimators such as $\widehat{ATE}$.
