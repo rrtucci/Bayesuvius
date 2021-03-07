@@ -485,23 +485,23 @@ in terms of the TPMs of
 bnet $G_{do+}$:
 
 \beq
-\caly_{|\td,x}=E_{\s|\td,x}[\rvy^\s(\td)]
-\rarrow  E_{y|\td,x}[\rvy(\td)]
+\caly_{|\td,x}=E_{\s|\td,x}[\rvy^\s]
+\rarrow  E_{\rvy|\td,x}[\rvy]
 =
 \sum_y yP(y|\td,x)
 \eeq
 
 
 \beq
-\caly_{|\td}=E_{\s|\td}[\rvy^\s(\td)]
-\rarrow E_{y|\td}[\rvy(\td)]
+\caly_{|\td}=E_{\s|\td}[\rvy^\s]
+\rarrow E_{y|\td}[\rvy]
 =
 \sum_x \caly_{|\td,x}P(x)
 \eeq
 
 \beq
-\caly_{|x}=E_{\s|x}[\rvy^\s(\td)]
-\rarrow E_{y|x}[\rvy(\td)]
+\caly_{|x}=E_{\s|x}[\rvy^\s]
+\rarrow E_{y|x}[\rvy]
 =
 \sum_{\td} \caly_{|\td,x}P(\td)
 \eeq
@@ -580,20 +580,19 @@ non-compliant.
 
 
 It is convenient to define
-$\rvy^\s(\td^\s)$ so that
+$\rvy^\s(d)$ so that
 
 \beq
-\rvy^\s(\td^\s)=
+\rvy^\s(d)=
 \rvy_{G_{im}}^\s
 \eeq
 and
 
 \beq
-\rvy^\s=
-\rvy^\s(\td^\s)=
-\rvy^\s(1) \td^\s
+\rvy^\s(d)=
+\rvy^\s(1) d
 +
-\rvy^\s(0) (1-\td^\s)
+\rvy^\s(0) (1-d)
 \;.
 \eeq 
 
@@ -658,36 +657,36 @@ bnet $G_{im+}$:
 \beq
 \caly_{d|\td,x}
 =
-E_{\s|d,\td,x}[\rvy^\s(\td)]
+E_{\s|\td,x}[\rvy^\s(d)]
 \rarrow
-E_{y|d,\td,x} [\rvy(\td)]
+E_{\rvy|\td,x} [\rvy(d)]
 =\sum_{y} y P(y|\td,x)P(d|x)
 \eeq
 
 \beq
 \caly_{d|\td}
 =
-E_{\s| d,\td}[\rvy^\s(\td)]
+E_{\s| \td}[\rvy^\s(d)]
 \rarrow
-E_{y|d, \td} [\rvy(\td)]
+E_{\rvy|\td} [\rvy(d)]
 =\sum_x \caly_{d|\td,x}P(x)
 \eeq
 
 \beq
 \caly_{d|x}
 =
-E_{\s| d,x}[\rvy^\s(\td)]
+E_{\s| x}[\rvy^\s(d)]
 \rarrow
-E_{y|d,x} [\rvy(\td)]
+E_{\rvy|x} [\rvy(d)]
 =\sum_\td \caly_{d|\td,x}P(\td)
 \eeq
 
 \beq
 \caly_{d}
 =
-E_{\s| d}[\rvy^\s(\td)]
+E_{\s}[\rvy^\s(d)]
 \rarrow
-E_{y|d} [\rvy(\td)]
+E_{\rvy} [\rvy(d)]
 =\sum_{\td,x}\caly_{d|\td,x} P(\td)P(x)
 \eeq
 
@@ -719,11 +718,9 @@ $D_i=d_i$, treatment dose & $\rvd^\s=d^\s$\\
 $Y_i=y_i$, treatment outcome& $\rvy^\s=y^\s$ \\ 
 \hline 
 $X_i=x_i$, treatment confounders& $\rvx^\s=x^\s$ \\ 
-\hline 
-$Y_i(\td)$ & $\rvy^\s=\rvy^\s(\td)$ for $G_{im}$\\
 \hline
 $E[Y_i(d)]$ & 
-$E_{\s}[\rvy^\s(d)]=\caly_{d}$ \\
+$E_{\s|d}[\rvy^\s]=\caly_{d}$ \\
 \hline
 $E[Y_i|D_i=\td]$ & 
 $ E_{\s|\td}[\rvy^\s]=\caly_{|\td}$\\
@@ -731,7 +728,7 @@ $ E_{\s|\td}[\rvy^\s]=\caly_{|\td}$\\
 $E[Y_i(d)|D_i=\td]$ & 
 $E_{\s|d,\td}[\rvy^\s]=\caly_{d|\td}$\\
 \hline
-$E[Y_i(d)|D_i=\td, X=x]$ & 
+$E[Y_i(d)|D_i=\td, X_i=x]$ & 
 $E_{\s|d,\td,x}[\rvy^\s]=\caly_{d|\td,x}$\\
 \hline
 \end{tabular}
@@ -739,10 +736,6 @@ $E_{\s|d,\td,x}[\rvy^\s]=\caly_{d|\td,x}$\\
 translating
 from standard PO notation
 of Ref.\cite{book-mixtape} to our notation.
-Note that in our
-notation,
-we ever use $Y_i(d)=\rvy^\s(d)$. 
-We use $\rvy^\s(\td)$ instead..
 }
 \label{tab-pot-out-dict}
 \end{table}
@@ -762,14 +755,30 @@ $\rvd^\s$ and $\rvtd^\s$ in $G_{im+}$. This confusion
 becomes particularly distressing
 when we are told in PO notation that
 
-\beq Y_i^{obs}=D_i Y_i(1) + (1
--D_i)Y_i(0)\;.
+\beq Y_i(d)=d Y_i(1) + (1
+-d)Y_i(0)\;,
+\eeq
+and
+
+\beq
+E\left[Y_i(d)|D_i=\td, X_i=x\right]
+=\caly_{d|\td,x}
+\;.
 \eeq
 In our notation,
 this is saying that
 
-\beq (\rvy^\s)^{obs}= \rvtd^\s \rvy^\s(\td^\s=1) +
- (1-\rvtd^\s)\rvy^\s(\td^\s=0)
+\beq 
+\rvy^\s(d)= d \rvy^\s(1) +
+ (1-d)\rvy^\s(0)
+\;,
+\eeq
+and
+
+\beq
+E_{\s|\rvtd^\s=\td, \rvx^\s=x}
+[\rvy^\s(d)]=
+\caly_{d|\td,x}
 \;.
 \eeq
 
@@ -937,7 +946,7 @@ A treatment dose $\rvd^\s$ is said to be {\bf
 ignorable} if
 
 \beq
-\rvy^\s(\rvtd^\s)\perp_P \rvd^\s
+(\rvy^\s,\rvtd^\s)\perp_P \rvd^\s
 \;.
 \eeq
 This is satisfied by $G_{do}$.
@@ -945,7 +954,7 @@ To prove this,
 check that
 
 \beq
-\rvy^\s(\rvtd^\s)\perp_{G_{do}} \rvd^\s
+(\rvy^\s,\rvtd^\s)\perp_{G_{do}} \rvd^\s
 \;
 \eeq
 and then invoke
@@ -955,7 +964,6 @@ When treatment $\td$ is ignorable, we have
 
 \beq
 \caly_{d|\td}=
-\caly_{d|y(\td)}=
 \caly_{d}
 \;,
 \eeq
@@ -1001,14 +1009,14 @@ ignorable}
  if
 
 \beq
-\rvy^\s(\rvtd^\s)\perp_P \rvd^\s|\rvx^\s
+(\rvy^\s,\rvtd^\s)\perp_P \rvd^\s|\rvx^\s
 \;.
 \eeq
 This is satisfied by $G_{im}$. To
 prove this, check that
 
 \beq
-\rvy^\s(\rvtd^\s)\perp_{G_{im}} \rvd^\s|\rvx^\s
+(\rvy^\s,\rvtd^\s)\perp_{G_{im}} \rvd^\s|\rvx^\s
 \;
 \eeq
 and then invoke
@@ -1019,7 +1027,6 @@ conditionally ignorable, we have
 
 \beq
 \caly_{d|\td,x}=
-\caly_{d|y(\td),x}=
 \caly_{d|x}
 \;,
 \eeq
@@ -1252,6 +1259,84 @@ with
 exactly
 one individual
 with $d^\s=0$.
+Let 
+$s(\s)$ be the single
+match for individual $\s$.
+Thus, $s(\s)$ is a 1-1 onto map
+on the set of individuals.
+
+Note that
+
+\beq
+E_{|\td^\s=\td,x}[\rvy^\s(d)]=\delta(d,\td)\caly_{|\td,x}
+\;,
+\eeq
+
+\beq
+E_{|\td^\s=\td,x}[\rvy^{s(\s)}(d)]=\delta(d, !\td)
+\caly_{d|\td,x}
+\;.
+\eeq
+Therefore,
+
+\beqa
+E_{|x}\left[\frac{1}{N_1}\sum_\s \td^\s 
+\rvy^\s\right]
+&=&
+E_{|\td^\s=1,x}\left[\frac{1}{N_1}\sum_\s \td^\s 
+\rvy^\s(1)\right]
+\\
+&=&
+\frac{1}{N_1}\sum_\s \delta(\td^\s, 1) \caly_{1|1,x}
+\\
+&=&
+\caly_{1|1,x}
+\eeqa
+
+\beqa
+E_{|x}\left[\frac{1}{N_1}\sum_\s \td^\s 
+\rvy^{s(\s)}\right]
+&=&
+E_{|\td^\s=1,x}\left[\frac{1}{N_1}\sum_\s \td^\s 
+\rvy^{s(\s)}(0)\right]
+\\
+&=&
+\frac{1}{N_1}\sum_\s \delta(\td^\s, 1) \caly_{0|1,x}
+\\
+&=&
+\caly_{0|1,x}
+\eeqa
+
+
+\beqa
+E_{|x}\left[\frac{1}{N_0}\sum_\s (1-\td^\s) 
+\rvy^{s(\s)}\right]
+&=&
+E_{|\td^\s=0,x}\left[\frac{1}{N_0}\sum_\s (1-\td^\s) 
+\rvy^{s(\s)}(1)\right]
+\\
+&=&
+\frac{1}{N_0}\sum_\s \delta(\td^\s, 0) \caly_{1|0,x}
+\\
+&=&
+\caly_{1|0,x}
+\eeqa
+
+
+\beqa
+E_{|x}\left[\frac{1}{N_0}\sum_\s (1-\td^\s)
+\rvy^{\s}\right]
+&=&
+E_{|\td^\s=0,x}\left[\frac{1}{N_0}\sum_\s (1-\td^\s)
+\rvy^{\s}(0)\right]
+\\
+&=&
+\frac{1}{N_0}\sum_\s \delta(\td^\s, 0) \caly_{0|0,x}
+\\
+&=&
+\caly_{0|0,x}
+\;.
+\eeqa
 
 Recall that
 
@@ -1286,39 +1371,39 @@ is the prior of node $\rvtd$.
 Eqs.(\ref{eq-to-estimate})
 can be estimated from the data
 via the following estimators.
-In these estimators,
-$s(\s)$ is the single
-match for individual $\s$.
+
 
 
 \beq
 \widehat{SDO}=
-\frac{1}{N_1}\sum_\s d^\s y^\s
+\overbrace{\frac{1}{N_1}\sum_\s \td^\s y^\s}^
+{\caly_{1|1,x}}
 -
-\frac{1}{N_0}\sum_\s (1-d^\s) y^\s
+\overbrace{\frac{1}{N_0}\sum_\s (1-\td^\s) y^\s}^
+{\caly_{0|0,x}}
 \eeq
-
 
 \beqa
 \widehat{ATT}
 &=&
-\overbrace{\frac{1}{N_1}\sum_\s d^\s y^\s}^{\caly_{1|1}}
+\overbrace{\frac{1}{N_1}\sum_\s \td^\s y^\s}^{\caly_{1|1,x}}
  - 
-\overbrace{\frac{1}{N_1}\sum_\s d^\s y^{s(\s)}}^{\caly_{0|1}}
+\overbrace{\frac{1}{N_1}\sum_\s \td^\s y^{s(\s)}}^{\caly_{0|1,x}}
 \\
 &=&
-\frac{1}{N_1}\sum_\s d^\s (y^\s - y^{s(\s)})
+\frac{1}{N_1}\sum_\s \td^\s [y^\s - y^{s(\s)}]
 \eeqa
+
 
 \beqa
 \widehat{ATU}
 &=&
-\overbrace{\frac{1}{N_0}\sum_\s (1-d^\s) y^{s(\s)} }^{\caly_{1|0}}
+\overbrace{\frac{1}{N_0}\sum_\s (1-\td^\s) y^{s(\s)} }^{\caly_{1|0,x}}
  - 
-\overbrace{\frac{1}{N_0}\sum_\s (1-d^\s)y^\s}^{\caly_{0|0}}
+\overbrace{\frac{1}{N_0}\sum_\s (1-\td^\s)y^\s}^{\caly_{0|0,x}}
 \\
 &=&
-\frac{1}{N_0}\sum_\s (1-d^\s) ( y^{s(\s)}-y^\s)
+\frac{1}{N_0}\sum_\s (1-\td^\s) [ y^{s(\s)}-y^\s]
 \eeqa
 
 \beqa
@@ -1333,13 +1418,187 @@ match for individual $\s$.
 \\
 &=&
 \frac{1}{nsam}
-\left[\sum_\s d^\s (y^\s - y^{s(\s)})+
-\sum_\s(1-d^\s) ( y^{s(\s)}-y^\s)
+\left[\sum_\s \td^\s [y^\s - y^{s(\s)}]+
+\sum_\s(1-\td^\s) [ y^{s(\s)}-y^\s]
 \right]
 \\
 &=&
-\frac{1}{nsam}\sum_\s (2d^\s-1) (y^\s - y^{s(\s)})
+\frac{1}{nsam}\sum_\s (2\td^\s-1)[y^\s -y^{s(\s)}]
 \eeqa
+
+\subsubsection{Example, calculation
+of
+estimators for a treatment}
+
+
+For $\s\in \{1,2, \ldots, 10\}$, define
+
+\beq
+s(\s)=
+\left\{
+\begin{array}{ll}
+\s+5&\text{if }\s\leq 5
+\\
+\s-5&\text{if }\s >5
+\end{array}
+\right.
+\eeq
+
+
+\renewcommand{\arraystretch}{1.5} 
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|}
+\hline
+\cellcolor[HTML]{ECF4FF} $\s$& \cellcolor[HTML]{ECF4FF}$\td^\s$ & \cellcolor[HTML]{ECF4FF}$y^\s$ & \cellcolor[HTML]{ECF4FF}$\td^\s y^\s$ & \cellcolor[HTML]{ECF4FF}$(1-\td^\s)y^\s$ & \cellcolor[HTML]{ECF4FF}$\td^\s y^{s(\s)}$ & \cellcolor[HTML]{ECF4FF}$(1-\td^\s)y^{s(\s)}$ \\ \hline
+\cellcolor[HTML]{ECF4FF}1 & \cellcolor[HTML]{FFFFC7}0 & 0 & \cellcolor[HTML]{FFFFC7}0 & 0 & \cellcolor[HTML]{FFFFC7}0 & 0 \\ \hline
+\cellcolor[HTML]{ECF4FF}2 & \cellcolor[HTML]{FFFFC7}0 & 0 & \cellcolor[HTML]{FFFFC7}0 & 0 & \cellcolor[HTML]{FFFFC7}0 & 1 \\ \hline
+\cellcolor[HTML]{ECF4FF}3 & \cellcolor[HTML]{FFFFC7}0 & 1 & \cellcolor[HTML]{FFFFC7}0 & 1 & \cellcolor[HTML]{FFFFC7}0 & 1 \\ \hline
+\cellcolor[HTML]{ECF4FF}4 & \cellcolor[HTML]{FFFFC7}0 & 1 & \cellcolor[HTML]{FFFFC7}0 & 1 & \cellcolor[HTML]{FFFFC7}0 & 1 \\ \hline
+\cellcolor[HTML]{ECF4FF}5 & \cellcolor[HTML]{FFFFC7}0 & 1 & \cellcolor[HTML]{FFFFC7}0 & 1 & \cellcolor[HTML]{FFFFC7}0 & 1 \\ \hline
+\cellcolor[HTML]{ECF4FF}6 & 1 & 0 & 0 & \cellcolor[HTML]{FFFFC7}0 & 0 & \cellcolor[HTML]{FFFFC7}0 \\ \hline
+\cellcolor[HTML]{ECF4FF}7 & 1 & 1 & 1 & \cellcolor[HTML]{FFFFC7}0 & 0 & \cellcolor[HTML]{FFFFC7}0 \\ \hline
+\cellcolor[HTML]{ECF4FF}8 & 1 & 1 & 1 & \cellcolor[HTML]{FFFFC7}0 & 1 & \cellcolor[HTML]{FFFFC7}0 \\ \hline
+\cellcolor[HTML]{ECF4FF}9 & 1 & 1 & 1 & \cellcolor[HTML]{FFFFC7}0 & 1 & \cellcolor[HTML]{FFFFC7}0 \\ \hline
+\cellcolor[HTML]{ECF4FF}10 & 1 & 1 & 1 & \cellcolor[HTML]{FFFFC7}0 & 1 & \cellcolor[HTML]{FFFFC7}0 \\ \hline
+\end{tabular}
+\caption{Estimators of treatment effects
+are calculated for this example. }
+\label{tab-po-example}
+\end{table}
+\renewcommand{\arraystretch}{1}
+
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|
+>{\columncolor[HTML]{ECF4FF}}l |l|l|}
+\hline
+\cellcolor[HTML]{CBCEFB}$N(\td, x)$ & \cellcolor[HTML]{ECF4FF}$y=0$ & \cellcolor[HTML]{ECF4FF}$y=1$ \\ \hline
+$\td=0$ & 2 & 3 \\ \hline
+$\td=1$ & 1 & 4 \\ \hline
+\end{tabular}
+\caption{$N(\ul{\td^\s}=d, \rvy^\s=y)$ for
+the data in Table \ref{tab-po-example}.}
+\label{tab-n-po-example}
+\end{table}
+
+Let $N(\cals)$
+be the number of individuals $\s$
+that satisfy condition $\cals$.
+For example, 
+$N(\ul{\td^\s}=\td)$
+is the number of individuals
+such that $\ul{\td^\s}=\td$.
+
+\beqa
+N_1
+&=&
+N(\td^\s=1)
+\\
+&=&
+5
+\eeqa 
+
+\beqa
+N_0
+&=&
+N(\td^\s=0)
+\\
+&=&
+5
+\eeqa
+
+\beqa
+N
+&=& N_0+N_1
+\\
+&=&
+10
+\eeqa
+
+
+
+\beqa
+\caly_{1|1}
+&=&
+\frac{1}{N_1}
+\sum_\s \td^\s y^\s
+=
+\frac{N_(\td^\s=1, y^\s=1)}
+{N(\td^\s=1)}
+=
+P(y^\s=1|\td^\s=1)
+\\
+&=&
+\frac{4}{5}
+\eeqa
+
+\beqa
+\caly_{0|0}
+&=&
+\frac{1}{N_0}
+\sum_\s (1-\td^\s) y^\s
+=
+\frac{N_(\td^\s=0, y^\s=1)}
+{N(\td^\s=0)}
+=
+P(y^\s=1|\td^\s=0)
+\\
+&=&
+\frac{3}{5}
+\eeqa
+
+\beqa
+\caly_{0|1}
+&=&
+\frac{1}{N_1}
+\sum_\s \td^\s y^{s(\s)}
+=
+\frac{N_(\td^\s=0, y^\s=1)}
+{N(\td^\s=0)}
+=
+P(y^\s=1|\td^\s=0)
+\\
+&=&
+\frac{3}{5}
+\eeqa
+
+\beqa
+\caly_{1|0}
+&=&
+\frac{1}{N_0}
+\sum_\s (1-\td^\s) y^{s(\s)}
+=
+\frac{N_(\td^\s=1, y^\s=1)}
+{N(\td^\s=1)}
+=
+P(y^\s=1|\td^\s=1)
+\\
+&=&
+\frac{4}{5}
+\eeqa
+
+\beq
+\caly_{d|\td}=P(y^\s=1|
+\td^\s=d)
+\eeq
+
+\beqa
+ATT&=&
+\caly_{1|1}-\caly_{0|1}
+\\
+&=&
+P(y^\s=1|\td^\s=1)-
+P(y^\s=1|\td^\s=0)
+\\
+&=&\frac{1}{5}
+\eeqa
+
+\beq
+SBO=ATT=ATU=ATE=\frac{1}{5}
+\eeq
 
 \subsection{Exact and approximate strata-match}
 
@@ -1359,7 +1618,7 @@ a better way is to
 relax our demands and
 match individual $\s$
 with another individual $s$
-such that $x^s$
+such that $x^\s$
 and $x^\s$ are very
 close in some metric.
 
