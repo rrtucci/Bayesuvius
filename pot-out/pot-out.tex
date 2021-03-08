@@ -661,6 +661,7 @@ E_{\s|\td,x}[\rvy^\s(d)]
 \rarrow
 E_{\rvy|\td,x} [\rvy(d)]
 =\sum_{y} y P(y|\td,x)P(d|x)
+\label{eq-need-positivity}
 \eeq
 
 \beq
@@ -1011,6 +1012,7 @@ ignorable}
 \beq
 (\rvy^\s,\rvtd^\s)\perp_P \rvd^\s|\rvx^\s
 \;.
+\label{eq-CIA}
 \eeq
 This is satisfied by $G_{im}$. To
 prove this, check that
@@ -1043,6 +1045,24 @@ ignorability holds, then
 Eqs.(\ref{eq-ignorability}) 
 are valid at fixed $x$.
 
+Eq.\ref{eq-CIA}
+is equivalent to
+
+\beq
+(\rvy^\s(0), \rvy(1))\perp_{G_{im}}\rvd^\s | \rvx^\s
+\;.
+\label{eq-CIA2}
+\eeq
+Conditional ignorability
+defined by Eqs.(\ref{eq-CIA})
+and (\ref{eq-CIA2})
+is often called
+the {\bf Conditional Independence
+Assumption (CIA)}.
+
+
+
+
 \section{
 Hypothesis testing for sharp null}
 In this section, we assume
@@ -1051,9 +1071,7 @@ we assume that the whole discussion
 refers to  a single stratum $x$.
 Hence, we will omit the $x$ subscript
 in this section.
-
-
-
+ 
 
 Assume $\rvd^\s=\rvtd^\s$.
 In this section, we will
@@ -1392,6 +1410,7 @@ via the following estimators.
 \\
 &=&
 \frac{1}{N_1}\sum_\s \td^\s [y^\s - y^{s(\s)}]
+\label{eq-est-att}
 \eeqa
 
 
@@ -1404,6 +1423,7 @@ via the following estimators.
 \\
 &=&
 \frac{1}{N_0}\sum_\s (1-\td^\s) [ y^{s(\s)}-y^\s]
+\label{eq-est-atu}
 \eeqa
 
 \beqa
@@ -1424,6 +1444,7 @@ via the following estimators.
 \\
 &=&
 \frac{1}{nsam}\sum_\s (2\td^\s-1)[y^\s -y^{s(\s)}]
+\label{eq-est-ate}
 \eeqa
 
 \subsubsection{Example, calculation
@@ -1694,6 +1715,7 @@ bias-corrected estimator.
 
 \subsection{Positivity}
 
+
 {\bf Positivity} is defined as the
 requirement that for all layers $x$,
 \beq
@@ -1712,19 +1734,41 @@ a non-zero
 probability of being both treated 
 and untreated.
 
+According to  Eq.(\ref{eq-need-positivity}),
+
+\beq
+\caly_{d|\td,x}
+=\sum_{y} y P(y|\td,x)P(d|x)
+\;.
+\eeq
+Also note
+that the estimator
+Eq.(\ref{eq-est-att})
+for $ATT$ divides by $N_1=N(d=1,x)=P(d=1|x)N(x)$
+and 
+the estimator
+Eq.(\ref{eq-est-atu})
+for $ATU$ divides by $N_0=N(d=0,x)= P(d=0|x)N(x)$.
+The estimator
+Eq.(\ref{eq-est-ate}) for $ATE$,
+on the other hand, 
+is safe because 
+it divides by neither $N_0$ nor $N_1$.
+
 If positivity is violated,
 then 
 for some 
 layer $x$, 
- $\caly_{0|d,x}$ or $\caly_{1|d,x}$ 
-is zero,
-so we can't calculate effect
-estimators such as $\widehat{ATE}$.
-If $\widehat{ATE}$ can be calculated,
-one says it is identifiable (i.e.,
-calculable). Positivity is a requirement
-for identifiability
-of $\widehat{ATE}$ .
+ $\caly_{0|\td,x}$ or $\caly_{1|\td,x}$ 
+is zero, 
+and the estimators
+for $ATU$ or $ATT$ for layer $x$ are
+undefined.
+If $ATT$ (or any
+other treatment effect)  can be estimated,
+one says it is {\bf identifiable} (i.e.,
+calculable). If Positivity is violated, then
+either $ATT$ or $ATU$ is not identifiable.
 
  
 
@@ -1746,10 +1790,10 @@ exerted by $\rvx^\s$ on
 $\rvd^\s$ is uniformly
 random and therefore ignorable.
 Hence, it is perhaps 
-not too surprisingly
+not too surprising
 that a violation
 of positivity makes
-$\widehat{ATE}$
+$ATT$ or $ATU$
 non-identifiable.
 
 
