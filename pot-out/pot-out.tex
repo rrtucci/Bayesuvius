@@ -941,56 +941,6 @@ linearly related
 \underbrace{(\caly_{1|0}-\caly_{0|0})}_{ATU}\pi_0
 \eeqa
 
-\section{Ignorability}
-
-A treatment dose $\rvd^\s$ is said to be {\bf
-ignorable} if
-
-\beq
-(\rvy^\s,\rvtd^\s)\perp_P \rvd^\s
-\;.
-\eeq
-This is satisfied by $G_{do}$.
-To prove this,
-check that
-
-\beq
-(\rvy^\s,\rvtd^\s)\perp_{G_{do}} \rvd^\s
-\;
-\eeq
-and then invoke
-the d-separation theorem 
-(see Chapter \ref{ch-dsep}).
-When treatment $\td$ is ignorable, we have
-
-\beq
-\caly_{d|\td}=
-\caly_{d}
-\;,
-\eeq
-or, equivalently, 
-
-
-\beq
-\caly_{d|\td=0}=
-\caly_{d|\td=1}
-\;.
-\eeq
-Therefore,
-
-\begin{subequations}
-\label{eq-ignorability}
-\beq
-ATE=ATT=ATU=SDO
-\eeq
-and
-
-\beq
-SB=0
-\;.
-\eeq
-\end{subequations}
-
 Let $\cale \in\{ACE,ATE,ATT,ATU,SDO, SB\}$.
 $\cale$ can be 
 defined for a fixed stratum $x$
@@ -1004,28 +954,82 @@ the {\bf Conditional
 Average Treatment Effect (CATE)}.
 
 
-A treatment dose $ \rvd^\s$ is
- said to be {\bf conditionally
-ignorable} 
- if
+\section{Conditional Independence
+Assumption }
 
+The {\bf Conditional Independence Assumption}
+ (CIA)
+is said to hold 
+ if
 \beq
-(\rvy^\s,\rvtd^\s)\perp_P \rvd^\s|\rvx^\s
+(\rvy^\s(0), \rvy^\s(1),
+\rvy^\s,\rvtd^\s)\perp_P\rvd^\s | \rvx^\s
 \;.
-\label{eq-CIA}
+\label{eq-CIA2}
 \eeq
 This is satisfied by $G_{im}$. To
 prove this, check that
 
 \beq
-(\rvy^\s,\rvtd^\s)\perp_{G_{im}} \rvd^\s|\rvx^\s
+(\rvy^\s(0), \rvy(1),
+\rvy^\s,\rvtd^\s)
+\perp_{G_{im}} \rvd^\s|\rvx^\s
 \;
 \eeq
 and then invoke
 the d-separation theorem 
 (see Chapter \ref{ch-dsep}).
-When treatment $\td$ is 
-conditionally ignorable, we have
+
+\hrule\noindent {\bf Warning:}
+
+ CIA means
+$\rvy^\s(d)\perp_{G_{im}} \rvd^\s|\rvx^\s$
+for $d=0,1$
+or
+$\rvy^\s\perp_{G_{im}} \rvd^\s|\rvx^\s$.
+This is different from 
+$\rvy^\s\perp_{G_{im}} \rvtd^\s|\rvx^\s$
+which are FALSE
+by the d-separation theorem.
+
+CIA also means
+ $\rvtd^\s\perp_{G_{im}} \rvd^\s|x^\s$.
+This does not mean that $\caly_{d|\td, x}=
+\caly_{d|x}$.
+Because remember that
+$\caly_{d|\td, x} = 
+E_{|\td^\s=\td, x}[\rvy^\s(d)]$
+so $\caly_{d|\td, x}=
+\caly_{d|x}$
+if $\rvy^\s(d)\perp_{G_{im}}\rvtd^\s|\rvx^\s$,
+which is false.
+
+It is possible for
+$\caly_{d|\td, x}=
+\caly_{d|x}$ to be true.
+This happens 
+for a ``balanced dataset".
+Balanced   datasets are discussed 
+further in Section
+ \ref{sec-balanced-dataset}.
+
+\section{Balanced PO Dataset}
+\label{sec-balanced-dataset}
+
+A {\bf balanced  PO
+dataset} is a PO dataset for which
+ $\pi_0=\pi_1=\frac{1}{2}$. This
+ means that there are
+equal numbers
+of treated and untreated 
+individuals.
+When the propensity score $g(x^\s)=P(d^\s=1|x^\s)=
+\frac{1}{2}$,
+then $\pi_1=\sum_{x^\s}P(d^\s=1|x^\s)P(x^\s)=
+\frac{1}{2}$.
+
+For a balanced
+PO dataset, we have
 
 \beq
 \caly_{d|\td,x}=
@@ -1040,27 +1044,21 @@ or, equivalently,
 \caly_{d|\td=1, x}
 \;.
 \eeq
-If conditional
-ignorability holds, then
-Eqs.(\ref{eq-ignorability}) 
-are valid at fixed $x$.
 
-Eq.\ref{eq-CIA}
-is equivalent to
+Therefore,
+
+\begin{subequations}
+\label{eq-ignorability}
+\beq
+ATE|_x=ATT|_x=ATU|_x=SDO|_x
+\eeq
+and
 
 \beq
-(\rvy^\s(0), \rvy(1))\perp_{G_{im}}\rvd^\s | \rvx^\s
+SB|_x=0
 \;.
-\label{eq-CIA2}
 \eeq
-Conditional ignorability
-defined by Eqs.(\ref{eq-CIA})
-and (\ref{eq-CIA2})
-is often called
-the {\bf Conditional Independence
-Assumption (CIA)}.
-
-
+\end{subequations}
 
 
 \section{
@@ -1286,7 +1284,8 @@ on the set of individuals.
 Note that
 
 \beq
-E_{|\td^\s=\td,x}[\rvy^\s(d)]=\delta(d,\td)\caly_{|\td,x}
+E_{|\td^\s=\td,x}[\rvy^\s(d)]=
+\delta(d,\td)\caly_{d|\td,x}
 \;,
 \eeq
 
