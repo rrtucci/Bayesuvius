@@ -660,7 +660,7 @@ bnet $G_{im+}$:
 E_{\s|\td,x}[\rvy^\s(d)]
 \rarrow
 E_{\rvy|\td,x} [\rvy(d)]
-=\sum_{y} y P(y|\td,x)P(d|x)
+=P(d|x)\sum_{y} P(y|\td,x) y
 \label{eq-need-positivity}
 \eeq
 
@@ -699,6 +699,81 @@ whereas
 $\caly_{0|1}, \caly_{1|0}$
 are said to be {\bf counterfactual} 
 (indicating non-compliant patients).
+
+\section{${\cal Y}_{|\tilde{d}}$ and $G_{do}$}
+
+Note the 
+ $\caly_d$ and $\caly_{|\td}$
+are not the same thing.
+
+\beq
+\caly_d=
+\sum_\td \caly_{d|\td}P(\td)
+= \caly_{d|0}\pi_0
++
+\caly_{d|1}\pi_{1}
+\;
+\eeq
+whereas, as we show next,
+
+\beq
+\caly_{|\td}=
+\caly_{0|\td} +
+ \caly_{1|\td}
+\;.
+\eeq
+
+\begin{claim}
+\beq
+\caly_{|\td, x}=\sum_d\caly_{d|\td, x}
+\eeq
+\end{claim}
+\proof
+
+\beqa
+\sum_d\caly_{d|\td, x}
+&=&
+\sum_d
+P(d|x)\sum_yP(y|\td, x)y
+\\
+&=&
+\sum_yP(y|\td, x)y
+\\
+&=&
+\caly_{|\td, x}
+\eeqa
+\qed
+
+
+
+
+$\caly_{|\td}$
+is connected to the do operator as follows.
+
+\beq
+\caly_{|\td}=
+\sum_y y P(\rvy=y|\rho \rvd=\td)
+\;,
+\label{eq-y-bar-td}
+\eeq
+where
+
+\beq
+P(\rvy=y|\rho \rvd=\td)=
+\sum_x P(y|\td,x)P(x)
+\;.
+\eeq
+In particular, when
+$\rvy$ is binary 
+(i.e.,  $\rvy\in\bool$), 
+Eq.(\ref{eq-y-bar-td}) becomes
+
+\beq
+\caly_{|\td}=
+P(\rvy=1|\rho\rvd=\td)
+\;.
+\eeq
+
 
 \section{Translation Dictionary}
 
@@ -780,61 +855,63 @@ and
 E_{\s|\rvtd^\s=\td, \rvx^\s=x}
 [\rvy^\s(d)]=
 \caly_{d|\td,x}
+\label{eq-caly-def-ev}
 \;.
 \eeq
+
+In Eq.(\ref{eq-need-positivity}) we defined
+$\caly_{d|\td, x}$
+in terms of the TPMs
+of the bnet $G_{im+}$
+whereas in
+Eq.(\ref{eq-caly-def-ev}),
+we defined $\caly_{d|\td, x}$
+as an expected value, as it
+is usually
+defined in conventional PO theory.
+Next we show that both definitions
+of $\caly_{d|\td, x}$
+are equivalent.
+
+\begin{claim}
+\beq
+P(d|x)\sum_{y}P(y|\td, x)y
+=
+E_{|\td, x}[\rvy(d)]
+\label{eq-tmp-eq-ev}
+\eeq
+\end{claim}
+\proof
+
+Let LHS and RHS
+be the left and right hand sides
+of Eq.(\ref{eq-tmp-eq-ev}).
+
+\beqa
+\sum_{d,\td}P(\td|x)LHS
+&=&
+\sum_{d,\td}P(\td|x)
+\left[
+P(d|x)\sum_{y}P(y|\td, x)y\right]
+\\
+&=& \sum_y P(y|x)y
+\eeqa
+
+\beqa
+\sum_{d,\td}P(\td|x)RHS
+&=&
+E_{\s|x}[\rvy^\s(0)+\rvy^\s(1)]
+\\
+&=&
+\sum_y P(y|x)y
+\eeqa
+\qed
 
 
 \section{${\cal Y}_{d|\tilde{d}}$
 differences (aka treatment effects)}
 
 
-Note the 
- $\caly_d$ and $\caly_{|\td}$
-are not the same thing.
-\beq
-\caly_{|\td}=
-\sum_d \caly_{d|\td}
-=
-\caly_{0|\td} +
- \caly_{1|\td}
-\eeq
-whereas
-
-\beq
-\caly_d=
-\sum_\td \caly_{d|\td}P(\td)
-= \caly_{d|0}\pi_0
-+
-\caly_{d|1}\pi_{1}
-\;.
-\eeq
-
-
-$\caly_{|\td}$
-is connected to the do operator as follows.
-
-\beq
-P(\rvy=y|\rho \rvd=\td)=
-\sum_x P(y|\td,x)P(x)
-\eeq
-so
-
-\beq
-\caly_{|\td}=
-\sum_y y P(\rvy=y|\rho \rvd=\td)
-\;.
-\label{eq-y-bar-td}
-\eeq
-In particular, when
-$\rvy$ is binary 
-(i.e.,  $\rvy\in\bool$), 
-Eq.(\ref{eq-y-bar-td}) becomes
-
-\beq
-\caly_{|\td}=
-P(\rvy=1|\rho\rvd=\td)
-\;.
-\eeq
 
 \begin{figure}[h!]
 \centering
@@ -910,19 +987,21 @@ Note that some
 of these effects  are
 linearly related
 
-\beq
-\underbrace{\caly_{1|1}-\caly_{0|0}}_{SDO}
-=
-\underbrace{(\caly_{1|1}-\caly_{0|1})}_{ATT}
-+
-\underbrace{\caly_{0|1}-\caly_{0|0}}_{SB}
-\eeq
+
 
 \beq
 \underbrace{\caly_1-\caly_0}_
 {ATE}=
  \underbrace{(\caly_{1|1}-\caly_{0|1})}_{ATT}\pi_1+
  \underbrace{(\caly_{1|0}-\caly_{0|0})}_{ATU}\pi_0
+\eeq
+
+\beq
+\underbrace{\caly_{1|1}-\caly_{0|0}}_{SDO}
+=
+\underbrace{(\caly_{1|1}-\caly_{0|1})}_{ATT}
++
+\underbrace{\caly_{0|1}-\caly_{0|0}}_{SB}
 \eeq
 
 \beqa
@@ -941,6 +1020,17 @@ linearly related
 \underbrace{(\caly_{1|0}-\caly_{0|0})}_{ATU}\pi_0
 \eeqa
 
+\beqa
+\underbrace{\caly_{|1}-\caly_{|0}}_{ACE}&=&
+\caly_{1|1} + \caly_{0|1}
+-(\caly_{1|0} + \caly_{0|0})
+\\
+&=&\underbrace{\caly_{1|1}-\caly_{0|0}}_{SDO}
+-\underbrace{(\caly_{1|0}-\caly_{0|0})}_{ATU}
++\underbrace{\caly_{0|1}-\caly_{0|0}}_{SB}
+\label{eq-ace-decomp}
+\eeqa
+
 Let $\cale \in\{ACE,ATE,ATT,ATU,SDO, SB\}$.
 $\cale$ can be 
 defined for a fixed stratum $x$
@@ -949,13 +1039,14 @@ with  $\caly_{d|\td, x}$.
 We will denote such
 an extension by $\cale_{|x}$,
 or, sometimes, simply by $\cale$.
-ATE$_{|x}$ is often called 
+ATE$_{|x}$ is sometimes called 
 the {\bf Conditional
 Average Treatment Effect (CATE)}.
+We will use the term
+ATE to refer to CATE too.
 
 
-\section{Conditional Independence
-Assumption }
+\section{Conditional Independence Assumption}
 
 The {\bf Conditional Independence Assumption}
  (CIA)
@@ -1007,62 +1098,73 @@ which is false.
 It is possible for
 $\caly_{d|\td, x}=
 \caly_{d|x}$ to be true.
-This happens 
-for a ``balanced dataset".
-Balanced   datasets are discussed 
-further in Section
- \ref{sec-balanced-dataset}.
+We discuss that situation 
+in Section \ref{sec-td-ignored}.
 
-\section{Balanced PO Dataset}
-\label{sec-balanced-dataset}
+\section{Zero ACE}
+\label{sec-td-ignored}
 
-A {\bf balanced  PO
-dataset} is a PO dataset for which
- $\pi_0=\pi_1=\frac{1}{2}$. This
- means that there are
-equal numbers
-of treated and untreated 
-individuals.
-When the propensity score $g(x^\s)=P(d^\s=1|x^\s)=
-\frac{1}{2}$,
-then $\pi_1=\sum_{x^\s}P(d^\s=1|x^\s)P(x^\s)=
-\frac{1}{2}$.
-
-For a balanced
-PO dataset, we have
+Recall that 
 
 \beq
-\caly_{d|\td,x}=
-\caly_{d|x}
-\;,
+ACE = \caly_{|1, x}-\caly_{|0, x}
+\label{eq-ace-def}
 \eeq
-or, equivalently, 
-
 
 \beq
-\caly_{d|\td=0, x}=
-\caly_{d|\td=1, x}
-\;.
+\caly_{|\td,x}=\sum_y P(y|\td, x)y
+\label{eq-y-at-td-def}
 \eeq
-
-Therefore,
-
-\begin{subequations}
-\label{eq-ignorability}
-\beq
-ATE|_x=ATT|_x=ATU|_x=SDO|_x
-\eeq
-and
 
 \beq
-SB|_x=0
-\;.
+\caly_{d|\td,x}=P(d|x)\sum_y P(y|\td, x)y
+\label{eq-y-d-at-td-def}
 \eeq
-\end{subequations}
+
+So $ACE=0$ iff $P(y|\td,x)=P(y|x)$.
+Zero ACE is really what an RCT measures to
+conclude that a drug does not work.
+PO theory focuses on $ATE, ATU, ATT$
+but you can have all of those
+be non-zero 
+and still $ACE=0$.
+
+\begin{claim}
+Fix the value of $x$.
+Assume that $P(d|x)>0$ (``positivity")
+for $d\in \bool$.
+Then the following are equivalent
+\begin{enumerate}
+\item[(a)]$ACE=0$
+\item[(b)] $P(y|\td,x)=P(y|x)$ 
+for all $y,\td$.
+\item[(c)]$\caly_{d|\td,x}=\caly_{d|x}$
+for all $d,\td$.
+\item[(d)]$SDO=ATU$ and $SB=0$
+\end{enumerate}
+\end{claim}
+\proof
+
+$(a)\implies (b)$ This is clear from 
+Eqs.(\ref{eq-ace-def}) and (\ref{eq-y-at-td-def}).
+
+$(b)\implies (c)$  This is clear from 
+Eqs.(\ref{eq-y-at-td-def}) and
+(\ref{eq-y-d-at-td-def}).
+
+$(c)\implies (d)$  This is clear 
+from the definitions of $SDO$, $ATU$ and $SB$.
+See Eq.(\ref{eq-ace-decomp}.
+
+$(d)\implies (a)$  This is clear'
+from $(c)$ and Eq.(\ref{eq-ace-decomp}).
+\qed
 
 
-\section{
-Hypothesis testing for sharp null}
+
+
+
+\section{Hypothesis testing for sharp null}
 In this section, we assume
 no $x$ dependence, or else
 we assume that the whole discussion 
@@ -1270,11 +1372,11 @@ value of $\rvx^\s$.
 
 In 1-1 strata-match,
 we match each individual with
-$d^\s=1$
+$\td^\s=1$
 with
 exactly
 one individual
-with $d^\s=0$.
+with $\td^\s=0$.
 Let 
 $s(\s)$ be the single
 match for individual $\s$.
@@ -1284,76 +1386,63 @@ on the set of individuals.
 Note that
 
 \beq
-E_{|\td^\s=\td,x}[\rvy^\s(d)]=
-\delta(d,\td)\caly_{d|\td,x}
+E_{|x}[\rvtd^\s\rvy^\s]=
+E_{|x}[\rvtd^\s\rvy^\s(1)]=
+E_{|x}[\rvtd^\s]\caly_{1|1,x}
 \;,
 \eeq
 
 \beq
-E_{|\td^\s=\td,x}[\rvy^{s(\s)}(d)]=\delta(d, !\td)
-\caly_{d|\td,x}
+E_{|x}[(1-\rvtd^\s)\rvy^\s]=
+E_{|x}[(1-\rvtd^\s)\rvy^\s(0)]=
+E_{|x}[(1-\rvtd^\s)]\caly_{0|0,x}
+\;,
+\eeq
+
+\beq
+E_{|x}[\rvtd^\s\rvy^{s(\s)}]=
+E_{|x}[\rvtd^\s\rvy^\s(0)]=
+E_{|x}[\rvtd^\s]\caly_{0|1,x}
+\;,
+\eeq
+
+\beq
+E_{|x}[(1-\rvtd^\s)\rvy^{s(\s)}]=
+E_{|x}[(1-\rvtd^\s)\rvy^\s(1)]=
+E_{|x}[(1-\rvtd^\s)]\caly_{1|0,x}
 \;.
 \eeq
 Therefore,
 
-\beqa
-E_{|x}\left[\frac{1}{N_1}\sum_\s \td^\s 
+\beq
+E_{|x}\left[\frac{1}{N_1}\sum_\s \rvtd^\s 
 \rvy^\s\right]
-&=&
-E_{|\td^\s=1,x}\left[\frac{1}{N_1}\sum_\s \td^\s 
-\rvy^\s(1)\right]
-\\
-&=&
-\frac{1}{N_1}\sum_\s \delta(\td^\s, 1) \caly_{1|1,x}
-\\
-&=&
+=
 \caly_{1|1,x}
-\eeqa
+\eeq
 
-\beqa
-E_{|x}\left[\frac{1}{N_1}\sum_\s \td^\s 
-\rvy^{s(\s)}\right]
-&=&
-E_{|\td^\s=1,x}\left[\frac{1}{N_1}\sum_\s \td^\s 
-\rvy^{s(\s)}(0)\right]
-\\
-&=&
-\frac{1}{N_1}\sum_\s \delta(\td^\s, 1) \caly_{0|1,x}
-\\
-&=&
-\caly_{0|1,x}
-\eeqa
-
-
-\beqa
-E_{|x}\left[\frac{1}{N_0}\sum_\s (1-\td^\s) 
-\rvy^{s(\s)}\right]
-&=&
-E_{|\td^\s=0,x}\left[\frac{1}{N_0}\sum_\s (1-\td^\s) 
-\rvy^{s(\s)}(1)\right]
-\\
-&=&
-\frac{1}{N_0}\sum_\s \delta(\td^\s, 0) \caly_{1|0,x}
-\\
-&=&
-\caly_{1|0,x}
-\eeqa
-
-
-\beqa
-E_{|x}\left[\frac{1}{N_0}\sum_\s (1-\td^\s)
+\beq
+E_{|x}\left[\frac{1}{N_0}\sum_\s (1-\rvtd^\s)
 \rvy^{\s}\right]
-&=&
-E_{|\td^\s=0,x}\left[\frac{1}{N_0}\sum_\s (1-\td^\s)
-\rvy^{\s}(0)\right]
-\\
-&=&
-\frac{1}{N_0}\sum_\s \delta(\td^\s, 0) \caly_{0|0,x}
-\\
-&=&
+=
 \caly_{0|0,x}
-\;.
-\eeqa
+\;
+\eeq
+
+\beq
+E_{|x}\left[\frac{1}{N_1}\sum_\s \rvtd^\s 
+\rvy^{s(\s)}\right]
+=
+\caly_{0|1,x}
+\eeq
+
+
+\beq
+E_{|x}\left[\frac{1}{N_0}\sum_\s (1-\rvtd^\s) 
+\rvy^{s(\s)}\right]
+=
+\caly_{1|0,x}
+\eeq
 
 Recall that
 
