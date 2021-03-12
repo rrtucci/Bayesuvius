@@ -700,6 +700,161 @@ $\caly_{0|1}, \caly_{1|0}$
 are said to be {\bf counterfactual} 
 (indicating non-compliant patients).
 
+\section{Nodes $y^\sigma(0),y^\sigma(1)$ and the
+Conditional Independence Assumption}
+
+
+\begin{figure}[h!]
+$$
+\begin{array}{ccccc}
+\xymatrix{
+&\rvx^\s\ar[ddl]\ar[ddr]
+\\
+\\
+\rvd^\s\ar[rr]&&\rvy^\s
+}
+&&
+\xymatrix{
+&\rvx^\s\ar[ddl]\ar[d]\ar[dr]
+\\
+&\rvy^\s(0)\ar[dr]&\rvy^\s(1)\ar[d]
+\\
+\rvd^\s&\rvtd^\s=\td^\s\ar[r]&\rvy^\s
+}
+&&
+\xymatrix{
+&\rvx^\s\ar[ddl]\ar[d]\ar[dr]
+\\
+&\rvy^\s(0)\ar[dr]&\rvy^\s(1)\ar[d]
+\\
+\rvd^\s&\rvtd^\s\ar[r]&\rvy^\s
+}
+\\
+G&&G_{im}= \kappa_{\rvd^\s\rarrow\rvy^\s}
+(\td^\s)G&&G_{im+}
+\end{array}
+$$
+\caption{
+Fig.\ref{fig-po-G-im}
+with two new nodes $\rvy^\s(0)$
+and $\rvy^\s(1)$ added to bnets $G_{im}$
+and $G_{im+}$.
+} 
+\label{fig-po-G-im-y0-y1}
+\end{figure}
+
+Consider Fig.\ref{fig-po-G-im-y0-y1},
+which was obtained by adding two new
+nodes $\rvy^\s(0)$
+and $\rvy^\s(1)$
+to bnets $G_{im}$
+and $G_{im+}$ in
+Fig.\ref{fig-po-G-im}.
+The
+TPMs, printed in blue,
+ for bnets $G_{im}$ and $G_{im+}$,
+are as follows. Note
+that we define them in terms
+of the TPMs
+for bnet $G$.
+
+
+\beq\color{blue}
+P(y^\s(0)|x^\s) = P_{\rvy|\rvd, \rvx}(y^s|0, x^\s)
+\eeq
+
+\beq\color{blue}
+P(y^\s(1)|x^\s) = P_{\rvy|\rvd, \rvx}(y^s|1, x^\s)
+\eeq
+
+\beq\color{blue}
+P(y^\s|y^\s(0), y^\s(1), \td^s)=
+\delta(y^\s, \td^\s y^\s(0) + (1-\td^\s)y^\s(1))
+\eeq
+
+\beq\color{blue}
+P(\td^\s)=
+\left\{
+\begin{array}{ll}
+\delta(\td^\s, (\td^\s)')& \text{for $G_{im}$}
+\\
+\pi_{\td^\s}
+& \text{for $G_{im+}$}
+\end{array}
+\right.
+\eeq
+
+
+
+The {\bf Conditional Independence Assumption}
+ (CIA)
+is said to hold 
+ if
+\beq
+(\rvy^\s(0), \rvy^\s(1),
+\rvy^\s,\rvtd^\s)\perp_P\rvd^\s | \rvx^\s
+\;.
+\label{eq-CIA2}
+\eeq
+This is satisfied by $G_{im}$. To
+prove this, check that
+
+\beq
+(\rvy^\s(0), \rvy(1),
+\rvy^\s,\rvtd^\s)
+\perp_{G_{im}} \rvd^\s|\rvx^\s
+\;
+\eeq
+and then invoke
+the d-separation theorem 
+(see Chapter \ref{ch-dsep}).
+
+Note that
+the following are also true
+
+\beq
+(\rvy^\s(0), \rvy(1))
+\perp_{G_{im}} \rvtd^\s|\rvx^\s
+\;
+\eeq
+
+\beq
+(\rvy^\s(0), \rvy(1))
+\perp_{G_{im}} \rvtd^\s
+\;
+\eeq
+by the d-separation theorem,
+because $\rvy^\s$
+is a collider
+on all paths 
+from $\rvy^\s(d)$ to $\rvtd^\s$
+for $d\in\bool$.
+However,
+
+\beq
+\rvy^\s\perp_{G_{im}} \rvtd^\s|\rvx^\s
+\;\;
+\text{ is FALSE.}
+\eeq
+
+
+Note that even though CIA means
+ $\rvtd^\s\perp_{G_{im}} \rvd^\s|x^\s$,
+this does not mean that $\caly_{d|\td, x}=
+\caly_{d|x}$.
+The reason is that
+$\caly_{d|\td, x} = 
+E_{|\td^\s=\td, x}[\rvy^\s(d)]$
+so $\caly_{d|\td, x}=
+\caly_{d|x}$
+if $\rvy^\s(d)\perp_{G_{im}}\rvtd^\s|\rvx^\s$,
+which is false.
+It is possible for
+$\caly_{d|\td, x}=
+\caly_{d|x}$ to be true.
+We discuss that situation 
+in Section \ref{sec-td-ignored}.
+
 \section{${\cal Y}_{|\tilde{d}}$ and $G_{do}$}
 
 Note the 
@@ -1046,60 +1201,6 @@ We will use the term
 ATE to refer to CATE too.
 
 
-\section{Conditional Independence Assumption}
-
-The {\bf Conditional Independence Assumption}
- (CIA)
-is said to hold 
- if
-\beq
-(\rvy^\s(0), \rvy^\s(1),
-\rvy^\s,\rvtd^\s)\perp_P\rvd^\s | \rvx^\s
-\;.
-\label{eq-CIA2}
-\eeq
-This is satisfied by $G_{im}$. To
-prove this, check that
-
-\beq
-(\rvy^\s(0), \rvy(1),
-\rvy^\s,\rvtd^\s)
-\perp_{G_{im}} \rvd^\s|\rvx^\s
-\;
-\eeq
-and then invoke
-the d-separation theorem 
-(see Chapter \ref{ch-dsep}).
-
-\hrule\noindent {\bf Warning:}
-
- CIA means
-$\rvy^\s(d)\perp_{G_{im}} \rvd^\s|\rvx^\s$
-for $d=0,1$
-or
-$\rvy^\s\perp_{G_{im}} \rvd^\s|\rvx^\s$.
-This is different from 
-$\rvy^\s\perp_{G_{im}} \rvtd^\s|\rvx^\s$
-which are FALSE
-by the d-separation theorem.
-
-CIA also means
- $\rvtd^\s\perp_{G_{im}} \rvd^\s|x^\s$.
-This does not mean that $\caly_{d|\td, x}=
-\caly_{d|x}$.
-Because remember that
-$\caly_{d|\td, x} = 
-E_{|\td^\s=\td, x}[\rvy^\s(d)]$
-so $\caly_{d|\td, x}=
-\caly_{d|x}$
-if $\rvy^\s(d)\perp_{G_{im}}\rvtd^\s|\rvx^\s$,
-which is false.
-
-It is possible for
-$\caly_{d|\td, x}=
-\caly_{d|x}$ to be true.
-We discuss that situation 
-in Section \ref{sec-td-ignored}.
 
 \section{Zero ACE}
 \label{sec-td-ignored}
@@ -1759,8 +1860,8 @@ and $x^{s(\s)}$ are very
 close in some metric.
 Alternatively, the matching
 individual might 
-not be real;
-it might be a composite
+not be real; it might
+be a composite
 of individuals.
 
 More precisely, 
