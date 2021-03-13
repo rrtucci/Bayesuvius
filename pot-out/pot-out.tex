@@ -1216,7 +1216,17 @@ ATE$_{|x}$ is sometimes called
 the {\bf Conditional
 Average Treatment Effect (CATE)}.
 We will use the term
-ATE to refer to CATE too.
+ATE to refer to CATE too.\footnote{Careful:
+We define
+$
+ATE_{|x}= ATT_{|x} P_{\rvd|\rvx}(1|x) +
+ATU_{|x} P_{\rvd|\rvx}(0|x) 
+$. Therefore,
+$
+ATE_{|x}\neq ATT_{|x} P_{\rvd}(1) +
+ATU_{|x} P_{\rvd}(0) 
+$.
+}
 
 
 
@@ -1567,16 +1577,9 @@ ATU=
 \eeq
 
 \beq
-ATE = ATT \pi_1 + ATU \pi_0
+ATE = ATT \;\;P_{\rvd|\rvx}(1|x) + ATU \;\;P_{\rvd|\rvx}(0|x)
 \eeq
 \end{subequations}
-Note that $\pi_0, \pi_1$
-do not depend on $x$.
-This
-can be justified by  looking at 
-the bnet $G_{im+}$,
-for which $\pi_\td=P(\td)$
-is the prior of node $\rvtd$.
 
 Eqs.(\ref{eq-to-estimate})
 can be estimated from the data
@@ -1619,10 +1622,7 @@ via the following estimators.
 \eeqa
 
 \beqa
-\widehat{ATE}&=&
-\widehat{ATT} \pi_1 + 
-\widehat{ATU} \pi_0
-\\
+\widehat{ATE}
 &=&
 \frac{1}{N_x}[
 \widehat{ATT}N_{1,x} + 
@@ -2007,6 +2007,9 @@ and
 the estimator
 Eq.(\ref{eq-est-atu})
 for $ATU$ divides by $N_{0,x}= P(d=0|x)N_x$.
+The estimator Eq.\ref{eq-est-ate}
+for $ATE$ divides by neither $N_{0,x}$
+nor $N_{1,x}$ so it is safe.
 
 If positivity is violated,
 then 
