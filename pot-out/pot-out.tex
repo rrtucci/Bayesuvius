@@ -758,18 +758,19 @@ that we define them in terms
 of the TPMs
 for bnet $G$.
 
-
 \beq\color{blue}
-P(y^\s(0)|x^\s) = P_{\rvy|\rvd, \rvx}(y^\s|0, x^\s)
+P(x^\s)=
+P_{\rvx}(x^\s)
 \eeq
 
 \beq\color{blue}
-P(y^\s(1)|x^\s) = P_{\rvy|\rvd, \rvx}(y^\s|1, x^\s)
+P(d^\s|x^\s)=
+P_{\rvd|\rvx}(d^\s|x^\s)
 \eeq
 
-\beq\color{blue}
-P(y^\s|y^\s(0), y^\s(1), \td^\s)=
-\delta(y^\s, \td^\s y^\s(0) + (1-\td^\s)y^\s(1))
+\beq
+\pi_\td=P(\td)=\sum_x P_{\rvd|\rvx}
+(\td|x)P_\rvx(x)
 \eeq
 
 \beq\color{blue}
@@ -782,6 +783,22 @@ P(\td^\s)=
 & \text{for $G_{im+}$}
 \end{array}
 \right.
+\eeq
+
+
+
+
+\beq\color{blue}
+P(y^\s(0)|x^\s) = P_{\rvy|\rvd, \rvx}(y^\s|0, x^\s)
+\eeq
+
+\beq\color{blue}
+P(y^\s(1)|x^\s) = P_{\rvy|\rvd, \rvx}(y^\s|1, x^\s)
+\eeq
+
+\beq\color{blue}
+P(y^\s|y^\s(0), y^\s(1), \td^\s)=
+\delta(y^\s, \td^\s y^\s(0) + (1-\td^\s)y^\s(1))
 \eeq
 
 
@@ -1984,16 +2001,11 @@ According to  Eq.(\ref{eq-need-positivity}),
 Also note
 that the estimator
 Eq.(\ref{eq-est-att})
-for $ATT$ divides by $N_1=N(d=1,x)=P(d=1|x)N(x)$
+for $ATT$ divides by $N_{1,x}=P(d=1|x)N_x$
 and 
 the estimator
 Eq.(\ref{eq-est-atu})
-for $ATU$ divides by $N_0=N(d=0,x)= P(d=0|x)N(x)$.
-The estimator
-Eq.(\ref{eq-est-ate}) for $ATE$,
-on the other hand, 
-is safe because 
-it divides by neither $N_0$ nor $N_1$.
+for $ATU$ divides by $N_{0,x}= P(d=0|x)N_x$.
 
 If positivity is violated,
 then 
