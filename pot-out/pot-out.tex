@@ -1496,6 +1496,13 @@ value of $\rvx^\s$.
 
 \subsection{Exact strata-match}
 
+For $\td\in \bool$ and all strata $x$,
+define the sets of individuals
+$A_{\td,x}=\{\s: \td^\s=\td, x^\s=x\}$,
+$A_x=A_{0,x}\cup A_{1,x}$ and $A=\cup_x A_x$.
+Let $N_{d,x}=size(A_{d,x})$,
+$N_x= size(A_x)$ and $N=size(A)$.
+
 In an exact strata-match,
 we match each individual with
 $\td^\s=1, x^\s=x$
@@ -1504,10 +1511,6 @@ exactly
 one individual
 with $\td^\s=0, x^\s=x$
 and vice versa.
-For $\td\in \bool$,
-define the sets of individuals
-$A_{\td,x}=\{\s: \td^\s=\td, x^\s=x\}$,
-$A_\td=\cup_x A_{\td,x}$. Let $A=A_0\cup A_1$.
 Define a map $s:A\rarrow A$
 such that,
 for each $x$,
@@ -1536,9 +1539,6 @@ Note that $y^\s=y^\s(\td^\s)$ and $y^{s(\s)}=y^\s(!\td^\s)$.}
 \label{tab-po-s-map}
 \end{table}
 
-Let $N_{d,x}=size(A_{d,x})$
-for $d\in \bool$. Also let
-$N_x= N_{0,x}+N_{1,x}$.
 
 Note that
 
@@ -1567,8 +1567,8 @@ expected values of the type
 \begin{tabular}{|l|l|l|}
 \hline
  & \cellcolor[HTML]{ECF4FF}$y^\s(0)$ & \cellcolor[HTML]{ECF4FF}$y^\s(1)$ \\ \hline
-\cellcolor[HTML]{ECF4FF}$\td^\s=0$ & \begin{tabular}[c]{@{}l@{}}$E_{|x}[(1-\rvtd^\s) \rvy^\s]=E[1-\rvtd^\s]\caly_{0|0,x}$\\ $E_{|x}\left[\frac{1}{N_0}\sum_\s (1-\rvtd^\s)\rvy^{\s}\right]=\caly_{0|0,x}$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$E_{|x}[(1-\rvtd^\s )\rvy^{s(\s)}]=E[1-\rvtd^\s]\caly_{0|1,x}$\\ $E_{|x}\left[\frac{1}{N_0}\sum_\s (1-\rvtd^\s) \rvy^{s(\s)}\right]=\caly_{0|1,x}$\end{tabular} \\ \hline
-\cellcolor[HTML]{ECF4FF}$\td^\s=1$ & \begin{tabular}[c]{@{}l@{}}$E_{|x}[\rvtd^\s \rvy^\s]=E[\rvtd^{s(\s)}]\caly_{1|0,x}$\\ $E_{|x}\left[\frac{1}{N_1}\sum_\s \rvtd^\s \rvy^{s(\s)}\right]=\caly_{1|0,x}$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$E_{|x}[\rvtd^s \rvy^\s]=E[\rvtd^\s]\caly_{1|1,x}$\\ $E_{|x}\left[\frac{1}{N_1}\sum_\s \rvtd^\s \rvy^\s\right]=\caly_{1|1,x}$\end{tabular} \\ \hline
+\cellcolor[HTML]{ECF4FF}$\td^\s=0$ & \begin{tabular}[c]{@{}l@{}}$E_{|x}[(1-\rvtd^\s) \rvy^\s]=E[1-\rvtd^\s]\caly_{0|0,x}$\\ $E_{|x}\left[\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\rvtd^\s)\rvy^{\s}\right]=\caly_{0|0,x}$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$E_{|x}[(1-\rvtd^\s )\rvy^{s(\s)}]=E[1-\rvtd^\s]\caly_{0|1,x}$\\ $E_{|x}\left[\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\rvtd^\s) \rvy^{s(\s)}\right]=\caly_{0|1,x}$\end{tabular} \\ \hline
+\cellcolor[HTML]{ECF4FF}$\td^\s=1$ & \begin{tabular}[c]{@{}l@{}}$E_{|x}[\rvtd^\s \rvy^\s]=E[\rvtd^{s(\s)}]\caly_{1|0,x}$\\ $E_{|x}\left[\frac{1}{N_{1,x}}\sum_{\s\in A_x} \rvtd^\s \rvy^{s(\s)}\right]=\caly_{1|0,x}$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$E_{|x}[\rvtd^s \rvy^\s]=E[\rvtd^\s]\caly_{1|1,x}$\\ $E_{|x}\left[\frac{1}{N_{1,x}}\sum_{\s\in A_x} \rvtd^\s \rvy^\s\right]=\caly_{1|1,x}$\end{tabular} \\ \hline
 \end{tabular}
 \caption{Expected Values
 of the type
@@ -1609,22 +1609,22 @@ via the following estimators.
 
 \beq
 \widehat{SDO}=
-\overbrace{\frac{1}{N_{1,x}}\sum_\s \td^\s y^\s}^
+\overbrace{\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s y^\s}^
 {\caly_{1|1,x}}
 -
-\overbrace{\frac{1}{N_{0,x}}\sum_\s (1-\td^\s) y^\s}^
+\overbrace{\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\td^\s) y^\s}^
 {\caly_{0|0,x}}
 \eeq
 
 \beqa
 \widehat{ATT}
 &=&
-\overbrace{\frac{1}{N_{1,x}}\sum_\s \td^\s y^\s}^{\caly_{1|1,x}}
+\overbrace{\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s y^\s}^{\caly_{1|1,x}}
  - 
-\overbrace{\frac{1}{N_{1,x}}\sum_\s \td^\s y^{s(\s)}}^{\caly_{0|1,x}}
+\overbrace{\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s y^{s(\s)}}^{\caly_{0|1,x}}
 \\
 &=&
-\frac{1}{N_{1,x}}\sum_\s \td^\s [y^\s - y^{s(\s)}]
+\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s [y^\s - y^{s(\s)}]
 \label{eq-est-att}
 \eeqa
 
@@ -1632,12 +1632,12 @@ via the following estimators.
 \beqa
 \widehat{ATU}
 &=&
-\overbrace{\frac{1}{N_{0,x}}\sum_\s (1-\td^\s) y^{s(\s)} }^{\caly_{1|0,x}}
+\overbrace{\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\td^\s) y^{s(\s)} }^{\caly_{1|0,x}}
  - 
-\overbrace{\frac{1}{N_{0,x}}\sum_\s (1-\td^\s)y^\s}^{\caly_{0|0,x}}
+\overbrace{\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\td^\s)y^\s}^{\caly_{0|0,x}}
 \\
 &=&
-\frac{1}{N_{0,x}}\sum_\s (1-\td^\s) [ y^{s(\s)}-y^\s]
+\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\td^\s) [ y^{s(\s)}-y^\s]
 \label{eq-est-atu}
 \eeqa
 
@@ -1650,12 +1650,12 @@ via the following estimators.
 \\
 &=&
 \frac{1}{N_x}
-\left[\sum_\s \td^\s [y^\s - y^{s(\s)}]+
-\sum_\s(1-\td^\s) [ y^{s(\s)}-y^\s]
+\left[\sum_{\s\in A_x} \td^\s [y^\s - y^{s(\s)}]+
+\sum_{\s\in A_x}(1-\td^\s) [ y^{s(\s)}-y^\s]
 \right]
 \\
 &=&
-\frac{1}{N_x}\sum_\s (2\td^\s-1)[y^\s -y^{s(\s)}]
+\frac{1}{N_x}\sum_{\s\in A_x} (2\td^\s-1)[y^\s -y^{s(\s)}]
 \label{eq-est-ate}
 \eeqa
 
@@ -1674,28 +1674,18 @@ This is done by making the
 following replacements.
 
 \beq
-\frac{\td^\s}{N_{1,x}}
+N_{1,x}
 \rarrow
-\frac{\td^\s}{N_x g_1(x^\s)}
+N_x g_1(x^\s)
 \;,\;\;
-\frac{1-\td^\s}{N_{0,x}}
+N_{0,x}
 \rarrow
-\frac{1-\td^\s}{N_x g_0(x^\s)}
+N_x g_0(x^\s)
 \;.
 \eeq
 These replacements are
-equal under $ E_{|x}\sum_\s$
-to the terms they replace:
-\beq
-E_{|x}\left[\sum_\s\frac{\rvtd^\s}{N_{1,x}}\right]
-=
-E_{|x}\left[\sum_\s\frac{\rvtd^\s}{N_x g_1(\rvx^\s)}\right]=1
-\;,\;\;
-E_{|x}\left[\sum_\s\frac{1-\rvtd^\s}{N_{0,x}}\right]
-=
-E_{|x}\left[\sum_\s\frac{1-\rvtd^\s}{N_x g_0(\rvx^\s)}\right]=1
-\;.
-\eeq
+equal under $ \sum_{\s\in A_x}$
+to the terms they replace.
 
 
 \subsubsection{Example, calculation
