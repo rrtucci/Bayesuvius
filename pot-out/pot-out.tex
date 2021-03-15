@@ -1145,15 +1145,17 @@ treatment effect of the untreated (ATU)
 \caly_{1|0}-\caly_{0|0}
 \eeq
 
-\item simple difference in outcomes (SDO)
-\beq
-{\color{red} SDO}= \caly_{1|1}-\caly_{0|0}
-\eeq
 
 \item selection bias (SB)
 \beq
 {\color{red}SB}=\caly_{0|1}-\caly_{0|0}
 \eeq
+
+\item simple difference in outcomes (SDO)
+\beq
+{\color{red} SDO}= \caly_{1|1}-\caly_{0|0}
+\eeq
+
 \end{itemize}
 
 Note that some
@@ -1582,8 +1584,13 @@ Recall that
 
 \begin{subequations}
 \label{eq-to-estimate}
+
 \beq
-SDO=\caly_{1|1,x}-\caly_{0|0,x}
+ACE = \caly_{0|1,x}+\caly_{1|1,x}-(\caly_{0|0,x}+\caly_{1|0,x})
+\eeq
+
+\beq
+ATE = ATT \;\;P_{\rvd|\rvx}(1|x) + ATU \;\;P_{\rvd|\rvx}(0|x)
 \eeq
 
 \beq
@@ -1597,8 +1604,14 @@ ATU=
 \eeq
 
 \beq
-ATE = ATT \;\;P_{\rvd|\rvx}(1|x) + ATU \;\;P_{\rvd|\rvx}(0|x)
+SB=\caly_{0|1,x}-\caly_{0|0,x}
 \eeq
+
+
+\beq
+SDO=\caly_{1|1,x}-\caly_{0|0,x}
+\eeq
+
 \end{subequations}
 
 Eqs.(\ref{eq-to-estimate})
@@ -1606,15 +1619,43 @@ can be estimated from the data
 via the following estimators.
 
 
-
-\beq
-\widehat{SDO}=
-\overbrace{\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s y^\s}^
-{\caly_{1|1,x}}
+\beqa
+\widehat{ACE}
+&=&
+\overbrace{\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s y^{s(\s)}}^{\caly_{0|1,x}}
++
+\overbrace{\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s y^\s}^{\caly_{1|1,x}}
+\\
+&&-\overbrace{\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\td^\s)y^\s}^{\caly_{0|0,x}}
+-\overbrace{\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\td^\s) y^{s(\s)} }^{\caly_{1|0,x}}
+\\
+&=&
+\sum_{\s\in A_x}
+\left[
+\frac{\td^\s}{N_{1,x}}
 -
-\overbrace{\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\td^\s) y^\s}^
-{\caly_{0|0,x}}
-\eeq
+\frac{(1-\td^\s)}{N_{0,x}}
+\right]
+(y^{s(\s)}+y^\s)
+\eeqa
+
+\beqa
+\widehat{ATE}
+&=&
+\frac{1}{N_x}[
+\widehat{ATT}N_{1,x} + 
+\widehat{ATU}N_{0,x}]
+\\
+&=&
+\frac{1}{N_x}
+\left[\sum_{\s\in A_x} \td^\s [y^\s - y^{s(\s)}]+
+\sum_{\s\in A_x}(1-\td^\s) [ y^{s(\s)}-y^\s]
+\right]
+\\
+&=&
+\frac{1}{N_x}\sum_{\s\in A_x} (2\td^\s-1)[y^\s -y^{s(\s)}]
+\label{eq-est-ate}
+\eeqa
 
 \beqa
 \widehat{ATT}
@@ -1641,23 +1682,23 @@ via the following estimators.
 \label{eq-est-atu}
 \eeqa
 
-\beqa
-\widehat{ATE}
-&=&
-\frac{1}{N_x}[
-\widehat{ATT}N_{1,x} + 
-\widehat{ATU}N_{0,x}]
-\\
-&=&
-\frac{1}{N_x}
-\left[\sum_{\s\in A_x} \td^\s [y^\s - y^{s(\s)}]+
-\sum_{\s\in A_x}(1-\td^\s) [ y^{s(\s)}-y^\s]
-\right]
-\\
-&=&
-\frac{1}{N_x}\sum_{\s\in A_x} (2\td^\s-1)[y^\s -y^{s(\s)}]
-\label{eq-est-ate}
-\eeqa
+\beq
+\widehat{SB} =
+\overbrace{\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s y^{s(\s)}}^{\caly_{0|1,x}}
+-
+\overbrace{\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\td^\s)y^\s}^{\caly_{0|0,x}}
+\eeq
+
+\beq
+\widehat{SDO}=
+\overbrace{\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s y^\s}^
+{\caly_{1|1,x}}
+-
+\overbrace{\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\td^\s) y^\s}^
+{\caly_{0|0,x}}
+\eeq
+
+
 
 Let 
 
