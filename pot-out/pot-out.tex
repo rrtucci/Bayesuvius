@@ -579,23 +579,6 @@ and if $\rvd\neq\rvtd$, he is
 non-compliant.
 
 
-It is convenient to define
-$\rvy^\s(d)$ so that
-
-\beq
-\rvy^\s(d)=
-\rvy_{G_{im}}^\s
-\eeq
-and
-
-\beq
-\rvy^\s(d)=
-\rvy^\s(1) d
-+
-\rvy^\s(0) (1-d)
-\;.
-\eeq 
-
 The TPMs, printed in blue,
 for the nodes of bnets $G_{im}$ and $G_{im+}$,
 are as follows.
@@ -639,69 +622,15 @@ P(\td^\s)=
 
 
 \beq\color{blue}
-P(y^\s(\td^\s)|x^\s, \td^\s)=
-P_{\rvy|\rvx, \rvd}(y^\s(\td^\s)|x^\s, \td^\s)
+P(y^\s|x^\s, \td^\s)=
+P_{\rvy|\rvx, \rvd}(y^\s|x^\s, \td^\s)
 \eeq
 
 
-It is convenient
-to define
-the following
-expected values of
-$\rvy^\s$
-in terms of the TPMs of
-bnet $G_{im+}$:
 
-
-
-\beq
-\caly_{d|\td,x}
-=
-E_{\s|\td,x}[\rvy^\s(d)]
-\rarrow
-E_{\rvy|\td,x} [\rvy(d)]
-=P(d|x)\sum_{y} P(y|\td,x) y
-\label{eq-need-positivity}
-\eeq
-
-\beq
-\caly_{d|\td}
-=
-E_{\s| \td}[\rvy^\s(d)]
-\rarrow
-E_{\rvy|\td} [\rvy(d)]
-=\sum_x \caly_{d|\td,x}P(x)
-\eeq
-
-\beq
-\caly_{d|x}
-=
-E_{\s| x}[\rvy^\s(d)]
-\rarrow
-E_{\rvy|x} [\rvy(d)]
-=\sum_\td \caly_{d|\td,x}P(\td)
-\eeq
-
-\beq
-\caly_{d}
-=
-E_{\s}[\rvy^\s(d)]
-\rarrow
-E_{\rvy} [\rvy(d)]
-=\sum_{\td,x}\caly_{d|\td,x} P_{\rvd|\rvx}(\td|x)P(x)
-\eeq
-
-
-$\caly_{0|0}, \caly_{1|1}$
-are said to be {\bf factual} 
-(indicating compliant patients)
-whereas 
-$\caly_{0|1}, \caly_{1|0}$
-are said to be {\bf counterfactual} 
-(indicating non-compliant patients).
-
-\section{Nodes $y^\sigma(0),y^\sigma(1)$ and the
-Conditional Independence Assumption}
+\section{$G_{im+}$ bnet
+with nodes $y^\sigma(0),
+y^\sigma(1)$ added to it.}
 
 
 \begin{figure}[h!]
@@ -719,7 +648,8 @@ $$
 \\
 &\rvy^\s(0)\ar[dr]&\rvy^\s(1)\ar[d]
 \\
-\rvd^\s&\rvtd^\s=\td^\s\ar[r]&\rvy^\s
+\rvd^\s&\rvtd^\s=\td^\s\ar[r]
+\ar[u]\ar[ur]&\rvy^\s
 }
 &&
 \xymatrix{
@@ -727,7 +657,8 @@ $$
 \\
 &\rvy^\s(0)\ar[dr]&\rvy^\s(1)\ar[d]
 \\
-\rvd^\s&\rvtd^\s\ar[r]&\rvy^\s
+\rvd^\s&\rvtd^\s\ar[r]\ar[u]\ar[ur]
+&\rvy^\s
 }
 \\
 G&&G_{im}= \kappa_{\rvd^\s\rarrow\rvy^\s}
@@ -786,23 +717,136 @@ P(\td^\s)=
 \eeq
 
 
-
-
 \beq\color{blue}
-P(y^\s(0)|x^\s) = P_{\rvy|\rvd, \rvx}(y^\s|0, x^\s)
+P(y^\s(0)|\td^\s, x^\s) = 
+P_{\rvy(0)|\rvtd, \rvx}(y^\s(0)|\td^\s, x^\s)
 \eeq
 
 \beq\color{blue}
-P(y^\s(1)|x^\s) = P_{\rvy|\rvd, \rvx}(y^\s|1, x^\s)
+P(y^\s(1)|\td^\s, x^\s) = 
+P_{\rvy(1)|\rvtd, \rvx}(y^\s(1)|\td^\s, x^\s)
 \eeq
 
-\beq\color{blue}
+
+\beqa\color{blue}
 P(y^\s|y^\s(0), y^\s(1), \td^\s)=
-\delta(y^\s, \td^\s y^\s(1) + (1-\td^\s)y^\s(0))
+&=&\color{blue}
+\indi(y^\s= \td^\s y^\s(1) + (1-\td^\s)y^\s(0))
+\\
+&=&\color{blue}
+\indi(y^\s= y^\s(\td^\s))
+\eeqa
+
+For this bnet,
+the following is true:
+
+\beqa
+P(y^\s|\td^\s, x^\s)
+&=&
+\sum_{y^\s(0)}
+\sum_{y^\s(1)}
+\indi(y^\s= y^\s(\td^\s))
+P(y^\s(0)|\td^\s, x^\s)
+P(y^\s(1)|\td^\s, x^\s)
+\\
+&=&
+\left\{
+\begin{array}{ll}
+P_{\rvy(0)|\rvtd, \rvx}(
+y^\s|\td^\s, x^\s)&\text{ if }
+\td^\s=0
+\\
+P_{\rvy(1)|\rvtd, \rvx}(
+y^\s|\td^\s, x^\s)&\text{ if }
+\td^\s=1
+\end{array}
+\right.
+\;.
+\label{eq-y-is-y-td}
+\eeqa
+Note that
+$P_{\rvy(0)|\td, x}$
+and
+$P_{\rvy(1)|\td, x}$
+are possibly different functions
+and that 
+$P_{\rvy|\td, x}$
+is defined in terms of both
+of them. Eq.\ref{eq-y-is-y-td}
+implies that for this bnet,
+
+\beqa
+\rvy^\s
+&=&
+\indi(\td^s=1)\rvy^\s(1)
++\indi(\td^s=0)\rvy^\s(0)
+\\
+&=&
+\td^\s\rvy^\s(1)
++(1-\td^s)\rvy^\s(0)
+\\
+&=&
+\rvy^\s(\td^\s)
+\eeqa
+These are all different
+ways of saying the same thing.
+
+It is convenient
+to define
+the following
+expected values of
+$\rvy^\s$
+in terms of the TPMs of
+bnet $G_{im+}$:
+
+\beq
+\caly_{d|\td,x}
+=
+E_{\s|\td,x}[\rvy^\s(d)]
+\rarrow
+E_{\rvy|\td,x} [\rvy(d)]
+=\sum_{y} P(y(\td)|\td,x) y(\td)
+\label{eq-need-positivity}
+\eeq
+
+\beq
+\caly_{d|\td}
+=
+E_{\s| \td}[\rvy^\s(d)]
+\rarrow
+E_{\rvy|\td} [\rvy(d)]
+=\sum_x \caly_{d|\td,x}P(x)
+\eeq
+
+\beq
+\caly_{d|x}
+=
+E_{\s| x}[\rvy^\s(d)]
+\rarrow
+E_{\rvy|x} [\rvy(d)]
+=\sum_\td \caly_{d|\td,x}P(\td)
+\eeq
+
+\beq
+\caly_{d}
+=
+E_{\s}[\rvy^\s(d)]
+\rarrow
+E_{\rvy} [\rvy(d)]
+=\sum_{\td,x}\caly_{d|\td,x} P_{\rvd|\rvx}(\td|x)P(x)
 \eeq
 
 
+$\caly_{0|0}, \caly_{1|1}$
+are said to be {\bf factual} 
+(indicating compliant patients)
+whereas 
+$\caly_{0|1}, \caly_{1|0}$
+are said to be {\bf counterfactual} 
+(indicating non-compliant patients).
 
+
+\section{Conditional Independence Assumption}
 
 The {\bf Conditional Independence Assumption}
  (CIA)
@@ -873,44 +917,52 @@ $\caly_{d|\td, x}=
 We discuss that situation 
 in Section \ref{sec-td-ignored}.
 
-\section{${\cal Y}_{|\tilde{d}}$ and $G_{do}$}
 
-Note the 
- $\caly_d$ and $\caly_{|\td}$
+
+\section{${\cal Y}_{|\tilde{d},x}$ and $G_{do}$}
+
+Note that
+ $\caly_{d|x}$ and $\caly_{|\td,x}$
 are not the same thing.
 
 \beq
-\caly_d=
-\sum_\td \caly_{d|\td}P(\td)
-= \caly_{d|0}\pi_0
-+
-\caly_{d|1}\pi_{1}
+\caly_{d|x}=
+E_{|x}[\rvy(d)]
 \;
 \eeq
-whereas, as we show next,
+whereas
+
 
 \beq
-\caly_{|\td}=
-\caly_{0|\td} +
- \caly_{1|\td}
+\caly_{|\td,x}=
+E_{|\td,x}[\rvy]
 \;.
 \eeq
 
 \begin{claim}
 \beq
-\caly_{|\td, x}=\sum_d\caly_{d|\td, x}
+\caly_{|\td, x}=\caly_{\td|\td,x}
 \eeq
 \end{claim}
 \proof
 
 \beqa
-\sum_d\caly_{d|\td, x}
+\caly_{\td|\td,x}
 &=&
-\sum_d
-P(d|x)\sum_yP(y|\td, x)y
+\td\caly_{1|\td, x}
++
+(1-\td)\caly_{0|\td, x}
 \\
 &=&
-\sum_yP(y|\td, x)y
+\td E_{|\td, x}[\rvy(1)]
++
+(1-\td)E_{|\td, x}[\rvy(0)]
+\\
+&=&
+E_{|\td, x}[\td \rvy(1)]+(1-\td)\rvy(0)]
+\\
+&=&
+E_{|\td, x}[\rvy]
 \\
 &=&
 \caly_{|\td, x}
@@ -920,20 +972,20 @@ P(d|x)\sum_yP(y|\td, x)y
 
 
 
-$\caly_{|\td}$
+$\caly_{|\td,x}$
 is connected to the do operator as follows.
 
 \beq
-\caly_{|\td}=
-\sum_y y P(\rvy=y|\rho \rvd=\td)
+\caly_{|\td,x}=
+\sum_y y P(\rvy=y|\rho \rvd=\td, \rvx=x)
 \;,
 \label{eq-y-bar-td}
 \eeq
 where
 
 \beq
-P(\rvy=y|\rho \rvd=\td)=
-\sum_x P(y|\td,x)P(x)
+P(\rvy=y|\rho \rvd=\td, \rvx=x)=
+P(y|\td,x)
 \;.
 \eeq
 In particular, when
@@ -942,8 +994,8 @@ $\rvy$ is binary
 Eq.(\ref{eq-y-bar-td}) becomes
 
 \beq
-\caly_{|\td}=
-P(\rvy=1|\rho\rvd=\td)
+\caly_{|\td,x}=
+P(\rvy=1|\rho\rvd=\td, \rvx=x)
 \;.
 \eeq
 
@@ -1032,53 +1084,6 @@ E_{\s|\rvtd^\s=\td, \rvx^\s=x}
 \;.
 \eeq
 
-In Eq.(\ref{eq-need-positivity}) we defined
-$\caly_{d|\td, x}$
-in terms of the TPMs
-of the bnet $G_{im+}$
-whereas in
-Eq.(\ref{eq-caly-def-ev}),
-we defined $\caly_{d|\td, x}$
-as an expected value, as it
-is usually
-defined in conventional PO theory.
-Next we show that both definitions
-of $\caly_{d|\td, x}$
-are equivalent.
-
-\begin{claim}
-\beq
-P(d|x)\sum_{y}P(y|\td, x)y
-=
-E_{|\td, x}[\rvy(d)]
-\label{eq-tmp-eq-ev}
-\eeq
-\end{claim}
-\proof
-
-Let LHS and RHS
-be the left and right hand sides
-of Eq.(\ref{eq-tmp-eq-ev}).
-
-\beqa
-\sum_{d,\td}P(\td|x)LHS
-&=&
-\sum_{d,\td}P(\td|x)
-\left[
-P(d|x)\sum_{y}P(y|\td, x)y\right]
-\\
-&=& \sum_y P(y|x)y
-\eeqa
-
-\beqa
-\sum_{d,\td}P(\td|x)RHS
-&=&
-E_{\s|x}[\rvy^\s(0)+\rvy^\s(1)]
-\\
-&=&
-\sum_y P(y|x)y
-\eeqa
-\qed
 
 
 \section{${\cal Y}_{d|\tilde{d}}$
@@ -1088,7 +1093,7 @@ differences (aka treatment effects)}
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=1.5in]
+\includegraphics[width=2in]
 {pot-out/y-diffs-square.png}
 \caption{Different effects.  
 An effect is a difference of 
@@ -1114,6 +1119,9 @@ a difference of two  $\caly_{d|\td}$.
 {\color{red}ACE}=
 \caly_{|1}-
 \caly_{|0}
+=
+\caly_{1|1}-
+\caly_{0|0}=SDO
 \eeq
 
 \item average treatment effect\footnote{
@@ -1195,16 +1203,6 @@ linearly related
 \underbrace{(\caly_{1|0}-\caly_{0|0})}_{ATU}\pi_0
 \eeqa
 
-\beqa
-\underbrace{\caly_{|1}-\caly_{|0}}_{ACE}&=&
-\caly_{1|1} + \caly_{0|1}
--(\caly_{1|0} + \caly_{0|0})
-\\
-&=&\underbrace{\caly_{1|1}-\caly_{0|0}}_{SDO}
--\underbrace{(\caly_{1|0}-\caly_{0|0})}_{ATU}
-+\underbrace{\caly_{0|1}-\caly_{0|0}}_{SB}
-\label{eq-ace-decomp}
-\eeqa
 
 Let $\cale \in\{ACE,ATE,ATT,ATU,SDO, SB\}$.
 $\cale$ can be 
@@ -1232,64 +1230,78 @@ $.
 
 
 
-\section{Zero ACE}
+\section{Zero ACE, $\caly_{1|0}=\caly_{1}$}
 \label{sec-td-ignored}
 
-Recall that 
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2.5in]
+{pot-out/y-diffs-square-probs.png}
+\caption{Figure \ref{fig-y-diffs-square} 
+with added information
+about  probability distributions 
+used to obtain each expected value $\caly_{d|\td}$.}
+\label{fig-y-diffs-square-probs}
+\end{figure}
 
+$ACE=0$
+is the hypothesis 
+tested by a Randomized Control Trial (RCT).
+But some people
+test for $ATE=0$
+instead.
+Is it
+possible for $ACE=0$ but $ATE\neq 0$
+or vice versa, and
+what does it mean if this is true?
+When is $\caly_{1|0}=\caly_{1}$
+and what does it mean if this is  true?
+Fig.\ref{fig-y-diffs-square-probs}
+gives some 
+intuition 
+about what is
+going on when these 
+things happen.
+
+Recall that
+each expected value $\caly$ has a probability
+distribution $P$.
 \beq
-ACE = \caly_{|1, x}-\caly_{|0, x}
-\label{eq-ace-def}
+\caly_{d|\td, x}=\sum_{y} y P_{\rvy(d)|\rvtd, \rvx}(y|\td,x)
 \eeq
-
-\beq
-\caly_{|\td,x}=\sum_y P(y|\td, x)y
-\label{eq-y-at-td-def}
-\eeq
-
-\beq
-\caly_{d|\td,x}=P(d|x)\sum_y P(y|\td, x)y
-\label{eq-y-d-at-td-def}
-\eeq
-
-So $ACE=0$ iff $P(y|\td,x)=P(y|x)$.
-Zero ACE is really what an RCT measures to
-conclude that a drug does not work.
-PO theory focuses on $ATE, ATU, ATT$
-but you can have all of those
-be non-zero 
-and still $ACE=0$.
-
-\begin{claim}
-Fix the value of $x$.
-Assume that $P(d|x)>0$ (``positivity")
-for $d\in \bool$.
-Then the following are equivalent
-\begin{enumerate}
-\item[(a)]$ACE=0$
-\item[(b)] $P(y|\td,x)=P(y|x)$ 
-for all $y,\td$.
-\item[(c)]$\caly_{d|\td,x}=\caly_{d|x}$
-for all $d,\td$.
-\item[(d)]$SDO=ATU$ and $SB=0$
-\end{enumerate}
-\end{claim}
-\proof
-
-$(a)\implies (b)$ This is clear from 
-Eqs.(\ref{eq-ace-def}) and (\ref{eq-y-at-td-def}).
-
-$(b)\implies (c)$  This is clear from 
-Eqs.(\ref{eq-y-at-td-def}) and
-(\ref{eq-y-d-at-td-def}).
-
-$(c)\implies (d)$  This is clear 
-from the definitions of $SDO$, $ATU$ and $SB$.
-See Eq.(\ref{eq-ace-decomp}.
-
-$(d)\implies (a)$  This is clear'
-from $(c)$ and Eq.(\ref{eq-ace-decomp}).
-\qed
+for $d, \td\in \bool$.
+Fig.\ref{fig-y-diffs-square-probs}
+reminds us of which $P$
+is used to generate each $\caly$.
+From this figure we see that
+a sufficient
+condition for $ACE=SDO=0$
+is that 
+$P_{\rvy(1)|\rvtd=1, \rvx}
+=
+P_{\rvy(0)|\rvtd=0, \rvx}$.
+Also, since $ATE=0$ iff 
+$ATT=ATU=0$,
+a sufficient condition
+for $ATE=0$ is that
+$P_{\rvy(1)|\rvtd=0, \rvx}
+=
+P_{\rvy(0)|\rvtd=0, \rvx}$
+and
+$P_{\rvy(1)|\rvtd=1, \rvx}
+=
+P_{\rvy(0)|\rvtd=1, \rvx}$.
+Also, 
+if we assume that
+all $y^\s>0$, $\caly_{1|0}=\caly_{1}$
+iff 
+$P_{\rvy(1)|\rvtd=0, \rvx}=
+P_{\rvy(1)| \rvx}$.
+$ACE=0$
+depends on two corners
+of the square
+whereas  $\caly_{1|0}=\caly_{1}$
+depends on just one corner.
 
 
 \section{Hypothesis testing for sharp null}
@@ -1537,7 +1549,8 @@ this.
 \end{tabular}
 \caption{Illustration of the
 purpose of the map $s()$.
-Note that $y^\s=y^\s(\td^\s)$ and $y^{s(\s)}=y^\s(!\td^\s)$.}
+Note that $y^\s=y^\s(\td^\s)$ and $y^{s(\s)}=y^\s(!\td^\s)$,
+where $!0=1$ and $!1=0$.}
 \label{tab-po-s-map}
 \end{table}
 
@@ -1586,7 +1599,7 @@ Recall that
 \label{eq-to-estimate}
 
 \beq
-ACE = \caly_{0|1,x}+\caly_{1|1,x}-(\caly_{0|0,x}+\caly_{1|0,x})
+ACE = SDO
 \eeq
 
 \beq
@@ -1619,25 +1632,10 @@ can be estimated from the data
 via the following estimators.
 
 
-\beqa
-\widehat{ACE}
-&=&
-\overbrace{\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s y^{s(\s)}}^{\caly_{0|1,x}}
-+
-\overbrace{\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s y^\s}^{\caly_{1|1,x}}
-\\
-&&-\overbrace{\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\td^\s)y^\s}^{\caly_{0|0,x}}
--\overbrace{\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\td^\s) y^{s(\s)} }^{\caly_{1|0,x}}
-\\
-&=&
-\sum_{\s\in A_x}
-\left[
-\frac{\td^\s}{N_{1,x}}
--
-\frac{(1-\td^\s)}{N_{0,x}}
-\right]
-(y^{s(\s)}+y^\s)
-\eeqa
+\beq
+\widehat{ACE} = \widehat{SDO}
+\label{eq-est-ace}
+\eeq
 
 \beqa
 \widehat{ATE}
@@ -1687,6 +1685,7 @@ via the following estimators.
 \overbrace{\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s y^{s(\s)}}^{\caly_{0|1,x}}
 -
 \overbrace{\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\td^\s)y^\s}^{\caly_{0|0,x}}
+\label{eq-est-sb}
 \eeq
 
 \beq
@@ -1696,6 +1695,7 @@ via the following estimators.
 -
 \overbrace{\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\td^\s) y^\s}^
 {\caly_{0|0,x}}
+\label{eq-est-sdo}
 \eeq
 
 
@@ -1863,13 +1863,9 @@ ATT=
 \eeq
 
 \beq
-SBO=ATT=ATU=ATE=\frac{1}{5}
+ATT=ATU=ATE=SDO=\frac{1}{5}
 \;,\;\; SB=0
 \eeq
-
-Even though $ATE\neq 0$,
-according to Eq.(\ref{eq-ace-decomp}),
-$ACE=0$.
 
 This example is unusual
 in that it has a single
@@ -1883,9 +1879,9 @@ is 1-1 onto.
 If, for instance,
 $s(\s)=6$ for all $\s\in A_0$
 and $s(\s)=5$ for $\s\in A_1$,
-then $SBO, ATT, ATU, ATE$
+then $ATT, ATU, ATE, SDO$
 would not all be same, and 
-$ACE$ would not be zero.  
+$SB$ would not be zero.  
 
 \subsection{Approximate strata-match}
 
