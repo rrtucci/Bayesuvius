@@ -42,16 +42,16 @@ of do and imagine operators.
 \hline
 \rowcolor[HTML]{ECF4FF} 
 $\s$ & $\rvd^\s$ & $\rvy^\s$ & $\rvy^\s(0)$ & $\rvy^\s(1)$ \\ \hline
-Andy & \cellcolor[HTML]{FFFFC7}1 & 10 & . & 10 \\ \hline
-Ben & \cellcolor[HTML]{FFFFC7}1 & 5 & . & 5 \\ \hline
-Chad & \cellcolor[HTML]{FFFFC7}1 & 16 & . & 16 \\ \hline
-Daniel & \cellcolor[HTML]{FFFFC7}1 & 3 & . & 3 \\ \hline
 Edith & 0 & 5 & 5 & . \\ \hline
 Frank & 0 & 7 & 7 & . \\ \hline
 George & 0 & 8 & 8 & . \\ \hline
 Hank & 0 & 10 & 10 & . \\ \hline
+Andy & \cellcolor[HTML]{FFFFC7}1 & 10 & . & 10 \\ \hline
+Ben & \cellcolor[HTML]{FFFFC7}1 & 5 & . & 5 \\ \hline
+Chad & \cellcolor[HTML]{FFFFC7}1 & 16 & . & 16 \\ \hline
+Daniel & \cellcolor[HTML]{FFFFC7}1 & 3 & . & 3 \\ \hline
 \end{tabular}
-\caption{Dataset describing whether
+\caption{PO dataset describing whether
 individual $\s$
 took a treatment dose ($d^\s=1$)
 or didn't ($d^\s=0$).
@@ -65,14 +65,14 @@ Suppose a {\bf population
 of individuals} $\s=0,1,2, \ldots, nsam-1$
 is given ($d^\s=1$) or
 not given ($d^\s=0$)
-a {\bf treatment drug dose} $d^\s$,
+a {\bf treatment discrete drug dose} $d^\s$,
 and that
 the 
  {\bf treatment outcome (i.e., response)}
 is measured by
 a real number $y^\s$.
 Table \ref{tab-pot-out-missing}
-gives a possible dataset
+gives a possible {\bf PO dataset}
 for this scenario.
 As you
 can see from
@@ -361,7 +361,7 @@ of the ``effects" $\delta
 = y(1)-y(0)$ that PO theory 
 gives estimates for.
 Any 
-individual in the experiment
+individual participating in the experiment
 experiences either $y(1)$
 or $y(0)$,
 but not both.
@@ -563,8 +563,7 @@ shows how bnet $G_{im}$
 is obtained by applying 
 an imagine operator to bnet $G$,
 and how bnet $G_{im+}$
-is obtained from bnet 
-$G_{im}$ by adding
+is obtained  by adding
 a prior
 probability distribution to
 one of the nodes of $G_{im}$.
@@ -887,7 +886,7 @@ the following are also true
 \eeq
 by the d-separation theorem,
 because $\rvy^\s$
-is a collider
+acts as a collider
 on all paths 
 from $\rvy^\s(d)$ to $\rvtd^\s$
 for $d\in\bool$.
@@ -1095,14 +1094,15 @@ differences (aka treatment effects)}
 \centering
 \includegraphics[width=2in]
 {pot-out/y-diffs-square.png}
-\caption{Different effects.  
+\caption{Different treatment effects.  
 An effect is a difference of 
 two $\caly_{d|\td}$.} 
 \label{fig-y-diffs-square}
 \end{figure}
 
 It is convenient to
-define the following effects. 
+define the following 
+{\bf treatment effects}. 
 See Fig.\ref{fig-y-diffs-square}.
 Note
 that we use  the
@@ -1112,7 +1112,8 @@ a difference of two  $\caly_{d|\td}$.
 
 \begin{itemize}
 
-\item average controlled effect  
+\item average controlled
+causal effect  
  (ACE), used when doing an RCT.
 
 \beq
@@ -1253,9 +1254,9 @@ instead.
 Is it
 possible for $ACE=0$ but $ATE\neq 0$
 or vice versa, and
-what does it mean if this is true?
-When is $\caly_{1|0}=\caly_{1}$
-and what does it mean if this is  true?
+what is going on when this is true?
+When is $\caly_{1|0}=\caly_{1}$,
+and what is going on when this is  true?
 Fig.\ref{fig-y-diffs-square-probs}
 gives some 
 intuition 
@@ -1273,7 +1274,7 @@ for $d, \td\in \bool$.
 Fig.\ref{fig-y-diffs-square-probs}
 reminds us of which $P$
 is used to generate each $\caly$.
-From this figure we see that
+From this figure, we see that
 a sufficient
 condition for $ACE=SDO=0$
 is that 
@@ -1304,195 +1305,6 @@ whereas  $\caly_{1|0}=\caly_{1}$
 depends on just one corner.
 
 
-\section{Hypothesis testing for sharp null}
-In this section, we assume
-no $x$ dependence, or else
-we assume that the whole discussion 
-refers to  a single stratum $x$.
-Hence, we will omit the $x$ subscript
-in this section.
- 
-
-Assume $\rvd^\s=\rvtd^\s$.
-In this section, we will
-discuss hypothesis testing between the
-following two opposite hypotheses:
-
-\beq
-\begin{array}{l}
-H_0: \rvy^\s(1)= \rvy^\s(0) \;\;\forall \s\\
- H_1 =\;\; !H_0 
-\end{array}
-\;.
-\eeq
-$H_0$ is called the {\bf sharp null
-hypothesis}.
-
-
-\begin{table}[h!]
-\centering
-\begin{tabular}{|l|l|l|l|l|}
-\hline
-\rowcolor[HTML]{ECF4FF} 
-$\s$ & $\rvd^\s$ & $\rvy^\s$ & $\rvy^\s(0)$ & $\rvy^\s(1)$ \\ \hline
-Andy & \cellcolor[HTML]{FFFFC7}1 & 10 & 10 & 10 \\ \hline
-Ben & \cellcolor[HTML]{FFFFC7}1 & 5 & 5 & 5 \\ \hline
-Chad & \cellcolor[HTML]{FFFFC7}1 & 16 & 16 & 16 \\ \hline
-Daniel & \cellcolor[HTML]{FFFFC7}1 & 3 & 3 & 3 \\ \hline
-Edith & 0 & 5 & 5 & 5 \\ \hline
-Frank & 0 & 7 & 7 & 7 \\ \hline
-George & 0 & 8 & 8 & 8 \\ \hline
-Hank & 0 & 10 & 10 & 10 \\ \hline
-\end{tabular}
-\caption{
-Table \ref{tab-pot-out-missing}
-with blank cells
-filled according to the
-sharp null hypothesis $H_0$.
-Note that
-$\vec{d}_0=(1,1,1,1, 0,0,0,0)$. 
-If  $\xi(\vec{d})$
-is defined by Eq.(\ref{eq-xi-d-def}), then
-$\xi=|34-30|/4=1$
-}
-\label{tab-pot-out-missing2}
-\end{table}
-
-\begin{table}[h!]
-\centering
-\begin{tabular}{|l|l|l|l|l|}
-\hline
-\rowcolor[HTML]{ECF4FF} 
-$\s$ & $\rvd^\s$ & $\rvy^\s$ & $\rvy^\s(0)$ & $\rvy^\s(1)$ \\ \hline
-Andy & \cellcolor[HTML]{FFFFC7}1 & 10 & 10 & 10 \\ \hline
-Ben & 0 & 5 & 5 & 5 \\ \hline
-Chad & \cellcolor[HTML]{FFFFC7}1 & 16 & 16 & 16 \\ \hline
-Daniel & \cellcolor[HTML]{FFFFC7}1 & 3 & 3 & 3 \\ \hline
-Edith & 0 & 5 & 5 & 5 \\ \hline
-Frank & \cellcolor[HTML]{FFFFC7}1 & 7 & 7 & 7 \\ \hline
-George & 0 & 8 & 8 & 8 \\ \hline
-Hank & 0 & 10 & 10 & 10 \\ \hline
-\end{tabular}
-\caption{Table \ref{tab-pot-out-missing2}
-after permuting the entries of column $\rvd^\s$.
-Note that
-$\vec{d}_1=(1,0,1,1,0,1,0,0)$.
-If  $\xi(\vec{d})$
-is defined by Eq.(\ref{eq-xi-d-def}), then
-$\xi=|36-28|/4=2$}
-\label{tab-pot-out-missing3}
-\end{table}
-
-Table \ref{tab-pot-out-missing} becomes
-Table \ref{tab-pot-out-missing2}
-if we fill the blank cells
-according to the
-sharp null hypothesis $H_0$.
-And Table \ref{tab-pot-out-missing2}
-becomes  Table \ref{tab-pot-out-missing3}
-by permuting
-the entries of column $\rvd^\s$.
-
-Define
-\beq
-N_1 =\sum_\s d^\s
-,\;\;\; \pi_1 = \frac{N_1}{nsam}
-\;,
-\eeq
-
-\beq
-N_0= \sum_\s (1-d^\s)=nsam-N_1,
-\;\;\
-\pi_0 = \frac{N_0}{nsam}
-\;,
-\eeq
-
- 
-\beq
-\vec{d}=(d^\s)_{\s=0 1, 2, \ldots, nsam-1}
-\;,
-\eeq
-and
-
-
-\beq
-\xi(\vec{d}) =\left|
-\frac{ \sum_\s d^\s y^\s}
-{N_1}
--
-\frac{ \sum_\s (1-d^\s)y^\s}
-{N_0}
-\right|
-\rarrow |\caly_1-\caly_0|
-\label{eq-xi-d-def}
-\;.
-\eeq
-$\xi(\vec{d})$
-is the statistic
-that we will use to 
-test the sharp null hypothesis $H_0$.
-There are other
-possible functions $\xi(\vec{d})$
-that are commonly used 
-to test $H_0$; for example,
-the Kolgomorov-Smirmov statistic 
-(see Ref.\cite{book-mixtape})
-
-According
-to Tables
-\ref{tab-pot-out-missing2}
-and
-\ref{tab-pot-out-missing3}, 
-$\xi(\vec{d})=1$
-for the true (i.e., $H_0$-satisfying) 
- vector $\vec{d}=\vec{d}_0$,
-and $\xi(\vec{d})=2$ for
-one possible
-$H_1$-satisfying vector  
-$\vec{d}=\vec{d}_1$.
-Let $\cald$ be the
-set of all permutations of $\vec{d}_0$,
-and define $F:\RR\rarrow [0,1]$ by
-
-
-\beqa
-F(\xi)&=&\frac{1}{|\cald|}
-\sum_{\vec{d}\in \cald}
-\indi(\xi(\vec{d})\leq \xi)
-\\
-&=&
-E_{\vec{d}}[\indi(\xi(\vec{d})\leq \xi)]\;\;\;
-\text{ where }P(\vec{d})=\frac{1}{|\cald|}
-\eeqa
-The function $F(\xi)$ is monotonically 
-increasing
-from $F(-\infty)=0$ to $F(+\infty)=1$
-so it can be interpreted to be a cumulative
-distribution for $\xi$. Then one can
-define a $p$ value
-for the sharp null
-hypothesis by
-
-\beq
-p=1-F(\xi(\vec{d}_0))
-\;.
-\eeq
-$p\in[0,1]$ measures the 
-likelihood that $H_0$ is true. The smaller it is, 
-the less likely $H_0$ is.
-
-Often, $|\cald|=$ 
-the number of permutations of $\vec{d}_0$,
-is too large to average over all 
-the elements of $\cald$. In that
-case, one can use random sampling methods.
-For example, one can choose a $\vec{d}$
-at random
-from $\cald$, 
-and calculate a step function $F_i(\xi)$
-from that. Do this $ni$ times. Then
-average all the $ni$ step functions
-to obtain an estimate of $F(\xi)$.
 
 
 \section{Matching Strata}
@@ -1582,8 +1394,8 @@ expected values of the type
 \begin{tabular}{|l|l|l|}
 \hline
  & \cellcolor[HTML]{ECF4FF}$y^\s(0)$ & \cellcolor[HTML]{ECF4FF}$y^\s(1)$ \\ \hline
-\cellcolor[HTML]{ECF4FF}$\td^\s=0$ & \begin{tabular}[c]{@{}l@{}}$E_{|x}[(1-\rvtd^\s) \rvy^\s]=E[1-\rvtd^\s]\caly_{0|0,x}$\\ $E_{|x}\left[\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\rvtd^\s)\rvy^{\s}\right]=\caly_{0|0,x}$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$E_{|x}[(1-\rvtd^\s )\rvy^{s(\s)}]=E[1-\rvtd^\s]\caly_{0|1,x}$\\ $E_{|x}\left[\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\rvtd^\s) \rvy^{s(\s)}\right]=\caly_{0|1,x}$\end{tabular} \\ \hline
-\cellcolor[HTML]{ECF4FF}$\td^\s=1$ & \begin{tabular}[c]{@{}l@{}}$E_{|x}[\rvtd^\s \rvy^\s]=E[\rvtd^{s(\s)}]\caly_{1|0,x}$\\ $E_{|x}\left[\frac{1}{N_{1,x}}\sum_{\s\in A_x} \rvtd^\s \rvy^{s(\s)}\right]=\caly_{1|0,x}$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$E_{|x}[\rvtd^\s \rvy^\s]=E[\rvtd^\s]\caly_{1|1,x}$\\ $E_{|x}\left[\frac{1}{N_{1,x}}\sum_{\s\in A_x} \rvtd^\s \rvy^\s\right]=\caly_{1|1,x}$\end{tabular} \\ \hline
+\cellcolor[HTML]{ECF4FF}$\td^\s=0$ & \begin{tabular}[c]{@{}l@{}}$E_{|x}[(1-\rvtd^\s) \rvy^\s]=E[1-\rvtd^\s]\caly_{0|0,x}$\\ $E_{|x}\left[\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\rvtd^\s)\rvy^{\s}\right]=\caly_{0|0,x}$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$E_{|x}[(1-\rvtd^\s )\rvy^{s(\s)}]=E[1-\rvtd^\s]\caly_{1|0,x}$\\ $E_{|x}\left[\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\rvtd^\s) \rvy^{s(\s)}\right]=\caly_{1|0,x}$\end{tabular} \\ \hline
+\cellcolor[HTML]{ECF4FF}$\td^\s=1$ & \begin{tabular}[c]{@{}l@{}}$E_{|x}[\rvtd^\s \rvy^\s]=E[\rvtd^{s(\s)}]\caly_{0|1,x}$\\ $E_{|x}\left[\frac{1}{N_{1,x}}\sum_{\s\in A_x} \rvtd^\s \rvy^{s(\s)}\right]=\caly_{0|1,x}$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$E_{|x}[\rvtd^\s \rvy^\s]=E[\rvtd^\s]\caly_{1|1,x}$\\ $E_{|x}\left[\frac{1}{N_{1,x}}\sum_{\s\in A_x} \rvtd^\s \rvy^\s\right]=\caly_{1|1,x}$\end{tabular} \\ \hline
 \end{tabular}
 \caption{Expected Values
 of the type
@@ -1778,7 +1590,7 @@ are calculated for this example. }
 \begin{tabular}{|
 >{\columncolor[HTML]{ECF4FF}}l |l|l|}
 \hline
-\cellcolor[HTML]{CBCEFB}$N(\td, x)$ & \cellcolor[HTML]{ECF4FF}$y=0$ & \cellcolor[HTML]{ECF4FF}$y=1$ \\ \hline
+\cellcolor[HTML]{CBCEFB}$N(\td, y)$ & \cellcolor[HTML]{ECF4FF}$y=0$ & \cellcolor[HTML]{ECF4FF}$y=1$ \\ \hline
 $\td=0$ & 2 & 3 \\ \hline
 $\td=1$ & 1 & 4 \\ \hline
 \end{tabular}
@@ -1869,7 +1681,7 @@ ATT=ATU=ATE=SDO=\frac{1}{5}
 
 This example is unusual
 in that it has a single
-$x$ stratum, and for
+stratum $x$, and for
 that stratum, 
 the treated and 
 untreated populations
@@ -2002,39 +1814,38 @@ a non-zero
 probability of being both treated 
 and untreated.
 
-According to  Eq.(\ref{eq-need-positivity}),
+Recall that
 
 \beq
 \caly_{d|\td,x}
-=P(d|x)\sum_{y} y P(y|\td,x)
+=\sum_{y} y P_{\rvy(d)|\rvtd, \rvx}(y|\td,x)
 \;.
 \eeq
-Also note
+Also recall
 that the estimator
 Eq.(\ref{eq-est-att})
-for $ATT$ divides by $N_{1,x}=P(d=1|x)N_x$
+for $ATT_{|x}$ divides by $N_{1,x}=P(d=1|x)N_x$
 and 
 the estimator
 Eq.(\ref{eq-est-atu})
-for $ATU$ divides by $N_{0,x}= P(d=0|x)N_x$.
+for $ATU_{|x}$ divides by $N_{0,x}= P(d=0|x)N_x$.
 The estimator Eq.\ref{eq-est-ate}
-for $ATE$ divides by neither $N_{0,x}$
+for $ATE_{|x}$ divides by neither $N_{0,x}$
 nor $N_{1,x}$ so it is safe.
 
 If positivity is violated,
 then 
 for some 
 layer $x$, 
- $\caly_{0|\td,x}$ or $\caly_{1|\td,x}$ 
-is zero, 
-and the estimators
-for $ATU$ or $ATT$ for layer $x$ are
-undefined.
-If $ATT$ (or any
+ $\caly_{d|\td=0,x}$ or $\caly_{d|\td=1,x}$ 
+is undefined. 
+Furthermore,  the estimator
+$ATT_{|x}$ or $ATU_{|x}$ is undefined.
+If $ATT_{|x}$ (or any
 other treatment effect)  can be estimated,
 one says it is {\bf identifiable} (i.e.,
 calculable). If Positivity is violated, then
-either $ATT$ or $ATU$ is not identifiable.
+either $ATT_{|x}$ or $ATU_{|x}$ is not identifiable.
 
  
 
