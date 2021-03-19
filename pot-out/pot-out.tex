@@ -1245,23 +1245,30 @@ used to obtain each expected value $\caly_{d|\td}$.}
 \label{fig-y-diffs-square-probs}
 \end{figure}
 
-$ACE=0$
+$SDO=0$
 is the hypothesis 
 tested by a Randomized Control Trial (RCT).
 But some people
 test for $ATE=0$
 instead.
+\begin{enumerate}
+\item 
 Is it
-possible for $ACE=0$ but $ATE\neq 0$
+possible for $SDO=0$ but $ATE\neq 0$
 or vice versa, and
 what is going on when this is true?
+\item
+What is going on when two treatment effects
+are equal; for instance, when $ATT=ATU$?
+\item
 When is $\caly_{1|0}=\caly_{1}$,
 and what is going on when this is  true?
+\end{enumerate}
 Fig.\ref{fig-y-diffs-square-probs}
 gives some 
 intuition 
 about what is
-going on when these 
+going on when any of these 
 things happen.
 
 Recall that
@@ -1275,13 +1282,16 @@ Fig.\ref{fig-y-diffs-square-probs}
 reminds us of which $P$
 is used to generate each $\caly$.
 From this figure, we see that
-a sufficient
-condition for $ACE=SDO=0$
+
+\begin{enumerate}
+\item
+A sufficient
+condition for $SDO=0$
 is that 
 $P_{\rvy(1)|\rvtd=1, \rvx}
 =
 P_{\rvy(0)|\rvtd=0, \rvx}$.
-Also, since $ATE=0$ iff 
+Since $ATE=0$ iff 
 $ATT=ATU=0$,
 a sufficient condition
 for $ATE=0$ is that
@@ -1292,13 +1302,25 @@ and
 $P_{\rvy(1)|\rvtd=1, \rvx}
 =
 P_{\rvy(0)|\rvtd=1, \rvx}$.
-Also, 
-if we assume that
+\item
+A sufficient condition for
+$ATT=ATU$
+is that 
+$P_{\rvy(1)|\rvtd=0, \rvx}
+-
+P_{\rvy(0)|\rvtd=0, \rvx}$
+equals
+$P_{\rvy(1)|\rvtd=1, \rvx}
+-
+P_{\rvy(0)|\rvtd=1, \rvx}$.
+\item
+If we assume that
 all $y^\s>0$, $\caly_{1|0}=\caly_{1}$
 iff 
 $P_{\rvy(1)|\rvtd=0, \rvx}=
 P_{\rvy(1)| \rvx}$.
-$ACE=0$
+\end{enumerate}
+$SDO=0$
 depends on two corners
 of the square
 whereas  $\caly_{1|0}=\caly_{1}$
@@ -1318,6 +1340,13 @@ individuals to fill the blank cells of
 By ``similar", we mean that
 they have the same or almost the same
 value of $\rvx^\s$.
+
+IMPORTANT: Matching 
+only makes sense 
+if the individuals 
+have no knowledge
+of whether they are
+being treated or not.
 
 
 \subsection{Exact strata-match}
@@ -1675,8 +1704,9 @@ ATT=
 \eeq
 
 \beq
-ATT=ATU=ATE=SDO=\frac{1}{5}
+ATE=ATT=ATU=SDO=\frac{1}{5}
 \;,\;\; SB=0
+\label{eq-all-equal}
 \eeq
 
 This example is unusual
@@ -1691,9 +1721,17 @@ is 1-1 onto.
 If, for instance,
 $s(\s)=6$ for all $\s\in A_0$
 and $s(\s)=5$ for $\s\in A_1$,
-then $ATT, ATU, ATE, SDO$
+then $ATE, ATT, ATU, SDO$
 would not all be same, and 
 $SB$ would not be zero.  
+In fact, whenever there is a single
+balanced stratum and the map $s()$
+is 1-1 onto, Eq.\ref{eq-all-equal}
+can be proven to be true using
+the methods of
+section \ref{sec-td-ignored}.
+
+
 
 \subsection{Approximate strata-match}
 
