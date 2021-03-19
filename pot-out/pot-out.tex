@@ -1326,6 +1326,221 @@ of the square
 whereas  $\caly_{1|0}=\caly_{1}$
 depends on just one corner.
 
+Using $\rvy=\rvy(\rvtd)$
+and Fig.\ref{fig-y-diffs-square-probs},
+we get
+
+\beqa
+SDO &=& \sum_y y\left[
+P_{\rvy(1)|\rvtd, \rvx}(y|1, x)
+-
+P_{\rvy(0)|\rvtd, \rvx}(y|0, x)
+\right]
+\\
+&=&
+\sum_y y\left[
+P_{\rvy|\rvtd, \rvx}(y|1, x)
+-
+P_{\rvy|\rvtd, \rvx}(y|0, x)
+\right]
+\;.
+\eeqa
+If $\rvy\in \bool$, then
+
+\beq
+SDO=P_{\rvy|\rvtd, \rvx}(1|1, x)
+-
+P_{\rvy|\rvtd, \rvx}(1|0, x)
+\;.
+\eeq
+
+\section{$(SDO,ATE)$ space}
+If we substitute
+$y^\s\rarrow y^\s(\td^\s)$ and
+ $y^{s(\s)}\rarrow y^\s(!\td^\s)$,
+where $!0=1$ and $!1=0$, 
+into 
+the estimator
+Eq.(\ref{eq-est-ate}) for $ATE$
+and the estimator
+Eq.(\ref{eq-est-sdo}) for $SDO$,
+we get
+
+\beqa
+\widehat{ATE}
+&=&
+\frac{1}{N_x}\sum_{\s\in A_x}
+ (2\td^\s-1)[y^\s(\td^\s) -y^\s(!\td^\s)]
+\\
+&=&
+\frac{1}{N_x}\sum_{\s\in A_x}
+ [y^\s(1) -y^\s(0)]
+\label{eq-est-ate-simple}
+\eeqa
+and
+
+\beqa
+\widehat{SDO}
+&=&
+\frac{1}{N_{1,x}}
+\sum_{\s\in A_x} \td^\s y^\s(\td^\s)
+-
+\frac{1}{N_{0,x}}
+\sum_{\s\in A_x} (1-\td^\s) y^\s(\td^\s)
+\\
+&=&
+\frac{1}{N_{1,x}}
+\sum_{\s\in A_{1,x}} y^\s(1)
+-
+\frac{1}{N_{0,x}}
+\sum_{\s\in A_{0,x}}  y^\s(0)
+\;.
+\label{eq-est-sdo-simple}
+\eeqa
+
+$SDO=0$ is the hypothesis tested 
+by a Randomized Clinical Trial (RTC). 
+
+
+Suppose that
+the treatment outcome $y^\s$
+has only two 
+possible values, 0 and 1.
+Then, $-1\leq ATE \leq 1$
+and
+$-1\leq SDO \leq 1$.
+But does  $ATE=0$
+imply $SDO=0$
+or vice versa?
+Next, we answer 
+that question
+and more
+by finding
+the region
+of accessibility in the
+$(SDO, ATE)$
+plane,
+assuming $y^\s\in \bool$.
+
+
+\newpage
+
+\begin{figure}[h!]
+\centering
+\subfloat[$ATE=-1$ $(SDO=-1)$ point A]{
+\begin{tabular}{|
+>{\columncolor[HTML]{ECF4FF}}l |l|l|l|}
+\hline
+\cellcolor[HTML]{CBCEFB}$\s$ & \cellcolor[HTML]{CBCEFB}$\td^\s$ & \cellcolor[HTML]{CBCEFB}$y^\s(0)$ & \cellcolor[HTML]{CBCEFB}$y^\s(1)$ \\ \hline
+1 & 0 & 1 & 0 \\ \hline
+2 & 0 & 1 & 0 \\ \hline
+3 & 0 & 1 & 0 \\ \hline
+4 & 1 & 1 & 0 \\ \hline
+5 & 1 & 1 & 0 \\ \hline
+6 & 1 & 1 & 0 \\ \hline
+\end{tabular}
+}
+\quad
+\subfloat[$ATE=\frac{1}{2}$ $(SDO=0)$ point B]{
+\begin{tabular}{|
+>{\columncolor[HTML]{ECF4FF}}l |l|l|l|}
+\hline
+\cellcolor[HTML]{CBCEFB}$\s$ & \cellcolor[HTML]{CBCEFB}$\td^\s$ & \cellcolor[HTML]{CBCEFB}$y^\s(0)$ & \cellcolor[HTML]{CBCEFB}$y^\s(1)$ \\ \hline
+1 & 0 & 0 & 1 \\ \hline
+2 & 0 & 0 & 1 \\ \hline
+3 & 0 & 0 & 1 \\ \hline
+4 & 1 & 0 & 0 \\ \hline
+5 & 1 & 0 & 0 \\ \hline
+6 & 1 & 0 & 0 \\ \hline
+\end{tabular}
+}
+\quad
+\subfloat[$ATE=1$ $(SDO=1$) point C]{
+\begin{tabular}{|
+>{\columncolor[HTML]{ECF4FF}}l |l|l|l|}
+\hline
+\cellcolor[HTML]{CBCEFB}$\s$ & \cellcolor[HTML]{CBCEFB}$\td^\s$ & \cellcolor[HTML]{CBCEFB}$y^\s(0)$ & \cellcolor[HTML]{CBCEFB}$y^\s(1)$ \\ \hline
+1 & 0 & 0 & 1 \\ \hline
+2 & 0 & 0 & 1 \\ \hline
+3 & 0 & 0 & 1 \\ \hline
+4 & 1 & 0 & 1 \\ \hline
+5 & 1 & 0 & 1 \\ \hline
+6 & 1 & 0 & 1 \\ \hline
+\end{tabular}
+}
+\caption{Examples of PO datasets. Exploring $ATE$ extremes.}
+\label{fig-ate-possi}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\subfloat[$SDO=-1$ $(ATE=0)$ point D]{
+\begin{tabular}{|
+>{\columncolor[HTML]{ECF4FF}}l |l|l|l|}
+\hline
+\cellcolor[HTML]{CBCEFB}$\s$ & \cellcolor[HTML]{CBCEFB}$\td^\s$ & \cellcolor[HTML]{CBCEFB}$y^\s(0)$ & \cellcolor[HTML]{CBCEFB}$y^\s(1)$ \\ \hline
+1 & 0 & 1 & 1 \\ \hline
+2 & 0 & 1 & 1 \\ \hline
+3 & 0 & 1 & 1 \\ \hline
+4 & 1 & 0 & 0 \\ \hline
+5 & 1 & 0 & 0 \\ \hline
+6 & 1 & 0 & 0 \\ \hline
+\end{tabular}
+}
+\quad
+\subfloat[$SDO=0$ $(ATE=-\frac{1}{2})$ point E]{
+\begin{tabular}{|
+>{\columncolor[HTML]{ECF4FF}}l |l|l|l|}
+\hline
+\cellcolor[HTML]{CBCEFB}$\s$ & \cellcolor[HTML]{CBCEFB}$\td^\s$ & \cellcolor[HTML]{CBCEFB}$y^\s(0)$ & \cellcolor[HTML]{CBCEFB}$y^\s(1)$ \\ \hline
+1 & 0 & 1 & 0 \\ \hline
+2 & 0 & 1 & 0 \\ \hline
+3 & 0 & 1 & 0 \\ \hline
+4 & 1 & 1 & 1 \\ \hline
+5 & 1 & 1 & 1 \\ \hline
+6 & 1 & 1 & 1 \\ \hline
+\end{tabular}
+}
+\quad
+\subfloat[$SDO=1$ $(ATE=0$) point F]{
+\begin{tabular}{|
+>{\columncolor[HTML]{ECF4FF}}l |l|l|l|}
+\hline
+\cellcolor[HTML]{CBCEFB}$\s$ & \cellcolor[HTML]{CBCEFB}$\td^\s$ & \cellcolor[HTML]{CBCEFB}$y^\s(0)$ & \cellcolor[HTML]{CBCEFB}$y^\s(1)$ \\ \hline
+1 & 0 & 0 & 0 \\ \hline
+2 & 0 & 0 & 0 \\ \hline
+3 & 0 & 0 & 0 \\ \hline
+4 & 1 & 1 & 1 \\ \hline
+5 & 1 & 1 & 1 \\ \hline
+6 & 1 & 1 & 1 \\ \hline
+\end{tabular}
+}
+\caption{Examples of PO datasets. Exploring $SDO$ extremes.}
+\label{fig-sdo-possi}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2.5in]
+{uplift/sdo-ate-polytope.png}
+\caption{
+Green parallelogram
+is accessible region in
+$(SDO,ATE)$ plane,
+assuming $y^\s\in \bool$.
+Each of the
+six points A, B, \ldots F
+corresponds to one of the six tables
+in Figs. \ref{fig-ate-possi}
+and \ref{fig-sdo-possi}.
+Point $C$ is ideal.
+The segment $BE$
+is the set of 
+accessible points 
+with zero  effect in an RCT. 
+} 
+\label{fig-uplift-y-t}
+\end{figure}
 
 
 
