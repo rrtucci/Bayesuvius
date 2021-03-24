@@ -26,14 +26,14 @@ Difference-in-Differences (Chapter \ref{ch-did})
 and Synthetic Controls (Chapter \ref{ch-syn-con}).
 
 In UP,
-each individual $\s$
+each {\bf participant person}
 is interrogated at two well
 anticipated, fairly closely spaced times
 $t_0$ and $t_1$ (as opposed to 
 Difference-in-Differences  (DID), where
 $t_0$ and $t_1$ might
 be years apart, and
-long after the DID analysis is 
+long before the DID analysis is 
 attempted.).
 In between those two times,
 a treatment which
@@ -41,35 +41,37 @@ we will refer to as the
 {\bf UP diagnostic test} is applied.
 For example,
 at times $t_0$ and $t_1$,
-each individual
+every participant
 might be asked
 how important he/she rates climate 
 change on a scale of 1 to 10.
 In between times
 $t_0$ and $t_1$,
-every individual might
+every participant might
 be sent a brochure on climate change.
-Normally
-in PO tests
-(for example, in DID),
-each individual
+In UP, as in all 
+other PO applications, 
+each sample
 $\s$
-is either in the 
+is in the 
 treated or control
 groups, but not both.
 But in UP,
-the same individual
-can be in both the 
+the same participant can be
+in both the 
 treated and control groups.
+If so, that participant
+is considered two different {\bf samples} $\s$;
+for example, $\s=treated Bob, control Bob$.
 In UP,
-the individuals
+the samples
 are aware  of which
 of those groups they are in,
 so they are not ``treatment blind".
 As explained in 
 Chapter \ref{ch-po},
 strata matching is only valid
-if the subjects
+if the samples
 of the test are treatment blind.
 Therefore, the only
 treatment effect that 
@@ -85,49 +87,53 @@ because it
 {uplift/uplift-y-t.png}
 \caption{UP diagnostic test
 can be used to classify
-all individuals of the
+all participants of the
 population into 4 UP-types.
 This figure 
-assumes $y^\s\in \bool$.
-More generally, $y^\s\in \RR$.
+assumes $y\in \bool$.
+More generally, $y\in \RR$.
 $t$ represents time. $t=t_0$
-corresponds to $d^\s=0=untreated$,
-and $t=t_1$ corresponds to $d^\s=1=treated$.} 
+corresponds to $d=0=untreated$,
+and $t=t_1$ corresponds to $d=1=treated$.} 
 \label{fig-uplift-y-t}
 \end{figure}
 
-Call $\delta^\s_x=
-y^\s_{t_1}-y^\s_{t_0}$ the {\bf individual uplift}
-for individual $\s$.
+Let $y^B_t\in \RR$ for $t=t_0, t_1$
+be the treatment response at time $t$
+for participant $B$. (We are using here
+the same notation as in Chapter \ref{ch-po}).
+Call $\delta^B=
+y^B_{t_1}-y^B_{t_0}$ the {\bf participant uplift}
+for participant $B$.
 As shown
 in Fig.\ref{fig-uplift-y-t},
-UP classifies individuals
-into 4 {\bf UP-types}: Persuadable, SureThings, LostCauses,
+UP classifies participants
+into 4 {\bf UP-types}: Persuadables, SureThings, LostCauses,
 and SleepyDogs.
 The UP-type
-of an individual
+of a participant
 depends on the changes 
-that are induced on that individual
+that are induced on that participant
 by an {\bf UP-diagnostic-test}.
 \begin{itemize}
 \item
-For a {\bf Persuadable} individual,
-$\delta^\s_x>0$.
+For a {\bf Persuadable} participant,
+$\delta^B>0$.
 \item
 For a {\bf SleepyDogs}
-individual, $\delta^\s_x< 0$.
+participant, $\delta^B< 0$.
 \item
-For a {\bf SureThings} individual,
- $\delta^\s_x\approx 0$
-and $y^\s_{t_0}$ is high.
+For a {\bf SureThings} participant,
+ $\delta^B\approx 0$
+and $y^B_{t_0}$ is high.
 \item
-For a {\bf LostCauses} individual,
-$\delta^\s_x\approx 0$
-and $y^\s_{t_0}$ is low.
+For a {\bf LostCauses} participant,
+$\delta^B\approx 0$
+and $y^B_{t_0}$ is low.
 \end{itemize}
 
 
-Suppose $\s$
+Suppose $B$
 belongs to
 stratum $A_x$.
 What is commonly called 
@@ -138,15 +144,15 @@ classified into
 the 4 UP-types,
 depending on the sign and size  
 of their $\delta_x$.
-An individual 
+A participant 
 may not be typical for
 his stratum
 and may
 have different
-{\bf individual and stratum UP-types}.
+{\bf participant and stratum UP-types}.
 For example, he may have positive 
-individual uplift
-and therefore the Persuadable individual UP-type,
+participant uplift
+and therefore the Persuadable participant UP-type,
 but his stratum-uplift
 might be negative, so
 he belongs to
@@ -251,10 +257,12 @@ dataset $DS= \{ (\s, d^\s, x^\s, y^\s):
  \s=0,1, 1, \ldots, nsam-1\}$.
 where $d^\s\in \bool$, $x^\s \in S_\rvx$,
 $y^\s\in \RR$.
- Individuals
-with $d^\s=0$ and $d^\s=1$
-are considered 
-different individuals.
+A  participant $B$
+is assigned two different
+$\s$
+if he/she
+belongs to
+both the treated and control groups.
 We will assume 
 $S_\rvx$ is a finite set.
 In general,
@@ -371,7 +379,7 @@ of UP in an
 intuitive
 way
 that even a
-business type can grok.
+business type can understand.
 UP software
 often plots something
 called a Qini
@@ -387,4 +395,4 @@ use or recommend them.
 
 
 \section{Finding 
-$\{({\cal X}_j, \Delta_j)\}_{0,1, \ldots, nj-1}$ with decision trees}
+an $x$ classifier}
