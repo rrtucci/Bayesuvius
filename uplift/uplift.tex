@@ -152,10 +152,10 @@ have different
 {\bf participant and stratum UP-types}.
 For example, he may have positive 
 participant uplift
-and therefore the Persuadable participant UP-type,
+and therefore have a Persuadable participant UP-type,
 but his stratum-uplift
 might be negative, so
-he belongs to
+he has
 the SleepyDogs stratum UP-type.
 
 Advertisers are very interested in finding
@@ -170,9 +170,9 @@ the climate change one described earlier.
 This allowed them to
 identify voters who might be sitting on the fence
 on whether to vote for Obama or not.
-Then they spent
+Then Team Obama spent
 the lion share
-of their resources  on those
+of  resources  on those
 fence-sitters.
 
 
@@ -213,11 +213,11 @@ If $\rvy\in \bool$, then
 =
 \underbrace{
 P_{\rvy|\rvtd, \rvx}(1|1, x)
-}_{\displaystyle \pi^1_x}
+}_{\displaystyle Y^1_x}
 -
 \underbrace{
 P_{\rvy|\rvtd, \rvx}(1|0, x)
-}_{\displaystyle \pi^0_x}
+}_{\displaystyle Y^0_x}
 \;.
 \eeq
 
@@ -237,11 +237,11 @@ we get
 =
 \underbrace{\frac{1}{N_{1,x}}
 \sum_{\s\in A_{1,x}} y^\s}_
-{\displaystyle \pi_x^1}
+{\displaystyle Y_x^1}
 -
 \underbrace{\frac{1}{N_{0,x}}
 \sum_{\s\in A_{0,x}}  y^\s}_
-{\displaystyle \pi_x^0}
+{\displaystyle Y_x^0}
 \;.
 \label{eq-est-sdo-uplift}
 \eeq
@@ -249,7 +249,8 @@ we get
 \end{itemize}
 
 
-\section{UP workflow}
+\section{UP Workflow}
+\label{sec-up-workflow}
 
 The input
 to UP is a PO
@@ -281,7 +282,7 @@ a finite number of bins.
 Pictorial
 representation
 of the sequence
-$\{(\calx_j, \Delta_j)\}_{j=0,1, \ldots, nj-1}$.
+$\{(\calx_c, \Delta_c)\}_{c=0,1, \ldots, nc-1}$.
 }
 \label{fig-uplift-bins}
 \end{figure}
@@ -307,52 +308,53 @@ Set $\delta_x=0$ if $A_x=\emptyset$.
 \item Calculate
 the set 
 
-\beq\{\Delta_j\}_{j=0, 1, \ldots, nj-1}=
+\beq\{\Delta_c\}_{c=0, 1, \ldots, nc-1}=
 \{\delta_x: x\in S_\rvx\}
 \eeq
 of distinct uplifts $\delta_x$.
-The labels 
-$j$ should be assigned
+The class labels 
+$c$ should be assigned
 so that the sequence of
-$\Delta_j$
+$\Delta_c$
 is monotonic and non-increasing; i.e.,
 
 \beq
-\Delta_0 \geq \Delta_{1}\geq\cdots \geq \Delta_{nj-1}
+\Delta_0 \geq \Delta_{1}\geq\cdots \geq \Delta_{nc-1}
 \;.
 \eeq
 Now calculate 
 
 \beq
-\calx_j =\{ x: \delta_x =\Delta_j\}
+\calx_c =\{ x: \delta_x =\Delta_c\}
 \eeq
- for each $j$.
+ for each $c$.
 By the end of this step,
 we will have calculated 
-$\{(\calx_j, \Delta_j)\}_{j=0,1, \ldots, nj-1}$.
-We will refer to the $\calx_j$
+$\{(\calx_c, \Delta_c)\}_{c=0,1, \ldots, nc-1}$.
+We will refer to the $\calx_c$
 as {\bf strata-bins}. Note that
 \beq
-\Delta_j = 
-\underbrace{\frac{1}{|\calx_j|}\sum_{x\in\calx_j}\pi^1_x}_
-{\displaystyle \Pi^1_j}
+\Delta_c = 
+\underbrace{\frac{1}{|\calx_c|}\sum_{x\in\calx_c}Y^1_x}_
+{\displaystyle Y^1_c}
 - 
-\underbrace{\frac{1}{|\calx_j|}\sum_{x\in\calx_j}\pi^0_x}_
-{\displaystyle \Pi^0_j}
+\underbrace{\frac{1}{|\calx_c|}\sum_{x\in\calx_c}Y^0_x}_
+{\displaystyle Y^0_c}
 \;.
+\label{eq-Delta-c}
 \eeq
 \item
-For each $j$,
+For each $c$,
 calculate 
 
 \beq
-\Sigma_{d,j}=\cup_{x\in \calx_j}A_{d,x}
+\Sigma_{d,c}=\cup_{x\in \calx_c}A_{d,x}
 \eeq
 for $d\in\bool$
 and 
 
 \beq
-\Sigma_{j}=\Sigma_{0,j}
+\Sigma_{c}=\Sigma_{0,c}
 \cup \Sigma_{1,j}
 \;.
 \eeq
@@ -367,7 +369,7 @@ and
 \caption{
 Plot
 of UP results.
-Sane alternative to Qini curves.
+Alternative to Qini curves.
 } 
 \label{fig-qini-fake}
 \end{figure}
@@ -394,5 +396,521 @@ use or recommend them.
 
 
 
-\section{Finding 
-an $x$ classifier}
+\section{UP Decision Trees}
+
+In this section,
+we will describe
+how to build UP decision trees (UP dtrees),
+and explain why they are needed
+for UP.
+Generic dtrees are 
+described in Chapter \ref{ch-dtree}.
+This section 
+complements rather than replaces
+that chapter so the reader
+is advised to read
+that chapter first.
+Ref.\cite{jaros} is an excellent paper on the use of
+dtrees in UP.
+
+The
+workflow described 
+previously in  
+Section
+\ref{sec-up-workflow},
+although theoretically correct,
+will work very poorly in practice.
+ The strata-bins
+of Section
+\ref{sec-up-workflow}
+correspond to
+the classification
+classes of a dtree.
+But strata-bins are very
+specific so they  
+severely overfit the data.
+Although dtrees 
+can also suffer from overfitting,
+there are known methods of 
+preventing or lessen overfitting in dtrees.
+There are also tasks 
+that dtrees 
+can do well
+and the methods
+explained so far
+cannot do well.
+For example,
+suppose we have 
+a classless
+dataset $DS^-=\{(\s, x^\s):\s\in \Sigma^-\}$
+and we want to predict
+the class $c^\s$ and
+uplift $\Delta_{c^\s}$
+for each of these individuals 
+$\s\in \Sigma^-$.
+A dtree can easily
+do that. The alternative
+is to use the classy dataset 
+$DS=\{(\s, x^\s, c^\s):\s\in \Sigma\}$
+to
+prepare a dictionary
+that orders
+the elements
+of $S_\rvx$ and gives a
+class $c$ and an uplift value
+$\Delta_c$ for each
+feature vector $x\in S_\rvx$.
+But
+such a dictionary overfits
+and says nothing for 
+feature vectors $x$
+that do not show up in 
+the classy dataset $DS$; i.e., the
+dictionary 
+doesn't guess (interpolate). Dtrees,
+on the other hand, do
+guess.
+
+So, without further ado,
+let us describe how to
+modify the results
+of Chapter \ref{ch-dtree}
+on generic dtrees
+to the case of UP dtrees.
+The main difference,
+as we will
+explain in detail
+next,
+is that the Information
+Gain metric
+used for generic dtrees
+needs to be replaced
+by another metric.
+
+
+
+
+
+
+\begin{figure}[h!]
+$$
+\xymatrix{
+&\rvx_{k'}
+\\
+\rvx_j\ar[r]_{\rvx_j=x_j}
+\ar[ru]^{\rvx_j=x_j'}&\rvx_k
+\\
+\{N^d_j(c)\}_{c\in S_\rvc}
+&
+\{N^d_k(c)\}_{c\in S_\rvc}
+\\
+\sum_{c\in S_\rvc}N^d_j(c)=N^d_j
+&
+\sum_{c\in S_\rvc}N^d_k(c)=N^d_k
+\\
+&
+\sum_{k\in ch(j)}N^d_k(c)=N^d_j(c)
+}
+$$
+\caption{Fig.\ref{fig-dtree-notation}
+ with $d$ dependence added.
+$d\in \bool$
+is the treatment dose.
+} 
+\label{fig-dtree-notation-uplift}
+\end{figure}
+
+\begin{figure}
+$$
+\xymatrix{
+\rvd\ar[dr]\ar[drr]
+\\
+\rvj
+\ar[r]
+&
+\rvk\ar[r]
+&
+\rvc
+}$$
+\caption{Bnet derived from population
+numbers in Fig.\ref{fig-dtree-notation-uplift}}
+\label{fig-class-bnet-uplift}
+\end{figure}
+
+
+
+Fig.\ref{fig-dtree-notation-uplift}
+was obtained from Fig.\ref{fig-dtree-notation}
+in Chapter \ref{ch-dtree}
+by adding $d$ dependence.
+$d\in \bool$
+is the treatment dose.
+Since $d\in \bool$,
+in UP, we build two dtrees
+of the type that were built
+in Chapter \ref{ch-dtree}
+(both with the same structure
+but with different 
+probabilities associated with each 
+node).
+$N^d_j(c)$ is 
+the number
+of individuals $\s$
+in the population that reaches node $\rvx_j$
+with $d\in \bool$ and belonging
+to class $c\in S_\rvc$. 
+From these population numbers, we can define
+the bnet in Fig.\ref{fig-class-bnet-uplift}.
+The TPMs, printed in blue,
+for the (non-root) nodes of this bnet, are as follows
+
+
+
+\beq\color{blue}
+P(c|k,d)=
+\frac{N_k^d(c)}
+{N_k^d}
+\label{eq-p-c-pre-laplace}
+\eeq
+
+\beq\color{blue}
+P(k|j, d)=
+\frac{N_k^d}
+{N_j^d}\indi(k\in ch(j))
+\eeq
+
+
+In Chapter
+\ref{ch-dtree},
+we used Information 
+Gain
+(a mutual information)
+as the SAM (Separation Ability Measure)
+in
+SL (Structure Learning) 
+of dtrees (Decision Trees).
+Information Gain
+is not an ideal
+SAM for SL of UP dtrees,
+because UP trees
+have a more
+specialized classification goal
+than the generic dtrees of Chapter \ref{ch-dtree}.
+Both UP trees and generic trees
+want to
+separate the sample
+population into classes,
+but the classes for an UP dtree 
+are specifically uplift bins (i.e., uplift intervals).
+
+
+Ref.\cite{jaros}
+proposes and studies 
+the following
+3 SAMs. These SAMs 
+are more efficient than
+Information Gain
+for SL of UP dtrees.
+
+
+\begin{enumerate}
+\item{\bf SAM\_DD} (DD=Delta Delta)
+
+For $d\in \bool$
+and $c, c'\in S_\rvc$, define the increments
+
+\beq
+\partial_d f(d)=f(1)-f(0)
+\eeq
+and
+
+\beq
+\partial_{c',c} f(c)=f(c')-f(c)
+\;.
+\eeq
+Let
+
+\beqa
+\Delta_{c|j} &=& P(c|j,1)-P(c|j,0)
+\\
+&=& \partial_d P(c|j,d)
+\label{eq-delta-c-j}
+\eeqa
+
+\beqa
+SAM\_DD_j&=& \max_{c,c'}|\partial_{c',c}\partial_d P(c|j,d)|
+\\
+&=&
+\max_{c,c'}|\partial_{c',c}\Delta_{c|j}|
+\eeqa
+
+\item{\bf SAM\_KL} (KL=Kullback Liebler)
+\begin{align}
+SAM\_KL_j&=
+\left[
+\sum_{k\in ch(j)}
+P(k|j)
+D_{KL}(P_{\rvc|k,1}\parallel P_{\rvc|k,0})
+\right]
+-
+D_{KL}(P_{\rvc|j,1}\parallel P_{\rvc|j,0})
+\\
+&=
+\left[
+\sum_{k\in ch(j)}
+P(k|j)
+ \sum_{c\in S_\rvc}P(c|k,1) 
+\ln \frac{P(c|k,1) }{ P(c|k,0) }
+\right]
+-
+\sum_{c\in S_\rvc} 
+P(c|j,1) 
+\ln \frac{P(c|j,1) }{ P(c|j,0) }
+\label{eq-sam-kl}
+\end{align}
+
+{\bf $SAM\_KL_j$ can be negative.}
+
+\item {\bf SAM\_E} (E=Euclidean)
+
+$SAM\_E$ is defined the same way as $SAM\_KL$
+except with 
+the KL divergence $D_{KL}(P\parallel Q)$ 
+in $SAM\_KL$ replaced 
+by the Euclidean distance squared. 
+
+
+\beq
+D(P,Q) =\sum_x (P(x)-Q(x))^2
+\eeq
+
+\end{enumerate}
+
+The intuitive reason for
+ using these quantities as
+SAMs is that they maximize the change in uplift 
+between 
+successive tree levels, so 
+that the uplift increases as quickly as possible
+as we descend down the UP tree.
+In the case of generic dtrees
+for which we use Information Gain as SAM, we 
+are maximizing the correlation
+between classes and nodes as we descend down the tree. 
+These two goals are related.
+In fact, in the limit
+where the
+number of control individuals
+becomes zero,
+$SAM\_KL_j$ and $INFO\_gain_j$
+become the same, as will be shown later.
+
+Next we show
+that $SAM\_KL_j$
+satisfies the following 3
+axioms\footnote{
+We won't show it
+here, but 
+according to Ref.\cite{jaros},
+$SAM\_E_j$ also satifies these
+3 axioms, but
+$SAM\_DD_j$
+satisfies only the first two.}
+
+\begin{claim}
+.\newline
+\begin{enumerate}
+\item \label{item-sam-min}
+$SAM\_KL_j$ 
+is minimum
+iff 
+$P(c|k,0)=P(c|k, 1)$ 
+for all $c$
+and $k\in ch(j)$.
+\item \label{item-sam-zero}
+If $P(c|j,d)=P(c|d)$
+for all $c,j,d$, then $SAM\_KL_j=0$.
+\item
+\label{item-no-control}
+Suppose $N^0_j=0$ for all nodes $j$
+ (i.e., no control population)
+and we use the Laplace Correction
+when warranted. Then
+
+\begin{align}
+SAM\_KL_j
+&=
+H(\rvc:\rvk|j,1)
+\\
+&=
+INFO\_gain_j\;\;\; \text{ for treated population}
+\;.
+\end{align}
+\end{enumerate}
+\end{claim}
+\proof
+
+The proof of items
+\ref{item-sam-min}
+and \ref{item-sam-zero}
+follow by inspection of Eq.\ref{eq-sam-kl}.
+Item \ref{item-no-control}
+is proven in Claim \ref{claim-no-control}
+below.
+\qed
+
+
+
+Let $N_\rvc=|S_\rvc|$.
+Define the uniform probability 
+distribution 
+
+\beq
+U_\rvc(c)=\frac{1}{N_\rvc}
+\eeq
+for all $c\in S_\rvc$.
+
+Eq.(\ref{eq-p-c-pre-laplace})
+for the TPM of node
+$\rvc$ in the bnet Fig.\ref{fig-class-bnet-uplift} can be
+"Laplace Corrected"
+as follows
+so that it is no longer
+undefined when
+its denominator vanishes:
+
+\beq
+P(c|j,d)=
+\left\{
+\begin{array}{ll}
+\frac{N^d_j(c)}
+{N^d_j}&\text{ if } N^d_j>0
+\\
+U_\rvc(c) & \text{ if $N^d_j=0$ (Laplace Correction)}
+\end{array}
+\right.
+\eeq
+
+
+
+
+\begin{claim}
+\label{claim-no-control}
+Suppose $N^0_j=0$ for all dtree nodes $j$
+and we use the Laplace Correction
+when warranted. Then
+
+\beq
+SAM\_KL_j=H(\rvc:\rvk|j,1)
+\;.
+\eeq
+\end{claim}
+\proof
+
+For all nodes $j$, we  must have
+
+\beq
+P_{\rvc|j,0}=U_\rvc
+\eeq
+so
+
+\beqa
+D_{KL}(P_{\rvc|j,1}\parallel P_{\rvc|j,0})
+&=&
+D_{KL}(P_{\rvc|j,1}\parallel U_\rvc)
+\\
+&=&
+\ln(N_\rvc) - H(\rvc|j,1)
+\;.
+\label{eq-kl-reduce}
+\eeqa
+For all $k\in ch(j)$, we must also have
+
+
+\beq
+N_j=N_j^1,  N_k=N^1_k
+\eeq
+so
+
+\beq
+P(k|j)=
+P(k|j,1)
+\;.
+\label{eq-p-kj-add-1}
+\eeq
+Now using Eqs.(\ref{eq-kl-reduce}) and
+ (\ref{eq-p-kj-add-1}), we get
+
+
+\beqa
+SAM\_KL_j&=&
+-\left[
+\sum_{k\in ch(j)}
+P(k|j)
+H(\rvc|k,1)
+\right]
++
+H(\rvc|j,1)
+\\
+&=&
+-\left[
+\sum_{k\in ch(j)}
+P(k|j,1)
+H(\rvc|k,1)
+\right]
++
+H(\rvc|j,1)
+\\
+&=&
+-H(\rvc|\rvk,j,1)+H(\rvc|j,1)
+\;\;\;\text{(using  Claim \ref{claim-H-spliting})}
+\\
+&=&
+H(\rvc:\rvk|j,1)
+\eeqa
+\qed
+
+
+\subsection{Appendix, 
+connection between
+$\Delta_c$
+and $\Delta_{c|j}$}
+
+Recall Eq.\ref{eq-Delta-c}:
+
+\beqa
+\Delta_c &=& 
+\underbrace{\frac{1}{|\calx_c|}\sum_{x\in\calx_c}Y^1_x}_
+{\displaystyle Y^1_c}
+- 
+\underbrace{\frac{1}{|\calx_c|}\sum_{x\in\calx_c}Y^0_x}_
+{\displaystyle Y^0_c}
+\\
+&=&
+\partial_d Y^d_c
+\;.
+\eeqa
+Compare that to Eq.(\ref{eq-delta-c-j}):
+\beqa
+\Delta_{c|j} &=& P(c|j,1)-P(c|j,0)
+\\
+&=& \partial_d P(c|j,d)
+\eeqa
+What is the connection
+between these 2 deltas, $\Delta_c$
+and $\Delta_{c|j}$? Are they equal?
+
+First off, notice that 
+$\Delta_{c|j}$ is defined for all 
+nodes $j$ of the dtree. Let 
+$j(c)$ be the leaf node 
+for which $\Delta_c\approx \Delta_{c|j(c)}$. 
+Assume $y^\s\in\bool$. Then
+
+\beq
+P(c|j=j(c), d)=\frac{N^d_{j(c)}(c)}{N^d_{j(c)}}
+\approx Y^d_c
+\eeq
+So the two deltas are indeed approximately equal
+when $y^\s\in \bool$ and $j=j(c)$.
+
