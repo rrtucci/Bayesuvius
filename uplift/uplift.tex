@@ -21,7 +21,7 @@ discussed in Chapter \ref{ch-po},
 of Pearl's Causal Inference.
 Besides UP, other  applications of PO theory
 that are discussed in this book 
-are Regression Discontinuity (Chapter \ref{ch-reg-dis}),
+are: Regression Discontinuity (Chapter \ref{ch-reg-dis}),
 Difference-in-Differences (Chapter \ref{ch-did})
 and Synthetic Controls (Chapter \ref{ch-syn-con}).
 
@@ -333,8 +333,10 @@ we will have calculated
 $\{(\calx_c, \Delta_c)\}_{c=0,1, \ldots, nc-1}$.
 We will refer to the $\calx_c$
 as {\bf strata-bins}. Note that
-\beq
-\Delta_c = 
+\beqa
+\Delta_c &=&\frac{1}{|\calx_c|}\sum_{x\in\calx_c}\delta_x
+\\
+&=&
 \underbrace{\frac{1}{|\calx_c|}\sum_{x\in\calx_c}Y^1_x}_
 {\displaystyle Y^1_c}
 - 
@@ -342,7 +344,7 @@ as {\bf strata-bins}. Note that
 {\displaystyle Y^0_c}
 \;.
 \label{eq-Delta-c}
-\eeq
+\eeqa
 \item
 For each $c$,
 calculate 
@@ -391,7 +393,7 @@ curves opaque, confusingly defined
 in the literature, unnecessary
 and 
 not very well motivated. So I don't
-use or recommend them.
+use them.
 
 
 
@@ -403,6 +405,7 @@ we will describe
 how to build UP decision trees (UP dtrees),
 and explain why they are needed
 for UP.
+
 Generic dtrees are 
 described in Chapter \ref{ch-dtree}.
 This section 
@@ -410,8 +413,10 @@ complements rather than replaces
 that chapter so the reader
 is advised to read
 that chapter first.
+
 Ref.\cite{jaros} is an excellent paper on the use of
 dtrees in UP.
+
 
 The
 analysis described
@@ -420,7 +425,7 @@ Section
 \ref{sec-up-analysis},
 although theoretically correct,
 will work very poorly in practice.
- The strata-bins
+The strata-bins
 of Section
 \ref{sec-up-analysis}
 correspond to
@@ -433,6 +438,7 @@ Although dtrees
 can also suffer from overfitting,
 there are known methods of 
 preventing or mitigating overfitting in dtrees.
+
 There are also tasks 
 that dtrees 
 can do well
@@ -610,7 +616,7 @@ the following
 3 SAMs. These SAMs 
 are more efficient than
 Information Gain
-for SL of UP dtrees.
+for doing SL of UP dtrees.
 
 
 \begin{enumerate}
@@ -673,7 +679,7 @@ P(c|j,1)
 
 \item {\bf SAM\_E} (E=Euclidean)
 
-$SAM\_E$ is defined the same way as $SAM\_KL$
+$SAM\_E_j$ is defined the same way as $SAM\_KL_j$
 except with 
 the KL divergence $D_{KL}(P\parallel Q)$ 
 in $SAM\_KL$ replaced 
@@ -729,10 +735,10 @@ for all $c$
 and $k\in ch(j)$.
 \item \label{item-sam-zero}
 If $P(c|j,d)=P(c|d)$
-for all $c,j,d$, then $SAM\_KL_j=0$.
+for all $c,d$, then $SAM\_KL_j=0$.
 \item
 \label{item-no-control}
-Suppose $N^0_j=0$ for all nodes $j$
+Suppose $N^0_r=0$ for all nodes $r\in J_0$
  (i.e., no control population)
 and we use the Laplace Correction
 when warranted. Then
@@ -796,7 +802,7 @@ U_\rvc(c) & \text{ if $N^d_j=0$ (Laplace Correction)}
 
 \begin{claim}
 \label{claim-no-control}
-Suppose $N^0_j=0$ for all dtree nodes $j$
+Suppose $N^0_r=0$ for all dtree nodes $r\in J_0$
 and we use the Laplace Correction
 when warranted. Then
 
@@ -807,20 +813,20 @@ SAM\_KL_j=H(\rvc:\rvk|j,1)
 \end{claim}
 \proof
 
-For all nodes $j$, we  must have
+For all nodes $r\in J_0$, we  must have
 
 \beq
-P_{\rvc|j,0}=U_\rvc
+P_{\rvc|r,0}=U_\rvc
 \eeq
 so
 
 \beqa
-D_{KL}(P_{\rvc|j,1}\parallel P_{\rvc|j,0})
+D_{KL}(P_{\rvc|r,1}\parallel P_{\rvc|r,0})
 &=&
-D_{KL}(P_{\rvc|j,1}\parallel U_\rvc)
+D_{KL}(P_{\rvc|r,1}\parallel U_\rvc)
 \\
 &=&
-\ln(N_\rvc) - H(\rvc|j,1)
+\ln(N_\rvc) - H(\rvc|r,1)
 \;.
 \label{eq-kl-reduce}
 \eeqa
