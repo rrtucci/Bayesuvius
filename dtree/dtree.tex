@@ -67,7 +67,7 @@ to just a few classes.
 If $S_\rvc$ is the 
 set of distinct leaf node labels,
 then we call each
-$s\in S_\rvc$
+$c\in S_\rvc$
 a  {\bf class of the classifier}.
 In the case of
 Fig.\ref{fig-dtree-waiting},
@@ -130,8 +130,7 @@ in a very natural way.
 We use the dtree
 of Fig.\ref{fig-dtree-waiting}
 as an example to show 
-how this can be
-done. As 
+how to do this. As 
 a first 
 step,
 we go from
@@ -225,8 +224,9 @@ all components are zero
 except for one 
 component which is 1).
 Also, all 
-leaf nodes have $S_\rvc$ as their set of non-null
-states.
+leaf nodes
+$\rvx$ have the same $S^-_\rvx$,
+namely $S_\rvc$.
 
 
 Adding a null state
@@ -247,7 +247,7 @@ take care of the situations
 when those first children
 don't receive the state 
 they were expecting from their
-parent, the root node.
+parent, i.e., the root node.
 
 
 When drawing dtrees,
@@ -255,8 +255,7 @@ some people put
 info 
 like explanations 
 and probabilities on the
-connectors 
-between the nodes
+branches
 of  the dtree.
 That
 info can all
@@ -286,11 +285,11 @@ the same info.
 
 A naive Bayes (NB) bnet 
 (see Chapter \ref{ch-naive})
-consists of a single ``class"
- node that fans
+consists of a single ``class node"
+with states $S_\rvc$ that fans
 out with arrows 
 pointing to the
-``feature" nodes.
+``feature nodes".
 If each leaf node
 of a NB bnet
 fans out into 
@@ -328,7 +327,6 @@ $J_0=\{0,1, \ldots, nj-1\}$
 $\Sigma=\{0,1,2, \ldots,nsam-1\}$
 
 $DS=\{(\s, x^\s, c^\s): \s\in \Sigma\}$ be a dataset
-(sampling set)
 
 $\s\in \Sigma$ be an individual (a sample)
 from a population (sampling set), 
@@ -359,15 +357,19 @@ into two large
 disjoint
 sets, a {\bf training set} $\Sigma_{train}$
 and a {\bf validation set} $\Sigma_{vali}$,
-and if $c^\s = f(x^\s)$ exactly
+and if $c^\s \approx f(x^\s)$ very closely
 for $\s\in \Sigma_{train}$
 but fits poorly
 for $\s\in \Sigma_{vali}$,
 then we say the classifier (curve fit) $f$
 suffers from {\bf overfitting}.
 We can learn the structure
-and TPVs of a dtree from a dataset $DS$.
-Dtree {\bf Structure Learning (SL)}
+and TPVs of a dtree from a dataset $DS$,
+by using the
+dtree {\bf Structure Learning (SL)}
+algorithm that we will 
+discuss in detail later. However,
+that algorithm
 is prone to produce
 a classifier $f$ that overfits.
 Two techniques 
@@ -404,7 +406,7 @@ pseudo-code.
 \subsection{Information Gain, Gini}
 This section uses various Shannon Information Theory
 entropies. Our 
-notation for these
+notation for those
 entropies
 is described in Chapter \nameref{ch-not-cons}
 on Notational Conventions.
@@ -416,7 +418,7 @@ to decide, when
 constructing a dtree from a dataset,
 in what order 
 to ask the questions
-about the features $x$.
+about the feature vector $x$.
 The question order is decided
 by searching 
 over all so far unused questions
@@ -454,7 +456,7 @@ with the nodes of a dtree. $N_j(c)$ is the number
 of individuals $\s$
 in the population that reaches node $j$
 and belongs to class $c$. 
-$ch(j)$ is a set of nodes $k$ that are
+$ch(j)$ is the set of nodes $k$ that are
 children of node $j$.} 
 \label{fig-dtree-notation}
 \end{figure}
@@ -665,7 +667,7 @@ approximating Eq.(\ref{eq-info-gain})
 for $INFO\_gain_j$.
 
 \beq
-Gini_{gain,j}=
+Gini\_gain_j=
 \sum_{c,k}
 \frac{P(c|k,j)^2P(k|j)}{P(c|j)}
 -1
@@ -697,13 +699,13 @@ is to assume an incoming
 population into the current root node,
 then
 determine the feature $x_j$
- that best classifies that 
+ that best separates that 
 incoming
 population. The feature
 $x_j$ is chosen so as to maximize Information Gain
 or Gini. This
-process is repeated by calling
-the end of each new branch
+process is repeated by nominating
+the end of each new branch to be
 the current root node.
 In essence, what we are doing is
 performing a top-down, greedy search
