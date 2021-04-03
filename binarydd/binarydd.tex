@@ -1,4 +1,5 @@
-\chapter{Binary Decision Diagrams}
+\chapter{Binary Decision Diagrams}\label{ch-binarydd}
+
 \begin{figure}[h!]
 \centering
 \includegraphics[width=4in]{binarydd/bdd-tree.png}
@@ -11,10 +12,10 @@ f(x_1, x_2,x_3)=
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=2in]{binarydd/bdd.png}
+\includegraphics[width=2.2in]{binarydd/bdd.png}
 \caption{BDD for the function $f$
 of Fig.\ref{fig-bdd-tree}.} 
-\label{fig-bdd}
+\label{fig-bdd-bdd}
 \end{figure}
 
 This chapter is based
@@ -30,15 +31,17 @@ Chapter \ref{ch-dtree}
 on dtrees before
 reading this chapter.
 
+
+
 Both Figs.\ref{fig-bdd-tree}
-and \ref{fig-bdd} were taken
+and \ref{fig-bdd-bdd} were taken
 from the aforementioned Wikipedia article. They
 give a simple example of a function
 $f:\bool^3\rarrow\bool$
 represented in
 Fig.\ref{fig-bdd-tree} as a
 {\bf binary decision tree}
- and in Fig.\ref{fig-bdd} as a {\bf binary
+ and in Fig.\ref{fig-bdd-bdd} as a {\bf binary
 decision diagram (BDD)}.
 The goal 
 of this chapter is
@@ -79,57 +82,69 @@ P(x_3|x_1, x_2)P(x_2|x_1)P(x_1)
 \eeq
 which can be represented by the bnet:
 
-\beq
+\begin{figure}[h!]
+$$
 \xymatrix{
 \rvx_1\ar[d]\ar@/^1pc/[dd]\\
 \rvx_2\ar[d]\\
 \rvx_3
 }
-\label{eq-bdd-full-bnet}
-\eeq
+$$
+\caption{Most general 3 node bnet.}
+\label{fig-bdd-3node-bnet}
+\end{figure}
+
+
+
+
+\begin{figure}[h!]
+$$
+\xymatrix{
+\ul{x_1}\ar[d]\ar[drr]
+\\
+\ul{x_2|0}\ar[d]\ar[dr]
+&&\ul{x_2|1}\ar[d]\ar[dr]
+\\
+\ul{x_3|00}\ar[d]\ar@/_2.5pc/[dd]
+&\ul{x_3|01}\ar[d]\ar@/_2.5pc/[dd]
+&\ul{x_3|10}\ar[d]\ar@/_2.5pc/[dd]
+&\ul{x_3|11}\ar[d]\ar@/_2.5pc/[dd]
+\\
+\ul{x_4|000}
+&\ul{x_4|010}
+&\ul{x_4|100}
+&\ul{x_4|110}
+\\
+\ul{x_4|001}
+&\ul{x_4|011}
+&\ul{x_4|101}
+&\ul{x_4|111}
+}
+$$\caption{Image bnet for binary dtree
+of Fig.\ref{fig-bdd-tree}.}
+\label{fig-bdd-full-bnet}
+\end{figure}
+
 But
 in Chapter \ref{ch-dtree},
 we learned how
 to represent
-the bnet
-of Eq.(\ref{eq-bdd-full-bnet})
-as the bnet tree 
-Eq.(\ref{eq-bdd-full-tree}).
-In that tree,
-the nodes
-pose questions
-with 3 possible answers $0,1,null$.
-In Eq.(\ref{eq-bdd-full-tree}),
-$x_2|a?$ stands for 
-``what is $x_2$ if $x_1=a?$" and
-$x_3|a,b?$ stands for ``what is 
-$x_3$ if $x_1=a,x_2=b$?".
-
-
-
-\beq
-\xymatrix{
-\ul{x_1?}\ar[d]\ar[dr]
-\\
-\ul{x_2|0?}\ar[d]\ar[dr]
-&\ul{x_2|1?}\ar[dr]\ar[drr]
-\\
-\ul{x_3|00?}
-&\ul{x_3|01?}
-&\ul{x_3|10?}
-&\ul{x_3|11?}
-}
-\label{eq-bdd-full-tree}
-\eeq
-
+the dtree
+of Fig.\ref{fig-bdd-tree}
+as the image bnet
+Fig.\ref{fig-bdd-full-bnet}.
 The node TPMs, printed in blue,
-for the bnet of Eq.(\ref{eq-bdd-full-tree})
+for the image bnet Fig.\ref{fig-bdd-full-bnet}
 are as follows.
-If $x_1,x_2, x_3\in \{0,1,null\}$
-and $a,b\in \bool$, then
+Note that the TPMs for 
+Fig.\ref{fig-bdd-full-bnet}
+can be constructed from the
+TPMs for the bnet Fig.\ref{fig-bdd-3node-bnet}.
+If $x_1,x_2, x_3, x_4\in \{0,1,null\}$
+and $a,b,c\in \bool$, then
 
 \beq\color{blue}
-P(\ul{x_1?}=x_1)=
+P(\ul{x_1}=x_1)=
 \left\{
 \begin{array}{ll}
 P_{\rvx_1}(x_1)&\text{if $x_1\in \bool$}
@@ -141,7 +156,7 @@ P_{\rvx_1}(x_1)&\text{if $x_1\in \bool$}
 
 
 \beq\color{blue}
-P(\ul{x_2|a?}=x_2\cond \ul{x_1?}=x_1)=
+P(\ul{x_2|a}=x_2\cond \ul{x_1}=x_1)=
 \left\{
 \begin{array}{ll}
 P_{\rvx_2|\rvx_1}(x_2|a)&\text{if $x_1=a$}
@@ -152,49 +167,41 @@ P_{\rvx_2|\rvx_1}(x_2|a)&\text{if $x_1=a$}
 \eeq
 
 \beq\color{blue}
-P(\ul{x_3|a,b?}=x_3\cond \ul{x_2|b?}=x_2)=
+P(\ul{x_3|a,b}=x_3\cond \ul{x_2|a}=x_2)=
 \left\{
 \begin{array}{ll}
 P_{\rvx_3|\rvx_1,\rvx_2}
-(x_3|a,b)&\text{if $(x_1,x_2)=(a,b)$}
+(x_3|a,b)&\text{if $x_2=b$}
 \\
 \indi(x_3=null)&\text{otherwise}
 \end{array}
 \right.
+\label{eq-p-x3-x1x2}
 \eeq
-The bnet shown in
-Eq.(\ref{eq-bdd-full-tree})
-contains
-the same info
-and has 
-the same graph structure
-as the binary decision
-tree Fig.\ref{fig-bdd-tree}.
-As when we were
-converting dtrees to
-their image bnets, the
-info in the endpoint nodes
-of Fig.\ref{fig-bdd-tree}
-is implicit
-in the node
-TPMs
-of the image bnet
-Eq.(\ref{eq-bdd-full-tree}).
-If one
-wants to make the endpoint  node info
-more explicit in the image bnet,
-one can add it to the descriptors of
-the state names of the leaf nodes
-of the image bnet.
-For example,
-one can add descriptors 
-``gives $f=0$"
-or ``gives $f=1$" to the
- ``0" or ``1" states of
-those leaf nodes.
+
+\beq\color{blue}
+P(\ul{x_4|a,b,c}=x_4\cond \ul{x_3|a,b}=x_3)=
+\left\{
+\begin{array}{ll}
+\delta(x_4,c)&\text{if $x_3=c$}
+\\
+\indi(x_4=null)&\text{otherwise}
+\end{array}
+\right.
+\eeq
+
+Note that if
+$P_{\rvx_3|\rvx_1,\rvx_2}=
+P_{\rvx_3|\rvx_2}$
+in Eq.(\ref{eq-p-x3-x1x2}),
+then the bnet Fig.\ref{fig-bdd-3node-bnet}
+reduces to a Markov
+ chain $\rvx_1\rarrow\rvx_2\rarrow\rvx_3$.
+
+
 
 The BDD shown in
-Fig.\ref{fig-bdd}
+Fig.\ref{fig-bdd-bdd}
 emphasizes the
 fact that
 
@@ -202,79 +209,72 @@ fact that
 P(x_1,x_2,x_3|x_1=1)=P(x_2|x_1=1)=x_2
 \;.
 \eeq
-The BDD of Fig.\ref{fig-bdd}
-corresponds to
-the bnet of
-Eq.(\ref{eq-bdd-bnet}).
+The BDD of Fig.\ref{fig-bdd-bdd}
+has as image bnet
+Fig.\ref{fig-bdd-simp-bnet}.
+Define
 
 \beq
-\xymatrix{
-\ul{x_1?}\ar[d]\ar[dr]
-\\
-\ul{x_2|0?}\ar[d]\ar[dr]
-&\ul{x_2|1?}
-\\
-\ul{x_3|00?}
-&\ul{x_3|01?}
-&\bullet
-&\bullet
-}
-\label{eq-bdd-bnet}
-\eeq
-
-\hrule
-What happens
-if we consider an $f$ for which
-$P(x_3|x_1, x_2)=P(x_3|x_2)$ so that
-one of the arcs of the
-fully connected bnet Eq.(\ref{eq-bdd-full-bnet})
-is unnecessary?
-In that case,
-
-\beq
-P(x_1, x_2, x_3)=
-P(x_3| x_2)P(x_2|x_1)P(x_1)
-\;,
-\eeq
-which can be represented by the 
-Markov chain bnet:
-
-\beq
-\xymatrix{
-\rvx_1\ar[d]\\
-\rvx_2\ar[d]\\
-\rvx_3
-}
+pa(\ul{0})=pa(\ul{1})=(x_2|1, x_3|00, x_3|01)
 \;.
-\label{eq-bdd-markov}
-\eeq
+\eeq 
+Let $pa(\ul{0})=abc$ mean the same as
+$pa(\ul{0})=(a,b,c)$.
+The TPMs of the 
+image bnet
+Fig.\ref{fig-bdd-simp-bnet}
+are the same as those for the
+image bnet 
+Fig.\ref{fig-bdd-full-bnet}
+except for the TPMs of the
+nodes $\ul{0}$
+and $\ul{1}$.
+For those two nodes, 
+the TPMs, printed in blue,
+are as follows.
 
-Following the prescriptions
-of Chapter \ref{ch-dtree}, we
-can represent
-the bnet
-of Eq.(\ref{eq-bdd-markov})
-as the bnet tree 
-Eq.(\ref{eq-bdd-markov-tree}).
-In that tree,
-the nodes
-pose questions
-with 3 possible answers $0,1,null$.
 
-\beq
+
+\begin{figure}[h!]
+$$
 \xymatrix{
-\ul{x_1?}\ar[d]\ar[dr]
+\ul{x_1}\ar[d]\ar[drr]
 \\
-\ul{x_2|0?}\ar[d]\ar[dr]
-&\ul{x_2|1?}\ar[dr]\ar[drr]
+\ul{x_2|0}\ar[d]\ar[dr]
+&&\ul{x_2|1}\ar@/^2pc/[ddll]\ar@/^2pc/[dddll]
 \\
-\ul{x_3|\_,0?}
-&\ul{x_3|\_,1?}
-&\ul{x_3|\_,0?}
-&\ul{x_3|\_,1?}
+\ul{x_3|00}\ar[d]\ar@/_1pc/[dd]
+&\ul{x_3|01}\ar[dl]\ar[ddl]
+&\bullet
+&\bullet
+\\
+\ul{0}
+\\
+\ul{1}
 }
-\label{eq-bdd-markov-tree}
+$$
+\caption{Image bnet for BDD of Fig.\ref{fig-bdd-bdd}.}
+\label{fig-bdd-simp-bnet}
+\end{figure}
+
+\beq\color{blue}
+P(\ul{0}=x|pa(\ul{0}))=
+\left\{
+\begin{array}{ll}
+\delta(x,0) &\text{if $pa(\ul{0})=011$}
+\\
+\delta(x, null) &\text{otherwise}
+\end{array}
+\right.
 \eeq
 
-
-
+\beq\color{blue}
+P(\ul{1}=x|pa(\ul{1}))=
+\left\{
+\begin{array}{ll}
+\delta(x,1) &\text{if $pa(\ul{1})=101$}
+\\
+\delta(x, null) &\text{otherwise}
+\end{array}
+\right.
+\eeq
