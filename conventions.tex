@@ -1104,6 +1104,180 @@ $Y\rarrow \rvy$, $Z\rarrow \rvx_2$.
 \end{enumerate}
 
 
+\section{Demystifying Population 
+and Sample Variances}
+Let $x[\s]=x^\s$.
+Given  i.i.d.real  variables
+$(x^\s)_{\s=0,1, \ldots, nsam-1}$,
+let
+
+\beq
+\hat{\mu}
+=
+\frac{1}{nsam}
+\sum_\s x^\s
+\eeq
+
+\beq
+V_{partial}(\mu)=
+\frac{1}{nsam}
+\sum_\s (x^\s-\mu)^2
+\eeq
+
+\beq
+V_{full}=
+\frac{1}{nsam-1}
+\sum_\s (x^\s-\hat{\mu})^2
+\eeq
+
+Statisticians call
+$V_{partial}(\mu)$ the 
+``population variance". I will 
+call it the {\bf population 
+variance for fixed $\mu$}. 
+Note that it depends 
+on prior knowledge of
+the fixed parameter $\mu$.
+Statisticians\footnote{  
+In their language,
+ a ``population"
+is supposed to be
+so large that its $\mu$
+does not fluctuate,
+and a ``sample" is
+supposed to be a small
+subset of that population
+for which the $\mu$
+is assumed to fluctuate.
+In this book, I
+use the word ``population"
+to mean a set of any size
+containing individuals, I use
+the word ``sub-population"
+to refer to a subset
+of the population,
+and I use the 
+word ``sample"
+(aka individual, observation, unit,
+record)  to mean a
+single individual
+of the population.}   call
+$V_{full}$ the 
+``sample variance".
+Instead, 
+ I will 
+call $V_{full}$ the {\bf 
+population 
+variance for random $\mu$}. 
+
+If one treats $x^\s$ as a random
+variable, then one must treat
+$\hat{\mu}$
+as a random variable too.
+Let
+\beq
+E[\rvx^\s]=\mu
+\eeq
+and
+
+\beq
+\av{\rvx^\s, \rvx^{\s'}}=
+\delta(\s, \s')V_1
+\;.
+\eeq
+Then one can show that
+
+\beqa
+E[\rvV_{partial}(\mu)]
+&=&
+\frac{1}{nsam}
+E\left[
+\sum_\s (\rvx^\s-\mu)^2
+\right]
+\\
+&=&
+V_1
+\eeqa
+and
+
+\beqa
+E[\rvV_{full}]
+&=&
+\frac{1}{nsam-1}
+E\left[
+\sum_\s (\rvx^\s-\hat{\ul{\mu}})^2
+\right]
+\\
+&=&
+V_1
+\eeqa
+This is the 
+reason
+why 
+we use
+an $nsam-1$
+instead 
+of an $nsam$
+in $V_{full}$.
+Because it
+makes
+$E[\rvV_{full}]=V_1$
+so 
+$\rvV_{full}$
+is an
+unbiased estimator of 
+the single individual variance $V_1$.
+We say $\ul{\hat{\theta}}$ is an {\bf unbiased estimator} 
+of a parameter $\theta$
+if $E[\ul{\hat{\theta}}]=\theta$.
+
+The intuitive reason for
+why $\rvV_{full}$
+is divided
+by $nsam-1$
+instead of $nsam$
+is that whereas $\mu$
+in $V_{partial}(\mu)$
+is kept fixed
+and is ``quiet",
+the $\ul{\hat{\mu}}$
+in  $\rvV_{full}$
+is a random variable,
+noisy instead of quiet.
+The fluctuations in
+$\ul{\hat{\mu}}$
+are strongly
+correlated with
+the fluctuations 
+of the $\rvx^\s$,
+so they decrease the
+fluctuations  in $\rvV_{full}$
+compared to those in
+$V_{partial}(\mu)$.
+By dividing by $nsam-1$
+instead of $nsam$,
+we compensate for this
+decrease in fluctuations
+so that the ratio
+of the numerator 
+and denominator
+of  $\rvV_{full}$
+equals $V_1$,
+instead of something 
+{\it smaller} than $V_1$,
+as would happen if were to divide 
+by $nsam$ instead of $nsam-1$.
+In terms of ``degrees of freedom"(DOFs),
+$V_{partial}(\mu)$ has $nsam$ DOFs
+(namely one for each $\rvx^\s$),
+whereas $V_{full}$
+has $nsam-1$ DOFs.
+(the presence of $\ul{\hat{\mu}}$
+substracts one DOF).
+In both $V_{partial}(\mu)$
+and $V_{full}$,
+one divides by the number of DOFs.
+
 
 
 \section{Short Summary of 
@@ -1222,6 +1396,8 @@ H(\rvx) =
 \eeq
 This quantity measures the
 spread of $P_\rvx$.
+$H(\rvx)\geq 0$
+and it vanishes iff $P(x)=\delta(x,x_0)$ (deterministic case)
 
 
 \item
@@ -1236,10 +1412,11 @@ H(\rvy,\rvx)-H(\rvx)
 \eeqa
 This quantity measures  the conditional
  spread
-of $\rvy$ given $\rvx$.
+of $\rvy$ given $\rvx$. $H(\rvy|\rvx)\geq 0$.
+
 
 \item {\bf Mutual Information (MI)
-of $\rvx$ and $\rvy$}
+of $\rvx$ and $\rvy$}.
 
 \beqa
 H(\rvy:\rvx) &=&
@@ -1250,6 +1427,9 @@ H(\rvx) + H(\rvy) - H(\rvy,\rvx)
 \eeqa
 This quantity measures the correlation
 between $\rvx$ and $\rvy$.
+$H(\rvy:\rvx)\geq 0$ 
+and it vanishes iff
+$P(x,y)=P(x)P(y)$.
 
 \item {\bf Conditional Mutual Information 
 (CMI)\footnote{CMI
@@ -1272,6 +1452,25 @@ H(\rvx|\ul{\lam}) + H(\rvy|\ul{\lam})
 This
 quantity measures the conditional correlation
 of $\rvx$ and $\rvy$ given $\ul{\lam}$.
+$H(\rvy:\rvx|\ul{\lam})\geq 0$ 
+and it vanishes iff
+$P(x,y|\lam)=P(x|\lam)P(y|\lam)$.
+
+An interesting special case 
+occurs when 
+$P(\lam)=\delta(\lam, \lam_0)$ (the
+frequentist  case of no priors.)
+In that case CMI
+reduces to 
+
+\beq
+H(\rvy:\rvx|\lam_0)
+=
+\sum_{x,y}P(x,y|\lam_0) \ln
+\frac{P(x,y|\lam_0)}{P(x|\lam_0)P(y|\lam_0)}\geq 0
+\eeq
+
+
 
 \item {\bf Kullback-Liebler Divergence
 from $P_\rvx$ to $P_\rvy$.}
@@ -1287,12 +1486,11 @@ D_{KL}(P_\rvx\parallel P_\rvy)=
 \sum_x P_\rvx(x) \ln \frac{P_\rvx(x)}{P_\rvy(x)}
 \eeq
 
-This measures a non-symmetric distance
+This quantity measures a non-symmetric distance
 between the probability distributions
 $P_\rvx$ and $P_\rvy$. 
-$D_{KL}(P_\rvx\parallel P_\rvy)$ 
-is non-negative
-and equals zero iff $P_\rvx=P_\rvy$.
+$D_{KL}(P_\rvx\parallel P_\rvy)\geq 0$ 
+and it equals zero iff $P_\rvx=P_\rvy$.
 
 
 \end{itemize}
