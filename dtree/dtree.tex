@@ -324,12 +324,12 @@ Let
 
 $J_0=\{0,1, \ldots, nj-1\}$
 
-$\Sigma=\{0,1,2, \ldots,nsam-1\}$
+$\Sigma=\{a0,1,2, \ldots,nsam-1\}$
 
 $DS=\{(\s, x^\s, c^\s): \s\in \Sigma\}$ be a dataset
 
 $\s\in \Sigma$ be an individual (a sample)
-from a population (sampling set), 
+from a population, 
 
 $x^\s\in S_\rvx$ be the {\bf
 feature (attributes, questions) vector}.
@@ -344,11 +344,12 @@ $c^\s\in S_\rvc$ be a {\bf classification class}
 We will
 assume $\Sigma$, $S_\rvx$ and $S_\rvc$ are finite sets.
 
-Building a {\bf classifier $f$} for a dtree means
+Building a {\bf classifier $Y$} 
+(curve fit) for a dtree means
 finding a deterministic
-function $f:S_\rvx\rarrow S_\rvc$ 
+function $Y:S_\rvx\rarrow S_\rvc$ 
 such that 
-$c^\s \approx f(x^\s)$
+$c^\s \approx Y(x^\s)$
 for all $\s\in \Sigma$.
 If we divide
 the population
@@ -357,11 +358,11 @@ into two large
 disjoint
 sets, a {\bf training set} $\Sigma_{train}$
 and a {\bf validation set} $\Sigma_{vali}$,
-and if $c^\s \approx f(x^\s)$ very closely
+and if $c^\s \approx Y(x^\s)$ very closely
 for $\s\in \Sigma_{train}$
 but fits poorly
 for $\s\in \Sigma_{vali}$,
-then we say the classifier (curve fit) $f$
+then we say the classifier  $Y$
 suffers from {\bf overfitting}.
 We can learn the structure
 and TPVs of a dtree from a dataset $DS$,
@@ -371,12 +372,13 @@ algorithm that we will
 discuss in detail later. However,
 that algorithm
 is prone to produce
-a classifier $f$ that overfits.
+a classifier $Y$ that overfits.
 Two techniques 
 commonly used to 
 reduce the effects of overfitting
 are {\bf pruning}  and 
-{\bf Random Forests (RF)}.
+{\bf Random Forests (RF)}
+(see Chapter \ref{ch-rforest}).
 Pruning just means somehow
 removing nodes that are
 too specific. 
@@ -400,7 +402,6 @@ Gini,
 that are 
 used in that 
 pseudo-code.
-
 
 
 \subsection{Information Gain, Gini}
@@ -433,40 +434,36 @@ criterion and Gain.}
 \begin{figure}[h!]
 $$
 \xymatrix{
-&\rvx_{k'}
+&
 \\
 \rvx_j\ar[r]_{\rvx_j=x_j}
-\ar[ru]^{\rvx_j=x_j'}&\rvx_k
+\ar[ru]^{\rvx_j=x_j'}&
 \\
-\{N_j(c)\}_{c\in S_\rvc}
-&
-\{N_k(c)\}_{c\in S_\rvc}
+\{N_j(c,x_j)\}_{c\in S_\rvc, x_j\in S_{\rvx_j}}
 \\
-\sum_{c\in S_\rvc}N_j(c)=N_j
-&
-\sum_{c\in S_\rvc}N_k(c)=N_k
+\sum_{c\in S_\rvc}N_j(c,x_j)=N_j(x_j)
 \\
+\sum_{x_j\in S_{\rvx_j}}N_j(c,x_j)=N_j(c)
 &
-\sum_{k\in ch(j)}N_k(c)=N_j(c)
+\sum_{c\in S_\rvc}N_j(c)=
+\sum_{x_j\in S_{\rvx_j}}N_j(x_j)=N_j
 }
 $$
 \caption{
 Some population numbers associated
-with the nodes of a dtree. $N_j(c)$ is the number
+with the nodes of a dtree. $N_j(c, x_j)$ is the number
 of individuals $\s$
-in the population that reaches node $j$
-and belongs to class $c$. 
-$ch(j)$ is the set of nodes $k$ that are
-children of node $j$.} 
+in the population that reaches node $j$,
+belonging to class $c$ and having $\rvx_j=x_j$.} 
 \label{fig-dtree-notation}
 \end{figure}
 \begin{figure}[h!]
 $$
 \xymatrix{
 \rvj
-\ar[r]
+\ar[r]\ar@/^1pc/[rr]
 &
-\rvk\ar[r]
+\rvx_j \ar[r]
 &
 \rvc
 }$$
@@ -487,82 +484,39 @@ The TPMs, printed in blue,
 for the (non-root) nodes of this bnet, are as follows
 
 \beq\color{blue}
-P(c|k)=
-\frac{N_k(c)}
-{N_k}
+P(c|x_j,j)=
+\frac{N_j(c,x_j)}
+{N_j(x_j)}
 \eeq
 
 \beq\color{blue}
-P(k|j)=
-\frac{N_k}
-{N_j}\indi(k\in ch(j))
+P(x_j|j)=
+\frac{N_j(x_j)}
+{N_j}
 \eeq
-where $j,k\in J_0$
-are dtree nodes,
-$c\in S_\rvc$ is a class node,
-and
-$ch(j)$ is the 
-set of nodes $k$ that are children
-of node $j$.
+where $j\in J_0$
+$x_j\in S_{\rvx_j}$, and
+$c\in S_\rvc$ is a class node.
 
-Note that
 
-\beqa
-\sum_{k\in ch(j)}P(c|k)P(k|j)
-&=&
-\sum_{k\in ch(j)}
-\frac{N_k(c)}{N_k}
-\frac{N_k}{N_j}
-\\
-&=&
-\frac{N_j(c)}{N_j}
-\\
-&=&
-P(c|j)
-\eeqa
-so these TPMs are consistent with 
-the Markov-chain bnet structure 
-shown in Fig.\ref{fig-class-bnet}.
-
-\begin{claim}
-\label{claim-H-spliting}
-\beq
-\sum_k H(\rvc|k)P(k|j)
-=
-H(\rvc|\rvk, j)
-\eeq
-for the Markov chain $\rvc\larrow\rvk\larrow \rvj$.
-\end{claim}
-\proof
-\begin{align}
-\sum_k H(\rvc|k)P(k|j)
-&=
--\sum_c\sum_{k} P(c|k)P(k|j)\ln P(c|k)
-\\
-&=
--\sum_c \sum_{k}
-P(c|k)P(k|j)\left\{
-\ln [P(c|k)P(k|j)]
--\ln P(k|j)\right\}
-\\
-&=
--\sum_c \sum_{k}
-P(c,k|j)
-\ln P(c,k|j)
--
-H(\rvk|j)
-\\
-&=
-H(\rvc,\rvk|j)-H(\rvk|j)
-\\
-&=
-H(\rvc|\rvk, j)
-\end{align}
-\qed
 
 One can define the following 
-information theory quantities
-associated with bnet Fig.\ref{fig-class-bnet}.
+information theory quantities\footnote{
+The average of $H(\rvc:b)$ over
+$b$ is $H(\rvc:\rvb)=\sum_bP(b)
+H(\rvc:b)$.
+Likewise,
+the average of
+$H(\rvc|b)$ over $b$ is 
+$H(\rvc|\rvb)=\sum_b P(b)H(\rvc|b)$.
+$H(\rvc:\rvb)$ 
+becomes $H(\rvc:b)$
+and $H(\rvc|\rvb)$
+becomes $H(\rvc|b)$
+when there is no $b-$prior (i.e., 
+$P(b)$ is a delta function).
+}
+associated with Fig.\ref{fig-class-bnet}.
 
 
 \beqa
@@ -580,27 +534,27 @@ H(\rvc|j)
 \begin{align}
 INFO\_init_j
 &=
-\sum_{k\in ch(j)} P(k|j)H(\rvc|k)
+\sum_{x_j\in S_{\rvx_j}} P(x_j|j)H(\rvc|x_j,j)
 \\
 &=
-H(\rvc|\rvk, j)\;\;\;\text{(using  Claim \ref{claim-H-spliting})}
+H(\rvc|\rvx_j , j)
 \end{align}
 
 
 
 \beqa
-INFO\_gain_j&=&
+IG_j&=&
 INFO\_fin_j- INFO\_init_j
 \\
 &=&
-H(\rvc|j)-H(\rvc|\rvk, j)
+H(\rvc|j)-H(\rvc|\rvx_j , j)
 \\
-&=& H(\rvc:\rvk|j)
+&=& H(\rvc:\rvx_j |j)
 \label{eq-info-gain}
 \eeqa
 The mutual information
-$ H(\rvc:\rvk|j)$
-is usually called the {\bf
+$ H(\rvc:\rvx_j |j)$
+is called the {\bf
 information gain
 for node $\rvx_j$}.
 Maximizing this mutual information
@@ -608,7 +562,7 @@ produces
 a node $k$ that has 
 a large correlation
 to a class $c$
-for each $k\in ch(j)$.
+for each $x_j\in S_{\rvx_j}$.
 If the  
 goal is to reach
 a point 
@@ -621,69 +575,212 @@ of each new node
 is a greedy move
 towards that goal.
 Thus, Information Gain
-is a good (in fact, the preferred)
+is a good 
 SAM
 for dtree SL.
-
-Call
-
-\beq 
-H(\rvc|j)=-\sum_{c\in S_\rvc}
- P(c|j)\ln  P(c|j)
-\;
-\label{eq-class-ent}
-\eeq
-the {\bf class-entropy
-for node $\rvx_j$}.
 
 Note that if we approximate
 
 \beqa
-\ln  P(c|j)
+\ln  P(c|x_j)
 &\approx&
-\ln [1 + P(c|j)-1]
+\ln [1 + P(c|x_j)-1]
 \\
 &\approx&
-P(c|j)-1
+P(c|x_j)-1
 \eeqa
-in Eq.(\ref{eq-class-ent}), 
-we get what is 
-usually called 
-the {\bf Gini
-for node $\rvx_j$}:
+in $H(\rvc|x_j)$,
+we get what is called 
+the {\bf Gini (or Gini Index)
+for node $\rvx_k$}:
 
 
-\beq
-Gini_j= 1 -\sum_{c\in S_{\rvc}} P(c|j)^2
-\eeq
-$Gini_j$
-is a simpler to compute
+\beqa
+H(\rvc|x_j)
+&=&
+-\sum_c P(c|x_j)\ln P(c|x_j)
+\\
+&\approx&
+1 -\sum_{c\in S_{\rvc}} P(c|x_j)^2
+\eqdef
+ Gini_{x_j}
+\eeqa
+$Gini_{x_j}$
+is a fairly good
 polynomial approximation
-to $H(\rvc|j)$.
-
-One can also define a {\bf Gini gain
-for node $\rvx_j$} by 
-approximating Eq.(\ref{eq-info-gain})
-for $INFO\_gain_j$.
-
-\beq
-Gini\_gain_j=
-\sum_{c,k}
-\frac{P(c|k,j)^2P(k|j)}{P(c|j)}
--1
-\eeq
-
+to $H(\rvc|x_j)$.
+It is computationally
+much less expensive than
+$H(\rvc|x_j)$,
+because it does not
+require computing a log.
 
 We say 
 a probability 
 distribution $P_\rvx$, is {\bf pure (i.e., deterministic)}
- if $P_\rvx(x)=\delta(x, x_0)$. $Gini_j$
- and $H(\rvc|j)$ are both always
+ if $P_\rvx(x)=\delta(x, x_0)$. $Gini_{x_j}$
+ and $H(\rvc|x_j)$ are both always
 non-negative.
 They both vanish iff  
-$P(c|j)$ is pure.
-Thus, $Gini_j$ and  $H(\rvc|j)$ 
+$P(c|x_j)$ is pure.
+Thus, $Gini_{x_j}$ and  $H(\rvc|x_j)$ 
 are both good measures of  {\bf class impurity}.
+
+The {\bf average Gini of node $\rvx_j$} is defined as
+
+\beq
+AGini_j
+=
+\sum_{x_j\in S_{\rvx_j}}
+P(x_j|j)
+ Gini_{x_j}
+\;.
+\eeq
+It measure 
+the average impurity
+of the children of node $\rvx_j$.
+
+
+
+\begin{mdframed}[hidealllines=true,backgroundcolor=gray!10]
+In practice, the
+SL algorithm
+is done recursively.
+Each 
+recursion
+step 
+decides
+which feature $x_j$
+will be the root 
+node of the current tree.
+For all ``candidate" features
+(i.e., all $\rvx_j$
+that haven't been used yet 
+as tree nodes), one
+calculates
+$IG_j$,
+either
+exactly
+or approximately via Gini's,
+using the following formula:
+
+\beq
+IG_j=
+\underbrace{H(\rvc|j)}_{\approx Gini_j}
+-
+\sum_{x_j\in S_{\rvx_j}}
+P(x_j|j)
+\underbrace{H(\rvc|x_j)}_
+{\approx Gini_{x_j}}
+\eeq
+One then chooses $j=\argmax_j IG_j$. This
+maximizes the $\rvc-\rvx_j $ correlation.
+
+Alternatively,
+some software programs use
+the average Gini
+$AGini_j$
+as their SAM. They
+choose
+as root node
+ $j=\argmin_j AGini_j$.
+This minimizes the average impurity
+of the children of node $j$.
+Since $IG_j$
+differs from $AGini_j$ by $H(\rvc|j)$,
+maximizing $IG_j$
+and
+minimizing $AGini_j$
+might lead  to different results.
+\end{mdframed}
+\hrule\noindent{\bf Example of calculation of $AGini_j$ 
+and $IG_j$}
+
+Suppose we deduce from a dataset
+the numbers in the yellow cells
+in Table \ref{tab-temp-gini}.
+These numbers are repeated in  Fig.\ref{fig-stump-3cildren}.
+Then we can calculate the white cells as follows: 
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|l|l|}
+\hline
+$j=$temp? & $x_j=$hot & $x_j=$med & $x_j=$cold \\ \hline
+\rowcolor[HTML]{FFFFC7} 
+\cellcolor[HTML]{9AFF99}$c=$play & 3 & 3 & 3 \\ \hline
+\rowcolor[HTML]{FFFFC7} 
+\cellcolor[HTML]{FFCCC9}$c=$stay & 1 & 2 & 2 \\ \hline
+Gini & 0.375 & 0.48 & 0.48 \\ \hline
+\multicolumn{4}{|l|}{AGini=0.45} \\ \hline
+$H(\rvc|x_j)$ & $\approx$0.375 & $\approx$0.48 & $\approx$0.48 \\ \hline
+\multicolumn{4}{|l|}{IG$\approx$ 0} \\ \hline
+\end{tabular}
+\caption{Evaluating
+AGini and IG for node $temp$.
+}
+\label{tab-temp-gini}
+\end{table}
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.5in]
+{dtree/stump-3children.png}
+\caption{Tree stump
+corresponding to Table \ref{tab-temp-gini}.}
+\label{fig-stump-3cildren}
+\end{figure}
+
+
+
+\begin{itemize}
+\item Gini(hot)$=1-(3/4)-(1/4)=0.375$
+\item Gini(med)$=1-(3/5)^2-(2/5)^2=0.48$
+\item Gini(cold)$=1-(3/5)^2-(2/5)^2=0.48$
+\item AGini $ = (4/14)(0.375)+
+(5/14)(0.48) + (5/14)(0.48) = 0.45 $
+\item IG $\approx [1 -(6/9)^2-(3/9)^2]-AGini= 
+0.44-0.45\approx 0$
+\end{itemize}
+
+This gives
+the AGini and IG for just one 
+candidate root node.
+We would have
+to calculate
+AGini (or IG) for all
+possible candidates
+and choose the candidate
+with the lowest AGini (or highest IG).
+
+
+\section{Information Gain Ratio}
+
+Information Gain Ratio (IGR)
+
+\beqa
+IGR_j
+&=&
+\frac{IG_j}{H(\rvx_j |j)}
+\\
+&=&
+\frac{H(\rvc:\rvx_j |j)}{H(\rvx_j |j)}
+\\
+&=&
+\frac{H(\rvx_j |j)-H(\rvx_j |\rvc, j)}
+{H(\rvx_j |j)}
+\\
+&=&
+1 - \frac{H(\rvx_j |\rvc, j)}{H(\rvx_j |j)}
+\eeqa
+
+$0\leq IGR_j\leq 1$
+
+$IGR_j=0$ iff $H(\rvx_j |\rvc, j)=H(\rvx_j |j)$.
+
+
+
 
 \subsection{Pseudo-code}
 
@@ -702,8 +799,8 @@ determine the feature $x_j$
  that best separates that 
 incoming
 population. The feature
-$x_j$ is chosen so as to maximize Information Gain
-or Gini. This
+$x_j$ is chosen so as to maximize
+$IG_j$. This
 process is repeated by nominating
 the end of each new branch to be
 the current root node.
@@ -712,12 +809,14 @@ performing a top-down, greedy search
 through the space of possible dtrees.
 
 The algo in the pseudo-code below is
- called ID3 (Iterative Dichotomiser 3)
-or CART (Classification and Regression Trees).
-ID3 (Quinlan, 1986) and CART (Breiman et al, 1984)
- are almost identical,
+the essence of
+software programs called ID3 (Iterative Dichotomiser 3),
+C4.5 (C4.5 is a successor to ID3)
+and CART (Classification and Regression Trees).
+ID3 (by Quinlan, 1986) and CART (by Breiman et al, 1984)
+ are very similar,
 but were invented independently.
-As you can see, ID3/CART
+As you can see, dtree SL
 is quite old.
 Many in the AI
 community 
@@ -739,8 +838,9 @@ defined in Chapter \nameref{ch-not-cons}.
 	set of currently available node indices 
 	$J$, where $J\subset J_0$}
 	\KwOut{tree $T$,\\
-		population numbers $\{(j,c, N_j(c)):
-		j\in J_0,c\in S_\rvc\}$ stored globally}
+		population numbers $\{(r,c,x_r,N_r(c, x_r)):
+			r\in J_0, c\in S_\rvc,
+			x_r\in S_{\rvx_r}\}$ stored globally}
 	\;
 	$J\larrow J_0$\;
 	\SetKwFunction{FMain}{learn\_dtree}
@@ -755,8 +855,9 @@ defined in Chapter \nameref{ch-not-cons}.
 			{\tt majority}$([ c^\s:\s\in\Sigma])$\;
 		}
 		\Else{
-			$r\larrow \argmax_{j\in J} INFO\_gain_j(DS)$\;
-			from $DS$, calculate $\{(r,c, N_r(c)):c\in S_\rvc\}$ and 
+			$r\larrow \argmax_{j\in J}IG_j(DS)$\;
+			from $DS$, calculate $\{(r,c,x_r, N_r(c,x_r)):
+			c\in S_\rvc,x_r\in S_{\rvx_r} \}$ and 
 			store it globally\;
 		}
 		$T\larrow$ a new decision tree with root node $\rvx_r$\;
