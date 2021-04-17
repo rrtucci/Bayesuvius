@@ -16,7 +16,7 @@ mainly on Ref.\cite{stu-nor-book}.
 \includegraphics[width=3.2in]
 {dtree/dtree-waiting-labels.png}
 \caption{Fig.\ref{fig-dtree-waiting} with
-generic labels.} 
+abridged labels.} 
 \label{fig-dtree-waiting-labels}
 \end{figure}
 
@@ -142,7 +142,7 @@ replacing
 all the labels of the
 nodes and of the branches of
 the dtree 
-by generic symbols. 
+by abridged symbols. 
 Next, we go 
 from Fig.\ref{fig-dtree-waiting-labels}
 to Fig.\ref{fig-dtree-waiting-dags},
@@ -324,7 +324,7 @@ Let
 
 $J_0=\{0,1, \ldots, nj-1\}$
 
-$\Sigma=\{a0,1,2, \ldots,nsam-1\}$
+$\Sigma=\{0,1,2, \ldots,nsam-1\}$
 
 $DS=\{(\s, x^\s, c^\s): \s\in \Sigma\}$ be a dataset
 
@@ -342,7 +342,7 @@ $x_j\in S_{\rvx_j}$
 $c^\s\in S_\rvc$ be a {\bf classification class}
 
 We will
-assume $\Sigma$, $S_\rvx$ and $S_\rvc$ are finite sets.
+assume $S_\rvx$ and $S_\rvc$ are finite sets.
 
 Building a {\bf classifier $Y$} 
 (curve fit) for a dtree means
@@ -409,8 +409,7 @@ This section uses various Shannon Information Theory
 entropies. Our 
 notation for those
 entropies
-is described in Chapter \nameref{ch-not-cons}
-on Notational Conventions.
+is described in Chapter \nameref{ch-not-cons}.
 
 
 Call a {\bf separation ability measure} (SAM)
@@ -516,7 +515,7 @@ becomes $H(\rvc|b)$
 when there is no $b-$prior (i.e., 
 $P(b)$ is a delta function).
 }
-associated with Fig.\ref{fig-class-bnet}.
+associated with the bnet Fig.\ref{fig-class-bnet}.
 
 
 \beqa
@@ -552,17 +551,15 @@ H(\rvc|j)-H(\rvc|\rvx_j , j)
 &=& H(\rvc:\rvx_j |j)
 \label{eq-info-gain}
 \eeqa
-The mutual information
-$ H(\rvc:\rvx_j |j)$
+$IG_j$
 is called the {\bf
 information gain
 for node $\rvx_j$}.
 Maximizing this mutual information
 produces 
-a node $k$ that has 
+a node $\rvx_j$ that has 
 a large correlation
-to a class $c$
-for each $x_j\in S_{\rvx_j}$.
+to a class $c$.
 If the  
 goal is to reach
 a point 
@@ -702,25 +699,27 @@ in Table \ref{tab-temp-gini}.
 These numbers are repeated in  Fig.\ref{fig-stump-3cildren}.
 Then we can calculate the white cells as follows: 
 
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
 \begin{table}[h!]
 \centering
 \begin{tabular}{|l|l|l|l|}
 \hline
-$j=$temp? & $x_j=$hot & $x_j=$med & $x_j=$cold \\ \hline
+$j=temp?$ & \cellcolor[HTML]{CBCEFB}$x_j=hot$ & \cellcolor[HTML]{CBCEFB}$x_j=med$ & \cellcolor[HTML]{CBCEFB}$x_j=cold$ \\ \hline
 \rowcolor[HTML]{FFFFC7} 
-\cellcolor[HTML]{9AFF99}$c=$play & 3 & 3 & 3 \\ \hline
+\cellcolor[HTML]{9AFF99}$c=play$ & 3 & 3 & 3 \\ \hline
 \rowcolor[HTML]{FFFFC7} 
-\cellcolor[HTML]{FFCCC9}$c=$stay & 1 & 2 & 2 \\ \hline
-Gini & 0.375 & 0.48 & 0.48 \\ \hline
-\multicolumn{4}{|l|}{AGini=0.45} \\ \hline
-$H(\rvc|x_j)$ & $\approx$0.375 & $\approx$0.48 & $\approx$0.48 \\ \hline
-\multicolumn{4}{|l|}{IG$\approx$ 0} \\ \hline
+\cellcolor[HTML]{FFCCC9}$c=stay$ & 1 & 2 & 2 \\ \hline
+$Gini$ & 0.375 & 0.48 & 0.48 \\ \hline
+\multicolumn{4}{|l|}{$AGini=0.45$} \\ \hline
+$H(\rvc|x_j)$ & $\approx 0.375$ & $\approx 0.48$ & $\approx 0.48$ \\ \hline
+\multicolumn{4}{|l|}{$IG\approx 0$} \\ \hline
 \end{tabular}
-\caption{Evaluating
-AGini and IG for node $temp$.
-}
+\caption{Evaluating AGini and IG for node $temp$.}
 \label{tab-temp-gini}
 \end{table}
+
 
 
 \begin{figure}[h!]
@@ -757,7 +756,7 @@ with the lowest AGini (or highest IG).
 
 \section{Information Gain Ratio}
 
-Information Gain Ratio (IGR)
+The Information Gain Ratio (IGR) is an alternative SAM.
 
 \beqa
 IGR_j
@@ -811,7 +810,7 @@ through the space of possible dtrees.
 The algo in the pseudo-code below is
 the essence of
 software programs called ID3 (Iterative Dichotomiser 3),
-C4.5 (C4.5 is a successor to ID3)
+C4.5/C5.0 (C4.5/C5.0 are successors to ID3)
 and CART (Classification and Regression Trees).
 ID3 (by Quinlan, 1986) and CART (by Breiman et al, 1984)
  are very similar,
