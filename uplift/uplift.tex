@@ -545,18 +545,15 @@ numbers in Fig.\ref{fig-dtree-notation-uplift}}
 
 Fig.\ref{fig-dtree-notation-uplift}
 was obtained from Fig.\ref{fig-dtree-notation}
-in Chapter \ref{ch-dtree}
 by adding $d$ dependence.
 $d\in \bool$
 is the treatment dose.
-Since $d\in \bool$,
-in UP, we build two dtrees
-of the type that were built
-in Chapter \ref{ch-dtree}
-(both with the same structure
-but with different 
-probabilities associated with each 
-node).
+Note that in UP, we build a dtree
+in which every node carries a double ($d=0,1$)
+TPV. This
+is in contrast to the generic dtrees built
+in Chapter \ref{ch-dtree}, in which 
+each node carries a single TPV.
 $N^d_j(c, x_j)$ is 
 the number
 of individuals $\s$
@@ -594,26 +591,23 @@ in
 SL (Structure Learning) 
 of dtrees (Decision Trees).
 Information Gain
-is not an ideal
+is a bad
 SAM for SL of UP dtrees,
-because UP trees
-have a more
-specialized classification goal
-than the generic dtrees of Chapter \ref{ch-dtree}.
-Both UP trees and generic trees
-want to
-separate the sample
-population into classes,
-but the classes for an UP dtree 
-are specifically uplift bins (i.e., uplift intervals).
+because it knows nothing about
+ $d=0,1$
+and the double TPVs of nodes in UP dtrees.
+For
+UP dtrees,
+we need a SAM specifically
+designed to separate $d=0,1$, and generate 
+classes that are
+ uplift bins (i.e., uplift intervals).
 
 
 Ref.\cite{jaros}
 proposes and studies 
 the following
-3 SAMs. These SAMs 
-are more efficient than
-Information Gain
+3 SAMs 
 for doing SL of UP dtrees.
 
 
@@ -716,7 +710,7 @@ axioms\footnote{
 We won't show it
 here, but 
 according to Ref.\cite{jaros},
-$SAM\_E_j$ also satifies these
+$SAM\_E_j$ also satisfies these
 3 axioms, but
 $SAM\_DD_j$
 satisfies only the first two.}
