@@ -81,7 +81,7 @@ where $x^\s\in S_\rvx$, $y^\s\in S_\rvy$,
 as a dataset. 
 Let $T=\{0,1, \dots, nt-1\}$.
 Let
-$x=(x_0, x_1, \ldots, x_{nt-1})
+$x^\s=(x^\s_0, x^\s_1, \ldots, x^\s_{nt-1})
 \in S_{\rvx_0}\times S_{\rvx_1}
 \times\ldots\times
  S_{\rvx_{nt-1}}=S_\rvx$.
@@ -109,22 +109,20 @@ given by
 
 \beq
 \caly_t(x^\s)=
-\sum_{t'\leq t}\alp_{t'}Y_{t'}(x^\s)
+\sum_{t'=0}^t\alp_{t'}Y_{t'}(x^\s)
+\in \RR
 \eeq
-for $t=0, 1, \ldots, nt-2$
+for $t\in T$
 and a {\bf final e-classifier}
 given by 
 
 \beq
-\caly_{nt-1}(x^\s)=
+\caly_{fin}(x^\s)=
+sign\left(
 \sum_{t=0}^{nt-1}\alp_t Y_t(x^\s)
+\right)\in\{-1, 1\}
 \;.
 \eeq
-One can
-turn  this final e-classifier
-into a binary classifier 
-like the $Y_t$
-by using $sign(\caly_{nt-1})$.
 The Adaboost algorithm 
 yields a set of 
 coefficients $\alp_t$
@@ -196,8 +194,8 @@ on those individuals $\s$
 on which the previous e-classifier $\caly_{t}$
 performed poorly.
 
-Note also 
-the partition function $Z_t$
+Note also that
+the partition function $Z_t$ is
 a good measure
 of the {\bf classification error}
 (i.e., 
@@ -490,7 +488,7 @@ behind on-the-fly
 w-classifiers is to choose 
 $Y_t(x^\s)=x_t^\s$,
 where $x_t$
-is the feature with the largest
+is the feature with the lowest
 Gini in
 the current dataset
 $(\vec{x}, \vec{y})_{L_t}$.
@@ -522,7 +520,7 @@ Perhaps a causal diagram
 will make all these 
 new steps clearer
 to the reader.
-The bnet of 
+The bnet 
 Fig.\ref{fig-aboost-bnet-bags}
 is a modification of the
  bnet
@@ -645,7 +643,7 @@ with lowest Gini.}
 
 
 \beq\color{blue}
-P(L^\s_{t+1}=L^{\s'}|\vec{w}_t)=
+P(L^\s_{t+1}=\s'|\vec{w}_t)=
 w^{\s'}_t
 \eeq
 
