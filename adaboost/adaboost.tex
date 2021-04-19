@@ -1,12 +1,12 @@
 \chapter{AdaBoost}
-\label{ch-ada-boost}
+\label{ch-adaboost}
 
 This chapter
-is based on Ref.\cite{wiki-adaboost}
+is based on Ref.\cite{wiki-adaboost}.
 
 
 Adaptive Boosting (AdaBoost) is 
-a method of building
+a method of constructing
 a strong
 classifier function
 as a linear 
@@ -41,27 +41,26 @@ is oblivious to
 where the w-classifier functions came from.
 
 
-
 Chapter \ref{ch-rforest}
-defines random forests and bagging.
-Besides Boosting,
+is on Bagging (Random Forest),
+which is 
 another method
-of building
-a classifier function
+besides AdaBoosting
+of building a classifier function
 from an ensemble 
-of classifier functions is
-Bagging.
+of classifier functions.
 These two methods are most commonly
-applied to dtrees: AdaBoost for ensembles of
-tree stumps, and Bagging for random 
-forests (which
-are ensembles
-of dtrees that are much more
+applied to dtrees: AdaBoosting for an ensemble of
+tree stumps, and Bagging for a random 
+forest (which
+is an ensemble
+of dtrees that are usually much more
 complicated than tree stumps). Both methods 
  are highly effective
 in mitigating overfitting,
 a common problem with simple
 dtrees.
+
 
 \section{AdaBoost for general ensemble
 of w-classifiers}
@@ -82,10 +81,10 @@ where $x^\s\in S_\rvx$, $y^\s\in S_\rvy$,
 as a dataset. 
 Let $T=\{0,1, \dots, nt-1\}$.
 Let
-$S_\rvx= S_{\rvx_0}\times S_{\rvx_1}
-\times\ldots\times S_{\rvx_{nt-1}}$,
-$x=(x_0, x_1, \ldots, x_{nt-1})\in S_\rvx$, 
-$x_t\in S_{\rvx_t}$.
+$x=(x_0, x_1, \ldots, x_{nt-1})
+\in S_{\rvx_0}\times S_{\rvx_1}
+\times\ldots\times
+ S_{\rvx_{nt-1}}=S_\rvx$.
 
 AdaBoost assumes
 that the classifier class set
@@ -261,6 +260,17 @@ e^{+\alp_t}F_t)
 \;.
 \eeq
 
+\begin{figure}[h!]
+\centering
+\includegraphics[width=3in]
+{adaboost/adaboost-curve.png}
+\caption{
+Plot of function $\alp_t=
+\frac{1}{2}\ln \frac{1-F_t}{F_t}$.
+} 
+\label{fig-adaboost-curve}
+\end{figure}
+
 We can find the $\alp_t$ values
 that minimize the classification
 error $Z_t$, and
@@ -308,16 +318,7 @@ which is
 achieved iff $x=\frac{1}{2}$
 
 
-\begin{figure}[h!]
-\centering
-\includegraphics[width=3in]
-{adaboost/adaboost-curve.png}
-\caption{
-Plot of function $\alp_t=
-\frac{1}{2}\ln \frac{1-F_t}{F_t}$.
-} 
-\label{fig-adaboost-curve}
-\end{figure}
+
 
 
 \begin{figure}[h!]
@@ -548,9 +549,9 @@ $$
 \ar@/_1.5pc/[ddd]
 \ar[d]
 \ar[r]
-\ar@/^1pc/[rr]
-\ar@/^1pc/[rrr]
-\ar@/^1pc/[rrrr]
+\ar@/_1pc/[rr]
+\ar@/_1pc/[rrr]
+\ar@/_1pc/[rrrr]
 &
 (\vec{\rvx},\vec{\rvy})_{L_1}
 \ar[d]
