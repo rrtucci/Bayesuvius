@@ -1495,6 +1495,95 @@ and it equals zero iff $P_\rvx=P_\rvy$.
 
 \end{itemize}
 
+\section{Pearson Chi-Squared Test}
+
+We define the
+{\bf Pearson divergence}
+(aka {\bf Pearson Chi-squared test statistic})
+for two
+probability distributions
+$P(x)$ and $Q(x)$,
+where $x\in S_\rvx$,
+as follows:
+\beq
+D_{\chi^2}=
+\sum_x
+\frac{[P(x)-Q(x)]^2}{Q(x)}
+=
+\sum_x \frac{P^2(x)}{Q(x)}-1
+\;.
+\eeq
+
+The Pearson divergence
+is closely related to the 
+Kullback-Liebler divergence.
+ 
+\begin{claim}
+If $\left|\frac{P(x)}{Q(x)}-1\right|<<1$
+for all $x\in S_\rvx$, then
+
+\beq
+D_{KL}(P\parallel Q)\approx D_{\chi^2}
+\;.
+\eeq
+\end{claim}
+\proof
+\beqa
+D_{KL}(P\parallel Q)
+&=&
+\sum_x P(x)\ln \frac{P(x)}{Q(x)}
+\\
+&=&
+\sum_x P(x)\ln 
+\left(1 + \frac{P(x)}{Q(x)} -1
+\right)
+\\
+&\approx& 
+\sum_x
+P(x)\left(
+\frac{P(x)}{Q(x)} -1
+\right)
+\\
+&=&
+\sum_x
+\frac{P^2(x)}{Q(x)} -1 
+\\
+&=&
+D_{\chi^2}
+\eeqa
+\qed
+
+Let $nx=|S_\rvx|$.
+Let $P_{\chi^2}(x)$
+be the $\chi^2$
+(with $nx-1$ degrees of freedom)
+probability
+distribution,
+and let $F_{\chi^2}$
+be its cummulative.
+Find $\alp$
+such that
+\beq
+95\%=\int_{0}^{\alp}dx\; P_{\chi^2}(x)=
+F_{\chi^2}(\alp)
+\eeq
+If $D_{\chi^2}<\alp$,
+then we say that $P=Q$ to 95\% 
+significance level (SL),
+whereas if 
+$D_{\chi^2}>\alp$,
+we say that $P\neq Q$
+to that SL.
+The higher SL becomes,
+the higher $\alp$ becomes,
+and the bigger the
+divergence $D_{\chi^2}$
+has to be,
+before we are
+willing to declare that $P\neq Q$.
+
+
+
 
 
 
