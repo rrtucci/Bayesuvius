@@ -1576,7 +1576,7 @@ significance level (SL),
 whereas if 
 $D_{\chi^2}>\alp$,
 we say that $P\neq Q$
-to that same SL.
+to 95\% SL (i.e., SL$=95\%$).
 The higher SL becomes,
 the higher $\alp$ becomes,
 and the bigger the
@@ -1586,8 +1586,7 @@ before we are
 willing to declare that $P\neq Q$.
 
 \section{Error Bars}
-Never report measurements without {\bf error bars
-(aka confidence intervals)}!!
+Never report measurements without error bars!!
 Quick reminder of error bars:
 
 Normal distribution
@@ -1601,7 +1600,7 @@ e^{- \frac{(x-\mu)^2}{2\sigma^2}}
 \;.
 \eeq
 
-Standard normal distribution:
+Standard Normal distribution:
 \beq
 P(x)=\caln(x;0,1)
 \eeq
@@ -1632,8 +1631,14 @@ C=\int_{-z^*}^{z^*} dx\;P(x) =
 =
 2\left(\Phi(z^*)-\frac{1}{2}\right)
 \eeq
+Equivalent definition:
+\beq
+C=P\left(
+\frac{|\rvx-\mu|}{\frac{\sigma}{\sqrt{n}}}
+<z^*\right)
+\eeq
 For $C=95\%$,
-$z^*=1.960$.
+$z^*=1.960\approx 2$.
 For $C=99\%$, $z^*=2.576$.
 
 Area of each tail 
@@ -1643,41 +1648,42 @@ usually called $\alpha$:
 C+2\alpha=1
 \eeq  
 
-Estimators of 
+Estimators\footnote{Don't 
+confuse our index $\s$
+with the standard deviation $\s$.} of 
 mean $\mu$  and 
-standard deviation $\sigma$:
+standard deviation $\sigma$
+from measurements $x^\s$
+of a sub-population $\Sigma_1$ of
+size $n=|\Sigma_1|$:
 \beq
-\hat{\mu}=\ol{x}=\frac{1}{nsam}\sum_\s x^\s
+\hat{\mu}=\ol{x}=\frac{1}{n}\sum_{\s \in\Sigma_1} x^\s
 \eeq
 
 \beq
-\hat{\sigma}^2=
-\frac{1}{nsam-1}
-\sum_\s (x^\s-\ol{x})^2
+\hat{\s}^2=
+\frac{1}{n-1}
+\sum_{\s\in \Sigma_1} (x^\s-\ol{x})^2
 \eeq
 
 
+{\bf Error bars (aka confidence interval)}
+and 
+{\bf Error $E$ (aka margin of error)}:
 
-{\bf Error} $E$ and {\bf sub-population
-size} $n$:
 
-\beq
-P\left(
-\frac{|\rvx-\mu|}{\frac{\sigma}{\sqrt{n}}}
-<z^*\right)=C
-\eeq
 
 \beq
 \text{ estimate of $x$
 with error bars} =
 \ol{x} \pm 
 \underbrace{
-z^* \frac{\hat{\sigma}}{\sqrt{n}}}_{E}
+z^* \frac{\hat{\s}}{\sqrt{n}}}_{E}
 \eeq
 
 \beq
 n= \left(
-\frac{z^*\hat{\sigma}}{E}
+\frac{z^*\hat{\s}}{E}
 \right)^2
 \eeq
 
