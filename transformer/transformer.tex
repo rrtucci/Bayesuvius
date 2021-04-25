@@ -19,9 +19,9 @@ huge databases such as all of Wikipedia.
 
 Recurrent Neural Nets (RNNs)
 are discussed in Chapter \ref{ch-rnn}.
-TNs have many
-advantages for doing NLP
-compared to the older method of RNNs.
+TNs are better
+than RNNs for doing NLP
+in several ways.
 Whereas RNNs
 analyze the
 tokens (words)
@@ -43,8 +43,8 @@ more importance to the end
 of a sentence 
 than to its beginning,
 because the memory of
-its beginning fades.
-TNs don't do that.
+its beginning tends to fade.
+TNs do no behave that way.
 
 Dynamic bnets are discussed in Chapter \ref{ch-dyn-bnet}.
 In Chapter \ref{ch-rnn},
@@ -66,7 +66,7 @@ an $nh$ dimensional column vector
 for word $i\in \cals$ at time $t$.
 
 $Q^t, K^t, V^t\in \RR^{nh\times nh}$
-be the  {\bf prior-weight matrices for time
+be the  {\bf prior-attention matrices for time
 slice $t$}.
 These matrices are learned by training
 the net.
@@ -169,23 +169,6 @@ P(K^t)=\delta(K^t, K^t_0)
 \end{subequations}
 
 
-\beq\color{blue}
-P(v^t_i|V^t, h^t_i)
-=\indi(\;\;\; v^t_i=V^t h^t_i
-\;\;\;)
-\eeq
-
-\beq\color{blue}
-P(q^t_i|Q^t, h^t_i)
-=\indi(\;\;\; q^t_i=Q^t h^t_i
-\;\;\;)
-\eeq
-
-\beq\color{blue}
-P(k^t_i|K^t, h^t_i)
-=\indi(\;\;\; k^t_i=K^t h^t_i
-\;\;\;)
-\eeq
 
 \beq\color{blue}
 P(h^{t+1}_i|v^t_.,q^t_i,
@@ -208,10 +191,11 @@ e^{(q^t_i)^Tk^t_{j'}}}
 
 In Eqs.\ref{eq-vqk-priors}, 
 the 3 root nodes $\rvV^t, \rvQ^t, \rvK^t$ 
-of time slice $t$
 have delta function priors.
-To improve stability,
-it is more common to use instead
+To improve stability
+of the dynamic bnet,
+it is more common instead to use
+for these priors
 multiple delta functions 
 (aka {\bf multi-heads})
 labeled $c=0,1, \ldots, nc-1$, as follows.
@@ -233,8 +217,8 @@ P(K^t)=\frac{1}{nc}\sum_{c=0}^{nc-1}
 \eeq
 \end{subequations}
 Even better,
-one can go the full monty
-as a Bayesian, 
+one can go fully
+Bayesian, 
 and make
-these 3 prior distributions
+these 3 prior distributions 
 arbitrary, to be determined by net training.
