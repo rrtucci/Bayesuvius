@@ -1,0 +1,240 @@
+\chapter{Transformer Networks}
+\label{ch-transformer}
+
+This chapter in based on Refs.\cite{joshi-trans}
+and \cite{wiki-transformer}.
+
+Transformer Networks (TN)
+have been taking the field of
+Natural Language Processing (NLP)
+by storm in recent years.
+They were introduced in 2017 and already
+are the basis of
+BERT (Bidirectional Encoder
+Representations from Transformers)
+and GPT (Generative Pre-trained Transformer),
+two TN libraries that
+have been trained with
+huge databases such as all of Wikipedia.
+
+Recurrent Neural Nets (RNNs)
+are discussed in Chapter \ref{ch-rnn}.
+TNs have many
+advantages for doing NLP
+compared to the older method of RNNs.
+Whereas RNNs
+analyze the
+tokens (words)
+of
+a sentence
+sequentially,
+like a Kalman Filter,
+TNs
+analyze them in parallel,
+and thus
+are more amenable
+to parallel computing.
+Also, because
+RNNs
+analyze the
+words of a sentence sequentially,
+they tend to give
+more importance to the end
+of a sentence 
+than to its beginning,
+because the memory of
+its beginning fades.
+TNs don't do that.
+
+Dynamic bnets are discussed in Chapter \ref{ch-dyn-bnet}.
+In Chapter \ref{ch-rnn},
+we showed that RNNs
+are dynamic bnets.
+The goal of
+this chapter
+is to define TNs,
+and to show that they too are
+dynamic bnets.
+
+Let
+
+$\cals$ be the
+set of words in a sentence,
+
+$h^t_i\in \RR^{nh}$ be
+an $nh$ dimensional column vector
+for word $i\in \cals$ at time $t$.
+
+$Q^t, K^t, V^t\in \RR^{nh\times nh}$
+be the  {\bf prior-weight matrices for time
+slice $t$}.
+These matrices are learned by training
+the net.
+The letters $Q,K,V$ stand for
+ Query, Key and Value,
+respectively.
+
+
+\begin{figure}[h!]
+$$
+\xymatrix{
+&\rvV^t\ar[d]
+&\rvQ^t\ar[d]
+&\rvK^t\ar[d]
+\\
+&\{\rvv^t_i\}_{i=0,1,2}
+&\{\rvq^t_i\}_{i=0,1,2}
+&\{\rvk^t_i\}_{i=0,1,2}
+\\
+&\rvv_0^t\ar[rrd]
+\ar[rrdddd]\ar[rrddddddd]
+\\
+\rvh_0^t \ar[ru]\ar[r]\ar[rd]
+&\rvq_0^t\ar[rr]
+&&\rvh_0^{t+1}
+\\
+&\rvk^t_0\ar[rru]
+\ar[rrdd]\ar[rrddddd]
+\\
+%%%%%
+&\rvv_1^t\ar[rrd]
+\ar[rrdddd]\ar[rruu]
+\\
+\rvh_1^t\ar[ru]\ar[r]\ar[rd]
+&\rvq_1^t\ar[rr]
+&&\rvh_1^{t+1}
+\\
+&\rvk^t_1\ar[rru]
+\ar[rrdd]\ar[rruuuu]
+\\
+%%%%%
+&\rvv_2^t\ar[rrd]
+\ar[rruu]\ar[rruuuuu]
+\\
+\rvh_2^t \ar[ru]\ar[r]\ar[rd]
+&\rvq_2^t\ar[rr]
+&&\rvh_2^{t+1}
+\\
+&\rvk^t_2\ar[rru]
+\ar[rruuuu]\ar[rruuuuuuu]
+}
+$$
+\caption{Time slice $t$
+of dynamic bnet for
+ a transformer network (TN).
+The following arrows were not
+drawn
+explicitly for clarity:
+arrows pointing from node
+$\rvV^t$ to nodes $\rvv^t_i$
+for $i=0,1,2$,
+from node
+$\rvQ^t$ to nodes $\rvq^t_i$
+for $i=0,1,2$,
+and from node
+$\rvK^t$ to nodes $\rvk^t_i$
+for $i=0,1,2$.
+Note that $k^t_i$
+for all $i$
+points to $\rvh^{t+1}_j$ for all $j$.
+Likewise,
+$\rvv^t_i$
+for all $i$
+points to $\rvh^{t+1}_j$ for all $j$.
+}
+\label{fig-transformer}
+\end{figure}
+
+Fig.\ref{fig-transformer}
+represents a TN as a dynamic bnet.
+The TPMs,
+printed in blue,
+for the nodes of the bnet
+Fig.\ref{fig-transformer},
+are as follows:
+
+\begin{subequations}
+\label{eq-vqk-priors}
+\beq\color{blue}
+P(V^t)=\delta(V^t, V^t_0)
+\eeq
+
+\beq\color{blue}
+P(Q^t)=\delta(Q^t, Q^t_0)
+\eeq
+
+\beq\color{blue}
+P(K^t)=\delta(K^t, K^t_0)
+\eeq
+\end{subequations}
+
+
+\beq\color{blue}
+P(v^t_i|V^t, h^t_i)
+=\indi(\;\;\; v^t_i=V^t h^t_i
+\;\;\;)
+\eeq
+
+\beq\color{blue}
+P(q^t_i|Q^t, h^t_i)
+=\indi(\;\;\; q^t_i=Q^t h^t_i
+\;\;\;)
+\eeq
+
+\beq\color{blue}
+P(k^t_i|K^t, h^t_i)
+=\indi(\;\;\; k^t_i=K^t h^t_i
+\;\;\;)
+\eeq
+
+\beq\color{blue}
+P(h^{t+1}_i|v^t_.,q^t_i,
+ k^t_.)
+=
+\indi(\;\;\;
+h_i^{t+1}=
+\underbrace{
+\sum_{j\in\cals}
+v^t_{j}
+\underbrace{
+\frac{e^{(q^t_i)^T k^t_j}}
+{\sum_{j'\in \cals}
+e^{(q^t_i)^Tk^t_{j'}}}
+}_{w_{j|i}=
+[{\bf softmax}((q_i^t)^T k^t_j)]_j}\;
+}_{E_{\rvj|i}[v^t_\rvj]={\bf Attention}}
+\;\;\;)
+\eeq
+
+In Eqs.\ref{eq-vqk-priors}, 
+the 3 root nodes $\rvV^t, \rvQ^t, \rvK^t$ 
+of time slice $t$
+have delta function priors.
+To improve stability,
+it is more common to use instead
+multiple delta functions 
+(aka {\bf multi-heads})
+labeled $c=0,1, \ldots, nc-1$, as follows.
+
+\begin{subequations}
+\beq\color{blue}
+P(V^t)=\frac{1}{nc}\sum_{c=0}^{nc-1}
+\delta(V^t, V^t_c)
+\eeq
+
+\beq\color{blue}
+P(Q^t)=\frac{1}{nc}\sum_{c=0}^{nc-1}
+\delta(Q^t, Q^t_c)
+\eeq
+
+\beq\color{blue}
+P(K^t)=\frac{1}{nc}\sum_{c=0}^{nc-1}
+\delta(K^t, K^t_c)
+\eeq
+\end{subequations}
+Even better,
+one can go the full monty
+as a Bayesian, 
+and make
+these 3 prior distributions
+arbitrary, to be determined by net training.
