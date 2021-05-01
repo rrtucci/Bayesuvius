@@ -12,8 +12,8 @@ for an individual. From this,
 we want to decide
 whether that
 individual 
-has $a=T=True$
-or $a=F=False$.
+has $a=0$
+or $a=1$.
 The decision will
 depend on the
 value
@@ -27,9 +27,9 @@ $$\xymatrix{
 }$$
 \caption{bnet for 
 BC.}
-\label{fig-hyp-bnet}
+\label{fig-roc-bnet}
 \end{figure}
-Fig.\ref{fig-hyp-bnet}
+Fig.\ref{fig-roc-bnet}
 shows the bnet used for BC.
 
 
@@ -38,7 +38,7 @@ shows the bnet used for BC.
 \includegraphics[width=3in]
 {roc/bell-curves.png}
 \caption{$x$-distribution for
-two hypotheses $a=F,T$. } 
+two hypotheses $a=0,1$. } 
 \label{fig-bell-curves}
 \end{figure}
 Fig.\ref{fig-bell-curves}
@@ -46,7 +46,7 @@ is a
 plot
 of $P(x|a)$, i.e., the TPM 
 for node $\rvx$
-of the bnet in Fig.\ref{fig-hyp-bnet}.
+of the bnet in Fig.\ref{fig-roc-bnet}.
 
 
 \begin{figure}[h!]
@@ -70,8 +70,7 @@ b=\indi(x>\tau)
 \;.
 \eeq
 $P(b|a)$
-for $b\in\bool$
-and $a\in \{F,T\}$
+for $b, a\in\bool$
 is called the
 {\bf confusion matrix}
 or {\bf contingency table}
@@ -89,47 +88,65 @@ In that
 figure,
 the rates $R$
 are defined as
-follows.
+follows.\footnote{
+I find the notation 
+$x|a$ where $x,a\in \bool$
+much clearer than $\alp\beta$
+where $\alp=T,F$ and 
+$\beta=N,P$.
+Note that $\alp=\indi(x=a)$
+and $\beta=x$,
+if we identify $0=F=N$
+and $1=T=P$.}
 
 \begin{itemize}
-\item {\color{blue}\bf False Positive rate}
-\beqa
-\color{blue}
-R_{FP}(\tau)&=&
-P(x>\tau|a=F)= \int_{x>\tau}dx\;P(x|a=F)
-\eeqa
-In Hypothesis Testing,
-$R_{FP}$ is also called the {\bf p-value that $\rvx>\tau$
-assuming curve $F$ is the
-null hypothesis}.
 
-\item{\color{blue}\bf False Negative rate}
+
+\item{\color{blue}\bf True Negative Rate (TNR)}
 \beqa
 \color{blue}
-R_{FN}(\tau)&=&1-R_{FP}(\tau)
+R_{0|0}(\tau)
+&=&
+ P(x<\tau|a=0)= \int_{x<\tau}dx\;P(x|a=0)
+\eeqa
+
+\item {\color{blue}\bf False Positive Rate (FPR)}
+\beqa
+\color{blue}
+R_{1|0}(\tau)&=&
+1-R_{0|0}(\tau)
 \\
 &=&
- P(x<\tau|a=F)= \int_{x<\tau}dx\;P(x|a=F)
-\eeqa
-
-\item{\color{red}\bf True Positive  rate}
-\beqa
-\color{red}
-R_{TP}(\tau)&=& 
-P(x>\tau|a=T)=\int_{x>\tau}dx\;P(x|a=T)
+P(x>\tau|a=0)= \int_{x>\tau}dx\;P(x|a=0)
 \eeqa
 In Hypothesis Testing,
-$R_{TP}$ is called the {\bf p-value that $\rvx>\tau$
-assuming curve $T$ is the
+$R_{1|0}$ is also called the {\bf p-value that $\rvx>\tau$
+assuming curve $0$ is the
 null hypothesis}.
 
-\item {\color{red}\bf True Negative rate}
+\item {\color{red}\bf False Negative Rate (FNR)}
 \beqa
 \color{red}
-R_{TN}(\tau)&=& 1-R_{TP}(\tau)
-\\
-&=& P(x<\tau|a=T)= \int_{x<\tau}dx\;P(x|a=T)
+R_{0|1}(\tau)
+&=& P(x<\tau|a=1)= \int_{x<\tau}dx\;P(x|a=1)
 \eeqa
+In Hypothesis Testing,
+$R_{0|1}$ is called the 
+{\bf p-value that $\rvx<\tau$
+assuming curve $1$ is the
+null hypothesis}.
+
+\item{\color{red}\bf True Positive  Rate (TPR)}
+\beqa
+\color{red}
+R_{1|1}(\tau)&=& 
+1-R_{0|1}(\tau)
+\\
+&=&
+P(x>\tau|a=1)=\int_{x>\tau}dx\;P(x|a=1)
+\eeqa
+
+
 \end{itemize}
 
 \begin{figure}[h!]
@@ -149,7 +166,7 @@ Green shaded
 \caption{
 ROC curves for
 3 different separations
-between the T and F 
+between the 0 and 1 
 x-distributions.} 
 \label{fig-roc-panels}
 \end{figure}
@@ -158,8 +175,8 @@ x-distributions.}
 
 The {\bf Receiver Operating Characteristic 
 (ROC)} is a
-parametric plot with  $X=R_{FP}(\tau)$
-and $Y=R_{TP}(\tau)$,
+parametric plot with  $X=R_{1|0}(\tau)$
+and $Y=R_{1|1}(\tau)$,
 where $\tau\in\RR$.
 The {\bf Area Under the Curve (AUC)}
 is the area under the ROC.
@@ -181,20 +198,129 @@ Note that
 
 \beqa
 AUC &=&\int_{x=0}^1 d\tau\;\;
-R_{TP}(\tau)
-\frac{dR_{FP}(\tau)}{d\tau}
+R_{1|1}(\tau)
+\frac{dR_{1|0}(\tau)}{d\tau}
 \\
 &=&
 \int_{\infty}^{-\infty} d\tau\;\;
 \left\{\int_{-\infty}^\infty dx\;\;
-\indi(x>\tau) P(x|a=T)\right\}
-(-1)P(x=\tau|a=F)
+\indi(x>\tau) P(x|a=1)\right\}
+(-1)P(x=\tau|a=0)
 \\
 &=&
 \int_{-\infty}^\infty dx'\;\;
 \int_{-\infty}^\infty dx\;\;
-\indi(x>x') P(x|a=T)
-P(x'|a=F)
+\indi(x>x') P(x|a=1)
+P(x'|a=0)
 \;.
 \eeqa
+
+\section{Terminology Table
+Adapted from Wikipedia Ref.\cite{wiki-roc}}
+
+Let 
+$N_{x|a}$ be numbers (counts) so that
+\beq
+P(x|a)=
+\frac{ N_{x|a}}
+{\sum_{x'} N_{x'|a}}
+\eeq
+for all $x,a\in \bool$.
+
+
+
+condition positive (P):
+$\sum_x N_{x|1}$,
+the number of real positive cases in the data
+
+condition negative (N):
+$\sum_x N_{x|0}$,
+the number of real negative cases in the data
+
+true positive (TP):
+$N_{1|1}$, hit
+
+true negative (TN):
+$N_{0|0}$, correct rejection
+
+false positive (FP):
+$N_{1|0}$, false alarm, type I error or underestimation
+
+false negative (FN):
+$N_{0|1}$, miss, type II error or overestimation
+
+sensitivity, recall, hit rate, or true positive rate 
+(TPR):
+\beq TPR=
+{  {R_{1|1}} ={\frac { {N_{1|1}} }{ {P} }}=
+{\frac { {N_{1|1}} }{ {N_{1|1}} + {N_{0|1}} }}=1- {R_{0|1}} }
+\eeq
+
+specificity, selectivity or true negative rate (TNR):
+\beq TNR=
+{  {R_{0|0}} ={\frac { {N_{0|0}} }{ {N} }}
+={\frac { {N_{0|0}} }{ {N_{0|0}} + {N_{1|0}} }}=
+1- {R_{1|0}} }
+\eeq
+
+precision or positive predictive value (PPV):
+\beq 
+{  {PPV} ={\frac { {N_{1|1}} }
+{ {N_{1|1}} + {N_{1|0}} }}=1- {FDR} }
+\eeq
+
+negative predictive value (NPV):
+\beq 
+{  {NPV} ={\frac { {N_{0|0}} }
+{ {N_{0|0}} + {N_{0|1}} }}=1- {FOR} }
+\eeq
+
+miss rate or false negative rate (FNR):
+\beq FNR=
+{  {R_{0|1}} ={\frac { {N_{0|1}} }
+{ {P} }}={\frac { {N_{0|1}} }{ {N_{0|1}} 
++ {N_{1|1}} }}=1- {R_{1|1}} }
+\eeq
+
+fall-out or false positive rate (FPR):
+\beq FPR=
+{  {R_{1|0}} ={\frac { {N_{1|0}} }
+{ {N} }}={\frac { {N_{1|0}} }
+{ {N_{1|0}} + {N_{0|0}} }}=1- {R_{0|0}} }
+\eeq
+
+false discovery rate (FDR):
+\beq 
+{  {FDR} ={\frac { {N_{1|0}} }
+{ {N_{1|0}} + {N_{1|1}} }}=1- {PPV} }
+\eeq
+
+false omission rate (FOR):
+\beq 
+{  {FOR} ={\frac { {N_{0|1}} }
+{ {N_{0|1}} + {N_{0|0}} }}=1- {NPV} }
+\eeq
+
+
+accuracy (ACC):
+\beq 
+{  {ACC} ={\frac { {N_{1|1}} + {N_{0|0}} }
+{ {P} + {N} }}={\frac { {N_{1|1}} + {N_{0|0}} }
+{ {N_{1|1}} + {N_{0|0}} + {N_{1|0}} + {N_{0|1}}
+ }}}
+\eeq
+
+balanced accuracy (BA):
+\beq 
+{  {BA} ={\frac {R_{1|1}+R_{0|0}}{2}}}
+\eeq
+
+F1 score
+is the harmonic mean of precision and sensitivity: 
+\beq 
+{  {F}_{1}=2\times {\frac { {PPV} 
+\times  {R_{1|1}} }{ {PPV} + {R_{1|1}} }}=
+{\frac {2 {N_{1|1}} }{2 {N_{1|1}} + {N_{1|0}} +
+ {N_{0|1}} }}}
+\eeq
 
