@@ -381,7 +381,7 @@ a=
 \centering
 \includegraphics[width=2.5in]
 {svm/svm-hinge.png}
-\caption{Plot of $CE$ versus $Y$.} 
+\caption{Plot of $CE^\s$ versus $Y$.} 
 \label{fig-svm-hinge}
 \end{figure}
 
@@ -389,13 +389,16 @@ When $Y=\pm 1$,
 an  error in $Y(x^\s)$  occurs iff $y^\s Y(x^\s)=-1$.
 But how should we define
 errors when $Y$ is a real number?
-Define the {\bf Cost of erring} to be
-\beq
-CE(x^\s, y^\s)
-=
+Define the {\bf Cost of erring for sample $\s$} to be
+
+\beqa
+CE^\s(x^\s, y^\s)
+&=&
 (1-y^\s Y(x^\s))_+
-\eeq
-$CE$ is shown in Fig.\ref{fig-svm-hinge}.
+\;.
+\eeqa
+
+$CE^\s$ is shown in Fig.\ref{fig-svm-hinge}.
 As you can see, 
 there is a penalty for living on the
 wrong side, 
@@ -403,47 +406,51 @@ and even a penalty for living on the
 right side but too close to the DMZ.
 
 Note that the line of demarcation
-should have the lowest $CE$
-of all possible $D_{DMZ}$. So to find
-that line of demarcation,
-we want to minimize  $CE$
-with respect to $D_{DMZ}$.
+should have the lowest $CE^\s$
+for all possible $w, b$. So to find
+that line,
+we want to minimize  $CE^\s$
+with respect to $w, b$.
+But note that $CE^\s\geq 0$, 
+and it can be zero for an appropriately
+chosen $w$. So we need to add another 
+cost in order to get a non-zero total cost.
+Define the {\bf DMZ cost} as 
 
-Note also that $CE$ starts at zero
-and increases monotonically
-as $D_{DMZ}$ grows.
-because when $DMZ$ grows,
-more
-$x^\s$ live
-inside the DMZ and
-are penalized for this.
+\beq
+CZ=\frac{1}{2}|w|^2=
+\frac{2}{D_{DMZ}^2}
+\eeq
+Note that $CZ\rarrow \infty$
+as $D_{DMZ}\rarrow 0$,
+so $CZ$ penalizes DMZ's that are too narrow.
 
-
-$\frac{2}{D_{DMZ}^2}$
-is a monotonically
-decreasing
-and $CE$
-is a monotonically increasing
-function of $D_{DMZ}$.
-Hence if we add them together,
-their sum will 
-have a minimum as a function of $D_{DMZ}$.
-Define a Lagrangian $\call$
+Now define a Lagrangian $\call$
 to be the sum 
-of those 2 contributions.
-$\frac{2}{D_{DMZ}^2}$
-penalizes DMZ's 
-for being too narrow,
-and $CE$
-penalizes DMZ's for being too wide.
-
-
+of these 2 contributions.
 \beqa
-\call&=& \frac{2}{D_{DMZ}^2} + \sum_\s CE(x^\s, y^\s)
+\call&=& CZ + \sum_\s CE^\s
 \\
 &=&
  \frac{1}{2} |w|^2 + \sum_\s (1-y^\s Y(x^\s))_+
 \eeqa
+This particular choice of $CZ$
+is not unique, but it isn't totally arbitrary either. 
+We want it to be independent of the sample $\s$,
+and to depend on a geometrical aspect of the DMZ,
+ like its width $D_{DMZ}=2/|w|$.
+Note that $CE^\s$ behaves linearly in $|w|$ 
+when $|w|\rarrow \infty$.
+We are going to differentiate $\call$ with 
+respect to $|w|$
+to find an optimum.
+But straight lines have no optima, so we need
+$CZ$ to behave, when $|w|\rarrow \infty$,
+  as $|w|^p$ for some 
+integer $p>1$.
+
+
+
 Setting the variation $\delta \call$
 to zero, we get
 
