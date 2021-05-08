@@ -387,6 +387,27 @@ In this chapter, we will only deal
 with a single dtree,
 not an ensemble of them. 
 
+Dtree SL was invented in 1984-1986 so it
+is fairly old.
+Many in the AI
+community 
+consider dtrees old fashioned
+compared to neural nets.
+But dtrees 
+are {\bf interpretable} whereas neural nets aren't.\footnote{
+To be precise, only
+plain dtrees without Adaboost or
+ Random Forest
+are interpretable.
+Dtrees used within Adaboost 
+(see Chapter
+\ref{ch-adaboost}) or 
+Random Forests (see Chapter
+\ref{ch-rforest}) gain much
+accuracy but lose
+{\bf interpretability}.}
+Bnets are interpretable too.
+
 
 Below,
 we give the standard
@@ -798,7 +819,8 @@ determine the feature $x_j$
 incoming
 population. The feature
 $x_j$ is chosen so as to maximize
-$IG_j$. This
+$IG_j$
+(or minimize $AGini_j$). This
 process is repeated by nominating
 the end of each new branch to be
 the current root node.
@@ -806,20 +828,23 @@ In essence, what we are doing is
 performing a top-down, greedy search
 through the space of possible dtrees.
 
-The algo in the pseudo-code below is
-the essence of
-software programs called ID3 (Iterative Dichotomiser 3),
-C4.5/C5.0 (C4.5/C5.0 are successors to ID3)
-and CART (Classification and Regression Trees).
-ID3 (by Quinlan, 1986) and CART (by Breiman et al, 1984)
- are very similar,
-but were invented independently.
-As you can see, dtree SL
-is quite old.
-Many in the AI
-community 
-consider it old fashioned
-compared to neural nets.
+The pseudo-code below describes the following 
+historically important
+software programs:
+\begin{itemize}
+\item CART (Classification and Regression Trees),
+invented by Breiman et al in 1984. Uses $AGini_j$ as SAM.
+\item
+ID3 (Iterative Dichotomiser 3)
+invented by Quinlan in 1986. Uses $IG_j$ as SAM.
+C4.5/C5.0 are successors to ID3.
+\end{itemize}
+
+Thus, CART and ID were 
+invented independently around the same time.
+The main difference between them is the SAM
+being used.
+
 
 The pseudo-code below
 uses the majority function
@@ -853,7 +878,9 @@ defined in Chapter \nameref{ch-not-cons}.
 			{\tt majority}$([ c^\s:\s\in\Sigma])$\;
 		}
 		\Else{
-			$r\larrow \argmax_{j\in J}IG_j(DS)$\;
+			$r\larrow \argmax_{j\in J}IG_j(DS)$
+			\tcp{or replace $\argmax_{j\in J}IG_j$ 
+			by $\argmin_{j\in J}AGini_j$}\;
 			from $DS$, calculate $\{(r,c,x_r, N_r(c,x_r)):
 			c\in S_\rvc,x_r\in S_{\rvx_r} \}$ and 
 			store it globally\;
