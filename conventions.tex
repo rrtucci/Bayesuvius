@@ -1341,38 +1341,32 @@ willing to declare that $PO\neq PE$.
 and Sample Variances}
 Let $x[\s]=x^\s$.
 Given  i.i.d.real  variables
-$(x^\s)_{\s=0,1, \ldots, nsam-1}$,
-let
+$(x^\s)_{\s=0,1, \ldots, n-1}$,
+let\footnote{Do not confuse the sample
+index $\s$ and the standard deviation
+$\s$.}
 
 \beq
-\hat{\mu}
-=
-\frac{1}{nsam}
+\hat{\mu}=\ol{x}=
+\frac{1}{n}
 \sum_\s x^\s
+\;
 \eeq
 
 \beq
-V_{partial}(\mu)=
-\frac{1}{nsam}
+(\hatvar)_\infty=
+\frac{1}{n}
 \sum_\s (x^\s-\mu)^2
 \eeq
 
 \beq
-V_{full}=
-\frac{1}{nsam-1}
+\hatvar=
+\frac{1}{n-1}
 \sum_\s (x^\s-\hat{\mu})^2
 \eeq
 
-Statisticians call
-$V_{partial}(\mu)$ the 
-``population variance". I will 
-call it the {\bf population 
-variance for fixed $\mu$}. 
-Note that it depends 
-on prior knowledge of
-the fixed parameter $\mu$.
 Statisticians\footnote{  
-In their language,
+In the language of Statisticians,
  a ``population"
 is supposed to be
 so large that its $\mu$
@@ -1394,12 +1388,20 @@ word ``sample"
 (aka individual, observation, unit,
 record)  to mean a
 single individual
-of the population.}   call
-$V_{full}$ the 
+of the population.} call
+$(\hatvar)_\infty$ the 
+``population variance". I will 
+call it the {\bf population 
+variance for fixed $\mu$}. 
+Note that it depends 
+on 
+the fixed parameter $\mu$.
+Statisticians   call
+$\hatvar$ the 
 ``sample variance".
 Instead, 
  I will 
-call $V_{full}$ the {\bf 
+call $\hatvar$ the {\bf 
 population 
 variance for random $\mu$}. 
 
@@ -1415,66 +1417,66 @@ and
 
 \beq
 \av{\rvx^\s, \rvx^{\s'}}=
-\delta(\s, \s')V_1
+\delta(\s, \s')\s^2
 \;.
 \eeq
 Then one can show that
 
 \beqa
-E[\rvV_{partial}(\mu)]
+E[\ul{(\hatvar)_\infty}]
 &=&
-\frac{1}{nsam}
+\frac{1}{n}
 E\left[
 \sum_\s (\rvx^\s-\mu)^2
 \right]
 \\
 &=&
-V_1
+\s^2
 \eeqa
 and
 
 \beqa
-E[\rvV_{full}]
+E[\ul{\hatvar}]
 &=&
-\frac{1}{nsam-1}
+\frac{1}{n-1}
 E\left[
 \sum_\s (\rvx^\s-\hat{\ul{\mu}})^2
 \right]
 \\
 &=&
-V_1
+\s^2
 \eeqa
 This is the 
 reason
 why 
 we use
-an $nsam-1$
+an $n-1$
 instead 
-of an $nsam$
-in $V_{full}$.
+of an $n$
+in $\hatvar$.
 Because it
 makes
-$E[\rvV_{full}]=V_1$
+$E[\hatvar]=\s^2$
 so 
-$\rvV_{full}$
+$\hatvar$
 is an
 unbiased estimator of 
-the single individual variance $V_1$.
+the single individual variance $\s^2$.
 We say $\ul{\hat{\theta}}$ is an {\bf unbiased estimator} 
 of a parameter $\theta$
 if $E[\ul{\hat{\theta}}]=\theta$.
 
 The intuitive reason for
-why $\rvV_{full}$
+why $\hatvar$
 is divided
-by $nsam-1$
-instead of $nsam$
+by $n-1$
+instead of $n$
 is that whereas $\mu$
-in $V_{partial}(\mu)$
+in $(\hatvar)_\infty$
 is kept fixed
 and is ``quiet",
 the $\ul{\hat{\mu}}$
-in  $\rvV_{full}$
+in  $\hatvar$
 is a random variable,
 noisy instead of quiet.
 The fluctuations in
@@ -1484,34 +1486,481 @@ correlated with
 the fluctuations 
 of the $\rvx^\s$,
 so they decrease the
-fluctuations  in $\rvV_{full}$
+fluctuations  in $\hatvar$
 compared to those in
-$V_{partial}(\mu)$.
-By dividing by $nsam-1$
-instead of $nsam$,
+$(\hatvar)_\infty$.
+By dividing by $n-1$
+instead of $n$,
 we compensate for this
 decrease in fluctuations
 so that the ratio
 of the numerator 
 and denominator
-of  $\rvV_{full}$
-equals $V_1$,
+of  $\hatvar$
+equals $\s^2$,
 instead of something 
-{\it smaller} than $V_1$,
+{\it smaller} than $\s^2$,
 as would happen if were to divide 
-by $nsam$ instead of $nsam-1$.
+by $n$ instead of $n-1$.
 In terms of ``degrees of freedom"(DOFs),
-$V_{partial}(\mu)$ has $nsam$ DOFs
+$(\hatvar)_\infty$ has $n$ DOFs
 (namely one for each $\rvx^\s$),
-whereas $V_{full}$
-has $nsam-1$ DOFs.
+whereas $\hatvar$
+has $n-1$ DOFs.
 (the presence of $\ul{\hat{\mu}}$
 substracts one DOF).
-In both $V_{partial}(\mu)$
-and $V_{full}$,
+In both $(\hatvar)_\infty$
+and $\hatvar$,
 one divides by the number of DOFs.
 
+\section{Independence of $\hat{\mu}$
+and $\hat{\sigma^2}$}
+\label{sec-ind-mu-sig-hat}
 
+Let $x[\s]=x^\s$.
+Consider i.i.d.real  variables
+$(x^\s)_{\s=0,1, \ldots, n-1}$
+such that\footnote{Do not confuse the sample
+index $\s$ and the standard deviation
+$\s$.}
+\beq
+E[\rvx^\s]=\mu
+\eeq
+
+\beq
+\av{\rvx^\s, \rvx^{\s'}}=
+\delta(\s, \s')\s^2
+\;.
+\eeq
+
+\beq
+\hat{\mu}=\ol{x}=
+\frac{1}{n}
+\sum_\s x^\s
+\;
+\eeq
+
+\beq
+(\hatvar)_\infty=
+\frac{1}{n}
+\sum_\s (x^\s-\mu)^2
+\eeq
+
+\beq
+\hatvar=
+\frac{1}{n-1}
+\sum_\s (x^\s-\hat{\mu})^2
+\eeq
+
+
+\begin{claim}\label{claim-3Delta}
+Let
+\beq
+\rvDel^\s= \rvx^\s-\mu
+\;.
+\eeq
+For any $\s_1, \s_2, \s_3$,
+\beq
+\av{\rvDel^{\s_1}\rvDel^{\s_2}, \rvDel^{\s_3}}=0
+\;.
+\eeq
+\end{claim}
+\proof
+
+Suppose $\s_2\neq\s_3$.
+Then
+
+\beq
+\av{\rvDel^{\s_1}\rvDel^{\s_2}, \rvDel^{\s_3}}
+=\underbrace{\av{\rvDel^{\s_2}}}_{0}
+\av{\rvDel^{\s_1}, \rvDel^{\s_3}}
+=0
+\;.
+\eeq
+So assume $\s_2=\s_3=\s$
+and evaluate 
+$\av{\rvDel^{\s_1}\rvDel^{\s}, \rvDel^{\s}}$.
+
+Suppose $\s_1\neq \s$. Then
+\beq
+\av{\rvDel^{\s_1}\rvDel^{\s}, \rvDel^{\s}}=
+\underbrace{\av{\rvDel^{\s_1}}}_{0}
+\av{\rvDel^{\s}, \rvDel^{\s}}=0
+\;.
+\eeq
+So suppose $\s_1=\s$ and evaluate
+$\av{(\rvDel^{\s})^2, \rvDel^{\s}}$.
+
+\beq
+\av{(\rvDel^{\s})^2, \rvDel^{\s}}=
+\underbrace{\av{(\rvDel^\s)^3}}_0
+-\av{(\rvDel^\s)^2}
+\underbrace{\av{\rvDel^\s}}_0=0
+\;.
+\eeq
+\qed
+
+\begin{claim}
+\beq
+\av{ \widehat{\ul{\s^2}}, \hat{\rvmu}}=0
+\;.
+\eeq
+\end{claim}
+\proof
+\beqa
+\av{ \widehat{\ul{\s^2}}, \hat{\rvmu}}
+&=&\frac{1}{n(n-1)}
+\sum_{\s, \s'}\av{
+\left(\rvx^\s-\frac{1}{n}\sum_{\s''}\rvx^{\s''}\right)^2,
+\rvx^{\s'}}
+\\
+&=&\frac{1}{n(n-1)}
+\sum_{\s, \s'}\av{
+\left(\rvx^\s-\frac{1}{n}\sum_{\s''}\rvx^{\s''}\right)^2,
+\rvDel^{\s'}}
+\\
+&=&\frac{1}{n(n-1)}
+\sum_{\s, \s'}\av{
+\left(\rvDel^\s-\frac{1}{n}\sum_{\s''}\rvDel^{\s''}\right)^2,
+\rvDel^{\s'}}
+\\
+&=&0\;\;\;\; \text{by Claim \ref{claim-3Delta}}
+\;.
+\eeqa
+\qed
+
+\section{Chi-square distribution}
+This section
+is based on Ref.\cite{wiki-chi-sq}.
+
+\begin{figure}[h!]
+$$
+\xymatrix{
+\rvq&\rvz.\ar[l]
+}
+$$
+\caption{Bnet 
+used to define the Chi-square distribution.}
+\label{fig-chi-sq}
+\end{figure}
+
+Let $q\in\RR$ and
+$z.=\{z_i\}_{i=0,1, \ldots, \nu-1}$
+where $z_i\in \RR$.
+Consider the bnet of Fig.\ref{fig-chi-sq}.
+The TPMs, printed in blue,
+for that bnet, are as follows:\footnote{
+Don't confuse the $q$
+independent constant $\caln(!q)$
+with the normal probability distribution
+$\caln(x;\mu, \s^2)$.}
+
+
+
+
+\beq
+\color{blue}
+P(z_i)=\caln(z_i; \mu=0, \s^2=1)
+\;.
+\eeq
+We want
+\beq
+\rvq = \sum_{i=0}^{\nu-1} (\rvz_i)^2
+\eeq
+so $P(q|z.)$
+is a Dirac delta function:
+
+\beq
+\color{blue}
+P(q|z.)=\delta(
+q - \sum_{i=0}^{\nu-1} (z_i)^2
+)
+\;.
+\eeq
+Therefore
+
+\beqa
+P(q) &=& \prod_{i=0}^{\nu-1}\left\{\int dz_i
+\;P(z_i)
+\right\}P(q|z_.)
+\\
+&=&
+\caln(!q)q^{\frac{\nu}{2}-1}e^{-q/2}=\chi^2(q;\nu)
+\;,
+\eeqa
+where $\caln(!q)$ is a constant that does not depend
+on $q$ and is adjusted so that $\int_0^\infty dq\;P(q)=1$.
+
+\section{Student's t-distribution}
+This section
+is based on Ref.\cite{wiki-stud}.
+
+Let $x[\s]=x^\s$.
+Consider i.i.d.real  variables
+$(x^\s)_{\s=0,1, \ldots, n-1}$
+such that\footnote{Do not confuse the sample
+index $\s$ and the standard deviation
+$\s$.}
+
+\beq
+E[\rvx^\s]=\mu
+\eeq
+
+\beq
+\av{\rvx^\s, \rvx^{\s'}}=
+\delta(\s, \s')\s^2
+\;.
+\eeq
+
+\beq
+\hat{\mu}=\ol{x}=
+\frac{1}{n}
+\sum_\s x^\s
+\;
+\eeq
+
+\beq
+(\hatvar)_\infty=
+\frac{1}{n}
+\sum_\s (x^\s-\mu)^2
+\eeq
+
+\beq
+\hatvar=
+\frac{1}{n-1}
+\sum_\s (x^\s-\hat{\mu})^2
+\;.
+\eeq
+
+If we define
+
+\beq
+z =
+\frac{\hat{\mu}-\mu}{\frac{\s}{\sqrt{n}}}
+\label{eq-conv-zdef}
+\;,
+\eeq
+then $\rvz$ has a Standard Normal
+ Distribution (SND):
+
+\beq
+P(z)=\frac{1}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}=\caln(z;\mu=0, \s^2=1)
+\eeq
+But what if we allow the standard deviation $\s$
+to fluctuate in the expression
+Eq.(\ref{eq-conv-zdef}) for $z$?
+Define
+
+\beq
+t =
+\frac{\hat{\mu}-\mu}{\sqrt{\frac{\widehat{\s^2}}{n}}}
+\;.
+\label{eq-conv-tdef}
+\eeq
+Then one can show that 
+$\rvt$
+has the {\bf Student's t-distribution}
+${\rm Stud}(t;\nu=n-1)$
+given by:
+
+\beq
+P(t)=
+\caln(!t)
+(1+\frac{t^2}{\nu})^{-\frac{\nu+1}{2}}=\text{Stud}(t;\nu=n-1)
+\eeq
+
+Note that if we use the approximation
+$e^x\approx 1 +x +\calo(x^2)$,
+we can show that ${\rm Stud}(t)$
+tends to the SND
+when $n>>1$:
+
+\beqa
+P(t)&=&\caln(!t)
+(1+\frac{t^2}{\nu})^{-\frac{\nu+1}{2}}
+\\
+&\approx&
+\caln(!t)e^{-\frac{t^2}{2}\frac{\nu+1}{\nu}}
+\\
+&\approx&
+\caln(t; \mu=0, \s^2=1)
+\;.
+\eeqa
+
+\hrule
+We end this section
+by sketching the 
+derivation
+of the explicit
+form of ${\rm Stud}(t)$.
+
+Note that the $z$ definition
+Eq.(\ref{eq-conv-zdef})
+and the $t$ definition
+Eq.(\ref{eq-conv-tdef}),
+imply that
+\beq
+t= z 
+\underbrace{\sqrt{\frac{\s^2}{\widehat{\s^2}}}}_{\varrho}
+\;,
+\eeq
+In the
+expression $\rvt=\rvz\ul{\varrho}$,
+the 
+ random variables 
+$\rvz$ and $\ul{\varrho}$
+are independent
+because, as shown in Section
+\ref{sec-ind-mu-sig-hat},  
+ $\hat{\mu}$
+and $\hat{\sigma^2}$
+are independent.
+Therefore, the random variable $\rvt$
+can be defined using the bnet
+of Fig.\ref{fig-stud-bnet}.
+
+\begin{figure}[h!]
+$$
+\xymatrix{
+&\ul{\varrho}\ar[ld]
+\\
+\rvt&\rvz\ar[l]
+}
+$$
+\caption{Bnet used to define
+the Student's t-distribution.}
+\label{fig-stud-bnet}
+\end{figure}
+The TPMs, printed in blue,
+for the bnet of Fig.\ref{fig-stud-bnet},
+are as follows:
+
+\beq\color{blue}
+P(t|z, \varrho)=
+\delta(t- z\varrho)
+\;\;\;\text{(Dirac delta function)}
+\eeq
+
+\beq\color{blue}
+P(z)=\caln(z; \mu=0, \s^2=1)
+\eeq
+
+\beq\color{blue}
+P(\varrho)=\text{given by
+ Eq.(\ref{eq-stud-rho-pd}) below.}
+\eeq
+
+Note that
+\beqa
+P(\rvt=t)&=&
+P(\rvz\ul{\varrho}=t)
+\\
+&=&
+\int d\varrho\;
+P(\rvz=\frac{t}{\varrho}|\varrho)P(\varrho)
+\\
+&=&\int d\varrho\;
+\caln(\frac{t}{\varrho}; 0, 1)P(\varrho)
+\\
+&=&\int d\varrho\;
+\frac{1}{\sqrt{2\pi}}
+e^{-\frac{1}{2}(\frac{t}{\varrho})^2}P(\varrho)
+\;.
+\eeqa
+If we define $q$ by
+
+\beq
+\varrho =\sqrt{\frac{n-1}{q}}
+\;,
+\eeq
+then
+
+\beq
+q=\frac{(n-1)\hatvar}{\s^2}
+=
+\frac{1}{\s^2}
+\sum_{\s=0}^{n-1}(x^\s-\hat{\mu})^2
+\;.
+\label{eq-stud-q-def}
+\eeq
+As a consequence of
+``Cochran's Theorem" 
+(see Ref.\cite{wiki-coch-theo}), 
+$\rvq$ given
+by Eq.(\ref{eq-stud-q-def}), must have 
+a Chi-square probability
+distribution with $\nu=n-1$
+degrees of freedom:\footnote{Note 
+that this $q$
+is a quadratic form 
+$q=\vec{x}^T M \vec{x}$,
+where $\vec{x}$ is an $n$ dimensional
+column vector with components
+$x^\s$,
+and $M$ is an $n\times n$ matrix.
+Cochran's Theorem
+says 
+that the number of degrees of freedom
+of the chi-square distribution
+is the rank of the matrix $M$,
+which in this case is $n-1$.}
+
+\beq
+P(q)= \chi^2(q;\nu=n-1)
+\eeq
+
+Henceforth, let $\nu=n-1$.
+We have
+
+\beq
+q=\frac{\nu}{\varrho^2}
+\eeq
+so
+
+\beq
+dq=
+\frac{-2\nu}{\varrho^3}d\varrho
+\;.
+\eeq 
+Therefore, 
+
+
+\beqa
+P(\varrho)d\varrho
+&=&
+P(q)dq
+\\
+&=&
+\chi^2(\frac{\nu}{\varrho^2};\nu)\frac{(-2\nu)}{\varrho^3}d\varrho
+\\
+&=&
+\caln(!\varrho)
+\left(\frac{\nu}{\varrho^2}\right)
+^{\frac{\nu}{2}-1}e^{-\frac{\nu}{2\varrho^2}}
+\frac{d\varrho}{\varrho^3}
+\\
+&=&\caln(!\varrho)
+\frac{d\varrho}
+{\varrho^{\nu+1}}e^{-\frac{\nu}{2\varrho^2}}
+\;.
+\label{eq-stud-rho-pd}
+\eeqa
+Hence,  
+
+\beqa
+P(t)&=&\caln(!t)
+\int_0^\infty
+\frac{d\varrho}
+{\varrho^{\nu+1}}e^{-\frac{\nu}{2\varrho^2}}
+e^{-\frac{1}{2}(\frac{t}{\varrho})^2}
+\\
+&=&\caln(!t)
+\int_0^\infty
+\frac{d\varrho}
+{\varrho^{\nu+1}}
+e^{-\frac{1}{2}\frac{t^2+\nu}{\varrho^2}}
+\;.
+\eeqa
 
 \section{Error Bars}
 Never report measurements without error bars!!
@@ -1523,12 +1972,12 @@ and standard deviation $\sigma$:
 
 \beq
 \caln(x;\mu, \sigma)=
-\frac{1}{\sqrt{2\pi\sigma^2}}
+\frac{1}{\sqrt{2\pi}\;\sigma}
 e^{- \frac{(x-\mu)^2}{2\sigma^2}}
 \;.
 \eeq
 
-Standard Normal distribution:
+Standard Normal Distribution (SND):
 \beq
 P(z)=\caln(z;0,1)
 \eeq
@@ -1648,7 +2097,7 @@ much
 better than the Normal distribution.
 
 
-The {\bf Student's t-distribution (SD)} $P_S(t;
+The {\rm Student's t-distribution } ${\rm Stud}(t;
 \nu=n-1)$,
 depends
 on a parameter $\nu$
@@ -1661,17 +2110,17 @@ sub-population size $n$
 minus one.
 When fitting
 the data with
-SD, variable
+Stud(), variable
 $t$ replaces
 variable $z$,
-and $P_S(t; \nu=n-1)$
+and ${\rm Stud}(t; \nu=n-1)$
 replaces the Standard Normal distribution (SND) 
 $\caln(z; \mu=0, \sigma=1)$.
-SD is symmetric about
+Stud() is symmetric about
 the origin like SND,
 but its tails
 are fatter.
-When fitting the data with SD,
+When fitting the data with Stud(),
 the $z^*$
 value is replaced 
 by a $t^*$ value.
@@ -1680,15 +2129,16 @@ is replaced by
 
 
 \beq
-C=\int_{-t^*}^{t^*} dt\;P_S(t) = 
+C=\int_{-t^*}^{t^*} dt\;{\rm Stud}(t) = 
 \Phi_S(t^*)-\Phi_S(-t^*)
 =
 2\left(\Phi_S(t^*)-\frac{1}{2}\right)
 \label{eq-conf-level1-stu}
 \;,
 \eeq
-where quantities subscripted by $S$
-are for the SD,
+where $\Phi_S()$
+is the cummulative
+distribution for  Stud().
 Also, Eq.(\ref{eq-err-bars})
 is replaced  by
 
