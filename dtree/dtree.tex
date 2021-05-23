@@ -43,9 +43,11 @@ The {\bf non-leaf nodes} pose
 {\bf questions}. In general,
 the {\bf answers}\footnote
 {The {\bf question-answer pairs}
-in dtrees are often
-also referred to as 
-{\bf attribute-value pairs}.}
+in dtrees are
+also called
+{\bf attribute-value pairs}.
+Attributes are also
+called {\bf features}.}
  to those
 questions can
 be multiple choices with
@@ -826,6 +828,9 @@ $IG_j$
 process is repeated by nominating
 the end of each new branch to be
 the current root node.
+Features can appear as a node 
+more than once, so the order in 
+which nodes are split does not matter.
 In essence, what we are doing is
 performing a top-down, greedy search
 through the space of possible dtrees.
@@ -859,7 +864,6 @@ defined in Chapter \nameref{ch-conventions}.
     \SetKwInOut{KwOut}{Output}
     \caption{Pseudo-code for learning a dtree from a dataset}
 	\KwIn{dataset $DS=\{(\s, x^\s, c^\s): \s\in \Sigma\}$,\\ 
-	set of classification classes  $S_\rvc$,\\
 	set of currently available node indices 
 	$J$, where $J\subset J_0$}
 	\KwOut{tree $T$,\\
@@ -867,10 +871,12 @@ defined in Chapter \nameref{ch-conventions}.
 			r\in J_0, c\in S_\rvc,
 			x_r\in S_{\rvx_r}\}$ stored globally}
 	\;
+	From $DS$, calculate $J_0$, $S_\rvc$, $S_{\rvx_i}$ for each $i$ \\
+	$c^\s$ is called the target feature/attribute.\\
 	$J\larrow J_0$\;
 	\SetKwFunction{FMain}{learn\_dtree}
 	\SetKwProg{Fn}{Function}{:}{}
-	\Fn{\FMain{$DS,S_\rvc, J$}}{
+	\Fn{\FMain{$DS, J$}}{
 		$\Sigma\larrow$ set of all $\s$ in $DS$\; 
 		\If{$\{c^\s:\s\in\Sigma\}=\{c\}$ }{
 			$T\larrow$ one node tree with leaf node label= $c$\;
@@ -886,22 +892,24 @@ defined in Chapter \nameref{ch-conventions}.
 			from $DS$, calculate $\{(r,c,x_r, N_r(c,x_r)):
 			c\in S_\rvc,x_r\in S_{\rvx_r} \}$ and 
 			store it globally\;
-		}
-		$T\larrow$ a new decision tree with root node $\rvx_r$\;
 		\For{$v\in S_{\rvx_r}$}{
-			add a branch to tree $T$ below $\rvx_r$ with label 
+			\tcc{Notice that $J$ is the same every time repeat this loop,
+			so order in which $v\in S_{\rvx_r}$ are called does not matter.
+			Furthermore, this means that multiple tree nodes may be labeled by same feature.}
+			On current tree $T$, add  a branch below $\rvx_r$ with label 
 			``$\rvx_r = v$"\;
-			$DS_1\larrow$ subset of $DS$ with $\rvx_r = v$\;
-			\If{$DS_1=\emptyset$}{
+			$DS|_{\rvx_r=v}\larrow$ subset of $DS$ with $\rvx_r = v$\;
+			\If{$DS|_{\rvx_r=v}=\emptyset$}{
 				below the new branch add a \\leaf node labeled = 
 				{\tt majority}$([c^\s:\s\in\Sigma])$\;
 			}
 			\Else{
 				below the new branch add \\
 				subtree =$ {\tt learn\_dtree}
-				(DS_1, S_\rvx, J-\{j\})$\;
+				(DS|_{\rvx_r=v}, J-\{r\})$\;
 			}			
     	}
+		}
 		\KwRet $T$\;
 	}
 \end{algorithm}
