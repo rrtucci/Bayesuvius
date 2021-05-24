@@ -1,2 +1,239 @@
 \chapter{XGBoost: COMING SOON}
 \label{ch-xgboost}
+
+This paper is based on Ref.\cite{xgboost-2016}.
+
+XGBoost stands for eXtreme Gradient Boosting. 
+
+Boosting (see this chapter on XGBoost
+and
+Chapter \ref{ch-adaboost} on AdaBoost)
+and bagging
+(see Chapter \ref{ch-rforest} on Random Forest)
+are two methods
+of building a classifier function
+from an ensemble
+of classifier functions.
+These two methods are most commonly
+applied to dtrees: Boosting for an ensemble of
+small trees, and Bagging for a random
+forest (which
+is an ensemble
+of dtrees that are usually much more
+complicated than small trees).
+
+$\s\in \Sigma$
+
+$x^\s\in S_\rvx$
+
+
+$\ell\in S_\rvll=\{0,1, \ldots, n\ell-1\}$ leaf index 
+
+
+$w_{\ell}\in \RR$
+
+$f_\ell:S_\rvx\rarrow \RR$
+
+\beq
+\calc
+=\sum_\s d^2(\haty^\s_\ell
+,y^\s)
++
+\underbrace{
+\sum_{\ell=0}^{n\ell-1}
+\left[ 
+\gamma+
+\frac{\lam}{2}w_{\ell}^2
+\right]
+}_{\Omega}
+\eeq
+
+$d^2(x,y)=(x-y)^2$
+for $x,y\in \RR$.
+
+\beq
+\Sigma_\ell=
+\{
+\s\in\Sigma : \ell(x^\s)=\ell\}
+\eeq
+
+\beq
+f_\ell(x^\s)= w_\ell\indi(\s\in \Sigma_\ell)
+\eeq
+
+
+\beqa
+\haty^\s_0&=& f_0(x^\s)=0
+\\
+\haty^\s_1&=&f_1(x^\s)
+\\
+\haty^\s_2&=&f_1(x^\s)+f_2(x^\s)
+\\
+\vdots
+\\
+\haty^\s_\ell&=&
+\sum_{\ell'\leq \ell}f_{\ell'}(x^\s)
+=
+\haty^\s_{\ell-1} + f_\ell(x^\s)
+\eeqa
+
+\beqa
+d^2(\haty^\s_\ell, y^\s)
+&=&
+d^2(\haty^\s_{\ell-1}+ 
+\underbrace{f_\ell(x^\s)}_\delta, y^\s)
+\\
+&\approx&
+d^2(\haty^\s_{\ell-1}, y^\s)
++ a^\s_\ell \delta
++ \frac{1}{2}b^\s_\ell \delta^2
+\\
+&=&
+d^2(\haty^\s_{\ell-1}, y^\s)
++ 
+\left[a^\s_\ell w_\ell
++ \frac{1}{2}b^\s_\ell w_\ell^2 
+\right]\indi(\s\in \Sigma_\ell)
+\eeqa
+
+\beq
+a^\s_\ell=
+[\partial_{y}d^2(y, y^\s)]_{y=\haty^\s_{\ell-1}}
+\eeq
+
+\beq
+b^\s_\ell=
+[\partial^2_{y}d^2(y, y^\s)]_{y=\haty^\s_{\ell-1}}
+\eeq
+
+For $d^2(y,y^\s)=(y-y^\s)^2$, 
+
+\beq
+a^\s_\ell=2\haty^\s_{\ell-1}
+-2 y^\s
+\eeq
+
+\beq
+b^\s_\ell=2
+\eeq
+
+
+\beq
+\sum_\s= \sum_{\ell}\sum_{\s\in \Sigma_\ell}
+\eeq
+
+\beq
+A_\ell=\sum_{\s\in \Sigma_\ell} a^\s_\ell
+\eeq
+
+\beq
+B_\ell=\sum_{\s\in \Sigma_\ell} b^\s_\ell
+\eeq
+
+
+\beqa
+\calc
+&=&
+\underbrace{\sum_\s d^2(\haty^\s_{\ell-1}, y^\s)}_{\calk}
++
+\sum_\ell
+\left[
+A_\ell w_\ell + \frac{1}{2}B_\ell w_\ell^2
+\right]
++
+\sum_\ell
+\left[
+\gamma +\frac{\lam}{2}w^2_\ell
+\right]
+\\
+&=&
+\sum_\ell
+\left[\gamma+
+A_\ell w_\ell + 
+\frac{1}{2}(\lam+B_\ell) w_\ell^2
+\right]
+\;\;\;\text{(absorbed $\calk$ into $\gamma$)}
+\eeqa
+
+\beq
+0=
+\delta \calc
+=
+\sum_\ell
+\delta w_\ell
+\left[
+A_\ell + (\lam+B_\ell)w_\ell
+\right]
+\eeq
+
+\beq
+w^*_\ell= \frac{-A_\ell}{\lam + B_\ell}
+\eeq
+
+\beq
+\calc^*
+=
+\sum_\ell
+\underbrace{\left[
+\gamma-
+\frac{A_\ell^2}{2(\lam + B_\ell)}
+\right]}_
+{\calc^*_\ell}
+\eeq
+
+Suppose 
+leaf $\ell_p$ splits into leaves $\ell_1$
+and $\ell_2$. Then
+
+\beq
+\Sigma_{\ell_p}=\Sigma_{\ell_1}\cup\Sigma_{\ell_2},
+\;\;\;
+\Sigma_{\ell_1}\cap\Sigma_{\ell_2}=\emptyset
+\;
+\eeq
+so
+
+\beq
+A_{\ell_p}=A_{\ell_1} + A_{\ell_2}
+\eeq
+and
+
+\beq
+B_{\ell_p}=B_{\ell_1} + B_{\ell_2}
+\;.
+\eeq
+Hence, 
+
+\beq 
+\calc^*_{\ell_j}=
+\gamma-
+\frac{A_{\ell_j}^2}{2(\lam + B_{\ell_j})}
+\;\;\;\text{for $j=1,2$}
+\eeq
+
+\beq 
+\calc^*_{\ell_p}=
+\gamma-
+\frac{(A_{\ell_1}+A_{\ell_2})^2}
+{2(\lam + B_{\ell_1}+ B_{\ell_2})}
+\eeq
+
+\beqa
+GainXGB
+&=&
+\calc^*_{\ell_1} + \calc^*_{\ell_2}-
+\calc^*_{\ell_p}
+\eeqa
+-
+\beq
+GainXGB=
+\underbrace{[GainXGB]_{\gamma=0}}_{\text{predictiveness}}
+-
+\underbrace{\gamma}_{\text{simplicity}}
+\eeq
+
+Start with $\gamma$ such that $GainXGB>0$
+
+
+
+
