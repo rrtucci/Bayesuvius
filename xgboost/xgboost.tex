@@ -2,7 +2,7 @@
 \label{ch-xgboost}
 
 This paper is based on the original
-paper Ref.\cite{xgboost-2016}
+XGBoost paper Ref.\cite{xgboost-2016}
 and the excellent StatQuest videos 
 (highly recommended) \cite{statquest-xgb}.
 
@@ -58,8 +58,9 @@ a cost function
 for XGBoost,
 we begin by defining
 2 types of ``divergences"
-and to
-calculate their first and second derivatives:
+and
+calculating the first and second derivatives
+of those divergences:
 
 \begin{itemize}
 \item
@@ -195,7 +196,7 @@ $\smoid'(l)=\smoid(l)[1-\smoid(l)]$ so
 for single tree}
 Let
 
-$\s\in \Sigma$ be individual in a population $\Sigma$
+$\s\in \Sigma$ be an individual in a population $\Sigma$
 
 $x^\s\in S_\rvx$ be a feature vector 
 $x^\s=(x^\s_i)_{i=0,1, \ldots, nf-1}$
@@ -210,7 +211,7 @@ a tree $t$
 
 $w_t^{\ell}\in \RR$
 
-$f_\ell:S_\rvx\rarrow \RR$
+$f_t:S_\rvx\rarrow \RR$
 
 $\ell_t:\Sigma\rarrow \call_t$, $\ell_t(\Sigma)=\call_t$.
 
@@ -577,11 +578,11 @@ highest level branches have
 positive gain.
 This may reduce a tree
 to a single node
-or even rule out the whole
+or even rule out the entire
 tree.
 
 $\lam$ measures {\bf level of insensitivity}
-to observations, $\gamma$ measures
+to observations, and $\gamma$ measures
 {\bf level of tree simplicity}.
 
 
@@ -607,9 +608,9 @@ use $[X_{j-1}, X_j]$ for $j=0,1,2,3$.
 With 2 point quantile bins,
 use $[X_{j-1}, X_j]$ for $j=0,1$.
 
-Use the right edge $X_j$ 
-of each bin in the  
- node question $x^\s<X_j?$,
+Use the right edge 
+of each bin as the $X_j$ in the question 
+ $x^\s<X_j?$,
 and choose the question which
 yields the highest gain.
 
@@ -636,21 +637,12 @@ between 0 and 1.
 Define
 
 \beq
-f_t(x^\s)=(\eta)^t
-\underbrace{F_t(x^\s)}
-_{=w^{\ell_t(\s)}_t}
+W^{\ell_t(\s)}_t
+=
+(\eta)^t w^{\ell_t(\s)}
 \eeq
 where $\eta\in [0,1]$ is called 
 the {\bf learning rate}.
-If we expand 
-the same cost function $\calc_t$
-defined previously
-(i.e., Eq.\ref{eq-xgb-cost-fun}))
-in powers of $F_t(x^\s)=w^{\ell_t(\s)}_t$
-instead of 
-powers of$f_t(x^\s)$
-like we did before, we get
-the following.
 
 For the case of Regression, we get:
 
@@ -658,10 +650,7 @@ For the case of Regression, we get:
 f(x^\s)
 &=&
 \sum_{t=0}^{nt-1}
- f_t(x^\s)
-\\
-&=&\sum_t (\eta)^t
-w^{\ell_t(\s)}_t 
+ W_t(x^\s) 
 \\
 &=&
 \sum_t (\eta)^t
