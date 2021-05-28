@@ -285,9 +285,9 @@ For $a<b$, $x\in [a,b]$
 \frac{1}{b-a}
 \eeq
 
-\section{Sigmoid and logit functions}
-
-The sigmoid function smoid:$\RR\rarrow [0,1]$
+\section{Sigmoid and log-odds functions}
+\label{sec-smoid}
+The {\bf sigmoid or logistic function} smoid:$\RR\rarrow [0,1]$
 is defined by
 \beq
 \smoid(x)=
@@ -296,24 +296,58 @@ is defined by
 $\smoid()$ is monotonically
 increasing with $\smoid(-\infty)=0$ and $\smoid(+\infty)=1$.
 
-The logit or log-odds function 
-logit:$[0,1]\rarrow \RR$ is defined by
+The {\bf logit or log-odds function} 
+lodds:$[0,1]\rarrow \RR$ is defined by
 
 \beq
-{\rm logit}(p)=\ln\frac{p}{1-p}
+{\rm lodds}(p)=\ln\frac{p}{1-p}
 \eeq
 
-logit() is the inverse of $\smoid()$ and vice-versa.
+lodds() is the inverse of $\smoid()$ and vice-versa.
 For $p\in[0,1]$ and $x\in \RR$,
 \beq
-{\rm logit}[\smoid(x)]=x
+\lodds[\smoid(x)]=x
 \eeq
 
 \beq
-\smoid [{\rm logit}(p)] =p
+\smoid [\lodds(p)] =p
 \eeq
 
+\begin{claim}
+\beq 
+\smoid'(x)=\smoid(x)[1-\smoid(x)]
+\eeq
 
+\beq 
+\smoid''(x)=\smoid'(x)[1-2\smoid(x)]
+\eeq
+\end{claim}
+\proof
+
+In this proof, we will
+abbreviate $\smoid(x)$ by $s(x)$.
+\beq
+1-s(x)=1 -\frac{1}{1+e^{-x}}=
+\frac{e^{-x}}{1+e^{-x}}
+\eeq
+
+\beq
+s'(x)= \frac{e^{-x}}{(1+e^{-x})^2}
+=s(x)[1-s(x)]
+\eeq
+
+\beqa
+s''(x)&=&s'(x)[1-s(x)]
++
+s(x)(-1)s'(x)
+\\
+&=&
+s'(x)[1-2s(x)]
+\\
+&=&
+s(x)[1-s(x)][1-2s(x)]
+\eeqa
+\qed
 
 \section{Expected Value and Variance}
 
@@ -1186,7 +1220,8 @@ $Y\rarrow \rvy$, $Z\rarrow \rvx_2$.
 
 
 
-\section{Entropy, Kullback-Liebler divergence}
+\section{Entropy,
+ Kullback-Liebler divergence, Cross-Entropy}
 
 For probabilty distributions $p(x), q(x)$ of $x\in S_\rvx$
 \begin{itemize}
@@ -1205,7 +1240,7 @@ D_{KL}(p\parallel q)=\sum_{x} p(x)\ln \frac{p(x)}{q(x)}\geq 0
 \item 
 Cross entropy:
 \beqa
-CE(p\rarrow q) &=& -\sum_x p(x)\ln q(x)\\
+CE(p\parallel q) &=& -\sum_x p(x)\ln q(x)\\
 &=& H(p) + D_{KL}(p\parallel q)
 \eeqa
 \end{itemize}
