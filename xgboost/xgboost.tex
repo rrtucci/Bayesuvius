@@ -632,30 +632,36 @@ Here we restore $\eta$
 to an arbitrary value 
 between 0 and 1.
 
-
-
-Define
+Instead of using 
 
 \beq
-W^{\ell_t(\s)}_t
-=
-(\eta)^t w^{\ell_t(\s)}
+f(x^\s)=\sum_{t=0}^{nt-1} f_t(x^\s)
+\;,
+\eeq
+we will use 
+
+\beq
+f(x^\s)=\sum_{t=0}^{nt-1} 
+ (\eta)^t f_t(x^\s)
+\;,
 \eeq
 where $\eta\in [0,1]$ is called 
 the {\bf learning rate}.
+This has the effect
+of compensating for the $f_t$'s
+with $t>nt-1$ that would
+ have been included
+had we used an infinite series.
 
 For the case of Regression, we get:
 
 \beqa
 f(x^\s)
 &=&
-\sum_{t=0}^{nt-1}
- W_t(x^\s) 
-\\
-&=&
 \sum_t (\eta)^t
 \frac{- A_t^{\ell_t(\s)}}
 {B_t^{\ell_t(\s)} + \lam}
+\;.
 \eeqa
 
 For the case of Binary Classification,
@@ -669,6 +675,7 @@ f(x^\s)=\sum_{t=0}^{nt-1}(\eta)^t
 {B_t^{\ell_t(\s)} + \lam}\right)
 }_{\text{lodds(probability)}}
 }_{\text{probability}}
+\;.
 \eeq
 
 \section{Bnet for XGBoost}
