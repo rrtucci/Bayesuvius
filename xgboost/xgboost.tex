@@ -46,11 +46,11 @@ from an ensemble
 of classifier functions.
 These two methods are most commonly
 applied to dtrees: Boosting for an ensemble of
-small trees, and Bagging for a random
+small dtrees, and Bagging for a random
 forest (which
 is an ensemble
 of dtrees that are usually much more
-complicated than small trees).
+complicated than small dtrees).
 
 \section{Divergences}
 To set up
@@ -204,10 +204,10 @@ $x^\s=(x^\s_i)_{i=0,1, \ldots, nf-1}$
 
 $t\in\{0,1, \ldots, nt-1\}$ be the tree index
 
-$\call_t$ be set of leafs of
-a tree $t$
+$\call_t$ be the set of leafs of
+tree $t$
 
-
+$\ell\in \call_t$ be a leaf in tree $t$
 
 $w_t^{\ell}\in \RR$
 
@@ -226,7 +226,7 @@ Define the function $f_t$ by
 f_t(x^\s)= \sum_{\ell\in\call_t}
 w_t^\ell\indi(\s\in \Sigma_t^\ell)
 =
-w_t^{\ell_t\s)}
+w_t^{\ell_t(\s)}
 \;.
 \eeq
 $f_t(x^\s)$ gives 
@@ -264,9 +264,9 @@ defined by
 \haty^\s_0&=& f_0(x^\s)=\text{arbitrary constant, 
 XGBoost default for this is 0.5}
 \\
-\haty^\s_1&=&f_1(x^\s)
+\haty^\s_1&=&f_0(x^\s)+f_1(x^\s)
 \\
-\haty^\s_2&=&f_1(x^\s)+f_2(x^\s)
+\haty^\s_2&=&f_0(x^\s)+f_1(x^\s)+f_2(x^\s)
 \\
 \vdots
 \\
@@ -280,19 +280,20 @@ In the cost function $\calc_t$,
 we approximate the divergence $D()$
 by a second order Taylor approximation:
 \beqa
-D(\haty^\s_t, y^\s)
+D(y^\s,\haty^\s_t)
 &=&
-D(\haty^\s_{t-1}+
-\underbrace{f_t(x^\s)}_\delta, y^\s)
+D(y^\s,\haty^\s_{t-1}+
+\underbrace{f_t(x^\s)}_\delta)
 \\
 &\approx&
-D(\haty^\s_{t-1}, y^\s)
+D(y^\s,\haty^\s_{t-1})
 + a^\s_t \delta
 + \frac{1}{2}b^\s_t \delta^2
 \\
 &=&
-D(\haty^\s_{t-1}, y^\s)
+D(y^\s,\haty^\s_{t-1})
 +
+\sum_{\ell\in \call_t}
 \left[a^\s_t w_t^\ell
 + \frac{1}{2}b^\s_t (w_t^\ell)^2
 \right]\indi(\s\in \Sigma_t^\ell)
@@ -302,13 +303,13 @@ where
 
 \beq
 a^\s_t=
-[\partial_{\haty}D(\haty, y^\s)]_{\haty=\haty^\s_{t-1}}
+[\partial_{\haty}D(y^\s,\haty)]_{\haty=\haty^\s_{t-1}}
 \;,
 \eeq
 
 \beq
 b^\s_t=
-[\partial^2_{\haty}D(\haty, y^\s)]_{\haty=\haty^\s_{t-1}}
+[\partial^2_{\haty}D(y^\s,\haty)]_{\haty=\haty^\s_{t-1}}
 \;.
 \eeq
 $a^\s_t$ is called $g$ for gradient
@@ -760,13 +761,14 @@ $\ell_0$ describes a single node
 for all $\s\in\Sigma$.
 For $t\geq 1$, 
 \beq\color{blue}
-P(\ell_t|
-[r^\s_t]_\s)=
+P(\ell_t|\vec{y},
+[\haty^\s_{t-1}]_\s)=
 \begin{array}{l}
-\text{build tree $\ell_t$ using residuals
-$r^\s_{t}=y^\s-\haty^\s_{t-1}$.}
+\text{build tree $\ell_t$ using 
+$y^\s$ and $\haty^\s_{t-1}$
+for all $\s\in \Sigma$.}
 \\
-\text{$\gamma$ is used here.}
+\text{$\lam$ and $\gamma$ is used here.}
 \end{array}
 \eeq
 
@@ -811,7 +813,7 @@ P(f_t\cond [A^\ell_t]_{\ell\in\call_t},
 [B^\ell_t]_{\ell\in\call_t},\ell_t, \vec{x})=
 \prod_{\s\in\Sigma}
 \indi\left(
-f_t(x^\s)= (\eta)^t
+f_t(x^\s)= 
 \left\{
 \begin{array}{ll}
 1(&\text{if reg.}
@@ -828,7 +830,7 @@ f_t(x^\s)= (\eta)^t
 P(f\cond [f_t]_t, \vec{x})=
 \prod_{\s\in\Sigma}
 \indi(\;\;\;
-f(x^\s)=\sum_t f_t(x^\s)
+f(x^\s)=\sum_t (\eta)^t f_t(x^\s)
 \;\;\;)
 \eeq
 
