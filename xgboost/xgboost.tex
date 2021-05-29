@@ -637,6 +637,7 @@ Instead of using
 \beq
 f(x^\s)=\sum_{t=0}^{nt-1} f_t(x^\s)
 \;,
+\label{eq-xgb-approx-wo-eta}
 \eeq
 we will use 
 
@@ -644,6 +645,7 @@ we will use
 f(x^\s)=\sum_{t=0}^{nt-1} 
  (\eta)^t f_t(x^\s)
 \;,
+\label{eq-xgb-approx-eta}
 \eeq
 where $\eta\in [0,1]$ is called 
 the {\bf learning rate}.
@@ -652,15 +654,24 @@ of compensating for the $f_t$'s
 with $t>nt-1$ that would
  have been included
 had we used an infinite series.
+Also, think of Eq.(\ref{eq-xgb-approx-wo-eta})
+as
+an approximation  (a truncated Taylor
+expansion in powers
+of $\Delta x$) of a function $f(x+\Delta x)$,
+and think of Eq.(\ref{eq-xgb-approx-eta})
+as an analogous approximation of the function 
+$f(x+\eta \Delta x)$.
 
 For the case of Regression, we get:
 
 \beqa
 f(x^\s)
 &=&
-\sum_t (\eta)^t
+\sum_t (\eta)^t\left(
 \frac{- A_t^{\ell_t(\s)}}
 {B_t^{\ell_t(\s)} + \lam}
+\right)
 \;.
 \eeqa
 
