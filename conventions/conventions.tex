@@ -268,6 +268,8 @@ P(\vecx)&\approx& [\prod_x P(x)^{P(x)}]^{nsam(\vecx)} \\
 
 
 \section{Normal Distribution}
+
+
 For $x, \mu, \sigma\in \RR$, 
 $\sigma >0$, we define the Normal Distribution
 (see Fig.\ref{fig-norm-dist}) by
@@ -280,17 +282,39 @@ e^{-\frac{1}{2}\left(
 \;.
 \eeq
 
-Some simple algebra will
-convince you that
+\begin{claim}
+If 
 
 \beq
-\caln(x; \mu_1, \s^2_1) + 
-\caln(x; \mu_2, \s^2_2)=
-\caln(!x)
-\caln(x;\mu_1 + \mu_2, \s^2_1 + \s^2_2)
-\;,
+\rvx_1\sim \caln(x_1; \mu_1, \s^2_1)
 \eeq
+and
 
+\beq
+\rvx_2\sim \caln(x_2; \mu_2, \s^2_2)
+\eeq
+then
+\beq 
+\rvx=\rvx_1 +\rvx_2 \sim \caln(x;\mu_1 + \mu_2, \s^2_1 + \s^2_2)
+\;.
+\eeq
+\end{claim}
+\proof
+
+\beqa
+P(\rvx=x)&=&\caln(!x)
+\int_{-\infty}^{+\infty}dx_2\;
+P(\rvx_1 + \rvx_2 = x|\rvx_2=x_2)P(x_2)
+\\
+&=&\caln(!x)
+\int_{-\infty}^{+\infty}dx_2\;
+\caln(x-x_2;\mu_1, \s^2_1)
+\caln(x_2;\mu_2, \s^2_2)
+\\
+&=&
+\caln(x;\mu_1 +\mu_2; \s^2_1+\s^2_2)
+\eeqa
+\qed
 
 \begin{figure}[h!]
 \centering
