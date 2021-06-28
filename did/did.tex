@@ -206,11 +206,11 @@ using the formalism of PO theory.
 We will speak of a treatment 
 outcome
 $\rvy^\s_{t, g^\s}
-(\rvd^\s, \rvx^\s)$
+(\rvtd^\s, \rvx^\s)$
 for individual $\s$
 that depends, not 
 just on the treatment dose 
-$d^\s\in \bool$
+$\td^\s\in \bool$
 and the confounder state $\rvx^\s$,
 but also
 on a group parameter (i.e., which population
@@ -219,9 +219,9 @@ $g^\s\in \bool$
 and on a time parameter $t\in\{t_0, t_1\}$ 
 (note $t$ is independent of $\s$).
 Actually,
-we will assume $g^\s=d^\s$,
+we will assume $g^\s=\td^\s$,
 so we will just speak of
-$\rvy^\s_t(\rvd^\s, \rvx^\s)$
+$\rvy^\s_t(\rvtd^\s, \rvx^\s)$
 with no explicit $g^\s$
 dependence. As usual for PO theory,
 we will consider
@@ -229,9 +229,9 @@ expected values of $y^\s_t$:
 
 
 \beq
-E_{\s|\td, x}[y^\s_t(d)]=
- E_{y_t|\td, x}[\rvy_t(d)]=
-\caly_{d|\td, x}(t)
+E_{\s|d, x}[y^\s_t(\td)]=
+ E_{y_t|d, x}[\rvy_t(\td)]=
+\caly_{\td|d, x}(t)
 \eeq
 
 To calculate these
@@ -314,7 +314,7 @@ P((\td^\s)')=\delta(
 \caption{
 Four different time-dependent
 expected 
-values $\caly_{d|\td}(t)$ of $y^\s_t$
+values $\caly_{\td|d}(t)$ of $y^\s_t$
 for bnet $G_{t, im}$
 The 4 magenta  stars
 represents the 4 DID measurements.
@@ -326,8 +326,8 @@ Henceforth,
 for simplicity, we will
 omit the confounder state $x$
 from the indices of $\caly$; i.e., we will write
-$\caly_{d|\td}(t)$
-instead of $\caly_{d|\td, x}(t)$.
+$\caly_{\td|d}(t)$
+instead of $\caly_{\td|d, x}(t)$.
 The fact that we will
 not explicitly
 mention $x$ does not
@@ -348,16 +348,16 @@ and, later on,  one must average
 over all the possible $x$ strata.
 
 
-Let $\calm\caly_{d|\td}(t)$ denote the
-{\bf measured $\caly_{d|\td}(t)$}.
+Let $\calm\caly_{\td|d}(t)$ denote the
+{\bf measured $\caly_{\td|d}(t)$}.
 We define this quantity as
 
 \beq
-\calm\caly_{d|\td}(t)
+\calm\caly_{\td|d}(t)
 =
-\caly_{d|\td}(t)
-\left[ \indi(d=0, t=t_0)+
-\indi(d=\td, t=t_1)\right]
+\caly_{\td|d}(t)
+\left[ \indi(\td=0, t=t_0)+
+\indi(\td=d, t=t_1)\right]
 \eeq
 Now we claim that the DID 
 $\delta$ calculated in the 
@@ -367,14 +367,14 @@ can be expressed in PO formalism as follows:
 
 \beq
 \delta=
-\Delta_\td\Delta_t \sum_d 
-\calm\caly_{d|\td}(t)
+\Delta_d\Delta_t \sum_\td 
+\calm\caly_{\td|d}(t)
 \;.
 \eeq
 Fig.\ref{fig-dif-dif-bc}
 depicts the
 four functions
-$\caly_{d|\td}(t)$
+$\caly_{\td|d}(t)$
 for $t$ in the interval  $[t_0, t_1]$
 and for $d,\td\in \bool$.
 The $\caly$ coordinates
@@ -387,7 +387,7 @@ the {\bf parallel trends} (PT)
 by 
 
 \beq
-PT=\Delta_\td\Delta_t\caly_{0|\td}(t)
+PT=\Delta_d\Delta_t\caly_{0|d}(t)
 \;.
 \eeq
 We will say the 
@@ -404,27 +404,27 @@ and PT.
 
 \begin{align}
 \delta&=
-\Delta_\td\Delta_t \sum_d 
-\calm\caly_{d|\td}(t)
+\Delta_d\Delta_t \sum_\td 
+\calm\caly_{\td|d}(t)
 \\
 &=
-\sum_d 
+\sum_\td 
 \left[
-\Delta_t \calm\caly_{d|1}(t)
--\Delta_t \calm\caly_{d|0}(t)
+\Delta_t \calm\caly_{\td|1}(t)
+-\Delta_t \calm\caly_{\td|0}(t)
 \right]
 \\
 &=
-\sum_d 
+\sum_\td 
 \left[
-\calm\caly_{d|1}(t_1)
+\calm\caly_{\td|1}(t_1)
 -
-\calm\caly_{d|1}(t_0)
+\calm\caly_{\td|1}(t_0)
 \right]
--\sum_d\left[
-\Delta_t \calm\caly_{d|0}(t_1)
+-\sum_\td\left[
+\Delta_t \calm\caly_{\td|0}(t_1)
 -
-\Delta_t \calm\caly_{d|0}(t_0)
+\Delta_t \calm\caly_{\td|0}(t_0)
 \right]
 \\
 &=
@@ -462,7 +462,7 @@ ATT(t_1)
 &=
 ATT(t_1)
 +
-\underbrace{\Delta_\td\Delta_t\caly_{0|\td}(t)}_
+\underbrace{\Delta_d\Delta_t\caly_{0|d}(t)}_
 {\text{ zero if PTA holds}}
 \end{align}
 
@@ -504,9 +504,9 @@ y^\s_t = [b_0 + m_0 t](1-\td^\s)
 Note that Eq.(\ref{eq-did-lr})
  yields a straight line
 in the $y^\s_t-t$ plane
-for $d^\s=0$,
+for $\td^\s=0$,
 and another 
-straight line for $d^\s=1$.
+straight line for $\td^\s=1$.
 We are
 using the
 standard symbols
@@ -519,20 +519,23 @@ Taking the expected value
 of Eq.(\ref{eq-did-lr}), we get
 
 \beq
-\caly_{d|\td}(t) = 
+\caly_{\td|d}(t) = 
 [b_0 + m_0 t](1-\td)
 +  [b_1 + m_1 t]\td
 \;.
 \eeq  
-with $d=0$ for $t=t_0$
-and $d=\td$ for $t=t_1$.
+with $\td=0$ for $t=t_0$
+and $\td=d$ for $t=t_1$.
 
 Let $\Delta t=t_1-t_0$. Since
-$\Delta_t t=\Delta t$ and $\Delta_d d=1$, one gets
+$\Delta_t t=\Delta t$ and 
+$\Delta_\td \td=1$, one gets
 
 \beq
-\delta=\Delta_d\Delta_t \calm\caly_{d|\td}(t)=
-\Delta_d\Delta_t y^\s_t=(m_1-m_0)\Delta t
+\delta=\Delta_\td\Delta_t 
+\calm\caly_{\td|d}(t)=
+\Delta_\td\Delta_t y^\s_t=
+(m_1-m_0)\Delta t
 \;.
 \eeq
 
@@ -566,7 +569,7 @@ Point $C$ is a counterfactual point.
 \rowcolor[HTML]{ECF4FF} 
  & $t=t_0$ & $t=t_1$ \\ 
 \hline
-$\td=1$ \cellcolor[HTML]{ECF4FF}& $\caly(S_1)=\caly_{0|1}(t_0)$ & $\caly(F_1)=\caly_{1|1}(t_1)$ \\ 
+$\td=1$ \cellcolor[HTML]{ECF4FF}& $\caly(S_1)=\caly_{1|0}(t_0)$ & $\caly(F_1)=\caly_{1|1}(t_1)$ \\ 
 \hline 
 $\td=0$\cellcolor[HTML]{ECF4FF} & $\caly(S_0)=\caly_{0|0}(t_0)$ & $\caly(F_0)=\caly_{0|0}(t_1)$ \\ 
 \hline 
@@ -600,7 +603,7 @@ are given by Eqs.\ref{eq-c-i-pts}.
 \begin{subequations}
 \label{eq-c-i-pts}
 \beq
-\caly(C)= \caly_{0|1}(t_1)
+\caly(C)= \caly_{1|0}(t_1)
 \eeq
 
 \beq
