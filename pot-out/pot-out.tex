@@ -461,8 +461,8 @@ P_{\rvx}(x^\s)
 \eeq
 
 \beq
-P_{\rho\rvd}(d)=\sum_x P_{\rvd|\rvx}
-(d|x)P_\rvx(x)
+P_{\rho\rvd}(\td)=\sum_x P_{\rvd|\rvx}
+(\td|x)P_\rvx(x)
 \eeq
 
 \beq\color{blue}
@@ -492,32 +492,32 @@ in terms of the TPMs of
 bnet $G_{do+}$:
 
 \beq
-\caly_{|\td,x}=E_{\s|\td,x}[\rvy^\s]
-\rarrow  E_{\rvy|\td,x}[\rvy]
+\caly_{|d,x}=E_{\s|d,x}[\rvy^\s]
+\rarrow  E_{\rvy|d,x}[\rvy]
 =
-\sum_y yP(y|\td,x)
+\sum_y yP(y|d,x)
 \eeq
 
 
 \beq
-\caly_{|\td}=E_{\s|\td}[\rvy^\s]
-\rarrow E_{y|\td}[\rvy]
+\caly_{|d}=E_{\s|d}[\rvy^\s]
+\rarrow E_{y|d}[\rvy]
 =
-\sum_x \caly_{|\td,x}P(x)
+\sum_x \caly_{|d,x}P(x)
 \eeq
 
 \beq
-\caly_{|x}=E_{\s|x}[\rvy^\s]
+\caly_{|x} =E_{\s|x}[\rvy^\s]
 \rarrow E_{y|x}[\rvy]
 =
-\sum_{\td} \caly_{|\td,x}P(\td)
+\sum_{d} \caly_{|d,x}P(d)
 \eeq
 
 
 \beq
 \caly=E_\s[\rvy^\s]
-\rarrow E_y[\rvy]=\sum_{\td,x}
- \caly_{|\td,x}P_{\rvd|\rvx}(\td|x)P(x)
+\rarrow E_y[\rvy]=\sum_{d,x}
+ \caly_{|d,x}P_{\rvd|\rvx}(d|x)P(x)
 \eeq
 
 \section{$G_{im+}$ bnet}
@@ -806,40 +806,41 @@ in terms of the TPMs of
 bnet $G_{im+}$:
 
 \beq
-\caly_{d|\td,x}
+\caly_{\td|d,x}
 =
-E_{\s|\td,x}[\rvy^\s(d)]
+E_{\s|d,x}[\rvy^\s(\td)]
 \rarrow
-E_{\rvy|\td,x} [\rvy(d)]
-=\sum_{y} P(y(\td)|\td,x) y(\td)
+E_{\rvy|d,x} [\rvy(\td)]
+=\sum_{y} yP_{\rvy(\td)|\rvtd=d,x}(y|d,x)
 \label{eq-need-positivity}
 \eeq
 
 \beq
-\caly_{d|\td}
+\caly_{\td|d}
 =
-E_{\s| \td}[\rvy^\s(d)]
+E_{\s| d}[\rvy^\s(\td)]
 \rarrow
-E_{\rvy|\td} [\rvy(d)]
-=\sum_x \caly_{d|\td,x}P(x)
+E_{\rvy|d} [\rvy(\td)]
+=\sum_x \caly_{\td|d,x}P(x)
 \eeq
 
 \beq
-\caly_{d|x}
+\caly_{\td|x}
 =
-E_{\s| x}[\rvy^\s(d)]
+E_{\s| x}[\rvy^\s(\td)]
 \rarrow
-E_{\rvy|x} [\rvy(d)]
-=\sum_\td \caly_{d|\td,x}P(\td)
+E_{\rvy|x} [\rvy(\td)]
+=\sum_d \caly_{\td|d,x}P(d)
 \eeq
 
 \beq
-\caly_{d}
+\caly_{\td}
 =
-E_{\s}[\rvy^\s(d)]
+E_{\s}[\rvy^\s(\td)]
 \rarrow
-E_{\rvy} [\rvy(d)]
-=\sum_{\td,x}\caly_{d|\td,x} P_{\rvd|\rvx}(\td|x)P(x)
+E_{\rvy} [\rvy(\td)]
+=\sum_{d,x}\caly_{\td|d,x}
+ P_{\rvd|\rvx}(d|x)P(x)
 \eeq
 
 
@@ -877,7 +878,7 @@ and then invoke
 the d-separation theorem 
 (see Chapter \ref{ch-dsep}).
 
-But note that
+Note that
 by swapping $\rvd^\s$ and
 $\rvtd^\s$ in Eq.\ref{eq-CIA2}
 we get false statements:
@@ -903,104 +904,158 @@ we get false statements:
 \eeq
 
 
-Note that even though CIA means
- $\rvtd^\s\perp_{G_{im}} \rvd^\s|x^\s$,
-this does not mean that $\caly_{d|\td, x}=
-\caly_{d|x}$.
-The reason is that
-$\caly_{d|\td, x} = 
-E_{|\td^\s=\td, x}[\rvy^\s(d)]$
-so $\caly_{d|\td, x}=
-\caly_{d|x}$
-if $\rvy^\s(d)\perp_{G_{im}}\rvtd^\s|\rvx^\s$,
-which is false.
-It is possible for
-$\caly_{d|\td, x}=
-\caly_{d|x}$ to be true.
-We discuss that situation 
-in Section \ref{sec-td-ignored}.
-
-
-
-\section{${\cal Y}_{|\tilde{d},x}$ and $G_{do}$}
-
-Note that
- $\caly_{d|x}$ and $\caly_{|\td,x}$
-are not the same thing.
+Note that that
+$\caly_{\td|d, x} = 
+E_{|d^\s=d, x}[\rvy^\s(\td)]$
+so the CIA implies that
 
 \beq
-\caly_{d|x}=
-E_{|x}[\rvy(d)]
-\;
-\eeq
-whereas
-
-
-\beq
-\caly_{|\td,x}=
-E_{|\td,x}[\rvy]
+\caly_{\td|d, x}=
+\caly_{\td|x}
 \;.
 \eeq
 
-\begin{claim}
+A {\bf Randomized Control Trial (RCT)}
+is defined to satisfy
+Eq.(\ref{eq-CIA2}) without the
+ $\rvx^\s$ conditioning; i.e., it 
+satisfies
+
 \beq
-\caly_{|\td, x}=\caly_{\td|\td,x}
+(\rvy^\s(0), \rvy^\s(1),
+\rvy^\s,\rvtd^\s)\perp_P\rvd^\s 
+\;.
+\label{eq-CIA-minus-x}
+\eeq
+This means that in an RCT,
+the arrow from 
+$\rvx^\s$ to  $\rvd^\s$ in $G_{im}$
+has a vanishingly small
+conditional  probability.
+For a RCT,
+
+
+\beq
+\caly_{\td|d}=\caly_{\td}
+\;.
+\eeq
+
+
+\section{${\cal Y}_{|d,x}$ and $G_{do}$}
+
+
+\begin{claim}\footnote{In the
+standard PO notation,
+this is the frequently used identity 
+$$E[Y|D=d, x]= E[Y(d)|D=d, x]=
+E[Y(d)|x]$$.}\label{cl-caly-bardx}
+\beq
+\caly_{|d, x}=\caly_{d|d,x}=\caly_{d|x}
 \eeq
 \end{claim}
 \proof
 
 \beqa
-\caly_{\td|\td,x}
+\caly_{d|d,x}
 &=&
-\td\caly_{1|\td, x}
+d\caly_{1|d, x}
 +
-(1-\td)\caly_{0|\td, x}
+(1-d)\caly_{0|d, x}
 \\
 &=&
-\td E_{|\td, x}[\rvy(1)]
+d E_{|d, x}[\rvy(1)]
 +
-(1-\td)E_{|\td, x}[\rvy(0)]
+(1-d)E_{|d, x}[\rvy(0)]
 \\
 &=&
-E_{|\td, x}[\td \rvy(1)]+(1-\td)\rvy(0)]
+E_{|d, x}[d \rvy(1)]+(1-d)\rvy(0)]
 \\
 &=&
-E_{|\td, x}[\rvy]
+E_{|d, x}[\rvy]
 \\
 &=&
-\caly_{|\td, x}
+\caly_{|d, x}
+\;.
 \eeqa
+
+By the CIA,
+
+\beq 
+\caly_{d|d,x}=\caly_{d|x}
+\eeq
 \qed
 
 
-
-
-$\caly_{|\td,x}$
-is connected to the do operator as follows.
+Note that
 
 \beq
-\caly_{|\td,x}=
-\sum_y y P(\rvy=y|\rho \rvd=\td, \rvx=x)
+P(\rvy=y|\rho \rvd=d, \rvx=x)=
+P(y|d,x)
+\;,
+\eeq
+because, by the d-separation
+theorem,  when we condition on
+the confounder $\rvx$, 
+we  block information from being
+transmitted from $\rvd$ to $\rvy$ through $\rvx$,
+and this is equivalent to
+amputating the arrow $\rvx\rarrow\rvd$.
+
+
+Hence,
+
+\beqa
+\caly_{|d,x}&=&
+\sum_y y P(\rvy=y| \rvd=d, \rvx=x)
+\\
+&=&
+\sum_y y P(\rvy=y|\rho \rvd=d, \rvx=x)
 \;,
 \label{eq-y-bar-td}
-\eeq
-where
-
-\beq
-P(\rvy=y|\rho \rvd=\td, \rvx=x)=
-P(y|\td,x)
-\;.
-\eeq
+\eeqa
 In particular, when
 $\rvy$ is binary 
 (i.e.,  $\rvy\in\bool$), 
 Eq.(\ref{eq-y-bar-td}) becomes
 
 \beq
-\caly_{|\td,x}=
-P(\rvy=1|\rho\rvd=\td, \rvx=x)
+\caly_{|d,x}=
+P(\rvy=1|\rho\rvd=d, \rvx=x)
 \;.
 \eeq
+
+Define ACE and ATE by
+
+\beqa
+ACE&=&\sum_y y
+[P(y|\rho\rvd=1)-P(y|\rho\rvd=0)]
+\\
+&=&
+\sum_x [\caly_{|1,x}-\caly_{|0,x}]P(x)\;\;
+\text{(by the backdoor criterion.)} 
+\eeqa
+
+\beq
+ATE= \caly_1-\caly_0
+\eeq
+
+\begin{claim}
+\beq
+ACE=ATE
+\eeq
+\end{claim}
+\proof
+
+By Claim \ref{cl-caly-bardx},
+ $\caly_{\td|d, x}=\caly_{\td|x}$ so
+
+\beqa
+ACE&=&\sum_x[\caly_{1|x}-\caly_{0|x}]P(x)
+\\
+&=&
+\caly_1-\caly_0=ATE
+\eeqa
+\qed
 
 
 \section{Translation Dictionary}
@@ -1023,17 +1078,17 @@ $Y_i=y_i$, treatment outcome& $\rvy^\s=y^\s$ \\
 \hline 
 $X_i=x_i$, treatment confounders& $\rvx^\s=x^\s$ \\ 
 \hline
-$E[Y_i(d)]$ & 
-$E_{\s}[\rvy^\s(d)]=\caly_{d}$ \\
+$E[Y_i(\td)]$ & 
+$E_{\s}[\rvy^\s(\td)]=\caly_{\td}$ \\
 \hline
-$E[Y_i|D_i=\td]$ & 
-$ E_{\s|\td}[\rvy^\s]=\caly_{|\td}$\\
+$E[Y_i|D_i=d]$ & 
+$ E_{\s|d}[\rvy^\s]=\caly_{|d}$\\
 \hline
-$E[Y_i(d)|D_i=\td]$ & 
-$E_{\s|\td}[\rvy^\s(d)]=\caly_{d|\td}$\\
+$E[Y_i(\td)|D_i=d]$ & 
+$E_{\s|d}[\rvy^\s(\td)]=\caly_{\td|d}$\\
 \hline
-$E[Y_i(d)|D_i=\td, X_i=x]$ & 
-$E_{\s|\td,x}[\rvy^\s(d)]=\caly_{d|\td,x}$\\
+$E[Y_i(\td)|D_i=d, X_i=x]$ & 
+$E_{\s|d,x}[\rvy^\s(\td)]=\caly_{\td|d,x}$\\
 \hline
 \end{tabular}
 \caption{Dictionary for 
@@ -1059,37 +1114,20 @@ $\rvd^\s$ and $\rvtd^\s$ in $G_{im+}$. This confusion
 becomes particularly distressing
 when we are told in PO notation that
 
-\beq Y_i(d)=d Y_i(1) + (1
--d)Y_i(0)\;,
-\eeq
-and
-
-\beq
-E\left[Y_i(d)|D_i=\td, X_i=x\right]
-=\caly_{d|\td,x}
-\;.
+\beq Y_i(D)=D Y_i(1) + (1
+-D)Y_i(0)\;,
 \eeq
 In our notation,
 this is saying that
 
 \beq 
-\rvy^\s(d)= d \rvy^\s(1) +
- (1-d)\rvy^\s(0)
-\;,
-\eeq
-and
-
-\beq
-E_{\s|\rvtd^\s=\td, \rvx^\s=x}
-[\rvy^\s(d)]=
-\caly_{d|\td,x}
-\label{eq-caly-def-ev}
+\rvy^\s(\rvtd)= \rvtd \rvy^\s(1) +
+ (1-\rvtd)\rvy^\s(0)
 \;.
 \eeq
 
 
-
-\section{${\cal Y}_{d|\tilde{d}}$
+\section{${\cal Y}_{\tilde{d}|d}$
 differences (aka treatment effects)}
 
 
@@ -1100,7 +1138,7 @@ differences (aka treatment effects)}
 {pot-out/y-diffs-square.png}
 \caption{Different treatment effects.  
 An effect is a difference of 
-two $\caly_{d|\td}$.} 
+two $\caly_{\td|d}$.} 
 \label{fig-y-diffs-square}
 \end{figure}
 
@@ -1112,7 +1150,7 @@ Note
 that we use  the
 word {\bf ``effect"} to
 refer to 
-a difference of two  $\caly_{d|\td}$.
+a difference of two  $\caly_{\td|d}$.
 
 \begin{itemize}
 
@@ -1121,22 +1159,17 @@ causal effect
  (ACE), used when doing an RCT.
 
 \beq
-{\color{red}ACE}=
-\caly_{|1}-
-\caly_{|0}
-=
-\caly_{1|1}-
-\caly_{0|0}=SDO
+{\color{red}ACE}=ATE
 \eeq
 
 \item average treatment effect\footnote{
-Note that effects in which $\td$ varies
+Note that effects in which $d$ varies
 are called
 ``controlled",
-whereas those in which $d$ varies instead,
+whereas those in which $\td$ varies instead,
  are called simply ``treatments".
 $y$ is averaged over
-in both cases.}
+in all effects.}
  (ATE).
 \beq
 {\color{red}ATE}=
@@ -1212,30 +1245,114 @@ linearly related
 Let $\cale \in\{ACE,ATE,ATT,ATU,SDO, SB\}$.
 $\cale$ can be 
 defined for a fixed stratum $x$
-by replacing $\caly_{d|\td}$
-with  $\caly_{d|\td, x}$. 
-We will denote such
-an extension by $\cale_{|x}$,
-or, sometimes, simply by $\cale$.
-ATE$_{|x}$ is sometimes called 
+by replacing $\caly_{\td|d}$
+with  $\caly_{\td|d, x}$. 
+We will denote this restricted
+version of $\cale$ by $\cale_x$.
+
+ATE$_x$ is called 
 the {\bf Conditional
-Average Treatment Effect (CATE)}.
-We will use the term
-ATE to refer to CATE too.\footnote{Careful:
+Average Treatment Effect (CATE)}.\footnote{Careful:
 We define
 $
-ATE_{|x}= ATT_{|x} P_{\rvd|\rvx}(1|x) +
-ATU_{|x} P_{\rvd|\rvx}(0|x) 
+ATE_x= ATT_x P_{\rvd|\rvx}(1|x) +
+ATU_x P_{\rvd|\rvx}(0|x) 
 $. Therefore,
 $
-ATE_{|x}\neq ATT_{|x} P_{\rvd}(1) +
-ATU_{|x} P_{\rvd}(0) 
+ATE_x\neq ATT_x P_{\rvd}(1) +
+ATU_x P_{\rvd}(0) 
 $.
 }
 
+Due to the CIA, 
+\beq
+\caly_{\td|d,x}=\caly_{\td|x}
+\;.
+\eeq
+Hence,
+if we replace every $\caly_{\td|d}$
+by $\caly_{\td|d,x}$ in
+Fig.\ref{fig-y-diffs-square}, the square
+in that figure
+collapses to 
+
+\begin{subequations}\label{eq-effects-cia}
+\beq
+\xymatrix{
+\caly_{0|x}\ar[r]_{SDO_x}&
+ \caly_{1|x}
+}
+\eeq 
+Hence,
+
+\beq
+SB_x=0
+\eeq
+and
+
+\beq
+SDO_x=ATT_x=ATU_x=ATE_x
+\;.
+\eeq
+\end{subequations}
+
+If we assume a RCT, then Eqs.(\ref{eq-effects-cia})
+are all valid without the $x$ conditioning. Hence,
+Fig.\ref{fig-y-diffs-square}
+collapses to 
+
+\begin{subequations}
+\beq
+\xymatrix{
+\caly_{0}\ar[r]_{SDO}&
+ \caly_{1}
+}
+\eeq 
+Furthermore,
+
+\beq
+SB=0
+\eeq
+and
+
+\beq
+SDO=ATT=ATU=ATE
+\;.
+\eeq
+\end{subequations}
+
+Despite the fact that Eqs.(\ref{eq-effects-cia})
+are true, they are only
+valid for very large numbers $N_x$
+of individuals $\s$
+with $\rvx^\s=x$. 
+Later on we will 
+give estimators $\hat{\cale}_x$
+for the effects $\cale_x$. We will
+not assume that 
+Eqs.(\ref{eq-effects-cia}) are valid 
+for the estimators $\hat{\cale}_x$ too.
+For example, we won't assume that
+$\widehat{SB}_x=0$ and 
+$\widehat{SDO}_x=
+\widehat{ATE}_x$.
+What we will assume is that 
+we can calculate estimators $\hat{\cale}$
+for $\cale$ using
+
+\beq
+\hat{\cale}=E_x[\hat{\cale}_x]=
+\sum_x \frac{N_x}{N} \hat{\cale}_x
+\;,
+\eeq
+where $N=nsam=\sum_x N_x$ is the
+size of the population
+of individuals $\s$.
 
 
-\section{Cases of zero ACE and $\caly_{1|0}=\caly_{1}$}
+
+\section{Insights into $ACE=0$ and 
+$\caly_{\tilde{d}|d}=\caly_{\tilde{d}}$}
 \label{sec-td-ignored}
 
 \begin{figure}[h!]
@@ -1245,16 +1362,22 @@ $.
 \caption{Figure \ref{fig-y-diffs-square} 
 with added information
 about  probability distributions 
-used to obtain each expected value $\caly_{d|\td}$.}
+used to obtain each expected value
+ $\caly_{\td|d}$.}
 \label{fig-y-diffs-square-probs}
 \end{figure}
 
-$SDO=0$
-is the hypothesis 
-tested by a Randomized Control Trial (RCT).
-But some people
-test for $ATE=0$
-instead.
+As we explained before,
+Fig.\ref{fig-y-diffs-square-probs}
+collapses to a single line
+$\xymatrix{\caly_0\ar[r]_{SDO}&\caly_1}$.
+Therefore, for a RCT, $SDO=ATE$.
+Hence, $SDO=ATE=0$
+is the null hypothesis 
+tested by a RCT.
+But what if we are not 
+considering a RCT, what then?
+
 \begin{enumerate}
 \item 
 Is it
@@ -1279,7 +1402,7 @@ Recall that
 each expected value $\caly$ has a probability
 distribution $P$.
 \beq
-\caly_{d|\td, x}=\sum_{y} y P_{\rvy(d)|\rvtd, \rvx}(y|\td,x)
+\caly_{\td|d}=\sum_{y} y P_{\rvy(\td)|\rvtd}(y|d)
 \eeq
 for $d, \td\in \bool$.
 Fig.\ref{fig-y-diffs-square-probs}
@@ -1292,37 +1415,36 @@ From this figure, we see that
 A sufficient
 condition for $SDO=0$
 is that 
-$P_{\rvy(1)|\rvtd=1, \rvx}
+$P_{\rvy(1)|\rvtd=1}
 =
-P_{\rvy(0)|\rvtd=0, \rvx}$.
+P_{\rvy(0)|\rvtd=0}$.
 Since $ATE=0$ iff 
 $ATT=ATU=0$,
 a sufficient condition
 for $ATE=0$ is that
-$P_{\rvy(1)|\rvtd=0, \rvx}
+$P_{\rvy(1)|\rvtd=0}
 =
-P_{\rvy(0)|\rvtd=0, \rvx}$
+P_{\rvy(0)|\rvtd=0}$
 and
-$P_{\rvy(1)|\rvtd=1, \rvx}
+$P_{\rvy(1)|\rvtd=1}
 =
-P_{\rvy(0)|\rvtd=1, \rvx}$.
+P_{\rvy(0)|\rvtd=1}$.
 \item
 A sufficient condition for
 $ATT=ATU$
 is that 
-$P_{\rvy(1)|\rvtd=0, \rvx}
+$P_{\rvy(1)|\rvtd=0}
 -
-P_{\rvy(0)|\rvtd=0, \rvx}$
+P_{\rvy(0)|\rvtd=0}$
 equals
-$P_{\rvy(1)|\rvtd=1, \rvx}
+$P_{\rvy(1)|\rvtd=1}
 -
-P_{\rvy(0)|\rvtd=1, \rvx}$.
+P_{\rvy(0)|\rvtd=1}$.
 \item
-If we assume that
-all $y^\s>0$, $\caly_{1|0}=\caly_{1}$
-iff 
-$P_{\rvy(1)|\rvtd=0, \rvx}=
-P_{\rvy(1)| \rvx}$.
+A sufficient condition for $\caly_{1|0}=\caly_{1}$
+is that
+$P_{\rvy(1)|\rvtd=0}=
+P_{\rvy(1)}$.
 \end{enumerate}
 $SDO=0$
 depends on two corners
@@ -1334,7 +1456,7 @@ depends on just one corner.
 \section{$(SDO,ATE)$ space}
 If we substitute
 $y^\s\rarrow y^\s(\td^\s)$ and
- $y^{s(\s)}\rarrow y^\s(!\td^\s)$,
+ $y^{a(\s)}\rarrow y^\s(!\td^\s)$,
 where $!0=1$ and $!1=0$, 
 into 
 the estimator
@@ -1344,7 +1466,7 @@ Eq.(\ref{eq-est-sdo}) for $SDO$,
 we get
 
 \beqa
-\widehat{ATE}
+\widehat{ATE}_x
 &=&
 \frac{1}{N_x}\sum_{\s\in A_x}
  (2\td^\s-1)[y^\s(\td^\s) -y^\s(!\td^\s)]
@@ -1357,7 +1479,7 @@ we get
 and
 
 \beqa
-\widehat{SDO}
+\widehat{SDO}_x
 &=&
 \frac{1}{N_{1,x}}
 \sum_{\s\in A_x} \td^\s y^\s(\td^\s)
@@ -1373,10 +1495,16 @@ and
 \sum_{\s\in A_{0,x}}  y^\s(0)
 \;.
 \label{eq-est-sdo-simple}
-\eeqa
+\eeqa  
 
-$SDO=0$ is the hypothesis tested 
-by a Randomized Clinical Trial (RTC). 
+Recall that 
+$\hat{\cale}=E_x[\hat{\cale}_x]=
+\sum_x \frac{N_x}{N}\hat{\cale}_x$
+for $\cale\in\{ATE, SDO\}$.
+
+Recall also that $SDO=ATE$ for a RCT.
+$SDO=0$ is the null 
+hypothesis in a RCT. 
 
 
 Suppose that
@@ -1388,7 +1516,8 @@ and
 $-1\leq SDO \leq 1$.
 But does  $ATE=0$
 imply $SDO=0$
-or vice versa?
+or vice versa
+when its not an RCT?
 Next, we answer 
 that question
 and more
@@ -1510,11 +1639,16 @@ six points A, B, \ldots F
 corresponds to one of the six tables
 in Figs. \ref{fig-ate-possi}
 and \ref{fig-sdo-possi}.
-Point $C$ is ideal.
-The segment $BE$
+The segment $AC$
 is the set of 
-accessible points 
-with zero  effect in an RCT. 
+ points 
+accessible to a RCT. 
+The origin
+has $ACE=ATE=0$
+so it is the 
+point
+which exhibits a null result
+in a RCT.
 } 
 \label{fig-sdo-ate-polytope}
 \end{figure}
@@ -1560,14 +1694,14 @@ exactly
 one individual
 with $\td^\s=0, x^\s=x$
 and vice versa.
-Define a map $s:A\rarrow A$
+Define a map $a:A\rarrow A$
 such that,
 for each $x$,
-$s(A_{0,x})\subset A_{1,x}$ and
-$s(A_{1,x})\subset A_{0,x}$.
+$a(A_{0,x})\subset A_{1,x}$ and
+$a(A_{1,x})\subset A_{0,x}$.
 This assumes $A_{0,x}$ and $A_{1,x}$
 are non-empty for all $x$.
-The purpose of map $s()$
+The purpose of map $a()$
 is
 to fill in the missing data in the
 PO dataset. See Fig.\ref{tab-po-s-map}
@@ -1579,12 +1713,12 @@ this.
 \begin{tabular}{|l|l|l|}
 \hline
  & \cellcolor[HTML]{ECF4FF}$y^\s(0)$ & \cellcolor[HTML]{ECF4FF}$y^\s(1)$ \\ \hline
-\cellcolor[HTML]{ECF4FF}$\td^\s=0$ & $y^\s$ & $y^{s(\s)}$ \\ \hline
-\cellcolor[HTML]{ECF4FF}$\td^\s=1$ & $y^{s(\s)}$ & $y^\s$ \\ \hline
+\cellcolor[HTML]{ECF4FF}$\td^\s=0$ & $y^\s$ & $y^{a(\s)}$ \\ \hline
+\cellcolor[HTML]{ECF4FF}$\td^\s=1$ & $y^{a(\s)}$ & $y^\s$ \\ \hline
 \end{tabular}
 \caption{Illustration of the
-purpose of the map $s()$.
-Note that $y^\s=y^\s(\td^\s)$ and $y^{s(\s)}=y^\s(!\td^\s)$,
+purpose of the map $a()$.
+Note that $y^\s=y^\s(\td^\s)$ and $y^{a(\s)}=y^\s(!\td^\s)$,
 where $!0=1$ and $!1=0$.}
 \label{tab-po-s-map}
 \end{table}
@@ -1593,13 +1727,13 @@ where $!0=1$ and $!1=0$.}
 Note that
 
 \beq
-E_{|x}[\rvtd^\s \rvy^\s]\neq
-E_{|x}[\rvtd^\s]\;\;E_{|x}[ \rvy^\s]
+E_x[\rvtd^\s \rvy^\s]\neq
+E_x[\rvtd^\s]\;\;E_x[ \rvy^\s]
 \eeq
 but
 \beq
-E_{|x}[\rvd^\s \rvy^\s]=
-E_{|x}[\rvd^\s]\;\;E_{|x}[ \rvy^\s]
+E_x[\rvd^\s \rvy^\s]=
+E_x[\rvd^\s]\;\;E_x[ \rvy^\s]
 \eeq
 because, by d-separation, at fixed $x$,
  $\rvy^\s$ and $\rvtd^\s$
@@ -1608,7 +1742,7 @@ but $\rvy^\s$ and $\rvd^\s$ are.
 Table \ref{tab-po-quadrants}
 evaluates various
 expected values of the type
- $E_{|x}[\rvtd^\s \rvy^\s]$.
+ $E_x[\rvtd^\s \rvy^\s]$.
 
 
 \renewcommand{\arraystretch}{1.5}
@@ -1617,12 +1751,12 @@ expected values of the type
 \begin{tabular}{|l|l|l|}
 \hline
  & \cellcolor[HTML]{ECF4FF}$y^\s(0)$ & \cellcolor[HTML]{ECF4FF}$y^\s(1)$ \\ \hline
-\cellcolor[HTML]{ECF4FF}$\td^\s=0$ & \begin{tabular}[c]{@{}l@{}}$E_{|x}[(1-\rvtd^\s) \rvy^\s]=E[1-\rvtd^\s]\caly_{0|0,x}$\\ $E_{|x}\left[\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\rvtd^\s)\rvy^{\s}\right]=\caly_{0|0,x}$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$E_{|x}[(1-\rvtd^\s )\rvy^{s(\s)}]=E[1-\rvtd^\s]\caly_{1|0,x}$\\ $E_{|x}\left[\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\rvtd^\s) \rvy^{s(\s)}\right]=\caly_{1|0,x}$\end{tabular} \\ \hline
-\cellcolor[HTML]{ECF4FF}$\td^\s=1$ & \begin{tabular}[c]{@{}l@{}}$E_{|x}[\rvtd^\s \rvy^\s]=E[\rvtd^{s(\s)}]\caly_{0|1,x}$\\ $E_{|x}\left[\frac{1}{N_{1,x}}\sum_{\s\in A_x} \rvtd^\s \rvy^{s(\s)}\right]=\caly_{0|1,x}$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$E_{|x}[\rvtd^\s \rvy^\s]=E[\rvtd^\s]\caly_{1|1,x}$\\ $E_{|x}\left[\frac{1}{N_{1,x}}\sum_{\s\in A_x} \rvtd^\s \rvy^\s\right]=\caly_{1|1,x}$\end{tabular} \\ \hline
+\cellcolor[HTML]{ECF4FF}$\td^\s=0$ & \begin{tabular}[c]{@{}l@{}}$E_x[(1-\rvtd^\s) \rvy^\s]=E[1-\rvtd^\s]\caly_{0|0,x}$\\ $E_x\left[\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\rvtd^\s)\rvy^{\s}\right]=\caly_{0|0,x}$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$E_x[(1-\rvtd^\s )\rvy^{a(\s)}]=E[1-\rvtd^\s]\caly_{1|0,x}$\\ $E_x\left[\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\rvtd^\s) \rvy^{a(\s)}\right]=\caly_{1|0,x}$\end{tabular} \\ \hline
+\cellcolor[HTML]{ECF4FF}$\td^\s=1$ & \begin{tabular}[c]{@{}l@{}}$E_x[\rvtd^\s \rvy^\s]=E[\rvtd^{a(\s)}]\caly_{0|1,x}$\\ $E_x\left[\frac{1}{N_{1,x}}\sum_{\s\in A_x} \rvtd^\s \rvy^{a(\s)}\right]=\caly_{0|1,x}$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$E_x[\rvtd^\s \rvy^\s]=E[\rvtd^\s]\caly_{1|1,x}$\\ $E_x\left[\frac{1}{N_{1,x}}\sum_{\s\in A_x} \rvtd^\s \rvy^\s\right]=\caly_{1|1,x}$\end{tabular} \\ \hline
 \end{tabular}
 \caption{Expected Values
 of the type
- $E_{|x}[\rvtd^\s \rvy^\s]$.}
+ $E_x[\rvtd^\s \rvy^\s]$.}
 \label{tab-po-quadrants}
 \end{table}
 \renewcommand{\arraystretch}{1}
@@ -1634,30 +1768,30 @@ Recall that
 \label{eq-to-estimate}
 
 \beq
-ACE = SDO
+ACE_x = ATE_x
 \eeq
 
 \beq
-ATE = ATT \;\;P_{\rvd|\rvx}(1|x) + ATU \;\;P_{\rvd|\rvx}(0|x)
+ATE_x = ATT_x \;\;P_{\rvd|\rvx}(1|x) + ATU_x \;\;P_{\rvd|\rvx}(0|x)
 \eeq
 
 \beq
-ATT=
+ATT_x=
 \caly_{1|1,x}-\caly_{0|1,x}
 \eeq
 
 \beq
-ATU=
+ATU_x=
 \caly_{1|0,x}-\caly_{0|0,x}
 \eeq
 
 \beq
-SB=\caly_{0|1,x}-\caly_{0|0,x}
+SB_x=\caly_{0|1,x}-\caly_{0|0,x}
 \eeq
 
 
 \beq
-SDO=\caly_{1|1,x}-\caly_{0|0,x}
+SDO_x=\caly_{1|1,x}-\caly_{0|0,x}
 \eeq
 
 \end{subequations}
@@ -1668,63 +1802,63 @@ via the following estimators.
 
 
 \beq
-\widehat{ACE} = \widehat{SDO}
+\widehat{ACE}_x = \widehat{ATE}_x
 \label{eq-est-ace}
 \eeq
 
 \beqa
-\widehat{ATE}
+\widehat{ATE}_x
 &=&
 \frac{1}{N_x}[
-\widehat{ATT}N_{1,x} + 
-\widehat{ATU}N_{0,x}]
+\widehat{ATT}_x N_{1,x} + 
+\widehat{ATU}_x N_{0,x}]
 \\
 &=&
 \frac{1}{N_x}
-\left[\sum_{\s\in A_x} \td^\s [y^\s - y^{s(\s)}]+
-\sum_{\s\in A_x}(1-\td^\s) [ y^{s(\s)}-y^\s]
+\left[\sum_{\s\in A_x} \td^\s [y^\s - y^{a(\s)}]+
+\sum_{\s\in A_x}(1-\td^\s) [ y^{a(\s)}-y^\s]
 \right]
 \\
 &=&
-\frac{1}{N_x}\sum_{\s\in A_x} (2\td^\s-1)[y^\s -y^{s(\s)}]
+\frac{1}{N_x}\sum_{\s\in A_x} (2\td^\s-1)[y^\s -y^{a(\s)}]
 \label{eq-est-ate}
 \eeqa
 
 \beqa
-\widehat{ATT}
+\widehat{ATT}_x
 &=&
 \overbrace{\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s y^\s}^{\caly_{1|1,x}}
  - 
-\overbrace{\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s y^{s(\s)}}^{\caly_{0|1,x}}
+\overbrace{\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s y^{a(\s)}}^{\caly_{0|1,x}}
 \\
 &=&
-\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s [y^\s - y^{s(\s)}]
+\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s [y^\s - y^{a(\s)}]
 \label{eq-est-att}
 \eeqa
 
 
 \beqa
-\widehat{ATU}
+\widehat{ATU}_x
 &=&
-\overbrace{\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\td^\s) y^{s(\s)} }^{\caly_{1|0,x}}
+\overbrace{\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\td^\s) y^{a(\s)} }^{\caly_{1|0,x}}
  - 
 \overbrace{\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\td^\s)y^\s}^{\caly_{0|0,x}}
 \\
 &=&
-\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\td^\s) [ y^{s(\s)}-y^\s]
+\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\td^\s) [ y^{a(\s)}-y^\s]
 \label{eq-est-atu}
 \eeqa
 
 \beq
-\widehat{SB} =
-\overbrace{\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s y^{s(\s)}}^{\caly_{0|1,x}}
+\widehat{SB}_x =
+\overbrace{\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s y^{a(\s)}}^{\caly_{0|1,x}}
 -
 \overbrace{\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\td^\s)y^\s}^{\caly_{0|0,x}}
 \label{eq-est-sb}
 \eeq
 
 \beq
-\widehat{SDO}=
+\widehat{SDO}_x=
 \overbrace{\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s y^\s}^
 {\caly_{1|1,x}}
 -
@@ -1741,10 +1875,10 @@ This means that
 if the individuals are not
 treatment blind, 
 the above estimators for
-$ATE, ATT,ATU, SB$
+$ATE_x, ATT_x,ATU_x, SB_x$
 are invalid because they depend on
-$s()$. Only the estimator for $SDO$
-is valid because it doesn't depend on $s()$.
+$a()$. Only the estimator for $SDO_x$
+is valid because it doesn't depend on $a()$.
 
 
 
@@ -1786,7 +1920,7 @@ estimators for a treatment}
 For $\s\in \{1,2, \ldots, 10\}$, define
 
 \beq
-s(\s)=
+a(\s)=
 \left\{
 \begin{array}{ll}
 \s+5&\text{if }\s\leq 5
@@ -1803,7 +1937,7 @@ s(\s)=
 \centering
 \begin{tabular}{|l|l|l|l|l|l|l|}
 \hline
-\cellcolor[HTML]{ECF4FF} $\s$& \cellcolor[HTML]{ECF4FF}$\td^\s$ & \cellcolor[HTML]{ECF4FF}$y^\s$ & \cellcolor[HTML]{ECF4FF}$\td^\s y^\s$ & \cellcolor[HTML]{ECF4FF}$(1-\td^\s)y^\s$ & \cellcolor[HTML]{ECF4FF}$\td^\s y^{s(\s)}$ & \cellcolor[HTML]{ECF4FF}$(1-\td^\s)y^{s(\s)}$ \\ \hline
+\cellcolor[HTML]{ECF4FF} $\s$& \cellcolor[HTML]{ECF4FF}$\td^\s$ & \cellcolor[HTML]{ECF4FF}$y^\s$ & \cellcolor[HTML]{ECF4FF}$\td^\s y^\s$ & \cellcolor[HTML]{ECF4FF}$(1-\td^\s)y^\s$ & \cellcolor[HTML]{ECF4FF}$\td^\s y^{a(\s)}$ & \cellcolor[HTML]{ECF4FF}$(1-\td^\s)y^{a(\s)}$ \\ \hline
 \cellcolor[HTML]{ECF4FF}1 & \cellcolor[HTML]{FFFFC7}0 & 0 & \cellcolor[HTML]{FFFFC7}0 & 0 & \cellcolor[HTML]{FFFFC7}0 & 0 \\ \hline
 \cellcolor[HTML]{ECF4FF}2 & \cellcolor[HTML]{FFFFC7}0 & 0 & \cellcolor[HTML]{FFFFC7}0 & 0 & \cellcolor[HTML]{FFFFC7}0 & 1 \\ \hline
 \cellcolor[HTML]{ECF4FF}3 & \cellcolor[HTML]{FFFFC7}0 & 1 & \cellcolor[HTML]{FFFFC7}0 & 1 & \cellcolor[HTML]{FFFFC7}0 & 1 \\ \hline
@@ -1891,7 +2025,7 @@ N
 \caly_{0|1}
 =
 \frac{1}{N_1}
-\sum_\s \td^\s y^{s(\s)}
+\sum_\s \td^\s y^{a(\s)}
 =
 \frac{3}{5}
 \eeq
@@ -1900,7 +2034,7 @@ N
 \caly_{1|0}
 =
 \frac{1}{N_0}
-\sum_\s (1-\td^\s) y^{s(\s)}
+\sum_\s (1-\td^\s) y^{a(\s)}
 =
 \frac{4}{5}
 \eeq
@@ -1924,16 +2058,16 @@ that stratum,
 the treated and 
 untreated populations
 are {\bf balanced} (of equal size).
-Also, the map $s()$
+Also, the map $a()$
 is 1-1 onto.
 If, for instance,
-$s(\s)=6$ for all $\s\in A_0$
-and $s(\s)=5$ for $\s\in A_1$,
+$a(\s)=6$ for all $\s\in A_0$
+and $a(\s)=5$ for $\s\in A_1$,
 then $ATE, ATT, ATU, SDO$
 would not all be same, and 
 $SB$ would not be zero.  
 In fact, whenever there is a single
-balanced stratum and the map $s()$
+balanced stratum and the map $a()$
 is 1-1 onto, Eq.\ref{eq-all-equal}
 can be proven to be true using
 the methods of
@@ -1949,7 +2083,7 @@ one can't
 find for a given
 individual $\s$
 another individual that has
-opposite $d^\s$ but
+opposite $\td^\s$ but
 exactly the same value of $x^\s$.
 In such cases, one can discard all
 matchless individuals.
@@ -1959,9 +2093,9 @@ Instead of discarding orphans,
 a better way is to
 relax our demands and
 match individual $\s$
-with another individual $s(\s)$
+with another individual $a(\s)$
 such that $x^\s$
-and $x^{s(\s)}$ are very
+and $x^{a(\s)}$ are very
 close in some metric.
 Alternatively, the matching
 individual might 
@@ -1973,7 +2107,7 @@ More precisely,
 for some arbitrary
 parameter $\eps>0$,
 and an individual $\s$
-with $d^\s=1$,
+with $\td^\s=1$,
 define
 the {\bf strata-matching set} 
 $\calm_{\eps}(\s)$ by\footnote{
@@ -1982,29 +2116,29 @@ that depends on $\s$.
 Let $\eps(\s, 5)$
 be the radius necessary
 so that $\calm_{\eps(\s, 5)}(\s)$
-contains exactly 5 elements $s$.
+contains exactly 5 elements $a$.
 Thus, $\calm_{\eps(\s, 5)}(\s)$
-contains the $s$ of the
- 5 points $x^s$ that are the
+contains the $a$ of the
+ 5 points $x^a$ that are the
 nearest neighbors of $x^\s$
 in the $dist()$ metric.}
 
 \beq
 \calm_{\eps}(\s)=
-\{s: d^\s=1, d^s=0, 
-dist(x^\s, x^s)\leq \eps \}
+\{a: \td^\s=1, \td^a=0,
+dist(x^\s, x^a)\leq \eps \}
 \;,
 \eeq
 where
 
 \beq
-dist(x^\s, x^s)=
-[x^\s]^T [\Sigma]^{-1} x^s
+dist(x^\s, x^a)=
+[x^\s]^T [\Sigma]^{-1} x^a
 \;,
 \eeq
-where $\Sigma = \av{\rvx^\s, [\rvx^s]^T}$.
+where $\Sigma = \av{\rvx^\s, [\rvx^a]^T}$.
  This
-metric $dist(x^\s, x^s)$ is
+metric $dist(x^\s, x^a)$ is
 called the {\bf Mahalanobis distance}.
 We will call
 the case $\eps=0$ an {\bf  exact strata-match},
@@ -2013,7 +2147,7 @@ the case
 $\eps\neq 0$ 
  an {\bf approximate strata-match.}.
 To do an approximate strata-match,
-replace $y^{s(\s)}$ 
+replace $y^{a(\s)}$ 
 by
 $\av{y}^\s$ 
 in 
@@ -2026,14 +2160,14 @@ is defined by
 \beq
 \av{y}^\s=
 \frac{1}{|\calm_{\eps}(\s)|}
-\sum_{s\in \calm_{\eps}(\s)}
-y^s
+\sum_{a\in \calm_{\eps}(\s)}
+y^a
 \;.
 \eeq
 
 Ref.\cite{book-mixtape}
 calculates the mean and variance
-of estimator $\widehat{ATT}$. 
+of estimator $\widehat{ATT}_x$. 
 The mean is biased,
 but one can define a new
 bias-corrected estimator.
@@ -2063,35 +2197,35 @@ and untreated.
 Recall that
 
 \beq
-\caly_{d|\td,x}
-=\sum_{y} y P_{\rvy(d)|\rvtd, \rvx}(y|\td,x)
+\caly_{\td|d,x}
+=\sum_{y} y P_{\rvy(\td)|\rvtd, \rvx}(y|d,x)
 \;.
 \eeq
 Also recall
 that the estimator
 Eq.(\ref{eq-est-att})
-for $ATT_{|x}$ divides by $N_{1,x}=P(d=1|x)N_x$
+for $ATT_x$ divides by $N_{1,x}=P(d=1|x)N_x$
 and 
 the estimator
 Eq.(\ref{eq-est-atu})
-for $ATU_{|x}$ divides by $N_{0,x}= P(d=0|x)N_x$.
+for $ATU_x$ divides by $N_{0,x}= P(d=0|x)N_x$.
 The estimator Eq.\ref{eq-est-ate}
-for $ATE_{|x}$ divides by neither $N_{0,x}$
+for $ATE_x$ divides by neither $N_{0,x}$
 nor $N_{1,x}$ so it is safe.
 
 If positivity is violated,
 then 
 for some 
 layer $x$, 
- $\caly_{d|\td=0,x}$ or $\caly_{d|\td=1,x}$ 
+ $\caly_{\td|d=0,x}$ or $\caly_{\td|d=1,x}$ 
 is undefined. 
 Furthermore,  the estimator
-$ATT_{|x}$ or $ATU_{|x}$ is undefined.
-If $ATT_{|x}$ (or any
+$ATT_x$ or $ATU_x$ is undefined.
+If $ATT_x$ (or any
 other treatment effect)  can be estimated,
 one says it is {\bf identifiable} (i.e.,
 calculable). If Positivity is violated, then
-either $ATT_{|x}$ or $ATU_{|x}$ is not identifiable.
+either $ATT_x$ or $ATU_x$ is not identifiable.
 
  
 
@@ -2284,7 +2418,8 @@ In this section, we will
 discuss Multi-time PO bnets (MT-PO).
 
 A {\bf time-series} is a function $f:D\rarrow \RR$
-whose domain $D$ is a discrete set. A time-series 
+whose domain $D$ is a discrete set
+of times. A time-series 
 usually describes a single
 unit $\s$ (i.e., an individual)
 in a population.
