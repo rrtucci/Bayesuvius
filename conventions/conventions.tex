@@ -641,9 +641,9 @@ ordinary least squares (OLS), Ref.\cite{wiki-ols}
 \end{enumerate}
 
 
-In LR, the {\bf dependent variables} 
+In LR, the {\bf dependent variable} 
 $y$
-equal
+equals
 a linear combination of some
 {\bf independent variables} $x$ 
  plus some external noise variables
@@ -663,11 +663,11 @@ in which the independent
 and i.i.d.
 \end{enumerate}
 
-Once one assumes that certain
-variables are random, a ``model" (i.e., a bnet,
-with probabilities expressed as TPMs)
- must be 
-specified.
+The  term OLS
+is often used to refer to LR 
+of type 1.
+
+
 
 For LR of type 2,
 there is randomness in $y$ 
@@ -680,12 +680,12 @@ it comes
 from the residuals
 only. 
 
-OLS provides a
-cost function which
-when minmized, yields LR.
-The  term OLS
-is often used to refer to LR 
-of type 1.
+Once one assumes that certain
+variables are random, a ``model" (i.e., a bnet,
+with probabilities expressed as TPMs)
+ must be 
+specified.
+
 
 \subsection{LR, assuming
 $x_\s$ are non-random}
@@ -694,8 +694,13 @@ Let
 
 $\s\in\{0, 1, 2, \ldots, nsam-1\}$ : sample index
 
-$i\in\{0, 1, 2, \ldots, n-1\}$ : independent variables index
-for each $\s$
+$i_0\in\{0, 1, 2, \ldots, n\}$ : 
+index that can assume values 0 to $n$
+
+$i\in\{1, 2, \ldots, n\}$ : 
+index that can assume values 1 to $n$.
+$i$ is never equal to 0.
+
 
 $y_\s\in \RR$: dependent variables
 
@@ -709,7 +714,7 @@ regression coefficients
 
 \beq
 y_\s= \beta_0 +
-\sum_{j=1}^{n} x_{\s i}\beta_i + \eps_\s
+\sum_{i=1}^{n} x_{\s i}\beta_{i} + \eps_\s
 \eeq
 
 If we define
@@ -721,7 +726,7 @@ for all $\s$, then
 
 \beq
 y_\s=
-\sum_{i=0}^{n} x_{\s i}\beta_i + \eps_\s
+\sum_{i_0=0}^{n} x_{\s i_0}\beta_{i_0} + \eps_\s
 \;.
 \eeq
 If $y$ and $\eps$ are $nsam$ dimensional
@@ -736,6 +741,86 @@ form as:
 y=X\beta+\eps
 \;.
 \eeq
+
+\subsubsection{Derivation of LR
+ From Minimization of Error}
+
+Let $W=[W_{\s, \s'}]$ 
+be a symmetric matrix with non-negative
+diagonal elements $W_{\s,\s}\geq 0$ for all $\s$.
+$W$ is called the {\bf weight matrix}.
+The following claim 
+describes the method of
+{\bf Weighted LR} 
+when $W\neq 1$
+and simple LR  when $W=1$.
+\begin{claim}
+Assume the 
+Einstein summation convention; i.e., 
+repeated indices must be summed over. 
+The 
+ error function $\cale$ given by
+
+\beq
+\cale=
+\underbrace{(y_{\s}-X_{\s, j_0}\beta_{j_0})}
+_{\text{residual $\eps_\s$}}
+W_{\s, \s'}
+\underbrace{(y_{\s'}-X_{\s', k_0}
+\beta_{k_0})}_{\eps_{\s'}}
+\;,
+\eeq
+is minimized 
+over $\beta_{k_0}$ for all $k_0
+\in\{0,1,\ldots,n\}$, 
+if $\beta_{k_0}$ is given by:
+
+\beq
+\hat{\beta}= (X^T W X)^{-1} X^T W y
+\;.
+\label{eq-betahat-non-ran-w}
+\eeq
+When $W=1$, 
+
+\beq
+\hat{\beta}= (X^T X)^{-1} X^T y
+\;.
+\label{eq-betahat-non-ran}
+\eeq
+
+\end{claim}
+\proof
+
+At the minimum of $\cale$,
+the variation $\delta\cale$
+ must vanish:
+\beq
+0=\delta \cale=
+-2 X_{\s j_0}(\delta \beta_{j_0})
+W_{\s, \s'}(y_{\s'}
+-X_{\s' k_0}
+\beta_{k_0})
+\;.
+\eeq
+Thus,
+
+\beq
+X^T W y - X^T W X\beta=0
+\eeq
+which 
+implies Eq.(\ref{eq-betahat-non-ran-w}).
+\qed
+
+\subsubsection{Geometry of LR
+with non-random $x_\s$.}
+
+Recall that
+
+\beq
+y=X\beta+\eps
+\;.
+\eeq
+
 
 Define the {\bf projection matrices}
 
@@ -849,9 +934,8 @@ $y=X\beta+\eps$ and $y=\hat{y}+\hat{\eps}$.}
 \label{fig-lin-reg-vecs}
 \end{figure}
 
+\subsubsection{LR Goodness of Fit, $R^2$}
 
-\hrule
-\noindent{\bf probabilistic model dependent results}:
 
 Assume the components of $\eps$ 
 are random with zero mean:
@@ -1042,9 +1126,18 @@ R^2 =\frac{\tr\; \A}{nsam}
 \;.
 \eeq
 
+
 \subsection{LR, assuming
-$x_\s$ are random and i.i.d.}
+$x_\s$ are random}
 Let
+
+$i_0\in\{0, 1, 2, \ldots, n\}$ : 
+index that can assume values 0 to $n$
+
+$i\in\{1, 2, \ldots, n\}$ : 
+index that can assume values 1 to $n$.
+$i$ is never equal to 0.
+
 
 $\rvy\in\RR$:  true value
 of dependent variable
@@ -1054,20 +1147,210 @@ of dependent variable
 
 $\ul{\eps}\in\RR$: residual
 
-$\rvx_j\in \RR$: independent variables
-for $j\in\{0,1,\ldots,n-1\}$
 
-$\beta_0, \beta_j\in\RR$:
+
+$\rvx_{i}\in \RR$: independent variables
+for $i\in\{1,\ldots,n\}$
+
+$\beta_0, \beta_i\in\RR$:
 regression coefficients
 
-\beq
-\hat{\rvy}=
-\beta_0 +\sum_{j=1}^{n}\beta_j \rvx_j
-\eeq
+\beqa
+\hat{\rvy}
+&=&
+\beta_0 +\sum_{j=1}^{n}
+\beta_{j} \rvx_j
+\\
+&=&
+\sum_{j_0=0}^{n}\beta_{j_0} \rvx_{j_0}
+\;\;(\text{Assume $\rvx_0=1$.})
+\eeqa
 
 \beq
 \rvy = \hat{\rvy}+\ul{\eps}
 \eeq
+
+\subsubsection{Transforming 
+expressions
+from
+non-random to
+random $x_\s$ }
+
+Define the following 
+population averages:
+
+
+\beq
+E_\s[x^\s]=
+\frac{1}{nsam}
+\sum_\s x^\s
+\;,
+\eeq
+
+\beq
+E_\s[x^\s y^\s]=
+\frac{1}{nsam}
+\sum_\s x^\s y^\s
+\;,
+\eeq
+
+\beq
+\av{x^\s,y^\s}_\s=
+E_\s[x^\s y^\s]-E_\s[x^\s]E_\s[y^\s]
+\;.
+\eeq
+
+
+\begin{claim}\label{cl-sigma-to-ran}
+\beq
+E_\s[x^\s] =\av{\rvx}
+\;
+\label{eq-exp-x}
+\eeq
+\beq
+E_\s[x^\s y^\s]
+=
+\av{\rvx\rvy}
+\label{eq-exp-xy}
+\eeq
+
+\beq
+\av{x^\s,y^\s}_\s
+=
+\av{\rvx, \rvy}
+\label{eq-exp-x--y}
+\eeq
+\end{claim}
+\proof
+\beqa
+\frac{1}{nsam}
+\sum_\s x^\s
+&=&
+\frac{1}{nsam}
+\sum_{x\in S_\rvx}
+x
+\underbrace{
+\sum_\s \indi(x^\s=x)}_
+{N(x^\s=x)}
+\\
+&=&
+\sum_{x}x\;P(x)
+\\
+&=&
+\av{\rvx }
+\eeqa
+
+\beqa
+\frac{1}{nsam}
+\sum_\s x^\s y^\s
+&=&
+\frac{1}{nsam}
+\sum_{x\in S_\rvx}
+\sum_{y\in S_\rvy}
+xy 
+\underbrace{
+\sum_\s \indi(x^\s=x, y^\s=y)}_
+{N(x^\s=x, y^\s=y)}
+\\
+&=&
+\sum_{x,y}xy\;P(x,y)
+\\
+&=&
+\av{\rvx \rvy}
+\eeqa
+Eq.(\ref{eq-exp-x--y}) 
+follows from 
+Eq.(\ref{eq-exp-x}) and Eq.(\ref{eq-exp-xy}) .
+\qed
+
+Recall that
+
+\beq
+Y_\s = \beta_0 +  \sum_{j=1}^n X_{\s,j}\beta_j + \eps_\s
+\;.
+\eeq
+
+Assume
+\beq
+E_\s[X_{\s,k} \eps_s]=E_\s[X_{\s,k}]
+\underbrace{E_\s[ \eps_\s]}_{=0}=0
+\;.
+\eeq
+Then we have
+
+\beq
+E_\s[X_{\s,k} Y_\s]=
+E_\s[X_{\s,k}]\beta_0 + \sum_{j=1}^n 
+E_\s [X_{\s,k} X_{\s,j}] \beta_j + 
+\underbrace{E_\s[X_{\s,k} \eps_\s]}_{=0}
+\label{eq-EXY}
+\eeq
+and
+
+\beq
+E_{\s'}[X_{\s',k}]E_\s[ Y_\s]=
+E_{\s'}[X_{\s',k}]\beta_0 + \sum_{j=1}^n 
+E_{\s'} [X_{\s',k}] E_\s[ X_{\s,j}] \beta_j + 
+\underbrace{E_{\s'}[X_{\s',k}]  E_\s[ \eps_\s]}_{=0}
+\label{eq-EX-EY}
+\;.
+\eeq
+Subtracting
+Eq.(\ref{eq-EX-EY}) from Eq.(\ref{eq-EXY}), we get
+
+\beq
+\av{X_{\s,k} ,Y_\s}_\s=
+\sum_{j=1}^n 
+\av{X_{\s,k}, X_{\s,j}}_\s \beta_j
+\label{eq-avX-comma-Y} 
+\;.
+\eeq
+Define the $n$ dimensional matrix $C$
+by
+ 
+\beq
+C_{k,j}=\av{X_{\s,k}, X_{\s,j}}_\s
+\:.
+\eeq
+Then Eq.(\ref{eq-avX-comma-Y}) implies
+
+\beq
+\beta_j =\sum_{k=1}^n
+C^{-1}_{j,k} \av{X_{\s,k} ,Y_\s}_\s
+\label{eq-beta_j-c-inv}
+\eeq
+for all $j=1,2,\ldots, n$.
+
+If assume that the $x_\s$ are i.i.d.,
+then, by  virtue of Claim \ref{cl-sigma-to-ran},
+the matrix $C$ tends to 
+
+
+\beq
+C_{k,j}
+\rarrow \av{\rvx_k, \rvx_j}
+\eeq
+and Eq.(\ref{eq-beta_j-c-inv})
+implies 
+ 
+\beq
+\beta_j = \sum_{k=1}^n C^{-1}_{j,k}\av{\rvx_k, \rvy}
+\label{eq-beta-random-from-nonrandom}
+\;.
+\eeq
+
+\subsubsection{Geometry of LR with random $x_\s$}
+Recall that
+
+\beq
+\rvy = 
+\underbrace{\beta_0 +\sum_{j=1}^{n}
+\beta_{j} \rvx_j}_{\hat{\rvy}}
++\ul{\eps}
+\;.
+\eeq
+
+
 Assume 
 
 \beq
@@ -1083,17 +1366,22 @@ For $k=1, \ldots, n$,
 \beq
 \av{\rvx_k, \rvy}
 =
-\sum_{j=1}^n\beta_j\av{\rvx_k, \rvx_j}
+\sum_{j=1}^{n}\beta_j\av{\rvx_k, \rvx_j}
 \;.
+\label{eq-beta-0-wrong}
 \eeq
+
 Let $\rvx^n$ and $\beta^n$ be
-column vectors.
-Then
+$n$-dimensional column vectors.
+Then Eq.(\ref{eq-beta-0-wrong})
+can be represented
+ in matrix notation by
 \beq
 \av{\rvx^n, \rvy}=
 \av{\rvx^n, (\rvx^n)^T}\beta^n
-\;,
+\;.
 \eeq
+Hence, 
 
 \beq
 \boxed{
@@ -1103,39 +1391,21 @@ Then
 \;.}
 \label{eq-beta-random-lin-reg}
 \eeq
+For $\beta_0$, use
 
 \beq
 \beta_0=
-\av{\rvy}-(\beta^n)^T \av{\rvx^n}
+\av{\rvy}-\av{\rvx^n}^T \beta^n
 \eeq
 
 Notice that 
-the equations for the regression coefficients
-are very similar
-for the two cases of $x_\s$-nonrandom
-and $x_\s$-random.
-In fact, if  we replace bilinears as follows
+Eq.(\ref{eq-beta-random-lin-reg})
+for the regression coefficients
+is the same
+as Eq.(\ref{eq-beta-random-from-nonrandom}).
+So we have rederived the same formula
+via a different method.
 
-\beq
-X^T y\longrightarrow\av{\rvx^n, \rvy} 
-\eeq
-
-\beq
-X^T X
-\longrightarrow \av{\rvx^n, (\rvx^n)^T}
-\eeq
-we go from the estimator  
-of $\beta$ for one case
-to the estimator 
-of $\beta$ for the other case:
-
-\beq
-\text{
-Eq.(\ref{eq-beta-nonrandom-lin-reg})}
-\longrightarrow
-\text{
-Eq.(\ref{eq-beta-random-lin-reg})}
-\eeq
 
 Next, we will
 write 
@@ -1153,7 +1423,7 @@ variables $\rvx_j$
 \rvy = \beta_0 + \beta_1\rvx + \rveps
 \eeq
 
-Eq.\ref{eq-beta-random-lin-reg} becomes
+Eq.(\ref{eq-beta-random-lin-reg}) becomes
 \beq
 \beta_1=
 \frac{\av{\rvy,\rvx}}{\av{\rvx,\rvx}}
@@ -1173,7 +1443,7 @@ Define
 C_{i,j}=\av{\rvx_i, \rvx_j}
 \eeq  
 for all $i,j$.
-Then Eq.\ref{eq-beta-random-lin-reg}
+Then Eq.(\ref{eq-beta-random-lin-reg})
 becomes\footnote{
 Recall that if
 $
@@ -1265,8 +1535,132 @@ $Y\rarrow \rvy$, $Z\rarrow \rvx_2$.
 
 \end{enumerate}
 
+\subsubsection{Regression
+ interpred as differentiation
+ of $y$}
 
+Finding the derivative of $y$
+with respect to (wrt) $X$
+(aka ``{\bf Regressing $y$ on $X$}")
+is finding 
+$\hat{\beta}=\frac{d}{dX}
+\underbrace{y}_{X\beta}$.
 
+Recall that
+
+\beq
+\rvy = \beta_0 + \sum_{k=1}^n \rvx_k \beta_k + \ul{\eps}
+\;.
+\eeq
+Therefore,
+
+\beqa
+\av{\rvx_i, \rvy}
+&=& 
+\sum_{k=1}^n \av{\rvx_i, \rvx_k}\beta_k
+\\
+&=&
+ \av{\rvx_i, \rvx_i}\beta_i
++
+\sum_{k=1}^n
+\indi(k\neq i)
+ \av{\rvx_i, \rvx_k}\beta_k
+\;.
+\eeqa
+Hence,
+
+\beq
+\beta_i
+=
+\frac{\av{\rvx_i, \rvy}}
+{\av{\rvx_i, \rvx_i}}
+-\sum_{k=1}^n
+\indi(k\neq i)
+\frac{ \av{\rvx_i, \rvx_k}}
+{\av{\rvx_i, \rvx_i}}
+\beta_k
+\;.
+\label{eq-beta-i-non-deriv}
+\eeq
+
+Let's represent 
+the linear 
+operator
+$\av{\rvx_i, \rvx_i}^{-1}\av{\rvx_i, \cdot}
+$ as a derivative:
+
+\beq
+\frac{d\;\cdot}{d\rvx_i}=
+\frac{\av{\rvx_i, \cdot}}
+{\av{\rvx_i, \rvx_i}}
+\;.
+\eeq
+In the derivative notation,
+Eq.(\ref{eq-beta-i-non-deriv}) becomes:
+
+\beq
+\beta_i
+=
+\frac{d \rvy}
+{d\rvx_i}
+-\sum_{k=1}^n\indi(k\neq i)
+\frac{ d\rvx_k}
+{d\rvx_i}
+\beta_k
+\label{eq-beta-i-deriv}
+\eeq
+Note that Eq.(\ref{eq-beta-i-deriv})
+evokes the formula for differentials:
+
+\beq
+d\rvy=
+\sum_{k=1}^n \beta_kd\rvx_k 
+\;.
+\eeq
+
+Note also that,
+because of the
+linearity of the derivative operator,
+Eq.(\ref{eq-beta-i-deriv})
+implies:
+
+\beq
+\beta_i=
+\frac{d}
+{d\rvx_i}
+\underbrace{
+\left(\rvy
+-\sum_{k=1}^n
+\indi(k\neq i)\rvx_k \beta_k
+\right)
+}_{\caly_i}
+\label{eq-beta-i-2-steps}
+\;.
+\eeq
+
+Eq.(\ref{eq-beta-i-2-steps})
+can be used to find
+$\hat{\beta}_i$ 
+in two steps:
+
+STEP 1: Regress $\rvy$
+on $(\rvx_k)_{k\in \{1,2, 
+\ldots, n\}- \{ i\}}$.
+Get estimates
+$(\hat{\beta}_k)_{k\in \{1,2, 
+\ldots, n\}- \{ i\}}$. 
+
+STEP 2: Regress $\caly_i$ on $\rvx_i$.
+Get estimate $\hat{\beta}_i$.
+
+Of course, one can also
+find $\hat{\beta}_i$
+by regressing $\rvy$
+on $(\rvx_k)_{k\in \{1,2, 
+\ldots, n\}}$, to get
+estimates 
+$(\hat{\beta}_k)_{k\in \{1,2, 
+\ldots, n\}}$. 
 
 
 \section{Entropy,
