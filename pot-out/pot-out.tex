@@ -1893,7 +1893,7 @@ g_d(x)=P_{\rvd|\rvx}(d|x)
  for $d\in\bool$.
 Note that $g_0(x)+g_1(x)=1$.
 $g_1(x)$ is called the {\bf propensity score}.
-One can do {\bf propensity weighting}
+One can do {\bf propensity score weighting}
 within the above estimators to
 improve their behavior.
 This is done by making the
@@ -1912,6 +1912,49 @@ N_x g_0(x^\s)
 These replacements are
 equal under $ \sum_{\s\in A_x}$
 to the terms they replace.
+
+As an example of 
+Propensity Score Weighting, note that
+
+\begin{claim}
+\beq
+\widehat{SDO}_x=
+\frac{1}{N_x}
+\sum_{\s\in A_x}
+\frac{y^\s[\td^\s-g_1(x^\s)]}
+{g_1(x^\s)[1-g_1(x^\s)]}
+\eeq
+\end{claim}
+\proof
+From Eq.(\ref{eq-est-sdo}), we get
+\beqa
+\widehat{SDO}_x&=&
+\frac{1}{N_x}
+\sum_{\s\in A_x}
+y^\s
+\left[
+\frac{\td^\s}{g_1(x^\s)}
+-
+\frac{(1-\td^\s)}{g_0(x^\s)}
+\right]\\
+&=&
+\frac{1}{N_x}
+\sum_{\s\in A_x}
+y^\s
+\left[
+\frac{\td^\s g_0 - (1-\td^\s)g_1}{g_0 g_1}
+\right]
+\\
+&=&
+\frac{1}{N_x}
+\sum_{\s\in A_x}
+y^\s
+\left[
+\frac{\td^\s \overbrace{(g_0+g_1)}^{=1}
+ - g_1}{g_0 g_1}
+\right]
+\eeqa
+\qed
 
 
 \subsubsection{Example, calculation
@@ -2282,7 +2325,7 @@ g(x^\s)=P(d^\s=1|x^\s)
 \;.
 \eeq
 $P(d^\s=1|x^\s)$ is easy to calculate
-from the dataset for each $\s$.
+from the dataset.
 Indeed, 
 if $\Sigma_{d,x}=
 \{\s\in\Sigma: d^\s=d, x^\s=x\}$ and
