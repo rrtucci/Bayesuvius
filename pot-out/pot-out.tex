@@ -483,42 +483,7 @@ P_{\rvy|\rvx, \rvd}(y^\s|x^\s, \td^\s)
 \eeq
 
 
-It is convenient
-to define
-the following
-expected values of
-$\rvy^\s$
-in terms of the TPMs of
-bnet $G_{do+}$:
 
-\beq
-\caly_{|d,x}=E_{\s|d,x}[\rvy^\s]
-\rarrow  E_{\rvy|d,x}[\rvy]
-=
-\sum_y yP(y|d,x)
-\eeq
-
-
-\beq
-\caly_{|d}=E_{\s|d}[\rvy^\s]
-\rarrow E_{y|d}[\rvy]
-=
-\sum_x \caly_{|d,x}P(x)
-\eeq
-
-\beq
-\caly_{|x} =E_{\s|x}[\rvy^\s]
-\rarrow E_{y|x}[\rvy]
-=
-\sum_{d} \caly_{|d,x}P(d)
-\eeq
-
-
-\beq
-\caly=E_\s[\rvy^\s]
-\rarrow E_y[\rvy]=\sum_{d,x}
- \caly_{|d,x}P_{\rvd|\rvx}(d|x)P(x)
-\eeq
 
 \section{$G_{im+}$ bnet}
 
@@ -813,8 +778,20 @@ bnet $G_{im+}$:
 E_{\s|d,x}[\rvy^\s(\td)]
 \rarrow
 E_{\rvy|d,x} [\rvy(\td)]
-=\sum_{y} yP_{\rvy(\td)|\rvtd=d,x}(y|d,x)
+=\sum_{y} y
+P_{\rvy(\td)|\rvtd=d,x}(y|d,x)
 \label{eq-need-positivity}
+\eeq
+
+\beq
+\caly_{|d,x}
+=
+E_{\s|d,x}[\rvy^\s]
+\rarrow
+E_{\rvy|d,x} [\rvy]
+=\sum_{y} y
+\underbrace{P_{\rvy|\rvtd=d,x}(y|d,x)}_
+{P_{\rvy(d)|\rvtd=d,x}(y|d,x)}
 \eeq
 
 \beq
@@ -823,7 +800,20 @@ E_{\rvy|d,x} [\rvy(\td)]
 E_{\s| d}[\rvy^\s(\td)]
 \rarrow
 E_{\rvy|d} [\rvy(\td)]
-=\sum_x \caly_{\td|d,x}P(x)
+=\sum_x \caly_{\td|d,x}
+\underbrace{P(x|\rvtd=d)}_
+{=P(x)\text{ by d-separation}}
+\eeq
+
+\beq
+\caly_{|d}
+=
+E_{\s| d}[\rvy^\s]
+\rarrow
+E_{\rvy|d} [\rvy]
+=\sum_x \caly_{|d,x}
+\underbrace{P(x|\rvtd=d)}_
+{=P(x)\text{ by d-separation}}
 \eeq
 
 \beq
@@ -832,7 +822,20 @@ E_{\rvy|d} [\rvy(\td)]
 E_{\s| x}[\rvy^\s(\td)]
 \rarrow
 E_{\rvy|x} [\rvy(\td)]
-=\sum_d \caly_{\td|d,x}P(d)
+=\sum_d \caly_{\td|d,x}
+\underbrace{P(\rvtd=d|x)}_
+{=P(\rvtd=d) \text{ by d-separation}}
+\eeq
+
+\beq
+\caly_{|x}
+=
+E_{\s| x}[\rvy^\s]
+\rarrow
+E_{\rvy|x} [\rvy]
+=\sum_d \caly_{|d,x}
+\underbrace{P(\rvtd=d|x)}_
+{=P(\rvtd=d) \text{ by d-separation}}
 \eeq
 
 \beq
@@ -842,8 +845,20 @@ E_{\s}[\rvy^\s(\td)]
 \rarrow
 E_{\rvy} [\rvy(\td)]
 =\sum_{d,x}\caly_{\td|d,x}
- P_{\rvd|\rvx}(d|x)P(x)
+ P(\rvtd=d)P(x)
 \eeq
+
+\beq
+\caly
+=
+E_{\s}[\rvy^\s]
+\rarrow
+E_{\rvy} [\rvy]
+=\sum_{d,x}\caly_{|d,x}
+ P(\rvtd=d)P(x)
+\eeq
+
+
 
 
 $\caly_{0|0}, \caly_{1|1}$
@@ -1458,7 +1473,7 @@ depends on just one corner.
 \section{$(SDO,ATE)$ space}
 If we substitute
 $y^\s\rarrow y^\s(\td^\s)$ and
- $y^{a(\s)}\rarrow y^\s(!\td^\s)$,
+ $y^{m(\s)}\rarrow y^\s(!\td^\s)$,
 where $!0=1$ and $!1=0$, 
 into 
 the estimator
@@ -1699,11 +1714,11 @@ and vice versa.
 Define a map $a:A\rarrow A$
 such that,
 for each $x$,
-$a(A_{0,x})\subset A_{1,x}$ and
-$a(A_{1,x})\subset A_{0,x}$.
+$m(A_{0,x})\subset A_{1,x}$ and
+$m(A_{1,x})\subset A_{0,x}$.
 This assumes $A_{0,x}$ and $A_{1,x}$
 are non-empty for all $x$.
-The purpose of map $a()$
+The purpose of map $m()$
 is
 to fill in the missing data in the
 PO dataset. See Fig.\ref{tab-po-s-map}
@@ -1715,12 +1730,12 @@ this.
 \begin{tabular}{|l|l|l|}
 \hline
  & \cellcolor[HTML]{ECF4FF}$y^\s(0)$ & \cellcolor[HTML]{ECF4FF}$y^\s(1)$ \\ \hline
-\cellcolor[HTML]{ECF4FF}$\td^\s=0$ & $y^\s$ & $y^{a(\s)}$ \\ \hline
-\cellcolor[HTML]{ECF4FF}$\td^\s=1$ & $y^{a(\s)}$ & $y^\s$ \\ \hline
+\cellcolor[HTML]{ECF4FF}$\td^\s=0$ & $y^\s$ & $y^{m(\s)}$ \\ \hline
+\cellcolor[HTML]{ECF4FF}$\td^\s=1$ & $y^{m(\s)}$ & $y^\s$ \\ \hline
 \end{tabular}
 \caption{Illustration of the
-purpose of the map $a()$.
-Note that $y^\s=y^\s(\td^\s)$ and $y^{a(\s)}=y^\s(!\td^\s)$,
+purpose of the map $m()$.
+Note that $y^\s=y^\s(\td^\s)$ and $y^{m(\s)}=y^\s(!\td^\s)$,
 where $!0=1$ and $!1=0$.}
 \label{tab-po-s-map}
 \end{table}
@@ -1741,24 +1756,35 @@ because, by d-separation, at fixed $x$,
  $\rvy^\s$ and $\rvtd^\s$
 are not independent 
 but $\rvy^\s$ and $\rvd^\s$ are.
-Table \ref{tab-po-quadrants}
-evaluates various
-expected values of the type
- $E_x[\rvtd^\s \rvy^\s]$.
 
+Table \ref{tab-po-quadrants}
+gives
+estimates of
+$ \caly_{\td|d,x}$
 
 \renewcommand{\arraystretch}{1.5}
 \begin{table}[h!]
 \centering
 \begin{tabular}{|l|l|l|}
 \hline
- & \cellcolor[HTML]{ECF4FF}$y^\s(0)$ & \cellcolor[HTML]{ECF4FF}$y^\s(1)$ \\ \hline
-\cellcolor[HTML]{ECF4FF}$\td^\s=0$ & \begin{tabular}[c]{@{}l@{}}$E_x[(1-\rvtd^\s) \rvy^\s]=E[1-\rvtd^\s]\caly_{0|0,x}$\\ $E_x\left[\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\rvtd^\s)\rvy^{\s}\right]=\caly_{0|0,x}$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$E_x[(1-\rvtd^\s )\rvy^{a(\s)}]=E[1-\rvtd^\s]\caly_{1|0,x}$\\ $E_x\left[\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\rvtd^\s) \rvy^{a(\s)}\right]=\caly_{1|0,x}$\end{tabular} \\ \hline
-\cellcolor[HTML]{ECF4FF}$\td^\s=1$ & \begin{tabular}[c]{@{}l@{}}$E_x[\rvtd^\s \rvy^\s]=E[\rvtd^{a(\s)}]\caly_{0|1,x}$\\ $E_x\left[\frac{1}{N_{1,x}}\sum_{\s\in A_x} \rvtd^\s \rvy^{a(\s)}\right]=\caly_{0|1,x}$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$E_x[\rvtd^\s \rvy^\s]=E[\rvtd^\s]\caly_{1|1,x}$\\ $E_x\left[\frac{1}{N_{1,x}}\sum_{\s\in A_x} \rvtd^\s \rvy^\s\right]=\caly_{1|1,x}$\end{tabular} \\ \hline
+ & \cellcolor[HTML]{ECF4FF}$y^\s(0)$ 
+& \cellcolor[HTML]{ECF4FF}$y^\s(1)$ 
+\\ \hline
+\cellcolor[HTML]{ECF4FF}$\td^\s=0$ 
+& 
+$\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\rvtd^\s)\rvy^{\s}=\caly_{0|0,x}$
+& 
+$\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\rvtd^\s) \rvy^{m(\s)}=\caly_{1|0,x}$
+\\ \hline
+\cellcolor[HTML]{ECF4FF}$\td^\s=1$ 
+&
+ $\frac{1}{N_{1,x}}\sum_{\s\in A_x} \rvtd^\s \rvy^{m(\s)}=\caly_{0|1,x}$
+& 
+$\frac{1}{N_{1,x}}\sum_{\s\in A_x} \rvtd^\s \rvy^\s=\caly_{1|1,x}$
+\\ \hline
 \end{tabular}
-\caption{Expected Values
-of the type
- $E_x[\rvtd^\s \rvy^\s]$.}
+\caption{Estimates of
+$ \caly_{\td|d,x}$.}
 \label{tab-po-quadrants}
 \end{table}
 \renewcommand{\arraystretch}{1}
@@ -1817,12 +1843,12 @@ via the following estimators.
 \\
 &=&
 \frac{1}{N_x}
-\left[\sum_{\s\in A_x} \td^\s [y^\s - y^{a(\s)}]+
-\sum_{\s\in A_x}(1-\td^\s) [ y^{a(\s)}-y^\s]
+\left[\sum_{\s\in A_x} \td^\s [y^\s - y^{m(\s)}]+
+\sum_{\s\in A_x}(1-\td^\s) [ y^{m(\s)}-y^\s]
 \right]
 \\
 &=&
-\frac{1}{N_x}\sum_{\s\in A_x} (2\td^\s-1)[y^\s -y^{a(\s)}]
+\frac{1}{N_x}\sum_{\s\in A_x} (2\td^\s-1)[y^\s -y^{m(\s)}]
 \label{eq-est-ate}
 \eeqa
 
@@ -1831,10 +1857,10 @@ via the following estimators.
 &=&
 \overbrace{\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s y^\s}^{\caly_{1|1,x}}
  - 
-\overbrace{\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s y^{a(\s)}}^{\caly_{0|1,x}}
+\overbrace{\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s y^{m(\s)}}^{\caly_{0|1,x}}
 \\
 &=&
-\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s [y^\s - y^{a(\s)}]
+\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s [y^\s - y^{m(\s)}]
 \label{eq-est-att}
 \eeqa
 
@@ -1842,18 +1868,18 @@ via the following estimators.
 \beqa
 \widehat{ATU}_x
 &=&
-\overbrace{\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\td^\s) y^{a(\s)} }^{\caly_{1|0,x}}
+\overbrace{\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\td^\s) y^{m(\s)} }^{\caly_{1|0,x}}
  - 
 \overbrace{\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\td^\s)y^\s}^{\caly_{0|0,x}}
 \\
 &=&
-\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\td^\s) [ y^{a(\s)}-y^\s]
+\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\td^\s) [ y^{m(\s)}-y^\s]
 \label{eq-est-atu}
 \eeqa
 
 \beq
 \widehat{SB}_x =
-\overbrace{\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s y^{a(\s)}}^{\caly_{0|1,x}}
+\overbrace{\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s y^{m(\s)}}^{\caly_{0|1,x}}
 -
 \overbrace{\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\td^\s)y^\s}^{\caly_{0|0,x}}
 \label{eq-est-sb}
@@ -1879,8 +1905,8 @@ treatment blind,
 the above estimators for
 $ATE_x, ATT_x,ATU_x, SB_x$
 are invalid because they depend on
-$a()$. Only the estimator for $SDO_x$
-is valid because it doesn't depend on $a()$.
+$m()$. Only the estimator for $SDO_x$
+is valid because it doesn't depend on $m()$.
 
 
 
@@ -1965,7 +1991,7 @@ estimators for a treatment}
 For $\s\in \{1,2, \ldots, 10\}$, define
 
 \beq
-a(\s)=
+m(\s)=
 \left\{
 \begin{array}{ll}
 \s+5&\text{if }\s\leq 5
@@ -1982,7 +2008,7 @@ a(\s)=
 \centering
 \begin{tabular}{|l|l|l|l|l|l|l|}
 \hline
-\cellcolor[HTML]{ECF4FF} $\s$& \cellcolor[HTML]{ECF4FF}$\td^\s$ & \cellcolor[HTML]{ECF4FF}$y^\s$ & \cellcolor[HTML]{ECF4FF}$\td^\s y^\s$ & \cellcolor[HTML]{ECF4FF}$(1-\td^\s)y^\s$ & \cellcolor[HTML]{ECF4FF}$\td^\s y^{a(\s)}$ & \cellcolor[HTML]{ECF4FF}$(1-\td^\s)y^{a(\s)}$ \\ \hline
+\cellcolor[HTML]{ECF4FF} $\s$& \cellcolor[HTML]{ECF4FF}$\td^\s$ & \cellcolor[HTML]{ECF4FF}$y^\s$ & \cellcolor[HTML]{ECF4FF}$\td^\s y^\s$ & \cellcolor[HTML]{ECF4FF}$(1-\td^\s)y^\s$ & \cellcolor[HTML]{ECF4FF}$\td^\s y^{m(\s)}$ & \cellcolor[HTML]{ECF4FF}$(1-\td^\s)y^{m(\s)}$ \\ \hline
 \cellcolor[HTML]{ECF4FF}1 & \cellcolor[HTML]{FFFFC7}0 & 0 & \cellcolor[HTML]{FFFFC7}0 & 0 & \cellcolor[HTML]{FFFFC7}0 & 0 \\ \hline
 \cellcolor[HTML]{ECF4FF}2 & \cellcolor[HTML]{FFFFC7}0 & 0 & \cellcolor[HTML]{FFFFC7}0 & 0 & \cellcolor[HTML]{FFFFC7}0 & 1 \\ \hline
 \cellcolor[HTML]{ECF4FF}3 & \cellcolor[HTML]{FFFFC7}0 & 1 & \cellcolor[HTML]{FFFFC7}0 & 1 & \cellcolor[HTML]{FFFFC7}0 & 1 \\ \hline
@@ -2070,7 +2096,7 @@ N
 \caly_{0|1}
 =
 \frac{1}{N_1}
-\sum_\s \td^\s y^{a(\s)}
+\sum_\s \td^\s y^{m(\s)}
 =
 \frac{3}{5}
 \eeq
@@ -2079,7 +2105,7 @@ N
 \caly_{1|0}
 =
 \frac{1}{N_0}
-\sum_\s (1-\td^\s) y^{a(\s)}
+\sum_\s (1-\td^\s) y^{m(\s)}
 =
 \frac{4}{5}
 \eeq
@@ -2103,16 +2129,16 @@ that stratum,
 the treated and 
 untreated populations
 are {\bf balanced} (of equal size).
-Also, the map $a()$
+Also, the map $m()$
 is 1-1 onto.
 If, for instance,
-$a(\s)=6$ for all $\s\in A_0$
-and $a(\s)=5$ for $\s\in A_1$,
+$m(\s)=6$ for all $\s\in A_0$
+and $m(\s)=5$ for $\s\in A_1$,
 then $ATE, ATT, ATU, SDO$
 would not all be same, and 
 $SB$ would not be zero.  
 In fact, whenever there is a single
-balanced stratum and the map $a()$
+balanced stratum and the map $m()$
 is 1-1 onto, Eq.(\ref{eq-all-equal})
 can be proven to be true using
 the methods of
@@ -2138,9 +2164,9 @@ Instead of discarding orphans,
 a better way is to
 relax our demands and
 match individual $\s$
-with another individual $a(\s)$
+with another individual $m(\s)$
 such that $x^\s$
-and $x^{a(\s)}$ are very
+and $x^{m(\s)}$ are very
 close in some metric.
 Alternatively, the matching
 individual might 
@@ -2161,29 +2187,29 @@ that depends on $\s$.
 Let $\eps(\s, 5)$
 be the radius necessary
 so that $\calm_{\eps(\s, 5)}(\s)$
-contains exactly 5 elements $a$.
+contains exactly 5 elements $m$.
 Thus, $\calm_{\eps(\s, 5)}(\s)$
-contains the $a$ of the
- 5 points $x^a$ that are the
+contains the $m$ of the
+ 5 points $x^m$ that are the
 nearest neighbors of $x^\s$
 in the $dist()$ metric.}
 
 \beq
 \calm_{\eps}(\s)=
-\{a: \td^\s=1, \td^a=0,
-dist(x^\s, x^a)\leq \eps \}
+\{m: \td^\s=1, \td^m=0,
+dist(x^\s, x^m)\leq \eps \}
 \;,
 \eeq
 where
 
 \beq
-dist(x^\s, x^a)=
-[x^\s]^T [\Sigma]^{-1} x^a
+dist(x^\s, x^m)=
+[x^\s]^T [\Sigma]^{-1} x^m
 \;,
 \eeq
-where $\Sigma = \av{\rvx^\s, [\rvx^a]^T}$.
+where $\Sigma = \av{\rvx^\s, [\rvx^m]^T}$.
  This
-metric $dist(x^\s, x^a)$ is
+metric $dist(x^\s, x^m)$ is
 called the {\bf Mahalanobis distance}.
 We will call
 the case $\eps=0$ an {\bf  exact strata-match},
@@ -2192,7 +2218,7 @@ the case
 $\eps\neq 0$ 
  an {\bf approximate strata-match.}.
 To do an approximate strata-match,
-replace $y^{a(\s)}$ 
+replace $y^{m(\s)}$ 
 by
 $\av{y}^\s$ 
 in 
@@ -2205,8 +2231,8 @@ is defined by
 \beq
 \av{y}^\s=
 \frac{1}{|\calm_{\eps}(\s)|}
-\sum_{a\in \calm_{\eps}(\s)}
-y^a
+\sum_{m\in \calm_{\eps}(\s)}
+y^m
 \;.
 \eeq
 
@@ -2464,10 +2490,12 @@ it is saying is that, given
 any function $\calf(g)$ of $g$,
 
 \beq
-\sum_g P(g) \calf(g) P(y|d,g)=
-\sum_x P(x) \calf(g(x)) P(y|d,x)
+\sum_g P(g)\calf(g) P(y|d,g)=
+\sum_x P(x)\calf(g(x)) P(y|d,x)
 \;.
 \eeq
+
+
 
 \section{Multi-time PO bnets (Panel Data)}
 
