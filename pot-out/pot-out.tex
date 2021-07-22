@@ -146,11 +146,11 @@ making the effect of $x^\s$
 average out  to zero.
 However,
 there are many situations
-in which carrying out an RCT is not
+in which carrying out a RCT is not
 possible. PO theory is
 a way of predicting the
 result
-of an RCT in situations where
+of a RCT in situations where
 doing a real RCT is not physically possible.
 
 In this chapter, $x^\s$
@@ -168,7 +168,7 @@ This would ruin
 the
 predictions
 of someone trying
-to predict the results of an RCT
+to predict the results of a RCT
 without
 being privy to those secret 
 messages.
@@ -177,7 +177,7 @@ unmeasured confounders},
 it might still be
 possible
 to
-predict the effect of an RCT.
+predict the effect of a RCT.
 This might be possible
 using instrumental variables. See Chapter
 \ref{ch-instrumental}
@@ -297,8 +297,8 @@ P_{\rvd|\rvx}(d^\s|x^\s)
 
 
 \beq\color{blue}
-P(y^\s|x^\s, d^\s)=
-P_{\rvy|\rvx, \rvd}(y^\s|x^\s, d^\s)
+P(y^\s| d^\s, x^\s)=
+P_{\rvy|\rvd, \rvx}(y^\s|d^\s, x^\s)
 \eeq
 
 
@@ -444,7 +444,7 @@ node  $\rvd^\s$ has been
 stripped of all outside 
 influences and fixed to a
 specific state $\td^\s$.
-This is what an RCT does.
+This is what a RCT does.
 
 The TPMs, printed in blue,
 for the bnets $G_{do}$
@@ -462,7 +462,7 @@ P_{\rvx}(x^\s)
 
 \beq
 P_{\rho\rvd}(\td)=\sum_x P_{\rvd|\rvx}
-(\td|x)P_\rvx(x)
+(c|x)P_\rvx(x)
 \eeq
 
 \beq\color{blue}
@@ -500,19 +500,17 @@ $$
 \xymatrix{
 &\rvx^\s\ar[dl]\ar[dr]
 \\
-\rvd^\s\ar@/_1pc/[rr]
-&\rvtd^\s=\td^\s\ar[r]&\rvy^\s
+\rvd^\s&\rvtd^\s=\td^\s\ar[r]&\rvy^\s
 }
 &&
 \xymatrix{
 &\rvx^\s\ar[dl]\ar[dr]
 \\
-\rvd^\s\ar@/_1pc/[rr]
-&\rvtd^\s\ar[r]&\rvy^\s
+\rvd^\s&\rvtd^\s\ar[r]&\rvy^\s
 }
 \\
 \\
-G&&G_{im}= \kappa_{\rvd^\s}
+G&&G_{im}= \kappa_{\rvd^\s\rarrow\rvy^\s}
 (\td^\s)G&&G_{im+}
 \end{array}
 $$
@@ -578,7 +576,7 @@ P_{\rvd|\rvx}(d^\s|x^\s)
 
 \beq
 \pi_\td=P(\td)=\sum_x P_{\rvd|\rvx}
-(\td|x)P_\rvx(x)
+(c|x)P_\rvx(x)
 \eeq
 
 \beq\color{blue}
@@ -595,20 +593,9 @@ P(\td^\s)=
 
 
 \beq\color{blue}
-P(y^\s|\td^\s, d^\s, x^\s)=
-\text{given. }
+P(y^\s|\td^\s, x^\s)=
+P_{\rvy|\rvd, \rvx}(y^\s|\td^\s, x^\s)
 \eeq
-The probability distribution
-$P(y^\s|\td^\s, d^\s, x^\s)$ is
-given.
-It 
-equals the $G$
-distribution
-$P_{\rvy|\rvd, \rvx}(y^\s|d^\s, x^\s)$
-if $d^\s=\td^\s$,
-but is not given by G 
-in the counterfactual
-case when $d^\s\neq \td^\s$. 
 
 
 
@@ -632,8 +619,7 @@ $$
 \\
 &&[\rvy^\s(0),\rvy^\s(1)]\ar[d]
 \\
-\rvd^\s\ar@/^1pc/[urr]
-&\rvtd^\s=\td^\s\ar[r]
+\rvd^\s&\rvtd^\s=\td^\s\ar[r]
 \ar[ur]&\rvy^\s
 }
 &
@@ -642,12 +628,11 @@ $$
 \\
 &&[\rvy^\s(0),\rvy^\s(1)]\ar[d]
 \\
-\rvd^\s\ar@/^1pc/[urr]
-&\rvtd^\s\ar[r]\ar[ur]
+\rvd^\s&\rvtd^\s\ar[r]\ar[ur]
 &\rvy^\s
 }
 \\
-G&G_{im}= \kappa_{\rvd^\s}
+G&G_{im}= \kappa_{\rvd^\s\rarrow\rvy^\s}
 (\td^\s)G&G_{im+}
 \end{array}
 $$
@@ -656,6 +641,10 @@ Fig.\ref{fig-po-G-im}
 with two new nodes $\rvy^\s(0)$
 and $\rvy^\s(1)$ added to bnets $G_{im}$
 and $G_{im+}$.
+The tuple node $[\rvy^\s(0), \rvy^\s(1)]$
+can also be represented by
+two nodes $\rvc\rarrow\rvy(\rvc)$,
+where $\rvc\in \bool$.
 } 
 \label{fig-po-G-im-y0-y1}
 \end{figure}
@@ -689,7 +678,7 @@ P_{\rvd|\rvx}(d^\s|x^\s)
 
 \beq
 \pi_\td=P(\td)=\sum_x P_{\rvd|\rvx}
-(\td|x)P_\rvx(x)
+(c|x)P_\rvx(x)
 \eeq
 
 \beq\color{blue}
@@ -706,22 +695,24 @@ P(\td^\s)=
 
 
 \beq\color{blue}
-P(y^\s(0)|\td^\s,d^\s,x^\s) = 
-P(\rvy=y^\s(0)|\rvtd^\s=0,d^\s, x^\s)
+P(y^\s(0)|\td^\s, x^\s) = 
+P_{\rvy(0)|\rvtd, \rvx}(y^\s(0)|\td^\s, x^\s)
 \eeq
 
 \beq\color{blue}
-P(y^\s(1)|\td^\s,d^\s,x^\s) = 
-P(\rvy=y^\s(1)|\rvtd^\s=1,d^\s, x^\s)
+P(y^\s(1)|\td^\s, x^\s) = 
+P_{\rvy(1)|\rvtd, \rvx}(y^\s(1)|\td^\s, x^\s)
 \eeq
 
+
 \beqa\color{blue}
-P(y^\s|y^\s(0), y^\s(1),  \td^\s)=
+P(y^\s|y^\s(0), y^\s(1), \td^\s)=
 &=&\color{blue}
 \indi(y^\s= \td^\s y^\s(1) + (1-\td^\s)y^\s(0))
 \\
 &=&\color{blue}
 \indi(y^\s= y^\s(\td^\s))
+\label{eq-y-equal-ytd}
 \eeqa
 
 If we sum over the 
@@ -736,35 +727,52 @@ $\rvy(0)$ and $\rvy(1)$.
 This is easy to check. Indeed, 
 
 \begin{align}
-P(y^\s|\td^\s=1,d^\s,  x^\s)
+P(y^\s|\td^\s, x^\s)
 &=
 \sum_{y^\s(0)}
 \sum_{y^\s(1)}
-\left\{
-\begin{array}{l}
-\indi(y^\s= y^\s(\td^\s=1))\\
-P(y^\s(0)|\td^\s=1,d^\s,  x^\s)\\
-P(y^\s(1)|\td^\s=1, d^\s, x^\s)
-\end{array}
-\right.
+\indi(y^\s= y^\s(\td^\s))
+P(y^\s(0)|\td^\s, x^\s)
+P(y^\s(1)|\td^\s, x^\s)
 \\
 &=
-P(y|\td^\s=1, d^\s, x^\s)
-\;,
+\left\{
+\begin{array}{ll}
+P_{\rvy(0)|\rvtd, \rvx}(
+y^\s|\td^\s, x^\s)&\text{ if }
+\td^\s=0
+\\
+P_{\rvy(1)|\rvtd, \rvx}(
+y^\s|\td^\s, x^\s)&\text{ if }
+\td^\s=1
+\end{array}
+\right.
+\;.
 \label{eq-y-is-y-td}
 \end{align}
-and similarly when $\td^\s=0$.
+\begin{mdframed}[hidealllines=true,backgroundcolor=gray!10]
 Note that
-$P(y|\td^\s, d^\s, x^\s)$
-for $d^\s\in \bool$
-and $\td^\s\in \bool$
-constitutes 4 different 
-probability distributions.
-When $d^\s\neq \td^\s$,
-we say it's a counterfactual
-distribution (it can never be measured,
-it can only be inferred).
+$P(\rvy(c)=y|\rvtd=\td, x)$
+for $c, \td\in \bool$
+are four 
+different probability 
+distributions,
+and that 
+$P(\rvy=y|\td=\td,x)$
+is defined in terms
+of two of them, the
+so called {\bf factual 
+distributions} with $c=\td$.
+By measuring $\rvy$,
+we can't access the other
+2 probability distributions,
+the so called {\bf counterfactual
+distributions}
+with $c\neq\td$.
+\end{mdframed}
 
+\section{Expected Values of
+ treatment outcome $y^\sigma$}
 
 It is convenient
 to define
@@ -775,58 +783,68 @@ in terms of the TPMs of
 bnet $G_{im+}$:
 
 \beq
-\caly_{\td|d,x}
+\calr_{c|d,x}
 =
-E_{\s|d,x}[\rvy^\s(\td)]
+E_{\s|d,x}[\rvy^\s(c)]
 \rarrow
-E_{\rvy|d,x} [\rvy(\td)]
+E_{\rvy|d,x} [\rvy(c)]
 =\sum_{y} y
-P_{\rvy(\td)|\rvtd=d,x}(y|d,x)
+P(\rvy(c)=y|d,x)
+\eeq
+
+\beq
+\caly_{c|\td,x}
+=
+E_{\s|\td,x}[\rvy^\s(c)]
+\rarrow
+E_{\rvy|\td,x} [\rvy(c)]
+=\sum_{y} y
+P(\rvy(c)=y|\td,x)
 \label{eq-need-positivity}
 \eeq
 
 \beq
-\caly_{|d,x}
+\caly_{|\td,x}
 =
-E_{\s|d,x}[\rvy^\s]
+E_{\s|\td,x}[\rvy^\s]
 \rarrow
-E_{\rvy|d,x} [\rvy]
+E_{\rvy|\td,x} [\rvy]
 =\sum_{y} y
-\underbrace{P_{\rvy|\rvtd=d,x}(y|d,x)}_
-{P_{\rvy(d)|\rvtd=d,x}(y|d,x)}
+\underbrace{P(\rvy=y|\td,x)}_
+{P(\rvy(\td)=y|\td,x)}
 \eeq
 
 \beq
-\caly_{\td|d}
+\caly_{c|\td}
 =
-E_{\s| d}[\rvy^\s(\td)]
+E_{\s| \td}[\rvy^\s(c)]
 \rarrow
-E_{\rvy|d} [\rvy(\td)]
-=\sum_x \caly_{\td|d,x}
-\underbrace{P(x|\rvtd=d)}_
+E_{\rvy|\td} [\rvy(c)]
+=\sum_x \caly_{c|\td,x}
+\underbrace{P(x|\td)}_
 {=P(x)\text{ by d-separation}}
 \eeq
 
 \beq
-\caly_{|d}
+\caly_{|\td}
 =
-E_{\s| d}[\rvy^\s]
+E_{\s| \td}[\rvy^\s]
 \rarrow
-E_{\rvy|d} [\rvy]
-=\sum_x \caly_{|d,x}
-\underbrace{P(x|\rvtd=d)}_
+E_{\rvy|\td} [\rvy]
+=\sum_x \caly_{|\td,x}
+\underbrace{P(x|\td)}_
 {=P(x)\text{ by d-separation}}
 \eeq
 
 \beq
-\caly_{\td|x}
+\caly_{c|x}
 =
-E_{\s| x}[\rvy^\s(\td)]
+E_{\s| x}[\rvy^\s(c)]
 \rarrow
-E_{\rvy|x} [\rvy(\td)]
-=\sum_d \caly_{\td|d,x}
-\underbrace{P(\rvtd=d|x)}_
-{=P(\rvtd=d) \text{ by d-separation}}
+E_{\rvy|x} [\rvy(c)]
+=\sum_\td \caly_{c|\td,x}
+\underbrace{P(c|x)}_
+{=P(\td) \text{ by d-separation}}
 \eeq
 
 \beq
@@ -835,19 +853,19 @@ E_{\rvy|x} [\rvy(\td)]
 E_{\s| x}[\rvy^\s]
 \rarrow
 E_{\rvy|x} [\rvy]
-=\sum_d \caly_{|d,x}
-\underbrace{P(\rvtd=d|x)}_
-{=P(\rvtd=d) \text{ by d-separation}}
+=\sum_\td \caly_{|\td,x}
+\underbrace{P(c|x)}_
+{=P(\td) \text{ by d-separation}}
 \eeq
 
 \beq
-\caly_{\td}
+\caly_{c}
 =
-E_{\s}[\rvy^\s(\td)]
+E_{\s}[\rvy^\s(c)]
 \rarrow
-E_{\rvy} [\rvy(\td)]
-=\sum_{d,x}\caly_{\td|d,x}
- P(\rvtd=d)P(x)
+E_{\rvy} [\rvy(c)]
+=\sum_{\td,x}\caly_{c|\td,x}
+ P(\td)P(x)
 \eeq
 
 \beq
@@ -856,8 +874,8 @@ E_{\rvy} [\rvy(\td)]
 E_{\s}[\rvy^\s]
 \rarrow
 E_{\rvy} [\rvy]
-=\sum_{d,x}\caly_{|d,x}
- P(\rvtd=d)P(x)
+=\sum_{\td,x}\caly_{|\td,x}
+ P(\td)P(x)
 \eeq
 
 
@@ -871,6 +889,125 @@ $\caly_{0|1}, \caly_{1|0}$
 are said to be {\bf counterfactual} 
 (indicating non-compliant patients).
 
+\section{${\cal Y}_{|\tilde{d},x}$ and $G_{do}$}
+
+
+\begin{claim}\footnote{In the
+standard PO notation,
+this is the frequently used identity 
+$$E[Y|D=d, x]= E[Y(d)|D=d, x]$$.}\label{cl-caly-bardx}
+\beq
+\caly_{|\td, x}=\caly_{\td|\td,x}
+\eeq
+\end{claim}
+\proof
+
+\beqa
+\caly_{|\td,x}
+&=&
+\sum_y y P(\underbrace{\rvy}_
+{=\rvy(\td) 
+\text{ by Eq.(\ref{eq-y-equal-ytd})}}
+=y|\td, x)
+\\
+&=&
+\caly_{\td|\td, x}
+\;.
+\eeqa
+\qed
+
+\section{Connection between ACE and SDO}
+
+
+Note that in $G_{in}$, 
+
+\beq
+P(\rvy=y|\rvtd=\td, x)=
+P(\rvy=y|\rvd=\td,x)
+\;.
+\eeq
+Hence,
+
+\beqa
+\caly_{|\td,x}
+&=&
+\sum_y y P(\rvy=y| \rvtd=\td, \rvx=x)
+\text{\;\;(in $G_{im}$)}
+\\
+&=&
+\sum_y y P(\rvy=y| \rvd=\td, \rvx=x)
+\text{\;\;(in $G$)}
+\;.
+\label{eq-y-bar-td}
+\eeqa
+In particular, when
+$\rvy$ is binary 
+(i.e.,  $\rvy\in\bool$), 
+Eq.(\ref{eq-y-bar-td}) becomes
+
+\beq
+\caly_{|\td,x}=
+P(\rvy=1|\rvd=\td, \rvx=x)
+\;.
+\eeq
+
+Note that
+
+\beq
+P(\rvy=y|\rho \rvd=d, \rvx=x)=
+P(y|\rvd=d,x)
+\;,
+\label{eq-rho-begone}
+\eeq
+because, by the d-separation
+theorem,  when we condition on
+the confounder $\rvx$, 
+we  block information from being
+transmitted from $\rvd$ to $\rvy$ through $\rvx$,
+and this is equivalent to
+amputating the arrow $\rvx\rarrow\rvd$.
+
+Define $ACE$ by
+
+\begin{align}
+ACE&=\sum_y y
+[P(y|\rho\rvd=1)-P(y|\rho\rvd=0)]
+\\
+&=
+\sum_x P(x)\sum_y y [P(y|\rho\rvd=1,x)-P(y|\rho\rvd=0,x)]
+\\
+&=
+\sum_x P(x)\sum_y y [P(y|\rvd=1,x)-P(y|\rvd=0,x)]
+\;. \text{ (by Eq.(\ref{eq-rho-begone}))}
+\label{eq-my-backdoor-proof} 
+\end{align}
+Eq.(\ref{eq-my-backdoor-proof} )
+also follows from the backdoor criterion.
+
+Define $SDO$ by
+\beq
+SDO= \caly_{1|1}-\caly_{0|0}
+\eeq
+
+\begin{claim}\label{cl-ace-sdo}
+\beq
+ACE=SDO
+\eeq
+\end{claim}
+\proof
+\beqa
+ACE&=&\sum_x P(x)[\caly_{|1, x}-\caly_{|0, x}]
+\text{ (by Eqs.(\ref{eq-y-bar-td}) and
+(\ref{eq-my-backdoor-proof}))}
+\\
+&=&
+\sum_x P(x)[\caly_{1|1, x}-\caly_{0|0, x}]
+\text{ (by Claim \ref{cl-caly-bardx})}
+\\
+&=&
+SDO
+\eeqa
+\qed
 
 \section{Conditional Independence Assumption}
 
@@ -923,17 +1060,6 @@ we get false statements:
 \eeq
 
 
-Note that that
-$\caly_{\td|d, x} = 
-E_{|d^\s=d, x}[\rvy^\s(\td)]$
-so the CIA implies that
-
-\beq
-\caly_{\td|d, x}=
-\caly_{\td|x}
-\;.
-\eeq
-
 A {\bf Randomized Control Trial (RCT)}
 is defined to satisfy
 Eq.(\ref{eq-CIA2}) without the
@@ -946,135 +1072,127 @@ satisfies
 \;.
 \label{eq-CIA-minus-x}
 \eeq
-This means that in an RCT,
+This means that in a RCT,
 the arrow from 
 $\rvx^\s$ to  $\rvd^\s$ in $G_{im}$
 has a vanishingly small
 conditional  probability.
-For a RCT,
 
+Because of CIA, 
 
+\begin{subequations}
 \beq
-\caly_{\td|d}=\caly_{\td}
-\;.
-\eeq
-
-
-\section{${\cal Y}_{|d,x}$ and $G_{do}$}
-
-
-\begin{claim}\footnote{In the
-standard PO notation,
-this is the frequently used identity 
-$$E[Y|D=d, x]= E[Y(d)|D=d, x]=
-E[Y(d)|x]$$.}\label{cl-caly-bardx}
-\beq
-\caly_{|d, x}=\caly_{d|d,x}=\caly_{d|x}
-\eeq
-\end{claim}
-\proof
-
-\beqa
-\caly_{d|d,x}
-&=&
-d\caly_{1|d, x}
-+
-(1-d)\caly_{0|d, x}
-\\
-&=&
-d E_{|d, x}[\rvy(1)]
-+
-(1-d)E_{|d, x}[\rvy(0)]
-\\
-&=&
-E_{|d, x}[d \rvy(1)]+(1-d)\rvy(0)]
-\\
-&=&
-E_{|d, x}[\rvy]
-\\
-&=&
-\caly_{|d, x}
-\;.
-\eeqa
-
-By the CIA,
-
-\beq 
-\caly_{d|d,x}=\caly_{d|x}
-\eeq
-\qed
-
-
-Note that
-
-\beq
-P(\rvy=y|\rho \rvd=d, \rvx=x)=
-P(y|d,x)
+\underbrace{E_{\s|\td,x}[\rvy^\s(c)]}_{\caly_{c|\td,x}}
+=
+E_{\s}[\rvy^\s(c)|\rvtd^\s=\td, \rvx^\s=x]
+{\;\;\color{red}\neq\;\;}
+E_{\s}[\rvy^\s(c)|\rvx^\s=x]=
+\underbrace{E_{\s|x}[\rvy^\s(c)]}_{\caly_{c|x}}
 \;,
 \eeq
-because, by the d-separation
-theorem,  when we condition on
-the confounder $\rvx$, 
-we  block information from being
-transmitted from $\rvd$ to $\rvy$ through $\rvx$,
-and this is equivalent to
-amputating the arrow $\rvx\rarrow\rvd$.
-
-
-Hence,
-
-\beqa
-\caly_{|d,x}&=&
-\sum_y y P(\rvy=y| \rvd=d, \rvx=x)
-\\
-&=&
-\sum_y y P(\rvy=y|\rho \rvd=d, \rvx=x)
-\;,
-\label{eq-y-bar-td}
-\eeqa
-In particular, when
-$\rvy$ is binary 
-(i.e.,  $\rvy\in\bool$), 
-Eq.(\ref{eq-y-bar-td}) becomes
 
 \beq
-\caly_{|d,x}=
-P(\rvy=1|\rho\rvd=d, \rvx=x)
+\underbrace{E_{\s|\td,x}[\rvy^\s]}_{\caly_{|\td,x}}
+{\;\;\color{red}=\;\;}
+\underbrace{E_{\s|\td,x}[\rvy^\s(\td)]}_{\caly_{\td|\td,x}}
+\eeq
+but
+
+\beq
+\underbrace{E_{\s|d,x}[\rvy^\s(c)]}_
+{\calr_{c|d,x}}
+=
+E_{\s}[\rvy^\s(c)|\rvd^\s=d, \rvx^\s=x]
+{\;\;\color{red}=\;\;}
+E_{\s}[\rvy^\s(c)|\rvx^\s=x]
+=
+\underbrace{E_{\s|x}[\rvy^\s(c)]}_{\caly_{c|x}}
+\;,
+\label{eq-pseudo-rct}
+\eeq
+
+\beq
+E_{\s|d,x}[\rvy^\s]
+{\;\;\color{red}\neq\;\;}
+E_{\s|d,x}[\rvy^\s(d)]
 \;.
 \eeq
+\label{eq-d-td-diff}
+\end{subequations}
 
-Define ACE and ATE by
+In a RCT, Eqs.(\ref{eq-d-td-diff})
+are valid without the $x$ conditioning.
 
-\beqa
-ACE&=&\sum_y y
-[P(y|\rho\rvd=1)-P(y|\rho\rvd=0)]
-\\
-&=&
-\sum_x [\caly_{|1,x}-\caly_{|0,x}]P(x)\;\;
-\text{(by the backdoor criterion.)} 
-\eeqa
+
+
+$E_{\s|\td,x}[\rvy^\s(c)]$
+is mentioned frequently because
+it equals
+$\caly_{c|\td,x}$
+and
+treatment effects are defined as a difference of two 
+$\caly_{c|\td,x}$.
+$E_{\s|d,x}[\rvy^\s(c)]$ is seldom mentioned
+because it equals $E_{\s|x}[\rvy^\s(c)]=\caly_{c|x}$.
+
+A common mistake 
+arising from 
+not distinguishing
+between $\rvd$ and $\rvtd$, 
+is to say that CIA implies
 
 \beq
-ATE= \caly_1-\caly_0
+\caly_{c|\td,x}=\caly_{c|x} 
+\text{ (FALSE)}
+\;,
 \eeq
+when what is {\it really} meant
+is that CIA implies 
+
+\beq
+\calr_{c|d,x}=\caly_{c|x} 
+\;.
+\label{eq-c-bar-d-x}
+\eeq
+
+Define
+
+\beq
+ATE=\caly_1-\caly_0
+\;.
+\eeq
+In a RCT, Eq.(\ref{eq-c-bar-d-x})
+is valid without the $x$ conditioning. Hence
+in a RCT,
+
+\beqa
+\sum_x P(x)[\calr_{1|d,x}-\calr_{0|d,x}]
+&=&
+\sum_x P(x)[\caly_{1|x}-\caly_{0|x}]
+\\
+&=&
+ATE
+\;.
+\label{eq-ate-backprop}
+\eeqa
+
 
 \begin{claim}
+The null result for a RCT is
+
 \beq
-ACE=ATE
+ACE=SDO=ATE=0
 \eeq
 \end{claim}
 \proof
-
-By Claim \ref{cl-caly-bardx},
- $\caly_{\td|d, x}=\caly_{\td|x}$ so
-
-\beqa
-ACE&=&\sum_x[\caly_{1|x}-\caly_{0|x}]P(x)
-\\
-&=&
-\caly_1-\caly_0=ATE
-\eeqa
+The null result for a RCT
+is $ACE=0$. But we've
+shown that $ACE=SDO$ so $SDO=0$ too.
+By Eq.(\ref{eq-ate-backprop}),
+$ATE=0$ too.
 \qed
+
+
 
 
 \section{Translation Dictionary}
@@ -1097,17 +1215,17 @@ $Y_i=y_i$, treatment outcome& $\rvy^\s=y^\s$ \\
 \hline 
 $X_i=x_i$, treatment confounders& $\rvx^\s=x^\s$ \\ 
 \hline
-$E[Y_i(\td)]$ & 
-$E_{\s}[\rvy^\s(\td)]=\caly_{\td}$ \\
+$E[Y_i(c)]$ & 
+$E_{\s}[\rvy^\s(c)]=\caly_{c}$ \\
 \hline
-$E[Y_i|D_i=d]$ & 
-$ E_{\s|d}[\rvy^\s]=\caly_{|d}$\\
+$E[Y_i|D_i=\td]$ & 
+$ E_{\s|\td}[\rvy^\s]=\caly_{|\td}$\\
 \hline
-$E[Y_i(\td)|D_i=d]$ & 
-$E_{\s|d}[\rvy^\s(\td)]=\caly_{\td|d}$\\
+$E[Y_i(c)|D_i=\td]$ & 
+$E_{\s|\td}[\rvy^\s(c)]=\caly_{c|\td}$\\
 \hline
-$E[Y_i(\td)|D_i=d, X_i=x]$ & 
-$E_{\s|d,x}[\rvy^\s(\td)]=\caly_{\td|d,x}$\\
+$E[Y_i(c)|D_i=\td, X_i=x]$ & 
+$E_{\s|\td,x}[\rvy^\s(c)]=\caly_{c|\td,x}$\\
 \hline
 \end{tabular}
 \caption{Dictionary for 
@@ -1124,77 +1242,65 @@ gives a dictionary for
 translating
 from the standard PO notation 
 of Ref.\cite{book-mixtape}
-to our notation. $d,\td\in \bool$.
+to our notation. $c,\td\in \bool$.
 I find
  the standard PO notation 
 confusing because it often uses $D_i$
 to represent two different nodes, 
-$\rvd^\s$ and $\rvtd^\s$ in $G_{im+}$. This confusion
-becomes particularly distressing
-when we are told in PO notation that
-
-\beq Y_i(D)=D Y_i(1) + (1
--D)Y_i(0)\;,
-\eeq
-In our notation,
-this is saying that
-
-\beq 
-\rvy^\s(\rvtd)= \rvtd \rvy^\s(1) +
- (1-\rvtd)\rvy^\s(0)
-\;.
-\eeq
-
-
-\section{${\cal Y}_{\tilde{d}|d}$
-differences (aka treatment effects)}
-
-
+$\rvd^\s$ and $\rvtd^\s$ in $G_{im+}$.
+\section{Treatment Effects)}
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=2in]
 {pot-out/y-diffs-square.png}
 \caption{Different treatment effects.  
-An effect is a difference of 
-two $\caly_{\td|d}$.} 
+A treatment effect is a difference of 
+two $\caly_{c|\td }$.} 
 \label{fig-y-diffs-square}
 \end{figure}
 
+A {\bf treatment effect} is a
+a difference of two  $\caly_{c|\td }$.
 It is convenient to
 define the following 
-{\bf treatment effects}. 
+treatment effects. 
 See Fig.\ref{fig-y-diffs-square}.
-Note
-that we use  the
-word {\bf ``effect"} to
-refer to 
-a difference of two  $\caly_{\td|d}$.
+In that figure, $y(c)$ appears  with
+$c=0,1$.
+My personal mnemonics
+for $c$ and $\td$ are:
+\begin{itemize}
+\item
+$c=1$ means being
+a {\bf candidate} for treatment (i.e.,
+being assigned the treatment),
+and $c=0$ means not being a
+candidate.
+\item
+$\td=1$ means being
+a  {\bf doer} of the
+treatment (i.e., 
+complying with it)
+and $\td=0$
+means not being a doer.
+\end{itemize}
+
+
 
 \begin{itemize}
 
-\item average controlled
-causal effect  
- (ACE), used when doing an RCT.
 
-\beq
-{\color{red}ACE}=ATE
-\eeq
-
-\item average treatment effect\footnote{
-Note that effects in which $d$ varies
-are called
-``controlled",
-whereas those in which $\td$ varies instead,
- are called simply ``treatments".
-$y$ is averaged over
-in all effects.}
+\item average treatment effect
  (ATE).
 \beq
 {\color{red}ATE}=
 \caly_{1}-
 \caly_{0}= \delta
 \eeq
+ATE= difference in 
+response between candidates
+and non-candidates.
 
 \item average treatment effect 
 of the treated (ATT)
@@ -1203,6 +1309,11 @@ of the treated (ATT)
 \caly_{1|1}-\caly_{0|1}
 \eeq
 
+ATT= difference in 
+response between candidates
+and non-candidates in doer 
+population.
+
 \item average
 treatment effect of the untreated (ATU)
 \beq
@@ -1210,21 +1321,51 @@ treatment effect of the untreated (ATU)
 \caly_{1|0}-\caly_{0|0}
 \eeq
 
+ATU= difference in 
+response between candidates
+and non-candidates in non-doer 
+population.
 
 \item selection bias (SB)
 \beq
 {\color{red}SB}=\caly_{0|1}-\caly_{0|0}
 \eeq
 
+SB= difference in response
+between the doers and non-doers
+in the non-candidate population.
+
 \item simple difference in outcomes (SDO)
 \beq
 {\color{red} SDO}= \caly_{1|1}-\caly_{0|0}
 \eeq
 
+SDO= difference in
+response between the candidate doers
+and the non-candidate non-doers.
+
+\item average 
+causal effect  
+ (ACE), used when doing a RCT.
+
+\beq
+{\color{red}ACE}=SDO \text{\;\;\;(see Claim
+\ref{cl-ace-sdo})}
+\eeq
+The fact that $ACE=SDO$
+instead of $ACE=ATE$
+makes sense because $ACE$ 
+and $SDO$
+are the only two treatment effects
+in the list that do
+not involve counterfactual
+probability distributions
+in their definitions.
+
 \end{itemize}
 
 Note that some
-of these effects  are
+of these treatment effects  are
 linearly related
 
 
@@ -1260,14 +1401,37 @@ linearly related
 \underbrace{(\caly_{1|0}-\caly_{0|0})}_{ATU}\pi_0
 \eeqa
 
+If we assume that $ATT=ATU$ (i.e.,
+difference in
+response between candidate
+and non-candidate populations is
+the same among 
+the doer and
+non-doer populations.), then $ATT=ATU=ATE$
+and $SDO=ATE+SB$. If we also
+assume $SB=0$,
+then $ATT=ATU=ATE=SDO$.
 
-Let $\cale \in\{ACE,ATE,ATT,ATU,SDO, SB\}$.
+
+Let $\cale \in\{ATE,ATT,ATU,SDO, SB\}$.
 $\cale$ can be 
 defined for a fixed stratum $x$
-by replacing $\caly_{\td|d}$
-with  $\caly_{\td|d, x}$. 
+by replacing $\caly_{c|\td }$
+with  $\caly_{c|\td , x}$. 
 We will denote this restricted
 version of $\cale$ by $\cale_x$.
+We can calculate estimators $\hat{\cale}$
+for $\cale$ using
+
+\beq
+\hat{\cale}=E_x[\hat{\cale}_x]=
+\sum_x \frac{N_x}{N} \hat{\cale}_x
+\;,
+\eeq
+where $N=nsam=\sum_x N_x$ is the
+size of the population
+of individuals $\s$.
+
 
 ATE$_x$ is called 
 the {\bf Conditional
@@ -1283,90 +1447,7 @@ ATU_x P_{\rvd}(0)
 $.
 }
 
-Due to the CIA, 
-\beq
-\caly_{\td|d,x}=\caly_{\td|x}
-\;.
-\eeq
-Hence,
-if we replace every $\caly_{\td|d}$
-by $\caly_{\td|d,x}$ in
-Fig.\ref{fig-y-diffs-square}, the square
-in that figure
-collapses to 
 
-\begin{subequations}\label{eq-effects-cia}
-\beq
-\xymatrix{
-\caly_{0|x}\ar[r]_{SDO_x}&
- \caly_{1|x}
-}
-\eeq 
-Hence,
-
-\beq
-SB_x=0
-\eeq
-and
-
-\beq
-SDO_x=ATT_x=ATU_x=ATE_x
-\;.
-\eeq
-\end{subequations}
-
-If we assume a RCT, then Eqs.(\ref{eq-effects-cia})
-are all valid without the $x$ conditioning. Hence,
-Fig.\ref{fig-y-diffs-square}
-collapses to 
-
-\begin{subequations}
-\beq
-\xymatrix{
-\caly_{0}\ar[r]_{SDO}&
- \caly_{1}
-}
-\eeq 
-Furthermore,
-
-\beq
-SB=0
-\eeq
-and
-
-\beq
-SDO=ATT=ATU=ATE
-\;.
-\eeq
-\end{subequations}
-
-Despite the fact that Eqs.(\ref{eq-effects-cia})
-are true, they are only
-valid for very large numbers $N_x$
-of individuals $\s$
-with $\rvx^\s=x$. 
-Later on we will 
-give estimators $\hat{\cale}_x$
-for the effects $\cale_x$. We will
-not assume that 
-Eqs.(\ref{eq-effects-cia}) are valid 
-for the estimators $\hat{\cale}_x$ too.
-For example, we won't assume that
-$\widehat{SB}_x=0$ and 
-$\widehat{SDO}_x=
-\widehat{ATE}_x$.
-What we will assume is that 
-we can calculate estimators $\hat{\cale}$
-for $\cale$ using
-
-\beq
-\hat{\cale}=E_x[\hat{\cale}_x]=
-\sum_x \frac{N_x}{N} \hat{\cale}_x
-\;,
-\eeq
-where $N=nsam=\sum_x N_x$ is the
-size of the population
-of individuals $\s$.
 
 
 
@@ -1382,18 +1463,14 @@ $\caly_{\tilde{d}|d}=\caly_{\tilde{d}}$}
 with added information
 about  probability distributions 
 used to obtain each expected value
- $\caly_{\td|d}$.}
+ $\caly_{c|\td }$.}
 \label{fig-y-diffs-square-probs}
 \end{figure}
 
-As we explained before,
-Fig.\ref{fig-y-diffs-square-probs}
-collapses to a single line
-$\xymatrix{\caly_0\ar[r]_{SDO}&\caly_1}$.
-Therefore, for a RCT, $SDO=ATE$.
-Hence, $SDO=ATE=0$
-is the null hypothesis 
-tested by a RCT.
+As we explained before, $ACE=SDO$.
+and $ACE=SDO=ATE=0$
+is the null result for
+a RCT.
 But what if we are not 
 considering a RCT, what then?
 
@@ -1421,9 +1498,9 @@ Recall that
 each expected value $\caly$ has a probability
 distribution $P$.
 \beq
-\caly_{\td|d}=\sum_{y} y P_{\rvy(\td)|\rvtd}(y|d)
+\caly_{c|\td }=\sum_{y} y P_{\rvy(c)|\rvtd}(y|\td)
 \eeq
-for $d, \td\in \bool$.
+for $c, \td\in \bool$.
 Fig.\ref{fig-y-diffs-square-probs}
 reminds us of which $P$
 is used to generate each $\caly$.
@@ -1470,6 +1547,7 @@ depends on two corners
 of the square
 whereas  $\caly_{1|0}=\caly_{1}$
 depends on just one corner.
+
 
 
 \section{$(SDO,ATE)$ space}
@@ -1521,9 +1599,9 @@ $\hat{\cale}=E_x[\hat{\cale}_x]=
 \sum_x \frac{N_x}{N}\hat{\cale}_x$
 for $\cale\in\{ATE, SDO\}$.
 
-Recall also that $SDO=ATE$ for a RCT.
-$SDO=0$ is the null 
-hypothesis in a RCT. 
+Recall also that 
+$ACE=SDO=ATE=0$ is the null 
+result in a RCT. 
 
 
 Suppose that
@@ -1535,8 +1613,7 @@ and
 $-1\leq SDO \leq 1$.
 But does  $ATE=0$
 imply $SDO=0$
-or vice versa
-when its not an RCT?
+or vice versa?
 Next, we answer 
 that question
 and more
@@ -1658,16 +1735,9 @@ six points A, B, \ldots F
 corresponds to one of the six tables
 in Figs. \ref{fig-ate-possi}
 and \ref{fig-sdo-possi}.
-The segment $AC$
-is the set of 
- points 
-accessible to a RCT. 
-The origin
-has $ACE=ATE=0$
-so it is the 
-point
-which exhibits a null result
-in a RCT.
+The origin 
+corresponds to the null
+result in a RCT. 
 } 
 \label{fig-sdo-ate-polytope}
 \end{figure}
@@ -1702,7 +1772,7 @@ For $\td\in \bool$ and all strata $x$,
 define the sets of individuals
 $A_{\td,x}=\{\s: \td^\s=\td, x^\s=x\}$,
 $A_x=A_{0,x}\cup A_{1,x}$ and $A=\cup_x A_x$.
-Let $N_{d,x}=|A_{d,x}|$,
+Let $N_{\td,x}=|A_{\td,x}|$,
 $N_x= |A_x|$ and $N=|A|$.
 
 In an exact strata-match,
@@ -1759,10 +1829,22 @@ because, by d-separation, at fixed $x$,
 are not independent 
 but $\rvy^\s$ and $\rvd^\s$ are.
 
+Note that
+\beq
+\sum_{\s\in A_{x}}\frac{\td^\s}{N_{1,x}}=
+\sum_{\s\in A_{1,x}}\frac{1}{N_{1,x}}=1
+\;.
+\eeq
+Thus
+
+\beq
+\sum_{\s\in A_{x}}\frac{\td^\s}{N_{1,x}}y^\s=
+E_{\s|\td=1,x}[y^\s(1)]=\caly_{1|1,x}
+\eeq
 Table \ref{tab-po-quadrants}
 gives
 estimates of
-$ \caly_{\td|d,x}$
+$ \caly_{c|\td ,x}$
 
 \renewcommand{\arraystretch}{1.5}
 \begin{table}[h!]
@@ -1774,19 +1856,19 @@ $ \caly_{\td|d,x}$
 \\ \hline
 \cellcolor[HTML]{ECF4FF}$\td^\s=0$ 
 & 
-$\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\rvtd^\s)\rvy^{\s}=\caly_{0|0,x}$
+$\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\td^\s)y^{\s}=\caly_{0|0,x}$
 & 
-$\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\rvtd^\s) \rvy^{m(\s)}=\caly_{1|0,x}$
+$\frac{1}{N_{0,x}}\sum_{\s\in A_x} (1-\td^\s) y^{m(\s)}=\caly_{1|0,x}$
 \\ \hline
 \cellcolor[HTML]{ECF4FF}$\td^\s=1$ 
 &
- $\frac{1}{N_{1,x}}\sum_{\s\in A_x} \rvtd^\s \rvy^{m(\s)}=\caly_{0|1,x}$
+ $\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s y^{m(\s)}=\caly_{0|1,x}$
 & 
-$\frac{1}{N_{1,x}}\sum_{\s\in A_x} \rvtd^\s \rvy^\s=\caly_{1|1,x}$
+$\frac{1}{N_{1,x}}\sum_{\s\in A_x} \td^\s y^\s=\caly_{1|1,x}$
 \\ \hline
 \end{tabular}
 \caption{Estimates of
-$ \caly_{\td|d,x}$.}
+$ \caly_{c|\td ,x}$.}
 \label{tab-po-quadrants}
 \end{table}
 \renewcommand{\arraystretch}{1}
@@ -1797,9 +1879,7 @@ Recall that
 \begin{subequations}
 \label{eq-to-estimate}
 
-\beq
-ACE_x = ATE_x
-\eeq
+
 
 \beq
 ATE_x = ATT_x \;\;P_{\rvd|\rvx}(1|x) + ATU_x \;\;P_{\rvd|\rvx}(0|x)
@@ -1824,6 +1904,7 @@ SB_x=\caly_{0|1,x}-\caly_{0|0,x}
 SDO_x=\caly_{1|1,x}-\caly_{0|0,x}
 \eeq
 
+
 \end{subequations}
 
 Eqs.(\ref{eq-to-estimate})
@@ -1831,10 +1912,6 @@ can be estimated from the data
 via the following estimators.
 
 
-\beq
-\widehat{ACE}_x = \widehat{ATE}_x
-\label{eq-est-ace}
-\eeq
 
 \beqa
 \widehat{ATE}_x
@@ -1984,10 +2061,33 @@ y^\s
 \eeqa
 \qed
 
+You may have noticed that 
+we used $N_{\td,x}=N_x g_\td(x)=N_x P({\color{red}\rvd}=\td|x)$ above.
+Why not  $N_{\td,x}=N_x P({\color{red}\rvtd}=\td|x)$ instead?
+ Here is why. Basically,
+the reason is that,
+in this case,
+$\rvtd=\rvd=\td$.
 
-\subsubsection{Example, calculation
-of
-estimators for a treatment}
+\beqa
+\caly_{\td|\td,x}&=&
+\sum_y y P({\color{red}\rvy^\s(\td)}=y|{\color{red}\rvtd^\s}=\td, \rvx^\s=x)
+\\
+&=&
+\sum_y y P({\color{red}\rvy^\s}=y|{\color{red}\rvd^\s}=\td, \rvx^\s=x)
+\\
+&=&
+\sum_y y \frac{P(\rvy^\s=y,\rvd^\s=\td| \rvx^\s=x)}
+{P(\rvd^\s=\td| \rvx^\s=x)}
+\\
+&=&
+\sum_y y \frac{P(\rvy^\s=y,\rvd^\s=\td| \rvx^\s=x)}
+{g_\td(x)}
+\eeqa
+
+
+
+\subsubsection{Example, estimation of treatment effects}
 
 
 For $\s\in \{1,2, \ldots, 10\}$, define
@@ -2252,12 +2352,12 @@ bias-corrected estimator.
 {\bf Positivity} is defined as the
 requirement that for all layers $x$,
 \beq
-0<P(d^\s=1|x^\s=x)<1
+0<P(\rvd^\s=1|\rvx^\s=x)<1
 \eeq
 or, equivalently, 
 \beq
-P(d^\s=1|x^\s=x)>0\text{\;\;\;and
-\;\;\;}P(d^\s=0|x^\s=x)>0
+P(\rvd^\s=1|\rvx^\s=x)>0\text{\;\;\;and
+\;\;\;}P(\rvd^\s=0|\rvx^\s=x)>0
 \;.
 \eeq
 In other words, 
@@ -2270,18 +2370,18 @@ and untreated.
 Recall that
 
 \beq
-\caly_{\td|d,x}
-=\sum_{y} y P_{\rvy(\td)|\rvtd, \rvx}(y|d,x)
+\caly_{c|\td ,x}
+=\sum_{y} y P_{\rvy(c)|\rvtd, \rvx}(y|\td,x)
 \;.
 \eeq
 Also recall
 that the estimator
 Eq.(\ref{eq-est-att})
-for $ATT_x$ divides by $N_{1,x}=P(d=1|x)N_x$
+for $ATT_x$ divides by $N_{1,x}=P(\rvd=1|x)N_x$
 and 
 the estimator
 Eq.(\ref{eq-est-atu})
-for $ATU_x$ divides by $N_{0,x}= P(d=0|x)N_x$.
+for $ATU_x$ divides by $N_{0,x}= P(\rvd=0|x)N_x$.
 The estimator Eq.(\ref{eq-est-ate})
 for $ATE_x$ divides by neither $N_{0,x}$
 nor $N_{1,x}$ so it is safe.
@@ -2290,7 +2390,7 @@ If positivity is violated,
 then 
 for some 
 layer $x$, 
- $\caly_{\td|d=0,x}$ or $\caly_{\td|d=1,x}$ 
+ $\caly_{c|\td =0,x}$ or $\caly_{c|\td =1,x}$ 
 is undefined. 
 Furthermore,  the estimator
 $ATT_x$ or $ATU_x$ is undefined.
@@ -2349,10 +2449,10 @@ is the
 which is defined as
 
 \beq
-g(x^\s)=P(d^\s=1|x^\s)
+g(x^\s)=P(\rvd^\s=1|x^\s)
 \;.
 \eeq
-$P(d^\s=1|x^\s)$ is easy to calculate
+$P(\rvd^\s=1|x^\s)$ is easy to calculate
 from the dataset.
 Indeed, 
 if $\Sigma_{d,x}=
@@ -2361,7 +2461,7 @@ $N_{d, x}=|\Sigma_{d,x}|$,
 then
 
 \beq
-P(d=1|x^\s=x)=
+P(\rvd=1|x^\s=x)=
 \frac{N_{d=1,x}}{\sum_{d\in\bool} N_{d,x}}
 \;.
 \eeq
@@ -2415,7 +2515,7 @@ P(d|x)&=&
 g(x)d + [1-g(x)](1-d)
 \\
 &=&
-P(d=1|x)d + [1-P(d=1|x)](1-d)
+P(\rvd=1|x)d + [1-P(\rvd=1|x)](1-d)
 \\
 &=&
 P(d|x)
