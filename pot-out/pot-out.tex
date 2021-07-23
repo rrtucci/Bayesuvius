@@ -789,7 +789,7 @@ E_{\s|d,x}[\rvy^\s(c)]
 \rarrow
 E_{\rvy|d,x} [\rvy(c)]
 =\sum_{y} y
-P(\rvy(c)=y|d,x)
+P(\rvy(c)=y|\rvd=d,x)
 \eeq
 
 \beq
@@ -799,7 +799,7 @@ E_{\s|\td,x}[\rvy^\s(c)]
 \rarrow
 E_{\rvy|\td,x} [\rvy(c)]
 =\sum_{y} y
-P(\rvy(c)=y|\td,x)
+P(\rvy(c)=y|\rvtd=\td,x)
 \label{eq-need-positivity}
 \eeq
 
@@ -889,7 +889,8 @@ $\caly_{0|1}, \caly_{1|0}$
 are said to be {\bf counterfactual} 
 (indicating non-compliant patients).
 
-\section{${\cal Y}_{|\tilde{d},x}$ and $G_{do}$}
+\section{${\cal Y}_{|\tilde{d},x}
+={\cal Y}_{\tilde{d}|\tilde{d},x}$}
 
 
 \begin{claim}\footnote{In the
@@ -916,7 +917,7 @@ $$E[Y|D=d, x]= E[Y(d)|D=d, x]$$.}\label{cl-caly-bardx}
 \eeqa
 \qed
 
-\section{Connection between ACE and SDO}
+\section{ACE=SDO}
 
 
 Note that in $G_{in}$, 
@@ -987,6 +988,7 @@ also follows from the backdoor criterion.
 Define $SDO$ by
 \beq
 SDO= \caly_{1|1}-\caly_{0|0}
+\label{eq-sdo-def-1}
 \eeq
 
 \begin{claim}\label{cl-ace-sdo}
@@ -1005,11 +1007,11 @@ ACE&=&\sum_x P(x)[\caly_{|1, x}-\caly_{|0, x}]
 \text{ (by Claim \ref{cl-caly-bardx})}
 \\
 &=&
-SDO
+SDO\;\;\text{(by Eq.(\ref{eq-sdo-def-1}))}
 \eeqa
 \qed
 
-\section{Conditional Independence Assumption}
+\section{Conditional Independence Assumption (CIA)}
 
 The {\bf Conditional Independence Assumption}
  (CIA)
@@ -1090,12 +1092,6 @@ E_{\s}[\rvy^\s(c)|\rvx^\s=x]=
 \underbrace{E_{\s|x}[\rvy^\s(c)]}_{\caly_{c|x}}
 \;,
 \eeq
-
-\beq
-\underbrace{E_{\s|\td,x}[\rvy^\s]}_{\caly_{|\td,x}}
-{\;\;\color{red}=\;\;}
-\underbrace{E_{\s|\td,x}[\rvy^\s(\td)]}_{\caly_{\td|\td,x}}
-\eeq
 but
 
 \beq
@@ -1111,12 +1107,6 @@ E_{\s}[\rvy^\s(c)|\rvx^\s=x]
 \label{eq-pseudo-rct}
 \eeq
 
-\beq
-E_{\s|d,x}[\rvy^\s]
-{\;\;\color{red}\neq\;\;}
-E_{\s|d,x}[\rvy^\s(d)]
-\;.
-\eeq
 \label{eq-d-td-diff}
 \end{subequations}
 
@@ -1146,7 +1136,7 @@ is to say that CIA implies
 \text{ (FALSE)}
 \;,
 \eeq
-when what is {\it really} meant
+when what is {\it really} mean
 is that CIA implies 
 
 \beq
@@ -1161,20 +1151,7 @@ Define
 ATE=\caly_1-\caly_0
 \;.
 \eeq
-In a RCT, Eq.(\ref{eq-c-bar-d-x})
-is valid without the $x$ conditioning. Hence
-in a RCT,
 
-\beqa
-\sum_x P(x)[\calr_{1|d,x}-\calr_{0|d,x}]
-&=&
-\sum_x P(x)[\caly_{1|x}-\caly_{0|x}]
-\\
-&=&
-ATE
-\;.
-\label{eq-ate-backprop}
-\eeqa
 
 
 \begin{claim}
@@ -1185,6 +1162,31 @@ ACE=SDO=ATE=0
 \eeq
 \end{claim}
 \proof
+
+In a RCT with a null result,
+
+\beq
+\caly_{\td|\td,x}=\calr_{\td|\td,x}
+\;
+\eeq
+for $\td\in\bool$.
+Hence
+
+\beqa
+ATE&=&
+\sum_x P(x)[\caly_{1|x}-\caly_{0|x}]
+\\
+&=&\sum_x P(x)[
+\calr_{1|1,x}-\calr_{0|0,x}]
+\\
+&=&\sum_x P(x)[
+\caly_{1|1,x}-\caly_{0|0,x}]
+\\
+&=&SDO
+\;.
+\label{eq-ate-backprop}
+\eeqa
+
 The null result for a RCT
 is $ACE=0$. But we've
 shown that $ACE=SDO$ so $SDO=0$ too.
@@ -1451,7 +1453,8 @@ $.
 
 
 
-\section{Insights into $ACE=0$ and 
+\section{Insights into 
+what makes treatment effects equal and 
 $\caly_{\tilde{d}|d}=\caly_{\tilde{d}}$}
 \label{sec-td-ignored}
 
@@ -1467,7 +1470,7 @@ used to obtain each expected value
 \label{fig-y-diffs-square-probs}
 \end{figure}
 
-As we explained before, $ACE=SDO$.
+As we explained before, $ACE=SDO$,
 and $ACE=SDO=ATE=0$
 is the null result for
 a RCT.
@@ -1767,6 +1770,8 @@ groups.)
 
 
 \subsection{Exact strata-match}
+
+\subsubsection{Estimates of Treatment Effects}
 
 For $\td\in \bool$ and all strata $x$,
 define the sets of individuals
