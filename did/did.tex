@@ -302,23 +302,21 @@ and, later on,  one must average
 over all the possible $x$ strata.
 
 
-Let $\calm\caly_{c|\td}(t)$ denote the
-{\bf measured $\caly_{c|\td}(t)$}.
-We define this quantity as
+
+We define the function $c(t)$ for $t=t_0, t_1$ by
 
 \beq
-\calm\caly_{c|\td}(t)
+c(t)
 =
 \left\{
 \begin{array}{ll}
-\caly_{0|\td}(t_0)&\text{if $t=t_0$}
+0&\text{if $t=t_0$}
 \\
-\caly_{\td|\td}(t_1)&\text{if $t=t_1$}
+\td&\text{if $t=t_1$}
 \end{array}
 \right.
 \eeq
-Note that $c=c(t)$; $c=0$ if $t=t_0$
-and $c=\td$ if $t=t_1$. Now we claim that the DID 
+Now we claim that the DID 
 $\delta$ calculated in the 
 previous section for
 John Snow's data,
@@ -327,7 +325,7 @@ can be expressed in PO formalism as follows:
 \beq
 \delta=
 \Delta_\td\Delta_t
-\calm\caly_{c|\td}(t)
+\caly_{c(t)|\td}(t)
 \;.
 \eeq
 Fig.\ref{fig-dif-dif-bc}
@@ -364,24 +362,12 @@ and PT.
 \begin{align}
 \delta&=
 \Delta_\td\Delta_t  
-\calm\caly_{c|\td}(t)
+\caly_{c(t)|\td}(t)
 \\
 &=
 \left[
-\Delta_t \calm\caly_{c|1}(t)
--\Delta_t \calm\caly_{c|0}(t)
-\right]
-\\
-&=
-\left[
-\calm\caly_{c|1}(t_1)
--
-\calm\caly_{c|1}(t_0)
-\right]
--\left[
-\Delta_t \calm\caly_{c|0}(t_1)
--
-\Delta_t \calm\caly_{c|0}(t_0)
+\Delta_t \caly_{c(t)|1}(t)
+-\Delta_t \caly_{c(t)|0}(t)
 \right]
 \\
 &=
@@ -446,13 +432,13 @@ $y^\s_t(c^\s)$
 can be fitted as follows.
 Here $\eps^\s$
 is the residual
-for individual $\s$
+for individual $\s$,
 and $b_0, m_0, b_1, m_1\in \RR$
 are the fit parameters.
 
 \beq
-y^\s_t = [b_0 + m_0 t](1-c^\s)
-+  [b_1 + m_1 t]c^\s
+y^\s_t = [b_0 + m_0 (t-t_0)](1-c^\s)
++  [b_1 + m_1 (t-t_0)]c^\s
 + \eps^\s
 \;.
 \label{eq-did-lr}
@@ -476,24 +462,37 @@ of Eq.(\ref{eq-did-lr}), we get
 
 \beq
 \caly_{c|\td}(t) = 
-[b_0 + m_0 t](1-c)
-+  [b_1 + m_1 t]c
+[b_0 + m_0 (t-t_0)](1-c)
++  [b_1 + m_1 (t-t_0)]c
 \;.
 \eeq  
-with $c=0$ for $t=t_0$
-and $c=\td$ for $t=t_1$.
-
-Let $\Delta t=t_1-t_0$. Since
-$\Delta_t t=\Delta t$ and 
-$\Delta_c c=1$, one gets
+If $\Delta  t = t_1-t_0$, then
 
 \beq
-\delta=\Delta_c\Delta_t 
-\calm\caly_{c|\td}(t)=
-\Delta_c\Delta_t y^\s_t=
-(m_1-m_0)\Delta t
+\caly_{\td|\td}(t_1) = 
+[b_0 + m_0 \Delta t](1-\td)
++  [b_1 + m_1 \Delta t]\td
+\;,
+\eeq
+and
+
+\beq
+\caly_{0|\td}(t_0) = b_0
 \;.
 \eeq
+ Thus,   
+
+\beqa
+\delta&=&\Delta_\td\Delta_t 
+\caly_{c(t)|\td}(t)
+\\
+&=&
+\Delta_\td[\caly_{\td|\td}(t_1)-\caly_{0|\td}(t_0)]
+\\
+&=&
+(m_1-m_0)\Delta t
+\;.
+\eeqa
 
 
 
@@ -525,9 +524,13 @@ Point $C$ is a counterfactual point.
 \rowcolor[HTML]{ECF4FF} 
  & $t=t_0$ & $t=t_1$ \\ 
 \hline
-$c=1$ \cellcolor[HTML]{ECF4FF}& $\caly(S_1)=\caly_{1|0}(t_0)$ & $\caly(F_1)=\caly_{1|1}(t_1)$ \\ 
+$\td=1$ \cellcolor[HTML]{ECF4FF}& 
+$\caly(S_1)=\caly_{0|1}(t_0)$ & 
+$\caly(F_1)=\caly_{1|1}(t_1)$ \\ 
 \hline 
-$c=0$\cellcolor[HTML]{ECF4FF} & $\caly(S_0)=\caly_{0|0}(t_0)$ & $\caly(F_0)=\caly_{0|0}(t_1)$ \\ 
+$\td=0$\cellcolor[HTML]{ECF4FF} & 
+$\caly(S_0)=\caly_{0|0}(t_0)$ & 
+$\caly(F_0)=\caly_{0|0}(t_1)$ \\ 
 \hline 
 \end{tabular}
 }
