@@ -1011,6 +1011,10 @@ SDO\;\;\text{(by Eq.(\ref{eq-sdo-def-1}))}
 \eeqa
 \qed
 
+We will say there is a {\bf null result
+in a RCT} when $ACE=0$. By the previous claim, 
+this is true iff $SDO=0$.
+
 \section{Conditional Independence Assumption (CIA)}
 
 The {\bf Conditional Independence Assumption}
@@ -1144,57 +1148,6 @@ is that CIA implies
 \;.
 \label{eq-c-bar-d-x}
 \eeq
-
-Define
-
-\beq
-ATE=\caly_1-\caly_0
-\;.
-\eeq
-
-
-
-\begin{claim}
-The null result for a RCT is
-
-\beq
-ACE=SDO=ATE=0
-\eeq
-\end{claim}
-\proof
-
-In a RCT with a null result,
-
-\beq
-\caly_{\td|\td,x}=\calr_{\td|\td,x}
-\;
-\eeq
-for $\td\in\bool$.
-Hence
-
-\beqa
-ATE&=&
-\sum_x P(x)[\caly_{1|x}-\caly_{0|x}]
-\\
-&=&\sum_x P(x)[
-\calr_{1|1,x}-\calr_{0|0,x}]
-\\
-&=&\sum_x P(x)[
-\caly_{1|1,x}-\caly_{0|0,x}]
-\\
-&=&SDO
-\;.
-\label{eq-ate-backprop}
-\eeqa
-
-The null result for a RCT
-is $ACE=0$. But we've
-shown that $ACE=SDO$ so $SDO=0$ too.
-By Eq.(\ref{eq-ate-backprop}),
-$ATE=0$ too.
-\qed
-
-
 
 
 \section{Translation Dictionary}
@@ -1377,6 +1330,7 @@ linearly related
 {ATE}=
  \underbrace{(\caly_{1|1}-\caly_{0|1})}_{ATT}\pi_1+
  \underbrace{(\caly_{1|0}-\caly_{0|0})}_{ATU}\pi_0
+\label{eq-ate-att-atu}
 \eeq
 
 \beq
@@ -1391,28 +1345,61 @@ linearly related
 \underbrace{\caly_{1|1}-\caly_{0|0}}_{SDO}
 &=&
 \underbrace{(\caly_{1|1}-\caly_{0|1})\pi_1 +
-(\caly_{1|0}-\caly_{0|0})\pi_0 }_{ATE} 
+(\caly_{1|0}-\caly_{0|0})\pi_0 }_{ATE} \nonumber
 \\
 &&+
-\underbrace{\caly_{0|1}-\caly_{0|0}}_{SB}
+\underbrace{\caly_{0|1}-\caly_{0|0}}_{SB}\nonumber
 \\
 &&+
-\underbrace{(\caly_{1|1}-\caly_{0|1})}_{ATT}\pi_0
+\underbrace{(\caly_{1|1}-\caly_{0|1})}_{ATT}\pi_0\nonumber
 \\
 &&-
 \underbrace{(\caly_{1|0}-\caly_{0|0})}_{ATU}\pi_0
+\label{eq-sdo-ate-else}
 \eeqa
 
-If we assume that $ATT=ATU$ (i.e.,
+By virtue of  Eq.(\ref{eq-ate-att-atu}),
+
+\beq
+ATT=ATU\implies ATT=ATU=ATE
+\;
+\eeq
+and
+
+\beq
+ATE=0 \iff \frac{ATU}{ATT}=-\left(\frac{\pi_1}{\pi_0}\right)
+\;.
+\eeq
+$ATT=ATU$ ({\bf T-U symmetry}) means the
 difference in
 response between candidate
 and non-candidate populations is
 the same among 
 the doer and
-non-doer populations.), then $ATT=ATU=ATE$
-and $SDO=ATE+SB$. If we also
-assume $SB=0$,
-then $ATT=ATU=ATE=SDO$.
+non-doer populations. 
+
+
+In general, $SDO=ATT+SB$, but if there is 
+T-U symmetry (i.e., $ATT=ATU$),
+then $SDO=ATE+SB$. 
+
+If there is T-U symmetry (i.e., $ATT=ATU$) and 
+zero bias (i.e., $SB=0$), 
+then $SDO=ATE=ATU=ATT$.
+
+If there is a
+null result 
+for a RCT (i.e., $ACE=SDO=0$),
+T-U symmetry (i.e., $ATT=ATU$) 
+and zero bias (i.e., $SB=0$), 
+then
+$SDO=ATE=ATU=ATT=0$.\footnote{
+It is sometimes claimed erroneously
+that the null result for a RCT is  true
+(i.e., $ACE=SDO=0$)
+iff $ATE=0$. But in reality, 
+$ACE=SDO=0$ only if ($\Leftarrow$) $ATE=0$,
+$ATT=ATU$ and $SB=0$.}
 
 
 Let $\cale \in\{ATE,ATT,ATU,SDO, SB\}$.
@@ -1738,7 +1725,7 @@ six points A, B, \ldots F
 corresponds to one of the six tables
 in Figs. \ref{fig-ate-possi}
 and \ref{fig-sdo-possi}.
-The origin 
+Segment $BE$ 
 corresponds to the null
 result in a RCT. 
 } 
