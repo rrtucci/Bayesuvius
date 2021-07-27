@@ -247,7 +247,7 @@ $\rvy^\s\in \RR$:
 
 $\rvx^\s$: column vector of treatment 
 confounders 
-(aka covariates, because they
+(aka covariates because they
 are often used as covariates (i.e., 
 independent
 variables) in linear regression.)
@@ -889,6 +889,61 @@ $\caly_{0|1}, \caly_{1|0}$
 are said to be {\bf counterfactual} 
 (indicating non-compliant patients).
 
+
+\section{Translation Dictionary}
+
+\begin{table}[h!]
+\renewcommand{\arraystretch}{1.5}
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\rowcolor[HTML]{ECF4FF} 
+In standard PO notation&
+In our notation 
+(for $G_{im}$ or  $G_{im+}$)\\
+\hline
+$i$, individual (i.e., unit, sample) index& $\s$ \\ 
+\hline 
+$D_i=d_i$, treatment dose & $\rvd^\s=d^\s$\\
+\hline 
+$Y_i=y_i$, treatment outcome& $\rvy^\s=y^\s$ \\ 
+\hline 
+$X_i=x_i$, treatment confounders& $\rvx^\s=x^\s$ \\ 
+\hline
+$E[Y_i(c)]$ & 
+$E_{\s}[\rvy^\s(c)]=\caly_{c}$ \\
+\hline
+$E[Y_i|D_i=\td]$ & 
+$ E_{\s|\td}[\rvy^\s]=\caly_{|\td}$\\
+\hline
+$E[Y_i(c)|D_i=\td]$ & 
+$E_{\s|\td}[\rvy^\s(c)]=\caly_{c|\td}$\\
+\hline
+$E[Y_i(c)|D_i=\td, X_i=x]$ & 
+$E_{\s|\td,x}[\rvy^\s(c)]=\caly_{c|\td,x}$\\
+\hline
+\end{tabular}
+\caption{Dictionary for 
+translating
+from standard PO notation
+of Ref.\cite{book-mixtape} to our notation.
+}
+\label{tab-pot-out-dict}
+\end{table}
+\renewcommand{\arraystretch}{1}
+
+Table \ref{tab-pot-out-dict}
+gives a dictionary for 
+translating
+from the standard PO notation 
+of Ref.\cite{book-mixtape}
+to our notation. $c,\td\in \bool$.
+I find
+ the standard PO notation 
+confusing because it often uses $D_i$
+to represent two different nodes, 
+$\rvd^\s$ and $\rvtd^\s$ in $G_{im+}$.
+
 \section{${\cal Y}_{|\tilde{d},x}
 ={\cal Y}_{\tilde{d}|\tilde{d},x}$}
 
@@ -917,103 +972,7 @@ $$E[Y|D=d, x]= E[Y(d)|D=d, x]$$.}\label{cl-caly-bardx}
 \eeqa
 \qed
 
-\section{ACE=SDO}
 
-
-Note that in $G_{in}$, 
-
-\beq
-P(\rvy=y|\rvtd=\td, x)=
-P(\rvy=y|\rvd=\td,x)
-\;.
-\eeq
-Hence,
-
-\beqa
-\caly_{|\td,x}
-&=&
-\sum_y y P(\rvy=y| \rvtd=\td, \rvx=x)
-\text{\;\;(in $G_{im}$)}
-\\
-&=&
-\sum_y y P(\rvy=y| \rvd=\td, \rvx=x)
-\text{\;\;(in $G$)}
-\;.
-\label{eq-y-bar-td}
-\eeqa
-In particular, when
-$\rvy$ is binary 
-(i.e.,  $\rvy\in\bool$), 
-Eq.(\ref{eq-y-bar-td}) becomes
-
-\beq
-\caly_{|\td,x}=
-P(\rvy=1|\rvd=\td, \rvx=x)
-\;.
-\eeq
-
-Note that
-
-\beq
-P(\rvy=y|\rho \rvd=d, \rvx=x)=
-P(y|\rvd=d,x)
-\;,
-\label{eq-rho-begone}
-\eeq
-because, by the d-separation
-theorem,  when we condition on
-the confounder $\rvx$, 
-we  block information from being
-transmitted from $\rvd$ to $\rvy$ through $\rvx$,
-and this is equivalent to
-amputating the arrow $\rvx\rarrow\rvd$.
-
-Define $ACE$ by
-
-\begin{align}
-ACE&=\sum_y y
-[P(y|\rho\rvd=1)-P(y|\rho\rvd=0)]
-\\
-&=
-\sum_x P(x)\sum_y y [P(y|\rho\rvd=1,x)-P(y|\rho\rvd=0,x)]
-\\
-&=
-\sum_x P(x)\sum_y y [P(y|\rvd=1,x)-P(y|\rvd=0,x)]
-\;. \text{ (by Eq.(\ref{eq-rho-begone}))}
-\label{eq-my-backdoor-proof} 
-\end{align}
-Eq.(\ref{eq-my-backdoor-proof} )
-also follows from the backdoor criterion.
-
-Define $SDO$ by
-\beq
-SDO= \caly_{1|1}-\caly_{0|0}
-\label{eq-sdo-def-1}
-\eeq
-
-\begin{claim}\label{cl-ace-sdo}
-\beq
-ACE=SDO
-\eeq
-\end{claim}
-\proof
-\beqa
-ACE&=&\sum_x P(x)[\caly_{|1, x}-\caly_{|0, x}]
-\text{ (by Eqs.(\ref{eq-y-bar-td}) and
-(\ref{eq-my-backdoor-proof}))}
-\\
-&=&
-\sum_x P(x)[\caly_{1|1, x}-\caly_{0|0, x}]
-\text{ (by Claim \ref{cl-caly-bardx})}
-\\
-&=&
-SDO\;\;\text{(by Eq.(\ref{eq-sdo-def-1}))}
-\eeqa
-\qed
-
-We will say there is a {\bf null result
-in a RCT} when $ACE=0$. By the previous claim, 
-this is true iff $SDO=0$.
 
 \section{Conditional Independence Assumption (CIA)}
 
@@ -1150,59 +1109,7 @@ is that CIA implies
 \eeq
 
 
-\section{Translation Dictionary}
 
-\begin{table}[h!]
-\renewcommand{\arraystretch}{1.5}
-\centering
-\begin{tabular}{|l|l|}
-\hline
-\rowcolor[HTML]{ECF4FF} 
-In standard PO notation&
-In our notation 
-(for $G_{im}$ or  $G_{im+}$)\\
-\hline
-$i$, individual (i.e., unit, sample) index& $\s$ \\ 
-\hline 
-$D_i=d_i$, treatment dose & $\rvd^\s=d^\s$\\
-\hline 
-$Y_i=y_i$, treatment outcome& $\rvy^\s=y^\s$ \\ 
-\hline 
-$X_i=x_i$, treatment confounders& $\rvx^\s=x^\s$ \\ 
-\hline
-$E[Y_i(c)]$ & 
-$E_{\s}[\rvy^\s(c)]=\caly_{c}$ \\
-\hline
-$E[Y_i|D_i=\td]$ & 
-$ E_{\s|\td}[\rvy^\s]=\caly_{|\td}$\\
-\hline
-$E[Y_i(c)|D_i=\td]$ & 
-$E_{\s|\td}[\rvy^\s(c)]=\caly_{c|\td}$\\
-\hline
-$E[Y_i(c)|D_i=\td, X_i=x]$ & 
-$E_{\s|\td,x}[\rvy^\s(c)]=\caly_{c|\td,x}$\\
-\hline
-\end{tabular}
-\caption{Dictionary for 
-translating
-from standard PO notation
-of Ref.\cite{book-mixtape} to our notation.
-}
-\label{tab-pot-out-dict}
-\end{table}
-\renewcommand{\arraystretch}{1}
-
-Table \ref{tab-pot-out-dict}
-gives a dictionary for 
-translating
-from the standard PO notation 
-of Ref.\cite{book-mixtape}
-to our notation. $c,\td\in \bool$.
-I find
- the standard PO notation 
-confusing because it often uses $D_i$
-to represent two different nodes, 
-$\rvd^\s$ and $\rvtd^\s$ in $G_{im+}$.
 \section{Treatment Effects}
 
 \begin{figure}[h!]
@@ -1304,18 +1211,10 @@ causal effect
  (ACE), used when doing a RCT.
 
 \beq
-{\color{red}ACE}=SDO \text{\;\;\;(see Claim
-\ref{cl-ace-sdo})}
+{\color{red}ACE}=ATE \text{\;\;\;(see Claim
+\ref{cl-ace-ate})}
 \eeq
-The fact that $ACE=SDO$
-instead of $ACE=ATE$
-makes sense because $ACE$ 
-and $SDO$
-are the only two treatment effects
-in the list that do
-not involve counterfactual
-probability distributions
-in their definitions.
+
 
 \end{itemize}
 
@@ -1385,21 +1284,15 @@ then $SDO=ATE+SB$.
 
 If there is T-U symmetry (i.e., $ATT=ATU$) and 
 zero bias (i.e., $SB=0$), 
-then $SDO=ATE=ATU=ATT$.
+then $SDO=ATE=ATT=ATU$.
 
 If there is a
 null result 
-for a RCT (i.e., $ACE=SDO=0$),
+for a RCT (i.e., $ACE=ATE=0$),
 T-U symmetry (i.e., $ATT=ATU$) 
 and zero bias (i.e., $SB=0$), 
 then
-$SDO=ATE=ATU=ATT=0$.\footnote{
-It is sometimes claimed erroneously
-that the null result for a RCT is  true
-(i.e., $ACE=SDO=0$)
-iff $ATE=0$. But in reality, 
-$ACE=SDO=0$ only if ($\Leftarrow$) $ATE=0$,
-$ATT=ATU$ and $SB=0$.}
+$SDO=ATE=ATT=ATU=0$.
 
 
 Let $\cale \in\{ATE,ATT,ATU,SDO, SB\}$.
@@ -1457,12 +1350,6 @@ used to obtain each expected value
 \label{fig-y-diffs-square-probs}
 \end{figure}
 
-As we explained before, $ACE=SDO$,
-and $ACE=SDO=ATE=0$
-is the null result for
-a RCT.
-But what if we are not 
-considering a RCT, what then?
 
 \begin{enumerate}
 \item 
@@ -1504,17 +1391,7 @@ is that
 $P_{\rvy(1)|\rvtd=1}
 =
 P_{\rvy(0)|\rvtd=0}$.
-Since $ATE=0$ iff 
-$ATT=ATU=0$,
-a sufficient condition
-for $ATE=0$ is that
-$P_{\rvy(1)|\rvtd=0}
-=
-P_{\rvy(0)|\rvtd=0}$
-and
-$P_{\rvy(1)|\rvtd=1}
-=
-P_{\rvy(0)|\rvtd=1}$.
+
 \item
 A sufficient condition for
 $ATT=ATU$
@@ -1538,7 +1415,100 @@ of the square
 whereas  $\caly_{1|0}=\caly_{1}$
 depends on just one corner.
 
+\section{ACE=ATE}
 
+Note that in $G_{do}$,
+
+\beq
+P(\rvy=y|\rho \rvd=d, \rvx=x)=
+P(y|\rvd=d,x)
+\;
+\label{eq-rho-begone}
+\eeq
+because, by the d-separation
+theorem,  when we condition on
+the confounder $\rvx$, 
+we  block information from being
+transmitted from $\rvd$ to $\rvy$ through $\rvx$,
+and this is equivalent to
+amputating the arrow $\rvx\rarrow\rvd$.
+
+Define $ACE$ by
+
+\begin{align}
+ACE&=\sum_y y
+[P(y|\rho\rvd=1)-P(y|\rho\rvd=0)]
+\\
+&=
+\sum_x P(x)\sum_y y [P(y|\rho\rvd=1,x)-P(y|\rho\rvd=0,x)]
+\\
+&=
+\sum_x P(x)\sum_y y [P(y|\rvd=1,x)-P(y|\rvd=0,x)]
+\;. \text{ (by Eq.(\ref{eq-rho-begone}))}
+\label{eq-my-backdoor-proof} 
+\end{align}
+Eq.(\ref{eq-my-backdoor-proof} )
+also follows from the backdoor criterion.
+
+
+\begin{claim}\label{cl-ace-ate}
+\beq
+ACE=ATE
+\eeq
+\end{claim}
+\proof
+
+Eqs.(\ref{eq-rho-begone})
+and (\ref{eq-my-backdoor-proof})
+are only valid for $G_{do}$.
+For $G_{im}$, they must be replaced by
+
+\beq
+P(\rvy=y|\rho \rvd=d, \rvx=x)=
+P(\rvy(d)=d|\rvd=d,x)
+\eeq
+and
+
+
+\begin{align}
+ACE&=
+\sum_x P(x)\sum_y y [P(y|\rho\rvd=1,x)-P(y|\rho\rvd=0,x)]
+\\
+&=
+\sum_x P(x)\sum_y y [P(\rvy(1)=y|\rvd=1,x)-
+P(\rvy(0)=y|\rvd=0,x)]
+\\
+&=\sum_x P(x)[\calr_{1|1, x}-\calr_{0|0, x}]
+\\
+&=
+\sum_x P(x)[\caly_{1|x}-\caly_{0|x}]
+\\
+&=
+\caly_{1}-\caly_{0}
+\\
+&=
+ATE
+\end{align}
+
+Note that if we insist in using 
+Eqs.(\ref{eq-rho-begone})
+and (\ref{eq-my-backdoor-proof}),
+we get a non-nonsensical answer
+
+\begin{align}
+ACE&=
+\sum_x P(x)\sum_y y [P(\rvy=y|\rvd=1,x)-P(\rvy=y|\rvd=0,x)]
+\\
+&=
+\sum_x P(x)\sum_y y [P(\rvy=y|x)-P(\rvy=y|x)]
+\\
+&=0
+\end{align}
+\qed
+
+We will say there is a {\bf null result
+in a RCT} when $ACE=0$. By the previous claim, 
+this is true iff $ATE=0$.
 
 \section{$(SDO,ATE)$ space}
 If we substitute
@@ -1590,7 +1560,7 @@ $\hat{\cale}=E_x[\hat{\cale}_x]=
 for $\cale\in\{ATE, SDO\}$.
 
 Recall also that 
-$ACE=SDO=ATE=0$ is the null 
+$ACE=SDO=0$ is the null 
 result in a RCT. 
 
 
@@ -1725,7 +1695,7 @@ six points A, B, \ldots F
 corresponds to one of the six tables
 in Figs. \ref{fig-ate-possi}
 and \ref{fig-sdo-possi}.
-Segment $BE$ 
+Segment $DF$ 
 corresponds to the null
 result in a RCT. 
 } 
@@ -2645,7 +2615,7 @@ $a^\s_t$ is said to be a
 if it is
 $\s$-independent.
 Henceforth, we will avoid 
-using the word ``effect" for these,
+using the word ``effect" for these
 because that word
  has already been used for something else in
 PO theory.
