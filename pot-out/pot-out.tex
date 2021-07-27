@@ -1461,20 +1461,24 @@ ACE=ATE
 Eqs.(\ref{eq-rho-begone})
 and (\ref{eq-my-backdoor-proof})
 are only valid for $G_{do}$.
-For $G_{im}$, they must be replaced by
-
-\beq
-P(\rvy=y|\rho \rvd=d, \rvx=x)=
-P(\rvy(d)=d|\rvd=d,x)
-\eeq
-and
+For $G_{im}$, 
+$P(\rvy=y|\rho \rvd=d, x)$
+must be replaced by\footnote{
+One way to rationalize this is to say
+that for $G_{im}$, 
+in the definition of ACE,
+one must not only amputate
+the arrow $\rvx\rarrow \rvd$,
+but 
+one 
+set both of the nodes $\rvd$ and $\rvtd$ to $d$.}
+$P(\rvy(d)=d|\rvd=d,x)$
+so Eq.(\ref{eq-my-backdoor-proof})
+for ACE becomes
 
 
 \begin{align}
 ACE&=
-\sum_x P(x)\sum_y y [P(y|\rho\rvd=1,x)-P(y|\rho\rvd=0,x)]
-\\
-&=
 \sum_x P(x)\sum_y y [P(\rvy(1)=y|\rvd=1,x)-
 P(\rvy(0)=y|\rvd=0,x)]
 \\
@@ -1490,10 +1494,9 @@ P(\rvy(0)=y|\rvd=0,x)]
 ATE
 \end{align}
 
-Note that if we insist in using 
-Eqs.(\ref{eq-rho-begone})
-and (\ref{eq-my-backdoor-proof}),
-we get a non-nonsensical answer
+Note that if keep
+Eq.(\ref{eq-my-backdoor-proof}) intact,
+we get an unacceptable answer
 
 \begin{align}
 ACE&=
@@ -1503,6 +1506,26 @@ ACE&=
 \sum_x P(x)\sum_y y [P(\rvy=y|x)-P(\rvy=y|x)]
 \\
 &=0
+\;,
+\end{align}
+and if we replace 
+$P(y|\rvd=d,x)$ by $P(y|\rvtd=d,x)$ 
+in  Eq.(\ref{eq-my-backdoor-proof}),
+we get another unacceptable answer
+\begin{align}
+ACE&=
+\sum_x P(x)\sum_y y [P(\rvy=y|\rvtd=1,x)-P(\rvy=y|\rvtd=0,x)]
+\\
+&=
+\sum_x P(x)[P(\rvy(1)=y|\rvtd=1,x)
+-P(\rvy(0)=y|\rvtd=0,x)]
+\\
+&=
+\sum_x P(x)[\caly_{1|1,x}-\caly_{0|0,x}]
+\\
+&=
+SDO
+\;.
 \end{align}
 \qed
 
@@ -1560,7 +1583,7 @@ $\hat{\cale}=E_x[\hat{\cale}_x]=
 for $\cale\in\{ATE, SDO\}$.
 
 Recall also that 
-$ACE=SDO=0$ is the null 
+$ACE=ATE=0$ is the null 
 result in a RCT. 
 
 
