@@ -1752,7 +1752,7 @@ groups.)
 \subsection{Exact strata-match}
 
 \subsubsection{Estimates of Treatment Effects}
-
+\label{sec-estimates}
 For $\td\in \bool$ and all strata $x$,
 define the sets of individuals
 $A_{\td,x}=\{\s: \td^\s=\td, x^\s=x\}$,
@@ -1972,105 +1972,34 @@ are invalid because they depend on
 $m()$. Only the estimator for $SDO_x$
 is valid because it doesn't depend on $m()$.
 
-
-
-
-Let 
-
-\beq
-g_d(x)=P_{\rvd|\rvx}(d|x)
-\eeq
- for $d\in\bool$.
-Note that $g_0(x)+g_1(x)=1$.
-$g_1(x)$ is called the {\bf propensity score}.
-One can do {\bf propensity score weighting}
-within the above estimators to
-improve their behavior.
-This is done by making the
-following replacements.
-
-\beq
-N_{1,x}
-\rarrow
-N_x g_1(x^\s)
-\;,\;\;
-N_{0,x}
-\rarrow
-N_x g_0(x^\s)
-\;.
-\eeq
-These replacements are
-equal under $ \sum_{\s\in A_x}$
-to the terms they replace.
-
-As an example of 
-Propensity Score Weighting, note that
-
-\begin{claim}
-\beq
-\widehat{SDO}_x=
-\frac{1}{N_x}
-\sum_{\s\in A_x}
-\frac{y^\s[\td^\s-g_1(x^\s)]}
-{g_1(x^\s)[1-g_1(x^\s)]}
-\eeq
-\end{claim}
-\proof
-From Eq.(\ref{eq-est-sdo}), we get
-\beqa
-\widehat{SDO}_x&=&
-\frac{1}{N_x}
-\sum_{\s\in A_x}
-y^\s
-\left[
-\frac{\td^\s}{g_1(x^\s)}
--
-\frac{(1-\td^\s)}{g_0(x^\s)}
-\right]\\
-&=&
-\frac{1}{N_x}
-\sum_{\s\in A_x}
-y^\s
-\left[
-\frac{\td^\s g_0 - (1-\td^\s)g_1}{g_0 g_1}
-\right]
-\\
-&=&
-\frac{1}{N_x}
-\sum_{\s\in A_x}
-y^\s
-\left[
-\frac{\td^\s \overbrace{(g_0+g_1)}^{=1}
- - g_1}{g_0 g_1}
-\right]
-\eeqa
-\qed
-
-You may have noticed that 
-we used $N_{\td,x}=N_x g_\td(x)=N_x P({\color{red}\rvd}=\td|x)$ above.
-Why not  $N_{\td,x}=N_x P({\color{red}\rvtd}=\td|x)$ instead?
- Here is why. Basically,
-the reason is that,
-in this case,
-$\rvtd=\rvd=\td$.
-
-\beqa
-\caly_{\td|\td,x}&=&
-\sum_y y P({\color{red}\rvy^\s(\td)}=y|{\color{red}\rvtd^\s}=\td, \rvx^\s=x)
-\\
-&=&
-\sum_y y P({\color{red}\rvy^\s}=y|{\color{red}\rvd^\s}=\td, \rvx^\s=x)
-\\
-&=&
-\sum_y y \frac{P(\rvy^\s=y,\rvd^\s=\td| \rvx^\s=x)}
-{P(\rvd^\s=\td| \rvx^\s=x)}
-\\
-&=&
-\sum_y y \frac{P(\rvy^\s=y,\rvd^\s=\td| \rvx^\s=x)}
-{g_\td(x)}
-\eeqa
-
-
+Suppose we do linear regression
+to fit a 
+hyperplane $y(x)$ to
+the dataset set $\{(x^\s, y^\s):\s\}$,
+and then we calculate
+$\frac{d\rvy}{d\rvtd}=\delta$.
+Out
+of all 
+the treatment effects,
+this $\delta$ is 
+probably (?) closest
+to $ACE=ATE$.
+Note also that the 
+linear regression
+method 
+of estimating
+$\delta$ 
+does imputation 
+(guesses missing values)
+by doing a linear fit.
+One can also 
+use machine learning to
+do a non-linear fit.
+In contrast, the estimators 
+of treatment effects
+presented in this section
+do imputation by 
+non-linear matching.
 
 \subsubsection{Example, estimation of treatment effects}
 
@@ -2331,7 +2260,7 @@ but one can define a new
 bias-corrected estimator.
 
 
-\subsection{Positivity}
+\section{Positivity}
 
 
 {\bf Positivity} is defined as the
@@ -2411,7 +2340,149 @@ of positivity makes
 $ATT$ or $ATU$
 non-identifiable.
 
+\section{Propensity Score
+Weighting}
 
+Let 
+
+\beq
+g_d(x)=P_{\rvd|\rvx}(d|x)
+\eeq
+ for $d\in\bool$.
+Note that $g_0(x)+g_1(x)=1$.
+$g_1(x)$ is called the {\bf propensity score}.
+One can do {\bf propensity score weighting}
+within the estimators
+presented in Section 
+\ref{sec-estimates} to
+improve their behavior.
+This is done by making the
+following replacements.
+
+\beq
+N_{1,x}
+\rarrow
+N_x g_1(x^\s)
+\;,\;\;
+N_{0,x}
+\rarrow
+N_x g_0(x^\s)
+\;.
+\eeq
+These replacements are
+equal under $ \sum_{\s\in A_x}$
+to the terms they replace.
+
+\begin{claim}
+\label{cl-d-line}
+Suppose $g_0+g_1=1$ and
+
+\beq F(d)=
+\frac{d}{g_1}-\frac{(1-d)}{g_0}
+\;.
+\eeq
+Then
+\beq
+F(d)=
+\frac{d-g_1}{g_0g_1}
+\;.
+\eeq
+\end{claim}
+\proof
+You can do the algebra
+or simply check mentally that
+$F(0)=\frac{-1}{g_0}$
+and $F(1)=\frac{1}{g_1}$
+for both versions of $F()$.
+\qed
+
+As an example of 
+Propensity Score Weighting, note that
+
+\begin{claim}
+
+\beq
+\widehat{SDO}_x=
+\frac{1}{N_x}
+\sum_{\s\in A_x}
+\frac{y^\s[\td^\s-g_1(x^\s)]}
+{g_1(x^\s)[1-g_1(x^\s)]}
+\label{eq-est-sdo-fancy}
+\eeq
+\end{claim}
+\proof
+\beqa
+\widehat{SDO}_x&=&
+\frac{1}{N_x}
+\sum_{\s\in A_x}
+y^\s
+\left[
+\frac{\td^\s}{g_1(x^\s)}
+-
+\frac{(1-\td^\s)}{g_0(x^\s)}
+\right]\;\;
+\text{(from Eq.(\ref{eq-est-sdo}))}
+\\
+&=&
+\frac{1}{N_x}
+\sum_{\s\in A_x}
+y^\s
+\left[
+\frac{\td^\s -g_1}
+{g_0 g_1}
+\right]\;\;\text{(by Claim \ref{cl-d-line}.)}
+\eeqa
+\qed
+
+I've seen
+some texts claim that 
+Eq.(\ref{eq-est-sdo-fancy})
+is an estimate of $ATE_x$. 
+I don't think so.
+As we saw when exploring the $(SDO,ATE)$
+space, $SDO$ and $ATE$ 
+can be quite different.
+Lots of admissible points 
+fall outside the $ATE=SDO$ line.
+
+
+You may have noticed that 
+we used 
+\begin{subequations}
+\beq
+N_{\td,x}=N_x g_\td(x)=N_x P({\color{red}\rvd}=\td|x)
+\label{eq-incorrect-psw}
+\eeq
+above.
+Why didn't we use
+\beq
+N_{\td,x}=N_x P({\color{red}\rvtd}=\td|x)=N_x P({\color{red}\rvtd}=\td)
+\label{eq-correct-psw}
+\eeq
+\end{subequations}
+ instead?
+I think that 
+Eq.(\ref{eq-correct-psw})
+is correct
+and
+Eq.(\ref{eq-incorrect-psw})
+is incorrect,
+but a reasonable approximation because recall that
+we usually define
+
+\beq
+P(\rvtd=\td)=\sum_x P(\rvd=\td|x)P(x)
+\;.
+\eeq
+The incorrect Eq.(\ref{eq-incorrect-psw})
+is basically assuming that nodes
+$\rvd$ and $\rvtd$ are the same node (imagine $G_{im}$
+in Fig.\ref{fig-po-G-im-y0-y1}
+with nodes $\rvd$ and $\rvtd$ merged). This
+is 
+a common mistake in PO theory texts.
+But if we merge those two nodes,
+CIA no longer holds.
 
 \section{Propensity Score}
 
