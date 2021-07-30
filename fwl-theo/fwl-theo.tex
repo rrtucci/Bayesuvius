@@ -1,0 +1,253 @@
+\chapter{Frisch-Waugh-Lovell (FWL) theorem}
+
+The Frisch-Waugh-Lovell (FWL) theorem
+(see Ref.\cite{wiki-fwl-theo})
+(mnemonic: FoWL Theorem)
+is a method used in Linear Regression (LR).
+It allows us to
+calculate
+a regression coefficient
+by doing LR on residuals
+calculated from two previously
+performed LRs.
+
+As in the section \nameref{sec-conv-lr}
+on LR, we will consider
+two cases: $x^\s$ non-random,
+ and $x^\s$ random i.i.d..
+
+\section{FWL, assuming $x^\s$ are nonrandom}
+Suppose
+\beq
+y=  X_1\beta_1 + X_2\beta_2 + \eps
+\label{eq-y-x1-x2-eps}
+\eeq
+where
+
+$y, \eps\in \RR^{nsam}$
+
+$X_a\in \RR^{nsam\times k_a}$,
+$\beta_a\in \RR^{k_a}$ for $a=1,2$
+
+Define the matrices $U_1$ and $A_1$ by
+
+\beq
+U_1 = X_1(X_1^TX_1)^{-1}X_1^T
+\eeq
+and
+
+\beq
+A_1 = 1-U_1
+\;.
+\eeq
+Note that
+
+\beq
+U_1X_1=X_1\;,\;\;A_1X_1=0
+\eeq
+(mnemonic: $A_1$ Annihilates $X_1$,
+and $U_1$ acts like Unity on $X_1$).
+
+Applying $A_1$ to Eq.(\ref{eq-y-x1-x2-eps}) gives
+
+\beq
+A_1 y = A_1X_2\beta_2  + A_1\eps
+\eeq
+so we can estimate $\beta_2$ by
+
+\beq
+\boxed{
+\hat{\beta}_2=
+(A_1X_2)^{-1}A_1 y}
+\label{eq-fwl-nonrand}
+\;.
+\eeq
+\section{FWL, assuming $x^\s$ are random}
+
+When the $x^\s$ are random and i.i.d.,
+ Eq.(\ref{eq-y-x1-x2-eps}) becomes
+
+\beq
+\rvy=\alpha \rvx + \beta \rvd
++ \rvu_\rvy
+\label{eq-y-ax-bd-u}
+\;.
+\eeq
+
+As usual, we will denote
+the linear operator
+$\av{\rvx,\rvx}^{-1}\av{\rvx, \cdot}$
+by a derivative operator:
+
+\beq
+\frac{\av{\rvx, \cdot}}
+{\av{\rvx,\rvx}}=
+\frac{d\cdot}{d\rvx}
+\;.
+\eeq
+Define operators $U_\rvx$ and $A_\rvx$ by
+
+\beq
+U_\rvx(\cdot)= \rvx\frac{d\cdot}{d\rvx}
+\eeq
+and
+
+\beq
+A_\rvx = 1 - U_\rvx
+\;.
+\eeq
+Note that
+
+\beq
+U_\rvx\rvx=\rvx\;,\;\;
+A_\rvx \rvx=0
+\;.
+\eeq
+
+If we apply $A_\rvx$ to Eq.(\ref{eq-y-ax-bd-u}), we get
+
+\beq
+A_\rvx\rvy = \beta A_\rvx \rvd
++A_\rvx\rvu_\rvy
+\;.
+\eeq
+Hence,
+
+\beq
+\av{A_\rvx\rvd, A_\rvx\rvy}=
+\beta\av{A_\rvx\rvd, A_\rvx\rvd}
+\eeq
+so
+
+\beq
+\boxed{
+\beta = \frac{d (A_\rvx \rvy)}{dA_\rvx\rvd}
+}
+\;.
+\label{eq-fwl-rand}
+\eeq
+\hrule
+Eqs.(\ref{eq-fwl-nonrand})
+and (\ref{eq-fwl-rand})
+constitute a statement
+of the FWL theorem. They
+are the main result of this chapter.
+Before ending the chapter,
+we show how the
+FWL theorem for random $x^\s$
+can be interpreted
+graphical using LDEN diagrams
+(
+LDEN diagrams
+are discussed in Chapter \ref{ch-linear-sys}).
+
+
+\begin{figure}[h!]
+$$
+\xymatrix{
+&\rvx\ar[dr]^\alpha
+\\
+\rvd\ar[rr]_\beta&&\rvy
+\\
+&(a)
+}\;\;\;
+\xymatrix{
+&\rvx\ar[dr]^{\alpha'}\ar[dl]_\gamma
+\\
+\rvd&&\rvy
+\\
+&(b)}
+\;\;\;
+\xymatrix{
+\\
+A_\rvx\rvd\ar[rr]_\beta&&A_\rvx\rvy
+\\
+&(c)
+}$$
+\caption{LDEN diagrams for discussing the FWL theorem.
+External root nodes $\rvu_\rvy, \rvu_\rvd, \rvu'_\rvy$
+are not shown.
+}
+\label{fig-fwl-abc}
+\end{figure}
+
+Fig.\ref{fig-fwl-abc}$(a)$
+is a graphical
+representation of the following equation:
+\begin{subequations}
+\beq
+\rvy = \alpha \rvx + \beta\rvd + \rvu_\rvy
+\;.
+\label{eq-fwl-a}
+\eeq
+Likewise, \ref{fig-fwl-abc}$(b)$
+represents
+
+\beq
+\left\{
+\begin{array}{l}
+\rvd = \gamma \rvx + \rvu_\rvd
+\\
+\rvy = \alpha'\rvx + \rvu'_\rvy
+\end{array}
+\right.
+\label{eq-fwl-b}
+\eeq
+and \ref{fig-fwl-abc}$(c)$
+represents
+
+\beq
+A_\rvx\rvy = \beta A_\rvx \rvd
+\;.
+\label{eq-fwl-c}
+\eeq
+\end{subequations}
+
+Applying $d/d\rvx$ to Eq.(\ref{eq-fwl-a}
+yields
+
+\beq
+\frac{d\rvy}{d\rvx}=
+\alp
++\beta\frac{d\rvd}{d\rvx}
+\;.
+\eeq
+Applying $d/d\rvx$ to Eq.(\ref{eq-fwl-b}
+yields
+
+
+\beq
+\gamma=\frac{d\rvd}{d\rvx}
+\;,\;\;
+\alp'=\frac{d\rvy}{d\rvx}
+\;.
+\eeq
+Therefore,
+
+\beq
+\alp'=\alp +\beta\gamma
+\;.
+\eeq
+
+Applying $A_\rvx$ to Eq.(\ref{eq-fwl-b})
+yields
+\beq
+A_\rvx\rvy=(1-\rvx\frac{d}{d\rvx})\rvy=
+\rvy-\alp'\rvx
+\eeq
+and
+
+\beq
+A_\rvx\rvd=
+(1-\rvx\frac{d}{d\rvx})\rvd
+=
+\rvd-\gamma\rvx
+\;.
+\eeq
+Therefore, Eq.(\ref{eq-fwl-c})
+is equivalent to
+
+\beq
+\rvy-\alpha'\rvx = \beta(\rvd-\gamma\rvx)
+\;.
+\eeq
