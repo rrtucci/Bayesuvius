@@ -1,0 +1,280 @@
+\chapter{Meta-learners
+for estimating ATE}
+\label{ch-meta-learners}
+
+
+This section
+is based on the final 2 chapters of
+Ref.\cite{alves-book}.
+
+The Average Treatment Effect (ATE)
+is defined in Chapter \ref{ch-pot-out}.
+
+Economists are huge fans of Linear Regression (LR),
+and traditionally calculate  ATE using LR.
+But in recent times,
+they have begun to
+calculate ATE using 
+ML instead. 
+This chapter describes various methods
+that economists and others have devised
+for calculating ATE with ML.
+These methods
+are called {\bf meta-learners}
+because they involve multiple
+ML or RL steps.
+
+Using ML
+to calculate
+ATE
+captures non-linear trends
+whose exclusion might sometimes lead to a poor result. 
+On the other hand,
+ML is more expensive computationally
+than LR, 
+and it introduces
+the danger of overfitting
+which is nonexistent with LR.
+
+
+
+
+Below,
+we represent each
+Linear Regression (LR) step
+as follows. 
+We list a dataset; i.e., a 
+set of tuples indexed by
+the individuals $\s$
+of a population $\Sigma$
+such that $|\Sigma|=nsam$.
+The independent variables 
+of the LR (e.g., $x^\s$)
+are unboxed and the
+ dependent/feature 
+variable (e.g., $y^\s$)
+is shown inside a box.
+Then we show an arrow with the
+superscript ``LR-fit",
+followed by the fit function
+obtained by performing the LR.\footnote{
+In this chapter,
+we will occasionally
+use the Einstein summation convention;
+i.e.,
+repeated indices are to be summed over.}
+
+
+
+\beq
+\{(\s, x^\s =[x^\s_i],\boxed{y^\s}):\s\in \Sigma\}
+\lrarr
+ \haty(x)=
+\alp +x_i\beta_i
+\eeq
+
+
+Analogously, below,
+we represent each
+Supervised Machine
+ Learning (ML) step as follows.
+
+
+\beq
+\{(\s, x^\s,\boxed{y^\s}):\s\in \Sigma\}\mlarr \haty(x)
+\label{eq-gen-ml}
+\eeq
+
+
+Henceforth, let $\delta(x)$($\approx$ ATE)
+denote the treatment effect
+ .
+
+
+
+\begin{itemize}
+\item {\bf S (Single)-learner}
+
+\beq
+\{(\s, x^\s,d^\s, \boxed{y^\s} ):\s\in \Sigma\}
+\mlarr \haty(d,x)
+\eeq
+
+\beq
+\delta(x)= \haty(1,x)-\haty(0,x)
+\eeq
+
+\item {\bf T (Twin)-learner}
+
+\beq
+\{(\s, x^\s,d^\s=0, \boxed{y^\s} ):\s\in \Sigma\}
+\mlarr \haty_0(x)
+\eeq
+
+\beq
+\{(\s, x^\s,d^\s=1, \boxed{y^\s} ):\s\in \Sigma\}
+\mlarr \haty_1(x)
+\eeq
+
+\beq
+\delta(x)= \haty_1(x)-\haty_0(x)
+\eeq
+
+\item {\bf X (Cross)-learner}
+
+do T-learner, get $\haty_0(x)$, $\haty_1(x)$
+
+
+\beq
+\{(\s, x^\s,d^\s=0,\boxed{y^\s- \haty_1(x^\s)} ):\s\in \Sigma\}
+\mlarr \caly_0(x)
+\eeq
+
+\beq
+\{(\s, x^\s,d^\s=1,\boxed{ y^\s-\haty_0(x^\s)} ):\s\in \Sigma\}
+\mlarr \caly_1(x)
+\eeq
+
+\beq
+\delta(x)= \frac{1}{2}[
+\caly_1(x) -\caly_0(x)]
+\eeq
+
+\item {\bf De-biased (aka Orthogonal) ML}
+
+Standard supervised ML is performed with two features,
+the independent feature and the dependent or target feature.
+Supervised ML has a target feature. Unsupervised ML doesn't.
+
+
+In {\bf De-biased LR}, we
+do LR
+with two residuals. Let's call them
+the {\bf independent residual} and the
+{\bf dependent or target residual}.
+These  two residuals are calculated
+with the help of two previously
+performed LR steps.
+
+
+In {\bf De-biased ML},
+we do ML or LR (either one) with two residuals.
+These  two residuals are calculated
+with the help of two previously
+performed ML steps (instead of LR steps).
+
+The FWL theorem
+discussed in Chapter \ref{ch-fwl-theo}
+shows how to do De-biased LR. Next,
+we will describe how to 
+do De-biased ML.
+
+We start by doing two ML steps:
+
+\beq
+\{(\s, x^\s,\boxed{d^\s} ):\s\in \Sigma\}
+\mlarr \hat{d}(x)
+\eeq
+
+\beq
+\{(\s, x^\s,\boxed{y^\s} ):\s\in \Sigma\}
+\mlarr \haty(x)
+\eeq
+
+After these
+two ML steps, we do either LR or ML to get $\delta(x)$.
+
+Let
+
+\beq
+\Delta d^\s=d^\s - \hat{d}(x^\s)
+\eeq
+
+\beq
+\Delta y^\s=y^\s - \haty(x^\s)
+\eeq
+
+Options for  the final learning step
+ that calculates $\delta(x)$:
+\begin{enumerate}
+\item
+Do a standard LR to get a $\delta(x)$
+that is a constant (i.e., $x$ independent):
+
+\beq
+\{(\s, x^\s,\Delta d^\s,
+\boxed{\Delta y^\s} ):\s\in \Sigma\}
+\lrarr \caly(d,x)=\alp + d\delta +x\beta
+\eeq
+
+\beq
+\delta= \text{coefficient of $d$ in }\caly(d,x).
+\eeq
+
+\item
+Do a LR with a $x*d$ cross term to
+get a $\delta(x)$ that is linear in $x$:
+
+\beq
+\{(\s, x^\s,\Delta d^\s,
+\boxed{\Delta y^\s} ):\s\in \Sigma\}
+\lrarr \caly(d,x)=
+\alp_0 + x\beta_0
++d(\alp_1 + x\beta_1)
+\eeq
+
+\beq
+\delta(x)= \caly(1,x)-\caly(0,x)=\alp_1 + x\beta_1
+\eeq
+
+\item
+Do ML with a weighted cost function to get a
+general fit $\hat{\delta}(x)$.
+
+The cost function 
+used in standard ML (see Eq.(\ref{eq-gen-ml}))
+is:
+\beq
+\calc= \frac{1}{nsam}\sum_\s [y^\s-\haty(x^\s)]^2
+\eeq
+
+
+Define the cost function in this case as
+\beqa
+\calc &=&
+ \frac{1}{nsam}\sum_\s
+\left[
+\Delta y^\s -\hat{\delta}(x^\s) \Delta d^\s
+\right]^2
+\\
+&=&
+\frac{1}{nsam}\sum_\s [\Delta d^\s]^2
+\left[
+\frac{\Delta y^\s}{\Delta d^\s} -\hat{\delta}(x^\s)
+\right]^2
+\eeqa
+This is a weighted cost function
+with weights $[\Delta d^\s]^2$.
+
+\beq
+\{(\s, x^\s,
+\boxed{\frac{\Delta y^\s}{\Delta d^\s}} ):\s\in \Sigma\}
+\mlarr \hat{\delta}(x)
+\eeq
+
+\item Do ML with $\Delta d^\s$ as an
+independent feature to get 
+a general fit $\hat{\delta}(\Delta d,x)$:
+
+\beq
+\{(\s, x^\s, \Delta d^\s,
+\boxed{\frac{\Delta y^\s}{\Delta d^\s}} ):\s\in \Sigma\}
+\mlarr \hat{\delta}(\Delta d, x)
+\eeq
+
+\end{enumerate}
+
+\end{itemize}
+
+
+
