@@ -503,15 +503,15 @@ and
 \caption{We use
 Linear Regression
 to fit a straight line
-between points $S_0$
-and $F_0$,
+between points $U_0$
+and $U_1$,
 and between points
-$S_1$ and $F_1$.
-(S=starting, F=finishing).
-$S_0, S_1, F_0, F_1$ are the measurement points.
+$T_0$ and $T_1$.
+(U=untreated, T=treated, subscript refers
+to times $t_0, t_1$).
+$U_0, T_0, U_1, T_1$ are the measurement points.
 Point
-$I$ is an image of point $F_0$.
-Point $C$ is a counterfactual point.
+$I$ is an image of point $U_1$.
 } 
 \label{fig-parallel-trends}
 \end{figure}
@@ -525,19 +525,19 @@ Point $C$ is a counterfactual point.
  & $t=t_0$ & $t=t_1$ \\ 
 \hline
 $\td=1$ \cellcolor[HTML]{ECF4FF}& 
-$\caly(S_1)=\caly_{0|1}(t_0)$ & 
-$\caly(F_1)=\caly_{1|1}(t_1)$ \\ 
+$\caly(T_0)=\caly_{0|1}(t_0)$ & 
+$\caly(T_1)=\caly_{1|1}(t_1)$ \\ 
 \hline 
 $\td=0$\cellcolor[HTML]{ECF4FF} & 
-$\caly(S_0)=\caly_{0|0}(t_0)$ & 
-$\caly(F_0)=\caly_{0|0}(t_1)$ \\ 
+$\caly(U_0)=\caly_{0|0}(t_0)$ & 
+$\caly(U_1)=\caly_{0|0}(t_1)$ \\ 
 \hline 
 \end{tabular}
 }
 \caption{
 $\caly$ coordinates
 of points
-$S_0, S_1, F_0, F_1$
+$U_0, T_0, U_1, T_1$
 in Figs.\ref{fig-dif-dif-bc}
  and \ref{fig-parallel-trends}.
 }
@@ -549,25 +549,25 @@ in Figs.\ref{fig-dif-dif-bc}
 Figs.\ref{fig-dif-dif-bc} and
 \ref{fig-parallel-trends}
 define
-points $S_0, S_1, F_0, F_1, I, C$.
+points $U_0, T_0, U_1, T_1, I, A$.
 The $\caly$
 coordinates of points 
-$S_0, S_1, F_0, F_1$ are 
+$U_0, T_0, U_1, T_1$ are 
 given by
 Table \ref{tab-did-points}.
 The $\caly$
-coordinates of points $C,I$
+coordinates of points $A,I$
 are given by Eqs.\ref{eq-c-i-pts}.
 
 \begin{subequations}
 \label{eq-c-i-pts}
 \beq
-\caly(C)= \caly_{1|0}(t_1)
+\caly(A)= \caly_{0|1}(t_1)
 \eeq
 
 \beq
-\caly(I)=\caly(F_0) + 
-[\caly(S_1)-\caly(S_0)]
+\caly(I)=\caly(U_1) + 
+[\caly(T_0)-\caly(U_0)]
 \eeq
 \end{subequations}
 
@@ -576,23 +576,23 @@ and the $\delta$ for DID
 in terms of 
 the $\caly$
 of the points
-$S_0, S_1, F_0, F_1, I, C$. Indeed,
+$U_0, T_0, U_1, T_1, I, A$. Indeed,
 
 \beqa
-\delta&=&\caly(F_1)-\caly(I)
+\delta&=&\caly(T_1)-\caly(I)
 \\
 &=&
-\caly(F_1)-
-\caly(F_0) -
-[\caly(S_1)-\caly(S_0)]
+\caly(T_1)-
+\caly(U_1) -
+[\caly(T_0)-\caly(U_0)]
 \eeqa
 
 \beq
-ATT = \caly(F_1)-\caly(C)
+ATT = \caly(T_1)-\caly(A)
 \eeq
 Hence, 
 
 \beq
-\delta=ATT\iff \caly(I)=\caly(C) \iff 
+\delta=ATT\iff \caly(I)=\caly(A) \iff 
 \text{PTA holds}
 \eeq
