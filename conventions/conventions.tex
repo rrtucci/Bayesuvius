@@ -703,6 +703,13 @@ where
 
 \section{Bayes Rule,
 Bayesian Updating And Conjugate Priors}
+
+Suppose
+
+\beq
+P(x, \lam)= P(x|\lam)P(\lam)
+\;.
+\eeq
 Bayes Rule says
 \beq
 \underbrace{P(\lam|x)}_{\rm posterior}=
@@ -712,18 +719,51 @@ Bayes Rule says
 \;.
 \eeq
 
-If the prior and posterior
+If, for a given likelihood,
+the prior and posterior
 distributions belong to 
 the same family (for instance, 
-they are both Normal distributions),
+they are both Beta distributions),
 then we say that the prior is the
 {\bf conjugate prior}
-of this likelihood.
+of that likelihood.
+
 For example, 
-Beta $\sim$ Bernoulli*Beta
-so the Beta distribution
+Beta $\sim$ Bernoulli*Beta,
+or, more explicitly,
+if 
+
+\beq
+p_1\sim {\rm Beta}(p_1;\alp, \beta)
+\eeq
+and
+
+\beq
+x|p_1\sim {\rm Bernoulli}(x;p_1)
+\;,
+\eeq
+where $p_1=P(x=1)$,
+then
+
+\beq
+p_1|x\sim {\rm Beta}(p_1;\alp', \beta')
+\eeq
+where 
+
+\beq
+\alp'= \alp + x
+\eeq
+
+\beq
+\beta'= \beta + (1-x)
+\eeq
+Hence, the Beta distribution
 is the conjugate prior of the
 Bernoulli distribution.
+
+Ref.\cite{wiki-conj-prior}
+has a table of
+conjugate priors.
 Conjugate priors facilitate  
 Bayesian updating 
 of the prior to 
