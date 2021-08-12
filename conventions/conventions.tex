@@ -50,7 +50,7 @@ Define $\ZZ, \RR, \CC$ to be
  the integers, real numbers
  and complex numbers, respectively. 
 
-For $a<b$, define $I_\ZZ$ 
+For $a<b$, define $\ZZ_I$
 to be the integers in the 
 interval $I$, where 
 $I=[a,b],[a,b),(a,b],(a,b)$ 
@@ -282,20 +282,24 @@ e^{-\frac{1}{2}\left(
 \;.
 \eeq
 
+For a {\bf standard deviation}
+$\s$, the {\bf precision} $\tau$
+is defined as $\tau=\frac{1}{\s^2}$.
+
 \begin{claim}
 If 
 
 \beq
-\rvx_1\sim \caln(x_1; \mu_1, \s^2_1)
+\rvx_1\sim \caln(\mu_1, \s^2_1)
 \eeq
 and
 
 \beq
-\rvx_2\sim \caln(x_2; \mu_2, \s^2_2)
+\rvx_2\sim \caln( \mu_2, \s^2_2)
 \eeq
 then
 \beq 
-\rvx=\rvx_1 +\rvx_2 \sim \caln(x;\mu_1 + \mu_2, \s^2_1 + \s^2_2)
+\rvx=\rvx_1 +\rvx_2 \sim \caln(\mu_1 + \mu_2, \s^2_1 + \s^2_2)
 \;.
 \eeq
 \end{claim}
@@ -333,6 +337,77 @@ For $a<b$, $x\in [a,b]$
 \frac{1}{b-a}
 \eeq
 
+\section {Softmax function
+(aka Boltzmann Distribution)}
+
+The Softmax function
+ is defined by
+\beq
+P(x_i
+|x.)=\frac{e^{x_i}}{\sum_i e^{x_i}}=
+\softmax(x.)_i
+\label{eq-softmax}
+\eeq
+The
+Boltzmann distribution is defined as
+ 
+\beq
+P(\rvE_a=E_a)=\frac{\exp(-\frac{E_a}{kT})}{\sum_{a}
+\exp(-\frac{E_{a}}{kT})}=
+P(\frac{-E_a}{kT}|E.)\eeq
+for a system with energies $E_a$
+and temperature $T$,
+where $k$
+is Boltzmann's constant.
+
+The function
+softmax() is called softmax because if we
+approximate the exponentials,
+ both in the numerator and denominator
+of Eq.(\ref{eq-softmax}),
+by the largest one 
+of them or zero,
+we get
+
+\beq
+\softmax(x.)_i\approx \indi(i=\argmax_k x_k)
+\;.
+\eeq
+Thus, softmax($x.$)
+returns a continuous
+function that approximates a one-hot vector
+that is 1 at the
+$i$th
+component, where
+$i=\argmax_k(x_k)$,
+and zero at the other components.
+
+Note that
+\beq
+\pder{\ln P(x_i|x)}{x_a}
+=
+\pder{}{x_a}\ln\left[
+\frac{e^{x_i}}{\sum_i e^{x_i}}
+\right]
+=
+\delta(a,i)
+-
+P(x_a|x)
+\eeq
+
+For 2 variables $x_0, x_1$,
+\beqa
+P(x_0|x.)&=&
+\frac{e^{x_0}}{e^{x_0} + e^{x_1}}\\
+&=&\smoid(x_0-x_1)
+\;,
+\eeqa 
+
+\beq
+P(x_1|x.)=\smoid(x_1-x_0)
+\;.
+\eeq
+
 \section{Sigmoid and log-odds functions}
 \label{sec-smoid}
 The {\bf sigmoid (aka exp-it,  logistic) function} smoid:$\RR\rarrow [0,1]$
@@ -342,7 +417,17 @@ is defined by
 \frac{1}{1+e^{-x}}
 \eeq
 $\smoid()$ is monotonically
-increasing with $\smoid(-\infty)=0$ and $\smoid(+\infty)=1$.
+increasing with $\smoid(-\infty)=0$, 
+$\smoid(0)=1/2$
+and $\smoid(+\infty)=1$.
+
+\beqa
+\smoid(x)+\smoid(-x)&=&
+\frac{1}{1+e^{-x}}+\frac{1}{1+e^x}\\
+&=&\frac{2+e^x+e^{-x}}{2+e^x+e^{-x}}
+\\&=&1
+\eeqa
+
 
 The {\bf log-odds (aka log-it) function} 
 lodds:$[0,1]\rarrow \RR$ is defined by
@@ -615,6 +700,55 @@ where
 \av{\rvx}_{|\rva}=E_{\rvx|\rva}[\rvx]
 \;.
 \eeq
+
+\section{Bayes Rule,
+Bayesian Updating And Conjugate Priors}
+Bayes Rule says
+\beq
+\underbrace{P(\lam|x)}_{\rm posterior}=
+\caln(!\lam)
+\underbrace{P(x|\lam)}_{\rm likelihood}
+\underbrace{P(\lam)}_{\rm prior}
+\;.
+\eeq
+
+If the prior and posterior
+distributions belong to 
+the same family (for instance, 
+they are both Normal distributions),
+then we say that the prior is the
+{\bf conjugate prior}
+of this likelihood.
+For example, 
+Beta $\sim$ Bernoulli*Beta
+so the Beta distribution
+is the conjugate prior of the
+Bernoulli distribution.
+Conjugate priors facilitate  
+Bayesian updating 
+of the prior to 
+posterior in a 
+feedback loop(see Fig.\ref{fig-conj-prior}).
+
+\begin{figure}[h!]
+$$\xymatrix{
+&x_t\ar[d]
+\\
+&\stackrel{Bernoulli}{P(x_t|\lam)}\ar@/_2pc/[ld]
+\\
+\stackrel{Beta}{P(\lam|x_{\leq t})}\ar@/_2pc/[rd]
+&&\stackrel{Beta}{P(\lam|x_{\leq t-1})}\ar@/_2pc/[ul]
+\\
+&t\rarrow\ar@/_2pc/[ur] t+1
+}$$
+\caption{Bayesian updating facilitated
+by conjugate prior. In this figure,
+$x_{\leq t}=(x_0, x_1, \ldots, x_{t-1}, x_t)$ and
+$t=-1, 0, 1, 2, \dots$.}
+\label{fig-conj-prior}
+\end{figure}
+
+
 
 \section{Linear regression, Ordinary Least Squares (OLS)}
 \label{sec-conv-lr}
@@ -2535,13 +2669,13 @@ e^{-\frac{1}{2}\frac{t^2+\nu}{\varrho^2}}
 Never report measurements without error bars!!
 Quick reminder of error bars:
 
-Normal[ distribution
+Normal distribution
 with mean $\mu$
 and standard deviation $\sigma$:
 
 \beq
-\caln(x;\mu, \sigma)=
-\frac{1}{\sqrt{2\pi}\;\sigma}
+\caln(x;\mu, \s^2)=
+\frac{1}{\s\sqrt{2\pi}}
 e^{- \frac{(x-\mu)^2}{2\sigma^2}}
 \;.
 \eeq

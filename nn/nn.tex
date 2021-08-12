@@ -100,9 +100,9 @@ discuss non-dense layers.
 Let
   $w^\lam_{i|j}, b_i^\lam\in \RR$
 be given,
-for $i\in[0, nh(\lam))_\ZZ$,
-$j\in[0, nh(\lam-1))_\ZZ$,
-and $\lam\in[0, \Lambda)_\ZZ$.
+for $i\in\ZZ_{[0, nh(\lam))}$,
+$j\in\ZZ_{[0, nh(\lam-1))}$,
+and $\lam\in\ZZ_{[0, \Lambda)}$.
 
 These are the
 TPMs,
@@ -155,15 +155,8 @@ Zero for $x\leq 0$, one for $x>0$.
 \eeq
 Smooth, monotonically increasing 
 function.
-$\smoid(-\infty)=0$,$\smoid(0)=0.5$,
+$\smoid(-\infty)=0$,$\smoid(0)=1/2$,
 $\smoid(\infty)=1$.
-
-\beqa
-\smoid(x)+\smoid(-x)&=&
-\frac{1}{1+e^{-x}}+\frac{1}{1+e^x}\\
-&=&\frac{2+e^x+e^{-x}}{2+e^x+e^{-x}}
-\\&=&1
-\eeqa
 
 \item {\bf Hyperbolic tangent}
 \beq
@@ -200,19 +193,8 @@ Compare this to the step function.
 
 \beq
 \cala(x_i
-|x.)=\frac{e^{x_i}}{\sum_i e^{x_i}}
-\label{eq-softmax}
-\eeq
-It's called softmax because if we 
-approximate the exponentials,
- both in the numerator and denominator
-of Eq.(\ref{eq-softmax}),
-by the largest one,
-we get
-
-\beq
-\cala(x_i|x.)\approx \indi(x_i=\max_k x_k)
-\;.
+|x.)=\frac{e^{x_i}}{\sum_i e^{x_i}}=
+\softmax(x.)_i
 \eeq
 
 The softmax definition implies
@@ -220,19 +202,6 @@ that the bnet nodes
  within a softmax layer
 are fully connected by arrows
 to form a ``clique".
-
-For 2 nodes $x_0, x_1$,
-\beqa
-\cala(x_0|x.)&=&
-\frac{e^{x_0}}{e^{x_0} + e^{x_1}}\\
-&=&\smoid(x_0-x_1)
-\;,
-\eeqa 
-
-\beq
-\cala(x_1|x.)=\smoid(x_1-x_0)
-\;.
-\eeq
 
 \end{itemize}
 
