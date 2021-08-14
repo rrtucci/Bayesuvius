@@ -418,7 +418,7 @@ Q_t(a)\rarrow E_{\rva=a}[\rvr]=Q(a)
 
 
 \beq
-E[Q(\rva_t)]\rarrow E[Q(\rva)]
+E[Q(\hat{\rva}_t)]\rarrow E[Q(\rva)]
 \eeq
 
 \end{claim}
@@ -432,7 +432,7 @@ and Claim \ref{cl-qt-a-approx}.
 \section{Regret functions}
 
 Define the
-{\bf Instantaneous (at time $t$) Regret (I-Regret)} by
+{\bf Instantaneous (at time $t$) Average Regret (I-Regret)} by
  
 \beq
 IReg_t =
@@ -441,7 +441,7 @@ IReg_t =
 E[\Delta_{\hat{\rva}_t}]
 \eeq
 and the {\bf Cumulative (for times $\leq t$) 
-Regret  (C-Regret)} by
+Average Regret  (C-Regret)} by
 \beq
 CReg_{t}=
 \sum_{\tau=0}^t IReg_\tau
@@ -467,10 +467,11 @@ Let
 \sum_{t=0}^t r_t
 \;.
 \eeq
-Define the {\bf Cumulative Reward (C-Reward)} by
+Define the {\bf Cumulative Average Reward (C-Reward)} by
 
 \beq 
-CRew_t= E_{|\rva_t=a}[(t+1)\rho_t]
+CRew_t= E_{|\hat{\rva}_t=a}
+[(t+1)\hat{\ul{\rho}}_t]
 \;.
 \eeq
 It can be shown that minimizing
@@ -490,10 +491,6 @@ As $t\rarrow \infty$,
 IReg_t\rarrow E[\Delta_\rva]
 \eeq
 
-\beq
-CReg_{t} < (t+1)E[\Delta_\rva]
-\eeq
-
 \end{claim}
 \proof This is clear
 from $\hat{a}_t \rarrow a$
@@ -507,7 +504,7 @@ we consider MAB algorithms
 that explore
 all values of the action $a$
 at random.
-In section
+In the section
 following this one,
 we consider MAB algorithm
 that do a more deliberate
@@ -543,7 +540,8 @@ Fig.\ref{fig-mab-bnet}.
 $\rvg_t\in \bool$ and $\rva_t, \rvA_t\in S_\rva$.
 (``g" stands for greedy).
 The TPMs, printed in blue,
-for the new nodes are
+for the new nodes, are
+as follows
 
 \beq\color{blue}
 P(g_t)=
@@ -844,15 +842,18 @@ $$\xymatrix{
 &&\ul{\mu}_0\ar[dr]
 &&\ul{\tau}_0\ar[dl]
 \\
-&\ul{\tau}\ar[drr]\ar[rrrr]
-&&&&\ul{\mu}\ar[dll]
+&\stackrel{\rm Gamma}{\ul{\tau}}
+\ar[drr]\ar[rrrr]
+&&&&\stackrel{\rm Normal}{\ul{\mu}}\ar[dll]
 \\
-&&&\rvx^n
+&&&\stackrel{\rm Normal}{\rvx^n}
 }
 \;\;\;
 \xymatrix{
 \\
-\ul{\tau}\ar[rr]&&\ul{\mu}
+\stackrel{\rm Gamma}{\ul{\tau}}
+\ar[rr]&&
+\stackrel{\rm Normal}{\ul{\mu}}
 \\
 &\rvx^n\ar[ur]\ar[ul]
 }$$
