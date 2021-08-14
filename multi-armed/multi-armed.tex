@@ -1238,32 +1238,7 @@ P(r|a) =
 
 \subsection{Grad-MAB algorithm}
 
-Define
-
-\beq
-\pi(\rva_t=a|\lam_t)=
-\frac{\exp[\lam_t(a)]}{\sum_a
- \exp[\lam_t(a)]}=
-\pi_t(a)
-\eeq
-The $\lam_t(a)$ are called {\bf scores}
-at time $t$.
-
 Let
-
-\beq
-\boxed{
-a^*_t = \argmax_a \pi_t(a)}
-\eeq
-
-\begin{subequations}
-\beq
-\pi_t(a)=
-\frac{e^{\lam_t(a)}}{\sum_a
-e^{\lam_t(a)}}
-=
-\softmax(\lam_t)_a
-\eeq 
 
 \beq
 \lam_{t+1}(a)
@@ -1274,8 +1249,26 @@ r_{t}[\indi(a_{t}=a)-
 \pi_{t}(a)]
 \label{eq-mab-lam-recur}
 \eeq
-\end{subequations}
-for some $\eta>0$.
+for some $\eta>0$, where
+$\pi_t(a)$ is defined by
+
+\beq
+\pi_t(a)=
+P(\rva_t=a|\lam_t)=
+\underbrace{\frac{e^{\lam_t(a)}}{\sum_a
+e^{\lam_t(a)}}
+}_{
+\softmax(\lam_t)_a}
+\;.
+\eeq
+The $\lam_t(a)$ are called {\bf scores}
+at time $t$. 
+Let
+
+\beq
+\boxed{
+a^*_t = \argmax_a \pi_t(a)}
+\eeq
 
 \begin{figure}[h!]
 $$\xymatrix{
@@ -1318,7 +1311,7 @@ Eq.(\ref{eq-mab-lam-recur}).}
 P(a_t|\lam_t)
 =\indi(a_t=a^*_t)
 \text{\;\;\;or\;\;\;}
-\pi_t(\rva_t=a_t|\lam_t)
+P(\rva_t=a_t|\lam_t)=\pi_t(a_t)
 \;\;\text{(agent's respose)}
 \eeq
 
