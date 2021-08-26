@@ -4,7 +4,7 @@ This chapter
 is based on 
 Refs.\cite{maz-shap-titanic}
 and \cite{maz-shap-income},
-which are highly recommended.
+which I highly recommended.
 
 
 \label{ch-shapley}
@@ -13,7 +13,9 @@ So is the term ``explainability".
 So the term ``Explainable 
 AI (XAI)" is doubly ill-defined.
 In 2018, the European Union codified 
-an individual’s ``right to explanation" 
+the need for XAI ---
+an individual’s ``right to
+ explanation" ---
 into a law called the General Data Protection 
 Right (GDPR). This EU law was a strong 
 motivation for Neural Net  
@@ -72,12 +74,14 @@ $|\calp(A)|=\sum_{k=0}^{|A|} {|A|\choose k} =
 
 $\calp_f(F)=\{S\in \calp(F): f\in S\}$
 for $f\in F$, be all sets in $\calp(F)$
-containing feature $f$. Note $\calp_f(F)= \calp(F)-\calp(F-\{f\})$
+containing feature $f$. Note that 
+ $\calp_f(F)= \calp(F)-\calp(F-\{f\})$
 
 $\calp_{!f}(F)=\{S\in \calp(F): f\not\in S\}$
 for $f\in F$, be all sets in $\calp(F)$
 not containing feature $f$.
-Note $\calp_{!f}(F)= \calp(F-\{f\})$
+Note that
+ $\calp_{!f}(F)= \calp(F-\{f\})$
 
 
 
@@ -111,13 +115,36 @@ Fig.\ref{fig-pow-set-graph}
 shows a graph
 of $\calp(F)$ for
 $F=\{age, gender, job\}$.
+Henceforth,
+we will
+refer to 
+the generalization
+of Fig.\ref{fig-pow-set-graph}
+to an arbitrary finite
+set $F$, as the 
+{\bf power set graph}
+of $F$.\footnote{Note 
+that a power set graph is a DAG.
+We won't
+define
+TPMs for
+its nodes
+in this chapter,
+so it's a DAG but not a bnet,
+in this chapter at least.}
 
 
-Consider any $S\in \calp(F)$. Let
+For
+any finite
+set $F$,
+consider its power set graph.
+Let $S\in \calp(F)$
+be a node of that graph. Let
 
 $N_{arr/nd}(S)= |S|=$ 
 number of arrows entering
 node $S$.
+
 
 $N_{nds}(|S|)={|F|\choose |S|}=$ number
 of nodes in level $|S|$ (i.e., row $|S|$). 
@@ -223,6 +250,7 @@ Hence,
 \begin{itemize}
 \item
 $SHAP^\s_f$ is an average over 
+the ensemble
 $\{ML_S: S\in \calp_f(F)\}$
 for each individual $\s\in\Sigma$.
 \item
@@ -391,7 +419,8 @@ It doesn't show the column $y^\s\in
 \centering
 \includegraphics[width=4in]
 {shapley/titanic-shap-table.png}
-\caption{For Titanic dataset, a
+\caption{For the Titanic dataset, 
+this is a
 table of $SHAP^\s_f$, where 
 $\s\in \{1,2, \ldots 5\}$
 and $f\in F$.
@@ -404,7 +433,8 @@ indication of whether
 the passenger died or 
 survived.
 Note that the table
-of a dataset and of $SHAP_f^\s$
+of a dataset and 
+the matrix $SHAP_f^\s$
 have the same shape $(|\Sigma|, |F|)$.} 
 \label{fig-titanic-shap-table}
 \end{figure}
@@ -413,7 +443,8 @@ have the same shape $(|\Sigma|, |F|)$.}
 \centering
 \includegraphics[width=4in]
 {shapley/titanic-shap-plot.png}
-\caption{For Titanic Dataset, a so called
+\caption{For the Titanic Dataset, 
+this is a so called
 ``beeswarm" plot of $SHAP^\s_f$, where 
 $\s\in \{1,2, \ldots, 891\}$
 and $f\in F$.
@@ -462,5 +493,6 @@ Fig.\ref{fig-titanic-shap-table}
 displays
 $SHAP^\s_f$ in tabular
 form and Fig.\ref{fig-titanic-shap-plot}
-display $SHAP^\s_f$
-in graphical form (as a beeswarm plot).
+displays $SHAP^\s_f$
+in graphical form (in 
+what is called a beeswarm plot).
