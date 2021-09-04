@@ -68,16 +68,16 @@ two enhancements more precisely.
 Let $t_k$ for $k=0,1, \ldots, npre-1$
 be the pre-treatment times at which
 a measurement occurs. Let
-$t_k$ for $k=npre, npre+1, \ldots, ntimes-1$
+$t_k$ for $k=npre, npre+1, \ldots, nt-1$
 be the post-treatment times
 at which a measurement occurs.
 Note that
- $npre + npost=ntimes$. Note that
+ $npre + npost=nt$. Note that
 $t_*=t_{npre+1}$
 is the first measurement time
 after the treatment is applied,
 $t_0$ is the first measurement time,
-and $t_{fin}=t_{ntimes-1}$ is
+and $t_{fin}=t_{nt-1}$ is
 the last one.
 
 \item {\bf subpopulations}:
@@ -332,7 +332,7 @@ expected values of $y^\s_t$:
 
 \beq
 E_{\s| d, x}[y^\s_t(c)]=
- E_{y_t| d, x}[\rvy_t(c)]=
+ E_{\rvy_t(c)| d, x}[\rvy_t(c)]=
 \caly_{c| d, x}(t)
 \eeq
 
@@ -371,14 +371,13 @@ P_{\rvd|\rvx}(d|x)
 \eeq
  
 \beq\color{blue}
-P(y_t| d, x)=
-P_{\rvy_t|\rvd, \rvx}
-(y_t| d, x)
+P(y_t| y_t(0), y_t(1),d)=
+\indi(y_t=y_t(d))
 \eeq
 
 \beq\color{blue}
-P(( d)')=\delta(
-( d)',  d)
+P(y_t(c)|x)=
+P(y_t(c)|d,x)=\text{given}
 \eeq
 
 \begin{figure}[h!]
@@ -389,30 +388,11 @@ P(( d)')=\delta(
 expected 
 values $\caly_{c| d}(t)$ of $y^\s_t$
 for bnet $G_{t, +}$
-The $2*ntimes$ magenta  stars
-represents the $2*ntimes$ SC measurements.} 
+The $2*nt$ magenta  stars
+represents the $2*nt$ SC measurements.} 
 \label{fig-syn-con-bc}
 \end{figure}
 
-Henceforth, 
-for simplicity, we will
-omit the confounder state $x$
-from the indices of $\caly$; i.e., we will write
-$\caly_{c| d}(t)$
-instead of $\caly_{c| d, x}(t)$.
-The fact that we will
-not explicitly
-mention $x$ does not
-mean that it doesn't exist
-or that it doesn't affect our analysis.
-If there are confounders,
-they cannot be neglected.
-As discussed in Chapter \ref{ch-pot-out}
-under the subject of strata-matching in PO,
-one must condition $\caly$
-on a single $x$ stratum
-and, later on,  one must average
-over all the possible $x$ strata.
 
 
 Define the function $c(t)$ by
@@ -445,14 +425,14 @@ $\caly_{c| d}(t)$
 for $t$ in the interval  $[t_0, t_{fin}]$
 and for $c, d\in \bool$.
 The $\caly$ coordinates
-of the $2*ntimes$ magenta stars in 
+of the $2*nt$ magenta stars in 
 Fig.\ref{fig-syn-con-bc} can 
 be calculated using bnet $G_t$.
 Note that in Fig.\ref{fig-syn-con-bc},
 we display a large gap
 between the curves $\caly_{0| d}(t)$
 for $ d\in \bool$.
-In reality, $P(y_t| d,x)$ has been
+In reality, $P(y_t(0)| d)$ has been
 constructed so as to make that
 gap as small as possible.
 Thus, to a good(?) approximation,
