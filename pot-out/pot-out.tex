@@ -575,6 +575,84 @@ and they both
 can be accessed 
 by measuring $\rvy$.
 
+\section{Bad Controls}
+
+The bnet $G_+$
+of Fig.\ref{fig-po-G-im-y0-y1}, 
+---the cornerstone of Rubin's 
+PO theory--- is limited in scope
+and is easily
+misapplied, leading
+to incorrect results.
+
+
+\begin{figure}
+$$
+\xymatrix{
+\rvh_1 \ar[d]\ar[r]
+& \rvx
+& \rvh_2  \ar[d]\ar[l]
+\\
+\rvd \ar[rr]
+&&\rvy
+}$$
+\caption{In this figure,
+nodes $\rvh_1$
+and $\rvh_2$ are 
+hidden and therefore
+cannot be conditioned on.}
+\label{fig-po--m-bias}
+\end{figure}
+
+For example, 
+consider the 
+bnet Fig.\ref{fig-po--m-bias}
+which  Pearl calls M-bias.
+In that figure, 
+$\rvx$
+is a ``bad control"
+because 
+calculating
+$ATE$ by conditioning on it
+(i.e., using the formula
+$ATE=\sum_x
+ P(x)[\caly_{1|x}-\caly_{0|x}$)
+yields a value of $ATE$
+that is different from
+$ACE$
+and is clearly 
+incorrect because it does 
+not give the result of a RCT
+as ACE defined
+in terms of do operators 
+always does.
+The reason\footnote{We are
+using here arguments 
+based on the d-separation 
+theorem 
+which is discussed in Chapter 
+\ref{ch-dsep}.} $ATE\neq ACE$
+for this figure
+is that in it,
+$\rvx$ is 
+a collider node,
+and conditioning 
+on it allows
+rather than
+prevents information
+to flow from $\rvd$
+to $\rvy$
+via the path 
+$\rvd-\rvh_1-\rvx-\rvh_2-\rvy$.
+
+Pearl et al have a paper
+(Ref.\cite{pearl-good-neutral-bad})
+that I highly recommend
+that gives dozens of examples
+of good, neutral and 
+bad controls
+in an $ACE$ calculation.
+
 
 
 
@@ -1162,7 +1240,7 @@ $P_{\rvy(1)| \rvd=1,x}
 =
 P_{\rvy(0)| \rvd=0,x}$.
 A sufficient
-condition for $ADE=0$
+condition for $ATE=0$
 is that 
 $P_{\rvy(1)|x}
 =
