@@ -182,9 +182,9 @@ expected values of $y^\s_t$:
 
 
 \beq
-E_{\s|\td, x}[y^\s_t(c)]=
- E_{y_t|\td, x}[\rvy_t(c)]=
-\caly_{c|\td, x}(t)
+E_{\s| d, x}[y^\s_t(c)]=
+ E_{\rvy_t(c)| d, x}[\rvy_t(c)]=
+\caly_{c| d, x}(t)
 \eeq
 
 To calculate these
@@ -195,17 +195,17 @@ In this case,
 the needed model and probability
 distributions are
 provided by the
-bnets depicted in Fig.\ref{fig-did-G_t-im}.
+bnets depicted in Fig.\ref{fig-did-G_t-+}.
 The TPMs,
 printed in blue,
 for the 
  bnet
-$G_{t, im}$
-in Fig.\ref{fig-did-G_t-im},
+$G_{t, +}$
+in Fig.\ref{fig-did-G_t-+},
 are as follows.
 Note
 that the
-TPMs for the bnet $G_{t, im}$
+TPMs for the bnet $G_{t, +}$
 are defined in 
 terms
 of the TPMs for the bnet $G_t$.
@@ -215,49 +215,53 @@ of the TPMs for the bnet $G_t$.
 $$
 \begin{array}{ccccc}
 \xymatrix{
-&\rvx^\s\ar[dl]\ar[dr]
+&\rvx\ar[dl]\ar[dr]
 \\
-\rvd^\s\ar[rr]&&\rvy^\s_t
+\rvd\ar[rr]&&\rvy_t
 }
 &&
 \xymatrix{
-&\rvx^\s\ar[dl]\ar[dr]
+&&\rvx\ar[d]\ar[ddll]
 \\
-\rvd^\s=d^\s&\rvtd^\s=\td^\s\ar[r]&\rvy^\s_t
+&&[\rvy_t(0), \rvy_t(1)]
+\ar[d]
+\\
+\rvd\ar[rr]
+&&\rvy_t
 }
 \\
 \\
-G_t&&G_{t, im}
+G_t&&G_{t, +}
 \end{array}
 $$
 \caption{$t\in \{t_0, t_1\}$.
 Bnet 
-$G_{t, im}= \kappa_{\rvd^\s\rarrow\rvy^\s_t}
-(\td^\s)G_t$
-is obtained by applying 
-the imagine operator to arrow 
-$\rvd^\s\rarrow\rvy^\s_t$
-of bnet $G_t$.}
-\label{fig-did-G_t-im}
+$G_{t,+}$
+is obtained 
+by adding
+two new nodes
+$\rvy_t(0)$
+and $\rvy_t(1)$ to bnet $G_t$.}
+\label{fig-did-G_t-+}
 \end{figure}
 
 \beq\color{blue}
-P(x^\s)=P_\rvx(x^\s)
+P(x)=P_{\rvx}(x)
 \eeq
 
 \beq\color{blue}
-P(d^\s|x^\s)= 
-P_{\rvd|\rvx}(d^\s|x^\s)
+P(d|x)= 
+P_{\rvd|\rvx}(d|x)
 \eeq
  
 \beq\color{blue}
-P(y^\s_t|\td^\s, x^\s)=
-P_{\rvy_t|\rvd, \rvx}(y^\s_t|\td^\s, x^\s)
+P(y_t| y_t(0), y_t(1),d)=
+\indi(y_t=y_t(d))
 \eeq
 
 \beq\color{blue}
-P((\td^\s)')=\delta(
-(\td^\s)', \td^\s)
+P(y_t(c)|x)=
+P(y_t(c)|d,x)=\text{given}
 \eeq
 
 \begin{figure}[h!]
@@ -267,38 +271,13 @@ P((\td^\s)')=\delta(
 \caption{
 Four different time-dependent
 expected 
-values $\caly_{c|\td}(t)$ of $y^\s_t$
-for bnet $G_{t, im}$
+values $\caly_{c| d}(t)$ of $y^\s_t$
+for bnet $G_{t, +}$
 The 4 magenta  stars
 represents the 4 DID measurements.
 } 
 \label{fig-dif-dif-bc}
 \end{figure}
-
-Henceforth, 
-for simplicity, we will
-omit the confounder state $x$
-from the indices of $\caly$; i.e., we will write
-$\caly_{c|\td}(t)$
-instead of $\caly_{c|\td, x}(t)$.
-The fact that we will
-not explicitly
-mention $x$ does not
-mean that it doesn't exist
-or that it doesn't affect our analysis.
-John Snow
-does not seem to have considered any confounders
-in his cholera study,
-or else he tried to collect 
-data restricted to a single stratum $x$.
-If there are confounders,
-they cannot be neglected.
-As discussed in Chapter \ref{ch-pot-out}
-under the subject of strata-matching in PO,
-one must condition $\caly$
-on a single $x$ stratum
-and, later on,  one must average
-over all the possible $x$ strata.
 
 
 
@@ -311,7 +290,7 @@ c(t)
 \begin{array}{ll}
 0&\text{if $t=t_0$}
 \\
-\td&\text{if $t=t_1$}
+ d&\text{if $t=t_1$}
 \end{array}
 \right.
 \eeq
@@ -323,16 +302,16 @@ can be expressed in PO formalism as follows:
 
 \beq
 \delta=
-\Delta_\td\Delta_t
-\caly_{c(t)|\td}(t)
+\Delta_ d\Delta_t
+\caly_{c(t)| d}(t)
 \;.
 \eeq
 Fig.\ref{fig-dif-dif-bc}
 depicts the
 four functions
-$\caly_{c|\td}(t)$
+$\caly_{c| d}(t)$
 for $t$ in the interval  $[t_0, t_1]$
-and for $c,\td\in \bool$.
+and for $c, d\in \bool$.
 The $\caly$ coordinates
 of the four magenta stars in 
 Fig.\ref{fig-dif-dif-bc} can 
@@ -343,7 +322,7 @@ the {\bf parallel trends} (PT)
 by 
 
 \beq
-PT=\Delta_\td\Delta_t\caly_{0|\td}(t)
+PT=\Delta_ d\Delta_t\caly_{0| d}(t)
 \;.
 \eeq
 We will say the 
@@ -360,8 +339,8 @@ and PT.
 
 \begin{align}
 \delta&=
-\Delta_\td\Delta_t  
-\caly_{c(t)|\td}(t)
+\Delta_ d\Delta_t  
+\caly_{c(t)| d}(t)
 \\
 &=
 \left[
@@ -404,7 +383,7 @@ ATT(t_1)
 &=
 ATT(t_1)
 +
-\underbrace{\Delta_\td\Delta_t\caly_{0|\td}(t)}_
+\underbrace{\Delta_ d\Delta_t\caly_{0| d}(t)}_
 {\text{ zero if PTA holds}}
 \end{align}
 
@@ -460,7 +439,7 @@ Taking the expected value
 of Eq.(\ref{eq-did-lr}), we get
 
 \beq
-\caly_{c|\td}(t) = 
+\caly_{c| d}(t) = 
 [b_0 + m_0 (t-t_0)](1-c)
 +  [b_1 + m_1 (t-t_0)]c
 \;.
@@ -468,25 +447,25 @@ of Eq.(\ref{eq-did-lr}), we get
 If $\Delta  t = t_1-t_0$, then
 
 \beq
-\caly_{\td|\td}(t_1) = 
-[b_0 + m_0 \Delta t](1-\td)
-+  [b_1 + m_1 \Delta t]\td
+\caly_{ d| d}(t_1) = 
+[b_0 + m_0 \Delta t](1- d)
++  [b_1 + m_1 \Delta t] d
 \;,
 \eeq
 and
 
 \beq
-\caly_{0|\td}(t_0) = b_0
+\caly_{0| d}(t_0) = b_0
 \;.
 \eeq
  Thus,   
 
 \beqa
-\delta&=&\Delta_\td\Delta_t 
-\caly_{c(t)|\td}(t)
+\delta&=&\Delta_ d\Delta_t 
+\caly_{c(t)| d}(t)
 \\
 &=&
-\Delta_\td[\caly_{\td|\td}(t_1)-\caly_{0|\td}(t_0)]
+\Delta_ d[\caly_{ d| d}(t_1)-\caly_{0| d}(t_0)]
 \\
 &=&
 (m_1-m_0)\Delta t
@@ -523,11 +502,11 @@ $I$ is an image of point $U_1$.
 \rowcolor[HTML]{ECF4FF} 
  & $t=t_0$ & $t=t_1$ \\ 
 \hline
-$\td=1$ \cellcolor[HTML]{ECF4FF}& 
+$ d=1$ \cellcolor[HTML]{ECF4FF}& 
 $\caly(T_0)=\caly_{0|1}(t_0)$ & 
 $\caly(T_1)=\caly_{1|1}(t_1)$ \\ 
 \hline 
-$\td=0$\cellcolor[HTML]{ECF4FF} & 
+$ d=0$\cellcolor[HTML]{ECF4FF} & 
 $\caly(U_0)=\caly_{0|0}(t_0)$ & 
 $\caly(U_1)=\caly_{0|0}(t_1)$ \\ 
 \hline 
