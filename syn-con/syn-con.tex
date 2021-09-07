@@ -141,145 +141,34 @@ W^\s\geq 0, \sum_{\s\neq \s_1}W^\s =1
 
 Now that we have defined a weight $w^\s$
 for every unit $\s$, we can define
+for $c\in \bool$,
 
 \beq
-y^\xi_t=
+y^{\s_1}_t(c)=
 \left\{
 \begin{array}{ll}
-y_t^{\s_1}&\text{ if } \xi=1
+y_t^{\s_1}&\text{ if } c=1
 \\
-\sum_{\s\neq \s_1}w^\s y_t^\s&\text{ if } \xi=0
+\sum_{\s\neq \s_1}
+w^\s y_t^\s&\text{ if } c=0
 \end{array}
 \right.
+\eeq
+
+\beq
+\caly_c(t)=
+E_\s[y_t^\s(c)]
 \eeq
 and
 
 \beq
-\delta_t= y^{\xi=1}_t - y^{\xi=0}_t
+\delta_t= \caly_1(t)-\caly_0(t)
 \eeq
 $\delta_t$
 is illustrated
 in Fig.\ref{fig-syn-con-p-lines}.
-It measures the time dependent
-gap (causal effect) between the 
-outcome (i.e., $y$)
-of the treated unit $\s_1$
-and the outcome of the synthetic control unit.
+It approximates $ATE(t)$.
 
-\section{A bnet $G_t$ with weighted 
-treatment outcomes}
-
-Our next goal is to
-analyze  the SC method using
-the formalism of PO theory.
-To attain that goal,  
-we will first define
-in this section a bnet
-$G_t$. The bnet $G_t$ 
-in this chapter differs
-in two important respects from the bnet
-$G_t$ defined in Chapter \ref{ch-did}
-on the DID method.
-First, the $G_t$ in the DID chapter
-is defined for only 2 measurement times
-whereas the $G_t$ in
-this chapter is defined for
- more than 2  measurement times.
-Second, the $G_t$ in this chapter 
-defines $\rvy_t$ 
-for $d=0$ as a weighted
-average over control subpopulations.
-
-
-
-\begin{figure}[h!]
-$$
-\begin{array}{ccc}
-\xymatrix{
-&\rvx^\s\ar[dl]\ar[dr]
-\\
-\rvd^\s\ar[rr]&
-&\rvy_t^\s
-}
-&&
-\xymatrix{
-&\rvx\ar[dl]\ar[dr]
-\\
-\rvd\ar[rr]&
-&\rvy_t
-}
-\\
-\\
-G_{t, unit}&&G_t
-\end{array}
-$$
-\caption{$t\in \{t_0, t_1, \ldots, t_{fin}\}$.
-The bnet $G_t$ is defined 
-by counting units $\s$
-for the bnet $G_{t, unit}$. 
-} 
-\label{fig-syn-con-G}
-\end{figure}
-
- 
-
-Suppose $t\in \{t_0, t_1, \ldots, t_{fin}\}$.
-For $\xi\in \bool$, define the 
-following unit counts:
-
-
-\beq
-N^\xi_{d,y_t,x}=
-\sum_{\s \in S_\xi}
-\indi(d=d^\s, y_t=y_t^\xi,
- x=x^\s)
-\;.
-\eeq
-Define also
-
-\beq
-N_{d,y_t,x}=\sum_{\xi\in\bool}
-\indi(\xi, d) 
-N^\xi_{d,y_t,x}
-\;.
-\eeq
-
-Henceforth,
-sums over the subscripts of 
-$N_{d,y_t,x}$ will
-be indicated by a dot.
-For example,
-$N_{\cdot,y_t,x}
-=
-\sum_d N_{d,y_t,x}
-$.
-
-The TPMs,
-printed in blue,
-for the 
-bnet
-$G_t$
-shown
-in Fig.\ref{fig-syn-con-G},
-are as follows.
-
-
-\beq\color{blue}
-P_{\rvx}(x)=  
-\frac{N_{\cdot,\cdot,x}}
-{N_{\cdot, \cdot, \cdot}}
-\eeq
- 
-\beq\color{blue}
-P_{\rvd|\rvx}(d|x)= 
-\frac{N_{d,\cdot,x}}
-{N_{\cdot, \cdot, x}}
-\eeq
-
-\beq\color{blue}
-P_{\rvy_t|\rvd, \rvx}(y_t|d,x)=
-\frac{N_{d,y_t,x}}{N_{d,\cdot,x}}
-\eeq
 
 \section{PO analysis}
 In this section,
@@ -382,7 +271,7 @@ P(y_t(c)|d,x)=\text{given}
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=3in]
+\includegraphics[width=4in]
 {syn-con/syn-con-bc.png}
 \caption{Four different time-dependent
 expected 
@@ -395,29 +284,7 @@ represents the $2*nt$ SC measurements.}
 
 
 
-Define the function $c(t)$ by
 
-\beq
-c(t)=\left\{
-\begin{array}{ll}
-0&\text{if $t<t_*$}
-\\
- d&\text{if $t\geq t_*$}
-\end{array}
-\right.
-\;.
-\eeq
-Now we claim that the SC 
-$\delta_t$ calculated in the 
-previous section 
-can be expressed in PO formalism as follows:
-
-\beqa
-\delta_t=
-\caly_{1|1}(t)-\caly_{0|0}(t)=SDO_t
-\;
-\eeqa
-for $t\geq t_*$.
 Fig.\ref{fig-syn-con-bc}
 depicts the
 four functions
@@ -438,9 +305,9 @@ gap as small as possible.
 Thus, to a good(?) approximation,
 
 \beq
-\delta_t\approx ATT_t
+\delta_t\approx ATE_t
 \eeq
-Hence, unlike in the DID method,
+Unlike in the DID method,
 in the SC method, to a good(?)
 approximation, we don't have to worry
 about parallel trends.

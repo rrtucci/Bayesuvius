@@ -56,7 +56,7 @@ is measured by the real number $y^\s$.}
 
 Suppose a {\bf population
 of individuals} $\s=0,1,2, \ldots, nsam-1$
-is given ($d^\s=1$) or
+is given ($d^\s=1$) or is
 not given ($d^\s=0$)
 a {\bf treatment discrete drug dose} $d^\s$,
 and that
@@ -119,7 +119,7 @@ are referred to as
 a
 {\bf subpopulation or stratum (i.e., layer)}.
 
-In a {\bf randomized clinical trial (RCT)}
+In a {\bf randomized controlled trial (RCT)}
 \footnote{The term {\bf A/B test}
 is often used to mean a RCT
 where A and B are the treated and control groups. However,
@@ -229,15 +229,18 @@ In this chapter, we will
 abbreviate
 $\rvX\sqsig=\rvX^\s$
 for
-$X\in \{d, x, y\}$ 
-and for $\s=\{0,1,2, \ldots, nsam-1\}$.
+$X\in \{d, x, y\}$, where 
+ $\s\in\{0,1,2, \ldots, nsam-1\}$.
 
 
 For each individual (aka unit, sample) 
 $\s=0, 1, 2, \ldots nsam-1$, let:
 
 $\rvd^\s\in\bool$ be the
- treatment discrete drug dose,  1 if treated and 0 if untreated
+ treatment discrete drug dose.
+It equals 1 if 
+treated
+and 0 if untreated.
 
 $\rvy^\s\in \RR$ be the
  treatment potential outcome
@@ -304,7 +307,9 @@ P_{\rvy|\rvd, \rvx}(y^\s|d^\s, x^\s)
 Now let:
 
 $\rvd\in\bool$
-be the treatment discrete drug dose,  1 if treated and 0 if untreated
+be the treatment discrete drug dose.
+It equals 
+1 if treated and 0 if untreated
 
 $\rvy\in \RR$ be the
  treatment potential outcome
@@ -575,86 +580,6 @@ and they both
 can be accessed 
 by measuring $\rvy$.
 
-\section{Bad Controls}
-
-The bnet $G_+$
-of Fig.\ref{fig-po-G-im-y0-y1}, 
----the cornerstone of Rubin's 
-PO theory--- is limited in scope
-and is easily
-misapplied, leading
-to incorrect results.
-
-
-\begin{figure}
-$$
-\xymatrix{
-\rvh_1 \ar[dd]\ar[dr]
-&
-& \rvh_2  \ar[dd]\ar[dl]
-\\
-& \rvx
-\\
-\rvd \ar[rr]
-&&\rvy
-}$$
-\caption{In this figure,
-nodes $\rvh_1$
-and $\rvh_2$ are 
-hidden and therefore
-cannot be conditioned on.}
-\label{fig-po--m-bias}
-\end{figure}
-
-For example, 
-consider the 
-bnet Fig.\ref{fig-po--m-bias},
-which  Pearl calls M-bias,
-because it looks like an M.
-In that figure, 
-$\rvx$
-is a ``bad control"
-because 
-calculating
-$ATE$ by conditioning on it
-(i.e., using the formula
-$ATE=\sum_x
- P(x)[\caly_{1|x}-\caly_{0|x}$)
-yields a value of $ATE$
-that is different from
-$ACE$
-and is clearly 
-incorrect because it does 
-not give the result of a RCT
-as ACE defined
-in terms of do operators 
-always does.
-The reason\footnote{We are
-using here arguments 
-based on the d-separation 
-theorem 
-which is discussed in Chapter 
-\ref{ch-dsep}.} $ATE\neq ACE$
-for this figure
-is that in it,
-$\rvx$ is 
-a collider node,
-and conditioning 
-on it allows
-rather than
-prevents information
-to flow from $\rvd$
-to $\rvy$
-via the path 
-$\rvd-\rvh_1-\rvx-\rvh_2-\rvy$.
-
-Pearl et al have a paper
-(Ref.\cite{pearl-good-neutral-bad})
-that I highly recommend
-that gives dozens of examples
-of good, neutral and 
-bad controls
-in an $ACE$ calculation.
 
 
 
@@ -715,25 +640,12 @@ Note that in the weak-d limit,
 \caly_c=\sum_x \caly_{c|d,x}P(x)
 \;.
 \eeq
-
-Note that in the weak-d limit,
-it is seductive to assume that
-$\caly_{c|d}=
-\sum_x\caly_{c|d,x}P(x)$, 
-but that is not how we are
-defining 
-$\caly_{c|d}$.
-In the weak-d limit,
-$\caly_{c|d,x}$ is independent
-of $d$, but,
-if $P(x|d)$ depends on $d$,
-then
- $\caly_{c|d}$ depends on $d$ too.
-So in the weak-d limit,
+Note also that in the weak-d limit,
 $\caly_{c|d, x}$ is independent
 of $d$,
 but $\caly_{c|d}$
-can depend on $d$.
+can depend on $d$
+if $P(x|d)$ depends on $d$.
 
 
 $\caly_{0|0}, \caly_{1|1}$
@@ -787,15 +699,12 @@ E_{\rvy} [\rvy]
 
 In the weak-d limit,
 $\caly_{|d,x}$ is independent
-of $d$, but,
+of $d$, but
+$\caly_{|d}$ can still depend
 if $P(x|d)$ depends on $d$,
 then
  $\caly_{|d}$ depends on $d$ too.
-So in the weak-d limit,
-$\caly_{|d, x}$ is independent
-of $d$,
-but $\caly_{|d}$
-can depend on $d$.
+
 
 
 
@@ -840,7 +749,8 @@ $E_{\s| d,x}[\rvy^\s]=\caly_{| d,x}$\\
 \caption{Dictionary for 
 translating
 from standard PO notation
-of Ref.\cite{book-mixtape} to our notation.
+of Ref.\cite{book-mixtape} 
+to our notation. $c, d\in \bool$.
 }
 \label{tab-pot-out-dict}
 \end{table}
@@ -851,7 +761,7 @@ gives a dictionary for
 translating
 from the standard PO notation 
 of Ref.\cite{book-mixtape}
-to our notation. $c, d\in \bool$.
+to our notation. 
 
 
 \section{${\cal Y}_{|d,x}
@@ -937,7 +847,7 @@ becomes a
 confounder not being
 included in $x$.
 
-A {\bf Randomized Control Trial (RCT)}
+A {\bf Randomized Controlled Trial (RCT)}
 is defined to satisfy
 Eq.(\ref{eq-CIA2}) without the
  $\rvx^\s$ conditioning; i.e., it 
@@ -1152,9 +1062,12 @@ Let
 \beq
 \caly_{c,d|x}=\caly_{c|d,x}P(d|x)
 \eeq
-Every $\cale \in\{ATE,ATT,ATU,SB, SDO\}$
-can be 
-defined for a fixed stratum $x$
+For
+each 
+$\cale \in\{ATE,ATT,ATU,SB, SDO\}$,
+we can define its  
+restriction $\cale_x$
+to a fixed stratum $x$
 by replacing each $\caly_{c| d }$
 with  $\caly_{c, d | x}$. 
 For example, 
@@ -1163,9 +1076,8 @@ ATT=\caly_{1|1}-\caly_{0|1}\text{ so }
 ATT_x=\caly_{1,1|x}-\caly_{0,1|x}
 \;.
 \eeq
-We will denote this stratum restricted
-version of $\cale$ by $\cale_x$.
-We can calculate $\cale$ using
+We can calculate $\cale$ 
+from $\cale_x$ using
 
 \beq
 \cale=E_x[\cale_x]=
@@ -1239,9 +1151,9 @@ From this figure, we see that
 A sufficient
 condition for $SDO=0$
 is that 
-$P_{\rvy(1)| \rvd=1,x}
+$P_{\rvy(1)| \rvd=1}
 =
-P_{\rvy(0)| \rvd=0,x}$.
+P_{\rvy(0)| \rvd=0}$.
 A sufficient
 condition for $ATE=0$
 is that 
@@ -1253,13 +1165,13 @@ P_{\rvy(0)|x}$.
 A sufficient condition for
 $ATT=ATU$
 is that 
-$P_{\rvy(1)| \rvd=0,x}
--
-P_{\rvy(0)| \rvd=0,x}$
-equals
 $P_{\rvy(1)| \rvd=1,x}
 -
-P_{\rvy(0)| \rvd=1,x}$.
+P_{\rvy(0)| \rvd=1,x}$
+equals
+$P_{\rvy(1)| \rvd=0,x}
+-
+P_{\rvy(0)| \rvd=0,x}$.
 \item
 A sufficient condition for $\caly_{1|0}=\caly_{1}$
 is that
@@ -1353,7 +1265,7 @@ P_{\rho\rvd}(\td)=\sum_x P_{\rvd|\rvx}
 \eeq
 
 \beq\color{blue}
-P((\td^\s)')=
+P(\td^\s)=
 \left\{
 \begin{array}{ll}
 \delta(\td^\s, (\td^\s)')& \text{for $G_{do}$}
@@ -1404,6 +1316,7 @@ It allows us to
 express a
 probability
 with a do operator
+in its definition
 in terms 
 of  probabilities
 without do operators.
@@ -1460,6 +1373,88 @@ We will say there is a {\bf null result
 in a RCT} when $ACE=0$. By the previous claim, 
 this is true iff $ATE=0$
 (assuming weak-d limit).
+
+\section{Bad Controls}
+
+The bnet $G_+$
+of Fig.\ref{fig-po-G-im-y0-y1}, 
+---the cornerstone of Rubin's 
+PO theory--- is limited in scope
+and is easily
+misapplied, leading
+to incorrect results.
+
+
+\begin{figure}[h!]
+$$
+\xymatrix{
+\rvh_1 \ar[dd]\ar[dr]
+&
+& \rvh_2  \ar[dd]\ar[dl]
+\\
+& \rvx
+\\
+\rvd \ar[rr]
+&&\rvy
+}$$
+\caption{In this figure,
+nodes $\rvh_1$
+and $\rvh_2$ are 
+hidden and therefore
+cannot be conditioned on.}
+\label{fig-po--m-bias}
+\end{figure}
+
+For example, 
+consider the 
+bnet Fig.\ref{fig-po--m-bias},
+which  Pearl calls M-bias,
+because it looks like an M.
+In that figure, 
+$\rvx$
+is a ``bad control"
+because 
+calculating
+$ATE$ by conditioning on it,
+and using the formula
+$ATE=\sum_x
+ P(x)[\caly_{1|x}-\caly_{0|x}]$,
+yields a value of $ATE$
+that is different from
+$ACE$. This value for $ATE$
+is unacceptable
+because it does 
+not give the result of a RCT
+whereas ACE defined
+in terms of do operators 
+always does.
+The reason\footnote{We are
+using here arguments 
+based on the d-separation 
+theorem 
+which is discussed in Chapter 
+\ref{ch-dsep}.} $ATE\neq ACE$
+for this figure
+is that in it,
+$\rvx$ is 
+a collider node,
+and conditioning 
+on it allows
+rather than
+prevents information
+to flow from $\rvd$
+to $\rvy$
+via the path 
+$\rvd-\rvh_1-\rvx-\rvh_2-\rvy$.
+
+Pearl et al have a paper
+(Ref.\cite{pearl-good-neutral-bad})
+that I highly recommend
+that gives dozens of examples
+of good, neutral and 
+bad controls
+in an $ACE$ calculation.
+
 
 \section{$(SDO,ATE)$ space}
 If we substitute
@@ -1655,6 +1650,7 @@ result in a RCT.
 
 
 \section{Strata-Matching}
+\label{sec-strata-matching}
 
 For a situation
 described by
@@ -1829,8 +1825,8 @@ estimates of
 $ \caly_{c, d |x}$
 
 
-The treatment effects $\cale=
-ATE, ATT, ATU, SB, SDO$
+The treatment effects $\cale\in
+\{ATE, ATT, ATU, SB, SDO\}$
 can be estimated from the data
 via the following estimators.
 
@@ -2592,7 +2588,9 @@ g_{d|x}=g_d(x)=P(d|x)
  for $d\in\bool$.
 Note that $g_{0|x}+g_{1|x}=1$.
 We will
-refer to $g_d(x)$ as a {\bf propensity}
+refer to $g_d(x)$ 
+for $d\in \bool$
+as a two {\bf propensities}
 and to $g_1(x)$ as the
 {\bf propensity score}.
 
@@ -2792,21 +2790,20 @@ SDO
 treatment effects}
 
 In the  strata-matching
-section, we gave an estimate
-of $ACE_x$ 
-that used  strata-matching
-to impute missing
-counterfactual  values.
-This worked
-because
+section \ref{sec-strata-matching}, we gave an estimate
+of $ACE_x$.
+In strata-matching, one 
+fills in the missing 
+counterfactual values
+via the map $m()$.
+This is justified 
+because,
 by CIA (weak-d limit),
 the counterfactual
 distributions 
 are assumed to equal
-the factual distributions (i.e., 
-$P_{\rvy(0)|d=1, x}=P_{\rvy(0)|d=0, x}$
-and $P_{\rvy(1)|d=0, x}
-=P_{\rvy(1)|d=1, x}$).
+the factual distributions (see Fig.
+\ref{fig-y-diffs-square-probs}).
 In this 
 section,
 we give estimators
@@ -2815,8 +2812,8 @@ are based on the  formulas derived
 in Section \ref{sec-propensities}.
 The estimators given in this section
 do no require
- strata-matching, because
-the imputation of
+the map $m()$, because
+the identification of
 counterfactual distributions
 with factual ones was used to
 derive the formulas  
@@ -2911,7 +2908,7 @@ and
 \;.
 \eeq
 
-This DRE estimator
+The DRE estimator
 $\widehat{\caly}_{1|x}^{DRE}$ 
 requires first
 estimating
@@ -2933,7 +2930,7 @@ Let's check this.
 
 \begin{itemize}
 \item Suppose the propensity
-$g_{1|x}$is slightly wrong.
+$g_{1|x}$ is slightly wrong.
 So what because
 
 
@@ -2958,7 +2955,12 @@ g_{1|x}}
 \right]=0
 \eeq
 
-\end{itemize}
+\end{itemize}A similar argument
+can be used
+to show that
+$\widehat{\caly}_{0|x}^{DRE}$ 
+is doubly robust too.
+
 
 \section{Positivity}
 
@@ -3008,15 +3010,25 @@ and untreated.
 See Fig.\ref{fig-po-positivity} for a pictorial 
 representation of positivity.
 
-From Eq.(\ref{eq-ace-esti-posi})
- we see that
-if positivity is violated,
-then 
-for some 
-layer $x$, 
- $\widehat{ACE}_x$
-(which equals $\widehat{ATE}_x)$
+If positivity is violated 
+for some layer $x$, then
+\begin{itemize}
+\item
+the propensity based estimate
+Eq.(\ref{eq-ace-esti-posi}) for 
+ $ACE_x$
+(which equals ${ATE}_x)$
 is undefined. 
+\item
+all strata-matching estimates of
+$\cale_x$
+that use the matching function 
+$m()$
+are undefined
+because that function 
+is undefined if $A_{0,x}=\emptyset$
+or $A_{1,x}=\emptyset$.
+\end{itemize}
 If a quantity (estimand)
  can be estimated,
 it is said to be {\bf identifiable}
