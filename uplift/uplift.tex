@@ -68,16 +68,6 @@ the samples
 are aware  of which
 of those groups they are in,
 so they are not ``treatment blind".
-As explained in 
-Chapter \ref{ch-pot-out},
-strata matching is only valid
-if the samples
-of the test are treatment blind.
-Therefore, the only
-treatment effect that 
-makes sense for UP is SDO,
-because it
- does not require strata matching.
 
 \section{UP types}
 
@@ -138,7 +128,8 @@ belongs to
 stratum $A_x$.
 What is commonly called 
 the {\bf uplift} 
-is the {\bf stratum-uplift} $\delta_x=SDO$.
+is the {\bf stratum-uplift}
+ $\delta_x=ACE_x$.
 Strata can also be
 classified into
 the 4 UP-types,
@@ -176,72 +167,68 @@ of  resources  on those
 fence-sitters.
 
 
-\section{Some Relevant Technical Facts from Chapter \ref{ch-pot-out}}
-Some relevant technical facts
-about SDO
-that were proven in Chapter \ref{ch-pot-out} are
+\section{Some Relevant
+ Technical Formulas from Chapter \ref{ch-pot-out}}
+Recall
+the following technical formulas
+that were proven in 
+Chapter \ref{ch-pot-out}:
 
 \begin{itemize}
 
 \item
-Using $\rvy=\rvy(\rvtd)$
-and Fig.\ref{fig-y-diffs-square-probs},
-we get
+Recall Eq.(\ref{eq-ace-propensity}):
 
-\beqa
-SDO &=& \sum_y y\left[
-P_{\rvy(1)|\rvtd, \rvx}(y|1, x)
--
-P_{\rvy(0)|\rvtd, \rvx}(y|0, x)
-\right]
-\\
-&=&
+\beq
+ACE =\sum_x P(x)
+\underbrace{
 \sum_y y\left[
-P_{\rvy|\rvtd, \rvx}(y|1, x)
+P(y|d=1, x)
 -
-P_{\rvy|\rvtd, \rvx}(y|0, x)
+P(y|d=0, x) 
 \right]
-\;.
-\eeqa
+}_{ACE_x}
+\eeq
 If $\rvy\in \bool$, then
 
 \beq
-\underbrace{SDO}_{\displaystyle \delta_x}
+\underbrace{ACE_x}_{\displaystyle \delta_x}
 =
 \underbrace{
-P_{\rvy|\rvtd, \rvx}(1|1, x)
+P_{\rvy|\rvd, \rvx}(1|1, x)
 }_{\displaystyle Y^1_x}
 -
 \underbrace{
-P_{\rvy|\rvtd, \rvx}(1|0, x)
+P_{\rvy|\rvd, \rvx}(1|0, x)
 }_{\displaystyle Y^0_x}
 \;.
 \eeq
 
 \item
-Recall that in
-Chapter \ref{ch-pot-out}, we used
-$A_{d, x}=\{\s:\td^\s=d,x^\s=x\}$,
-$A_x=A_{0,x}\cup A_{1,x}$ and $A=\cup_x A_x$; also
-$N_{d,x}=|A_{d,x}|$, $N_x=|A_x|$ and $N=|A|$.
-From
-Eq.(\ref{eq-est-sdo}),
-we get
-
+Recall 
+Eq.(\ref{eq-ace-esti-posi}):
 
 \beq
-\underbrace{\widehat{SDO}}_{\displaystyle\delta_x}
+\underbrace{\widehat{ACE_x}}_{\displaystyle\delta_x}
 =
-\underbrace{\frac{1}{N_{1,x}}
-\sum_{\s\in A_{1,x}} y^\s}_
+\underbrace{
+\frac{1}{N_x}
+\sum_{\s \in A_x}
+\frac{d^\s y^\s}{g_{1|x^\s} }
+}_
 {\displaystyle Y_x^1}
 -
-\underbrace{\frac{1}{N_{0,x}}
-\sum_{\s\in A_{0,x}}  y^\s}_
+\underbrace{
+\frac{1}{N_x}
+\sum_{\s \in A_x}
+\frac{(1-d^\s)y^\s}{g_{0|x^\s} }
+}_
 {\displaystyle Y_x^0}
-\;.
-\label{eq-est-sdo-uplift}
+\label{eq-est-ace-uplift}
 \eeq
+
+
+
 
 \end{itemize}
 
