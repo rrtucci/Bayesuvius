@@ -212,8 +212,6 @@ Both sides of last equation are 1 when $f(x)=1$.
 =f(y)
 \;.
 \eeq
-
-
 \section{Samples, 
 i.i.d. variables}
 \beq
@@ -265,6 +263,231 @@ P(\vecx)&\approx& [\prod_x P(x)^{P(x)}]^{nsam(\vecx)} \\
 &=& e^{nsam(\vecx)\sum_x P(x)\ln P(x)}\\
 &=& e^{-nsam(\vecx)H(P_\rvx)}
 \eeqa
+
+\section{Expected Value and Variance}
+
+Given a random variable
+ $\rvx$ with states $S_\rvx$ and 
+a function $f:S_\rvx\rarrow \RR$, define
+
+\beq
+E_\rvx[f(\rvx)]=
+E_{x\sim P(x)}[f(x)] = \sum_x P(x) f(x)
+\eeq
+
+\beqa
+Var_\rvx[f(\rvx)]&=& E_\rvx
+\left[(f(\rvx)-E_\rvx[f(\rvx)])^2\right]
+\\
+&=&
+E_\rvx[f(\rvx)^2]-(E_\rvx[f(\rvx)])^2 
+\eeqa
+
+\beq
+E[\rvx]=E_\rvx[\rvx]
+\eeq
+
+\beq
+Var[\rvx]=
+Var_\rvx[\rvx]
+\eeq
+
+
+
+\section{Conditional Expected Value}
+
+Given a random variable $\rvx$ with states $S_\rvx$, a random variable $\rvy$ with states $S_\rvy,$ and a function $f:S_\rvx\times S_\rvy\rarrow \RR$, define
+
+\beq
+E_{\rvx|\rvy}[f(\rvx, \rvy)]=
+\sum_x P(x|\rvy) f(x, \rvy)
+\;,
+\eeq
+
+\beq
+E_{\rvx|\rvy=y}[f(\rvx, y)]=
+E_{\rvx|y}[f(\rvx, y)]= \sum_x P(x| y) f(x, y)
+\;.
+\eeq
+Note that
+
+\beqa
+E_\rvy[E_{\rvx|\rvy}[f(\rvx, \rvy)]]&=&
+\sum_{x,y}P(x|y)P(y)f(x,y)
+\\&=&
+\sum_{x,y}P(x,y)f(x,y)
+\\&=&
+E_{\rvx, \rvy}[f(\rvx, \rvy)]
+\;.
+\eeqa
+
+
+
+\section{Notation
+for covariances}
+Consider two random variables $\rvx, \rvy$.
+
+\begin{itemize}
+\item
+Mean value of $\rvx$
+\beq
+\av{\rvx}=
+E_\rvx[\rvx]
+\eeq
+
+\item
+Signed distance of $\rvx$ to its mean value
+\beq
+\Delta \rvx = \rvx - \av{\rvx}
+\eeq
+
+\item
+Covariance of $(\rvx, \rvy)$
+\beq
+Cov(\rvx, \rvy)=\av{\rvx, \rvy}=
+\av{\Delta \rvx \Delta \rvy}
+=
+\av{\rvx\rvy}-\av{\rvx}\av{\rvy}
+\eeq
+
+$\av{\rvx, \rvy}$ is symmetric 
+(i.e., $\av{\rvx, \rvy}=\av{\rvy, \rvx}$)
+and bilinear (i.e.,
+$\av{\sum_i \alp_i\rvx_i, \rvy}
+=
+\sum_i\alp_i\av{\rvx_i, \rvy}$, where
+$\alp_i\in \RR$
+are non-random scalars
+and $\rvx_i, \rvy\in\RR$ are 
+real-valued random
+variables.)
+
+\item
+Variance of $\rvx$
+\beq
+Var(\rvx)=\av{\rvx, \rvx}
+\eeq
+
+\item
+Standard deviation or $\rvx$
+\beq
+\sigma_\rvx=\sqrt{\av{\rvx, \rvx}}
+\eeq
+
+\item
+Correlation Coefficient of $(\rvx, \rvy)$
+\beq
+\rho_{\rvx, \rvy}=
+\frac{\av{\rvx, \rvy}}
+{\sqrt{\av{\rvx, \rvx}\av{\rvy, \rvy}}}
+\eeq
+\end{itemize}
+
+\section{Conditional Covariance}
+Let $\rvx, \rvy, \rva$
+be random variables.
+The covariance $Cov(\rvx, \rvy|\rva)$
+of $\rvx$ and $\rvy$ 
+given $\rva$, is defined
+the same
+way as $Cov(\rvx, \rvy)$,
+except that all
+expected values are 
+conditioned on $\rva$. 
+
+
+
+\beq
+Cov(\rvx, \rvy|\rva)=
+\av{\rvx, \rvy}_{|\rva}
+=
+\av{(\rvx-\av{\rvx}_{|\rva})
+(\rvy-\av{\rvy}_{|\rva})}_{|\rva}
+\eeq
+where
+
+\beq
+\av{\rvx}_{|\rva}=E_{\rvx|\rva}[\rvx]
+\;.
+\eeq
+
+\section{Law of Total Variance}
+
+\begin{claim}
+Suppose $P:S_\rvx\times S_\rvy\rarrow [0,1]$
+is a probability distribution.
+Suppose $f:S_\rvx\times S_\rvy\rarrow \RR$
+ and $f=f(x,y)$. Then
+\beq
+Var_{\rvx, \rvy}(f)=
+E_\rvy[Var_{\rvx|\rvy}(f)]
++
+Var_\rvy(E_{\rvx|\rvy}[f])
+\;.
+\eeq
+In particular,
+\beq
+Var_{\rvx}(x)=
+E_\rvy[Var_{\rvx|\rvy}(x)]
++
+Var_\rvy(E_{\rvx|\rvy}[x])
+\;.
+\eeq
+
+\end{claim}
+\proof
+
+Let
+\beq
+A=\sum_y P(y)\left(\sum_x P(x|y)f\right)^2
+\;.
+\eeq
+Then
+
+\beqa
+Var_{\rvx, \rvy}(f)&=& \sum_{x,y}P(x,y)f^2 -
+\left( \sum_{x,y} P(x,y) f\right)^2
+\\
+&=&
+\left\{
+\begin{array}{l}
+\sum_{x,y}P(x,y)f^2 
+-A
+\\
++\left(A-\left( \sum_{x,y} P(x,y) f\right)^2\right)
+\end{array}
+\right.
+\eeqa
+
+\beqa
+E_\rvy[Var_{\rvx|\rvy}(f)]
+&=&
+\sum_y P(y)\left(\sum_x P(x|y)f^2
+-
+\left(\sum_x P(x|y)f\right)^2
+\right)
+\\
+&=&
+\sum_{x,y}P(x,y)f^2 
+-A
+\eeqa
+
+\beqa
+Var_\rvy(E_{\rvx|\rvy}[f])
+&=&
+\sum_y P(y)
+\left(\sum_x P(x|y)f\right)^2
+-\left(
+\sum_y P(y)\sum_xP(x|y)f
+\right)^2
+\\
+&=&
+A-\left( \sum_{x,y} P(x,y) f\right)^2
+\eeqa
+\qed
+
+
+
 
 
 \section{Normal Distribution}
@@ -483,34 +706,6 @@ s(x)[1-s(x)][1-2s(x)]
 \eeqa
 \qed
 
-\section{Expected Value and Variance}
-
-Given a random variable
- $\rvx$ with states $S_\rvx$ and 
-a function $f:S_\rvx\rarrow \RR$, define
-
-\beq
-E_\rvx[f(\rvx)]=
-E_{x\sim P(x)}[f(x)] = \sum_x P(x) f(x)
-\eeq
-
-\beqa
-Var_\rvx[f(\rvx)]&=& E_\rvx
-\left[(f(\rvx)-E_\rvx[f(\rvx)])^2\right]
-\\
-&=&
-E_\rvx[f(\rvx)^2]-(E_\rvx[f(\rvx)])^2 
-\eeqa
-
-\beq
-E[\rvx]=E_\rvx[\rvx]
-\eeq
-
-\beq
-Var[\rvx]=
-Var_\rvx[\rvx]
-\eeq
-
 \section{Estimand, Estimator, Bias}
 We say $\ul{\hat{\theta}}$ is an 
 {\bf estimator (aka estimate)}
@@ -523,196 +718,211 @@ $\theta$
 is sometimes called {\bf the estimand}
  of $\ul{\hat{\theta}}$.
 
-\section{Conditional Expected Value}
+\section{Mean Square Error (MSE)}
 
-Given a random variable $\rvx$ with states $S_\rvx$, a random variable $\rvy$ with states $S_\rvy,$ and a function $f:S_\rvx\times S_\rvy\rarrow \RR$, define
+Suppose we are 
+given $nsam$ samples $y^\s\in\RR$
+labeled by an index $\s$,
+and an {\bf estimator} function $\haty^\s(a)\in\RR$ 
+that depends on a parameter $a\in\RR$.
+Define the {\bf Mean square
+error (MSE)}
+by
 
 \beq
-E_{\rvx|\rvy}[f(\rvx, \rvy)]=
-\sum_x P(x|\rvy) f(x, \rvy)
-\;,
+MSE(a) = \frac{1}{nsam}\sum_\s (y^\s-\haty^\s(a))^2
+\;.
 \eeq
+For example, in Linear Regression (LR),
+we have $\haty^\s= a_0 + a_1 x^\s$
+where $a=(a_0, a_1)$ is a deterministic
+parameter.
+If the samples $y^\s$
+are i.i.d, 
+then we can also write
+
+
+\beq 
+MSE(a)=E_{|a}[(\rvy-\ul{\haty}(a))^2]
+\;.
+\eeq
+and for LR, $\ul{\haty}=a_0+a_1\rvx$.
+
+Define the {\bf residual} $\Delta\rvy$ by:
+
 
 \beq
-E_{\rvx|\rvy=y}[f(\rvx, y)]=
-E_{\rvx|y}[f(\rvx, y)]= \sum_x P(x| y) f(x, y)
-\;.
+\Delta\rvy(a) =\rvy-\ul{\haty}(a)
+\;\;\;\text{ (Hence 
+$\rvy=\ul{\haty} + \Delta\rvy$)}
 \eeq
-Note that
 
-\beqa
-E_\rvy[E_{\rvx|\rvy}[f(\rvx, \rvy)]]&=&
-\sum_{x,y}P(x|y)P(y)f(x,y)
-\\&=&
-\sum_{x,y}P(x,y)f(x,y)
-\\&=&
-E_{\rvx, \rvy}[f(\rvx, \rvy)]
-\;.
-\eeqa
+In the rest of this section,
+we will discuss the case that
+$\haty(a)$ is a totally
+deterministic function.
+I call
+this the {\bf deterministic MSE (D-MSE)}
+model.
+Note that this
+is different from the LR
+case. In LR, we are trying
+to fit 
+a line to a cigar-shaped
+2-D scatter plot.
+Here, we are just trying
+to estimate
+the mean value (center of mass)
+of a scatter plot.
 
-\section{Law of Total Variance}
 
 \begin{claim}
-Suppose $P:S_\rvx\times S_\rvy\rarrow [0,1]$
-is a probability distribution.
-Suppose $f:S_\rvx\times S_\rvy\rarrow \RR$
- and $f=f(x,y)$. Then
+MSE is minimized 
+over $a$ if
 \beq
-Var_{\rvx, \rvy}(f)=
-E_\rvy[Var_{\rvx|\rvy}(f)]
-+
-Var_\rvy(E_{\rvx|\rvy}[f])
-\;.
+\haty =E_{|a}[\rvy]
 \eeq
-In particular,
-\beq
-Var_{\rvx}(x)=
-E_\rvy[Var_{\rvx|\rvy}(x)]
-+
-Var_\rvy(E_{\rvx|\rvy}[x])
-\;.
-\eeq
-
+Thus, $\haty$ is an unbiased estimator.
 \end{claim}
 \proof
 
-Let
 \beq
-A=\sum_y P(y)\left(\sum_x P(x|y)f\right)^2
-\;.
+MSE = E_{|a}[\rvy^2]-2\haty E_{|a}[\rvy]+ \haty^2
 \eeq
-Then
 
-\beqa
-Var_{\rvx, \rvy}(f)&=& \sum_{x,y}P(x,y)f^2 -
-\left( \sum_{x,y} P(x,y) f\right)^2
-\\
-&=&
-\left\{
-\begin{array}{l}
-\sum_{x,y}P(x,y)f^2 
--A
-\\
-+\left(A-\left( \sum_{x,y} P(x,y) f\right)^2\right)
-\end{array}
-\right.
-\eeqa
-
-\beqa
-E_\rvy[Var_{\rvx|\rvy}(f)]
-&=&
-\sum_y P(y)\left(\sum_x P(x|y)f^2
--
-\left(\sum_x P(x|y)f\right)^2
-\right)
-\\
-&=&
-\sum_{x,y}P(x,y)f^2 
--A
-\eeqa
-
-\beqa
-Var_\rvy(E_{\rvx|\rvy}[f])
-&=&
-\sum_y P(y)
-\left(\sum_x P(x|y)f\right)^2
--\left(
-\sum_y P(y)\sum_xP(x|y)f
-\right)^2
-\\
-&=&
-A-\left( \sum_{x,y} P(x,y) f\right)^2
-\eeqa
+\beq
+0=\frac{d}{da} MSE = 2(-E_{|a}[\rvy]+\haty)
+\frac{d\haty}{da}
+\eeq
 \qed
 
-\section{Notation
-for covariances}
-Consider two random variables $\rvx, \rvy$.
-
-\begin{itemize}
-\item
-Mean value of $\rvx$
+Sometimes, we will
+use the notation
 \beq
-\av{\rvx}=
-E_\rvx[\rvx]
-\eeq
-
-\item
-Signed distance of $\rvx$ to its mean value
-\beq
-\Delta \rvx = \rvx - \av{\rvx}
-\eeq
-
-\item
-Covariance of $(\rvx, \rvy)$
-\beq
-Cov(\rvx, \rvy)=\av{\rvx, \rvy}=
-\av{\Delta \rvx \Delta \rvy}
-=
-\av{\rvx\rvy}-\av{\rvx}\av{\rvy}
-\eeq
-
-$\av{\rvx, \rvy}$ is symmetric 
-(i.e., $\av{\rvx, \rvy}=\av{\rvy, \rvx}$)
-and bilinear (i.e.,
-$\av{\sum_i \alp_i\rvx_i, \rvy}
-=
-\sum_i\alp_i\av{\rvx_i, \rvy}$, where
-$\alp_i\in \RR$
-are non-random scalars
-and $\rvx_i, \rvy\in\RR$ are 
-real-valued random
-variables.)
-
-\item
-Variance of $\rvx$
-\beq
-Var(\rvx)=\av{\rvx, \rvx}
-\eeq
-
-\item
-Standard deviation or $\rvx$
-\beq
-\sigma_\rvx=\sqrt{\av{\rvx, \rvx}}
-\eeq
-
-\item
-Correlation Coefficient of $(\rvx, \rvy)$
-\beq
-\rho_{\rvx, \rvy}=
-\frac{\av{\rvx, \rvy}}
-{\sqrt{\av{\rvx, \rvx}\av{\rvy, \rvy}}}
-\eeq
-\end{itemize}
-
-\section{Conditional Covariance}
-Let $\rvx, \rvy, \rva$
-be random variables.
-The covariance $Cov(\rvx, \rvy|\rva)$
-of $\rvx$ and $\rvy$ 
-given $\rva$, is defined
-the same
-way as $Cov(\rvx, \rvy)$,
-except that all
-expected values are 
-conditioned on $\rva$. 
-
-
-
-\beq
-Cov(\rvx, \rvy|\rva)=
-\av{\rvx, \rvy}_{|\rva}
-=
-\av{(\rvx-\av{\rvx}_{|\rva})
-(\rvy-\av{\rvy}_{|\rva})}_{|\rva}
-\eeq
-where
-
-\beq
-\av{\rvx}_{|\rva}=E_{\rvx|\rva}[\rvx]
+\haty_{MSE} = E_{|a=a_{MSE}}[\rvy]
 \;.
 \eeq
 
+\begin{claim}
+Suppose $f(a)$
+is a function of $a$.
+If $\haty=E_{|a}[\rvy]$, then
+
+\beq
+E_{|a}[\Delta \rvy]=
+E[\Delta \rvy]=0
+\eeq
+
+
+
+\beq
+E_{|a}
+\left[\Delta \rvy f(\rva)\right]=
+E
+\left[\Delta \rvy f(\rva)\right]=0
+\eeq
+\end{claim}
+\proof
+
+\beq
+E_{|a}[\Delta\rvy]=
+E_{|a}
+\left[\rvy-E_{|a}[\rvy]\right]=
+E_{|a}[\rvy]-E_{|a}[\rvy]=0
+\eeq
+
+\beq
+E[\Delta \rvy] =
+ E_{\rva}[E_{|\rva}[\Delta\rvy]]=0
+\eeq
+
+
+\beqa
+E_{|\rva}
+\left[\Delta \rvy f(\rva)\right]
+&=&
+f(a)
+\underbrace{E_{|\rva}
+[\Delta\rvy]}_{=0}
+\eeqa
+
+\beq
+E[\Delta \rvy f(\rva)]
+=E_\rva[E_{|\rva}[\Delta\rvy f(\rva)]]=0
+\eeq
+\qed
+
+
+\begin{claim}
+If $\haty=E_{|a}[\rvy]$, then
+
+\beq
+\av{\Delta\rvy, \haty}_{|a}
+=0
+\label{eq-mse-uncorr}
+\eeq
+
+\beq
+Var_{|a}[\rvy]
+=
+Var_{|a}[\haty]
++
+Var_{|a}[\Delta\rvy]
+\eeq
+The same results hold
+without the conditioning on $a$.
+\end{claim}
+\proof
+
+\beqa
+\av{\Delta\rvy, \ul{\haty}}_{|a}
+&=&
+\underbrace{E_{|a}[\Delta\rvy \;\underbrace{\ul{\haty}}
+_{f(\rva)}]
+}_{=0}
+-
+\underbrace{E_{|a}[\Delta\rvy]}_{=0}
+E_{|a}[ \ul{\haty}]
+\eeqa
+
+\beqa
+Var_{|a}[\rvy]
+&=&
+\av{\haty +\Delta\rvy, \haty +\Delta\rvy}_{|a}
+\\
+&=&
+\av{\haty, \haty}_{|a}
++
+\av{\Delta\rvy, \Delta\rvy}_{|a}
+\;\text{(by Eq.(\ref{eq-mse-uncorr}))}
+\\
+&=&
+Var_{|a}[\haty]
++
+Var_{|a}[\Delta\rvy]
+\eeqa
+The same proof
+holds
+if we remove all the $|a$
+subscripts.
+\qed
+
+Fig.\ref{fig-ms-error}
+illustrates how 
+$\rvy=\ul{\haty} +\Delta \rvy$
+and the variances of these 
+quantities add.
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=3in]
+{conventions/ms-error.png}
+\caption{$\rvy=\hat{y}+\Delta y$
+and the variances (not standard deviations) 
+of these quantities add. } 
+\label{fig-ms-error}
+\end{figure}
 \section{Bayes Rule,
 Bayesian Updating And Conjugate Priors}
 
@@ -836,13 +1046,24 @@ ordinary least squares (OLS), Ref.\cite{wiki-ols}
 \end{enumerate}
 
 
-In LR, the {\bf dependent variable} 
-$y$
-equals
-a linear combination of some
-{\bf independent variables} $x$ 
- plus some external noise variables
-$\eps$ called the {\bf residuals}.
+Some nomenclature: In LR, the 
+data consists of 
+{\bf independent variables} $x^\s_1,
+ x^\s_2, \ldots x^\s_n$ 
+and a {\bf dependent variable} $y^\s$.
+We find a linear fit $\haty^\s =
+\beta_0 + \sum_{i=1}^n \beta_i x^\s_i$
+to the data. 
+$\haty^\s$ is called the {\bf estimate}
+of $y^\s$.
+ The coefficients $\beta_0, \beta_i$
+are called {\bf regression coefficients}.
+$y^\s-\haty^\s=\eps^\s$
+are called  the {\bf residuals}.
+$\cale =\sum_\s (\eps^\s)^2$
+is called the {\bf error or cost}. We choose the 
+regression coefficients
+so as to minimize the error.
 
 Below, we consider two types of LR:
 
@@ -1175,7 +1396,16 @@ One finds that
 So far, we have
 assumed a zero mean value for $\eps$.
 Next, assume  
-{\bf  ``homoscedasticity" (HS)}, which
+{\bf  ``homoscedasticity" (homo-spread)}\footnote{I
+ find the word ``homoscedasticity" 
+unnecessarily long, cryptic 
+and easy to misspell so
+I like to replace
+it by ``homo-spread".
+The opposite 
+of ``homoscedasticity"
+is ``heteroscedasticity", 
+which I like to replace with ``hetero-spread".}, which
 means that 
 
 \beq
@@ -1262,7 +1492,7 @@ SS_{res}=\av{\norm{\rvy-\hat{\rvy}}^2}
 
 \begin{claim}
 The following is true 
-without HS:
+without homo-spread:
 
 
 \beq
@@ -1313,7 +1543,7 @@ R^2= 1 -\frac{SS_{res}}{SS_\rvy}=
 \frac{\tr \av{\hat{\rvy},\hat{\rvy}^T}}
 { \tr \av{\rvy,\rvy^T}}
 \eeq
-If HS holds, then
+If homo-spread holds, then
 $R^2$ reduces to
 
 
