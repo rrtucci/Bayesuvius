@@ -231,21 +231,29 @@ _{0?}\rvx^{A'}_{t-j}
 
 \begin{itemize}
 \item
-Consider the dataset
+Consider the datasets
 
 \beq
-\cald=
+\cald_\rvx=
+\{(t, \vec{x}_{[t-p, t-1]},
+\vec{y}_{[t-p, t-1]},
+ \boxed{\vec{x}_t}):
+ t\}
+\eeq
+
+\beq
+\cald_\rvy=
 \{(t, \vec{x}_{[t-p, t-1]},
 \vec{y}_{[t-p, t-1]},
  \boxed{\vec{y}_t}):
  t\}
 \eeq
-Can do Linear Regression on $\cald$
+One can do Linear Regression on $(\cald_\rvx,\cald_\rvy)$
 with x-variables
 $(\vec{x}_{[t-p, t-1]},
 \vec{y}_{[t-p, t-1]})$,
 y-variable 
-$\vec{y}_t$,
+$(\vec{x}_t, \vec{y}_t)$,
 and regression coefficients
 $\alp^{\rvx|\rvx}_{[1,p]}$,
 $\alp^{\rvx|\rvy}_{[1,p]}$,
@@ -256,7 +264,7 @@ yields confidence
 intervals for the
 regression coefficients.
 \item
-Can do hypothesis testing
+One can do hypothesis testing
 using the Likelihood Ratio Test\footnote{The 
 Likelihood Ratio Test is 
 discussed in Section
@@ -290,7 +298,8 @@ is a good fit for the data,
 but not necessarily also a good {\it causal} fit
 for the experiment.
 One can measure the
-goodness of causal fit by doing 
+goodness of causal fit 
+of a bnet by doing 
 do-intervention
 experiments (See Chapter 
 \ref{ch-good-causal-fit}).
