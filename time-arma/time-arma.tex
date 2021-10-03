@@ -49,7 +49,8 @@ Chapter \ref{ch-linear-sys}.
 
 
 
-As usual, let
+As usual, for $t, t_a, t_b\in \ZZ$,
+ let
  $\ZZ_{<t}=
 \{t-1, t-2, t-3, \ldots\}$,
 $\ZZ_{[t_a, t_b]}=\{t_a, t_a+1, 
@@ -64,7 +65,8 @@ $\{\rvx_1, \rvx_2, \ldots,
 =\{\rvx_t\}_{t=1}^{nt}
 =\tseries{\rvx_t}$,
 is a set of real numbers
-index by a discrete set of times.
+index by a discrete set of times
+$\ZZ_{[0, nt]}$.
 
 
 For $t_a<t_b$, let 
@@ -97,7 +99,8 @@ $\rvn_t\sim \caln(0, \s^2)$.
 \section{Backshift operator}
 
 $\calb$ is the backshift (a.k.a. lag) operator.
-For any t-series $\tseries{x_t}$
+For any t-series $\tseries{x_t}$,
+$\tseries{y_t}$
 and scalars $a, b\in \RR$, 
 
 \beq
@@ -108,14 +111,15 @@ and scalars $a, b\in \RR$,
 \calb(a\rvx_t + b \rvy_t)=
 a\calb(\rvx_t) + b\calb(\rvy_t)
 \eeq
-Polynomial of $\calb$:
+A $\calb$ Polynomial
+with coefficients $\alp_{[0,p]}$:
 \beq
 \alp(\calb)= \alp_0 + \alp_1\calb 
 + \alp_2\calb^2 +\ldots \alp_p\calb^p
 \eeq
 $\calb^{-1}$ is the inverse of 
 the backshift operator
- (frontshift operator) 
+ (a.k.a. frontshift operator) 
 \beq
 \calb^{-1}\rvx_t=\rvx_{t+1}
 \eeq
@@ -191,7 +195,7 @@ Var[\rvx_t]=\av{\rvx_t, \rvx_t}
 
 
 
-\item{\bf Auto-correlation (ACorr)} (assuming
+\item{\bf Auto-correlation (ACorr)} (assumes
 w-stationarity)
 
 \beq
@@ -200,28 +204,31 @@ w-stationarity)
 \eeq
 
 \item {\bf Generating function 
-of auto-covariance}
-(Fourier Transform 
-if $z=e^{-i\omega\tau}$)
+of auto-covariance} (assumes w-stationarity)
+
 
 \beq
 \tilde{\gamma}(z)=\sum_{\tau=-\infty}^{\infty}
 \gamma(\tau) z^\tau
 \eeq
 Note that this transform is double sided.
+Fourier Transform 
+if $z=e^{-i\omega\tau}$.
 
 \item{\bf Expected value 
 and variance conditioned on all past information}
 
+For $\tau=1,2, 3, \dots$,
+
 \beq
-E_{|x_{<t}}[\rvx_{t+\tau}]
+E_{|x_{\leq t}}[\rvx_{t+\tau}]
 \eeq
 
 \beq
-Var_{|x_<t}[\rvx_{t+\tau}]
+Var_{|x_{\leq t}}[\rvx_{t+\tau}]
 =
 \av{\rvx_{t+\tau},
-\rvx_{t+\tau}}_{|x_{<t}}
+\rvx_{t+\tau}}_{|x_{\leq t}}
 \eeq
 
 \item {\bf Partial auto-covariance (PACov)}
@@ -272,6 +279,8 @@ then
 \gamma (\tau)
 \eeqa
 
+We will often abbreviate $\gamma(\tau)$ by $\gamma_\tau$.
+
 Example of various metrics.
 If $\tseries{\rvn_t}
 \sim WN(0, \s^2)$ then
@@ -297,14 +306,15 @@ E[\rvn_t]=0
 \tilde{\gamma}(z)=\gamma(0)
 \eeq
 
+For $\tau>0$, 
 \beq
-E_{|n_{<t}}[\rvn_{t+\tau}]=
+E_{|n_{\leq t}}[\rvn_{t+\tau}]=
 E[\rvn_{t+\tau}]=0
 \eeq
 
 \beq
-\av{\rvn_t, \rvn_t}_{|n_{<t}}=
-E[\rvn_t^2]=
+\av{\rvn_{t+\tau}, \rvn_{t+\tau}}_{|n_{\leq t}}=
+E[\rvn_{t+\tau}^2]=
 \s^2
 \eeq
 \end{subequations}
@@ -490,8 +500,8 @@ n_{[t-q, t]})
 
 The $\rvn_t$ variable
 is variously referred to as the
-{\bf external noise} or
-{\bf shock} or {\bf innovation}
+{\bf external noise, impulse,
+shock, innovation}
 at time $t$.
 
 \section{Solving $AR(p)$}
@@ -666,6 +676,7 @@ then
 E[\rvy_t]=0
 \eeq
 
+For $\tau\geq 0$,
 \beq
 \gamma(\tau)=
 \indi(\tau\leq q)
@@ -728,18 +739,14 @@ satisfies
 \beq
 \alp^-(\calb)\rvy_t=\nu(\calb)\rvn_t
 \eeq
-
-\beq
-\rvy_t=\frac{\nu(\calb)}{\alp^-(\calb)}\rvn_t
-\eeq
 If $\alp^-(\beta)$
 is invertible, then,
-using the
+using
 the Taylor expansion 
 Eq.(\ref{eq-binomial-expan}), we get
 
 \beq
-\rvy_t
+\rvy_t=\frac{\nu(\calb)}{\alp^-(\calb)}\rvn_t
 =\nu(\calb)\alp'(\calb)\rvn_t
 \eeq
 
@@ -963,28 +970,32 @@ Note that we can express the PACov as
 \gamma^{part}(\tau)=
 \av{Z_{(t, t+\tau)}\;(
 \rvy_{t}\;\rvy_{t+\tau})}
+\;.
 \eeq
+Since
 
-\beq
-\rvy_{t+\tau}=\rvn_{t+\tau}+
+\beqa
+\rvy_{t+\tau}
+&=&
 \sum_{j=1}^p\alp_{j}\rvy_{t+\tau-j}
-\eeq
-so
++\rvn_{t+\tau}
+\\
+&=&
+\alp_{p}\rvy_{t+\tau-p}
++
+\ldots
++ \alp_{2}\rvy_{t+\tau-2}
++\alp_{1}\rvy_{t+\tau-1}
++\rvn_{t+\tau}
+\;,
+\eeqa
+we get
 
 \beq
 Z_{(t, t+\tau)}\rvy_{t+\tau}
 =
-\left\{
-\begin{array}{ll}
-\rvn_{t+\tau} +
-\alp_{1}\rvy_{t+\tau-1}
- +\alp_{2}\rvy_{t+\tau-2}
-\ldots +\alp_{p}\rvy_{t+\tau-p}
-&\text{if $\tau\leq p$}
-\\
-\rvn_{t+\tau} &\text{if $\tau> p$}
-\end{array}
-\right.
+\rvn_{t+\tau} \;\;\;\text{if $\tau> p$}
+\;.
 \eeq
 Hence, for $\tau>p$,
 
@@ -1102,7 +1113,7 @@ $\rvy_t$ and $\rvy_{t+\tau}$
 for $\tau=1,2,3$.
 Boxed nodes are
 in set $\rvy_{(t, t+\tau)}$.
-They are conditioned on so 
+They are conditioned on, so 
 information can't flow through them
 to node $\rvy_{t+\tau}$
 by the d-separation theorem.
@@ -1197,12 +1208,11 @@ If $\tseries{\rvy_t}$ is an $AR(p)$ t-series,
 then
 \beq
 \tilde{\gamma}(z) =
-\frac{\s^2}
-{\alp^-(z)\alp^-(z^{-1})}
+\alp'(z)\s^2\alp'(z^{-1})
 \eeq
 \end{claim}
-\proof Simple algebra,
- left to reader.
+\proof
+ Left to reader.
 See Claim 
 \ref{claim-az-azinv}.
 \qed
@@ -1212,7 +1222,7 @@ If $\tseries{\rvy_t}$ is an $MA(q)$
  t-series, then
 \beq
 \tilde{\gamma}(z) =
-\s^2 \nu(z)\nu(z^{-1})
+\nu(z)\s^2 \nu(z^{-1})
 \eeq
 \end{claim}
 \proof
@@ -1230,9 +1240,9 @@ If $\tseries{\rvy_t}$ is an $MA(q)$
 \sum_{j=-\infty}^\infty
 \sum_{j'=-\infty}^\infty\nu_j\nu_{j'}
 \underbrace{\av{
-\rvn_{-j}, \rvn_{\tau-j'}}}_{\delta(j', \tau + j)}
+\rvn_{-j}, \rvn_{\tau-j'}}}_{\s^2\delta(j', \tau + j)}
 \\
-&=&
+&=&\s^2
 \sum_{\tau=-\infty}^\infty z^\tau
 \sum_{j=-\infty}^\infty\nu_j\nu_{j+\tau}
 \eeqa
@@ -1245,12 +1255,15 @@ If $\tseries{\rvy_t}$ is an $ARMA(p,q)$
  t-series, then
 \beq
 \tilde{\gamma}(z) =
-\frac{\s^2 \nu(z)\nu(z^{-1})}
-{\alp^-(z)\alp^-(z^{-1})}
+\alp'(z)
+\nu(z)
+\s^2
+\nu(z^{-1})
+\alp'(z^{-1})
 \eeq
 \end{claim}
-\proof Simple algebra,
- left to reader.
+\proof
+ Left to reader.
 See Claim 
 \ref{claim-az-azinv}.
 \qed
@@ -1607,7 +1620,7 @@ E\left[
 Var_{|\rvy_{\leq t}}[\rvy_{t+\tau}]
 \;.
 \eeqa
-For example, for $\tau=0$,
+For example, for $\tau=1$,
 
 
 \beq 
@@ -1664,21 +1677,15 @@ Note that if $\tseries{\rvy_t}$
 is an $AR(\infty)$
 t-series, 
 then $\alp^-(\calb)\rvy_t=n_t$.
-We will
-assume that the operator
-$\alp^-(\calb)$
-is invertible.
-Then $\rvy_t$
-can be expressed as 
-an $MA(\infty)$
-t-series.
 Thus, $\rvn_{\leq t}$
 can be expressed in terms 
 of $\rvy_{\leq t}$,
 yielding a function 
 $\rvn_{\leq t}(\rvy_{\leq t})$.
-Also,
-the opposite is true: $\rvy_{\leq t}$
+If the operator
+$\alp^-(\calb)$
+is invertible,
+the opposite is also true: $\rvy_{\leq t}$
 can be expressed in terms
 of $\rvn_{\leq t}$,
 yielding a function 
@@ -1687,7 +1694,8 @@ Thus,
 
 \beq
 \rvy_{t+\tau}|\rvy_{\leq t}=
-\rvy_{t+\tau}|\rvn_{\leq t}(\rvy_{\leq t})
+\rvy_{t+\tau}|\rvy_{\leq t}(\rvn_{\leq t})=
+\rvy_{t+\tau}|\rvn_{\leq t}
 \eeq
 
 We've
@@ -1696,7 +1704,7 @@ seen that
 assume invertibility
 of $\alp^-(\calb)$, then,
 in order 
-to forecast $\rvy_{t+\tau}|\rvt_{\leq t}$,
+to forecast $\rvy_{t+\tau}|\rvy_{\leq t}$,
 we have the option
 of considering $\tseries{\rvy_t}$ to be
 either an $AR(\infty)$
@@ -1724,7 +1732,7 @@ $\rvy_{\leq t-m}\approx 0$ (approximation)}
 
 \newcommand{\gammaEXACT}[0]
 {given $\gamma_{[0,m-1]}$
-and $\gamma^{part}_{[\tau, \tau+m-1]}$}
+and $\gamma^{part}_{[\tau,\tau+ m-1]}$}
 
 
 \begin{figure}[h!]
@@ -1973,9 +1981,14 @@ this reduces to
 \nu_{j}\rvn_{t+\tau-j}
 \eeq
 
+\beq
+E_{|y_{\leq t}}[\rvy_{t+\tau}]=
+E[\rvy_{t+\tau}|y_{\leq t}]=0
+\eeq
+
 
 \beqa
-\av{\rvy_{t+\tau}\rvy_
+\av{\rvy_{t+\tau},\rvy_
 {t+\tau}}_{|y_{\leq t}}=
 \sum_{j=0}^{\min(\tau-1, q)}
 \nu_j^2
@@ -2081,8 +2094,8 @@ _{\nu(\calb)^{-1}}
 \eeq
 
 \beq
-\rvy_t = \underbrace{\sum_{j=0}^\infty
-(\alp_1\calb)^j}
+\rvy_t = \underbrace{\left[\sum_{j=0}^\infty
+(\alp_1\calb)^j\right]}
 _{\nu(\calb)}
 \rvn_t
 \eeq
@@ -2110,7 +2123,7 @@ as $\tau$ grows.
 
 \beq
 \rvy_t=
-\underbrace{ (1-\nu_1\calb)
+\underbrace{ (1+\nu_1\calb)
 }_{\nu(\calb)}
 \rvn_t
 \eeq
@@ -2128,12 +2141,13 @@ as $\tau$ grows.
 \delta(\tau,1)
 \nu_1
 \underbrace{\left[\sum_{j=0}^\infty
-(\nu_1\calb)^j \right]}_{
+(-\nu_1\calb)^j \right]}_{
 \nu(\calb)^{-1}}
 \rvy_t
 \\
 &=&
-\nu_1\rvn_1
+\delta(\tau,1)
+\nu_1\rvn_t
 \eeqa
 
 \end{itemize}
@@ -2146,10 +2160,9 @@ as $\tau$ grows.
 \beqa
 \rvy_{t+\tau}|
 \rvy_{\leq \tau}
-&\approx&
-\left[\call_{WK}\right]_
-{\calb^{>m}}
-\rvy_t\indi(\rvy_{\leq t-m}=0)
+&\approx&\indi(\rvy_{\leq t-m}=0)
+\call_{WK}
+\rvy_t
 \eeqa
 
 
@@ -2157,33 +2170,26 @@ as $\tau$ grows.
 \item {\bf find $\rvy_{t+\tau}|y_{\leq t}$
 \gammaEXACT}
 
-
-
 \beq
-\rvy_{t+\tau}|\rvy_{[t-m+1, t]} = 
+\rvy_{t+\tau}|\rvy_{\leq t} = 
 \sum_{j=0}^{m-1} \rvy_{t-j}\beta_j
 \label{eq-pseudo-yule-target}
 \eeq
 
+Suppose that $k\in \ZZ_{[0,m-1]}$.
 
-Suppose that $k\in \ZZ_{[0,m-1]}$
-and 
-
-\beq
-\xi=\rvy_{[t-m+1, t]}
-\;.\eeq
 Note that 
 
 \beq
-\rvy_{t-k}|\xi=\rvy_{t-k}
+\rvy_{t-k}|\rvy_{\leq t}=\rvy_{t-k}
 \;.
 \eeq
 
 
 \beq
 \underbrace{
-\av{\rvy_{t-k}|\xi\;\;,\;\;
-\rvy_{t+\tau}|\xi}
+\av{\rvy_{t-k}|\rvy_{\leq t}\;\;,\;\;
+\rvy_{t+\tau}|\rvy_{\leq t}}
 }_{\gamma^{part}_{\tau+k}} = 
 \sum_{j=0}^{m-1} 
 \underbrace{
@@ -2329,7 +2335,7 @@ so
 \\
 &=&
 \alp\sum_{j=0}^\infty
-(1-\alp)^j\rvx_t\;\;\text{ 
+(1-\alp)^j\calb^j\rvx_t\;\;\text{ 
 (by Eq.(\ref{eq-binomial-expan}))}
 \label{eq-expand-simple-smoo}
 \eeqa
@@ -2353,7 +2359,7 @@ contributes to $\rvs_t$
 in the proportion $\alp (1-\alp)^2$.
 The contributions of $\rvx_{t-j}$
 to $\rvs_t$
-decrease geometrically (exponentially) as the lag
+decrease geometrically as the lag
 $j$ increases. 
 
 Henceforth, we  will 
@@ -2459,9 +2465,9 @@ Define $\calo_{BEF}$ and $\calo_{AFT}$ by
 \\
 &
 -\calb
-&\alp_1\calb^2
-&\alp_2\calb^3
-&\alp_3\calb^4
+&+\alp_1\calb^2
+&+\alp_2\calb^3
+&+\alp_3\calb^4
 \end{array}
 \right.
 \\
@@ -2677,12 +2683,13 @@ arrows in common!}
 \section{Parameter learning}
 \label{sec-time-arma-param-learn}
 
-In this section
+In this section,
 we will show
 how to find an estimate
 $\hat{\theta}$
 for the parameters
-$\theta=(\{\alp_j\}_{\forall j}, \{\nu_j\}_{\forall j})$
+$\theta=(\{\alp_j\}_{\forall j}, \{\nu_j\}_{\forall j},
+\s^2)$
 used in
 $ARMA(p,q)$.
 We do this {\bf parameter learning (PL)} by
@@ -2792,20 +2799,20 @@ Note that
 P(y_{\leq t}|\theta)
 &=
 \sum_{n_{[p+1, t]}}
-\left[\prod_{\tau\in [p+1, t]}
+\left\{\prod_{\tau\in [p+1, t]}
 P(y_{\tau}|y_{[\tau-p,\tau-1]}, n_\tau)
 P(n_\tau|\theta)
-\right]P(y_{\leq p}|\theta)
+\right\}P(y_{\leq p}|\theta)
 \\
 &=
 \prod_{\tau\in [p+1, t]}
-\left[
+\left\{
 \frac{1}{\sqrt{2\pi\s^2}}
 \exp\left[
-\frac{\left(y_t-\sum_{j=1}^p\alp_jy_{t-j}\right)^2}
+\frac{-\left(y_\tau-\sum_{j=1}^p\alp_jy_{\tau-j}\right)^2}
 {2\s^2}
 \right]
-\right]P(y_{\leq p}|\theta)
+\right\}P(y_{\leq p}|\theta)
 \end{align}
 
 The log likelihood function $\call_t(\theta)$
@@ -2833,7 +2840,7 @@ Hence,
 where
 \beq
 \call'_t(\theta)=
-\frac{t-p}{t}\ln \sqrt{2\pi\s^2}
+\frac{-(t-p)}{t}\ln \sqrt{2\pi\s^2}
 -\frac{1}{2t\s^2}
 \sum_{\tau=p+1}^t
 \left(y_\tau-\sum_{j=1}^p\alp_jy_{\tau-j}\right)^2
@@ -2845,7 +2852,7 @@ Henceforth, we wll assume
 that $y_{[1, t]}$
 is known.
 
-We start by assuming
+We start by assuming that
 the prior log-likelihood 
 $\call^{prior}_t(\theta)$
 is zero. 
@@ -2855,7 +2862,7 @@ Later on, we will
 consider 
 instead a Gaussian prior
 that uses the 
-info that $y_{<p}$
+info that $y_{\leq p}$
 is known a priori.
 
 If we assume
@@ -2948,7 +2955,7 @@ i.e., the mean
 \hat{\mu}= \frac{1}{t}\sum_{\tau=1}^t y_\tau
 \eeq
 has been subtracted from each $y_\tau$
-for $\tau\in\ZZ_{[0,1]}$.
+for $\tau\in\ZZ_{[1,t]}$.
 
 \subsection{PL of $MA(q)$}
 
@@ -3035,20 +3042,20 @@ Note that
 P(y_{\leq t}|\theta)
 &=
 \sum_{n_{[q+1, t]}}
-\left[\prod_{\tau\in [q+1, t]}
+\left\{\prod_{\tau\in [q+1, t]}
 P(y_{\tau}|n_{[\tau-q,\tau-1]}, n_\tau)
 P(n_\tau|\theta)
-\right]P(n_{\leq q}|\theta)
+\right\}P(n_{\leq q}|\theta)
 \\
 &=
 \prod_{\tau\in [q+1, t]}
-\left[
+\left\{
 \frac{1}{\sqrt{2\pi\s^2}}
 \exp\left[
-\frac{\left(y_t-\sum_{j=1}^q\nu_j n_{t-j}\right)^2}
+\frac{-\left(y_\tau-\sum_{j=1}^q\nu_j n_{\tau-j}\right)^2}
 {2\s^2}
 \right]
-\right]P(n_{\leq q}|\theta)
+\right\}P(n_{\leq q}|\theta)
 \end{align}
 
 The log likelihood function $\call_t(\theta)$
@@ -3076,7 +3083,7 @@ for this bnet is defined by
 where
 \beq
 \call'_t(\theta)=
-\frac{t-q}{t}\ln \sqrt{2\pi\s^2}
+\frac{-(t-q)}{t}\ln \sqrt{2\pi\s^2}
 -\frac{1}{2t\s^2}
 \sum_{\tau=q+1}^t
 \left(y_\tau-\sum_{j=1}^q\nu_jn_{\tau-j}\right)^2
@@ -3089,7 +3096,7 @@ $n_{\leq q}=0$. By Eq.(\ref{eq-qmle-ma-q-def}),
 $y_{\leq q}=0$, so the prior 
 log-likelihood
 $\call^{prior}_t(\theta)$
-is zero.
+is independent of $\theta$.
 
 
 
@@ -3315,12 +3322,12 @@ maximize it to obtain the
 parameters $\theta$.
 But first we
 will have to assume 
-that $n_{<q}=0$
+that $n_{\leq q}=0$
 and $y_{[1,t]}$ is
 known, 
 and we will
 have to express 
-the unknown $n_{[q,t]}$
+the unknown $n_{[q+1,t]}$
 in terms of the known $y_{[1, t]}$
 using the t-series definition
 Eq.(\ref{eq-qmle-arma-p-q-def}).
@@ -3342,7 +3349,7 @@ $\{\vec{\rvx}_1, \vec{\rvx}_2, \ldots,
 =\{\vec{\rvx}_t\}_{t=1}^{nt}
 =\tseries{\vec{\rvx}_t}$,
 is a set of $\RR^{nr\times1}$ vectors
-index by a discrete set of times.
+index by a discrete set of times $\ZZ_{[0, nt]}$.
 
 
 Henceforth, we will use the Einstein

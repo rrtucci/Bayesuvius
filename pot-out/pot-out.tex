@@ -1384,7 +1384,7 @@ in a RCT} when $ACE=0$. By the previous claim,
 this is true iff $ATE=0$
 (assuming weak-d limit).
 
-\section{Bad Controls}
+\section{Good, Bad Controls}
 
 The bnet $G_+$
 of Fig.\ref{fig-po-G-im-y0-y1}, 
@@ -1393,31 +1393,45 @@ PO theory--- is limited in scope
 and is easily
 misapplied, leading
 to incorrect results.
+The problem is 
+some features
+that are available 
+and coud be conditioned on
+shouldn't because they
+would introduce spurious
+contributions to ATE.
+Such features are called
+``bad controls".
 
+Examples:
 
+\begin{enumerate}
+\item
 \begin{figure}[h!]
 $$
 \xymatrix{
-\rvh_1 \ar[dd]\ar[dr]
+*++[F-o]{\rvh_1} \ar[dd]\ar[dr]
 &
-& \rvh_2  \ar[dd]\ar[dl]
+& *++[F-o]{\rvh_2}  \ar[dd]\ar[dl]
 \\
 & \rvx
 \\
 \rvd \ar[rr]
 &&\rvy
 }$$
-\caption{In this figure,
-nodes $\rvh_1$
+\caption{In this bnet,
+$\rvx$ is a bad control
+(i.e., should
+not be conditioned on).
+Nodes $\rvh_1$
 and $\rvh_2$ are 
 hidden and therefore
 cannot be conditioned on.}
-\label{fig-po--m-bias}
+\label{fig-po-m-bias}
 \end{figure}
 
-For example, 
-consider the 
-bnet Fig.\ref{fig-po--m-bias},
+Consider the 
+bnet Fig.\ref{fig-po-m-bias},
 which  Pearl calls M-bias,
 because it looks like an M.
 In that figure, 
@@ -1456,6 +1470,48 @@ to flow from $\rvd$
 to $\rvy$
 via the path 
 $\rvd-\rvh_1-\rvx-\rvh_2-\rvy$.
+\item
+
+\begin{figure}[h!]
+$$
+\xymatrix{
+\rvc_1\ar[d]\ar[drr]
+&&\rvc_2\ar@{<-->}[d]
+\ar@{<-->}[dll]
+\\
+\rvd\ar[r]\ar[dr]
+&\rvc_3\ar[r]
+&\rvy\ar[dl]
+\\
+&\rvc_4
+}$$
+\caption{In this bnet,
+node $\rvc_1$ is a good
+control and nodes $\rvc_2, \rvc_3, \rvc_4$
+are bad ones.}
+\label{fig-po-1-good-3-bad}
+\end{figure}
+
+In Fig.\ref{fig-po-1-good-3-bad}, node
+$\rvc_1$ is a good
+control and nodes $\rvc_2, \rvc_3, \rvc_4$
+are bad ones.
+
+Conditioning on $\rvc_1$ blocks path $\rvd-\rvc_1-\rvy$, good
+
+Conditioning on $\rvc_2$ opens path $\rvd-\rvc_2-\rvy$, bad
+
+Conditioning on $\rvc_3$ blocks path $\rvd-\rvc_3-\rvy$, bad
+
+Conditioning on $\rvc_4$ opens path $\rvd-\rvc_4-\rvy$, bad
+
+
+
+\end{enumerate}
+
+
+
+
 
 Pearl et al have a paper
 (Ref.\cite{pearl-good-neutral-bad})
@@ -3041,7 +3097,7 @@ or $A_{1,x}=\emptyset$.
 If a quantity (estimand)
  can be estimated,
 it is said to be {\bf identifiable}
- (i.e., calculable without do() operators).
+ (i.e., expressible without do() operators).
 If positivity is violated,
  then
  $ACE=ATE$ is not identifiable.

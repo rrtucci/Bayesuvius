@@ -805,8 +805,8 @@ given $nsam$ samples $y^\s\in\RR$
 labeled by an index $\s$,
 and an {\bf estimator} function $\haty^\s(a)\in\RR$ 
 that depends on a parameter $a\in\RR$.
-Define the {\bf Mean square
-error (MSE)}
+Define the {\bf Mean Square
+Error (MSE)}
 by
 
 \beq
@@ -826,7 +826,7 @@ then we can also write
 MSE(a)=E_{|a}[(\rvy-\ul{\haty}(a))^2]
 \;.
 \eeq
-and for LR, $\ul{\haty}=a_0+a_1\rvx$.
+and for LR, $\ul{\haty}(a)=a_0+a_1\rvx$.
 
 Define the {\bf residual} $\Delta\rvy$ by:
 
@@ -839,14 +839,15 @@ $\rvy=\ul{\haty} + \Delta\rvy$)}
 
 In the rest of this section,
 we will discuss the case that
-$\haty(a)$ is a totally
-deterministic function.
+$\haty^\s(a)$ is independent of $x^\s$.
 I call
 this the {\bf deterministic MSE (D-MSE)}
 model.
 Note that this
 is different from the LR
-case. In LR, we are trying
+case where
+$\haty^\s(a)$ does depend on $x^\s$. 
+In LR, we are trying
 to fit 
 a line to a cigar-shaped
 2-D scatter plot.
@@ -858,11 +859,10 @@ of a scatter plot.
 
 \begin{claim}
 MSE is minimized 
-over $a$ if
+over all functions $\haty$ if
 \beq
 \haty =E_{|a}[\rvy]
 \eeq
-Thus, $\haty$ is an unbiased estimator.
 \end{claim}
 \proof
 
@@ -871,8 +871,11 @@ MSE = E_{|a}[\rvy^2]-2\haty E_{|a}[\rvy]+ \haty^2
 \eeq
 
 \beq
-0=\frac{d}{da} MSE = 2(-E_{|a}[\rvy]+\haty)
-\frac{d\haty}{da}
+0=\frac{d}{d\haty} MSE = 2(-E_{|a}[\rvy]+\haty)
+\eeq
+Hence, 
+\beq
+\haty =E_{|a}[\rvy]
 \eeq
 \qed
 
@@ -921,7 +924,7 @@ E[\Delta \rvy] =
 E_{|\rva}
 \left[\Delta \rvy f(\rva)\right]
 &=&
-f(a)
+f(\rva)
 \underbrace{E_{|\rva}
 [\Delta\rvy]}_{=0}
 \eeqa
