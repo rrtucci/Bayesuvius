@@ -198,8 +198,8 @@ and $\vec{y}_t$, are as follows:
 
 
 \beq\color{blue}
-P(\vec{\rvx}_t|\vec{\rvx}_{[t-2, t-1]},
-\vec{\rvy}_{[t-2, t-1]}, \vec{n}_{t})=
+P(\vec{\rvx}_t|\vec{\rvx}_{[t-p, t-1]},
+\vec{\rvy}_{[t-p, t-1]}, \vec{n}_{t})=
 \prod_A
 \indi\left(
 \rvx_t^A=
@@ -213,8 +213,8 @@ P(\vec{\rvx}_t|\vec{\rvx}_{[t-2, t-1]},
 
 
 \beq\color{blue}
-P(\vec{\rvy}_t|\vec{\rvx}_{[t-2, t-1]},
-\vec{\rvy}_{[t-2, t-1]}, \vec{w}_{t})=
+P(\vec{\rvy}_t|\vec{\rvx}_{[t-p, t-1]},
+\vec{\rvy}_{[t-p, t-1]}, \vec{w}_{t})=
 \prod_B
 \indi\left(
 \rvy_t^B=
@@ -248,15 +248,25 @@ Consider the datasets
  \boxed{\vec{y}_t}):
  t\}
 \eeq
-One can do Linear Regression on $(\cald_\rvx,\cald_\rvy)$
+One can do Linear Regression on 
+$\cald_\rvx$
 with x-variables
 $(\vec{x}_{[t-p, t-1]},
 \vec{y}_{[t-p, t-1]})$,
 y-variable 
-$(\vec{x}_t, \vec{y}_t)$,
+$\vec{x}_t$,
 and regression coefficients
 $\alp^{\rvx|\rvx}_{[1,p]}$,
-$\alp^{\rvx|\rvy}_{[1,p]}$,
+$\alp^{\rvx|\rvy}_{[1,p]}$.
+One can also do
+Linear Regression on 
+$\cald_\rvy$
+with x-variables
+$(\vec{x}_{[t-p, t-1]},
+\vec{y}_{[t-p, t-1]})$,
+y-variable 
+$\vec{y}_t$,
+and regression coefficients
 $\alp^{\rvy|\rvx}_{[1,p]}$,
 $\alp^{\rvy|\rvy}_{[1,p]}$.
 The LR software 
@@ -294,7 +304,7 @@ problem
 with G-causality
 is that it 
 uses a bnet that
-is a good fit for the data,
+is a good fit for the dataset,
 but not necessarily also a good {\it causal} fit
 for the experiment.
 One can measure the
