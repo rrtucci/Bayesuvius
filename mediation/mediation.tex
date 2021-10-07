@@ -1,0 +1,363 @@
+\chapter{Mediation Analysis}
+\label{ch-mediation}
+This chapter is mostly based on 
+Ref.\cite{pearl-2019review}, a 2019
+ review of causality by Pearl.
+
+To fully
+understand this chapter,
+the reader should first read Chapter \ref{ch-counterf}
+where do and imagine operators are defined.
+
+
+\begin{figure}[h!]
+$$
+\begin{array}{ccc}
+\\
+\xymatrix{
+\rvu_\rvt\ar[dd]
+&\rvu_\rvm\ar[d]
+&\rvu_\rvy\ar[dd]
+\\
+&\rvm\ar[rd]
+\\
+\rvt\ar[ru]\ar[rr]&&\rvy
+}
+&\;\;\;\;&
+\xymatrix{
+\rvu_\rvt\ar[dd]\ar@/^2pc/@{<-->}[r]
+&\rvu\ar[d]\ar@/^2pc/@{<-->}[r]
+&\rvu_\rvy\ar[dd]
+\\
+&\rvm\ar[rd]
+\\
+\rvt\ar[ru]\ar[rr]&&\rvy
+}
+\\
+\\
+G_0&&G
+\end{array}
+$$
+\caption{DEN bnets $G_0$ and $G$
+are used to 
+discuss mediation analysis.
+In graph
+$G_0$,
+the external
+variables are independent,
+whereas in graph $G$
+they are not.}
+\label{fig-mediation-bnets}
+\end{figure}
+
+\begin{figure}[h!]
+$$
+\begin{array}{c}
+\xymatrix{
+&\rvh
+\ar@{-->}[d]
+\ar@{-->}[ldd]
+\ar@{-->}[rdd]
+\\
+&\rvm\ar[rd]
+\\
+\rvt\ar[ru]\ar[rr]&&\rvy
+}
+\\
+\\
+G_{gen}
+\end{array}
+$$
+\caption{General bnet used to 
+discuss mediation analysis.
+Node $\rvh$ is a hidden confounder.}
+\label{fig-gen-bnet-mediation}
+\end{figure}
+
+The term ``mediation analysis" (MA)
+refers
+to  the analysis by Pearl
+of the DEN bnet
+$G$
+in Fig.\ref{fig-mediation-bnets}.
+We will discuss MA in terms
+of DEN bnets, just as Pearl does.
+However, note that much of 
+what we will say applies also to 
+the general (i.e., not
+necessarily a DEN) bnet $G_{gen}$
+show in Fig. \ref{fig-gen-bnet-mediation}.
+
+
+
+In the DEN bnet $G$,
+node $\rvt$ 
+influences node
+$\rvy$
+both
+directly
+and via the mediator node $\rvm$.
+The structural 
+equations for $G$
+are of the form:
+
+\begin{subequations}
+\label{eq-struc-eqs-med}
+\beqa
+\rvt&=&\rvu_\rvt
+\\
+\rvm&=&f_\rvm(\rvt, \rvu_\rvm)
+\\
+\rvy&=&f_\rvy(\rvt, \rvm, \rvu_\rvy)
+\;.
+\eeqa
+\end{subequations}
+Thus,
+
+\beq
+\rvy=f_\rvy(u_\rvt, 
+f_\rvm(\rvu_\rvt, \rvu_\rvm), \rvu_\rvy)
+\;.
+\eeq
+
+\begin{figure}[h!]
+$$
+\begin{array}{cccc}
+\\
+\xymatrix{
+\rvu_\rvt\ar@/^2pc/@{<-->}[r]
+&\rvu_\rvm\ar[d]\ar@/^2pc/@{<-->}[r]
+&\rvu_\rvy\ar[dd]
+\\
+&\rvm\ar[rd]
+\\
+\rvt=5\ar[ru]
+\ar[rr]&&\rvy
+}
+&\;\;\;\;\;&
+\xymatrix{
+\rvu_\rvt\ar[dd]\ar@/^2pc/@{<-->}[rr]
+&&\rvu_\rvm\ar[d]\ar@/^2pc/@{<-->}[r]
+&\rvu_\rvy\ar[dd]
+\\
+&^{\cali_\rvm{\rvt}=5}\ar[r]
+&\rvm\ar[rd]
+\\
+\rvt
+\ar[rrr]
+&&&\rvy
+}
+\\
+\\
+\cald_{\rvt=5}G
+&&
+\cali_{\rvt\rarrow\rvm}(5)G
+\end{array}
+$$
+\caption{Graph $G$
+of Fig.\ref{fig-mediation-bnets}
+after applying do operator $\cald_{\rvt=5}$
+and imagine operator 
+$\cali_{\rvt\rarrow\rvm}(5)$.}
+\label{fig-mediation-ops-egs}
+\end{figure}
+
+If we apply
+$\cald_{\rvt=5}G$
+to Eqs.(\ref{eq-struc-eqs-med}), we get
+
+\begin{subequations}
+\label{eq-mediation-rho-egs}
+\beqa
+\rvt&=&5
+\\
+\rvm&=&f_\rvm(\rvt, \rvu_\rvm)
+\\
+\rvy&=&f_\rvy(\rvt, \rvm, \rvu_\rvy)
+\;.
+\eeqa
+\end{subequations}
+Eqs.\ref{eq-mediation-rho-egs}
+are represented graphically
+in Fig.\ref{fig-mediation-ops-egs}.
+We will often denote the  random variable
+ $\rvy$ in Eqs.(\ref{eq-mediation-rho-egs})
+by the more explicit symbol 
+$\rvy_{\cald_{\rvt=5}G}$.
+Pearl often 
+refers to
+this $\rvy$ by the less explicit symbol
+$Y_5$ or $Y_5(u)$ where 
+$u=(u_\rvm, u_\rvy)=u_{!\rvt}$.
+
+If we apply
+$\cali_{\rvt\rarrow\rvm}(5)G$
+to Eqs.(\ref{eq-struc-eqs-med}), we get
+
+\begin{subequations}
+\label{eq-mediation-kappa-egs}
+\beqa
+\rvt&=&\rvu_\rvt
+\\
+\rvm&=&f_\rvm(5, \rvu_\rvm)
+\\
+\rvy&=&f_\rvy(\rvt, \rvm, \rvu_\rvy)
+\;.
+\eeqa
+\end{subequations}
+Eqs.\ref{eq-mediation-kappa-egs}
+are represented graphically
+in Fig.\ref{fig-mediation-ops-egs}.
+We will often denote the  random variable
+ $\rvy$ in Eqs.(\ref{eq-mediation-kappa-egs})
+by the more explicit symbol 
+$\rvy_{\cali_{\rvt\rarrow\rvm}(5)G}$.
+ Pearl often 
+refers to
+this $\rvy$ by the less explicit symbol
+$Y_5$ or $Y_5(u)$ where
+$u=(u_\rvt, u_\rvm, u_\rvy)$.
+
+\hrule
+
+\begin{figure}[h!]
+$$
+\begin{array}{cccc}
+\\
+\xymatrix{
+\rvu_\rvt\ar@/^2pc/@{<-->}[r]
+&\rvu_\rvm\ar[d]\ar@/^2pc/@{<-->}[r]
+&\rvu_\rvy\ar[dd]
+\\
+&\rvm\ar[rd]
+\\
+\rvt=t\ar[ru]
+\ar[rr]&&\rvy
+}
+&\;\;\;\;
+&
+\xymatrix{
+\rvu_\rvt\ar@/^2pc/@{<-->}[r]
+&\rvu_\rvm\ar@/^2pc/@{<-->}[r]
+&\rvu_\rvy\ar[dd]
+\\
+&\rvm=m\ar[rd]
+\\
+\rvt=t
+\ar[rr]&&\rvy
+}
+\\
+\\
+\cald_{\rvt=t}G
+&&
+\cald_{\rvt=t}\cald_{\rvm=m}G
+\end{array}
+$$
+\caption{Graph $G$
+of Fig.\ref{fig-mediation-bnets}
+after applying the 
+do operators $\cald_{\rvt=t}$
+and
+$\cald_{\rvt=t}\cald_{\rvm=m}$.}
+\label{fig-mediation-rho}
+\end{figure}
+Define the Total Effect (TE),
+and the
+Controlled Direct Effect (CDE) by
+\beqa
+TE&=& E[
+\rvy_{\cald_{\rvt=1}G}
+-\rvy_{\cald_{\rvt=0}G}
+]
+\\
+CDE(m)&=&
+E[
+\rvy_{\cald_{\rvt=1}\cald_{\rvm=m}G}
+-\rvy_{\cald_{\rvt=0}\cald_{ \rvm=m}G}
+]
+\eeqa
+The two DEN diagrams
+$\cald_{\rvt=t}G$
+and
+$\cald_{\rvt=t}\cald_{\rvm=m}G$
+used in the definitions
+of $TE$ and $CDE$
+are given in Fig.\ref{fig-mediation-rho}.
+\hrule
+
+\begin{figure}[h!]
+$$
+\begin{array}{c}
+\\
+\xymatrix{
+\rvu_\rvt\ar[dd]\ar@/^2pc/@{<-->}[rr]
+&&\rvu_\rvm\ar[d]\ar@/^2pc/@{<-->}[r]
+&\rvu_\rvy\ar[dd]
+\\
+&\cali_\rvm\rvt=b\ar[r]
+&\rvm\ar[rd]
+\\
+\rvt
+&\cali_\rvy\rvt=a\ar[rr]
+&&\rvy
+}
+\\
+\\
+\cali_{\rvt\rarrow\rvy}(a)
+\cali_{\rvt\rarrow\rvm}(b)G
+\end{array}
+$$
+\caption{
+Graph $G$
+of Fig.\ref{fig-mediation-bnets}
+after
+applying the 
+imagine operator
+ $\cali$
+ to arrows
+$\rvt\rarrow\rvm$ and $\rvt\rarrow\rvy$.}
+\label{fig-mediation-kappa}
+\end{figure}
+
+Let
+
+\beq
+\caly^b_a=
+ E[
+\rvy_{\cali_{\rvt\rarrow\rvy}(a)
+\cali_{\rvt\rarrow\rvm}(b)G}
+]
+\eeq
+Fig.\ref{fig-mediation-kappa}
+shows the diagram 
+$\cali_{\rvt\rarrow\rvy}(a)
+\cali_{\rvt\rarrow\rvm}(b)G$
+used in
+the definition of $\caly^b_a$.
+
+
+Now define the
+Natural Direct Effect (NDE), and the
+Natural Indirect Effect (NIE)
+by
+\beqa
+NDE
+&=&\caly_1^0 - \caly_0^0
+\\
+NIE(t)
+&=&\caly_t^1 - \caly_t^0
+\;.
+\eeqa
+
+Note that
+\beqa
+NDE+NIE(1)&=&(\caly_1^0-\caly_0^0)+(\caly_1^1 - \caly_1^0)
+\\
+&=&\caly_1^1-\caly_0^0
+\\
+&=&
+TE
+\;.
+\eeqa
+
+

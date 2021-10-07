@@ -385,16 +385,34 @@ Hence, the do operator mimics a RCT.
 
 $P(b.|\cald \rva.=a., s.)$
 is said to be {\bf identifiable}
-(i.e., expressible without do() operators)
+(i.e., expressible without do())
 if it can be
 expressed in terms of
 probability distributions
 that only
 depend on observed 
-variables and that
+variables, and that
 have no do operators
-in them.
+in them. 
+
 For example,
+if $\rvy$ has only one parent,
+namely $\rvx$, then $P(y|x)$ is a TPM
+of the bnet, so $P(y|\cald\rvx=x)=P(y|x)$.
+Thus, in general, if $\rvy$ has only
+one parent, $P(y|\cald\rvx=x)$ is 
+identifiable. On the other hand, if
+$\rvy$ has two parents, $\rvx$ and $\rva$, then
+$P(y|x,a)$, not $P(y|x)$,
+is the TPM for node $\rvy$,
+so we will need more than the TPM
+of node $\rvy$ to calculate $P(y|\cald\rvx=x)$.
+So if $\rvy$ has more parents than node $\rvx$,
+then the identifiability of $P(y|\cald\rvx=x)$
+is not guaranteed.
+
+ 
+As a second example,
 $P(y|\cald\rvx=x)$ is identifiable
 for the bnet
 
@@ -405,7 +423,7 @@ for the bnet
 \rvx\ar[r]&\rvy
 }
 \eeq
-but it is non-identifiable for the bnet
+but it is not identifiable for the bnet
 
 \beq
 \xymatrix{
@@ -960,4 +978,265 @@ P(x')
 \eeq
 \qed
 
+\section{Do operator for DEN diagrams}
 
+Recall that
+the structural
+equations
+for a linear DEN, as
+given
+by Eq.(\ref{eq-mat-fully-conn})
+of Chapter \ref{ch-linear-sys}, are:
+
+\beq
+\rvx=A\rvx +\rvu
+\;.
+\label{eq-struc-pre-rho}
+\eeq
+Therefore,
+
+\beq
+\rvx=(1-A)^{-1}\rvu
+\eeq
+which
+can be 
+represented for
+both linear
+and non-linear DEN
+diagrams by:
+
+\beq
+\rvx_i = x_i(\rvu.)
+\eeq 
+
+If now
+we apply the
+operator
+$\cald_{\rva=a}$
+to 
+the diagram
+described by
+the structural
+equations Eqs.\ref{eq-struc-pre-rho},
+we get the following
+new
+structural
+equations:
+
+\beq
+\rvx^*_i =\left\{
+\begin{array}{lll}
+ \sum_{j<i} A_{i|j}\rvx^*_j + \rvu_i&
+ \text{if $\rvx_i\neq \rva$}
+\\
+a&
+\text{if $\rvx_i=\rva$}
+\end{array}
+\right.
+\label{eq-ith-struc-post-rho}
+\;,
+\eeq
+where we are
+calling 
+$\rvx^*_i$ the
+nodes
+of the DEN 
+diagram post intervention.
+
+Eqs.(\ref{eq-ith-struc-post-rho})
+can be expressed in matrix notation
+as follows.
+Define $\pi_\rva$ to
+be the $nx\times nx$ matrix 
+with all entries equal
+to  zero
+except for the $(i_0,i_0)$ entry, which is 1.
+And define $e_\rva$
+to be the column vector
+with all entries zero
+except for the $i_0$'th one, 
+which is 1. 
+Here
+$i_0$  
+is
+defined so that $\rvx_{i_0}=\rva$.
+In other words, $\pi_\rva$ and $e_\rva$
+are defined by
+
+\beq
+(\pi_\rva)_{i,j}= \indi(i=j, \rva=\rvx_i)
+\;
+\eeq
+and
+
+\beq
+(e_\rva)_i=\indi(\rva=\rvx_i)
+\;,
+\eeq
+for $i, j\in \{0, 1, \ldots, nx-1\}$.
+Next define
+
+\beq
+\pi_{!\rva}=1-\pi_\rva
+\;,
+\eeq
+
+\beq
+A^*=\pi_{!\rva} A
+\;,
+\eeq
+and
+
+\beq
+\rvu_{!\rva}=\pi_{!\rva} \rvu
+\;.
+\eeq
+The effect
+of pre-multiplying
+the matrix
+$A$ 
+and the column vector $\rvu$ by
+$\pi_{!\rva}$
+is to leave all rows
+intact except for
+the $i_0$
+row, which is set to zero. Here
+ $i_0$ is defined by
+ $\rva=\rvx_{i_0}$.
+Finally,
+using 
+all
+of the
+variables just defined,
+we can express the
+structural equations
+of the linear DEN diagram,
+post intervention, as
+
+
+\beq
+\rvx^*= A^* \rvx^* + \rvu_{!\rva} +
+ae_\rva
+\;.
+\eeq
+Thus,
+
+\beq
+\rvx^*=(1-A^*)^{-1} (\rvu_{!\rva}+ae_\rva)
+\;.
+\eeq
+which
+can be 
+represented for
+both linear
+and non-linear DEN
+diagrams by:
+
+\beq
+\rvx^*_i=x^*_i(\rvu_{!\rva},a)
+\;.
+\eeq
+
+
+
+For any bnet,
+
+\beq
+P(\rvy=y|\rvx=x)
+=
+P_{G}(\rvy=y|\rvx=x)
+\eeq
+
+\beq
+P(\rvy=y|\cald\rvx=x)
+=
+P_{\cald_{\rvx=x}G}(\rvy=y)
+\eeq
+
+
+\begin{claim}
+For a non-linear DEN diagram,
+
+
+
+\beq
+P(y|\cald\rvx=x)=
+E\left[
+\delta[y, y(\rvu_{!\rvx},x)]\right]
+\;.
+\eeq
+\end{claim}
+\proof
+\beqa
+P(\rvy=y|\cald\rvx=x)
+&=&
+P_{\cald_{\rvx=x}G}(\rvy=y)
+\\
+&=&\sum_{u_{!\rvx}}P(u_{!\rvx})
+P_{\cald_{\rvx=x}G}
+(\rvy=y|u_{!\rvx})
+\\
+&=&\sum_{u_{!\rvx}}P(u_{!\rvx})
+\delta[y, y(u_{!\rvx},x)]
+\\
+&=&
+E_{\rvu_{!\rvx}}
+[\delta[y, y(u_{!\rvx}, x)]]
+\\
+&=&
+E[\delta[y,y(\rvu_{!\rvx}, x)]]
+\eeqa
+\qed
+
+\begin{claim}
+For a nonlinear DEN diagram,
+
+\beq
+E[\rvy|\cald \rvx=x]=
+E[y(\rvu_{!\rvx}, x)]
+\;.
+\eeq
+\end{claim}
+\proof
+
+\beqa
+E[\rvy|\cald \rvx=x]
+&=&
+\sum_{y}
+yP(\rvy=y|\cald\rvx=x)
+\\
+&=&
+\sum_{y}
+yE[
+\delta[y, y(u_{!\rvx},x)]]
+\\
+&=&
+E[y(\rvu_{!\rvx}, x)]
+\eeqa
+\qed
+
+
+For any bnet
+\beqa
+P(y|\cald\rvx=x, z)&=&
+\frac{P(y, z|\cald\rvx=x)}
+{P(z|\cald\rvx=x)}
+=
+P_{\cald_{\rvx=x}G}(y|x, z)
+\eeqa
+
+For a nonlinear DEN diagram,
+\beq
+P(y, z|\cald\rvx=x)
+=
+\sum_{u_{!\rvx}}P(u_{!\rvx})
+\delta[y, y(u_{!\rvx},x)]
+\delta[z, z(u_{!\rvx},x)]
+\eeq
+
+\beq
+P(z|\cald\rvx=x)=
+\sum_{u_{!\rvx}}P(u_{!\rvx})
+\delta[z, z(u_{!\rvx},x)]
+\;.
+\eeq

@@ -1,18 +1,6 @@
 \chapter{Counterfactual Reasoning}
 \label{ch-counterf}
-This chapter is mostly based on 
-Ref.\cite{pearl-2019review}, a 2019
- review of causality by Pearl.
 
-This chapter
-assumes that the reader
-has read
-Chapter \ref{ch-do-calc}
-on do-calculus and
-Chapter \ref{ch-linear-sys}  
-on LDEN (linear 
-deterministic systems
-with external noise).
 
 \section{The 3 Rungs of Causal AI}
 According to 
@@ -22,7 +10,7 @@ ladder of causal AI.
 These are (as I see them):
 \begin{enumerate}
 \item
-{\bf Observing Dumbly:} Collecting 
+{\bf Observing Passively:} Collecting 
 data
 and fitting curves to it,
 without any plan 
@@ -44,12 +32,13 @@ Nature's causal connections,
 and to decide what future
 courses of action are
 more likely to succeed,
-even if there is zero
-direct data for 
-those courses of action.
+even if
+those courses of action
+are unprecedented, and have never been taken before.
 Making
-predictions based
-on zero direct data is a very Bayesian
+predictions about
+ events that have never happened (``counterfactuals")
+is a very Bayesian
 concern, well out of the purview of 
 frequentists. Nevertheless,
 humans do such
@@ -70,29 +59,65 @@ Chapter \ref{ch-do-calc}
 on do-calculus is about rung 2.
 This chapter is dedicated to rung 3.
 
+Judea Pearl 
+is fond of discussing rung 3 solely
+in terms of SCM.\footnote{SCM are 
+what we call DEN. DEN (deterministic systems
+with external noise) are discussed in
+Chapter \ref{ch-linear-sys}. }
+In this chapter,
+we define rung 3
+without using SCM, using solely
+bnets.
+This gives a more general
+version of rung 3,
+because SCM are a subset of bnets.
 
 
-\section{Two kinds of
- intervention operators}
+
+We will use the
+term {\bf intervention operator (or simply ``intervention")} 
+to refer to an operator
+that maps a bnet to another bnet.
 In Chapter \ref{ch-do-calc},
-we introduced a {\bf do operator}
-$\cald_{\rvx=x}$ (
-this is our notation for what Pearl 
+we introduced an intervention operator
+ called the {\bf do operator}
+$\cald_{\rvx=x}$ (this is our notation for what Pearl 
 symbolizes by $do(\rvx)=x$).
 The study of counterfactuals 
 requires that we
 introduce a new
-kind of intervention
+kind of intervention 
 operator that we will
-call an {\bf imagine operator}
-and denote by $\cali_{\rvx\rarrow\rva}(x)$.
+call an {\bf imagine operator},
+and denote by $\cali_{\rvx\rarrow\rvy}(\tilde{x})$.
+These 2 types of interventions will be discussed 
+in more detail next.
 
-The 2  types of
-intervention operators
-are defined 
-graphically in Fig.\ref{fig-rho-kappa}.
-\begin{itemize}
-\item
+\section{Do operator}
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.75in]
+{counterf/rho-op.png}
+\caption{Action
+of ``do" operator $\cald_{\rvx=5}$
+on node $\rvx$.} 
+\label{fig-rho-op}
+\end{figure}
+
+The do operator $\cald_{\rvx=5}$
+is defined graphically in Fig.\ref{fig-rho-op}.
+The TPM, printed in blue,
+ for node $\tilde{\rvx}$ of Fig.\ref{fig-rho-op},
+is given by
+
+\beq\color{blue}
+P(\tilde{x})=\delta(5, \tilde{x})
+\eeq
+
+
 The do operator $\cald_{\rvx=5}$
 amputates
 the incoming arrows of node $\rvx$
@@ -100,41 +125,188 @@ and sets the TPM
 of the new root node $\rvx$
 to a delta function $\delta(x, 5)$
 (or some state of $\rvx$ other than 5).
-Sometimes it is convenient,
-rather than calling the
-new node $\rvx$ like
-the old one, to call
-it by the new name $\cald\rvx$.
+Sometimes it is convenient
+to call the new node
+$\cald\rvx$
+or $\tilde{\rvx}$
+instead of calling it
+$\rvx$ like the old one.
+
+The uses of the do operator are discussed
+in detail in Chapter \ref{ch-do-calc}.
+
+\section{Imagine operator}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4in]
+{counterf/kappa.png}
+\caption{Action of ``imagine" operators 
+$\cali_{\rvx\rarrow \rvy}(5)$
+and $\cali_{\rvx\rarrow \rvy}$
+on arrow $\rvx\rarrow \rvy$.
+In this figure, $y^{nx}=[y(x)]_{\forall x\in S_\rvx}$,
+where $nx=|S_\rvx|$
+and $S_\rvx$ is the set of states of node $\rvx$.
+} 
+\label{fig-kappa}
+\end{figure}
+
+The imagine operator  $\cali_{\rvx\rarrow \rvy}(5)$
+is defined graphically in Fig.\ref{fig-kappa}.
+Note that Fig.\ref{fig-kappa}
+actually defines two types 
+on imagine operators, the general one (with an argument)
+$\cali_{\rvx\rarrow \rvy}(5)$
+and its special case (without an argument)
+$\cali_{\rvx\rarrow \rvy}$.
+The TPMs, printed in blue, 
+for various nodes in
+Fig.\ref{fig-kappa}, are as follows.
+
+
+
+\begin{itemize}
 \item
+For $\cali_{\rvx\rarrow \rvy}(\tilde{x})G$ 
+with node $\rvy^{nx}$
+\beq\color{blue}
+P(y^{nx}| a.)=\prod_{\tilde{x}}
+P(\rvy(\tilde{x})=y(\tilde{x})|a.)
+\eeq
+
+\beq\color{blue}
+P(y|y^{nx}, \tilde{x})=
+\delta(y,y(\tilde{x}))
+\eeq
+
+\item
+For $\cali_{\rvx\rarrow \rvy}(\tilde{x})G$ 
+without node $\rvy^{nx}$
+
+\beq\color{blue}
+P(y| \tilde{x}, a.)=
+P(\rvy(\tilde{x})=y|a.)
+\eeq
+
+\item
+For $\cali_{\rvx\rarrow \rvy}G$
+\beq\color{blue}
+P(y^{nx}| a.)=\prod_{\tilde{x}}
+P(\rvy(\tilde{x})=y(\tilde{x})|a.)
+\eeq
+
+\beq\color{blue}
+P(y|y^{nx}, x)=
+\delta(y,y(x))
+\eeq
+\end{itemize}
 The imagine operator 
-$\cali_{\rvx\rarrow\rvb}(5)$
+$\cali_{\rvx\rarrow\rvy}(5)$
 operates on arrows
 unlike the 
 $\cald$ operator which operates on nodes.
-$\cali_{\rvx\rarrow\rvb}(5)$
+$\cali_{\rvx\rarrow\rvy}(5)$
 deletes
-arrow $\rvx\rarrow\rvb$
+arrow $\rvx\rarrow\rvy$
 and
 creates a new root node 
-$\rvx'$
+$\tilde{\rvx}$
 and a new arrow
-$\rvx'\rarrow \rvb$. The
-TPM of the new node $\rvx'$ is a 
-delta function $\delta(x', 5)$
-(or some state of $\rvx$ other than 5).
-Sometimes it is convenient,
-rather than calling the
-new node $\rvx'$, to call
-it by the 
-more
-explicit name $\cali_\rvb\rvx$.
-\end{itemize}
+$\tilde{\rvx}\rarrow \rvy$. 
+It also creates
+a new node $\rvy^{nx}$
+and an arrow $\rvy^{nx}\rarrow \rvy$.
+Sometimes it is convenient
+to call the new node
+ $\tilde{\rvx}$
+by the more
+explicit name $\cali_\rvy\rvx$.
 
-Now that we have 
-both a do and an imagine operator,
-we realize,
-as Pearl did long ago,
-that we can create
+
+\begin{figure}[h!]
+$$
+\begin{array}{ccccc}
+\xymatrix{
+&\rvx\ar@[red][ddr]\ar[ddl]
+\\
+&&&
+\\
+\rvd\ar@[red][rr]
+&
+&\rvy\ar@[green][r]
+\ar@[green][ur]
+&
+}
+&
+\xymatrix{
+&&\rvx\ar[ddll]\ar@[red][d]
+\\
+&&[\rvy(0),\rvy(1)]\ar[d]
+&
+\\
+\rvd\ar@[red][rr]
+&
+&\rvy\ar@[green][r]
+\ar@[green][ur]
+&
+}
+\\
+\\
+G&G_+=\cali_{\rvd\rarrow\rvy}G
+\end{array}
+$$
+\caption{How 
+ imagine operator 
+arises in 
+Potential Outcomes (PO)
+theory.
+} 
+\label{fig-counterf-G-im-y0-y1}
+\end{figure}
+Fig.\ref{fig-counterf-G-im-y0-y1}
+shows how the
+imagine operator arises
+in Potential Outcomes (PO) theory.
+PO theory is discussed extensively
+in Chapter \ref{ch-pot-out}.
+As you can see, PO theory
+only uses a limited version
+of rung 3, because it uses only
+the {\it special case}
+imagine operator 
+$\cali_{\rvd\rarrow \rvy}$.
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=3.5in]
+{counterf/rho-kappa.png}
+\caption{$\cald_{\rvx=5}\cali_{\rvx\rarrow \rvy}G$
+gives a connection
+between do and imagine operators.
+} 
+\label{fig-rho-kappa}
+\end{figure}
+
+Fig.\ref{fig-rho-kappa}
+gives  a connection
+between do and imagine
+operators.
+We see
+from that figure that
+for $\cald_{\rvx=\tilde{x}}
+\cali_{\rvx\rarrow\rvy}G$, we have\footnote{In the
+notation favored by Pearl, Eq.(\ref{eq-connect-do-imag})
+ would be
+$$P(y|do(X)=\tilde{x}, a.)=P(Y_{\tilde{x}}=y|a.)$$}
+\beq
+P(y|\cald\rvx=\tilde{x}, a.)=P(\rvy(\tilde{x})=y|a.)
+\label{eq-connect-do-imag}
+\eeq
+
+
+One can define
 a {\bf do-imagine-calculus}
 whose
 objective
@@ -168,620 +340,5 @@ discuss it in this chapter (perhaps
 we  will discuss it
 in a future one).
 
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=3.5in]
-{counterf/rho-kappa.png}
-\caption{Action
-of ``do" operator $\cald_{\rvx=5}$
-on node $\rvx$
-and of ``imagine" operator 
-$\cali_{\rvx\rarrow \rvb}(5)$
-on arrow $\rvx\rarrow \rvb$.} 
-\label{fig-rho-kappa}
-\end{figure}
-
-
-\section{Do operator for DEN diagrams}
-By the end of
-this chapter,
-the two kinds of
-intervention operators
-will be applied to
-DEN diagrams.
-Let us begin that 
-journey
-by showing 
-in this section
-how
-to apply  
-the already familiar
-do operator to
-DEN diagrams.
-
-Recall that
-the structural
-equations
-for a linear DEN, as
-given
-by Eq.(\ref{eq-mat-fully-conn})
-of Chapter \ref{ch-linear-sys}, are:
-
-\beq
-\rvx=A\rvx +\rvu
-\;.
-\label{eq-struc-pre-rho}
-\eeq
-Therefore,
-
-\beq
-\rvx=(1-A)^{-1}\rvu
-\eeq
-which
-can be 
-represented for
-both linear
-and non-linear DEN
-diagrams by:
-
-\beq
-\rvx_i = x_i(\rvu.)
-\eeq 
-
-If now
-we apply the
-operator
-$\cald_{\rva=a}$
-to 
-the diagram
-described by
-the structural
-equations Eqs.\ref{eq-struc-pre-rho},
-we get the following
-new
-structural
-equations:
-
-\beq
-\rvx^*_i =\left\{
-\begin{array}{lll}
- \sum_{j<i} A_{i|j}\rvx^*_j + \rvu_i&
- \text{if $\rvx_i\neq \rva$}
-\\
-a&
-\text{if $\rvx_i=\rva$}
-\end{array}
-\right.
-\label{eq-ith-struc-post-rho}
-\;,
-\eeq
-where we are
-calling 
-$\rvx^*_i$ the
-nodes
-of the DEN 
-diagram post intervention.
-
-Eqs.(\ref{eq-ith-struc-post-rho})
-can be expressed in matrix notation
-as follows.
-Define $\pi_\rva$ to
-be the $nx\times nx$ matrix 
-with all entries equal
-to  zero
-except for the $(i_0,i_0)$ entry, which is 1.
-And define $e_\rva$
-to be the column vector
-with all entries zero
-except for the $i_0$'th one, 
-which is 1. 
-Here
-$i_0$  
-is
-defined so that $\rvx_{i_0}=\rva$.
-In other words, $\pi_\rva$ and $e_\rva$
-are defined by
-
-\beq
-(\pi_\rva)_{i,j}= \indi(i=j, \rva=\rvx_i)
-\;
-\eeq
-and
-
-\beq
-(e_\rva)_i=\indi(\rva=\rvx_i)
-\;,
-\eeq
-for $i, j\in \{0, 1, \ldots, nx-1\}$.
-Next define
-
-\beq
-\pi_{!\rva}=1-\pi_\rva
-\;,
-\eeq
-
-\beq
-A^*=\pi_{!\rva} A
-\;,
-\eeq
-and
-
-\beq
-\rvu_{!\rva}=\pi_{!\rva} \rvu
-\;.
-\eeq
-The effect
-of pre-multiplying
-the matrix
-$A$ 
-and the column vector $\rvu$ by
-$\pi_{!\rva}$
-is to leave all rows
-intact except for
-the $i_0$
-row, which is set to zero. Here
- $i_0$ is defined by
- $\rva=\rvx_{i_0}$.
-Finally,
-using 
-all
-of the
-variables just defined,
-we can express the
-structural equations
-of the linear DEN diagram,
-post intervention, as
-
-
-\beq
-\rvx^*= A^* \rvx^* + \rvu_{!\rva} +
-ae_\rva
-\;.
-\eeq
-Thus,
-
-\beq
-\rvx^*=(1-A^*)^{-1} (\rvu_{!\rva}+ae_\rva)
-\;.
-\eeq
-which
-can be 
-represented for
-both linear
-and non-linear DEN
-diagrams by:
-
-\beq
-\rvx^*_i=x^*_i(\rvu_{!\rva},a)
-\;.
-\eeq
-
-
-
-For any bnet,
-
-\beq
-P(\rvy=y|\rvx=x)
-=
-P_{G}(\rvy=y|\rvx=x)
-\eeq
-
-\beq
-P(\rvy=y|\cald\rvx=x)
-=
-P_{\cald_{\rvx=x}G}(\rvy=y)
-\eeq
-
-
-\begin{claim}
-For a non-linear DEN diagram,
-
-
-
-\beq
-P(y|\cald\rvx=x)=
-E\left[
-\delta[y, y(\rvu_{!\rvx},x)]\right]
-\;.
-\eeq
-\end{claim}
-\proof
-\beqa
-P(\rvy=y|\cald\rvx=x)
-&=&
-P_{\cald_{\rvx=x}G}(\rvy=y)
-\\
-&=&\sum_{u_{!\rvx}}P(u_{!\rvx})
-P_{\cald_{\rvx=x}G}
-(\rvy=y|u_{!\rvx})
-\\
-&=&\sum_{u_{!\rvx}}P(u_{!\rvx})
-\delta[y, y(u_{!\rvx},x)]
-\\
-&=&
-E_{\rvu_{!\rvx}}
-[\delta[y, y(u_{!\rvx}, x)]]
-\\
-&=&
-E[\delta[y,y(\rvu_{!\rvx}, x)]]
-\eeqa
-\qed
-
-\begin{claim}
-For a nonlinear DEN diagram,
-
-\beq
-E[\rvy|\cald \rvx=x]=
-E[y(\rvu_{!\rvx}, x)]
-\;.
-\eeq
-\end{claim}
-\proof
-
-\beqa
-E[\rvy|\cald \rvx=x]
-&=&
-\sum_{y}
-yP(\rvy=y|\cald\rvx=x)
-\\
-&=&
-\sum_{y}
-yE[
-\delta[y, y(u_{!\rvx},x)]]
-\\
-&=&
-E[y(\rvu_{!\rvx}, x)]
-\eeqa
-\qed
-
-
-For any bnet
-\beqa
-P(y|\cald\rvx=x, z)&=&
-\frac{P(y, z|\cald\rvx=x)}
-{P(z|\cald\rvx=x)}
-=
-P_{\cald_{\rvx=x}G}(y|x, z)
-\eeqa
-
-For a nonlinear DEN diagram,
-\beq
-P(y, z|\cald\rvx=x)
-=
-\sum_{u_{!\rvx}}P(u_{!\rvx})
-\delta[y, y(u_{!\rvx},x)]
-\delta[z, z(u_{!\rvx},x)]
-\eeq
-
-\beq
-P(z|\cald\rvx=x)=
-\sum_{u_{!\rvx}}P(u_{!\rvx})
-\delta[z, z(u_{!\rvx},x)]
-\;.
-\eeq
-
-\section{Mediation Analysis}
-In
-the previous section,
-we applied the do operator 
-to DEN diagrams.
-Mediation analysis
-is a nice example
-which applies
-both
-do and 
-imagine operators
-to DEN diagrams.
-
-
-\begin{figure}[h!]
-$$\xymatrix{
-\rvu_\rvt\ar[dd]
-&\rvu_\rvm\ar[d]
-&\rvu_\rvy\ar[dd]
-\\
-&\rvm\ar[rd]
-\\
-\rvt\ar[ru]\ar[rr]&&\rvy
-\\
-&G
-}
-\;\;\;\;\;\;\;\;\;\;\;\;
-\xymatrix{
-\rvu_\rvt\ar[dd]\ar@/^2pc/@{<-->}[r]
-&\rvu_\rvm\ar[d]\ar@/^2pc/@{<-->}[r]
-&\rvu_\rvy\ar[dd]
-\\
-&\rvm\ar[rd]
-\\
-\rvt\ar[ru]\ar[rr]&&\rvy
-\\
-&G^*
-}$$
-\caption{Graphs $G$ and $G^*$
-are used to 
-discuss mediation.
-In graph
-$G$,
-the exogenous
-variables are independent,
-whereas in graph $G^*$
-they are not.}
-\label{fig-mediation-bnets}
-\end{figure}
-
-The term ``mediation analysis"
-refers
-to  the analysis
-of the DEN diagram
-$G$
-in Fig.\ref{fig-mediation-bnets}.
-In that diagram,
-node $\rvt$ 
-influences node
-$\rvy$
-both
-directly
-and via the mediator node $\rvm$.
-The structural 
-equations for that diagram
-are of the form:
-
-\begin{subequations}
-\label{eq-struc-eqs-med}
-\beqa
-\rvt&=&\rvu_\rvt
-\\
-\rvm&=&f_\rvm(\rvt, \rvu_\rvm)
-\\
-\rvy&=&f_\rvy(\rvt, \rvm, \rvu_\rvy)
-\;.
-\eeqa
-\end{subequations}
-Thus,
-
-\beq
-\rvy=f_\rvy(u_\rvt, 
-f_\rvm(\rvu_\rvt, \rvu_\rvm), \rvu_\rvy)
-\;.
-\eeq
-
-\begin{figure}[h!]
-\centering
-\begin{tabular}{m{6cm}m{6cm}}
-$\xymatrix{
-\rvu_\rvt
-&\rvu_\rvm\ar[d]
-&\rvu_\rvy\ar[dd]
-\\
-&\rvm\ar[rd]
-\\
-\rvt=5\ar[ru]
-\ar[rr]&&\rvy
-}$
-&
-$\xymatrix{
-\rvu_\rvt\ar[dd]
-&\rvu_\rvm\ar[d]
-&\rvu_\rvy\ar[dd]
-\\
-&\rvm\ar[rd]
-\\
-\rvt\ar[ru]^{\cali(5)}
-\ar[rr]
-&&\rvy
-}$
-\\
-\\
-$\;\;\;\;\;\;\;\;
-\cald_{\rvt=5}G$
-&
-$\;\;\;\;\;\;\;\;
-\cali_{\rvt\rarrow\rvm}(5)G$
-\end{tabular}
-\caption{Graph $G$
-of Fig.\ref{fig-mediation-bnets}
-after applying do operator $\cald_{\rvt=5}$
-and imagine operator 
-$\cali_{\rvt\rarrow\rvm}(5)$.}
-\label{fig-mediation-ops-egs}
-\end{figure}
-
-If we apply
-$\cald_{\rvt=5}G$
-to Eqs.(\ref{eq-struc-eqs-med}), we get
-
-\begin{subequations}
-\label{eq-mediation-rho-egs}
-\beqa
-\rvt&=&5
-\\
-\rvm&=&f_\rvm(\rvt, \rvu_\rvm)
-\\
-\rvy&=&f_\rvy(\rvt, \rvm, \rvu_\rvy)
-\;.
-\eeqa
-\end{subequations}
-Eqs.\ref{eq-mediation-rho-egs}
-are represented graphically
-in Fig.\ref{fig-mediation-ops-egs}.
-We will often denote the  random variable
- $\rvy$ in Eqs.(\ref{eq-mediation-rho-egs})
-by the more explicit symbol 
-$\rvy_{\cald_{\rvt=5}G}$.
-Pearl often 
-refers to
-this $\rvy$ by the less explicit symbol
-$Y_5$ or $Y_5(u)$ where $Y=\rvy$
-and $u=(u_\rvm, u_\rvy)=u_{!\rvt}$.
-
-If we apply
-$\cali_{\rvt\rarrow\rvm}(5)G$
-to Eqs.(\ref{eq-struc-eqs-med}), we get
-
-\begin{subequations}
-\label{eq-mediation-kappa-egs}
-\beqa
-\rvt&=&\rvu_\rvt
-\\
-\rvm&=&f_\rvm(5, \rvu_\rvm)
-\\
-\rvy&=&f_\rvy(\rvt, \rvm, \rvu_\rvy)
-\;.
-\eeqa
-\end{subequations}
-Eqs.\ref{eq-mediation-kappa-egs}
-are represented graphically
-in Fig.\ref{fig-mediation-ops-egs}.
-We will often denote the  random variable
- $\rvy$ in Eqs.(\ref{eq-mediation-kappa-egs})
-by the more explicit symbol 
-$\rvy_{\cali_{\rvt\rarrow\rvm}(5)G}$.
- Pearl often 
-refers to
-this $\rvy$ by the less explicit symbol
-$Y_5$ or $Y_5(u)$ where $Y=\rvy$
-and $u=(u_\rvt, u_\rvm, u_\rvy)$.
-
-\hrule
-
-\begin{figure}[h!]
-\centering
-\begin{tabular}{m{6cm}m{6cm}}
-$
-\xymatrix{
-\rvu_\rvt
-&\rvu_\rvm\ar[d]
-&\rvu_\rvy\ar[dd]
-\\
-&\rvm\ar[rd]
-\\
-\rvt=t\ar[ru]
-\ar[rr]&&\rvy
-}$
-&
-$
-\xymatrix{
-\rvu_\rvt
-&\rvu_\rvm
-&\rvu_\rvy\ar[dd]
-\\
-&\rvm=m\ar[rd]
-\\
-\rvt=t
-\ar[rr]&&\rvy
-}$
-\\
-\\
-$\;\;\;\;\;\;\;\;
-\cald_{\rvt=t}G$
-&
-$\;\;\;\;\;\;\;\;
-\cald_{\rvt=t}\cald_{\rvm=m}G$
-\end{tabular}
-\caption{Graph $G$
-of Fig.\ref{fig-mediation-bnets}
-after applying the 
-do operators $\cald_{\rvt=t}$
-and
-$\cald_{\rvt=t}\cald_{\rvm=m}$.}
-\label{fig-mediation-rho}
-\end{figure}
-Define the Total Effect (TE),
-and the
-Controlled Direct Effect (CDE) by
-\beqa
-TE&=& E[
-\rvy_{\cald_{\rvt=1}G}
--\rvy_{\cald_{\rvt=0}G}
-]
-\\
-CDE(m)&=&
-E[
-\rvy_{\cald_{\rvt=1}\cald_{\rvm=m}G}
--\rvy_{\cald_{\rvt=0}\cald_{ \rvm=m}G}
-]
-\eeqa
-The two DEN diagrams
-$\cald_{\rvt=t}G$
-and
-$\cald_{\rvt=t}\cald_{\rvm=m}G$
-used in the definitions
-of $TE$ and $CDE$
-are given in Fig.\ref{fig-mediation-rho}.
-\hrule
-
-\begin{figure}[h!]
-\centering
-\begin{tabular}{m{4cm}m{3cm}}
-$
-\cali_{\rvt\rarrow\rvy}(a)
-\cali_{\rvt\rarrow\rvm}(b)G
-=$
-&
-$\xymatrix{
-\rvu_\rvt\ar[dd]
-&\rvu_\rvm\ar[d]
-&\rvu_\rvy\ar[dd]
-\\
-&\rvm\ar[rd]
-\\
-\rvt\ar[ru]^{\cali(b)}
-\ar[rr]^{\cali(a)}&&\rvy
-}$
-\end{tabular}
-\caption{
-Graph $G$
-of Fig.\ref{fig-mediation-bnets}
-after
-applying the 
-imagine operator
- $\cali$
- to arrows
-$\rvt\rarrow\rvm$ and $\rvt\rarrow\rvy$.}
-\label{fig-mediation-kappa}
-\end{figure}
-
-Let
-
-\beq
-\caly^b_a=
- E[
-\rvy_{\cali_{\rvt\rarrow\rvy}(a)
-\cali_{\rvt\rarrow\rvm}(b)G}
-]
-\eeq
-Fig.\ref{fig-mediation-kappa}
-shows the diagram 
-$\cali_{\rvt\rarrow\rvy}(a)
-\cali_{\rvt\rarrow\rvm}(b)G$
-used in
-the definition of $\caly^b_a$.
-
-
-Now define the
-Natural Direct Effect (NDE), and the
-Natural Indirect Effect (NIE)
-by
-\beqa
-NDE
-&=&\caly_1^0 - \caly_0^0
-\\
-NIE(t)
-&=&\caly_t^1 - \caly_t^0
-\;.
-\eeqa
-
-Note that
-\beqa
-NDE+NIE(1)&=&(\caly_1^0-\caly_0^0)+(\caly_1^1 - \caly_1^0)
-\\
-&=&\caly_1^1-\caly_0^0
-\\
-&=&
-TE
-\;.
-\eeqa
 
 
