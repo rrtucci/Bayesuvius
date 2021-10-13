@@ -1,18 +1,233 @@
-\chapter{Transportability: COMING SOON}
+\chapter{Transportability
+of Causal Knowledge: COMING SOON}
 \label{ch-transport}
 
-\begin{itemize}
-\item data fusion
-\item external validity
-\item hybrid models
-\item model generalization
-\item transfer learning
-\item transportability
-\end{itemize}
+
 
 
 
 Ref.\cite{pearl2011trans}
+
+book by Brady Neal \cite{book-brady-neal}
+
+
+
+Given a bnet $G$, define a
+{\bf selection diagram} $G_s$ for $s=0,1$
+as a bnet 
+formed by adding to $G$ a new root node $\rvs=s$
+and new arrows pointing
+from {\bf selector node}
+$\rvs$ to one
+or more {\bf target nodes} of $G$.
+We'll call the set 
+of target nodes 
+of $\rvs$ the {\bf target set} $T_\rvs$.
+$\rvs=0$ corresponds to population $\Sigma$
+and $\rvs=1$ to population $\Sigma^*$.
+Fig.\ref{fig-sel-dia}
+shows an example
+of a selection diagram $G_s$.
+In that figure, the target set 
+of $\rvs$ is 
+$\{\rvx, \rvz\}$.
+The TPM for the nodes in target set 
+depends on the value of $\rvs$.
+Nodes of $G_s$ not in
+the target set have the same TPM as in $G$,
+independent of the value of $\rvs$.
+All this can be generalized so as to 
+have more than one selector node,
+with the target sets
+of the selector nodes being disjoint, and such that a
+selector node
+can have more than 2 states.
+
+Transport formulas
+
+\begin{itemize}
+\item{\bf Direct Transportability 
+(aka Extrenal Validity) Formula}
+
+\begin{figure}[h!]
+$$
+\begin{array}{ccc}
+\xymatrix{
+&\rvx\ar[ld]\ar[rd]
+&\rvs=0\ar[l]
+\\
+\rvd\ar[rr]\ar@{<-->}@/_1.5pc/[rr]
+&&\rvy
+}
+&
+\;\;\;\;
+&
+\xymatrix{
+&*++[o][F*:yellow]{\rvx}\ar[rd]
+&\rvs=1\ar[l]
+\\
+*++[o][F*:yellow]{\cald\rvd=d}\ar[rr]
+\ar@{<-->}@/_1.5pc/[rr]
+&&\rvy
+}
+\\
+\\
+\\
+G&&\cald_\rvd G^*
+\end{array}
+$$
+\caption{Bnets for Direct Transportability
+(aka External Validity).
+Yellow nodes are conditioned on.}
+\label{fig-direct-trans}
+\end{figure}
+
+\begin{claim} Consider Fig.\ref{fig-direct-trans}. If 
+\beq
+\rvy\perp \rvs|\rvx, \rvd
+\;\;\;\;
+\text{in $\cald_\rvd G^*$}
+\;,
+\eeq
+then
+
+\beq
+P^*(y|\cald\rvd=d, x)=
+P(y|\cald\rvd=d, x)
+\eeq
+\end{claim}
+\proof
+\begin{align}
+P^*(y|\cald\rvd=d, x)
+&=
+P(y|\cald\rvd=d, x, \rvs=1)
+\\
+&=
+P(y|\cald\rvd=d, x)\;\text{(by Rule 1 of do-calculus)}
+\end{align}
+\qed
+\item {\bf Trivial Transportability}
+
+\begin{figure}[h!]
+$$
+\begin{array}{ccc}
+\xymatrix{
+&\rvx\ar[ld]\ar[rd]
+&\rvs=0\ar[d]
+\\
+\rvd\ar[rr]\ar@{<-->}@/_1.5pc/[rr]
+&&\rvy
+}
+&
+\;\;\;\;
+&
+\xymatrix{
+&*++[o][F*:yellow]{\rvx}\ar[rd]
+&\rvs=1\ar[d]
+\\
+*++[o][F*:yellow]{\cald\rvd=d}\ar[rr]
+\ar@{<-->}@/_1.5pc/[rr]
+&&\rvy
+}
+\\
+\\
+\\
+G&&\cald_\rvd G^*
+\end{array}
+$$
+\caption{Bnets for Trivial Transportability.
+Yellow nodes are conditioned on.}
+\label{fig-trivial-trans}
+\end{figure}
+
+\begin{claim}Consider  Fig.\ref{fig-trivial-trans}.
+
+\beq
+P^*(y|\cald \rvd=d, x)=P^*(y|d, x)
+\eeq
+\end{claim}
+\proof
+Follows from Rule 2 of do-calculus.
+\qed
+\item {\bf S-Admissible Transportability}
+
+\begin{figure}[h!]
+$$
+\begin{array}{ccc}
+\xymatrix{
+\rvs=0\ar[r]
+&\rvx\ar[d]\ar[r]
+&\rva.\ar[d]
+\\
+&\rvd\ar[r]
+\ar@{<-->}@/_1.5pc/[r]
+&\rvy
+}
+&
+\;\;\;\;
+&
+\xymatrix{
+\rvs=1\ar[r]
+&\rvx\ar[r]
+&*++[o][F*:yellow]{\rva.}\ar[d]
+\\
+&*++[o][F*:yellow]{\cald\rvd=d}\ar[r]
+\ar@{<-->}@/_1.5pc/[r]
+&\rvy
+}
+\\
+\\
+\\
+G&&\cald_\rvd G^*
+\end{array}
+$$
+\caption{Bnets for S-Admissible Transportability.
+Yellow nodes are conditioned on.}
+\label{fig-s-adm-trans}
+\end{figure}
+
+\begin{claim}
+Consider Fig.\ref{fig-s-adm-trans}.
+If $\rva.$ is a multinode 
+such that\footnote{$\rva.$ is called an s-admissible set.}
+
+\beq
+\rvy\perp \rvs|\rvd, \rva. 
+\;\;\;\text{in $\cald_\rvd G^*$}
+\;,
+\eeq
+then
+
+\beq
+P^*(y|\cald \rvd=d)=
+\sum_{a.}P(y|\cald \rvd=d, a.)P^*(a.)
+\eeq
+\end{claim} 
+\proof
+\begin{align}
+P^*(y|\cald\rvd=d)
+&=
+P(y|\cald\rvd=d, \rvs=1)
+\\
+&=
+\sum_{a.}
+P(y|\cald\rvd=d, \rvs=1, a.)P(a.|\cald\rvd=d, \rvs=1)
+\\
+&=
+\sum_{a.}
+P(y|\cald\rvd=d, \rvs=1, a.)P(a.|\rvs=1)
+\\
+&=
+\sum_{a.}
+P(y|\cald\rvd=d, \rvs=0, a.)P(a.|\rvs=1)
+\\
+&=
+\sum_{a.}
+P(y|\cald\rvd=d, a.)P^*(a.)
+\end{align}
+\qed
+
+\end{itemize}
 
 \begin{figure}[h!]
 $$
@@ -63,10 +278,12 @@ P(y|\cald \rvx=x, z)P^*(z|x)
 $$
 \end{figure}
 
+\newpage
+
 
 \begin{figure}[h!]
 $$
-\begin{array}{ll}
+\begin{array}{l}
 \xymatrix{
 \rvs\ar[r]
 &\rvz\ar[dl]\ar[dr]\ar@{<-->}@/_1pc/[dl]
@@ -74,14 +291,6 @@ $$
 \rvx\ar[rr]\ar@{<-->}@/_1pc/[rr]
 &&\rvy
 }
-&
-\begin{array}{l}
-\\
-\\
-P(y|\cald \rvx=x, s)=
-\sum_z
-P(y|\cald \rvx=x)P(z|s)
-\end{array}
 \\
 \\
 \xymatrix{
@@ -93,13 +302,6 @@ P(y|\cald \rvx=x)P(z|s)
 \rvx\ar[rr]\ar@{<-->}@/_1pc/[rr]
 &&\rvy
 }
-&
-\begin{array}{l}
-\\
-\\
-P(y|\cald \rvx=x, s)=
-P(y|\cald \rvx=x)
-\end{array}
 \\
 \xymatrix{
 \rvs\ar[rd]
@@ -110,14 +312,71 @@ P(y|\cald \rvx=x)
 &\rvz\ar[r]
 &\rvy
 }
-&
-\begin{array}{l}
-\\
-\\
-P(y|\cald \rvx=x, s)=
-\sum_z
-P(y|\cald \rvx=x, z)P(z|x, s)
-\end{array}
 \end{array}
 $$
+\end{figure}
+\newpage
+
+{\bf Observational data} is data that
+determines a probability distribution
+without do operators in it.
+ {\bf Experimental data} 
+determines a probability distribution
+ with do's in it.
+
+
+transfer causal knowledge from
+a {\bf source population} $\Sigma$ to a 
+{\bf target population} $\Sigma^*$.
+
+
+\begin{figure}
+$$
+\begin{array}{ccc}
+\xymatrix{
+&\rvx\ar[dl]\ar[dr]
+\\
+\rvy\ar[rr]
+&&\rvz
+}
+&
+\xymatrix{
+&\rvx\ar[dl]\ar[dr]
+&\rvs=0\ar[l]\ar[d]
+\\
+\rvy\ar[rr]
+&&\rvz
+}
+&
+\xymatrix{
+&\rvx\ar[dl]\ar[dr]
+&\rvs=1\ar[l]\ar[d]
+\\
+\rvy\ar[rr]
+&&\rvz
+}
+\\
+\\
+G&G_0=G
+&G_1=G^*
+\\
+\\
+P(x,y,z)
+&P(x,y,z|\rvs=0)
+&P(x,y,z|\rvs=1)
+\\
+&
+=P(x,y,z)
+&
+=P^*(x,y,z)
+\end{array}
+$$
+\caption{Example of selection bnets
+$G_0=G$ and $G_1=G^*$.
+$\rvs=0$ corresponds to population $\Sigma$
+and $\rvs=1$ to population $\Sigma^*$.
+For $G^*$, 
+$P^*(x)\neq P(x)$, $P^*(y|x)=P(y|x)$
+and $P^*(z|x,y)\neq P(z|x,y)$.}
+\label{fig-sel-dia}
 \end{figure}

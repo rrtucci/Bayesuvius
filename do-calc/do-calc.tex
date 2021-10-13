@@ -562,11 +562,11 @@ Recall also that:
 do operators.
 ($\rva.=a. \leftrightarrow 1$ )
 
+\rulezero
+$$
+\rulezeropic
+$$
 
-If 
- $(\rvb.\perp_G \rva.|\rvr.,
-\rvs.)$, then
-$P(b.|a., r., s.)=P(b.|r., s.)$
 \end{itemize}
 
 The 3 rules of do-calculus
@@ -574,7 +574,6 @@ can be presented in the same
 format. 
 
 
-\begin{color}{red}
 \begin{itemize}
 \item {\bf Rule 1:} 
 Insertion or deletion of
@@ -582,22 +581,31 @@ Insertion or deletion of
 ($\rva.=a. \leftrightarrow 1$ )
 
 \ruleone
+$$
+\ruleonepic
+$$
+
 
 \item {\bf Rule 2:} Action or 
 observation exchange 
 ($\cald \rva.=a. \leftrightarrow \rva.=a.$)
 
 \ruletwo
+$$
+\ruletwopic
+$$
 
 \item {\bf Rule 3:} Insertion and
  deletion of actions
 ($\cald \rva.=a. \leftrightarrow 1$)
 
 \rulethree
+$$
+\rulethreepic
+$$
 
 
 \end{itemize}
-\end{color}
 
 These rules have been
 proven to be 
@@ -655,7 +663,7 @@ paths
 from $\rvx$
 to $\rvy$
 containing a fork node (confounder)
-which, if not blocked by $\rvz.$, 
+which, if not blocked by conditioning on $\rvz.$, 
  would introduce a
 non-causal correlation 
 (confounder bias).
@@ -663,9 +671,9 @@ Part 2 rules out
 a directed path
 from $\rvx$ to $\rvy$
 that has a mediator node
-blocked by $\rvz.$
+blocked by conditioning on $\rvz.$
 or a collider node
-unblocked by $\rvz.$.
+unblocked by conditioning on $\rvz.$.
 
 
 
@@ -701,61 +709,60 @@ structure.
 \rvx\ar[r]&\rvy
 }
 \eeq
-\beq
-\begin{array}{lllll}
+
+\begin{longtable}{lll}
 &&\color{red}
-P(y|\cald\rvx=x)=
+$P(y|\cald\rvx=x)=$
 \\
 &=&
 \color{red}
-\sum_z
+$\sum_z
 P(y|\cald\rvx=x, z)
-P(z|\cald\rvx=x)
+P(z|\cald\rvx=x)$
 \\
-&&\text{by Probability Axioms}
+&&by Probability Axioms
 \\
 &=&\color{red}
-\sum_z 
+$\sum_z 
 P(y|x, z)
-P(z|\cald\rvx=x)
+P(z|\cald\rvx=x)$
 \\
-&&P(y|\cald \rvx=x, z)\rarrow
-P(y|x, z)
+&&$P(y|\cald \rvx=x, z)\rarrow
+P(y|x, z)$
 \\
-&& \text{ by Rule 2: \ruletwo}
+&& by Rule 2: $\ruletwopic$
 \\
 &&
-\rvy\perp \rvx|\rvz
-\text{ in }\call_\rvx G
+$\rvy\perp \rvx|\rvz
+\text{ in }\call_\rvx G$
 \;\;\;\;
-\xymatrix{
+$\xymatrix{
 {\rvz}\ar[d]\ar[rd]
 \\
 \rvx&\rvy
-}
-\\
+}$
+\\ 
 &=&\color{red}
-\sum_z 
+$\sum_z 
 P(y|x, z)
-P(z)
+P(z)$
 \\
-&&P(z|\cald \rvx=x)\rarrow
-P(z)
+&&$P(z|\cald \rvx=x)\rarrow
+P(z)$
 \\
-&& \text{ by Rule 3: \rulethree}
+&& by Rule 3: $\rulethreepic$
 \\
 &&
-\rvz\perp \rvx
-\text{ in }\cald_\rvx G
+$\rvz\perp \rvx
+\text{ in }\cald_\rvx G$
 \;\;\;\;
-\xymatrix{
+$\xymatrix{
 {\rvz}\ar[rd]
 \\
 \rvx\ar[r]&\rvy
-}
-\end{array}
-\eeq
-\qed
+}$
+\end{longtable}
+.\qed
 
 Note that the backdoor adjustment  formula
 can be written as
@@ -844,139 +851,140 @@ is hidden.
 \rvx\ar[r]&\rvm\ar[r]&\rvy
 }
 \eeq
-\beq
-\begin{array}{lllll}
-&&\color{red}
-P(y|\cald\rvx=x)=
+
+\begin{longtable}{lll}
+&&$\color{red}
+P(y|\cald\rvx=x)=$
 \\
 &=&
-\color{red}
+$\color{red}
 \sum_m 
 P(y|\cald\rvx=x, m)
-P(m|\cald\rvx=x)
+P(m|\cald\rvx=x)$
 \\
-&&\text{by Probability Axioms}
+&&by Probability Axioms
 \\
-&=&\color{red}
+&=&
+$\color{red}
 \sum_m 
 P(y|\cald\rvx=x, \cald\rvm=m)
-P(m|\cald\rvx=x)
-\\
-&&P(y|\cald\rvx=x, m)\rarrow
-P(y|\cald\rvx=x, \cald m=m)
-\\
-&& \text{ by Rule 2: \ruletwo}
+P(m|\cald\rvx=x)$
 \\
 &&
-\rvy\perp \rvm|\rvx
-\text{ in }\call_\rvm\cald_\rvx G
-\xymatrix{
+$P(y|\cald\rvx=x, m)\rarrow
+P(y|\cald\rvx=x, \cald m=m)$
+\\
+&& by Rule 2: $\ruletwopic$
+\\
+&&
+$\rvy\perp \rvm|\rvx$
+in $\call_\rvm\cald_\rvx G$
+$\xymatrix{
 &*++[F-o]{\rvc}\ar[rd]
 \\
 \rvx\ar[r]&\rvm&\rvy
-}
+}$
 \\
-&=&\color{red}
+&=&$\color{red}
 \sum_m 
 P(y|\cald\rvx=x, \cald\rvm=m)
-P(m| x)
+P(m| x)$
 \\
 &&
-P(m|\cald\rvx=x)\rarrow P(m|x)
+$P(m|\cald\rvx=x)\rarrow P(m|x)$
 \\
-&&\text{by Rule 2: \ruletwo}
+&&by Rule 2: $\ruletwopic$
 \\
 &&
-\rvm\perp\rvx
-\text{ in }
-\call_\rvx G
-\xymatrix{
+$\rvm\perp\rvx$
+ in 
+$\call_\rvx G$
+$\xymatrix{
 &*++[F-o]{\rvc}\ar[ld]\ar[rd]
 \\
 \rvx&\rvm\ar[r]&\rvy
-}
+}$
 \\
-&=&\color{red}
+&=&$\color{red}
 \sum_m 
 P(y|\cald\rvm=m)
-P(m|x)
+P(m|x)$
 \\
 &&
-P(y|\cald\rvx=x, \cald\rvm=m)
+$P(y|\cald\rvx=x, \cald\rvm=m)
 \rarrow
-P(y|\cald\rvm=m)
+P(y|\cald\rvm=m)$
 \\
-&&\text{by Rule 3: \rulethree}
+&&by Rule 3: $\rulethreepic$
 \\
 &&
-\rvy\perp\rvx|\rvm
-\text{ in }
-\cald_\rvx\cald_\rvm G
-\xymatrix{
+$\rvy\perp\rvx|\rvm$
+ in 
+$\cald_\rvx\cald_\rvm G$
+$\xymatrix{
 &*++[F-o]{\rvc}\ar[rd]
 \\
 \rvx&\rvm\ar[r]&\rvy
-}
+}$
 \\
-&=&\color{red}
+&=&$\color{red}
 \sum_{x'}
 \sum_m 
 P(y|\cald\rvm=m, x')
 P(x'|\cald\rvm=m)
-P(m|x)
+P(m|x)$
 \\
-&&\text{by Probability Axioms}
+&&by Probability Axioms
 \\
-&=&\color{red}
+&=&$\color{red}
 \sum_{x'}
 \sum_m 
 P(y|m, x')
 P(x'|\cald\rvm=m)
-P(m|x)
+P(m|x)$
 \\
 &&
-P(y|\cald\rvm=m, x')
+$P(y|\cald\rvm=m, x')
 \rarrow
-P(y|m, x')
+P(y|m, x')$
 \\
-&& \text{by Rule 2: \ruletwo}
+&& by Rule 2: $\ruletwopic$
 \\
 &&
-\rvy\perp\rvm|\rvx
-\text{ in }
-\call_\rvm G
-\xymatrix{
+$\rvy\perp\rvm|\rvx$
+in 
+$\call_\rvm G$
+$\xymatrix{
 &*++[F-o]{\rvc}\ar[rd]\ar[ld]
 \\
 \rvx\ar[r]& \rvm&\rvy
-}
+}$
 \\
-&=&\color{red}
+&=&$\color{red}
 \sum_{x'}
 \sum_m 
 P(y|m, x')
 P(x')
-P(m|x)
+P(m|x)$
 \\
 &&
-P(x'|\cald\rvm=m)
+$P(x'|\cald\rvm=m)
 \rarrow
-P(x')
+P(x')$
 \\
-&&\text{by Rule 3: \rulethree}
+&&by Rule 3: $\rulethreepic$
 \\
 &&
-\rvx\perp\rvm
-\text{ in }
-\cald_\rvm G
-\xymatrix{
+$\rvx\perp\rvm$
+ in 
+$\cald_\rvm G$
+$\xymatrix{
 &*++[F-o]{\rvc}\ar[rd]\ar[ld]
 \\
 \rvx&\rvm\ar[r]&\rvy
-}
-\end{array}
-\eeq
-\qed
+}$
+\end{longtable}
+.\qed
 
 \section{Do operator for DEN diagrams}
 
