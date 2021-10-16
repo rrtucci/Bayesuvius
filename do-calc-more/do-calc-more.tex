@@ -1,7 +1,9 @@
-\chapter{Do Calculus: more examples: COMING SOON}
+\chapter{Do Calculus: more examples COMING SOON}
 \label{ch-do-calc-more}
-\begin{claim}
-$$
+\begin{claim} (from Ref.\cite{hunermund2021})
+
+If 
+$
 \xymatrix{
 &\rvw\ar[d]\ar[ddr]\ar@/^1.5pc/@{<-->}[ddr]|\rvu
 \\
@@ -11,11 +13,20 @@ $$
 &&\rvy
 \\
 &\rve\ar[ru]\ar[lu]
+}$
+then
+\beqa
+P(y|\cald \rvc = c)&=&
+\sum_e P(y|c,e)P(e)
+\\
+&=&
+\xymatrix{
+c\ar[rr]
+&&y
+\\
+&\sum e\ar[ru]
 }
-\xymatrix{\\ \\
-\text{ satisfies }
-P(y|\cald \rvc = c)= \sum_e P(y|c,e)P(e)}
-$$
+\eeqa
 \end{claim}
 \proof
 
@@ -36,6 +47,7 @@ $
 }
 \xymatrix{
 \\
+\\
 =}
 \xymatrix{
 \\
@@ -45,12 +57,13 @@ $
 &\sum e\ar[ru]
 }$
 \\
-=
 \color{red}
-$\sum_e
+$=\sum_e
 P(y|\cald\rvc=c, e)
 P(e|\cald\rvc=c)$
 \\
+\xymatrix{
+\\=}
 $
 \xymatrix{
 \cald\rvc=c\ar[rr]
@@ -60,13 +73,34 @@ $
 &\sum e\ar[ru]
 }$
 \\
-=
 \color{red}
-$\sum_e
+$=\sum_e
+P(y|c, e)
+P(e|\cald\rvc=c)$
+\\
+\xymatrix{
+\\=}
+$
+\xymatrix{
+c\ar[rrd]
+\\
+\cald\rvc=c
+\ar[dr]
+&&y
+\\
+&\sum e\ar[ru]
+}$
+\begin{tabular}{l}\\
+by Rule 2
+\end{tabular}
+\\
+\color{red}
+$=\sum_e
 P(y|c, e)
 P(e)$
 \\
 $
+\xymatrix{\\=}
 \xymatrix{
 c\ar[rr]
 &&y
@@ -74,43 +108,49 @@ c\ar[rr]
 &\sum e\ar[ru]
 }$
 \begin{tabular}{l}\\
-Obvious since $\cald \rvc$ is a root node.\\
-Alternatively, use
-Rule 2 to  conclude\\ 
-$P(y|\cald \rvc=c,e)=
-P(y|\rvc=c,e)$\\
-and Rule  3 to 
-conclude\\ 
-$P(e|\cald \rvc=c)=P(e)$.
+by Rule 3
 \end{tabular}
 \end{longtable}
 .\qed
 
 
-\begin{claim}
-$$
+\begin{claim}(from Ref.\cite{hunermund2021})
+
+If $
 \xymatrix{
-&\rvw\ar[dl]\ar[dr]\ar[r]\ar[d]
-&\rvs
+&\rvw\ar[dl]\ar[d]
+&\rvs\ar[l]
 \\
-\rvz\ar[r]\ar@/_1.5pc/@{<-->}[rr]|{\;\rvu\;}
+\rvz\ar[r]
 &\rvx\ar[r]
 &\rvy
+}$ then
+\beqa
+P(y|\cald \rvx = x)
+&=&
+ \sum_z P(y|x,z,w,\rvs=1)
+P(z|w, \rvs=1)
+\\
+&=&
+\xymatrix{
+&\rvw=w\ar[dl]\ar[dr]
+&\rvs=1\ar[d]\ar[dll]
+\\
+\sum z \ar@/_1.5pc/[rr]
+&\rvx=x\ar[r]
+&y
 }
-\xymatrix{\\ 
-\text{ satisfies }
-P(y|\cald \rvx = x)= \sum_z P(y|x,z,w,\rvs=1)P(z|w, \rvs=1)}
-$$
+\eeqa
 \end{claim}
 \proof
 \begin{longtable}{l}
 \color{red}
 $P(y|\cald\rvx=x)=P(y|\cald\rvx=x, w, \rvs=1)$
 \\
-\xymatrix{&\sum w\ar[dl]\ar[dr]\ar[r]
-&\sum \rvs
+\xymatrix{&\sum w\ar[dl]\ar[dr]
+&\sum s \ar[l]
 \\
-\sum z\ar@/_1.5pc/@{<-->}[rr]|{\sum u}
+\sum z
 &\cald\rvx=x\ar[r]
 &y
 }
@@ -119,20 +159,15 @@ $P(y|\cald\rvx=x)=P(y|\cald\rvx=x, w, \rvs=1)$
 =
 }
 \xymatrix{
-&\rvw=w\ar[dl]\ar[dr]\ar[r]
-&\rvs=1\ar[d]
+&\rvw=w\ar[dl]\ar[dr]
+&\rvs=1\ar[l]
 \\
-\sum z\ar@/_1.5pc/@{<-->}[rr]|{\sum u}
+\sum z
 &\cald\rvx=x\ar[r]
 &y
 }
 \begin{tabular}{l}
-By Rule 1, because\\
-path
-$\rvs-\rvw-\rvz-\rvy$\\
-is blocked by
-\\
-collider $\rvz$
+by Rule 1
 \end{tabular}
 \\
 \\
@@ -140,11 +175,12 @@ collider $\rvz$
 $=\sum_z P(y|\cald\rvx=x,z,w,\rvs=1)
 P(z|\cald\rvx=x, w, \rvs=1)$
 \\
+\xymatrix{\\=}
 \xymatrix{
-&\rvw=w\ar[dl]\ar[dr]\ar[r]
-&\rvs=1\ar[d]\ar[dll]
+&\rvw=w\ar[dl]\ar[dr]
+&\rvs=1\ar[l]\ar[d]\ar[dll]
 \\
-\sum z\ar@/_1.5pc/@{<-->}[rr]|{\sum u}
+\sum z\ar@/_1.5pc/[rr]
 &\cald\rvx=x\ar[r]\ar[l]
 &y
 }
@@ -152,25 +188,78 @@ P(z|\cald\rvx=x, w, \rvs=1)$
 \\
 \color{red}
 $=\sum_z P(y|\rvx=x,z,w,\rvs=1)
+P(z|\cald\rvx=x, w, \rvs=1)$
+\\
+\xymatrix{\\=}
+\xymatrix{
+&\rvw=w\ar[dl]\ar[dr]
+&\rvs=1\ar[l]\ar[d]\ar[dll]
+\\
+\sum z\ar@/_1.5pc/[rr]
+&\cald\rvx=x\ar[l]
+&y
+\\
+&x\ar[ur]
+}
+\begin{tabular}{l}
+\\
+by Rule 2
+\end{tabular}
+\\
+\\
+\color{red}
+$=\sum_z P(y|\rvx=x,z,w,\rvs=1)
 P(z| w, \rvs=1)$
 \\
+\xymatrix{\\=}
 \xymatrix{
-&\rvw=w\ar[dl]\ar[dr]\ar[r]
+&\rvw=w\ar[dl]\ar[dr]
 &\rvs=1\ar[d]\ar[dll]
 \\
-\sum z
+\sum z \ar@/_1.5pc/[rr]
 &\rvx=x\ar[r]
 &y
 }
 \begin{tabular}{l}\\
-Obvious since $\cald \rvx$ is a root node.\\
-Alternatively, use
-Rule 2 to  conclude\\ 
-$P(y|\cald\rvx=x,z,w,\rvs=1)=
-P(y|\rvx=x,z,w,\rvs=1)$\\
-and Rule  3 to 
-conclude\\ 
-$P(z|\cald\rvx=x, w, \rvs=1)=
-P(z| w, \rvs=1)$.
+by Rule 3.
 \end{tabular}
 \end{longtable}
+
+\begin{claim}(Napkin problem from Ref.\cite{book-why})
+
+If $
+\xymatrix{
+&*++[F-o]{\rvu_1}\ar[ddl]\ar[ddrr]
+\\
+&*++[F-o]{\rvu_2}\ar[dl]\ar[dr]
+\\
+\rvw\ar[r]
+&\rvz\ar[r]
+&\rvx\ar[r]
+&\rvy
+}$ then
+\beqa
+P(y|\cald \rvx = x)
+&=&
+\eeqa
+\end{claim}
+\proof
+
+\begin{claim}(from Ref.\cite{book-why})
+
+If $
+\xymatrix{
+\rvx\ar[d]\ar[drr]
+\\
+\rvw\ar[r]
+&\rvz\ar[r]
+&\rvy
+\\
+*++[F-o]{\rvu}\ar[u]\ar[urr]
+}$ then
+\beqa
+P(y|\cald \rvx = x, \cald\rvz=z)
+&=&
+\eeqa
+\end{claim}
+\proof
