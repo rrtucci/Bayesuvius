@@ -1,0 +1,842 @@
+\chapter{Do Calculus proofs}
+\label{ch-do-calc-proofs}
+
+In Chapter \ref{ch-do-calc},
+we explained the Do Calculus
+but referred to this
+chapter for proofs 
+of claims that 
+use the Do Calculus.
+In this chapter, we've 
+aggregated
+ all proofs 
+throughout the book
+of claims that use Do Calculus.
+
+Note that even though the 3
+rules of Do Calculus
+are great for proving 
+adjustment formulas
+for general classes of DAGs,
+they are sometimes overkill
+for proving
+ adjustment formulas
+for a single specific DAG.
+After all,  the
+ 3 rules of Do Calculus
+are a consequence
+of the d-separation theorem.
+Hence, all adjustment 
+formulas should be
+provable from first principles,
+assuming only
+the d-separation theorem
+and the standard rules of
+probability.
+
+We will use the
+ following conventions.
+Random values are underlined
+and their values are not.
+For example, $\rva=a$ means 
+the random variable
+$\rva$ takes the value $a$.
+Diagrams 
+with nodes that are 
+underlined represent 
+Bayesian Networks (bnets)
+and the same diagram 
+with the letters not underlined
+represents a specific
+instantiation of that bnet.
+For example $\rva\rarrow\rvb$
+represents the bnet with 
+conditional probability distribution
+$P(b|a)$,
+whereas  $a\rarrow b$
+represents $P(b|a)$ itself.
+Thus, the identity
+
+\beqa
+P(y|x)&=& \sum_a P(y|a, x)P(a|x)
+\eeqa
+can be represented graphically
+by
+
+\beq
+\xymatrix{
+x\ar[r]
+&
+y \quad = \quad}
+\xymatrix{
+\sum a\ar[dr]
+\\
+x\ar[r]\ar[u]
+&y
+}
+\eeq
+where $\sum a$
+means the random variable
+$\rva$ is summed over.
+
+\begin{claim} (Backdoor
+Adjustment Formula)
+\label{cl-backdoor-proof}
+
+If 
+$
+\xymatrix{
+{\rvz}\ar[d]\ar[rd]
+\\
+\rvx\ar[r]&\rvy
+}$
+then
+\beqa
+P(y|\cald \rvx = x)&=&
+\sum_z
+P(y|x,z)P(z)
+\\
+&=&
+\xymatrix{
+\sum z\ar[dr]
+\\
+x\ar[r]
+&y
+}
+\eeqa
+\end{claim}
+
+\proof
+
+{\bf * Short proof:}
+\begin{longtable}{l}
+\color{red}
+$P(y|\cald\rvx=x)=\sum_z
+ P(y|\cald \rvx=x, z)P(z|\cald\rvx =x)$
+\\
+$\xymatrix{
+\sum z\ar[dr]
+\\
+\cald \rvx=x\ar[r]
+&y
+}
+\xymatrix{\\=}
+\xymatrix{
+\sum z\ar[dr]
+\\
+\cald \rvx=x\ar[r]\ar[u]
+&y
+}
+$
+\\
+\color{red}
+$=\sum_z P(y|x,z)P(z|\cald\rvx=x)$
+\\
+\xymatrix{\\=}
+\xymatrix{
+\sum z\ar[dr]
+\\
+\cald \rvx=x\ar[u]
+&y
+\\x\ar[ur]
+}
+\begin{tabular}{l}
+\\
+\\
+by Rule 2
+\end{tabular}
+\\
+\color{red}
+$=\sum_z P(y|x,z)P(z)$
+\\
+\xymatrix{\\
+=}
+\xymatrix{
+\sum z\ar[dr]
+\\
+x\ar[r]
+&y
+}
+\begin{tabular}{l}\\
+\\
+by Rule 3.
+\\
+No info transmission\\
+between $\cald\rvx$ and $\rvz$.
+\end{tabular}
+\end{longtable}
+
+
+{\bf * Long proof:}
+\begin{longtable}{l}
+\color{red}
+$P(y|\cald\rvx=x)
+=
+\sum_z
+P(y|\cald\rvx=x, z)
+P(z|\cald\rvx=x)$
+\\
+\quad by Probability Axioms
+\\
+=\color{red}
+$\sum_z 
+P(y|x, z)
+P(z|\cald\rvx=x)$
+\\
+\quad $P(y|\cald \rvx=x, z)\rarrow
+P(y|x, z)$
+\\
+\quad  by Rule 2: $\ruletwopic$
+\\
+\quad  in
+$\call_\rvx G:
+\xymatrix{
+{z}\ar[d]\ar[rd]
+\\
+\cald \rvx=x
+&y
+}
+\xymatrix{\\=}
+\xymatrix{
+{z}\ar[d]\ar[rd]
+\\
+x
+&y
+}
+$
+\\ 
+=\color{red}
+$\sum_z 
+P(y|x, z)
+P(z)$
+\\
+\quad $P(z|\cald \rvx=x)\rarrow
+P(z)$
+\\
+\quad  by Rule 3: $\rulethreepic$
+\\
+\quad in
+$\cald_\rvx G:
+\xymatrix{
+{z}\ar[rd]
+\\
+\cald\rvx=x\ar[r]
+&y
+}\xymatrix{\\=}
+\xymatrix{
+{z}\ar[rd]
+\\
+&y
+}
+$
+\end{longtable}
+.\qed
+
+
+\begin{claim} (Frontdoor
+Adjustment Formula)
+\label{cl-frontdoor-proof}
+
+If 
+$
+\xymatrix{
+&*++[F-o]{\rvc}\ar[ld]\ar[rd]
+\\
+\rvx\ar[r]&\rvm\ar[r]&\rvy
+}$
+then
+\beqa
+P(y|\cald \rvx = x)&=&
+\sum_m
+\left[
+\sum_{x'}P(y|x',m)P(x')
+\right]P(m|x)
+\\
+&=&
+\xymatrix{
+&\sum x'\ar[dr]
+\\
+x´\ar[r]
+&\sum m\ar[r]&y
+}
+\eeqa
+\end{claim}
+
+\proof
+
+
+{\bf * Short proof:}
+\\
+\begin{longtable}{l}
+$\color{red}
+P(y|\cald\rvx=x)=
+\sum_m 
+P(y|\cald\rvx=x, m)
+P(m|\cald\rvx=x)$
+\\
+\\
+\xymatrix{
+&*++[F-o]{\sum c}\ar[rd]
+\\
+\cald \rvx=x\ar[r]
+&\sum m\ar[r]
+&y
+}
+\xymatrix{\\=}
+\xymatrix{
+&
+\\
+\cald \rvx=x\ar[r]\ar@/_1.2pc/[rr]
+&\sum m\ar[r]
+&y
+}
+\\
+\\
+$\color{red}=
+\sum_m 
+P(y|\cald\rvx=x, \cald\rvm=m)
+P(m|\cald\rvx=x)$
+\\
+\xymatrix{\\=\sum_m }
+\xymatrix{
+\cald \rvx=x\ar[r]\ar@/_1.2pc/[rr]
+&m&y
+\\
+&\cald\rvm=m\ar[ru]
+}
+\begin{tabular}{l}
+\\
+by Rule 2
+\end{tabular}
+\\
+$\color{red}=
+\sum_m 
+P(y|\cald\rvx=x, \cald\rvm=m)
+P(m| x)$
+\\
+\xymatrix{\\=\sum_m }
+\xymatrix{
+\cald\rvx=x\ar@/_1pc/[rr]
+&m
+&y
+\\
+x\ar[ru]
+&\cald\rvm=m\ar[ru]
+}
+\begin{tabular}{l}
+\\
+by Rule 2
+\end{tabular}
+\\
+$\color{red}=
+\sum_m 
+P(y|\cald\rvm=m)
+P(m|x)$
+\\
+\xymatrix{\\=\sum_m }
+\xymatrix{
+&m
+&y
+\\
+x\ar[ru]
+&\cald\rvm=m\ar[ru]
+}
+\begin{tabular}{l}
+\\
+by Rule 3.\\
+No info transmission\\
+between $\cald\rvx$ and $\rvy$\\
+if condition on $\cald \rvm$.
+\end{tabular}
+\\
+$\color{red}=
+\sum_{x'}
+\sum_m 
+P(y|\cald\rvm=m, x')
+P(x'|\cald\rvm=m)
+P(m|x)$
+\\
+\xymatrix{\\=\sum_m}
+\xymatrix{
+&m
+&y
+\\
+x\ar[ru]
+&\cald\rvm=m\ar[ru]\ar[r]
+&\sum x'\ar[u]
+}
+\\
+$\color{red}=
+\sum_{x'}
+\sum_m 
+P(y|m, x')
+P(x'|\cald\rvm=m)
+P(m|x)$
+\\
+\xymatrix{\\=\sum_m}
+\xymatrix{
+&m\ar[r]
+&y
+\\
+x\ar[ru]
+&\cald\rvm=m\ar[r]
+&\sum x'\ar[u]
+}
+\begin{tabular}{l}
+\\
+by Rule 2
+\end{tabular}
+\\
+$\color{red}=
+\sum_{x'}
+\sum_m 
+P(y|m, x')
+P(x')
+P(m|x)$
+\\
+\xymatrix{\\=}
+\xymatrix{
+&\sum m\ar[r]
+&y
+\\
+x\ar[ru]
+&&\sum x'\ar[u]
+}
+\begin{tabular}{l}
+\\
+by Rule 3.
+\\
+No info transmission\\
+between $\cald\rvm$ and $\rvx'$.
+\end{tabular}
+\end{longtable}
+
+
+
+{\bf * Long proof:}
+\begin{longtable}{l}
+$\color{red}
+P(y|\cald\rvx=x)=
+\sum_m 
+P(y|\cald\rvx=x, m)
+P(m|\cald\rvx=x)$
+\\
+\quad by Probability Axioms
+\\
+$\color{red}=
+\sum_m 
+P(y|\cald\rvx=x, \cald\rvm=m)
+P(m|\cald\rvx=x)$
+\\
+\quad $P(y|\cald\rvx=x, m)\rarrow
+P(y|\cald\rvx=x, \cald m=m)$
+\\
+\quad by Rule 2: $\ruletwopic$
+\\
+\quad in $\call_\rvm\cald_\rvx G:$
+$\xymatrix{
+&*++[F-o]{c}\ar[rd]
+\\
+\cald \rvx=x\ar[r]
+&\cald \rvm=m
+&y
+}
+\xymatrix{\\=}
+\xymatrix{
+&*++[F-o]{c}\ar[rd]
+\\
+\cald\rvx=x\ar[r]&m&y
+}$
+\\
+$\color{red}=
+\sum_m 
+P(y|\cald\rvx=x, \cald\rvm=m)
+P(m| x)$
+\\
+\quad $P(m|\cald\rvx=x)\rarrow P(m|x)$
+\\
+\quad by Rule 2: $\ruletwopic$
+\\
+\quad in $\call_\rvx G:$
+$\xymatrix{
+&*++[F-o]{c}\ar[ld]\ar[rd]
+\\
+\cald\rvx=x&m\ar[r]&\rvy
+}
+\xymatrix{\\=}
+\xymatrix{
+&*++[F-o]{c}\ar[ld]\ar[rd]
+\\
+x&m\ar[r]&\rvy
+}$
+\\
+$\color{red}=
+\sum_m 
+P(y|\cald\rvm=m)
+P(m|x)$
+\\
+\quad $P(y|\cald\rvx=x, \cald\rvm=m)
+\rarrow
+ P(y|\cald\rvm=m)$
+\\
+\quad by Rule 3: $\rulethreepic$
+\\
+\quad 
+ in 
+$\cald_\rvx\cald_\rvm G:$
+$\xymatrix{
+&*++[F-o]{c}\ar[rd]
+\\
+\cald\rvx=x&\cald\rvm=m\ar[r]&\rvy
+}\xymatrix{\\=}
+\xymatrix{
+&*++[F-o]{c}\ar[rd]
+\\
+&m\ar[r]&\rvy
+}
+$
+\\
+$\color{red}=
+\sum_{x'}
+\sum_m 
+P(y|\cald\rvm=m, x')
+P(x'|\cald\rvm=m)
+P(m|x)$
+\\
+\quad by Probability Axioms
+\\
+$\color{red}=
+\sum_{x'}
+\sum_m 
+P(y|m, x')
+P(x'|\cald\rvm=m)
+P(m|x)$
+\\
+\quad $P(y|\cald\rvm=m, x')
+\rarrow
+\quad P(y|m, x')$
+\\
+\quad by Rule 2: $\ruletwopic$
+\\
+\quad
+in 
+$\call_\rvm G:$
+$\xymatrix{
+&*++[F-o]{c}\ar[rd]\ar[ld]
+\\
+x\ar[r]
+&\cald\rvm= m
+&y
+}
+\xymatrix{\\=}
+\xymatrix{
+&*++[F-o]{c}\ar[rd]\ar[ld]
+\\
+x\ar[r]
+& m
+&y
+}
+$
+\\
+$\color{red}=
+\sum_{x'}
+\sum_m 
+P(y|m, x')
+P(x')
+P(m|x)$
+\\
+\quad $P(x'|\cald\rvm=m)
+\rarrow
+P(x')$
+\\
+\quad by Rule 3: $\rulethreepic$
+\\
+\quad
+ in 
+$\cald_\rvm G:$
+$\xymatrix{
+&*++[F-o]{c}\ar[rd]\ar[ld]
+\\
+x
+&\cald\rvm=m\ar[r]
+&y
+}
+\xymatrix{\\=}
+\xymatrix{
+&*++[F-o]{c}\ar[rd]\ar[ld]
+\\
+x
+&m\ar[r]
+&y
+}
+$
+\end{longtable}
+.\qed
+
+
+\begin{claim} (from Ref.\cite{hunermund2021})
+
+If 
+$
+\xymatrix{
+&\rvw\ar[d]\ar[ddr]\ar@/^1.5pc/@{<-->}[ddr]|\rvu
+\\
+&\rvh\ar[dr]
+\\
+\rvc\ar[rr]\ar[uur]\ar@/_1.5pc/@{<-->}[dr]
+&&\rvy
+\\
+&\rve\ar[ru]\ar[lu]
+}$
+then
+\beqa
+P(y|\cald \rvc = c)&=&
+\sum_e P(y|c,e)P(e)
+\\
+&=&
+\xymatrix{
+c\ar[rr]
+&&y
+\\
+&\sum e\ar[ru]
+}
+\eeqa
+\end{claim}
+\proof
+\\
+\begin{longtable}{l}
+\color{red}
+$P(y|\cald\rvc=c)=$
+\\
+$
+\xymatrix{
+&\sum w\ar[d]\ar[ddr]\ar@/^1.5pc/@{<-->}[ddr]|{\sum u}
+\\
+&\sum h\ar[dr]
+\\
+\cald\rvc=c\ar[rr]\ar[uur]
+&&y
+\\
+&\sum e\ar[ru]
+}
+\xymatrix{
+\\
+\\
+=}
+\xymatrix{
+\\
+\cald\rvc=c\ar[rr]
+&&y
+\\
+&\sum e\ar[ru]
+}$
+\\
+\color{red}
+$=\sum_e
+P(y|\cald\rvc=c, e)
+P(e|\cald\rvc=c)$
+\\
+\xymatrix{
+\\=}
+$
+\xymatrix{
+\cald\rvc=c\ar[rr]
+\ar[dr]
+&&y
+\\
+&\sum e\ar[ru]
+}$
+\\
+\color{red}
+$=\sum_e
+P(y|c, e)
+P(e|\cald\rvc=c)$
+\\
+\xymatrix{
+\\=}
+$
+\xymatrix{
+c\ar[rrd]
+\\
+\cald\rvc=c
+\ar[dr]
+&&y
+\\
+&\sum e\ar[ru]
+}$
+\begin{tabular}{l}\\
+by Rule 2
+\end{tabular}
+\\
+\color{red}
+$=\sum_e
+P(y|c, e)
+P(e)$
+\\
+$
+\xymatrix{\\=}
+\xymatrix{
+c\ar[rr]
+&&y
+\\
+&\sum e\ar[ru]
+}$
+\begin{tabular}{l}\\
+by Rule 3
+\end{tabular}
+\end{longtable}
+.\qed
+
+
+\begin{claim}(from Ref.\cite{hunermund2021})
+
+If $
+\xymatrix{
+&\rvw\ar[dl]\ar[d]
+&\rvs\ar[l]
+\\
+\rvz\ar[r]
+&\rvx\ar[r]
+&\rvy
+}$ then
+\beqa
+P(y|\cald \rvx = x)
+&=&
+ \sum_z P(y|x,z,w,\rvs=1)
+P(z|w, \rvs=1)
+\\
+&=&
+\xymatrix{
+&\rvw=w\ar[dl]\ar[dr]
+&\rvs=1\ar[d]\ar[dll]
+\\
+\sum z \ar@/_1.5pc/[rr]
+&\rvx=x\ar[r]
+&y
+}
+\eeqa
+\end{claim}
+\proof
+\begin{longtable}{l}
+\color{red}
+$P(y|\cald\rvx=x)=P(y|\cald\rvx=x, w, \rvs=1)$
+\\
+\xymatrix{&\sum w\ar[dl]\ar[dr]
+&\sum s \ar[l]
+\\
+\sum z
+&\cald\rvx=x\ar[r]
+&y
+}
+\xymatrix{
+\\
+=
+}
+\xymatrix{
+&\rvw=w\ar[dl]\ar[dr]
+&\rvs=1\ar[l]
+\\
+\sum z
+&\cald\rvx=x\ar[r]
+&y
+}
+\begin{tabular}{l}
+by Rule 1
+\end{tabular}
+\\
+\\
+\color{red}
+$=\sum_z P(y|\cald\rvx=x,z,w,\rvs=1)
+P(z|\cald\rvx=x, w, \rvs=1)$
+\\
+\xymatrix{\\=}
+\xymatrix{
+&\rvw=w\ar[dl]\ar[dr]
+&\rvs=1\ar[l]\ar[d]\ar[dll]
+\\
+\sum z\ar@/_1.5pc/[rr]
+&\cald\rvx=x\ar[r]\ar[l]
+&y
+}
+\\
+\\
+\color{red}
+$=\sum_z P(y|\rvx=x,z,w,\rvs=1)
+P(z|\cald\rvx=x, w, \rvs=1)$
+\\
+\xymatrix{\\=}
+\xymatrix{
+&\rvw=w\ar[dl]\ar[dr]
+&\rvs=1\ar[l]\ar[d]\ar[dll]
+\\
+\sum z\ar@/_1.5pc/[rr]
+&\cald\rvx=x\ar[l]
+&y
+\\
+&x\ar[ur]
+}
+\begin{tabular}{l}
+\\
+by Rule 2
+\end{tabular}
+\\
+\\
+\color{red}
+$=\sum_z P(y|\rvx=x,z,w,\rvs=1)
+P(z| w, \rvs=1)$
+\\
+\xymatrix{\\=}
+\xymatrix{
+&\rvw=w\ar[dl]\ar[dr]
+&\rvs=1\ar[d]\ar[dll]
+\\
+\sum z \ar@/_1.5pc/[rr]
+&\rvx=x\ar[r]
+&y
+}
+\begin{tabular}{l}\\
+by Rule 3.
+\end{tabular}
+\end{longtable}
+
+\begin{claim}(Napkin problem from Ref.\cite{book-why})
+
+If $
+\xymatrix{
+&*++[F-o]{\rvu_1}\ar[ddl]\ar[ddrr]
+\\
+&*++[F-o]{\rvu_2}\ar[dl]\ar[dr]
+\\
+\rvw\ar[r]
+&\rvz\ar[r]
+&\rvx\ar[r]
+&\rvy
+}$ then
+\beqa
+P(y|\cald \rvx = x)
+&=&
+\eeqa
+\end{claim}
+\proof
+coming soon
+\qed
+\begin{claim}(from Ref.\cite{book-why})
+
+If $
+\xymatrix{
+\rvx\ar[d]\ar[drr]
+\\
+\rvw\ar[r]
+&\rvz\ar[r]
+&\rvy
+\\
+*++[F-o]{\rvu}\ar[u]\ar[urr]
+}$ then
+\beqa
+P(y|\cald \rvx = x, \cald\rvz=z)
+&=&
+\eeqa
+\end{claim}
+\proof
+coming soon
+\qed
