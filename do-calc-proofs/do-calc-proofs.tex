@@ -250,7 +250,7 @@ Adjustment Formula)
 If
 $
 \xymatrix{
-&*++[F-o]{\rvc}\ar[ld]\ar[rd]
+&{\rvc}\ar[ld]\ar[rd]
 \\
 \rvx\ar[r]&\rvm\ar[r]&\rvy
 }$
@@ -259,7 +259,7 @@ then
 P(y|\cald \rvx = x)=
 \sum_m
 \left[
-\sum_{x'}P(y|x',m)P(x')
+\sum_{c}P(y|c,m)P(c)
 \right]P(m|x)
 \eeq
 
@@ -269,7 +269,7 @@ P(y|\cald \rvx = x)=
 &y
 \quad=\quad}
 \xymatrix{
-&\sum x'\ar[dr]
+&\sum c\ar[dr]
 \\
 x´\ar[r]
 &\sum m\ar[r]&y
@@ -285,13 +285,13 @@ x´\ar[r]
 \begin{longtable}{l}
 $\color{red}
 P(y|\cald\rvx=x)=
-\sum_m
-P(y|\cald\rvx=x, m)
+\sum_{m,c}
+P(y|\cald\rvx=x, m, c)
 P(m|\cald\rvx=x)$
 \\
 \\
 \xymatrix{
-&*++[F-o]{\sum c}\ar[rd]
+&{\sum c}\ar[rd]
 \\
 \cald \rvx=x\ar[r]
 &\sum m\ar[r]
@@ -299,7 +299,7 @@ P(m|\cald\rvx=x)$
 }
 \xymatrix{\\=}
 \xymatrix{
-&
+&{\sum c}\ar[rd]
 \\
 \cald \rvx=x\ar[r]\ar@/_1.2pc/[rr]_0
 &\sum m\ar[r]
@@ -308,12 +308,14 @@ P(m|\cald\rvx=x)$
 \\
 \\
 $\color{red}=
-\sum_m
-P(y|\cald\rvx=x, \cald\rvm=m)
+\sum_{m,c}
+P(y|\cald\rvx=x, \cald\rvm=m, c)
 P(m|\cald\rvx=x)$
 \\
 \xymatrix{\\=\sum_m }
 \xymatrix{
+&{\sum c}\ar[rd]
+\\
 \cald \rvx=x\ar[r]\ar@/_1.2pc/[rr]_0
 &m&y
 \\
@@ -325,12 +327,14 @@ by Rule 2
 \end{tabular}
 \\
 $\color{red}=
-\sum_m
-P(y|\cald\rvx=x, \cald\rvm=m)
+\sum_{m,c}
+P(y|\cald\rvx=x, \cald\rvm=m, c)
 P(m| x)$
 \\
 \xymatrix{\\=\sum_m }
 \xymatrix{
+&\sum c\ar[dr]
+\\
 \cald\rvx=x\ar@/_1pc/[rr]_0
 &m
 &y
@@ -344,12 +348,14 @@ by Rule 2
 \end{tabular}
 \\
 $\color{red}=
-\sum_m
-P(y|\cald\rvm=m)
+\sum_{m,c}
+P(y|\cald\rvm=m, c)
 P(m|x)$
 \\
 \xymatrix{\\=\sum_m }
 \xymatrix{
+&\sum c\ar[dr]
+\\
 &m
 &y
 \\
@@ -357,7 +363,6 @@ x\ar[ru]
 &\cald\rvm=m\ar[ru]
 }
 \begin{tabular}{l}
-\\
 by Rule 3.\\
 No info transmission\\
 between $\cald\rvx$ and $\rvy$\\
@@ -365,37 +370,37 @@ if condition on $\cald \rvm$.
 \end{tabular}
 \\
 $\color{red}=
-\sum_{x'}
-\sum_m
-P(y|\cald\rvm=m, x')
-P(x'|\cald\rvm=m)
+\sum_{m,c}
+P(y|\cald\rvm=m, c)
+P(c|\cald\rvm=m)
 P(m|x)$
 \\
 \xymatrix{\\=\sum_m}
 \xymatrix{
+&\sum c\ar[dr]
+\\
 &m
 &y
 \\
 x\ar[ru]
-&\cald\rvm=m\ar[ru]\ar[r]_0
-&\sum x'\ar[u]
+&\cald\rvm=m\ar[ru]\ar@/_2pc/[uu]_0
 }
 \\
 $\color{red}=
-\sum_{x'}
-\sum_m
-P(y|m, x')
-P(x'|\cald\rvm=m)
+\sum_{m,c}
+P(y|m, c)
+P(c|\cald\rvm=m)
 P(m|x)$
 \\
 \xymatrix{\\=\sum_m}
 \xymatrix{
+&\sum c\ar[dr]
+&\cald\rvm=m\ar[l]^0
+\\
 &m\ar[r]
 &y
 \\
 x\ar[ru]
-&\cald\rvm=m\ar[r]_0
-&\sum x'\ar[u]
 }
 \begin{tabular}{l}
 \\
@@ -403,26 +408,24 @@ by Rule 2
 \end{tabular}
 \\
 $\color{red}=
-\sum_{x'}
-\sum_m
-P(y|m, x')
-P(x')
+\sum_{m,c}
+P(y|m, c)
+P(c)
 P(m|x)$
 \\
 \xymatrix{\\=}
 \xymatrix{
-&\sum m\ar[r]
-&y
+&\sum c\ar[dr]
 \\
-x\ar[ru]
-&&\sum x'\ar[u]
+x\ar[r]&\sum m\ar[r]
+&y
 }
 \begin{tabular}{l}
 \\
 by Rule 3.
 \\
 No info transmission\\
-between $\cald\rvm$ and $\rvx'$.
+between $\cald\rvm$ and $\rvc$.
 \end{tabular}
 \end{longtable}
 
@@ -450,7 +453,7 @@ P(y|\cald\rvx=x, \cald m=m)$
 \\
 \quad in $\call_\rvm\cald_\rvx G:$
 $\xymatrix{
-&*++[F-o]{c}\ar[rd]
+&{c}\ar[rd]
 \\
 \cald \rvx=x\ar[r]
 &\cald \rvm=m
@@ -458,7 +461,7 @@ $\xymatrix{
 }
 \xymatrix{\\=}
 \xymatrix{
-&*++[F-o]{c}\ar[rd]
+&{c}\ar[rd]
 \\
 \cald\rvx=x\ar[r]&m&y
 }$
@@ -474,13 +477,13 @@ P(m| x)$
 \\
 \quad in $\call_\rvx G:$
 $\xymatrix{
-&*++[F-o]{c}\ar[ld]\ar[rd]
+&{c}\ar[ld]\ar[rd]
 \\
 \cald\rvx=x&m\ar[r]&\rvy
 }
 \xymatrix{\\=}
 \xymatrix{
-&*++[F-o]{c}\ar[ld]\ar[rd]
+&{c}\ar[ld]\ar[rd]
 \\
 x&m\ar[r]&\rvy
 }$
@@ -500,36 +503,36 @@ P(m|x)$
  in
 $\cald_\rvx\cald_\rvm G:$
 $\xymatrix{
-&*++[F-o]{c}\ar[rd]
+&{c}\ar[rd]
 \\
 \cald\rvx=x&\cald\rvm=m\ar[r]&\rvy
 }\xymatrix{\\=}
 \xymatrix{
-&*++[F-o]{c}\ar[rd]
+&{c}\ar[rd]
 \\
 &m\ar[r]&\rvy
 }
 $
 \\
 $\color{red}=
-\sum_{x'}
+\sum_{c}
 \sum_m
-P(y|\cald\rvm=m, x')
-P(x'|\cald\rvm=m)
+P(y|\cald\rvm=m, c)
+P(c|\cald\rvm=m)
 P(m|x)$
 \\
 \quad by Probability Axioms
 \\
 $\color{red}=
-\sum_{x'}
+\sum_{c}
 \sum_m
-P(y|m, x')
-P(x'|\cald\rvm=m)
+P(y|m, c)
+P(c|\cald\rvm=m)
 P(m|x)$
 \\
-\quad $P(y|\cald\rvm=m, x')
+\quad $P(y|\cald\rvm=m, c)
 \rarrow
-\quad P(y|m, x')$
+\quad P(y|m, c)$
 \\
 \quad by Rule 2: $\ruletwopic$
 \\
@@ -537,7 +540,7 @@ P(m|x)$
 in
 $\call_\rvm G:$
 $\xymatrix{
-&*++[F-o]{c}\ar[rd]\ar[ld]
+&{c}\ar[rd]\ar[ld]
 \\
 x\ar[r]
 &\cald\rvm= m
@@ -545,7 +548,7 @@ x\ar[r]
 }
 \xymatrix{\\=}
 \xymatrix{
-&*++[F-o]{c}\ar[rd]\ar[ld]
+&{c}\ar[rd]\ar[ld]
 \\
 x\ar[r]
 & m
@@ -554,15 +557,15 @@ x\ar[r]
 $
 \\
 $\color{red}=
-\sum_{x'}
+\sum_{c}
 \sum_m
-P(y|m, x')
-P(x')
+P(y|m, c)
+P(c)
 P(m|x)$
 \\
-\quad $P(x'|\cald\rvm=m)
+\quad $P(c|\cald\rvm=m)
 \rarrow
-P(x')$
+P(c)$
 \\
 \quad by Rule 3: $\rulethreepic$
 \\
@@ -570,7 +573,7 @@ P(x')$
  in
 $\cald_\rvm G:$
 $\xymatrix{
-&*++[F-o]{c}\ar[rd]\ar[ld]
+&{c}\ar[rd]\ar[ld]
 \\
 x
 &\cald\rvm=m\ar[r]
@@ -578,7 +581,7 @@ x
 }
 \xymatrix{\\=}
 \xymatrix{
-&*++[F-o]{c}\ar[rd]\ar[ld]
+&{c}\ar[rd]\ar[ld]
 \\
 x
 &m\ar[r]
@@ -598,24 +601,24 @@ $
 \\
 &\rvh\ar[dr]
 \\
-\rvc\ar[rr]\ar[uur]\ar@/_1.5pc/@{<-->}[dr]
+\rvx\ar[rr]\ar[uur]\ar@/_1.5pc/@{<-->}[dr]
 &&\rvy
 \\
 &\rve\ar[ru]\ar[lu]
 }$
 then
 \beq
-P(y|\cald \rvc = c)=
-\sum_e P(y|c,e)P(e)
+P(y|\cald \rvx = x)=
+\sum_e P(y|x,e)P(e)
 \eeq
 
 \beq
 \xymatrix{
-\cald\rvc=c\ar[r]
+\cald\rvx=x\ar[r]
 &y
 \quad=\quad}
 \xymatrix{
-c\ar[rr]
+x\ar[rr]
 &&y
 \\
 &\sum e\ar[ru]
@@ -626,7 +629,7 @@ c\ar[rr]
 \\
 \begin{longtable}{l}
 \color{red}
-$P(y|\cald\rvc=c)=$
+$P(y|\cald\rvx=x)=$
 \\
 $
 \xymatrix{
@@ -634,7 +637,7 @@ $
 \\
 &\sum h\ar[dr]
 \\
-\cald\rvc=c\ar[rr]\ar[uur]
+\cald\rvx=x\ar[rr]\ar[uur]
 &&y
 \\
 &\sum e\ar[ru]
@@ -645,7 +648,7 @@ $
 =}
 \xymatrix{
 \\
-\cald\rvc=c\ar[rr]
+\cald\rvx=x\ar[rr]
 &&y
 \\
 &\sum e\ar[ru]
@@ -653,14 +656,14 @@ $
 \\
 \color{red}
 $=\sum_e
-P(y|\cald\rvc=c, e)
-P(e|\cald\rvc=c)$
+P(y|\cald\rvx=x, e)
+P(e|\cald\rvx=x)$
 \\
 \xymatrix{
 \\=}
 $
 \xymatrix{
-\cald\rvc=c\ar[rr]
+\cald\rvx=x\ar[rr]
 \ar[dr]_0
 &&y
 \\
@@ -669,16 +672,16 @@ $
 \\
 \color{red}
 $=\sum_e
-P(y|c, e)
-P(e|\cald\rvc=c)$
+P(y|x, e)
+P(e|\cald\rvx=x)$
 \\
 \xymatrix{
 \\=}
 $
 \xymatrix{
-c\ar[rrd]
+x\ar[rrd]
 \\
-\cald\rvc=c
+\cald\rvx=x
 \ar[dr]_0
 &&y
 \\
@@ -690,22 +693,22 @@ by Rule 2
 \\
 \color{red}
 $=\sum_e
-P(y|c, e)
+P(y|x, e)
 P(e)$
 \\
 $
 \xymatrix{\\=}
 \xymatrix{
-c\ar[rr]
+x\ar[rr]
 &&y
 \\
 &\sum e\ar[ru]
 }$
 \begin{tabular}{l}\\
 by Rule 3.
-\\ No information 
+\\ No information
 transmission\\
-between $\cald \rvc$
+between $\cald \rvx$
 and $\rve$.
 \end{tabular}
 \end{longtable}
