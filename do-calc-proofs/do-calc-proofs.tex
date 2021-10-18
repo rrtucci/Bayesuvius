@@ -17,18 +17,18 @@ of claims that use Do Calculus.
 Note that even though the 3
 rules of Do Calculus
 are great for proving
-adjustment formulas
+adjustment formulae
 for general classes of DAGs,
 they are sometimes overkill
 for proving
- adjustment formulas
+ adjustment formulae
 for a single specific DAG.
 After all,  the
  3 rules of Do Calculus
 are a consequence
 of the d-separation theorem.
 Hence, all adjustment
-formulas should be
+formulae should be
 provable from first principles,
 assuming only
 the d-separation theorem
@@ -75,14 +75,26 @@ y \quad = \quad}
 x\ar[r]\ar[u]
 &y
 }
+\label{eq-proofs-nonroot}
 \eeq
 where $\sum a$
 means the random variable
 $\rva$ is summed over.
 
+If $\rva$ is a root node,
+then $\sum a$ signifies
+a weighted sum $\sum_a P(a)$. 
+For example, $\sum a\rarrow b=\sum_a P(a)P(b|a)$.
+If $\rva$ is not 
+a root node
+as in Eq.(\ref{eq-proofs-nonroot}), then 
+$\sum a$ signifies
+an unweighted sum $\sum_a$.
+
 Unobserved nodes are
 indicated by enclosing them
-in a dashed circle.
+in a dashed circle. For example,
+$\xymatrix{*++[F-o]{u}}$.
 
 \begin{claim} (Backdoor
 Adjustment Formula)
@@ -245,7 +257,7 @@ Adjustment Formula)
 If
 $
 \xymatrix{
-&{\rvc}\ar[ld]\ar[rd]
+&*++[F-o]{\rvc}\ar[ld]\ar[rd]
 \\
 \rvx\ar[r]&\rvm\ar[r]&\rvy
 }$
@@ -254,7 +266,7 @@ then
 P(y|\cald \rvx = x)=
 \sum_m
 \left[
-\sum_{c}P(y|c,m)P(c)
+\sum_{x'}P(y|x',m)P(x')
 \right]P(m|x)
 \eeq
 
@@ -264,7 +276,7 @@ P(y|\cald \rvx = x)=
 &y
 \quad=\quad}
 \xymatrix{
-&\sum c\ar[dr]
+&\sum x'\ar[dr]
 \\
 x´\ar[r]
 &\sum m\ar[r]&y
@@ -280,13 +292,13 @@ x´\ar[r]
 \begin{longtable}{l}
 $\color{red}
 P(y|\cald\rvx=x)=
-\sum_{m,c}
-P(y|\cald\rvx=x, m, c)
+\sum_{m}
+P(y|\cald\rvx=x, m)
 P(m|\cald\rvx=x)$
 \\
 \\
 \xymatrix{
-&{\sum c}\ar[rd]
+&*++[F-o]{\sum c}\ar[rd]
 \\
 \cald \rvx=x\ar[r]
 &\sum m\ar[r]
@@ -294,23 +306,18 @@ P(m|\cald\rvx=x)$
 }
 \xymatrix{\\=}
 \xymatrix{
-&{\sum c}\ar[rd]
-\\
 \cald \rvx=x\ar[r]\ar@/_1.2pc/[rr]_0
 &\sum m\ar[r]
 &y
 }
 \\
-\\
 $\color{red}=
-\sum_{m,c}
-P(y|\cald\rvx=x, \cald\rvm=m, c)
+\sum_{m}
+P(y|\cald\rvx=x, \cald\rvm=m)
 P(m|\cald\rvx=x)$
 \\
 \xymatrix{\\=\sum_m }
 \xymatrix{
-&{\sum c}\ar[rd]
-\\
 \cald \rvx=x\ar[r]\ar@/_1.2pc/[rr]_0
 &m&y
 \\
@@ -322,14 +329,12 @@ by Rule 2
 \end{tabular}
 \\
 $\color{red}=
-\sum_{m,c}
-P(y|\cald\rvx=x, \cald\rvm=m, c)
+\sum_{m}
+P(y|\cald\rvx=x, \cald\rvm=m)
 P(m| x)$
 \\
 \xymatrix{\\=\sum_m }
 \xymatrix{
-&\sum c\ar[dr]
-\\
 \cald\rvx=x\ar@/_1pc/[rr]_0
 &m
 &y
@@ -343,14 +348,12 @@ by Rule 2
 \end{tabular}
 \\
 $\color{red}=
-\sum_{m,c}
-P(y|\cald\rvm=m, c)
+\sum_{m}
+P(y|\cald\rvm=m)
 P(m|x)$
 \\
 \xymatrix{\\=\sum_m }
 \xymatrix{
-&\sum c\ar[dr]
-\\
 &m
 &y
 \\
@@ -365,14 +368,14 @@ if condition on $\cald \rvm$.
 \end{tabular}
 \\
 $\color{red}=
-\sum_{m,c}
-P(y|\cald\rvm=m, c)
-P(c|\cald\rvm=m)
+\sum_{m,x'}
+P(y|\cald\rvm=m, x')
+P(x'|\cald\rvm=m)
 P(m|x)$
 \\
 \xymatrix{\\=\sum_m}
 \xymatrix{
-&\sum c\ar[dr]
+&\sum x'\ar[dr]
 \\
 &m
 &y
@@ -382,14 +385,14 @@ x\ar[ru]
 }
 \\
 $\color{red}=
-\sum_{m,c}
-P(y|m, c)
-P(c|\cald\rvm=m)
+\sum_{m,x'}
+P(y|m, x')
+P(x'|\cald\rvm=m)
 P(m|x)$
 \\
 \xymatrix{\\=\sum_m}
 \xymatrix{
-&\sum c\ar[dr]
+&\sum x'\ar[dr]
 &\cald\rvm=m\ar[l]^0
 \\
 &m\ar[r]
@@ -403,14 +406,14 @@ by Rule 2
 \end{tabular}
 \\
 $\color{red}=
-\sum_{m,c}
-P(y|m, c)
-P(c)
+\sum_{m,x'}
+P(y|m, x')
+P(x')
 P(m|x)$
 \\
 \xymatrix{\\=}
 \xymatrix{
-&\sum c\ar[dr]
+&\sum x'\ar[dr]
 \\
 x\ar[r]&\sum m\ar[r]
 &y
@@ -420,7 +423,7 @@ x\ar[r]&\sum m\ar[r]
 by Rule 3.
 \\
 No info transmission\\
-between $\cald\rvm$ and $\rvc$.
+between $\cald\rvm$ and $\rvx'$.
 \end{tabular}
 \end{longtable}
 
@@ -452,7 +455,7 @@ P(y|\cald\rvx=x, \cald m=m)$
 \quad $\rvy\perp \rvm|\rvx$ in 
 $\call_\rvm\cald_\rvx G:$
 $\xymatrix{
-&{\rvc}\ar[rd]
+&*++[F-o]{\rvc}\ar[rd]
 \\
 \rvx\ar[r]
 &\rvm
@@ -475,7 +478,7 @@ P(m| x)$
 $\rvm\perp \rvx$ in
 $\call_\rvx\cald_\emptyset G:$
 $\xymatrix{
-&{\rvc}\ar[ld]\ar[rd]
+&*++[F-o]{\rvc}\ar[ld]\ar[rd]
 \\
 \rvx
 &\rvm\ar[r]
@@ -500,7 +503,7 @@ P(m|x)$
 $\rvy\perp\rvx|\rvm$ in 
 $\cald_\rvx\cald_\rvm G:$
 $\xymatrix{
-&{\rvc}\ar[rd]
+&*++[F-o]{\rvc}\ar[rd]
 \\
 \rvx
 &\rvm\ar[r]
@@ -508,24 +511,24 @@ $\xymatrix{
 }$
 \\
 $\color{red}=
-\sum_{c}
+\sum_{x'}
 \sum_m
-P(y|\cald\rvm=m, c)
-P(c|\cald\rvm=m)
+P(y|\cald\rvm=m, x')
+P(x'|\cald\rvm=m)
 P(m|x)$
 \\
 \quad by Probability Axioms
 \\
 $\color{red}=
-\sum_{c}
+\sum_{x'}
 \sum_m
-P(y|m, c)
-P(c|\cald\rvm=m)
+P(y|m, x')
+P(x'|\cald\rvm=m)
 P(m|x)$
 \\
-\quad $P(y|\cald\rvm=m, c)
+\quad $P(y|\cald\rvm=m, x')
 \rarrow
-\quad P(y|m, c)$
+\quad P(y|m, x')$
 \\
 \quad by Rule 2: 
 \begin{tabular}{l}
@@ -533,10 +536,10 @@ P(m|x)$
 \end{tabular}
 \\
 \quad
-$\rvy\perp\rvm|\rvc$ in 
+$\rvy\perp\rvm|\rvx$ in 
 $\call_\rvm \cald_\emptyset G:$
 $\xymatrix{
-&{\rvc}\ar[rd]\ar[ld]
+&*++[F-o]{\rvc}\ar[rd]\ar[ld]
 \\
 \rvx\ar[r]
 &\rvm
@@ -544,15 +547,15 @@ $\xymatrix{
 }$
 \\
 $\color{red}=
-\sum_{c}
+\sum_{x'}
 \sum_m
-P(y|m, c)
-P(c)
+P(y|m, x')
+P(x')
 P(m|x)$
 \\
-\quad $P(c|\cald\rvm=m)
+\quad $P(x'|\cald\rvm=m)
 \rarrow
-P(c)$
+P(x')$
 \\
 \quad by Rule 3: 
 \begin{tabular}{l}
@@ -560,10 +563,10 @@ P(c)$
 \end{tabular}
 \\
 \quad
-$\rvc\perp\rvm$ in
+$\rvx\perp\rvm$ in
 $\cald_\rvm \cald_\emptyset G:$
 $\xymatrix{
-&{\rvc}\ar[rd]\ar[ld]
+&*++[F-o]{\rvc}\ar[rd]\ar[ld]
 \\
 \rvx
 &\rvm\ar[r]
