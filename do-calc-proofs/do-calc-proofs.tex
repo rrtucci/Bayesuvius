@@ -56,76 +56,71 @@ conditional probability distribution
 $P(b|a)$,
 whereas  $a\rarrow b$
 represents $P(b|a)$ itself.
-Thus, the identity
-
-\beq
-P(y|x)= \sum_a P(y|a, x)P(a|x)
-\eeq
-can be represented graphically
-by
-
-\beq
-\xymatrix{
-x\ar[r]
-&
-y \quad = \quad}
-\xymatrix{
-\sum a\ar[dr]
-\\
-x\ar[r]\ar[u]
-&y
-}
-\label{eq-proofs-nonroot}
-\eeq
-where $\sum a$
-means the random variable
-$\rva$ is summed over.
 
 If $\rva$ is a root node,
 then $\sum a$ signifies
-a weighted sum $\sum_a P(a)$. 
+a weighted sum $\sum_a P(a)$.
 For example, $\sum a\rarrow b=\sum_a P(a)P(b|a)$.
-If $\rva$ is not 
+If $\rva$ is not
 a root node
-as in Eq.(\ref{eq-proofs-nonroot}), then 
+as in $x\rarrow\sum a \rarrow y=
+\sum_a P(y|a)P(a|x) $, then
 $\sum a$ signifies
-an unweighted sum $\sum_a$.
+a simple unweighted sum $\sum_a$.
 
 Unobserved nodes are
 indicated by enclosing them
 in a dashed circle. For example,
 $\xymatrix{*++[F-o]{u}}$.
 
-\begin{claim} (Backdoor
-Adjustment Formula)
-\label{cl-backdoor-proof}
-
-If
-$
-\xymatrix{
-{\rvz}\ar[d]\ar[rd]
-\\
-\rvx\ar[r]&\rvy
-}$
-then
+Here is an  identity
+that we will use frequently:
 
 \beq
-P(y|\cald \rvx = x)=
-\sum_z
-P(y|x,z)P(z)
+P(y|x_1, x_2)= 
+\sum_a P(y|a, x_1, x_2)P(a|x_1, x_2)
+\;.
 \eeq
+This identity
+can be represented graphically
+by
+
 \beq
 \xymatrix{
-\cald\rvx=x\ar[r]
-&y
-\quad=\quad}
-\xymatrix{
-\sum z\ar[dr]
+x_1\ar[rrd]
 \\
-x\ar[r]
-&y
+&&y
+\\
+x_2\ar[urr]
 }
+\xymatrix{\\=}
+\xymatrix{
+x_1\ar[rd]\ar[drr]
+\\
+&\sum a\ar[r]
+&y
+\\
+x_2\ar[ru]\ar[rru]
+}
+\label{eq-proofs-nonroot}
+\;.
 \eeq
+One can describe
+this identity as
+``giving $\rvy$
+a universal backdoor", 
+because $\sum a$ is a backdoor
+(i.e., input) to $y$, and $\sum a$
+is universal in the sense that it
+ is entered
+by every arrow that enters $y$
+except $\sum a$ itself.
+
+
+
+\begin{claim} 
+\label{cl-decBackDoor}
+\decBackDoor
 \end{claim}
 
 \proof
@@ -146,7 +141,7 @@ $\xymatrix{
 \xymatrix{
 \sum z\ar[dr]
 \\
-\cald \rvx=x\ar[r]\ar[u]^0
+\cald \rvx=x\ar[r]\ar[u]|0
 &y
 }
 $
@@ -158,7 +153,7 @@ $=\sum_z P(y|x,z)P(z|\cald\rvx=x)$
 \xymatrix{
 \sum z\ar[dr]
 \\
-\cald \rvx=x\ar[u]^0
+\cald \rvx=x\ar[u]|0
 &y
 \\x\ar[ur]
 }
@@ -213,8 +208,8 @@ P(y|x, z)$
 \ruletwoif\\\ruletwothen
 \end{tabular}
 \\
-\quad 
-$\rvy\perp\rvx|\rvz$ in 
+\quad
+$\rvy\perp\rvx|\rvz$ in
 $\call_\rvx\cald_\emptyset G:
 \xymatrix{
 \rvz\ar[d]\ar[rd]
@@ -231,7 +226,7 @@ P(z)$
 \quad $P(z|\cald \rvx=x)\rarrow
 P(z)$
 \\
-\quad  by Rule 3: 
+\quad  by Rule 3:
 \begin{tabular}{l}
 \rulethreeif\\\rulethreethen
 \end{tabular}
@@ -247,41 +242,12 @@ $\cald_\rvx \cald_\emptyset G:
 }
 $
 \end{longtable}
-.\qed
+\qed
 
 
-\begin{claim} (Frontdoor
-Adjustment Formula)
-\label{cl-frontdoor-proof}
-
-If
-$
-\xymatrix{
-&*++[F-o]{\rvc}\ar[ld]\ar[rd]
-\\
-\rvx\ar[r]&\rvm\ar[r]&\rvy
-}$
-then
-\beq
-P(y|\cald \rvx = x)=
-\sum_m
-\left[
-\sum_{x'}P(y|x',m)P(x')
-\right]P(m|x)
-\eeq
-
-\beq
-\xymatrix{
-\cald\rvx=x\ar[r]
-&y
-\quad=\quad}
-\xymatrix{
-&\sum x'\ar[dr]
-\\
-x´\ar[r]
-&\sum m\ar[r]&y
-}
-\eeq
+\begin{claim}
+\label{cl-decFrontDoor}
+\decFrontDoor
 \end{claim}
 
 \proof
@@ -306,7 +272,7 @@ P(m|\cald\rvx=x)$
 }
 \xymatrix{\\=}
 \xymatrix{
-\cald \rvx=x\ar[r]\ar@/_1.2pc/[rr]_0
+\cald \rvx=x\ar[r]\ar@/_1.2pc/[rr]|0
 &\sum m\ar[r]
 &y
 }
@@ -318,7 +284,7 @@ P(m|\cald\rvx=x)$
 \\
 \xymatrix{\\=\sum_m }
 \xymatrix{
-\cald \rvx=x\ar[r]\ar@/_1.2pc/[rr]_0
+\cald \rvx=x\ar[r]\ar@/_1.2pc/[rr]|0
 &m&y
 \\
 &\cald\rvm=m\ar[ru]
@@ -335,7 +301,7 @@ P(m| x)$
 \\
 \xymatrix{\\=\sum_m }
 \xymatrix{
-\cald\rvx=x\ar@/_1pc/[rr]_0
+\cald\rvx=x\ar@/_1pc/[rr]|0
 &m
 &y
 \\
@@ -381,7 +347,7 @@ P(m|x)$
 &y
 \\
 x\ar[ru]
-&\cald\rvm=m\ar[ru]\ar@/_2pc/[uu]_0
+&\cald\rvm=m\ar[ru]\ar@/_2pc/[uu]|0
 }
 \\
 $\color{red}=
@@ -393,7 +359,7 @@ P(m|x)$
 \xymatrix{\\=\sum_m}
 \xymatrix{
 &\sum x'\ar[dr]
-&\cald\rvm=m\ar[l]^0
+&\cald\rvm=m\ar[l]|0
 \\
 &m\ar[r]
 &y
@@ -447,12 +413,12 @@ P(m|\cald\rvx=x)$
 \quad $P(y|\cald\rvx=x, m)\rarrow
 P(y|\cald\rvx=x, \cald m=m)$
 \\
-\quad by Rule 2: 
+\quad by Rule 2:
 \begin{tabular}{l}
 \ruletwoif\\\ruletwothen
 \end{tabular}
 \\
-\quad $\rvy\perp \rvm|\rvx$ in 
+\quad $\rvy\perp \rvm|\rvx$ in
 $\call_\rvm\cald_\rvx G:$
 $\xymatrix{
 &*++[F-o]{\rvc}\ar[rd]
@@ -474,7 +440,7 @@ P(m| x)$
 \ruletwoif\\\ruletwothen
 \end{tabular}
 \\
-\quad 
+\quad
 $\rvm\perp \rvx$ in
 $\call_\rvx\cald_\emptyset G:$
 $\xymatrix{
@@ -494,13 +460,13 @@ P(m|x)$
 \rarrow
  P(y|\cald\rvm=m)$
 \\
-\quad by Rule 3: 
+\quad by Rule 3:
 \begin{tabular}{l}
 \rulethreeif\\\rulethreethen
 \end{tabular}
 \\
 \quad
-$\rvy\perp\rvx|\rvm$ in 
+$\rvy\perp\rvx|\rvm$ in
 $\cald_\rvx\cald_\rvm G:$
 $\xymatrix{
 &*++[F-o]{\rvc}\ar[rd]
@@ -530,13 +496,13 @@ P(m|x)$
 \rarrow
 \quad P(y|m, x')$
 \\
-\quad by Rule 2: 
+\quad by Rule 2:
 \begin{tabular}{l}
 \ruletwoif\\\ruletwothen
 \end{tabular}
 \\
 \quad
-$\rvy\perp\rvm|\rvx$ in 
+$\rvy\perp\rvm|\rvx$ in
 $\call_\rvm \cald_\emptyset G:$
 $\xymatrix{
 &*++[F-o]{\rvc}\ar[rd]\ar[ld]
@@ -557,7 +523,7 @@ P(m|x)$
 \rarrow
 P(x')$
 \\
-\quad by Rule 3: 
+\quad by Rule 3:
 \begin{tabular}{l}
 \rulethreeif\\\rulethreethen
 \end{tabular}
@@ -573,289 +539,252 @@ $\xymatrix{
 &\rvy
 }$
 \end{longtable}
-.\qed
+\qed
 
 
-\begin{claim} (from Ref.\cite{hunermund2021})
 
-If
-$
-\xymatrix{
-&\rvw\ar[d]\ar[ddr]\ar@/^1.5pc/@{<-->}[ddr]|\rvu
-\\
-&\rvh\ar[dr]
-\\
-\rvx\ar[rr]\ar[uur]\ar@/_1.5pc/@{<-->}[dr]
-&&\rvy
-\\
-&\rve\ar[ru]\ar[lu]
-}$
-then
-\beq
-P(y|\cald \rvx = x)=
-\sum_e P(y|x,e)P(e)
-\eeq
-
-\beq
-\xymatrix{
-\cald\rvx=x\ar[r]
-&y
-\quad=\quad}
-\xymatrix{
-x\ar[rr]
-&&y
-\\
-&\sum e\ar[ru]
-}
-\eeq
-\end{claim}
-\proof
-\\
-\begin{longtable}{l}
-\color{red}
-$P(y|\cald\rvx=x)=$
-\\
-$
-\xymatrix{
-&\sum w\ar[d]\ar[ddr]\ar@/^1.5pc/@{<-->}[ddr]|{\sum u}
-\\
-&\sum h\ar[dr]
-\\
-\cald\rvx=x\ar[rr]\ar[uur]
-&&y
-\\
-&\sum e\ar[ru]
-}
-\xymatrix{
-\\
-\\
-=}
-\xymatrix{
-\\
-\cald\rvx=x\ar[rr]
-&&y
-\\
-&\sum e\ar[ru]
-}$
-\\
-\color{red}
-$=\sum_e
-P(y|\cald\rvx=x, e)
-P(e|\cald\rvx=x)$
-\\
-\xymatrix{
-\\=}
-$
-\xymatrix{
-\cald\rvx=x\ar[rr]
-\ar[dr]_0
-&&y
-\\
-&\sum e\ar[ru]
-}$
-\\
-\color{red}
-$=\sum_e
-P(y|x, e)
-P(e|\cald\rvx=x)$
-\\
-\xymatrix{
-\\=}
-$
-\xymatrix{
-x\ar[rrd]
-\\
-\cald\rvx=x
-\ar[dr]_0
-&&y
-\\
-&\sum e\ar[ru]
-}$
-\begin{tabular}{l}\\
-by Rule 2
-\end{tabular}
-\\
-\color{red}
-$=\sum_e
-P(y|x, e)
-P(e)$
-\\
-$
-\xymatrix{\\=}
-\xymatrix{
-x\ar[rr]
-&&y
-\\
-&\sum e\ar[ru]
-}$
-\begin{tabular}{l}\\
-by Rule 3.
-\\ No information
-transmission\\
-between $\cald \rvx$
-and $\rve$.
-\end{tabular}
-\end{longtable}
-.\qed
-
-
-\begin{claim}(from Ref.\cite{hunermund2021})
-
-If $
-\xymatrix{
-&\rvw\ar[dl]\ar[d]
-&\rvs\ar[l]
-\\
-\rvz\ar[r]
-&\rvx\ar[r]
-&\rvy
-}$ then
-\beq
-P(y|\cald \rvx = x)
-=
- \sum_z P(y|x,z,w,\rvs=1)
-P(z|w, \rvs=1)
-\eeq
-
-\beq
-\xymatrix{
-\cald\rvx=x\ar[r]
-&y
-\quad=\quad}
-\xymatrix{
-&\rvw=w\ar[dl]\ar[dr]
-&\rvs=1\ar[d]\ar[dll]
-\\
-\sum z \ar@/_1.5pc/[rr]
-&\rvx=x\ar[r]
-&y
-}
-\eeq
-\end{claim}
-\proof
-\begin{longtable}{l}
-\color{red}
-$P(y|\cald\rvx=x)=P(y|\cald\rvx=x, w, \rvs=1)$
-\\
-\xymatrix{&\sum w\ar[dl]\ar[dr]
-&\sum s \ar[l]
-\\
-\sum z
-&\cald\rvx=x\ar[r]
-&y
-}
-\xymatrix{
-\\
-=
-}
-\xymatrix{
-&\rvw=w\ar[dl]\ar[dr]
-&\rvs=1\ar[l]
-\\
-\sum z
-&\cald\rvx=x\ar[r]
-&y
-}
-\begin{tabular}{l}
-by Rule 1
-\end{tabular}
-\\
-\\
-\color{red}
-$=\sum_z P(y|\cald\rvx=x,z,w,\rvs=1)
-P(z|\cald\rvx=x, w, \rvs=1)$
-\\
-\xymatrix{\\=}
-\xymatrix{
-&\rvw=w\ar[dl]\ar[dr]
-&\rvs=1\ar[l]\ar[d]\ar[dll]
-\\
-\sum z\ar@/_1.5pc/[rr]
-&\cald\rvx=x\ar[r]\ar[l]^0
-&y
-}
-\\
-\\
-\color{red}
-$=\sum_z P(y|\rvx=x,z,w,\rvs=1)
-P(z|\cald\rvx=x, w, \rvs=1)$
-\\
-\xymatrix{\\=}
-\xymatrix{
-&\rvw=w\ar[dl]\ar[dr]
-&\rvs=1\ar[l]\ar[d]\ar[dll]
-\\
-\sum z\ar@/_1.5pc/[rr]
-&\cald\rvx=x\ar[l]^0
-&y
-\\
-&x\ar[ur]
-}
-\begin{tabular}{l}
-\\
-by Rule 2
-\end{tabular}
-\\
-\\
-\color{red}
-$=\sum_z P(y|\rvx=x,z,w,\rvs=1)
-P(z| w, \rvs=1)$
-\\
-\xymatrix{\\=}
-\xymatrix{
-&\rvw=w\ar[dl]\ar[dr]
-&\rvs=1\ar[d]\ar[dll]
-\\
-\sum z \ar@/_1.5pc/[rr]
-&x\ar[r]
-&y
-}
-\begin{tabular}{l}\\
-by Rule 3.
-\\
-No info transmission\\
-between $\cald \rvx$ and $\rvz$.
-\end{tabular}
-\end{longtable}
-
-\begin{claim}(Napkin problem from Ref.\cite{book-why})
-
-If $
-\xymatrix{
-&*++[F-o]{\rvu_1}\ar[ddl]\ar[ddrr]
-\\
-&*++[F-o]{\rvu_2}\ar[dl]\ar[dr]
-\\
-\rvw\ar[r]
-&\rvz\ar[r]
-&\rvx\ar[r]
-&\rvy
-}$ then
-\beqa
-P(y|\cald \rvx = x)
-&=&
-\eeqa
+\begin{claim}
+\label{cl-decNapkin}
+\decNapkin
 \end{claim}
 \proof
 coming soon
 \qed
-\begin{claim}(from Ref.\cite{book-why})
 
-If $
-\xymatrix{
-\rvx\ar[d]\ar[drr]
-\\
-\rvw\ar[r]
-&\rvz\ar[r]
-&\rvy
-\\
-*++[F-o]{\rvu}\ar[u]\ar[urr]
-}$ then
-\beqa
-P(y|\cald \rvx = x, \cald\rvz=z)
-&=&
-\eeqa
+
+\begin{claim}
+\label{cl-decWhy}
+\decWhy
 \end{claim}
 \proof
 coming soon
 \qed
+
+
+\begin{claim}
+\label{cl-decTransportOne}
+ \decTransportOne
+\end{claim}
+\proof
+\begin{longtable}{l}
+\color{red}
+$P(y|\cald \rvx=x, \rvs=1)=
+\sum_ zP(y|\cald\rvx=x,z,
+\rvs=1)P(z|\cald\rvx=x,\rvs=1)$
+\\
+\xymatrix{
+\rvs=1\ar[r]
+&\sum z\ar[dr]
+\\
+\cald\rvx=x\ar[rr]
+&&y
+}
+\xymatrix{\\=}
+\xymatrix{
+\rvs=1\ar[r]\ar[rrd]|0
+&\sum z\ar[rd]
+\\
+\cald\rvx=x\ar[rr]\ar[ru]|0
+&&y
+}
+\\
+\color{red}
+$=\sum_ zP(y|\cald\rvx=x,z,
+\rvs=1)P(z|\rvs=1)$
+\\
+\xymatrix{\\=}
+\xymatrix{
+\rvs=1\ar[r]\ar[rrd]|0
+&\sum z\ar[rd]
+\\
+\cald\rvx=x\ar[rr]
+&&y
+}
+\\
+\color{red}
+$=\sum_ zP(y|\cald\rvx=x,z,
+\rvs=0)P(z|\rvs=1)$
+\\
+\xymatrix{\\=}
+\xymatrix{
+\rvs=1\ar[r]
+&\sum z\ar[rd]
+\\
+\cald\rvx=x\ar[rr]
+&&y
+}
+\end{longtable}
+\qed
+
+\begin{claim}
+\label{cl-decTransportTwo}
+\decTransportTwo
+\end{claim}
+\proof
+\begin{longtable}{l}
+\color{red}
+$P(y|\cald \rvx=x, \rvs=1)=
+\sum_ zP(y|\cald\rvx=x,z,
+\rvs=1)P(z|\cald\rvx=x,\rvs=1)$
+\\
+\\
+\xymatrix{
+\rvs=1\ar@/^1.5pc/[rr]\ar[drr]|0
+&*++[F-o]{\sum h}\ar[r]\ar[rd]
+&\sum z
+\\
+\cald\rvx=x\ar[rr]
+&&y
+}
+\xymatrix{\\=}
+\xymatrix{
+\rvs=1\ar@/^1.5pc/[rr]\ar[rrd]|0
+&*++[F-o]{\sum h}\ar[r]\ar[rd]
+&\sum z\ar[d]
+\\
+\cald\rvx=x\ar[rr]\ar@/_1pc/[rru]|0
+&&y
+}
+\\
+\color{red}
+$=P(y|\cald\rvx=x,\rvs=1)$
+\\
+\xymatrix{\\=}
+\xymatrix{
+\rvs=1\ar[rrd]|0
+\\
+\cald\rvx=x\ar[rr]
+&&y
+}
+\\
+\color{red}
+$=P(y|\cald\rvx=x,\rvs=0)$
+\\
+\xymatrix{=}
+\xymatrix{
+\cald\rvx=x\ar[rr]
+&&y
+}
+\end{longtable}
+\qed
+\begin{claim}
+\label{cl-decTransportThree}
+\decTransportThree
+\end{claim}
+\proof
+
+\begin{longtable}{l}
+\color{red}
+$P(y|\cald\rvx=x, \rvs=1)=
+\sum_z P(y|\cald\rvx=x, z, \rvs=1)
+P(z|\cald\rvx=x, \rvs=1)$
+\\
+\\
+$\xymatrix{
+\rvs=1\ar[rd]\ar[drr]|0
+&*++[F-o]{\sum \rvh}\ar[dr]
+\\
+\cald\rvx=x\ar[r]
+\ar@/_1.5pc/[rr]
+&\sum z\ar[r]
+&y
+}
+\xymatrix{\\=}
+\xymatrix{
+\rvs=1\ar[rd]\ar[drr]|0
+\\
+\cald\rvx=x\ar[r]
+\ar@/_1.5pc/[rr]
+&\sum z\ar[r]
+&y
+}$
+\\
+\\
+\color{red}
+$=\sum_z P(y|\cald\rvx=x, z, \rvs=0)
+P(z|\cald\rvx=x, \rvs=1)$
+\\
+\\
+$\xymatrix{\\=}\xymatrix{
+\rvs=1\ar[rd]
+\\
+\cald\rvx=x\ar[r]
+\ar@/_1.5pc/[rr]
+&\sum z\ar[r]
+&y
+}$
+\\
+\\
+\color{red}
+$=\sum_z P(y|\cald\rvx=x, z, \rvs=0)
+P(z|x, \rvs=1)$
+\\
+$\xymatrix{\\=}\xymatrix{
+\rvs=1\ar[rd]
+\\
+x\ar[r]
+&\sum z\ar[r]
+&y
+\\
+\cald\rvx=x\ar[urr]
+}$
+\end{longtable}
+\qed
+
+\begin{claim}
+\label{cl-decTransportBox}
+\decTransportBox
+\end{claim}
+\proof
+\begin{longtable}{l}
+\color{red}$
+P(y|\cald\rvx=x, \rvs=1)
+=
+\sum_{a}
+P(y|\cald\rvx=x, a, \rvs=1)P(a|\cald\rvx=x, \rvs=1)$
+\\
+\xymatrix{
+\rvs=1\ar[drr]\ar[r]
+&\sum z\ar[r]
+&\sum a\ar[d]
+\\
+&\cald \rvx=x\ar[r]
+&y
+}\xymatrix{\\=}
+\xymatrix{
+\rvs=1\ar[r]\ar\ar@/_1pc/[rd]
+&\sum a\ar[d]
+\\
+\cald \rvx=x\ar[r]\ar[ru]|0
+&y
+}
+\\
+\color{red}$
+=\sum_{a}
+P(y|\cald\rvx=x,a,  \rvs=1)P(a|\rvs=1)$
+\\
+\xymatrix{\\=}
+\xymatrix{
+\rvs=1\ar[r]\ar@/_1pc/[rd]
+&\sum a\ar[d]
+\\
+\cald \rvx=x\ar[r]
+&y
+}
+\\
+\color{red}$
+=\sum_{a}
+P(y|\cald\rvx=x,a, \rvs=0)P(a|\rvs=1)$
+\\
+\xymatrix{\\=}
+\xymatrix{
+\rvs=1\ar[r]
+&\sum a\ar[d]
+\\
+\cald \rvx=x\ar[r]
+&y
+}
+\end{longtable}
+\qed
+
+%\input{do-calc-proofs/do-calc-proofs-limbo.tex}
