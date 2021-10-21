@@ -72,7 +72,7 @@ Given a bnet $G$, define a
 as a bnet 
 formed by adding to $G$ a new root node $\rvs=s$
 and new arrows pointing
-from {\bf selector node}
+from {\bf selection node}
 $\rvs$ to one
 or more {\bf target nodes} of $G$.
 We'll call the set 
@@ -92,10 +92,10 @@ Nodes of $G_s$ not in
 the target set have the same TPM as in $G$,
 independent of the value of $\rvs$.
 All this can be generalized so as to 
-have more than one selector node,
+have more than one selection node,
 with the target sets
-of the selector nodes being disjoint, and such that a
-selector node
+of the selection nodes being disjoint, and such that a
+selection node
 can have more than 2 states.
 
 
@@ -109,171 +109,49 @@ determines a probability distribution
 
 
 
-Transport formulae
+{\bf Transport formulae}
+
+Below, we will
+use the following conventions
+for selection diagrams
+with a selection node $\rvs\in\bool$.
+\selectionGraphs
 
 \begin{itemize}
-\item{\bf Direct Transportability 
-(aka Extrenal Validity) Formula}
-
-\begin{figure}[h!]
-$$
-\begin{array}{ccc}
-\xymatrix{
-&\rvx\ar[ld]\ar[rd]
-&\rvs=0\ar[l]
-\\
-\rvd\ar[rr]\ar@{<-->}@/_1.5pc/[rr]
-&&\rvy
-}
-&
-\;\;\;\;
-&
-\xymatrix{
-&*++[o][F*:yellow]{\rvx}\ar[rd]
-&\rvs=1\ar[l]
-\\
-*++[o][F*:yellow]{\cald\rvd=d}\ar[rr]
-\ar@{<-->}@/_1.5pc/[rr]
-&&\rvy
-}
-\\
-\\
-\\
-G&&\cald_\rvd G^*
-\end{array}
-$$
-\caption{Bnets for Direct Transportability
-(aka External Validity).
-Yellow nodes are conditioned on.}
-\label{fig-direct-trans}
-\end{figure}
-
-\begin{claim} Consider Fig.\ref{fig-direct-trans}. If 
-\beq
-\rvy\perp \rvs|\rvx, \rvd
-\;\;\;\;
-\text{in $\cald_\rvd G^*$}
-\;,
-\eeq
-then
-
-\beq
-P^*(y|\cald\rvd=d, x)=
-P(y|\cald\rvd=d, x)
-\eeq
-\end{claim}
-\proof
-\begin{align}
-P^*(y|\cald\rvd=d, x)
-&=
-P(y|\cald\rvd=d, x, \rvs=1)
-\\
-&=
-P(y|\cald\rvd=d, x)\;\text{(by Rule 1 of Do Calculus)}
-\end{align}
-\qed
 \item {\bf Trivial Transportability}
 
-\begin{figure}[h!]
-$$
-\begin{array}{ccc}
-\xymatrix{
-&\rvx\ar[ld]\ar[rd]
-&\rvs=0\ar[d]
-\\
-\rvd\ar[rr]\ar@{<-->}@/_1.5pc/[rr]
-&&\rvy
-}
-&
-\;\;\;\;
-&
-\xymatrix{
-&*++[o][F*:yellow]{\rvx}\ar[rd]
-&\rvs=1\ar[d]
-\\
-*++[o][F*:yellow]{\cald\rvd=d}\ar[rr]
-\ar@{<-->}@/_1.5pc/[rr]
-&&\rvy
-}
-\\
-\\
-\\
-G&&\cald_\rvd G^*
-\end{array}
-$$
-\caption{Bnets for Trivial Transportability.
-Yellow nodes are conditioned on.}
-\label{fig-trivial-trans}
-\end{figure}
-
-\begin{claim}Consider  Fig.\ref{fig-trivial-trans}.
-
-\beq
-P^*(y|\cald \rvd=d, x)=P^*(y|d, x)
-\eeq
+\begin{claim}
+\decTransportTrivial
 \end{claim}
 \proof
-Follows from Rule 2 of Do Calculus.
+See Claim \ref{cl-decTransportTrivial}.
 \qed
-\item {\bf S-Admissible Transportability}
 
-\begin{figure}[h!]
-$$
-\begin{array}{ccc}
-\xymatrix{
-\rvs=0\ar[r]
-&\rvx\ar[d]\ar[r]
-&\rva.\ar[d]
-\\
-&\rvd\ar[r]
-\ar@{<-->}@/_1.5pc/[r]
-&\rvy
-}
-&
-\;\;\;\;
-&
-\xymatrix{
-\rvs=1\ar[r]
-&\rvx\ar[r]
-&*++[o][F*:yellow]{\rva.}\ar[d]
-\\
-&*++[o][F*:yellow]{\cald\rvd=d}\ar[r]
-\ar@{<-->}@/_1.5pc/[r]
-&\rvy
-}
-\\
-\\
-\\
-G&&\cald_\rvd G^*
-\end{array}
-$$
-\caption{Bnets for S-Admissible Transportability.
-Yellow nodes are conditioned on.}
-\label{fig-s-adm-trans}
-\end{figure}
+\item{\bf Direct Transportability 
+(aka External Validity)}
 
 \begin{claim}
-Consider Fig.\ref{fig-s-adm-trans}.
-If $\rva.$ is a multinode 
-such that\footnote{$\rva.$ is called an s-admissible set.}
-
-\beq
-\rvy\perp \rvs|\rvd, \rva. 
-\;\;\;\text{in $\cald_\rvd G^*$}
-\;,
-\eeq
-then
-
-\beq
-P^*(y|\cald \rvd=d)=
-\sum_{a.}P(y|\cald \rvd=d, a.)P^*(a.)
-\eeq
-\end{claim} 
+\decTransportDirect
+\end{claim}
 \proof
-See Claim \ref{cl-decTransportBox}.
+See Claim \ref{cl-decTransportDirect}.
+\qed
+
+
+
+\item {\bf S-Admissible Transportability}
+
+
+\begin{claim}
+\decTransportBox
+\end{claim}
+\proof
+See Claim \ref{cl-decTransportBox}
 \qed
 
 \end{itemize}
+
+More examples of transport formulae.
 
 \begin{claim}
 \decTransportOne
