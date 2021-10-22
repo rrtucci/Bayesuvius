@@ -16,6 +16,7 @@ $$
 \begin{array}{ccc}
 \xymatrix{
 &\rvx\ar[dl]\ar[dr]
+&
 \\
 \rvy\ar[rr]
 &&\rvz
@@ -23,42 +24,17 @@ $$
 &
 \xymatrix{
 &\rvx\ar[dl]\ar[dr]
-&\rvs=0\ar[l]\ar[d]
-\\
-\rvy\ar[rr]
-&&\rvz
-}
-&
-\xymatrix{
-&\rvx\ar[dl]\ar[dr]
-&\rvs=1\ar[l]\ar[d]
+&\rvs\ar[d]\ar[l]
 \\
 \rvy\ar[rr]
 &&\rvz
 }
 \\
-\\
-G&G_0=G
-&G_1=G^*
-\\
-\\
-P(x,y,z)
-&P(x,y,z|\rvs=0)
-&P(x,y,z|\rvs=1)
-\\
-&
-=P(x,y,z)
-&
-=P^*(x,y,z)
+G&G_\rvs
 \end{array}
 $$
-\caption{Example of selection bnets
-$G_0=G$ and $G_1=G^*$.
-$\rvs=0$ corresponds to population $\Sigma$
-and $\rvs=1$ to population $\Sigma^*$.
-For $G^*$, 
-$P^*(x)\neq P(x)$, $P^*(y|x)=P(y|x)$
-and $P^*(z|x,y)\neq P(z|x,y)$.}
+\caption{Example of selection bnet
+$G_\rvs$ created from bnet $G$.}
 \label{fig-sel-dia}
 \end{figure}
 
@@ -68,9 +44,10 @@ a {\bf source population} $\Sigma$ to a
 {\bf target population} $\Sigma^*$.
 
 Given a bnet $G$, define a
-{\bf selection diagram} $G_s$ for $s=0,1$
+{\bf selection diagram} $G_\rvs$
 as a bnet 
-formed by adding to $G$ a new root node $\rvs=s$
+formed by adding to $G$ 
+a new root node $\rvs$
 and new arrows pointing
 from {\bf selection node}
 $\rvs$ to one
@@ -80,17 +57,46 @@ of target nodes
 of $\rvs$ the {\bf target set} $T_\rvs$.
 $\rvs=0$ corresponds to population $\Sigma$
 and $\rvs=1$ to population $\Sigma^*$.
+For bnet $G$, 
+the TPM for 
+a node $\rvx$
+with parents $pa(\rvx)$, 
+is given by: 
+
+
+\beq
+P_G(x|pa(x))=P(x|pa(x))
+\eeq
+For bnet $G_\rvs$,
+nodes $\rvx$ with
+parents $pa(\rvx)$, where 
+$\rvs\not\in pa(\rvx)$, have TPMs:
+
+\beq
+P_{G_\rvs}(x|pa(x))=P(x|pa(x))
+\;.
+\eeq
+Nodes $\rvx$ with
+ $pa(\rvx)\cup\rvs$
+as parents, have TPMs:
+\beq
+P_{G_\rvs}(x|pa(x), s)=
+\left\{
+\begin{array}{ll}
+P(x|pa(x), \rvs=0)=P(x|pa(x))&\text{if } \rvs=0
+\\
+P(x|pa(x), \rvs=1)=P^*(x|pa(x))&\text{if } \rvs=1
+\end{array}
+\right.
+\eeq
+
 Fig.\ref{fig-sel-dia}
 shows an example
-of a selection diagram $G_s$.
+of a selection diagram $G_\rvs$.
 In that figure, the target set 
 of $\rvs$ is 
-$\{\rvx, \rvz\}$.
-The TPM for the nodes in target set 
-depends on the value of $\rvs$.
-Nodes of $G_s$ not in
-the target set have the same TPM as in $G$,
-independent of the value of $\rvs$.
+$\{\rvx,\rvz\}$.
+
 All this can be generalized so as to 
 have more than one selection node,
 with the target sets
@@ -110,12 +116,6 @@ determines a probability distribution
 
 
 {\bf Transport formulae}
-
-Below, we will
-use the following conventions
-for selection diagrams
-with a selection node $\rvs\in\bool$.
-\selectionGraphs
 
 \begin{itemize}
 \item {\bf Trivial Transportability}
