@@ -99,13 +99,28 @@ If $
 &\rvx\ar[r]
 &\rvy
 }$ then
-\beqa
+\beq
 P(y|\cald \rvx = x)
-&=&
-\eeqa
+=\sum_{w,z}P(y|x, w,z)P(w,z)
+\eeq
+
+\beq
+\xymatrix{
+\\
+\cald\rvx=x\ar[r]&y
+}
+\quad
+\xymatrix{
+\\=}
+\xymatrix{
+w,z\ar[dr]
+\\
+x\ar[r]
+&y}
+\eeq
 }
 
- \newcommand{\decWhy}[0]{(from Ref.\cite{book-why})
+\newcommand{\decWhy}[0]{(from Ref.\cite{book-why})
 
 If $
 \xymatrix{
@@ -117,11 +132,30 @@ If $
 \\
 *++[F-o]{\rvu}\ar[u]\ar[urr]
 }$ then
-\beqa
-P(y|\cald \rvx = x, \cald\rvz=z)
-&=&
-\eeqa
- }
+\beq
+P(y|\cald\rvz=z, x)
+=
+\sum_w
+P(y|z,x,w)P(w)
+\eeq 
+\beq
+\xymatrix{
+x\ar[rrd]
+\\
+&\cald\rvz=z\ar[r]
+&y
+}
+\quad
+\xymatrix{\\=}
+\quad
+\xymatrix{
+x\ar[rrd]
+\\
+\sum w\ar@/_1pc/[rr]
+&z\ar[r]
+&y
+}\eeq
+}
 
 
 \newcommand{\decTransportTrivial}[0]
@@ -312,23 +346,60 @@ P(y|\cald \rvx=x, z)P^*(z|x)
 \eeq
 \beq
 \xymatrix{
-\rvs=1\ar[drr]
+\rvs=1\ar[dr]
+&\cald\rvx=x\ar[d]
 \\
-&&y
-\\
-\cald \rvx=x\ar[rru]
+&y
 }
 \xymatrix{
 \\=}
 \xymatrix{
 \rvs=1\ar[rd]
+&&\cald\rvx=x\ar[d]
 \\
 x\ar[r]
 &\sum z\ar[r]
 &y
-\\
-\cald\rvx=x\ar[rru]
 }
 \eeq
 }
 
+\newcommand{\decMediation}[0]{
+
+If 
+$\xymatrix{
+&*++[F-o]{\rvu}\ar[dl]
+\ar[ddr]\ar[ddl]\ar[d]
+\\
+\rvxi\ar[rrd]\ar[d]\ar[r]
+&\rvm\ar[rd]
+\\
+\rvd\ar[rr]\ar[ru]
+&&\rvy}$
+then
+
+\beq
+P(y|\cald\rvd=d, \cali_\rvm\rvd=d')=
+\sum_\xi
+\sum_m
+P(y|d, m, \xi)
+P(m|d', \xi)P(\xi)
+\eeq
+
+\beq
+\xymatrix{
+\cali\rvd=d'\ar[rd]
+\\
+\cald\rvd=d\ar[r]
+&y
+}
+\xymatrix{\\=}
+\xymatrix{
+\cali\rvd=d'\ar@/_1pc/[rr]
+&\sum\xi\ar[rrd]\ar[r]
+&\sum m\ar[rd]
+\\
+\cald \rvd=d\ar[rrr]
+&&&y}
+\eeq
+}

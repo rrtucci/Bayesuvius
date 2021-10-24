@@ -79,17 +79,16 @@ with selection nodes
 in Chapter \ref{ch-transport}.
 \selectionGraphs
 
-Here is an  identity
-that we will use frequently:
+Some identities
+that are used in this chapter:
 
+\begin{enumerate}
+\item
 \beq
 P(y|x_1, x_2)= 
 \sum_a P(y|a, x_1, x_2)P(a|x_1, x_2)
 \;.
 \eeq
-This identity
-can be represented graphically
-by
 
 \beq
 \xymatrix{
@@ -108,7 +107,7 @@ x_1\ar[rd]\ar[drr]
 \\
 x_2\ar[ru]\ar[rru]
 }
-\label{eq-proofs-nonroot}
+\label{eq-univ-bdoor}
 \;.
 \eeq
 One can describe
@@ -122,7 +121,82 @@ is universal in the sense that it
 by every arrow that enters $y$
 except $\sum a$ itself.
 
+\item
 
+\beq
+\sum_a \underbrace{P(a)
+P(a|x_1)P(a|x_2)}_{
+P(a|x_1, x_2)}=1
+\eeq
+
+\beq
+\xymatrix@R=.3pc{
+x_1\ar[dr]
+\\
+&\sum a\ar[r]_0&&=1
+\\
+x_2\ar[ur]
+}
+\label{eq-collider-sum}
+\eeq
+One can describe this
+identity as ``summing over 
+the values of a collider node
+which has no emerging 
+arrows"\footnote{A zeroed 
+arrow means the same as no arrow.}.
+Eq.(\ref{eq-collider-sum})
+can be understood as an 
+edge case (when $\rvy=\emptyset$)
+of Eq.(\ref{eq-univ-bdoor}).
+
+\item
+\beq
+\sum_a P(x_2|a)P(a|x_1)=P(x_2|x_1)
+\eeq
+
+\beq
+\xymatrix{
+x_1\ar[r]
+&\sum a\ar[r]
+&x_2
+&=&
+x_1\ar[r]
+&x_2}
+\label{eq-med-sum}
+\eeq
+One can describe this
+identity as
+``summing over the 
+values of a mediator node".
+
+\item
+\beq
+P(x)=\sum_a P(x|a)P(a)=\sum_b P(x|b)
+\eeq
+
+\beq
+\xymatrix{
+\ar[r]_0
+&\sum a\ar[r]
+&x
+&=&
+\ar[r]_0
+&\sum b\ar[r]
+&x
+}
+\label{eq-diff-priors}
+\eeq
+One can describe 
+this identity 
+as ``averaging
+over different 
+priors".
+Eq.(\ref{eq-diff-priors})
+can be understood as 
+an edge case of Eq.(\ref{eq-med-sum}).
+
+\end{enumerate}
 
 \begin{claim} 
 \label{cl-decBackDoor}
@@ -135,7 +209,7 @@ except $\sum a$ itself.
 \begin{longtable}{l}
 \color{red}
 $P(y|\cald\rvx=x)=\sum_z
- P(y|\cald \rvx=x, z)P(z|\cald\rvx =x)$
+ P(y|x, z)P(z)$
 \\
 $\xymatrix{
 \sum z\ar[dr]
@@ -147,46 +221,10 @@ $\xymatrix{
 \xymatrix{
 \sum z\ar[dr]
 \\
-\cald \rvx=x\ar[r]\ar[u]|0
-&y
-}
-$
-\\
-\color{red}
-$=\sum_z P(y|x,z)P(z|\cald\rvx=x)$
-\\
-\xymatrix{\\=}
-\xymatrix{
-\sum z\ar[dr]
-\\
-\cald \rvx=x\ar[u]|0
-&y
-\\x\ar[ur]
-}
-\begin{tabular}{l}
-\\
-\\
-by Rule 2
-\end{tabular}
-\\
-\color{red}
-$=\sum_z P(y|x,z)P(z)$
-\\
-\xymatrix{\\
-=}
-\xymatrix{
-\sum z\ar[dr]
-\\
 x\ar[r]
 &y
 }
-\begin{tabular}{l}\\
-\\
-by Rule 3.
-\\
-No info transmission\\
-between $\cald\rvx$ and $\rvz$.
-\end{tabular}
+$
 \end{longtable}
 
 
@@ -264,8 +302,8 @@ $
 \begin{longtable}{l}
 $\color{red}
 P(y|\cald\rvx=x)=
-\sum_{m}
-P(y|\cald\rvx=x, m)
+\sum_{m, c, x'}
+P(y|m, c)P(c|x')P(x')
 P(m|\cald\rvx=x)$
 \\
 \\
@@ -278,104 +316,13 @@ P(m|\cald\rvx=x)$
 }
 \xymatrix{\\=}
 \xymatrix{
-\cald \rvx=x\ar[r]\ar@/_1.2pc/[rr]|0
+\sum x'\ar[r]
+&*++[F-o]{\sum c}\ar[rd]
+\\
+\cald \rvx=x\ar[r]
 &\sum m\ar[r]
 &y
 }
-\\
-$\color{red}=
-\sum_{m}
-P(y|\cald\rvx=x, \cald\rvm=m)
-P(m|\cald\rvx=x)$
-\\
-\xymatrix{\\=\sum_m }
-\xymatrix{
-\cald \rvx=x\ar[r]\ar@/_1.2pc/[rr]|0
-&m&y
-\\
-&\cald\rvm=m\ar[ru]
-}
-\begin{tabular}{l}
-\\
-by Rule 2
-\end{tabular}
-\\
-$\color{red}=
-\sum_{m}
-P(y|\cald\rvx=x, \cald\rvm=m)
-P(m| x)$
-\\
-\xymatrix{\\=\sum_m }
-\xymatrix{
-\cald\rvx=x\ar@/_1pc/[rr]|0
-&m
-&y
-\\
-x\ar[ru]
-&\cald\rvm=m\ar[ru]
-}
-\begin{tabular}{l}
-\\
-by Rule 2
-\end{tabular}
-\\
-$\color{red}=
-\sum_{m}
-P(y|\cald\rvm=m)
-P(m|x)$
-\\
-\xymatrix{\\=\sum_m }
-\xymatrix{
-&m
-&y
-\\
-x\ar[ru]
-&\cald\rvm=m\ar[ru]
-}
-\begin{tabular}{l}
-by Rule 3.\\
-No info transmission\\
-between $\cald\rvx$ and $\rvy$\\
-if condition on $\cald \rvm$.
-\end{tabular}
-\\
-$\color{red}=
-\sum_{m,x'}
-P(y|\cald\rvm=m, x')
-P(x'|\cald\rvm=m)
-P(m|x)$
-\\
-\xymatrix{\\=\sum_m}
-\xymatrix{
-&\sum x'\ar[dr]
-\\
-&m
-&y
-\\
-x\ar[ru]
-&\cald\rvm=m\ar[ru]\ar@/_2pc/[uu]|0
-}
-\\
-$\color{red}=
-\sum_{m,x'}
-P(y|m, x')
-P(x'|\cald\rvm=m)
-P(m|x)$
-\\
-\xymatrix{\\=\sum_m}
-\xymatrix{
-&\sum x'\ar[dr]
-&\cald\rvm=m\ar[l]|0
-\\
-&m\ar[r]
-&y
-\\
-x\ar[ru]
-}
-\begin{tabular}{l}
-\\
-by Rule 2
-\end{tabular}
 \\
 $\color{red}=
 \sum_{m,x'}
@@ -390,13 +337,6 @@ P(m|x)$
 x\ar[r]&\sum m\ar[r]
 &y
 }
-\begin{tabular}{l}
-\\
-by Rule 3.
-\\
-No info transmission\\
-between $\cald\rvm$ and $\rvx'$.
-\end{tabular}
 \end{longtable}
 
 
@@ -554,7 +494,59 @@ $\xymatrix{
 \decNapkin
 \end{claim}
 \proof
-coming soon
+\\
+\begin{longtable}{l}
+\color{red}
+$P(y|\cald\rvx=x)=
+\sum_{u_1}P(y|x, u_1)P(u_1)$
+\\
+\\
+\xymatrix{
+&*++[F-o]{\sum u_1}\ar[ddl]\ar[ddrr]
+\\
+&*++[F-o]{\sum u_2}\ar[dl]
+\\
+\sum w\ar[r]
+&\sum z
+&\cald\rvx=x\ar[r]
+&\rvy
+}
+\xymatrix{\\=}
+\quad
+\xymatrix{
+*++[F-o]{\sum u_1}\ar[rd]
+\\
+x\ar[r]&y
+}
+\\
+\color{red}
+$
+=\sum_{w,z}\sum_{u_1}P(y|x, u_1)P(u_1|w,z)
+P(w,z)$
+\\
+\\
+\xymatrix{\\=}
+\xymatrix{
+w,z\ar[r]
+&*++[F-o]{\sum u_1}\ar[rd]
+\\
+&x\ar[r]
+&y
+}
+\\
+\color{red}
+$
+=\sum_{w,z}P(y|x,w,z)
+P(w,z)$
+\\
+\xymatrix{
+\\=}
+\xymatrix{
+w,z\ar[rd]
+\\
+x\ar[r]&y
+}
+\end{longtable}
 \qed
 
 
@@ -563,7 +555,62 @@ coming soon
 \decWhy
 \end{claim}
 \proof
-coming soon
+\begin{longtable}{l}
+\color{red}
+$P(y|\cald\rvz=z,x)=
+\sum_u P(y|z,x,u)P(u)
+$
+\\
+\xymatrix{
+x\ar[d]\ar[drr]
+\\
+\sum w
+&\cald\rvz=z\ar[r]
+&y
+\\
+*++[F-o]{\sum u}\ar[u]\ar[urr]
+}
+\xymatrix{\\=}
+\xymatrix{
+x\ar[drr]
+\\
+&z\ar[r]
+&y
+\\
+*++[F-o]{\sum u}\ar[urr]
+}
+\\
+\\
+\color{red}
+$=\sum_w\sum_u
+P(y|z,x,u)P(u|w)P(w)
+$
+\\
+\xymatrix{\\=}
+\xymatrix{
+x\ar[drr]
+\\
+\sum w\ar[d]&z\ar[r]
+&y
+\\
+*++[F-o]{\sum u}\ar[urr]
+}
+\\
+\\
+\color{red}
+$=\sum_w
+P(y|z,x,w)P(w)
+$
+\\
+\xymatrix{\\=}
+\xymatrix{
+x\ar[drr]
+\\
+\sum w\ar@/_1pc/[rr]
+&z\ar[r]
+&y
+}
+\end{longtable}
 \qed
 
 \begin{claim}
@@ -604,7 +651,7 @@ x\ar[rr]
 \begin{longtable}{l}
 \color{red}
 $P(y|\cald\rvx=x, z, \rvs=1)=
-P(y|\cald\rvx=x, z, \rvs=0)$
+P(y|\cald\rvx=x, z)$
 \\
 \xymatrix{
 \rvs=1\ar[r]
@@ -622,6 +669,9 @@ P(y|\cald\rvx=x, z, \rvs=0)$
 \cald\rvx=x\ar[rr]
 &&y
 }
+\begin{tabular}{l}
+Because $\rvs\perp\rvy|\rvz$
+\end{tabular}
 \end{longtable}
 \qed
 
@@ -633,44 +683,17 @@ P(y|\cald\rvx=x, z, \rvs=0)$
 \begin{longtable}{l}
 \color{red}$
 P(y|\cald\rvx=x, \rvs=1)
-=
-\sum_{a}
-P(y|\cald\rvx=x, a, \rvs=1)P(a|\cald\rvx=x, \rvs=1)$
+=\sum_{a}
+P(y|\cald\rvx=x,a)P(a|\rvs=1)$
 \\
 \xymatrix{
-\rvs=1\ar[drr]\ar[r]
+\rvs=1\ar[r]
 &\sum z\ar[r]
 &\sum a\ar[d]
 \\
 &\cald \rvx=x\ar[r]
 &y
 }\xymatrix{\\=}
-\xymatrix{
-\rvs=1\ar[r]\ar\ar@/_1pc/[rd]
-&\sum a\ar[d]
-\\
-\cald \rvx=x\ar[r]\ar[ru]|0
-&y
-}
-\\
-\color{red}$
-=\sum_{a}
-P(y|\cald\rvx=x,a,  \rvs=1)P(a|\rvs=1)$
-\\
-\xymatrix{\\=}
-\xymatrix{
-\rvs=1\ar[r]\ar@/_1pc/[rd]
-&\sum a\ar[d]
-\\
-\cald \rvx=x\ar[r]
-&y
-}
-\\
-\color{red}$
-=\sum_{a}
-P(y|\cald\rvx=x,a, \rvs=0)P(a|\rvs=1)$
-\\
-\xymatrix{\\=}
 \xymatrix{
 \rvs=1\ar[r]
 &\sum a\ar[d]
@@ -688,44 +711,9 @@ P(y|\cald\rvx=x,a, \rvs=0)P(a|\rvs=1)$
 \proof
 \begin{longtable}{l}
 \color{red}
-$P(y|\cald \rvx=x, \rvs=1)=
-\sum_ zP(y|\cald\rvx=x,z,
-\rvs=1)P(z|\cald\rvx=x,\rvs=1)$
+$P(y|\cald \rvx=x, \rvs=1)
+=\sum_z P(y|\cald\rvx=x,z)P(z|\rvs=1)$
 \\
-\xymatrix{
-\rvs=1\ar[r]
-&\sum z\ar[dr]
-\\
-\cald\rvx=x\ar[rr]
-&&y
-}
-\xymatrix{\\=}
-\xymatrix{
-\rvs=1\ar[r]\ar[rrd]|0
-&\sum z\ar[rd]
-\\
-\cald\rvx=x\ar[rr]\ar[ru]|0
-&&y
-}
-\\
-\color{red}
-$=\sum_ zP(y|\cald\rvx=x,z,
-\rvs=1)P(z|\rvs=1)$
-\\
-\xymatrix{\\=}
-\xymatrix{
-\rvs=1\ar[r]\ar[rrd]|0
-&\sum z\ar[rd]
-\\
-\cald\rvx=x\ar[rr]
-&&y
-}
-\\
-\color{red}
-$=\sum_ zP(y|\cald\rvx=x,z,
-\rvs=0)P(z|\rvs=1)$
-\\
-\xymatrix{\\=}
 \xymatrix{
 \rvs=1\ar[r]
 &\sum z\ar[rd]
@@ -744,12 +732,11 @@ $=\sum_ zP(y|\cald\rvx=x,z,
 \begin{longtable}{l}
 \color{red}
 $P(y|\cald \rvx=x, \rvs=1)=
-\sum_ zP(y|\cald\rvx=x,z,
-\rvs=1)P(z|\cald\rvx=x,\rvs=1)$
+\sum_h P(y|\cald\rvx=x, h)P(h)$
 \\
 \\
 \xymatrix{
-\rvs=1\ar@/^1.5pc/[rr]\ar[drr]|0
+\rvs=1\ar@/^1.5pc/[rr]
 &*++[F-o]{\sum h}\ar[r]\ar[rd]
 &\sum z
 \\
@@ -758,27 +745,28 @@ $P(y|\cald \rvx=x, \rvs=1)=
 }
 \xymatrix{\\=}
 \xymatrix{
-\rvs=1\ar@/^1.5pc/[rr]\ar[rrd]|0
-&*++[F-o]{\sum h}\ar[r]\ar[rd]
-&\sum z\ar[d]
-\\
-\cald\rvx=x\ar[rr]\ar@/_1pc/[rru]|0
-&&y
-}
-\\
-\color{red}
-$=P(y|\cald\rvx=x,\rvs=1)$
-\\
-\xymatrix{\\=}
-\xymatrix{
-\rvs=1\ar[rrd]|0
+&*++[F-o]{\sum h}\ar[rd]
+&
 \\
 \cald\rvx=x\ar[rr]
 &&y
 }
 \\
 \color{red}
-$=P(y|\cald\rvx=x,\rvs=0)$
+$=\sum_h P(y|\cald\rvx=x, h)P(h|\cald\rvx=x)$
+\\
+\\
+\xymatrix{\\=}
+\xymatrix{
+&*++[F-o]{\sum h}\ar[rd]
+&
+\\
+\cald\rvx=x\ar[rr]\ar[ru]
+&&y
+}
+\\
+\color{red}
+$=P(y|\cald\rvx=x)$
 \\
 \xymatrix{=}
 \xymatrix{
@@ -796,58 +784,97 @@ $=P(y|\cald\rvx=x,\rvs=0)$
 \begin{longtable}{l}
 \color{red}
 $P(y|\cald\rvx=x, \rvs=1)=
-\sum_z P(y|\cald\rvx=x, z, \rvs=1)
+\sum_h
+\sum_z P(y|h, z)P(h)
 P(z|\cald\rvx=x, \rvs=1)$
 \\
 \\
-$\xymatrix{
-\rvs=1\ar[rd]\ar[drr]|0
+\xymatrix{
+\rvs=1\ar[rd]
 &*++[F-o]{\sum \rvh}\ar[dr]
 \\
 \cald\rvx=x\ar[r]
-\ar@/_1.5pc/[rr]
 &\sum z\ar[r]
 &y
 }
-\xymatrix{\\=}
-\xymatrix{
-\rvs=1\ar[rd]\ar[drr]|0
-\\
-\cald\rvx=x\ar[r]
-\ar@/_1.5pc/[rr]
-&\sum z\ar[r]
-&y
-}$
 \\
 \\
 \color{red}
-$=\sum_z P(y|\cald\rvx=x, z, \rvs=0)
-P(z|\cald\rvx=x, \rvs=1)$
-\\
-\\
-$\xymatrix{\\=}\xymatrix{
-\rvs=1\ar[rd]
-\\
-\cald\rvx=x\ar[r]
-\ar@/_1.5pc/[rr]
-&\sum z\ar[r]
-&y
-}$
-\\
-\\
-\color{red}
-$=\sum_z P(y|\cald\rvx=x, z, \rvs=0)
+$=\sum_h\sum_z P(y|h,z)P(h|\cald\rvx=x)
 P(z|x, \rvs=1)$
 \\
-$\xymatrix{\\=}\xymatrix{
+\\
+\xymatrix{\\=}
+\xymatrix{
 \rvs=1\ar[rd]
+&*++[F-o]{\sum \rvh}\ar[dr]
+&\cald\rvx=x\ar[l]
 \\
 x\ar[r]
 &\sum z\ar[r]
 &y
+}
 \\
-\cald\rvx=x\ar[urr]
+\color{red}
+$=\sum_z P(y|\cald\rvx=x, z)P(z|x, \rvs=1)$
+\\
+$\xymatrix{\\=}\xymatrix{
+\rvs=1\ar[rd]
+&&\cald\rvx=x\ar[d]
+\\
+x\ar[r]
+&\sum z\ar[r]
+&y
 }$
+\end{longtable}
+\qed
+
+\begin{claim}(from Ref.\cite{pearl-2019review})
+\label{cl-mediation-plus}
+\decMediation
+\end{claim}
+\proof
+\begin{longtable}{l}
+\color{red}
+$P(y|\cald\rvd=d,\cali\rvd=d')=
+\sum_{\xi, u}
+\sum_{m}
+P(y|d,m,\xi, u)P(m|d', \xi, u)
+\underbrace{P(\xi|u)P(u)}_{P(\xi, u)}$
+\\
+\\
+\xymatrix{
+&&*++[F-o]{\sum u}\ar[ddr]
+\ar[dl]\ar[d]
+\\
+\cali\rvd=d'\ar@/_1pc/[rr]
+&\sum\xi\ar[rrd]\ar[r]
+&\sum m\ar[rd]
+\\
+\cald\rvd=d\ar[rrr]
+&&&y}
+\\
+\color{red}
+$=
+\sum_{\xi}
+\sum_{m}
+P(y|d,m,\xi)P(m|d', \xi)
+P(\xi)$
+\\
+\xymatrix{\\=}
+\xymatrix{
+\cali\rvd=d'\ar@/_1pc/[rr]
+&\sum\xi\ar[rrd]\ar[r]
+&\sum m\ar[rd]
+\\
+\cald\rvd=d\ar[rrr]
+&&&y}
+\begin{tabular}{l}
+We switch from averaging over\\ the
+prior of $\xi, u$\\
+to averaging over the\\
+prior of $\xi$.
+\end{tabular}
 \end{longtable}
 \qed
 
