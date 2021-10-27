@@ -159,7 +159,7 @@ x\ar[rrd]
 
 
 \newcommand{\decTransportTrivial}[0]
-{(Trivial
+{(Trivial Memoryless
  Transportability,
 from Ref.\cite{pearl2011trans})
 
@@ -168,7 +168,9 @@ If $
 &\rvz\ar[ld]\ar[rd]
 &\rvs\ar[d]
 \\
-\rvx\ar[rr]\ar@{<-->}@/_1.5pc/[rr]
+\rvx\ar[rr]
+\ar@{<-->}@/^1pc/[ru]
+\ar@{<-->}@/_1pc/[rr]
 &&\rvy
 }$ 
 where $\rvs\in\bool$ is a 
@@ -177,13 +179,36 @@ then
 
 \beq
 P^*(y|\cald \rvx=x, z)=P^*(y|x, z)
+\quad
+\text{(replace $\cald$ by $1$, 
+keep $P^*$)}
+\eeq
+
+\beq
+\xymatrix{
+&z\ar[rd]
+&\rvs=1\ar[d]
+\\
+\cald\rvx=x\ar[rr]
+&&y
+}
+\xymatrix{
+\\=
+}
+\xymatrix{
+&z\ar[rd]
+&\rvs=1\ar[d]
+\\
+x\ar[rr]
+&&y
+}
 \eeq
 }
 
 \newcommand{\decTransportDirect}[0]
 {(Direct
  Transportability, a.k.a.
-External Validity, 
+External Validity,
 from Ref.\cite{pearl2011trans})
 
 If $
@@ -192,7 +217,9 @@ If $
 &\rvz\ar[ld]\ar[rd]
 &
 \\
-\rvx\ar[rr]\ar@{<-->}@/_1.5pc/[rr]
+\rvx\ar[rr]
+\ar@{<-->}@/^1pc/[ru]
+\ar@{<-->}@/_1pc/[rr]
 &&\rvy
 }$ 
 where $\rvs\in\bool$ is a 
@@ -202,6 +229,49 @@ then
 \beq
 P^*(y|\cald\rvx=x, z)=
 P(y|\cald\rvx=x, z)
+\quad
+\text{(replace $P^*$ by $P$, 
+keep $\cald$)}
+\eeq
+
+\beq
+\xymatrix{
+\rvs=1\ar[r]
+&z\ar[dr]
+&
+\\
+\cald\rvx=x\ar[rr]
+&&y
+}
+\xymatrix{\\=}
+\xymatrix{
+&z\ar[dr]
+&
+\\
+\cald\rvx=x\ar[rr]
+&&y
+}\eeq
+Furthermore,
+\beq
+P^*(y|\cald \rvx=x)=
+\sum_z
+P(y|\cald \rvx=x,z)P^*(z)
+\eeq
+
+\beq
+\xymatrix{
+\rvs=1\ar[drr]
+\\
+\cald \rvx=x\ar[rr]
+&&y
+}\xymatrix{\\=}
+\xymatrix{
+\rvs=1\ar[r]
+&\sum z\ar[rd]
+\\
+\cald\rvx=x\ar[rr]
+&&y
+}
 \eeq
 }
 
@@ -213,14 +283,15 @@ from Ref.\cite{pearl2011trans})
 
 If
 $
-\xymatrix@R=.9pc{
+\xymatrix{
 \rvs\ar[r]
-&\rvz\ar[d]\ar[r]
+&*++[F-o]{\rvz}\ar[r]\ar[ld]
 &\rva\ar[d]
 \\
-&\rvx\ar[r]
-\ar@{<-->}@/_1.5pc/[r]
-&\rvy
+\rvx\ar[rr]
+\ar@{<-->}@/^1pc/[ru]
+\ar@{<-->}@/_1pc/[rr]
+&&\rvy
 \\
 \\
 }$ 
@@ -249,14 +320,21 @@ P^*(y|\cald \rvx=x)=
 \eeq
 }
 
-\newcommand{\decTransportOne}[0]{(from Ref.\cite{pearl2011trans})
+%\decTransportOne merged 
+%with decDirectTransport
 
-If
-$\xymatrix{
-\rvs\ar[r]
-&\rvz\ar[dl]\ar[dr]\ar@{<-->}@/_1pc/[dl]
+\newcommand{\decTransportNon}[0]
+{(Non-transportability,
+from Ref.\cite{pearl2011trans})
+
+If $
+\xymatrix{
+&*++[F-o]{\rvh}\ar[ld]\ar[rd]
+&\rvs\ar[d]
 \\
-\rvx\ar[rr]\ar@{<-->}@/_1pc/[rr]
+\rvx\ar[rr]
+\ar@{<-->}@/^1pc/[ru]
+\ar@{<-->}@/_1pc/[rr]
 &&\rvy
 }$ 
 where $\rvs\in\bool$ is a 
@@ -265,22 +343,25 @@ then
 
 \beq
 P^*(y|\cald \rvx=x)=
-\sum_z
-P(y|\cald \rvx=x,z)P^*(z)
+P^*(y|x)
 \eeq
 
 \beq
 \xymatrix{
-\rvs=1\ar[drr]
-\\
-\cald \rvx=x\ar[rr]
-&&y
-}\xymatrix{\\=}
-\xymatrix{
-\rvs=1\ar[r]
-&\sum z\ar[rd]
+&
+&\rvs=1\ar[d]
 \\
 \cald\rvx=x\ar[rr]
+&&y
+}
+\xymatrix{
+\\=
+}
+\xymatrix{
+&
+&\rvs=1\ar[d]
+\\
+x\ar[rr]
 &&y
 }
 \eeq
