@@ -199,6 +199,50 @@ an edge case of Eq.(\ref{eq-med-sum}).
 
 \end{enumerate}
 
+A {\bf do-adjustment 
+formula} expresses
+a {\bf do-query} (i.e., 
+an conditional probability
+with do operators
+in its condition) by
+an equivalent expression
+without do operators.
+If a do-adjustment formula
+exists for a
+particular do-query, 
+then we say the do-query is {\bf do-identifiable}.
+The following is the simplest of
+do-adjustment formulae:
+\beq
+P(y|\cald\rvx=x)=P(y|x)
+\eeq
+Many problems (e.g., Backdoor, Frontdoor, etc.)
+satisfy this simplest of adjustment 
+formulae, but in general
+we aim to find 
+an adjustment formula that 
+utilizes the full distribution
+of the observed nodes. Adjustment
+formulae that don't 
+utilize the full
+distribution 
+of the observed nodes are 
+throwing
+away useful
+info
+from the dataset, and are less
+sensitive to the DAG model
+being hypothesized.
+
+A {\bf do-transport formula}
+expresses a do-query in terms
+of an equivalent do-query.
+
+This chapter deals with both
+do-adjustment and do-transport
+formulae.
+
+
 \begin{claim} 
 \label{cl-decBackDoor}
 \decBackDoor
@@ -226,6 +270,12 @@ x\ar[r]
 &y
 }
 $
+\begin{tabular}{l}
+We can replace $\cald\rvx=x$\\
+by $x$ because $\cald\rvx\perp \rvy$\\
+in $\call_{\cald\rvx}G$ so\\
+Rule 2 premise is satisfied.
+\end{tabular}
 \end{longtable}
 
 
@@ -290,6 +340,8 @@ $
 \qed
 
 
+
+
 \begin{claim}
 \label{cl-decFrontDoor}
 \decFrontDoor
@@ -338,6 +390,12 @@ P(m|x)$
 x\ar[r]&\sum m\ar[r]
 &y
 }
+\begin{tabular}{l}
+We can replace $\cald\rvx=x$\\
+by $x$ because $\cald\rvx\perp \rvm$\\
+in $\call_{\cald\rvx}G$ so\\
+Rule 2 premise is satisfied.
+\end{tabular}
 \end{longtable}
 
 
@@ -499,7 +557,7 @@ $\xymatrix{
 \begin{longtable}{l}
 \color{red}
 $P(y|\cald\rvx=x)=
-\sum_{u_1}P(y|x, u_1)P(u_1)$
+\sum_{u_1}P(y|\cald\rvx=x, u_1)P(u_1)$
 \\
 \\
 \xymatrix{
@@ -517,12 +575,12 @@ $P(y|\cald\rvx=x)=
 \xymatrix{
 *++[F-o]{\sum u_1}\ar[rd]
 \\
-x\ar[r]&y
+\cald\rvx=x\ar[r]&y
 }
 \\
 \color{red}
 $
-=\sum_{w,z}\sum_{u_1}P(y|x, u_1)P(u_1|w,z)
+=\sum_{w,z}\sum_{u_1}P(y|\cald\rvx=x, u_1)P(u_1|w,z)
 P(w,z)$
 \\
 \\
@@ -531,7 +589,7 @@ P(w,z)$
 \sum w,z\ar[r]
 &*++[F-o]{\sum u_1}\ar[rd]
 \\
-&x\ar[r]
+&\cald\rvx=x\ar[r]
 &y
 }
 \\
@@ -546,7 +604,12 @@ P(w,z)$
 \sum w,z\ar[rd]
 \\
 x\ar[r]&y
-}
+}\begin{tabular}{l}
+We can replace $\cald\rvx=x$\\
+by $x$ because $\cald\rvx\perp \rvy$\\
+in $\call_{\cald\rvx}G$ so\\
+Rule 2 premise is satisfied.
+\end{tabular}
 \end{longtable}
 \qed
 
@@ -559,7 +622,7 @@ x\ar[r]&y
 \begin{longtable}{l}
 \color{red}
 $P(y|\cald\rvz=z,x)=
-\sum_u P(y|z,x,u)P(u)
+\sum_u P(y|\cald\rvz=z,x,u)P(u)
 $
 \\
 \xymatrix{
@@ -575,7 +638,7 @@ x\ar[d]\ar[drr]
 \xymatrix{
 x\ar[drr]
 \\
-&z\ar[r]
+&\cald\rvz=z\ar[r]
 &y
 \\
 *++[F-o]{\sum u}\ar[urr]
@@ -584,14 +647,15 @@ x\ar[drr]
 \\
 \color{red}
 $=\sum_w\sum_u
-P(y|z,x,u)P(u|w)P(w)
+P(y|\cald\rvz=z,x,u)P(u|w)P(w)
 $
 \\
 \xymatrix{\\=}
 \xymatrix{
 x\ar[drr]
 \\
-\sum w\ar[d]&z\ar[r]
+\sum w\ar[d]
+&\cald\rvz=z\ar[r]
 &y
 \\
 *++[F-o]{\sum u}\ar[urr]
@@ -610,7 +674,12 @@ x\ar[drr]
 \sum w\ar@/_1pc/[rr]
 &z\ar[r]
 &y
-}
+}\begin{tabular}{l}
+We can replace $\cald\rvz=z$\\
+by $z$ because $\cald\rvz\perp \rvy$\\
+in $\call_{\cald\rvz}G$ so\\
+Rule 2 premise is satisfied.
+\end{tabular}
 \end{longtable}
 \qed
 
