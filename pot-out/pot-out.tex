@@ -1521,6 +1521,83 @@ of good, neutral and
 bad controls
 in an $ACE$ calculation.
 
+\section{PO Confounder Sensitivity Analysis}
+
+\begin{figure}[h!]
+$$
+\xymatrix{
+&\rvu\ar@{-->}[ldd]_{\alp'}
+\ar@{-->}[rdd]^{\beta'}
+\\
+&\rvx
+\ar[ld]^\alp
+\ar[rd]_\beta
+\\
+\rvd\ar[rr]_\delta
+&&\rvy
+}$$
+\caption{LDEN bnet used to do PO confounder
+sensitivity analysis.
+Node $\rvu$
+is an unobserved confounder. }
+\label{eq-po-sen-ana}
+\end{figure}
+
+Consider the LDEN bnet of Fig.\ref{eq-po-sen-ana}.
+whose structure equations,
+printed in blue, are as follows:
+
+
+\beq\color{blue}
+\rvd=\alp\rvx +\alp'\rvu
+\eeq
+
+\beq\color{blue}
+\rvy = \beta \rvx + \beta'\rvu + \delta \rvd
+\eeq
+Therefore,
+
+\beq
+\rvu = \frac{1}{\alp'}(\rvd-\alp\rvx)
+\eeq
+
+\beq
+\rvy = \left(\beta-\frac{\alp\beta'}{\alp'}\right)\rvx
++\left(\delta+\frac{\beta'}{\alp'}\right)
+\rvd
+\eeq
+
+
+\beq
+\caly_{d|x,u}=E[\rvy(d)|x,u]=E[\rvy|d,x,u]
+=\beta x+ \beta'u +\delta d
+\eeq
+
+\beq
+\caly_{d|x}=E[\rvy(d)|x]=E[\rvy|d,x]=
+\left(\beta-\frac{\alp\beta'}{\alp'}\right)x
++\left(\delta+\frac{\beta'}{\alp'}\right)
+d
+\eeq  
+
+
+
+\beq
+ATE=E_x[ATE_x]=E_x[\caly_{1|x}-\caly_{0|x}]=
+\delta+\frac{\beta'}{\alp'}
+\eeq
+
+\beq
+ATE|_{\beta'=0}=\delta=\frac{d\rvy}{d\rvd}
+\eeq
+
+\beq
+ATE-ATE|_{\beta'=0}=\frac{\beta'}{\alp'}
+=
+\frac{\quad\frac{d\rvy}{d\rvu}\quad}
+{\frac{d\rvd}{d\rvu}}
+\eeq
+
 
 \section{$(SDO,ATE)$ space}
 If we substitute
