@@ -20,7 +20,7 @@ of a bnet
 into
 2  types:
 {\bf visible (observed)},
-and {\bf non-visible (not observed, latent,
+and {\bf non-visible (unobserved, latent,
 hidden)},
 depending
 on
@@ -68,14 +68,6 @@ $\rvc$
 in Fig.\ref{fig-hidden-dashes})
 is an {\bf unobserved confounder node}.
 
-In this book,
-we will refer
-to a path
-all of whose nodes are
-observed as an {\bf opath}.
-
-
-
 \begin{figure}[h!]
 $$\xymatrix{
 &*++[F-o]{\rvc}\ar[dl]\ar[dr]
@@ -108,16 +100,14 @@ middle diagram.}
 
 
 
-Define
-an
-operator
+Let
 $\cald_\rvx$
-that acts on
-a node
+be an operator 
+that acts on a graph $G$
+with a node
 $\rvx$
-of a bnet
-to
-delete
+by
+deleting
 all
 the 
 arrows
@@ -131,16 +121,13 @@ a new
 node $\cald \rvx$
 that
 is a root node.
-Define 
-an analogous 
-operator
-$\call\rvx$
-that acts on
-a node
+Let
+$\call_\rvx$
+be an operator that acts
+on a graph $G$
+with a node
 $\rvx$
-of a bnet
-to
-delete
+by deleting
 all
 the 
 arrows
@@ -168,10 +155,10 @@ in Fig.\ref{fig-do-rho-lam}.
 \includegraphics[width=4in]
 {do-calc/do-rho-lam.png}
 \caption{
-The operator $\cald_\rvx$
+The do operator $\cald_\rvx$
 converts node $\rvx$
 into a root node $\cald \rvx$.
-The operator $\call_\rvx$
+The leaf operator $\call_\rvx$
 converts node $\rvx$
 into a leaf node $\call\rvx$.
 } 
@@ -251,8 +238,7 @@ P(X.-a.|\rva.=a.)
 Also,
 
 \beq
-P(X.-a.,\cald\rva.=a.')=
-P(X.-a.|\cald\rva.=a.)
+P(\cald\rva.=a.)=
 \delta(a'., a.)
 \;.
 \eeq
@@ -260,36 +246,33 @@ In words, we replace
 the TPM for 
 multinode
 $\rva.$ by
-a deterministic
-prior
-distribution.
+a delta function.
 
 For instance, for the bnet
 
 \beq
 \xymatrix{
-\rvx\ar[r]&\rvy
+\rvr\ar[r]
+&\rvx\ar[r]&\rvy
 }
 \eeq
 with 
 
 \beq
-P(x,y)=P(y|x)P(x)
+P(r, x,y)=P(y|x)P(x|r)P(r)
 \;,
 \eeq
 one has 
 
 \beq
-P(y|\cald\rvx=x)=P(y|x)
+P(r, y|\cald\rvx=x)=P(y|x)P(r)
 \eeq
-and
+Hence,
 
 \beq
-P(x|\cald \rvy=y)=P(x)
-\;.
+P(y|\cald\rvx=x)=P(y|x)
 \eeq
-This means that $\rvx$ causes $\rvy$
-and $\rvy$ does not cause $\rvx$.
+
 
 For the bnet
 
@@ -343,12 +326,12 @@ P(b.|\cald \rva.=a., s.)=
 \eeq
 
 $P(b.|\cald \rva.=a., s.)$
-is usually denoted instead  by
+is denoted by Pearl  by
 $P(b.|do(\rva.=a.), s.)$.
 I prefer to 
 use $\cald$
 instead of $do()$.
-I'll still call $\cald$
+I will still call $\cald$
 a {\bf do operator}. 
 
 In $P(y|\cald \rvx=x)$,
@@ -393,46 +376,13 @@ that only
 depend on observed 
 variables, and that
 have no do operators
-in them. 
-
-For example,
-if $\rvy$ has only one parent,
-namely $\rvx$, then $P(y|x)$ is a TPM
-of the bnet, so $P(y|\cald\rvx=x)=P(y|x)$.
-Thus, in general, if $\rvy$ has only
-one parent, $P(y|\cald\rvx=x)$ is 
-identifiable. On the other hand, if
-$\rvy$ has two parents, $\rvx$ and $\rva$, then
-$P(y|x,a)$, not $P(y|x)$,
-is the TPM for node $\rvy$,
-so we will need more than the TPM
-of node $\rvy$ to calculate $P(y|\cald\rvx=x)$.
-So if $\rvy$ has more parents than node $\rvx$,
-then the identifiability of $P(y|\cald\rvx=x)$
-is not guaranteed.
-
- 
-As a second example,
-$P(y|\cald\rvx=x)$ is identifiable
-for the bnet
-
-\beq
-\xymatrix{
-\rvz\ar[d]\ar[dr]
-\\
-\rvx\ar[r]&\rvy
-}
-\eeq
-but it is not identifiable for the bnet
-
-\beq
-\xymatrix{
-*++[F-o]{\rvz}\ar[d]\ar[dr]
-\\
-\rvx\ar[r]&\rvy
-}
-\eeq
-
+in them.\footnote{In Statistics,
+one says a probability
+distribution $P(x;\theta)$
+of $x$ that depends on a parameter
+$\theta$ is {\bf identifiable}
+if  $P(x;\theta_1)=P(x;\theta_2)$
+implies $\theta_1=\theta_2$.}
 
 For $\rvx, \rvy\in \bool$,
  the {\bf average controlled effect (ACE)}
@@ -444,7 +394,8 @@ P(y=1|\cald \rvx=1)-
 P(y=1|\cald \rvx=0)
 \eeq
 and the 
-{\bf Risk Difference (RD)} as
+{\bf Risk Difference (RD)} 
+is defined as
 
 \beq
 RD=
@@ -503,7 +454,7 @@ of $\rvx.$.
 
 We say that 
 we are {\bf adjusting 
-or controlling a variable $\rva$}
+or controlling a node $\rva$}
 if we condition 
 a probability on $\rva$ and 
 then we average 
@@ -563,8 +514,9 @@ do operators.
 
 \rulezeroif
 \begin{itemize}[$\checkmark$]
-\item \rulezerothen
+
 \item $\rulezeroP$
+\quad(i.e., \rulezerothen)
 \\
 $\rulezeropic$
 \item $\rulezeroH$
@@ -584,8 +536,9 @@ Insertion or deletion of
 
 \ruleoneif
 \begin{itemize}[$\checkmark$]
-\item \ruleonethen
+
 \item $\ruleoneP$
+\quad(i.e., \ruleonethen)
 \\
 $\ruleonepic$
 \item $\ruleoneH$
@@ -597,8 +550,8 @@ observation exchange
 
 \ruletwoif
 \begin{itemize}[$\checkmark$]
-\item \ruletwothen
 \item $\ruletwoP$
+\quad(i.e., \ruletwothen)
 \\
 $\ruletwopicA$
 \\
@@ -620,8 +573,9 @@ node keeps the arrows,
 
 \rulethreeif
 \begin{itemize}[$\checkmark$]
-\item \rulethreethen
+
 \item $\rulethreeP$
+\quad(i.e., \rulethreethen)
 \\
 $\rulethreepic$
 \item $\rulethreeH$
@@ -768,7 +722,7 @@ to
 $(\rvx, \rvy)$,
 then
 $\rvx, \rvy, \rvz$
-must 
+might
 have the following 
 structure.
 
@@ -776,8 +730,12 @@ structure.
 \beq
 \xymatrix{
 {\rvz}\ar[d]\ar[rd]
+\ar@{<-->}@/_1pc/[d]
+&*++[F-o]{\rvu}\ar[d]
+&*++[F-o]{\rvv}
 \\
-\rvx\ar[r]&\rvy
+\rvx\ar[r]\ar[ur]\ar[rru]
+&\rvy\ar[ru]
 }
 \eeq
 
@@ -838,11 +796,6 @@ Formula
 \end{claim}
 \proof
 
-(See also Ref.\cite{pearl-frontdoor}
-for a proof
-of the Frontdoor Adjustment Formula
-without 
-using Do Calculus.)
 
 For simplicity,
 let us omit
@@ -858,7 +811,7 @@ to
 $(\rvx, \rvy)$,
 then
 $\rvx, \rvm, \rvy$
-must 
+might 
 have the following 
 structure,
 where node $\rvc$
@@ -875,6 +828,12 @@ is unobserved.
 
 See Claim \ref{cl-decFrontDoor}
 for a proof of this claim.
+
+See also Ref.\cite{pearl-frontdoor}
+for a proof by Pearl
+of the Frontdoor Adjustment Formula
+without 
+using Do Calculus.
 \qed
 
 \section{Do operator for DEN diagrams}
