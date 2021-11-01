@@ -1,97 +1,126 @@
 \chapter{Kalman Filter}\label{ch-kalman}
 
-A Kalman Filter is a special case of a
+A Kalman Filter (KF) is a special case of a
 Hidden Markov Model. HMMs are
  discussed in Chapter \ref{ch-hmm}.
 
 \begin{figure}[h!]
 \centering
 $$\xymatrix{
-\rvx_0\ar[d]\ar[r]&
-\rvx_1\ar[d]\ar[r]&
-\rvx_2\ar[d]\ar[r]&
-\rvx_3\ar[d]\\
-\rvz_0&
-\rvz_1&
-\rvz_2&
-\rvz_3
+&\rvu_1\ar[dr]
+&*++[F-o]{\rvw_1}\ar[d]
+&\rvu_1\ar[dr]
+&\cdots
+&\rvu_{t-1}\ar[dr]
+&*++[F-o]{\rvw_{t-1}}\ar[d]
+&\rvu_t\ar[dr]|{B_t}
+&*++[F-o]{\rvw_{t}}\ar[d]^{Q_t}
+\\
+*++[F-o]{\rvx_0}\ar[d]\ar[rr]
+&&*++[F-o]{\rvx_1}\ar[d]\ar[rr]
+&&\cdots
+&&*++[F-o]{\rvx_{t-1}}\ar[d]\ar[rr]_{F_t}
+&&*++[F-o]{\rvx_{t}}\ar[d]^{H_t}
+\\
+\rvz_0
+&&\rvz_1
+&&\cdots
+&&\rvz_{t-1}
+&
+&\rvz_{t}
+\\
+*++[F-o]{\rvv_0}\ar[u]
+&&*++[F-o]{\rvv_1}\ar[u]
+&&\cdots
+&&*++[F-o]{\rvv_{t-1}}\ar[u]
+&&*++[F-o]{\rvv_{t}}\ar[u]_{R_t}
 }$$
-\caption{Kalman Filter bnet with $T=4$.}
+\caption{Kalman Filter (KF) bnet.}
 \label{fig-kal}
 \end{figure}
 
-Let $t=0, 1, 2, \dots , T-1$.
+Let 
 
-$\rvx_t\in S_\rvx$ are
+$t=0, 1, 2, \dots , T-1$ be the time.
+
+$\rvw_t, \rvv_t\in \RR$ be
+random variables that represent
+the hidden (unobserved)   external
+Gaussian white noise.
+
+$\rvx_t\in S_\rvx$ be
 random variables that represent
 the hidden (unobserved) true
 state of the system.
 
-$\rvz_t\in S_\rvz$ are 
+$\rvz_t\in S_\rvz$ be
 random variables that represent
 the measured (observed) state of the system.
 
 
-The Kalman Filter bnet Fig.\ref{fig-kal}
-has the following
+The 
 node TPMs,
-printed in blue:
+printed in blue,
+of the KF bnet Fig.\ref{fig-kal},
+are as follows:
+
+\beq\color{blue}
+P(w_t)=\caln(w_t; 0, Q_t)
+\;,
+\eeq
+where $Q_t$ is given.
 
 
 \beq\color{blue}
-P(x_t|x_{t-1})=
-\caln(x_t;F_tx_{t-1} + B_tu_t, Q_t)\;,
+P(x_t|x_{t-1}, u_t, w_t)=
+\indi(x_t=F_tx_{t-1} + B_tu_t + w_t)
+\;,
 \eeq
-where $F_t, Q_t, B_t, u_t$
+where $F_t, B_tu_t$
 are given. $P(x_t|x_{t-1})$ becomes $P(x_t)$
 for $t=0$.
 
 \beq\color{blue}
-P(z_t|x_t)=
-\caln(z_t; H_tx_t, R_t)
+P(v_t)=\caln(v_t; 0, R_t)
 \;,
 \eeq
-where $H_t, R_t$ are given.
+where $R_t$ is given.
 
-Define
-
-\beq
-\rvZ_t= (\rvz_{t'})_{t'\leq t}
-\;.
+\beq\color{blue}
+P(z_t|x_t, v_t)=
+\indi(z_t=H_t x_t +  v_t)
+\;,
 \eeq
-Define $\hat{x}_t$ and $P_t$ by
+where $H_t$ is given.
 
-\beq
-P(x_t|Z_t)=
-\caln(x_t; \hat{x}_t, P_t)
-\;.
-\eeq
 
-\section{
+\section{Prediction
 Problem}
-Find $\hat{x}_t$ and $P_t$
+Find $\hat{x}_t$ (the estimate
+of $x_t$)
+and $P_t$ (the state of the 
+filter at time $t$)
 in terms of 
 \begin{enumerate}
 \item
- current (at time $t$)
- given values of
-$F,Q,H,R,
- B ,u$
+$\hatx_{t-1}$
+and $P_{t-1}$.
 \item
- current (at time $t$)
-observed  value of 
-$z$
+ the 5 matrices
+$\calm_t=(F_t,B_t,H_t,Q_t,R_t)$
 \item
-prior (previous)
-value (at time $t-1$) of $\hat{x}$
-and $P$.
+the observed  values of 
+$z_t$ and $u_t$.
+
 \end{enumerate}
-See Fig.\ref{fig-kal-plus}.
+See Fig.\ref{fig-kal-evol}.
 For that figure,
 
 \beq \color{blue}
-P(\hat{x}_t, P_t | z_t,
-\hat{x}_{t-1}, P_{t-1})
+P(\hat{x}_t, P_t | 
+\hat{x}_{t-1}, P_{t-1},
+\calm_t,
+z_t,u_t)
 =\delta(\hat{x}_t,?)
 \delta(P_t, ?)
 \;.
@@ -100,14 +129,11 @@ P(\hat{x}_t, P_t | z_t,
 \begin{figure}[h!]
 \centering
 $$\xymatrix{
-\rvx_0\ar[d]\ar[r]&
-\rvx_1\ar[d]\ar[r]&
-\rvx_2\ar[d]\ar[r]&
-\rvx_3\\
-\rvz_0\ar[d]&
-\rvz_1\ar[d]&
-\rvz_2\ar[d]&
-\rvz_3\\
+\calm_0, \rvz_0,\rvu_0\ar[d]&
+\calm_1, \rvz_1,\rvu_1\ar[d]&
+\calm_2, \rvz_2,\rvu_2\ar[d]&
+\calm_3, \rvz_3,\rvu_3\ar[d]
+\\
 \ul{\hat{x}}_0, 
 \ul{P}_0\ar[r]&
 \ul{\hat{x}}_1, 
@@ -117,16 +143,63 @@ $$\xymatrix{
 \ul{\hat{x}}_3, 
 \ul{P}_3
 }$$
-\caption{Kalman Filter bnet
-with deterministic nodes for 
-$\hat{x}_t, P_t$.}
-\label{fig-kal-plus}
+\caption{Evolution of
+$\hat{x}_t, P_t$ for a KF.}
+\label{fig-kal-evol}
 \end{figure}
 
 \section{
 Solution} 
-Solution copied from 
-Wikipedia Ref.\cite{wiki-kalman}.
+
+The algebraic solution\footnote{This
+algebraic
+ solution was copied from 
+Wikipedia Ref.\cite{wiki-kalman}.}
+of
+the prediction problem
+for a KF 
+is as follows.
+See Fig.\ref{fig-kal-evol-plus}
+for a bnet representation
+of this algebraic
+solution.
+
+\begin{figure}[h!]
+$$
+\xymatrix@C=5pc{
+P_{t-1}\ar[r]
+&P_{t|t-1}\ar[r]\ar[rd]
+&P_t
+\\
+&&
+K_t\ar[u]
+\\
+u_{t-1}
+&
+&u_t\ar[ld]|{B_t}
+\\
+\hatx_{t-1}\ar[r]^{F_t}
+&\hatx_{t|t-1}\ar[r]^1
+\ar[d]_{-H_t}
+&\hatx_t\ar[d]^{-H_t}
+\\
+\tilde{y}_{t-1}
+&\tilde{y}_{t|t-1}\ar[ru]|{K_t}
+&\tilde{y}_t
+\\
+z_{t-1}
+&
+&z_t\ar[lu]^1
+\ar[u]_1
+}
+$$
+\caption{Bnet representation
+of the algebraic
+solution of
+the prediction 
+problem for a KF.}
+\label{fig-kal-evol-plus}
+\end{figure}
 
 
 Define $\eta_{t|t}=\eta_t$ for 
@@ -175,18 +248,29 @@ Innovation (or pre-fit residual)
 
 
 Optimal Kalman gain
-\beq
-\mymathbf{K}_t = \mymathbf{P}_{t\mid t-1}
+\beqa
+\mymathbf{K}_t &=&
+\mymathbf{P}_{t\mid t-1}
 \mymathbf{H}_t^\textsf{T}
  \mymathbf{S}_t^{-1}
-\eeq
+\\
+&=&
+ \mymathbf{P}_{t\mid t-1}
+\mymathbf{H}_t^\textsf{T}
+\left[
+\mymathbf{H}_t 
+\mymathbf{P}_{t\mid t-1} 
+\mymathbf{H}_t^\textsf{T} +
+ \mymathbf{R}_t
+\right]^{-1}
+\eeqa
 
 
 Updated (a posteriori) state estimate
 \beq
 \hat{\mymathbf{x}}_{t\mid t} =
  \hat{\mymathbf{x}}_{t\mid t-1} +
- \mymathbf{K}_t\tilde{\mymathbf{y}}_t
+ \mymathbf{K}_t\tilde{\mymathbf{y}}_{t|t-1}
 \eeq
 
 Updated (a posteriori) estimate covariance
@@ -202,3 +286,4 @@ Measurement post-fit residual
  \mymathbf{z}_t - \mymathbf{H}_t
 \hat{\mymathbf{x}}_{t\mid t}
 \eeq
+
