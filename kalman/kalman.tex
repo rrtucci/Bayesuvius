@@ -8,13 +8,13 @@ Hidden Markov Model. HMMs are
 \centering
 $$\xymatrix{
 &\rvu_1\ar[dr]
-&*++[F-o]{\rvw_1}\ar[d]
+&*++[F-o]{\rvxi_1}\ar[d]
 &\rvu_1\ar[dr]
 &\cdots
 &\rvu_{t-1}\ar[dr]
-&*++[F-o]{\rvw_{t-1}}\ar[d]
+&*++[F-o]{\rvxi_{t-1}}\ar[d]
 &\rvu_t\ar[dr]|{B_t}
-&*++[F-o]{\rvw_{t}}\ar[d]^{Q_t}
+&*++[F-o]{\rvxi_{t}}\ar[d]^{Q_t}
 \\
 *++[F-o]{\rvx_0}\ar[d]\ar[rr]
 &&*++[F-o]{\rvx_1}\ar[d]\ar[rr]
@@ -29,11 +29,11 @@ $$\xymatrix{
 &
 &\rvz_{t}
 \\
-*++[F-o]{\rvv_0}\ar[u]
-&&*++[F-o]{\rvv_1}\ar[u]
+*++[F-o]{\rvzeta_0}\ar[u]
+&&*++[F-o]{\rvzeta_1}\ar[u]
 &&\cdots
-&&*++[F-o]{\rvv_{t-1}}\ar[u]
-&&*++[F-o]{\rvv_{t}}\ar[u]_{R_t}
+&&*++[F-o]{\rvzeta_{t-1}}\ar[u]
+&&*++[F-o]{\rvzeta_{t}}\ar[u]_{R_t}
 }$$
 \caption{Kalman Filter (KF) bnet.}
 \label{fig-kal}
@@ -43,19 +43,22 @@ Let
 
 $t=0, 1, 2, \dots , T-1$ be the time.
 
-$\rvw_t\in\RR, \rvv_t\in \RR$ be
+$\rvxi_t\in\RR^{nx},
+ \rvzeta_t\in \RR^{nz}$ be
 random variables that represent
 hidden (unobserved)   external
 Gaussian white noise.
 
-$\rvx_t\in S_\rvx$ be
+$\rvx_t\in \RR^{nx}$ be
 random variables that represent
 the hidden (unobserved) true
 state of the system.
 
-$\rvu_t\in S_\rvu, \rvz_t\in S_\rvz$ be
+$\rvu_t\in \RR^{nu}, 
+\rvz_t\in \RR^{nz}$ be
 random variables that represent
-the measured (observed) state of the system.
+the measured (observed) 
+state of the system.
 
 
 The 
@@ -65,15 +68,15 @@ of the KF bnet Fig.\ref{fig-kal},
 are as follows:
 
 \beq\color{blue}
-P(w_t)=\caln(w_t; 0, Q_t)
+P(\xi_t)=\caln(\xi_t; 0, Q_t)
 \;,
 \eeq
 where $Q_t$ is given.
 
 
 \beq\color{blue}
-P(x_t|x_{t-1}, u_t, w_t)=
-\indi(x_t=A_tx_{t-1} + B_tu_t + w_t)
+P(x_t|x_{t-1}, u_t, \xi_t)=
+\indi(x_t=A_tx_{t-1} + B_tu_t + \xi_t)
 \;,
 \eeq
 where $A_t, B_tu_t$
@@ -81,14 +84,14 @@ are given. $P(x_t|x_{t-1})$ becomes $P(x_t)$
 for $t=0$.
 
 \beq\color{blue}
-P(v_t)=\caln(v_t; 0, R_t)
+P(\zeta_t)=\caln(\zeta_t; 0, R_t)
 \;,
 \eeq
 where $R_t$ is given.
 
 \beq\color{blue}
-P(z_t|x_t, v_t)=
-\indi(z_t=H_t x_t +  v_t)
+P(z_t|x_t, \zeta_t)=
+\indi(z_t=H_t x_t +  \zeta_t)
 \;,
 \eeq
 where $H_t$ is given.
@@ -208,6 +211,7 @@ Define $\eta_{t|t}=\eta_t$ for
 $\eta=\hatx, P$.
 
 \begin{itemize}
+\item{\bf Initial Conditions} $\hatx_0, P_0$
 \item{\bf A priori estimates}
 
 a priori state estimate
@@ -262,7 +266,7 @@ a posteriori state estimate
 
 \beq
 \tilde{y}_{t|t-1}= 
-\underbrace{z_t}_{H_t x_t + v_t} - 
+\underbrace{z_t}_{H_t x_t + \zeta_t} - 
 H_t\hatx_{t| t-1}
 \eeq
 
@@ -273,13 +277,13 @@ H_t\hatx_{t| t-1}
 \\
 &=&
 (1-K_tH_t)\hatx_{t| t-1} +
- K_t\underbrace{z_t}_{H_t x_t + v_t}
+ K_t\underbrace{z_t}_{H_t x_t + \zeta_t}
 \quad\text{(interpolation formula)}
 \eeqa
 
 \beq
 \tilde{y}_{t} =
-\underbrace{z_t}_{H_t x_t + v_t} - H_t
+\underbrace{z_t}_{H_t x_t + \zeta_t} - H_t
 \hatx_{t} \quad\text{($\tilde{y}_t$ is a residual)}
 \eeq
 
@@ -290,6 +294,84 @@ P_{t} = \left(I -
 P_{t|t-1} 
 \eeq
 
-
-
 \end{itemize}
+
+\section{Invariants}
+
+\beq
+E[\rvx_t -\ul{\hatx}_t]
+=
+E[\rvx_t -\ul{\hatx}_{t|t-1}]=0
+\eeq
+
+\beq
+E[\tilde{\rvy}_t]
+=E[\tilde{\rvy}_{t|t-1}]
+=0
+\eeq
+
+\beq
+P_t= Cov(\rvx_t -\ul{\hatx}_t)
+\eeq
+
+\beq
+P_{t|t-1}=Cov(\rvx_t-
+\ul{\hatx}_{t|t-1})
+\eeq
+
+\beq
+S_t=Cov(\tilde{\rvy}_{t|t-1})
+\eeq
+
+\section{Simple Example}
+
+$r_t$ position, $v_t$ velocity, $a_t$
+acceleration of point particle.
+
+\beq
+x_t=A x_{t-1} + B u_t +\xi_t
+\eeq
+
+\beq
+x_t= 
+\left[
+\begin{array}{c}
+r_t
+\\
+v_t
+\end{array}
+\right]
+\;,\quad u_t=a_t
+\eeq
+
+\beq
+A=
+\left[
+\begin{array}{cc}
+1 & \Delta t
+\\
+0& 1
+\end{array}\right]
+\;,\quad
+B=
+\left[
+\begin{array}{c}
+\frac{1}{2}(\Delta t)^2
+\\
+\Delta t
+\end{array}\right]
+\eeq
+
+\beq
+z_t = H x_t + \zeta_t
+\eeq
+
+\beq
+H =
+\left[
+\begin{array}{cc}
+1&0
+\end{array}
+\right]
+\eeq
+
