@@ -19,7 +19,7 @@ $$\xymatrix{
 *++[F-o]{\rvx_0}\ar[d]\ar[rr]
 &&*++[F-o]{\rvx_1}\ar[d]\ar[rr]
 &&\cdots
-&&*++[F-o]{\rvx_{t-1}}\ar[d]\ar[rr]_{F_t}
+&&*++[F-o]{\rvx_{t-1}}\ar[d]\ar[rr]_{A_t}
 &&*++[F-o]{\rvx_{t}}\ar[d]^{H_t}
 \\
 \rvz_0
@@ -43,9 +43,9 @@ Let
 
 $t=0, 1, 2, \dots , T-1$ be the time.
 
-$\rvw_t, \rvv_t\in \RR$ be
+$\rvw_t\in\RR, \rvv_t\in \RR$ be
 random variables that represent
-the hidden (unobserved)   external
+hidden (unobserved)   external
 Gaussian white noise.
 
 $\rvx_t\in S_\rvx$ be
@@ -53,7 +53,7 @@ random variables that represent
 the hidden (unobserved) true
 state of the system.
 
-$\rvz_t\in S_\rvz$ be
+$\rvu_t\in S_\rvu, \rvz_t\in S_\rvz$ be
 random variables that represent
 the measured (observed) state of the system.
 
@@ -73,10 +73,10 @@ where $Q_t$ is given.
 
 \beq\color{blue}
 P(x_t|x_{t-1}, u_t, w_t)=
-\indi(x_t=F_tx_{t-1} + B_tu_t + w_t)
+\indi(x_t=A_tx_{t-1} + B_tu_t + w_t)
 \;,
 \eeq
-where $F_t, B_tu_t$
+where $A_t, B_tu_t$
 are given. $P(x_t|x_{t-1})$ becomes $P(x_t)$
 for $t=0$.
 
@@ -96,7 +96,8 @@ where $H_t$ is given.
 
 \section{Prediction
 Problem}
-Find $\hat{x}_t$ (the estimate
+Find $\hatx_t$ (the 
+best possible estimate
 of $x_t$)
 and $P_t$ (the state of the 
 filter at time $t$)
@@ -107,7 +108,7 @@ $\hatx_{t-1}$
 and $P_{t-1}$.
 \item
  the 5 matrices
-$\calm_t=(F_t,B_t,H_t,Q_t,R_t)$
+$\calm_t=(A_t,B_t,H_t,Q_t,R_t)$
 \item
 the observed  values of 
 $z_t$ and $u_t$.
@@ -117,11 +118,11 @@ See Fig.\ref{fig-kal-evol}.
 For that figure,
 
 \beq \color{blue}
-P(\hat{x}_t, P_t | 
-\hat{x}_{t-1}, P_{t-1},
+P(\hatx_t, P_t | 
+\hatx_{t-1}, P_{t-1},
 \calm_t,
 z_t,u_t)
-=\delta(\hat{x}_t,?)
+=\delta(\hatx_t,?)
 \delta(P_t, ?)
 \;.
 \eeq
@@ -134,17 +135,17 @@ $$\xymatrix{
 \calm_2, \rvz_2,\rvu_2\ar[d]&
 \calm_3, \rvz_3,\rvu_3\ar[d]
 \\
-\ul{\hat{x}}_0, 
+\ul{\hatx}_0, 
 \ul{P}_0\ar[r]&
-\ul{\hat{x}}_1, 
+\ul{\hatx}_1, 
 \ul{P}_1\ar[r]&
-\ul{\hat{x}}_2, 
+\ul{\hatx}_2, 
 \ul{P}_2\ar[r]&
-\ul{\hat{x}}_3, 
+\ul{\hatx}_3, 
 \ul{P}_3
 }$$
 \caption{Evolution of
-$\hat{x}_t, P_t$ for a KF.}
+$\hatx_t, P_t$ for a KF.}
 \label{fig-kal-evol}
 \end{figure}
 
@@ -154,7 +155,8 @@ Solution}
 The algebraic solution\footnote{This
 algebraic
  solution was copied from 
-Wikipedia Ref.\cite{wiki-kalman}.}
+Wikipedia Ref.\cite{wiki-kalman},
+with $F_t$ replaced by $A_t$.}
 of
 the prediction problem
 for a KF 
@@ -178,7 +180,7 @@ u_{t-1}
 &
 &u_t\ar[ld]|{B_t}
 \\
-\hatx_{t-1}\ar[r]^{F_t}
+\hatx_{t-1}\ar[r]^{A_t}
 &\hatx_{t|t-1}\ar[r]^1
 \ar[d]_{-H_t}
 &\hatx_t\ar[d]^{-H_t}
@@ -203,87 +205,91 @@ problem for a KF.}
 
 
 Define $\eta_{t|t}=\eta_t$ for 
-$\eta=\hat{x}, P$.
+$\eta=\hatx, P$.
 
 \begin{itemize}
-\item{\bf Predict}
+\item{\bf A priori estimates}
 
-Predicted (a priori) state estimate
+a priori state estimate
 \beq
-\hat{\mymathbf{x}}_{t\mid t-1} =
- \mymathbf{F}_t
-\hat{\mymathbf{x}}_{t-1\mid t-1}
- + \mymathbf{B}_t \mymathbf{u}_{t}
+\hatx_{t| t-1} =
+ A_t
+\hatx_{t-1}
+ + B_t u_{t}
 \eeq
 
-Predicted (a priori) estimate covariance
+a priori covariance estimate
 \beq
-\mymathbf{P}_{t\mid t-1} =
- \mymathbf{F}_t 
-\mymathbf{P}_{t-1\mid t-1}
- \mymathbf{F}_t^\textsf{T} +
- \mymathbf{Q}_t
+P_{t| t-1} =
+ A_t 
+P_{t-1}
+ A_t^\textsf{T} +
+ Q_t
 \eeq
 
-\item{\bf Update}
+\item{\bf A posteriori estimates}
 
-Innovation (or measurement 
-pre-fit residual)
-\beq
-\tilde{\mymathbf{y}}_{t|t-1}= 
-\mymathbf{z}_t - 
-\mymathbf{H}_t\hat{\mymathbf{x}}_{t\mid t-1}
-\eeq
-
-Innovation (or pre-fit residual)
- covariance
-\beq
-\mymathbf{S}_t = \mymathbf{H}_t 
-\mymathbf{P}_{t\mid t-1} 
-\mymathbf{H}_t^\textsf{T} +
- \mymathbf{R}_t
-\eeq
-
-\end{itemize}
 
 
 Optimal Kalman gain
+
+\beq
+S_t = H_t 
+P_{t| t-1} 
+H_t^\textsf{T} +
+ R_t
+\eeq
+
 \beqa
-\mymathbf{K}_t &=&
-\mymathbf{P}_{t\mid t-1}
-\mymathbf{H}_t^\textsf{T}
- \mymathbf{S}_t^{-1}
+K_t &=&
+P_{t| t-1}
+H_t^\textsf{T}
+ S_t^{-1}
 \\
 &=&
- \mymathbf{P}_{t\mid t-1}
-\mymathbf{H}_t^\textsf{T}
+ P_{t| t-1}
+H_t^\textsf{T}
 \left[
-\mymathbf{H}_t 
-\mymathbf{P}_{t\mid t-1} 
-\mymathbf{H}_t^\textsf{T} +
- \mymathbf{R}_t
+H_t 
+P_{t| t-1} 
+H_t^\textsf{T} +
+ R_t
 \right]^{-1}
 \eeqa
 
 
-Updated (a posteriori) state estimate
+a posteriori state estimate
+
 \beq
-\hat{\mymathbf{x}}_{t\mid t} =
- \hat{\mymathbf{x}}_{t\mid t-1} +
- \mymathbf{K}_t\tilde{\mymathbf{y}}_{t|t-1}
+\tilde{y}_{t|t-1}= 
+\underbrace{z_t}_{H_t x_t + v_t} - 
+H_t\hatx_{t| t-1}
 \eeq
 
-Updated (a posteriori) estimate covariance
+\beqa
+\hatx_{t} &=&
+ \hatx_{t| t-1} +
+ K_t\tilde{y}_{t|t-1}
+\\
+&=&
+(1-K_tH_t)\hatx_{t| t-1} +
+ K_t\underbrace{z_t}_{H_t x_t + v_t}
+\quad\text{(interpolation formula)}
+\eeqa
+
 \beq
-\mymathbf{P}_{t|t} = \left(\mymathbf{I} -
- \mymathbf{K}_t \mymathbf{H}_t\right) 
-\mymathbf{P}_{t|t-1} 
+\tilde{y}_{t} =
+\underbrace{z_t}_{H_t x_t + v_t} - H_t
+\hatx_{t} \quad\text{($\tilde{y}_t$ is a residual)}
 \eeq
 
-Measurement post-fit residual
+a posteriori covariance estimate
 \beq
-\tilde{\mymathbf{y}}_{t\mid t} =
- \mymathbf{z}_t - \mymathbf{H}_t
-\hat{\mymathbf{x}}_{t\mid t}
+P_{t} = \left(I -
+ K_t H_t\right) 
+P_{t|t-1} 
 \eeq
 
+
+
+\end{itemize}
