@@ -1,5 +1,11 @@
 \chapter{Kalman Filter}\label{ch-kalman}
 
+This
+chapter is based on Ref.\cite{wiki-kalman},
+except we've replaced the
+variables $F_t, w_t, v_t$ in that reference by 
+$A_t, \xi_t,\zeta_t$, respectively.
+
 A Kalman Filter (KF) is a special case of a
 Hidden Markov Model. HMMs are
  discussed in Chapter \ref{ch-hmm}.
@@ -80,7 +86,8 @@ P(x_t|x_{t-1}, u_t, \xi_t)=
 \;,
 \eeq
 where $A_t, B_tu_t$
-are given. $P(x_t|x_{t-1})$ becomes $P(x_t)$
+are given. $P(x_t|x_{t-1}, u_t, \xi_t)$
+ becomes $P(x_t)$
 for $t=0$.
 
 \beq\color{blue}
@@ -155,11 +162,7 @@ $\hatx_t, P_t$ for a KF.}
 \section{
 Solution} 
 
-The algebraic solution\footnote{This
-algebraic
- solution was copied from 
-Wikipedia Ref.\cite{wiki-kalman},
-with $F_t$ replaced by $A_t$.}
+The algebraic solution
 of
 the prediction problem
 for a KF 
@@ -217,9 +220,10 @@ $\eta=\hatx, P$.
 a priori state estimate
 \beq
 \hatx_{t| t-1} =
- A_t
+\underbrace{ A_t
 \hatx_{t-1}
  + B_t u_{t}
+}_{x_t-\xi_t}
 \eeq
 
 a priori covariance estimate
@@ -227,7 +231,7 @@ a priori covariance estimate
 P_{t| t-1} =
  A_t 
 P_{t-1}
- A_t^\textsf{T} +
+ A_t^T +
  Q_t
 \eeq
 
@@ -240,23 +244,23 @@ Optimal Kalman gain $K_t$
 \beq
 S_t = H_t 
 P_{t| t-1} 
-H_t^\textsf{T} +
+H_t^T +
  R_t
 \eeq
 
 \beqa
 K_t &=&
 P_{t| t-1}
-H_t^\textsf{T}
+H_t^T
  S_t^{-1}
 \\
 &=&
  P_{t| t-1}
-H_t^\textsf{T}
+H_t^T
 \left[
 H_t 
 P_{t| t-1} 
-H_t^\textsf{T} +
+H_t^T +
  R_t
 \right]^{-1}
 \eeqa
@@ -264,11 +268,16 @@ H_t^\textsf{T} +
 
 a posteriori state estimate
 
+
+
 \beq
-\tilde{y}_{t|t-1}= 
-\underbrace{z_t}_{H_t x_t + \zeta_t} - 
+\tilde{y}_{t|t-1}=
+z_t - 
 H_t\hatx_{t| t-1}
 \eeq
+
+
+
 
 \beqa
 \hatx_{t} &=&
@@ -279,13 +288,16 @@ H_t\hatx_{t| t-1}
 (1-K_tH_t)\hatx_{t| t-1} +
  K_t\underbrace{z_t}_{H_t x_t + \zeta_t}
 \quad\text{(interpolation formula)}
+\label{eq-kal-interpol-f}
 \eeqa
 
 \beq
-\tilde{y}_{t} =
-\underbrace{z_t}_{H_t x_t + \zeta_t} - H_t
-\hatx_{t} \quad\text{($\tilde{y}_t$ is a residual)}
+\tilde{y}_{t}=
+z_t - 
+H_t\hatx_{t}
 \eeq
+
+
 
 a posteriori covariance estimate
 \beq
@@ -294,34 +306,11 @@ P_{t} = \left(I -
 P_{t|t-1} 
 \eeq
 
+
+
 \end{itemize}
 
-\section{Invariants}
 
-\beq
-E[\rvx_t -\ul{\hatx}_t]
-=
-E[\rvx_t -\ul{\hatx}_{t|t-1}]=0
-\eeq
-
-\beq
-E[\tilde{\rvy}_t]
-=E[\tilde{\rvy}_{t|t-1}]
-=0
-\eeq
-
-\beq
-P_t= Cov(\rvx_t -\ul{\hatx}_t)
-\eeq
-
-\beq
-P_{t|t-1}=Cov(\rvx_t-
-\ul{\hatx}_{t|t-1})
-\eeq
-
-\beq
-S_t=Cov(\tilde{\rvy}_{t|t-1})
-\eeq
 
 \section{Simple Example}
 
@@ -375,3 +364,194 @@ H =
 \right]
 \eeq
 
+\section{Invariants}
+
+Note that
+
+\beq
+x_t-\hatx_{t|t-1}=\xi_t
+\eeq
+
+\beqa
+x_t-\hatx_t&=&
+(1-K_tH_t)(x_t-\hatx_{t|t-1})-K_t\zeta_t
+\\
+&=&
+(1-K_tH_t)\xi_t-K_t\zeta_t
+\label{eq-kalm-delta-xt}
+\eeqa
+
+\beqa
+\tilde{y}_{t|t-1}&=&
+\underbrace{z_t}_{H_t x_t + \zeta_t} - 
+H_t\hatx_{t| t-1}
+\\
+&=&
+H_t
+\xi_t +\zeta_t
+\eeqa
+
+
+\beqa
+\tilde{y}_{t} &=&
+\underbrace{z_t}_{H_t x_t + \zeta_t} - H_t
+\hatx_{t}
+\\
+&=&
+H_t(x_t-\hatx_t)+\zeta_t
+\\
+&=&
+H_t(1-K_tH_t)\xi_t 
++(1-H_tK_t)\zeta_t
+\eeqa
+$(x_t-\hatx_{t|t-1})$, $(x_t-\hatx_t)$,
+$\tilde{y}_{t|t-1}$ and $\tilde{y}_t$
+are called {\bf residuals}.
+Since $\xi_t$ and $\zeta_t$
+have zero mean
+value,
+
+
+\beq
+E[\rvx_t -\ul{\hatx}_t]
+=
+E[\rvx_t -\ul{\hatx}_{t|t-1}]=0
+\eeq
+
+\beq
+E[\tilde{\rvy}_t]
+=E[\tilde{\rvy}_{t|t-1}]
+=0
+\eeq
+These zero mean value identities
+are called {\bf invariants}.
+
+\section{Derivation
+of Solution}
+
+First, some notational
+conventions. Let
+
+\beq
+Cov(\rva)_{i,j}=\av{\rva_i, \rva_j}
+\eeq
+
+\beq
+Cov(\rva)=\av{\rva, \rva^T}=
+\av{\rva,tp.}
+\eeq
+\beq
+[A,B]_+= AB+B^TA^T
+\eeq
+
+\beq
+A + tp. = A + A^T
+\eeq
+$tp.$ stands for transpose.
+
+Now define
+\beq
+P_t= Cov(\rvx_t -\ul{\hatx}_t)
+\eeq
+
+\beq
+P_{t|t-1}=Cov(\rvx_t-
+\ul{\hatx}_{t|t-1})
+\eeq
+
+\beq
+S_t=Cov(\tilde{\rvy}_{t|t-1})
+\eeq
+It follows that
+
+
+\begin{align}
+P_t &=
+\av{\rvx_t-\hat{\rvx}_t,tp.}
+\\
+&=
+\av{(1-K_tH_t)(\rvx_t-\hat{\rvx}_{t|t-1})
+-K_t\rvzeta_t
+,tp.}\quad\text{(by Eq.(\ref{eq-kalm-delta-xt}))}
+\\
+&= 
+\av{(1-K_tH_t)(\rvx_t-
+\hat{\rvx}_{t|t-1}), tp.}
++
+\av{K_t\rvzeta_t,tp.}
+\;\text{($\rvzeta_t$ 
+uncorrelated with $(\rvx_t-
+\hat{\rvx}_{t|t-1})$)}
+\\
+&=
+(1-K_tH_t)
+\underbrace{\av{\rvx_t-
+\hat{\rvx}_{t|t-1},tp.}}_{
+P_{t|t-1}
+}
+(1-K_tH_t)^T
++K_t
+\underbrace{\av{\rvzeta_t,tp.}}_{R_t}
+K_t^T
+\\
+&=
+P_{t|t-1}
+-
+[K_t H_t, P_{t|t-1}]_{+}
++K_t
+\underbrace{
+\left(
+H_tP_{t|t-1} H_t^T + R_t\right)}_
+{S_t}
+K_t^T
+\end{align}
+
+Next we find the optimal
+Kalman gain $K_t$
+by minimizing 
+with respect to $K_t$
+the 
+following mean squared error.
+
+\beqa
+\cale &=& \sum_i E[
+(\rvx_t-\hat{\rvx}_t)_i^2]
+\\
+&=&
+\tr E\left[(\rvx_t-\hat{\rvx}_t)
+(\rvx_t-\hat{\rvx}_t)^T\right]
+\\
+&=&
+\tr P_t
+\\
+&=&
+\tr
+\left(
+P_{t|t-1}
+-
+[K_t H_t, P_{t|t-1}]_{+}
++K_t
+S_t
+K_t^T
+\right)
+\eeqa
+If we set to zero the variation of
+$\cale$ when $K_t$ varies, we get
+
+\beq
+0=\delta\cale=
+\tr\left[\left(
+-P_{t|t-1}H_t^T
++K_tS_t
+\right)\delta K_t^T \right]+tp.
+\eeq
+Hence
+
+\beq
+-P_{t|t-1}H_t^T
++K_t S_t=0
+\eeq
+
+\beq
+K_t=P_{t|t-1}H_t^T S_t^{-1}
+\eeq
