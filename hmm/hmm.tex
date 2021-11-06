@@ -1,17 +1,16 @@
 \chapter{Hidden Markov Model}
 \label{ch-hmm}
 
-A Hidden Markov Model (HMM) is
+A dynamical Bayesian
+network (DBN)  (see Chapter
+\ref{ch-dyn-bnet})
+is a generalization
+of a
+Hidden Markov Model (HMM), which
+in turn is 
  a  generalization of a
-Kalman Filter (KF). KFs 
-are discussed 
-in Chapter \ref{ch-kalman}. The
-bnets of HHMs and KFs
-bnets are the same.
-The only difference is that a
-KF assumes
-special node
-TPMs.
+Kalman Filter (KF) (see Chapter
+\ref{ch-kalman}).
 
 See Wikipedia article 
 Ref.\cite{wiki-hmm} to learn 
@@ -20,13 +19,20 @@ and many uses of HMMs. This
 chapter is based on
 Ref.\cite{nuel}.
 
+In this
+chapter,
+we use the following conventions.
+
+\bnetConventions
+
+
 \begin{figure}[h!]
 \centering
 $$\xymatrix{
-\rvx_0\ar[d]\ar[r]&
-\rvx_1\ar[d]\ar[r]&
-\rvx_2\ar[d]\ar[r]&
-\rvx_3\ar[d]\\
+*++[F-o]{\rvx_0}\ar[d]\ar[r]&
+*++[F-o]{\rvx_1}\ar[d]\ar[r]&
+*++[F-o]{\rvx_2}\ar[d]\ar[r]&
+*++[F-o]{\rvx_3}\ar[d]\\
 \rvv_0&
 \rvv_1&
 \rvv_2&
@@ -60,7 +66,13 @@ P(x^n, v^n)=\prod_{i=0}^{n-1}
 P(x_i|x_{i-1})P(v_i|x_i)
 \;,
 \eeq
-where $x_{-1}=0$.
+where $x_{-1}=\emptyset$.
+The goal of HMMs is to
+predict $P(x^n|v^n)$, 
+i.e., the probability
+of a hidden sequence
+$x^n$, 
+given a visible sequence $v^n$.
 
 Let
 $x_{<i} =(x_0, x_1, \dots, x_{i-1})$.
@@ -69,92 +81,102 @@ For $i=0,1, \dots, n-1$, define
 
 $\calf_i$=future measurements probability
 
-\beq
-\calf_i(x_i)=
+\beqa
+\calf_i(x_i)&=&
 P(v_{> i}|x_i)
-\eeq
+\\
+&=&
+\xymatrix{
+x_i\ar[r]
+&\sum x_{>i}\ar[d]
+\\
+&v_{>i}
+}
+\eeqa
 
 $\ol{\calf}_i$= 
 past and present measurements  probability
 
-\beq
-\ol{\calf}_i(x_i)=
+\beqa
+\ol{\calf}_i(x_i)&=&
 P(v_{<i},v_i, x_i)
-\eeq
-
-$\lam_i$=
-present measurement probability
-
-\beq
-\lam_i(x_i)=
-P(v_i|x_i)
-\eeq
-
-$\calf_i$, $\ol{\calf}_i$
-and $\lam_i$ 
-can be represented graphically
-as follows:
-
-\beq
-\begin{array}{cc}
-\calf_i(x_i)
-=
-\frac{1}
-{P(x_i)}
-\sum_{x_{>i}}&
-\xymatrix{
-x_i\ar[r]
-&x_{>i}\ar[d]
 \\
-&v_{>i}
-}
-\end{array}
-\eeq
-
-\beq
-\begin{array}{cc}
-\ol{\calf}_i(x_i)
-=
-\sum_{x_{<i}}&
-\xymatrix{
+&=&
+\xymatrix{\sum 
 x_{<i}\ar[r]\ar[d]
 &x_i\ar[d]
 \\
 v_{<i}&v_i
 }
-\end{array}
-\eeq
+\eeqa
 
-\beq
-\begin{array}{cc}
-\lam_i(x_i)
-=
-\frac{1}
-{P(x_i)}
-&
+$\lam_i$=
+present measurement probability
+
+\beqa
+\lam_i(x_i)&=&
+P(v_i|x_i)
+\\
+&=&
 \xymatrix{
 x_i\ar[d]
 \\
 v_{i}
 }
-\end{array}
-\eeq
+\eeqa
+
+
 
 \begin{claim}
 For $i\geq 0$, 
-\beq
-P(x_i, v^n)=
+\beqa
+P(x_i, v^n)&=&
 \ol{\calf}_i(x_i)\calf_i(x_i)
+\\
+&=&
+\xymatrix{\sum 
+x_{<i}\ar[r]\ar[d]
+&x_i\ar[d]
+\\
+v_{<i}&v_i
+}
+\xymatrix{
+x_i\ar[r]
+&\sum x_{>i}\ar[d]
+\\
+&v_{>i}
+}
 \;.
-\eeq
+\eeqa
 For $i>0$,
 
-\beq
-P(x_{i-1},x_i, v^n)=
+\beqa
+P(x_{i-1},x_i, v^n)&=&
  \ol{\calf}_{i-1}(x_{i-1})
-\lam_i(x_i)P(x_i|x_{i-1})\calf_i(x_i)
+P(x_i|x_{i-1})\lam_i(x_i)\calf_i(x_i)
+\\
+&=&
+\xymatrix{\sum 
+x_{<i-1}\ar[r]\ar[d]
+&x_{i-1}\ar[d]
+\\
+v_{<i-1}&v_{i-1}
+}
+\xymatrix{
+x_{i-1}\ar[r]&x_i}
+\xymatrix{
+x_i\ar[d]
+\\
+v_{i}
+}
+\xymatrix{
+x_i\ar[r]
+&\sum x_{>i}\ar[d]
+\\
+&v_{>i}
+}
 \;.
-\eeq
+\eeqa
 
 
 \end{claim}
@@ -227,16 +249,59 @@ recursively as follows:
 =
 \sum_{x_{i-1}}
 \ol{\calf}_{i-1}(x_{i-1})
-\lam_i(x_i)
-P(x_i|x_{i-1})
+P(x_i|x_{i-1})\lam_i(x_i)
 \eeq
+which can be represented graphically by
+
+\beq
+\xymatrix{\sum 
+x_{<i}\ar[r]\ar[d]
+&x_{i}\ar[d]
+\\
+v_{<i}&v_{i}
+}
+=\quad\sum_{x_{i-1}}
+\xymatrix{\sum 
+x_{<i-1}\ar[r]\ar[d]
+&x_{i-1}\ar[d]
+\\
+v_{<i-1}&v_{i-1}
+}
+\xymatrix{
+x_{i-1}\ar[r]&x_i}
+\xymatrix{
+x_i\ar[d]
+\\
+v_{i}
+}
+\eeq
+and
 
 \beq
 \calf_{ i-1}(x_{i-1})
 =
-\sum_{x_i}\lam_i(x_i)
-P(x_i|x_{i-1})
+\sum_{x_i}
+P(x_i|x_{i-1})\lam_i(x_i)
 \calf_i(x_{i})
+\eeq
+which can be represented graphically by
+
+\beq
+\xymatrix{
+x_{i-1}\ar[r]
+&\sum x_{>i-1}\ar[d]
+\\
+&v_{>i-1}
+}
+=\quad \sum_{x_i}
+\xymatrix{x_{i-1}\ar[r]&x_i}
+\xymatrix{x_i\ar[d]\\v_i}
+\xymatrix{
+x_i\ar[r]
+&\sum x_{>i}\ar[d]
+\\
+&v_{>i}
+}
 \eeq
 
 \end{claim}
@@ -271,18 +336,79 @@ P(x_i|x_{i-1})\calf_i(x_i)
 \qed
 
 \begin{claim}
-\beq
-P(x_i|x_{i-1}, v^n)=
-\frac{\lam_i(x_i)\calf_{i}(x_i)}
-{\calf_{i-1}(x_{i-1})}P(x_i|x_{i-1})
-\eeq
+\beqa
+P(x_i|x_{i-1}, v^n)
+&=&
+\frac{P(x_i|x_{i-1})
+\lam_i(x_i)
+\calf_{i}(x_i)}
+{\calf_{i-1}(x_{i-1})}
+\\
+&=&
+\frac{
+\xymatrix{x_{i-1}\ar[r]&x_i}
+\xymatrix{x_i\ar[d]\\v_i}
+\xymatrix{
+x_i\ar[r]
+&\sum x_{>i}\ar[d]
+\\
+&v_{>i}
+}
+}{
+\xymatrix{
+x_{i-1}\ar[r]
+&\sum x_{i}\ar[d]\ar[r]
+&\sum  x_{>i}\ar[d]
+\\
+&v_{i}&v_{>i}
+}
+}
+\eeqa
 
-\beq
-P(x_{i-1}|x_i, v^n)=
-\frac{\lam_i(x_i)\ol{\calf}_{i-1}(x_{i-1})}
-{\ol{\calf}_i(x_{i})}P(x_i|x_{i-1})
+\beqa
+P(x_{i-1}|x_i, v^n)&=&
+\frac{\ol{\calf}_{i-1}(x_{i-1})
+P(x_i|x_{i-1})
+\lam_i(x_i)
+}
+{\ol{\calf}_i(x_{i})}
+\\
+&=&
+\frac{
+\xymatrix{\sum 
+x_{<i-1}\ar[r]\ar[d]
+&x_{i-1}\ar[d]
+\\
+v_{<i-1}&v_{i-1}
+}
+\xymatrix{
+x_{i-1}\ar[r]&x_i}
+\xymatrix{
+x_i\ar[d]
+\\
+v_{i}
+}
+}{
+\xymatrix{
+\sum x_{<i-1}\ar[r]\ar[d]
+&\sum x_{i-1}\ar[r]\ar[d]
+&x_{i}\ar[d]
+\\
+v_{<i-1}
+&v_{i-1}
+&v_{i}
+}
+}
 \label{eq-update-2}
-\eeq
+\eeqa
+Note that
+actually,
+$P(x_i|x_{i-1}, v^n)=
+P(x_i|x_{i-1}, v_{\geq i})$
+and
+$P(x_{i-1}|x_i, v^n)=
+P(x_{i-1}|x_i, v_{\leq i})$
+but we won't use this fact.
 \end{claim}
 \proof
 \beqa
@@ -303,3 +429,15 @@ Analogous
 proof for Eq.(\ref{eq-update-2}).
 \qed
 
+
+\beqa
+P(x^n|v^n) &=&
+\prod_{i=1, \ldots, n-1, n} P(x_i|x_{i-1},
+ v^n)
+\quad \text{(forward propagation)}
+\\
+&=&
+\prod_{i=n+1, n, \ldots 3, 2} 
+P(x_{i-1}|x_i, v^n)
+\quad\text{(backward propagation)}
+\eeqa
