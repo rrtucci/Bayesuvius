@@ -17,7 +17,8 @@ Ref.\cite{wiki-hmm} to learn
 about the history 
 and many uses of HMMs. This
 chapter is based on
-Ref.\cite{nuel}.
+Refs.\cite{nuel}, \cite{wiki-hmm},
+\cite{wiki-viterbi}, \cite{wiki-baum}.
 
 In this
 chapter,
@@ -62,118 +63,136 @@ that is being monitored.
 For the bnet of Fig.\ref{fig-hmm},
 one has
 \beq
-P(x^n, v^n)=\prod_{i=0}^{n-1}
-P(x_i|x_{i-1})P(v_i|x_i)
+P(x^n, v^n)=\prod_{t=0}^{n-1}
+P(x_t|x_{t-1})P(v_t|x_t)
 \;,
 \eeq
 where $x_{-1}=\emptyset$.
-The goal of HMMs is to
-predict $P(x^n|v^n)$, 
-i.e., the probability
-of a hidden sequence
-$x^n$, 
-given a visible sequence $v^n$.
+
+We assume that this bnet is stationary.
+The following notation
+emphasizes that fact:
+
+$\pi(x)=$ prior probability
+\beq
+\pi(x)=P(\rvx_0=x)
+\eeq
+
+$A(x|x')=$ transition matrix
+\beq
+A(x|x')=P(\rvx_t=x|\rvx_{t-1}=x')
+\eeq
+
+$B(v|x)=$ emission probability
+\beq
+B(v|x)=P(\rvv_t=v|\rvx_t=x)
+\eeq
+
 
 Let
-$x_{<i} =(x_0, x_1, \dots, x_{i-1})$.
+$x_{<t} =(x_0, x_1, \dots, x_{t-1})$.
 
-For $i=0,1, \dots, n-1$, define
+For $t=0,1, \dots, n-1$, define
 
-$\calf_i$=future measurements probability
+$\calf_t(x_t)$=future measurements probability
 
 \beqa
-\calf_i(x_i)&=&
-P(v_{> i}|x_i)
+\calf_t(x_t)&=&
+P(v_{> i}|x_t)
 \\
 &=&
 \xymatrix{
-x_i\ar[r]
-&\sum x_{>i}\ar[d]
+x_t\ar[r]
+&\sum x_{>t}\ar[d]
 \\
-&v_{>i}
+&v_{>t}
 }
 \eeqa
 
-$\ol{\calf}_i$= 
+$\ol{\calf}_t(x_t)$= 
 past and present measurements  probability
 
 \beqa
-\ol{\calf}_i(x_i)&=&
-P(v_{<i},v_i, x_i)
+\ol{\calf}_t(x_t)&=&
+P(v_{<t},v_t, x_t)
 \\
 &=&
 \xymatrix{\sum 
-x_{<i}\ar[r]\ar[d]
-&x_i\ar[d]
+x_{<t}\ar[r]\ar[d]
+&x_t\ar[d]
 \\
-v_{<i}&v_i
+v_{<t}&v_t
 }
 \eeqa
 
-$\lam_i$=
-present measurement probability
+$\lam_t(x_t)$=
+present measurement probability, 
+(a.k.a.  emission probability $B(v_t|x_t)$ ).
+$\lam_t(x_t)$ 
+is the likelihood of $x_t$.
 
 \beqa
-\lam_i(x_i)&=&
-P(v_i|x_i)
+\lam_t(x_t)&=&
+P(v_t|x_t)
 \\
 &=&
 \xymatrix{
-x_i\ar[d]
+x_t\ar[d]
 \\
-v_{i}
+v_{t}
 }
 \eeqa
 
-
+\section{Calculating
+$P(x_t, v^n)$ and $P(x_t, x_{t+1}, v^n)$}
 
 \begin{claim}
-For $i\geq 0$, 
+For $t\geq 0$, 
 \beqa
-P(x_i, v^n)&=&
-\ol{\calf}_i(x_i)\calf_i(x_i)
+P(x_t, v^n)&=&
+\ol{\calf}_t(x_t)\calf_t(x_t)
 \\
 &=&
 \xymatrix{\sum 
-x_{<i}\ar[r]\ar[d]
-&x_i\ar[d]
+x_{<t}\ar[r]\ar[d]
+&x_t\ar[d]
 \\
-v_{<i}&v_i
+v_{<t}&v_t
 }
 \xymatrix{
-x_i\ar[r]
-&\sum x_{>i}\ar[d]
+x_t\ar[r]
+&\sum x_{>t}\ar[d]
 \\
-&v_{>i}
+&v_{>t}
 }
 \;.
 \eeqa
-For $i>0$,
+For $t>0$,
 
 \beqa
-P(x_{i-1},x_i, v^n)&=&
- \ol{\calf}_{i-1}(x_{i-1})
-P(x_i|x_{i-1})\lam_i(x_i)\calf_i(x_i)
+P(x_{t-1},x_t, v^n)&=&
+ \ol{\calf}_{t-1}(x_{t-1})
+P(x_t|x_{t-1})\lam_t(x_t)\calf_t(x_t)
 \\
 &=&
 \xymatrix{\sum 
-x_{<i-1}\ar[r]\ar[d]
-&x_{i-1}\ar[d]
+x_{<t-1}\ar[r]\ar[d]
+&x_{t-1}\ar[d]
 \\
-v_{<i-1}&v_{i-1}
+v_{<t-1}&v_{t-1}
 }
 \xymatrix{
-x_{i-1}\ar[r]&x_i}
+x_{t-1}\ar[r]&x_t}
 \xymatrix{
-x_i\ar[d]
+x_t\ar[d]
 \\
-v_{i}
+v_{t}
 }
 \xymatrix{
-x_i\ar[r]
-&\sum x_{>i}\ar[d]
+x_t\ar[r]
+&\sum x_{>t}\ar[d]
 \\
-&v_{>i}
+&v_{>t}
 }
 \;.
 \eeqa
@@ -183,250 +202,241 @@ x_i\ar[r]
 \proof
 
 \beqa
-P(x_i,v^n)
+P(x_t,v^n)
 &=&
 \sum_{x_{< i}}\sum_{x_{> i}}
 P(x^n, v^n)
 \\
 &=&
 \sum_{x_{< i}}\sum_{x_{> i}}
-P(x^n, v^n|x_i)P(x_i)
+P(x^n, v^n|x_t)P(x_t)
 \\
 &=&
 \sum_{x_{< i}}\sum_{x_{> i}}
-P(x_{< i}, v_{< i}, v_i|x_i)
-P(x_{>i}, v_{>  i}|x_i)
-P(x_i)
+P(x_{< i}, v_{< i}, v_t|x_t)
+P(x_{>t}, v_{>  i}|x_t)
+P(x_t)
 \\
 &=&
-P( v_{< i}, v_i|x_i)
-P(v_{>  i}|x_i)
-P(x_i)
+P( v_{< i}, v_t|x_t)
+P(v_{>  i}|x_t)
+P(x_t)
 \\
 &=&
-\ol{\calf}_i(x_i)\calf_i(x_i)
+\ol{\calf}_t(x_t)\calf_t(x_t)
 \eeqa
 
 \begin{align}
-P(x_{i-1},x_i,v^n)
+P(x_{t-1},x_t,v^n)
 &=
-\sum_{x_{< i-1}}\sum_{x_{>i}}
+\sum_{x_{< t-1}}\sum_{x_{>t}}
 P(x^n, v^n)
 \\
 &=
-\sum_{x_{< i-1}}\sum_{x_{>i}}
-P(x^n, v^n|x_{i-1}, x_i)P(x_{i-1}, x_i)
+\sum_{x_{< t-1}}\sum_{x_{>t}}
+P(x^n, v^n|x_{t-1}, x_t)P(x_{t-1}, x_t)
 \\
 &=
-\sum_{x_{< i-1}}\sum_{x_{>i}}
-P(x_{<i-1}, v_{<i-1}, v_{i-1}|x_{i-1})
-P(v_i|x_i)
-P(x_{i-1}, x_i)
-P(x_{>  i}, v_{> i}|x_i)
+\sum_{x_{< t-1}}\sum_{x_{>t}}
+P(x_{<t-1}, v_{<t-1}, v_{t-1}|x_{t-1})
+P(v_t|x_t)
+P(x_{t-1}, x_t)
+P(x_{>  i}, v_{> i}|x_t)
 \\
 &=
-P( v_{<i-1}, v_{i-1}|x_{i-1})
-P(v_i|x_i)
-P(x_{i-1}, x_i)
-P( v_{> i}|x_i)
+P( v_{<t-1}, v_{t-1}|x_{t-1})
+P(v_t|x_t)
+P(x_{t-1}, x_t)
+P( v_{> i}|x_t)
 \\
 &=
- \ol{\calf}_{i-1}(x_{i-1})
-\lam_i(x_i)
-P(x_i|x_{i-1})
-\calf_i(x_i)
+ \ol{\calf}_{t-1}(x_{t-1})
+\lam_t(x_t)
+P(x_t|x_{t-1})
+\calf_t(x_t)
 \end{align}
 \qed
 
+
+\section{Calculating 
+${\cal F}_t$ and
+$\overline{{\cal F}}_t$}
+
 \begin{claim}
-For $i>0$, $\calf_i$ and
-$\ol{\calf}_i$ can be calculated 
+For $t>0$, $\calf_t$ and
+$\ol{\calf}_t$ can be calculated 
 recursively as follows:
 
 
-\beq
-\ol{\calf}_i(x_{i})
-=
-\sum_{x_{i-1}}
-\ol{\calf}_{i-1}(x_{i-1})
-P(x_i|x_{i-1})\lam_i(x_i)
-\eeq
-which can be represented graphically by
-
-\beq
-\xymatrix{\sum 
-x_{<i}\ar[r]\ar[d]
-&x_{i}\ar[d]
+\beqa
+\ol{\calf}_t(x_{t})
+&=&
+\sum_{x_{t-1}}
+\ol{\calf}_{t-1}(x_{t-1})
+P(x_t|x_{t-1})\lam_t(x_t)
 \\
-v_{<i}&v_{i}
-}
-=\quad\sum_{x_{i-1}}
+&=&
+\sum_{x_{t-1}}
 \xymatrix{\sum 
-x_{<i-1}\ar[r]\ar[d]
-&x_{i-1}\ar[d]
+x_{<t-1}\ar[r]\ar[d]
+&x_{t-1}\ar[d]
 \\
-v_{<i-1}&v_{i-1}
+v_{<t-1}&v_{t-1}
 }
 \xymatrix{
-x_{i-1}\ar[r]&x_i}
+x_{t-1}\ar[r]&x_t}
 \xymatrix{
-x_i\ar[d]
+x_t\ar[d]
 \\
-v_{i}
+v_{t}
 }
-\eeq
+\eeqa
 and
 
-\beq
-\calf_{ i-1}(x_{i-1})
-=
-\sum_{x_i}
-P(x_i|x_{i-1})\lam_i(x_i)
-\calf_i(x_{i})
-\eeq
-which can be represented graphically by
-
-\beq
-\xymatrix{
-x_{i-1}\ar[r]
-&\sum x_{>i-1}\ar[d]
+\beqa
+\calf_{ t-1}(x_{t-1})
+&=&
+\sum_{x_t}
+P(x_t|x_{t-1})\lam_t(x_t)
+\calf_t(x_{t})
 \\
-&v_{>i-1}
-}
-=\quad \sum_{x_i}
-\xymatrix{x_{i-1}\ar[r]&x_i}
-\xymatrix{x_i\ar[d]\\v_i}
+&=&
+\sum_{x_t}
+\xymatrix{x_{t-1}\ar[r]&x_t}
+\xymatrix{x_t\ar[d]\\v_t}
 \xymatrix{
-x_i\ar[r]
-&\sum x_{>i}\ar[d]
+x_t\ar[r]
+&\sum x_{>t}\ar[d]
 \\
-&v_{>i}
+&v_{>t}
 }
-\eeq
+\eeqa
 
 \end{claim}
 \proof
 
 \beqa
-\ol{\calf}_i(x_i)\calf_i(x_i)
+\ol{\calf}_t(x_t)\calf_t(x_t)
 &=&
-P(x_i, v^n)\\
+P(x_t, v^n)\\
 &=&
-\sum_{x_{i-1}}P(x_{i-1},x_i, 
+\sum_{x_{t-1}}P(x_{t-1},x_t, 
 v^n)\\
-&=&\sum_{x_{i-1}}
-\ol{\calf}_{i-1}(x_{i-1})
-\lam_i(x_i)
-P(x_i|x_{i-1})\calf_i(x_i)
+&=&\sum_{x_{t-1}}
+\ol{\calf}_{t-1}(x_{t-1})
+\lam_t(x_t)
+P(x_t|x_{t-1})\calf_t(x_t)
 \eeqa
 
 \beqa
-\ol{\calf}_{i-1}(x_{i-1}
-)\calf_{i-1}(x_{i-1})
+\ol{\calf}_{t-1}(x_{t-1}
+)\calf_{t-1}(x_{t-1})
 &=&
-P(x_{i-1}, v^n)\\
+P(x_{t-1}, v^n)\\
 &=&
-\sum_{x_i}P(x_{i-1},x_i, 
+\sum_{x_t}P(x_{t-1},x_t, 
 v^n)\\
-&=&\sum_{x_i}
-\ol{\calf}_{i-1}(x_{i-1})
-\lam_i(x_i)
-P(x_i|x_{i-1})\calf_i(x_i)
+&=&\sum_{x_t}
+\ol{\calf}_{t-1}(x_{t-1})
+\lam_t(x_t)
+P(x_t|x_{t-1})\calf_t(x_t)
 \eeqa
 \qed
 
+\section{Calculating $P(x^n|v^n)$}
+
 \begin{claim}
 \beqa
-P(x_i|x_{i-1}, v^n)
+P(x_t|x_{t-1}, v^n)
 &=&
-\frac{P(x_i|x_{i-1})
-\lam_i(x_i)
-\calf_{i}(x_i)}
-{\calf_{i-1}(x_{i-1})}
+\frac{P(x_t|x_{t-1})
+\lam_t(x_t)
+\calf_{t}(x_t)}
+{\calf_{t-1}(x_{t-1})}
 \\
 &=&
 \frac{
-\xymatrix{x_{i-1}\ar[r]&x_i}
-\xymatrix{x_i\ar[d]\\v_i}
+\xymatrix{x_{t-1}\ar[r]&x_t}
+\xymatrix{x_t\ar[d]\\v_t}
 \xymatrix{
-x_i\ar[r]
-&\sum x_{>i}\ar[d]
+x_t\ar[r]
+&\sum x_{>t}\ar[d]
 \\
-&v_{>i}
+&v_{>t}
 }
 }{
 \xymatrix{
-x_{i-1}\ar[r]
-&\sum x_{i}\ar[d]\ar[r]
-&\sum  x_{>i}\ar[d]
+x_{t-1}\ar[r]
+&\sum x_{t}\ar[d]\ar[r]
+&\sum  x_{>t}\ar[d]
 \\
-&v_{i}&v_{>i}
+&v_{t}&v_{>t}
 }
 }
 \eeqa
 Note that
 actually,
-$P(x_i|x_{i-1}, v^n)=
-P(x_i|x_{i-1}, v_{\geq i})$
+$P(x_t|x_{t-1}, v^n)=
+P(x_t|x_{t-1}, v_{\geq t})$
 by d-separation,
 but we won't use this fact.
 
 \beqa
-P(x_{i-1}|x_i, v^n)&=&
-\frac{\ol{\calf}_{i-1}(x_{i-1})
-P(x_i|x_{i-1})
-\lam_i(x_i)
+P(x_{t-1}|x_t, v^n)&=&
+\frac{\ol{\calf}_{t-1}(x_{t-1})
+P(x_t|x_{t-1})
+\lam_t(x_t)
 }
-{\ol{\calf}_i(x_{i})}
+{\ol{\calf}_t(x_{t})}
 \\
 &=&
 \frac{
 \xymatrix{\sum 
-x_{<i-1}\ar[r]\ar[d]
-&x_{i-1}\ar[d]
+x_{<t-1}\ar[r]\ar[d]
+&x_{t-1}\ar[d]
 \\
-v_{<i-1}&v_{i-1}
+v_{<t-1}&v_{t-1}
 }
 \xymatrix{
-x_{i-1}\ar[r]&x_i}
+x_{t-1}\ar[r]&x_t}
 \xymatrix{
-x_i\ar[d]
+x_t\ar[d]
 \\
-v_{i}
+v_{t}
 }
 }{
 \xymatrix{
-\sum x_{<i-1}\ar[r]\ar[d]
-&\sum x_{i-1}\ar[r]\ar[d]
-&x_{i}\ar[d]
+\sum x_{<t-1}\ar[r]\ar[d]
+&\sum x_{t-1}\ar[r]\ar[d]
+&x_{t}\ar[d]
 \\
-v_{<i-1}
-&v_{i-1}
-&v_{i}
+v_{<t-1}
+&v_{t-1}
+&v_{t}
 }
 }
 \label{eq-update-2}
 \eeqa
 Note that
 actually
-$P(x_{i-1}|x_i, v^n)=
-P(x_{i-1}|x_i, v_{\leq i-1})$
+$P(x_{t-1}|x_t, v^n)=
+P(x_{t-1}|x_t, v_{\leq t-1})$
 by d-separation,
 but we won't use this fact.
 \end{claim}
 \proof
 \beqa
-P(x_i|x_{i-1}, v^n)&=&
-\frac{P(x_{i-1}, x_i, v^n)}
-{P(x_{i-1}, v^n)}
+P(x_t|x_{t-1}, v^n)&=&
+\frac{P(x_{t-1}, x_t, v^n)}
+{P(x_{t-1}, v^n)}
 \\&=&
 \frac{
-\ol{\calf}_{i-1}(x_{i-1})
-\lam_i(x_i)
-P(x_i|x_{i-1})\calf_i(x_i)
+\ol{\calf}_{t-1}(x_{t-1})
+\lam_t(x_t)
+P(x_t|x_{t-1})\calf_t(x_t)
 }{
-\ol{\calf}_{i-1}
-(x_{i-1})\calf_{i-1}(x_{i-1})
+\ol{\calf}_{t-1}
+(x_{t-1})\calf_{t-1}(x_{t-1})
 }
 \eeqa
 Analogous 
@@ -436,12 +446,389 @@ proof for Eq.(\ref{eq-update-2}).
 
 \beqa
 P(x^n|v^n) &=&
-\prod_{i=1, \ldots, n-1, n} P(x_i|x_{i-1},
+\prod_{t=1, \ldots, n-1, n} P(x_t|x_{t-1},
  v^n)
 \quad \text{(forward propagation)}
 \\
 &=&
-\prod_{i=n+1, n, \ldots 3, 2} 
-P(x_{i-1}|x_i, v^n)
+\prod_{t=n+1, n, \ldots 3, 2} 
+P(x_{t-1}|x_t, v^n)
 \quad\text{(backward propagation)}
 \eeqa
+
+
+
+
+\section{Calculating $P(v^n|A,B,\pi)$}
+
+
+
+$P(v^n|A,B,\pi)$ can 
+be calculated
+
+\begin{itemize}
+\item from $\ol{\calf}_{n-1}(x_{n-1})$
+(past of $\rvx_{n-1}$)
+
+\beqa
+P(v^n|A,B,\pi)
+&=&
+\sum_{x_{n-1}}
+\underbrace{
+P(v_{<{n-1}},v_{n-1}, x_{n-1})
+}_{
+\ol{\calf}_{n-1}(x_{n-1})
+}
+\\
+&=&
+\xymatrix{\sum 
+x_{<{n-1}}\ar[r]\ar[d]
+&\sum x_{n-1}\ar[d]
+\\
+v_{<{n-1}}&v_{n-1}
+}
+\eeqa
+
+\item from $\calf_0(x_0)$
+(future of $\rvx_0$)
+
+\beqa
+P(v^n|A,B,\pi)
+&=&
+\sum_{x_0}
+P(x_0)
+P(v_0|x_0)
+\underbrace{
+P(v_{> 0}|x_0)}
+_{
+\calf_0(x_0)
+}
+\\
+&=&
+\xymatrix{
+\sum x_0\ar[r]\ar[d]
+&\sum x_{>0}\ar[d]
+\\
+v_0
+&v_{>0}
+}
+\eeqa
+
+\item from 
+$\ol{\calf}_t(x_t)$ and
+$\calf_t(x_t)$ for some $t$
+(past and future of $\rvx_t$)
+
+\beqa
+P(v^n|A,B,\pi)&=&
+\sum_{x_t}
+\underbrace{P(v_{<t}, v_t, x_t)}
+_{\ol{\calf}_t(x_t)}
+\underbrace{
+P(v_{>t}|x_t)}_{
+\calf_t(x_t)}
+\\
+&=&
+\xymatrix{\sum 
+x_{<t}\ar[r]\ar[d]
+&\sum x_t\ar[d]\ar[r]
+&\sum x_{>t}\ar[d]
+\\
+v_{<t}
+&v_t
+&v_{>t}
+}
+\;.
+\eeqa
+\end{itemize}
+
+\section{Calculating $\hat{x}^n$ (Viterbi algorithm)}
+
+$x^n$
+is not visible, only $v^n$ is.
+Here is how to find
+an estimate
+$\hatx^n$ of $x^n$.
+
+Define
+
+\beqa
+\ol{\calf}^{max}_t(x_t)&=&
+\max_{x_{<t}}
+P(v_{<t},v_t, x_{<t}, x_t)
+\\
+&=&
+\xymatrix{\max 
+x_{<t}\ar[r]\ar[d]
+&x_t\ar[d]
+\\
+v_{<t}&v_t
+}
+\eeqa
+
+\beqa
+\hatx_{t-1}(x_t)&=&
+\argmax_{x_{t-1}}
+\ol{\calf}^{max}_{t-1}(x_{t-1})
+P(x_t|x_{t-1})\lam_t(x_t)
+\\
+&=&
+\xymatrix{\max 
+x_{<t-1}\ar[r]\ar[d]
+& \argmax x_{t-1}\ar[d]\ar[r]
+&x_t\ar[d]
+\\
+v_{<t-1}&v_{t-1}&v_t
+}
+\eeqa
+
+For $t>0$, 
+$\ol{\calf}^{max}_t$ 
+and $\hatx_{t-1}(x_t)$ can be calculated 
+recursively as follows:
+
+
+\beqa
+\ol{\calf}^{max}_t(x_{t})
+&=&
+\max_{x_{t-1}}
+\ol{\calf}^{max}_{t-1}(x_{t-1})
+P(x_t|x_{t-1})\lam_t(x_t)
+\\
+&=&
+\max_{x_{t-1}}\quad
+\xymatrix{\max
+x_{<t-1}\ar[r]\ar[d]
+&x_{t-1}\ar[d]
+\\
+v_{<t-1}&v_{t-1}
+}
+\xymatrix{
+x_{t-1}\ar[r]&x_t}
+\xymatrix{
+x_t\ar[d]
+\\
+v_{t}
+}
+\eeqa
+
+\beqa
+\hatx_{t-1}(x_t)
+&=&
+\argmax_{x_{t-1}}
+\ol{\calf}^{max}_{t-1}(x_{t-1})
+P(x_t|x_{t-1})\lam_t(x_t)
+\\
+&=&
+\argmax_{x_{t-1}}\quad
+\xymatrix{\max
+x_{<t-1}\ar[r]\ar[d]
+&x_{t-1}\ar[d]
+\\
+v_{<t-1}&v_{t-1}
+}
+\xymatrix{
+x_{t-1}\ar[r]&x_t}
+\xymatrix{
+x_t\ar[d]
+\\
+v_{t}
+}
+\eeqa
+
+\begin{claim}(Viterbi Algorithm)
+
+If 
+\beq
+\hatx^n= \argmax_{x^n} P(x^n|v^n)
+\;,
+\eeq
+then
+the components 
+of $\hatx^n$
+can be calculated recursively
+from the last one $\hatx_{n-1}$ to the 
+first one $\hatx_0$, as follows. Let
+
+\beqa 
+\hatx_{n-1}
+&=&
+\argmax_{x_{n-1}}
+\ol{\calf}^{max}_{n-1}(x_{n-1})
+\\
+&=&
+\xymatrix{\max 
+x_{<n-1}\ar[r]\ar[d]
+&\argmax x_{n-1}\ar[d]
+\\
+v_{<n-1}&v_{n-1}
+}
+\eeqa
+and for $t<n-1$, use
+
+\beqa 
+\hatx_{t-1}&=&
+\hatx_{t-1}(\hatx_{t})
+\\
+&=&
+\xymatrix{\max 
+x_{<t-1}\ar[r]\ar[d]
+& \argmax x_{t-1}\ar[d]\ar[r]
+&\hatx_t\ar[d]
+\\
+v_{<t-1}&v_{t-1}&v_t
+}
+\eeqa
+
+\end{claim}
+\proof
+\qed
+
+\section{Calculating
+$\hat{A}$, $\hat{B}$, $\hat{\pi}$
+ (Baum-Welch algorithm)} 
+
+Let $\theta =(A,B, \pi)$.
+$\theta$ 
+is a set of hidden parameters.
+Here is how to find
+an estimate
+$\hat{\theta}$
+of $\theta$.
+
+If $x^n$ and $v^n$ were visible, 
+we could use
+
+\beq
+\hat{\pi}(x)=
+\indi(\rvx_0=x)
+\eeq
+
+\beq 
+\hat{A}(x'|x)=
+\frac{\sum_{t=0}^{n-2}
+\indi(\rvx_t=x, \rvx_{t+1}=x')}
+{\sum_x numerator}
+\eeq
+
+\beq
+\hat{B}(v|x)=
+\frac{\sum_{t=0}^{n-1}
+\indi(\rvv_t=v, \rvx_{t}=x)}
+{\sum_v numerator}
+\eeq
+But $x^n$ 
+is not visible. So 
+how can we estimate $\theta$
+under those circumstances?
+
+Define
+
+\beqa
+\gamma_t(x_t) =
+&=&
+ P(x_t|v^n)
+\\
+&=&
+\frac{P(x_t, v^n)}{P(v^n)}
+\\
+&=&
+\frac{
+\ol{\calf}_t(x_t)\calf_t(x_t)
+}{\sum_{x_t} numerator}
+\\
+&=&
+\frac{
+\xymatrix{\sum 
+x_{<t}\ar[r]\ar[d]
+&x_t\ar[d]
+\\
+v_{<t}&v_t
+}
+\xymatrix{
+x_t\ar[r]
+&\sum x_{>t}\ar[d]
+\\
+&v_{>t}
+}
+}{\sum_{x_t} numerator}
+\eeqa
+
+\beqa
+\xi_t(x_t, x_{t+1})
+&=&
+\frac{P(x_t, x_{t+1}, v^n)}
+{\sum_{x_t}\sum_{x_{t+1}} numerator}
+\\
+&=&
+\frac{
+ \ol{\calf}_{t-1}(x_{t-1})
+P(x_t|x_{t-1})\lam_t(x_t)\calf_t(x_t)
+}
+{\sum_{x_t}\sum_{x_{t+1}} numerator}
+\\
+&=&
+\frac{
+\xymatrix{\sum 
+x_{<t-1}\ar[r]\ar[d]
+&x_{t-1}\ar[d]
+\\
+v_{<t-1}&v_{t-1}
+}
+\xymatrix{
+x_{t-1}\ar[r]&x_t}
+\xymatrix{
+x_t\ar[d]
+\\
+v_{t}
+}
+\xymatrix{
+x_t\ar[r]
+&\sum x_{>t}\ar[d]
+\\
+&v_{>t}
+}
+}
+{\sum_{x_t}\sum_{x_{t+1}} numerator}
+\eeqa
+
+\begin{claim}(Baum-Welch algorithm)
+
+If
+
+\beq
+\hat{\theta}=
+\argmax_\theta P(v^n|\theta)
+\;,
+\eeq
+then we can find $\hat{\theta}$
+using the following
+formulae:
+
+\beq
+\hat{\pi}(x)=
+\overbrace{\gamma_0(x)}^{\sim P(x)}
+\eeq
+
+
+\beq
+\hat{A}(x'|x)
+=
+\frac{\sum_{t=0}^{n-2}
+\overbrace{\xi_t(x,x')}^{\sim P(x, x')}}
+{\sum_{t=0}^{n-2}
+\underbrace{\gamma_t(x)}_{P(x)}}
+\eeq
+
+\beq
+\hat{B}(v|x)
+=
+\frac{\sum_{t=0}^{n-1}
+\overbrace{\indi(\rvv_t=v)}^{\sim P(v|x)}
+\overbrace{\gamma_t(x)}^{\sim P(x)}}
+{\sum_{t=0}^{n-1}
+\underbrace{\gamma_t(x)}_{\sim P(x)}
+}\eeq
+\end{claim}
+\proof
+\qed
