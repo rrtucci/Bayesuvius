@@ -1254,7 +1254,8 @@ and of simple LR  when $W=1$.
 \begin{claim}
 Assume the 
 Einstein summation convention; i.e., 
-repeated indices are to be summed over.
+implicit sum over
+repeated indices.
 The 
  error function $\cale$ given by
 
@@ -3032,6 +3033,248 @@ e^{-\frac{1}{2}(\frac{t}{\varrho})^2}
 e^{-\frac{1}{2}\frac{t^2+\nu}{\varrho^2}}
 \;.
 \eeqa
+
+\section{Hypothesis testing and 3 Classic test statistics 
+(Likelihood, Score, Wald)}
+
+Suppose we have 
+data $\vec{x}=[x^\s]_{\s=0, 1, \ldots, 
+nsam-1}$ which is distributed
+according to 
+a probability distribution
+$P(\vec{x};\theta)$
+which depends
+on some parameters $\theta=
+(\theta_i)_{i=0, 1, \ldots,n-1}\in \RR^n$.
+We define the
+{\bf Likelihood of $\theta$} by
+
+\beq
+L(\theta)=P(\vec{x}|\theta)
+\;,
+\eeq
+the {\bf Maximum Likelihood estimate
+of $\theta$} by
+
+\beq
+\hat{\theta}=\argmax_\theta L(\theta)
+\;,
+\eeq
+the
+{\bf Log-likelihood of $\theta$} by
+
+\beq
+LL(\theta) =\ln L(\theta)
+\;,
+\eeq
+the {\bf Score} or {\bf Lagrange
+Multiplier vector}\footnote{$sc_i(\theta)=
+\partial_{\theta_i}LL(\theta)$
+is called a Lagrange multiplier
+because to maximize $LL(\theta)$
+over $\theta$ subject to
+the constraint $\theta=\theta^*$,
+we maximize
+the Lagrangian $\call= LL(\theta) 
+-\alp_i[\theta_i - \theta^*_i]$ over 
+$(\theta_i,\alp_i)$ for all $i$. The latter
+gives $\alp_i=\partial_{\theta_i}LL(\theta^*)$
+and $\theta=\theta^*$.
+For a general
+constrained optimization
+problem, $\call=LL(\theta)-\alp_ic_i(\theta)$
+for some constraint functions $c_i(\theta)$.
+Hence, $\alp_i=\partial_{\theta_i}LL/
+\partial_{\theta_i}c_i$
+and $c_i(\theta)=0$
+for all $i$.
+So, in general,
+a Lagrange multiplier
+is a ratio of two partial
+derivatives.} of $\theta$ by 
+
+\beq
+sc(\theta)=[sc_i(\theta)]\in \RR^n
+\;,
+\eeq
+where
+
+\beq
+sc_i(\theta)=\partial_{\theta_i}LL(\theta)
+\;,
+\eeq
+and the
+{\bf Fisher Information Matrix
+of $\theta$} by
+
+\beq
+FI(\theta)= [FI_{i,j}(\theta)]\in \RR^{n\times n}
+\eeq
+where 
+\beq
+FI_{i,j}(\theta)
+=
+E_{\vec{\rvx}|\theta}
+[
+\partial_{\theta_i}\partial_{\theta_j}
+\overbrace{
+\ln P(\vec{\rvx}|\theta)}^{LL(\theta)}
+]
+\;.
+\eeq
+
+
+
+In hypothesis testing, one has
+ a {\bf null hypothesis}
+$H_0$: $\theta=\theta^*$,
+and an {\bf alternate hypothesis}
+ $H_1$: $\theta\neq \theta^*$.
+We use a {\bf test statistic}
+$\lam(\theta^*, \hat{\theta})\geq 0$
+which 
+measures a kind of
+distance or separation between the
+estimate $\hat{\theta}$
+and 
+the value $\theta^*$
+for the null Hypothesis $H_0$.
+For some {\bf confidence level} $C>0$,
+if $\lam(\theta^*, \hat{\theta})> C$,
+$H_0$ is {\bf rejected}, whereas
+if $\lam(\theta^*, \hat{\theta})\leq C$,
+$H_0$ is {\bf accepted}.
+
+
+$\alp=1-C$ is called the 
+{\bf significance level}.
+Usually $\alp<<1$
+represents
+the area under both 
+tails
+of a Normal
+distribution,
+ and $C\approx 1$
+represents
+all the area except the tails of a 
+Normal distribution.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=3.2in]{conventions/classic-trio.png}
+\caption{For $\theta\in\RR$,
+quantities that
+characterize the
+3 classic test statistics
+(Likelihood, Score, Wald)
+for hypothesis testing.} 
+\label{fig-classic-trio}
+\end{figure}
+
+Three classic test statistics 
+are (See Fig.\ref{fig-classic-trio}):\footnote{We
+are using the 
+Einstein summation
+convention; i.e., implicit sum over
+repeated indices.}
+
+\begin{enumerate}
+
+\item
+{\bf Likelihood ratio test statistic}
+\beq
+\lam_{Li}=
+\ln\left[
+\frac{L(\hat{\theta})}
+{L(\theta^*)}
+\right]=
+LL(\hat{\theta})-LL(\theta^*)
+\eeq
+
+\item
+{\bf Score (a.k.a.
+Lagrange multiplier) test statistic}
+\beqa
+\lam_{Sc}&=&
+\partial_{\theta_i} LL(\theta^*)
+\left[
+FI(\theta^*)^{-1}\right]_{i,j}
+\partial_{\theta_j} LL(\theta^*)
+\\
+&=&
+\frac{\partial^2_\theta LL(\theta^*)}
+{FI(\theta^*)}\quad \text{if $n=1$}
+\eeqa
+Doesn't depend on $\hat{\theta}$.
+\item
+{\bf Wald test statistic}
+
+\beqa
+\lam_{Wa}&=&
+(\hat{\theta}-\theta^*)_i
+\left[
+\av{\hat{\rvtheta}_i,\hat{\rvtheta}_j}
+\right]_{i,j}^{-1}
+(\hat{\theta}-\theta^*)_j
+\\
+&=&
+\frac{(\theta^*-\hat{\theta})^2}
+{\av{\hat{\theta},\hat{\theta}}}
+\quad\text{if $n=1$}
+\eeqa
+
+$\av{\hat{\rvtheta}_i,\hat{\rvtheta}_j}$
+is close to 
+$E[\partial_{\theta_i}\partial_{\theta_j}
+ P(\vec{\rvx}|\hat{\theta})]$.
+ 
+\end{enumerate}
+
+{\bf Asymptotic Behavior}
+
+If the data 
+$\vec{x}$ is i.i.d.,
+
+\beq
+P(\vec{x}|\theta)=
+\prod_\s P(x^\s|\theta)
+\;
+\eeq
+Hence, as $nsam\rarrow \infty$,
+
+\beqa
+LL(\theta)
+&=&
+\ln P(\vec{x}|\theta)
+\\
+&=&\sum_\s \ln
+P(x^\s|\theta)
+\\
+&\rarrow&
+nsam \sum_x P(x|\theta)\ln  P(x|\theta)
+\\
+&=&
+-nsam \; H(\rvx|\theta)
+\eeqa
+Thus, {\it maximizing} the log likehood
+$LL(\theta)$
+and {\it minimizing} the entropy
+$H(\rvx|\theta)$ 
+give the same estimate $\hat{\theta}$.
+
+When the 
+data is i.i.d. and
+$nsam\rarrow \infty$,
+it is also possible to 
+prove that 
+the 3 test statistics
+defined above all tend to 
+the same
+probability  distribution, namely 
+$\calx^2(\theta^*; n)$,
+the chi-square distribution
+with $n$ degrees of freedom,
+where $\theta\in \RR^n$.
 
 \section{Error Bars}
 Never report measurements without error bars!!
