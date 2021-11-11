@@ -3047,12 +3047,15 @@ which depends
 on some parameters $\theta=
 (\theta_i)_{i=0, 1, \ldots,n-1}\in \RR^n$.
 We define the
+\begin{itemize}
+\item
 {\bf Likelihood of $\theta$} by
 
 \beq
 L(\theta)=P(\vec{x}|\theta)
 \;,
 \eeq
+\item
 the {\bf Maximum Likelihood estimate
 of $\theta$} by
 
@@ -3060,6 +3063,7 @@ of $\theta$} by
 \hat{\theta}=\argmax_\theta L(\theta)
 \;,
 \eeq
+\item
 the
 {\bf Log-likelihood of $\theta$} by
 
@@ -3067,6 +3071,7 @@ the
 LL(\theta) =\ln L(\theta)
 \;,
 \eeq
+\item
 the {\bf Score} or {\bf Lagrange
 Multiplier vector}\footnote{$sc_i(\theta)=
 \partial_{\theta_i}LL(\theta)$
@@ -3103,6 +3108,7 @@ where
 sc_i(\theta)=\partial_{\theta_i}LL(\theta)
 \;,
 \eeq
+\item
 and the
 {\bf Fisher Information Matrix
 of $\theta$} by
@@ -3113,7 +3119,7 @@ FI(\theta)= [FI_{i,j}(\theta)]\in \RR^{n\times n}
 where 
 \beq
 FI_{i,j}(\theta)
-=
+=-
 E_{\vec{\rvx}|\theta}
 [
 \partial_{\theta_i}\partial_{\theta_j}
@@ -3122,13 +3128,34 @@ E_{\vec{\rvx}|\theta}
 ]
 \;.
 \eeq
+\end{itemize}
+
+Note that if 
+
+\beq
+LL(\theta)=\ln P(x|\theta)=
+ \frac{-(\theta
+-\hat{\theta})^2}{2\s^2} + \caln(!\theta)
+\;,
+\label{eq-normal-ll}
+\eeq
+then
+
+\beq
+sc(\theta)=\frac{-(\theta-\hat{\theta})}{\s^2}
+\eeq
+and
+
+\beq
+FI(\theta)=\frac{1}{\s^2}
+\eeq
 
 
 
 In hypothesis testing, one has
  a {\bf null hypothesis}
 $H_0$: $\theta=\theta^*$,
-and an {\bf alternate hypothesis}
+and an {\bf alternative hypothesis}
  $H_1$: $\theta\neq \theta^*$.
 We use a {\bf test statistic}
 $\lam(\theta^*, \hat{\theta})\geq 0$
@@ -3189,11 +3216,11 @@ are (See Fig.\ref{fig-classic-trio}):
 {\bf Likelihood ratio test statistic}
 \beq
 \lam_{Li}=
-\ln\left[
+2\ln\left[
 \frac{L(\hat{\theta})}
 {L(\theta^*)}
 \right]=
-LL(\hat{\theta})-LL(\theta^*)
+2[LL(\hat{\theta})-LL(\theta^*)]
 \eeq
 
 \item
@@ -3207,7 +3234,7 @@ FI(\theta^*)^{-1}\right]_{i,j}
 \partial_{\theta_j} LL(\theta^*)
 \\
 &=&
-\frac{\partial^2_\theta LL(\theta^*)}
+\frac{[\partial_\theta LL(\theta^*)]^2}
 {FI(\theta^*)}\quad \text{if $n=1$}
 \eeqa
 Doesn't depend on $\hat{\theta}$.
@@ -3229,10 +3256,8 @@ Doesn't depend on $\hat{\theta}$.
 {\av{\hat{\theta},\hat{\theta}}}
 \quad\text{if $n=1$}
 \eeqa
-$\av{\hat{\rvtheta}_i,\hat{\rvtheta}_j}$
-is close to 
-$E[\partial_{\theta_i}\partial_{\theta_j}
- P(\vec{\rvx}|\hat{\theta})]$.
+
+
 
 More generally,
 one can replace $\theta^*\rarrow R\theta^*$
@@ -3242,7 +3267,7 @@ where $\theta^*$ and
 $\hat{\theta}$ are $n$ dimensional
 column vectors, and
 $R\in\RR^{\nu\times n}$. 
-The null and alternate hypotheses become: 
+The null and alternative hypotheses become:
 $H_0: R\theta=R\theta^*$
 and $H_1: R\theta\neq R\theta^*$.
 Note that
@@ -3257,6 +3282,20 @@ invariant (i.e., $R$
 invariant), but the Likelihood Ratio test is.
 
 \end{enumerate}
+
+Note that
+if $LL(\theta)$
+is given by Eq.(\ref{eq-normal-ll}),
+then
+$\av{\hat{\rvtheta},\hat{\rvtheta}}
+=
+\s^2=\frac{1}{FI(\theta)}
+$. Hence,
+
+\beq
+\lam_{Li}=\lam_{Sc}=\lam_{Wa}=
+\frac{(\hat{\theta}-\theta^*)^2}{\s^2}
+\eeq
 
 Many 
 other commonly used test statistics
