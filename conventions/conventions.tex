@@ -3034,7 +3034,7 @@ e^{-\frac{1}{2}\frac{t^2+\nu}{\varrho^2}}
 \;.
 \eeqa
 
-\section{Hypothesis testing and 3 Classic test statistics 
+\section{Hypothesis testing and 3 classic test statistics 
 (Likelihood, Score, Wald)}
 
 Suppose we have 
@@ -3076,13 +3076,13 @@ over $\theta$ subject to
 the constraint $\theta=\theta^*$,
 we maximize
 the Lagrangian $\call= LL(\theta) 
--\alp_i[\theta_i - \theta^*_i]$ over 
+-\sum_i \alp_i[\theta_i - \theta^*_i]$ over 
 $(\theta_i,\alp_i)$ for all $i$. The latter
 gives $\alp_i=\partial_{\theta_i}LL(\theta^*)$
 and $\theta=\theta^*$.
 For a general
 constrained optimization
-problem, $\call=LL(\theta)-\alp_ic_i(\theta)$
+problem, $\call=LL(\theta)-\sum_i \alp_ic_i(\theta)$
 for some constraint functions $c_i(\theta)$.
 Hence, $\alp_i=\partial_{\theta_i}LL/
 \partial_{\theta_i}c_i$
@@ -3162,7 +3162,9 @@ Normal distribution.
 \begin{figure}[h!]
 \centering
 \includegraphics[width=3.2in]{conventions/classic-trio.png}
-\caption{For $\theta\in\RR$,
+\caption{For $n=1$ and $\theta\in\RR$,
+this figure shows the geometrical significance of
+certain
 quantities that
 characterize the
 3 classic test statistics
@@ -3171,12 +3173,15 @@ for hypothesis testing.}
 \label{fig-classic-trio}
 \end{figure}
 
-Three classic test statistics 
-are (See Fig.\ref{fig-classic-trio}):\footnote{We
-are using the 
+Henceforth in this section,
+we will 
+occasionally  use the 
 Einstein summation
 convention; i.e., implicit sum over
-repeated indices.}
+repeated indices.
+
+Three classic test statistics 
+are (See Fig.\ref{fig-classic-trio}):
 
 \begin{enumerate}
 
@@ -3209,24 +3214,42 @@ Doesn't depend on $\hat{\theta}$.
 \item
 {\bf Wald test statistic}
 
+
 \beqa
 \lam_{Wa}&=&
 (\hat{\theta}-\theta^*)_i
 \left[
-\av{\hat{\rvtheta}_i,\hat{\rvtheta}_j}
-\right]_{i,j}^{-1}
+\av{\hat{\rvtheta},\hat{\rvtheta}^T}^{-1}
+\right]_{i,j}
 (\hat{\theta}-\theta^*)_j
+\label{eq-wald-stat}
 \\
 &=&
 \frac{(\theta^*-\hat{\theta})^2}
 {\av{\hat{\theta},\hat{\theta}}}
 \quad\text{if $n=1$}
 \eeqa
-
 $\av{\hat{\rvtheta}_i,\hat{\rvtheta}_j}$
 is close to 
 $E[\partial_{\theta_i}\partial_{\theta_j}
  P(\vec{\rvx}|\hat{\theta})]$.
+
+More generally,
+one can replace $\theta^*\rarrow R\theta^*$
+and  $\hat{\theta}\rarrow R\hat{\theta}$
+in Eq.(\ref{eq-wald-stat}),
+where $\theta^*$ and
+$\hat{\theta}$ are $n$ dimensional
+column vectors, and
+$R\in\RR^{\nu\times n}$. $R$ is called a 
+reparametrization of $\theta$.
+The Wald test is not
+reparametrization
+invariant (i.e., $R$
+invariant), but the Likelihood Ratio test is.
+
+
+
  
 \end{enumerate}
 
@@ -3237,7 +3260,7 @@ $\vec{x}$ is i.i.d.,
 
 \beq
 P(\vec{x}|\theta)=
-\prod_\s P(x^\s|\theta)
+\prod_{\s=0}^{nsam-1} P(x^\s|\theta)
 \;
 \eeq
 Hence, as $nsam\rarrow \infty$,
@@ -3271,10 +3294,11 @@ the 3 test statistics
 defined above all tend to 
 the same
 probability  distribution, namely 
-$\calx^2(\theta^*; n)$,
+$\calx^2(\theta^*; \nu)$,
 the chi-square distribution
-with $n$ degrees of freedom,
-where $\theta\in \RR^n$.
+with $\nu$ degrees of freedom,
+where $\theta\in \RR^n$, $R\in \RR^
+{\nu\times n}$, and $\nu=n$ if $R=1$.
 
 \section{Error Bars}
 Never report measurements without error bars!!
