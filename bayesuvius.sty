@@ -155,6 +155,7 @@
 \newcommand{\caln}[0]{{\cal N}}
 \newcommand{\calo}[0]{{\cal O}}
 \newcommand{\calp}[0]{{\cal P}}
+\newcommand{\calq}[0]{{\cal Q}}
 \newcommand{\calr}[0]{{\cal R}}
 \newcommand{\cals}[0]{{\cal S}}
 \newcommand{\calt}[0]{{\cal T}}
@@ -635,3 +636,49 @@ P(x_1=1\cond x_0=0,x_2=1,  \theta)
 \newcommand{\Gyes}[0]{\xymatrix{\;\ar[r]_G&}}
 
 \newcommand{\calypso}[0]{\ol{\caly}}
+
+\newcommand{\SeqBdoorDef}[0]{
+Suppose that we have access to data
+that allows us to 
+estimate a probability
+distribution 
+ $P(x^n, y, z^n)$.
+Hence, the variables
+$\rvx^n, \rvy, \rvz^n$ are 
+ALL observed (i.e, not hidden).
+Then we say that the
+the multinode
+of ``covariates" $\rvz^n$ 
+satisfies the
+{\bf sequential backdoor adjustment criterion}
+relative to $(\rvx^n, \rvy)$
+if for all $t\in\{0,1, \ldots, n-1\}$,
+
+\begin{enumerate}
+\item 
+$\rvy\perp\rvx_t|
+\underbrace{(\rvx_0, \rvx_1, \ldots,\rvx_{t-1},
+\rvz_0, \rvz_1, \ldots, \rvz_t)}
+_{\text{Past of $\rvx_t$}}$
+in $\call_{\rvx_{t}}
+\cald_{\rvx_{t+1},\rvx_{t+2}
+,\ldots, \rvx_{n-1}}G$.
+\item 
+$\rvz_t \cap de(\rvx_t)=\emptyset$.
+\end{enumerate}
+}
+
+\newcommand{\SeqBdoorClaim}[0]{
+If $\rvz^n$ satisfies the 
+sequential backdoor criterion relative to
+ $(\rvx^n, \rvy)$, then
+
+\beq
+P(y | \cald \rvx^n=x^n)=
+\calq(y|x^n)
+\;,
+\eeq
+where $\calq(y|x^n)$
+is defined by 
+Eq.(\ref{def-q-y-xn-seqbdoor}).
+}

@@ -50,8 +50,8 @@ in its first two variables (i.e.,
 $H(\rva:\rvb|\rvc)=H(\rvb:\rva|\rvc)$).
 Another very useful
 property of CMI
-is its chain rule
-(easy to prove from the definition of CMI):
+is its chain rule\begin{claim}(Chain Rule for CMI)
+\label{cl-chain-rule-cmi}
 \beq
 H(\rvy:\rvx^n)=
 \sum_i
@@ -61,6 +61,33 @@ H(\rvy:\rvx_i|\rvx_{<i})
 where $\rvx^n=(\rvx_0, \rvx_1, \ldots, \rvx_{n-1})$
 and 
 $\rvx_{<i}=(\rvx_0, \rvx_1, \dots, \rvx_{i-1})$.
+\end{claim}
+\proof
+
+\beq
+\frac{P(y|x_{< i+1})}{P(y)}=
+\frac{P(y|x_i, x_{<i})}{P(y|x_{<i})}
+\quad
+\frac{P(y|x_{<i})}{P(y)}
+\eeq
+Therefore,
+
+\beq
+\ln \frac{P(y|x_{<i+1})}{P(y)}=
+\ln\frac{P(y|x_i, x_{<i})}{P(y|x_{<i})}
++
+\ln \frac{P(y|x_{<i})}{P(y)}
+\eeq
+If we now apply $\sum_{y, x^n}P(y, x^n)$
+to both sides, we get
+
+\beq
+H(\rvy:\rvx_{< i+1})=
+H(\rvy:\rvx_i|\rvx_{x_<i})
++
+H(\rvy:x_{<i})
+\eeq
+\qed
 
 A trivial
 but
