@@ -201,18 +201,76 @@ by (1).
 So the Rule 2 premise is checking
 that no info is being transmitted
 by (2). }
+See Fig.\ref{fig-iden-noniden}
+for some simple
+examples of identifiable
+and non-identifiable
+do-queries.
+
+\begin{figure}[h!]
+$$
+\begin{array}{ccc}
+\xymatrix{
+&\rvz\ar[ld]\ar[rd]
+\\
+\rvx\ar[rr]&&\rvy
+}
+&\quad\quad&
+\xymatrix{
+&*++[F-o]{\rvz}\ar[ld]\ar[rd]
+\\
+\rvx\ar[rr]&&\rvy
+}
+\\
+P(y|\cald\rvx=x)=P(y|x)
+&&P(y|\cald\rvx=x)\neq P(y|x)
+\end{array}
+$$
+\caption{Examples of 
+identifiable
+and non-identifiable
+do-queries. $\cald\rvx=x$
+in a do-query
+means we erase the arrow
+$\rvz\rarrow\rvx$
+and replace node
+$\rvx$ by a delta function
+$\delta(x,x')$.
+Let $Q(y|x)=\sum_zP(y|x,z)P(z)$.
+In both cases,
+$P(y|\cald\rvx=x)=Q(y|x)$, 
+but in the non-identifiable
+case, $Q(y|x)$
+is summing over the
+unobserved node $\rvz$,
+so it is using 
+data that is not available.
+To distinguish between
+these two possibilities for $Q(y|x)$,
+we set $Q(y|x)=P(y|x)$
+in the identifiable case,
+and $Q(y|x)=P(y|\cald\rvx=x)$
+in the non-identifiable case.
+}
+\label{fig-iden-noniden}
+\end{figure}
+
 The following is the simplest of
 do-adjustment formulae:
 \beq
 P(y|\cald\rvx=x)=P(y|x)
 \eeq
-Many problems (e.g., Backdoor, Frontdoor, etc.)
-satisfy this simplest of adjustment 
-formulae, but in general
+By definition, 
+since identifiability
+gives permission
+to remove $\cald$ operators, all do-identifiable
+problems satisfy this simplest 
+of adjustment 
+formulae. However,
 we aim to find 
 an adjustment formula that 
 utilizes the full distribution
-of the observed nodes. Adjustment
+of the {\it observed} nodes. Adjustment
 formulae that don't 
 utilize the full
 distribution 
@@ -222,7 +280,77 @@ away useful
 info
 from the dataset, and are less
 sensitive to deviations from the DAG model
-being hypothesized.
+being hypothesized. 
+
+Given a bnet $G$
+and an adjustment formula $AF$
+for the query $P(y|\cald\rvx=x, z)$,
+a simple identification method (SIM) that we 
+use in this chapter to prove 
+that $AF$ 
+applies to $G$, is
+the following:
+\begin{enumerate}
+\item
+From the bnet $G$,
+write 
+an instantiation
+of $G$ 
+in which
+the arrows entering
+node $x$
+are amputated,
+node $x$
+is replaced
+by $\cald\rvx=x$,
+and all observed and
+unobserved nodes, 
+except 
+$x, y, z$,
+are summed over.
+\item
+Replace all
+sums over 
+hidden nodes
+by sums over 
+observed nodes.
+\item 
+Once all
+nodes in the diagram
+represent
+observed nodes only,
+we can replace 
+the node $\cald\rvx=x$
+by $x$. 
+This is 
+justified because in
+the latest diagram (the one
+with no unobserved nodes), unavailable
+info  that
+belongs to unobserved nodes
+is not being used.
+After all,
+that is the meaning
+of 
+identifiability:
+that we can express
+a do-query using
+only the info
+that is available.
+\end{enumerate}
+
+You can check that 
+using SIM,
+it is not possible to
+find an adjustment formula for
+the example
+of a non-identifiable
+query in Fig.\ref{fig-iden-noniden}.
+SIM does yield the backdoor adjustment
+formula for the
+identifiable
+query in Fig.\ref{fig-iden-noniden}.
+
 
 A {\bf do-transport formula}
 expresses a do-query in terms

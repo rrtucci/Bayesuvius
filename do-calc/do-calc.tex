@@ -157,7 +157,7 @@ G_{\ul{X}}$
 for a random variable $X$
 in a graph $G$.
 The way I remember
-it is top-in (as in topping), and 
+Pearl's notation is top-in (as in topping), and 
 bottom-out (as in butt-out).}
 
 
@@ -417,79 +417,7 @@ P(y=1|\rvx=0)
 \;.
 \eeq
 
-\section{Parent Adjustment Formula}
 
-
-Suppose 
-that $\rvx., \rvy., \rvz.$
-are disjoint multinodes
-and their union equals
- the
-totality of all nodes of
-a bnet. 
-Suppose we have data
-available that allows us  to
-estimate $P(x., y., z.)$.
-Hence, all nodes of the bnet
-are observable.
-Furthermore,
-suppose $\rvz.=pa(\rvx.)$.
-In other words,
-we are 
-considering the bnet
-
-\beq
-\xymatrix{
-\rvz.\ar[d]\ar[dr]
-\\
-\rvx.\ar[r]&\rvy.
-}
-\;.
-\eeq
-
-Then
-
-\beq
-P(y., z.|\cald \rvx.=x.)
-=P(y.|x., z.)P(z.)
-\eeq
-so
-
-\beq
-P(y.|\cald \rvx.=x.)
-=\sum_{z.}P(y.|x., z.)P(z.)
-\;.
-\eeq
-This is called
-{\bf adjusting the parents}
-of $\rvx.$.
-
-
-We say that 
-we are {\bf adjusting 
-or controlling a node $\rva$}
-if we condition 
-a probability on $\rva$ and 
-then we average 
-that probability over $\rva$.
-More generally, 
-we can adjust a whole
-multinode $\rva.$ together.
-
-Later on,
-we will introduce 
-a generalization
-of 
-this parent adjustment formula
-called the 
-backdoor adjustment formula.
-In a backdoor adjustment formula,
-the adjusted multinode
-is not necessarily
- the parents of $\rvx.$, 
-and $P(x., y., z.)$
-need not represent the
-whole bnet.
 
 
 
@@ -669,6 +597,76 @@ adjusts one multinode
 and the 
 frontdoor formula adjusts two.
 
+\section{Parent Adjustment Formula}
+
+
+Suppose 
+that $\rvx., \rvy., \rvz.$
+are disjoint multinodes
+and their union equals
+ the
+totality of all nodes of
+a bnet. 
+Suppose we have data
+available that allows us  to
+estimate $P(x., y., z.)$.
+Hence, all nodes of the bnet
+are observable.
+Furthermore,
+suppose $\rvz.=pa(\rvx.)$.
+In other words,
+we are 
+considering the bnet
+
+\beq
+\xymatrix{
+\rvz.\ar[d]\ar[dr]
+\\
+\rvx.\ar[r]&\rvy.
+}
+\;.
+\eeq
+
+Then
+
+\beq
+P(y., z.|\cald \rvx.=x.)
+=P(y.|x., z.)P(z.)
+\eeq
+so
+
+\beq
+P(y.|\cald \rvx.=x.)
+=\sum_{z.}P(y.|x., z.)P(z.)
+\;.
+\eeq
+This is called
+{\bf adjusting the parents}
+of $\rvx.$.
+
+
+We say that 
+we are {\bf adjusting 
+or controlling a node $\rva$}
+if we condition 
+a probability on $\rva$ and 
+then we average 
+that probability over $\rva$.
+More generally, 
+we can adjust a whole
+multinode $\rva.$ together.
+
+Next,
+we will introduce 
+a generalization
+of 
+this parent adjustment formula
+called the 
+backdoor adjustment formula.
+In a backdoor adjustment formula,
+the adjusted multinode
+is not necessarily
+ the parents of $\rvx.$.
 
 \section{Backdoor Adjustment Formula}
 
@@ -849,6 +847,52 @@ of the Frontdoor Adjustment Formula
 without 
 using Do Calculus.
 \qed
+
+\section{Comparison
+of Backdoor and Frontdoor
+adjustment formulae}
+
+Define a {\bf direct effect path}
+for a query $P(y|\cald\rvx=x,z.)$
+as a directed path that starts at $\rvx$
+and ends
+at $\rvy$. A backdoor path 
+(i.e., one that connects
+$\rvx$ and $\rvy$ starting
+with an arrow
+pointing into $\rvx$),
+is not a direct effect path;
+it's an {\bf indirect effect path}.
+
+Note that in the backdoor AF (adjustment
+formula), we can find a multinode
+$\rvz.$ such that if
+we condition
+on $\rvz.$, 
+all indirect effect paths are blocked.
+In the frontdoor AF,
+we can't find a multinode $\rvz.$
+that blocks all indirect effect
+paths. 
+Despite this,
+in the frontdoor scenario,
+the do-query is
+identifiable and
+an adjustment formula
+exists. 
+How is that possible?
+The frontdoor AF 
+uses the backdoor AF once
+and then it uses 
+the backdoor AF again,
+a second time, on 
+the result of the first use.
+The frontdoor AF 
+replaces a
+sum over an unobserved node
+by a sum over an observed one.
+
+
 
 \section{Do operator for DEN diagrams}
 
