@@ -223,7 +223,8 @@ x_0\ar[uur]\ar[uurr]
 
 \SeqBdoorDef
 
-\begin{claim}(Sequential Backdoor Adjustment Formula
+\begin{claim}(Sequential 
+Backdoor Adjustment Formula)
 
 \SeqBdoorClaim
 \end{claim}
@@ -242,7 +243,7 @@ might
 have the following 
 structure for $n=3$.
 
-$$
+\beq
 \xymatrix{
 \rvz_0\ar[r]\ar@/^1pc/[rr]\ar[drrr]
 \ar[dd]
@@ -254,11 +255,85 @@ $$
 &&&\rvy
 \\
 \rvx_0\ar[uur]\ar[uurr]\ar[urrr]
+\ar[r]\ar@/_1pc/[rr]
+&\rvx_1\ar[uur]
+\ar[urr]\ar[r]
+&\rvx_2
+\ar[ur]
+}
+\label{eq-bnet-bdoor-proof}
+\eeq
+
+One can check
+using the following 3 
+auxilliary bnets
+that bnet Eq.(\ref{eq-bnet-bdoor-proof})
+satisfies the
+sequential backdoor
+adjustment 
+criterion.
+Note that conditioned
+nodes are shaded yellow.
+\beq
+\begin{array}{ccc}
+\xymatrix@C=.95pc{
+*++[o][F*:yellow]{\rvz_0}\ar[r]\ar@/^1pc/[rr]\ar[drrr]
+\ar[dd]
+&*++[o][F*:yellow]{\rvz_1}\ar[r]\ar[drr]
+&*++[o][F*:yellow]{\rvz_2}\ar[dr]
+\\
+&&&\rvy
+\\
+\rvx_0
 &\rvx_1\ar[uur]
 \ar[urr]
 &\rvx_2
 \ar[ur]
-}$$
+}
+&
+\xymatrix@C=.95pc{
+\rvz_0\ar[r]\ar@/^1pc/[rr]\ar[drrr]
+\ar[dd]
+&*++[o][F*:yellow]{\rvz_1}\ar[r]\ar[drr]
+\ar[dd]
+&*++[o][F*:yellow]{\rvz_2}\ar[dr]
+\\
+&&&\rvy
+\\
+*++[o][F*:yellow]{\rvx_0}
+\ar[uur]\ar[uurr]\ar[urrr]\ar[r]
+&\rvx_1
+&\rvx_2
+\ar[ur]
+}
+&
+\xymatrix@C=.95pc{
+\rvz_0\ar[r]\ar@/^1pc/[rr]\ar[drrr]
+\ar[dd]
+&\rvz_1\ar[r]\ar[drr]
+\ar[dd]
+&*++[o][F*:yellow]{\rvz_2}\ar[dr]
+\ar[dd]
+\\
+&&&\rvy
+\\
+*++[o][F*:yellow]{\rvx_0}
+\ar[uur]\ar[uurr]\ar[urrr]
+\ar[r]\ar@/_1pc/[rr]
+&*++[o][F*:yellow]{\rvx_1}\ar[uur]
+\ar[urr]\ar[r]
+&\rvx_2
+}
+\\
+\\
+\call_{\rvx_0}\cald_{\rvx_1, \rvx_2}G
+&\call_{\rvx_1}\cald_{\rvx_2}G
+&\call_{\rvx_2}G
+\end{array}
+\eeq
+
+
+
 See Claim \ref{cl-decSeqBackDoor}
 for a proof of this claim.
 \qed
