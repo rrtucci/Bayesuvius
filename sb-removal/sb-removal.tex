@@ -1,5 +1,488 @@
-\chapter{Selection Bias Removal: COMING SOON}
-\label{ch-sb-removal}
-Ref.\cite{bare-sb-removal}
+\chapter{Selection Bias Removal}
+This chapter 
+is based on Ref.\cite{bare-sb-removal}.
+
+Selection bias (SB)
+occurs when one 
+samples from an
+atypical subset
+of a
+population,
+producing a biased dataset.
+Are such biased 
+datasets
+useless? No. 
+It is possible to 
+add additional auxiliary features
+to the biased dataset, and to 
+sample those new features
+in an unbiased way,
+ from the whole population.
+Then
+one can merge
+the original
+ biased dataset with the
+auxiliary, unbiased one,
+to obtain an enhanced dataset.
+It is sometimes
+possible to do this so that the enhanced
+dataset is provably 
+unbiased.
+The theory of Causal
+Inference tell us 
+WHEN this is possible,
+and HOW to do it
+when it is possible.
+
+Consider the bnet 
+Fig.\ref{fig-bs-removal-basic}.
+
+\begin{figure}[h!]
+$$
+\xymatrix{
+\rvs=1\ar[dr]|?\ar[d]_?\ar[r]^?
+&\rvA\ar[d]
+&
+\\
+\rvx\ar[r]\ar@/_.9pc/[ru]
+&\rvy
+}
+$$
+\caption{Bnet considered for 
+selection bias (SB) removal.
+Arrows with question marks
+may or may not be present.}
+\label{fig-bs-removal-basic}
+\end{figure}
+
+Let
+
+$\rvs\in\bool$
+is the {\bf selection node}.
+$\rvs=1$ means there is 
+SB
+in the node.
+$\rvs=0$ or no $\rvs$ parent
+means there 
+is no SB in the node.
+
+
+$\rvx=$ {\bf class features}.\footnote{
+A feature is the same as a node in a bnet.}
+
+$\rvy=$ {\bf target feature}.
+
+$\rvA=$ {\bf auxiliary features}
+(Ref.\cite{bare-sb-removal} 
+calls this $T-\{\rvx\}$) 
+
+$\rvE=\{\rvy, \rvx\}\cup\rvA=$ 
+{\bf Enhanced feature set}
+(Ref.\cite{bare-sb-removal} calls this $M$) 
+
+$\Sigma=$ population of individuals $\s$
+
+$OD=\{(\s,\rvx^\s,  \rvy^\s,\rvs^\s=1):\s\in\Sigma\}=$ 
+{\bf Original Dataset}, dataset for $(\rvx,\rvy)$ features
+with $\rvs=1$. 
+Gives empirical
+distribution $\color{red}{P(y|x, \rvs=1)}$.
+(Ref.\cite{bare-sb-removal} 
+calls this dataset the {\bf biased study}.)
+
+$AD=\{(\s, \rvx^\s,\rvA^\s):\s\in\Sigma\}=$ 
+{\bf Auxiliary Dataset}, dataset for $(\rvx, \rvA)$ features.
+Gives empirical
+distribution $\color{red}{P(A|x)}$.
+(Ref.\cite{bare-sb-removal} 
+calls this dataset the 
+{\bf population level study}.)
+
+
+$ED=\{(\s,\rvx^\s, \rvA^\s, \rvy^\s,\rvs^\s=1):\s\in\Sigma\}=$ 
+{\bf Enhanced Dataset}, dataset for $(\rvx,\rvy, \rvA)$ features
+for $\rvs=1$.
+Obtained by merging $OD$ and $AD$.
+Gives empirical
+distribution $\color{red}{P(y|x, A, \rvs=1)}$.
+\section{Removing SB from 
+passive query $P(y|x)$}
+
+The {\bf  passive query} $P(y|x, \rvs=1)$
+is {\bf SB-recoverable}
+if it is independent of $\rvs$
+for some bnet $G$.
+
+\begin{enumerate}
+\item {\bf No SB.}
+{\bf Query $P(y|x)$ is
+SB-recoverable}
+with $\rvA= \emptyset$; SB can be removed
+by conditioning on $\rvx$.
+
+If $\rvy\perp\rvs|\rvx$, then
+\beq
+P(y|x, \rvs=1)=P(y|x)
+\;.
+\eeq
+For example,
+$\rvy\perp\rvs|\rvx$ in the following bnet:
+
+\beq
+\begin{array}{c}
+\xymatrix{
+\rvs\ar[d]
+\\
+*++[o][F*:yellow]{\rvx}\ar[r]&\rvy
+}
+\\
+\rvy\perp\rvs|\rvx
+\end{array}
+\eeq
+
+
+
+\item {\bf Query $P(y|x)$ is
+SB-recoverable}
+via $\rvxi$; SB can be removed
+by conditioning on $\rvx$
+and $\rvxi$.
+Here $\rvxi$
+is a nonempty
+subset of $\rvA$
+
+\begin{claim}\label{cl-sb-recov}
+There exists $\rvxi\subset \rvA$
+ such that
+ $\rvy\perp\rvs|(\rvx,\rvxi)$
+and $\rvxi\perp\rvs|\rvx$
+iff
+\beq
+P(y|x, \rvs=1)
+=
+\sum_\xi 
+\underbrace{P(y|x, \xi, \rvs=1)}_
+{P(y|x,\xi)}
+\underbrace{P(\xi|x, \rvs=1)}_{P(\xi|x)}
+=P(y|x)
+\eeq
+
+\beq
+\xymatrix{
+\rvs=1\ar[rd]
+\\
+x\ar[r]
+&y
+}
+\xymatrix{\\=}
+\xymatrix{
+&\sum \xi\ar[d]
+\\
+x\ar[r]\ar[ru]
+&y}
+\xymatrix{
+\\=}
+\xymatrix{\\
+x\ar[r]&y}
+\eeq
+\end{claim}
+\proof
+
+The $\Rightarrow$ part of this 
+claim is obvious. For a proof
+of the $\Leftarrow$ part, see
+ Ref.\cite{bare-sb-removal}.
+\qed
+
+The simplest example
+of a bnet to which
+Claim \ref{cl-sb-recov}
+applies is this:
+
+\beq
+\xymatrix{
+\rvs\ar[d]
+&{\rvxi}\ar[d]
+\\
+{\rvx}\ar[r]
+\ar[ru]
+&\rvy
+}
+\eeq
+
+As a second example
+of Claim \ref{cl-sb-recov},
+consider the following bnet:
+\beq
+\xymatrix{
+\rvs\ar[d]\ar@/^1pc/[rr]
+&{\rvz}\ar[d]\ar[r]
+&{\rvw}
+\\
+{\rvx}\ar[r]
+\ar[ru]
+&\rvy
+}
+\eeq
+
+$\rvy\perp\rvs|(\rvx,\rvxi)$
+and $\rvxi\perp\rvs|\rvx$
+with $\rvxi=\rvz$
+for this bnet:
+
+\beq
+\begin{array}{cc}
+\xymatrix{
+\rvs\ar[d]\ar@/^1pc/[rr]
+&*++[o][F*:yellow]{\rvz}\ar[d]\ar[r]
+&{\rvw}
+&
+\\
+*++[o][F*:yellow]{\rvx}\ar[r]
+\ar[ru]
+&\rvy
+}
+&
+\xymatrix{
+\rvs\ar[d]\ar@/^1pc/[rr]
+&{\rvz}\ar[d]\ar[r]
+&{\rvw}
+&
+\\
+*++[o][F*:yellow]{\rvx}\ar[r]
+\ar[ru]
+&\rvy
+}
+\\
+(a)\quad 
+\rvy\perp\rvs|(\rvx, \rvz)
+&(b)\quad
+\rvz\perp\rvs|\rvx
+\end{array}
+\label{eq-x-z-w-recov}
+\eeq
+Therefore
+
+\beqa
+P(y|x, \rvs=1)
+&=&
+\xymatrix{
+&\sum {z}\ar[d]\ar[r]
+&\sum{w}
+&
+\\
+{x}\ar[r]
+\ar[ru]
+&y
+}
+\\
+\eeqa
+
+\item {\bf Query $P(y|x)$ is not
+SB-recoverable}; SB cannot be removed.
+
+\beq
+\xymatrix{
+\rvs\ar[d]\ar[dr]
+\\
+\rvx\ar[r]&\rvy
+}
+\quad\quad
+\xymatrix{
+\rvs\ar[dr]
+\\
+\rvx\ar[r]&\rvy
+}
+\quad\quad
+\xymatrix{
+\rvs\ar[r]\ar[d]
+&\rvz\ar[dl]
+\\
+\rvx\ar[r]
+&\rvy\ar[u]
+}
+\eeq
+
+
+\end{enumerate}
+
+\section{Removing SB from active query 
+$P(y|{\cal D}x)$}
+
+The {\bf active
+query (i.e., do query)}
+$P(y|\cald\rvx=x, \rvs=1)$
+is 
+\begin{enumerate}[(a)]
+\item {\bf SB-recoverable}
+if it equals $P(y|\cald\rvx=x)$
+for some 
+bnet $G$,
+\item
+{\bf do-identifiable}
+if it equals
+$P(y|x, \rvs=1)$ 
+for some bnet $G$,
+\item
+both
+{\bf SB-recoverable
+and do-identifiable}
+if it equals 
+$P(y|x)$
+for the same bnet $G$.
+\end{enumerate}
+
+Examples
+\begin{itemize}
+\item
+
+\beq
+\xymatrix{
+\rvs\ar[r]
+&\rvxi\ar[d]
+\\
+\rvx\ar[r]\ar[ru]
+&\rvy}
+\quad
+\begin{array}{l}
+\text{SB-recoverable: NO}
+\\
+\text{do-identifiable: YES}
+\end{array}
+\label{eq-sb-removal-ex-1}
+\eeq
+For bnet Eq.(\ref{eq-sb-removal-ex-1}),
+$P(y|\cald\rvx=x, \rvs=1)$
+is do-identifiable
+because there are no unobserved nodes.
+It's not SB-recoverable because
+to block information
+from flowing from $\rvy$ to $\rvs$,
+one must condition on $\rvxi$.
+But if one conditions on $\rvxi$,
+then  info flows from $\rvx$ to $\rvs$,
+which is forbidden by Claim
+\ref{cl-sb-recov}.
+\item
+
+\beq
+\xymatrix{
+\rvs\ar[d]
+&*++[F-o]{\rvxi}\ar[d]\ar[ld]
+\\
+\rvx\ar[r]
+&\rvy
+}\quad
+\begin{array}{l}
+\text{SB-recoverable: YES}
+\\
+\text{do-identifiable: NO}
+\end{array}
+\label{eq-sb-removal-ex-2}
+\eeq
+\end{itemize}
+
+
+Let
+
+$V=$ set of nodes in graph
+
+$V^{<\rvx}=$ non-descendants 
+of $\rvx$ (excluding $\rvx$)
+
+$V^{>\rvx}=$ descendants
+of $\rvx$ (excluding $\rvx$)
+
+$\rvz^{<\rvx} = \rvz\cap V^{<\rvx}$
+
+$\rvz^{>\rvx} = \rvz\cap V^{>\rvx}$
+
+
+Suppose $\rvz \cup\{\rvx,\rvy\} \subset E$
+and $\rvz\subset \rvA$.
+We say $\rvz$ satisfies the {\bf 
+selection bias (SB) 
+backdoor criterion} 
+with respect to $(\rvx, \rvy)$
+if
+
+\begin{enumerate}
+\item all backdoor
+paths from $\rvx$ to
+$\rvy$ are blocked by conditioning on $\rvz^{<\rvx}$
+\item $\rvz^{>\rvx} \perp \rvy | (\rvx,\rvz^{<\rvx})$
+\item $\rvy\perp\rvs|(\rvx,\rvz)$
+\end{enumerate}
+
+ \begin{claim}(SB Backdoor
+ Adjustment Formula)
+
+If $\rvz$ satisfies the SB backdoor
+criterion relative to $(\rvx, \rvy)$,
+then
+
+\beq
+P(y|\cald\rvx=x, \rvs=1)
+=
+\sum_z P(y|x,z)P(z)=P(y|x)
+\eeq
+
+\beq
+\xymatrix{
+\rvs=1
+\ar[rd]
+\\
+\cald\rvx=x\ar[r]
+&y
+}
+\xymatrix{\\=}
+\xymatrix{
+&\sum z \ar[d]
+\\
+x\ar[r]
+&y}
+\\
+\xymatrix{\\=}
+\xymatrix{
+\\
+x\ar[r]&y
+}
+\eeq
+
+\end{claim}
+\proof
+
+If
+$z$
+satisfies the
+SB backdoor
+criterion
+relative
+to
+$(\rvx, \rvy)$,
+then
+$\rvx, \rvy, \rvz$
+might
+have the following 
+structure.
+
+
+\beq
+\xymatrix{
+\rvs\ar[d]\ar[r]\ar@/^1pc/[rr]
+&\rvz^{<\rvx}\ar[ld]\ar[d]\ar[r]
+&\rvz^{>\rvx}
+\\
+\rvx\ar[rru]\ar[r]
+&\rvy
+}
+\label{eq-sb-bdoor-special}
+\eeq
+
+See Claim \ref{cl-decSBBackDoor}
+for a proof of this claim
+for the
+special case Eq.(\ref{eq-sb-bdoor-special}).
+\qed
 
 

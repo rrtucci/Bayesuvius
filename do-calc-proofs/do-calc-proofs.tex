@@ -1168,7 +1168,83 @@ by $x_i$
 \end{longtable}
 \qed
 
-
+\begin{claim}
+\label{cl-decSBBackDoor}
+\decSBBackDoor
+\end{claim}
+\proof
+\begin{longtable}{l}
+\color{red}
+$P(y|\cald\rvx =x, \rvs=1)=
+\sum_z
+P(y|\cald\rvx=x, z)P(z^{<\rvx}|\rvs=1)
+P(z^{>\rvx}|x,z^{<\rvx}, \rvs=1)$
+\\
+\\
+\xymatrix{
+\rvs=1\ar[r]\ar@/^1pc/[rr]
+&\sum z^{<\rvx}\ar[d]\ar[r]
+&\sum z^{>\rvx}
+\\
+\cald\rvx=x\ar[rru]\ar[r]
+&y
+}
+\\
+\color{red}
+$= \sum_{z^{<\rvx}} P(y|\cald\rvx=x, z^{<\rvx})
+P(z^{<\rvx}|\rvs=1)$
+\\
+\xymatrix{\\=}
+\xymatrix{
+\rvs=1\ar[r]
+&\sum z^{<\rvx}\ar[d]
+&
+\\
+\cald\rvx=x\ar[r]
+&y
+}
+\\
+\color{red}
+$= \sum_z P(y|x, z)
+P(z|\rvs=1)$
+\\
+\xymatrix{\\=}
+\xymatrix{
+\rvs=1\ar[r]
+&\sum z\ar[d]
+&
+\\
+x\ar[r]
+&y
+}
+\begin{tabular}{l}
+$\cald$ can be removed because there are\\
+no sums over unobserved nodes.
+\end{tabular}
+\\
+\color{red}
+$= \sum_z P(y|x, z)
+P(z)$
+\\
+\xymatrix{\\=}
+\xymatrix{
+&\sum z\ar[d]
+&
+\\
+x\ar[r]
+&y
+}
+\begin{tabular}{l}
+$\rvs=1$ node can be removed\\ because
+this expression must\\ equal
+$P(y|x, \rvs=1)$. Furthermore,\\
+$\rvy\perp\rvs|(\rvx,\rvz)$ 
+in the hypothesis bnet.\\
+Hence,  this expression must also
+\\ equal $P(y|x)$.
+\end{tabular}
+\end{longtable}
+\qed
 
 
 %\input{do-calc-proofs/do-calc-proofs-limbo.tex}
