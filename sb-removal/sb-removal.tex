@@ -11,7 +11,7 @@ population,
 producing a biased dataset.
 Are such biased 
 datasets
-useless? No. 
+useless? Not necessarily. 
 It is possible to 
 add additional auxiliary features
 to the biased dataset, and to 
@@ -28,8 +28,13 @@ It is sometimes
 possible to do this so that the enhanced
 dataset is provably 
 unbiased.
-The theory of Causal
-Inference tell us 
+It's like making horizontal
+the surface of a table
+ that was
+ not initially
+horizontal.
+The theory of Bayesian Networks and Causal
+Inference tells us 
 WHEN this is possible,
 and HOW to do it
 when it is possible.
@@ -105,6 +110,210 @@ for $\rvs=1$.
 Obtained by merging $OD$ and $AD$.
 Gives empirical
 distribution $\color{red}{P(y|x, A, \rvs=1)}$.
+
+\section{Selection Nodes
+and Selection Bias}
+Selection
+nodes can be a source
+of confusion,
+so it's worth 
+spending some time
+thinking about them.
+
+
+Suppose that the nodes
+of a bnet can be either
+blue or colorless.
+Then we can define 
+a selection
+node $\rvs_{blue}$
+such that 
+$\rvs_{blue}=1$
+points
+to the nodes that 
+are blue, and
+nothing
+points
+to the nodes that are 
+colorless.
+If we were to
+change the value of 
+node $\rvs_{blue}$ to
+zero, 
+then all the nodes 
+of the bnet would be colorless.
+Suppose instead that 
+the nodes of a bnet
+could be either
+blue, red or colorless.
+Then one could define 
+two selection nodes,
+$\rvs_{blue}$
+and $\rvs_{red}$,
+and 
+draw arrows
+from $\rvs_{blue}=1$
+to the blue nodes
+and from
+$\rvs_{red}=1$
+to the red nodes, and no arrow 
+directed into the colorless nodes.
+So, basically, selection nodes
+are binary root nodes
+that indicate 
+whether the nodes pointed to
+belong to a set or not.
+
+
+
+In this chapter,
+selection nodes
+$\rvs\in\bool$
+are {\color{red}root} nodes
+whereas in
+the paper Ref.\cite{bare-sb-removal}
+on which this chapter
+is based,
+selection nodes $\rvs\in \bool$
+are {\color{red}leaf} nodes.
+Why the difference, and
+are these two conventions
+ equivalent, and if
+they are, how does 
+one translate
+from one convention
+to the other?
+
+
+Suppose that we start with
+a bnet $G_0$ that is fully connected, and 
+we add to it a selection node $\rvs$ 
+that is a leaf node that points
+to all nodes of $G_0$.
+Call the resulting bnet $\rvs\rarrow G_0$.
+We can use Bayes rule to reverse the direction
+of the arrows emanating from $\rvs$
+so that they enter node $\rvs$ 
+rather than exit
+it.
+Call the resulting bnet $\rvs\larrow G_0$.
+In general,
+Bayes rule allows us to translate 
+from $\rvs\rarrow G_0$ to 
+$\rvs\larrow G_0$,
+or in the opposite direction,
+without having to change the 
+directions of any of the arrows in $G_0$.
+If $G_0$ is not fully connected, then
+going from
+$\rvs\rarrow G_0$ to 
+$\rvs\larrow G_0'$ 
+will often require that $G_0'$
+have the same arrows in the same
+directions as $G_0$
+plus some extra arrows
+new to $G_0$.
+Likewise, going
+from
+$\rvs\larrow G_0$ to 
+$\rvs\rarrow G_0''$
+may require that $G_0''$ have
+the same arrows as $G_0$ plus some new arrows.
+Recall that in Chapter \nameref{ch-bnet-def},
+we made a distinction
+between causally correct (CC)
+bnets, and non CC bnets, and
+we pointed out
+that non CC bnets are
+quite useful as
+a numerical tool.
+Recall also from Chapter
+\ref{ch-obs-equi}
+that two bnets can be 
+``observationally equivalent".
+That is what is happening here.
+We are faced with 
+the choice of
+making selection nodes
+either 
+leaf nodes or root nodes.
+Both
+choices  lead to observationally
+equivalent bnets.
+One of the two choices
+leads to the 
+CC bnet,
+and the other to a non-CC bnet.
+Both choices are numerically
+correct. I feel that
+the convention 
+of selection
+nodes that are root nodes is 
+more convenient 
+computationally
+than the one where they 
+are leaf nodes. Why?
+Because
+$\rvs=1$
+usually 
+appears as a condition in a conditional
+probability,
+as in $P(\cdots|\cdots, \rvs=1)$.
+Such probabilities
+are represented  in a more
+straightforward manner if arrows
+exit rather than enter node
+$\rvs$. 
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1in]
+{sb-removal/common-cause-effect.png}
+\caption{Common Cause 
+and Effect for 
+nodes $\rvd,\rvy$.} 
+\label{fig-common-cause-effect}
+\end{figure}
+
+As a final
+comment about
+selection nodes,
+note
+that in Potential
+Outcomes (PO) theory
+ (see Chapter \ref{ch-pot-out}),
+root nodes such
+as $\rva$ in
+Fig.\ref{fig-common-cause-effect}
+are called {\bf common cause
+ or confounder nodes
+for nodes $\rvd, \rvy$}.
+Furthermore, leaf nodes such as 
+$\rvb$ in
+Fig.\ref{fig-common-cause-effect} are 
+called 
+{\bf common effect
+or selection bias (SB) nodes
+for nodes $\rvd, \rvy$}.
+Hence, in PO theory,
+SB is indicated
+by
+a leaf node,
+opposite to 
+what we do in this chapter.
+
+
+
+
+
+
+
+
+
+
+
+
 \section{Removing SB from 
 passive query $P(y|x)$}
 
