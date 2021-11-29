@@ -1212,6 +1212,7 @@ regression coefficients
 \beq
 y_\s= \beta_0 +
 \sum_{i=1}^{n} x_{\s i}\beta_{i} + \eps_\s
+\label{eq-LR-start}
 \eeq
 
 If we define
@@ -2173,6 +2174,96 @@ on $(\rvx_k)_{k\in \{1,2,
 estimates 
 $(\hat{\beta}_k)_{k\in \{1,2, 
 \ldots, n\}}$. 
+
+\section{Logistic Regression (LoR)}
+
+Suppose
+$x_\s\in \RR^n$,
+$y_\s\in \RR$,
+and $\Sigma$
+is a population
+of individuals $\s$.
+In general,
+a {\bf regression}
+is when
+we curve-fit a dataset
+$\{(x_\s, y_\s):\s\in\Sigma\}$
+with a function 
+$\haty=f(x)$.
+In {\bf Linear
+Regression (LR)},
+which we 
+discussed earlier,
+$f(x)$ is a hyperplane
+in $x$.
+On the other hand,
+in {\bf Logistic Regression (LoR)},
+$y_\s\in[0,1]$ and
+$f(x)$ is the sigmoid of
+a hyperplane in $x$.
+
+
+
+More specifically, for LR
+we have
+Eq.(\ref{eq-LR-start})
+which reads as follows:
+
+\beq
+y_\s= 
+\underbrace{
+\beta_0 +
+\sum_{i=1}^{n} x_{\s i}\beta_{i} 
+}_{\haty_\s}+ \eps_\s
+\quad\text{(LR)}\;.
+\eeq
+For LoR, we have instead
+
+\beq
+p_\s= 
+\smoid\left(
+\beta_0 +
+\sum_{i=1}^{n} x_{\s i}\beta_{i} + \eps_\s
+\right)
+\quad\text{(LoR)}\;,
+\eeq
+or, equivalently,
+
+
+\beq
+\underbrace{\lodds(p_\s)}
+_{\ln \frac{p_\s}{1-p_\s}}=
+\underbrace{ 
+\beta_0 +
+\sum_{i=1}^{n} x_{\s i}\beta_{i}
+}_{\haty_\s} + \eps_\s
+\quad\text{(LoR)}\;,
+\eeq
+where we have used the fact that 
+$\lodds()$
+is the inverse function of $\smoid()$.
+Hence, an LoR 
+fit can be calculated by
+collecting a dataset
+$\{(x_\s, p_\s):\s\in\Sigma\}$,
+transforming that
+dataset to the dataset
+$\{(x_\s,\lodds( p_\s)):\s\in\Sigma\}$,
+and fitting the latter dataset
+with a hyperplane.
+Let $P(\rvY_\s=1)=p_\s\in [0,1]$.
+LoR can be used 
+for binary
+classification
+if we define the 
+binary class 
+variable $c_\s\in \bool$ by
+
+\beq
+c_\s =\indi(P(\rvY_\s=1)>\alp)
+\eeq
+for some $0<\alp<1$.
+
 
 
 \section{Entropy,
