@@ -144,7 +144,7 @@ is the number of samples.
 Will
 sometimes
 denote
-$a\sqsig$ by $a^\sqsig$.
+$a[\s]$ by $a^\s$.
 
 
 For concreteness,
@@ -402,7 +402,7 @@ has the following TPMs,
 printed in blue.
 
 \beq\color{blue}
-P(h_0^\sqsig| \theta)=
+P(h_0^\s| \theta)=
 \begin{array}{l|l}
 \\\hline
 &1-\theta_0
@@ -412,7 +412,7 @@ P(h_0^\sqsig| \theta)=
 \eeq
 
 \beq\color{blue}
-P(x_0^\sqsig| \theta)=
+P(x_0^\s| \theta)=
 \begin{array}{l|l}
 \\\hline
 {\scriptstyle 0}&1-\theta_1
@@ -423,7 +423,7 @@ P(x_0^\sqsig| \theta)=
 
 
 \beq\color{blue}
-P(x_1^\sqsig\cond x_0^\sqsig, h^\sqsig, \theta)=
+P(x_1^\s\cond x_0^\s, h^\s, \theta)=
 \begin{array}{l|llll}
 &{\scriptstyle 00}
 &{\scriptstyle 01}
@@ -446,8 +446,8 @@ P(x_1^\sqsig\cond x_0^\sqsig, h^\sqsig, \theta)=
 
 
 \beq\color{blue}
-P(x_2^\sqsig\cond
- x_1^\sqsig, x_0^\sqsig, \theta)=
+P(x_2^\s\cond
+ x_1^\s, x_0^\s, \theta)=
 \begin{array}{l|llll}
 &{\scriptstyle 00}
 &{\scriptstyle 01}
@@ -469,7 +469,7 @@ P(x_2^\sqsig\cond
 \eeq
 
 \beq\color{blue}
-P(m^\sqsig|x^\sqsig, \theta)=
+P(m^\s|x^\s, \theta)=
 \frac{1}{nsam}
 P((x_i)_{\forall i\ni m_i=1}\cond
 (x_i)_{\forall i\ni m_i=0},\theta)
@@ -509,32 +509,32 @@ Note that $\sum_m P(m)=1$.}
 \eeq
 
 \beq
-P(m^\sqsig, x^\sqsig, h^\sqsig|\theta)=
-P(m^\sqsig| x^\sqsig, \theta)
-P(x^\sqsig| h^\sqsig, \theta)
-P(h^\sqsig|\theta)
+P(m^\s, x^\s, h^\s|\theta)=
+P(m^\s| x^\s, \theta)
+P(x^\s| h^\s, \theta)
+P(h^\s|\theta)
 \eeq
 
 
 \beq
-P(x^\sqsig| h^\sqsig, \theta)=
-P(x_2^\sqsig|x_1^\sqsig, x_0^\sqsig, \theta)
-P(x_1^\sqsig|x_0^\sqsig, h^\sqsig, \theta)
-P(x_0^\sqsig| \theta)
+P(x^\s| h^\s, \theta)=
+P(x_2^\s|x_1^\s, x_0^\s, \theta)
+P(x_1^\s|x_0^\s, h^\s, \theta)
+P(x_0^\s| \theta)
 \eeq
 
 \beq
-P(x_1^\sqsig|x_0^\sqsig, \theta)=
+P(x_1^\s|x_0^\s, \theta)=
 \sum_h 
-P(x_1^\sqsig|x_0^\sqsig, h^\sqsig, \theta)
-P(h^\sqsig|\theta)
+P(x_1^\s|x_0^\s, h^\s, \theta)
+P(h^\s|\theta)
 \eeq
 
 \beq
-P(x^\sqsig| \theta)=
-P(x_2^\sqsig|x_1^\sqsig, x_0^\sqsig, \theta)
-P(x_1^\sqsig|x_0^\sqsig,\theta)
-P(x_0^\sqsig| \theta)
+P(x^\s| \theta)=
+P(x_2^\s|x_1^\s, x_0^\s, \theta)
+P(x_1^\s|x_0^\s,\theta)
+P(x_0^\s| \theta)
 \eeq
 
 \begin{align}
@@ -548,33 +548,33 @@ P(\vec{m},\vec{h}\cond
 &=
 \sum_{\vec{m}, \vec{h}}
 \left[ \prod_\sigma 
-P(m^\sqsig,h^\sqsig\cond
-x^\sqsig, \theta^{(t)})
+P(m^\s,h^\s\cond
+x^\s, \theta^{(t)})
 \right]
 \ln 
 \left[
 \prod_\sigma 
-P(m^\sqsig, 
-x^\sqsig, h^\sqsig|\theta)
+P(m^\s, 
+x^\s, h^\s|\theta)
 \right]
 \\
 &=
 \sum_\sigma
-\sum_{m^\sqsig, h^\sqsig}
-P(m^\sqsig,h^\sqsig\cond
-x^\sqsig, \theta^{(t)})
-\ln P(m^\sqsig, x^\sqsig, h^\sqsig|\theta)
+\sum_{m^\s, h^\s}
+P(m^\s,h^\s\cond
+x^\s, \theta^{(t)})
+\ln P(m^\s, x^\s, h^\s|\theta)
 \\
 &=
 \sum_\sigma
-\sum_{m^\sqsig, h^\sqsig}
-\frac{P(m^\sqsig,h^\sqsig,
-x^\sqsig\cond \theta^{(t)})}
+\sum_{m^\s, h^\s}
+\frac{P(m^\s,h^\s,
+x^\s\cond \theta^{(t)})}
 {
 P(
-x^\sqsig\cond \theta^{(t)})
+x^\s\cond \theta^{(t)})
 }
-\ln P(m^\sqsig, x^\sqsig, h^\sqsig|\theta)
+\ln P(m^\s, x^\s, h^\s|\theta)
 \end{align}
 
 Once you find optimal
@@ -628,8 +628,8 @@ standard sampling technique such as Gibbs sampling.
 For $\sigma=0, 1, \ldots, nsam-1$, find a sample
 
 \beq
-(H^\sqsig)^{(t+1)}\sim
- P(H^\sqsig|x^\sqsig, \theta^{(t)})
+(H^\s)^{(t+1)}\sim
+ P(H^\s|x^\s, \theta^{(t)})
 \;.
 \eeq
 \item {\bf STEP 2:} Find a sample
@@ -648,7 +648,7 @@ P(\vec{x}, \vec{H}^{(t+1)}|\theta)
 &=&
 \caln(!\theta)
 \prod_\sigma
-P(x^\sqsig, (H^\sqsig)^{(t+1)}|\theta)
+P(x^\s, (H^\s)^{(t+1)}|\theta)
 \;.
 \eeqa
 \end{itemize}

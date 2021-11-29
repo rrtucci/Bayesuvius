@@ -16,32 +16,32 @@
 
 
 
-Estimators $\hat{y}$ for linear and logistic regression.
+Estimators $\haty$ for linear and logistic regression.
 \begin{itemize}
 \item 
 
 \textbf{Linear Regression:} $y\in \RR$. 
-Note $\hat{y}\in \RR$. $(x,\hat{y}(x))$ is
+Note $\haty\in \RR$. $(x,\haty(x))$ is
 the graph
 of a straight line 
 with y-intercept $b$ and slope $m$.
 \beq
-\hat{y}(x;b, m)= b + mx
+\haty(x;b, m)= b + mx
 \eeq
 
 \item
-\textbf{Logistic Regression:} $y\in\{0, 1\}$. Note $\hat{y}\in [0,1]$. $
-(x,\hat{y}(x))$ is the graph
+\textbf{Logistic Regression:} $y\in\{0, 1\}$. Note $\haty\in [0,1]$. $
+(x,\haty(x))$ is the graph
 of a sigmoid.
  Often in literature, $b,m$ are replaced by $\beta_0, \beta_1$. 
 \beq
-\hat{y}(x;b, m)=\smoid(b + m x)
+\haty(x;b, m)=\smoid(b + m x)
 \eeq
 \end{itemize}
 
 Define
 \beq
-V(b, m)=\sum_{x,y}P(x,y)| y-\hat{y}(x;b, m)|^2
+V(b, m)=\sum_{x,y}P(x,y)| y-\haty(x;b, m)|^2
 \;.\label{eq-norm-cost}
 \eeq
 We want to minimize $V(b,m)$ (called a cost or loss function) wrt $b$ and $m$.
@@ -62,26 +62,26 @@ Let
 \beq
 P_{\rvx, \rvy}(x,y)=
 \frac{1}{nsam(\vecx)}
-\sum_\sigma \indi(x=x[\sigma], y=y[\sigma])
+\sum_\s \indi(x=x^\s, y=y^\s)
 \;.
 \eeq
 
 \beq\color{blue}
-P(\vecx)=\prod_\sigma P(x[\sigma])
+P(\vecx)=\prod_\s P(x^\s)
 \eeq
 
 \beq\color{blue}
-P(\vecy|\vecx)=\prod_\sigma P(y[\sigma]\cond x[\sigma])
+P(\vecy|\vecx)=\prod_\s P(y^\s\cond x^\s)
 \eeq
 
 \beq\color{blue}
-P(\vec{\hat{y}}|\vecx, b, m)=\prod_\sigma \delta(\hat{y}[\sigma], \hat{y}(x[\sigma],b,m))
+P(\vec{\haty}|\vecx, b, m)=\prod_\s \delta(\haty^\s, \haty(x^\s,b,m))
 \label{eq-replace1}
 \eeq
 
 \beq\color{blue}
-P(V|\vec{\hat{y}}, \vecy)=
-\delta(V, \frac{1}{nsam(\vecx)}\sum_\sigma |y[\sigma]-\hat{y}[\sigma]|^2)
+P(V|\vec{\haty}, \vecy)=
+\delta(V, \frac{1}{nsam(\vecx)}\sum_\s |y^\s-\haty^\s|^2)
 \label{eq-replace2}
 \eeq
 Let $\eta_b, \eta_m>0$. 
@@ -103,12 +103,12 @@ P(m'|V, m)=\delta(m', m-\eta_m\partial_m V)
 $x$ with multiple 
 components (features)}
 
- Suppose that for each sample $\sigma$, 
-instead of $x[\sigma]$ being a scalar, 
+ Suppose that for each sample $\s$, 
+instead of $x^\s$ being a scalar, 
 it has $n$ components called features:
 
  \beq
-x[\sigma] = (x_0[\sigma], x_1[\sigma], x_2[\sigma] , \ldots x_{n-1}[\sigma])
+x^\s = (x_0^\s, x_1^\s, x_2^\s , \ldots x_{n-1}^\s)
 \;.\eeq
 
 Slope $m$ is replaced by weights  
@@ -116,56 +116,56 @@ Slope $m$ is replaced by weights
 \beq
 w = (w_0, w_1, w_3, , \ldots, w_{n-1})
 \;,\eeq
-and the product of 2  scalars $mx[\sigma]$ is replaced by the inner vector product $w^Tx[\sigma]$. 
+and the product of 2  scalars $mx^\s$ is replaced by the inner vector product $w^Tx^\s$. 
 
 \section{Alternative $V(b,m)$
  for logistic regression}
 
-For logistic regression, since $y[\sigma]\in \{0,1\}$
- and $\hat{y}[\sigma]\in [0,1]$ are both 
+For logistic regression, since $y^\s\in \{0,1\}$
+ and $\haty^\s\in [0,1]$ are both 
 in the interval $[0,1]$, they can 
 be interpreted as probabilities. Define 
-probability distributions $p[\sigma](x)$ and
-$\hat{p}[\sigma](x)$ for $x\in \{0,1\}$ by
+probability distributions $p^\s(x)$ and
+$\hat{p}^\s(x)$ for $x\in \{0,1\}$ by
 \beq
-p[\sigma](1)=y[\sigma],\;\;\; p[\sigma](0)=1-y[\sigma]
+p^\s(1)=y^\s,\;\;\; p^\s(0)=1-y^\s
 \eeq
 
 \beq
-\hat{p}[\sigma](1)=\hat{y}[\sigma],\;\;\; \hat{p}[\sigma](0)=1-\hat{y}[\sigma]
+\hat{p}^\s(1)=\haty^\s,\;\;\; \hat{p}^\s(0)=1-\haty^\s
 \eeq
 Then for logistic regression, the following 2 cost functions $V(b,m)$
 can be used as alternatives to the cost function Eq.(\ref{eq-norm-cost}) previously given.
 
 \beq
-V(b, m)= \frac{1}{nsam(\vecx)}\sum_\sigma
- D_{KL}(p[\sigma]\parallel \hat{p}[\sigma])
+V(b, m)= \frac{1}{nsam(\vecx)}\sum_\s
+ D_{KL}(p^\s\parallel \hat{p}^\s)
 \eeq
 
 and
 
 \beqa
-V(b, m)&=&\frac{1}{nsam(\vecx)} \sum_\sigma 
-CE(p[\sigma]\parallel\hat{p}[\sigma])\\
-&=& \frac{-1}{nsam(\vecx)}\sum_\sigma \left\{
-y[\sigma]\ln \hat{y}[\sigma] +
-(1-y[\sigma])\ln (1- \hat{y}[\sigma])\right\}\\
+V(b, m)&=&\frac{1}{nsam(\vecx)} \sum_\s 
+CE(p^\s\parallel\hat{p}^\s)\\
+&=& \frac{-1}{nsam(\vecx)}\sum_\s \left\{
+y^\s\ln \haty^\s +
+(1-y^\s)\ln (1- \haty^\s)\right\}\\
 &=&
-\frac{-1}{nsam(\vecx)}\sum_\sigma
-\ln \left\{\hat{y}[\sigma]^{y[\sigma]}
-(1- \hat{y}[\sigma])^{(1-y[\sigma])}\right\}\\
+\frac{-1}{nsam(\vecx)}\sum_\s
+\ln \left\{(\haty^\s)^{y^\s}
+(1- \haty^\s)^{(1-y^\s)}\right\}\\
 &=&
-\frac{-1}{nsam(\vecx)}\sum_\sigma 
-\ln P(\ul{Y}=y[\sigma]\cond \hat{y}=\hat{y}[\sigma])\\
+\frac{-1}{nsam(\vecx)}\sum_\s 
+\ln P(\ul{Y}=y^\s\cond \haty=\haty^\s)\\
 &=&
 -\sum_{x,y} P(x, y)
-\ln P(\ul{Y}=y|\hat{y}=\hat{y}(x,b,m))
+\ln P(\ul{Y}=y|\haty=\haty(x,b,m))
 \eeqa
 
 Above, we used 
 \beq
-P(\ul{Y}=Y|\hat{y}) = \hat{y}^{Y}
-[1-\hat{y}]^{1-Y}
+P(\ul{Y}=Y|\haty) = \haty^{Y}
+[1-\haty]^{1-Y}
 \eeq
 for $Y\in S_{\ul{Y}}=\{0,1\}$. (Bernoulli distribution).
 
@@ -181,8 +181,8 @@ as for Fig.\ref{fig-linreg}. For $\vec{\ul{Y}}$
 and $\ul{V}$, one defines
 
 \beq\color{blue}
-P(Y[\sigma]\cond \vec{\hat{y}})=
-P(\ul{Y}=Y[\sigma]\cond \hat{y}[\sigma])
+P(Y^\s\cond \vec{\haty})=
+P(\ul{Y}=Y^\s\cond \haty^\s)
 \eeq
 
 \beq\color{blue}
@@ -190,6 +190,6 @@ P(V|\vec{Y}, \vecy)=
 \delta(V, \frac{-1}{nsam(\vec{x})}\ln \call)
 \;,
 \eeq
-where $\call =\prod_\sigma P(\ul{Y}=y[\sigma]\cond \hat{y}[\sigma] )$=likelihood.
+where $\call =\prod_\s P(\ul{Y}=y^\s\cond \haty^\s )$=likelihood.
 
 

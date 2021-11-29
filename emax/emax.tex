@@ -66,7 +66,8 @@ $$\begin{array}{ccc}
 }
 \end{array}
 $$
-\caption{bnet for EM with $nsam=3$.}
+\caption{bnet for EM with $nsam=3$.
+$x[\s]=x^\s$ and $h[\s]=h^\s$.}
 \label{fig-em-bnet}
 \end{figure}
 
@@ -78,12 +79,12 @@ Later on in this chapter,
 we will give the node TPMs
 for this bnet for
 the special
-case in which $P(x[\sigma]\cond \theta)$
+case in which $P(x^\s\cond \theta)$
 is a mixture (i.e., weighted sum)
 of Gaussians.
 
 Note that if we 
-erase the $\rvh[\sigma]$ nodes
+erase the $\rvh^\s$ nodes
 from Fig.\ref{fig-em-bnet},
 we get the bnet for naive Bayes,
 which is used for classification
@@ -111,13 +112,13 @@ function.
 
 $nsam=$ number of samples.
 
-$\vecx=(x[0], x[1], \ldots, x[nsam-1])$
- $x[\sigma]\in S_\rvx$ for all $\sigma$.
+$\vecx=(x[0], x[1], \ldots, x[nsam-1])$,
+ $x^\s=x[\s]\in S_\rvx$ for all $\sigma$.
 
-$\vech=(h[0], h[1], \ldots, h[nsam-1])$
-$h[\sigma]\in S_\rvh$ for all $\sigma$.
+$\vech=(h[0], h[1], \ldots, h[nsam-1])$,
+$h^\s=h[\s]\in S_\rvh$ for all $\sigma$.
 
-We assume that the samples $(x[\sigma],h[\sigma])$
+We assume that the samples $(x^\s,h^\s)$
 are i.i.d. for different $\sigma$ at fixed 
 $\theta$.
 What this means is that 
@@ -130,8 +131,8 @@ such that
 \beq
 P(\vecx, \vech|\theta)=
 \prod_\sigma \left[P_{\rvx|\rvh,\ul{\theta}}
-(x[\sigma]\cond h[\sigma], \theta)
-P_{\rvh|\ul{\theta}}(h[\sigma]\cond \theta)\right]
+(x^\s\cond h^\s, \theta)
+P_{\rvh|\ul{\theta}}(h^\s\cond \theta)\right]
 \;.
 \eeq
 
@@ -164,8 +165,8 @@ the right hand side of
 Eq.(\ref{eq-exp-step})
 is expressible 
 in the form $\sum_\sigma 
-\sum_{h[\sigma]}f(x[\sigma],
-h[\sigma])$.}
+\sum_{h^\s}f(x^\s,
+h^\s)$.}
  
 \beq
 Q(\theta|\theta^{(t)})
@@ -403,7 +404,7 @@ is portrayed in Fig.\ref{fig-minorize}.
 \subsection{Gaussian mixture}
 
 
-$x[\sigma]\in \RR^d=S_\rvx$. $S_\rvh$ discrete and
+$x^\s\in \RR^d=S_\rvx$. $S_\rvh$ discrete and
 not too large. $n_\rvh=|S_\rvh|$ is
 number of Gaussians that we are 
 going to fit the samples with.
@@ -428,37 +429,37 @@ for the special case
 of a mixture of Gaussians, are as follows:
 
 \beq\color{blue}
-P(x[\sigma]\cond h[\sigma]\cond \theta)=
-\caln_d(x[\sigma];\mu_{h[\sigma]}, \Sigma_{h[\sigma]})
+P(x^\s\cond h^\s\cond \theta)=
+\caln_d(x^\s;\mu_{h^\s}, \Sigma_{h^\s})
 \eeq
 
 \beq\color{blue}
-P(h[\sigma]\cond \theta)=w_{h[\sigma]}
+P(h^\s\cond \theta)=w_{h^\s}
 \eeq
 
 Note that
 
 \beqa
-P(x[\sigma]\cond \theta)&=&
-\sum_h P(x[\sigma]\cond h[\sigma]=h, \theta)
-P(h[\sigma]=h\cond\theta)
+P(x^\s\cond \theta)&=&
+\sum_h P(x^\s\cond h^\s=h, \theta)
+P(h^\s=h\cond\theta)
 \\
 &=&
-\sum_hw_h\caln_d(x[\sigma];\mu_h, \Sigma_h)
+\sum_hw_h\caln_d(x^\s;\mu_h, \Sigma_h)
 \eeqa
 
 \beqa
 P(\vecx, \vech|\theta)&=&
 \prod_\sigma \left[
-w_{h[\sigma]}
-\caln_d(x[\sigma];\mu_{h[\sigma]}, \Sigma_{h[\sigma]})
+w_{h^\s}
+\caln_d(x^\s;\mu_{h^\s}, \Sigma_{h^\s})
 \right]
 \\
 &=&
 \prod_\sigma\prod_h
 \left[w_h
-\caln_d(x[\sigma];\mu_h, \Sigma_h)\right]
-^{\indi(h=h[\sigma])}
+\caln_d(x^\s;\mu_h, \Sigma_h)\right]
+^{\indi(h=h^\s)}
 \eeqa
 
 {\bf Old Faithful:}
@@ -534,13 +535,9 @@ and Phenotypes}
 
 Notation:
 $\vec{\rva}=
-(\rva[\sigma])_{\sigma=0, 1, \ldots,nsam-1}
+(\rva^\s)_{\sigma=0, 1, \ldots,nsam-1}
 $, where $nsam$
 is the number of samples.
-Will
-sometimes
-denote
-$a\sqsig$ by $a^\sqsig$.
 
 
 Suppose
@@ -554,10 +551,10 @@ $ (i.e., just one component)
 
 
 
-$\rvh[\sigma]\in S_\rvh=
+$\rvh^\s\in S_\rvh=
 \{AA, AO, BB, BO, OO, AB\}$ (the 6 blood genotypes)
 
-$\rvx[\sigma]\in S_\rvx=
+$\rvx^\s\in S_\rvx=
 \{A,B,O,AB\}$ (the 4 blood phenotypes)
 
 \begin{figure}[h!]
@@ -565,18 +562,18 @@ $$
 \xymatrix{
 \ul{\theta}\ar[d]\ar[dr]
 \\
-\rvx[\sigma]&\rvh[\sigma]\ar[l]
+\rvx^\s&\rvh^\s\ar[l]
 }$$
 \caption{bnet 
-for blood phenotypes $x\sqsig$
-and genotypes $h\sqsig$.}
+for blood phenotypes $x^\s$
+and genotypes $h^\s$.}
 \label{fig-phenotypes}
 \end{figure}
 
 For the bnet of Fig.\ref{fig-phenotypes},
 the TPMs, printed in blue, are:
 \beq\color{blue}
-P(h^\sqsig| \theta)=
+P(h^\s| \theta)=
 \begin{array}{c|c}
 &
 \\\hline
@@ -599,7 +596,7 @@ where $p_A+p_B+p_O=1$.
 
 
 \beq\color{blue}
-P(x^\sqsig\cond h^\sqsig, \theta)=
+P(x^\s\cond h^\s, \theta)=
 \begin{array}{l|llllll}
 &AA&AO&BB&BO&OO&AB
 \\\hline
@@ -622,7 +619,7 @@ Multiplying the TPMs in
 Eqs.(\ref{eq-pheno-ph}
 and (\ref{eq-pheno-pxbarh}), we get
 \beq
-P(x^\sqsig\cond \theta)=
+P(x^\s\cond \theta)=
 \begin{array}{l|l}
 \\\hline
 A&p_A^2+2p_Ap_O(=\pi_A)
@@ -641,7 +638,7 @@ Note that
 P(\vec{x}|\theta)
 &=&
 \prod_\sigma
-P(x^\sqsig|\theta)
+P(x^\s|\theta)
 \\
 &=&
 (\pi_A)^{N_A}
@@ -693,33 +690,33 @@ P(\vec{h}|\theta^{(t)})
 &=&
 \sum_{\vec{h}}
 \left[\prod_\sigma
-P(h^\sqsig|\theta^{(t)})
+P(h^\s|\theta^{(t)})
 \right]
 \ln \left[
-\prod_\sigma P(x^\sqsig, h^\sqsig |\theta)
+\prod_\sigma P(x^\s, h^\s |\theta)
 \right]
 \\
 &=&\sum_\sigma 
-\sum_{h^\sqsig}
-P(h^\sqsig|\theta^{(t)})
+\sum_{h^\s}
+P(h^\s|\theta^{(t)})
 \ln
- P(x^\sqsig, h^\sqsig |\theta)
+ P(x^\s, h^\s |\theta)
 \\
 &=&\sum_\sigma 
-\sum_{h^\sqsig}
-P(h^\sqsig|\theta^{(t)})
+\sum_{h^\s}
+P(h^\s|\theta^{(t)})
 [\ln
- P(x^\sqsig| h^\sqsig ,\theta)
+ P(x^\s| h^\s ,\theta)
 +
 \ln
- P(h^\sqsig |\theta)
+ P(h^\s |\theta)
 ]
 \\
 &=&nsam 
-\sum_{h^\sqsig}
-P(h^\sqsig|\theta^{(t)})
+\sum_{h^\s}
+P(h^\s|\theta^{(t)})
 \ln
- P(h^\sqsig |\theta)
+ P(h^\s |\theta)
 \;.
 \eeqa
 
