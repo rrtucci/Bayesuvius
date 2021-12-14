@@ -316,11 +316,11 @@ inside $P()$. For example,
 \beqa
 P(y_0,y_1,x)
 &=&
-P({\color{red}\rvy_x=y_x},
+P({\color{red}\rvy_x}=y_x,
  y_{\ol{x}},x)
 \\
 &=&
-P({\color{red}\rvy=y_x},
+P({\color{red}\rvy}=y_x,
  y_{\ol{x}},x)
 \eeqa
 
@@ -333,7 +333,7 @@ P(\rvy_x=y)=P(\rvy=y|\cald\rvx=x)
 \eeq
 This is also a
 consequence of bnet Fig.\ref{fig-pte-bnet}
-and the TPM \ref{eq-tpm-y-yx}.
+and the TPM Eq.(\ref{eq-tpm-y-yx}).
 Indeed, 
 $\cald\rvx=x$
 means one should amputate
@@ -763,9 +763,9 @@ Strong exogeneity implies
 exogeneity
 but not the converse.\footnote{In
 this book, we use both 
-$(\rva, \rvb)\perp \rvx$
+$(\rva, \rvb)_\A\perp \rvx$
 and $(\rva, \rvb)_{joint}\perp \rvx$.
-When we write $(\rva, \rvb)\perp \rvx$,
+When we write $(\rva, \rvb)_\A\perp \rvx$,
 we mean that
 $\rva\perp \rvx$
 and $\rvb\perp\rvx$,
@@ -774,6 +774,7 @@ $P(a|x)=P(a)$
 and $P(b|x)=P(b)$.
 When we write
 $(\rva, \rvb)_{joint}\perp \rvx$
+or simply $(\rva, \rvb)\perp \rvx$,
 we mean $P(a,b|x)=P(a,b)$.
 Summing
 $P(a,b|x)=P(a,b)$
@@ -785,14 +786,14 @@ $P(a|x)=P(a)$.
 Hence we see that
  $(\rva, \rvb)_{joint}\perp \rvx$
 implies
-$(\rva, \rvb)\perp \rvx$
+$(\rva, \rvb)_\A\perp \rvx$
 but not the converse.
 If $\rva$ and $\rvb$ are independent at
 fixed $\rvx$ so that 
 $P(a,b|x)=P(a|x)P(b|x)$ then
 $(\rva, \rvb)_{joint}\perp \rvx$
 iff
-$(\rva, \rvb)\perp \rvx$
+$(\rva, \rvb)_\A\perp \rvx$
 }
 \item
 {\bf Monotonicity} holds for simplex $\cals$ if $AMM=P(\rvy_0=1,
@@ -1250,7 +1251,8 @@ segment marked with a star.
 (see Fig.\ref{fig-bounds-minimal})
 
 If the minimal
-constraints hold for simplex $\cals$, then
+constraints hold for simplex $\cals$, 
+then
 
 \beq
 \max\left\{
@@ -1325,7 +1327,18 @@ E_{1|1}+E_{0|0}-O_{1,1}-O_{0,0}
 \eeq
 
 Note that $\sum_x O_{x,y}=P(\rvy=y)$
-for $y=0,1$.
+for $y=0,1$. 
+
+Let $A_0=E_{0|0}-\sum_x O_{x,0}$,
+ $A_1=E_{1|1}-\sum_x O_{x,1}$,
+and $A=E_{1|1}+E_{0|0}-1$.
+Note that $A,A_0$ and $A_1$ are all lower bounds 
+of $PNS$, and $A=A_0+A_1$, 
+so we could remove $A_0$ and $A_1$
+from the max\{\;\} argument. But that 
+would mean that 
+cases where we knew $E_{0|0}$
+or $E_{1|1}$but not both, would be unaccounted for.
 \end{claim}
 \proof
 These bounds 
@@ -1698,7 +1711,7 @@ in Eq.(\ref{eq-pre-backdoor-bounds}).
 We say $\rvz$
 is a {\bf partial mediator}
 relative to $(\rvx, \rvy)$ if
- $\rvy_x\perp(\rvx\cup
+ $\rvy_x\perp(\rvx,
 \rvz_{\ol{x}})|\rvz_x$ for $x\in \bool$.
 See Fig.\ref{fig-partial-mediator}
 for an example.
