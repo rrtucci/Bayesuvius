@@ -10,13 +10,14 @@ Refs.
 
 Recall from Chapter \ref{ch-pot-out}
 on Potential Outcomes (PO) 
-and beyond, that
+and Beyond, that
 the average treatment effect ($ATE$) 
 is defined as
 $ATE=E[\rvy_1-\rvy_0]$.
-The conditional $ATE$ ($CATE$) is defined as
+The conditional $ATE$ (CATE) 
+is defined as
 the conditional expected value
-$C$ATE$=E_{|\rvz=z}[\rvy_1-\rvy_0]$.
+$ATE_z=E_{|\rvz=z}[\rvy_1-\rvy_0]$.
 
 
 {\bf
@@ -106,7 +107,7 @@ AMM = P(\rvy_0=1, \rvy_1=0)
 
 \begin{claim}
 \beq
-PSN=P(\rvy_1-\rvy_0=1)
+PNS=P(\rvy_1-\rvy_0=1)
 \eeq
 \beq
 AMM=P(\rvy_1-\rvy_0=-1)
@@ -126,8 +127,9 @@ $\rvy_0=1$).
 \includegraphics[width=3.5in]
 {personalized/pns-ate.png}
 \caption{Probability simplex 
-with $x=P(\rvy_0=0, \rvy_1=1)$
-and $y=P(\rvy_0=1, \rvy_1=0)$.
+$\{(x,y): x\geq 0, y\geq 0, x+y\leq 1\}$
+with $x=PNS$
+and $y=AMM$.
 Values of $PNS$ and $ATE$
 at corners
 are given.
@@ -171,11 +173,11 @@ of $ATE$.
 
 
 {\bf Conditional ATE (CATE)} is 
-what we called $ATE_x$ in Chapter
+what we called $ATE_z$ in Chapter
 \ref{ch-pot-out}
 
 \beq
-ATE_z = E_{\s|z_1}[y_1^\s-y_0^\s]
+ATE_z = E_{\s|z}[y_1^\s-y_0^\s]
 = \sum_\s P(\s|z)[y_1^\s-y_0^\s]
 \eeq
 
@@ -194,15 +196,26 @@ $ACE_z=ATE_z$.
 \centering
 \includegraphics[width=3in]
 {personalized/personalized-goal.png}
-\caption{Increasingly
-tighter observational bounds
-$o_j, o'_j, O_j, O'_j$ 
-for $PSN_z$ and $ATE_z$
-ending in point bounds.
+\caption{We use patient data 
+to calculate at each step, increasingly
+tighter bounds
+$b_j, b'_j, B_j, B'_j$
+for $PNS_z$ and $ATE_z$,
+ending in point bounds
+for both quantities.
 If a point bound is achievable
  for a quantity $Q$,
 then we say $Q$
-is identifiable.} 
+is identifiable.
+It's possible that 
+$ATE_z$ is identifiable
+but $PNS_z$ isn't,
+or vice versa, for certain kinds
+of data; i.e., both
+quantities need not
+become identifiable 
+simultaneous at the
+same step above. } 
 \label{fig-personalized-goal}
 \end{figure}
 
@@ -213,7 +226,46 @@ to find
 increasingly 
 tighter bounds for
 PTEs such as 
-$PSN_z$ and $ATE_z$.
+$PNS_z$ and $ATE_z$.
+
+The bounds are calculated from
+ two types of data:
+{\bf Observational Data (OD)} and 
+{\bf Experimental Data (ED)}.
+OD is usually collected first
+because it is easier to collect 
+than ED.
+For OD, one allows 
+the patient to 
+choose whether to take
+a drug 
+or not ($x=0,1$),
+and then we conduct a {\bf survey}
+to record his/her 
+value for $x$ 
+and whether the treatment
+worked or not ($y=0,1$).
+For ED, one conducts a {\bf RCT}
+(Randomized Controlled Trial)
+instead of a survey.
+In the case of ED, 
+we record, as in OD, the $(x,y)$
+for each patient, but
+the value of $x$ for each
+patient is selected by the
+experimenter, at random,
+and, once selected, it
+ is compulsory for the
+patient.
+Unlike ED, OD is likely
+to be confounded, but
+it can still shed 
+additional information
+that serves to tighten 
+the bounds on 
+$PNS_z$ and $ATE_z$.
+
+
 
 
 \section{Bnets for PTE theory}
@@ -345,12 +397,13 @@ If that is done, then
 the value
 of $\rvy$ and $\rvy_x$ must
 be equal, 
-because of TPM at node $\rvy$
+because the TPM at node $\rvy$
 is a delta function
 enforcing this equality.
 
 
 \section{Probabilities Relevant to PTE theory}
+Let
 \beq
 P^{x', y'}_{x,y}=
 P(\rvy_{x'}=y'|x,y)
@@ -390,13 +443,19 @@ E_{1|1}-E_{1|0}
 
 \newcommand{\PN}[0]{PN^{0,0}_{1,1}}
 \newcommand{\PS}[0]{PS^{1,1}_{0,0}}
-{\bf Probability of Necessity ($\PN$)}
+{\bf Probability of Necessity 
+($\PN$)}\footnote{I like to call
+PN the Probability of Nullifying, because 
+it goes from 11 to 00}
 \beq
 \PN = P^{0,0}_{1,1}
 \eeq
 
 
-{\bf Probability of Sufficiency ($\PS$)}
+{\bf Probability of Sufficiency
+ ($\PS$)}\footnote{I like to call
+PS the Probability of Surging, because
+it goes from 00 to 11}
 \beq
 \PS=P^{1,1}_{0,0}
 \eeq
@@ -573,6 +632,9 @@ P(\rvy_1=\ol{y}, \rvy_0=\ol{y'}, \rvx=\ol{x})
 (\pi_x)^\sim =\pi_{\ol{x}}
 \eeq
 
+\beq
+(E_{y|x})^\sim = E_{\ol{y}|\ol{x}}
+\eeq
 
 \beq
 (\PN)^\sim=\PS,\quad (\PS)^\sim=\PN
@@ -808,8 +870,11 @@ includes the 3 cases $(y_0^\s, y_1^\s)=
 (0,0), (1, 1), (0,1)$, but
 excludes the only other
 case, namely $(1,0)$.}
- holds for simplex $\cals$ if $AMM=P(\rvy_0=1,
- \rvy_1=0)=0$. Equivalently,
+ holds for simplex $\cals$ if 
+
+\beq AMM=P(\rvy_0=1,
+ \rvy_1=0)=0\eeq\;. 
+Equivalently,
 
 \beq
 \sum_x P(\rvy_0=1, \rvy_1=0, x)=0
@@ -823,7 +888,7 @@ which is true iff
 Monotonicity gives {\color{red} 2 
 constraints}.
 
-Note that when $AMM=0$, $PSN=ATE$.
+Note that when $AMM=0$, $PNS=ATE$.
 \end{itemize}
 
 
@@ -869,10 +934,11 @@ P(\rvy_a=\ol{a},
 \eeq
 This immediately implies\footnote{
 If $x\in \bool$
-and $P(a,\rvx=0)=P(a)P(\rvx=0)$,
+and $P(a|\rvx=0)=P(a)$,
 then $P(a)- P(a,\rvx=0)=
 P(a)[1-P(\rvx=0)]$,
-so $ P(a,\rvx=1)= P(a)P(\rvx=1)$}
+so $ P(a,\rvx=1)= P(a)P(\rvx=1)$.
+Hence, $P(a|\rvx=1)=P(a)$.}
 
 \beq
 P(\rvy_a=\ol{a},
@@ -898,8 +964,7 @@ P(
 =
 \underbrace{
 P(\rvy_1=0,
- \rvy_{0}=0)}_{P9
- \rvy_{0}=0,\rvy_1=0)}
+ \rvy_{0}=0)}_{P(\rvy_{0}=0,\rvy_1=0)}
 \eeq
 Monotonicity itself gives
 
@@ -1028,6 +1093,14 @@ Note that
 {\eps_0+\eps_1}=1
 \eeq
 
+\beq
+\pi_x=
+\Pmat{\eps_x}
+{\eps_x}
+{\eps_x}
+{\eps_x}
+\eeq
+
 
 \beq 
 E_{0|0}
@@ -1058,6 +1131,17 @@ O_{1,1}=\Pmat{\eps_1}{\eps_1}{0}{0}
 \eeq
 
 \beq
+P(\rvy=0)=O_{0,0}+O_{1,0}=
+\Pmat{\eps_0}{0}{\eps_0+\eps_1}{\eps_1}
+\eeq
+
+\beq
+P(\rvy=1)=O_{0,1}+O_{1,1}=
+\Pmat{\eps_1}{\eps_0+\eps_1}{0}{\eps_0}
+\eeq
+
+
+\beq
 \PN O_{1,1}=\Pmat{\eps_1}{0}{0}{0}
 \eeq
 
@@ -1078,15 +1162,7 @@ ATE=PNS-AMM=
 \Pmat{\eps_0+\eps_1}{0}{0}{-\eps_0-\eps_1}
 \eeq
 
-\beq 
-P(\rvy=0)=O_{0,0}+O_{1,0}=
-\Pmat{\eps_0}{0}{\eps_0+\eps_1}{\eps_1}
-\eeq
 
-\beq 
-P(\rvy=1)=O_{0,1}+O_{1,1}=
-\Pmat{\eps_1}{\eps_0+\eps_1}{0}{\eps_0}
-\eeq
 When $AMM=0$, 
 \beq 
 P(\rvy=1)|_{AMM=0}=
@@ -1337,33 +1413,12 @@ E_{1|1}+E_{0|0}-O_{1,1}-O_{0,0}
 \end{array}
 \right\}
 \eeq
-
-Note that $\sum_x O_{x,y}=P(\rvy=y)$
-for $y=0,1$. 
-
-Let $A_0=E_{0|0}-\sum_x O_{x,0}$,
- $A_1=E_{1|1}-\sum_x O_{x,1}$,
-and $A=E_{1|1}+E_{0|0}-1$.
-Note that $A,A_0$ and $A_1$ are all lower bounds 
-of $PNS$, and $A=A_0+A_1$, 
-so we could remove $A_0$ and $A_1$
-from the max\{\;\} argument. But that 
-would mean that 
-cases where we knew $E_{0|0}$
-or $E_{1|1}$but not both, would be unaccounted for.
 \end{claim}
 \proof
 These bounds 
 were copied directly 
 from Ref.\cite{pearl-tian-2000},
 except the notation was changed.
-Ref.\cite{pearl-tian-2000}
-explains how Balke, 
-in his 1995 Ph.D. thesis under Pearl, 
- derived these bounds 
-using his software based on standard 
-algorithms  
-from Linear Programming.
 In certain cases, we have slightly 
 rewritten
 the bounds
@@ -1415,7 +1470,30 @@ PNS
 \qed
 
 
+In  Claim \ref{cl-minimal-bounds},
+note that
 
+
+\begin{itemize}
+\item $\sum_x O_{x,y}=P(\rvy=y)$
+for $y=0,1$. 
+
+\item Let $A_0=E_{0|0}-\sum_x O_{x,0}$,
+ $A_1=E_{1|1}-\sum_x O_{x,1}$,
+and $A=E_{1|1}+E_{0|0}-1$.
+Then $A,A_0$ and $A_1$ are all lower bounds 
+of $PNS$, and $A=A_0+A_1$, 
+so we could remove $A_0$ and $A_1$
+from the max\{\;\} argument. But that 
+would mean that 
+cases where we knew $E_{0|0}$
+or $E_{1|1}$but not both, would be unaccounted for.
+\item Once $O_{x,y}$ is known 
+for all $x,y$,
+that imposes  bounds on the allowable
+values for 
+$E_{y|x}$.
+\end{itemize}
 \begin{claim}\label{cl-personal-exogen}
 If minimal
 and exogeneity constraints hold
@@ -1602,7 +1680,7 @@ Set $E_{y|x}=O_{y|x}$ in Claim
 \ref{cl-pm-mono}.
 \qed
 
-\section{Bounds for specific bnet family}
+\section{Bounds for specific bnet families}
 Define
 \beq
 E_{*|*,z} = E_{0|0, z} + E_{1|1, z}=ATE_z+1
@@ -1611,31 +1689,32 @@ E_{*|*,z} = E_{0|0, z} + E_{1|1, z}=ATE_z+1
 \beq
 O_{*,*|z} = O_{0,0|z} + O_{1,1| z}
 \eeq
-Recall the minimal bounds
+Consider the minimal bounds
+conditioned on $z$:
 \beq
 \max\left\{
 \begin{array}{c}
 0
 \\
-E_{*|*}-1
+E_{*|*,z}-1
 \\
-E_{0|0}-\sum_x O_{x,0}
+E_{0|0,z}-\sum_x O_{x,0|z}
 \\
-E_{1|1}-\sum_x O_{x,1}
+E_{1|1,z}-\sum_x O_{x,1|z}
 \end{array}
 \right\}
 \leq
-PNS
+PNS_z
 \leq
 \min\left\{
 \begin{array}{c}
-E_{1|1}
+E_{1|1, z}
 \\
-E_{0|0}
+E_{0|0, z}
 \\
-O_{*,*}
+O_{*,*|z}
 \\
-E_{*|*}-O_{*,*}
+E_{*|*,z}-O_{*,*|z}
 \end{array}
 \right\}
 \eeq
@@ -1691,7 +1770,7 @@ then
 \begin{array}{l}
 0
 \\
-O_{*|*,z}
+O_{*|*,z}-1
 \end{array}
 \right\}
 \leq
@@ -2042,3 +2121,33 @@ P(z_0| \rvx=0)
 \end{array}\right\}
 \end{align}
 \qed
+\newpage
+\section{Numerical Examples}
+
+I've written an open source Python program
+(See Ref\cite{judeas-rx})
+that calculates the
+bounds given in this chapter. 
+The program
+is called ``JudeasRx", in honor of Judea
+Pearl. 
+Here 
+is an example of its interface
+with data entered by Boris Sobolev
+from a real life case.
+JudeasRx considers
+ $z=g=gender\in \{m,f\}$.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=6in]
+{personalized/judeas-rx-boris-sobolev.jpeg}
+\caption{Interface
+for the Python
+program JudeasRx,
+with data entered 
+by Boris Sobolev.} 
+\label{fig-pomp}
+\end{figure}
+
+
