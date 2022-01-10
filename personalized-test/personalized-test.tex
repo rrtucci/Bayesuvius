@@ -1,102 +1,246 @@
-\chapter{Personalized Expected Utility: COMING SOON}
+\chapter{Personalized Expected Utility}
 \label{ch-personalized-test}
 
+This chapter
+is based on 
+Ref.\cite{ang-li-thesis}.
 
-\url{https://ftp.cs.ucla.edu/pub/stat_ser/r507.pdf}
+This chapter assumes
+that the reader has already read 
+Chapter \ref{ch-personalized} on 
+Personalized Treatment Effects.
+Whereas Chapter 
+\ref{ch-personalized}
+is concerned with
+finding
+bounds for
+$PNS_z$,
+this chapter
+will find bounds for $EU_z$, which is
+ called the
+Personalized Expected Utility (PEU).
+
+
+For $y_0, y_1\in \bool$, let
+us denote  
+the {\bf  conditional joint experimental (causal,
+counterfactual) distribution} by:
 
 \beq
 P_{y_0, y_1|z}=
 P(\rvy_0=y_0, \rvy_1=y_1|z)
+\;.
 \eeq
-
-$\alp_{y_0, y_1}$ utility function
-
-conditional expected utility
+Suppose
+we are given 
+a {\bf Utility function}\footnote{Ref.\cite{ang-li-thesis}
+refers to the utility function as the
+benefit function.}
 
 \beq
-EU_z = E_{\rvy_0,\rvy_1|z}[\alp_{\rvy_0,\rvy_1}]=\alp_{i,j}P_{i,j|z}
+\alp_{y_0, y_1}: \bool^2\rarrow \RR
 \eeq
-
-\beq
-Uplift = ATE_z = E_{1|1,z}-E_{1|0,z}
-\eeq
-
-
+Let\footnote{
+The notation $\beta,\gamma, \theta, \delta$ 
+won't be used  again in this chapter.
+We  mention it here so the reader
+ can translate to and from
+our equations 
+and the equations
+ in Ref.\cite{ang-li-thesis}
+where this
+$\beta,\gamma, \theta, \delta$
+notation is used.}
 
 \beq
 \begin{array}{lll}
-\beta = \alp_{0,1} &(y_0=0, y_1=1)& \text{ compliers }
+\beta = \alp_{0,1} &(y_0=0, y_1=1)& \text{ compliers}
 \\
 \gamma = \alp_{1,1}&(y_0=1, y_1=1) & \text{ always takers} 
 \\
-\theta = \alp_{0,0}& (y_0=0, y_1=0&\text{ never takers})
+\theta = \alp_{0,0}& (y_0=0, y_1=0)&\text{ never takers}
 \\
 \delta = \alp_{1,0}& (y_0=1, y_1=0)&\text{ defiers}
 \end{array}
 \eeq
 
+
 \beq 
-\xymatrix@C=4pc{
+\xymatrix{
+\ar@{-}[r]\ar@{-}[d]&x=0\ar@{-}[r]&x=1\ar[r]&
+\\
+y=0\ar@{-}[d]
+&
 \rvy_0=0\ar@{-}@/^1pc/[dr]|{\alp_{0,1}}
 \ar@{-}[r]^{\alp_{0,0}}
 &\rvy_1=0
 \\
+y=1\ar[d]
+&
 \rvy_0=1\ar@{-}@/_1pc/[ur]|{\alp_{1,0}}
 \ar@{-}[r]_{\alp_{1,1}}
 &
 \rvy_1=1
+\\
+&
 }
 \eeq
 
+Define the {\bf conditional
+ (i.e., personalized) expected utility} by
+
+\beq
+EU_z = E_{\rvy_0,\rvy_1|z}[\alp_{\rvy_0,\rvy_1}]=\alp_{i,j}P_{i,j|z}
+\eeq
+where we are using the Einstein
+ summation convention
+(repeated indices are to be summed over)
+for the indices $i,j\in \bool$.
+
+Compare the definition of $EU_z$
+with that of two other causal effects used 
+in his book:
+
+\beq
+PNS_z = P_{0,1||z}=P(compliers|z)
+\eeq
+
+\beq
+Uplift = ATE_z = E_{1|1,z}-E_{1|0,z}
+\eeq
+As we shall see,
+$EU_z$ contains the information
+in $PNS_z$ and $ATE_z$,  plus much more.
+
+ 
+One can
+find the stratum $z^*$
+such that
+$z^*=\argmax ATE_z$ (as is done A/B= RCT testing) or
+ $z^*=\argmax_z EU_z$ or
+$z^*=\argmax_z PNS_z$.
+This is called the
+{\bf unit selection problem}.
+It's called ``unit selection"
+rather than ``stratum selection" 
+because once the  
+stratum $z^*$ is found,
+one can find a unit 
+(i.e., individual) within
+that stratum.
+
+
+
+
+
+
+
 \section{Goal of PEU Theory}
+Everything that we said 
+in Chapter \ref{ch-personalized}
+in the section entitled ``Goal 
+of PTE Theory"
+applies to PEU theory too,
+if we just replace $PNS_z$
+by $EU_z$.
+As in Chapter \ref{ch-personalized}, 
+we will consider two types of bounds (for
+$EU_z$ instead of $PNS_z$): 
+(1) Bounds for an unspecified bnet,
+(2) Bounds for specific bnet families.
+
+
+Here is
+an explanation 
+of why $EU_z$
+varies within a bounded region,
+something that might 
+not be obvious to the beginner.
+In  Fig.\ref{fig-peu-utility},
+we represent the utility
+function $\alp_{y_0, y_1}$
+by a unit vector $\hat{\alp}$,
+the probability distribution 
+$P_{y_0, y_1|z}$ by a vector $\vec{P}$,
+and $EU_z$ by the dot product 
+$\vec{P}\cdot \hat{\alp}$.
+When the probability
+vector $\vec{P}$ varies within a bounded region
+(shown in green),
+this causes
+the dot 
+product $EU_z=\vec{P}\cdot \hat{\alpha}$
+to vary within a bounded interval (also
+shown in green).
+
+
+
 \begin{figure}[h!]
 \centering
 \includegraphics[width=2.5in]
 {personalized-test/utility.png}
-\caption{Bounds 
+\caption{Bounds (shown in green)
 on the probability
 vector $\vec{P}$
-induce bounds on dot 
-product $EU=\vec{P}\cdot \hat{\alpha}$.
+induce bounds (shown in green) on the dot 
+product $EU_z=\vec{P}\cdot \hat{\alpha}$.
 Here $\hat{\alp}$ is a unit vector
 that stands for a normalized 
-utility function, and
-$EU$ stands for the expected utility.
+utility function. $\hat{\alp}$ 
+does not vary but $\vec{P}$ does.
 } 
-\label{fig-utility}
+\label{fig-peu-utility}
 \end{figure}
 
 \section{Bnets for PEU Theory}
+
+Everything that we said 
+in Chapter \ref{ch-personalized}
+in the section entitled ``Bnets 
+for PTE Theory"
+applies to PEU theory too,
+if we just replace $PNS_z$
+by $EU_z$.
 
 
 
 
 \section{Bounds for unspecified bnet}
-balanced  utility
+Define the
+{\bf balanced  utility} by
 \beq
 \alp_B = \alp_{0,0} + \alp_{1,1}
+\;,
 \eeq
-
-unbalanced utility
+the
+{\bf unbalanced utility} by
 \beq
 \alp_U =
 \alp_{1,0}+\alp_{0,1}
+\;,
 \eeq
+and their difference by:
 
 \beq
 \s = \alp_U - \alp_B
+\;.
 \eeq
+We will
+also use the abbreviations:
 
 \beq
 \alp_{1-0, j}=\alp_{1,j} -\alp_{0,j}
 \eeq
+and
 
 \beq
 \alp_{j,1-0}=\alp_{j,1} -\alp_{j,0}
+\;.
 \eeq
 
 
 \begin{claim}
+In general, 
 
 {\renewcommand\arraystretch{1.5}
 \beq
@@ -170,13 +314,21 @@ p_8 = p_1
 
 \end{claim}
 \proof
+See Ref\cite{ang-li-thesis}
+or use the MRP (Matrix Representation
+of Probabilities) defined in Chapter \ref{ch-personalized}.
 \qed
 
-monotonicity
+Later on, we will
+see that under monotonicity,
+these bounds collapse to a point 
+estimate of $EU_z$.
+But what if monotonicity doesn't hold?
+In such cases, one can use
+the midpoint
+of the bounds
+as a non-rigorous point estimate of $EU_z$.
 
-\beq
-P(\rvy_0=1, \rvy_1=0)=0
-\eeq
 
 
 \begin{claim}
@@ -204,51 +356,58 @@ P_{0,1|z}
 \proof
 
 \beq
-P_{1,0|z}
- + \underbrace{P_{0,1|z} + P_{1,1|z}}_
-{= P(\rvy_1=1|z)}+ P_{0,0|z}=1
+P_{0,0|z}+P_{1,0|z}=
+ P(\rvy_1=0|z)=E_{0|1,z}
 \eeq
-Hence 
-\beqa
-P_{0,0|z}&=&1-P(\rvy_1=1|z)-P_{1,0|z}
-\\
-&=&P(\rvy_1=0|z)-P_{1,0|z}
-\\
-&=&
-E_{0|1,z}-P_{1,0|z}
-\eeqa
 
 \beq
-P_{1,0|z}
- + \underbrace{P_{0,1|z} + P_{0,0|z}}_
-{= P(\rvy_0=0|z)}+ P_{1,1|z}=1
+P_{1,1|z}+P_{1,0|z}=
+ P(\rvy_0=1|z)=E_{1|0,z}
 \eeq
-Hence 
-\beqa
-P_{1,1|z}&=&1-P(\rvy_0=0|z)-P_{1,0|z}
-\\
-&=&P(\rvy_0=1|z)-P_{1,0|z}
-\\
-&=&
-E_{1|0,z}-P_{1,0|z}
-\\
-\eeqa
 
 \qed
 
-If monotonicity holds,
+Recall the 
+definition of monotonicity. Monotonicity holds iff
+
+\beq
+P(\rvy_0=1, \rvy_1=0)=0
+\;.
+\eeq
+
+\begin{claim}
+\label{cl-peu-trivial-mono}
+In general, 
+\beq
+EU_z = \alp_{0,0}P_{0,0|z}
++\alp_{1,1}P_{1,1|z}
++\alp_{0,1}P_{0,1|z}
++
+\alp_{1,0}P_{1,0|z}
+\eeq
+Hence, if monotonicity holds,
 or $\alp_{1,0}=0$,
 
 \beq
 EU_z = \alp_{0,0}P_{0,0|z}
 +\alp_{1,1}P_{1,1|z}
 +\alp_{0,1}P_{0,1|z}
-+
-\underbrace{\alp_{1,0}P_{1,0|z}}_{=0}
 \eeq
+
+\end{claim}
+\proof Trivial
+\qed
+
+Claim \ref{cl-peu-trivial-mono}
+is trivial, but
+it provides a good motivation 
+and inspiration for the
+following less trivial claim.
 
 
 \begin{claim}
+\label{cl-peu-mono}
+In general,
 
 \beq
 EU_z = \alp_{0,0} 
@@ -302,6 +461,254 @@ EU_z = (EU_z)_{\s=0} + \s P_{1,0|z}
 
 \qed
 
+Perhaps this will make Claim \ref{cl-peu-mono}
+less mysterious to you.
+Note that Claims \ref{cl-peu-trivial-mono}
+and \ref{cl-peu-mono} imply the following: 
+
+\beq
+\left[\pder{EU_z}{\alp_{1,0}}\right]
+_{\alp_{0,0}, \alp_{1,1}, \alp_{0,1}}=
+\left[\pder{EU_z}{\s}\right]
+_{\alp_{0,0}, \alp_{1,1}, \alp_{0,1}}=P_{1,0|z}
+\eeq
+
+
 \section{Bounds for specific bnet  families}
 
 
+\begin{figure}[h!]
+$$\xymatrix{
+\rvz\ar[rrd]\ar[dd]
+&\rva\ar[ddl]\ar[dr]
+\\
+&
+&(\rvy_0, \rvy_1)\ar[d]
+\\
+\rvx
+\ar[rr]
+&&\rvy
+}
+$$
+\caption{Bnet for $\rvx\rarrow \rvy$ with
+ 2 observed confounders $\rvz,\rva$. }
+\label{fig-peu-2-confounders}
+\end{figure}
+
+Fig.\ref{fig-peu-2-confounders} gives
+an example of a bnet that satisfies
+$(\rvz\cup\rva)\cap de(\rvx)=\emptyset$.
+
+
+\begin{claim}\label{cl-peu-2-confounders}
+If $(\rvz\cup\rva)\cap de(\rvx)=\emptyset$, then
+
+\beq
+L\leq PNS_z \leq U \quad\text{(see Claim 
+\ref{cl-minimal-bounds})}
+\eeq
+
+\beq
+\left\{
+\begin{array}{ll}
+p_1 + \s U \leq EU_z \leq p_1+ \s L
+& \text{ if } \s<0
+\\
+p_1 + \s L \leq EU_z \leq p_1+ \s U
+& \text{ if } \s>0
+\end{array}
+\right.
+\eeq
+
+\beq
+p_1=\alp_{0, 1-0}E_{1|1,z} +
+\alp_{j,0}E_{j|0,z}
+\eeq
+
+\beq
+L=\sum_{a}P(a|z)
+\max\left\{
+\begin{array}{c}
+0
+\\
+E_{1|1,a,z}-E_{1|0,a,z}
+\\
+E_{0|0,a,z}-P(\rvy=0|a,z)
+\\
+E_{1|1,a,z}-P(\rvy=1|a,z)
+\end{array}
+\right \}
+\eeq
+
+\beq
+U=
+\sum_{a}P(a|z)
+\min\left\{
+\begin{array}{c}
+E_{1|1,a,z}
+\\
+E_{0|0,a,z}
+\\
+O_{*, *|a,z}
+\\
+E_{*|*,a,z}-O_{*, *|a,z}
+\end{array}
+\right\}
+\eeq
+\end{claim}
+\proof
+\qed
+
+
+In Chapter \ref{ch-personalized}, 
+we defined what we mean when we say that
+ $\rvz$ is a partial or pure mediator
+relative to $(\rvx,\rvy)$.
+Fig.\ref{fig-partial-mediator-2}
+is a copy of 
+Fig.\ref{fig-partial-mediator}.
+
+\begin{figure}[h!]
+$$\xymatrix{
+*++[F-o]{\rvu}\ar[dd]\ar[r]
+&(\rvz_0, \rvz_1)\ar[r]
+&\rvz\ar[rd]
+\\
+&
+&
+&(\rvy_0, \rvy_1)\ar[dr]
+\\
+\rvx\ar[rruu]
+\ar[rrrr]
+&&&&\rvy
+}$$
+\caption{Example of a bnet in  
+which $\rvz$ is a partial mediator
+relative to $(\rvx, \rvy)$.
+If $\rvz$ is a partial mediator
+relative to $(\rvx, \rvy)$,
+and, in addition, 
+ there is no arrow
+$\rvx\rarrow \rvy$,
+we say $\rvz$
+is a pure
+mediator relative to $(\rvx,\rvy)$.
+}
+\label{fig-partial-mediator-2}
+\end{figure}
+
+\begin{claim} (Bounds if $\rvz$ 
+is partial 
+mediator)
+\label{cl-peu-partial-med}
+
+If $\rvz$ is a partial mediator
+relative to $(\rvx, \rvy)$,
+and $\rvx, \rvy, \rvz\in\bool$, then
+
+\beq
+L\leq PNS_z \leq U\quad \text{(see
+ Claim \ref{cl-pte-partial-med} )}
+\eeq
+
+\beq
+\left\{
+\begin{array}{ll}
+p_1 + \s U \leq EU_z \leq p_1+ \s L
+& \text{ if } \s<0
+\\
+p_1 + \s L \leq EU_z \leq p_1+ \s U
+& \text{ if } \s>0
+\end{array}
+\right.
+\eeq
+
+\beq
+p_1=\alp_{0, 1-0}E_{1|1,z} +
+\alp_{j,0}E_{j|0,z}
+\eeq
+
+\beq
+L=
+\max\left\{
+\begin{array}{c}
+0
+\\
+E_{1|1,z}-E_{1|0,z}
+\\
+E_{0|0,z}-P(\rvy=0|z)
+\\
+E_{1|1,z}-P(\rvy=1|z)
+\end{array}
+\right \}
+\eeq
+
+\beq
+U= \min
+\left\{
+\begin{array}{c}
+E_{1|1,z}
+\\
+E_{0|0,z}
+\\
+O_{*, *|z}
+\\
+E_{*|*,z}-O_{*, *|z}
+\\
+new
+\end{array}
+\right\}
+\eeq
+
+
+\beq
+new=
+\sum_{z_0, z_1}
+\min
+\left\{
+\begin{array}{c}
+O_{1|1,z_1,z}\\
+ O_{0|0,z_0,z}
+\end{array}
+\right\}
+\min
+\left\{
+\begin{array}{c}
+P(z_1| z)
+\\
+P(z_0|z)
+\end{array}
+\right\}
+\eeq
+\end{claim}
+
+\begin{claim} (Bounds if $\rvz$ 
+is pure 
+mediator)
+
+If $\rvz$ is a pure mediator
+relative to $(\rvx, \rvy)$, 
+and $\rvx, \rvy, \rvz\in\bool$, then
+Claim \ref{cl-peu-partial-med} for a
+partial mediator is still
+valid, except that
+now ``new"
+equals
+
+\beq
+new=
+\sum_{z_0, z_1}
+\indi(z_0\neq z_1)
+\min
+\left\{\begin{array}{l}
+O_{1|\rvx=z_1,z}\\
+O_{0|\rvx=z_0, z}
+\end{array}\right\}
+\min
+\left\{\begin{array}{l}
+P(\rvz=z_1| \rvx=1,z)
+\\
+P(\rvz=z_0| \rvx=0, z)
+\end{array}\right\}
+\eeq
+\end{claim}
