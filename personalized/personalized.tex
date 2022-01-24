@@ -364,10 +364,12 @@ P(y|y_0, y_1, x)=\delta(y, y_x)
 
 This TPM is used 
 frequently
-in PTE theory.  If $x$ is an argument
+in PTE theory.  If $x, _0, y_1$
+are arguments
 of $P()$, this TPM implies that one
-can swap $\rvy=y_x$
-and $\rvy_x=y_x$
+can swap 
+$\rvy_x=y_x$
+and $\rvy=y_x$
 inside $P()$. For example,
 \beqa
 P(y_0,y_1,x)
@@ -398,7 +400,7 @@ $\cald\rvx=x$
 means one should amputate
 all arrows entering
 node $\rvx$, and one should set
-the TMP of $\rvx$ to a delta
+the TPM of $\rvx$ to a delta
 function centered at $x$.
 If that is done, then
 the values
@@ -436,7 +438,8 @@ O_{y|x}= P(\rvy=y|\rvx=x)
 \beq
 E_{y|x}= P(\rvy_x=y)
 \eeq
-Note that 
+
+{\bf Average Treatment Effect (ATE)}
 \beqa
 ATE&=&
 P(\rvy_1=1)-P(\rvy_0=1)
@@ -447,12 +450,48 @@ E_{1|1}-E_{1|0}
 &=& E_{1|1}+E_{0|0}-1
 \eeqa
 
+{\bf Effect of Treatment
+ on the Treated (ETT)} (i.e., $ATE$
+for  the treated)
 
-\newcommand{\PN}[0]{PN^{0,0}_{1,1}}
-\newcommand{\PS}[0]{PS^{1,1}_{0,0}}
+\beq
+ETT= \underbrace{P(\rvy_1=1|\rvx=1)}_
+{\cale_1}
+-\underbrace{P(\rvy_0=1|\rvx=1)}_{
+\cale_0}
+\eeq
+Note that
+
+\beqa
+\cale_1\pi_1&=&
+ P(\rvy_1=1, \rvx=1)
+\\
+&=&
+O_{1,1}
+\eeqa
+and
+
+\beqa
+\cale_0\pi_1 &=& 
+P(\rvy_0=1,\rvx=1)
+\\
+&=& P(\rvy_0=1)-
+\underbrace{P(\rvx=0, \rvy_0=1)}_{
+P(\rvx=0, \rvy=1)}
+\\&=&
+E_{1|0}-O_{0,1}
+\eeqa
+so
+
+\beq
+ETT\pi_1= \sum_x O_{x, 1} -  E_{1|0}
+\eeq
+
+ 
+
 {\bf Probability of Necessity 
 ($\PN$)}\footnote{I like to call
-PN the Probability of Nullifying, because 
+$PN$ the Probability of Nullifying, because 
 it goes from 11 to 00}
 \beq
 \PN = P^{0,0}_{1,1}
@@ -461,7 +500,7 @@ it goes from 11 to 00}
 
 {\bf Probability of Sufficiency
  ($\PS$)}\footnote{I like to call
-PS the Probability of Surging, because
+$PS$ the Probability of Surging, because
 it goes from 00 to 11}
 \beq
 \PS=P^{1,1}_{0,0}
@@ -476,6 +515,14 @@ Necessity and Sufficiency (PNS)}
 \beq
 PNS=
 P(\rvy_0=0, \rvy_1=1)
+\eeq
+
+Henceforth, we will use $PNS3$ to
+denote the trio 
+
+\beq
+PNS3=(PNS, PN, PS)
+\;.
 \eeq
 
 {\bf Amonotonicity Measure (AMM)}
@@ -550,9 +597,8 @@ P(y_{\ol{x}}|x, \rvy=y_x)P(\rvy=y_x|x)
 \underbrace{PNS}_{
 P(\rvy_0=0, \rvy_1=1)
 }
-=\PN
- O_{1,1} + 
-\PS O_{0,0}
+=\PN *O_{1,1} + 
+\PS *O_{0,0}
 \eeq
 Hence, if we know
 any two of $(\PN, \PS, PNS)$,
@@ -570,7 +616,7 @@ P(y_0,y_1)
 \text{(see Claim \ref{cl-p-y0-y1-x}.)}
 \\&=
 \left\{
-\begin{array}{l}
+\begin{array}{c}
 \quad P(y_1|\rvx=0, \rvy=y_0)P(\rvx=0, \rvy=y_0)
 \\
 + P(y_0|\rvx=1, \rvy=y_1)P(\rvx=1, \rvy=y_1)
@@ -583,7 +629,7 @@ Thus,
 P(\rvy_0=0, \rvy_1=1)
 &=
 \left\{
-\begin{array}{l}
+\begin{array}{c}
 \quad P(\rvy_1=1|\rvx=0, \rvy=0)P(\rvx=0, \rvy=0)
 \\
 + P(\rvy_0=0|\rvx=1, \rvy=1)P(\rvx=1, \rvy=1)
@@ -591,9 +637,9 @@ P(\rvy_0=0, \rvy_1=1)
 \right.
 \\
 &=
-\PS O_{0,0}
+\PS *O_{0,0}
 +
-\PN O_{1,1}
+\PN *O_{1,1}
 \end{align}
 \qed
 
@@ -608,7 +654,31 @@ $(\rvy_0, \rvy_1)$
 and to isolate them individually.
 Claim \ref{cl-y0-y1-separation}
 is a quantitative expression of that 
-separation.
+separation. 
+
+Pearl likes to say that 
+$PNS$ belongs to Rung 3 because it's a 
+probability that involves both 
+$\rvy_0$ and $\rvy_1$, and
+one of those two must be a counterfactual 
+(an event that never occurred). On the 
+other hand, $\PN, \PS, ATE$, etc., 
+are defined in terms of probabilities
+that involve either $\rvy_0$
+or $\rvy_1$ but not both. 
+Probabilities that
+involve only one of them,  
+ can be
+expressed with the do operator,
+so they belong to Rung 2.
+Conditional probabilities
+like $P(y|x)$ that
+involve neither $\rvy_0$
+nor $\rvy_1$  belong to Rung 1.\footnote{
+Probabilities
+such as $P(\rvy_0=1,\rvy=0,\rvx=1)=
+P(\rvy_0=1, \rvy_1=0, \rvx=1)$
+are considered Rung 3.}
 
 
 
@@ -705,7 +775,7 @@ O_{0|0}-O_{0|1}
 
 \beq
 \cals=\left\{P(y_0,y_1, x):
-\begin{array}{l}
+\begin{array}{c}
 P(y_0,y_1, x)\geq 0
 \\
 y_0, y_1, x\in\bool
@@ -923,6 +993,15 @@ Monotonicity and exogeneity
 together imply strong exogeneity.
 \end{claim}
 \proof
+
+This proof is presented here
+for completeness. Later
+on, we will give a much
+simpler proof of this result.
+I advise the reader to skip this proof
+on first reading
+of this chapter.
+
 Let $a\in \bool$.
 \beqa
 P(\rvy_a=\ol{a}, x)&=&
@@ -1008,8 +1087,8 @@ follows because
 \sum_{y_0,y_1}P(y_0, y_1)=1
 \eeq
 
-
 \qed
+
 
 \section{Matrix representation of probabilities}
 
@@ -1167,11 +1246,11 @@ P(\rvy=1)=O_{0,1}+O_{1,1}=
 
 
 \beq
-\PN O_{1,1}=\Pmat{\eps_1}{0}{0}{0}
+\PN *O_{1,1}=\Pmat{\eps_0}{0}{0}{0}
 \eeq
 
 \beq
-\PS O_{0,0}=\Pmat{\eps_0}{0}{0}{0}
+\PS *O_{0,0}=\Pmat{\eps_1}{0}{0}{0}
 \eeq
 
 \beq
@@ -1194,6 +1273,151 @@ P(\rvy=1)|_{AMM=0}=
 \Pmat{\eps_1}{\eps_0+\eps_1}{0}{0}
 \eeq
 
+The special constraints
+of exogeneity, strong 
+exogeneity and 
+monotonicity have a very simple
+in the 
+MRP.
+
+Note that if $\pi_0, \pi_1\geq 1$
+and $\pi_0+\pi_1=1$, then
+\beq
+\eps_0 + \eps_1 = \frac{\eps_0}{\pi_0}
+= \frac{\eps_1}{\pi_1}
+\eeq
+
+Below, we will abbreviate
+\beq
+\hat{\eps}_x =\frac{\eps_x}{\pi_x}
+\eeq
+
+for $x\in\bool$.
+
+
+\begin{claim}
+\label{cl-mrp-exo-mon}
+
+\quad
+\begin{enumerate}[(a)]
+\item
+Exogeneity holds iff
+
+\begin{subequations}
+\label{eq-mrp-exo}
+\beq\Pmat{\hat{\eps}_0}{0}{\hat{\eps}_0}{0}=
+ \Pmat{\hat{\eps}_1}{0}{\hat{\eps}_1}{0}
+\eeq
+
+\beq\Pmat{\hat{\eps}_0}{\hat{\eps}_0}{0}{0}=
+ \Pmat{\hat{\eps}_1}{\hat{\eps}_1}{0}{0}
+\eeq
+\beq\Pmat{0}{\hat{\eps}_0}{0}{\hat{\eps}_0}=
+ \Pmat{0}{\hat{\eps}_1}{0}{\hat{\eps}_1}
+\eeq
+\beq\Pmat{0}{0}{\hat{\eps}_0}{\hat{\eps}_0}=
+ \Pmat{0}{0}{\hat{\eps}_1}{\hat{\eps}_1}
+\eeq
+\end{subequations}
+
+\item Monotonicity holds iff
+\beq\Pmat{0}{0}{0}{\eps_x}=0
+\eeq
+for $x\in \bool$.
+
+\item Strong exogeneity holds iff 
+
+\begin{subequations}
+\label{eq-mrp-strong-exo}
+\beq\Pmat{\hat{\eps}_0}{0}{0}{0}=
+ \Pmat{\hat{\eps}_1}{0}{0}{0}
+\eeq
+
+\beq\Pmat{0}{\hat{\eps}_0}{0}{0}=
+ \Pmat{0}{\hat{\eps}_1}{0}{0}
+\eeq
+
+
+
+\beq\Pmat{0}{0}{0}{\hat{\eps}_0}=
+ \Pmat{0}{0}{0}{\hat{\eps}_1}
+\eeq
+
+\beq\Pmat{0}{0}{\hat{\eps}_0}{0}=
+ \Pmat{0}{0}{\hat{\eps}_1}{0}
+\eeq
+\end{subequations}
+
+
+\end{enumerate}
+
+\end{claim} 
+\proof
+
+(a) This follows from
+the definitions 
+of $E_{y|x}$ and $O_{x,y}$
+for $x,y\in \bool$,
+as stated above
+in the MRP.
+
+(b) This follows from the 
+identity 
+\beq
+P_{\rvy_0, \rvy_1, \rvx}(1,0|x)=
+\Pmat{0}{0}{0}{\frac{\eps_x}{\pi_x}}
+\eeq
+for $x\in\bool$.
+
+(c) This follows from
+definitions of $P_{\rvy_0, \rvy_1, \rvx}
+(y_0, y_1, x)$ for $y_0, y_1, x\in \bool$,
+as stated above
+in the MRP.
+\qed
+
+Note that it is obvious
+from Claim \ref{cl-mrp-exo-mon}
+that strong exogeneity
+implies exogeneity.
+
+ Claim \ref{cl-mrp-exo-mon}
+also makes it easy peasy
+to prove that
+exogeneity and monotonicity
+imply strong exogeneity. Indeed,
+here is a much simpler 
+proof than the one
+we presented earlier.
+\begin{claim}
+Exogeneity and monotonicity
+imply strong exogeneity.
+\end{claim}
+\proof
+Let's call $E(a), E(b), 
+E(c), E(d)$ the four Eqs.(\ref{eq-mrp-exo})
+that define Exogeneity,
+and 
+$SE(a), SE(b), 
+SE(c), SE(d)$ the four 
+Eqs.(\ref{eq-mrp-strong-exo})
+that define Strong Exogeneity. 
+\begin{itemize}
+\item
+Monotonicity implies the lower right 
+entry is zero, so $SE(c)$ is true.
+
+\item
+Setting to zero
+the lower right entry in $E(c)$ and $E(d)$
+ implies $SE(b)$ and $SE(d)$.
+
+\item Subtracting $SE(d)$ from $E(a)$
+gives $SE(a)$.
+\end{itemize}
+\qed
+
+\section{Bounds on Exp. Probs. imposed by Obs. Probs.}
 
 \begin{claim}
 In general,
@@ -1301,7 +1525,7 @@ which is obviously true.
 
 
 
-\section{Bounds for unspecified bnet}
+\section{Bounds on $PNS3$ for unspecified bnet}
 
 \begin{claim}\label{cl-basic-bound-joint}
 If $P(a,b)$ is a probability 
@@ -1456,8 +1680,165 @@ $(E_{1|0}, E_{1|1})$
 as parameters,
 we use $(E_{1|1}, E_{0|0})$.
 
-These bounds can be easily 
-proven using the MRP.
+These bounds are obviously true
+in the MRP. Indeed, in the MRP,
+the following holds. For $PNS$, we have
+
+\beq
+\left[
+\begin{array}{c}
+0
+\\
+\\
+E_{1|1}+ E_{0|0}-1
+\\
+\\
+E_{0|0} -\sum_x O_{x,0}
+\\
+\\
+E_{1|1} -\sum_x O_{x,1}
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c}
+0
+\\
+\Pmat{\eps_0+\eps_1}{0}{0}{-\eps_0-\eps_1}
+\\
+\Pmat{\eps_1}{0}{0}{-\eps_1}
+\\
+\Pmat{\eps_0}{0}{0}{-\eps_0}
+\end{array}
+\right]
+\eeq
+
+\beq
+PNS =
+\Pmat{\eps_0+\eps_1}{0}{0}{0}
+\eeq
+
+\beq
+\left[
+\begin{array}{c}
+E_{1|1}
+\\
+\\
+E_{0|0}
+\\
+\\
+O_{1,1}+ O_{0,0}
+\\
+\\
+E_{1|1} + E_{0|0}
+-O_{1,1}- O_{0,0}
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c}
+\Pmat{\eps_0+\eps_1}{0}{\eps_0+\eps_1}{0}
+\\
+\Pmat{\eps_0+\eps_1}{\eps_0+\eps_1}{0}{0}
+\\
+\Pmat{\eps_0+\eps_1}{\eps_1}{\eps_0}{0}
+\\
+\Pmat{\eps_0+\eps_1}{\eps_0}{\eps_1}{0}
+\end{array}
+\right]
+\eeq
+
+For $\PN$, we have 
+
+\beq
+\left[
+\begin{array}{c}
+0
+\\
+\\
+E_{1|1} -\sum_x O_{x,1}
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c}
+0
+\\
+\Pmat{\eps_0}{0}{0}{-\eps_0}
+\end{array}
+\right]
+\eeq
+
+
+\beq
+\PN *O_{1,1}=\Pmat{\eps_0}{0}{0}{0}
+\eeq
+
+\beq
+\left[
+\begin{array}{c}
+1
+\\
+\\
+E_{1|1} - O_{1,1}
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c}
+1
+\\
+\Pmat{\eps_0}{\eps_0}{0}{0}
+\end{array}
+\right]
+\eeq
+
+
+For $\PS$, we have
+
+\beq
+\left[
+\begin{array}{c}
+0
+\\
+\\
+E_{0|0} -\sum_x O_{x,0}
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c}
+0
+\\
+\Pmat{\eps_1}{0}{0}{-\eps_1}
+\end{array}
+\right]
+\eeq
+
+
+\beq
+\PS *O_{0,0}=\Pmat{\eps_1}{0}{0}{0}
+\eeq
+
+\beq
+\left[
+\begin{array}{c}
+1
+\\
+\\
+E_{0|0} - O_{0,0}
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c}
+1
+\\
+\Pmat{\eps_1}{\eps_1}{0}{0}
+\end{array}
+\right]
+\eeq
+
 
 The first two lines of the
 bound for $PNS$ are a simple
@@ -1466,28 +1847,28 @@ Claim \ref{cl-basic-bound-joint}.
 Indeed, Claim \ref{cl-basic-bound-joint}
 implies  
 \beq
-\max\left\{\begin{array}{l}
+\max\left\{\begin{array}{c}
 0\\
  P(y_0)+P(y_1)-1
 \end{array}\right\}
 \leq
 P(y_0, y_1)
 \leq
-\min\left\{\begin{array}{l}
+\min\left\{\begin{array}{c}
 P(y_0)\\
  P(y_1)
 \end{array}\right\}
 \eeq
 When $y_0=0, y_1=1$, we get
 \beq
-\max\left\{\begin{array}{l}
+\max\left\{\begin{array}{c}
 0\\
  E_{0|0}+E_{1|1}-1
 \end{array}\right\}
 \leq
 PNS
 \leq
-\min\left\{\begin{array}{l}
+\min\left\{\begin{array}{c}
  E_{0|0}\\
  E_{1|1}
 \end{array}\right\}
@@ -1503,11 +1884,90 @@ note that
 \item $\sum_x O_{x,y}=P(\rvy=y)$
 for $y=0,1$. 
 
-\item Let $A_0=E_{0|0}-\sum_x O_{x,0}$,
- $A_1=E_{1|1}-\sum_x O_{x,1}$,
-and $A=E_{1|1}+E_{0|0}-1$.
-Then $A=A_0+A_1$.
+\item Let 
+
+\beq
+E'_{0|0}=E_{0|0}-\sum_x O_{x,0}
+=\Pmat{\eps_1}{0}{0}{-\eps_1}
+\eeq
+
+\beq
+E'_{1|1}=E_{1|1}-\sum_x O_{x,1}
+=\Pmat{\eps_0}{0}{0}{-\eps_0}
+\eeq
+
+
+\beq
+ATE=E_{1|1}+E_{0|0}-1=E'_{1|1}+E'_{0|0}=
+\Pmat{\eps_0+\eps_1}{0}{0}
+{-\eps_0-\eps_1}
+\eeq
+
+\item Claim \ref{cl-minimal-bounds}
+applies if we have both observational
+data (OD)
+and experimental data (ED). If we only have 
+OD (resp., ED), ignore all 
+bounds that involve an $E$ 
+(resp., involve an $O$) probability.
+
+Hence, with only OD\footnote{The 
+bounds Eq.(\ref{eq-nds-only-od})
+assume exogeneity does not hold.
+For the case
+when exogeneity does hold,
+stronger bounds
+will be given later on in the chapter.}
+
+\beq
+0\leq PNS \leq O_{1,1} + O_{0,0}
+\label{eq-nds-only-od}
+\eeq
+
+and 
+$\PN,\PS\in[0,1]$,
+whereas with only ED,
+\beq
+\max\left\{
+\begin{array}{c}
+0
+\\
+E_{1|1}+E_{0|0}-1
+\end{array}
+\right\}
+\leq
+PNS
+\leq
+\min\left\{
+\begin{array}{c}
+E_{1|1}
+\\
+E_{0|0}
+\end{array}
+\right\}
+\eeq
+and 
+$\PN,\PS\in[0,1]$.
+
+\item At first blush, there seem to be
+ 3 possible cases to 
+consider: (1) Only OD. (2) Both OD and ED.
+(3) Only ED.
+Actually, Case (1) plus the assumption of
+ exogeneity is the same as Case (3). Indeed,
+recall that exogeneity means
+no confounding, and ED (i.e., an RCT) also
+has no confounding. So we don't have to consider
+Case (3) if we consider Case (1) without and with
+exogeneity. Exogeneity 
+is built into case (2), so case (2) 
+without exogeneity is meaningless.
+
 \end{itemize}
+
+
+
+
 \begin{claim}\label{cl-personal-exogen}
 If minimal
 and exogeneity constraints hold
@@ -1515,42 +1975,57 @@ for simplex $\cals$, then
 
 
 \beq
-\max\left\{\begin{array}{l}
-0\\
+\max\left\{
+\begin{array}{c}
+0
+\\
 O_{1|1}+O_{0|0}-1
-\end{array}\right\}
+\\
+\cancel{O_{0|0}-\sum_x O_{x,0}}
+\\
+\cancel{O_{1|1}-\sum_x O_{x,1}}
+\end{array}
+\right\}
 \leq
 PNS
 \leq
-\min\left\{\begin{array}{l}
-O_{1|1}\\
+\min\left\{
+\begin{array}{c}
+O_{1|1}
+\\
 O_{0|0}
-\end{array}\right\}
+\\
+\cancel{O_{1,1}+O_{0,0}}
+\\
+\cancel{O_{1|1}+O_{0|0}-O_{1,1}-O_{0,0}}
+\end{array}
+\right\}
 \eeq
 
+
 \beq
-\max\left\{\begin{array}{l}
+\max\left\{\begin{array}{c}
 0\\
 ERR
 \end{array}\right\}
 \leq
 \PN
 \leq
-\min\left\{\begin{array}{l}
+\min\left\{\begin{array}{c}
 1\\
 \frac{O_{0|0}}{O_{1|1}}
 \end{array}\right\}
 \eeq
 
 \beq
-\max\left\{\begin{array}{l}
+\max\left\{\begin{array}{c}
 0\\
 (ERR)^\sim
 \end{array}\right\}
 \leq 
 \PS
 \leq
-\min\left\{\begin{array}{l}
+\min\left\{\begin{array}{c}
 1\\
 \frac{O_{1|1}}{O_{0|0}}
 \end{array}\right\}
@@ -1562,12 +2037,126 @@ Just
 replace $E_{y|x}$ by $O_{y|x}$
 in the minimal bounds given in
 Claim \ref{cl-minimal-bounds}.
+
+The canceled terms do not
+improve the bounds and can be dropped.
+We show this next using MRP.
+
+In the MRP, the minimal bounds 
+for $PNS$ are
+\beq
+\left[
+\begin{array}{c}
+0
+\\
+\\
+E_{1|1}+ E_{0|0}-1
+\\
+\\
+E_{0|0} -\sum_x O_{x,0}
+\\
+\\
+E_{1|1} -\sum_x O_{x,1}
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c}
+0
+\\
+\Pmat{\eps_0+\eps_1}{0}{0}{-\eps_0-\eps_1}
+\\
+\Pmat{\eps_1}{0}{0}{-\eps_1}
+\\
+\Pmat{\eps_0}{0}{0}{-\eps_0}
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c}
+0
+\\
+\Pmat{\eps_0+\eps_1}{0}{0}{-\eps_0-\eps_1}
+\\
+\Pmat{\eps_1}{0}{0}{-\eps_1}
+\\
+\Pmat{\eps_0}{0}{0}{-\eps_0}
+\end{array}
+\right]
+\eeq
+
+\beq
+PNS =
+\Pmat{\eps_0+\eps_1}{0}{0}{0}
+\eeq
+
+\beq
+\left[
+\begin{array}{c}
+E_{1|1}
+\\
+\\
+E_{0|0}
+\\
+\\
+O_{1,1}+ O_{0,0}
+\\
+\\
+E_{1|1} + E_{0|0}
+-O_{1,1}- O_{0,0}
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c}
+\Pmat{\eps_0+\eps_1}{0}{\eps_0+\eps_1}{0}
+\\
+\Pmat{\eps_0+\eps_1}{\eps_0+\eps_1}{0}{0}
+\\
+\Pmat{\eps_0+\eps_1}{\eps_1}{\eps_0}{0}
+\\
+\Pmat{\eps_0+\eps_1}{\eps_0}{\eps_1}{0}
+\end{array}
+\right]
+\eeq
+If exogeneity holds,
+we can replace all $E$'s
+by $O$'s on the left hand sides.
+We can also use $\eps_0+\eps_1=\hat{\eps}_0=
+\hat{\eps}_1$ 
+on the right hand sides to conclude that
+
+\beq
+O_{1|1}+O_{0|0}-1=
+\Pmat{\hat{\eps}_x}
+{\hat{\eps}_x-\hat{\eps}_x}
+{\hat{\eps}_x-\hat{\eps}_x}
+{-\hat{\eps}_x}
+=
+\Pmat{\hat{\eps}_x}
+{0}
+{0}
+{-\hat{\eps}_x}
+=
+\frac{1}{\pi_x}
+\Pmat{\eps_x}
+{0}
+{0}
+{-\eps_x}
+\eeq
+for both $x\in\bool$.
+Note that
+$\frac{1}{\pi_x}\Pmat{\eps_x}{0}{0}{-\eps_x}$
+will always be greater or equal to
+$\Pmat{\eps_x}{0}{0}{-\eps_x}$
+when $\Pmat{\eps_x}{0}{0}{-\eps_x}\geq 0$ (if it's 
+negative, the 0 bound takes precedence). Hence,
+the two canceled lower bound terms
+can be dropped.
+A similar argument shows that the
+two canceled upper bound terms
+can be dropped too.
 \qed
-
-
-
-
-
 
 
 
@@ -1590,7 +2179,7 @@ and
 \end{claim}
 \proof
 \beqa
-\PN O_{1|1}&=&
+\PN *O_{1|1}&=&
 P(\rvy_0=0, \rvy=1|\rvx=1)
 \\
 &=&
@@ -1600,7 +2189,7 @@ P(\rvy_0=0, \rvy_1=1)
 \eeqa
 
 \beqa
-\PS O_{0|0}&=&
+\PS *O_{0|0}&=&
 P(\rvy_1=1, \rvy=0|\rvx=0)
 \\
 &=&
@@ -1624,7 +2213,7 @@ PNS=E_{1|1}+E_{0|0}-1
 \eeq
 
 \beq
-\PN=\frac{E_{0|0}-\sum_x O_{x,0}}{O_{1,1}}
+\PN =\frac{E_{0|0}-\sum_x O_{x,0}}{O_{1,1}}
 =
 \frac{\sum_x O_{x,1}-E_{1|0}}{O_{1,1}}
 =
@@ -1694,7 +2283,8 @@ Set $E_{y|x}=O_{y|x}$ in Claim
 \ref{cl-pm-mono}.
 \qed
 
-\section{Bounds for specific bnet families}
+\section{Bounds on $PNS3$ 
+for specific bnet families}
 Define
 \beq
 E_{*|*,z} = E_{0|0, z} + E_{1|1, z}=ATE_z+1
@@ -1703,13 +2293,14 @@ E_{*|*,z} = E_{0|0, z} + E_{1|1, z}=ATE_z+1
 \beq
 O_{*,*|z} = O_{0,0|z} + O_{1,1| z}
 \eeq
-Consider the minimal bounds
-conditioned on $z$:
+
+
+\begin{claim}\label{cl-pre-backdoor-bounds}
+If $\rvz\cap de(\rvx)=\emptyset$, then
 \beq
 \max\left\{
 \begin{array}{c}
-0
-\\
+0\\
 E_{*|*,z}-1
 \\
 E_{0|0,z}-\sum_x O_{x,0|z}
@@ -1722,37 +2313,6 @@ PNS_z
 \leq
 \min\left\{
 \begin{array}{c}
-E_{1|1, z}
-\\
-E_{0|0, z}
-\\
-O_{*,*|z}
-\\
-E_{*|*,z}-O_{*,*|z}
-\end{array}
-\right\}
-\eeq
-
-\begin{claim}\label{cl-pre-backdoor-bounds}
-If $\rvz\cap de(\rvx)=\emptyset$, then
-\beq
-\sum_z P(z)
-\max\left\{
-\begin{array}{l}
-0\\
-E_{*|*,z}-1
-\\
-E_{0|0,z}-\sum_x O_{x,0|z}
-\\
-E_{1|1,z}-\sum_x O_{x,1|z}
-\end{array}
-\right\}
-\leq
-PNS
-\leq
-\sum_z P(z)
-\min\left\{
-\begin{array}{l}
 E_{1|1,z}
 \\
 E_{0|0,z}
@@ -1764,39 +2324,137 @@ E_{*|*,z}-O_{*,*|z}
 \right\}
 \label{eq-pre-backdoor-bounds}
 \eeq
+
+\beq
+\max\left\{
+\begin{array}{c}
+0
+\\
+\frac{E_{0|0,z}-\sum_x O_{x,0|z}}
+{O_{1,1|z}}
+\end{array}
+\right\}
+\leq
+PN_z
+\leq
+\min\left\{
+\begin{array}{c}
+1
+\\
+\frac{E_{0|0, z}-O_{0,0|z}}
+{O_{1,1|z}}
+\end{array}
+\right\}
+\eeq
+
+\beq
+\max\left\{
+\begin{array}{c}
+0
+\\
+\frac{E_{1|1,z}-\sum_x O_{x,1|z}}
+{O_{0,0|z}}
+\end{array}
+\right\}
+\leq
+PS_z
+\leq
+\min\left\{
+\begin{array}{c}
+1
+\\
+\frac{E_{1|1,z}-O_{1,1|z}}
+{O_{0,0|z}}
+\end{array}
+\right\}
+\eeq
 \end{claim}
 \proof
-Minimal bounds
-satisfied when conditioned on $z$.
-Apply $\sum_z P(z)$
-to each side of minimal bounds 
-conditioned on $z$.
+These are just the minimal bounds
+where everything is conditioned on $z$.
 \qed
+
+In the minimal bounds, node $\rvz$ 
+is not mentioned because 
+the minimal bounds don't assume
+that $\rvz$ exists.
+Once we assume that
+node $\rvz$ exists, then we can use it, 
+as 
+Claim \ref{cl-pre-backdoor-bounds} does.
+
 
 \begin{claim}
 If $\rvz$ satisfies the backdoor adjustment
 criterion relative $(\rvx,\rvy)$,
 then
-
 \beq
-\sum_z P(z)
 \max\left\{
-\begin{array}{l}
-0
-\\
+\begin{array}{c}
+0\\
 O_{*|*,z}-1
+\\
+\cancel{O_{0|0,z}-\sum_x O_{x,0|z}}
+\\
+\cancel{O_{1|1,z}-\sum_x O_{x,1|z}}
 \end{array}
 \right\}
 \leq
-PNS
+PNS_z
 \leq
-\sum_z P(z)
-\min
-\left\{
-\begin{array}{l}
+\min\left\{
+\begin{array}{c}
 O_{1|1,z}
 \\
 O_{0|0,z}
+\\
+\cancel{O_{*,*|z}}
+\\
+\cancel{O_{*|*,z}-O_{*,*|z}}
+\end{array}
+\right\}
+\eeq
+
+\beq
+\max\left\{
+\begin{array}{c}
+0
+\\
+\frac{O_{0|0,z}-\sum_x O_{x,0|z}}
+{O_{1,1|z}}
+\end{array}
+\right\}
+\leq
+PN_z
+\leq
+\min\left\{
+\begin{array}{c}
+1
+\\
+\frac{O_{0|0, z}-O_{0,0|z}}
+{O_{1,1|z}}
+\end{array}
+\right\}
+\eeq
+
+\beq
+\max\left\{
+\begin{array}{c}
+0
+\\
+\frac{O_{1|1,z}-\sum_x O_{x,1|z}}
+{O_{0,0|z}}
+\end{array}
+\right\}
+\leq
+PS_z
+\leq
+\min\left\{
+\begin{array}{c}
+1
+\\
+\frac{O_{1|1,z}-O_{1,1|z}}
+{O_{0,0|z}}
 \end{array}
 \right\}
 \eeq
@@ -1806,14 +2464,35 @@ Satisfaction
 of the backdoor criterion implies that
 \beq
 \underbrace{P(y|x,z)}_{O_{y|x,z}}
-=\underbrace{P(y_x|z)}_{E_{y|x,z}}
+=\underbrace{P(\rvy_x=y|z)}_{E_{y|x,z}}
 \eeq
 Replace $E_{y|x,z}$ by $O_{y|x,z}$
-in Eq.(\ref{eq-pre-backdoor-bounds}).
+in Claim
+\ref{cl-pre-backdoor-bounds}.
+These are just the minimal bounds,
+when exogeneity holds, that were considered
+previously. As before, the canceled
+terms do not affect the bounds
+so they can be dropped.
 \qed
 
-
-
+So far we have
+considered 2 families
+of bnets: (1)
+$\rvz\cap de(\rvx)=\emptyset$ and (2)
+$\rvz$ satisfies backdoor adjustment
+criterion.
+Actually, (2) is a subset of (1).
+Next, we will consider
+bnets in which $\rvz$ is 
+a mediator relative to $(\rvx, \rvy)$.
+A mediator $\rvz$ is impinged
+by an arrow $\rvx\rarrow \rvz$,
+so it definitely 
+does not satisfy (1).
+Bnets that do not satisfy (1)
+also fall outside the 
+purview of Potential Outcomes (PO) theory.
 
 
 We say $\rvz$
@@ -1921,11 +2600,11 @@ where
 \beq
 new=
 \sum_{z_0, z_1}\min
-\left\{\begin{array}{l}
+\left\{\begin{array}{c}
 O_{1|1,z_1}\\O_{0|0,z_0}
 \end{array}\right\}
 \min
-\left\{\begin{array}{l}
+\left\{\begin{array}{c}
 P(z_1)
 \\
 P(z_0)
@@ -1943,12 +2622,12 @@ P(\rvy_1=1, \rvy_{0}=0|z_1, z_0)P(z_1, z_0)
 \\
 &\leq
 \sum_{z_0,z_1}
-\min\left\{\begin{array}{l}
+\min\left\{\begin{array}{c}
 P(\rvy_1=1|z_1, z_0)\\
 P(\rvy_{0}=0|z_1, z_0)
 \end{array}
 \right\}
-\min\left\{\begin{array}{l}
+\min\left\{\begin{array}{c}
 P(z_1)
 \\
 P(z_0)
@@ -1957,12 +2636,12 @@ P(z_0)
 \\
 &=
 \sum_{z_0,z_1}
-\min\left\{\begin{array}{l}
+\min\left\{\begin{array}{c}
 P(\rvy=1|z_1)\\
 P(\rvy=0|z_0)
 \end{array}
 \right\}
-\min\left\{\begin{array}{l}
+\min\left\{\begin{array}{c}
 P(z_1)
 \\
 P(z_0)
@@ -1973,12 +2652,12 @@ P(z_0)
 \\
 &=
 \sum_{z_0,z_1}
-\min\left\{\begin{array}{l}
+\min\left\{\begin{array}{c}
 P(\rvy=1|\rvx=1,z_1)\\
 P(\rvy=0|\rvx=0,z_0)
 \end{array}
 \right\}
-\min\left\{\begin{array}{l}
+\min\left\{\begin{array}{c}
 P(z_1)
 \\
 P(z_0)
@@ -1988,12 +2667,12 @@ P(z_0)
 \\
 &=
 \sum_{z_0,z_1}
-\min\left\{\begin{array}{l}
+\min\left\{\begin{array}{c}
 P(\rvy=1|\rvx=1, \rvz=z_1)\\
 P(\rvy=0|\rvx=0, \rvz=z_0)
 \end{array}
 \right\}
-\min\left\{\begin{array}{l}
+\min\left\{\begin{array}{c}
 P(z_1)
 \\
 P(z_0)
@@ -2005,12 +2684,12 @@ P(z_0)
 \\
 &=
 \sum_{z_0,z_1}
-\min\left\{\begin{array}{l}
+\min\left\{\begin{array}{c}
 O_{1|1,z_1}\\
 O_{0|0,z_0}
 \end{array}
 \right\}
-\min\left\{\begin{array}{l}
+\min\left\{\begin{array}{c}
 P(z_1)
 \\
 P(z_0)
@@ -2037,12 +2716,12 @@ new=
 \sum_{z_0, z_1}
 \indi(z_0\neq z_1)
 \min
-\left\{\begin{array}{l}
+\left\{\begin{array}{c}
 O_{1|\rvx=z_1}\\
 O_{0|\rvx=z_0}
 \end{array}\right\}
 \min
-\left\{\begin{array}{l}
+\left\{\begin{array}{c}
 P(\rvz=z_1| \rvx=1)
 \\
 P(\rvz=z_0| \rvx=0)
@@ -2065,12 +2744,12 @@ P(\rvy_{z_1}=1, \rvy_{z_0}=0)P(z_1, z_0)
 \\
 &\leq
 \sum_{z_0, z_1}\indi(z_0\neq z_1)
-\min\left\{\begin{array}{l}
+\min\left\{\begin{array}{c}
 P(\rvy_{z_1}=1)\\
 P(\rvy_{z_0}=0)
 \end{array}
 \right\}
-\min\left\{\begin{array}{l}
+\min\left\{\begin{array}{c}
 P(z_1)
 \\
 P(z_0)
@@ -2080,12 +2759,12 @@ P(z_0)
 &=
 \sum_{z_0, z_1}\indi(z_0\neq z_1)
 \min\left\{
-\begin{array}{l}
+\begin{array}{c}
 P(\rvy=1|\rvx=z_1)\\
 P(\rvy=0|\rvx=z_0)
 \end{array}
 \right\}
-\min\left\{\begin{array}{l}
+\min\left\{\begin{array}{c}
 P(z_1|\rvx=1)
 \\
 P(z_0|\rvx=0)
@@ -2101,13 +2780,13 @@ and $(z_0, z_1)_\&\perp \rvx$)}
 \indi(z_0\neq z_1)
 \min
 \left\{
-\begin{array}{l}
+\begin{array}{c}
 O_{1|\rvx=z_1}\\
 O_{0|\rvx=z_0}
 \end{array}
 \right\}
 \min
-\left\{\begin{array}{l}
+\left\{\begin{array}{c}
 P(\rvz=z_1| \rvx=1)
 \\
 P(\rvz=z_0| \rvx=0)
@@ -2133,8 +2812,8 @@ JudeasRx considers
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=6in]
-{personalized/judeas-rx-boris-sobolev.jpeg}
+\includegraphics[width=5.5in]
+{personalized/JudeasRx-screenshot.jpg}
 \caption{Interface
 for the Python
 program JudeasRx,
@@ -2142,5 +2821,4 @@ with data entered
 by Boris Sobolev.} 
 \label{fig-sobolev}
 \end{figure}
-
 
