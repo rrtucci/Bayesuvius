@@ -11,14 +11,28 @@ Refs.
 Recall from Chapter \ref{ch-pot-out}
 on Potential Outcomes (PO) 
 and Beyond, that
-the average treatment effect ($ATE$) 
+the {\bf Average Treatment Effect ($ATE$)} 
 is defined as
-$ATE=E[\rvy_1-\rvy_0]$.
-The conditional $ATE$ (CATE) 
+
+\beqa
+ATE&=&E[\rvy_1-\rvy_0]
+\\
+&=&P(\rvy_1=1)-P(\rvy_0=1)
+\eeqa
+The {\bf Conditional $ATE$ (CATE) }
 is defined as
 the conditional expected value
-$ATE_z=E_{|\rvz=z}[\rvy_1-\rvy_0]$.
 
+\beqa
+ATE_z&=&E_{|z}[\rvy_1-\rvy_0]
+\\
+&=&P(\rvy_1=1|z)-P(\rvy_0=1|z)
+\;.
+\eeqa
+Note that
+
+\beq ATE = \sum_z  P(z)ATE_z
+\eeq
 
 {\bf
 Personalized Treatment Effect (PTE)}
@@ -27,25 +41,48 @@ as envisioned by Pearl
 is the study 
 of
 bounds
-for personal (i.e., conditional)
+for ``personalized"
  treatment
-effects such as $CATE$. The
-bounds given by PTE theory
-are
-as tight as possible,
-depending on 
-the available data,
-and on what bnet model 
-assumptions
-the user is willing to make.
-We say bounds, because 
-it is not always possible
-to give a point estimate
-for $CATE$ and other
-PTEs.
-If a point estimate for $CATE$
-is achievable, we say $CATE$
-is identifiable.
+effects such as 
+
+\beq
+PNS = P(\rvy_1-\rvy_0=1)
+\eeq
+and
+
+\beq
+PNS_z = P(\rvy_1-\rvy_0=1|z)
+\;.
+\eeq
+They are said to be {\bf personalized}
+because they are averages
+over a {\it single} 
+ensemble (i.e., population)
+of individuals $\s$ with probability
+ $P(y^\s_0, y^\s_1)$.
+$ACE$, on the other hand, is not
+personalized, because it equals the 
+difference of two averages, 
+one average over an ensemble of 
+individuals $\s$ with
+probability
+ $P(y^\s_0)$
+and another average over a possibly 
+different ensemble of individuals $\s'$
+with
+probability $P(y^{\s'}_1)$.
+If the conditioning $z$
+is fine grained enough
+to pick out a single individual
+$\s$ (i.e., if $z=\s$), then
+we get 
+\beq
+PNS_\s = \indi(y^\s_1-y^\s_0=1)
+\eeq
+$ATE_z$, on the other hand, 
+is not well defined for a single
+individual.
+
 
 One 
 very promising
@@ -54,143 +91,20 @@ which PTE theory
 can be applied
 is in {\bf Personalized Causal Medicine}.
 For example, suppose we want to
- use $CATE$, 
+ use $PNS_z$, 
 where the conditioning is on the
-sex of the patient,
+sex of the patient (i.e., $z=male, female$),
 to advice a female  patient
-to take a cancer drug or not.
+whether to take a cancer drug or not.
 
-\section{Goal of PTE theory}
-In the introduction
-to this chapter,
+\section{Goal, Strategy 
+and Rationale of PTE theory}
+In this section,
 we described 
 briefly
-the goal of PTE theory. 
-In this section,
-we will describe it
-in more detail.
+the goal,strategy 
+and rationale behind PTE theory.
 
-Let
-
-{\bf Average Treatment Effect}
-
-
-\beqa
-ATE &=& E_\s[y^\s_1-y^\s_0]
-\\
-&=&
-P(\rvy_1=1)-P(\rvy_0=1)
-\eeqa
-
-{\bf Average Causal Effect}
-
-\beq
-ACE= P(\rvy=1|\cald\rvx=1)-P(\rvy=1|\cald\rvx=0)
-\eeq
-
-Note that
-\beq
-ACE=\underbrace{P(\rvy=1|\cald\rvx=1)}_{P(\rvy_1=1)}
--\underbrace{P(\rvy=1|\cald\rvx=0)}_{P(\rvy_0=1)}
-=ATE\eeq
-
-
-{\bf Probability of Necessity and Sufficiency}
-\beq
-PNS = P(\rvy_0=0, \rvy_1=1)
-\eeq
-
-{\bf Amonotonicity Measure}
-\beq
-AMM = P(\rvy_0=1, \rvy_1=0)
-\eeq
-
-\begin{claim}
-\beq
-PNS=P(\rvy_1-\rvy_0=1)
-\eeq
-\beq
-AMM=P(\rvy_1-\rvy_0=-1)
-\eeq
-\end{claim}
-\proof
-
-$\rvy_1-\rvy_0=1$ iff ($\rvy_1=1$ and
-$\rvy_0=0$).
-
-$\rvy_1-\rvy_0=-1$ iff ($\rvy_1=0$ and
-$\rvy_0=1$).
-\qed
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=3.5in]
-{personalized/pns-ate.png}
-\caption{Probability simplex 
-$\{(x,y): x\geq 0, y\geq 0, x+y\leq 1\}$
-with $x=PNS$
-and $y=AMM$.
-Values of $PNS$ and $ATE$
-at corners
-are given.
-Points on line $x+y=1$ can only be
-achieved if $P(1,1)=P(0,0)=0$. } 
-\label{fig-pns-ate}
-\end{figure}
-\begin{claim}
-\beq 
-ATE = PNS - AMM
-\eeq
-\end{claim}
-\proof
-\beqa
-ATE &=& E_\s[y^\s_1-y^\s_0]
-\\
-&=&E[\rvy_1-\rvy_0]
-\\
-&=&
-\sum_{y}y[P(\rvy_1=y) -P(\rvy_0=y)]
-\\
-&=&
-P(\rvy_1=1) -P(\rvy_0=1)
-\\
-&=&
-\sum_{y_0}P(y_0, \rvy_1=1) - \sum_{y_1}P(\rvy_0=1, y_1)
-\\
-&=&
-\underbrace{P(\rvy_0=0, \rvy_1=1)}_{PNS} -
-\underbrace{P(\rvy_0=1, \rvy_1=0)}_{AMM}
-\eeqa
-\qed
-
-
-
-See Fig.\ref{fig-pns-ate}
-for a visualization
-of the extreme values of
-$PNS$ and the corresponding values
-of $ATE$.
-
-
-{\bf Conditional ATE (CATE)} is 
-what we called $ATE_z$ in Chapter
-\ref{ch-pot-out}
-
-\beq
-ATE_z = E_{\s|z}[y_1^\s-y_0^\s]
-= \sum_\s P(\s|z)[y_1^\s-y_0^\s]
-\eeq
-
-\beq
-ATE = \sum_z P(z) ATE_z
-\eeq
-
-{\bf Conditional ACE 
-(CACE)} is what
-is called
-$ACE_z$ in Chapter \ref{ch-pot-out}.
-Note that
-$ACE_z=ATE_z$.
 
 \begin{figure}[h!]
 \centering
@@ -202,20 +116,7 @@ tighter bounds
 $b_j, b'_j, B_j, B'_j$
 for $PNS_z$ and $ATE_z$,
 ending in point bounds
-for both quantities.
-If a point bound is achievable
- for a quantity $Q$,
-then we say $Q$
-is identifiable.
-It's possible that 
-$ATE_z$ is identifiable
-but $PNS_z$ isn't,
-or vice versa, for certain kinds
-of data; i.e., both
-quantities need not
-become identifiable 
-simultaneous at the
-same step above. } 
+for both quantities. } 
 \label{fig-personalized-goal}
 \end{figure}
 
@@ -225,16 +126,54 @@ Fig.\ref{fig-personalized-goal}, is
 to find
 increasingly 
 tighter bounds for
-PTEs such as 
-$PNS_z$ and $ATE_z$.
+PTEs such as $PNS$, 
+$PNS_z$, $ATE$, $ATE_z$, etc..
+
+
+We say bounds, because 
+it is not always possible
+to give a point estimate
+for $PNS$ and other
+PTEs.
+If a point estimate for a PTE named $Q$
+is achievable, we say $Q$
+is {\bf identifiable}.
+The same definition
+of identifiability 
+has been used before in this book 
+for $ATE$.
+It's possible that 
+$ATE$ is identifiable,
+but $PNS$ isn't,
+or vice versa, for certain kinds
+of data; i.e., both
+quantities need not
+become identifiable 
+simultaneous at the
+same step above.
+
+
+ The
+bounds given by PTE theory
+are
+as tight as possible,
+depending on 
+the available data,
+and on what bnet model 
+assumptions
+the user is willing to make.
+We will consider two types of bounds: 
+(1) Bounds for an unspecified bnet,
+(2) bounds for specific bnet families.
+Bounds for (2) will be tighter
+than bounds for (1).
+
 
 The bounds are calculated from
  two types of data:
 {\bf Observational Data (OD)} and 
 {\bf Experimental Data (ED)}.
-OD is usually collected first
-because it is easier to collect 
-than ED.
+
 For OD, one allows 
 the patient to 
 choose whether to take
@@ -245,6 +184,7 @@ to record his/her
 value for $x$ 
 and whether the treatment
 worked or not ($y=0,1$).
+
 For ED, one conducts a {\bf RCT}
 (Randomized Controlled Trial)
 instead of a survey.
@@ -257,18 +197,71 @@ experimenter, at random,
 and, once selected, it
  is compulsory for the
 patient.
+
 Unlike ED, OD is likely
 to be confounded, but
 it can still shed 
 additional information
 that serves to tighten 
 the bounds on 
-$PNS_z$ and $ATE_z$.
+$PNS_z$ or other PTEs. 
 
-One last thing. 
-We will consider two types of bounds: 
-(1) Bounds for an unspecified bnet,
-(2) bounds for specific bnet families.
+OD is usually collected first
+because it is easier and cheaper to collect 
+than ED. Sometimes ED is too expensive or difficult 
+or even impossible to collect,
+so only OD is available.
+Sometimes several ED (resp., several OD)
+need to be merged, before merging
+the merged ED with the merged OD. Pearl's PTE theory
+allows us to fuse together all the 
+available data
+in all these types of 
+situations. 
+
+Some purists such as the advocates of 
+{\bf EBM (Experiment
+Based Medicine)} advocate the use of
+only ED (i.e., only RCTs), no OD. 
+This is reasonable
+in certain administrative  professions
+to keep partisanship and chicanery out
+of the decision making process, 
+but in other professions, throwing away OD
+would be foolish. 
+Even in cases
+where an RCT is planned,
+a quick and cheap survey
+can help design a better RCT.
+A case in
+the history 
+of medicine 
+where OD was essential, was the case of
+John Snow (see Chapter \ref{ch-did}). John Snow
+didn't have
+an RCT, but he was able to
+use OD to determine
+the driver of 
+the cholera epidemic in London.
+He saved countless lives by 
+doing so. An EBM purists
+would have thrown
+out his OD because it
+wasn't an RCT. 
+
+Some people object to PTE theory
+and CI (Causal Inference) in general on the 
+grounds that the causal DAGs
+ are adhoc, arbitrary, a
+sort of unscientific voodoo. What 
+those people fail to realize is
+that causal DAGs are scientific
+hypotheses which can and should be tested.
+CI when properly
+practiced 
+adheres strictly to the scientific method.
+
+
 
 
 
@@ -410,6 +403,82 @@ because the TPM at node $\rvy$
 is a delta function that
 enforces this equality.
 
+\section{$ATE = PNS - AMM$}
+
+Define the {\bf Probability of Necessity and Sufficiency}
+\beq
+PNS = P(\rvy_0=0, \rvy_1=1)
+\eeq
+and the {\bf Amonotonicity Measure} by
+\beq
+AMM = P(\rvy_0=1, \rvy_1=0)
+\eeq
+
+\begin{claim}
+\beq
+PNS=P(\rvy_1-\rvy_0=1)
+\eeq
+\beq
+AMM=P(\rvy_1-\rvy_0=-1)
+\eeq
+\end{claim}
+\proof
+
+$\rvy_1-\rvy_0=1$ iff ($\rvy_1=1$ and
+$\rvy_0=0$).
+
+$\rvy_1-\rvy_0=-1$ iff ($\rvy_1=0$ and
+$\rvy_0=1$).
+\qed
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=3.5in]
+{personalized/pns-ate.png}
+\caption{Probability simplex 
+$\{(x,y): x\geq 0, y\geq 0, x+y\leq 1\}$
+with $x=PNS$
+and $y=AMM$.
+Values of $PNS$ and $ATE$
+at corners
+are given.
+Points on line $x+y=1$ can only be
+achieved if $P(1,1)=P(0,0)=0$. } 
+\label{fig-pns-ate}
+\end{figure}
+\begin{claim}
+\beq 
+ATE = PNS - AMM
+\eeq
+\end{claim}
+\proof
+\beqa
+ATE &=& E_\s[y^\s_1-y^\s_0]
+\\
+&=&E[\rvy_1-\rvy_0]
+\\
+&=&
+\sum_{y}y[P(\rvy_1=y) -P(\rvy_0=y)]
+\\
+&=&
+P(\rvy_1=1) -P(\rvy_0=1)
+\\
+&=&
+\sum_{y_0}P(y_0, \rvy_1=1) - \sum_{y_1}P(\rvy_0=1, y_1)
+\\
+&=&
+\underbrace{P(\rvy_0=0, \rvy_1=1)}_{PNS} -
+\underbrace{P(\rvy_0=1, \rvy_1=0)}_{AMM}
+\eeqa
+\qed
+
+
+
+See Fig.\ref{fig-pns-ate}
+for a visualization
+of the extreme values of
+$PNS$ and the corresponding values
+of $ATE$.
 
 \section{Probabilities Relevant to PTE theory}
 Let
@@ -449,6 +518,34 @@ E_{1|1}-E_{1|0}
 \\
 &=& E_{1|1}+E_{0|0}-1
 \eeqa
+
+{\bf Conditional ATE (CATE)}
+\beqa
+ATE_z&=&
+P(\rvy_1=1|z)-P(\rvy_0=1|z)
+\\
+&=& E_{1|1,z}+E_{0|0,z}-1
+\eeqa
+
+{\bf Average Causal Effect}
+
+\beq
+ACE= P(\rvy=1|\cald\rvx=1)-P(\rvy=1|\cald\rvx=0)
+\eeq
+Note that
+\beq
+ACE=\underbrace{P(\rvy=1|\cald\rvx=1)}_{P(\rvy_1=1)}
+-\underbrace{P(\rvy=1|\cald\rvx=0)}_{P(\rvy_0=1)}
+=ATE\eeq
+
+{\bf Conditional ACE 
+(CACE)} 
+
+This is what
+is called
+$ACE_z$ in Chapter \ref{ch-pot-out}.
+Note that
+$ACE_z=ATE_z$.
 
 {\bf Effect of Treatment
  on the Treated (ETT)} (i.e., $ATE$
