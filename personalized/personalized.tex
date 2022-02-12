@@ -60,17 +60,9 @@ over a {\it single}
 ensemble (i.e., population)
 of individuals $\s$ with probability
  $P(y^\s_0, y^\s_1)$.
-$ACE$, on the other hand, is not
+$ATE$, on the other hand, is not as
 personalized, because it equals the 
-difference of two averages, 
-one average over an ensemble of 
-individuals $\s$ with
-probability
- $P(y^\s_0)$
-and another average over a possibly 
-different ensemble of individuals $\s'$
-with
-probability $P(y^{\s'}_1)$.
+difference of two of those averages.
 If the conditioning $z$
 is fine grained enough
 to pick out a single individual
@@ -78,10 +70,12 @@ $\s$ (i.e., if $z=\s$), then
 we get 
 \beq
 PNS_\s = \indi(y^\s_1-y^\s_0=1)
+\;
 \eeq
-$ATE_z$, on the other hand, 
-is not well defined for a single
-individual.
+whereas
+\beq
+ATE_\s = \indi(y^\s_1=1)-\indi(y^\s_0=1)
+\eeq
 
 
 One 
@@ -481,6 +475,20 @@ $PNS$ and the corresponding values
 of $ATE$.
 
 \section{Probabilities Relevant to PTE theory}
+Note\footnote{
+To 
+translate this section
+from 
+our notation 
+to the notation
+used by Tian and Pearl in
+Ref.\cite{pearl-tian-2000},
+ replace $P(\rvy_1=i,
+ \rvy_0=j, \rvx=k)\rarrow p_{i,j,k}$
+$O_{1,0}\rarrow P(x,y') $,
+$O_{0|1}\rarrow P(y'|x)$, 
+$ E_{0|1}\rarrow P(y'_x)$, etc.}
+
 Let $x, y\in \bool$ and $z\in S_\rvz$ for 
 some finite, not necessarily binary set $S_\rvz$. Define
 \beq
@@ -652,6 +660,58 @@ ERR +
 \frac{O_{1|0}-E_{1|0}}{O_{1,1}}
 \eeq
 
+You might be wondering 
+how $P(\rvy_x=y|\rvx=0)$
+and $P(\rvy_x=y|\rvx=1)$ for $x,y\in\bool^2$
+are related to $O_{y|x}$ and $E_{y|x}$.
+The following claim shows how.
+
+\begin{claim}
+\begin{subequations}
+\label{eq-judeasrx-eqs}
+
+\beq
+P(\rvy_x=y|\rvx=x)=O_{y|x}
+\eeq
+
+\beq
+P(\rvy_x=y|\rvx=\ol{x})=
+\frac{E_{y|x}-O_{y|x}\pi_x}{\pi_{\ol{x}}}
+\eeq
+\end{subequations}
+\end{claim}
+\proof
+Before we begin the proof, note 
+that summing both sides 
+of Eqs.(\ref{eq-judeasrx-eqs})
+gives $1=1$, so these 2 equations
+pass that test.
+
+\beq
+P(\rvy_x=y|\rvx=x)=P(\rvy=y|\rvx=x)=O_{y|x}
+\eeq
+
+\beqa
+P(\rvy_x=y|\rvx=\ol{x})&=&
+\frac{P(\rvy_x=y,\rvx=\ol{x})}
+{\pi_{\ol{x}}}
+\\
+&=& 
+\frac{P(\rvy_x=y)-P(\rvy_x=y,\rvx=x)}
+{\pi_{\ol{x}}}
+\\
+&=& 
+\frac{P(\rvy_x=y)-P(\rvy_x=y|\rvx=x)\pi_x}
+{\pi_{\ol{x}}}
+\\
+&=&
+=
+\frac{E_{y|x}-O_{y|x}\pi_x}{\pi_{\ol{x}}}
+\eeqa
+
+\qed
+
+
 
 \begin{claim}\label{cl-p-y0-y1-x}
 
@@ -780,20 +840,9 @@ are considered Rung 3.}
 
 
 
-To 
-translate
-from 
-our notation 
-to the notation
-used by Tian and Pearl in
-Ref.\cite{pearl-tian-2000},
- replace $P(\rvy_1=i,
- \rvy_0=j, \rvx=k)\rarrow p_{i,j,k}$
-$O_{1,0}\rarrow P(x,y') $,
-$O_{0|1}\rarrow P(y'|x)$, 
-$ E_{0|1}\rarrow P(y'_x)$, etc.
 
 
+ 
 \section{Symmetry}
 
 
