@@ -9,9 +9,9 @@ Refs.
 \cite{personalized-pearl-2021}.
 
 Recall from Chapter \ref{ch-pot-out}
-on Potential Outcomes (PO) 
+on Potential Outcomes (PO)
 and Beyond, that
-the {\bf Average Treatment Effect ($ATE$)} 
+the {\bf Average Treatment Effect ($ATE$)}
 is defined as
 
 \beqa
@@ -38,12 +38,12 @@ Note that
 Personalized Treatment Effect (PTE)}
 theory
 as envisioned by Pearl
-is the study 
+is the study
 of
 bounds
 for ``personalized"
  treatment
-effects such as 
+effects such as
 
 \beq
 PNS = P(\rvy_1-\rvy_0=1)
@@ -56,18 +56,20 @@ PNS_z = P(\rvy_1-\rvy_0=1|z)
 \eeq
 They are said to be {\bf personalized}
 because they are averages
-over a {\it single} 
+over a {\it single}
 ensemble (i.e., population)
 of individuals $\s$ with probability
  $P(y^\s_0, y^\s_1)$.
-$ATE$, on the other hand, is not as
-personalized, because it equals the 
+$ATE$, on the other hand, is not 
+personalized, because it equals the
 difference of two of those averages.
+
+
 If the conditioning $z$
 is fine grained enough
 to pick out a single individual
 $\s$ (i.e., if $z=\s$), then
-we get 
+we get
 \beq
 PNS_\s = \indi(y^\s_1-y^\s_0=1)
 \;
@@ -77,26 +79,30 @@ whereas
 ATE_\s = \indi(y^\s_1=1)-\indi(y^\s_0=1)
 \eeq
 
+ATE and PNS measure different things.   PNS
+measures the probability that a {\it single person} will switch outcomes from 0 to 1 when he/she switches treatments from 0 to 1.
+ATE measures the difference in populations  between those who survive taking the drug and those who survive without it.
 
-One 
+
+One
 very promising
-field in 
+field in
 which PTE theory
 can be applied
 is in {\bf Personalized Causal Medicine}.
 For example, suppose we want to
- use $PNS_z$, 
+ use $PNS_z$,
 where the conditioning is on the
 sex of the patient (i.e., $z=male, female$),
 to advice a female  patient
 whether to take a cancer drug or not.
 
-\section{Goal, Strategy 
+\section{Goal, Strategy
 and Rationale of PTE theory}
 In this section,
-we described 
+we described
 briefly
-the goal,strategy 
+the goal,strategy
 and rationale behind PTE theory.
 
 
@@ -104,27 +110,27 @@ and rationale behind PTE theory.
 \centering
 \includegraphics[width=3in]
 {personalized/personalized-goal.png}
-\caption{We use patient data 
+\caption{We use patient data
 to calculate at each step, increasingly
 tighter bounds
 $b_j, b'_j, B_j, B'_j$
 for $PNS_z$ and $ATE_z$,
 ending in point bounds
-for both quantities. } 
+for both quantities. }
 \label{fig-personalized-goal}
 \end{figure}
 
 The goal of PTE theory, as
-described by 
+described by
 Fig.\ref{fig-personalized-goal}, is
 to find
-increasingly 
+increasingly
 tighter bounds for
-PTEs such as $PNS$, 
+PTEs such as $PNS$,
 $PNS_z$, $ATE$, $ATE_z$, etc..
 
 
-We say bounds, because 
+We say bounds, because
 it is not always possible
 to give a point estimate
 for $PNS$ and other
@@ -133,16 +139,16 @@ If a point estimate for a PTE named $Q$
 is achievable, we say $Q$
 is {\bf identifiable}.
 The same definition
-of identifiability 
-has been used before in this book 
+of identifiability
+has been used before in this book
 for $ATE$.
-It's possible that 
+It's possible that
 $ATE$ is identifiable,
 but $PNS$ isn't,
 or vice versa, for certain kinds
 of data; i.e., both
 quantities need not
-become identifiable 
+become identifiable
 simultaneous at the
 same step above.
 
@@ -151,12 +157,12 @@ same step above.
 bounds given by PTE theory
 are
 as tight as possible,
-depending on 
+depending on
 the available data,
-and on what bnet model 
+and on what bnet model
 assumptions
 the user is willing to make.
-We will consider two types of bounds: 
+We will consider two types of bounds:
 (1) Bounds for an unspecified bnet,
 (2) bounds for specific bnet families.
 Bounds for (2) will be tighter
@@ -165,24 +171,24 @@ than bounds for (1).
 
 The bounds are calculated from
  two types of data:
-{\bf Observational Data (OD)} and 
+{\bf Observational Data (OD)} and
 {\bf Experimental Data (ED)}.
 
-For OD, one allows 
-the patient to 
+For OD, one allows
+the patient to
 choose whether to take
-a drug 
+a drug
 or not ($x=0,1$),
 and then we conduct a {\bf survey}
-to record his/her 
-value for $x$ 
+to record his/her
+value for $x$
 and whether the treatment
 worked or not ($y=0,1$).
 
 For ED, one conducts a {\bf RCT}
 (Randomized Controlled Trial)
 instead of a survey.
-In the case of ED, 
+In the case of ED,
 we record, as in OD, the $(x,y)$
 for each patient, but
 the value of $x$ for each
@@ -194,65 +200,65 @@ patient.
 
 Unlike ED, OD is likely
 to be confounded, but
-it can still shed 
+it can still shed
 additional information
-that serves to tighten 
-the bounds on 
-$PNS_z$ or other PTEs. 
+that serves to tighten
+the bounds on
+$PNS_z$ or other PTEs.
 
 OD is usually collected first
-because it is easier and cheaper to collect 
-than ED. Sometimes ED is too expensive or difficult 
+because it is easier and cheaper to collect
+than ED. Sometimes ED is too expensive or difficult
 or even impossible to collect,
 so only OD is available.
 Sometimes several ED (resp., several OD)
 need to be merged, before merging
 the merged ED with the merged OD. Pearl's PTE theory
-allows us to fuse together all the 
+allows us to fuse together all the
 available data
-in all these types of 
-situations. 
+in all these types of
+situations.
 
-Some purists such as the advocates of 
+Some purists such as the advocates of
 {\bf EBM (Evidence
 Based Medicine)} advocate the use of
-only ED (i.e., only RCTs), no OD. 
+only ED (i.e., only RCTs), no OD.
 This is reasonable
 in certain administrative  professions
 to keep partisanship and chicanery out
-of the decision making process, 
+of the decision making process,
 but in other professions, throwing away OD
-would be foolish. 
+would be foolish.
 Even in cases
 where an RCT is planned,
 a quick and cheap survey
 can help design a better RCT.
 A case in
-the history 
-of medicine 
+the history
+of medicine
 where OD was essential, was the case of
 John Snow (see Chapter \ref{ch-did}). John Snow
 didn't have
 an RCT, but he was able to
 use OD to determine
-the driver of 
+the driver of
 the cholera epidemic in London.
-He saved countless lives by 
+He saved countless lives by
 doing so. An EBM purist
 would have thrown
 out his OD because it
 wasn't an RCT.
 
 Some people object to PTE theory
-and CI (Causal Inference) in general on the 
+and CI (Causal Inference) in general on the
 grounds that the causal DAGs
  are adhoc, arbitrary, a
-sort of unscientific voodoo. What 
+sort of unscientific voodoo. What
 those people fail to realize is
 that causal DAGs are scientific
 hypotheses which can and should be tested.
 CI when properly
-practiced 
+practiced
 adheres strictly to the scientific method.
 
 
@@ -264,7 +270,7 @@ adheres strictly to the scientific method.
 
 Let $\ol{0}=1$ and $\ol{1}=0$.
 
-Whenever we write $P(\rva=x, b)$, 
+Whenever we write $P(\rva=x, b)$,
 we mean $P(\rva=x, \rvb=b)$.
 
 In this chapter, we will
@@ -275,15 +281,15 @@ discuss PTE theory.
 Instead, we will
 use $P(\rvy=1)$ and
 $P(\rvy=0)$
-to denote his 
-$P(y)$ and $P(y')$, respectively. 
+to denote his
+$P(y)$ and $P(y')$, respectively.
 
 
-On the other hand, 
+On the other hand,
 in this chapter
-we will change the names 
+we will change the names
 of variables $\rvd, \rvy, \rvz, \rvy(d)$
-used 
+used
 in Chapter \ref{ch-pot-out} on Potential
 Outcomes (PO)
 to the names favored by Pearl.
@@ -323,14 +329,14 @@ $$
 \caption{Type of Bnet
 considered in PTE theory.
 The box labeled ``multiple nodes"
-contains various observed 
+contains various observed
 and hidden nodes with
 arrows
 to or from node $\rvx$
 and to or from
 node $\rvz$.
 $\rvz$ can be a multinode.
-$\rvz$ 
+$\rvz$
 is shown
 as hidden but
 could be observed instead.
@@ -349,12 +355,12 @@ P(y|y_0, y_1, x)=\delta(y, y_x)
 \label{eq-tpm-y-yx}
 \eeq
 
-This TPM is used 
+This TPM is used
 frequently
 in PTE theory.  If $x,y_0, y_1$
 are arguments
 of $P()$, this TPM implies that one
-can swap 
+can swap
 $\rvy_x=y_x$
 and $\rvy=y_x$
 inside $P()$. For example,
@@ -370,19 +376,19 @@ P({\color{red}\rvy}=y_x,
 \eeqa
 
 According to Pearl, the defining
-property of $y_x$ is that 
+property of $y_x$ is that
 
 
 \beq
 P(\rvy_x=y)=P(\rvy=y|\cald\rvx=x)
 \label{eq-1st-law}
 \eeq
-Pearl likes to call 
+Pearl likes to call
 Eq.(\ref{eq-1st-law})
 the 1st Law. The 1st Law is also a
 consequence of bnet Fig.\ref{fig-pte-bnet}
 and the TPM Eq.(\ref{eq-tpm-y-yx}).
-Indeed, 
+Indeed,
 $\cald\rvx=x$
 means one should amputate
 all arrows entering
@@ -392,7 +398,7 @@ function centered at $x$.
 If that is done, then
 the values
 of $\rvy$ and $\rvy_x$ must
-be equal, 
+be equal,
 because the TPM at node $\rvy$
 is a delta function that
 enforces this equality.
@@ -429,7 +435,7 @@ $\rvy_0=1$).
 \centering
 \includegraphics[width=3.5in]
 {personalized/pns-ate.png}
-\caption{Probability simplex 
+\caption{Probability simplex
 $\{(x,y): x\geq 0, y\geq 0, x+y\leq 1\}$
 with $x=PNS$
 and $y=AMM$.
@@ -437,11 +443,11 @@ Values of $PNS$ and $ATE$
 at corners
 are given.
 Points on line $x+y=1$ can only be
-achieved if $P(1,1)=P(0,0)=0$. } 
+achieved if $P(1,1)=P(0,0)=0$. }
 \label{fig-pns-ate}
 \end{figure}
 \begin{claim}
-\beq 
+\beq
 ATE = PNS - AMM
 \eeq
 \end{claim}
@@ -476,20 +482,20 @@ of $ATE$.
 
 \section{Probabilities Relevant to PTE theory}
 Note\footnote{
-To 
+To
 translate this section
-from 
-our notation 
+from
+our notation
 to the notation
 used by Tian and Pearl in
 Ref.\cite{pearl-tian-2000},
  replace $P(\rvy_1=i,
  \rvy_0=j, \rvx=k)\rarrow p_{i,j,k}$
 $O_{1,0}\rarrow P(x,y') $,
-$O_{0|1}\rarrow P(y'|x)$, 
+$O_{0|1}\rarrow P(y'|x)$,
 $ E_{0|1}\rarrow P(y'_x)$, etc.}
 
-Let $x, y\in \bool$ and $z\in S_\rvz$ for 
+Let $x, y\in \bool$ and $z\in S_\rvz$ for
 some finite, not necessarily binary set $S_\rvz$. Define
 \beq
 P^{x', y'}_{x,y}=
@@ -547,8 +553,8 @@ ACE=\underbrace{P(\rvy=1|\cald\rvx=1)}_{P(\rvy_1=1)}
 -\underbrace{P(\rvy=1|\cald\rvx=0)}_{P(\rvy_0=1)}
 =ATE\eeq
 
-{\bf Conditional ACE 
-(CACE)} 
+{\bf Conditional ACE
+(CACE)}
 
 This is what
 is called
@@ -578,7 +584,7 @@ O_{1,1}
 and
 
 \beqa
-\cale_0\pi_1 &=& 
+\cale_0\pi_1 &=&
 P(\rvy_0=1,\rvx=1)
 \\
 &=& P(\rvy_0=1)-
@@ -593,11 +599,11 @@ so
 ETT\pi_1= \sum_x O_{x, 1} -  E_{1|0}
 \eeq
 
- 
 
-{\bf Probability of Necessity 
+
+{\bf Probability of Necessity
 ($\PN$)}\footnote{I like to call
-$PN$ the Probability of Nullifying, because 
+$PN$ the Probability of Nullifying, because
 it goes from 11 to 00}
 \beq
 \PN = P^{0,0}_{1,1}
@@ -615,7 +621,7 @@ it goes from 00 to 11}
 
 
 
-{\bf Probability of 
+{\bf Probability of
 Necessity and Sufficiency (PNS)}
 
 \beq
@@ -624,7 +630,7 @@ P(\rvy_0=0, \rvy_1=1)
 \eeq
 
 Henceforth, we will use $PNS3$ to
-denote the trio 
+denote the trio
 
 \beq
 PNS3=(PNS, PN, PS)
@@ -634,7 +640,7 @@ PNS3=(PNS, PN, PS)
 {\bf Amonotonicity Measure (AMM)}
 
 \beq
-AMM= 
+AMM=
 P(\rvy_0=1, \rvy_1=0)
 \eeq
 
@@ -646,7 +652,7 @@ RR = \frac{O_{1|1}}
 
 
 
-{\bf Excess Risk Ratio (ERR)} 
+{\bf Excess Risk Ratio (ERR)}
 \beq
 ERR=
 \frac{O_{1|1}-O_{1|0}}
@@ -660,7 +666,7 @@ ERR +
 \frac{O_{1|0}-E_{1|0}}{O_{1,1}}
 \eeq
 
-You might be wondering 
+You might be wondering
 how $P(\rvy_x=y|\rvx=0)$
 and $P(\rvy_x=y|\rvx=1)$ for $x,y\in\bool^2$
 are related to $O_{y|x}$ and $E_{y|x}$.
@@ -681,8 +687,8 @@ P(\rvy_x=y|\rvx=\ol{x})=
 \end{subequations}
 \end{claim}
 \proof
-Before we begin the proof, note 
-that summing both sides 
+Before we begin the proof, note
+that summing both sides
 of Eqs.(\ref{eq-judeasrx-eqs})
 gives $1=1$, so these 2 equations
 pass that test.
@@ -696,11 +702,11 @@ P(\rvy_x=y|\rvx=\ol{x})&=&
 \frac{P(\rvy_x=y,\rvx=\ol{x})}
 {\pi_{\ol{x}}}
 \\
-&=& 
+&=&
 \frac{P(\rvy_x=y)-P(\rvy_x=y,\rvx=x)}
 {\pi_{\ol{x}}}
 \\
-&=& 
+&=&
 \frac{P(\rvy_x=y)-P(\rvy_x=y|\rvx=x)\pi_x}
 {\pi_{\ol{x}}}
 \\
@@ -745,7 +751,7 @@ P(y_0, y_1|x)
 &=&
 P(y_{\ol{x}}|x, \rvy=y_x)P(\rvy=y_x|x)
 \eeqa
-\qed 
+\qed
 
 \begin{claim}
 \label{cl-y0-y1-separation}
@@ -754,12 +760,12 @@ P(y_{\ol{x}}|x, \rvy=y_x)P(\rvy=y_x|x)
 \underbrace{PNS}_{
 P(\rvy_0=0, \rvy_1=1)
 }
-=\PN *O_{1,1} + 
+=\PN *O_{1,1} +
 \PS *O_{0,0}
 \eeq
 Hence, if we know
 any two of $(\PN, \PS, PNS)$,
-we can calculate the 
+we can calculate the
 third.
 \end{claim}
 \proof
@@ -800,7 +806,7 @@ P(\rvy_0=0, \rvy_1=1)
 \end{align}
 \qed
 
-Note that $PNS$ refers to 
+Note that $PNS$ refers to
 both $\rvy_0$ and $\rvy_1$,
 $\PN$ refers only to
 $\rvy_0$ and $\PS$ refers only to
@@ -810,21 +816,21 @@ of variables
 $(\rvy_0, \rvy_1)$
 and to isolate them individually.
 Claim \ref{cl-y0-y1-separation}
-is a quantitative expression of that 
-separation. 
+is a quantitative expression of that
+separation.
 
-Pearl likes to say that 
-$PNS$ belongs to Rung 3 because it's a 
-probability that involves both 
+Pearl likes to say that
+$PNS$ belongs to Rung 3 because it's a
+probability that involves both
 $\rvy_0$ and $\rvy_1$, and
-one of those two must be a counterfactual 
-(an event that never occurred). On the 
-other hand, $\PN, \PS, ATE$, etc., 
+one of those two must be a counterfactual
+(an event that never occurred). On the
+other hand, $\PN, \PS, ATE$, etc.,
 are defined in terms of probabilities
 that involve either $\rvy_0$
-or $\rvy_1$ but not both. 
+or $\rvy_1$ but not both.
 Probabilities that
-involve only one of them,  
+involve only one of them,
  can be
 expressed with the do operator,
 so they belong to Rung 2.
@@ -841,12 +847,12 @@ are considered Rung 3.}
 
 
 
- 
+
 \section{Symmetry}
 
 
-Define $\sim$ to 
-be an operator that swaps zeros and ones 
+Define $\sim$ to
+be an operator that swaps zeros and ones
 in $P(\rvy_0=y, \rvy_1=y', x)$.
 Hence
 
@@ -855,7 +861,7 @@ Hence
 P(\rvy_1=\ol{y}, \rvy_0=\ol{y'}, \rvx=\ol{x})
 \eeq
 
-\beq 
+\beq
 (P^{x',y'}_{x,y})^\sim= P^{\ol{x'}, \ol{y'}}_{\ol{x}, \ol{y}}
 \eeq
 
@@ -889,7 +895,7 @@ P(\rvy_1=\ol{y}, \rvy_0=\ol{y'}, \rvx=\ol{x})
 \frac{O_{0|0}}{O_{0|1}}
 \eeq
 
-Recall 
+Recall
 
 \beq
 ERR=\frac{O_{1|1}-O_{1|0}}{O_{1|1}}=1-\frac{1}{RR}
@@ -940,7 +946,7 @@ Note that $\cals$ has 7 degrees of freedom (dofs).
 \begin{enumerate}
 \item
 {\bf observational (non-causal)
- constraints on $\cals$} 
+ constraints on $\cals$}
 {\color{red}(3 constraints)}
 
 \beq
@@ -951,8 +957,8 @@ P(\rvy_x=y, \rvy_{\ol{x}}=y', x)
 \eeq
 
 \item
-{\bf experimental (causal) constraints 
-  on $\cals$} 
+{\bf experimental (causal) constraints
+  on $\cals$}
 {\color{red}(2 constraints)}\footnote{
 $E_{0|x}$ follows from
 $E_{0|x}=1-E_{1|x}$.}
@@ -966,10 +972,10 @@ P(\rvy_x=1, \rvy_{\ol{x}}=y', \rvx=x') \quad \text{for $x\in\bool$}
 
 \end{enumerate}
 
-$\cals$ has 7 dofs but the 
+$\cals$ has 7 dofs but the
 3 observational constraints
 reduce the number of dofs to 4.
-The 5 observational 
+The 5 observational
 and experimental constraints
  reduce the number of dofs
 to 2.
@@ -980,13 +986,13 @@ and 3 experimental)
 reduce it
  to the interior
 of a  6 or less sided figure
- in $\RR^2$. 
+ in $\RR^2$.
 
 Henceforth, we will
 refer to the observational
- and experimental 
+ and experimental
 constraints together
-as the {\bf minimal 
+as the {\bf minimal
 constraints}.
 
 This is half of a
@@ -996,15 +1002,15 @@ can be stated as finding the column vector
 $\xi$ that minimizes
  a cost $\calc=c^T\xi$ subject to $A\xi=b$ and $\xi\geq 0$.
 Here we have no cost function
-or minimization, but we have 
-$A\xi=b$ and 
-$\xi\geq 0$ where 
+or minimization, but we have
+$A\xi=b$ and
+$\xi\geq 0$ where
 $\xi =[P(y_0, y_1, x)]_{\forall y_0, y_1, x}$.
 Also
 $b= [1,
 O_{0,1}, O_{1,0}, O_{1,1},
 E_{1|0}, E_{1|1}]^T$, and
-$A=$ a matrix of zeros and ones. 
+$A=$ a matrix of zeros and ones.
 
 Note that
 \beqa
@@ -1055,22 +1061,22 @@ $\rvy_x\perp \rvx$ for $x\in\bool$.
 Exogeneity gives {\color{red}2 constraints}.
 
 Note that exogeneity
-is the same thing as identifiability 
+is the same thing as identifiability
 of $P(\rvy_x=y)=P(\rvy=y|\cald\rvx=x)$.
 But identifiability
-(i.e., do-identifiability) is a more 
+(i.e., do-identifiability) is a more
 general concept. One can speak
 of the identifiability of $P(y_x|z)$
 or of $P(y_0, y_1, a)$, etc.
 In general,
-any expression with 
+any expression with
 do operators is do-identifiable
-if it can be expressed 
-as an expression without 
+if it can be expressed
+as an expression without
 do-operators.
 
 \item
-{\bf Strong Exogeneity} holds 
+{\bf Strong Exogeneity} holds
 for simplex $\cals$
 if $(\rvy_0, \rvy_1)_{joint}
 \perp \rvx$. Hence
@@ -1083,7 +1089,7 @@ Strong exogeneity gives {\color{red} 3 constraints}.
 Strong exogeneity implies
 exogeneity
 but not the converse.\footnote{In
-this book, we use both 
+this book, we use both
 $(\rva, \rvb)_\&\perp \rvx$
 and $(\rva, \rvb)_{joint}\perp \rvx$.
 When we write $(\rva, \rvb)_\&\perp \rvx$,
@@ -1102,7 +1108,7 @@ $P(a,b|x)=P(a,b)$
 over $a$ gives
 $P(b|x)=P(b)$,
 and summing it
-over $b$ gives 
+over $b$ gives
 $P(a|x)=P(a)$.
 Hence we see that
  $(\rva, \rvb)_{joint}\perp \rvx$
@@ -1110,7 +1116,7 @@ implies
 $(\rva, \rvb)_\&\perp \rvx$
 but not the converse.
 If $\rva$ and $\rvb$ are independent at
-fixed $\rvx$ so that 
+fixed $\rvx$ so that
 $P(a,b|x)=P(a|x)P(b|x)$ then
 $(\rva, \rvb)_{joint}\perp \rvx$
 iff
@@ -1121,7 +1127,7 @@ $(\rva, \rvb)_\&\perp \rvx$
 This property is called monotonicity
  because
 it's equivalent to the statement
-that $y_0^\s\leq y_1^\s$ for 
+that $y_0^\s\leq y_1^\s$ for
 all individuals $\s$
 in the population.
 Indeed, $y_0^\s\leq y_1^\s$
@@ -1129,10 +1135,10 @@ includes the 3 cases $(y_0^\s, y_1^\s)=
 (0,0), (1, 1), (0,1)$, but
 excludes the only other
 case, namely $(1,0)$.}
- holds for simplex $\cals$ if 
+ holds for simplex $\cals$ if
 
 \beq AMM=P(\rvy_0=1,
- \rvy_1=0)=0\eeq\;. 
+ \rvy_1=0)=0\eeq\;.
 Equivalently,
 
 \beq
@@ -1144,7 +1150,7 @@ which is true iff
  P(\rvy_0=1, \rvy_1=0, x)=0\quad
 \text{for $x\in\bool$}
 \eeq
-Monotonicity gives {\color{red} 2 
+Monotonicity gives {\color{red} 2
 constraints}.
 
 Note that when $AMM=0$, $PNS=ATE$.
@@ -1153,7 +1159,7 @@ Note that when $AMM=0$, $PNS=ATE$.
 
 
 \begin{claim}
-Monotonicity and exogeneity 
+Monotonicity and exogeneity
 together imply strong exogeneity.
 \end{claim}
 \proof
@@ -1176,22 +1182,22 @@ P(\rvy_a=\ol{a}, x)&=&
 \eeqa
 Thus,
 
-\beq 
+\beq
 P(\rvy_a=\ol{a}|\rvx=a)=P(\rvy_a=\ol{a},
  \rvy_{\ol{a}}=\ol{a}|\rvx=a)
 \label{eq-pm-with-cond}
 \eeq
 and
-\beq 
+\beq
 P(\rvy_a=\ol{a})=P(\rvy_a=\ol{a},
  \rvy_{\ol{a}}=\ol{a})
 \label{eq-pm-without-cond}
 \eeq
-By exogeneity, 
+By exogeneity,
 the left hand side of Eq.(\ref{eq-pm-with-cond})
 and the left hand side of Eq.(\ref{eq-pm-without-cond})
 are equal,
-so the right hand sides 
+so the right hand sides
 of those equations must be equal too.
 
 \beq
@@ -1245,7 +1251,7 @@ The remaining strong exogeneity constraint, given by
  P(\rvy_0=0, \rvy_1=1|x)=P(\rvy_0=0, \rvy_1=1)
 \;,
 \eeq
-follows because 
+follows because
 \beq
 \sum_{y_0,y_1}P(y_0, y_1|x)=
 \sum_{y_0,y_1}P(y_0, y_1)=1
@@ -1258,9 +1264,9 @@ follows because
 
 Suppose $\eps_x(y_0, y_1)$
 for $x,y_0,y_1\in \bool$
- are eight vectors 
+ are eight vectors
 in a vector space $V$.
-$\eps_x(y_0, y_1)$ will only be used 
+$\eps_x(y_0, y_1)$ will only be used
 at position $(y_0,y_1)$
 of a $2\times 2$ matrix,
 where the positions are
@@ -1286,7 +1292,7 @@ y_1
 }
 \eeq
 When $\eps_x(y_0, y_1)$
-is used inside a $2\times 2$ 
+is used inside a $2\times 2$
 matrix, we will not write
 the argument $(y_0, y_1)$,
 leaving it implicit, unless
@@ -1326,7 +1332,7 @@ P_{\rvy_0, \rvy_1, \rvx}(1,1,x)=
 Define a map
 $\calp[\quad]:V\rarrow \RR$
 that we will call the
-{\bf matrix representation 
+{\bf matrix representation
 of probabilities (MRP)} (mnemonic, Mr. P).
 We will
 assume that the map $\calp[\quad]$ is linear.
@@ -1377,7 +1383,7 @@ Note that
 \eeq
 
 
-\beq 
+\beq
 E_{0|0}
 =\Pmat{\eps_+}{0}{\eps_+}{0}
 ,\quad
@@ -1385,7 +1391,7 @@ O_{0,0}
 =\Pmat{\eps_0}{0}{\eps_0}{0}
 \eeq
 
-\beq 
+\beq
 E_{0|1}
 =\Pmat{0}{0}{\eps_+}{\eps_+}
 ,\quad
@@ -1393,13 +1399,13 @@ O_{1,0}
 =\Pmat{0}{0}{\eps_1}{\eps_1}
 \eeq
 
-\beq 
+\beq
 E_{1|0}=\Pmat{0}{\eps_+}{0}{\eps_+}
 ,\quad
 O_{0,1}=\Pmat{0}{\eps_0}{0}{\eps_0}
 \eeq
 
-\beq 
+\beq
 E_{1|1}=\Pmat{\eps_+}{\eps_+}{0}{0}
 ,\quad
 O_{1,1}=\Pmat{\eps_1}{\eps_1}{0}{0}
@@ -1438,17 +1444,17 @@ ATE=PNS-AMM=
 \eeq
 
 
-When $AMM=0$, 
-\beq 
+When $AMM=0$,
+\beq
 P(\rvy=1)|_{AMM=0}=
 \Pmat{\eps_1}{\eps_+}{0}{0}
 \eeq
 
 The special constraints
-of exogeneity, strong 
-exogeneity and 
+of exogeneity, strong
+exogeneity and
 monotonicity have a very simple
-in the 
+in the
 MRP.
 
 Suppose that $\pi_0, \pi_1\geq 1$
@@ -1545,18 +1551,18 @@ for $x\in \bool$.
 
 \end{enumerate}
 
-\end{claim} 
+\end{claim}
 \proof
 
 (a) This follows from
-the definitions 
+the definitions
 of $E_{y|x}$ and $O_{x,y}$
 for $x,y\in \bool$,
 as stated above
 in the MRP.
 
-(b) This follows from the 
-identity 
+(b) This follows from the
+identity
 \beq
 P_{\rvy_0, \rvy_1, \rvx}(1,0|x)=
 \Pmat{0}{0}{0}{\frac{\eps_x}{\pi_x}}
@@ -1580,7 +1586,7 @@ also makes it easy peasy
 to prove that
 exogeneity and monotonicity
 imply strong exogeneity. Indeed,
-here is a much simpler 
+here is a much simpler
 proof than the one
 we presented earlier.
 \begin{claim}
@@ -1588,17 +1594,17 @@ Exogeneity and monotonicity
 imply strong exogeneity.
 \end{claim}
 \proof
-Let's call $E(a), E(b), 
+Let's call $E(a), E(b),
 E(c), E(d)$ the four Eqs.(\ref{eq-mrp-exo})
 that define Exogeneity,
-and 
-$SE(a), SE(b), 
-SE(c), SE(d)$ the four 
+and
+$SE(a), SE(b),
+SE(c), SE(d)$ the four
 Eqs.(\ref{eq-mrp-strong-exo})
-that define Strong Exogeneity. 
+that define Strong Exogeneity.
 \begin{itemize}
 \item
-Monotonicity implies the lower right 
+Monotonicity implies the lower right
 entry is zero, so $SE(c)$ is true.
 
 \item
@@ -1636,12 +1642,12 @@ With monotonicity, we get the tighter bounds
 O_{1,1} +
 \underbrace{O_{0,1}}_{new}
 }^{P(\rvy=1)}
-\leq 
+\leq
 E_{1|1}\leq 1- O_{1,0}
 \eeq
 \beq
 O_{0,1}\leq E_{1|0}
-\leq 
+\leq
 \overbrace{
 1- O_{0,0}-\underbrace{O_{1,0}}_{new}
 }^{P(\rvy=1)}
@@ -1651,7 +1657,7 @@ O_{0,1}\leq E_{1|0}
 \proof
 
 \beq
-O_{1,1}\leq E_{1|1} \leq 
+O_{1,1}\leq E_{1|1} \leq
 \underbrace{1-O_{1,0}}
 _{O_{1,1}+O_{0,0}+O_{0,1}}
 \eeq
@@ -1672,7 +1678,7 @@ has the MRP
 which is obviously true.
 
 \beq
-O_{0,1}\leq E_{1|0} \leq 
+O_{0,1}\leq E_{1|0} \leq
 \underbrace{1-O_{0,0}}
 _{O_{1,1}+O_{0,1}+O_{1,0}}
 \eeq
@@ -1694,7 +1700,7 @@ which is obviously true.
 \beq
 P(\rvy=1)|_{AMM=0}\leq E_{1|1}
 \eeq
-has the MRP 
+has the MRP
 
 \beq
 \Pmat{\eps_1}{\eps_+}{0}{0}
@@ -1722,15 +1728,15 @@ which is obviously true.
 \section{Bounds on $PNS3$ for unspecified bnet}
 
 \begin{claim}\label{cl-basic-bound-joint}
-If $P(a,b)$ is a probability 
+If $P(a,b)$ is a probability
 distribution, then
 \beq
-\max\{0, P(a) + P(b)-1\}\leq 
+\max\{0, P(a) + P(b)-1\}\leq
 P(a,b)\leq \min\{P(a), P(b)\}
 \eeq
 \end{claim}
 \proof
-$P(a|b)\leq 1$ 
+$P(a|b)\leq 1$
 and $P(b|a)\leq 1$
 implies $P(a,b)\leq P(b)$
 and $P(a,b)\leq P(a)$.
@@ -1745,7 +1751,7 @@ P(a) + P(b) -1
 -1]}_{T}
 \\
 &\leq
-P(a,b)\quad 
+P(a,b)\quad
 \text{($T$ biggest
 when $a=a'$ and $b=b'$)}
 \end{align}
@@ -1764,25 +1770,25 @@ and smaller than the
 minimum of the green ones.
 The purple segment of almost zero
 length represents zero.
-The green segment 
+The green segment
 interrupted by a thin green
 line represents $O_{0,0} + O_{1,1}$.
-Note that $\sum_x O_{x,0}+ 
+Note that $\sum_x O_{x,0}+
 \sum_x O_{x,1}=1$. When
 monotonicity holds,
 $PNS$ equals $E_{1,1}+E_{0,0}-1$
 which is the purple
 segment marked with a star.
-} 
+}
 \label{fig-bounds-minimal}
 \end{figure}
 
-\begin{claim} Minimal bounds 
+\begin{claim} Minimal bounds
 \label{cl-minimal-bounds}
 (see Fig.\ref{fig-bounds-minimal})
 
 If the minimal
-constraints hold for simplex $\cals$, 
+constraints hold for simplex $\cals$,
 then
 
 \beq
@@ -1858,15 +1864,15 @@ E_{1|1}+E_{0|0}-O_{1,1}-O_{0,0}
 \eeq
 \end{claim}
 \proof
-These bounds 
-were copied directly 
+These bounds
+were copied directly
 from Ref.\cite{pearl-tian-2000},
 except the notation was changed.
-In certain cases, we have slightly 
+In certain cases, we have slightly
 rewritten
 the bounds
 from Ref.\cite{pearl-tian-2000} to
- exhibit more explicitly their 
+ exhibit more explicitly their
 symmetry under swaps of zeros and ones.
 For example,
 instead of using
@@ -1942,7 +1948,7 @@ E_{1|1} + E_{0|0}
 \right]
 \eeq
 
-For $\PN$, we have 
+For $\PN$, we have
 
 \beq
 \left[
@@ -2036,10 +2042,10 @@ E_{0|0} - O_{0,0}
 
 The first two lines of the
 bound for $PNS$ are a simple
-consequence of 
+consequence of
 Claim \ref{cl-basic-bound-joint}.
 Indeed, Claim \ref{cl-basic-bound-joint}
-implies  
+implies
 \beq
 \max\left\{\begin{array}{c}
 0\\
@@ -2076,9 +2082,9 @@ note that
 
 \begin{itemize}
 \item $\sum_x O_{x,y}=P(\rvy=y)$
-for $y=0,1$. 
+for $y=0,1$.
 
-\item Let 
+\item Let
 
 \beq
 E'_{0|0}=E_{0|0}-\sum_x O_{x,0}
@@ -2100,12 +2106,12 @@ ATE=E_{1|1}+E_{0|0}-1=E'_{1|1}+E'_{0|0}=
 \item Claim \ref{cl-minimal-bounds}
 applies if we have both observational
 data (OD)
-and experimental data (ED). If we only have 
-OD (resp., ED), ignore all 
-bounds that involve an $E$ 
+and experimental data (ED). If we only have
+OD (resp., ED), ignore all
+bounds that involve an $E$
 (resp., involve an $O$) probability.
 
-Hence, with only OD\footnote{The 
+Hence, with only OD\footnote{The
 bounds Eq.(\ref{eq-nds-only-od})
 assume exogeneity does not hold.
 For the case
@@ -2118,7 +2124,7 @@ will be given later on in the chapter.}
 \label{eq-nds-only-od}
 \eeq
 
-and 
+and
 $\PN,\PS\in[0,1]$,
 whereas with only ED,
 \beq
@@ -2140,11 +2146,11 @@ E_{0|0}
 \end{array}
 \right\}
 \eeq
-and 
+and
 $\PN,\PS\in[0,1]$.
 
 \item At first blush, there seem to be
- 3 possible cases to 
+ 3 possible cases to
 consider: (1) Only OD. (2) Both OD and ED.
 (3) Only ED.
 Actually, Case (1) plus the assumption of
@@ -2153,8 +2159,8 @@ recall that exogeneity means
 no confounding, and ED (i.e., an RCT) also
 has no confounding. So we don't have to consider
 Case (3) if we consider Case (1) without and with
-exogeneity. Exogeneity 
-is built into case (2), so case (2) 
+exogeneity. Exogeneity
+is built into case (2), so case (2)
 without exogeneity is meaningless.
 
 \end{itemize}
@@ -2216,7 +2222,7 @@ ERR
 0\\
 (ERR)^\sim
 \end{array}\right\}
-\leq 
+\leq
 \PS
 \leq
 \min\left\{\begin{array}{c}
@@ -2236,7 +2242,7 @@ The canceled terms do not
 improve the bounds and can be dropped.
 We show this next using MRP.
 
-In the MRP, the minimal bounds 
+In the MRP, the minimal bounds
 for $PNS$ are
 \beq
 \left[
@@ -2305,7 +2311,7 @@ If exogeneity holds,
 we can replace all $E$'s
 by $O$'s on the left hand sides.
 We can also use $\eps_+=\hat{\eps}_0=
-\hat{\eps}_1$ 
+\hat{\eps}_1$
 on the right hand sides to conclude that
 
 \beq
@@ -2331,7 +2337,7 @@ Note that
 $\frac{1}{\pi_x}\Pmat{\eps_x}{0}{0}{-\eps_x}$
 will always be greater or equal to
 $\Pmat{\eps_x}{0}{0}{-\eps_x}$
-when $\Pmat{\eps_x}{0}{0}{-\eps_x}\geq 0$ (if it's 
+when $\Pmat{\eps_x}{0}{0}{-\eps_x}\geq 0$ (if it's
 negative, the 0 bound takes precedence). Hence,
 the two canceled lower bound terms
 can be dropped.
@@ -2343,10 +2349,10 @@ can be dropped too.
 
 
 \begin{claim}
-If the minimal and 
+If the minimal and
 strong exogeneity constraints
  hold for simplex $\cals$,
-then the inequalities 
+then the inequalities
 for exogeneity Claim \ref{cl-personal-exogen}
 hold.
 In addition,
@@ -2412,14 +2418,14 @@ CERR
 
 \end{claim}
 \proof
-These results can be easily 
+These results can be easily
 proven using the MRP.
 
 Note that
 
 \beqa
 \frac{\sum_x O_{x,1}-E_{1|0}}{O_{1,1}}
-&=& 
+&=&
 \frac{ O_{1|1}\pi_1 + O_{1|0}(1-\pi_1)
 -E_{1|0}}{O_{1|1}\pi_1}
 \\
@@ -2435,7 +2441,7 @@ Note that
 
 \begin{claim}
 If the minimal,
-exogeneity and monotonicity 
+exogeneity and monotonicity
 constraints hold
  for simplex $\cals$, then
 $PNS$, $\PN$,$\PS$ are identifiable,
@@ -2461,11 +2467,11 @@ PNS = O_{1|1}+O_{0|0}-1
 
 \end{claim}
 \proof
-Set $E_{y|x}=O_{y|x}$ in Claim 
+Set $E_{y|x}=O_{y|x}$ in Claim
 \ref{cl-pm-mono}.
 \qed
 
-\section{Bounds on $PNS3$ 
+\section{Bounds on $PNS3$
 for specific bnet families}
 Define
 \beq
@@ -2556,13 +2562,13 @@ These are just the minimal bounds
 where everything is conditioned on $z$.
 \qed
 
-In the minimal bounds, node $\rvz$ 
-is not mentioned because 
+In the minimal bounds, node $\rvz$
+is not mentioned because
 the minimal bounds don't assume
 that $\rvz$ exists.
 Once we assume that
-node $\rvz$ exists, then we can use it, 
-as 
+node $\rvz$ exists, then we can use it,
+as
 Claim \ref{cl-pre-backdoor-bounds} does.
 
 
@@ -2642,7 +2648,7 @@ PS_z
 \eeq
 \end{claim}
 \proof
-Satisfaction 
+Satisfaction
 of the backdoor criterion implies that
 \beq
 \underbrace{P(y|x,z)}_{O_{y|x,z}}
@@ -2666,14 +2672,14 @@ $\rvz$ satisfies backdoor adjustment
 criterion.
 Actually, (2) is a subset of (1).
 Next, we will consider
-bnets in which $\rvz$ is 
+bnets in which $\rvz$ is
 a mediator relative to $(\rvx, \rvy)$.
 A mediator $\rvz$ is impinged
 by an arrow $\rvx\rarrow \rvz$,
-so it definitely 
+so it definitely
 does not satisfy (1).
 Bnets that do not satisfy (1)
-also fall outside the 
+also fall outside the
 purview of Potential Outcomes (PO) theory.
 
 
@@ -2684,8 +2690,8 @@ relative to $(\rvx, \rvy)$ if
 \rvz_{\ol{x}})_\&|\rvz_x$ for $x\in \bool$.
 See Fig.\ref{fig-partial-mediator}
 for an example.
-In that figure, 
-the TPMs, printed in blue, for nodes 
+In that figure,
+the TPMs, printed in blue, for nodes
 $\rvz$ and $\rvy$, are as follows.
 
 \beq\color{blue}
@@ -2697,7 +2703,7 @@ P(y|x, y_0, y_1)=\delta(y, y_x)
 \eeq
 
 
-If $\rvz$ is a partial mediator relative to $(\rvx, \rvy)$ 
+If $\rvz$ is a partial mediator relative to $(\rvx, \rvy)$
 and
 there is no direct path
 from $\rvx$ to $\rvy$,
@@ -2718,7 +2724,7 @@ $$\xymatrix{
 \ar[rrrr]
 &&&&\rvy
 }$$
-\caption{Example of a bnet in  
+\caption{Example of a bnet in
 which $\rvz$ is a partial mediator
 relative to $(\rvx, \rvy)$.
 If $\rvx=1$, then
@@ -2729,7 +2735,7 @@ and from $\rvy_{1}$
  to $\rvz_{0}$.
 If $\rvz$ is a partial mediator
 relative to $(\rvx, \rvy)$,
-and, in addition, 
+and, in addition,
  there is no arrow
 $\rvx\rarrow \rvy$,
 we say $\rvz$
@@ -2739,13 +2745,13 @@ mediator relative to $(\rvx,\rvy)$.
 \label{fig-partial-mediator}
 \end{figure}
 
-\begin{claim} (Bounds if $\rvz$ 
-is partial 
+\begin{claim} (Bounds if $\rvz$
+is partial
 mediator)
 \label{cl-pte-partial-med}
 
 If $\rvz$ is a partial mediator
-relative to $(\rvx, \rvy)$, 
+relative to $(\rvx, \rvy)$,
 and $\rvx, \rvy, \rvz\in\bool$, then
 
 \beq
@@ -2881,7 +2887,7 @@ P(z_0)
 
 \qed
 
-\begin{claim} (Bounds if $\rvz$ 
+\begin{claim} (Bounds if $\rvz$
 is a pure mediator)
 
 If $\rvz$ is a pure mediator
@@ -2920,9 +2926,9 @@ PNS&= P(\rvy_1=1, \rvy_0=0)
 \sum_{z_0, z_1}\indi(z_0\neq z_1)
 P(\rvy_{z_1}=1, \rvy_{z_0}=0)P(z_1, z_0)
 \\
-&\quad\quad \nonumber 
+&\quad\quad \nonumber
 \text{\quad (because $(\rvy_0, \rvy_1)\perp
- (\rvz_0, \rvz_1)$ and $\rvy_0\neq \rvy_1$)} 
+ (\rvz_0, \rvz_1)$ and $\rvy_0\neq \rvy_1$)}
 \\
 &\leq
 \sum_{z_0, z_1}\indi(z_0\neq z_1)
@@ -2954,7 +2960,7 @@ P(z_0|\rvx=0)
 \right\}
 \\
 &\quad\quad \nonumber
-\text{(because $\rvy=\rvy_x$ at fixed $\rvx$ 
+\text{(because $\rvy=\rvy_x$ at fixed $\rvx$
 and $(z_0, z_1)_\&\perp \rvx$)}
 \\
 &=
@@ -2981,10 +2987,10 @@ P(\rvz=z_0| \rvx=0)
 I've written an open source Python program
 (See Ref\cite{judeas-rx})
 that calculates the
-bounds given in this chapter. 
+bounds given in this chapter.
 The program
 is called ``JudeasRx", in honor of Judea
-Pearl. 
+Pearl.
 Fig.\ref{fig-sobolev}
 is an example of its interface
 with data entered by Boris Sobolev
@@ -2999,8 +3005,8 @@ JudeasRx considers
 \caption{Interface
 for the Python
 program JudeasRx,
-with data entered 
-by Boris Sobolev.} 
+with data entered
+by Boris Sobolev.}
 \label{fig-sobolev}
 \end{figure}
 
