@@ -53,41 +53,54 @@ can be understood in terms of groups.
 
 
 
-\section{A dataset is model free}
+\section{A dataset is causal model free}
 Time and time again, Judea Pearl makes the point on Twitter to neural net
-advocates that they are trying to do a provably impossible task, to derive a
-model from data. I could be wrong, but this is what I think he means.
+advocates that they are trying to do a provably impossible task,
+ to derive a
+causal model from data. I could be wrong, but this is what I think he means.
 
 When Pearl says ``data”, he is referring to what is commonly called a dataset.
 A dataset is a table of data, where all the entries of each column have the
 same units, and measure a single feature, and each row refers to one
 particular sample or individual. Datasets are particularly useful for
 estimating probability distributions and for training neural nets. When Pearl
-says a ``model", he is referring to a DAG (directed acyclic graph) or a bnet
+says a ``causal model", he is referring to a DAG (directed acyclic graph) or a
+bnet
 (Bayesian Network= DAG + probability table for each node of DAG).
 
-Sure, you can try to derive a model from a dataset, but you’ll soon find out
+Sure, you can try to derive a causal model from a dataset,
+ but you’ll soon find
+ out
 that you can only go so far.
 
-The process of finding a partial model from a dataset is called structure
+The process of finding a partial causal model from a dataset is called
+structure
 learning (SL).  SL can be done quite nicely with Marco Scutari’s open source
 program bnlearn. There are 2 main types of SL algorithms: score-based and
 constraint based. The first and still very competitive constraint-based SL
 algorithm was the Inductive Causation (IC) algorithm proposed by Pearl and
 Verma in 1991. So Pearl is quite aware of SL. The problem is that SL often
-cannot narrow down the model to a single one. It finds an undirected graph
+cannot narrow down the causal model to a single one.
+It finds an undirected
+graph
 (UG), and it can determine the direction of some of the arrows in the UG, but
-it is often incapable, for well understood fundamental --not just technical--
+it is often incapable, for well understood fundamental
+---not just technical---
 reasons, of finding the direction of ALL the arrows of the UG. So it often
 fails to fully specify a DAG model.
 
-Let’s call the ordered pair (dataset, model) a data SetMo . Then what I
-believe Pearl is saying is that a dataset is model-free or model-less
-(although sometimes one can find a partial model hidden in there). A dataset
-is not a data SetMo.
+Let’s call the ordered pair
+(dataset, causal model) a
+dataset++ . Then what I
+believe Pearl is saying is that a
+dataset is causal model-free or causal model-less
+(although sometimes one can find a partial
+causal model hidden in there). A dataset
+is not a dataset++.
 
 \section{What is causality?}
-What is Causality, really, and how do Bayesian Networks (aka Causal Models,
+What is Causality, really, and how do Bayesian Networks
+(aka Causal Models,
 DAGs) encode it?
 
 For me, Causality is a time-induced ordering between two events, the
