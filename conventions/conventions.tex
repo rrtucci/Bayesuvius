@@ -3552,14 +3552,14 @@ Standard Normal Distribution (SND).}
 \end{figure}
 
 {\bf Confidence Level} $C$
-and corresponding {\bf $z^*$ value}
+and corresponding {\bf $|z^*|$ value}
 (see Fig.\ref{fig-error-bars}):
 
 \beq
-C=\int_{-z^*}^{z^*} dz\;P(z) =
-\Phi(z^*)-\Phi(-z^*)
+C=\int_{-|z^*|}^{|z^*|} dz\;P(z) =
+\Phi(|z^*|)-\Phi(-|z^*|)
 =
-2\left(\Phi(z^*)-\frac{1}{2}\right)
+2\left(\Phi(|z^*|)-\frac{1}{2}\right)
 \label{eq-conf-level1}
 \eeq
 Equivalent definition:
@@ -3568,13 +3568,13 @@ Equivalent definition:
 C=P\left(
 \underbrace{
 \frac{|\rvx-\mu|}{\frac{\sigma}{\sqrt{n}}}
-}_{|z|}
-<z^*\right)
+}_{|\rvz|}
+<|z^*|\right)
 \label{eq-conf-level2}
 \eeq
 For $C=95\%$,
-$z^*=1.960\approx 2$.
-For $C=99\%$, $z^*=2.576$.
+$|z^*|=1.960\approx 2$.
+For $C=99\%$, $|z^*|=2.576$.
 
 Area of each tail
 in Fig.\ref{fig-error-bars} is
@@ -3618,13 +3618,13 @@ and
 with error bars} =
 \ol{x} \pm
 \underbrace{
-z^* \frac{\hat{\s}}{\sqrt{n}}}_{E}
+|z^*| \frac{\hat{\s}}{\sqrt{n}}}_{E}
 \label{eq-err-bars}
 \eeq
 
 \beq
 n= \left(
-\frac{z^*\hat{\s}}{E}
+\frac{|z^*|\hat{\s}}{E}
 \right)^2
 \eeq
 
@@ -3677,18 +3677,18 @@ the origin like SND,
 but its tails
 are fatter.
 When fitting the data with Stud(),
-the $z^*$
+the $|z^*|$
 value is replaced
-by a $t^*$ value.
+by a $|t^*|$ value.
 Eq.(\ref{eq-conf-level1})
 is replaced by
 
 
 \beq
-C=\int_{-t^*}^{t^*} dt\;{\rm Stud}(t) =
-\Phi_S(t^*)-\Phi_S(-t^*)
+C=\int_{-|t^*|}^{|t^*|} dt\;{\rm Stud}(t) =
+\Phi_S(|t^*|)-\Phi_S(-|t^*|)
 =
-2\left(\Phi_S(t^*)-\frac{1}{2}\right)
+2\left(\Phi_S(|t^*|)-\frac{1}{2}\right)
 \label{eq-conf-level1-stu}
 \;,
 \eeq
@@ -3703,16 +3703,172 @@ is replaced  by
 with error bars} =
 \ol{x} \pm
 \underbrace{
-t^* \frac{\hat{\s}}{\sqrt{n}}}_{E}
+|t^*| \frac{\hat{\s}}{\sqrt{n}}}_{E}
 \;.
 \eeq
-Tables of $t^*(C,\nu=n-1)$
+Tables of $|t^*|(C,\nu=n-1)$
 are available. Note
-that $t^*$
+that $|t^*|$
 depends on both $C$ and $\nu$,
-whereas $z^*(C)$
+whereas $|z^*|(C)$
 depends only on $C$.
 
+\section{p-value, general definition}
+
+
+Given a parameter $\theta$, call
+$\theta=\theta_0$ (or  $\theta<\theta_0$ or $\theta>\theta_0$) the
+{\bf null hypothesis} $h_0$,
+and call the negation of $h_0$ the {\bf alternative hypothesis} $h_1$.
+Assume we
+are given data $\vec{x}=\{x^\s|\s\in \Sigma\}$. Assume
+also that we are given
+distributions $P(x|h)$ for $h\in \{h_0, h_1\}$,
+and $P(x)$,
+where
+
+\beq
+P(\vec{x}|h)=\prod_\s P(\rvx=x^\s|h)
+\eeq
+
+
+\beq
+P(\vec{x})=\prod_\s P(\rvx=x^\s)
+\eeq
+(so the $x^\s$ are i.i.d.).
+
+A Bayesian would assume that there
+is a prior $P(h)$, and use it to
+calculate
+$P(h|\vec{x})=\frac{P(\vec{x}|h) P(h)}{P(\vec{x})}$.
+$P(\rvh=h_0|\vec{x})$
+is the probability that the null hypothesis is correct.
+A p-values is a monotonically increasing function of
+$P(\rvh=h_0|\vec{x})$,
+so Bayesians have no trouble saying
+that  {\color{red} a p-value is
+a measure of
+$P(\rvh=h_0|\vec{x})$, i.e.,
+a measure of the probability that
+the null-hypothesis is true}.
+
+Frequentists, on the other hand,
+believe that $h$
+is a ``parameter", not a random variable,
+so  $P(\rvh=h_0|\vec{x})$
+is undefined. Therefore, they get very upset,
+and think it is
+ a grave mistake in understanding
+ and a Bayesian original sin,
+to say that a p-value is
+a measure of
+the probability that
+the null-hypothesis is true.
+Next, we explain the correct
+way of thinking about p-values, according to
+Frequentists.
+p-values were invented by Frequentists,
+so it's worth hearing what they have to say
+about them.
+The Frequentist definition is not against Bayesianism,
+and Bayesians, unlike Frequentists,
+ don't accuse Frequentists of
+having a sinful definition of p-values. A Bayesian would just say:
+our definition of p-values (shown
+in red above) is not incorrect,
+but the Frequentist definition is more precise than ours,
+and doesn't assume a particular form for a prior.
+We welcome it.
+
+Call
+the random variable
+$\rvt$ the {\bf test statistic} and the function
+$OTS(\vecx)$ the {\bf observed test statistic}.
+$OTS(\vecx)$ is designed so that
+it becomes 0 when $h_0$
+is exactly satisfied,
+and it grows monotonically as $h_0$
+becomes less nearly satisfied.
+Frequentists define the {\bf p-value} $p$ as
+
+\beq
+p=
+\left\{
+\begin{array}{ll}
+P(\rvt \geq OTS(\vecx)|h_0)&\text{right-sided-tail, $h_0$ is $\theta<\theta_0$}
+ \\
+ P(\rvt\leq OTS(\vecx)|h_0)&\text{left-sided-tail, $h_0$ is $\theta>\theta_0$}
+ \\
+ P(|\rvt| > |OTS(\vecx)|\;|h_0)&\text{double-sided-tail, $h_0$ is $\theta=\theta_0$}
+\end{array}
+\right.
+\eeq
+Thus, for a Frequentist,
+{\color{red} a p-value is a probabilistic
+measure of the size of the region
+where the $h_0$ hypothesis is
+approximately violated}.
+If that region is large,
+then the region where
+the $h_0$ hypothesis
+is approximately satisfied is small,
+which means the $h_0$
+hypothesis
+is approximately satisfied.
+The smaller the p-value, the
+less likely it is that the $h_0$
+hypothesis is true,
+just like the Bayesian definition
+says.
+Note that the p-value
+is a probability so it ranges in
+value from 0 to 1.
+
+Suppose we are given a subpopulation with $n$ samples,
+ mean $\ol{x}$ and variance $\hat{\s}$.
+ Let $\theta_0=\mu_0$.
+ For the z-test and the t-test,
+we define
+
+\beq
+\rvt=\rvz=
+\frac{\rvx-\mu}{\frac{\hat{\s}}{\sqrt{n}}}, \quad
+OTS(\vecx)=z^*
+\;,
+\eeq
+where
+the {\bf z-score} $z^*$ is defined by
+
+
+\beq
+z^*=\frac{\ol{x}-\mu_0}{\frac{\hat{\s}}{\sqrt{n}}}
+\;.
+\eeq
+For a {\bf z-test},
+
+\begin{subequations}
+\beqa
+P(\rvz\geq z^*|h_0)=\Phi(z^*)
+&\quad&\text{if $h_0$ is $\mu<\mu_0$}
+\\
+P(\rvz\leq z^*|h_0)=1-\Phi(z^*)=\Phi(-z^*)
+&\quad&\text{if $h_0$ is $\mu>\mu_0$}
+\\
+P(|\rvz|\geq |z^*|\;|h_0)=2\Phi(-|z^*|)
+&\quad&\text{if $h_0$ is $\mu=\mu_0$}
+\label{eq-double-tail}
+\eeqa
+\end{subequations}
+where $\Phi(x)$ is the cumulative distribution
+for the Standard Normal Distribution
+$\caln(x;\mu=0, \s=0)$.
+For a {\bf t-test}, $\Phi()$ is replaced
+by $\Phi_S()$, where  $\Phi_S()$ is
+the cumulative distribution
+for the Student t-distribution ${\rm Stud}(x; \nu=n-1)$.
+Note that Eq.(\ref{eq-double-tail})
+agrees with
+Eq.(\ref{eq-conf-level2}).
 
 \section{Short Summary of
 Boolean Algebra}
