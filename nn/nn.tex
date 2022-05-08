@@ -17,12 +17,12 @@ in this chapter.
 
 Henceforth in this chapter,
 if we replace an index of an
-indexed quantity by a dot, 
+indexed quantity by a dot,
 it will mean the collection
 of the indexed quantity
 for all values of that
 index. For example, $x.$
-will mean the 
+will mean the
 array of $x_i$ for all $i$.
 
 
@@ -54,20 +54,20 @@ output layer $\rvY.$ }
 
 Consider Fig.\ref{fig-nn}.
 
-$\rvx_i\in 
-\{0,1\}$ for 
+$\rvx_i\in
+\{0,1\}$ for
 $i=0, 1, 2, \dots,nx-1$
 is the \textbf{input layer}.
 
-$\rvh_i^\lam\in \RR$ for 
+$\rvh_i^\lam\in \RR$ for
 $i=0, 1, 2, \dots,nh(\lam)-1$
 is the $\lam$\textbf{-th hidden layer}.
 $\lam=0, 1, 2, \ldots, \Lambda-2$.
 A NN is said to be {\bf deep} if
-$\Lambda>2$; i.e., if it has 
+$\Lambda>2$; i.e., if it has
 more than one hidden layer.
 
-$\rvY_i\in \RR$ for 
+$\rvY_i\in \RR$ for
 $i=0, 1, 2, \dots,ny-1$
 is the \textbf{output layer}.
 We use a upper case y
@@ -77,21 +77,21 @@ $y_i[\sigma]\in \{0,1\}$
 for $i=0, 1, \ldots, ny-1$.
 $Y=\hat{y}$
 is an estimate of $y$.
-Note that lower case y is 
-either 0 or 1, 
-but upper case y may be 
+Note that lower case y is
+either 0 or 1,
+but upper case y may be
 any real. Often, the
 activation
 functions are chosen so that
-$Y\in[0,1]$. 
- 
+$Y\in[0,1]$.
 
-The number of nodes in each layer 
+
+The number of nodes in each layer
 and the number of layers are arbitrary.
-Fig.\ref{fig-nn} is fully connected 
+Fig.\ref{fig-nn} is fully connected
 (aka dense), meaning that every node
-of a layer is impinged 
-arrow coming 
+of a layer is impinged
+arrow coming
 from every node of the preceding
 layer. Later on in this chapter,
 we will
@@ -105,11 +105,11 @@ $j\in\ZZ_{[0, nh(\lam-1))}$,
 and $\lam\in\ZZ_{[0, \Lambda)}$.
 
 The TPMs,
-printed in blue, for 
+printed in blue, for
  bnet
 Fig.\ref{fig-nn},
 are as follows.
- 
+
 
 \beq\color{blue}
 P(x_i\cond x_{i-1},
@@ -136,9 +136,20 @@ h^{\Lambda-2}_j + b^{\Lambda-1}_i)\right)
 
 \section{Activation Functions
 $\cala_i^\lam:\RR\rarrow \RR$}
+\label{sec-activation-fun}
 
 Activation functions must be
-nonlinear.
+nonlinear. Why? Because if
+they  were all linear,
+the NN mapping  would be a bijection (1-1 onto map), and its
+domain and
+range
+would be the same.
+That is not what you want for
+a classifier.
+For a classifier, you want the range
+to be much smaller than the domain.
+
 
 \begin{itemize}
 \item {\bf Step function (Perceptron)}
@@ -153,7 +164,7 @@ Zero for $x\leq 0$, one for $x>0$.
 \beq
 \cala(x)=\frac{1}{1+e^{-x}}=\smoid(x)
 \eeq
-Smooth, monotonically increasing 
+Smooth, monotonically increasing
 function.
 $\smoid(-\infty)=0$,$\smoid(0)=1/2$,
 $\smoid(\infty)=1$.
@@ -166,7 +177,7 @@ $\smoid(\infty)=1$.
 Smooth,
  monotonically increasing function.
 $\tanh(-\infty)=-1$,$\tanh(0)=0$,
-$\tanh(\infty)=1$. 
+$\tanh(\infty)=1$.
 
 Odd function:
 \beq
@@ -206,7 +217,7 @@ to form a ``clique".
 
 \end{itemize}
 
-\section{Weight 
+\section{Weight
 optimization via
 supervised training and
 gradient descent}
@@ -225,11 +236,11 @@ one uses the bnet Fig.\ref{fig-nn-ext}.
 
 In Fig.\ref{fig-nn-ext},
 the nodes in
-Fig.\ref{fig-nn} become 
+Fig.\ref{fig-nn} become
 sampling space vectors.
 For example, $\rvx.$ becomes
 $\ranvec{x.}$, where the
-components of 
+components of
 $\ranvec{x.}$ in sampling space are
 $\rvx.[\sigma]\in \{0,1\}^{nx}$
 for $\sigma=0, 1, \ldots, nsam(\vecx)-1$.
@@ -243,7 +254,7 @@ during each {\bf stage (aka iteration)} of
 Fig.\ref{fig-nn-ext}.
 We will also  refer to
 $nsam(\vecx)$ as the {\bf mini-batch size}.
-A {\bf mini-batch} is a subset 
+A {\bf mini-batch} is a subset
 of the training dataset.
 
 
@@ -254,14 +265,14 @@ the standard procedure
 is to split the d-set into 3 parts:
 \begin{enumerate}
 \item
-{\bf training d-set}, 
+{\bf training d-set},
 \item
 {\bf testing1 d-set}, for
 tuning
-of hyperparameters 
+of hyperparameters
 like $nsam(\vecx)$,  $\Lambda$,
 and $nh(i)$
-for each $i$. 
+for each $i$.
 \item
 {\bf testing2 d-set}, for measuring
 how well the model
@@ -269,9 +280,9 @@ tuned with the testing1 d-set
 performs.
 \end{enumerate}
 
-The training d-set is 
+The training d-set is
 itself split into mini-batches.
-An {\bf epoch} is a pass through all 
+An {\bf epoch} is a pass through all
 the training d-set.
 
 Define
@@ -282,7 +293,7 @@ W^\lam_{i|j}=[w^\lam_{i|j}, b^\lam_i]
 
 The
 TPMs,
-printed in blue, for 
+printed in blue, for
  bnet
 Fig.\ref{fig-nn-ext},
 are as follows.
@@ -304,10 +315,10 @@ $$\xymatrix{
 \vec{\rvY}.\ar[r]&\cale\ar[r]&
 (\rvW')^._{.|.}
 }$$
-\caption{bnet 
-for 
+\caption{bnet
+for
 finding optimum
-weights of the bnet 
+weights of the bnet
 Fig.\ref{fig-nn} via
 supervised training
 and gradient descent.
@@ -346,7 +357,7 @@ P(W^._{.|.})\text{ = given}
 \eeq
 The first time it is used,
  $W^._{.|.}$ is arbitrary.
-After the first time, it is determined 
+After the first time, it is determined
 by previous stage.
 
 
@@ -364,13 +375,13 @@ P(\cale|\vec{y}., \vec{Y}.)=
 \sum_\sigma\sum_i d(y_i[\sigma], Y_i[\sigma])
 \;,
 \eeq
-where 
+where
 
 \beq
 d(y,Y)=|y-Y|^2
 \;.
 \eeq
-If $y, Y\in [0,1]$, 
+If $y, Y\in [0,1]$,
 one can use this instead
 
 \beq
@@ -400,7 +411,7 @@ so $\Delta \cale=\frac{-1}{\eta}
 
 The TPM for
 a non-dense layer is of the
-form: 
+form:
 
 \beq\color{blue}
 P(h^\lam_i[\sigma]\cond h^{\lam-1}_.[\sigma])=
@@ -417,13 +428,13 @@ non-dense layer.
 
 The dropout layer was
 invented in Ref.\cite{dropout}.
-To dropout nodes from a fixed 
+To dropout nodes from a fixed
 layer $\lam$:
-For all $i$ of layer $\lam$, 
+For all $i$ of layer $\lam$,
 define a new node $\rvr^\lam_i$
-with an arrow 
+with an arrow
 $\rvr^\lam_i\rarrow\rvh^\lam_i$.
-For $r\in \{0,1\}$, 
+For $r\in \{0,1\}$,
 and some $p\in (0,1)$, define
 
 \beq\color{blue}
@@ -451,7 +462,7 @@ r^\lam_i\sum_j w^\lam_{i|j}h^{\lam-1}_j[\sigma]
 \eeq
 
 This reduces overfitting.
-Overfitting might 
+Overfitting might
 occur if the weights follow too closely
 several similar minibatches.
 This dropout procedure adds a random
@@ -460,24 +471,24 @@ making groups of similar minibatches
 less likely.
 
 The random $\rvr^\lam_i$ nodes
-that induce dropout are 
+that induce dropout are
 only used in the training bnet Fig.\ref{fig-nn-ext},
 not in the classification bnet Fig.\ref{fig-nn}.
-We prefer to remove the 
-$\rvr^\lam_i$ stochasticity from classification 
+We prefer to remove the
+$\rvr^\lam_i$ stochasticity from classification
 and for Fig.\ref{fig-nn} to act as an average
 over sampling space of Fig.\ref{fig-nn-ext}.
 Therefore,
 if weights $w^\lam_{i|j}$ are obtained
 for a dropout layer $\lam$ in Fig.\ref{fig-nn-ext},
-then that layer is used in Fig.\ref{fig-nn} with 
+then that layer is used in Fig.\ref{fig-nn} with
 no $\rvr^\lam_i$ nodes but
 with weights $\av{r^\lam_i}w^\lam_{i|j}=
 pw^\lam_{i|j}$.
 
 
 Note that dropout adds non-deterministic
-nodes to a NN, 
+nodes to a NN,
 which in their vanilla form only have
 deterministic nodes.
 
@@ -487,7 +498,7 @@ deterministic nodes.
 \begin{itemize}
 \item 1-dim
 
-Filter function $\calf:\{0, 1, \ldots, 
+Filter function $\calf:\{0, 1, \ldots,
 nf-1\}\rarrow \RR$.
 
 $\sigma$=stride length
@@ -525,10 +536,10 @@ Do 1-dim convolution
 along both $i$ and $j$ axes.
 
 \end{itemize}
-\item{\bf Pooling Layers 
+\item{\bf Pooling Layers
 (MaxPool, AvgPool)}
 
-Here each node $i$ 
+Here each node $i$
 of layer $\lam$ is impinged by
 arrows from  a subset $Pool(i)$
 of the set of all
@@ -561,13 +572,13 @@ H^\lam_i[\sigma]=
 \section{Autoencoder NN}
 
 
-If the sequence 
+If the sequence
 
 \beq
 nx, nh(0), nh(1), \ldots,
 nh(\Lambda-2),ny
 \eeq
-first decreases monotonically 
+first decreases monotonically
 up to layer $\lam_{min}$, then
 increases monotonically until
 $ny=nx$, then
@@ -581,11 +592,8 @@ $Y$ estimates $x$.
 The layers before
 layer $\lam_{min}$
 are called the {\bf encoder},
-and those after 
-$\lam_{min}$ are called the 
+and those after
+$\lam_{min}$ are called the
 {\bf decoder}.
 Layer $\lam_{min}$
 is called the {\bf code}.
-
-
-

@@ -1,0 +1,198 @@
+\chapter{Dataset Shift} \label{ch-dataset-shift}
+
+In this chapter,
+we will represent Linear Regression (LR)
+as follows.
+We list a dataset; i.e., a
+set of tuples indexed by
+the individuals $\s$
+of a population $\Sigma$
+such that $|\Sigma|=nsam$.
+The independent variables
+of the LR (i.e., $x^\s$)
+are unboxed and the
+ dependent variable
+(aka target feature)
+(i.e., $y^\s$)
+is shown inside a box.
+Then we show an arrow with the
+superscript ``LR-fit",
+followed by the fit function
+obtained by performing the LR.
+
+
+
+\beq
+\{(\s, x^\s =[x^\s_i],\boxed{y^\s}):\s\in \Sigma\}
+\lrarr
+ \haty(x)=
+\alp +\sum_i x_i\beta_i
+\eeq
+
+Analogously,
+we represent
+Supervised Machine
+ Learning (ML) as follows.
+
+
+\beq
+\{(\s, x^\s,\boxed{y^\s}):\s\in \Sigma\}\mlarr \haty(x)
+\eeq
+
+When doing ML, we partition  the
+full population $\Sigma_{full}$
+into two disjoint sets, the {\bf training set}
+$\Sigma_{train}=\Sigma(\rvs=0)=\Sigma$
+and the {\bf testing set}
+$\Sigma_{test}=\Sigma(\rvs=1)=\Sigma^*$.
+Then we do two ML fits:
+
+\beq
+\begin{array}{ll}
+\text{training:}&
+\{(\s, x^\s,\boxed{y^\s}):\s\in \Sigma\}\mlarr \haty(x)
+\\
+\text{testing:}&
+\{(\s, x^\s,\boxed{y^\s}):\s\in \Sigma^*\}\mlarr \haty^*(x)
+\end{array}
+\eeq
+Ideally, $\haty(x)$
+and $\haty^*(x)$,
+will be almost equal for all $x$.
+Dataset shift occurs when this is not the case.
+Equivalently, let
+
+\beq
+\begin{array}{lll}
+P_{train}(x, y)&=P(x, y|\rvs=0) &= P(x, y)
+\\
+P_{test}(x, y)&=P(x, y|\rvs=1) &= P^*(x, y)
+\end{array}
+\eeq
+We say there is a {\bf dataset shift}
+if
+\beq
+P(x, y)\neq P^*(x, y)
+\eeq
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4in]
+{dataset-shift/dataset-shift.png}
+\caption{Two types
+of dataset shift: covariate shift and concept shift.}
+\label{fig-dataset-shift}
+\end{figure}
+
+\section{Covariate Shift}
+
+We say there is a {\bf  covariate shift}
+if (see Fig.\ref{fig-dataset-shift})
+
+\beq
+P( y|x)= P^*(y|x)
+\text{ but } P(x)\neq P^*(x)
+\eeq
+This can be represented in terms of bnets as
+follows\footnote{See
+See Chapter \ref{ch-sb-removal}.}
+
+\beq
+\begin{array}{ccc}
+\underbrace{\xymatrix{
+\rvs=0 \ar[d]
+\\
+{\rvx}\ar[r]&\rvy
+}}_
+{\xymatrix{\\=}\xymatrix{
+\rvs=0
+\\
+{\rvx}\ar[u]\ar[r]&\rvy
+}}
+&
+\xymatrix{\\\neq}
+&
+\xymatrix{
+\rvs=1\ar[d]
+\\
+{\rvx}\ar[r]&\rvy
+}
+\end{array}
+\eeq
+
+
+\section{Concept Shift}
+We say there is a {\bf  concept shift}
+if (see Fig.\ref{fig-dataset-shift})
+
+\beq
+P( y|x)\neq P^*(y|x)
+\text{ but } P(x)= P^*(x)
+\eeq
+This can be represented in terms of bnets as
+follows\footnote{See
+See Chapter \ref{ch-sb-removal}.}
+
+\beq
+\begin{array}{ccc}
+\underbrace{\xymatrix{
+\rvs=0 \ar[rd]
+\\
+{\rvx}\ar[r]&\rvy
+}}_
+{\xymatrix{\\=}\xymatrix{
+\rvs=0
+\\
+{\rvx}\ar[u]\ar[r]&\rvy\ar[lu]
+}}
+&
+\xymatrix{\\\neq}
+&
+\xymatrix{
+\rvs=1\ar[dr]
+\\
+{\rvx}\ar[r]&\rvy
+}
+\end{array}
+\eeq
+
+
+\section{Batch Normalization}
+Batch Normalization (BN) is a technique
+that is used to diminish dataset shift in Neural Nets.
+
+
+
+Using the notation of Chapter \ref{ch-nn}, let
+$h^\lam_i$ be the output of the $i$th node
+of layer $\lam$ of a Neural Net (NN).
+ Activation functions  $\cala:\RR\rarrow \RR$
+for NNs
+are discussed in Section \ref{sec-activation-fun}.
+Suppose a population $\Sigma$ is partitioned
+into disjoint batches $\Sigma^{(k)}$.
+Let the set of points $\{h^{\lam, \s}_i:\s\in\Sigma^{(k)}\}$
+have mean $\mu^{\lam(k)}_i$
+and standard deviation $\s^{\lam(k)}_i$.
+For any $h^{\lam, \s}_i$ with $\s\in\Sigma$, define
+the BN activation function
+$\cala_{BN}(\cdot)$ by
+\beq
+\cala_{BN}(h^{\lam, \s}_i)=\indi(\s\in \Sigma^{(k)})
+\left[
+\frac{h^{\lam, \s}_i-\mu^{\lam(k)}_i}{\s^{\lam(k)}_i}
+\right]
+\eeq
+If a layer of a NN has activation function $\cala(\cdot)$,
+defined a new activation function $\cala_{new}(\cdot)$ by
+\beq
+\cala_{new}(h^{\lam, \s}_i) =\cala(\cala_{BN}(h^{\lam, \s}_i))
+\eeq
+for all $\s\in \Sigma$.
+
+Intuition on why BN diminishes dataset shift:
+We discussed in Section \ref{sec-activation-fun}
+how nonlinear activation functions
+have a range that is smaller than their domain. Presumably, BN
+helps to make the range
+of the activation functions even more concentrated.
