@@ -79,7 +79,7 @@ P(x, y)\neq P^*(x, y)
 \centering
 \includegraphics[width=4in]
 {dataset-shift/dataset-shift.png}
-\caption{Two types
+\caption{For Linear Regression, 2 types
 of dataset shift: covariate shift and concept shift.}
 \label{fig-dataset-shift}
 \end{figure}
@@ -156,37 +156,39 @@ See Chapter \ref{ch-sb-removal}.}
 \end{array}
 \eeq
 
-
 \section{Batch Normalization}
 Batch Normalization (BN) is a technique
 that is used to diminish dataset shift in Neural Nets.
 
 
 
-Using the notation of Chapter \ref{ch-nn}, let
-$h^\lam_i$ be the output of the $i$th node
+Using the notation of Chapter \ref{ch-nn},
+let
+$h^{\lam, \s}_i$ be the output,
+for individual $\s\in\Sigma$,  of the $i$th node
 of layer $\lam$ of a Neural Net (NN).
  Activation functions  $\cala:\RR\rarrow \RR$
 for NNs
 are discussed in Section \ref{sec-activation-fun}.
-Suppose a population $\Sigma$ is partitioned
-into disjoint batches $\Sigma^{(k)}$.
-Let the set of points $\{h^{\lam, \s}_i:\s\in\Sigma^{(k)}\}$
-have mean $\mu^{\lam(k)}_i$
-and standard deviation $\s^{\lam(k)}_i$.
+Suppose the population $\Sigma$ is partitioned
+into disjoint batches $\Sigma^{(b)}$ for $b=1,2,\dots, B$.
+Let the set of points $\{h^{\lam, \s}_i:\s\in\Sigma^{(b)}\}$
+have mean $\mu^{\lam(b)}_i$
+and standard deviation $\s^{\lam(b)}_i$.
 For any $h^{\lam, \s}_i$ with $\s\in\Sigma$, define
 the BN activation function
-$\cala_{BN}(\cdot)$ by
+$\cala^\lam_{i, BN}(\cdot)$ by
 \beq
-\cala_{BN}(h^{\lam, \s}_i)=\indi(\s\in \Sigma^{(k)})
+\cala^\lam_{i, BN}(h^{\lam, \s}_i)=\indi(\s\in \Sigma^{(b)})
 \left[
-\frac{h^{\lam, \s}_i-\mu^{\lam(k)}_i}{\s^{\lam(k)}_i}
+\frac{h^{\lam, \s}_i-\mu^{\lam(b)}_i}{\s^{\lam(b)}_i}
 \right]
 \eeq
-If a layer of a NN has activation function $\cala(\cdot)$,
-defined a new activation function $\cala_{new}(\cdot)$ by
+If node $(\lam, i)$ of the NN has activation function $\cala^\lam_i(\cdot)$,
+defined a new activation function $\cala^\lam_{i, new}(\cdot)$ by
 \beq
-\cala_{new}(h^{\lam, \s}_i) =\cala(\cala_{BN}(h^{\lam, \s}_i))
+\cala^\lam_{i, new}(h^{\lam, \s}_i)
+ =\cala^\lam_i(\cala^\lam_{i, BN}(h^{\lam, \s}_i))
 \eeq
 for all $\s\in \Sigma$.
 
