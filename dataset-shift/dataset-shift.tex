@@ -1,3 +1,4 @@
+
 \chapter{Dataset Shift} \label{ch-dataset-shift}
 
 In this chapter,
@@ -160,37 +161,54 @@ See Chapter \ref{ch-sb-removal}.}
 Batch Normalization (BN) is a technique
 that is used to diminish dataset shift in Neural Nets.
 
-
-
-Using the notation of Chapter \ref{ch-nn},
-let
+Let
 $h^{\lam, \s}_i$ be the output,
 for individual $\s\in\Sigma$,  of the $i$th node
 of layer $\lam$ of a Neural Net (NN).
- Activation functions  $\cala:\RR\rarrow \RR$
+Using the notation of Chapter \ref{ch-nn},
+
+\beq
+h^{\lam, \s}_i=
+\cala_i^\lam(z^{\lam,\s}_i)
+\eeq
+where
+
+\beq
+z^{\lam,\s}_i=
+\sum_j w^{\lam}_{i|j}
+h^{\lam-1,\s}_j + b^{\lam}_i
+\label{eq-linear-nn}
+\eeq
+Activation functions  $\cala^\lam_i:\RR\rarrow \RR$
 for NNs
 are discussed in Section \ref{sec-activation-fun}.
 Suppose the population $\Sigma$ is partitioned
 into disjoint batches $\Sigma^{(b)}$ for $b=1,2,\dots, B$.
-Let the set of points $\{h^{\lam, \s}_i:\s\in\Sigma^{(b)}\}$
+Let the set of points $\{z^{\lam, \s}_i:\s\in\Sigma^{(b)}\}$
 have mean $\mu^{\lam(b)}_i$
 and standard deviation $\s^{\lam(b)}_i$.
-For any $h^{\lam, \s}_i$ with $\s\in\Sigma$, define
+For any $z^{\lam, \s}_i$ with $\s\in\Sigma$, define
 the BN activation function
 $\cala^\lam_{i, BN}(\cdot)$ by
 \beq
-\cala^\lam_{i, BN}(h^{\lam, \s}_i)=
-\frac{h^{\lam, \s}_i-\mu^{\lam(b)}_i}{\s^{\lam(b)}_i}
+\cala^\lam_{i, BN}(z^{\lam, \s}_i)=
+\frac{z^{\lam, \s}_i-\mu^{\lam(b)}_i}{\s^{\lam(b)}_i}
 \quad
 \text{ if }\s\in \Sigma^{(b)}
 \eeq
-If node $(\lam, i)$ of the NN has activation function $\cala^\lam_i(\cdot)$,
-defined a new activation function $\cala^\lam_{i, new}(\cdot)$ by
+If node $\rvh^\lam_i$ of the NN has activation function
+ $\cala^\lam_i:\RR\rarrow \RR$,
+defined a new activation function $\cala^\lam_{i, new}:\RR\rarrow \RR$ by
+the composition of functions
 \beq
-\cala^\lam_{i, new}(h^{\lam, \s}_i)
- =\cala^\lam_i(\cala^\lam_{i, BN}(h^{\lam, \s}_i))
+\cala^\lam_{i, new}
+ =\cala^\lam_i\circ\cala^\lam_{i, BN}
 \eeq
-for all $\s\in \Sigma$.
+Hence, the BN activation
+function
+is applied after the linear transformation
+Eq.(\ref{eq-linear-nn}), but before the nonlinear
+transformation $\cala^\lam_i$.
 
 Intuition on why BN diminishes dataset shift:
 We discussed in Section \ref{sec-activation-fun}
