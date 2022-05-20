@@ -864,7 +864,6 @@ R= -2[\ln L(\theta_0) -\ln L(\hat{\theta})]
 \eeq
 
 
-
 \section{Mean Square Error (MSE)}
 
 Suppose we are
@@ -1066,13 +1065,338 @@ quantities add.
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=3in]
+\includegraphics[width=2.3in]
 {conventions/ms-error.png}
 \caption{$\rvy=\hat{y}+\Delta y$
 and the variances (not standard deviations)
 of these quantities add. }
 \label{fig-ms-error}
 \end{figure}
+
+\section{Cramer-Rao Bound}
+
+This discussion of the Cramer-Rao (CR) bound
+is based on Ref.\cite{wiki-cramer-rao}.
+
+Suppose $\rvx$ is a random variable with values $x\in S_\rvx$
+and $\theta\in\RR$ is a parameter.
+For any function
+$f_{\rvx,\theta}: S_\rvx\times \RR\rarrow \RR$,
+define
+
+\beq
+\av{f_{\rvx,\theta}} =\sum_x P(x|\theta)f_{x,\theta}
+\eeq
+
+\beq
+\Delta f_{\rvx,\theta}=f_{\rvx,\theta}-\av{f_{\rvx,\theta}}
+\eeq
+
+\beq
+\av{f_{\rvx,\theta},f_{\rvx,\theta}}=
+\av{\Delta f_{\rvx,\theta}\;\Delta f_{\rvx,\theta}}
+\eeq
+
+Define the {\bf log likelihood function} by
+\beq
+L_\theta = \ln P(x|\theta)
+\eeq
+
+Define the {\bf Fisher information} by
+\beq
+I_\theta=\av{\partial_\theta L_\theta,\partial_\theta L_\theta}
+\eeq
+
+Note that $L_\theta\leq 0$.
+Let $\theta^*$ be the
+value of $\theta$ that maximizes $L_\theta$.
+
+
+Note that $I_\theta\geq 0$ and
+$I_\theta=0$ when $\theta=\theta^*$
+because $\partial_\theta L_\theta|_{\theta=\theta^*}=0$.
+This suggests that $I_\theta$
+measures the distance
+between $\theta$ and $\theta^*$.
+
+
+
+Note that
+\beqa
+\av{\partial_\theta L_\theta}&=&
+\sum_x P(x|\theta)\frac{1}{P(x|\theta)}
+\partial_\theta P(x|\theta)
+\\
+&=&
+\partial_\theta \sum_x P(x|\theta)
+\\
+&=&
+0
+\eeqa
+Therefore
+
+\beqa
+I_\theta &=&\av{[\partial_\theta L_\theta]^2}
+-
+\av{\partial_\theta L_\theta}^2
+\\
+&=&
+\av{[\partial_\theta L_\theta]^2}
+\eeqa
+
+\begin{claim}
+\beq
+I_\theta = -\av{\partial_\theta^2 L_\theta}
+\eeq
+\end{claim}
+\proof
+
+\beqa
+I_\theta &=& \av{[\partial_\theta L_\theta]^2}
+\\
+&=&
+\sum_x P(x|\theta)
+\frac{1}{P(x|\theta)}
+\partial_\theta P(x|\theta)
+\partial_\theta \ln P(x|\theta)
+\\
+&=&
+-\sum_x P(x|\theta)\partial_\theta^2 \ln P(x|\theta)
++ \partial_\theta\sum_x
+P(x|\theta)\partial_\theta \ln P(x|\theta)
+\\
+&=&
+-\av{\partial_\theta^2 L_\theta}
++ \partial_\theta^2\sum_x P(x|\theta)
+\\
+&=&
+-\av{\partial_\theta^2 L_\theta}
+\eeqa
+\qed
+
+\begin{claim}
+If $x=[x_i]_{i=1,2, \ldots \nu}\in \RR^\nu$ are i.i.d., then
+
+
+\beq
+I_\theta = \nu \av{[\partial_\theta L_{\theta, i}]^2}
+\eeq
+where
+
+\beq
+L_{\theta, i} = \ln P(x_i|\theta)
+\eeq
+\end{claim}
+\proof
+
+\beqa
+L_\theta
+&=& \ln \prod_i P(x_i|\theta)
+\\
+&=&
+\sum_i L_{\theta, i}
+\eeqa
+
+\beqa
+I_\theta &=&
+\sum_i \sum_j \av{
+\partial_\theta L_{\theta,i}
+\partial_\theta L_{\theta,j}
+}
+\\
+&=&
+\sum_i  \av{
+[\partial_\theta L_{\theta,i}]^2}
+\\
+&=&
+\nu \av{
+[\partial_\theta L_{\theta,i}]^2
+}
+\eeqa
+\qed
+
+
+
+
+A function  $t_\rvx:S_\rvx\rarrow \RR$
+is called a {\bf test statistic} of random variable $\rvx$.
+
+\begin{claim}(Cramer-Rao bound for single parameter $\theta\in\RR$)
+
+\beq
+\av{t_\rvx,t_\rvx}I_\theta \geq
+ \left[\partial_\theta\av{t_\rvx}\right]^2
+ \label{eq-crao-tx}
+ \eeq
+\end{claim}
+\proof
+
+Cauchy-Schwartz inequality
+
+For two vectors $\veca,\vecb\in\RR^n$:
+\beq
+\veca\cdot\vecb =|\veca||\vecb|\cos \phi \leq |\veca||\vecb|
+\eeq
+
+For two real valued random variables $\rva, \rvb$:
+\beq
+\av{\rva, \rva} \av{\rvb,\rvb}\geq |\av{\rva,\rvb}|^2
+\eeq
+Replace
+
+\beq
+\rva\rarrow t_\rvx,
+\quad\rvb\rarrow \partial_\theta L_\theta
+\eeq
+Then
+
+\beqa
+\av{t_\rvx, \partial_\theta L_\theta}
+&=&
+\av{t_\rvx \partial_\theta L_\theta}
+-
+\av{t_\rvx} \underbrace{\av{\partial_\theta L_\theta}}_{=0}
+\\
+&=&
+\sum_x P(x|\theta)
+t_\rvx \frac{1}{P(x|\theta)}\partial_\theta P(x|\theta)
+\\
+&=&
+\partial_\theta\sum_x  t_\rvx P(x|\theta)
+\\
+&=&
+\partial_\theta\av{ t_\rvx}
+\eeqa
+\qed
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.5in]
+{conventions/cramer-rao.png}
+\caption{
+In this drawing,
+$\theta^*$ is the
+value of $\theta$ that maximizes $L_\theta$.
+According
+to the CR bound,
+the product of the
+variance $\av{t_\rvx, t_\rvx}$ and
+the distance $I_\theta$
+must be greater or equal to $[\partial_\theta\av{t_\rvx}]^2$.
+At fixed $[\partial_\theta\av{t_\rvx}]^2$,
+if the variance increases, the distance decreases,
+and vice versa.
+}
+\label{fig-cramer-rao}
+\end{figure}
+
+
+Now suppose the test statistic $t_\rvx$
+equals an {\bf estimator} $\hat{\theta}$
+of $\theta$ with bias $b_\rvx:S_\rvx \rarrow \RR$.
+
+\beq
+t_\rvx = \hat{\theta}(\rvx) = \theta + b_\rvx
+\eeq
+$\hat{\theta}$ is said to be a {\bf biased estimator}
+if $b_\rvx\neq 0$ and an {\bf unbiased estimator} if $b_\rvx=0$.
+
+\begin{claim}
+
+\beq
+\av{\hat{\theta}} = \theta + \av{b_\rvx}
+\eeq
+
+\beq
+\av{\hat{\theta}, \hat{\theta}} \geq
+\frac{[1 + \partial_\theta\av{b_\rvx}]^2}
+{I_\theta}
+\label{eq-crao-theta}
+\eeq
+
+\beq
+\av{[\hat{\theta}-\theta]^2} \geq
+\frac{[1 + \partial_\theta\av{b_\rvx}]^2}
+{I_\theta}
++
+\av{b_\rvx}^2
+\eeq
+
+\end{claim}
+\proof
+\beqa
+\partial_\theta\av{t_\rvx}
+&=&
+\partial_\theta\av{\theta + b_\rvx}
+\\
+&=&
+\partial_\theta\left[\theta +\av{b_\rvx}\right]
+\\
+&=&
+1 + \partial_\theta\av{b_\rvx}
+\eeqa
+Eq.(\ref{eq-crao-theta})
+follows from Eq.(\ref{eq-crao-tx})
+once we replace $t_\rvx$ by $\hat{\theta}$.
+
+Let
+\beq
+\Delta \hat{\theta} =
+\hat{\theta} -\av{\hat{\theta}}
+=
+\underbrace{(\hat{\theta} -\theta)}_\xi  - \av{b_\rvx}
+\eeq
+Then
+
+\beq
+0=\av{\Delta \hat{\theta}} = \av{\xi} - \av{b_\rvx}
+\eeq
+
+\beqa
+\frac{[1 + \partial_\theta\av{b_\rvx}]^2}
+{I_\theta} &\leq&
+\av{[\Delta \hat{\theta}]^2}
+\\
+&=&
+\av{\xi^2 -2\xi\av{b_\rvx} + \av{b_\rvx}^2}
+\\
+&=&
+\av{\xi^2} -\av{b_\rvx}^2
+\eeqa
+
+\qed
+
+Multi-dimensional case:
+parameter
+ $\theta=[\theta_1, \theta_2, \ldots, \theta_n]^T\in \RR^n$
+ and test statistic
+ $t_\rvx=[t_{\rvx,1}, t_{\rvx,2}, \ldots, t_{\rvx,n}]^T\in \RR^n$
+are column vectors.
+
+Define {\bf Fisher information matrix} by
+
+\beq
+[I_\theta]_{i,j}=
+\av{\partial_{\theta_i} L_\theta, \partial_{\theta_j}L_\theta}
+=
+\av{\partial_{\theta_i} L_\theta\;\partial_{\theta_j}L_\theta}
+\eeq
+
+CR bound for multi-dimensional parameter $\theta\in\RR^n$:
+\beq
+\text{matrix}\left[\av{t_{\rvx,i}, t_{\rvx,j}}\right]\geq
+\text{matrix}\left[
+\partial_{\theta_i} \av{t_{\rvx,a}}
+[I_\theta]^{-1}_{a,b}
+\partial_{\theta_j} \av{t_{\rvx,b}}
+\right]
+\eeq
+where we are using the Einstein summation
+convention (repeated indices are summed over).
+For two matrices $A,B\in\RR^n$, $A\geq B$ means $A-B$ has
+non-negative eigenvalues.
+
+
 \section{Bayes Rule,
 Bayesian Updating And Conjugate Priors}
 
