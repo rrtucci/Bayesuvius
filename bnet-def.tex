@@ -303,10 +303,13 @@ for bnet instantiations:
 \hrule
 In this book, \hiddenNodes
 
-
 \hrule
-Given an arbitrarily
- large dataset of samples for
+In  Chapter \ref{ch-good-causal-fit},
+we define a measure
+of goodness of causal fit (CF)
+for each bnet of a finite set of bnets.
+
+Given a dataset of samples for
 the random variables
 $(\rvx_i)_{i=0, 1, \ldots, N-1}$,
 there may be
@@ -314,47 +317,36 @@ several bnets (differing
 in the direction
 of some arrows) that
 fit the data well. However,
-according to Pearl's causality theory,
-only one of these bnets is used
+the one with the highest
+CF is most likely to be used
 by Nature.
-I like to refer to that
+In this book, we will refer to that
 single one as the
-{\bf  causally justified (CJ)
-Bayesian network}.\footnote{
-The uniqueness of a CJ bnet can be taken to be
-an implicit axiom of causality theory. Alternatively,
-instead of assuming uniqueness,
-one can assume that we
-are using a DAG which is,
-according to
-some measure
-of goodness of causal fit, the
-best one among
-the DAGs of a given set of DAGs.
-(see Chapter \ref{ch-good-causal-fit}).}
-\footnote{We
-won't use the term ``causal bnet" in this
-book.
-To avoid confusion,
-we will use the term
-``causally justified (CJ) bnet" instead. Pearl
-sometimes defines a causal bnet to be
-a CJ bnet that is also a ``SCM" (i.e.,
-a bnet whose internal nodes are
-deterministic and external ones are
-probabilistic.)}
+{\bf best CF bnet}.
+We will also refer to
+a bnet that has a high (resp., low) value
+for its goodness
+of CF, though not
+necessarily the highest (resp., lowest),
+as a {\bf good (resp., bad) CF bnet}.\footnote{
+In  this book, the term ``causal bnet"
+will mean a good CF bnet. Pearl is fond
+of using the term ``causal bnet",
+but he uses it in a different
+sense that does not
+allude to a measure of goodness of causal fit.}
 
 It's important to realize
-that bnets that are not CJ
+that bnets that are not a good CF
 are far from useless; they
 are frequently used
 as intermediate calculational
 tools. They are incorrect causally,
 but they aren't incorrect numerically.
 For instance, in Bayes rule,
-we switch from the CJ bnet
-$P(x|\theta)=x\larrow\theta$
-to the non-CJ bnet
-$P(\theta|x)=x\rarrow\theta$,
+we switch from a good CF bnet
+$P(x|\theta)P(\theta)=x\larrow\theta$
+to a bad CF bnet
+$P(\theta|x)P(x)=x\rarrow\theta$,
 where $x$ is the data
 and $\theta$ are the parameters.
