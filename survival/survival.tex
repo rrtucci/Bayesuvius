@@ -1,4 +1,3 @@
-
 \chapter{Survival Analysis}
 \label{ch-survival}
 
@@ -41,20 +40,19 @@ $U^\s=$ {\bf censoring upper bound}
 
 $L^\s=$ {\bf censoring lower bound}
 
-$B^\s = \min(b^s, U^\s)$, {\bf right censoring}
+$B^\s = \min(b^\s, U^\s)$, {\bf right censoring}
 
-$A^\s = \max(a^s, L^\s)$, {\bf left censoring}
+$A^\s = \max(a^\s, L^\s)$, {\bf left censoring}
 
-$T^\s = B^\s - A^\s$
+$T^\s = B^\s - A^\s$, where $A^\s<B^\s$
 
 $d^\s = \indi(b^\s < U^\s)$, equals 1
-if death (i.e., no censoring effect),
-equals 0 if no death (i.e., censoring effect)
+if death (i.e., no censoring),
+equals 0 if no death (i.e., censoring)
 
 $e^\s = \indi(a^\s > L^\s)$, equals 1
-if death (i.e., no censoring effect),
-
-equals 0 if no death (i.e., censoring   effect)
+if death (i.e., no censoring),
+equals 0 if no death (i.e., censoring)
 
 
 Will only use right censoring in this chapter.
@@ -62,14 +60,14 @@ Will only use right censoring in this chapter.
 For $t\geq 0$, define
 \begin{itemize}
 \item {\bf Survival function $S(t)$}
-and {\bf Cummulative hazard function $\Lam(t)$}
+and {\bf Cumulative hazard function $\Lam(t)$}
 
 \beq
-S(t) = P(\rvtau > t)= e^{-\Lam(t)}
+S(t) = P(\rvtau \geq t)= e^{-\Lam(t)}
 \eeq
-Sometimes, we define $S(t) = P(\rvtau\geq t)$
-instead---whatever is more convenient
-at the time. For
+Note that we define in this chapter
+ $S(t) = P(\rvtau\geq t)$ (present among survivors (PAS))
+instead of $P(\rvtau > t)$ (not PAS), like other authors do. For
 continuous functions,
 these 2 definitions of $S(t)$
 are the same.
@@ -153,7 +151,7 @@ Let
 
 
 \beq
-r^\s(t) =  \indi(\tau^\s> t)
+r^\s(t) =  \indi(\tau^\s\geq t)
 \eeq
 $r^\s(t)$ equals 1 iff individual $\s$
 at risk (i.e., still alive
@@ -202,7 +200,7 @@ S(t)
 Let
 \hrule
 $[\tau^j[_{j=1,2, \ldots, J}$, times at
-which there is an event, all measured
+which there is a final event, all measured
 from the same time origin, and
 ordered so that $\tau^j < \tau^{j+1}$
 
@@ -219,9 +217,9 @@ at time $\tau^j$, either
 because they die or are censored
 
 
-$n_R^j=N-n_O^j$ number of individuals
-that are at risk (i.e., still alive
-and not censored, not out, surviving) at times $t\geq \tau^j$
+$n_R^j=\sum_{k\geq j}n_O^k$, number of individuals
+that are at risk \ul{at or after} time $\tau^j$(i.e.,  still alive
+and not censored, not out, surviving \ul{before} time $\tau^j$)
 
 \hrule
 $d^\s\in\bool$, it equals 1 iff individual
@@ -257,17 +255,17 @@ $o^\s(\tau^j)\rarrow \rvo(\tau^j)$ since i.i.d.
 \hrule
 Note that\footnote{
 notation: $
-\A_{i=1,2}a_i = a_1 \A a_2= a_1
-\text{ and } a_2\\
-\V_{i=1,2}a_i = a_1 \V  a_2 = a_1
-\text{ or } a_2\\
-\xor_{i=1,2}a_i = a_1 \xor a_2= a_1
-\text{ xor } a_2\\
-$}
+\A_{i=1,2}a_i = (a_1 \A a_2)= (a_1
+\text{ And } a_2),\\
+\V_{i=1,2}a_i = (a_1 \V  a_2 )= (a_1
+\text{ Or } a_2),\\
+\xor_{i=1,2}a_i = (a_1 \xor a_2)$ =exclusive or=
+modulus 2 addition=
+binary addition with $(1\oplus 1)=0$.}
 
 \beq
 \underbrace{\bigA_{k\leq j}\{o^\s(\tau^k)=0\}}_{ \text{ $\s$
-did not drop out  in past }}=
+did not drop out  in past or present $\tau^j$}}=
 \underbrace{\bigxor_{k> j}\{o^\s(\tau^k)=1\}}_{ \text{
 $\s$ drops out in future }}
 \eeq
@@ -281,35 +279,36 @@ or, replacing $o^\s$ by $\rvo$,
 
 
 
-Kaplan-Meier (KM) estimator of $S(t)$\footnote{Even though $S(t)$ has
-been defined as $P(\rvtau>t)$,
+Kaplan-Meier (KM) estimator of $S(t)$ (see\footnote{Even though $S(t)$ has
+been defined as $P(\rvtau\geq  t)$,
 a more precise definition
 in the presence of censoring is
-$P(\rvtau>t|\text{patient dies rather than is censored})$}
+$P(\rvtau\geq t\cond \text{patient dies rather than being censored})$})
 \beqa
 \hat{S}(\tau^j) &=&
-P(\bigxor_{k> j}\{\rvo(\tau^k)=1\})
+P\left(\bigxor_{k> j}\{\rvo(\tau^k)=1\}\right)
 \\
 &=&
-P(\bigA_{k\leq j}\{\rvo(\tau^k)=0\})
+P\left(\bigA_{k\leq j}\{\rvo(\tau^k)=0\}\right)
 \\
 &=&
-\prod_{k\leq j}P(\rvo(\tau^k)=0\cond \bigA_{k'<k}\{\rvo(\tau^{k'})=0\})
+\prod_{k\leq j}P\left(\rvo(\tau^k)=0\cond \bigA_{k'<k}\{\rvo(\tau^{k'})=0\}\right)
 \quad \text{(chain rule)}
 \\
 &=&
 \left\{
 \begin{array}{l}
-\prod_{k\leq j}P(\rvd(\tau^k)=0\cond \bigA_{k'<k}\{\rvo(\tau^{k'})=0\})
+\prod_{k\leq j}P\left(\rvd(\tau^k)=0\cond \bigA_{k'<k}\{\rvo(\tau^{k'})=0\}\right)
 \\
 +
 \underbrace{
-\prod_{k\leq j}P(\rvc(\tau^k)=0\cond \bigA_{k'<k}\{\rvo(\tau^{k'})=0\})
+\prod_{k\leq j}P\left(\rvc(\tau^k)=0\cond \bigA_{k'<k}\{\rvo(\tau^{k'})=0\}\right)
 }_{=0 \text{(see footnote)}}
 \end{array}\right.
 \\
 &=&
-\prod_{k\leq j}\left[1-P(\rvd(\tau^k)=1\cond \bigA_{k'<k}\{\rvo(\tau^{k'})=0\})\right]
+\prod_{k\leq j}\left[
+1-P\left(\rvd(\tau^k)=1\cond \bigA_{k'<k}\{\rvo(\tau^{k'})=0\}\right)\right]
 \\
 &=&
 \prod_{k\leq j} \left[ 1 - \frac{n_D^k}{n_R^k}\right]
@@ -384,13 +383,14 @@ in a plot of a KM estimator. An ${\bf X}$ indicates a dead individual
 and $\blacksquare$ a censored one.
 Note that\\
 $n_O^j= n_D^j+n_C^j$, \\
-$n_R^j = n_R^{j-1} - n_O^{j-1}(t)$
+$n_R^j = n_R^{j-1} - n_O^{j-1}$
 and\\
 $n_R^j = \sum_{k\geq j} n_O^k$.}
 \label{fig-km-step}
 \end{figure}
 
-Fig.\ref{fig-kn-graph} gives a numerical
+Fig.\ref{fig-kn-graph}
+and Table \ref{tab-km-numeric} give a numerical
 example of the
  KM estimator.
 
@@ -410,13 +410,33 @@ example of the
 \caption{Plot of KM estimator for
 $N=21$ patients
 with $\tau^\s$ given in table
-below the graph.
+below the plot.
 $\tau's$ with $C$
  are censored.}
 \label{fig-kn-graph}
 \end{figure}
 
-
+\begin{table}[h!]
+\centering
+\begin{tabular}{|
+>{\columncolor[HTML]{FFFFC7}}l |l|l|l|l|}
+\hline
+$j$ & \cellcolor[HTML]{FFFFC7}$\tau^j$ &
+\cellcolor[HTML]{FFFFC7}$n_R^j$ &
+\cellcolor[HTML]{FFFFC7}$n_D^j$ &
+\cellcolor[HTML]{FFFFC7}$n_C^i$ \\ \hline
+1 & 6 & 21 & 3 & 1 \\ \hline
+2 & 7 & 17 & 1 & 0 \\ \hline
+3 & 9 & 16 & 0 & 1 \\ \hline
+4 & 10 & 15 & 1 & 1 \\ \hline
+5 & 11 & 13 & 0 & 1 \\ \hline
+\end{tabular}
+\caption{
+Parameters $j,\tau^j, n_R^j, n_D^j, n_C^j$
+ for first five lifetimes for
+Fig.\ref{fig-kn-graph}.}
+\label{tab-km-numeric}
+\end{table}
 
 
 
@@ -427,7 +447,7 @@ of covariates $Z$}
 
 recall $t\geq 0$
 \begin{itemize}
-\item $\lam$ independent of time
+\item $\lam(t)$  is independent of time
 
 \beq
 \lam(t) = \lambda
@@ -443,7 +463,7 @@ P_\rvtau(t) = \lam e^{-\lam t}
 \quad\text{(Exponential distribution)}
 \eeq
 
-\item  $\lam$ proportional to power of $t$
+\item  $\lam(t)$ is proportional to power of $t$
 
 \beq
 \lam(t) = \kappa\lam t^{\kappa-1}
@@ -461,7 +481,7 @@ P_\rvtau(t)=\kappa\lam t^{\kappa-1} e^{-\lam t^\kappa}
 
 \item $\lam(t)= a + bt$ for $a,b\geq 0$
 
-\item $\lam(t)$ piecewise constant for $t\in [0, \infty]$
+\item $\lam(t)$ is piecewise constant for $t\in [0, \infty]$
 
 
 \item etc.
@@ -492,6 +512,9 @@ PH model because
 $\lam(t|Z_1)/\lam(t|Z_2)=
 \exp[\beta^T(Z_1-Z_2)]$
 is independent of time.
+In a {\bf Cox time-dependent-hazards (TDH) model},
+one assumes that the covariates
+$Z(t)$ depend on time.
 
 Note that since exponentials
 are always positive, the components
@@ -546,7 +569,7 @@ a single death, or a single censorship, but not both.
 Since every individual
 eventually dies or is censored (but, we will assume, not both),
 there is a 1-1 onto map $j(\s)$ mapping $\Sigma$ to the set
-of indices of $\tau^j$. So we can label the population individuals by
+of indices $j$ of $\tau^j$. So we can label the population individuals by
 the index $j(\s)$.
 
 Let
@@ -622,6 +645,7 @@ Hence
 &=
 \frac{ P(Z^j,\bigxor_{k\geq j}\{\ul{Z}^{k}=Z^k\},\tau^{j})}
 {P(\bigxor_{k\geq j}\{\ul{Z}^{k}=Z^k\},\tau^{j})}
+\quad\text{(because $P(A \A B) = P(A)$ if $A \implies B$)}
 \\
 &=
 P(Z^j\cond \bigxor_{k\geq j}\{\ul{Z}^{k}=Z^k\},\tau^{j})
@@ -633,14 +657,14 @@ the past $Z^k$ are fixed already,
 so the only ones we are allowed
 to optimize (remember, we are acting as
 Bayesians here, so we can  optimize parameters)
- are the future ones.
+ are the present and future ones.
 \item Maximum Likelihood argument
 
 \begin{align}
 \call^j(\beta)&=
 \left\{
 \begin{array}{ll}
-P(\rvtau>\tau^j) =S(\tau^j)
+P(\rvtau\geq \tau^j) =S(\tau^j)
 & \text{ if $d(\tau^j)=0$ so $c(\tau^j)=1$}
 \\
  P(\rvtau=\tau^j)=
@@ -708,7 +732,7 @@ where
 \frac{n_D^j}{\Delta t}
 &\approx&
 \sum_{k\geq j}
-P(\rvtau^k=\tau^j\cond \rvtau^k>\tau^j)
+P(\rvtau^k=\tau^j\cond \rvtau^k\geq\tau^j)
 \\
 &=&
 \sum_{k\geq j}
