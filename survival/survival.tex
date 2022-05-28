@@ -1,3 +1,4 @@
+
 \chapter{Survival Analysis}
 \label{ch-survival}
 
@@ -10,7 +11,7 @@ after receiving a treatment for time $t$.
 Alternatively, it can be used with data indicating  the number of
 devices that haven't failed after running for time $t$.
 SA can also be used  to compare two such $S(t)$ curves---
-for example, one for treated patients, and another for non-treated
+for example, one for treated patients, and another for untreated
 patients. Hence, SA can be used to analyze the data of an RCT.
 
 Let
@@ -96,20 +97,20 @@ must be $\infty$.
 $\lam(t)$ is in fact a conditional probability
 as we show next.
 
-\beqa
-\lam(t) &=&
+\begin{align}
+\lam(t) &=
 \frac{P(\rvtau=t)}{S(t)} \quad \text{(shown below)}
 \\
-&=&
+&=
 \frac{P(\rvtau=t)}{P(\rvtau\geq t)}
 \\
-&=&
+&=
 \frac{P(\rvtau=t, \rvtau\geq t)}{P(\rvtau\geq t)}
 \quad\text{(because $P(A \A B) = P(A)$ if $A$ implies $B$)}
 \\
-&=&
+&=
 P(\rvtau=t\cond \rvtau\geq t)
-\eeqa
+\end{align}
 
 
 \item {\bf $\rvtau$ density function $P_\rvtau(t)$}
@@ -326,10 +327,10 @@ $$
 $$
 \caption{Bnet for KM estimator of $S(t)$
 for $N=4$.}
-\label{fig-censorless-est}
+\label{fig-no-censoring-est}
 \end{figure}
 
-Fig.\ref{fig-censorless-est}
+Fig.\ref{fig-no-censoring-est}
 gives a bnet for the KM estimator of $S(t)$.
 The TPMs, printed in blue, for that bnet,
 must be as follows:
@@ -376,7 +377,7 @@ in a plot of a KM estimator.
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=3in]
+\includegraphics[width=4.0in]
 {survival/km-step.png}
 \caption{Steps $\tau^{j-1}$ and $\tau^j$
 in a plot of a KM estimator. An ${\bf X}$ indicates a dead individual
@@ -608,23 +609,23 @@ P(Z^{k}|\tau^{j}) = f(\tau^j)\underbrace{P(\tau^j|Z^{k})}_
 for some function $f:\RR\rarrow \RR$.
 Hence
 
-\beqa
-\call^j (\beta)&=&
+\begin{align}
+\call^j (\beta)&=
 \frac{ P(Z^j\cond\tau^{j})}
 {\sum_{k\geq j}P(Z^{k}\cond\tau^{j})}
 \\
-&=&
+&=
 \frac{ P(Z^j\cond\tau^{j})}
 {P(\bigxor_{k\geq j}\{\ul{Z}^{k}=Z^k\}\cond\tau^{j})}
 \quad\text{(because the $Z^k$ are independent)}
 \\
-&=&
+&=
 \frac{ P(Z^j,\bigxor_{k\geq j}\{\ul{Z}^{k}=Z^k\},\tau^{j})}
 {P(\bigxor_{k\geq j}\{\ul{Z}^{k}=Z^k\},\tau^{j})}
 \\
-&=&
+&=
 P(Z^j\cond \bigxor_{k\geq j}\{\ul{Z}^{k}=Z^k\},\tau^{j})
-\eeqa
+\end{align}
 
 Note that $\call^j(\beta)$ depends
 on $\{Z^k: k\geq j\}$ because at time $j$,
@@ -635,8 +636,8 @@ Bayesians here, so we can  optimize parameters)
  are the future ones.
 \item Maximum Likelihood argument
 
-\beqa
-\call^j(\beta)&=&
+\begin{align}
+\call^j(\beta)&=
 \left\{
 \begin{array}{ll}
 P(\rvtau>\tau^j) =S(\tau^j)
@@ -647,10 +648,10 @@ P(\rvtau>\tau^j) =S(\tau^j)
   & \text{ if $d(\tau^j)=1$ }
  \end{array}\right.
  \\
- &=&
+ &=
  \lam(\tau^j\cond Z^j)^{d(\tau^j)} S(\tau^j)
  \\
- &=&
+ &=
 \underbrace{\left[\frac{\lam(\tau^j\cond Z^j)}
 {\sum_{k\geq j} \lam(\tau^k\cond Z^j)}
 \right]^{d(\tau^j)}
@@ -661,7 +662,7 @@ P(\rvtau>\tau^j) =S(\tau^j)
 \right]^{d(\tau^j)}
 S(\tau^j)
 }_{L_2}
-\eeqa
+\end{align}
 Cox argued that $L_2$ varies very slowly
 with $\beta$.
 \end{enumerate}
@@ -731,9 +732,9 @@ sides of the last equation, we get Eq.(\ref{eq-breslow}).
 
 Note that
 
-\beqa
+\begin{align}
 \hat{S}_0(t)
-&=&
+&=
 \prod_{j: \tau^j<t}
 \exp
 \left[
@@ -742,7 +743,7 @@ Note that
 }
 \right]
 \\
-&\approx&
+&\approx
 \prod_{j: \tau^j<t}
 \left[1-
 \underbrace{\frac{n_D^j}
@@ -750,4 +751,4 @@ Note that
 }}_{\hat{\lam}^j}
 \right]
 \text{(because $e^x\approx 1 + x$ for $|x|<<1$)}
-\eeqa
+\end{align}
