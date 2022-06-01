@@ -20,7 +20,7 @@ $\s\in \Sigma$, individual (e.g., patient) in population $\Sigma$.
 
 $N=|\Sigma|$,  size of $\Sigma$, nsam, number of samples
 
-A subset of $\Sigma$, (a.k.a, sub-population
+Note: A subset of $\Sigma$, (a.k.a, sub-population
 or stratum)
 is often called a {\bf cohort}
 in epidemiology.
@@ -66,7 +66,7 @@ and {\bf Cumulative hazard function $\Lam(t)$}
 S(t) = P(\rvtau \geq t)= e^{-\Lam(t)}
 \eeq
 Note that we define in this chapter
- $S(t) = P(\rvtau\geq t)$ (present among survivors (PAS))
+ $S(t) = P(\rvtau\geq t)$ (those present among survivors (PAS))
 instead of $P(\rvtau > t)$ (not PAS), like other authors do. For
 continuous functions,
 these 2 definitions of $S(t)$
@@ -74,8 +74,8 @@ are the same.
 
 Note that,
 since $S(t)$
-is a probability and $t, \tau \in [0, \infty]$, we must have
-$\Lambda(t)\geq 0$,
+is a probability and $t, \tau \in [0, \infty]$,
+$\Lambda(t)$ must be a monotonically increasing function with
 $\Lam(0)=0$ and $\Lam(\infty) = \infty$.
 
 \item {\bf hazard function
@@ -191,6 +191,9 @@ S(t)
 \av{\hat{S}(t), \hat{S}(t')}
 &=&\frac{1}{N^2}\sum_\s \sum_{\s'}
 \av{\rvr^\s(t), \rvr^{\s'}(t')}
+\\
+&=&\frac{1}{N^2}\sum_\s
+\av{\rvr^\s(t), \rvr^{\s}(t)}
 \\
 &=&
 \frac{S(t)[1-S(t)]}{N}
@@ -318,10 +321,20 @@ P\left(\bigA_{k\leq j}\{\rvo(\tau^k)=0\}\right)
 \begin{figure}[h!]
 $$
 \xymatrix{
-\rvo(\tau^4)
-&\rvo(\tau^3)\ar[l]
-&\rvo(\tau^2)\ar[l]\ar@/_1pc/[ll]
-&\rvo(\tau^1)\ar[l]\ar@/_2pc/[ll]\ar@/_2pc/[lll]
+\rvo(\tau^4)\ar[d]\ar@/_1.2pc/[dd]
+&\rvo(\tau^3)\ar[l] \ar[d]\ar@/_1.2pc/[dd]
+&\rvo(\tau^2)\ar[l]\ar@/_1pc/[ll] \ar[d]\ar@/_1.2pc/[dd]
+&\rvo(\tau^1)\ar[l]\ar@/_2pc/[ll]\ar@/_2pc/[lll] \ar[d]\ar@/_1.2pc/[dd]
+\\
+\rvd(\tau^4)
+&\rvd(\tau^3)
+&\rvd(\tau^2)
+&\rvd(\tau^1)
+\\
+\rvc(\tau^4)
+&\rvc(\tau^3)
+&\rvc(\tau^2)
+&\rvc(\tau^1)
 }
 $$
 \caption{Bnet for KM estimator of $S(t)$
@@ -339,6 +352,17 @@ P(\rvo(\tau^k)=1\cond \bigA_{k'<k}\{\rvo(\tau^{k'})=0\})
 = \frac{n_O^k}{n_R^k}
 \eeq
 
+\beq \color{blue}
+P(\rvd(\tau^k)=1\cond \rvo(\tau^{k})=1)
+= \frac{n_D^k}{n_O^k}
+\eeq
+
+\beq \color{blue}
+P(\rvc(\tau^k)=1\cond \rvo(\tau^{k})=1)
+= \frac{n_C^k}{n_O^k}
+\eeq
+
+
 Intuition:
 Let
 
@@ -350,50 +374,51 @@ $e^x \approx 1+x $ for $|x|<<1$,
 
 \beqa
 \hat{S}(\tau^j) &\approx&
-\prod_{k\leq j}e^{\hat{\lam}^k}
+\prod_{k\leq j}e^{-\hat{\lam}^k}
 \\
 &=&
-\exp[\sum_{k\leq j}\hat{\lam}^k]
+\exp[-\sum_{k\leq j}\hat{\lam}^k]
 \\
 &\approx&
-\exp[\int_0^{\tau_j}dt\;\hat{\lam}(t)]
+\exp[-\int_0^{\tau_j}dt\;\hat{\lam}(t)]
 \eeqa
+
+Note that:
+\begin{itemize}
+\item $\hat{S}(t)$ only changes when there is a death.
+\item $\hat{S}(t)=1$ before the first death time
+\item $\hat{S}(t)$ only goes to 0 if the last observation is a death,
+so $n_D^j/n_R^j=1$.
+\item When there is no censoring, the KM estimator equals
+the no censoring estimator given earlier.
+\end{itemize}
+
 Greenwood's formula
 for variance of KM estimator of $S(t)$
 
 \beq
-\av{\hat{S}(\tau_j), \hat{S}(\tau_j)}=
+\av{\hat{S}(t), \hat{S}(t)}=
 [S(t)]^2
-\sum_{k\leq j}
+\sum_{k:\tau^k\leq t}
 \frac{n_D^k}
 { n_C^k n_R^k}
 \eeq
-
-Fig.\ref{fig-km-step}
-shows relevant parameters
-for steps $\tau^{j-1}$ and $\tau^j$
-in a plot of a KM estimator.
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=4.0in]
-{survival/km-step.png}
-\caption{Steps $\tau^{j-1}$ and $\tau^j$
-in a plot of a KM estimator. An ${\bf X}$ indicates a dead individual
-and $\blacksquare$ a censored one.
-Note that\\
-$n_O^j= n_D^j+n_C^j$, \\
-$n_R^j = n_R^{j-1} - n_O^{j-1}$
-and\\
-$n_R^j = \sum_{k\geq j} n_O^k$.}
-\label{fig-km-step}
-\end{figure}
 
 Fig.\ref{fig-kn-graph}
 and Table \ref{tab-km-numeric} give a numerical
 example of the
  KM estimator.
 
+Fig.\ref{fig-km-step}
+shows relevant parameters
+for steps $\tau^{j-1}$ and $\tau^j$
+in a plot of a KM estimator.
+
+
+
+
+
+\newpage
  \begin{figure}[h!]
 \centering
 \includegraphics[width=4in]
@@ -438,6 +463,22 @@ Fig.\ref{fig-kn-graph}.}
 \label{tab-km-numeric}
 \end{table}
 
+\newpage
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4.0in]
+{survival/km-step.png}
+\caption{Steps $\tau^{j-1}$ and $\tau^j$
+in a plot of a KM estimator. An ${\bf X}$ indicates a dead individual
+and $\blacksquare$ a censored one.
+Note that\\
+$n_O^j= n_D^j+n_C^j$, \\
+$n_R^j = n_R^{j-1} - n_O^{j-1}$
+and\\
+$n_R^j = \sum_{k\geq j} n_O^k$.}
+\label{fig-km-step}
+\end{figure}
+
 
 
 \section{$\lam(t)$ models}
@@ -445,7 +486,7 @@ Fig.\ref{fig-kn-graph}.}
 \subsection{$\lam(t)$  independent
 of covariates $Z$}
 
-recall $t\geq 0$
+Recall $t\geq 0$
 \begin{itemize}
 \item $\lam(t)$  is independent of time
 
@@ -488,9 +529,42 @@ P_\rvtau(t)=\kappa\lam t^{\kappa-1} e^{-\lam t^\kappa}
 
 \end{itemize}
 
+Maximum Likelihood Estimate (MLE) of $\lam$
+for  $\lam(t)=\lam$, allowing censoring:
+
+Likelihood function is
+\beqa
+\call(\lam) &=&
+\prod_j [P_\rvtau(\tau^j)]^{d(\tau^j)}
+[S(\tau^j)]^{c(\tau^j)}
+\\
+&=&
+\prod_j [\lam e^{-\lam\tau^j}]^{d(\tau^j)}
+[e^{-\lam\tau^j}]^{1-d(\tau^j)}
+\\
+&=&
+\prod_j \lam^{d(\tau^j)}
+e^{-\lam\tau^j}
+\eeqa
+Hence
+
+
+\beq
+\ln \call(\lam)=(\ln \lam)
+\underbrace{\sum_j d(\tau^j)}_D
+- \lam \underbrace{\sum_j \tau^j}_T
+\eeq
+Setting $\partial_\lam \call=0$, we get
+
+\beq
+\hat{\lam} = \frac{D}{T}
+\eeq
+
+
+
 
 \subsection{$\lam(t)$  dependent
-of covariates $Z$}
+on covariates $Z$}
 
 Suppose $\beta, Z\in \RR^{nind}$ are
 column vectors, where $nind$ is
@@ -512,7 +586,7 @@ PH model because
 $\lam(t|Z_1)/\lam(t|Z_2)=
 \exp[\beta^T(Z_1-Z_2)]$
 is independent of time.
-In a {\bf Cox time-dependent-hazards (TDH) model},
+In a {\bf Cox hazards model with time-dependent covariates (TC)},
 one assumes that the covariates
 $Z(t)$ depend on time.
 
@@ -556,12 +630,6 @@ $n_C^j=$ number of individuals
 that are censored at time $\tau^j$
 
 
-$d^\s\in \bool$, it equals 1 iff individual
-$\s$ dies at any time.
-
-$c^\s= 1-d^\s$, it equals 1 iff individual
-$\s$ is censored at any time.
-
 To define the Cox partial likelihood function,
 we will assume that $n^j_D + n^j_C =1$, i.e.,
 each time $\tau^j$ has either
@@ -569,8 +637,9 @@ a single death, or a single censorship, but not both.
 Since every individual
 eventually dies or is censored (but, we will assume, not both),
 there is a 1-1 onto map $j(\s)$ mapping $\Sigma$ to the set
-of indices $j$ of $\tau^j$. So we can label the population individuals by
-the index $j(\s)$.
+of indices $j$ of $\tau^j$. So we can label the population individuals
+$\s$ by
+their index $j$, or vice versa.
 
 Let
 
@@ -583,7 +652,7 @@ Then define the {\bf Cox partial likelihood function} by
 
 
 \beq
-\call(\beta) = \prod_j [\call^j(\beta)]^{d^j}
+\call(\beta) = \prod_j [\call^j(\beta)]^{{d(\tau^j})}
 \eeq
 Cox's approximate method for finding
 the best fit for $\beta$
@@ -639,16 +708,16 @@ Hence
 \\
 &=
 \frac{ P(Z^j\cond\tau^{j})}
-{P(\bigxor_{k\geq j}\{\ul{Z}^{k}=Z^k\}\cond\tau^{j})}
+{P(\bigV_{k\geq j}\{\ul{Z}^{k}=Z^k\}\cond\tau^{j})}
 \quad\text{(because the $Z^k$ are independent)}
 \\
 &=
-\frac{ P(Z^j,\bigxor_{k\geq j}\{\ul{Z}^{k}=Z^k\},\tau^{j})}
-{P(\bigxor_{k\geq j}\{\ul{Z}^{k}=Z^k\},\tau^{j})}
+\frac{ P(Z^j,\bigV_{k\geq j}\{\ul{Z}^{k}=Z^k\},\tau^{j})}
+{P(\bigV_{k\geq j}\{\ul{Z}^{k}=Z^k\},\tau^{j})}
 \quad\text{(because $P(A \A B) = P(A)$ if $A \implies B$)}
 \\
 &=
-P(Z^j\cond \bigxor_{k\geq j}\{\ul{Z}^{k}=Z^k\},\tau^{j})
+P(Z^j\cond \bigV_{k\geq j}\{\ul{Z}^{k}=Z^k\},\tau^{j})
 \end{align}
 
 Note that $\call^j(\beta)$ depends
@@ -665,7 +734,7 @@ Bayesians here, so we can  optimize parameters)
 \left\{
 \begin{array}{ll}
 P(\rvtau\geq \tau^j) =S(\tau^j)
-& \text{ if $d(\tau^j)=0$ so $c(\tau^j)=1$}
+& \text{ if $d(\tau^j)=0$ (i.e. $c(\tau^j)=1$)}
 \\
  P(\rvtau=\tau^j)=
  \lam(\tau^j\cond Z^j) S(\tau^j)
@@ -745,7 +814,7 @@ e^{\beta^TZ^k}
 \eeqa
 Hence
 \beq
-\lam_0(t)\Delta t=
+\lam_0(\tau^j)\Delta t=
 \frac{n_D^j}
 {\sum_{k\geq j} e^{\beta^TZ^k}}
 \eeq
