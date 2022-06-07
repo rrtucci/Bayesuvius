@@ -1,0 +1,856 @@
+\chapter{Targeted Estimators}
+\label{ch-targeted-est}
+
+This chapter is based on Refs.\cite{tlride} and  \cite{hoff}.
+
+\section{Functional Calculus}
+
+Hilbert space of square integrable functions over $\rvX\in S_\rvX$
+
+\beq
+\calh_\rvX =\{h: (h:S_\rvX\rarrow \RR) \text{ and }
+\sum_{ X\in S_ \rvX}[h(X)]^2 <\infty\}
+\eeq
+For any $f,g\in \calh_\rvX$,
+define the dot product (aka inner product)
+of $f$ and $g$ by
+
+\beq
+f\cdot g = \sum_X f(X) g(X)
+\eeq
+
+
+Suppose $P:S_\rvX\rarrow [0,1]$
+is a probability distribution.
+Note $P\in\calh_\rvX$.
+For any $f,g\in\calh_\rvX$,
+define the $P$ expected value by
+
+\beq
+\av{f}_P = P\cdot f
+\eeq
+and the $P$ covariance by
+\beq
+\av{f,g}_P =
+\av{fg}_P - \av{f}_P\av{g}_P
+\eeq
+
+Suppose $\Psi:\calh_\rvX\rarrow \RR$.
+
+{\bf functional derivative or gradient }\footnote{
+Functional derivatives are commonly used in physics
+especially in quantum field theory.
+See Ref.\cite{wiki-func-deri} for more
+information about them.}
+of $\Psi[P]$ with respect to $\eta\in\calh_\rvX$.
+
+
+\beq
+\frac{\delta \Psi[\eta]}
+{\delta \eta(a)}=
+\lim_{\eps\rarrow 0}
+\frac{\Psi[\eta(x)+\eps\frac{\delta(x,a)}{\Delta x}] - \Psi[\eta(x)]}
+{\eps}
+\eeq
+where $\delta(x,a)$ is the Kronecker delta function.
+For example,
+\beq
+\frac{\delta}
+{\delta \eta(a)}
+\sum_x \Delta x\; \eta(x) h(x)
+=
+\sum_x \Delta x \frac{\delta(y,a)}{\Delta x} h(x)
+=
+h(a)
+\eeq
+ Let
+$\delta(x-a)$ denote the Dirac delta function. If we replace
+$\frac{\delta(x,a)}{\Delta x}\rarrow\delta(x-a)$
+and $\sum_x \Delta x\rarrow \int dx$, we go
+from the discrete to the continuous version
+of the functional derivative.
+In this chapter, we will use only the discrete version.
+The $\Delta x$ always cancel out
+when we integrate over a Dirac delta function, so we will set
+$\Delta x=1$.
+
+{\bf functional Taylor expansion} of $\Psi[P]$
+for $\eta, \eta_0\in \calh_\rvX$.
+
+\beq
+\Psi[\eta]=
+\Psi[\eta_0]
++ \sum_x
+\left[
+\frac{\delta \Psi[\eta]}
+{\delta \eta(x)}\right]_{\eta=\eta_0}
+\delta\eta(x)
++
+\frac{1}{2!}
+\sum_{x,x'}
+\left[
+\frac{\delta^2 \Psi[\eta]}
+{\delta\eta(x)\delta\eta(x') }\right]_{\eta=\eta_0}
+\delta\eta(x)\delta\eta(x')
++
+\cdots
+\eeq
+where
+$ \eta =\eta(x)$,
+$\eta_0=\eta_0(x)$ and $\delta \eta(x) = \eta(x)-\eta_0(x)$.
+
+
+
+{\bf functional directional derivative of $\Psi[P]$ in $h$ direction}
+$h\cdot\frac{\delta \Psi[P]}{\delta h}$.
+If one compares functional calculus with vector calculus, we see that
+$\frac{\delta \Psi[P]}{\delta h}$ corresponds to a gradient
+$\nabla f(\vecx)$ and
+$h\cdot \frac{\delta \Psi[P]}{\delta h}$
+corresponds to a directional derivative
+$\vecd\cdot \nabla f(\vecx)$.
+For $|\vecd|<<1$, $\vecd\cdot \nabla f(\vecx)$ approximates
+the change
+in $f(\vecx)$ when $\vecx$ moves from $\vecx$ to $\vecx+\vecd$
+
+\beq
+\cald[P](X)=
+\frac{\delta \Psi[P]}
+{\delta P(X)}
+\eeq
+
+
+\beq
+\underbrace{\Psi[P] - \Psi[P_{in}]}_{\delta \Psi[P,P_{in}]}]=
+\sum_X
+\underbrace{\left[\frac{\delta\Psi[P]}{\delta P(X)}
+\right]_{P=P_{in}}
+}_{\cald[P_{in}](X)}
+\
+\underbrace{\delta P(X)}_{P(X)-P_{in}(X)}
++
+\calr[P, P_{in}]
+\eeq
+
+Suppose
+$P,P_{in}: S_\rvX\rarrow [0,1]$
+are probability distributions
+
+Let
+
+\beq
+\cald_0 = \av{\cald[P_{in}]}_{P_{in}}=\caln(!X)\in\RR
+\eeq
+
+\beq
+\Delta\cald[P](X)= \cald[P](X) - \cald_0
+\eeq
+
+\beqa
+\delta\Psi[P,P_{in}]&=&
+\av{\cald[P_{in}]}_P - \cald_0
++
+\calr[P, P_{in}]
+\\
+&=&
+\av{\Delta\cald[P_{in}]}_P
++
+\calr[P, P_{in}]
+\eeqa
+
+
+
+\beq
+P_N(a) = \frac{1}{N}\sum_\s\delta(a, a^\s)
+\eeq
+
+\beq
+\frac{1}{N}\sum_\s a^\s
+=
+\sum_a a P_N(a) = \av{a}_{P_N}
+\eeq
+
+\section{ATE}
+
+
+
+
+\beq
+X= (d,y,w)
+\eeq
+$d,y\in \bool$
+
+\beq
+g[P](y) = P(\rvd=1|y)
+\eeq
+
+\beq
+\caly_{|d,w}[P] = \sum_y y P(y|d,w) = P(\rvy=1|d,w)
+\eeq
+
+\beq
+\caly_{|d}[P] = \sum_w \caly_{|d,w}[P]P(w)
+\eeq
+
+\beq
+ATE=\caly_{|1}[P_N]-\caly_{|0}[P_N]
+\eeq
+
+
+\beqa
+\Delta(d)&=&
+\delta(d, 1)-\delta(d, 0)
+\\
+&=&
+(2d-1)\indi(d\in \bool)
+\eeqa
+
+\begin{claim}
+\beq
+\av{y \frac{\delta(d',d)}{P(d|w)}}_P
+=\caly_{|d'}[P]
+\eeq
+
+\end{claim}
+\proof
+\beqa
+\av{y \frac{\delta(d',d)}{P(d|w)}}_P
+&=&
+\sum_d
+\sum_y
+\sum_w P(y|d,w)\cancel{P(d|w)}P(w) y \frac{\delta(d',d)}{\cancel{P(d|w)}}
+\\
+&=&
+\sum_y
+\sum_w P(y|\rvd=d',w)P(w) y
+\\
+&=&
+\caly_{|\rvd=d'}[P]
+\eeqa
+\qed
+
+\section{ATE estimators}
+\subsection{$\Psi^{G}$}
+
+{\bf General (G) estimator}
+(a.k.a., G-computation estimator)
+
+\beq
+P_N(y,d,w)= \frac{1}{N}\sum_\s \delta(y, y^\s)
+\delta(d, d^\s)
+\delta(w, w^\s)
+\eeq
+
+\beq
+P_N(d,w)= \frac{1}{N}\sum_\s \delta(d, d^\s)
+\delta(w, w^\s)
+\eeq
+
+\beq
+P_N(w)= \frac{1}{N}\sum_\s
+\delta(w, w^\s)
+\eeq
+
+\beq
+P_N(y|d,w)= \frac{P_N(y,d,w)}{P_N(d,w)}
+\eeq
+
+
+\beq
+\Psi^{G}=\sum_d \sum_w P_N(y|d,w)P_N(w)y\Delta(d)
+\eeq
+
+
+\subsection{$\Psi^{IPW}$}
+
+{\bf Inverse Propensity Weighted (IPW) estimator}
+(a.k.a. Inverse Probability of Treatment Weighted (IPTW) estimator)
+Assume propensity $P(\rvd=1\bigwedge|w)$ is known.
+
+Define
+
+\beqa
+\Psi^{IPW}[P]
+&=&
+\av{y \frac{\Delta(d)}{P(d|w)}}_P
+\eeqa
+
+\beq
+\Psi^{IPW}=\Psi^{IPW}[P_N]=
+\av{y\frac{\Delta(d)}{P(d|w)}}_{P_N}=
+\frac{1}{N}\sum_\s
+y^\s \frac{\Delta(d^\s)}{P(d^\s|w^\s)}
+\eeq
+
+
+\subsection{$\Psi^{LIPW}$}
+
+{\bf Linearized IPW (LIPW) estimator}
+
+
+$\Psi^{LIPW}$ is the
+{\bf linear approx (a.k.a.
+one-step-approximation)}  of $\Psi^{IPW}[P_{in}]$
+in the direction $P_N$.
+
+\beq
+\Psi^{IPW}=
+\Psi^{IPW}[P_{in}] +
+\underbrace{\av{\Delta\cald^{IPW}[P_{in}]}_{P_N}}
+_{P_N\cdot\Delta\cald^{IPW}[P_{in}]}
+\eeq
+
+
+\begin{claim}
+\beq
+\cald^{IPW}[P](X) =  \caly_{|1,w}[P]
+-
+\caly_{|0,w}[P]
++
+\frac{\Delta(d)}{P(d|w)}
+(y-\caly_{|d,w}[P])
+\eeq
+\end{claim}
+\proof
+\beqa
+\frac{\delta \Psi^{IPW}[P]}
+{\delta P(X)}
+&=&
+\sum_{X'} y' \Delta(d')\frac{\delta}{\delta P(X)}
+\frac{P(X')}{P(d'|w')}
+\eeqa
+
+\beqa
+\frac{\delta}{\delta P(X)}
+\frac{P(X')}{P(d'|w')}
+&=&
+\frac{\delta(X,X')}{P(d'|w')}
+-\frac{P(X')}{[P(d'|w')]^2}
+\frac{\delta P(d'|w')}{\delta P(X)}
+\\
+&=&
+\frac{\delta(X, X')}{P(d'|w')}
+-\frac{P(X')}{P(d'|w')}
+\frac{\delta \ln P(d'|w')}{\delta P(X)}
+\\
+&=&
+\underbrace{\frac{\delta(X, X')}{P(d'|w')}}_{\delta^3/P(d'|w')}
+-P(y'|d',w')P(w')
+\frac{\delta \ln P(d'|w')}{\delta P(X)}
+\eeqa
+
+\beqa
+\frac{\delta \ln P(d',w')}{\delta P(X)}
+&=&
+\frac{1}{P(d',w')}
+\sum_{y'}\frac{\delta P(X')}{\delta P(X)}
+\\
+&=&
+\underbrace{\frac{\delta(d, d')\delta(w,w')}{P(d',w')}}_{\delta^2/P(d',w')}
+\eeqa
+
+\beqa
+\frac{\delta \ln P(w')}{\delta P(X)}
+&=&
+\underbrace{\frac{\delta(w,w')}{P(w')}}_{\delta^1/P(w')}
+\eeqa
+
+\beqa
+\frac{\delta \ln P(d'|w')}{\delta P(X)}
+&=&
+\frac{\delta^2}{P(d',w')}
+-
+\frac{\delta^1}{P(w')}
+\eeqa
+
+\beq
+\frac{\delta}{\delta P(X)}
+\frac{P(X')}{P(d'|w')}
+=
+\frac{\delta^3}{P(d'|w')}
+-P(y'|d',w')P(w')
+\left[
+\frac{\delta^2}{P(d',w')}
+-
+\frac{\delta^1}{P(w')}
+\right]
+\eeq
+
+\beq
+\sum_{X'} y'\Delta(d')\left[
+\frac{\delta^3}{P(d'|w')}
+\right]
+=\boxed{\frac{\Delta(d)}{P(d|w)}y}
+\eeq
+
+\begin{align}
+\sum_{X'} y'\Delta(d')
+\left[
+\frac{-P(y'|d',w')\delta^2}{P(d'|w')}
+\right]
+&=
+-\sum_{y'}
+y'\Delta(d)
+\frac{P(y'|d,w)}{P(d|w)}
+\\
+&=
+\boxed{\frac{\Delta(d)}{P(d|w)}
+(-\caly_{|d,w}[P])}
+\end{align}
+
+\beqa
+\sum_{X'} y'\Delta(d')
+\left[P(y'|d',w')\delta^1
+\right]
+&=&
+\sum_{y'}\sum_{d'} y'\Delta(d')
+P(y'|d',w)
+\\
+&=&
+\boxed{\caly_{|1,w}[P]-\caly_{|0,w}[P]}
+\eeqa
+\qed
+
+\begin{claim}
+\beq
+\av{\cald^{IPW}[P]}_P=\Psi^{IPW}[P]
+\eeq
+Hence,
+
+\beq
+\cald^{IPW}_0=\av{\cald^{IPW}[P_{in}]}_{P_{in}}=\Psi^{IPW}[P_{in}]
+\eeq
+
+\end{claim}
+\proof
+
+\beq
+\cald^{IPW}[P](X) =  \caly_{|1,w}[P]
+-
+\caly_{|0,w}[P]
++
+\frac{\Delta(d)}{P(d|w)}
+(y-\caly_{|d,w}[P])
+\eeq
+
+\beqa
+\av{\caly_{|1,w}[P]-\caly_{|0,w}[P]}_P
+&=&
+\sum_w P(w)(\caly_{|1,w}[P]-\caly_{|0,w}[P])
+\\
+&=&
+\Psi^{IPW}[P]
+\eeqa
+
+\beq
+\av{\frac{\Delta(d)}{P(d|w)}y}_P
+=
+\Psi^{IPW}[P]
+\eeq
+
+\beqa
+\av{\frac{\Delta(d)}{P(d|w)}
+\caly_{|d,w}[P]}_P
+&=&
+\sum_y\sum_w \sum_d
+ P(y|d,w)P(w)\Delta(d)\caly_{|d,w}[P]
+ \\
+ &=&
+\sum_w \sum_d
+ P(w)\Delta(d)\caly_{|d,w}[P]
+ \\
+ &=&
+\Psi^{IPW}[P]
+\eeqa
+\qed
+
+
+\beqa
+\Psi^{IPW}[P] &=&
+\Psi^{IPW}[P_{in}]
+ + \av{\cald^{IPW}[P_{in}]}_P -\cald^{IPW}_0
+ + \calr^{IPW}[P,P_{in}]
+\\
+&=&
+\cancel{\Psi^{IPW}[P_{in}] }
+ + \av{\cald^{IPW}[P_{in}]}_P -\cancel{\Psi^{IPW}[P_{in}] }
+ + \calr^{IPW}[P,P_{in}]
+ \\
+&=&
+ \av{\cald^{IPW}[P_{in}]}_P
+ + \calr^{IPW}[P,P_{in}]
+\eeqa
+
+\begin{claim}
+\begin{align}
+\calr^{IPW}[P,P_{in}]&=-
+\sum_w P(w)\sum_d \Delta(d)
+\left(
+P(d|w)-P_{in}(d|w)
+\right)
+\left(
+\frac{
+\caly_{|d,w}[P]-\caly_{|d,w}[P_{in}]}
+{P_{in}(d|w)}
+\right)
+\end{align}
+\end{claim}
+\proof
+
+\begin{align}
+\calr^{IPW}[P,P_{in}]
+&=
+\Psi^{IPW}[P]
+-\av{\cald^{IPW}[P_{in}]}_P
+\\
+&=
+\av{
+y \frac{\Delta(d)}{P(d|w)}
+-
+\left(
+\caly_{|1,w}[P_{in}]
+-
+\caly_{|0,w}[P_{in}]
++
+\frac{\Delta(d)}{P_{in}(d|w)}
+(y-\caly_{|d,w}[P_{in}])
+\right)
+}_{P}
+\\
+&=
+\left\{
+\begin{array}{l}
+\sum_w P(w)\left(
+-\caly_{|1,w}[P_{in}]
++
+\caly_{|0,w}[P_{in}]
+\right)
+\\
++\sum_{d,w} P(d,w) \left(
+\frac{\Delta(d)}{P_{in}(d|w)}
+\caly_{|d,w}[P_{in}]
+\right)
+\\
++\sum_{y,d,w} P(y, d,w)\left(
+\frac{1}{P(d|w)}- \frac{1}{P_{in}(d|w)}
+\right) y\Delta(d)
+\end{array}
+\right.
+\\
+&=\sum_w P(w)\sum_d \Delta(d)
+\left\{
+\begin{array}{l}
+\left(
+\frac{P(d|w)}{P_{in}(d|w)}-1
+\right)
+\caly_{|d,w}[P_{in}]
+\\
++\sum_{y}P(y|d,w)\left(
+\frac{P_{in}(d|w)-P(d|w)}{P_{in}(d|w)}
+\right) y
+\end{array}
+\right.
+\\
+&=
+\sum_w P(w)\sum_d \Delta(d)
+\left(\frac{P(d|w)}{P_{in}(d|w)}-1
+\right)
+(\caly_{|d,w}[P_{in}]-
+\caly_{|d,w}[P])
+\end{align}
+
+\qed
+
+
+\begin{align}
+|\calr^{IPW}[P,P_{in}]|&\leq
+\sum_d \sum_w
+\underbrace{\sqrt{P(w)}
+\left|
+P(d|w)-P_{in}(d|w)
+\right|}_{A(d,w)}
+\underbrace{\sqrt{P(w)}
+\left|
+\frac{
+\caly_{|d,w}[P]-\caly_{|d,w}[P_{in}]}
+{P_{in}(d|w)}
+\right|}_{B(d,w)}
+\nonumber
+\\&
+\quad\text{(because
+$|\Delta(d)|\leq 1$, and $\left|\sum_i a_i\right|\leq \sum_i |a_i|$ )}
+\\
+&\leq
+\sum_d
+\underbrace{\sqrt{\sum_w A^2(d,w)}}_{A(d)}
+\underbrace{\sqrt{\sum_w B^2(d,w)}}_{B(d)}
+\quad \text{(because $\veca\cdot \vecb\leq |\veca|\;|\vecb|$)}
+\end{align}
+
+\beqa
+A(d')&=&
+\sum_w P(w)
+\left(
+P(d'|w)-P_{in}(d'|w)
+\right)^2
+\\
+&=&
+\av{
+\left(
+P(d'|w)-P_{in}(d'|w)
+\right)^2
+}_P
+\eeqa
+
+\beqa
+B(d')&=&
+\sum_w P(w)
+\left(
+\frac{
+\caly_{|d',w}[P]-\caly_{|d',w}[P_{in}]}
+{P_{in}(d'|w)}
+\right)^2
+\\
+&=&
+\av{
+\left(
+\frac{
+\caly_{|d',w}[P]-\caly_{|d',w}[P_{in}]}
+{P_{in}(d'|w)}
+\right)^2
+}_P
+\eeqa
+
+\begin{align}
+|\calr^{LIPW}[P_N,P_{in}]|&\leq
+\sum_{d'=0}^1
+\underbrace{
+\av{
+\left(
+P_N(d'|w)-P_{in}(d'|w)
+\right)^2
+}_{P_N}
+}_{A_N(d')}
+\underbrace{
+\av{
+\left(
+\frac{
+\caly_{|d',w}[P_N]-\caly_{|d',w}[P_{in}]}
+{P_{in}(d'|w)}
+\right)^2
+}_{P_N}
+}_{B_N(d')}
+\end{align}
+
+If either $A_N(1)=A_N(0)=0$ (i.e.,
+zero error in the propensities) or $B_N(0)=B_N(1)=0$ (i.e.,
+zero bias),
+then $\calr^{LIPW}[P_N,P_{in}]=0$.
+This property
+of $\Psi^{LIPW}$ is referred to as {\bf double robustness}
+
+
+\subsection{$\Psi^{LIPW++}$ (a.k.a $\Psi^{TMLE}$)}
+
+{\bf Substitutional LIPW (LIPW++) estimator}
+(a.k.a, targeted minimum loss estimator (TMLE))
+
+$\Psi^{LIPW++}$ is the
+linear approx of $\Psi^{IPW}[P_{in}]$ at the point $P_{in}=P_{in++}$,
+in the direction $P_N$,
+where the slope
+of $\Psi^{IPW}[P_{in}]$ at $P_{in}=P_{in++}$ is zero
+
+\beq
+\Psi^{LIPW++}=\Psi^{TMLE}=
+\Psi^{IPW}[P_{in++}] +
+\underbrace{\av{\Delta\cald^{IPW}[P_{in++}]}_{P_N}}_{=0}
+\eeq
+
+$P_N\cdot \Delta\cald^{IPW}[P_{in++}]=0$
+means $P_N$ (for all $N$)
+points perpendicular to the
+gradient of $\Delta\Psi^{IPW}[P]$
+evaluated at $P=P_{in++}$.
+(gradients point in the direction
+of maximum change).
+This property of
+of $\Psi^{TMLE}$ is referred to as {\bf substitution
+invariance} and $\Psi^{TMLE}$
+is said to be a {\bf substitution estimator}.
+A substitution estimator is
+very desirable because
+its
+absolute value is bounded, unlike
+the value of $\Psi^{LIPW}$.
+
+$\Psi^{TMLE}$ is both
+a doubly robust estimator and a substitution estimator.
+
+\begin{align}
+0 &=
+P_N\cdot\Delta\cald^{IPW}[P_{in++}]
+\\
+0 &=-\cald^{LPW}_0[P_{in++}]+
+P_N\cdot\cald^{IPW}[P_{in++}]
+\\
+&= -\cald^{LPW}_0[P_{in++}]+
+\left\{
+\begin{array}{l}
+\overbrace{
+\frac{1}{N}
+\sum_\s
+\left(
+\caly_{|1,w^\s}[P_{in++}]
+-
+\caly_{|0,w^\s}[P_{in++}]
+\right)
+}^{ \cald^{LPW}_0[P_{in++}]}
+\\
++
+\frac{1}{N}
+\sum_\s
+\frac{\Delta(d^\s)}{P_{in++}(d^\s|w^\s)}
+(y^\s-\caly_{|d^\s,w^\s}[P_{in++}])
+\end{array}
+\right.
+\\
+&=
+\frac{1}{N}
+\sum_\s
+\frac{\Delta(d^\s)}{P_{in++}(d^\s|w^\s)}
+(y^\s-\caly_{|d^\s,w^\s}[P_{in++}])
+\end{align}
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=3.5in]
+{targeted-est/targeted-est.png}
+\caption{
+This figure portrays
+the space of functions $\calh_\rvX$
+as if it were the real plane $\RR^2$,
+and the functional $\Psi^{IPW}:\calh_\rvX\rarrow\RR$
+as if it were a real valued function on $\RR^2$.
+It shows  the constant contours
+of the loss function $\call$ in green.
+$P_N$ for $N=100, 200, 300$
+represent empirical distributions.
+The gradient of $\call$
+is perpendicular to $P_N$  at $P_{in++}$
+but not at $P_{in}$.
+}
+\label{fig-targeted-est}
+\end{figure}
+
+Use as loss function $\call$ the Cross Entropy
+$CE(p\parallel q)$ for $p, q\in [0,1]$
+\beq
+\call = CE(p\parallel q)=-[p \ln q + (1-p) \ln(1- q)]
+\eeq
+
+$\call\geq 0$ and it is minimized when $p=q$.
+When $p=q$, it equals the entropy of $p$,
+i.e., $\call=-\sum_{x\in \bool} P(x)\ln P(x)= H(P)$,
+where $P(0)=p, P(1)=1-p$.
+
+For some $y\in\bool$ and $\eps>0$,
+set\footnote{To agree with the literature
+on targeted estimators,
+we are using $\expit(x)$
+(resp., $\logit(p)$) to denote
+the sigmoid function (resp., log-odds function)
+which we normally
+denote in this book by
+ $\smoid(x)$ (resp., $\lodds(p)$).}
+
+\beq
+p=y,
+\quad
+q= \expit[\logit(q_0) + \eps \beta ]
+\eeq
+in the loss function $\call$
+and call it $\call=\call(\beta, y, q_0, \eps)$.
+
+ Recall that in section xx, we proved that
+ the derivative of $\expit(x)$ satisfies
+
+\beq
+\expit'(x) = \expit(x)[1-\expit(x)]
+\eeq
+
+\begin{align}
+\lim_{\eps\rarrow 0}\partial_\eps \call(\beta, y, q_0, \eps)
+&=
+\lim_{\eps\rarrow 0}
+\left[-\frac{p}{q} + \frac{1-p}{1-q}\right]\partial_\eps q
+\\
+&=
+\left[-\frac{y}{q_0} + \frac{1-y}{1-q_0}\right]
+\lim_{\eps\rarrow 0}
+\left\{
+\begin{array}{l}
+\expit[\logit(q_0) + \eps \beta ]
+\\
+*\left\{1-\expit[\logit(q_0) + \eps \beta ]\right\}
+\beta
+\end{array}
+\right.
+\\
+&=
+\left[-\frac{y}{q_0} + \frac{1-y}{1-q_0}\right]
+q_0(1-q_0)\beta
+\\
+&=
+\beta[q_0-y]
+\end{align}
+
+\beq
+\cald^\s = \lim_{\eps\rarrow 0}\partial_\eps\call
+\left(
+\begin{array}{l}
+\beta=\frac{\Delta(d^\s)}{P_{in++}(d^\s|w^\s)} ,
+\\
+y=y^\s,
+\\
+q_0 = \caly_{|d^\s,w^\s}[P_{in++}],
+\\
+\eps =\eps
+\end{array}
+\right)
+\eeq
+
+\beq
+\frac{1}{N}\sum_\s\cald^\s =P_N\cdot \cald= 0
+\eeq
+
+\beq
+\cald^\s = \frac{\delta}{\delta h(X^\s)}
+\left(
+\begin{array}{l}
+\beta=\sum_{X}h(X)\frac{\Delta(d)}{P_{in++}(d|w)} ,
+\\
+y=y^\s,
+\\
+q_0 = \caly_{|d^\s,w^\s}[P_{in++}],
+\\
+\eps =1
+\end{array}
+\right)
+\eeq
+
+\beq
+\frac{1}{N}\sum_\s\frac{\delta\call}{\delta h(X^\s)}
+=P_N\cdot \frac{\delta\call}{\delta h}= 0
+\eeq
+
+\beq
+h(X) = \gamma\delta(X,\hat{X})
+\eeq
+
+\beq
+\beta = \gamma\frac{\Delta(\hat{d})}{P_{in++}(\hat{d}|\hat{w})}
+\eeq
+
+\section{$\Psi^{TMLE}$ in practice}
