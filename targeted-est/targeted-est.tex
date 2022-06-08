@@ -3,6 +3,155 @@
 
 This chapter is based on Refs.\cite{tlride} and  \cite{hoff}.
 
+The goal of Targeted Estimator (TE) theory is
+to find, given an estimator,
+a new estimator that is slightly
+displaced from the original,
+but has better behavior (i.e.,
+it converges faster, and with less
+variance, as the number $N$
+of samples grows). This goal and
+the strategy one uses to achieve it, is
+explained more precisely in the next section.
+
+
+
+
+\section{Goal, Strategy, and Rationale of TE theory}
+
+
+Let $\rvb = (\rvb_1, \rvb_2, \ldots, \rvb_{n})$ denote
+the $n$ nodes of a Bayesian Network, and let $P_\rvb(b)$ for $b\in S_\rvb$
+denote the full probability distribution of the bnet.
+
+Empirical probability distribution $P_N:S_\rvb \rarrow [0,1]$
+
+\beq
+P_N(b) = \frac{1}{N}\sum_\s\delta(b, b^\s)
+\eeq
+
+\beq
+\sum_b P_N(b)f(b)=
+\frac{1}{N}\sum_\s f(b^\s)
+\eeq
+As $N\rarrow \infty$, $P_N(b)$ tends
+to the probability distribution $P_\rvb(b)$
+of the bnet.
+\begin{figure}[h!]
+$$
+\xymatrix{
+\ul{\xi}_1\ar[r]
+&\rvw\ar[dr]
+&\ul{\xi}_2
+\\
+\rvd\ar[rr]\ar[u]\ar[rru]
+&
+&\rvy\ar[u]
+}
+$$
+\caption{Example of bnet considered in TET.}
+\label{fig-targeted-bnet}
+\end{figure}
+
+Let $\rvb=(\rvX, \ul{\xi})$ and
+$\rvX=(\rvd, \rvy,\rvw)$,
+where
+node $\rvd\in\bool$ denotes a decision to treat a patient,
+node $\rvy\in \bool$ denotes the treatment outcome,
+multi-node $\rvw$ denotes the covariates
+that are good controls, and multi-node $\ul{\xi}$ denotes
+the covariates that we don't want to control.
+See Fig.\ref{fig-targeted-bnet}
+for an example of a bnet that fits this description.
+
+
+{\bf Estimand} $\haty$ of $y$
+is a function $\haty:S_\rvy\times S_\rvw\rarrow \RR$
+that minimizes the {\bf loss function} $\call$
+given by
+
+
+\beq
+\call[P, \haty]= \sum_X P(X) [y-\haty(x,w)]^2
+\eeq
+
+{\bf Estimator}
+ $\Psi[P, \haty]$ for the estimand $\haty$
+on the bnet $P(X)$
+
+\beq
+\Psi[P, \haty] =\sum_X P(X)\haty(d,w)
+\eeq
+
+\beq
+\delta P(X)=
+P(X)-P_{in}(X)
+\eeq
+
+Define $\delta\haty(X)$ by
+
+\beq
+\delta\haty(X)= \frac{\haty(d,w) \delta P(X)}{P(X)}
+\eeq
+
+Hence
+
+\beq
+P(X)\delta\haty(X) = \haty(d,w)\delta P(X)
+\eeq
+
+\beq
+\Psi[P, \haty + \delta\haty]=
+\Psi[P + \delta P, \haty]
+\eeq
+
+
+Suppose we can find a special $P_{in}$,
+call it $P_{in++}$ such that
+
+
+\beq
+P_{in++}= \argmin_{P_{in}}\call[P_{in}, \haty]
+\eeq
+and
+
+\beq
+\lim_{N\rarrow \infty}
+\Psi[P_N, \haty + \delta\haty]=
+\lim_{N\rarrow \infty}
+\Psi[\underbrace{P_N+\delta P}_{P_{in++}}, \haty]
+=
+\lim_{N\rarrow \infty}
+\Psi[P_N, \haty]
+\label{eq-tar-limit}
+\eeq
+Eq.(\ref{eq-tar-limit}) is illustrated in
+Fig.\ref{fig-targeted-p-psi-plot.png}.
+
+The goal of TET
+is to find, given an estimand $\haty$,
+a new estimand $\haty +\delta \haty$
+so that the
+estimator $\Psi[P_N, \haty+\delta \haty]$
+has better behavior as $N\rarrow \infty$ than
+$\Psi[P_N, \haty]$ (i.e., converges faster,
+has smaller variance).
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=3in]
+{targeted-est/targeted-p-psi-plot.png}
+\caption{
+Plot of $\Psi[P, \haty]\in \RR$ versus $P$
+at fixed $\haty$.
+In reality, the $P$ are not real numbers but
+functions.
+}
+\label{fig-targeted-p-psi-plot.png}
+\end{figure}
+
+
 \section{Functional Calculus}
 
 Hilbert space of square integrable functions over $\rvX\in S_\rvX$
@@ -160,15 +309,7 @@ Let
 
 
 
-\beq
-P_N(a) = \frac{1}{N}\sum_\s\delta(a, a^\s)
-\eeq
 
-\beq
-\frac{1}{N}\sum_\s a^\s
-=
-\sum_a a P_N(a) = \av{a}_{P_N}
-\eeq
 
 \section{ATE}
 
@@ -756,8 +897,7 @@ i.e., $\call=-\sum_{x\in \bool} P(x)\ln P(x)= H(P)$,
 where $P(0)=p, P(1)=1-p$.
 
 For some $y\in\bool$ and $\eps>0$,
-set\footnote{To agree with the literature
-on targeted estimators,
+set\footnote{To agree with the TE literature,
 we are using $\expit(x)$
 (resp., $\logit(p)$) to denote
 the sigmoid function (resp., log-odds function)
@@ -772,6 +912,8 @@ q= \expit[\logit(q_0) + \eps \beta ]
 \eeq
 in the loss function $\call$
 and call it $\call=\call(\beta, y, q_0, \eps)$.
+Note that since $q=y$ is binary,
+the minimum of this loss function is zero.
 
  Recall that in section xx, we proved that
  the derivative of $\expit(x)$ satisfies
