@@ -8,7 +8,7 @@ to find, given an estimator,
 a new estimator that is slightly
 displaced from the original,
 but has better behavior (i.e.,
-it converges faster, and with less
+it converges faster, and with smaller
 variance, as the number $N$
 of samples grows). This goal and
 the strategy one uses to achieve it, is
@@ -24,7 +24,10 @@ Let $\rvb = (\rvb_1, \rvb_2, \ldots, \rvb_{n})$ denote
 the $n$ nodes of a Bayesian Network, and let $P_\rvb(b)$ for $b\in S_\rvb$
 denote the full probability distribution of the bnet.
 
-Empirical probability distribution $P_N:S_\rvb \rarrow [0,1]$
+ Consider a population of
+ individuals $\s\in \Sigma$ with $N=|\Sigma|$.
+ The {\bf empirical probability distribution}
+ $P_N:S_\rvb \rarrow [0,1]$ for this bnet is defined by
 
 \beq
 P_N(b) = \frac{1}{N}\sum_\s\delta(b, b^\s)
@@ -40,8 +43,10 @@ of the bnet.
 \begin{figure}[h!]
 $$
 \xymatrix{
+&\rvw_2\ar[ddl]\ar[ddr]
+\\
 \ul{\xi}_1\ar[r]
-&\rvw\ar[dr]
+&\rvw_1\ar[dr]
 &\ul{\xi}_2
 \\
 \rvd\ar[rr]\ar[u]\ar[rru]
@@ -49,7 +54,8 @@ $$
 &\rvy\ar[u]
 }
 $$
-\caption{Example of bnet considered in TET.}
+\caption{Example of bnet considered in TE
+theory.}
 \label{fig-targeted-bnet}
 \end{figure}
 
@@ -65,7 +71,7 @@ See Fig.\ref{fig-targeted-bnet}
 for an example of a bnet that fits this description.
 
 
-{\bf Estimand} $\haty$ of $y$
+The {\bf estimand} $\haty$ of $y$
 is a function $\haty:S_\rvy\times S_\rvw\rarrow \RR$
 that minimizes the {\bf loss function} $\call$
 given by
@@ -73,32 +79,38 @@ given by
 
 \beq
 \call[P, \haty]= \sum_X P(X) [y-\haty(x,w)]^2
+\;.
 \eeq
 
-{\bf Estimator}
+The {\bf estimator}
  $\Psi[P, \haty]$ for the estimand $\haty$
-on the bnet $P(X)$
+is defined by
 
 \beq
 \Psi[P, \haty] =\sum_X P(X)\haty(d,w)
 \eeq
 
+Let
 \beq
 \delta P(X)=
 P(X)-P_{in}(X)
 \eeq
+where $P, P_{in}:S_\rvX\rarrow [0,1]$ are
+probability distributions.
 
 Define $\delta\haty(X)$ by
 
 \beq
 \delta\haty(X)= \frac{\haty(d,w) \delta P(X)}{P(X)}
 \eeq
-
 Hence
 
 \beq
 P(X)\delta\haty(X) = \haty(d,w)\delta P(X)
 \eeq
+Since $\Psi[P, \haty]$
+is linear in $P$ and $\haty$,
+it follows that
 
 \beq
 \Psi[P, \haty + \delta\haty]=
@@ -106,8 +118,7 @@ P(X)\delta\haty(X) = \haty(d,w)\delta P(X)
 \eeq
 
 
-Suppose we can find a special $P_{in}$,
-call it $P_{in++}$ such that
+Suppose $P_{in++}$ satisfies
 
 
 \beq
@@ -124,11 +135,12 @@ and
 \lim_{N\rarrow \infty}
 \Psi[P_N, \haty]
 \label{eq-tar-limit}
+\;.
 \eeq
 Eq.(\ref{eq-tar-limit}) is illustrated in
 Fig.\ref{fig-targeted-p-psi-plot.png}.
 
-The goal of TET
+The goal of TE theory
 is to find, given an estimand $\haty$,
 a new estimand $\haty +\delta \haty$
 so that the
@@ -140,7 +152,7 @@ has smaller variance).
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=3in]
+\includegraphics[width=3.5in]
 {targeted-est/targeted-p-psi-plot.png}
 \caption{
 Plot of $\Psi[P, \haty]\in \RR$ versus $P$
@@ -154,14 +166,16 @@ functions.
 
 \section{Functional Calculus}
 
-Hilbert space of square integrable functions over $\rvX\in S_\rvX$
+Define
+the Hilbert space of square integrable functions over $\rvX\in S_\rvX$
+by
 
 \beq
 \calh_\rvX =\{h: (h:S_\rvX\rarrow \RR) \text{ and }
 \sum_{ X\in S_ \rvX}[h(X)]^2 <\infty\}
 \eeq
 For any $f,g\in \calh_\rvX$,
-define the dot product (aka inner product)
+define the dot product (a.k.a. inner product)
 of $f$ and $g$ by
 
 \beq
@@ -171,7 +185,7 @@ f\cdot g = \sum_X f(X) g(X)
 
 Suppose $P:S_\rvX\rarrow [0,1]$
 is a probability distribution.
-Note $P\in\calh_\rvX$.
+Note that $P\in\calh_\rvX$.
 For any $f,g\in\calh_\rvX$,
 define the $P$ expected value by
 
@@ -185,13 +199,13 @@ and the $P$ covariance by
 \eeq
 
 Suppose $\Psi:\calh_\rvX\rarrow \RR$.
-
+Define the
 {\bf functional derivative or gradient }\footnote{
-Functional derivatives are commonly used in physics
-especially in quantum field theory.
+Functional derivatives are commonly used in Physics
+especially in Quantum Field Theory.
 See Ref.\cite{wiki-func-deri} for more
 information about them.}
-of $\Psi[P]$ with respect to $\eta\in\calh_\rvX$.
+of $\Psi[\eta]$ with respect to $\eta\in\calh_\rvX$, as follows
 
 
 \beq
@@ -219,12 +233,15 @@ and $\sum_x \Delta x\rarrow \int dx$, we go
 from the discrete to the continuous version
 of the functional derivative.
 In this chapter, we will use only the discrete version.
-The $\Delta x$ always cancel out
-when we integrate over a Dirac delta function, so we will set
+The $\Delta x$ in the numerator
+and the one in the denominator, always cancel out
+when we integrate over a Dirac delta function, so we will
+henceforth set
 $\Delta x=1$.
 
-{\bf functional Taylor expansion} of $\Psi[P]$
-for $\eta, \eta_0\in \calh_\rvX$.
+Suppose $\eta, \eta_0\in \calh_\rvX$. Define the
+{\bf functional Taylor expansion} of $\Psi[\eta]$
+at $\eta_0$, as follows:
 
 \beq
 \Psi[\eta]=
@@ -244,30 +261,40 @@ for $\eta, \eta_0\in \calh_\rvX$.
 +
 \cdots
 \eeq
-where
+where we abbreviate
 $ \eta =\eta(x)$,
 $\eta_0=\eta_0(x)$ and $\delta \eta(x) = \eta(x)-\eta_0(x)$.
 
 
 
-{\bf functional directional derivative of $\Psi[P]$ in $h$ direction}
-$h\cdot\frac{\delta \Psi[P]}{\delta h}$.
+Define the
+{\bf functional directional derivative of $\Psi[\eta]$ in
+the $h\in \calh_\rvX$
+direction}
+by $h\cdot\frac{\delta \Psi[\eta]}{\delta \eta}$.
 If one compares functional calculus with vector calculus, we see that
-$\frac{\delta \Psi[P]}{\delta h}$ corresponds to a gradient
+$\frac{\delta \Psi[\eta]}{\delta \eta}$ corresponds to a gradient
 $\nabla f(\vecx)$ and
-$h\cdot \frac{\delta \Psi[P]}{\delta h}$
+$h\cdot \frac{\delta \Psi[\eta]}{\delta \eta}$
 corresponds to a directional derivative
 $\vecd\cdot \nabla f(\vecx)$.
 For $|\vecd|<<1$, $\vecd\cdot \nabla f(\vecx)$ approximates
 the change
 in $f(\vecx)$ when $\vecx$ moves from $\vecx$ to $\vecx+\vecd$
 
+Next consider probability
+distributions $P, P_{in}:S_\rvX\rarrow [0,1]$
+and let
+
 \beq
-\cald[P](X)=
+\cald[\Psi](X)=
 \frac{\delta \Psi[P]}
 {\delta P(X)}
+\;.
 \eeq
-
+The linear approximation
+to the Taylor expansion of $\Psi[P]$ at
+$P_{in}$ is given by
 
 \beq
 \underbrace{\Psi[P] - \Psi[P_{in}]}_{\delta \Psi[P,P_{in}]}]=
@@ -279,25 +306,24 @@ in $f(\vecx)$ when $\vecx$ moves from $\vecx$ to $\vecx+\vecd$
 \underbrace{\delta P(X)}_{P(X)-P_{in}(X)}
 +
 \calr[P, P_{in}]
+\label{eq-1st-order-psi}
 \eeq
-
-Suppose
-$P,P_{in}: S_\rvX\rarrow [0,1]$
-are probability distributions
-
-Let
+If we set
 
 \beq
-\cald_0 = \av{\cald[P_{in}]}_{P_{in}}=\caln(!X)\in\RR
+\cald_{in} = \av{\cald[P_{in}]}_{P_{in}}=\caln(!X)\in\RR
 \eeq
+and
 
 \beq
-\Delta\cald[P](X)= \cald[P](X) - \cald_0
+\Delta\cald[P](X)= \cald[P](X) - \cald_{in}
+\;,
 \eeq
+then Eq.(\ref{eq-1st-order-psi}) becomes
 
 \beqa
 \delta\Psi[P,P_{in}]&=&
-\av{\cald[P_{in}]}_P - \cald_0
+\av{\cald[P_{in}]}_P - \cald_{in}
 +
 \calr[P, P_{in}]
 \\
@@ -313,30 +339,37 @@ Let
 
 \section{ATE}
 
-
-
-
-\beq
-X= (d,y,w)
-\eeq
-$d,y\in \bool$
-
-\beq
-g[P](y) = P(\rvd=1|y)
-\eeq
+If we set
 
 \beq
 \caly_{|d,w}[P] = \sum_y y P(y|d,w) = P(\rvy=1|d,w)
 \eeq
+and
 
 \beq
 \caly_{|d}[P] = \sum_w \caly_{|d,w}[P]P(w)
+\;,
 \eeq
+then the {\bf Average Treatment Effect (ATE)}
+is defined as follows
 
 \beq
 ATE=\caly_{|1}[P_N]-\caly_{|0}[P_N]
 \eeq
+The rest of this
+chapter is devoted
+to discussing ATE estimators.
 
+In discussing ATE,
+it is convenient to define the
+{\bf propensity}:
+
+\beq
+g[P](y) = P(\rvd=1|y)
+\eeq
+and the
+Kronecker difference function
+for $d\in \bool$:
 
 \beqa
 \Delta(d)&=&
@@ -344,6 +377,7 @@ ATE=\caly_{|1}[P_N]-\caly_{|0}[P_N]
 \\
 &=&
 (2d-1)\indi(d\in \bool)
+\;.
 \eeqa
 
 \begin{claim}
@@ -373,8 +407,8 @@ ATE=\caly_{|1}[P_N]-\caly_{|0}[P_N]
 \section{ATE estimators}
 \subsection{$\Psi^{G}$}
 
-{\bf General (G) estimator}
-(a.k.a., G-computation estimator)
+{\bf General (G) estimator} $\Psi^G$
+(a.k.a., G-computation estimator).
 
 \beq
 P_N(y,d,w)= \frac{1}{N}\sum_\s \delta(y, y^\s)
@@ -404,9 +438,10 @@ P_N(y|d,w)= \frac{P_N(y,d,w)}{P_N(d,w)}
 
 \subsection{$\Psi^{IPW}$}
 
-{\bf Inverse Propensity Weighted (IPW) estimator}
-(a.k.a. Inverse Probability of Treatment Weighted (IPTW) estimator)
-Assume propensity $P(\rvd=1\bigwedge|w)$ is known.
+{\bf Inverse Propensity Weighted (IPW) estimator} $\Psi^{IPW}$
+(a.k.a. Inverse Probability of Treatment Weighted (IPTW) estimator).
+
+Assume propensity $P(\rvd=1|w)$ is known.
 
 Define
 
@@ -426,11 +461,11 @@ y^\s \frac{\Delta(d^\s)}{P(d^\s|w^\s)}
 
 \subsection{$\Psi^{LIPW}$}
 
-{\bf Linearized IPW (LIPW) estimator}
+{\bf Linearized IPW (LIPW) estimator} $\Psi^{LIPW}$.
 
 
 $\Psi^{LIPW}$ is the
-{\bf linear approx (a.k.a.
+{\bf linear approximation (a.k.a.
 one-step-approximation)}  of $\Psi^{IPW}[P_{in}]$
 in the direction $P_N$.
 
@@ -443,6 +478,7 @@ _{P_N\cdot\Delta\cald^{IPW}[P_{in}]}
 
 
 \begin{claim}
+\label{cl-grad-ipw}
 \beq
 \cald^{IPW}[P](X) =  \caly_{|1,w}[P]
 -
@@ -559,7 +595,7 @@ P(y'|d',w)
 Hence,
 
 \beq
-\cald^{IPW}_0=\av{\cald^{IPW}[P_{in}]}_{P_{in}}=\Psi^{IPW}[P_{in}]
+\cald^{IPW}_{in}=\av{\cald^{IPW}[P_{in}]}_{P_{in}}=\Psi^{IPW}[P_{in}]
 \eeq
 
 \end{claim}
@@ -605,11 +641,11 @@ Hence,
 \eeqa
 \qed
 
-
+Note the following cancellation:
 \beqa
 \Psi^{IPW}[P] &=&
 \Psi^{IPW}[P_{in}]
- + \av{\cald^{IPW}[P_{in}]}_P -\cald^{IPW}_0
+ + \av{\cald^{IPW}[P_{in}]}_P -\cald^{IPW}_{in}
  + \calr^{IPW}[P,P_{in}]
 \\
 &=&
@@ -623,6 +659,7 @@ Hence,
 \eeqa
 
 \begin{claim}
+\label{cl-remainder-taylor-exp}
 \begin{align}
 \calr^{IPW}[P,P_{in}]&=-
 \sum_w P(w)\sum_d \Delta(d)
@@ -702,6 +739,9 @@ y \frac{\Delta(d)}{P(d|w)}
 
 \qed
 
+Claim \ref{cl-remainder-taylor-exp}
+allows us to put a bound
+on the absolute value of the remainder $\calr^{IPW}$:
 
 \begin{align}
 |\calr^{IPW}[P,P_{in}]|&\leq
@@ -788,19 +828,20 @@ zero error in the propensities) or $B_N(0)=B_N(1)=0$ (i.e.,
 zero bias),
 then $\calr^{LIPW}[P_N,P_{in}]=0$.
 This property
-of $\Psi^{LIPW}$ is referred to as {\bf double robustness}
+of $\Psi^{LIPW}$ is referred to as {\bf double robustness}.
 
 
 \subsection{$\Psi^{LIPW++}$ (a.k.a $\Psi^{TMLE}$)}
 
 {\bf Substitutional LIPW (LIPW++) estimator}
-(a.k.a, targeted minimum loss estimator (TMLE))
+(a.k.a, targeted minimum loss estimator (TMLE)) $\Psi^{LIPW++}$.
 
 $\Psi^{LIPW++}$ is the
-linear approx of $\Psi^{IPW}[P_{in}]$ at the point $P_{in}=P_{in++}$,
+linear approximation
+ of $\Psi^{IPW}[P_{in}]$ at the point $P_{in}=P_{in++}$,
 in the direction $P_N$,
 where the slope
-of $\Psi^{IPW}[P_{in}]$ at $P_{in}=P_{in++}$ is zero
+of loss function at $P_{in}=P_{in++}$ is zero
 
 \beq
 \Psi^{LIPW++}=\Psi^{TMLE}=
@@ -817,7 +858,7 @@ evaluated at $P=P_{in++}$.
 of maximum change).
 This property of
 of $\Psi^{TMLE}$ is referred to as {\bf substitution
-invariance} and $\Psi^{TMLE}$
+invariance}, and $\Psi^{TMLE}$
 is said to be a {\bf substitution estimator}.
 A substitution estimator is
 very desirable because
@@ -828,14 +869,18 @@ the value of $\Psi^{LIPW}$.
 $\Psi^{TMLE}$ is both
 a doubly robust estimator and a substitution estimator.
 
+Claim \ref{cl-grad-ipw} allows us
+express
+more explicitly the constraint that defines $P_{in++}$:
+
 \begin{align}
 0 &=
 P_N\cdot\Delta\cald^{IPW}[P_{in++}]
 \\
-0 &=-\cald^{LPW}_0[P_{in++}]+
+0 &=-\cald^{LPW}_{in}[P_{in++}]+
 P_N\cdot\cald^{IPW}[P_{in++}]
 \\
-&= -\cald^{LPW}_0[P_{in++}]+
+&= -\cald^{LPW}_{in}[P_{in++}]+
 \left\{
 \begin{array}{l}
 \overbrace{
@@ -846,7 +891,7 @@ P_N\cdot\cald^{IPW}[P_{in++}]
 -
 \caly_{|0,w^\s}[P_{in++}]
 \right)
-}^{ \cald^{LPW}_0[P_{in++}]}
+}^{ \cald^{LPW}_{in}[P_{in++}]}
 \\
 +
 \frac{1}{N}
@@ -890,10 +935,9 @@ $CE(p\parallel q)$ for $p, q\in [0,1]$
 \beq
 \call = CE(p\parallel q)=-[p \ln q + (1-p) \ln(1- q)]
 \eeq
-
-$\call\geq 0$ and it is minimized when $p=q$.
+$\call\geq 0$ and is minimum when $p=q$.
 When $p=q$, it equals the entropy of $p$,
-i.e., $\call=-\sum_{x\in \bool} P(x)\ln P(x)= H(P)$,
+i.e., when $p=q$, $\call=-\sum_{x\in \bool} P(x)\ln P(x)= H(P)$,
 where $P(0)=p, P(1)=1-p$.
 
 For some $y\in\bool$ and $\eps>0$,
@@ -915,12 +959,14 @@ and call it $\call=\call(\beta, y, q_0, \eps)$.
 Note that since $q=y$ is binary,
 the minimum of this loss function is zero.
 
- Recall that in section xx, we proved that
+ Recall that in Section \nameref{sec-smoid}, we proved that
  the derivative of $\expit(x)$ satisfies
 
 \beq
 \expit'(x) = \expit(x)[1-\expit(x)]
+\;.
 \eeq
+Hence,
 
 \begin{align}
 \lim_{\eps\rarrow 0}\partial_\eps \call(\beta, y, q_0, \eps)
@@ -948,6 +994,8 @@ q_0(1-q_0)\beta
 \beta[q_0-y]
 \end{align}
 
+If we define $\cald^\s$ by
+
 \beq
 \cald^\s = \lim_{\eps\rarrow 0}\partial_\eps\call
 \left(
@@ -961,11 +1009,21 @@ q_0 = \caly_{|d^\s,w^\s}[P_{in++}],
 \eps =\eps
 \end{array}
 \right)
+\;,
 \eeq
+then
 
 \beq
 \frac{1}{N}\sum_\s\cald^\s =P_N\cdot \cald= 0
+\;.
 \eeq
+
+It is also possible
+to express $\cald^\s$
+as a functional gradient instead
+of an $\eps\rarrow 0$ limit.
+Indeed, note that
+
 
 \beq
 \cald^\s = \frac{\delta}{\delta h(X^\s)}
@@ -987,9 +1045,15 @@ q_0 = \caly_{|d^\s,w^\s}[P_{in++}],
 =P_N\cdot \frac{\delta\call}{\delta h}= 0
 \eeq
 
+An approximation commonly made
+at this point is to assume that $h(X)$ has
+the special form:
+
 \beq
 h(X) = \gamma\delta(X,\hat{X})
 \eeq
+for some $\gamma\in \RR$. When
+this is the case,
 
 \beq
 \beta = \gamma\frac{\Delta(\hat{d})}{P_{in++}(\hat{d}|\hat{w})}
