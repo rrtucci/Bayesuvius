@@ -1,5 +1,7 @@
-\chapter{Targeted Estimators}
+\chapter{Targeted Estimator}
 \label{ch-targeted-est}
+
+\newcommand{\dpsi}[0]{\nabla\Psi}
 
 This chapter is based on Refs.\cite{tlride} and  \cite{hoff}.
 
@@ -9,7 +11,7 @@ a new estimator that is slightly
 displaced from the original,
 but has better behavior (i.e.,
 it converges faster, and with smaller
-variance, as the number $N$
+bias and variance, as the number $N$
 of samples grows). This goal and
 the strategy one uses to achieve it, is
 explained more precisely in the next section.
@@ -24,7 +26,7 @@ Let $\rvb = (\rvb_1, \rvb_2, \ldots, \rvb_{n})$ denote
 the $n$ nodes of a Bayesian Network, and let $P_\rvb(b)$ for $b\in S_\rvb$
 denote the full probability distribution of the bnet.
 
- Consider a population of
+ Consider a population $\Sigma$ of
  individuals $\s\in \Sigma$ with $N=|\Sigma|$.
  The {\bf empirical probability distribution}
  $P_N:S_\rvb \rarrow [0,1]$ for this bnet is defined by
@@ -71,24 +73,42 @@ See Fig.\ref{fig-targeted-bnet}
 for an example of a bnet that fits this description.
 
 
-The {\bf estimand} $\haty$ of $y$
+The {\bf estimator} $\haty$ of $y$
 is a function $\haty:S_\rvy\times S_\rvw\rarrow \RR$
 that minimizes the {\bf loss function} $\call$
 given by
 
 
 \beq
-\call[P, \haty]= \sum_X P(X) [y-\haty(x,w)]^2
-\;.
+\call[P, \haty]= \sum_X P(X) \lam[y, \haty(x,w)]^2
+\;,
 \eeq
+where $\lam(a,b)$ is a
+non-negative function
+that vanishes when $a=b$.
+The function $\lam$ is designed
+to minimize a particular kind of error.
+In this chapter, the $\lam$
+is designed to reduce ATE error.
 
-The {\bf estimator}
- $\Psi[P, \haty]$ for the estimand $\haty$
+
+
+
+The {\bf estimate}
+ $\Psi[P, \haty]$ for the estimator $\haty$
 is defined by
 
 \beq
 \Psi[P, \haty] =\sum_X P(X)\haty(d,w)
 \eeq
+
+Unfortunately, the words ``estimator"
+and ``estimate" are sometimes used
+interchangeably. See Section
+[\nameref{sec-estimand}].
+In this chapter, we use $(\haty, \Psi)$
+for our (estimator, estimate) pair.
+
 
 Let
 \beq
@@ -141,13 +161,13 @@ Eq.(\ref{eq-tar-limit}) is illustrated in
 Fig.\ref{fig-targeted-p-psi-plot.png}.
 
 The goal of TE theory
-is to find, given an estimand $\haty$,
-a new estimand $\haty +\delta \haty$
+is to find, given an estimator $\haty$,
+a new estimator $\haty +\delta \haty$
 so that the
-estimator $\Psi[P_N, \haty+\delta \haty]$
+estimate $\Psi[P_N, \haty+\delta \haty]$
 has better behavior as $N\rarrow \infty$ than
 $\Psi[P_N, \haty]$ (i.e., converges faster,
-has smaller variance).
+has smaller bias and variance).
 
 
 \begin{figure}[h!]
@@ -234,10 +254,20 @@ from the discrete to the continuous version
 of the functional derivative.
 In this chapter, we will use only the discrete version.
 The $\Delta x$ in the numerator
-and the one in the denominator, always cancel out
+and the one in the denominator, always cancel
+each other out
 when we integrate over a Dirac delta function, so we will
 henceforth set
 $\Delta x=1$.
+
+We will also use the notation
+
+\beq
+\dpsi[\eta](x)=
+\frac{\delta \Psi[\eta]}
+{\delta \eta(x)}
+\;.
+\eeq
 
 Suppose $\eta, \eta_0\in \calh_\rvX$. Define the
 {\bf functional Taylor expansion} of $\Psi[\eta]$
@@ -283,15 +313,7 @@ the change
 in $f(\vecx)$ when $\vecx$ moves from $\vecx$ to $\vecx+\vecd$
 
 Next consider probability
-distributions $P, P_{in}:S_\rvX\rarrow [0,1]$
-and let
-
-\beq
-\cald[\Psi](X)=
-\frac{\delta \Psi[P]}
-{\delta P(X)}
-\;.
-\eeq
+distributions $P, P_{in}:S_\rvX\rarrow [0,1]$.
 The linear approximation
 to the Taylor expansion of $\Psi[P]$ at
 $P_{in}$ is given by
@@ -301,7 +323,7 @@ $P_{in}$ is given by
 \sum_X
 \underbrace{\left[\frac{\delta\Psi[P]}{\delta P(X)}
 \right]_{P=P_{in}}
-}_{\cald[P_{in}](X)}
+}_{\dpsi[P_{in}](X)}
 \
 \underbrace{\delta P(X)}_{P(X)-P_{in}(X)}
 +
@@ -311,24 +333,24 @@ $P_{in}$ is given by
 If we set
 
 \beq
-\cald_{in} = \av{\cald[P_{in}]}_{P_{in}}=\caln(!X)\in\RR
+\dpsi_{in} = \av{\dpsi[P_{in}]}_{P_{in}}=\caln(!X)\in\RR
 \eeq
 and
 
 \beq
-\Delta\cald[P](X)= \cald[P](X) - \cald_{in}
+\delta\dpsi[P](X)= \dpsi[P](X) - \dpsi_{in}
 \;,
 \eeq
 then Eq.(\ref{eq-1st-order-psi}) becomes
 
 \beqa
 \delta\Psi[P,P_{in}]&=&
-\av{\cald[P_{in}]}_P - \cald_{in}
+\av{\dpsi[P_{in}]}_P - \dpsi_{in}
 +
 \calr[P, P_{in}]
 \\
 &=&
-\av{\Delta\cald[P_{in}]}_P
+\av{\delta\dpsi[P_{in}]}_P
 +
 \calr[P, P_{in}]
 \eeqa
@@ -358,11 +380,11 @@ ATE=\caly_{|1}[P_N]-\caly_{|0}[P_N]
 \eeq
 The rest of this
 chapter is devoted
-to discussing ATE estimators.
+to discussing ATE estimates.
 
 In discussing ATE,
 it is convenient to define the
-{\bf propensity} g{P}:
+{\bf propensity} g[P]:
 
 \beq
 g[P](y) = P(\rvd=1|y)
@@ -404,11 +426,11 @@ for $d\in \bool$:
 \eeqa
 \qed
 
-\section{ATE estimators}
+\section{ATE estimates}
 \subsection{$\Psi^{G}$}
 
-{\bf General (G) estimator} $\Psi^G$
-(a.k.a., G-computation estimator).
+{\bf General (G) estimate} $\Psi^G$
+(a.k.a., G-computation estimate).
 
 \beq
 P_N(y,d,w)= \frac{1}{N}\sum_\s \delta(y, y^\s)
@@ -438,8 +460,8 @@ P_N(y|d,w)= \frac{P_N(y,d,w)}{P_N(d,w)}
 
 \subsection{$\Psi^{IPW}$}
 
-{\bf Inverse Propensity Weighted (IPW) estimator} $\Psi^{IPW}$
-(a.k.a. Inverse Probability of Treatment Weighted (IPTW) estimator).
+{\bf Inverse Propensity Weighted (IPW) estimate} $\Psi^{IPW}$
+(a.k.a. Inverse Probability of Treatment Weighted (IPTW) estimate).
 
 Assume propensity $P(\rvd=1|w)$ is known.
 
@@ -461,7 +483,7 @@ y^\s \frac{\Delta(d^\s)}{P(d^\s|w^\s)}
 
 \subsection{$\Psi^{LIPW}$}
 
-{\bf Linearized IPW (LIPW) estimator} $\Psi^{LIPW}$.
+{\bf Linearized IPW (LIPW) estimate} $\Psi^{LIPW}$.
 
 
 $\Psi^{LIPW}$ is the
@@ -472,15 +494,15 @@ in the direction $P_N$.
 \beq
 \Psi^{IPW}=
 \Psi^{IPW}[P_{in}] +
-\underbrace{\av{\Delta\cald^{IPW}[P_{in}]}_{P_N}}
-_{P_N\cdot\Delta\cald^{IPW}[P_{in}]}
+\underbrace{\av{\delta\dpsi^{IPW}[P_{in}]}_{P_N}}
+_{P_N\cdot\delta\dpsi^{IPW}[P_{in}]}
 \eeq
 
 
 \begin{claim}
 \label{cl-grad-ipw}
 \beq
-\cald^{IPW}[P](X) =  \caly_{|1,w}[P]
+\dpsi^{IPW}[P](X) =  \caly_{|1,w}[P]
 -
 \caly_{|0,w}[P]
 +
@@ -590,19 +612,19 @@ P(y'|d',w)
 
 \begin{claim}
 \beq
-\av{\cald^{IPW}[P]}_P=\Psi^{IPW}[P]
+\av{\dpsi^{IPW}[P]}_P=\Psi^{IPW}[P]
 \eeq
 Hence,
 
 \beq
-\cald^{IPW}_{in}=\av{\cald^{IPW}[P_{in}]}_{P_{in}}=\Psi^{IPW}[P_{in}]
+\dpsi^{IPW}_{in}=\av{\dpsi^{IPW}[P_{in}]}_{P_{in}}=\Psi^{IPW}[P_{in}]
 \eeq
 
 \end{claim}
 \proof
 
 \beq
-\cald^{IPW}[P](X) =  \caly_{|1,w}[P]
+\dpsi^{IPW}[P](X) =  \caly_{|1,w}[P]
 -
 \caly_{|0,w}[P]
 +
@@ -642,21 +664,21 @@ Hence,
 \qed
 
 Note the following cancellation:
-\beqa
-\Psi^{IPW}[P] &=&
+\begin{align}
+\Psi^{IPW}[P] &=
 \Psi^{IPW}[P_{in}]
- + \av{\cald^{IPW}[P_{in}]}_P -\cald^{IPW}_{in}
+ + \av{\dpsi^{IPW}[P_{in}]}_P -\dpsi^{IPW}_{in}
  + \calr^{IPW}[P,P_{in}]
 \\
-&=&
+&=
 \cancel{\Psi^{IPW}[P_{in}] }
- + \av{\cald^{IPW}[P_{in}]}_P -\cancel{\Psi^{IPW}[P_{in}] }
+ + \av{\dpsi^{IPW}[P_{in}]}_P -\cancel{\Psi^{IPW}[P_{in}] }
  + \calr^{IPW}[P,P_{in}]
  \\
-&=&
- \av{\cald^{IPW}[P_{in}]}_P
+&=
+ \av{\dpsi^{IPW}[P_{in}]}_P
  + \calr^{IPW}[P,P_{in}]
-\eeqa
+\end{align}
 
 \begin{claim}
 \label{cl-remainder-taylor-exp}
@@ -679,7 +701,7 @@ P(d|w)-P_{in}(d|w)
 \calr^{IPW}[P,P_{in}]
 &=
 \Psi^{IPW}[P]
--\av{\cald^{IPW}[P_{in}]}_P
+-\av{\dpsi^{IPW}[P_{in}]}_P
 \\
 &=
 \av{
@@ -731,7 +753,7 @@ y \frac{\Delta(d)}{P(d|w)}
 \\
 &=
 \sum_w P(w)\sum_d \Delta(d)
-\left(\frac{P(d|w)}{P_{in}(d|w)}-1
+\left(\frac{P(d|w)-P_{in}(d|w)}{P_{in}(d|w)}
 \right)
 (\caly_{|d,w}[P_{in}]-
 \caly_{|d,w}[P])
@@ -833,41 +855,36 @@ of $\Psi^{LIPW}$ is referred to as {\bf double robustness}.
 
 \subsection{$\Psi^{LIPW++}$ (a.k.a $\Psi^{TMLE}$)}
 
-{\bf Substitutional LIPW (LIPW++) estimator}
-(a.k.a, targeted minimum loss estimator (TMLE)) $\Psi^{LIPW++}$.
+{\bf Substitutional LIPW (LIPW++) estimate}
+(a.k.a, targeted minimum loss estimate (TMLE)) $\Psi^{LIPW++}$.
 
 $\Psi^{LIPW++}$ is the
 linear approximation
- of $\Psi^{IPW}[P_{in}]$ at the point $P_{in}=P_{in++}$,
-in the direction $P_N$,
-where the slope
-of loss function at $P_{in}=P_{in++}$ is zero
+ of $\Psi^{IPW}[P]$ at the point $P=P_{in++}$,
+where the linear term
+of its Taylor expansion at $P$ vanishes
 
 \beq
 \Psi^{LIPW++}=\Psi^{TMLE}=
 \Psi^{IPW}[P_{in++}] +
-\underbrace{\av{\Delta\cald^{IPW}[P_{in++}]}_{P_N}}_{=0}
+\underbrace{\av{\delta\dpsi^{IPW}[P_{in++}]}_{P_N}}_{=0}
 \eeq
 
-$P_N\cdot \Delta\cald^{IPW}[P_{in++}]=0$
-means $P_N$ (for all $N$)
-points perpendicular to the
-gradient of $\Delta\Psi^{IPW}[P]$
-evaluated at $P=P_{in++}$.
-(gradients point in the direction
-of maximum change).
 This property of
-of $\Psi^{TMLE}$ is referred to as {\bf substitution
+of $\Psi^{TMLE}$
+that the linear term
+in its Taylor expansion at $P$ vanishes
+is referred to as {\bf substitution
 invariance}, and $\Psi^{TMLE}$
-is said to be a {\bf substitution estimator}.
-A substitution estimator is
+is said to be a {\bf substitution estimate}.
+A substitution estimate is
 very desirable because
 its
 absolute value is bounded, unlike
 the value of $\Psi^{LIPW}$.
 
 $\Psi^{TMLE}$ is both
-a doubly robust estimator and a substitution estimator.
+a doubly robust estimate and a substitution estimate.
 
 Claim \ref{cl-grad-ipw} allows us
 express
@@ -875,12 +892,12 @@ more explicitly the constraint that defines $P_{in++}$:
 
 \begin{align}
 0 &=
-P_N\cdot\Delta\cald^{IPW}[P_{in++}]
+P_N\cdot\delta\dpsi^{IPW}[P_{in++}]
 \\
-0 &=-\cald^{LPW}_{in}[P_{in++}]+
-P_N\cdot\cald^{IPW}[P_{in++}]
+0 &=
+P_N\cdot\dpsi^{IPW}[P_{in++}]-\dpsi^{IPW}_{in++}+
 \\
-&= -\cald^{LPW}_{in}[P_{in++}]+
+&= -\dpsi^{IPW}_{in++}+
 \left\{
 \begin{array}{l}
 \overbrace{
@@ -891,7 +908,7 @@ P_N\cdot\cald^{IPW}[P_{in++}]
 -
 \caly_{|0,w^\s}[P_{in++}]
 \right)
-}^{ \cald^{LPW}_{in}[P_{in++}]}
+}^{ \dpsi^{IPW}[P_{in++}]}
 \\
 +
 \frac{1}{N}
@@ -936,13 +953,17 @@ $CE(p\parallel q)$ for $p, q\in [0,1]$
 \beq
 \call = CE(p\parallel q)=-[p \ln q + (1-p) \ln(1- q)]
 \eeq
-$\call\geq 0$ and is minimum when $p=q$.
+$\call\geq 0$ and attains its minimum when $p=q$.
 When $p=q$, it equals the entropy of $p$,
 i.e., when $p=q$, $\call=-\sum_{x\in \bool} P(x)\ln P(x)= H(P)$,
 where $P(0)=p, P(1)=1-p$.
 
 For some $y\in\bool$ and $\eps>0$,
-set\footnote{To agree with the TE literature,
+make the following
+substitutions
+in the loss function $\call$
+and call it $\call=\call(\beta, y, \haty, \eps)$.\footnote{To
+agree with the TE literature,
 we are using $\expit(x)$
 (resp., $\logit(p)$) to denote
 the sigmoid function (resp., log-odds function)
@@ -955,12 +976,10 @@ p=y,
 \quad
 q= \expit[\logit(\haty) + \eps \beta ]
 \eeq
-in the loss function $\call$
-and call it $\call=\call(\beta, y, \haty, \eps)$.
-Note that since $q=y$ is binary,
+Note that since $p=y$ is binary,
 the minimum of this loss function is zero.
 
- Recall that in Section \nameref{sec-smoid}, we proved that
+ Recall that in Section [\nameref{sec-smoid}], we proved that
  the derivative of $\expit(x)$ satisfies
 
 \beq
@@ -995,10 +1014,10 @@ Hence,
 \beta[\haty-y]
 \end{align}
 
-If we define $\cald^\s$ by
+If we define $\dpsi^\s$ by
 
 \beq
-\cald^\s = \lim_{\eps\rarrow 0}\partial_\eps\call
+\dpsi^\s = \lim_{\eps\rarrow 0}\partial_\eps\call
 \left(
 \begin{array}{l}
 \beta=\frac{\Delta(d^\s)}{P_{in++}(d^\s|w^\s)} ,
@@ -1015,15 +1034,15 @@ y=y^\s,
 then
 
 \beq
-\frac{1}{N}\sum_\s\cald^\s =P_N\cdot \cald= 0
+\frac{1}{N}\sum_\s\dpsi^\s =P_N\cdot \dpsi= 0
 \;.
 \eeq
 
 One can assume $\eps$ in $\call$ is a power of $1/N$,
 and then the limit $\eps\rarrow 0$ occurs
  as $N\rarrow  \infty$.
- When $\eps$ is taken to be a finite power
- of $1/N$, it is called the {\bf fluctuation parameter}.
+ When $\eps$ is taken to be a power
+ of $1/N$ but finite, it is called the {\bf fluctuation parameter}.
 
 \section{$\Psi^{TMLE}$ in practice}
 This section is based on Ref.\cite{hoff}.
@@ -1039,8 +1058,12 @@ often uses a ``Super-Learner", a program that
  merges the results of multiple fits
 obtained via various ML methods and also does cross validation.
 
+Below , $\{(\s, d^\s, w^\s,\boxed{y^\s}):\s\in \Sigma\}$
+represents a dataset. The dependent variable $y^\s$ is boxed,
+the independent ones $d^\s,w^\s$ (a.k.a. covariates) aren't.
+
 \begin{enumerate}
-\item Estimate expected value $\haty(d,w)=\caly_{|d,w}$ of outcome $y$
+\item Estimate estimator $\haty(d,w)=\caly_{|d,w}$ of outcome $y$
 
 \beq
 \{(\s, d^\s, w^\s,\boxed{y^\s}):\s\in \Sigma\}\mlarr \haty(d,w)
