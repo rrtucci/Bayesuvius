@@ -2,6 +2,7 @@
 \label{ch-targeted-est}
 
 \newcommand{\dpsi}[0]{\nabla\Psi}
+\newcommand{\hatl}[0]{\hat{\call}}
 
 This chapter is based on Refs.\cite{tlride} and  \cite{hoff}.
 
@@ -75,20 +76,21 @@ for an example of a bnet that fits this description.
 
 The {\bf estimator} $\haty$ of $y$
 is a function $\haty:S_\rvy\times S_\rvw\rarrow \RR$
-that minimizes the {\bf loss function} $\call$
+that minimizes the {\bf loss} $\call$
 given by
 
 
 \beq
-\call[P, \haty]= \sum_X P(X) \lam[y, \haty(x,w)]^2
+\call[P, \haty]= \sum_X P(X) \hatl[y, \haty(x,w)]^2
 \;,
 \eeq
-where $\lam(a,b)$ is a
+where $\hatl(a,b)$, the {\bf loss
+estimator}, is a
 non-negative function
 that vanishes when $a=b$.
-The function $\lam$ is designed
+The function $\hatl$ is designed
 to minimize a particular kind of error.
-In this chapter, the $\lam$
+In this chapter, the $\hatl$
 is designed to reduce ATE error.
 
 
@@ -938,31 +940,31 @@ and the functional $\call[P, \haty=fixed]:\calh_\rvX
 \rarrow\RR$
 as if it were a real valued function on $\RR^2$.
 It shows  the constant contours
-of the loss function $\call[P, \haty]$
+of the loss $\call[P, \haty]$
 at fixed $\haty$ in green.
 $P_N$ for $N=10, 100, 1000$
 represent empirical distributions.
-The loss function
+The loss
 is minimized at $P_{in++}$.
 }
 \label{fig-targeted-est}
 \end{figure}
 
-Use as loss function $\call$ the Cross Entropy
+Use as loss estimator $\hatl$ the Cross Entropy
 $CE(p\parallel q)$ for $p, q\in [0,1]$
 \beq
-\call = CE(p\parallel q)=-[p \ln q + (1-p) \ln(1- q)]
+\hatl = CE(p\parallel q)=-[p \ln q + (1-p) \ln(1- q)]
 \eeq
-$\call\geq 0$ and attains its minimum when $p=q$.
+$\hatl\geq 0$ and attains its minimum when $p=q$.
 When $p=q$, it equals the entropy of $p$,
-i.e., when $p=q$, $\call=-\sum_{x\in \bool} P(x)\ln P(x)= H(P)$,
+i.e., when $p=q$, $\hatl=-\sum_{x\in \bool} P(x)\ln P(x)= H(P)$,
 where $P(0)=p, P(1)=1-p$.
 
 For some $y\in\bool$ and $\eps>0$,
 make the following
 substitutions
-in the loss function $\call$
-and call it $\call=\call(\beta, y, \haty, \eps)$.\footnote{To
+in the loss estimator $\hatl$
+and call it $\hatl=\hatl(\beta, y, \haty, \eps)$.\footnote{To
 agree with the TE literature,
 we are using $\expit(x)$
 (resp., $\logit(p)$) to denote
@@ -977,7 +979,7 @@ p=y,
 q= \expit[\logit(\haty) + \eps \beta ]
 \eeq
 Note that since $p=y$ is binary,
-the minimum of this loss function is zero.
+the minimum of this loss estimator is zero.
 
  Recall that in Section [\nameref{sec-smoid}], we proved that
  the derivative of $\expit(x)$ satisfies
@@ -989,7 +991,7 @@ the minimum of this loss function is zero.
 Hence,
 
 \begin{align}
-\lim_{\eps\rarrow 0}\partial_\eps \call(\beta, y, \haty, \eps)
+\lim_{\eps\rarrow 0}\partial_\eps \hatl(\beta, y, \haty, \eps)
 &=
 \lim_{\eps\rarrow 0}
 \left[-\frac{p}{q} + \frac{1-p}{1-q}\right]\partial_\eps q
@@ -1014,10 +1016,10 @@ Hence,
 \beta[\haty-y]
 \end{align}
 
-If we define $\dpsi^\s$ by
+If we define $\nabla\hatl^\s$ by
 
 \beq
-\dpsi^\s = \lim_{\eps\rarrow 0}\partial_\eps\call
+\nabla\hatl^\s = \lim_{\eps\rarrow 0}\partial_\eps\hatl
 \left(
 \begin{array}{l}
 \beta=\frac{\Delta(d^\s)}{P_{in++}(d^\s|w^\s)} ,
@@ -1034,11 +1036,11 @@ y=y^\s,
 then
 
 \beq
-\frac{1}{N}\sum_\s\dpsi^\s =P_N\cdot \dpsi= 0
+\frac{1}{N}\sum_\s\nabla\hatl^\s =P_N\cdot \nabla\hatl= 0
 \;.
 \eeq
 
-One can assume $\eps$ in $\call$ is a power of $1/N$,
+One can assume $\eps$ in $\hatl$ is a power of $1/N$,
 and then the limit $\eps\rarrow 0$ occurs
  as $N\rarrow  \infty$.
  When $\eps$ is taken to be a power
