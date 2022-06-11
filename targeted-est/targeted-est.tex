@@ -244,7 +244,7 @@ For example,
 {\delta \eta(a)}
 \sum_x \Delta x\; \eta(x) h(x)
 =
-\sum_x \Delta x \frac{\delta(y,a)}{\Delta x} h(x)
+\sum_x \Delta x \frac{\delta(x,a)}{\Delta x} h(x)
 =
 h(a)
 \eeq
@@ -265,9 +265,9 @@ $\Delta x=1$.
 We will also use the notation
 
 \beq
-\dpsi[\eta](x)=
+\dpsi[\eta](a)=
 \frac{\delta \Psi[\eta]}
-{\delta \eta(x)}
+{\delta \eta(a)}
 \;.
 \eeq
 
@@ -922,9 +922,11 @@ P_N\cdot\dpsi^{IPW}[P_{in++}]-\dpsi^{IPW}_{in++}+
 \\
 &=
 \frac{1}{N}
-\sum_\s
+\sum_\s \underbrace{
 \frac{\Delta(d^\s)}{P_{in++}(d^\s|w^\s)}
 (y^\s-\caly_{|d^\s,w^\s}[P_{in++}])
+}_{\xi(X^\s)}
+\label{eq-loss-xi}
 \end{align}
 
 
@@ -944,11 +946,38 @@ of the loss $\call[P, \haty]$
 at fixed $\haty$ in green.
 $P_N$ for $N=10, 100, 1000$
 represent empirical distributions.
-The loss
-is minimized at $P_{in++}$.
+The loss is non-negative and it equals
+zero when $\eps=0$ and $P=P_{in++}$.
 }
 \label{fig-targeted-est}
 \end{figure}
+
+Note that function $\xi(X^\s)$ defined in Eq.(\ref{eq-loss-xi})
+can be positive or negative. Hence,
+ it can't be defined as the loss estimator,
+because a loss estimator must be non-negative. However, it can be
+defined as the derivative of a loss estimator. Suppose we define an $\eps\geq\RR$
+parameterized
+family of probability distributions $P_\eps:S_\rvX\rarrow [0,1]$,
+and we expand the loss $\call[P_\eps, \haty]$
+in powers of $\eps$:
+
+\beq
+\call[P_\eps, \haty] = \call[P_0, \haty]
++\eps \{\partial_\eps \call[P_\eps, \haty]\}_{\eps=0} + \calo(\eps^2)
+\eeq
+The parameter $\eps$ is called the {\bf fluctuation parameter}.
+The function $\call[P_\eps, \haty]$ is obviously
+not unique because all we know about it
+is the value of its $\eps$ derivative
+in the vicinity of $\eps=0$. Next we will pick a convenient
+$\call[P_\eps, \haty]$ that satisfies
+
+\beq
+\call[P_\eps, \haty]\geq 0,\quad
+\call[P_0, \haty]=0, \quad \partial_\eps \{\call[P_\eps, \haty]\}_{\eps=0}=0
+\eeq
+
 
 Use as loss estimator $\hatl$ the Cross Entropy
 $CE(p\parallel q)$ for $p, q\in [0,1]$
@@ -980,6 +1009,7 @@ q= \expit[\logit(\haty) + \eps \beta ]
 \eeq
 Note that since $p=y$ is binary,
 the minimum of this loss estimator is zero.
+
 
  Recall that in Section [\nameref{sec-smoid}], we proved that
  the derivative of $\expit(x)$ satisfies
@@ -1016,17 +1046,17 @@ Hence,
 \beta[\haty-y]
 \end{align}
 
-If we define $\hatl^\s$ by
+If we define $\hatl(X)$ by
 
 \beq
-\hatl^\s = \hatl
+\hatl(X) = \hatl
 \left(
 \begin{array}{l}
-\beta=\frac{\Delta(d^\s)}{P_{in++}(d^\s|w^\s)} ,
+\beta=\frac{\Delta(d)}{P_{in++}(d|w)} ,
 \\
-y=y^\s,
+y=y,
 \\
-\haty = \caly_{|d^\s,w^\s}[P_{in++}],
+\haty = \caly_{|d,w}[P_{in++}],
 \\
 \eps =\eps
 \end{array}
@@ -1036,20 +1066,23 @@ y=y^\s,
 and $\call$ by
 
 \beq
-\call= \frac{1}{N}\sum_\s\hatl^\s = P_N\cdot \hatl
+\call= \frac{1}{N}\sum_\s\hatl(X^\s) = P_N\cdot \hatl
 \;,
 \eeq
 then
 
 \beq
-\lim_{\eps\rarrow 0}\partial_\eps \call =0
+\left\{
+\begin{array}{l}
+\call=P_N\cdot \hatl\geq 0\\
+\call_{\eps=0}=P_N\cdot
+\hatl_{\eps=0}=0\\
+\{\partial_\eps \call\}_{\eps=0}=
+P_N\cdot\{\partial_\eps \hatl\}_{\eps=0} =0
+\end{array}
+\right.
 \eeq
 
-One can assume $\eps$ in $\hatl$ is a power of $1/N$,
-and then the limit $\eps\rarrow 0$ occurs
- as $N\rarrow  \infty$.
- When $\eps$ is taken to be a power
- of $1/N$ but finite, it is called the {\bf fluctuation parameter}.
 
 \section{$\Psi^{TMLE}$ in practice}
 This section is based on Ref.\cite{hoff}.
