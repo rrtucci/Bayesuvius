@@ -314,9 +314,15 @@ For $|\vecd|<<1$, $\vecd\cdot \nabla f(\vecx)$ approximates
 the change
 in $f(\vecx)$ when $\vecx$ moves from $\vecx$ to $\vecx+\vecd$
 
-Next consider probability
+
+\section{Linear Approximation of $\Psi[P_N]$}
+
+
+
+Consider probability
 distributions $P, P_{in}:S_\rvX\rarrow [0,1]$.
-The linear approximation
+The {\bf linear approximation (a.k.a.
+one-step-approximation)}
 to the Taylor expansion of $\Psi[P]$ at
 $P_{in}$ is given by
 
@@ -357,7 +363,56 @@ then Eq.(\ref{eq-1st-order-psi}) becomes
 \calr[P, P_{in}]
 \eeqa
 
+Define
 
+\beq
+\xi(X) =\delta\dpsi[P_{in}](X)
+\eeq
+
+Recall the Cauchy-Schwartz (CS) inequality for $\vec{a}, \vec{b}\in\RR^n$:
+
+\beq
+\vec{a}\cdot\vec{b} =|\vec{a}||\vec{b}|\cos\theta\leq |\vec{a}||\vec{b}|
+\eeq
+
+Note that
+
+\begin{align}
+\av{\xi}_P
+&=
+ \sum_X\delta\dpsi[P_{in}](X)\sqrt{P(X)}\sqrt{P(X)}
+\\
+&=
+(\sqrt{P}\delta\dpsi[P_{in}])\cdot\sqrt{P}
+\\
+&\leq
+\sqrt{\sqrt{P}\delta\dpsi[P_{in}]\cdot\sqrt{P}\delta\dpsi[P_{in}]}
+\underbrace{\sqrt{\sqrt{P}\cdot\sqrt{P}}}_{=1}
+\quad \text{(by CS inequality)}
+\\
+&\leq
+\sqrt{ \av{(\delta\dpsi[P_{in}])^2}_P
+}
+\\
+&\leq
+\sqrt{ \av{\xi^2}_P
+}
+\end{align}
+
+When $P=P_N$,
+\beq
+\Psi[P_N]\approx \Psi[P_{in}] + \frac{1}{N}\sum_\s \xi(X^\s)
+\eeq
+If the random variables $\{\rvX^\s\}_{\s\in\Sigma}$ are i.i.d.,
+then $\Psi[P_N]$ tends to a normally
+distributed random variable with mean $\Psi[P_{in}]+\av{\xi}_{P_N}$
+and variance $\av{\xi, \xi}_{P_N}=\av{\xi^2}_{P_N}-\av{\xi}_{P_N}^2$.
+Later on, we will discuss the so called TMLE estimate,
+for which $P_{in}$ takes a special value $P_{in++}$
+for which $\av{\xi}_{P_N}=0$ so
+$\Psi[P_N]$ tends to a normally
+distributed random variable with mean $\Psi[P_{in++}]$
+and variance $\av{\xi^2}_{P_N}$.
 
 
 
@@ -489,9 +544,8 @@ y^\s \frac{\Delta(d^\s)}{P(d^\s|w^\s)}
 
 
 $\Psi^{LIPW}$ is the
-{\bf linear approximation (a.k.a.
-one-step-approximation)}  of $\Psi^{IPW}[P_{in}]$
-in the direction $P_N$.
+linear approximation of $\Psi^{IPW}[P_N]$
+at point $P_{in}$:
 
 \beq
 \Psi^{IPW}=
@@ -789,7 +843,7 @@ $|\Delta(d)|\leq 1$, and $\left|\sum_i a_i\right|\leq \sum_i |a_i|$ )}
 \sum_d
 \underbrace{\sqrt{\sum_w A^2(d,w)}}_{A(d)}
 \underbrace{\sqrt{\sum_w B^2(d,w)}}_{B(d)}
-\quad \text{(because $\veca\cdot \vecb\leq |\veca|\;|\vecb|$)}
+\quad \text{(by CS inequality)}
 \end{align}
 
 \beqa
@@ -862,9 +916,9 @@ of $\Psi^{LIPW}$ is referred to as {\bf double robustness}.
 
 $\Psi^{LIPW++}$ is the
 linear approximation
- of $\Psi^{IPW}[P]$ at the point $P=P_{in++}$,
+ of $\Psi^{IPW}[P_N]$ at the point $P_{in++}$,
 where the linear term
-of its Taylor expansion at $P$ vanishes
+of its Taylor expansion vanishes:
 
 \beq
 \Psi^{LIPW++}=\Psi^{TMLE}=
