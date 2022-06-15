@@ -363,10 +363,10 @@ then Eq.(\ref{eq-1st-order-psi}) becomes
 \calr[P, P_{in}]
 \eeqa
 
-Define
+Define the {\bf influence curve $\lam(X)$} by
 
 \beq
-\xi(X) =\delta\dpsi[P_{in}](X)
+\lam(X) =\delta\dpsi[P_{in}](X)
 \eeq
 
 Recall the Cauchy-Schwartz (CS) inequality for $\vec{a}, \vec{b}\in\RR^n$:
@@ -378,7 +378,7 @@ Recall the Cauchy-Schwartz (CS) inequality for $\vec{a}, \vec{b}\in\RR^n$:
 Note that
 
 \begin{align}
-\av{\xi}_P
+\av{\lam}_P
 &=
  \sum_X\delta\dpsi[P_{in}](X)\sqrt{P(X)}\sqrt{P(X)}
 \\
@@ -395,24 +395,46 @@ Note that
 }
 \\
 &\leq
-\sqrt{ \av{\xi^2}_P
+\sqrt{ \av{\lam^2}_P
 }
 \end{align}
 
 When $P=P_N$,
 \beq
-\Psi[P_N]\approx \Psi[P_{in}] + \frac{1}{N}\sum_\s \xi(X^\s)
+\Psi[P_N]\approx \Psi[P_{in}] + \frac{1}{N}\sum_\s \lam(X^\s)
 \eeq
-If the random variables $\{\rvX^\s\}_{\s\in\Sigma}$ are i.i.d.,
-then $\Psi[P_N]$ tends to a normally
-distributed random variable with mean $\Psi[P_{in}]+\av{\xi}_{P_N}$
-and variance $\av{\xi, \xi}_{P_N}=\av{\xi^2}_{P_N}-\av{\xi}_{P_N}^2$.
+If the random variables $\{\rvX^\s\}_{\s\in\Sigma}$ are i.i.d.
+with probability distribution $P_\rvX(X)$,
+then, as $N\rarrow \infty$, $\Psi[P_N]$ tends to a normally
+distributed random variable with mean
+
+\beqa
+\av{\Psi[P_N]}_{P_\rvX}
+&=&
+\Psi[P_{in}]+\frac{1}{N}\sum_\s\av{\lam(X^\s)}_{P_\rvX}
+\\
+&=&
+\Psi[P_{in}]+\av{\lam}_{P_\rvX}
+\eeqa
+and variance
+
+\beqa
+\av{\Psi[P_N],\Psi[P_N]}_{P_\rvX}
+&=&
+\frac{1}{N^2}\sum_\s\sum_{\s'}\av{\lam(X^\s), \lam(X^{\s'})}_{P_\rvX}
+\\
+&=&
+\frac{1}{N}\underbrace{\av{\lam, \lam}_{P_\rvX}}_{
+\av{\lam^2}_{P_\rvX}-\av{\lam}_{P_\rvX}^2
+}
+\eeqa
+
 Later on, we will discuss the so called TMLE estimate,
 for which $P_{in}$ takes a special value $P_{in++}$
-for which $\av{\xi}_{P_N}=0$ so
+that makes $\av{\lam}_{P_\rvX}=0$, so
 $\Psi[P_N]$ tends to a normally
 distributed random variable with mean $\Psi[P_{in++}]$
-and variance $\av{\xi^2}_{P_N}$.
+and variance $\frac{1}{N}\av{\lam^2}_{P_\rvX}$.
 
 
 
@@ -979,7 +1001,7 @@ P_N\cdot\dpsi^{IPW}[P_{in++}]-\dpsi^{IPW}_{in++}+
 \sum_\s \underbrace{
 \frac{\Delta(d^\s)}{P_{in++}(d^\s|w^\s)}
 (y^\s-\caly_{|d^\s,w^\s}[P_{in++}])
-}_{\xi(X^\s)}
+}_{\lam(X^\s)}
 \label{eq-loss-xi}
 \end{align}
 
@@ -1006,7 +1028,7 @@ zero when $\eps=0$ and $P=P_{in++}$.
 \label{fig-targeted-est}
 \end{figure}
 
-Note that function $\xi(X^\s)$ defined in Eq.(\ref{eq-loss-xi})
+Note that function $\lam(X^\s)$ defined in Eq.(\ref{eq-loss-xi})
 can be positive or negative. Hence,
  it can't be defined as the loss estimator,
 because a loss estimator must be non-negative. However, it can be
@@ -1184,12 +1206,12 @@ P(d|w) = d g(w) + (1-d)[1-g(w)]
 \beq
 \eta(d,w) =
 \underbrace{\logit[\haty(d, w)]}_
-{\xi(d,w)}
+{\lam(d,w)}
  + \eps \beta(d, w)
 \eeq
 
 \beq
-\{(\s, \xi(d^\s, w^\s),
+\{(\s, \lam(d^\s, w^\s),
 \beta(d^\s, w^\s),\boxed{\eta(d^\s, w^\s)}:
 \s\in \Sigma\}\mlarr \hat{\eta}(d,w)
 \eeq
