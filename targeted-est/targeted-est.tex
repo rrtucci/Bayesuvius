@@ -203,7 +203,12 @@ of $f$ and $g$ by
 \beq
 f\cdot g = \sum_X f(X) g(X)
 \eeq
+and the norm
 
+\beq
+\norm{f}_P= \sqrt{\sum_X [f(X)]^2}
+\;.
+\eeq
 
 Suppose $P:S_\rvX\rarrow [0,1]$
 is a probability distribution.
@@ -859,72 +864,65 @@ P(d|w)-P_{in}(d|w)
 \nonumber
 \\&
 \quad\text{(because
-$|\Delta(d)|\leq 1$, and $\left|\sum_i a_i\right|\leq \sum_i |a_i|$ )}
+$|\Delta(d)|=1$, and $\left|\sum_i a_i\right|\leq \sum_i |a_i|$ )}
 \\
 &\leq
 \sum_d
-\underbrace{\sqrt{\sum_w A^2(d,w)}}_{A(d)}
-\underbrace{\sqrt{\sum_w B^2(d,w)}}_{B(d)}
+\underbrace{\sqrt{\sum_w A^2(d,w)}}_{A_P(d)}
+\underbrace{\sqrt{\sum_w B^2(d,w)}}_{B_P(d)}
 \quad \text{(by CS inequality)}
+\;.
 \end{align}
+Define
 
 \beqa
-A(d')&=&
-\sum_w P(w)
+A_P(d')&=&
+\sqrt{\sum_w P(w)
 \left(
 P(d'|w)-P_{in}(d'|w)
-\right)^2
+\right)^2}
 \\
 &=&
-\av{
+\sqrt{\av{
 \left(
 P(d'|w)-P_{in}(d'|w)
 \right)^2
-}_P
+}_P}
 \eeqa
+and
 
 \beqa
-B(d')&=&
-\sum_w P(w)
+B_P(d')&=&
+\sqrt{\sum_w P(w)
+\left(
+\frac{
+\caly_{|d',w}[P]-\caly_{|d',w}[P_{in}]}
+{P_{in}(d'|w)}
+\right)^2}
+\\
+&=&
+\sqrt{
+\av{
 \left(
 \frac{
 \caly_{|d',w}[P]-\caly_{|d',w}[P_{in}]}
 {P_{in}(d'|w)}
 \right)^2
-\\
-&=&
-\av{
-\left(
-\frac{
-\caly_{|d',w}[P]-\caly_{|d',w}[P_{in}]}
-{P_{in}(d'|w)}
-\right)^2
-}_P
+}_P}
+\;.
 \eeqa
+Then
 
 \begin{align}
 |\calr^{LIPW}[P_N,P_{in}]|&\leq
 \sum_{d'=0}^1
-\underbrace{
-\av{
-\left(
-P_N(d'|w)-P_{in}(d'|w)
-\right)^2
-}_{P_N}
-}_{A_N(d')}
-\underbrace{
-\av{
-\left(
-\frac{
-\caly_{|d',w}[P_N]-\caly_{|d',w}[P_{in}]}
-{P_{in}(d'|w)}
-\right)^2
-}_{P_N}
-}_{B_N(d')}
+A_{P_N}(d')B_{P_N}(d')
 \end{align}
 
-If either $A_N(1)=A_N(0)=0$ (i.e.,
-zero error in the propensities) or $B_N(0)=B_N(1)=0$ (i.e.,
+If either
+$A_{P_N}(1)=A_{P_N}(0)=0$ (i.e.,
+zero error in the propensities) or
+$B_{P_N}(0)=B_{P_N}(1)=0$ (i.e.,
 zero bias),
 then $\calr^{LIPW}[P_N,P_{in}]=0$.
 This property
