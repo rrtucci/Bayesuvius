@@ -46,10 +46,10 @@ of the bnet.
 \begin{figure}[h!]
 $$
 \xymatrix{
-&\rvw_2\ar[ddl]\ar[ddr]
+&\rvx_2\ar[ddl]\ar[ddr]
 \\
 \ul{\xi}_1\ar[r]
-&\rvw_1\ar[dr]
+&\rvx_1\ar[dr]
 &\ul{\xi}_2
 \\
 \rvd\ar[rr]\ar[u]\ar[rru]
@@ -63,11 +63,11 @@ theory.}
 \end{figure}
 
 Let $\rvb=(\rvX, \ul{\xi})$ and
-$\rvX=(\rvd, \rvy,\rvw)$,
+$\rvX=(\rvd, \rvx,\rvy)$,
 where
 node $\rvd\in\bool$ denotes a decision to treat a patient,
 node $\rvy\in \bool$ denotes the treatment outcome,
-multi-node $\rvw$ denotes the covariates
+multi-node $\rvx$ denotes the covariates
 that are good controls, and multi-node $\ul{\xi}$ denotes
 the covariates that we don't want to control.
 See Fig.\ref{fig-targeted-bnet}
@@ -75,13 +75,13 @@ for an example of a bnet that fits this description.
 
 
 The {\bf estimator} $\haty$ of $y$
-is a function $\haty:S_\rvy\times S_\rvw\rarrow \RR$
+is a function $\haty:S_\rvy\times S_\rvx\rarrow \RR$
 that minimizes the {\bf loss} $\call$
 given by
 
 
 \beq
-\call[P, \haty]= \sum_X P(X) \hatl[y, \haty(x,w)]^2
+\call[P, \haty]= \sum_X P(X) \hatl[y, \haty(d,x)]^2
 \;,
 \eeq
 where $\hatl(a,b)$, the {\bf loss
@@ -101,7 +101,7 @@ The {\bf estimate}
 is defined by
 
 \beq
-\Psi[P, \haty] =\sum_X P(X)\haty(d,w)
+\Psi[P, \haty] =\sum_X P(X)\haty(d,x)
 \eeq
 
 Unfortunately, the words ``estimator"
@@ -123,12 +123,12 @@ probability distributions.
 Define $\delta\haty(X)$ by
 
 \beq
-\delta\haty(X)= \frac{\haty(d,w) \delta P(X)}{P(X)}
+\delta\haty(X)= \frac{\haty(d,x) \delta P(X)}{P(X)}
 \eeq
 Hence
 
 \beq
-P(X)\delta\haty(X) = \haty(d,w)\delta P(X)
+P(X)\delta\haty(X) = \haty(d,x)\delta P(X)
 \eeq
 Since $\Psi[P, \haty]$
 is linear in $P$ and $\haty$,
@@ -448,12 +448,12 @@ and variance $\frac{1}{N}\av{\lam^2}_{P_\rvX}$.
 If we set
 
 \beq
-\caly_{|d,w}[P] = \sum_y y P(y|d,w) = P(\rvy=1|d,w)
+\caly_{|d,x}[P] = \sum_y y P(y|d,x) = P(\rvy=1|d,x)
 \eeq
 and
 
 \beq
-\caly_{|d}[P] = \sum_w \caly_{|d,w}[P]P(w)
+\caly_{|d}[P] = \sum_x \caly_{|d,x}[P]P(x)
 \;,
 \eeq
 then the {\bf Average Treatment Effect (ATE)}
@@ -488,22 +488,22 @@ for $d\in \bool$:
 
 \begin{claim}
 \beq
-\av{y \frac{\delta(d',d)}{P(d|w)}}_P
+\av{y \frac{\delta(d',d)}{P(d|x)}}_P
 =\caly_{|d'}[P]
 \eeq
 
 \end{claim}
 \proof
 \beqa
-\av{y \frac{\delta(d',d)}{P(d|w)}}_P
+\av{y \frac{\delta(d',d)}{P(d|x)}}_P
 &=&
 \sum_d
 \sum_y
-\sum_w P(y|d,w)\cancel{P(d|w)}P(w) y \frac{\delta(d',d)}{\cancel{P(d|w)}}
+\sum_x P(y|d,x)\cancel{P(d|x)}P(x) y \frac{\delta(d',d)}{\cancel{P(d|x)}}
 \\
 &=&
 \sum_y
-\sum_w P(y|\rvd=d',w)P(w) y
+\sum_x P(y|\rvd=d',x)P(x) y
 \\
 &=&
 \caly_{|\rvd=d'}[P]
@@ -517,28 +517,28 @@ for $d\in \bool$:
 (a.k.a., G-computation estimate).
 
 \beq
-P_N(y,d,w)= \frac{1}{N}\sum_\s \delta(y, y^\s)
+P_N(y,d,x)= \frac{1}{N}\sum_\s \delta(y, y^\s)
 \delta(d, d^\s)
-\delta(w, w^\s)
+\delta(x, x^\s)
 \eeq
 
 \beq
-P_N(d,w)= \frac{1}{N}\sum_\s \delta(d, d^\s)
-\delta(w, w^\s)
+P_N(d,x)= \frac{1}{N}\sum_\s \delta(d, d^\s)
+\delta(x, x^\s)
 \eeq
 
 \beq
-P_N(w)= \frac{1}{N}\sum_\s
-\delta(w, w^\s)
+P_N(x)= \frac{1}{N}\sum_\s
+\delta(x, x^\s)
 \eeq
 
 \beq
-P_N(y|d,w)= \frac{P_N(y,d,w)}{P_N(d,w)}
+P_N(y|d,x)= \frac{P_N(y,d,x)}{P_N(d,x)}
 \eeq
 
 
 \beq
-\Psi^{G}=\sum_d \sum_w P_N(y|d,w)P_N(w)y\Delta(d)
+\Psi^{G}=\sum_d \sum_x P_N(y|d,x)P_N(x)y\Delta(d)
 \eeq
 
 
@@ -547,21 +547,21 @@ P_N(y|d,w)= \frac{P_N(y,d,w)}{P_N(d,w)}
 {\bf Inverse Propensity Weighted (IPW) estimate} $\Psi^{IPW}$
 (a.k.a. Inverse Probability of Treatment Weighted (IPTW) estimate).
 
-Assume propensity $P(\rvd=1|w)$ is known.
+Assume propensity $P(\rvd=1|x)$ is known.
 
 Define
 
 \beqa
 \Psi^{IPW}[P]
 &=&
-\av{y \frac{\Delta(d)}{P(d|w)}}_P
+\av{y \frac{\Delta(d)}{P(d|x)}}_P
 \eeqa
 
 \beq
 \Psi^{IPW}=\Psi^{IPW}[P_N]=
-\av{y\frac{\Delta(d)}{P(d|w)}}_{P_N}=
+\av{y\frac{\Delta(d)}{P(d|x)}}_{P_N}=
 \frac{1}{N}\sum_\s
-y^\s \frac{\Delta(d^\s)}{P(d^\s|w^\s)}
+y^\s \frac{\Delta(d^\s)}{P(d^\s|x^\s)}
 \eeq
 
 
@@ -585,12 +585,12 @@ _{P_N\cdot\delta\dpsi^{IPW}[P_{in}]}
 \begin{claim}
 \label{cl-grad-ipw}
 \beq
-\dpsi^{IPW}[P](X) =  \caly_{|1,w}[P]
+\dpsi^{IPW}[P](X) =  \caly_{|1,x}[P]
 -
-\caly_{|0,w}[P]
+\caly_{|0,x}[P]
 +
-\frac{\Delta(d)}{P(d|w)}
-(y-\caly_{|d,w}[P])
+\frac{\Delta(d)}{P(d|x)}
+(y-\caly_{|d,x}[P])
 \eeq
 \end{claim}
 \proof
@@ -599,97 +599,97 @@ _{P_N\cdot\delta\dpsi^{IPW}[P_{in}]}
 {\delta P(X)}
 &=&
 \sum_{X'} y' \Delta(d')\frac{\delta}{\delta P(X)}
-\frac{P(X')}{P(d'|w')}
+\frac{P(X')}{P(d'|x')}
 \eeqa
 
 \beqa
 \frac{\delta}{\delta P(X)}
-\frac{P(X')}{P(d'|w')}
+\frac{P(X')}{P(d'|x')}
 &=&
-\frac{\delta(X,X')}{P(d'|w')}
--\frac{P(X')}{[P(d'|w')]^2}
-\frac{\delta P(d'|w')}{\delta P(X)}
+\frac{\delta(X,X')}{P(d'|x')}
+-\frac{P(X')}{[P(d'|x')]^2}
+\frac{\delta P(d'|x')}{\delta P(X)}
 \\
 &=&
-\frac{\delta(X, X')}{P(d'|w')}
--\frac{P(X')}{P(d'|w')}
-\frac{\delta \ln P(d'|w')}{\delta P(X)}
+\frac{\delta(X, X')}{P(d'|x')}
+-\frac{P(X')}{P(d'|x')}
+\frac{\delta \ln P(d'|x')}{\delta P(X)}
 \\
 &=&
-\underbrace{\frac{\delta(X, X')}{P(d'|w')}}_{\delta^3/P(d'|w')}
--P(y'|d',w')P(w')
-\frac{\delta \ln P(d'|w')}{\delta P(X)}
+\underbrace{\frac{\delta(X, X')}{P(d'|x')}}_{\delta^3/P(d'|x')}
+-P(y'|d',x')P(x')
+\frac{\delta \ln P(d'|x')}{\delta P(X)}
 \eeqa
 
 \beqa
-\frac{\delta \ln P(d',w')}{\delta P(X)}
+\frac{\delta \ln P(d',x')}{\delta P(X)}
 &=&
-\frac{1}{P(d',w')}
+\frac{1}{P(d',x')}
 \sum_{y'}\frac{\delta P(X')}{\delta P(X)}
 \\
 &=&
-\underbrace{\frac{\delta(d, d')\delta(w,w')}{P(d',w')}}_{\delta^2/P(d',w')}
+\underbrace{\frac{\delta(d, d')\delta(x,x')}{P(d',x')}}_{\delta^2/P(d',x')}
 \eeqa
 
 \beqa
-\frac{\delta \ln P(w')}{\delta P(X)}
+\frac{\delta \ln P(x')}{\delta P(X)}
 &=&
-\underbrace{\frac{\delta(w,w')}{P(w')}}_{\delta^1/P(w')}
+\underbrace{\frac{\delta(x,x')}{P(x')}}_{\delta^1/P(x')}
 \eeqa
 
 \beqa
-\frac{\delta \ln P(d'|w')}{\delta P(X)}
+\frac{\delta \ln P(d'|x')}{\delta P(X)}
 &=&
-\frac{\delta^2}{P(d',w')}
+\frac{\delta^2}{P(d',x')}
 -
-\frac{\delta^1}{P(w')}
+\frac{\delta^1}{P(x')}
 \eeqa
 
 \beq
 \frac{\delta}{\delta P(X)}
-\frac{P(X')}{P(d'|w')}
+\frac{P(X')}{P(d'|x')}
 =
-\frac{\delta^3}{P(d'|w')}
--P(y'|d',w')P(w')
+\frac{\delta^3}{P(d'|x')}
+-P(y'|d',x')P(x')
 \left[
-\frac{\delta^2}{P(d',w')}
+\frac{\delta^2}{P(d',x')}
 -
-\frac{\delta^1}{P(w')}
+\frac{\delta^1}{P(x')}
 \right]
 \eeq
 
 \beq
 \sum_{X'} y'\Delta(d')\left[
-\frac{\delta^3}{P(d'|w')}
+\frac{\delta^3}{P(d'|x')}
 \right]
-=\boxed{\frac{\Delta(d)}{P(d|w)}y}
+=\boxed{\frac{\Delta(d)}{P(d|x)}y}
 \eeq
 
 \begin{align}
 \sum_{X'} y'\Delta(d')
 \left[
-\frac{-P(y'|d',w')\delta^2}{P(d'|w')}
+\frac{-P(y'|d',x')\delta^2}{P(d'|x')}
 \right]
 &=
 -\sum_{y'}
 y'\Delta(d)
-\frac{P(y'|d,w)}{P(d|w)}
+\frac{P(y'|d,x)}{P(d|x)}
 \\
 &=
-\boxed{\frac{\Delta(d)}{P(d|w)}
-(-\caly_{|d,w}[P])}
+\boxed{\frac{\Delta(d)}{P(d|x)}
+(-\caly_{|d,x}[P])}
 \end{align}
 
 \beqa
 \sum_{X'} y'\Delta(d')
-\left[P(y'|d',w')\delta^1
+\left[P(y'|d',x')\delta^1
 \right]
 &=&
 \sum_{y'}\sum_{d'} y'\Delta(d')
-P(y'|d',w)
+P(y'|d',x)
 \\
 &=&
-\boxed{\caly_{|1,w}[P]-\caly_{|0,w}[P]}
+\boxed{\caly_{|1,x}[P]-\caly_{|0,x}[P]}
 \eeqa
 \qed
 
@@ -707,39 +707,39 @@ Hence,
 \proof
 
 \beq
-\dpsi^{IPW}[P](X) =  \caly_{|1,w}[P]
+\dpsi^{IPW}[P](X) =  \caly_{|1,x}[P]
 -
-\caly_{|0,w}[P]
+\caly_{|0,x}[P]
 +
-\frac{\Delta(d)}{P(d|w)}
-(y-\caly_{|d,w}[P])
+\frac{\Delta(d)}{P(d|x)}
+(y-\caly_{|d,x}[P])
 \eeq
 
 \beqa
-\av{\caly_{|1,w}[P]-\caly_{|0,w}[P]}_P
+\av{\caly_{|1,x}[P]-\caly_{|0,x}[P]}_P
 &=&
-\sum_w P(w)(\caly_{|1,w}[P]-\caly_{|0,w}[P])
+\sum_x P(x)(\caly_{|1,x}[P]-\caly_{|0,x}[P])
 \\
 &=&
 \Psi^{IPW}[P]
 \eeqa
 
 \beq
-\av{\frac{\Delta(d)}{P(d|w)}y}_P
+\av{\frac{\Delta(d)}{P(d|x)}y}_P
 =
 \Psi^{IPW}[P]
 \eeq
 
 \beqa
-\av{\frac{\Delta(d)}{P(d|w)}
-\caly_{|d,w}[P]}_P
+\av{\frac{\Delta(d)}{P(d|x)}
+\caly_{|d,x}[P]}_P
 &=&
-\sum_y\sum_w \sum_d
- P(y|d,w)P(w)\Delta(d)\caly_{|d,w}[P]
+\sum_y\sum_x \sum_d
+ P(y|d,x)P(x)\Delta(d)\caly_{|d,x}[P]
  \\
  &=&
-\sum_w \sum_d
- P(w)\Delta(d)\caly_{|d,w}[P]
+\sum_x \sum_d
+ P(x)\Delta(d)\caly_{|d,x}[P]
  \\
  &=&
 \Psi^{IPW}[P]
@@ -767,14 +767,14 @@ Note the following cancellation:
 \label{cl-remainder-taylor-exp}
 \begin{align}
 \calr^{IPW}[P,P_{in}]&=-
-\sum_w P(w)\sum_d \Delta(d)
+\sum_x P(x)\sum_d \Delta(d)
 \left(
-P(d|w)-P_{in}(d|w)
+P(d|x)-P_{in}(d|x)
 \right)
 \left(
 \frac{
-\caly_{|d,w}[P]-\caly_{|d,w}[P_{in}]}
-{P_{in}(d|w)}
+\caly_{|d,x}[P]-\caly_{|d,x}[P_{in}]}
+{P_{in}(d|x)}
 \right)
 \end{align}
 \end{claim}
@@ -788,58 +788,58 @@ P(d|w)-P_{in}(d|w)
 \\
 &=
 \av{
-y \frac{\Delta(d)}{P(d|w)}
+y \frac{\Delta(d)}{P(d|x)}
 -
 \left(
-\caly_{|1,w}[P_{in}]
+\caly_{|1,x}[P_{in}]
 -
-\caly_{|0,w}[P_{in}]
+\caly_{|0,x}[P_{in}]
 +
-\frac{\Delta(d)}{P_{in}(d|w)}
-(y-\caly_{|d,w}[P_{in}])
+\frac{\Delta(d)}{P_{in}(d|x)}
+(y-\caly_{|d,x}[P_{in}])
 \right)
 }_{P}
 \\
 &=
 \left\{
 \begin{array}{l}
-\sum_w P(w)\left(
--\caly_{|1,w}[P_{in}]
+\sum_x P(x)\left(
+-\caly_{|1,x}[P_{in}]
 +
-\caly_{|0,w}[P_{in}]
+\caly_{|0,x}[P_{in}]
 \right)
 \\
-+\sum_{d,w} P(d,w) \left(
-\frac{\Delta(d)}{P_{in}(d|w)}
-\caly_{|d,w}[P_{in}]
++\sum_{d,x} P(d,x) \left(
+\frac{\Delta(d)}{P_{in}(d|x)}
+\caly_{|d,x}[P_{in}]
 \right)
 \\
-+\sum_{y,d,w} P(y, d,w)\left(
-\frac{1}{P(d|w)}- \frac{1}{P_{in}(d|w)}
++\sum_{y,d,x} P(y, d,x)\left(
+\frac{1}{P(d|x)}- \frac{1}{P_{in}(d|x)}
 \right) y\Delta(d)
 \end{array}
 \right.
 \\
-&=\sum_w P(w)\sum_d \Delta(d)
+&=\sum_x P(x)\sum_d \Delta(d)
 \left\{
 \begin{array}{l}
 \left(
-\frac{P(d|w)}{P_{in}(d|w)}-1
+\frac{P(d|x)}{P_{in}(d|x)}-1
 \right)
-\caly_{|d,w}[P_{in}]
+\caly_{|d,x}[P_{in}]
 \\
-+\sum_{y}P(y|d,w)\left(
-\frac{P_{in}(d|w)-P(d|w)}{P_{in}(d|w)}
++\sum_{y}P(y|d,x)\left(
+\frac{P_{in}(d|x)-P(d|x)}{P_{in}(d|x)}
 \right) y
 \end{array}
 \right.
 \\
 &=
-\sum_w P(w)\sum_d \Delta(d)
-\left(\frac{P(d|w)-P_{in}(d|w)}{P_{in}(d|w)}
+\sum_x P(x)\sum_d \Delta(d)
+\left(\frac{P(d|x)-P_{in}(d|x)}{P_{in}(d|x)}
 \right)
-(\caly_{|d,w}[P_{in}]-
-\caly_{|d,w}[P])
+(\caly_{|d,x}[P_{in}]-
+\caly_{|d,x}[P])
 \end{align}
 
 \qed
@@ -850,17 +850,17 @@ on the absolute value of the remainder $\calr^{IPW}$:
 
 \begin{align}
 |\calr^{IPW}[P,P_{in}]|&\leq
-\sum_d \sum_w
-\underbrace{\sqrt{P(w)}
+\sum_d \sum_x
+\underbrace{\sqrt{P(x)}
 \left|
-P(d|w)-P_{in}(d|w)
-\right|}_{A(d,w)}
-\underbrace{\sqrt{P(w)}
+P(d|x)-P_{in}(d|x)
+\right|}_{A(d,x)}
+\underbrace{\sqrt{P(x)}
 \left|
 \frac{
-\caly_{|d,w}[P]-\caly_{|d,w}[P_{in}]}
-{P_{in}(d|w)}
-\right|}_{B(d,w)}
+\caly_{|d,x}[P]-\caly_{|d,x}[P_{in}]}
+{P_{in}(d|x)}
+\right|}_{B(d,x)}
 \nonumber
 \\&
 \quad\text{(because
@@ -868,8 +868,8 @@ $|\Delta(d)|=1$, and $\left|\sum_i a_i\right|\leq \sum_i |a_i|$ )}
 \\
 &\leq
 \sum_d
-\underbrace{\sqrt{\sum_w A^2(d,w)}}_{A_P(d)}
-\underbrace{\sqrt{\sum_w B^2(d,w)}}_{B_P(d)}
+\underbrace{\sqrt{\sum_x A^2(d,x)}}_{A_P(d)}
+\underbrace{\sqrt{\sum_x B^2(d,x)}}_{B_P(d)}
 \quad \text{(by CS inequality)}
 \;.
 \end{align}
@@ -877,15 +877,15 @@ Define
 
 \beqa
 A_P(d')&=&
-\sqrt{\sum_w P(w)
+\sqrt{\sum_x P(x)
 \left(
-P(d'|w)-P_{in}(d'|w)
+P(d'|x)-P_{in}(d'|x)
 \right)^2}
 \\
 &=&
 \sqrt{\av{
 \left(
-P(d'|w)-P_{in}(d'|w)
+P(d'|x)-P_{in}(d'|x)
 \right)^2
 }_P}
 \eeqa
@@ -893,11 +893,11 @@ and
 
 \beqa
 B_P(d')&=&
-\sqrt{\sum_w P(w)
+\sqrt{\sum_x P(x)
 \left(
 \frac{
-\caly_{|d',w}[P]-\caly_{|d',w}[P_{in}]}
-{P_{in}(d'|w)}
+\caly_{|d',x}[P]-\caly_{|d',x}[P_{in}]}
+{P_{in}(d'|x)}
 \right)^2}
 \\
 &=&
@@ -905,8 +905,8 @@ B_P(d')&=&
 \av{
 \left(
 \frac{
-\caly_{|d',w}[P]-\caly_{|d',w}[P_{in}]}
-{P_{in}(d'|w)}
+\caly_{|d',x}[P]-\caly_{|d',x}[P_{in}]}
+{P_{in}(d'|x)}
 \right)^2
 }_P}
 \;.
@@ -980,25 +980,25 @@ P_N\cdot\dpsi^{IPW}[P_{in++}]-\dpsi^{IPW}_{in++}+
 \frac{1}{N}
 \sum_\s
 \left(
-\caly_{|1,w^\s}[P_{in++}]
+\caly_{|1,x^\s}[P_{in++}]
 -
-\caly_{|0,w^\s}[P_{in++}]
+\caly_{|0,x^\s}[P_{in++}]
 \right)
 }^{ \dpsi^{IPW}[P_{in++}]}
 \\
 +
 \frac{1}{N}
 \sum_\s
-\frac{\Delta(d^\s)}{P_{in++}(d^\s|w^\s)}
-(y^\s-\caly_{|d^\s,w^\s}[P_{in++}])
+\frac{\Delta(d^\s)}{P_{in++}(d^\s|x^\s)}
+(y^\s-\caly_{|d^\s,x^\s}[P_{in++}])
 \end{array}
 \right.
 \\
 &=
 \frac{1}{N}
 \sum_\s \underbrace{
-\frac{\Delta(d^\s)}{P_{in++}(d^\s|w^\s)}
-(y^\s-\caly_{|d^\s,w^\s}[P_{in++}])
+\frac{\Delta(d^\s)}{P_{in++}(d^\s|x^\s)}
+(y^\s-\caly_{|d^\s,x^\s}[P_{in++}])
 }_{\lam(X^\s)}
 \label{eq-loss-xi}
 \end{align}
@@ -1126,11 +1126,11 @@ If we define $\hatl(X)$ by
 \hatl(X) = \hatl
 \left(
 \begin{array}{l}
-\beta=\frac{\Delta(d)}{P_{in++}(d|w)} ,
+\beta=\frac{\Delta(d)}{P_{in++}(d|x)} ,
 \\
 y=y,
 \\
-\haty = \caly_{|d,w}[P_{in++}],
+\haty = \caly_{|d,x}[P_{in++}],
 \\
 \eps =\eps
 \end{array}
@@ -1172,46 +1172,46 @@ often uses a ``Super-Learner", a program that
  merges the results of multiple fits
 obtained via various ML methods and also does cross validation.
 
-Below , $\{(\s, d^\s, w^\s,\boxed{y^\s}):\s\in \Sigma\}$
+Below , $\{(\s, d^\s, x^\s,\boxed{y^\s}):\s\in \Sigma\}$
 represents a dataset. The dependent variable $y^\s$ is boxed,
-the independent ones $d^\s,w^\s$ (a.k.a. covariates) aren't.
+the independent ones $d^\s,x^\s$ (a.k.a. covariates) aren't.
 
 \begin{enumerate}
-\item Estimate estimator $\haty(d,w)=\caly_{|d,w}$ of outcome $y$
+\item Estimate estimator $\haty(d,x)=\caly_{|d,x}$ of outcome $y$
 
 \beq
-\{(\s, d^\s, w^\s,\boxed{y^\s}):\s\in \Sigma\}\mlarr \haty(d,w)
+\{(\s, d^\s, x^\s,\boxed{y^\s}):\s\in \Sigma\}\mlarr \haty(d,x)
 \eeq
 
-\item Estimate propensity $g(w)$
+\item Estimate propensity $g(x)$
 
 \beq
-g(w)=P(\rvd=1|w)\approx
-\frac{\sum_\s \delta(d^\s,1)\delta(w^\s, w)}
-{\sum_\s \delta(w^\s, w)}
-\eeq
-
-\beq
-P(d|w) = d g(w) + (1-d)[1-g(w)]
+g(x)=P(\rvd=1|x)\approx
+\frac{\sum_\s \delta(d^\s,1)\delta(x^\s, x)}
+{\sum_\s \delta(x^\s, x)}
 \eeq
 
 \beq
-\beta(d,w)=\frac{\Delta(d)}{P(d|w)}
+P(d|x) = d g(x) + (1-d)[1-g(x)]
+\eeq
+
+\beq
+\beta(d,x)=\frac{\Delta(d)}{P(d|x)}
 \eeq
 
 \item Estimate fluctuation parameter $\eps$
 
 \beq
-\eta(d,w) =
-\underbrace{\logit[\haty(d, w)]}_
-{\lam(d,w)}
- + \eps \beta(d, w)
+\eta(d,x) =
+\underbrace{\logit[\haty(d, x)]}_
+{\lam(d,x)}
+ + \eps \beta(d, x)
 \eeq
 
 \beq
-\{(\s, \lam(d^\s, w^\s),
-\beta(d^\s, w^\s),\boxed{\eta(d^\s, w^\s)}:
-\s\in \Sigma\}\mlarr \hat{\eta}(d,w)
+\{(\s, \lam(d^\s, x^\s),
+\beta(d^\s, x^\s),\boxed{\eta(d^\s, x^\s)}:
+\s\in \Sigma\}\mlarr \hat{\eta}(d,x)
 \eeq
 
 \item Estimate ATE
@@ -1219,8 +1219,8 @@ P(d|w) = d g(w) + (1-d)[1-g(w)]
 \beq
 ATE = \frac{1}{N} \sum_\s
 \left\{
- \expit[ \hat{\eta}(d=1,w^\s)]
- -\expit[ \hat{\eta}(d=0,w^\s)]
+ \expit[ \hat{\eta}(d=1,x^\s)]
+ -\expit[ \hat{\eta}(d=0,x^\s)]
  \right\}
 \eeq
 
