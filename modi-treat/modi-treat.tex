@@ -1,4 +1,4 @@
-\chapter{Modified Treatment Policy}
+\chapter{Modified Treatment Policy (COMING SOON}
 \label{ch-modi-treat}
 
 This  chapter
@@ -7,52 +7,72 @@ reader has
 already read
 Chapter \ref{ch-pot-out} on Potential Outcomes (PO) theory.
 
+{\bf Modified Treatment Policy (MTP)}
+
+\section{One time MTP}
 Consider a typical PO bnet $G$
-and its corresponding imagined bnet $G_{im}$ (see Fig.\ref{fig-modi-po}).
-A {\bf Modified Treatment Policy (MTP)} adds a Bayesian prior to the
- node $\ul{\tild}$ in $G_{im}$.
+and its corresponding imagined bnet $G_{im2}$ (see Fig.\ref{fig-modi-po}).
+A MTP adds a Bayesian prior to the
+ node $\ul{\tilx}$ in $G_{im2}$.
 The prior depends on the {\bf treatment
-variable} (a.k.a., {\bf exposure variable}) $\rvd$ and its parents $pa(\rvd)$.
-This adds arrows $pa(\rvd)\rarrow\ul{\tild}$
-and $\rvd\rarrow \ul{\tild}$ (see Fig.\ref{fig-unmodi-modi}).
-An ATE is calculated by removing all arrows entering $\ul{\tild}$
+variable} (a.k.a. {\bf exposure variable}) $\rvx$ and its parents $pa(\rvx)=\rvc$.
+This adds arrows $\rvc\rarrow\ul{\tilx}$
+and $\rvx\rarrow \ul{\tilx}$ (see Fig.\ref{fig-unmodi-modi}).
+An ATE is calculated by removing all arrows entering $\ul{\tilx}$
 so as to mimic a RCT. Hence, a MTP cannot be used to calculate
 an ATE or mimic an RCT.
 
 
 \begin{figure}[h!]
 $$
-\begin{array}{cc}
+\begin{array}{ccc}
 \xymatrix{
-\rvx
+\rvc
 \ar[dd]\ar[ddrr]
 \\
 \\
-\rvd \ar[rr]
+\rvx \ar[rr]
 &
 &\rvy
 }
 &
 \xymatrix{
-\rvx
+\rvc
 \ar[dd]\ar[dr] \ar[drr]
 \\
 & \rvy(0)\ar[dr]
 &\rvy(1)\ar[d]
 \\
-\rvd
-&\ul{\tild}=\tild\ar[r]
+\rvx\ar[rr]
+&
+&\rvy
+}
+&
+\xymatrix{
+\rvc
+\ar[dd]\ar[dr] \ar[drr]
+\\
+& \rvy(0)\ar[dr]
+&\rvy(1)\ar[d]
+\\
+\rvx
+&\ul{\tilx}=\tilx\ar[r]
 &\rvy
 }
 \\
-G & G_{im}
+G
+&G_{im1} =\cald_{\rvx\rarrow\rvy} G
+& G_{im2}=\cald_{\ul{\tilx}\rarrow\rvy}\cald_{\rvx\rarrow\rvy}(\tilx)G
 \end{array}
 $$
 \caption{$G$ is one of the
 simplest possible bnets considered in  PO theory.
-$G_{im}$ is the bnet that results
-from applying the imagine operator to $G$.
-For $G_{im}$, $\tild\in S_{\ul{\tild}}=S_\rvd=\bool$.}
+In the usual PO theory,
+one only considers the bnet $G_{im1}$.
+In MTP theory, we
+consider the bnet $G_{im2}$.
+For $G_{im2}$, $\tilx\in S_{\ul{\tilx}}=S_\rvx=\bool$.
+}
 \label{fig-modi-po}
 \end{figure}
 
@@ -61,116 +81,522 @@ For $G_{im}$, $\tild\in S_{\ul{\tild}}=S_\rvd=\bool$.}
 $$
 \begin{array}{cc}
 \xymatrix{
-pa(\rvd)
+pa(\rvx) =\rvc
 \ar[dd]
 &
 &pa'(\rvy)\ar[d]
 \\
-&&[\rvy(\tild)]_{d\in S_{\ul{\tild}}}\ar[d]
+&&[\rvy(\tilx)]_{\tilx\in S_{\ul{\tilx}}}\ar[d]
 \\
-\rvd
-&\ul{\tild}=\tild\ar[r]
+\rvx
+&\ul{\tilx}=\tilx\ar[r]
 &\rvy
 }
 &
 \xymatrix{
-pa(\rvd)
+pa(\rvx)=\rvc
 \ar[dd]\ar[ddr]
 &
 &pa'(\rvy)\ar[d]
 \\
-&&[\rvy(\tild)]_{\tild\in S_{\ul{\tild}}}\ar[d]
+&&[\rvy(\tilx)]_{\tilx\in S_{\ul{\tilx}}}\ar[d]
 \\
-\rvd\ar[r]
-&\ul{\tild}\ar[r]
+\rvx\ar[r]
+&\ul{\tilx}\ar[r]
 &\rvy
 }
 \\
-G_{im}
- &
-G_{im,mod}
+G_{im2}
+ &G_{im2,mod}
 \end{array}
 $$
-\caption{In this figure, $G_{im}$
-is the generalization of the $G_{im}$
+\caption{In this figure, $G_{im2}$
+is the generalization of the $G_{im2}$
 in Fig.\ref{fig-modi-po}.
 Note that $pa'(\rvy)$ are the parents in $G$ of
-$\rvy$, excluding $\rvd$.
-For $G_{im}$, $S_{\ul{\tild}}= S_\rvd$.
-For the modified
-imagined bnet $G_{im,mod}$, $S_{\ul{\tild}}\subset S_\rvd$. }
+$\rvy$, excluding $\rvx$.
+Note that $S_{\ul{\tilx}}\subset S_\rvx$. }
 \label{fig-unmodi-modi}
 \end{figure}
 
-The TPM, printed in  blue, for node $\ul{\tild}$
-of the imagined bnet $G_{im}$ in Fig.\ref{fig-unmodi-modi}, is as follows
+The TPM, printed in  blue, for node $\ul{\tilx}$
+of the imagined bnet $G_{im2}$ in Fig.\ref{fig-unmodi-modi}, is as follows
 \beq\color{blue}
-P(\ul{\tild}=\tild) =\delta(\tild, d)
+P(\ul{\tilx}=\tilx) =\delta(\tilx, x)
 \eeq
 
-The TPM, printed in  blue, for node $\ul{\tild}$
-of the modified imagined bnet $G_{im,mod}$ in Fig.\ref{fig-unmodi-modi},
+The TPM, printed in  blue, for node $\ul{\tilx}$
+of the modified imagined bnet $G_{im2,mod}$ in Fig.\ref{fig-unmodi-modi},
  is as follows
 \beq\color{blue}
-P(\ul{\tild}=\tild | \rvd=d, pa(\rvd)=x)= \text{ prior}
+P(\ul{\tilx}=\tilx | \rvx=x, c)= \text{ prior}
 \eeq
 
-Hence, node $\ul{\tild}$
-has a non-informative (frequentist) prior in $G_{im}$,
-and it has an informative (Bayesian) prior in $G_{im,mod}$.
+Hence, node $\ul{\tilx}$
+has a non-informative (frequentist) prior in $G_{im2}$,
+and it has an informative (Bayesian) prior in $G_{im2,mod}$.
 
-Note that we must have $S_{\ul{\tild}}\subset S_\rvd$ in $G_{im,mod}$,
+Assumptions about $G_{im2, mod}$
+
+\begin{enumerate}
+
+
+\item {\bf Consistency (a.k.a. SUTVA)}
+
+The TPM, printed in  blue, for node $\rvy$
+of the modified imagined bnet $G_{im2,mod}$ in Fig.\ref{fig-unmodi-modi},
+ is as follows
+
+\beq \color{blue}
+P(y\cond \tilx, \{y(\tilx')\}_{\tilx'\in S_{\ul{\tilx}}})=
+\delta(y , \sum_{\tilx'\in S_{\ul{\tilx}}}
+ y(\tilx')\indi(\tilx'=\tilx))
+\eeq
+
+\beqa
+P(\rvy=y|\tilx, pa'(\rvy)=\xi)&=&
+P(\rvy(\tilx)=y|\tilx, pa'(\rvy)=\xi)
+\eeqa
+
+
+\item {\bf Exchangeability (a.k.a.
+conditional independence assumption (CIA))}
+
+\beqa
+P(\rvy(\tilx')=y|\tilx, pa'(\rvy)=\xi)
+&=&
+P(\rvy(\tilx')=y|pa'(\rvy)=\xi)
+\eeqa
+
+\item {\bf Identifiability}
+
+We must have
+\beq
+S_{\ul{\tilx}} \subset S_\rvx
+\eeq
+in $G_{im2, mod}$
 or else queries of the type
- $P(y(\tild)|pa'(\rvy)=c)$ are not identifiable.
-This is clear because if $\tild\not\in S_\rvd$,
-then we have no information of the type $P(y|\tild, pa'(\rvy)=c)$.
+ $P(\rvy(\tilx)=y|pa'(\rvy)=\xi)$ are not identifiable.
+This is clear because if $\tilx\not\in S_\rvx$,
+then we have no information of the type
+$P(\rvy=y|\tilx, pah(\rvy)=c)=P(\rvy(\tilx)=y|pa'(\rvy)=\xi)$.
 
+\item{\bf Positivity}
 
-Examples of $\ul{\tild}$ priors for $G_{im,mod}$.
+Define the following 2 propensities
+for $x\in S_\rvx$ and $\tilx \in S_{\ul{\tilx}}$:
+
+\beq
+g_{x|c}=P(\rvx=x |c)
+\eeq
+
+\beq
+\tilg_{\tilx|c}=P(\ul{\tilx}=\tilx |c)
+\eeq
+
+Positivity for  $G_{im2,mod}$
+is the requirement that
+
+\beq
+0<g_{\tilx|c}<1 \text{ for all } \tilx \in S_{\ul{\tilx}}
+\eeq
+If $g_{\tilx|c}$
+is deterministic, then this requirement
+is not satisfied, and we cannot do IPW (i.e.,
+inverse propensity weighing).
+If $g_{\tilx|c}$
+is defined to equal $g_{f(\tilx)|c}$ for some
+function $f:S_{\ul{\tilx}}\rarrow S_\rvx$
+and $S_{\ul{\tilx}}\subset S_\rvx$, then
+positivity is assured.
+
+Note that using a MDP can allow IPW to
+be performed  in cases
+when the propensity $g_{x|c}$
+is not defined for all $x\in S_\rvx$, but is defined
+for all $x\in S_{\ul{\tilx}}$, where
+$S_{\ul{\tilx}}$
+is some proper subset of $S_\rvx$.
+
+\end{enumerate}
+
+The probability
+distribution
+$P(\tilx|x, c)$ (i.e., the  $\ul{\tilx}$ prior for $G_{im2,mod}$)
+is called the {\bf modified treatment plan (MTP)}.
+A MTP can be deterministic or probabilistic.
+An MTP that depends (resp., does not depend)
+ on $x$ is said to
+be dynamic (resp., static), because $\tilx$ depends (resp., does not
+depend) on the previous value
+of $x$.
+
+\begin{enumerate}
+\item Deterministic MTP
+
+Suppose $S_{\ul{\tilx}}\subset S_\rvx$
+and we are given a function
+$\tilx_c(\cdot):S_\rvx\rarrow S_{\ul{\tilx}}$.
+Then let the TPM, printed
+in blue, for node $\ul{\tilx}$, be as follows:
+
+\beq\color{blue}
+P(\ul{\tilx}=\tilx | \rvx=x, c)= \delta(\tilx, \tilx_c(x))
+\eeq
+
+Examples of $\tilx_c(x)$
 \begin{itemize}
-\item example of a deterministic $\ul{\tild}$  prior
 
-Suppose
-$S_\rvd=\RR$,
-$F$ is finite subset of $S_\rvd$,
+\item threshold for in $x$ for small $x$
 
-$\Delta d\in \RR$,
-$S_{\ul{\tild}}= F+\Delta d = \{d+\Delta d: d\in F\}$
-
-$d\in F$, $\tild\in F+\Delta d$,
-
-$\calx\subset S_{pa(\rvd)}$, $x\in S_{pa(\rvd)}$
-
-$\tild_x(\cdot):F\rarrow F+\Delta d$
+Let $S_\rvx=[a,b]$ where $a<b$.
+For some $\theta, u(c)\in [a,b]$,
 
 \beq
-\tild_x(d) = d + \Delta d \;\indi(x\in \calx)
-\label{eq-modi-da}
+\tilx_c(x) = \left\{\begin{array}{ll}
+\theta &\text{ if }x\leq u(c)
+\\
+x &\text{ if }x> u(c)
+\end{array}
+\right.
 \eeq
-Then
 
-\beq\color{blue}
-P(\ul{\tild}=\tild | \rvd=d, pa(\rvd)=x)= \delta(\tild, \tild_x(d))
-\eeq
+\item upshift in $x$ for small $x$
 
-\item example of a stochastic $\ul{\tild}$  prior
-
-Suppose $d_x(\tild)$ is the inverse of
-the function $\tild_x(d)$ defined in Eq.(\ref{eq-modi-da}).
-Hence
+Let $S_\rvx=[a,b]$ where $a<b$.
+For some $\Delta x >0$,
+and $u(c)\in[a,b]$,
 
 \beq
-d_x(\tild) = \tild -\Delta d \;\indi(x\in \calx)
+\tilx_c(x) = \left\{\begin{array}{ll}
+(x +  \Delta x) &\text{ if }x< u(c)\text{ and }
+(x +  \Delta x)\in[a,b]
+\\
+x &\text{ if }x> u(c)
+\\
+b & \text{ if }(x +  \Delta x)>b
+\end{array}
+\right.
 \eeq
-Let $P(\rvd=d |pa(\rvd)=x)$ be the propensity for bnet $G$.
-Then
 
-\beq\color{blue}
-P(\ul{\tild}=\tild | \rvd=d, pa(\rvd)=x)=
-\frac{
-e^{-\beta(d-d_x(\tild))^2} P(\rvd=d_x(\tild) |pa(\rvd)=x)}
-{\sum_{\tild\in S_{\ul{\tild}}} \text{numerator}}
-\eeq
 
 
 \end{itemize}
+
+
+\item Stochastic MTP
+
+\begin{itemize}
+\item
+Suppose we are given a function $x_c:S_{\ul{\tilx}}\rarrow S_\rvx$
+(it could be the inverse, if it exists, of
+the function $\tilx_c;S_\rvx \rarrow S_{\ul{\tilx}}$ defined previously).
+For some $\theta(x)\in \RR$, let the TPM, printed
+in blue, for node $\ul{\tilx}$, be as follows:
+
+
+\beq\color{blue}
+P(\tilx|x,c)=
+\frac{
+\exp[\theta(x)P(\rvx=x_c(\tilx)|c)]}
+{\sum_{\tilx\in S_{\ul{\tilx}}} \text{numerator}}
+\eeq
+
+\item
+Suppose $S_\rvx=S_{\ul{\tilx}}=\bool$.
+Now let the TPM, printed
+in blue, for node $\ul{\tilx}$, be as follows:
+
+
+\beq\color{blue}
+P(\tilx|x, c)= [\pi(x,c)]^{\tilx} [1-\pi(x,c)]^{1-\tilx}
+\eeq
+where
+
+\beq
+\pi(x,c)=
+\left\{
+\begin{array}{ll}
+\frac{\theta P(\rvx=1|c)}{Z}
+& \text{ if } x=1
+\\
+\frac{ P(\rvx=0|c)}{Z}
+& \text{ if } x=0
+\end{array}
+\right.
+\eeq
+and
+
+\beq
+Z=\theta P(\rvx=1|c)+ P(\rvx=0|c)
+\eeq
+
+
+
+\end{itemize}
+
+
+\end{enumerate}
+
+\beq
+\caly_{c|\tilx, c} = \sum_y y P(\rvy(c)=y|\tilx, c)
+\eeq
+
+\beq
+\caly_{c} = \sum_{\tilx, c} \caly_{c|\tilx, c}P(\tilx|c)P(c)
+\eeq
+
+\beq
+\caly_{|\tilx, c} = \sum_y y P(\rvy=y|\tilx, c)
+\eeq
+
+\beq
+\caly = \sum_{\tilx, c} \caly_{|\tilx, c}P(\tilx| c)P(c)
+\eeq
+
+Estimand
+
+\beq
+\caly- \caly_c
+\eeq
+
+
+
+\section{Multi-time MTP}
+
+Multi-time (a.k.a. longitudinal) MTP (LMTP)
+g-formula for LMTP\footnote{Other formulae
+that
+define recursively the full
+probability distribution of a bnet,
+are also called g-formulae. Chapter
+\ref{ch-g-formula} defines
+a different g-formula.}
+
+
+
+Consider  $t=1,2, \ldots, nt$,
+
+For $nt=1$,
+
+\beq
+\begin{array}{cc}
+\xymatrix{
+\rvc_1\ar[d]\ar[dr]
+\\
+\rvx_1\ar[r]
+&\rvy
+}
+ &
+\xymatrix{
+\rvc_1\ar[d]\ar@/^1pc/[dd]\ar[ddr]
+\\
+\rvx_1\ar[d]
+\\
+\ul{\tilx}_1\ar[r]
+&\rvy
+}
+\end{array}
+\eeq
+
+\beq
+P(y,x_1, c_1)=
+P(y|x_1, c_1)
+P(x_1|c_1)
+P(c_1)
+\eeq
+
+\beq
+P(y,\tilx_1,x_1, c_1)=
+P(y|\tilx_1, c_1)
+P(x_1|c_1)
+P(\tilx_1|x_1, c_1)P(c_1)
+\eeq
+For $nt=2$,
+
+\beq
+\begin{array}{ll}
+\xymatrix{
+\rvc_1\ar[d]\ar[r]\ar[dr]
+&\rvc_2\ar[d]\ar[rd]
+\\
+\rvx_1\ar[r] \ar[ru]
+&\rvx_2\ar[r]
+&\rvy
+}
+&
+\xymatrix{
+\rvc_1\ar[d]\ar[r]\ar@/^1pc/[dd]\ar[ddr]\ar[dr]
+&\rvc_2\ar[d]\ar@/^1pc/[dd]\ar[ddr] \ar[rdd]
+\\
+\rvx_1\ar[d]
+&\rvx_2\ar[d]
+\\
+\ul{\tilx}_1\ar[ru] \ar[ruu] \ar[r]
+&\ul{\tilx}_2\ar[r]
+&\rvy
+}
+\end{array}
+\eeq
+
+\beq
+P(y,x_{\leq 2},c_{\leq 2})=
+\left\{
+\begin{array}{l}
+P(y|x_2, c_2)
+\\
+*P(x_1|c_1) P(c_1)
+\\
+*P(x_2|x_1, c_{1,2})P(c_2|x_1, c_1)
+\end{array}
+\right.
+\eeq
+
+\beq
+P(y,\tilx_{\leq 2}, x_{\leq 2},c_{\leq 2})=
+\left\{
+\begin{array}{l}
+P(y|\tilx_2, c_2)
+\\
+*P(x_1|c_1)
+P(\tilx_1|x_1, c_1) P(c_1)
+\\
+*P(x_2|\tilx_1, c_{1,2})
+P(\tilx_2|x_2, c_{1,2})
+P(c_2|\tilx_1, c_1)
+\end{array}
+\right.
+\eeq
+
+
+For $nt=3$,
+
+\beq
+\begin{array}{cc}
+\xymatrix{
+\rvc_1\ar[d]\ar[r]\ar[dr]
+&\rvc_2\ar[d]\ar[r]\ar[dr]
+&\rvc_3\ar[d] \ar[rd]
+\\
+\rvx_1\ar[r]\ar[ru]
+&\rvx_2\ar[r]\ar[ru]
+&\rvx_3\ar[r]
+&\rvy
+}
+&
+\xymatrix{
+\rvc_1\ar[d]\ar[r]\ar[ddr]\ar[dr]\ar@/^1pc/[dd]
+&\rvc_2\ar[d]\ar[r]\ar[ddr] \ar[dr]\ar@/^1pc/[dd]
+&\rvc_3\ar[d]\ar[ddr] \ar@/^1pc/[dd] \ar[rdd]
+\\
+\rvx_1\ar[d]\ar[rd]
+&\rvx_2\ar[d]\ar[rd]
+&\rvx_3\ar[d]
+\\
+\ul{\tilx}_1\ar[ru] \ar[ruu] \ar[r]
+&\ul{\tilx}_2\ar[ru]\ar[ruu]  \ar[r]
+&\ul{\tilx}_3\ar[r]
+&\rvy
+}
+\end{array}
+\label{eq-modi-bnet-nt-3}
+\eeq
+
+\beq
+P(y, x_{\leq 3}, c_{\leq 3})
+=
+\left\{
+\begin{array}{l}
+P(y| x_3, c_3)
+\\
+*P(x_1|c_1) P(c_1)
+\\
+*P(x_2|x_1, c_{1,2})P(c_2| x_1, c_1)
+\\
+*P(x_3|x_{2}, c_{2,3}) P(c_3|x_2, c_2)
+\end{array}
+\right.
+\eeq
+
+
+\beq
+P(y,\tilx_{\leq 3}, x_{\leq 3}, c_{\leq 3})
+=
+\left\{
+\begin{array}{l}
+P(y|\tilx_3, c_3)
+\\
+*P(x_1|c_1)
+P(\tilx_1|x_1, c_1)P(c_1)
+\\
+*P(x_2|\tilx_1, c_{1,2})
+P(\tilx_2|\tilx_1, x_{1,2}, c_{1,2})  P(c_2|\tilx_1, c_1)
+\\
+*P(x_3|\tilx_{2}, c_{2,3})
+P(\tilx_3|\tilx_{2}, x_{2,3}, c_{2,3}) P(c_3|\tilx_2, c_2)
+\end{array}
+\right.
+\eeq
+
+In general,
+
+\beq
+P(y,x_{\leq nt}, c_{\leq nt})=
+P(y|x_{nt}, c_{nt})
+\prod_{t=1}^{nt}
+\{
+P(x_t|x_{t-1}, c_{t, t-1} )
+P(c_t|\tilx_{t-1}, c_{t-1})
+\}
+\eeq
+
+\beq
+P(y,\tilx_{\leq nt},x_{\leq nt}, c_{\leq nt})=
+\left\{
+\begin{array}{l}
+P(y|\tilx_{nt},x_{nt}, c_{nt})
+\\
+*\prod_{t=1}^{nt}
+P(x_t|\tilx_{t-1}, c_{t, t-1} )
+P(\tilx_t|\tilx_{t-1}, x_{t,t-1}, c_{t, t-1})
+P(c_t|\tilx_{t-1},  c_{t-1})
+\end{array}
+\right.
+\eeq
+
+
+
+Note that the conventional notation for LMTP uses $L_{t} = \rvc_{t}$,
+$A_{t} = \rvx_{t}$ and $\tilde{A}_{t} = \ul{\tilx}_{t}$
+for $t=1, 2, \ldots, nt$. Hence, the $nt=2$ bnet
+Eq.(\ref{eq-modi-bnet-nt-3}) written in the conventional notation is
+(before and after adding the $\tilde{A}$ nodes)
+\beq
+\begin{array}{cc}
+\xymatrix{
+L_1\ar[d]\ar[r]\ar[dr]
+&L_2\ar[d]\ar[r]\ar[dr]
+&L_3\ar[d]\ar[rd]
+\\
+A_1\ar[r]\ar[ru]
+&A_2\ar[r]\ar[ru]
+&A_3\ar[r]
+&\rvy
+}
+&
+\xymatrix{
+L_1\ar[d]\ar[r]\ar[ddr]\ar[dr]\ar@/^1pc/[dd]
+&L_2\ar[d]\ar[r]\ar[ddr] \ar[dr]\ar@/^1pc/[dd]
+&L_3\ar[d]\ar[ddr] \ar@/^1pc/[dd]
+\\
+A_1\ar[d]\ar[rd]
+&A_2\ar[d]\ar[rd]
+&A_3\ar[d]
+\\
+\tilde{A}_1\ar[ru]\ar[r]
+&\tilde{A}_2\ar[ru]\ar[r]
+&\tilde{A}_3\ar[r]
+&\rvy
+}
+\end{array}
+\eeq
