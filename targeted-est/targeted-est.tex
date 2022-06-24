@@ -7,8 +7,8 @@
 This chapter is based on Refs.\cite{tlride} and  \cite{hoff}.
 
 The goal of Targeted Estimator (TE) theory is
-to find, given an estimator,
-a new estimator that is slightly
+to find, given a cfit,
+a new cfit that is slightly
 displaced from the original,
 but has better behavior (i.e.,
 it converges faster, and with smaller
@@ -74,9 +74,9 @@ See Fig.\ref{fig-targeted-bnet}
 for an example of a bnet that fits this description.
 
 
-The {\bf estimator} $\haty$ of $y$
+The cfit $\haty$ of $y$
 is a function $\haty:S_\rvd\times S_\rvx\rarrow \RR$
-that minimizes the {\bf loss} $\call$
+that minimizes the {\bf loss (a.k.a. loss functional)} $\call$
 given by
 
 
@@ -85,7 +85,7 @@ given by
 \;,
 \eeq
 where $\hatl(a,b)$, the {\bf loss
-estimator}, is a
+cfit}, is a
 non-negative function
 that vanishes when $a=b$.
 The function $\hatl$ is designed
@@ -94,10 +94,8 @@ In this chapter, the $\hatl$
 is designed to reduce ATE error.
 
 
-
-
-The {\bf estimate}
- $\Psi[P, \haty]$ for the estimator $\haty$
+The estimate
+ $\Psi[P, \haty]$ for the cfit $\haty$
 is defined by
 
 \beq
@@ -105,11 +103,12 @@ is defined by
 \eeq
 
 Unfortunately, the words ``estimator"
-and ``estimate" are sometimes used
+and ``estimate" are often used
 interchangeably. See Section
 [\nameref{sec0-estimand}].
 In this chapter, we use $(\haty, \Psi)$
-for our (estimator, estimate) pair.
+for our (estimator, estimate) pair,
+and refer to estimators a cfits.
 
 
 Let
@@ -163,8 +162,8 @@ Eq.(\ref{eq-tar-limit}) is illustrated in
 Fig.\ref{fig-targeted-p-psi-plot.png}.
 
 The goal of TE theory
-is to find, given an estimator $\haty$,
-a new estimator $\haty +\delta \haty$
+is to find, given a cfit $\haty$,
+a new cfit $\haty +\delta \haty$
 so that the
 estimate $\Psi[P_N, \haty+\delta \haty]$
 has better behavior as $N\rarrow \infty$ than
@@ -225,14 +224,17 @@ and the $P$ covariance by
 \av{fg}_P - \av{f}_P\av{g}_P
 \eeq
 
-Suppose $\Psi:\calh_\rvX\rarrow \RR$.
+Suppose $\Psi[\eta]\in\RR$
+is a real valued function
+that depends on a function $\eta\in \calh_\rvX$.
+$\Psi[\eta]$ is said to be a {\bf functional} of $\eta$.
 Define the
 {\bf functional derivative or gradient }\footnote{
 Functional derivatives are commonly used in Physics
 especially in Quantum Field Theory.
 See Ref.\cite{wiki-func-deri} for more
 information about them.}
-of $\Psi[\eta]$ with respect to $\eta\in\calh_\rvX$, as follows
+of $\Psi[\eta]$ with respect to $\eta$, as follows
 
 
 \beq
@@ -368,7 +370,7 @@ then Eq.(\ref{eq-1st-order-psi}) becomes
 \calr[P, P_{in}]
 \eeqa
 
-Define the {\bf influence curve $\lam(X)$} by
+Define the {\bf efficient influence curve (EIF)} $\lam(X)$ by
 
 \beq
 \lam(X) =\delta\dpsi[P_{in}](X)
@@ -1016,7 +1018,7 @@ and the functional $\call[P, \haty=fixed]:\calh_\rvX
 \rarrow\RR$
 as if it were a real valued function on $\RR^2$.
 It shows  the constant contours
-of the loss $\call[P, \haty]$
+of the loss functional $\call[P, \haty]$
 at fixed $\haty$ in green.
 $P_N$ for $N=10, 100, 1000$
 represent empirical distributions.
@@ -1028,9 +1030,9 @@ zero when $\eps=0$ and $P=P_{in++}$.
 
 Note that function $\lam(X^\s)$ defined in Eq.(\ref{eq-loss-xi})
 can be positive or negative. Hence,
- it can't be defined as the loss estimator,
-because a loss estimator must be non-negative. However, it can be
-defined as the derivative of a loss estimator. Suppose we define an $\eps\in\RR$
+ it can't be defined as the loss cfit,
+because a loss cfit must be non-negative. However, it can be
+defined as the derivative of a loss cfit. Suppose we define an $\eps\in\RR$
 parameterized
 family of probability distributions $P_\eps:S_\rvX\rarrow [0,1]$,
 and we expand the loss $\call[P_\eps, \haty]$
@@ -1053,7 +1055,7 @@ $\call[P_\eps, \haty]$ that satisfies
 \eeq
 
 
-Use as loss estimator $\hatl$ the Cross Entropy
+Use as loss cfit $\hatl$ the Cross Entropy
 $CE(p\parallel q)$ for $p, q\in [0,1]$
 \beq
 \hatl = CE(p\parallel q)=-[p \ln q + (1-p) \ln(1- q)]
@@ -1066,7 +1068,7 @@ where $P(0)=p, P(1)=1-p$.
 For some $y\in\bool$ and $\eps\in\RR$,
 make the following
 substitutions
-in the loss estimator $\hatl$
+in the loss cfit $\hatl$
 and call it $\hatl=\hatl(\beta, y, \haty, \eps)$.\footnote{To
 agree with the TE literature,
 we are using $\expit(x)$
@@ -1082,7 +1084,7 @@ p=y,
 q= \expit[\logit(\haty) + \eps \beta ]
 \eeq
 Note that since $p=y$ is binary,
-the minimum of this loss estimator is zero.
+the minimum of this loss cfit is zero.
 
 
  Recall that in Section [\nameref{sec0-smoid}], we proved that
@@ -1177,7 +1179,7 @@ represents a dataset. The dependent variable $y^\s$ is boxed,
 the independent ones $d^\s,x^\s$ (a.k.a. covariates) aren't.
 
 \begin{enumerate}
-\item Estimate estimator $\haty(d,x)=\caly_{|d,x}$ of outcome $y$
+\item Find cfit $\haty(d,x)=\caly_{|d,x}$ of outcome $y$
 
 \beq
 \{(\s, d^\s, x^\s,\boxed{y^\s}):\s\in \Sigma\}\mlarr \haty(d,x)
