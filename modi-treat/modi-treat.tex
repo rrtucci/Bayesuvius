@@ -71,8 +71,8 @@ $$
 }
 \\
 G
-&G_{im1} =\cald_{\rvx\rarrow\rvy} G
-& G_{im2}=\cald_{\ul{\tilx}\rarrow\rvy}\cald_{\rvx\rarrow\rvy}(\tilx)G
+&G_{im1} =\cali_{\rvx\rarrow\rvy} G
+& G_{im2}=\cali_{\ul{\tilx}\rarrow\rvy}\cali_{\rvx\rarrow\rvy}(\tilx)G
 \end{array}
 $$
 \caption{$G$ is one of the
@@ -637,6 +637,103 @@ time steps in the past,
 because I will assume the effect of those parents is
 negligible to first approximation.
 
+\section{Entropy-likelihood connection}
+\label{sec-ent-like-connect}
+
+\beq
+\call_{y|\theta} = \ln P(y|\theta)
+\eeq
+
+\beq
+\av{f(y)}= \sum_y P(y|\theta) f(y)= E_{\rvy|\theta}[f(y)]
+\eeq
+
+\beq
+H(\rvy|\theta)= -\av{\call_{y|\theta}}
+\eeq
+
+\begin{claim}
+
+\beq
+\av{\partial_\theta  \call_{y|\theta}}=0
+\eeq
+
+\beq
+\av{\partial^2_\theta  \call_{y|\theta}}=
+-\av{ (\partial_\theta \call_{y|\theta})^2 }
+\eeq
+
+\end{claim}
+\proof
+
+\beqa
+\av{\partial_\theta  \call_{y|\theta}}
+&=&
+\sum_y P(y|\theta)\partial_\theta\ln  P(y|\theta)
+\\
+&=&
+\sum_y \partial_\theta P(y|\theta)
+\\
+&=& 0
+\eeqa
+
+
+\beqa
+\av{\partial^2_\theta  \call_{y|\theta}}
+&=&
+\sum_y  P(y|\theta)\partial_\theta \left[ \frac{1}{P(y|\theta)}
+ \partial_\theta P(y|\theta) \right]
+\\
+&=&
+- \sum_y  P(y|\theta)
+\frac{1}{P(y|\theta)^2}[ \partial_\theta P(y|\theta)]^2
++   \sum_y   \partial_\theta^2   P(y|\theta)
+\\
+&=&
+-\sum_y  P(y|\theta)[ \partial_\theta \ln P(y|\theta)]^2
+\\
+&=&
+-\av{ (\partial_\theta \call_{y|\theta})^2 }
+\eeqa
+\qed
+
+\beq
+\Delta \theta =  \theta' - \theta
+\eeq
+
+\beq
+-\Delta H(\rvy|\theta)=
+\Delta\av{ \call_{y|\theta}}
+=
+\av{ \call_{y|\theta'}}-
+\av{ \call_{y|\theta}}
+\eeq
+
+\beq
+\av{ \call_{y|\theta'}}=
+\av{ \call_{y|\theta}}
++
+\Delta \theta
+\underbrace{\av{ \partial_\theta\call_{y|\theta}}}_{=0}
++
+\frac{(\Delta\theta)^2}{2}
+\underbrace{\av{ \partial^2_\theta\call_{y|\theta}}}_
+{-\av{ (\partial_\theta\call_{y|\theta})^2} }
++ \calo((\Delta\theta)^3)
+\eeq
+
+\beq
+-\Delta H(\rvy|\theta)=\Delta\av{ \call_{y|\theta}}
+=
+-\frac{(\Delta\theta)^2}{2}
+\av{ (\partial_\theta\call_{y|\theta})^2}
++ \calo((\Delta\theta)^3)
+\eeq
+
+If average over $P(y|\theta)$,
+then $\theta$ maximizes log likelihood.
+
+
 \section{Exponential Family of Distributions}
 \label{sec-exp-fam}
 
@@ -717,7 +814,8 @@ $b'=\mu$, $b''=1$.
 
 \beq
 P(\vecy|\vtheta, \phi) =
-\exp\left(\frac{\vtheta\cdot \vecy - b(\vtheta)}{a(\phi)}+c(y,\phi)\right)
+\prod_\s
+\exp\left(\frac{\theta_\s y_\s - b(\theta_\s)}{a(\phi)}+c(y_\s ,\phi)\right)
 \eeq
 
 \beq
@@ -725,12 +823,9 @@ P(\vecy|\vtheta, \phi) =
 \eeq
 
 \beq
-\av{\rvy_\s, \rvy_{\s'}} = a\partial_{\theta_\s}\partial_{\theta_{\s'}}b
-\eeq
-
-\beq
-\s^2_\s = \av{\rvy_\s, \rvy_\s}=
-a\partial^2_{\theta_\s}b
+\av{\rvy_\s, \rvy_{\s'}} =
+\delta(\s, \s')
+ a\partial_{\theta_\s}\partial_{\theta_{\s'}}b
 \eeq
 
 
@@ -750,36 +845,34 @@ EF is described in Section [\nameref{sec-exp-fam}]]
 
 \item Linear predictor
 
-In EF, replace $\theta$ by $\theta_\s$, with $\theta_\s$ defined by
-\beq
-\theta_\s = \sum_i X_{\s, i}\beta_i = X_\s^T\beta
-\eeq
-$\theta_\s$ is called the {\bf linear predictor}.
+In EF, replace $\theta_\s$
+the {\bf linear predictor} $\xbeta= \sum_i X_{\s, i}\beta_i$.
+$\xbeta$ is commonly denoted by $\eta_\s$,
+but I will avoid that convention because
+I think results are much clearer
+if one uses the more explicit $\xbeta$ instead.
 
 \item Link Function
 
 \beq
-\mu_\s = E[\rvy_\s] = \partial_{\theta_\s} b
+\mu_\s = E[\rvy_\s] = \partial_{\xbeta} b
 \eeq
 
 \beq
-\theta_\s = g(\mu_\s) = \hat{\theta}(\mu_\s)
+\xbeta = g(\mu_\s) = \hat{\theta}(\mu_\s)
 \eeq
 
 \beq
-\mu_\s = g^{-1}(\theta_\s)=\hat{\mu}(\theta_\s)
+\mu_\s = g^{-1}(\xbeta)=\hat{\mu}(\xbeta)
 \eeq
 
-\beq
-\s^2_\s = \av{\rvy_\s,\rvy_\s}= \av{\hat{\mu}(\theta_\s),\hat{\mu}(\theta_\s)}
-\eeq
 
 $\hat{\theta}()=g()$ is called
 the {\bf link function}.
 \end{enumerate}
 
 
-For Linear Regression, $\mu_\s = \theta_\s$,
+For Linear Regression, $\mu_\s = \xbeta$,
 so the link function and its
 inverse are the identity map.
 
@@ -791,13 +884,13 @@ Ber(y_\s;p_\s) &=& p_\s^{y_\s} (1-p_\s)^{1-y_\s}
 \\
 &=&
 \exp\left( y_\s
-\underbrace{\ln\left(\frac{p_\s}{1-p_\s}\right)}_{\theta_\s}
+\underbrace{\ln\left(\frac{p_\s}{1-p_\s}\right)}_{\xbeta}
 +\underbrace{\ln (1-p_\s)}_{-b}\right)
 \eeqa
 
 
 $\mu_\s = p_\s$,
-and $\theta_\s= \lodds(\mu_\s)$ so $\mu_\s= \smoid(\theta_\s)$.
+and $\xbeta= \lodds(\mu_\s)$ so $\mu_\s= \smoid(\xbeta)$.
 
 $g() =\lodds()$ and $g^{-1}() =\smoid()$
 
@@ -812,23 +905,23 @@ b
 \\
 &=&
 -\ln\left(
-1- \frac{1}{1+e^{-\theta_\s}}
+1- \frac{1}{1+e^{-\xbeta}}
 \right)
 \\
 &=&
 -\ln\left(
-\frac{e^{-\theta_\s}}{1+e^{-\theta_\s}}
+\frac{e^{-\xbeta}}{1+e^{-\xbeta}}
 \right)
 \\
 &=&
-\ln(1+e^{\theta_\s})
+\ln(1+e^{\xbeta})
 \eeqa
 
 \beqa
-\partial_{\theta_\s} b &=&
-\frac{e^{\theta_\s}}{1+e^{\theta_\s}}
+\partial_{\xbeta} b &=&
+\frac{e^{\xbeta}}{1+e^{\xbeta}}
 \\
-&=& \smoid(\theta_\s)
+&=& \smoid(\xbeta)
 \\
 &=&\mu_\s
 \eeqa
@@ -843,30 +936,199 @@ b
 >{\columncolor[HTML]{FFFFC7}}l |l|l|}
 \hline
 \cellcolor[HTML]{F6F694}prob. distribution & \cellcolor[HTML]{F6F694}link function
-$\theta_\s=g(\mu_\s)$ & \cellcolor[HTML]{F6F694}$\mu_\s=g^{-1}(\theta_\s)$ \\ \hline
-\begin{tabular}[c]{@{}l@{}}Normal\\ $\rvy_\s\in(-\infty, +\infty)$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$\theta_\s= \mu_\s$\\ ($g$= identity map)\end{tabular} & $\mu_\s = \theta_\s$ \\ \hline
-\begin{tabular}[c]{@{}l@{}}Exponential\\ $\rvy_\s\in  (0, +\infty)$\end{tabular} & $\theta_\s= -\frac{1}{\mu_\s}$ & $\mu _\s= - \frac{1}{\theta_\s}$ \\ \hline
-\begin{tabular}[c]{@{}l@{}}Poisson\\ $\rvy_\s\in \{0,1,2, \ldots\}$\end{tabular} & $\theta_\s = \ln \mu_\s$ & $\mu_\s = \exp(\theta_\s)$ \\ \hline
-\begin{tabular}[c]{@{}l@{}}Bernoulli\\ $\rvy_\s\in\bool$\end{tabular} & $\theta_\s = \lodds(\mu_\s)$ & $\mu_\s = \smoid(\theta_\s)$ \\ \hline
+$\xbeta=g(\mu_\s)$ & \cellcolor[HTML]{F6F694}$\mu_\s=g^{-1}(\xbeta)$ \\ \hline
+\begin{tabular}[c]{@{}l@{}}Normal\\ $\rvy_\s\in(-\infty, +\infty)$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$\xbeta= \mu_\s$\\ ($g$= identity map)\end{tabular} & $\mu_\s = \xbeta$ \\ \hline
+\begin{tabular}[c]{@{}l@{}}Exponential\\ $\rvy_\s\in  (0, +\infty)$\end{tabular} & $\xbeta= -\frac{1}{\mu_\s}$ & $\mu _\s= - \frac{1}{\xbeta}$ \\ \hline
+\begin{tabular}[c]{@{}l@{}}Poisson\\ $\rvy_\s\in \{0,1,2, \ldots\}$\end{tabular} & $\xbeta = \ln \mu_\s$ & $\mu_\s = \exp(\xbeta)$ \\ \hline
+\begin{tabular}[c]{@{}l@{}}Bernoulli\\ $\rvy_\s\in\bool$\end{tabular} & $\xbeta = \lodds(\mu_\s)$ & $\mu_\s = \smoid(\xbeta)$ \\ \hline
 \end{tabular}
 \caption{Various probability distributions of the EF that have simple link functions that are easy to invert.}
 \label{tab-ef-link-fun}
 \end{table}
 
-Note
 
 \beq
-\mu_\s = \partial_{\theta_\s} b
+y = X\beta + \eps
 \eeq
 
 \beq
-X_\s^T d\beta= d\mu_\s = (\partial^2_{\theta_\s} b)d\theta_\s
+\av{\eps, \eps^T}= \s^2 I_N
+\eeq
+
+Maximum Likelihood Estimate  (MLE)
+
+\beq
+\hat{\beta}=
+(X^T X)^{-1} X^T y
+\eeq
+
+\beqa
+\av{\hat{\beta},\hat{\beta}^T}
+&=&
+\av{X^T X)^{-1} X^T y, y^T X (X^T X)^{-1}}
+\\
+&=&
+\s^2  (X^T X)^{-1}
+\eeqa
+
+Next
+we will give for the GLM,
+an implicit expression
+(i.e., not a closed
+form) for $\av{\hat{\beta}}$
+and an asymptotic
+expression for
+$\av{\hat{\beta}, \hat{\beta}^T}$.
+
+Will use the results of Section [\nameref{sec-ent-like-connect}]
+in our proofs, where we define
+the likelihood for the
+particular case we are considering now by
+
+\beq
+\call =  \sum_\s \call_\s
+\eeq
+where
+
+\beqa
+\call_\s &=&  \call_{y_\s|\theta_\s }
+\\
+&=&
+\frac{y_\s\theta_\s - b(\theta_\s)}{a(\phi)} + c(y_\s, \phi)
+\eeqa
+
+
+\begin{claim}
+(Implicit expression
+for $\av{\hat{\beta}}$
+for GLM)
+
+\beq
+ \sum_\s \frac{[y_\s - b'(\xbeta)]}{\av{y_\s, y_\s}}
+ \pder{\hat{\mu}_\s}{\xbeta}
+X_{\s, \s'} =0
+\eeq
+for all $\s'$.
+\end{claim}
+\proof
+
+
+\beq
+\pder{\call_{\s}}{\beta_{\s'}}
+=
+\pder{\call_{\s}}{\theta_\s}\pder{\theta_\s}{\mu_\s}
+\pder{\hat{\mu}_\s}{\xbeta}\pder{\xbeta}{\beta_{\s'}}
 \eeq
 
 \beq
-X_\s WX_\s^T d\beta = (\partial^2_{\theta_\s} b)  X_\s W   d\theta_\s
+\pder{\call_{\s}}{\theta_\s}  =
+\frac{y_\s - b'(\theta_\s)}{a(\phi)}
 \eeq
 
 \beq
-\der{\beta}{\theta_\s}=  (\partial^2_{\theta_\s} b) (X_\s WX_\s^T)^{-1}  X_\s W
+\pder{\mu_\s} {\theta_\s}
+=
+b''(\theta_\s) = \frac{\av{y_\s, y_\s}}{a(\phi)}
 \eeq
+
+\beq
+\pder{\hat{\mu}_\s}{\xbeta} =
+(g^{-1})'(\xbeta)
+\eeq
+
+\beq
+\pder{\xbeta}{\beta_{\s'}}= X_{\s, \s'}
+\eeq
+
+\beq
+\pder{\call_{\s}}{\beta_{\s'}}
+=
+\frac{[y_\s - b'(\theta_\s)]}{\av{y_\s, y_\s}}
+ \pder{\hat{\mu}_\s}{\xbeta}
+X_{\s, \s'}
+\eeq
+
+\beq
+0= \av{\pder{\call}{\beta_{\s'}}}  =
+\sum_\s  \pder{\call_{\s}}{\beta_{\s'}}
+=
+ \sum_\s \frac{[y_\s - b'(\theta_\s)]}{\av{y_\s, y_\s}}
+ \pder{\hat{\mu}_\s}{\xbeta}
+X_{\s, \s'}
+\eeq
+for all $\s'$.
+ \qed
+
+
+(asymptotic covariance)
+\begin{claim}
+(Asymptotic expression
+for $\av{\hat{\beta},\hat{\beta}^T}$
+for GLM)
+
+
+\beq
+\av{\hat{\beta},\hat{\beta}^T}
+\rarrow (X^T W X)^{-1}
+\eeq
+where
+
+\beq
+W_{\s, \s'} = \left[\frac{(\partial_{\xbeta} \hat{\mu} )^2 }
+{\av{y_\s, y_\s} } \delta(\s, \s')\right]_{\beta=\hat{\beta}}
+\eeq
+\end{claim}
+\proof
+
+\begin{align}
+\av{\pder{\call_\s}{\beta_ { \s'}}
+\pder{\call_\s}{\beta_ { \s''}} }
+&=
+\av{
+\frac{[y_\s - b'(\xbeta)]}{\av{y_\s, y_\s}}
+ \pder{\hat{\mu}_\s}{\xbeta}
+X_{\s, \s'}
+\frac{[y_\s - b'(\xbeta)]}{\av{y_\s, y_\s}}
+ \pder{\hat{\mu}_\s}{\xbeta}
+X_{\s, \s''}
+}
+\\
+&=
+ \left[\pder{\hat{\mu}_\s}{\xbeta}\right]^2
+\frac{X_{\s, \s'} X_{\s, \s''}}{\av{y_\s, y_\s}}
+\end{align}
+
+\beq
+\sum_{\s}
+\av{\pder{\call_{\s}}{\beta_ { \s'}}
+\pder{\call_{\s}}{\beta_ { \s''}} }
+=
+(X^T W X)_{\s'', \s'}
+\eeq
+
+\beq
+\av{\frac{\partial^2\call_\s}{\partial\beta_ { \s'}\partial\beta_ { \s''}} }
+=
+-\av{\pder{\call_\s}{\beta_ { \s'}}
+\pder{\call_\s}{\beta_ { \s''}} }
+\eeq
+Summing both sides over $\s$
+
+\beq
+\av{\frac{\partial^2\call}{\partial\beta_ { \s'}\partial\beta_ { \s''}} }
+=
+-(X^T W X)_{\s'', \s'}
+\eeq
+
+
+
+\beq
+\cali = X^T W X
+\eeq
+$\cali$ is called the {\bf information matrix}
+
+\beq
+\av{\hat{\beta}, \hat{\beta}^T}\rarrow \cali^{-1}
+\eeq
+
+\qed
