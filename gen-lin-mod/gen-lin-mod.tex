@@ -1,4 +1,4 @@
-\chapter{Genetralized Linear Model (GLM) (COMING SOON)}
+\chapter{Genetralized Linear Model (GLM)}
 \label{ch-gen-lin-mod}
 
 This chapter is based on
@@ -7,17 +7,35 @@ chapter 4 of Ref.\cite{agresti-book}.
 \section{Exponential Family of Distributions}
 \label{sec-exp-fam}
 
-Exponential Family (EF) of distributions
+The {\bf Exponential Family (EF)} of probability distributions is defined by
 
 \beq
 P(y|\theta, \phi) =
 \exp\left(\frac{\theta y - b(\theta)}{a(\phi)}+c(y,\phi)\right)
 \eeq
 
+In this chapter, we will
+denote averages over $y|\theta, \phi$ by angular brackets
+
+\beq
+E_{\rvy|\theta, \phi}[f(y)] = \sum_y P(y|\theta, \phi) f(y) = \av{f(y)}
+\eeq
+As usual in this book, let $S_\rvx$ be the set of
+values that the random variable $\rvx$ can take.
+We will assume that $S_\rvy$
+for EF
+can be a discrete or continuous
+subset of $\RR$,
+but $S_{\ul{\theta}}$
+must be continuous.
+When $S_\rvy$ is a discrete subset of $\RR$, $P(y|\theta, \phi)$
+is a probability distribution, whereas when
+$S_\rvy$ is continuous, $P(y|\theta, \phi)$
+is a probability density.
 
 \begin{claim}
 \beq
-\mu = E[\rvy] = b'(\theta)
+\mu = \av{\rvy} = b'(\theta)
 \eeq
 
 \beq
@@ -58,6 +76,9 @@ Hence,
 
 \qed
 
+Note that the Normal Distribution
+belongs to the EF. Indeed,
+
 \beqa
 \caln(y; \mu, \s^2)
 &=&
@@ -82,6 +103,14 @@ So, for the
 Normal Distribution, $\theta=\mu$ , $a=\s^2$, $b=\mu^2/2$,
 $b'=\mu$, $b''=1$.
 
+EF can be defined for an ensemble
+ $\{y_\s:\s\in \Sigma\}$ of
+ independent (but not
+ necessarily identically
+ distributed) random variables $y_\s$
+ describing individuals $\s$
+ of a population $\Sigma$.
+
 \beq
 P(\vecy|\vtheta, \phi) =
 \prod_\s
@@ -89,41 +118,43 @@ P(\vecy|\vtheta, \phi) =
 \eeq
 
 \beq
-\mu_\s = E[\rvy_\s]= \partial_{\theta_\s} b
+\mu_\s = \av{\rvy_\s}= \partial_{\theta_\s} b(\theta_\s)
 \eeq
 
 \beq
 \av{\rvy_\s, \rvy_{\s'}} =
 \delta(\s, \s')
- a\partial_{\theta_\s}\partial_{\theta_{\s'}}b
+a(\phi) \partial^2_{\theta_\s}b(\theta_\s)
 \eeq
 
 \section{GLM}
 The Generalized Linear Model (GLM)
-is a way of modelling a random variable $\rvy_\s$.
-A GML
-has 3 parts:
+is a way of modelling an ensemble of independent
+(but not necessarily identically
+distributed) random variables $\rvy_\s$.
+GML consists of
+3 parts:
 
 \begin{enumerate}
 \item Exponential Family
 
 Model $\rvy_\s$ by probability distribution
 of exponential family (EF).
-EF is described in Section [\nameref{sec-exp-fam}]]
 
 \item Linear predictor
 
-In EF, replace $\theta_\s$
+In EF, replace $\theta_\s$ by
 the {\bf linear predictor} $\xbeta= \sum_i X_{\s, i}\beta_i$.
 $\xbeta$ is commonly denoted by $\eta_\s$,
-but I will avoid that convention because
-I think results are much clearer
-if one uses the more explicit $\xbeta$ instead.
+but I will avoid that notation because
+I think my explanations are much clearer
+if I use the more explicit notation $\xbeta$ instead
+of $\eta_\s$.
 
 \item Link Function
 
 \beq
-\mu_\s = E[\rvy_\s] = \partial_{\xbeta} b
+\mu_\s = \av{\rvy_\s} = \partial_{\xbeta} b
 \eeq
 
 \beq
@@ -140,10 +171,30 @@ the {\bf link function}.
 \end{enumerate}
 
 
-For Linear Regression, $\mu_\s = \xbeta$,
-so the link function and its
+Note that in
+Linear Regression (LR),
+we consider
+independent (but
+not necessarily
+identically distributed) random variables $\rvy_\s\in \RR$
+that satisfy
+
+\beq
+\rvy_\s = \xbeta + \ul{\eps}_\s
+\eeq
+where
+
+\beq
+\av{\ul{\eps}_\s, \ul{\eps}_\s} =\delta(\s, \s')\s^2_\s
+\eeq
+Equivalently, one states that
+\beq
+\rvy_\s \sim \caln(\mu_\s=\xbeta, \s^2_\s)
+\eeq
+Hence, for LR, the link function and its
 inverse are the identity map.
 
+For the Bernoulli distribution with $y_\s\in \bool$,
 \beqa
 Ber(y_\s;p_\s) &=& p_\s^{y_\s} (1-p_\s)^{1-y_\s}
 \\
@@ -194,6 +245,11 @@ b
 &=&\mu_\s
 \eeqa
 
+Table \ref{tab-ef-link-fun}
+gives various probability distributions
+and their natural link functions,
+for cases where the link function is
+simple and  easy to invert.
 
 % Please add the following required packages to your document preamble:
 % \usepackage[table,xcdraw]{xcolor}
@@ -210,11 +266,12 @@ $\xbeta=g(\mu_\s)$ & \cellcolor[HTML]{F6F694}$\mu_\s=g^{-1}(\xbeta)$ \\ \hline
 \begin{tabular}[c]{@{}l@{}}Poisson\\ $\rvy_\s\in \{0,1,2, \ldots\}$\end{tabular} & $\xbeta = \ln \mu_\s$ & $\mu_\s = \exp(\xbeta)$ \\ \hline
 \begin{tabular}[c]{@{}l@{}}Bernoulli\\ $\rvy_\s\in\bool$\end{tabular} & $\xbeta = \lodds(\mu_\s)$ & $\mu_\s = \smoid(\xbeta)$ \\ \hline
 \end{tabular}
-\caption{Various probability distributions of the EF that have simple link functions that are easy to invert.}
+\caption{Various probability distributions and their natural link functions.}
 \label{tab-ef-link-fun}
 \end{table}
 
-
+ GLM is a generalization of LR. Recall
+ some of the main results  of LR:
 \beq
 y = X\beta + \eps
 \eeq
@@ -222,13 +279,19 @@ y = X\beta + \eps
 \beq
 \av{\eps, \eps^T}= \s^2 I_N
 \eeq
+where $I_N$ is the
+$N=|\Sigma|$ dimensional
+unit matrix.
 
-Maximum Likelihood Estimate  (MLE)
+The Maximum Likelihood Estimate  (MLE)
+for $\beta$ is
 
 \beq
 \hat{\beta}=
 (X^T X)^{-1} X^T y
+\;.
 \eeq
+The covariance of $\hat{\beta}$ is
 
 \beqa
 \av{\hat{\beta},\hat{\beta}^T}
@@ -240,18 +303,15 @@ Maximum Likelihood Estimate  (MLE)
 \eeqa
 
 Next
-we will give for the GLM,
-an implicit expression
-(i.e., not a closed
-form) for $\av{\hat{\beta}}$
-and an asymptotic
+we will try to find analogous results for GLM.
+We will give (1) a numerical method
+for calculating an estimate
+$\hat{\beta}$
+and (2) an asymptotic
 expression for
 $\av{\hat{\beta}, \hat{\beta}^T}$.
 
-Will use the results of Section [\nameref{sec-ent-like-connect}]
-in our proofs, where we define
-the log likelihood for the
-particular case we are considering now by
+Let
 
 \beq
  LL =  \sum_\s  LL_\s
@@ -265,18 +325,71 @@ where
 \frac{y_\s\theta_\s - b(\theta_\s)}{a(\phi)} + c(y_\s, \phi)
 \eeqa
 
+The
+Newton-Raphson method for calculating
+estimators $\hat{\beta}$ is as follows. Let
 
-\begin{claim}
-(Implicit expression
-for $\av{\hat{\beta}}$
-for GLM)
+$u^T = [\pder{\av{ LL}}{\beta_\s}]_{\s=0,1,2, \ldots}$
+
+ $H= [H_{\s, \s'}]$, $H_{\s, \s'} =
+\frac{\partial^2 \av{ LL} }{\partial\beta_\s\partial\beta_{\s'}}$ .
+$H$ is called the {\bf Hessian matrix}
+
+For $t=0, 1, 2,\ldots$, consider the
+Taylor expansion  to second order
+of $\av{ LL}(\beta)$  about  the
+point $\beta= \beta^{(t)}$
+\beq
+\av{ LL}(\beta)
+\approx
+\av{ LL}(\beta^{(t)})
++ u^{(t)T}(\beta-\beta^{(t)})
++ \frac{1}{2}
+(\beta-\beta^{(t)})^T H^{(t)} (\beta-\beta^{(t)})
+\eeq
 
 \beq
- \sum_\s \frac{[y_\s - b'(\xbeta)]}{\av{y_\s, y_\s}}
- \pder{\hat{\mu}_\s}{\xbeta}
-X_{\s, \s'} =0
+0 =
+\pder{\av{ LL}(\beta)}{\beta}
+=
+u^{(t)}
++
+H^{(t)} (\beta-\beta^{(t)})
 \eeq
-for all $\s'$.
+This last equation suggests the recursion
+
+\beq
+\beta^{(t+1)} =
+\beta^{(t)} -  (H^{(t)})^{-1} u^{(t)}
+\;.
+\eeq
+
+Fig.\ref{fig-gml-new-rap}
+gives a graphical
+representation of
+one cycle of this recursion.
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=3in]
+{gen-lin-mod/gen-lin-mod.png}
+\caption{One cycle of Newton-Raphson method
+for calculating an estimate of $\hat{\beta}$ in the GLM.}
+\label{fig-gml-new-rap}
+\end{figure}
+
+
+
+
+\begin{claim}
+
+\beq
+\pder{ LL_{\s}}{\beta_{\s'}}=
+ \frac{[y_\s - b'(\xbeta)]}{\av{y_\s, y_\s}}
+ \pder{\hat{\mu}_\s}{\xbeta}
+X_{\s, \s'}
+\eeq
 \end{claim}
 \proof
 
@@ -316,19 +429,10 @@ b''(\theta_\s) = \frac{\av{y_\s, y_\s}}{a(\phi)}
 X_{\s, \s'}
 \eeq
 
-\beq
-0= \av{\pder{ LL}{\beta_{\s'}}}  =
-\sum_\s  \pder{ LL_{\s}}{\beta_{\s'}}
-=
- \sum_\s \frac{[y_\s - b'(\theta_\s)]}{\av{y_\s, y_\s}}
- \pder{\hat{\mu}_\s}{\xbeta}
-X_{\s, \s'}
-\eeq
-for all $\s'$.
  \qed
 
 
-(asymptotic covariance)
+
 \begin{claim}
 (Asymptotic expression
 for $\av{\hat{\beta},\hat{\beta}^T}$
@@ -337,7 +441,7 @@ for GLM)
 
 \beq
 \av{\hat{\beta},\hat{\beta}^T}
-\rarrow \cali^{-1}
+\rarrow \cali^{-1}\quad   \text{(asymptotic covariance)}
 \eeq
 where
 
@@ -347,8 +451,9 @@ where
 and
 
 \beq
-W_{\s, \s'} = \left[\frac{(\partial_{\xbeta} \hat{\mu} )^2 }
-{\av{y_\s, y_\s} } \delta(\s, \s')\right]_{\beta=\hat{\beta}}
+W_{\s, \s'} = \left[\left(\pder{\hat{\mu}}{\xbeta} \right )^2
+\frac{\delta(\s, \s')}
+{\av{y_\s, y_\s} } \right]_{\beta=\hat{\beta}}
 \eeq
 $\cali$ is called the {\bf information matrix}.
  More information, less variance.
@@ -380,70 +485,23 @@ X_{\s, \s''}
 =
 (X^T W X)_{\s'', \s'}
 \eeq
-
+By Section [\nameref{sec-ent-like-connect}], we have
 \beq
 \av{\frac{\partial^2 LL_\s}{\partial\beta_ { \s'}\partial\beta_ { \s''}} }
 =
 -\av{\pder{ LL_\s}{\beta_ { \s'}}
 \pder{ LL_\s}{\beta_ { \s''}} }
 \eeq
-Summing both sides over $\s$
+Summing both sides of the last equation over $\s$, we find
 
 \beq
 \av{\frac{\partial^2 LL}{\partial\beta_ { \s'}\partial\beta_ { \s''}} }
 =
 -(X^T W X)_{\s'', \s'}
 \eeq
-
+According to  Section [\nameref{sec-ent-like-connect}], we have
 \beq
 \av{\hat{\beta}, \hat{\beta}^T}\rarrow (X^T W X)^{-1}
 \eeq
 
 \qed
-
-Newton-Raphson method for calculating
-estimators $\hat{\beta}$
-
-$\av{ LL} =\sum_\s \av{ LL_\s}$
-
-$u^T = [\pder{L}{\beta_\s}]_{\s=0,1,2, \ldots}$
-
- $H= [H_{\s, \s'}]$, $H_{\s, \s'} =
-\frac{\partial^2 L }{\partial\beta_\s\partial\beta_{\s'}}$ .
-$H$ is called the {\bf Hessian matrix}
-
-
-\beq
-\av{ LL}(\beta)
-\approx
-\av{ LL}(\beta^{(t)})
-+ u^{(t)T}(\beta-\beta^{(t)})
-+ \frac{1}{2}
-(\beta-\beta^{(t)})^T H^{(t)} (\beta-\beta^{(t)})
-\eeq
-
-\beq
-0 =
-\pder{\av{ LL}(\beta)}{\beta}
-=
-u^{(t)}
-+
-H^{(t)} (\beta-\beta^{(t)})
-\eeq
-
-
-\beq
-\beta^{(t+1)} =
-\beta^{(t)} -  (H^{(t)})^{-1} u^{(t)}
-\eeq
-
-Fig.\ref{fig-gml-new-rap}
-
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=3.5in]
-{gen-lin-mod/gen-lin-mod.png}
-\caption{One cycle of Newton-Raphson method.}
-\label{fig-gml-new-rap}
-\end{figure}
