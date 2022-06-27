@@ -250,16 +250,16 @@ $\av{\hat{\beta}, \hat{\beta}^T}$.
 
 Will use the results of Section [\nameref{sec-ent-like-connect}]
 in our proofs, where we define
-the likelihood for the
+the log likelihood for the
 particular case we are considering now by
 
 \beq
-\call =  \sum_\s \call_\s
+ LL =  \sum_\s  LL_\s
 \eeq
 where
 
 \beqa
-\call_\s &=&  \call_{y_\s|\theta_\s }
+ LL_\s &=&   LL_{y_\s|\theta_\s }
 \\
 &=&
 \frac{y_\s\theta_\s - b(\theta_\s)}{a(\phi)} + c(y_\s, \phi)
@@ -282,14 +282,14 @@ for all $\s'$.
 
 
 \beq
-\pder{\call_{\s}}{\beta_{\s'}}
+\pder{ LL_{\s}}{\beta_{\s'}}
 =
-\pder{\call_{\s}}{\theta_\s}\pder{\theta_\s}{\mu_\s}
+\pder{ LL_{\s}}{\theta_\s}\pder{\theta_\s}{\mu_\s}
 \pder{\hat{\mu}_\s}{\xbeta}\pder{\xbeta}{\beta_{\s'}}
 \eeq
 
 \beq
-\pder{\call_{\s}}{\theta_\s}  =
+\pder{ LL_{\s}}{\theta_\s}  =
 \frac{y_\s - b'(\theta_\s)}{a(\phi)}
 \eeq
 
@@ -309,7 +309,7 @@ b''(\theta_\s) = \frac{\av{y_\s, y_\s}}{a(\phi)}
 \eeq
 
 \beq
-\pder{\call_{\s}}{\beta_{\s'}}
+\pder{ LL_{\s}}{\beta_{\s'}}
 =
 \frac{[y_\s - b'(\theta_\s)]}{\av{y_\s, y_\s}}
  \pder{\hat{\mu}_\s}{\xbeta}
@@ -317,8 +317,8 @@ X_{\s, \s'}
 \eeq
 
 \beq
-0= \av{\pder{\call}{\beta_{\s'}}}  =
-\sum_\s  \pder{\call_{\s}}{\beta_{\s'}}
+0= \av{\pder{ LL}{\beta_{\s'}}}  =
+\sum_\s  \pder{ LL_{\s}}{\beta_{\s'}}
 =
  \sum_\s \frac{[y_\s - b'(\theta_\s)]}{\av{y_\s, y_\s}}
  \pder{\hat{\mu}_\s}{\xbeta}
@@ -356,8 +356,8 @@ $\cali$ is called the {\bf information matrix}.
 \proof
 
 \begin{align}
-\av{\pder{\call_\s}{\beta_ { \s'}}
-\pder{\call_\s}{\beta_ { \s''}} }
+\av{\pder{ LL_\s}{\beta_ { \s'}}
+\pder{ LL_\s}{\beta_ { \s''}} }
 &=
 \av{
 \frac{[y_\s - b'(\xbeta)]}{\av{y_\s, y_\s}}
@@ -375,22 +375,22 @@ X_{\s, \s''}
 
 \beq
 \sum_{\s}
-\av{\pder{\call_{\s}}{\beta_ { \s'}}
-\pder{\call_{\s}}{\beta_ { \s''}} }
+\av{\pder{ LL_{\s}}{\beta_ { \s'}}
+\pder{ LL_{\s}}{\beta_ { \s''}} }
 =
 (X^T W X)_{\s'', \s'}
 \eeq
 
 \beq
-\av{\frac{\partial^2\call_\s}{\partial\beta_ { \s'}\partial\beta_ { \s''}} }
+\av{\frac{\partial^2 LL_\s}{\partial\beta_ { \s'}\partial\beta_ { \s''}} }
 =
--\av{\pder{\call_\s}{\beta_ { \s'}}
-\pder{\call_\s}{\beta_ { \s''}} }
+-\av{\pder{ LL_\s}{\beta_ { \s'}}
+\pder{ LL_\s}{\beta_ { \s''}} }
 \eeq
 Summing both sides over $\s$
 
 \beq
-\av{\frac{\partial^2\call}{\partial\beta_ { \s'}\partial\beta_ { \s''}} }
+\av{\frac{\partial^2 LL}{\partial\beta_ { \s'}\partial\beta_ { \s''}} }
 =
 -(X^T W X)_{\s'', \s'}
 \eeq
@@ -404,7 +404,7 @@ Summing both sides over $\s$
 Newton-Raphson method for calculating
 estimators $\hat{\beta}$
 
-$L=\av{\call} =\sum_\s \av{\call_\s}$
+$L=\av{ LL} =\sum_\s \av{ LL_\s}$
 
 $u^T = [\pder{L}{\beta_\s}]_{\s=0,1,2, \ldots}$
 
@@ -424,7 +424,7 @@ L(\beta^{(t)})
 
 \beq
 0 =
-\pder{\av{\call}(\beta)}{\beta}
+\pder{\av{ LL}(\beta)}{\beta}
 =
 u^{(t)}
 +

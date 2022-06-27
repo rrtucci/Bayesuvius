@@ -1,18 +1,18 @@
-\chapter{Time Series Analysis: 
+\chapter{Time Series Analysis:
 ARMA and VAR}\label{ch-time-arma}
 
 
 
-This chapter is based mostly 
+This chapter is based mostly
 on the book  Ref.\cite{hamilton2020time}
-on time series analysis by Hamilton, 
+on time series analysis by Hamilton,
 and on the lectures Ref. \cite{t-series-kuan}
 by Chung-Ming Kuan.
 In writing this chapter, we also profited greatly
 from numerous Wikipedia entries on time series
 analysis,
 such as  the entries
-on 
+on
 time series (Ref.\cite{wiki-time-series}),
 ARMA time series (Ref.\cite{wiki-ARMA}),
 AR time series (Ref.\cite{wiki-AR}),
@@ -23,28 +23,28 @@ VAR time series (Ref.\cite{wiki-VAR}).
 
 We cover only a small fraction
  of the  treasures
-covered in those sources, 
+covered in those sources,
 and only
-cover stationary 
-time-series. Non-stationary 
+cover stationary
+time-series. Non-stationary
 time series
 we don't even touch.
-But we hope to have covered 
-enough to pique 
+But we hope to have covered
+enough to pique
 our readers's interest in time series analysis,
 and make him/her appreciate
 how bnets make
- time series much more 
+ time series much more
 intuitive and fun.
-The time-series 
+The time-series
 considered in this chapter
-can 
-be represented 
+can
+be represented
 by one of the
 simplest
 types of
 bnets, namely, the LDEN bnets
-introduced in 
+introduced in
 Chapter \ref{ch-linear-sys}.
 
 
@@ -53,11 +53,11 @@ As usual, for $t, t_a, t_b\in \ZZ$,
  let
  $\ZZ_{<t}=
 \{t-1, t-2, t-3, \ldots\}$,
-$\ZZ_{[t_a, t_b]}=\{t_a, t_a+1, 
+$\ZZ_{[t_a, t_b]}=\{t_a, t_a+1,
 \ldots, t_b\}$, etc.
 
 Let $\rvx_t\in \RR$.
-A 
+A
 {\bf time series (t-series)},
 denoted variously by
 $\{\rvx_1, \rvx_2, \ldots,
@@ -69,15 +69,15 @@ index by a discrete set of times
 $\ZZ_{[0, nt]}$.
 
 
-For $t_a<t_b$, let 
-$\rvx_{[t_a, t_b]}=(\rvx_{t_a}, 
+For $t_a<t_b$, let
+$\rvx_{[t_a, t_b]}=(\rvx_{t_a},
 \rvx_{t_a+1},
  \ldots, \rvx_{t_b})$.
 Let $x_{<t}=(\ldots, x_{t-2}, \rvx_{t-1})$.
 
 \section{White noise}
 
-By {\bf white noise} 
+By {\bf white noise}
 $\tseries{\rvn_t}\sim  WN(0, \s^2)$
 we mean a t-series $\tseries{\rvn_t}$
 that satisfies
@@ -101,7 +101,7 @@ $\rvn_t\sim \caln(0, \s^2)$.
 $\calb$ is the backshift (a.k.a. lag) operator.
 For any t-series $\tseries{x_t}$,
 $\tseries{y_t}$
-and scalars $a, b\in \RR$, 
+and scalars $a, b\in \RR$,
 
 \beq
 \calb \rvx_t=\rvx_{t-1}
@@ -114,21 +114,21 @@ a\calb(\rvx_t) + b\calb(\rvy_t)
 A $\calb$ Polynomial
 with coefficients $\alp_{[0,p]}$:
 \beq
-\alp(\calb)= \alp_0 + \alp_1\calb 
+\alp(\calb)= \alp_0 + \alp_1\calb
 + \alp_2\calb^2 +\ldots \alp_p\calb^p
 \eeq
-$\calb^{-1}$ is the inverse of 
+$\calb^{-1}$ is the inverse of
 the backshift operator
- (a.k.a. frontshift operator) 
+ (a.k.a. frontshift operator)
 \beq
 \calb^{-1}\rvx_t=\rvx_{t+1}
 \eeq
 
-The following two 
+The following two
 Taylor expansions
-prove useful 
+prove useful
 in finding the inverse
-of backshift operator 
+of backshift operator
 polynomials:
 \begin{itemize}
 \item
@@ -149,13 +149,13 @@ by $\alp \calb$, where $\alp\in\RR$.
 =
 (-z^{-1})
 \left[
-1 + z^{-1} + 
+1 + z^{-1} +
 + z^{-2} + \ldots
 \right]
 \label{eq-binomial-expan-inv-z}
 \eeq
-converges for $z\in \CC$ 
-with $|z|>1$. We will use this expansion 
+converges for $z\in \CC$
+with $|z|>1$. We will use this expansion
 with $z^{-1}$ replaced
 by $(\alp \calb)^{-1}$, where $\alp\in\RR$.
 \end{itemize}
@@ -164,13 +164,13 @@ by $(\alp \calb)^{-1}$, where $\alp\in\RR$.
 
 Consider a t-series $\tseries{\rvx_t}$.
 
-In general, if we have a metric 
+In general, if we have a metric
 like Auto-covariance (ACov) that
 is defined for $\tau=1,2,3, \ldots$,
-it is 
+it is
 conventional in time series analysis to refer to
 the plot of that metric
-for all values of $\tau$ 
+for all values of $\tau$
 as the Auto-covariance {\it Function} (ACovF).
 
 \begin{itemize}
@@ -203,7 +203,7 @@ w-stationarity)
 \frac{\gamma(\tau)}{\gamma(0)}
 \eeq
 
-\item {\bf Generating function 
+\item {\bf Generating function
 of auto-covariance} (assumes w-stationarity)
 
 
@@ -212,10 +212,10 @@ of auto-covariance} (assumes w-stationarity)
 \gamma(\tau) z^\tau
 \eeq
 Note that this transform is double sided.
-Fourier Transform 
+Fourier Transform
 if $z=e^{-i\omega\tau}$.
 
-\item{\bf Expected value 
+\item{\bf Expected value
 and variance conditioned on all past information}
 
 For $\tau=1,2, 3, \dots$,
@@ -241,9 +241,9 @@ For $\tau=1,2,3, \ldots$
 \eeq
 The idea is that we set to zero the
 nodes $\rvx_{(t, t+\tau)}=
-\{\rvx_{t+1}, \rvx_{t+2}, \ldots,\rvx_{t+\tau-1}\}$ 
+\{\rvx_{t+1}, \rvx_{t+2}, \ldots,\rvx_{t+\tau-1}\}$
 that lie
-between 
+between
 (but not including) $\rvx_t$ and $\rvx_{t+\tau}$.
 
 \item {\bf Partial auto-correlation (PACorr)}
@@ -261,11 +261,11 @@ between
 
 {\bf weak stationarity (w-stationarity)}
 means that
-$E[\rvx_t]=\mu$ 
-and 
+$E[\rvx_t]=\mu$
+and
 $\gamma_{t, t+\tau}=\gamma(\tau)$
 are both independent of $t$.
-If we have w-stationarity, 
+If we have w-stationarity,
 then
 
 \beqa
@@ -306,7 +306,7 @@ E[\rvn_t]=0
 \tilde{\gamma}(z)=\gamma(0)
 \eeq
 
-For $\tau>0$, 
+For $\tau>0$,
 \beq
 E_{|n_{\leq t}}[\rvn_{t+\tau}]=
 E[\rvn_{t+\tau}]=0
@@ -403,7 +403,7 @@ $AR(2)$ and $MA(3)$ bnets.
 The full bnet has the same
 structural  pattern of incoming arrows
 (including the  weights $\alp_j, \nu_j$)
-for each node  $\rvy_{t'}$ 
+for each node  $\rvy_{t'}$
 for all $t'$.
 }
 \label{fig-single-node-arma-2-3}
@@ -411,17 +411,17 @@ for all $t'$.
 
 Suppose $\tseries{\rvy_t}$
 is a zero mean t-series. Hence
-$\rvy_t= \rvY_t-\mu$, 
+$\rvy_t= \rvY_t-\mu$,
 $E[\rvY_t]=\mu$,
-$E[\rvy_t]=0$. 
+$E[\rvy_t]=0$.
 $\rvy_t$ is said to be the {\bf demeaned}
 version of $Y_t$.
 
 Suppose also that
-$\tseries{\rvn_t}\sim WN(0, \s^2)$. 
+$\tseries{\rvn_t}\sim WN(0, \s^2)$.
 
 Then we define the
-{\bf Auto-Regressive Moving-Average 
+{\bf Auto-Regressive Moving-Average
 t-series} $ARMA(p,q)$ by
 
 \beq
@@ -433,7 +433,7 @@ t-series} $ARMA(p,q)$ by
 \nu_j \rvn_{t-j}
 }_{\caly^{MA(q)}_t}
 \label{eq-arma-def}
-\eeq($\alp$ stands for 
+\eeq($\alp$ stands for
 the first  letter
 of ``auto-regressive".
 $\nu$ stands for first
@@ -452,7 +452,7 @@ Special cases
 \eeq
 
 \item {\bf Moving-Average t-series}
- $MA(q)$ 
+ $MA(q)$
 
 \beq
 \rvy_t = \rvn_t  +
@@ -465,24 +465,24 @@ Special cases
 
 
  Fig.\ref{fig-single-node-arma-2-3}
-shows the bnets for 
+shows the bnets for
 $ARMA(2,3)$, $AR(2)$ and $MA(3)$.
 The TPM, printed in blue,
 for node $\rvy_t$
 in those bnets,
 is as follows:
 
-For $ARMA(p,q)$, 
+For $ARMA(p,q)$,
 \beq\color{blue}
-P(y_t|y_{[t-p   , t-1]}, 
+P(y_t|y_{[t-p   , t-1]},
 n_{[t-q, t]})
 =
 \indi(y_t = \text{see Eq.\ref{eq-arma-def}}))
 \eeq
 
-For $AR(p)$, 
+For $AR(p)$,
 \beq\color{blue}
-P(y_t|y_{[t-p   , t-1]}, 
+P(y_t|y_{[t-p   , t-1]},
 n_{t})
 =
 \indi(y_t = \text{see Eq.\ref{eq-ar-def}}))
@@ -490,7 +490,7 @@ n_{t})
 
 For $MA(q)$,
 \beq\color{blue}
-P(y_t| 
+P(y_t|
 n_{[t-q, t]})
 =
 \indi(y_t = \text{see Eq.\ref{eq-ma-def}}))
@@ -529,7 +529,7 @@ $AR(1)$ satisfies:
 \rvy_t= \alp_1 \rvy_{t-1} + \rvn_t
 \eeq
 See Fig\ref{fig-AR-0-1}.
-This  is a Markov chain 
+This  is a Markov chain
 with external i.i.d. noise injected
 to each node.
 $AR(1)$
@@ -607,7 +607,7 @@ by setting $\alp_{>p}=0$.
 
 If $\alp^-(\beta)$
 is invertible, then, using
-the Taylor expansion 
+the Taylor expansion
 Eq.(\ref{eq-binomial-expan}), we get
 
 \beq
@@ -653,7 +653,7 @@ where $\nu_0=1$. Thus,
 
 
 \beq
-\rvy_t = 
+\rvy_t =
 \nu(\calb)\rvn_t
 \label{eq-ma-nu}
 \eeq
@@ -693,7 +693,7 @@ For $\tau\geq 0$,
 
 \end{subequations}
 \end{claim}
-\proof 
+\proof
 
 \beqa
 \gamma(\tau)
@@ -728,9 +728,9 @@ For $\tau\geq 0$,
 
 \section{Solving $ARMA(p,q)$}
 
-Suppose $\tseries{\rvy_t}$ is an 
+Suppose $\tseries{\rvy_t}$ is an
 $ARMA(p,q)$
-t-series. 
+t-series.
 Hence, using
 Eqs.(\ref{eq-ar-alp-minus})
 and (\ref{eq-ma-nu}), $\rvy_t$
@@ -742,7 +742,7 @@ satisfies
 If $\alp^-(\beta)$
 is invertible, then,
 using
-the Taylor expansion 
+the Taylor expansion
 Eq.(\ref{eq-binomial-expan}), we get
 
 \beq
@@ -770,10 +770,10 @@ can be represented as an
 
 
 The polynomials $\alp^-(z)$
-and $\nu(z)$ can be expressed 
+and $\nu(z)$ can be expressed
 in factored form $\alp^-(z)=
 \prod_{j=1}^{p}(z-z^\alp_j)$
-and 
+and
 $\nu(z)=
 \prod_{j=1}^{q}(z-z^\nu_j)$.
 If these two polynomials have
@@ -807,7 +807,7 @@ using
 bnets and the
 d-separation
 theorem,
-that 
+that
 for a $MA(2)$
 t-series, $\gamma(\tau)=0$
 for $\tau>2$.
@@ -816,7 +816,7 @@ a plot of $\gamma(\tau)$
 versus $\tau$
 for a typical $MA(2)$
 t-series looks like Fig.\ref{fig-ma-2-ac-pac}.
- 
+
 
 
 \begin{figure}[h!]
@@ -892,11 +892,11 @@ $$
 \end{array}
 $$
 \caption{$MA(2)$ bnet.
-For clarity, we show only arrows 
+For clarity, we show only arrows
 entering nodes
 $\rvy_t$ and $\rvy_{t+\tau}$
 for $\tau=1,2,3$.
-For $\tau=1,2$, there is a path 
+For $\tau=1,2$, there is a path
 through which
 information can flow
 from node $\rvy_t$
@@ -919,7 +919,7 @@ for an instance
 of $MA(2)$. Note
 that $\rho(\tau)$
 vanishes for $\tau>2$.
-} 
+}
 \label{fig-ma-2-ac-pac}
 \end{figure}
 
@@ -932,7 +932,7 @@ $\gamma^{part}(\tau)=0$  for all $\tau>p$.
 \proof
 
 
-Let 
+Let
 
 \beq
 \ul{\xi}=\rvy_{\leq t},
@@ -1012,7 +1012,7 @@ using
 bnets and the
 d-separation
 theorem,
-that 
+that
 for an $AR(2)$
 t-series, $\gamma^{part}(\tau)=0$
 for $\tau>2$.
@@ -1022,7 +1022,7 @@ versus $\tau$
 for a typical $AR(2)$
 t-series looks like
  Fig.\ref{fig-ar-2-ac-pac}.
- 
+
 
 
 \begin{figure}[h!]
@@ -1107,13 +1107,13 @@ $$
 \end{array}
 $$
 \caption{$AR(2)$ bnet.
-For clarity, we show only arrows 
+For clarity, we show only arrows
 entering nodes
 $\rvy_t$ and $\rvy_{t+\tau}$
 for $\tau=1,2,3$.
 Yellow nodes are
 in set $\rvy_{(t, t+\tau)}$.
-They are conditioned on, so 
+They are conditioned on, so
 information can't flow through them
 to node $\rvy_{t+\tau}$
 by the d-separation theorem.
@@ -1134,7 +1134,7 @@ for an instance
 of $AR(2)$. Note
 that $\rho^{part}(\tau)$
 vanishes for $\tau>2$.
-} 
+}
 \label{fig-ar-2-ac-pac}
 \end{figure}
 
@@ -1162,7 +1162,7 @@ If
 \alp(z)=\sum_{\tau=-\infty}^\infty
 \alp_\tau z^\tau
 \eeq
-then 
+then
 
 \beq
 \alp(z)\alp(z^{-1})=
@@ -1181,8 +1181,8 @@ then
 \\
 &=&
 \sum_{\tau=-\infty}^\infty
-\sum_{j'=-\infty}^\infty 
-\sum_{j=-\infty}^\infty 
+\sum_{j'=-\infty}^\infty
+\sum_{j=-\infty}^\infty
 z^\tau
 \alp_{j'}\alp_{j}\delta(j'-j,\tau)
 \\
@@ -1198,7 +1198,7 @@ of this claim, note that
 \beq
 (\alp_0+\alp_1z)(\alp_0+\alp_1 z^{-1})
 =
-\alp_0\alp_1 z^{-1}+ 
+\alp_0\alp_1 z^{-1}+
 (\alp_0^2 +\alp_1^2) +\alp_0\alp_1z
 \eeq
 
@@ -1213,7 +1213,7 @@ then
 \end{claim}
 \proof
  Left to reader.
-See Claim 
+See Claim
 \ref{claim-az-azinv}.
 \qed
 
@@ -1246,7 +1246,7 @@ If $\tseries{\rvy_t}$ is an $MA(q)$
 \sum_{\tau=-\infty}^\infty z^\tau
 \sum_{j=-\infty}^\infty\nu_j\nu_{j+\tau}
 \eeqa
-Now use Claim 
+Now use Claim
 \ref{claim-az-azinv}.
 \qed
 
@@ -1264,7 +1264,7 @@ If $\tseries{\rvy_t}$ is an $ARMA(p,q)$
 \end{claim}
 \proof
  Left to reader.
-See Claim 
+See Claim
 \ref{claim-az-azinv}.
 \qed
 
@@ -1275,15 +1275,15 @@ derivatives
 \beq
 IR_\tau= \pder{y_{t+\tau}}{n_t}
 \eeq
-are 
+are
  called {\bf impulse responses}
 or {\bf dynamical multipliers}.
 Note
-that this derivative 
+that this derivative
 depends on $\tau$ but not $t$
 by w-stationarity.
 A plot of $IR_\tau$
-versus $\tau$ is called 
+versus $\tau$ is called
 the {\bf Impulse Response Function (IRF)}.
 Examples:
 
@@ -1324,10 +1324,10 @@ For $AR(1)$,
 \beq
 (1-\alp_1\calb)\rvy_{t+\tau}=\rvn_{t+\tau}
 \eeq
-Therefore, using 
-the Taylor expansion Eq.(\ref{eq-binomial-expan}), 
+Therefore, using
+the Taylor expansion Eq.(\ref{eq-binomial-expan}),
 \beqa
-\rvy_{t+\tau} 
+\rvy_{t+\tau}
 &=& 1 +\sum_{j=1}^\infty\alp_1^j\calb^j\rvn_{t+\tau}
 \\
 &=&
@@ -1336,11 +1336,11 @@ the Taylor expansion Eq.(\ref{eq-binomial-expan}),
 so Eq.(\ref{eq-ir-ar-1}) follows.
 \qed
 \end{itemize}
-In general, 
+In general,
 $IR_\tau$
-equals 
-a sum 
-over 
+equals
+a sum
+over
 paths
 from $\rvn_t$ to
 $\rvy_{t+\tau}$.
@@ -1409,14 +1409,14 @@ If $\tseries{\rvy_t}$ is an $AR(p)$ t-series,
 \label{eq-yule-walker}
 \eeq
 for all $\tau\in \ZZ$,
-where we are abbreviating 
+where we are abbreviating
 $\gamma(j)=\gamma_j$ for all $j$.
 \end{claim}
-\proof 
+\proof
 
 Recall that
 \beq
-\rvy_\tau = 
+\rvy_\tau =
 \sum_{j=1}^p \rvy_{\tau-j}\alp_j
 +
 \rvn_\tau
@@ -1463,7 +1463,7 @@ $$
 &\ul{\gamma}_{\tau+1}&\ul{\gamma}_{\tau+2}
 \cdots
 }$$
-\caption{Bnet representing 
+\caption{Bnet representing
 Yule-Walker (Christmas Walker)
 Eqs.(\ref{eq-yule-walker})
 with $p=3$.
@@ -1479,9 +1479,9 @@ $\gamma_{\tau'}$ for all $\tau'$.}
 \end{figure}
 
 Fig.\ref{fig-bnet-yule-walker}
-shows a bnet 
+shows a bnet
 for the
-Yule-Walker 
+Yule-Walker
 Eqs.(\ref{eq-yule-walker}.
 The TPMs,
 printed in blue, for the
@@ -1502,7 +1502,7 @@ P(c_\tau)=
 \eeq
 
 
-The Yule-Walker 
+The Yule-Walker
 Eqs.(\ref{eq-yule-walker})
 imply that
 
@@ -1551,13 +1551,13 @@ is invertible,
 \;.
 \eeq
 Once we know $\alp^p$,
-we can solve for $\s^2$ 
+we can solve for $\s^2$
 \beq
 \gamma_0=\sum_{j=1}^p\gamma_{-j}\alp_j
 + \s^2
 \;,
 \eeq
-i.e., 
+i.e.,
 Eq.(\ref{eq-yule-walker}) for $\tau=0$.
 
 
@@ -1567,7 +1567,7 @@ Eq.(\ref{eq-yule-walker}) for $\tau=0$.
 
 
 
-Before 
+Before
 submerging
 the reader
 in the messy details
@@ -1576,9 +1576,9 @@ and running
 the risk of quickly losing him/her,
 let me explain to the reader that
 what we are about
-to do in this section, is, in the final 
+to do in this section, is, in the final
 analysis, quite trivial,
-and boils down to 
+and boils down to
 solving simple
 systems
 of linear equations.
@@ -1588,12 +1588,12 @@ In reading this section,
 don't lose sight of that fact and
 you'll be okay.
 
-Suppose 
+Suppose
 $\tseries{\rvy_t}$
 is an $AR(\infty)$ t-series. For $\tau>0$,
-the ``orthogonal projection" 
+the ``orthogonal projection"
 $\rvy_{t+\tau}|\rvy_{\leq t}$
-is defined as the 
+is defined as the
 linear combination of $\rvy_{\leq t}$
 obtained by doing
 Linear Regression
@@ -1623,13 +1623,13 @@ Var_{|\rvy_{\leq t}}[\rvy_{t+\tau}]
 For example, for $\tau=1$,
 
 
-\beq 
+\beq
 \rvy_{t+1} = \sum_{j=1}^p \alp_j \rvy_{t+1-j}
 + \rvn_{t+1}
 \eeq
 
-\beq 
-\rvy_{t+1}|\rvy_{\leq t} = 
+\beq
+\rvy_{t+1}|\rvy_{\leq t} =
 \sum_{j=1}^p \alp_j \rvy_{t+1-j}
 \eeq
 
@@ -1655,7 +1655,7 @@ Var_{|\rvy_{\leq t}}[\rvy_{t+1}]
 
 If $\tseries{\rvy_t}$
 is an $AR(\infty)$
-t-series and $\tau>0$, 
+t-series and $\tau>0$,
 by {\bf forecasting} $\rvy_{t+\tau}|\rvy_{\leq t}$ ,
 we will mean
 finding $\rvy_{t+\tau}|\rvy_{\leq t}$,
@@ -1666,8 +1666,8 @@ or some other input data
 from which $y_{\leq t}$
 can be derived.
 Fig.\ref{fig-forecasting-cases}
-illustrates 3 types 
-of input 
+illustrates 3 types
+of input
 data that we will consider
 next.
 
@@ -1675,12 +1675,12 @@ next.
 
 Note that if $\tseries{\rvy_t}$
 is an $AR(\infty)$
-t-series, 
+t-series,
 then $\alp^-(\calb)\rvy_t=n_t$.
 Thus, $\rvn_{\leq t}$
-can be expressed in terms 
+can be expressed in terms
 of $\rvy_{\leq t}$,
-yielding a function 
+yielding a function
 $\rvn_{\leq t}(\rvy_{\leq t})$.
 If the operator
 $\alp^-(\calb)$
@@ -1688,9 +1688,9 @@ is invertible,
 the opposite is also true: $\rvy_{\leq t}$
 can be expressed in terms
 of $\rvn_{\leq t}$,
-yielding a function 
+yielding a function
 $\rvy_{\leq t}(\rvn_{\leq t})$.
-Thus, 
+Thus,
 
 \beq
 \rvy_{t+\tau}|\rvy_{\leq t}=
@@ -1700,10 +1700,10 @@ Thus,
 
 We've
 seen that
- if we 
+ if we
 assume invertibility
 of $\alp^-(\calb)$, then,
-in order 
+in order
 to forecast $\rvy_{t+\tau}|\rvy_{\leq t}$,
 we have the option
 of considering $\tseries{\rvy_t}$ to be
@@ -1712,12 +1712,12 @@ or an $MA(\infty)$
 t-series. We will assume
 the latter,
 because this
-simplifies 
+simplifies
 the algebra
 necessary to calculate
 both
 $\rvy_{t+\tau}|\rvy_{\leq t}$
-and its 
+and its
 variance.
 
 
@@ -1812,7 +1812,7 @@ $$
 }
 \end{array}
 $$
-\caption{Bnet for 
+\caption{Bnet for
 $MA(\infty)$
 for forecasting
 $\rvy_{t+\tau}|\rvy_{\leq t}$.
@@ -1960,7 +1960,7 @@ $$
 \end{array}
 $$
 \caption{$MA(2)$ bnet.
-For clarity, we show only arrows 
+For clarity, we show only arrows
 entering node $\rvy_{t+\tau}$
 for $\tau=1,2,3$.
 Green arrows
@@ -1971,7 +1971,7 @@ time $t$.
 \end{figure}
 
 For $MA(q)$,
-because $\nu_j=0$ for $j>q$, 
+because $\nu_j=0$ for $j>q$,
 this reduces to
 
 \beq
@@ -1995,20 +1995,20 @@ E[\rvy_{t+\tau}|y_{\leq t}]=0
 \label{eq-ma-2-forecast-noise}
 \eeqa
 Eq.(\ref{eq-ma-2-forecast-noise})
-is motivated by  
+is motivated by
 Fig.\ref{fig-ma-2-tau-123-redux}).
 Only
-the green arrows 
+the green arrows
 entering $\rvy_{t+\tau}$
 and originating
 in a node  $\rvn_{t'}$ with
 $t'>t$
 contribute to the right hand side
-of 
-Eq.(\ref{eq-ma-2-forecast-noise}). 
+of
+Eq.(\ref{eq-ma-2-forecast-noise}).
 
 
-Thus, the mean 
+Thus, the mean
 of $\rvy_{t+\tau}$
 can be
 predicted to
@@ -2050,7 +2050,7 @@ Eq.(\ref{eq-wk-fancy})
 is just Eq.(\ref{eq-wk-simple})
 in fancy notation.
 
-In $MA(\infty)$, 
+In $MA(\infty)$,
 if $\nu(\calb)$ is invertible,
 then
 
@@ -2065,13 +2065,13 @@ so
 \beq
 \boxed{
 \rvy_{t+\tau}|y_{\leq t}=
-\call_{WK}  \rvy_t}
+ LL_{WK}  \rvy_t}
 \label{eq-wk-pred-formula}
 \eeq
 
 where
 \beq
-\call_{WK}=
+ LL_{WK}=
 \left[\calb^{-\tau}
 \nu(\calb)\right]_{\calb^{\geq 0}}
 \nu(\calb)^{-1}
@@ -2161,7 +2161,7 @@ as $\tau$ grows.
 \rvy_{t+\tau}|
 \rvy_{\leq \tau}
 &\approx&
-\left[\call_{WK}\right]_{\calb^{<m}}
+\left[ LL_{WK}\right]_{\calb^{<m}}
 \rvy_t
 \eeqa
 
@@ -2171,14 +2171,14 @@ as $\tau$ grows.
 \gammaEXACT}
 
 \beq
-\rvy_{t+\tau}|\rvy_{\leq t} = 
+\rvy_{t+\tau}|\rvy_{\leq t} =
 \sum_{j=0}^{m-1} \rvy_{t-j}\beta_j
 \label{eq-pseudo-yule-target}
 \eeq
 
 Suppose that $k\in \ZZ_{[0,m-1]}$.
 
-Note that 
+Note that
 
 \beq
 \rvy_{t-k}|\rvy_{\leq t}=\rvy_{t-k}
@@ -2190,8 +2190,8 @@ Note that
 \underbrace{
 \av{\rvy_{t-k}|\rvy_{\leq t}\;\;,\;\;
 \rvy_{t+\tau}|\rvy_{\leq t}}
-}_{\gamma^{part}_{\tau+k}} = 
-\sum_{j=0}^{m-1} 
+}_{\gamma^{part}_{\tau+k}} =
+\sum_{j=0}^{m-1}
 \underbrace{
 \av{\rvy_{t-k}\;\;,\;\;\rvy_{t-j}}
 }_{\gamma_{k-j}}
@@ -2202,7 +2202,7 @@ Note that
 \beq
 \left[
 \begin{array}{c}
-\gamma_{\tau}^{part} 
+\gamma_{\tau}^{part}
 \\ \gamma_{\tau+1}^{part} \\ \vdots\\
  \gamma_{\tau+m-1}^{part}
 \end{array}
@@ -2245,11 +2245,11 @@ into Eq.(\ref{eq-pseudo-yule-target}).
 \begin{enumerate}
 \item {\bf Filtering Data (FD)}
 
-Removing trends and periodicity 
+Removing trends and periodicity
 (seasonality) via
-differencing, 
+differencing,
 so as to achieve a w-stationary
-t-series. We deal with FD in Section 
+t-series. We deal with FD in Section
 \ref{sec-time-arma-diff}.
 
 
@@ -2265,7 +2265,7 @@ statistical tests and metrics.
 Finding best possible coefficients
 $\alp_j$ and $\nu_j$.
 We deal with
-PL in Section 
+PL in Section
 \ref{sec-time-arma-param-learn}.
 
 
@@ -2282,7 +2282,7 @@ Let  $\alp\in(0,1)$.
 We say that $\tseries{\rvs_t}$
 is a {\bf Simple Exponential
  Smoothing (SES) t-series}
-if it satisfies 
+if it satisfies
 
 \beq
 s_t= (1-\alp) s_{t-1}+ \alp x_t
@@ -2307,7 +2307,7 @@ $$
 &\rvs_{t+1}
 \cdots
 }$$
-\caption{Bnet for Simple Exponential 
+\caption{Bnet for Simple Exponential
 Smoothing t-series.  $\alp\in(0,1)$}
 \label{fig-simple-ex-smoo}
 \end{figure}
@@ -2319,7 +2319,7 @@ for node $\rvs_t$,
 is as follows
 
 \beq\color{blue}
-P(s_t)=\indi(s_t=\text{ see 
+P(s_t)=\indi(s_t=\text{ see
 Eq.(\ref{eq-ses-tseries}))}
 \eeq
 
@@ -2335,21 +2335,21 @@ so
 \\
 &=&
 \alp\sum_{j=0}^\infty
-(1-\alp)^j\calb^j\rvx_t\;\;\text{ 
+(1-\alp)^j\calb^j\rvx_t\;\;\text{
 (by Eq.(\ref{eq-binomial-expan}))}
 \label{eq-expand-simple-smoo}
 \eeqa
 
-Note from 
+Note from
 Fig.\ref{fig-simple-ex-smoo}
 and Eq.(\ref{eq-expand-simple-smoo})
 that each shock $\rvx_{t-j}$
 with $j>0$
-contributes to 
-$\rvs_t$ 
+contributes to
+$\rvs_t$
 proportionally
 to the product
-$\alp (1-\alp)^j$ of 
+$\alp (1-\alp)^j$ of
 arrow weights in the  path
 from $\rvx_{t-j}$
 to $\rvs_t$.
@@ -2360,9 +2360,9 @@ in the proportion $\alp (1-\alp)^2$.
 The contributions of $\rvx_{t-j}$
 to $\rvs_t$
 decrease geometrically as the lag
-$j$ increases. 
+$j$ increases.
 
-Henceforth, we  will 
+Henceforth, we  will
 abbreviate
 ``{\bf differencing}" by ``
 {\bf diff}".
@@ -2406,8 +2406,8 @@ diff operator}
 \eeq
 \end{itemize}
 
-Recall 
-that if 
+Recall
+that if
 $\tseries{\rvy_t}$ is an $ARMA(p+d,q)$
 t-series,
 
@@ -2424,7 +2424,7 @@ We will
 say that
 $\tseries{\rvy_t}$
 is an {\bf Autoregressive Integrated
- Moving Average 
+ Moving Average
 $ARIMA(p,d,q)$ t-series} if
 
 
@@ -2508,7 +2508,7 @@ AFT:
 \end{array}
 $$
 \caption{
-Effect on $\rvy_t$ 
+Effect on $\rvy_t$
 of going from
 before (BEF)
 with a t-series $ARIMA(3,0,0)$
@@ -2520,15 +2520,15 @@ with a t-series $ARIMA(3, 1, 0)$.
 
 $\calo_{BEF}\rvy_t$
 and $\calo_{AFT}\rvy_t$
-are illustrated in 
+are illustrated in
 Fig.\ref{fig-bef-aft-diff}.
 Note that
 in going from BEF to AFT,
-a new arrow is 
+a new arrow is
 introduced
 with weight $\alp_4'
 =-\alp_3$.
-The intermediate length 
+The intermediate length
 arrows $\rvy_{t-3}\rarrow \rvy_t$
 and $\rvy_{t-2}\rarrow \rvy_t$
 have weights $\alp_3'=\alp_3-\alp_2$
@@ -2540,9 +2540,9 @@ Only the
 the longest arrow
 $\rvy_{t-4}\rarrow\rvy_t$
 and the shortest arrow $\rvy_{t-1}\rarrow \rvy_t$
-have non-negligible weights. 
+have non-negligible weights.
 
-Suppose 
+Suppose
 \beq
 \rvy_t\approx a + bt + ct^2 + dt^3
 \eeq
@@ -2566,21 +2566,21 @@ b + 2ct + 3dt^2
 (\Delta t)^3\frac{d^2}{dt^3}\;\; \rvy_t=
 6d
 \eeq
-Note that the mean $6d$ 
-in $\Delta^3\rvy_t$ 
+Note that the mean $6d$
+in $\Delta^3\rvy_t$
 can be adjusted to zero
 (demeaning).
 From this example,
 we  see that every time
 we apply a diff operator
 to a time series,
-we reduce 
-the order 
+we reduce
+the order
 of its polynomial trend by one.
 
 Note that if
 $\tseries{\rvy_t}$
-is an 
+is an
 $ARIMA(0,1,1)$ t-series,
 
 \beq
@@ -2593,7 +2593,7 @@ $ARIMA(0,1,1)$ t-series,
 \eeq
 
 \begin{claim}\label{cl-arima-011}
-$ARIMA(0,1,1)$ is equivalent to a 
+$ARIMA(0,1,1)$ is equivalent to a
 simple exponential smoothing t-series.
 \end{claim}
 \proof
@@ -2628,7 +2628,7 @@ Note that this proof
 has established
 the equivalence of two different
 bnets.
-Those two bnets are 
+Those two bnets are
 pictured in Fig.\ref{fig-arima-011}.
 \qed
 
@@ -2674,7 +2674,7 @@ $$
 for two t-series that were
 proven equivalent
 in Claim \ref{cl-arima-011}.
-Note that the 2 bnets have NO 
+Note that the 2 bnets have NO
 arrows in common!}
 \label{fig-arima-011}
 \end{figure}
@@ -2693,14 +2693,14 @@ $\theta=(\{\alp_j\}_{\forall j}, \{\nu_j\}_{\forall j},
 used in
 $ARMA(p,q)$.
 We do this {\bf parameter learning (PL)} by
-postulating a ``quasi" (log-)
+postulating a ``quasi" log
  likelihood function
-$\call(\theta)$,
+$ LL(\theta)$,
 and
 maximizing
 that over $\theta$.
 The estimate $\hat{\theta}$
-that we obtain is called 
+that we obtain is called
 the
 {\bf Quasi-Maximum Likelihood Estimate
  (QMLE)}.
@@ -2743,7 +2743,7 @@ $$
 \;
 }
 $$
-\caption{Bnet for 
+\caption{Bnet for
 PL of
 $AR(3)$.
 For clarity,
@@ -2766,7 +2766,7 @@ y_t=
 
 Let $\theta=(\s^2, \alp_{[1,p]})$.
 We want to learn the parameters
-$\theta$ of the $AR(p)$ bnet 
+$\theta$ of the $AR(p)$ bnet
 Fig.\ref{fig-qmle-ar-3},
 assuming the TPMs, printed in blue,
 are as follows.
@@ -2815,11 +2815,11 @@ P(n_\tau|\theta)
 \right\}P(y_{\leq p}|\theta)
 \end{align}
 
-The log likelihood function $\call_t(\theta)$
+The log likelihood function $ LL_t(\theta)$
 for this bnet is defined by
 
 \beq
-\call_t(\theta)
+ LL_t(\theta)
 =
 \frac{1}{t}
 \ln P(y_{\leq t}|\theta)
@@ -2830,16 +2830,16 @@ Hence,
 \begin{subequations}
 \label{eq-likelihood-ar-p}
 \beqa
-\call_t(\theta)
+ LL_t(\theta)
 &=&
 \underbrace{\frac{1}{t}
-\ln P(y_{\leq p}|\theta)}_{\call^{prior}_t(\theta)}
+\ln P(y_{\leq p}|\theta)}_{ LL^{prior}_t(\theta)}
 +
-\call'_t(\theta)
+ LL'_t(\theta)
 \eeqa
 where
 \beq
-\call'_t(\theta)=
+ LL'_t(\theta)=
 \frac{-(t-p)}{t}\ln \sqrt{2\pi\s^2}
 -\frac{1}{2t\s^2}
 \sum_{\tau=p+1}^t
@@ -2853,24 +2853,24 @@ that $y_{[1, t]}$
 is known.
 
 We start by assuming that
-the prior log-likelihood 
-$\call^{prior}_t(\theta)$
-is zero. 
-This means that we have 
+the prior log likelihood
+$ LL^{prior}_t(\theta)$
+is zero.
+This means that we have
 uniform (uninformative) priors.
 Later on, we will
-consider 
+consider
 instead a Gaussian prior
-that uses the 
+that uses the
 info that $y_{\leq p}$
 is known a priori.
 
 If we assume
 that $y_{[1, t]}$
 is known, then we can plug
-this info into $\call'_t(\theta)$
+this info into $ LL'_t(\theta)$
 and use a non-linear optimization method
-to maximize $\call'_t(\theta)$
+to maximize $ LL'_t(\theta)$
 and find the optimum
 $\theta$.
 
@@ -2889,35 +2889,35 @@ from a population
 with sampling in time.
 (i.e., a ``stochastic"
  average by an ``ergodic" average.)
-The datasets that we use to 
+The datasets that we use to
 do LR usually satisfy the i.i.d.
 assumption,
 but that assumption does not
 necessarily hold
 for this one.
 Luckily,
-that assumption 
+that assumption
 is not necessary
 for
 doing LR
 with x-variables
 $y_{[t-p, t-1]}$,
-y-variable 
+y-variable
 $y_t$,
 and regression coefficients
 $\alp_{[1,p]}$.
 The LR
 software
-gives 
+gives
 estimates $\hat{\alp}_{[1,p]}$
 that we can use to calculate
-residuals  
+residuals
 \beq
 \eps_\tau=
 y_\tau-\sum_{j=1}^p\hat{\alp}_jy_{\tau-j}
 \eeq
 One can estimate $\s^2$
-from those residuals using  
+from those residuals using
 
 \beq
 \widehat{\s^2}=
@@ -2949,7 +2949,7 @@ where
 for $i,j\in \ZZ_{[1,p]}$.
 We are assuming that all $\rvy_\tau$
 have been demeaned;
-i.e., the mean 
+i.e., the mean
 
 \beq
 \hat{\mu}= \frac{1}{t}\sum_{\tau=1}^t y_\tau
@@ -2998,9 +2998,9 @@ and $n_t$.}
 
 
 
-Recall that 
+Recall that
 if $\tseries{\rvy_t}$ is an $MA(q)$
-t-series, 
+t-series,
 
 \beq
 y_t=
@@ -3058,11 +3058,11 @@ P(n_\tau|\theta)
 \right\}P(n_{\leq q}|\theta)
 \end{align}
 
-The log likelihood function $\call_t(\theta)$
+The log likelihood function $ LL_t(\theta)$
 for this bnet is defined by
 
 \beq
-\call_t(\theta)
+ LL_t(\theta)
 =
 \frac{1}{t}
 \ln P(y_{\leq t}|\theta)
@@ -3071,18 +3071,18 @@ for this bnet is defined by
 \begin{subequations}
 \label{eq-likelihood-ma-q}
 \beqa
-\call_t(\theta)
+ LL_t(\theta)
 &=&
 \underbrace{
 \frac{1}{t}
 \ln P(y_{\leq q}|\theta)}_{
-\call^{prior}_t(\theta)}
+ LL^{prior}_t(\theta)}
 +
-\call'_t(\theta)
+ LL'_t(\theta)
 \eeqa
 where
 \beq
-\call'_t(\theta)=
+ LL'_t(\theta)=
 \frac{-(t-q)}{t}\ln \sqrt{2\pi\s^2}
 -\frac{1}{2t\s^2}
 \sum_{\tau=q+1}^t
@@ -3092,10 +3092,10 @@ where
 
 Henceforth, we will assume that
 $n_{\leq q}=0$. By Eq.(\ref{eq-qmle-ma-q-def}),
- this implies that 
-$y_{\leq q}=0$, so the prior 
-log-likelihood
-$\call^{prior}_t(\theta)$
+ this implies that
+$y_{\leq q}=0$, so the prior
+log likelihood
+$ LL^{prior}_t(\theta)$
 is independent of $\theta$.
 
 
@@ -3173,8 +3173,8 @@ for $\tau=1,2, 3$.}
 \label{fig-n-from-y-for-ma-q}
 \end{figure}
 
-Eq.(\ref{eq-likelihood-ma-q}) 
-expresses $\call'_t(\theta)$
+Eq.(\ref{eq-likelihood-ma-q})
+expresses $ LL'_t(\theta)$
 in terms of $y_\tau$'s and $n_\tau$'s,
 but the input data
 consist of only $y_\tau$'s.
@@ -3202,19 +3202,19 @@ combination of 3 $\rvn$ nodes,
 But since it's a linear equation,
 it can be used to
 express the latest $\rvn$ node,
-i.e., $\rvn_{\tau}$, 
+i.e., $\rvn_{\tau}$,
 in terms of $\rvy_{\tau}$
 and the 2 previous $\rvn$
 nodes.
 
-Hence, 
+Hence,
 we see from Fig.\ref{fig-n-from-y-for-ma-q}
 that:
 
 From $\rvn_1=\rvn_2=0$,
 we get $\rvy_1=\rvy_2=0$.
 
-From the $\tau=1$ bnet, we get 
+From the $\tau=1$ bnet, we get
 
 \beq
 \rvn_3=\rvy_3
@@ -3272,8 +3272,8 @@ and $\rvn_t$.}
 \label{fig-qmle-arma-3-2}
 \end{figure}
 
-Recall that 
-if $\tseries{\rvy_t}$ is an 
+Recall that
+if $\tseries{\rvy_t}$ is an
 $AR(p,q)$ t-series, then
 
 \beq
@@ -3291,7 +3291,7 @@ of the $ARMA(p,q)$ bnet Fig.\ref{fig-qmle-arma-3-2},
 in which the TPMs, printed in blue,
 are as follows.
 
-For $t\geq 
+For $t\geq
 \max(p+1, q+1)$, let
 
 \beq\color{blue}
@@ -3315,18 +3315,18 @@ P(n_t|\theta)=
 
 As we did for
 $AR(p)$ and $MA(q)$,
-we can  now calculate 
-a log likelihood 
-function and 
-maximize it to obtain the 
+we can  now calculate
+a log likelihood
+function and
+maximize it to obtain the
 parameters $\theta$.
 But first we
-will have to assume 
+will have to assume
 that $n_{\leq q}=0$
 and $y_{[1,t]}$ is
-known, 
+known,
 and we will
-have to express 
+have to express
 the unknown $n_{[q+1,t]}$
 in terms of the known $y_{[1, t]}$
 using the t-series definition
@@ -3336,13 +3336,13 @@ Eq.(\ref{eq-qmle-arma-p-q-def}).
 \label{sec-var-p}
 
 Let
-$\vec{\rvx}_t=(\rvx_{t}^1, 
+$\vec{\rvx}_t=(\rvx_{t}^1,
 \rvx_{t}^2, \ldots, \rvx_t^{nr})^T
 \in \RR^{nr\times 1}$. Thus,
  $\vec{\rvx}_t$
 for each $t$ is a
 column vector with $nr$ rows.
-A {\bf vector time series}, denoted 
+A {\bf vector time series}, denoted
 variously by
 $\{\vec{\rvx}_1, \vec{\rvx}_2, \ldots,
 \vec{\rvx}_{nt}\}
@@ -3365,9 +3365,9 @@ By {\bf vector white noise}
 $\tseries{\vec{\rvn}_t}\sim WN(0, \Sigma)$,
 where $\Sigma\in \RR^{nr\times nr}$,
 we mean a vector t-series
-$\tseries{\vec{\rvn}_t}$ that satisfies, 
+$\tseries{\vec{\rvn}_t}$ that satisfies,
 for
-$A,B\in \ZZ_{[1,nr]}$ 
+$A,B\in \ZZ_{[1,nr]}$
 and $t,t'\in \ZZ_{[1,nt]}$,
 
 
@@ -3383,14 +3383,14 @@ Suppose $\tseries{\vec{\rvy}_t}$
 is a zero mean vector
  t-series.
 Hence
-$\rvy_t^A= \rvY_t^A-\mu^A$, 
+$\rvy_t^A= \rvY_t^A-\mu^A$,
 $E[\rvY_t^A]=\mu^A$,
 $E[\rvy_t^A]=0$.
-Suppose also that 
+Suppose also that
 $\tseries{\vec{\rvn}_t}\sim WN(0, \Sigma)$.
 Then we define a
 {\bf Vector
-Auto-Regressive 
+Auto-Regressive
 t-series} $VAR(p)$ by
 
 \beq
@@ -3405,10 +3405,10 @@ is the same as the bnet
 for  $AR(p)$
 except that now,
 for all $t$,
-the nodes $\rvy_t$ 
+the nodes $\rvy_t$
 and $\rvn_t$
 are replaced by
-$\vec{\rvy}_t$ 
+$\vec{\rvy}_t$
 and $\vec{\rvn}_t$
 and now
 the node weights $\alp_t$

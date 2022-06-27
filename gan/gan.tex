@@ -5,7 +5,7 @@
 \begin{figure}[h!]
 \centering
 \includegraphics[width=6in]{gan/gan.png}
-\caption{Generative Adversarial  Network (GAN)} 
+\caption{Generative Adversarial  Network (GAN)}
 \label{fig-gan}
 \end{figure}
 
@@ -13,12 +13,12 @@
 \centering
 \includegraphics[width=6in]{gan/gan-detail.png}
 \caption{Discriminator node $\ul{V}$ in Fig.\ref{fig-gan} can be
-split into 3 nodes $\vec{\rvc}$, $\vec{\rvd}$ and $\ul{V}$.} 
+split into 3 nodes $\vec{\rvc}$, $\vec{\rvd}$ and $\ul{V}$.}
 \label{fig-gan-detail}
 \end{figure}
 
-Original GAN, 
-Ref.\cite{gf2014}(2014). 
+Original GAN,
+Ref.\cite{gf2014}(2014).
 
 Generator $G$ (counterfeiter) generates samples $\vecf$ of fake money and submits them to Discriminator $D$ (Treasury agent). $D$ also gets samples $\vecr$ of real money. $D$ submits verdict $V\in [0,1]$. $G$ depends on parameter $\theta_G$ and $D$ on parameter $\theta_D$. Verdict $V$ and initial $\theta_G, \theta_D$ are used to get new parameters $\theta'_G, \theta'_D$.Process is repeated (Dynamical Bayesian Network) until saddle point in $V(\theta_G, \theta_D)$ is reached. $D$ makes $G$ better and vice versa.  Zero-sum game between $D$ and $G$.
 
@@ -38,8 +38,8 @@ For any $S\subset\cald$, define
 \eeq
 
 
- In general, 
-$G(\cdot,\theta_G)$ need not be real valued. 
+ In general,
+$G(\cdot,\theta_G)$ need not be real valued.
 
 Assume that for every $u\in S_\rvu$,
  $G(u,\theta_G)=f\in S_\rvf\subset \cald$. Define
@@ -138,13 +138,13 @@ minimize it wrt $\theta_G$.
 
 \beq\color{blue}
 P(\theta'_G|V,\theta_G )=
-\delta(\theta'_G, \theta_G - \eta_G 
+\delta(\theta'_G, \theta_G - \eta_G
 \partial_{\theta_G}V)
 \eeq
 
 \beq\color{blue}
 P(\theta'_D|V,\theta_D )=
-\delta(\theta'_D, \theta_D + \eta_D 
+\delta(\theta'_D, \theta_D + \eta_D
 \partial_{\theta_D}V)
 \eeq
 
@@ -153,7 +153,7 @@ P(\theta'_D|V,\theta_D )=
 \centering
 \includegraphics[width=2in]{gan/gan-emulate.png}
 \caption{GAN, Constraining Bayesian Network}
-\label{fig-gan-emulate} 
+\label{fig-gan-emulate}
 \end{figure}
 
 Constraining Bnet given in Fig.\ref{fig-gan-emulate}. It adds 2 new nodes, namely $\ul{\vec{U}}$ and $\ul{\vec{R}}$, to  the bnet of Fig.\ref{fig-gan}. The purpose of these 2  barren (childrenless) nodes is to constrain certain functions to be probability distributions.
@@ -163,7 +163,7 @@ printed in blue, for the 2 new nodes, are as follows.
 
 
 \beq\color{blue}
-P(U[i]\cond \theta_G)= 
+P(U[i]\cond \theta_G)=
 \frac{\ol{D}(G(U[i],\theta_G),\theta_D))}
 {\ol{\lam}(\theta_G, \theta_D)}
 \eeq
@@ -183,9 +183,9 @@ P(\ul{R[i]}=r[i]\cond \theta_G, \theta_D)P(\ul{U[i]}=u[j]\cond \theta_G)))
 where $N=nsam(\vecr)nsam(\vecu)$.
 
 
-$\call=$ likelihood
+$ L=$ likelihood
 \beqa
-\call&=&
+ L&=&
 P(\vecr, \vecu| \theta_G, \theta_D)\\
 &=&
 \prod_{i,j}\left[
@@ -196,7 +196,7 @@ P(\vecr, \vecu| \theta_G, \theta_D)\\
 \eeqa
 
 \beq
-\ln \call = N[V(\theta_G, \theta_D)
+\ln  L = N[V(\theta_G, \theta_D)
 -\ln \lam(\theta_D)-\ln \ol{\lam}(\theta_G, \theta_D)]
 \eeq
 
@@ -204,6 +204,3 @@ P(\vecr, \vecu| \theta_G, \theta_D)\\
 
 %\printbibliography[heading=subbibliography]
 %\end{refsection}
-
-
- 

@@ -4,7 +4,7 @@
 \begin{figure}[h!]
 \centering
 \includegraphics[width=5in]{linreg/linreg.png}
-\caption{Linear Regression} 
+\caption{Linear Regression}
 \label{fig-linreg}
 \end{figure}
 
@@ -18,12 +18,12 @@
 
 Estimators $\haty$ for linear and logistic regression.
 \begin{itemize}
-\item 
+\item
 
-\textbf{Linear Regression:} $y\in \RR$. 
+\textbf{Linear Regression:} $y\in \RR$.
 Note $\haty\in \RR$. $(x,\haty(x))$ is
 the graph
-of a straight line 
+of a straight line
 with y-intercept $b$ and slope $m$.
 \beq
 \haty(x;b, m)= b + mx
@@ -33,7 +33,7 @@ with y-intercept $b$ and slope $m$.
 \textbf{Logistic Regression:} $y\in\{0, 1\}$. Note $\haty\in [0,1]$. $
 (x,\haty(x))$ is the graph
 of a sigmoid.
- Often in literature, $b,m$ are replaced by $\beta_0, \beta_1$. 
+ Often in literature, $b,m$ are replaced by $\beta_0, \beta_1$.
 \beq
 \haty(x;b, m)=\smoid(b + m x)
 \eeq
@@ -53,12 +53,12 @@ Bnet Fig.\ref{fig-linreg}, are as follows.
 \beq\color{blue}
 P(b,m) \text{ = given}
 \eeq
-The first time it is used, 
+The first time it is used,
 $(b,m)$ is arbitrary.
-After the first time, it is determined 
+After the first time, it is determined
 by previous stage.
 
-Let 
+Let
 \beq
 P_{\rvx, \rvy}(x,y)=
 \frac{1}{nsam(\vecx)}
@@ -84,9 +84,9 @@ P(V|\vec{\haty}, \vecy)=
 \delta(V, \frac{1}{nsam(\vecx)}\sum_\s |y^\s-\haty^\s|^2)
 \label{eq-replace2}
 \eeq
-Let $\eta_b, \eta_m>0$. 
-For $x=b,m$, if 
-$x'-x=\Delta x = 
+Let $\eta_b, \eta_m>0$.
+For $x=b,m$, if
+$x'-x=\Delta x =
 -\eta\frac{\partial V}{\partial x}$,
  then $\Delta V\approx
  \frac{-1}{\eta}(\Delta x)^2   \leq 0$
@@ -99,32 +99,32 @@ P(m'|V, m)=\delta(m', m-\eta_m\partial_m V)
 \eeq
 
 
-\section{Generalization to 
-$x$ with multiple 
+\section{Generalization to
+$x$ with multiple
 components (features)}
 
- Suppose that for each sample $\s$, 
-instead of $x^\s$ being a scalar, 
+ Suppose that for each sample $\s$,
+instead of $x^\s$ being a scalar,
 it has $n$ components called features:
 
  \beq
 x^\s = (x_0^\s, x_1^\s, x_2^\s , \ldots x_{n-1}^\s)
 \;.\eeq
 
-Slope $m$ is replaced by weights  
+Slope $m$ is replaced by weights
 
 \beq
 w = (w_0, w_1, w_3, , \ldots, w_{n-1})
 \;,\eeq
-and the product of 2  scalars $mx^\s$ is replaced by the inner vector product $w^Tx^\s$. 
+and the product of 2  scalars $mx^\s$ is replaced by the inner vector product $w^Tx^\s$.
 
 \section{Alternative $V(b,m)$
  for logistic regression}
 
 For logistic regression, since $y^\s\in \{0,1\}$
- and $\haty^\s\in [0,1]$ are both 
-in the interval $[0,1]$, they can 
-be interpreted as probabilities. Define 
+ and $\haty^\s\in [0,1]$ are both
+in the interval $[0,1]$, they can
+be interpreted as probabilities. Define
 probability distributions $p^\s(x)$ and
 $\hat{p}^\s(x)$ for $x\in \{0,1\}$ by
 \beq
@@ -145,7 +145,7 @@ V(b, m)= \frac{1}{nsam(\vecx)}\sum_\s
 and
 
 \beqa
-V(b, m)&=&\frac{1}{nsam(\vecx)} \sum_\s 
+V(b, m)&=&\frac{1}{nsam(\vecx)} \sum_\s
 CE(p^\s\parallel\hat{p}^\s)\\
 &=& \frac{-1}{nsam(\vecx)}\sum_\s \left\{
 y^\s\ln \haty^\s +
@@ -155,14 +155,14 @@ y^\s\ln \haty^\s +
 \ln \left\{(\haty^\s)^{y^\s}
 (1- \haty^\s)^{(1-y^\s)}\right\}\\
 &=&
-\frac{-1}{nsam(\vecx)}\sum_\s 
+\frac{-1}{nsam(\vecx)}\sum_\s
 \ln P(\ul{Y}=y^\s\cond \haty=\haty^\s)\\
 &=&
 -\sum_{x,y} P(x, y)
 \ln P(\ul{Y}=y|\haty=\haty(x,b,m))
 \eeqa
 
-Above, we used 
+Above, we used
 \beq
 P(\ul{Y}=Y|\haty) = \haty^{Y}
 [1-\haty]^{1-Y}
@@ -187,9 +187,7 @@ P(\ul{Y}=Y^\s\cond \haty^\s)
 
 \beq\color{blue}
 P(V|\vec{Y}, \vecy)=
-\delta(V, \frac{-1}{nsam(\vec{x})}\ln \call)
+\delta(V, \frac{-1}{nsam(\vec{x})}\ln  L)
 \;,
 \eeq
-where $\call =\prod_\s P(\ul{Y}=y^\s\cond \haty^\s )$=likelihood.
-
-
+where $ L =\prod_\s P(\ul{Y}=y^\s\cond \haty^\s )$=likelihood.
