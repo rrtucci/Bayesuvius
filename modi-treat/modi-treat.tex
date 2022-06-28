@@ -351,39 +351,6 @@ where
 
 \subsection{PIE}
 
-\beqa
-\caly_{|x, c} &=& \sum_y y P(\rvy=y\cond x, c)
-\\
-&=&
-\sum_y y P(\rvy(x)=y\cond x, c)
-\eeqa
-
-\beq
-\tilde{\caly}_{|x, c} =
-\sum_y y P(\rvy(\tilx)=y\cond x, c)
-\underbrace{P(\tilx|x,c)}_{
-\begin{array}{c}=\delta(\tilx, \tilx_c(x))
-\\
-\text{if MTP is}
-\\
-\text{deterministic}
-\end{array}}
-\eeq
-
-\beq
-\caly = \sum_{x,c} \caly_{|x, c}P(x|c)P(c)
-\eeq
-
-\beq
-\tilde{\caly} = \sum_{x,c} \tilde{\caly}_{|x, c}P(x|c)P(c)
-\eeq
-
-
-PIE Estimand
-
-\beq
-PIE= \caly- \tilde{\caly}
-\eeq
 
 \subsection{PIE Estimators}
 \section{Multi-time MTP}
@@ -596,7 +563,7 @@ $A_{t} = \rvx_{t}$
 for $t=1, 2, \ldots, nt$. Hence, the $nt=2$ bnet
 Eq.(\ref{eq-modi-bnet-nt-3}), written in the HR notation, is
 as follows
-(before and after adding the $\tilde{A}$ nodes):
+(before and after adding the $\TIL{A}$ nodes):
 \beq
 \begin{array}{cc}
 \xymatrix{
@@ -619,14 +586,14 @@ A_1\ar[d]\ar[rd]
 &A_2\ar[d]\ar[rd]
 &A_3\ar[d]
 \\
-\tilde{A}_1\ar[ru]\ar[r]
-&\tilde{A}_2\ar[ru]\ar[r]
-&\tilde{A}_3\ar[r]
+\TIL{A}_1\ar[ru]\ar[r]
+&\TIL{A}_2\ar[ru]\ar[r]
+&\TIL{A}_3\ar[r]
 &\rvy
 }
 \end{array}
 \eeq
-HR doesn't actually display the $\tilde{A}$
+HR doesn't actually display the $\TIL{A}$
 nodes in his DAGs. Furthermore, in HR,
  nodes $A_t$ and $L_t$
 have parent nodes
@@ -636,3 +603,118 @@ not draw or consider parents that are 2 or more
 time steps in the past,
 because I will assume the effect of those parents is
 negligible to first approximation.
+
+
+
+\beqa
+\caly_{|x, c}
+&=&
+\sum_y y P(\rvy(x)=y\cond x, c)
+\\
+&=& \sum_y y P(\rvy=y\cond x, c)
+\eeqa
+
+\beq
+\TIL{\caly}_{|x, c} =
+\sum_\tilx\sum_y y P(\rvy(\tilx)=y\cond x, c)
+P(\tilx|x,c)
+\eeq
+
+If $P(\tilx|x,c)=\delta(\tilx, \tilx_c(x))$,
+then
+\beqa
+\TIL{\caly}_{|x, c} &=&
+\sum_\tilx\sum_y y P(\rvy(\tilx)=y\cond \rvx=x, c)
+\delta(\tilx, \tilx_c(x))
+\\
+&=&
+\sum_\tilx\sum_y y P(\rvy(\tilx_c(x))=y\cond \ul{\tilx}=\tilx_c(x), c)
+\delta(\tilx, \tilx_c(x))
+\\
+&=&
+\sum_\tilx\sum_y y P(\rvy=y\cond \ul{\tilx}=\tilx_c(x), c)
+\delta(\tilx, \tilx_c(x))
+\\
+&=&
+\sum_y y P(\rvy=y\cond \ul{\tilx}=\tilx_c(x), c)
+\eeqa
+
+\beq
+\caly = \sum_{x,c} \caly_{|x, c}P(x|c)P(c)
+\eeq
+
+\beq
+\TIL{\caly} = \sum_{x,c} \TIL{\caly}_{|x, c}P(x|c)P(c)
+\eeq
+
+
+PIE Estimand
+
+\beqa
+PIE&=& \caly- \TIL{\caly}
+\\
+&=&
+\sum_{y,x,c}y
+ [P(y|x,c)-P(y|\ul{\tilx}=\tilx_c(x), c)]P(x,c)
+\\
+&=&
+\sum_{y,x,c}yP(y,x,c)\frac{\sum_j \indi(x\in \calx_c^j)}{P(\rvx\in \calx_c)}
+[1-\frac{P(y|\ul{\tilx}=\tilx_c^j(x), c)}{P(y|x,c)}]
+\eeqa
+
+
+
+
+\beq
+P(\s|j) = \frac{\calx_{c_\s}^j}
+{\sum_\s\calx_{c_\s}^j}
+\eeq
+
+\beq
+\av{\xi_\s}_\s= \sum_\s P(\s|j)\xi_\s
+\eeq
+
+
+\beq
+\HAT{\mu}=
+\av{y_\s}_\s
+\eeq
+
+
+\beq
+\calx_c = \cup_{j=1}^{nj(c)}\calx_{c}^j
+\eeq
+
+\beq
+\tilx_c(x) =\sum_{j=1}^{nj(c)}  \indi(x\in \calx_c^j)\tilx_c^j(x)
+\eeq
+
+\beq
+P(\tilx|x, c)=\delta(\tilx, \tilx_c(x))=
+\sum_j \indi(x\in \calx_c^j)
+\delta(\tilx, \tilx^j_c(x))
+\eeq
+
+\beq
+\lam_c(x)=
+\sum_j \indi(x\in \calx_c^j)
+\frac{P(\rvx=\tilx^j_c(x)|c)}{P(\ul{\tilx}=x|c)}(\tilx^j_c)'(x)
+\eeq
+
+\beqa
+\TIL{\caly}
+&=&
+\sum_x \sum_c\caly_{|\tilx_c(x), c}P(x,c)
+\\
+&=&
+E[\caly_{|\ul{\tilx}, \rvc}]
+\eeqa
+
+\beqa
+\caly
+&=&
+\sum_x \sum_c\caly_{|x, c}P(x,c)
+\\
+&=&
+E[\caly_{|\rvx, \rvc}]
+\eeqa

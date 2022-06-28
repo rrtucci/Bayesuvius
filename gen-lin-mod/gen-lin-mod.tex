@@ -158,15 +158,15 @@ of $\eta_\s$.
 \eeq
 
 \beq
-\xbeta = g(\mu_\s) = \hat{\theta}(\mu_\s)
+\xbeta = g(\mu_\s) = \HAT{\theta}(\mu_\s)
 \eeq
 
 \beq
-\mu_\s = g^{-1}(\xbeta)=\hat{\mu}(\xbeta)
+\mu_\s = g^{-1}(\xbeta)=\HAT{\mu}(\xbeta)
 \eeq
 
 
-$\hat{\theta}()=g()$ is called
+$\HAT{\theta}()=g()$ is called
 the {\bf link function}.
 \end{enumerate}
 
@@ -287,14 +287,14 @@ The Maximum Likelihood Estimate  (MLE)
 for $\beta$ is
 
 \beq
-\hat{\beta}=
+\HAT{\beta}=
 (X^T X)^{-1} X^T y
 \;.
 \eeq
-The covariance of $\hat{\beta}$ is
+The covariance of $\HAT{\beta}$ is
 
 \beqa
-\av{\hat{\beta},\hat{\beta}^T}
+\av{\HAT{\beta},\HAT{\beta}^T}
 &=&
 \av{X^T X)^{-1} X^T y, y^T X (X^T X)^{-1}}
 \\
@@ -306,10 +306,10 @@ Next
 we will try to find analogous results for GLM.
 We will give (1) a numerical method
 for calculating an estimate
-$\hat{\beta}$
+$\HAT{\beta}$
 and (2) an asymptotic
 expression for
-$\av{\hat{\beta}, \hat{\beta}^T}$.
+$\av{\HAT{\beta}, \HAT{\beta}^T}$.
 
 Let
 
@@ -327,7 +327,7 @@ where
 
 The
 Newton-Raphson method for calculating an
-estimate $\hat{\beta}$ is as follows. Let
+estimate $\HAT{\beta}$ is as follows. Let
 
 $u^T = [\pder{\av{ LL}}{\beta_\s}]_{\s=0,1,2, \ldots}$
 
@@ -376,7 +376,7 @@ one cycle of this recursion.
 \includegraphics[width=3in]
 {gen-lin-mod/gen-lin-mod.png}
 \caption{One cycle of Newton-Raphson method
-for calculating an estimate $\hat{\beta}$ for the GLM.}
+for calculating an estimate $\HAT{\beta}$ for the GLM.}
 \label{fig-gml-new-rap}
 \end{figure}
 
@@ -388,7 +388,7 @@ for calculating an estimate $\hat{\beta}$ for the GLM.}
 \beq
 \pder{ LL_{\s}}{\beta_{\s'}}=
  \frac{[y_\s - b'(\xbeta)]}{\av{y_\s, y_\s}}
- \pder{\hat{\mu}_\s}{\xbeta}
+ \pder{\HAT{\mu}_\s}{\xbeta}
 X_{\s, \s'}
 \eeq
 \end{claim}
@@ -399,7 +399,7 @@ X_{\s, \s'}
 \pder{ LL_{\s}}{\beta_{\s'}}
 =
 \pder{ LL_{\s}}{\theta_\s}\pder{\theta_\s}{\mu_\s}
-\pder{\hat{\mu}_\s}{\xbeta}\pder{\xbeta}{\beta_{\s'}}
+\pder{\HAT{\mu}_\s}{\xbeta}\pder{\xbeta}{\beta_{\s'}}
 \eeq
 
 \beq
@@ -414,7 +414,7 @@ b''(\theta_\s) = \frac{\av{y_\s, y_\s}}{a(\phi)}
 \eeq
 
 \beq
-\pder{\hat{\mu}_\s}{\xbeta} =
+\pder{\HAT{\mu}_\s}{\xbeta} =
 (g^{-1})'(\xbeta)
 \eeq
 
@@ -426,7 +426,7 @@ b''(\theta_\s) = \frac{\av{y_\s, y_\s}}{a(\phi)}
 \pder{ LL_{\s}}{\beta_{\s'}}
 =
 \frac{[y_\s - b'(\theta_\s)]}{\av{y_\s, y_\s}}
- \pder{\hat{\mu}_\s}{\xbeta}
+ \pder{\HAT{\mu}_\s}{\xbeta}
 X_{\s, \s'}
 \eeq
 
@@ -436,12 +436,12 @@ X_{\s, \s'}
 
 \begin{claim}
 (Asymptotic expression
-for $\av{\hat{\beta},\hat{\beta}^T}$
+for $\av{\HAT{\beta},\HAT{\beta}^T}$
 for GLM)
 
 
 \beq
-\av{\hat{\beta},\hat{\beta}^T}
+\av{\HAT{\beta},\HAT{\beta}^T}
 \rarrow \cali^{-1}\quad   \text{(asymptotic covariance)}
 \eeq
 (Hence, more information $\cali$ yields a smaller variance.)
@@ -453,9 +453,9 @@ where
 and
 
 \beq
-W_{\s, \s'} = \left[\left(\pder{\hat{\mu}}{\xbeta} \right )^2
+W_{\s, \s'} = \left[\left(\pder{\HAT{\mu}}{\xbeta} \right )^2
 \frac{\delta(\s, \s')}
-{\av{y_\s, y_\s} } \right]_{\beta=\hat{\beta}}
+{\av{y_\s, y_\s} } \right]_{\beta=\HAT{\beta}}
 \eeq
 $\cali$ is called the {\bf information matrix}.
 
@@ -468,15 +468,15 @@ $\cali$ is called the {\bf information matrix}.
 &=
 \av{
 \frac{[y_\s - b'(\xbeta)]}{\av{y_\s, y_\s}}
- \pder{\hat{\mu}_\s}{\xbeta}
+ \pder{\HAT{\mu}_\s}{\xbeta}
 X_{\s, \s'}
 \frac{[y_\s - b'(\xbeta)]}{\av{y_\s, y_\s}}
- \pder{\hat{\mu}_\s}{\xbeta}
+ \pder{\HAT{\mu}_\s}{\xbeta}
 X_{\s, \s''}
 }
 \\
 &=
- \left[\pder{\hat{\mu}_\s}{\xbeta}\right]^2
+ \left[\pder{\HAT{\mu}_\s}{\xbeta}\right]^2
 \frac{X_{\s, \s'} X_{\s, \s''}}{\av{y_\s, y_\s}}
 \end{align}
 
@@ -503,7 +503,7 @@ Summing both sides of the last equation over $\s$, we find
 \eeq
 According to  Section [\nameref{sec-ent-like-connect}], we have
 \beq
-\av{\hat{\beta}, \hat{\beta}^T}\rarrow (X^T W X)^{-1}
+\av{\HAT{\beta}, \HAT{\beta}^T}\rarrow (X^T W X)^{-1}
 \eeq
 
 \qed

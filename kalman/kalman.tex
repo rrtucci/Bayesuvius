@@ -189,9 +189,9 @@ u_{t-1}
 \ar[d]_{-H_t}
 &\hatx_t\ar[d]^{-H_t}
 \\
-\tilde{y}_{t-1}
-&\tilde{y}_{t|t-1}\ar[ru]|{K_t}
-&\tilde{y}_t
+\TIL{y}_{t-1}
+&\TIL{y}_{t|t-1}\ar[ru]|{K_t}
+&\TIL{y}_t
 \\
 z_{t-1}
 &
@@ -269,7 +269,7 @@ a posteriori state estimate
 
 
 \beq
-\tilde{y}_{t|t-1}=
+\TIL{y}_{t|t-1}=
 z_t - 
 H_t\hatx_{t| t-1}
 \eeq
@@ -280,7 +280,7 @@ H_t\hatx_{t| t-1}
 \beqa
 \hatx_{t} &=&
  \hatx_{t| t-1} +
- K_t\tilde{y}_{t|t-1}
+ K_t\TIL{y}_{t|t-1}
 \\
 &=&
 (1-K_tH_t)\hatx_{t| t-1} +
@@ -290,7 +290,7 @@ H_t\hatx_{t| t-1}
 \eeqa
 
 \beq
-\tilde{y}_{t}=
+\TIL{y}_{t}=
 z_t - 
 H_t\hatx_{t}
 \eeq
@@ -380,7 +380,7 @@ x_t-\hatx_t&=&
 \eeqa
 
 \beqa
-\tilde{y}_{t|t-1}&=&
+\TIL{y}_{t|t-1}&=&
 \underbrace{z_t}_{H_t x_t + \zeta_t} - 
 H_t\hatx_{t| t-1}
 \\
@@ -391,7 +391,7 @@ H_t
 
 
 \beqa
-\tilde{y}_{t} &=&
+\TIL{y}_{t} &=&
 \underbrace{z_t}_{H_t x_t + \zeta_t} - H_t
 \hatx_{t}
 \\
@@ -403,7 +403,7 @@ H_t(1-K_tH_t)\xi_t
 +(1-H_tK_t)\zeta_t
 \eeqa
 $(x_t-\hatx_{t|t-1})$, $(x_t-\hatx_t)$,
-$\tilde{y}_{t|t-1}$ and $\tilde{y}_t$
+$\TIL{y}_{t|t-1}$ and $\TIL{y}_t$
 are called {\bf residuals}.
 Since $\xi_t$ and $\zeta_t$
 have zero mean
@@ -417,8 +417,8 @@ E[\rvx_t -\ul{\hatx}_{t|t-1}]=0
 \eeq
 
 \beq
-E[\tilde{\rvy}_t]
-=E[\tilde{\rvy}_{t|t-1}]
+E[\TIL{\rvy}_t]
+=E[\TIL{\rvy}_{t|t-1}]
 =0
 \eeq
 These zero mean value identities
@@ -458,33 +458,33 @@ P_{t|t-1}=Cov(\rvx_t-
 \eeq
 
 \beq
-S_t=Cov(\tilde{\rvy}_{t|t-1})
+S_t=Cov(\TIL{\rvy}_{t|t-1})
 \eeq
 It follows that
 
 
 \begin{align}
 P_t &=
-\av{\rvx_t-\hat{\rvx}_t,tp.}
+\av{\rvx_t-\HAT{\rvx}_t,tp.}
 \\
 &=
-\av{(1-K_tH_t)(\rvx_t-\hat{\rvx}_{t|t-1})
+\av{(1-K_tH_t)(\rvx_t-\HAT{\rvx}_{t|t-1})
 -K_t\rvzeta_t
 ,tp.}\quad\text{(by Eq.(\ref{eq-kalm-delta-xt}))}
 \\
 &= 
 \av{(1-K_tH_t)(\rvx_t-
-\hat{\rvx}_{t|t-1}), tp.}
+\HAT{\rvx}_{t|t-1}), tp.}
 +
 \av{K_t\rvzeta_t,tp.}
 \;\text{($\rvzeta_t$ 
 uncorrelated with $(\rvx_t-
-\hat{\rvx}_{t|t-1})$)}
+\HAT{\rvx}_{t|t-1})$)}
 \\
 &=
 (1-K_tH_t)
 \underbrace{\av{\rvx_t-
-\hat{\rvx}_{t|t-1},tp.}}_{
+\HAT{\rvx}_{t|t-1},tp.}}_{
 P_{t|t-1}
 }
 (1-K_tH_t)^T
@@ -513,11 +513,11 @@ following mean squared error.
 
 \beqa
 \cale &=& \sum_i E[
-(\rvx_t-\hat{\rvx}_t)_i^2]
+(\rvx_t-\HAT{\rvx}_t)_i^2]
 \\
 &=&
-\tr E\left[(\rvx_t-\hat{\rvx}_t)
-(\rvx_t-\hat{\rvx}_t)^T\right]
+\tr E\left[(\rvx_t-\HAT{\rvx}_t)
+(\rvx_t-\HAT{\rvx}_t)^T\right]
 \\
 &=&
 \tr P_t
