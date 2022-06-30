@@ -349,10 +349,251 @@ where
 
 \end{enumerate}
 
+
 \subsection{PIE}
+\beqa
+\caly_{|x, c}
+&=&
+\sum_y y P(\rvy(x)=y\cond x, c)
+\\
+&=& \sum_y y P(\rvy=y\cond x, c)
+\eeqa
+
+\beqa
+\TIL{\caly}_{|x, c}
+&=&
+\sum_\tilx\sum_y y P(\rvy(\tilx)=y\cond \tilx, c)
+P(\tilx|x,c)
+\\
+&=&
+\sum_\tilx\sum_y y P(\rvy=y\cond \tilx, c)
+P(\tilx|x,c)
+\eeqa
+
+\beq
+\caly_{|c} = \sum_{x} \caly_{|x, c}P(x|c)
+,\quad \caly =\sum_c P(c)\caly_{|c}
+\eeq
+
+\beq
+\TIL{\caly}_{|c} = \sum_{x} \TIL{\caly}_{|x, c}P(x|c)
+,\quad \TIL{\caly} =\sum_c P(c)\TIL{\caly}_{|c}
+\eeq
+
+
+
+
+
+PIE Estimand
+
+\beq
+\Delta_{|c} = \caly_{|c} -\TIL{\caly}_{|c},\quad \Delta = \sum_c P(c)\Delta_{|c}
+\eeq
+
+\begin{claim}
+Consider the deterministic MTP case $P(\tilx|x,c)=
+\delta(\tilx , \tilx_c(x))$,
+where the function $\tilx=\tilx_c(x)$ is
+invertible with inverse $x=x_c(\tilx)$
+for all $x\in \XX\subset \RR$.
+Then, for all $x\in \XX$,
+
+\beq
+\TIL{\caly}_{|x, c}=
+\caly_{|x_c(\tilx), c}
+\eeq
+\end{claim}
+\proof
+
+
+\beqa
+\TIL{\caly}_{|x, c} &=&
+\sum_\tilx\sum_y y P(\rvy=y\cond \ul{\tilx}=\tilx, c)
+\delta(\tilx, \tilx_c(x))
+\\
+&=&
+\sum_y y P(\rvy=y\cond \ul{\tilx}=\tilx_c(x), c)
+\\
+&=&
+\sum_y y P(\rvy=y\cond \rvx=x_c(\tilx), c)
+\\
+&=&
+\caly_{|x_c(\tilx), c}
+\eeqa
+\qed
+
+
+
+Henceforth, assume the
+deterministic MTP case
+$P(\tilx|x,c)=\delta(\tilx, \tilx_c(x))$.
+We will also
+assume that
+the domain of $\tilx_c(x)$
+is a union of disjoint set $\XX^j_c$
+for $j=1,2, \dots, nj(c)$,
+and that on each set $\XX^j_c$,
+$\tilx_c(x)$ is invertible and differentiable.
+
+\beq
+\XX_c = \cup_{j=1}^{nj(c)}\XX_{c}^j
+\eeq
+
+\beq
+\tilx_c(x) =\sum_{j=1}^{nj(c)}  \indi(x\in \XX_c^j)\tilx_c^j(x)
+\eeq
+
+
+\beq
+P(\tilx|x, c)=\delta(\tilx, \tilx_c(x))=
+\sum_j \indi(x\in \XX_c^j)
+\delta(\tilx, \tilx^j_c(x))
+\eeq
+
+\beq
+(\tilx^j_c)^{-1}(\tilx)= x^j(\tilx)
+\eeq
+
+\beq
+\TIL{\XX}_c^j= \tilx^j_c(\XX^j_c)=\{\tilx^j_c(x): x\in \XX^j_c\}
+\eeq
+
+\beq
+P_\XX = P(\rvx\in \XX)
+\eeq
+
+\begin{claim}
+
+\beq
+\TIL{\caly}_{|c}=
+\frac{1}{P_\XX}
+E_{\rvy, \ul{\tilx}|c}[
+\lam_c(\tilx)\caly_{|x_c(\tilx),c}]
+\;,
+\eeq
+
+\beqa
+\caly_{|c}&=&
+\frac{1}{P_\XX}
+E_{\rvy, \ul{\tilx}|c}[
+\lam_c(\tilx)y]
+\eeqa
+and
+
+\beq
+P_\XX =
+E_{\rvy, \ul{\tilx}|c}[
+\lam_c(\tilx)]
+\eeq
+where
+
+\beq
+\lam_c(\tilx)=\frac{1}{P_\XX}
+\sum_j \indi(\tilx\in \TIL{\XX}^j_c)
+\der{x^j_c(\tilx)}{\tilx}\frac{P(\rvx=x^j_c(\tilx)|c)}{P(\tilx|c)}
+\eeq
+\end{claim}
+\proof
+
+\begin{align}
+\TIL{\caly}_{|c}
+&=
+\frac{1}{P_\XX}
+\int_{x\in \XX_c}dx\;P(x|c)
+\sum_y y P(y|\ul{\tilx}=\tilx_c(x), c)
+\\
+&=
+\frac{1}{P_\XX}
+\sum_j \int_{x\in\XX^j_c} dx\;P(x|c)
+\sum_y y P(y|\ul{\tilx}=\tilx_c^j(x),c)
+\\
+&=
+\frac{1}{P_\XX}
+\sum_j
+\int_{\tilx\in \TIL{\XX}^j_c}
+ d\tilx\; P(\tilx|c)
+\der{x^j_c(\tilx)}{\tilx}
+\frac{P(\rvx=x^j_c(\tilx)|c)}{P(\tilx|c)}
+\underbrace{\sum_y y P(y|\rvx=x_c^j(\tilx),c)}_{\caly_{|x_c^j(\tilx),c}}
+\\
+&=
+\int_{\tilx\in \TIL{\XX}_c}
+ d\tilx\; P(\tilx|c)
+\lam_c(\tilx)
+\caly_{|x_c(\tilx),c}
+\end{align}
+
+\beqa
+\caly_{|c}&=&
+\frac{1}{P_\XX}
+\int_{\tilx\in \TIL{\XX}_c}
+ d\tilx\; P(\tilx|c)
+\lam_c(\tilx)
+\caly_{|\tilx,c}
+\\
+&=&
+\frac{1}{P_\XX}
+\int_{\tilx\in \TIL{\XX}_c}
+ d\tilx\; P(\tilx|c)
+\lam_c(\tilx)
+\sum_y y P(y|\rvx=\tilx,c)
+\eeqa
+\qed
+
+\beq
+\Delta_{|c} = \frac{E_{\rvy, \ul{\tilx}|c}\left[
+\lam_c(\tilx)
+(y-\caly_{|x_c(\tilx),c})\right]}
+{E_{\ul{\tilx}|c}[
+\lam_c(\tilx)]}
+\eeq
 
 
 \subsection{PIE Estimators}
+
+\beq
+N_c =\sum_\s \delta(c_\s, c)
+\eeq
+
+\beq
+P(\s|c)= \frac{\delta(c_\s, c)}{N_c}
+\eeq
+
+\beq
+E_{\s|c}[\xi_\s] =\sum_\s P(\s|c) \xi_\s
+\eeq
+
+
+\beq
+\HAT{\Delta}_{|c} = \frac{E_{\s|c}\left[
+\lam_{c}(\tilx_\s)
+(y_\s-\caly_{|x_{c}(\tilx_\s),c})\right]}
+{E_{\s|c}[
+\lam_c(\tilx_\s)]}
+\eeq
+
+
+
+\beq
+g({\caly}_{|x_\s,c_\s}) = \xbeta
+\eeq
+where
+
+\beq
+X^T= [1, x, c],\quad X_\s^T= [1, x_\s, c_\s]
+\eeq
+
+\beq
+\HAT{\caly}(X^T\HAT{\beta}) = g^{-1}(X^T\HAT{\beta})
+\eeq
+
+\beq
+\HAT{\Delta}_{OR}=E_\s[
+\lam_c(x_\s) (y_\s - \HAT{\caly}(X^T\HAT{\beta}))]
+\eeq
+
+
+
 \section{Multi-time MTP}
 
 Multi-time (a.k.a. longitudinal) MTP (LMTP)
@@ -603,118 +844,3 @@ not draw or consider parents that are 2 or more
 time steps in the past,
 because I will assume the effect of those parents is
 negligible to first approximation.
-
-
-
-\beqa
-\caly_{|x, c}
-&=&
-\sum_y y P(\rvy(x)=y\cond x, c)
-\\
-&=& \sum_y y P(\rvy=y\cond x, c)
-\eeqa
-
-\beq
-\TIL{\caly}_{|x, c} =
-\sum_\tilx\sum_y y P(\rvy(\tilx)=y\cond x, c)
-P(\tilx|x,c)
-\eeq
-
-If $P(\tilx|x,c)=\delta(\tilx, \tilx_c(x))$,
-then
-\beqa
-\TIL{\caly}_{|x, c} &=&
-\sum_\tilx\sum_y y P(\rvy(\tilx)=y\cond \rvx=x, c)
-\delta(\tilx, \tilx_c(x))
-\\
-&=&
-\sum_\tilx\sum_y y P(\rvy(\tilx_c(x))=y\cond \ul{\tilx}=\tilx_c(x), c)
-\delta(\tilx, \tilx_c(x))
-\\
-&=&
-\sum_\tilx\sum_y y P(\rvy=y\cond \ul{\tilx}=\tilx_c(x), c)
-\delta(\tilx, \tilx_c(x))
-\\
-&=&
-\sum_y y P(\rvy=y\cond \ul{\tilx}=\tilx_c(x), c)
-\eeqa
-
-\beq
-\caly = \sum_{x,c} \caly_{|x, c}P(x|c)P(c)
-\eeq
-
-\beq
-\TIL{\caly} = \sum_{x,c} \TIL{\caly}_{|x, c}P(x|c)P(c)
-\eeq
-
-
-PIE Estimand
-
-\beqa
-PIE&=& \caly- \TIL{\caly}
-\\
-&=&
-\sum_{y,x,c}y
- [P(y|x,c)-P(y|\ul{\tilx}=\tilx_c(x), c)]P(x,c)
-\\
-&=&
-\sum_{y,x,c}yP(y,x,c)\frac{\sum_j \indi(x\in \calx_c^j)}{P(\rvx\in \calx_c)}
-[1-\frac{P(y|\ul{\tilx}=\tilx_c^j(x), c)}{P(y|x,c)}]
-\eeqa
-
-
-
-
-\beq
-P(\s|j) = \frac{\calx_{c_\s}^j}
-{\sum_\s\calx_{c_\s}^j}
-\eeq
-
-\beq
-\av{\xi_\s}_\s= \sum_\s P(\s|j)\xi_\s
-\eeq
-
-
-\beq
-\HAT{\mu}=
-\av{y_\s}_\s
-\eeq
-
-
-\beq
-\calx_c = \cup_{j=1}^{nj(c)}\calx_{c}^j
-\eeq
-
-\beq
-\tilx_c(x) =\sum_{j=1}^{nj(c)}  \indi(x\in \calx_c^j)\tilx_c^j(x)
-\eeq
-
-\beq
-P(\tilx|x, c)=\delta(\tilx, \tilx_c(x))=
-\sum_j \indi(x\in \calx_c^j)
-\delta(\tilx, \tilx^j_c(x))
-\eeq
-
-\beq
-\lam_c(x)=
-\sum_j \indi(x\in \calx_c^j)
-\frac{P(\rvx=\tilx^j_c(x)|c)}{P(\ul{\tilx}=x|c)}(\tilx^j_c)'(x)
-\eeq
-
-\beqa
-\TIL{\caly}
-&=&
-\sum_x \sum_c\caly_{|\tilx_c(x), c}P(x,c)
-\\
-&=&
-E[\caly_{|\ul{\tilx}, \rvc}]
-\eeqa
-
-\beqa
-\caly
-&=&
-\sum_x \sum_c\caly_{|x, c}P(x,c)
-\\
-&=&
-E[\caly_{|\rvx, \rvc}]
-\eeqa
