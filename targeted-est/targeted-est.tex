@@ -445,7 +445,7 @@ and variance $\frac{1}{N}\av{\lam^2}_{P_\rvX}$.
 
 
 
-\section{ATE}
+\section{ATE estimand}
 
 If we set
 
@@ -513,10 +513,9 @@ for $d\in \bool$:
 \qed
 
 \section{ATE estimates}
-\subsection{$\Psi^{G}$}
+\subsection{$\Psi^{E}$}
 
-{\bf G estimate} $\Psi^G$
-(a.k.a. g-computing or g-formula estimate).
+{\bf Empirical (E) estimate} $\Psi^E$.
 
 \beq
 P_N(y,d,x)= \frac{1}{N}\sum_\s \delta(y, y^\s)
@@ -540,9 +539,29 @@ P_N(y|d,x)= \frac{P_N(y,d,x)}{P_N(d,x)}
 
 
 \beq
-\Psi^{G}=\sum_d \sum_x P_N(y|d,x)P_N(x)y\Delta(d)
+\Psi^{E}=\sum_x P_N(x)
+\sum_y y \sum_d P_N(y|d,x)\Delta(d)
 \eeq
 
+\subsection{$\Psi^{G}$}
+
+{\bf G estimate} $\Psi^G$
+(a.k.a. g-computing or g-formula estimate).
+
+Use Generalized Linear Regression
+to approximate $E_{\rvy|d,x}[\rvy]$:
+\beq
+E_{\rvy|d,x}[\rvy]\approx E_{\rvy|d,x, \HAT{\beta}}[\rvy]
+\;,
+\eeq
+where $\HAT{\beta}$ are the best curve fit parameters.
+
+\beq
+\Psi^{G}=\sum_x P_N(x)\{
+E_{\rvy|d=1,x, \HAT{\beta}}[\rvy]
+-E_{\rvy|d=0,x, \HAT{\beta}}[\rvy]
+\}
+\eeq
 
 \subsection{$\Psi^{IPW}$}
 
