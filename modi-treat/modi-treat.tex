@@ -1,21 +1,11 @@
 \chapter{Modified Treatment Policy (COMING SOON)}
 \label{ch-modi-treat}
 
-This  chapter
-assumes that the
-reader has
-already read
-Chapter \ref{ch-pot-out} on Potential Outcomes (PO) theory.
-
-
-\url{https://sci-hub.se/10.1002/sim.5907}
-
-\url{https://www.khstats.com/blog/lmtp/lmtp/}
-
-\url{https://en.wikipedia.org/wiki/Generalized_linear_model}
-
-
+This chapter is based
+on Refs. \cite{han-rot-2013},
 \cite{hernan-book}
+and \cite{khstats-mtp}.
+
 
 {\bf Modified Treatment Policy (MTP)}
 
@@ -601,7 +591,7 @@ time steps in the past,
 because I will assume the effect of those parents is
 negligible to first approximation.
 
-\section{Estimand}
+\section{$\Delta_{|c}$ estimand}
 \beqa
 \caly_{|x, c}
 &=&
@@ -611,13 +601,19 @@ negligible to first approximation.
 \eeqa
 
 \beqa
-\TIL{\caly}_{|x, c}
+\TIL{\caly}_{|\ul{\tilx}=\tilx, c}
 &=&
-\sum_\tilx\sum_y y P(\rvy(\tilx)=y\cond \tilx, c)
-P(\tilx|x,c)
+\sum_y y P(\rvy(\tilx)=y\cond \tilx, c)
 \\
 &=&
-\sum_\tilx\sum_y y P(\rvy=y\cond \tilx, c)
+\sum_y y P(\rvy=y\cond \tilx, c)
+\eeqa
+
+\beqa
+\TIL{\caly}_{|\rvx=x, c}
+&=&
+\sum_\tilx
+\TIL{\caly}_{|\ul{\tilx}=\tilx, c}
 P(\tilx|x,c)
 \eeqa
 
@@ -627,15 +623,11 @@ P(\tilx|x,c)
 \eeq
 
 \beq
-\TIL{\caly}_{|c} = \sum_{x} \TIL{\caly}_{|x, c}P(x|c)
+\TIL{\caly}_{|c} = \sum_{x} \TIL{\caly}_{|\rvx=x, c}P(x|c)
 ,\quad \TIL{\caly} =\sum_c P(c)\TIL{\caly}_{|c}
 \eeq
 
-
-
-
-
-PIE Estimand
+$\Delta_{|c}$ Estimand
 
 \beq
 \Delta_{|c} = \caly_{|c} -\TIL{\caly}_{|c},\quad \Delta = \sum_c P(c)\Delta_{|c}
@@ -650,7 +642,7 @@ for all $x\in \XX\subset \RR$.
 Then, for all $x\in \XX$,
 
 \beq
-\TIL{\caly}_{|x, c}=
+\TIL{\caly}_{|\rvx=x, c}=
 \caly_{|x_c(\tilx), c}
 \eeq
 \end{claim}
@@ -658,7 +650,7 @@ Then, for all $x\in \XX$,
 
 
 \beqa
-\TIL{\caly}_{|x, c} &=&
+\TIL{\caly}_{|\rvx=x, c} &=&
 \sum_\tilx\sum_y y P(\rvy=y\cond \ul{\tilx}=\tilx, c)
 \delta(\tilx, \tilx_c(x))
 \\
@@ -743,12 +735,20 @@ E_{\rvy, \ul{\tilx}|c}[
 \lam_c(\tilx)]
 \label{eq-prob-xx}
 \eeq
-where
+where\footnote{$\lam_c(\tilx)$
+is just a piecewise Jacobian.
+In Ref.\cite{han-rot-2013},
+the part of Eq.(\ref{eq-lam-c-tilx})
+which is marked as being equal to 1
+is incorrectly assumed to be different from 1.
+}
 
 \beq
 \lam_c(\tilx)=
 \sum_j \indi(\tilx\in \TIL{\XX}^j_c)
-\der{x^j_c(\tilx)}{\tilx}\frac{P(\rvx=x^j_c(\tilx)|c)}{P(\tilx|c)}
+\der{x^j_c(\tilx)}{\tilx}
+\underbrace{\frac{P(\rvx=x^j_c(\tilx)|c)}{P(\ul{\tilx}=\tilx|c)}
+}_{=1}
 \label{eq-lam-c-tilx}
 \eeq
 \end{claim}
@@ -827,7 +827,7 @@ in Eq.(\ref{eq-til-caly-c}).
 \eeq
 
 
-\section{Estimators}
+\section{Estimates of $\Delta_{|c}$}
 
 \beq
 N_c =\sum_\s \delta(c_\s, c)
@@ -850,15 +850,17 @@ E_{\s|c}[\xi_\s] =\sum_\s P(\s|c) \xi_\s
 \lam_c(\tilx_\s)]}
 \eeq
 
-\subsection{OR estimator}
+\subsection{OR estimate of $\Delta_{|c}$}
 
-{\bf Outcome Regression (OR)} estimator
+{\bf Outcome Regression (OR)} estimate
+of $\Delta_{|c}$.
 
-Calculates the
-following estimators in this order:
+Calculate the
+following estimates in this order:
 $\HAT{\tau}
 \rarrow\HAT{\Delta}_{|c}$.
 
+Steps:
 \begin{enumerate}
 \item Calculate $\HAT{\tau}$
 
@@ -1031,21 +1033,25 @@ E_{\s|c}[
 (IF_\s)^2]
 \eeq
 \qed
-\subsection{IPW estimator}
+\subsection{IPW estimate of $\Delta_{|c}$}
 {\bf Inverse Propensity Weighted (IPW)}
-estimator.
-Calculates the
-following estimators in this order:
+estimate.
+Calculate the
+following estimates in this order:
 $\HAT{\tau}
 \rarrow\HAT{\theta}
 \rarrow\HAT{\Delta}_{|c}$
 
-\subsection{DR estimator}
 
-{\bf Doubly Robust (DR)} estimator.
-Calculates the
-following estimators in this order:
+\subsection{DR estimate
+of $\Delta_{|c}$}
+
+{\bf Doubly Robust (DR)} estimate.
+Calculate the
+following estimates in this order:
 $\HAT{\tau}
 \rarrow\HAT{\theta}
 \rarrow\HAT{\gamma}
 \rarrow\HAT{\Delta}_{|c}$
+
+
