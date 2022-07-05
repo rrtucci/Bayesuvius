@@ -1,26 +1,46 @@
-\chapter{Modified Treatment Policy (COMING SOON)}
+\chapter{Modified Treatment Policy}
 \label{ch-modi-treat}
 
 This chapter is based
-on Refs. \cite{han-rot-2013},
+primarily on Ref. \cite{han-rot-2013}.
+Refs.
 \cite{hernan-book}
-and \cite{khstats-mtp}.
+and \cite{khstats-mtp}
+were also very helpful.
 
 
-{\bf Modified Treatment Policy (MTP)}
+A {\bf Modified Treatment Policy (MTP)}
+is a generalization
+of the Potential
+Outcomes (PO)\footnote{PO theory
+is discussed in Chapter
+ \ref{ch-pot-out}.} model
+so as to
+modify the original treatment.
+This is accomplished
+by adding a modified treatment
+dose node $\ul{\tilx}$
+acting as a mediator
+between the treatment dose node 
+$\rvx$ and the treatment effect node $\rvy$ (i.e., by considering
+$\rvx\rarrow\ul{\tilx}\rarrow \rvy$).
 
 \section{One time MTP}
 Consider a typical PO bnet $G$
-and its corresponding imagined bnet $G_{im2}$ (see Fig.\ref{fig-modi-po}).
+and its corresponding imagined bnet $G_{im2}$ (see Fig.\ref{fig-modi-po})\footnote{ Ref.\cite{han-rot-2013} uses the
+notation $L = \rvc$,
+$A = \rvx$, $Y=\rvy$,
+$Y_q=\rvy(\tilx)$,
+ $Q=\ul{\tilx}$. Furthermore, it does not 
+display a DAG.
+}.
 A MTP adds a Bayesian prior to the
  node $\ul{\tilx}$ in $G_{im2}$.
-The prior depends on the {\bf treatment
-variable} (a.k.a. {\bf exposure variable}) $\rvx$ and its parents $pa(\rvx)=\rvc$.
-This adds arrows $\rvc\rarrow\ul{\tilx}$
+The prior depends on the treatment
+dose variable (a.k.a. exposure variable) $\rvx$ and its parents $pa(\rvx)=\rvc$.
+This adds 
+to $G_{im2}$  new arrows $\rvc\rarrow\ul{\tilx}$
 and $\rvx\rarrow \ul{\tilx}$ (see Fig.\ref{fig-unmodi-modi}).
-An ATE is calculated by removing all arrows entering $\ul{\tilx}$
-so as to mimic a RCT. Hence, a MTP cannot be used to calculate
-an ATE or mimic an RCT.
 
 
 \begin{figure}[h!]
@@ -71,8 +91,17 @@ In the usual PO theory,
 one only considers the bnet $G_{im1}$.
 In MTP theory, we
 consider the bnet $G_{im2}$.
-For $G_{im2}$, $\tilx\in S_{\ul{\tilx}}=S_\rvx=\bool$.
-}
+For $G_{im2}$, $\tilx\in S_{\ul{\tilx}}= 
+S_\rvx=\bool$.} (
+As usual in this book, $S_\rva$
+denotes the set of
+values that a random variable
+$\rva$ can assume.
+Imagine operators such as
+$\cali_{\rvx\rarrow \rvy}$
+and $\cali_{\rvx\rarrow \rvy}(\tilx)$ 
+are discussed in Chapter \ref{ch-counterf}.
+)
 \label{fig-modi-po}
 \end{figure}
 
@@ -122,7 +151,7 @@ Note that $S_{\ul{\tilx}}\subset S_\rvx$. }
 The TPM, printed in  blue, for node $\ul{\tilx}$
 of the imagined bnet $G_{im2}$ in Fig.\ref{fig-unmodi-modi}, is as follows
 \beq\color{blue}
-P(\ul{\tilx}=\tilx) =\delta(\tilx, x)
+P(\ul{\tilx}=\tilx; x) =\delta(\tilx, x)
 \eeq
 
 The TPM, printed in  blue, for node $\ul{\tilx}$
@@ -136,7 +165,9 @@ Hence, node $\ul{\tilx}$
 has a non-informative (frequentist) prior in $G_{im2}$,
 and it has an informative (Bayesian) prior in $G_{im2,mod}$.
 
-Assumptions about $G_{im2, mod}$
+The following
+assumptions will
+be made about $G_{im2, mod}$:
 
 \begin{enumerate}
 
@@ -149,10 +180,28 @@ of the modified imagined bnet $G_{im2,mod}$ in Fig.\ref{fig-unmodi-modi},
 
 \beq \color{blue}
 P(y\cond \tilx, \{y(\tilx')\}_{\tilx'\in S_{\ul{\tilx}}})=
-\delta(y , \sum_{\tilx'\in S_{\ul{\tilx}}}
- y(\tilx')\indi(\tilx'=\tilx))
+\indi(
+\quad y =\sum_{\tilx'\in S_{\ul{\tilx}}}
+ y(\tilx')\indi(\tilx'=\tilx)
+ \quad)
+\eeq
+When $S_{\ul{\tilx}}=\bool$,
+this becomes the more familiar 
+statement from standard 
+PO theory:
+
+\beq \color{blue}
+P(y\cond \tilx, \{y(0), y(1)\})=
+\indi(\quad y =
+y(0)(1-\tilx)
++ 
+y(1)\tilx
+\quad)
 \eeq
 
+An immediate consequence
+of this deterministic TPM for
+node $\rvy$ is that
 \beqa
 P(\rvy=y|\tilx, pa'(\rvy)=\xi)&=&
 P(\rvy(\tilx)=y|\tilx, pa'(\rvy)=\xi)
@@ -168,6 +217,18 @@ P(\rvy(\tilx')=y|\tilx, pa'(\rvy)=\xi)
 P(\rvy(\tilx')=y|pa'(\rvy)=\xi)
 \eeqa
 
+CIA follows from the structure
+of the DAG $G_{im2,mod}$,
+because in that
+DAG, fixing the value
+of $pa'(\rvy)$
+blocks messages from $\ul{\tilx}$
+to $\rvy(\tilx)$ (i.e.,
+for all $\tilx\in S_{\ul{\tilx}}$,
+we have  
+$\ul{\tilx}
+\perp \rvy(\tilx)|pa'(\rvy)$.)
+
 \item {\bf Identifiability}
 
 We must have
@@ -179,7 +240,11 @@ or else queries of the type
  $P(\rvy(\tilx)=y|pa'(\rvy)=\xi)$ are not identifiable.
 This is clear because if $\tilx\not\in S_\rvx$,
 then we have no information of the type
-$P(\rvy=y|\tilx, pah(\rvy)=c)=P(\rvy(\tilx)=y|pa'(\rvy)=\xi)$.
+
+\beq
+P(\rvy=y|\tilx, pa'(\rvy)=\xi)=P(\rvy(\tilx)=y|pa'(\rvy)=\xi
+)\;.
+\eeq
 
 \item{\bf Positivity}
 
@@ -204,17 +269,12 @@ If $g_{\tilx|c}$
 is deterministic, then this requirement
 is not satisfied, and we cannot do IPW (i.e.,
 inverse propensity weighing).
-If $g_{\tilx|c}$
-is defined to equal $g_{f(\tilx)|c}$ for some
-function $f:S_{\ul{\tilx}}\rarrow S_\rvx$
-and $S_{\ul{\tilx}}\subset S_\rvx$, then
-positivity is assured.
 
 Note that using a MDP can allow IPW to
 be performed  in cases
 when the propensity $g_{x|c}$
 is not defined for all $x\in S_\rvx$, but is defined
-for all $x\in S_{\ul{\tilx}}$, where
+for all $\tilx\in S_{\ul{\tilx}}$, where
 $S_{\ul{\tilx}}$
 is some proper subset of $S_\rvx$.
 
@@ -223,8 +283,9 @@ is some proper subset of $S_\rvx$.
 The probability
 distribution
 $P(\tilx|x, c)$ (i.e., the  $\ul{\tilx}$ prior for $G_{im2,mod}$)
-is called the {\bf modified treatment plan (MTP)}.
-A MTP can be deterministic or probabilistic.
+is called the MTP.
+An MTP can be either
+deterministic or probabilistic.
 An MTP that depends (resp., does not depend)
  on $x$ is said to
 be dynamic (resp., static), because $\tilx$ depends (resp., does not
@@ -244,13 +305,26 @@ in blue, for node $\ul{\tilx}$, be as follows:
 P(\ul{\tilx}=\tilx | \rvx=x, c)= \delta(\tilx, \tilx_c(x))
 \eeq
 
-Examples of $\tilx_c(x)$
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4in]
+{modi-treat/det-mtps.png}
+\caption{Two possible  
+maps $\tilx_c:[a,b]\rarrow [a,b]$
+for a deterministic MTP. }
+\label{fig-det-mtps}
+\end{figure}
+
+Examples of $\tilx_c(x)$: 
 \begin{itemize}
 
-\item threshold for in $x$ for small $x$
+\item threshold in
+the value of $x$ for small 
+values of $x$. (See Fig.\ref{fig-det-mtps})
 
 Let $S_\rvx=[a,b]$ where $a<b$.
-For some $\theta, u(c)\in [a,b]$,
+For some $\theta\in\RR$ and $u(c)\in [a,b]$,
+set
 
 \beq
 \tilx_c(x) = \left\{\begin{array}{ll}
@@ -261,11 +335,13 @@ x &\text{ if }x> u(c)
 \right.
 \eeq
 
-\item upshift in $x$ for small $x$
+\item upshift in
+the value of $x$ for small 
+values of $x$. (See Fig.\ref{fig-det-mtps})
 
 Let $S_\rvx=[a,b]$ where $a<b$.
 For some $\Delta x >0$,
-and $u(c)\in[a,b]$,
+and $u(c)\in[a,b]$, set
 
 \beq
 \tilx_c(x) = \left\{\begin{array}{ll}
@@ -340,18 +416,551 @@ where
 \end{enumerate}
 
 
+
+\section{$\Delta_{|c}$ estimand}
+
+Let
+\beqa
+\caly_{|x, c}
+&=&
+\sum_y y P(\rvy(x)=y\cond x, c)
+\\
+&=& \sum_y y P(\rvy=y\cond x, c)
+\eeqa
+
+\beqa
+\TIL{\caly}_{|\ul{\tilx}=\tilx, c}
+&=&
+\sum_y y P(\rvy(\tilx)=y\cond \tilx, c)
+\\
+&=&
+\sum_y y P(\rvy=y\cond \tilx, c)
+\eeqa
+
+\beqa
+\TIL{\caly}_{|\rvx=x, c}
+&=&
+\sum_\tilx
+\TIL{\caly}_{|\ul{\tilx}=\tilx, c}
+P(\tilx|x,c)
+\eeqa
+
+\beq
+\caly_{|c} = \sum_{x} \caly_{|x, c}P(x|c)
+,\quad \caly =\sum_c P(c)\caly_{|c}
+\eeq
+Note that there
+are two $\TIL{\caly}$,
+namely
+ $\TIL{\caly}_{|\rvx=x,c}$
+ and
+ $\TIL{\caly}_{|\ul{\tilx}=\tilx,c}$.
+ 
+\beq
+\TIL{\caly}_{|c} = \sum_{x} \TIL{\caly}_{|\rvx=x, c}P(x|c)
+,\quad \TIL{\caly} =\sum_c P(c)\TIL{\caly}_{|c}
+\eeq
+
+Define the $\Delta_{|c}$ estimand by:
+
+\beq
+\Delta_{|c} = \caly_{|c} -\TIL{\caly}_{|c},\quad \Delta = \sum_c P(c)\Delta_{|c}
+\eeq
+$\Delta_{|c}$  measures the 
+difference between the real world $\caly_{|c}$
+and the modified world $\caly _{|c}$.
+
+\begin{claim}
+Consider the deterministic MTP case $P(\tilx|x,c)=
+\delta(\tilx , \tilx_c(x))$,
+where the function $\tilx=\tilx_c(x)$ is
+invertible with inverse $x=x_c(\tilx)$
+for all $x\in \XX\subset \RR$.
+Then, for all $x\in \XX$,
+
+\beq
+\TIL{\caly}_{|\rvx=x, c}=
+\caly_{|x_c(\tilx), c}
+\eeq
+\end{claim}
+\proof
+
+
+\beqa
+\TIL{\caly}_{|\rvx=x, c} &=&
+\sum_\tilx\sum_y y P(\rvy=y\cond \ul{\tilx}=\tilx, c)
+\delta(\tilx, \tilx_c(x))
+\\
+&=&
+\sum_y y P(\rvy=y\cond \ul{\tilx}=\tilx_c(x), c)
+\\
+&=&
+\sum_y y P(\rvy=y\cond \rvx=x_c(\tilx), c)
+\\
+&=&
+\caly_{|x_c(\tilx), c}
+\eeqa
+\qed
+
+
+
+Henceforth
+in this chapter, we will
+restrict  our attention to the
+deterministic MTP case in which
+$P(\tilx|x,c)=\delta(\tilx, \tilx_c(x))$.
+We will also
+assume that
+the domain of $\tilx_c(x)$
+is a union of disjoint sets $\XX^j_c$
+for $j=1,2, \dots, nj(c)$,
+and that on each set $\XX^j_c$,
+$\tilx_c(x)$ is invertible and differentiable.
+
+\beq
+\left\{
+\begin{array}{l}
+\XX= S_\rvx
+\\
+\XX_{c}^j \cap \XX_{c}^{j'}=
+\emptyset \text{ for } j\neq j'
+\\
+\XX_c = \cup_{j=1}^{nj(c)}
+\XX_{c}^j\subset \XX
+\end{array}
+\right.
+\eeq
+
+\beq
+\tilx_c(x) =\sum_{j=1}^{nj(c)}  \indi(x\in \XX_c^j)\tilx_c^j(x)
+\eeq
+
+
+\beq
+P(\tilx|x, c)=\delta(\tilx, \tilx_c(x))=
+\sum_j \indi(x\in \XX_c^j)
+\delta(\tilx, \tilx^j_c(x))
+\eeq
+
+\beq
+(\tilx^j_c)^{-1}(\tilx)= x^j(\tilx)
+\eeq
+
+\beq
+\TIL{\XX}_c^j= \tilx^j_c(\XX^j_c)=\{\tilx^j_c(x): x\in \XX^j_c\}
+\eeq
+
+\beq
+P_\XX = P(\rvx\in \XX)
+\eeq
+
+\begin{claim}
+
+\beq
+\TIL{\caly}_{|c}=
+\frac{1}{P_\XX}
+E_{\ul{\tilx}|c}[
+\lam_c(\tilx)\caly_{|x_c(\tilx),c}]
+\;,
+\label{eq-til-caly-c}
+\eeq
+
+\beqa
+\caly_{|c}&=&
+\frac{1}{P_\XX}
+E_{\ul{\tilx}|c}[
+\lam_c(\tilx)\caly_{|\tilx, c}]
+\label{eq-caly-c}
+\eeqa
+and
+
+\beq
+P_\XX =
+E_{\ul{\tilx}|c}[
+\lam_c(\tilx)]
+\label{eq-prob-xx}
+\eeq
+where\footnote{$\lam_c(\tilx)$
+is just a piecewise Jacobian.
+In Ref.\cite{han-rot-2013},
+the part of Eq.(\ref{eq-lam-c-tilx})
+which is marked as being equal to 1
+is incorrectly assumed to be different from 1.
+}
+
+\beq
+\lam_c(\tilx)=
+\sum_j \indi(\tilx\in \TIL{\XX}^j_c)
+\der{x^j_c(\tilx)}{\tilx}
+\underbrace{\frac{P(\rvx=x^j_c(\tilx)|c)}{P(\ul{\tilx}=\tilx|c)}
+}_{=1}
+\label{eq-lam-c-tilx}
+\eeq
+\end{claim}
+\proof
+
+\begin{align}
+\TIL{\caly}_{|c}
+&=
+\frac{1}{P_\XX}
+\int_{x\in \XX_c}dx\;P(x|c)
+\sum_y y P(y|\ul{\tilx}=\tilx_c(x), c)
+\\
+&=
+\frac{1}{P_\XX}
+\sum_j \int_{x\in\XX^j_c} dx\;P(x|c)
+\sum_y y P(y|\ul{\tilx}=\tilx_c^j(x),c)
+\\
+&=
+\frac{1}{P_\XX}
+\sum_j
+\int_{\tilx\in \TIL{\XX}^j_c}
+ d\tilx\; P(\tilx|c)
+\der{x^j_c(\tilx)}{\tilx}
+\frac{P(\rvx=x^j_c(\tilx)|c)}{P(\tilx|c)}
+\underbrace{\sum_y y P(y|\rvx=x_c^j(\tilx),c)}_{\caly_{|x_c^j(\tilx),c}}
+\\
+&=
+\frac{1}{P_\XX}\int_{\tilx\in \TIL{\XX}_c}
+ d\tilx\; P(\tilx|c)
+\lam_c(\tilx)
+\caly_{|x_c(\tilx),c}
+\quad\text{(see Eq(\ref{eq-lam-c-tilx}))}
+\\
+&=
+\frac{1}{P_\XX}
+E_{\ul{\tilx}|c}[
+\lam_c(\tilx)\caly_{|x_c(\tilx),c}]
+\end{align}
+
+To get  Eq.(\ref{eq-caly-c}), 
+replace $\caly_{|x_c(\tilx), c}$ by 
+$\caly_{\tilx, c}$
+in Eq.(\ref{eq-til-caly-c}).
+
+To get  Eq.(\ref{eq-prob-xx}), 
+replace $\caly_{|x_c(\tilx), c}$ by 1
+in Eq.(\ref{eq-til-caly-c}).
+\qed
+
+From the last claim, it follows that
+\beq
+\Delta_{|c} = \frac{E_{\rvy, \ul{\tilx}|c}\left[
+\lam_c(\tilx)
+(y-\caly_{|x_c(\tilx),c})\right]}
+{E_{\ul{\tilx}|c}[
+\lam_c(\tilx)]}
+\eeq
+
+
+\section{Estimates of $\Delta_{|c}$}
+
+\subsection{Empirical estimate of $\Delta_{|c}$ }
+Consider a population $\Sigma$
+of individuals $\s\in \Sigma$,
+with $|\Sigma|=N$.
+
+Let
+\beq
+N_c =\sum_\s \delta(c_\s, c)
+\;,
+\eeq
+
+\beq
+P(\s|c)= \frac{\delta(c_\s, c)}{N_c}
+\;,
+\eeq
+and
+
+\beq
+E_{\s|c}[\xi_\s] =\sum_\s P(\s|c) \xi_\s
+\;.
+\eeq
+Then set
+
+\beq
+\HAT{\Delta}_{|c} = \frac{E_{\s|c}\left[
+\lam_{c}(\tilx_\s)
+(y_\s-\caly_{|x_{c}(\tilx_\s),c})\right]}
+{E_{\s|c}[
+\lam_c(\tilx_\s)]}
+\eeq
+
+\subsection{OR estimate of $\Delta_{|c}$}
+
+{\bf Outcome Regression (OR)} estimate
+of $\Delta_{|c}$.
+
+Calculate the
+following estimates in this order:
+$\HAT{\tau}
+\rarrow\HAT{\Delta}_{|c}$.
+
+Steps:
+\begin{enumerate}
+\item Calculate $\HAT{\tau}$
+
+Let
+\beq
+{X}^T= [1, \tilx, c],\quad {X}_\s^T= [1, \tilx_\s, c_\s]
+\;.
+\eeq
+Use Generalized 
+Linear Regression (GLR)
+to approximate $y_\s$:
+
+\beq
+y_\s \approx \HAT{y}(X_\s^T\HAT{\tau})
+\eeq
+
+\beq
+\HAT{y}(X_\s^T\HAT{\tau})= g^{-1}(X_\s^T\HAT{\tau})
+\eeq
+
+\item Calculate $\HAT{\Delta}_{|c}$
+
+\beq
+\HAT{\Delta}_{|c}=\frac{E_{\s|c}[
+\lam_c(\tilx_\s) (y_\s - \HAT{y}(X_\s^T\HAT{\tau}))]}
+{E_{\s|c}[
+\lam_c(\tilx_\s)]}
+\label{eq-or-est}
+\eeq
+
+\end{enumerate}
+
+
+ 	
+
+
+
+
+
+
+\begin{claim} (Asymptotic behavior
+of OR estimate)
+
+As $N\rarrow \infty$,
+
+\beq
+\sqrt{N_c}(\HAT{\Delta}_{|c}-\Delta^*_{|c})
+\rarrow \caln(0, \calv)
+\eeq
+where
+
+\beq
+\calv =
+E_{\s|c}[
+(IF_\s)^2]
+\eeq
+
+\beq
+IF_\s = \frac{ R_\s(\HAT{\tau}, \HAT{\Delta}_{|c}) + B(\HAT{\tau})}{C}
+\eeq
+
+\beq
+R_\s(\tau, \Delta_{|c}) =
+\lam_c(\tilx_\s)(y_\s - \HAT{y}(X_\s^T\tau)
+-\Delta_{|c})
+\eeq
+
+\beq
+C=-E_{\s|c}[
+\lam_c(\tilx_\s)]
+\eeq
+
+\beq
+B(\tau) =
+\sum_i E_{\s|c}\left[
+\lam_c(\tilx_\s)\pder{\HAT{y}(X^T_\s\tau)}{\tau_i}\right]
+\frac{E_{\s|c}[S_{i,\s}(\tau)]}
+{E_{\s|c}\left[\pder{S_{i,\s}(\tau)}{\tau_i}\right]}
+\eeq
+
+\end{claim}
+\proof
+
+Eq.(\ref{eq-or-est}) that defines the OR estimate
+can be rewritten as
+\beq
+0=E_{\s|c}[ \underbrace{
+\lam_c(\tilx_\s)(y_\s - \HAT{y}(X_\s^T\HAT{\tau})
+-\HAT{\Delta}_{|c})}_{R_\s(\HAT{\tau}, \HAT{\Delta}_{|c})}]
+\eeq
+If we Taylor
+expand $R_\s(\HAT{\tau}, \HAT{\Delta}_{|c})$
+to first order in each of its 2
+estimator arguments, we get
+
+
+\beq
+E_{\s|c}[R_\s(\HAT{\tau}, \HAT{\Delta}_{|c}) ]=
+\left\{
+\begin{array}{l}
+\underbrace{E_{\s|c}[R_\s(\tau^*, \Delta^*_{|c})
+]}_{A}
+\\
++\sum_i
+\underbrace{E_{\s|c}\left[\pder{R_\s(\tau^*, \Delta^*_{|c})}{\tau^*_i}
+\right] }_{B_i}
+(\HAT{\tau}_i - \tau^*_i)
+\\
++
+\underbrace{E_{\s|c}\left[\pder{R_\s(\tau^*, \Delta^*_{|c})} {\Delta^*_{|c}}
+ \right] }_{C}
+(\HAT{\Delta}_{|c} - \Delta^*_{|c})
+\end{array}
+\right.
+\eeq
+Solving the last equation for
+$\HAT{\Delta}_{|c} - \Delta^*_{|c}$ 
+yields
+\beq
+\HAT{\Delta}_{|c} - \Delta^*_{|c}=
+\frac{A +
+\overbrace{\sum_i B_i(\HAT{\tau}_i - \tau^*_i)}^{B}}
+{C}
+\eeq
+
+Assuming $y_\s\in \bool$,
+define the Cross Entropy
+and its first derivative
+with respect to $\tau_i$ by
+\beq
+CE_\s=\sum_{y_\s=0,1} y_\s \ln \HAT{y}(X_\s^T\tau)
+\eeq
+
+\beq
+S_{i,\s}(\tau)=
+\pder{CE_\s}{\tau_i}
+\eeq
+In this notation,
+according to the maximum likelihood principle,
+the best choice of parameters $\tau_i$
+must satisfy 
+\beq
+0=E_{\s|c}[S_{i,\s}(\HAT{\tau})]
+\eeq
+If we Taylor
+expand $S_{i,\s}(\HAT{\tau})$
+to first order in its
+estimator argument, we get
+
+\beq
+E_{\s|c}[S_{i,\s}(\HAT{\tau})]= E_{\s|c}[S_{i,\s}(\tau^*)]
++
+E_{\s|c}\left[\pder{S_{i,\s}(\tau^*)}{\tau_i}\right]
+(\HAT{\tau}_i-\tau_i^*)
+\eeq
+Hence,
+
+\beq
+\HAT{\tau}_i-\tau_i^*=
+-\;\frac{E_{\s|c}[S_{i,\s}(\tau^*)]}
+{E_{\s|c}\left[\pder{S_{i,\s}(\tau^*)}{\tau_i}\right]}
+\;.
+\eeq
+Now putting our
+previous results together, we get
+
+\beqa
+A &=&
+E_{\s|c}[R_\s(\tau^*, \Delta^*_{|c})]
+\\
+&=&
+E_{\s|c}[
+\lam_c(\tilx_\s)(y_\s - \HAT{y}(\xtau^*)
+-\Delta^*_{|c})]
+\eeqa
+
+\beq
+B_i= -E_{\s|c}\left[
+\lam_c(\tilx_\s)\pder{\HAT{y}(\xtau^*)}{\tau^*_i}\right]
+\eeq
+
+\beqa
+B(\tau^*) &=& \sum_i B_i (\HAT{\tau}_i-\tau^*_i)
+\\
+&=&
+\sum_i E_{\s|c}\left[
+\lam_c(\tilx_\s)\pder{\HAT{y}(\xtau^*)}{\tau^*_i}\right]
+\frac{E_{\s|c}[S_{i,\s}(\tau^*)]}
+{E_{\s|c}\left[\pder{S_{i,\s}(\tau^*)}{\tau_i}\right]}
+\eeqa
+
+
+\beq
+C=-E_{\s|c}[
+\lam_c(\tilx_\s)]
+\eeq
+
+\beq
+IF_\s = \frac{ R_\s(\HAT{\tau}, \HAT{\Delta}_{|c}) + B(\HAT{\tau})}{C}
+\eeq
+
+\beq
+\calv =
+E_{\s|c}[
+(IF_\s)^2]
+\eeq
+\qed
+\subsection{IPW estimate of $\Delta_{|c}$}
+{\bf Inverse Propensity Weighted (IPW)}
+estimate.
+Calculate the
+following estimates in this order:
+$\HAT{\tau}
+\rarrow\HAT{\theta}
+\rarrow\HAT{\Delta}_{|c}$
+
+
+\subsection{DR estimate
+of $\Delta_{|c}$}
+
+{\bf Doubly Robust (DR)} estimate.
+Calculate the
+following estimates in this order:
+$\HAT{\tau}
+\rarrow\HAT{\theta}
+\rarrow\HAT{\gamma}
+\rarrow\HAT{\Delta}_{|c}$
+
+\section{Other Estimands besides $\Delta_{|c}$}
+
+Suppose $\tilx_0, \tilx_1\in S_{\ul{\tilx}}$.
+Define the
+{\bf Modified ATE (MATE)} by
+
+\beq
+MATE_{|c} = \TIL{\caly}_{|\ul{\tilx}=\tilx_1, c}
+-
+\TIL{\caly}_{|\ul{\tilx}=\tilx_0, c}
+\eeq
+
+\beq
+MATE = \sum_c P(c) MATE_{|c}
+\eeq
+
+
+
 \section{Multi-time MTP}
+A g-formula
+is any formula that
+defines recursively the full
+probability distribution of a bnet.
+In other words, it's a recursive
+definition of a Dynamical Bayesian Network.
 
-Multi-time (a.k.a. longitudinal) MTP (LMTP)
-g-formula for LMTP\footnote{Other formulae
-that
-define recursively the full
-probability distribution of a bnet,
-are also called g-formulae. Chapter
+
+Let's
+define a g-formula\footnote{
+Chapter
 \ref{ch-g-formula} defines
-a different g-formula.}
-
-
+a different g-formula
+that we call a sequential
+backdoor g-formula.}
+for
+Multi-time (a.k.a. longitudinal) MTP (LMTP).
 
 Consider  $t=1,2, \ldots, nt$,
 
@@ -545,7 +1154,7 @@ P(c_t|\tilx_{t-1},  c_{t-1})
 
 
 Note that Ref.\cite{hernan-book} by Hern\'{a}n and Robins  (HR) uses the
-more common notation $L_{t} = \rvc_{t}$,
+notation $L_{t} = \rvc_{t}$,
 $A_{t} = \rvx_{t}$
 for $t=1, 2, \ldots, nt$. Hence, the $nt=2$ bnet
 Eq.(\ref{eq-modi-bnet-nt-3}), written in the HR notation, is
@@ -581,7 +1190,7 @@ A_1\ar[d]\ar[rd]
 \end{array}
 \eeq
 HR doesn't actually display the $\TIL{A}$
-nodes in his DAGs. Furthermore, in HR,
+nodes in its DAGs. Furthermore, in HR,
  nodes $A_t$ and $L_t$
 have parent nodes
 that are time steps $0,1,2,3,\ldots $ in the past.
@@ -590,468 +1199,4 @@ not draw or consider parents that are 2 or more
 time steps in the past,
 because I will assume the effect of those parents is
 negligible to first approximation.
-
-\section{$\Delta_{|c}$ estimand}
-\beqa
-\caly_{|x, c}
-&=&
-\sum_y y P(\rvy(x)=y\cond x, c)
-\\
-&=& \sum_y y P(\rvy=y\cond x, c)
-\eeqa
-
-\beqa
-\TIL{\caly}_{|\ul{\tilx}=\tilx, c}
-&=&
-\sum_y y P(\rvy(\tilx)=y\cond \tilx, c)
-\\
-&=&
-\sum_y y P(\rvy=y\cond \tilx, c)
-\eeqa
-
-\beqa
-\TIL{\caly}_{|\rvx=x, c}
-&=&
-\sum_\tilx
-\TIL{\caly}_{|\ul{\tilx}=\tilx, c}
-P(\tilx|x,c)
-\eeqa
-
-\beq
-\caly_{|c} = \sum_{x} \caly_{|x, c}P(x|c)
-,\quad \caly =\sum_c P(c)\caly_{|c}
-\eeq
-
-\beq
-\TIL{\caly}_{|c} = \sum_{x} \TIL{\caly}_{|\rvx=x, c}P(x|c)
-,\quad \TIL{\caly} =\sum_c P(c)\TIL{\caly}_{|c}
-\eeq
-
-$\Delta_{|c}$ Estimand
-
-\beq
-\Delta_{|c} = \caly_{|c} -\TIL{\caly}_{|c},\quad \Delta = \sum_c P(c)\Delta_{|c}
-\eeq
-
-\begin{claim}
-Consider the deterministic MTP case $P(\tilx|x,c)=
-\delta(\tilx , \tilx_c(x))$,
-where the function $\tilx=\tilx_c(x)$ is
-invertible with inverse $x=x_c(\tilx)$
-for all $x\in \XX\subset \RR$.
-Then, for all $x\in \XX$,
-
-\beq
-\TIL{\caly}_{|\rvx=x, c}=
-\caly_{|x_c(\tilx), c}
-\eeq
-\end{claim}
-\proof
-
-
-\beqa
-\TIL{\caly}_{|\rvx=x, c} &=&
-\sum_\tilx\sum_y y P(\rvy=y\cond \ul{\tilx}=\tilx, c)
-\delta(\tilx, \tilx_c(x))
-\\
-&=&
-\sum_y y P(\rvy=y\cond \ul{\tilx}=\tilx_c(x), c)
-\\
-&=&
-\sum_y y P(\rvy=y\cond \rvx=x_c(\tilx), c)
-\\
-&=&
-\caly_{|x_c(\tilx), c}
-\eeqa
-\qed
-
-
-
-Henceforth, assume the
-deterministic MTP case
-$P(\tilx|x,c)=\delta(\tilx, \tilx_c(x))$.
-We will also
-assume that
-the domain of $\tilx_c(x)$
-is a union of disjoint set $\XX^j_c$
-for $j=1,2, \dots, nj(c)$,
-and that on each set $\XX^j_c$,
-$\tilx_c(x)$ is invertible and differentiable.
-
-\beq
-\XX= S_\rvx
-\eeq
-
-\beq
-\XX_c = \cup_{j=1}^{nj(c)}\XX_{c}^j\subset \XX
-\eeq
-
-\beq
-\tilx_c(x) =\sum_{j=1}^{nj(c)}  \indi(x\in \XX_c^j)\tilx_c^j(x)
-\eeq
-
-
-\beq
-P(\tilx|x, c)=\delta(\tilx, \tilx_c(x))=
-\sum_j \indi(x\in \XX_c^j)
-\delta(\tilx, \tilx^j_c(x))
-\eeq
-
-\beq
-(\tilx^j_c)^{-1}(\tilx)= x^j(\tilx)
-\eeq
-
-\beq
-\TIL{\XX}_c^j= \tilx^j_c(\XX^j_c)=\{\tilx^j_c(x): x\in \XX^j_c\}
-\eeq
-
-\beq
-P_\XX = P(\rvx\in \XX)
-\eeq
-
-\begin{claim}
-
-\beq
-\TIL{\caly}_{|c}=
-\frac{1}{P_\XX}
-E_{\rvy, \ul{\tilx}|c}[
-\lam_c(\tilx)\caly_{|x_c(\tilx),c}]
-\;,
-\label{eq-til-caly-c}
-\eeq
-
-\beqa
-\caly_{|c}&=&
-\frac{1}{P_\XX}
-E_{\rvy, \ul{\tilx}|c}[
-\lam_c(\tilx)y]
-\label{eq-caly-c}
-\eeqa
-and
-
-\beq
-P_\XX =
-E_{\rvy, \ul{\tilx}|c}[
-\lam_c(\tilx)]
-\label{eq-prob-xx}
-\eeq
-where\footnote{$\lam_c(\tilx)$
-is just a piecewise Jacobian.
-In Ref.\cite{han-rot-2013},
-the part of Eq.(\ref{eq-lam-c-tilx})
-which is marked as being equal to 1
-is incorrectly assumed to be different from 1.
-}
-
-\beq
-\lam_c(\tilx)=
-\sum_j \indi(\tilx\in \TIL{\XX}^j_c)
-\der{x^j_c(\tilx)}{\tilx}
-\underbrace{\frac{P(\rvx=x^j_c(\tilx)|c)}{P(\ul{\tilx}=\tilx|c)}
-}_{=1}
-\label{eq-lam-c-tilx}
-\eeq
-\end{claim}
-\proof
-
-\begin{align}
-\TIL{\caly}_{|c}
-&=
-\frac{1}{P_\XX}
-\int_{x\in \XX_c}dx\;P(x|c)
-\sum_y y P(y|\ul{\tilx}=\tilx_c(x), c)
-\\
-&=
-\frac{1}{P_\XX}
-\sum_j \int_{x\in\XX^j_c} dx\;P(x|c)
-\sum_y y P(y|\ul{\tilx}=\tilx_c^j(x),c)
-\\
-&=
-\frac{1}{P_\XX}
-\sum_j
-\int_{\tilx\in \TIL{\XX}^j_c}
- d\tilx\; P(\tilx|c)
-\der{x^j_c(\tilx)}{\tilx}
-\frac{P(\rvx=x^j_c(\tilx)|c)}{P(\tilx|c)}
-\underbrace{\sum_y y P(y|\rvx=x_c^j(\tilx),c)}_{\caly_{|x_c^j(\tilx),c}}
-\\
-&=
-\frac{1}{P_\XX}\int_{\tilx\in \TIL{\XX}_c}
- d\tilx\; P(\tilx|c)
-\lam_c(\tilx)
-\caly_{|x_c(\tilx),c}
-\quad\text{(see Eq(\ref{eq-lam-c-tilx}))}
-\\
-&=
-\frac{1}{P_\XX}
-E_{\rvy, \ul{\tilx}|c}[
-\lam_c(\tilx)\caly_{|x_c(\tilx),c}]
-\end{align}
-
-To get  Eq.(\ref{eq-caly-c}), 
-replace $\caly_{|x_c(\tilx), c}$ by 
-$\caly_{\tilx, c}$
-in Eq.(\ref{eq-til-caly-c}).
-\beqa
-\caly_{|c}&=&
-\frac{1}{P_\XX}
-E_{\rvy, \ul{\tilx}|c}[
-\lam_c(\tilx)y]
-\\
-&=&
-\frac{1}{P_\XX}
-\int_{\tilx\in \TIL{\XX}_c}
- d\tilx\; P(\tilx|c)
-\lam_c(\tilx)
-\caly_{|\tilx,c}
-\\
-&=&
-\frac{1}{P_\XX}
-\int_{\tilx\in \TIL{\XX}_c}
- d\tilx\; P(\tilx|c)
-\lam_c(\tilx)
-\sum_y y P(y|\rvx=\tilx,c)
-\eeqa
-
-To get  Eq.(\ref{eq-prob-xx}), 
-replace $\caly_{|x_c(\tilx), c}$ by 1
-in Eq.(\ref{eq-til-caly-c}).
-\qed
-
-\beq
-\Delta_{|c} = \frac{E_{\rvy, \ul{\tilx}|c}\left[
-\lam_c(\tilx)
-(y-\caly_{|x_c(\tilx),c})\right]}
-{E_{\ul{\tilx}|c}[
-\lam_c(\tilx)]}
-\eeq
-
-
-\section{Estimates of $\Delta_{|c}$}
-
-\beq
-N_c =\sum_\s \delta(c_\s, c)
-\eeq
-
-\beq
-P(\s|c)= \frac{\delta(c_\s, c)}{N_c}
-\eeq
-
-\beq
-E_{\s|c}[\xi_\s] =\sum_\s P(\s|c) \xi_\s
-\eeq
-
-
-\beq
-\Delta_{|c} = \frac{E_{\s|c}\left[
-\lam_{c}(\tilx_\s)
-(y_\s-\caly_{|x_{c}(\tilx_\s),c})\right]}
-{E_{\s|c}[
-\lam_c(\tilx_\s)]}
-\eeq
-
-\subsection{OR estimate of $\Delta_{|c}$}
-
-{\bf Outcome Regression (OR)} estimate
-of $\Delta_{|c}$.
-
-Calculate the
-following estimates in this order:
-$\HAT{\tau}
-\rarrow\HAT{\Delta}_{|c}$.
-
-Steps:
-\begin{enumerate}
-\item Calculate $\HAT{\tau}$
-
-\beq
-{X}^T= [1, \tilx, c],\quad {X}_\s^T= [1, \tilx_\s, c_\s]
-\eeq
-\beq
-y_\s \approx \HAT{y}(X_\s^T\HAT{\tau})
-\eeq
-
-\beq
-\HAT{y}(X_\s^T\HAT{\tau})= g^{-1}(X_\s^T\HAT{\tau})
-\eeq
-
-\item Calculate $\HAT{\Delta}_{|c}$
-
-\beq
-\HAT{\Delta}_{|c}=\frac{E_{\s|c}[
-\lam_c(\tilx_\s) (y_\s - \HAT{y}(X_\s^T\HAT{\tau}))]}
-{E_{\s|c}[
-\lam_c(\tilx_\s)]}
-\eeq
-
-\end{enumerate}
-
-
- 	
-
-
-
-
-
-
-\begin{claim}
-\beq
-\sqrt{N_c}(\HAT{\Delta}_{|c}-\Delta^*_{|c})
-\rarrow \caln(0, \calv)
-\eeq
-
-\beq
-\calv =
-E_{\s|c}[
-(IF_\s)^2]
-\eeq
-
-\beq
-IF_\s = \frac{ R_\s(\HAT{\tau}, \HAT{\Delta}_{|c}) + B(\HAT{\tau})}{C}
-\eeq
-
-\beq
-R_\s(\tau, \Delta_{|c}) =
-\lam_c(\tilx_\s)(y_\s - \HAT{y}(X_\s^T\tau)
--\Delta_{|c})
-\eeq
-
-\beq
-C=-E_{\s|c}[
-\lam_c(\tilx_\s)]
-\eeq
-
-\beq
-B(\tau) =
-\sum_i E_{\s|c}\left[
-\lam_c(\tilx_\s)\pder{\HAT{y}(X^T_\s\tau)}{\tau_i}\right]
-\frac{E_{\s|c}[S_{i,\s}(\tau)]}
-{E_{\s|c}\left[\pder{S_{i,\s}(\tau)}{\tau_i}\right]}
-\eeq
-
-\end{claim}
-\proof
-
-\beq
-0=E_{\s|c}[ \underbrace{
-\lam_c(\tilx_\s)(y_\s - \HAT{y}(X_\s^T\HAT{\tau})
--\HAT{\Delta}_{|c})}_{R_\s(\HAT{\tau}, \HAT{\Delta}_{|c})}]
-\eeq
-
-\beq
-E_{\s|c}[R_\s(\HAT{\tau}, \HAT{\Delta}_{|c}) ]=
-\left\{
-\begin{array}{l}
-\underbrace{E_{\s|c}[R_\s(\tau^*, \Delta^*_{|c})
-]}_{A}
-\\
-+\sum_i
-\underbrace{E_{\s|c}\left[\pder{R_\s(\tau^*, \Delta^*_{|c})}{\tau^*_i}
-\right] }_{B_i}
-(\HAT{\tau}_i - \tau^*_i)
-\\
-+
-\underbrace{E_{\s|c}\left[\pder{R_\s(\tau^*, \Delta^*_{|c})} {\Delta^*_{|c}}
- \right] }_{C}
-(\HAT{\Delta}_{|c} - \Delta^*_{|c})
-\end{array}
-\right.
-\eeq
-
-\beq
-\HAT{\Delta}_{|c} - \Delta^*_{|c}=
-\frac{A +
-\overbrace{\sum_i B_i(\HAT{\tau}_i - \tau^*_i)}^{B}}
-{C}
-\eeq
-
-\beq
-CE_\s=\sum_{y_\s=0,1} y_\s \ln \HAT{y}(X_\s^T\tau)
-\eeq
-
-\beq
-S_{i,\s}(\tau)=
-\pder{CE_\s}{\tau_i}
-\eeq
-
-\beq
-0=E_{\s|c}[S_{i,\s}(\HAT{\tau})]
-\eeq
-
-
-\beq
-E_{\s|c}[S_{i,\s}(\HAT{\tau})]= E_{\s|c}[S_{i,\s}(\tau^*)]
-+
-E_{\s|c}\left[\pder{S_{i,\s}(\tau^*)}{\tau_i}\right]
-(\HAT{\tau}_i-\tau_i^*)
-\eeq
-
-\beq
-\HAT{\tau}_i-\tau_i^*=
--\;\frac{E_{\s|c}[S_{i,\s}(\tau^*)]}
-{E_{\s|c}\left[\pder{S_{i,\s}(\tau^*)}{\tau_i}\right]}
-\eeq
-
-\beqa
-A &=&
-E_{\s|c}[R_\s(\tau^*, \Delta^*_{|c})]
-\\
-&=&
-E_{\s|c}[
-\lam_c(\tilx_\s)(y_\s - \HAT{y}(\xtau^*)
--\Delta^*_{|c})]
-\eeqa
-
-\beq
-B_i= -E_{\s|c}\left[
-\lam_c(\tilx_\s)\pder{\HAT{y}(\xtau^*)}{\tau^*_i}\right]
-\eeq
-
-\beqa
-B(\tau^*) &=& \sum_i B_i (\HAT{\tau}_i-\tau^*_i)
-\\
-&=&
-\sum_i E_{\s|c}\left[
-\lam_c(\tilx_\s)\pder{\HAT{y}(\xtau^*)}{\tau^*_i}\right]
-\frac{E_{\s|c}[S_{i,\s}(\tau^*)]}
-{E_{\s|c}\left[\pder{S_{i,\s}(\tau^*)}{\tau_i}\right]}
-\eeqa
-
-
-\beq
-C=-E_{\s|c}[
-\lam_c(\tilx_\s)]
-\eeq
-
-\beq
-IF_\s = \frac{ R_\s(\HAT{\tau}, \HAT{\Delta}_{|c}) + B(\HAT{\tau})}{C}
-\eeq
-
-\beq
-\calv =
-E_{\s|c}[
-(IF_\s)^2]
-\eeq
-\qed
-\subsection{IPW estimate of $\Delta_{|c}$}
-{\bf Inverse Propensity Weighted (IPW)}
-estimate.
-Calculate the
-following estimates in this order:
-$\HAT{\tau}
-\rarrow\HAT{\theta}
-\rarrow\HAT{\Delta}_{|c}$
-
-
-\subsection{DR estimate
-of $\Delta_{|c}$}
-
-{\bf Doubly Robust (DR)} estimate.
-Calculate the
-following estimates in this order:
-$\HAT{\tau}
-\rarrow\HAT{\theta}
-\rarrow\HAT{\gamma}
-\rarrow\HAT{\Delta}_{|c}$
-
 
