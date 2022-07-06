@@ -263,7 +263,7 @@ Positivity for  $G_{im2,mod}$
 is the requirement that
 
 \beq
-0<g_{\tilx|c}<1 \text{ for all } \tilx \in S_{\ul{\tilx}}
+0<g_{\tilx|c}<1 \text{ for all $\tilx \in S_{\ul{\tilx}}$ and $c\in S_\rvc$}
 \eeq
 If $g_{\tilx|c}$
 is deterministic, then this requirement
@@ -273,7 +273,11 @@ inverse propensity weighing).
 Note that using a MDP can allow IPW to
 be performed  in cases
 when the propensity $g_{x|c}$
-is not defined for all $x\in S_\rvx$, but is defined
+is anomalous
+(i.e., is
+either not defined
+or violates positivity)
+for some $x\in S_\rvx$, but is not anomalous
 for all $\tilx\in S_{\ul{\tilx}}$, where
 $S_{\ul{\tilx}}$
 is some proper subset of $S_\rvx$.
@@ -323,7 +327,7 @@ the value of $x$ for small
 values of $x$. (See Fig.\ref{fig-det-mtps})
 
 Let $S_\rvx=[a,b]$ where $a<b$.
-For some $\theta\in\RR$ and $u(c)\in [a,b]$,
+For some $\theta\in[a, b]$ and $u(c)\in [a,b]$,
 set
 
 \beq
@@ -449,17 +453,19 @@ P(\tilx|x,c)
 \caly_{|c} = \sum_{x} \caly_{|x, c}P(x|c)
 ,\quad \caly =\sum_c P(c)\caly_{|c}
 \eeq
+
+ 
+\beq
+\TIL{\caly}_{|c} = \sum_{x} \TIL{\caly}_{|\rvx=x, c}P(x|c)
+,\quad \TIL{\caly} =\sum_c P(c)\TIL{\caly}_{|c}
+\eeq
+
 Note that there
 are two $\TIL{\caly}$,
 namely
  $\TIL{\caly}_{|\rvx=x,c}$
  and
  $\TIL{\caly}_{|\ul{\tilx}=\tilx,c}$.
- 
-\beq
-\TIL{\caly}_{|c} = \sum_{x} \TIL{\caly}_{|\rvx=x, c}P(x|c)
-,\quad \TIL{\caly} =\sum_c P(c)\TIL{\caly}_{|c}
-\eeq
 
 Define the $\Delta_{|c}$ estimand by:
 
@@ -467,16 +473,18 @@ Define the $\Delta_{|c}$ estimand by:
 \Delta_{|c} = \caly_{|c} -\TIL{\caly}_{|c},\quad \Delta = \sum_c P(c)\Delta_{|c}
 \eeq
 $\Delta_{|c}$  measures the 
-difference between the real world $\caly_{|c}$
-and the modified world $\caly _{|c}$.
+difference between the real world 
+represented by $\caly_{|c}$
+and a modified world
+represented by $\TIL{\caly} _{|c}$.
 
 \begin{claim}
 Consider the deterministic MTP case $P(\tilx|x,c)=
 \delta(\tilx , \tilx_c(x))$,
 where the function $\tilx=\tilx_c(x)$ is
 invertible with inverse $x=x_c(\tilx)$
-for all $x\in \XX\subset \RR$.
-Then, for all $x\in \XX$,
+for some $x\in \XX\subset \RR$.
+Then, 
 
 \beq
 \TIL{\caly}_{|\rvx=x, c}=
@@ -551,14 +559,14 @@ P(\tilx|x, c)=\delta(\tilx, \tilx_c(x))=
 \eeq
 
 \beq
-P_\XX = P(\rvx\in \XX)
+P_{\XX_c} = P(\rvx\in \XX_c)
 \eeq
 
 \begin{claim}
 
 \beq
 \TIL{\caly}_{|c}=
-\frac{1}{P_\XX}
+\frac{1}{P_{\XX_c}}
 E_{\ul{\tilx}|c}[
 \lam_c(\tilx)\caly_{|x_c(\tilx),c}]
 \;,
@@ -567,7 +575,7 @@ E_{\ul{\tilx}|c}[
 
 \beqa
 \caly_{|c}&=&
-\frac{1}{P_\XX}
+\frac{1}{P_{\XX_c}}
 E_{\ul{\tilx}|c}[
 \lam_c(\tilx)\caly_{|\tilx, c}]
 \label{eq-caly-c}
@@ -575,7 +583,7 @@ E_{\ul{\tilx}|c}[
 and
 
 \beq
-P_\XX =
+P_{\XX_c} =
 E_{\ul{\tilx}|c}[
 \lam_c(\tilx)]
 \label{eq-prob-xx}
@@ -602,17 +610,17 @@ is incorrectly assumed to be different from 1.
 \begin{align}
 \TIL{\caly}_{|c}
 &=
-\frac{1}{P_\XX}
+\frac{1}{P_{\XX_c}}
 \int_{x\in \XX_c}dx\;P(x|c)
 \sum_y y P(y|\ul{\tilx}=\tilx_c(x), c)
 \\
 &=
-\frac{1}{P_\XX}
+\frac{1}{P_{\XX_c}}
 \sum_j \int_{x\in\XX^j_c} dx\;P(x|c)
 \sum_y y P(y|\ul{\tilx}=\tilx_c^j(x),c)
 \\
 &=
-\frac{1}{P_\XX}
+\frac{1}{P_{\XX_c}}
 \sum_j
 \int_{\tilx\in \TIL{\XX}^j_c}
  d\tilx\; P(\tilx|c)
@@ -621,14 +629,14 @@ is incorrectly assumed to be different from 1.
 \underbrace{\sum_y y P(y|\rvx=x_c^j(\tilx),c)}_{\caly_{|x_c^j(\tilx),c}}
 \\
 &=
-\frac{1}{P_\XX}\int_{\tilx\in \TIL{\XX}_c}
+\frac{1}{P_{\XX_c}}\int_{\tilx\in \TIL{\XX}_c}
  d\tilx\; P(\tilx|c)
 \lam_c(\tilx)
 \caly_{|x_c(\tilx),c}
 \quad\text{(see Eq(\ref{eq-lam-c-tilx}))}
 \\
 &=
-\frac{1}{P_\XX}
+\frac{1}{P_{\XX_c}}
 E_{\ul{\tilx}|c}[
 \lam_c(\tilx)\caly_{|x_c(\tilx),c}]
 \end{align}
@@ -706,7 +714,8 @@ Let
 \;.
 \eeq
 Use Generalized 
-Linear Regression (GLR)
+Linear Modeling (GLM)\footnote{GLM
+is discussed in Chapter \ref{ch-gen-lin-mod}.}
 to approximate $y_\s$:
 
 \beq
@@ -716,6 +725,7 @@ y_\s \approx \HAT{y}(X_\s^T\HAT{\tau})
 \beq
 \HAT{y}(X_\s^T\HAT{\tau})= g^{-1}(X_\s^T\HAT{\tau})
 \eeq
+where $g()$ is the link function.
 
 \item Calculate $\HAT{\Delta}_{|c}$
 
@@ -776,7 +786,9 @@ B(\tau) =
 \frac{E_{\s|c}[S_{i,\s}(\tau)]}
 {E_{\s|c}\left[\pder{S_{i,\s}(\tau)}{\tau_i}\right]}
 \eeq
-
+(Note that index $i$
+labels the components of 
+the  column vector $\tau$)
 \end{claim}
 \proof
 
@@ -807,7 +819,7 @@ E_{\s|c}[R_\s(\HAT{\tau}, \HAT{\Delta}_{|c}) ]=
 \\
 +
 \underbrace{E_{\s|c}\left[\pder{R_\s(\tau^*, \Delta^*_{|c})} {\Delta^*_{|c}}
- \right] }_{C}
+ \right] }_{-C}
 (\HAT{\Delta}_{|c} - \Delta^*_{|c})
 \end{array}
 \right.
@@ -949,7 +961,9 @@ is any formula that
 defines recursively the full
 probability distribution of a bnet.
 In other words, it's a recursive
-definition of a Dynamical Bayesian Network.
+definition of a Dynamical Bayesian Network.\footnote{Dynamical
+Bayesian Networks
+are discussed in Chapter \ref{ch-dyn-bnet}.}
 
 
 Let's
@@ -1030,11 +1044,11 @@ For $nt=2$,
 P(y,x_{\leq 2},c_{\leq 2})=
 \left\{
 \begin{array}{l}
-P(y|x_2, c_2)
-\\
-*P(x_1|c_1) P(c_1)
+P(x_1|c_1) P(c_1)
 \\
 *P(x_2|x_1, c_{2,1})P(c_2|x_1, c_1)
+\\
+*P(y|x_2, c_2)
 \end{array}
 \right.
 \eeq
@@ -1043,14 +1057,14 @@ P(y|x_2, c_2)
 P(y,\tilx_{\leq 2}, x_{\leq 2},c_{\leq 2})=
 \left\{
 \begin{array}{l}
-P(y|\tilx_2, c_2)
-\\
-*P(x_1|c_1)
+P(x_1|c_1)
 P(\tilx_1|x_1, c_1) P(c_1)
 \\
 *P(x_2|\tilx_1, c_{2,1})
 P(\tilx_2|x_2, c_{2,1})
 P(c_2|\tilx_1, c_1)
+\\
+*P(y|\tilx_2, c_2)
 \end{array}
 \right.
 \eeq
@@ -1094,13 +1108,13 @@ P(y, x_{\leq 3}, c_{\leq 3})
 =
 \left\{
 \begin{array}{l}
-P(y| x_3, c_3)
-\\
-*P(x_1|c_1) P(c_1)
+P(x_1|c_1) P(c_1)
 \\
 *P(x_2|x_1, c_{2,1})P(c_2| x_1, c_1)
 \\
 *P(x_3|x_{2}, c_{3,2}) P(c_3|x_2, c_2)
+\\
+*P(y| x_3, c_3)
 \end{array}
 \right.
 \eeq
@@ -1111,9 +1125,7 @@ P(y,\tilx_{\leq 3}, x_{\leq 3}, c_{\leq 3})
 =
 \left\{
 \begin{array}{l}
-P(y|\tilx_3, c_3)
-\\
-*P(x_1|c_1)
+P(x_1|c_1)
 P(\tilx_1|x_1, c_1)P(c_1)
 \\
 *P(x_2|\tilx_1, c_{2,1})
@@ -1121,6 +1133,8 @@ P(\tilx_2|\tilx_1, x_{2,1}, c_{2,1})  P(c_2|\tilx_1, c_1)
 \\
 *P(x_3|\tilx_{2}, c_{3,2})
 P(\tilx_3|\tilx_{2}, x_{3,2}, c_{3,2}) P(c_3|\tilx_2, c_2)
+\\
+*P(y|\tilx_3, c_3)
 \end{array}
 \right.
 \eeq
@@ -1129,24 +1143,29 @@ In general,
 
 \beq
 P(y,x_{\leq nt}, c_{\leq nt})=
-P(y|x_{nt}, c_{nt})
+\left\{
+\begin{array}{l}
 \prod_{t=1}^{nt}
 \{
 P(x_t|x_{t-1}, c_{t, t-1} )
-P(c_t|\tilx_{t-1}, c_{t-1})
+P(c_t|x_{t-1}, c_{t-1})
 \}
+\\
+*P(y|x_{nt}, c_{nt})
+\end{array}
+\right.
 \eeq
 
 \beq
 P(y,\tilx_{\leq nt},x_{\leq nt}, c_{\leq nt})=
 \left\{
 \begin{array}{l}
-P(y|\tilx_{nt},x_{nt}, c_{nt})
-\\
-*\prod_{t=1}^{nt}
+\prod_{t=1}^{nt}
 P(x_t|\tilx_{t-1}, c_{t, t-1} )
 P(\tilx_t|\tilx_{t-1}, x_{t,t-1}, c_{t, t-1})
 P(c_t|\tilx_{t-1},  c_{t-1})
+\\
+*P(y|\tilx_{nt},x_{nt}, c_{nt})
 \end{array}
 \right.
 \eeq
@@ -1156,7 +1175,7 @@ P(c_t|\tilx_{t-1},  c_{t-1})
 Note that Ref.\cite{hernan-book} by Hern\'{a}n and Robins  (HR) uses the
 notation $L_{t} = \rvc_{t}$,
 $A_{t} = \rvx_{t}$
-for $t=1, 2, \ldots, nt$. Hence, the $nt=2$ bnet
+for $t=1, 2, \ldots, nt$. Hence, the $nt=3$ bnet
 Eq.(\ref{eq-modi-bnet-nt-3}), written in the HR notation, is
 as follows
 (before and after adding the $\TIL{A}$ nodes):
@@ -1195,7 +1214,8 @@ nodes in its DAGs. Furthermore, in HR,
 have parent nodes
 that are time steps $0,1,2,3,\ldots $ in the past.
 I, on the other hand, will
-not draw or consider parents that are 2 or more
+not draw or consider parents that are
+more than one
 time steps in the past,
 because I will assume the effect of those parents is
 negligible to first approximation.
