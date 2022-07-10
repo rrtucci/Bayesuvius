@@ -33,12 +33,12 @@ denote the full probability distribution of the bnet.
  $P_N:S_\rvb \rarrow [0,1]$ for this bnet is defined by
 
 \beq
-P_N(b) = \frac{1}{N}\sum_\s\delta(b, b^\s)
+P_N(b) = \frac{1}{N}\sum_\s\delta(b, b_\s)
 \eeq
 
 \beq
 \sum_b P_N(b)f(b)=
-\frac{1}{N}\sum_\s f(b^\s)
+\frac{1}{N}\sum_\s f(b_\s)
 \eeq
 As $N\rarrow \infty$, $P_N(b)$ tends
 to the probability distribution $P_\rvb(b)$
@@ -261,13 +261,21 @@ $\frac{\delta(x,a)}{\Delta x}\rarrow\delta(x-a)$
 and $\sum_x \Delta x\rarrow \int dx$, we go
 from the discrete to the continuous version
 of the functional derivative.
+
+\beq
+\sum_x \Delta x \frac{\delta(x, a)}{\Delta x}
+\rarrow \int dx\, \delta(x-a)
+\eeq
+
 In this chapter, we will use only the discrete version.
 The $\Delta x$ in the numerator
 and the one in the denominator, always cancel
-each other out
-when we integrate over a Dirac delta function, so we will
-henceforth set
-$\Delta x=1$.
+each other when we go from discrete
+to continuous, so we can
+set
+$\Delta x=1$ with impunity.
+
+
 
 We will also use the notation
 
@@ -348,58 +356,42 @@ $P_{in}$ is given by
 If we set
 
 \beq
-\dpsi_{in} = \av{\dpsi[P_{in}]}_{P_{in}}=\caln(!X)\in\RR
-\eeq
-and
-
-\beq
-\delta\dpsi[P](X)= \dpsi[P](X) - \dpsi_{in}
+\dpsi_{in} = \av{\dpsi[P_{in}]}_{P_{in}}
 \;,
 \eeq
 then Eq.(\ref{eq-1st-order-psi}) becomes
 
 \beqa
 \delta\Psi[P,P_{in}]&=&
-\av{\dpsi[P_{in}]}_P - \dpsi_{in}
-+
-\calr[P, P_{in}]
-\\
-&=&
-\av{\delta\dpsi[P_{in}]}_P
+\sum_X P(X)
+\underbrace{
+\{\dpsi[P_{in}](X) - \dpsi_{in}\}
+}_{\lam(X)}
 +
 \calr[P, P_{in}]
 \eeqa
-
-Define the {\bf efficient influence curve (EIF)} $\lam(X)$ by
-
-\beq
-\lam(X) =\delta\dpsi[P_{in}](X)
-\eeq
+$\lam(X)$  is called the {\bf efficient influence curve (EIF)}.
 
 Recall the Cauchy-Schwartz (CS) inequality for $\vec{a}, \vec{b}\in\RR^n$:
 
 \beq
 \vec{a}\cdot\vec{b} =|\vec{a}||\vec{b}|\cos\theta\leq |\vec{a}||\vec{b}|
 \eeq
-
 Note that
 
 \begin{align}
 \av{\lam}_P
 &=
- \sum_X\delta\dpsi[P_{in}](X)\sqrt{P(X)}\sqrt{P(X)}
+ \sum_X\lam(X)\sqrt{P(X)}\sqrt{P(X)}
 \\
 &=
-(\sqrt{P}\delta\dpsi[P_{in}])\cdot\sqrt{P}
+(\sqrt{P}\lam)\cdot\sqrt{P}
 \\
 &\leq
-\sqrt{\sqrt{P}\delta\dpsi[P_{in}]\cdot\sqrt{P}\delta\dpsi[P_{in}]}
+\sqrt{\sqrt{P}\lam\cdot
+\sqrt{P}\lam}
 \underbrace{\sqrt{\sqrt{P}\cdot\sqrt{P}}}_{=1}
 \quad \text{(by CS inequality)}
-\\
-&\leq
-\sqrt{ \av{(\delta\dpsi[P_{in}])^2}_P
-}
 \\
 &\leq
 \sqrt{ \av{\lam^2}_P
@@ -408,9 +400,9 @@ Note that
 
 When $P=P_N$,
 \beq
-\Psi[P_N]\approx \Psi[P_{in}] + \frac{1}{N}\sum_\s \lam(X^\s)
+\Psi[P_N]\approx \Psi[P_{in}] + \frac{1}{N}\sum_\s \lam(X_\s)
 \eeq
-If the random variables $\{\rvX^\s\}_{\s\in\Sigma}$ are i.i.d.
+If the random variables $\{\rvX_\s\}_{\s\in\Sigma}$ are i.i.d.
 with probability distribution $P_\rvX(X)$,
 then, as $N\rarrow \infty$, $\Psi[P_N]$ tends to a normally
 distributed random variable with mean
@@ -418,7 +410,7 @@ distributed random variable with mean
 \beqa
 \av{\Psi[P_N]}_{P_\rvX}
 &=&
-\Psi[P_{in}]+\frac{1}{N}\sum_\s\av{\lam(X^\s)}_{P_\rvX}
+\Psi[P_{in}]+\frac{1}{N}\sum_\s\av{\lam(X_\s)}_{P_\rvX}
 \\
 &=&
 \Psi[P_{in}]+\av{\lam}_{P_\rvX}
@@ -428,7 +420,7 @@ and variance
 \beqa
 \av{\Psi[P_N],\Psi[P_N]}_{P_\rvX}
 &=&
-\frac{1}{N^2}\sum_\s\sum_{\s'}\av{\lam(X^\s), \lam(X^{\s'})}_{P_\rvX}
+\frac{1}{N^2}\sum_\s\sum_{\s'}\av{\lam(X_\s), \lam(X^{\s'})}_{P_\rvX}
 \\
 &=&
 \frac{1}{N}\underbrace{\av{\lam, \lam}_{P_\rvX}}_{
@@ -518,19 +510,19 @@ for $d\in \bool$:
 {\bf Empirical (E) estimate} $\Psi^E$.
 
 \beq
-P_N(y,d,x)= \frac{1}{N}\sum_\s \delta(y, y^\s)
-\delta(d, d^\s)
-\delta(x, x^\s)
+P_N(y,d,x)= \frac{1}{N}\sum_\s \delta(y, y_\s)
+\delta(d, d_\s)
+\delta(x, x_\s)
 \eeq
 
 \beq
-P_N(d,x)= \frac{1}{N}\sum_\s \delta(d, d^\s)
-\delta(x, x^\s)
+P_N(d,x)= \frac{1}{N}\sum_\s \delta(d, d_\s)
+\delta(x, x_\s)
 \eeq
 
 \beq
 P_N(x)= \frac{1}{N}\sum_\s
-\delta(x, x^\s)
+\delta(x, x_\s)
 \eeq
 
 \beq
@@ -585,7 +577,7 @@ Define
 \Psi^{IPW}=\Psi^{IPW}[P_N]=
 \av{y\frac{\Delta(d)}{P(d|x)}}_{P_N}=
 \frac{1}{N}\sum_\s
-y^\s \frac{\Delta(d^\s)}{P(d^\s|x^\s)}
+y_\s \frac{\Delta(d_\s)}{P(d_\s|x_\s)}
 \eeq
 
 
@@ -598,12 +590,12 @@ $\Psi^{LIPW}$ is the
 linear approximation of $\Psi^{IPW}[P_N]$
 at point $P_{in}$:
 
-\beq
-\Psi^{IPW}=
+\beqa
+\Psi^{LIPW}&=&
 \Psi^{IPW}[P_{in}] +
-\underbrace{\av{\delta\dpsi^{IPW}[P_{in}]}_{P_N}}
-_{P_N\cdot\delta\dpsi^{IPW}[P_{in}]}
-\eeq
+\av{\dpsi^{IPW}[P_{in}]}_{P_N}
+-\nabla\Psi^{IPW}_{in}
+\eeqa
 
 
 \begin{claim}
@@ -955,8 +947,9 @@ of $\Psi^{LIPW}$ is referred to as {\bf double robustness}.
 
 \subsection{$\Psi^{LIPW++}$ (a.k.a. $\Psi^{TMLE}$)}
 
-{\bf Substitutional LIPW (LIPW++) estimate}
-(a.k.a, targeted minimum loss estimate (TMLE)) $\Psi^{LIPW++}$.
+{\bf LIPW++ estimate}
+$\Psi^{LIPW++}$
+(a.k.a, targeted minimum loss estimate (TMLE)) .
 
 $\Psi^{LIPW++}$ is the
 linear approximation
@@ -967,13 +960,14 @@ of its Taylor expansion vanishes:
 \beq
 \Psi^{LIPW++}=\Psi^{TMLE}=
 \Psi^{IPW}[P_{in++}] +
-\underbrace{\av{\delta\dpsi^{IPW}[P_{in++}]}_{P_N}}_{=0}
+\underbrace{\av{\dpsi^{IPW}[P_{in++}]}_{P_N}
+-\nabla\Psi^{IPW}_{in++}}_{=0}
 \eeq
 
 This property of
 of $\Psi^{TMLE}$
 that the linear term
-in its Taylor expansion at $P$ vanishes
+in its Taylor expansion at $P_{in++}$ vanishes
 is referred to as {\bf substitution
 invariance}, and $\Psi^{TMLE}$
 is said to be a {\bf substitution estimate}.
@@ -992,10 +986,7 @@ more explicitly the constraint that defines $P_{in++}$:
 
 \begin{align}
 0 &=
-P_N\cdot\delta\dpsi^{IPW}[P_{in++}]
-\\
-0 &=
-P_N\cdot\dpsi^{IPW}[P_{in++}]-\dpsi^{IPW}_{in++}+
+P_N\cdot\dpsi^{IPW}[P_{in++}]-\dpsi^{IPW}_{in++}
 \\
 &= -\dpsi^{IPW}_{in++}+
 \left\{
@@ -1004,26 +995,26 @@ P_N\cdot\dpsi^{IPW}[P_{in++}]-\dpsi^{IPW}_{in++}+
 \frac{1}{N}
 \sum_\s
 \left(
-\caly_{|1,x^\s}[P_{in++}]
+\caly_{|1,x_\s}[P_{in++}]
 -
-\caly_{|0,x^\s}[P_{in++}]
+\caly_{|0,x_\s}[P_{in++}]
 \right)
-}^{ \dpsi^{IPW}[P_{in++}]}
+}^{ \approx \dpsi^{IPW}[P_{in++}]}
 \\
 +
 \frac{1}{N}
 \sum_\s
-\frac{\Delta(d^\s)}{P_{in++}(d^\s|x^\s)}
-(y^\s-\caly_{|d^\s,x^\s}[P_{in++}])
+\frac{\Delta(d_\s)}{P_{in++}(d_\s|x_\s)}
+(y_\s-\caly_{|d_\s,x_\s}[P_{in++}])
 \end{array}
 \right.
 \\
 &=
 \frac{1}{N}
 \sum_\s \underbrace{
-\frac{\Delta(d^\s)}{P_{in++}(d^\s|x^\s)}
-(y^\s-\caly_{|d^\s,x^\s}[P_{in++}])
-}_{\lam(X^\s)}
+\frac{\Delta(d_\s)}{P_{in++}(d_\s|x_\s)}
+(y_\s-\caly_{|d_\s,x_\s}[P_{in++}])
+}_{\lam(X_\s)}
 \label{eq-loss-xi}
 \end{align}
 
@@ -1050,7 +1041,7 @@ zero when $\eps=0$ and $P=P_{in++}$.
 \label{fig-targeted-est}
 \end{figure}
 
-Note that function $\lam(X^\s)$ defined in Eq.(\ref{eq-loss-xi})
+Note that function $\lam(X_\s)$ defined in Eq.(\ref{eq-loss-xi})
 can be positive or negative. Hence,
  it can't be defined as the loss cfit,
 because a loss cfit must be non-negative. However, it can be
@@ -1164,7 +1155,7 @@ y=y,
 and $\call$ by
 
 \beq
-\call= \frac{1}{N}\sum_\s\hatl(X^\s) = P_N\cdot \hatl
+\call= \frac{1}{N}\sum_\s\hatl(X_\s) = P_N\cdot \hatl
 \;,
 \eeq
 then
@@ -1196,23 +1187,23 @@ often uses a ``Super-Learner", a program that
  merges the results of multiple fits
 obtained via various ML methods and also does cross validation.
 
-Below , $\{(\s, d^\s, x^\s,\boxed{y^\s}):\s\in \Sigma\}$
-represents a dataset. The dependent variable $y^\s$ is boxed,
-the independent ones $d^\s,x^\s$ (a.k.a. covariates) aren't.
+Below , $\{(\s, d_\s, x_\s,\boxed{y_\s}):\s\in \Sigma\}$
+represents a dataset. The dependent variable $y_\s$ is boxed,
+the independent ones $d_\s,x_\s$ (a.k.a. covariates) aren't.
 
 \begin{enumerate}
 \item Find cfit $\haty(d,x)=\caly_{|d,x}$ of outcome $y$
 
 \beq
-\{(\s, d^\s, x^\s,\boxed{y^\s}):\s\in \Sigma\}\mlarr \haty(d,x)
+\{(\s, d_\s, x_\s,\boxed{y_\s}):\s\in \Sigma\}\mlarr \haty(d,x)
 \eeq
 
 \item Estimate propensity $g(x)$
 
 \beq
 g(x)=P(\rvd=1|x)\approx
-\frac{\sum_\s \delta(d^\s,1)\delta(x^\s, x)}
-{\sum_\s \delta(x^\s, x)}
+\frac{\sum_\s \delta(d_\s,1)\delta(x_\s, x)}
+{\sum_\s \delta(x_\s, x)}
 \eeq
 
 \beq
@@ -1233,8 +1224,8 @@ P(d|x) = d g(x) + (1-d)[1-g(x)]
 \eeq
 
 \beq
-\{(\s, \lam(d^\s, x^\s),
-\beta(d^\s, x^\s),\boxed{\eta(d^\s, x^\s)}:
+\{(\s, \lam(d_\s, x_\s),
+\beta(d_\s, x_\s),\boxed{\eta(d_\s, x_\s)}:
 \s\in \Sigma\}\mlarr \HAT{\eta}(d,x)
 \eeq
 
@@ -1243,8 +1234,8 @@ P(d|x) = d g(x) + (1-d)[1-g(x)]
 \beq
 ATE = \frac{1}{N} \sum_\s
 \left\{
- \expit[ \HAT{\eta}(d=1,x^\s)]
- -\expit[ \HAT{\eta}(d=0,x^\s)]
+ \expit[ \HAT{\eta}(d=1,x_\s)]
+ -\expit[ \HAT{\eta}(d=0,x_\s)]
  \right\}
 \eeq
 
