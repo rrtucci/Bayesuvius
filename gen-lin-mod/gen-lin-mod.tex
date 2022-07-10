@@ -187,6 +187,7 @@ that satisfy
 where
 
 \beq
+\av{\eps_\s}=0, \quad
 \av{\ul{\eps}_\s, \ul{\eps}_\s} =\delta(\s, \s')\s^2_\s
 \eeq
 Equivalently, one states that
@@ -279,6 +280,7 @@ y = X\beta + \eps
 \eeq
 
 \beq
+\av{\eps}=0, \quad
 \av{\eps, \eps^T}= \s^2 I_N
 \eeq
 where $I_N$ is the
@@ -331,10 +333,10 @@ The
 Newton-Raphson method for calculating an
 estimate $\HAT{\beta}$ is as follows. Let
 
-$u^T = [\pder{\av{ LL}}{\beta_\s}]_{\s=0,1,2, \ldots}$
+$u^T = [\pder{\av{ LL}}{\beta_j}]_{j=0,1,2, \ldots}$
 
- $H= [H_{\s, \s'}]$, $H_{\s, \s'} =
-\frac{\partial^2 \av{ LL} }{\partial\beta_\s\partial\beta_{\s'}}$ .
+ $H= [H_{j, j'}]$, $H_{j, j'} =
+\frac{\partial^2 \av{ LL} }{\partial\beta_j\partial\beta_{j'}}$ .
 $H$ is called the {\bf Hessian matrix}
 
 For $t=0, 1, 2,\ldots$, consider the
@@ -353,7 +355,7 @@ point $\beta= \beta^{(t)}$
 
 \beq
 0 =
-\pder{\av{ LL}(\beta)}{\beta}
+\pder{\av{ LL}(\beta)}{\beta^T}
 =
 u^{(t)}
 +
@@ -366,7 +368,6 @@ This last equation suggests the recursion
 \beta^{(t)} -  (H^{(t)})^{-1} u^{(t)}
 \;.
 \eeq
-
 Fig.\ref{fig-gml-new-rap}
 gives a graphical
 representation of
@@ -388,20 +389,20 @@ for calculating an estimate $\HAT{\beta}$ for the GLM.}
 \begin{claim}
 
 \beq
-\pder{ LL_{\s}}{\beta_{\s'}}=
+\pder{ LL_{\s}}{\beta_{j}}=
  \frac{[y_\s - b'(\xbeta)]}{\av{y_\s, y_\s}}
  \pder{\HAT{\mu}_\s}{\xbeta}
-X_{\s, \s'}
+X_{\s, j}
 \eeq
 \end{claim}
 \proof
 
 
 \beq
-\pder{ LL_{\s}}{\beta_{\s'}}
+\pder{ LL_{\s}}{\beta_{j}}
 =
 \pder{ LL_{\s}}{\theta_\s}\pder{\theta_\s}{\mu_\s}
-\pder{\HAT{\mu}_\s}{\xbeta}\pder{\xbeta}{\beta_{\s'}}
+\pder{\HAT{\mu}_\s}{\xbeta}\pder{\xbeta}{\beta_{j}}
 \eeq
 
 \beq
@@ -421,15 +422,15 @@ b''(\theta_\s) = \frac{\av{y_\s, y_\s}}{a(\phi)}
 \eeq
 
 \beq
-\pder{\xbeta}{\beta_{\s'}}= X_{\s, \s'}
+\pder{\xbeta}{\beta_{j}}= X_{\s, j}
 \eeq
 
 \beq
-\pder{ LL_{\s}}{\beta_{\s'}}
+\pder{ LL_{\s}}{\beta_{j}}
 =
 \frac{[y_\s - b'(\theta_\s)]}{\av{y_\s, y_\s}}
  \pder{\HAT{\mu}_\s}{\xbeta}
-X_{\s, \s'}
+X_{\s, j}
 \eeq
 
  \qed
@@ -465,43 +466,43 @@ $\cali$ is called the {\bf information matrix}.
 \proof
 
 \begin{align}
-\av{\pder{ LL_\s}{\beta_ { \s'}}
-\pder{ LL_\s}{\beta_ { \s''}} }
+\av{\pder{ LL_\s}{\beta_ { j}}
+\pder{ LL_\s}{\beta_ { j'}} }
 &=
 \av{
 \frac{[y_\s - b'(\xbeta)]}{\av{y_\s, y_\s}}
  \pder{\HAT{\mu}_\s}{\xbeta}
-X_{\s, \s'}
+X_{\s, j}
 \frac{[y_\s - b'(\xbeta)]}{\av{y_\s, y_\s}}
  \pder{\HAT{\mu}_\s}{\xbeta}
-X_{\s, \s''}
+X_{\s, j'}
 }
 \\
 &=
  \left[\pder{\HAT{\mu}_\s}{\xbeta}\right]^2
-\frac{X_{\s, \s'} X_{\s, \s''}}{\av{y_\s, y_\s}}
+\frac{X_{\s, j} X_{\s, j'}}{\av{y_\s, y_\s}}
 \end{align}
 
 \beq
 \sum_{\s}
-\av{\pder{ LL_{\s}}{\beta_ { \s'}}
-\pder{ LL_{\s}}{\beta_ { \s''}} }
+\av{\pder{ LL_{\s}}{\beta_ { j}}
+\pder{ LL_{\s}}{\beta_ { j'}} }
 =
-(X^T W X)_{\s'', \s'}
+(X^T W X)_{j, j'}
 \eeq
 By Section [\nameref{sec-ent-like-connect}], we have
 \beq
-\av{\frac{\partial^2 LL_\s}{\partial\beta_ { \s'}\partial\beta_ { \s''}} }
+\av{\frac{\partial^2 LL_\s}{\partial\beta_ { j}\partial\beta_ { j'}} }
 =
--\av{\pder{ LL_\s}{\beta_ { \s'}}
-\pder{ LL_\s}{\beta_ { \s''}} }
+-\av{\pder{ LL_\s}{\beta_ { j}}
+\pder{ LL_\s}{\beta_ { j'}} }
 \eeq
 Summing both sides of the last equation over $\s$, we find
 
 \beq
-\av{\frac{\partial^2 LL}{\partial\beta_ { \s'}\partial\beta_ { \s''}} }
+\av{\frac{\partial^2 LL}{\partial\beta_ { j}\partial\beta_ { j'}} }
 =
--(X^T W X)_{\s'', \s'}
+-(X^T W X)_{j, j'}
 \eeq
 According to  Section [\nameref{sec-ent-like-connect}], we have
 \beq
