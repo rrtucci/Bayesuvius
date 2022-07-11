@@ -29,9 +29,8 @@ $\rvx\rarrow\ul{\tilx}\rarrow \rvy$).
 Consider a typical PO bnet $G$
 and its corresponding imagined bnet $G_{im2}$ (see Fig.\ref{fig-modi-po})\footnote{ Ref.\cite{han-rot-2013} uses the
 notation $L = \rvc$,
-$A = \rvx$, $Y=\rvy$,
-$Y_q=\rvy(\tilx)$,
- $Q=\ul{\tilx}$. Furthermore, it does not 
+$A = \rvx$, $Y=\rvy$, $Q=\ul{\tilx}$,
+$Y_q=\rvy(\tilx)$. Furthermore, it does not 
 display a DAG.
 }.
 A MTP adds a Bayesian prior to the
@@ -89,8 +88,8 @@ $$
 simplest possible bnets considered in  PO theory.
 In the usual PO theory,
 one only considers the bnet $G_{im1}$.
-In MTP theory, we
-consider the bnet $G_{im2}$.
+In MTP theory, one
+considers the bnet $G_{im2}$.
 For $G_{im2}$, $\tilx\in S_{\ul{\tilx}}= 
 S_\rvx=\bool$.} (
 As usual in this book, $S_\rva$
@@ -167,7 +166,7 @@ and it has an informative (Bayesian) prior in $G_{im2,mod}$.
 
 The following
 assumptions will
-be made about $G_{im2, mod}$:
+be made about bnet $G_{im2, mod}$:
 
 \begin{enumerate}
 
@@ -242,7 +241,8 @@ This is clear because if $\tilx\not\in S_\rvx$,
 then we have no information of the type
 
 \beq
-P(\rvy=y|\tilx, pa'(\rvy)=\xi)=P(\rvy(\tilx)=y|pa'(\rvy)=\xi
+P(\rvy=y|\tilx, pa'(\rvy)=\xi)=
+\quad P(\rvy(\tilx)=y|pa'(\rvy)=\xi
 )\;.
 \eeq
 
@@ -270,7 +270,7 @@ is deterministic, then this requirement
 is not satisfied, and we cannot do IPW (i.e.,
 inverse propensity weighing).
 
-Note that using a MDP can allow IPW to
+Note that using a MTP can allow IPW to
 be performed  in cases
 when the propensity $g_{x|c}$
 is anomalous
@@ -287,12 +287,12 @@ is some proper subset of $S_\rvx$.
 The probability
 distribution
 $P(\tilx|x, c)$ (i.e., the  $\ul{\tilx}$ prior for $G_{im2,mod}$)
-is called the MTP.
+is called the {\bf MTP}.
 An MTP can be either
 deterministic or probabilistic.
 An MTP that depends (resp., does not depend)
  on $x$ is said to
-be dynamic (resp., static), because $\tilx$ depends (resp., does not
+be {\bf dynamic} (resp., {\bf static}), because $\tilx$ depends (resp., does not
 depend) on the previous value
 of $x$.
 
@@ -405,12 +405,12 @@ and let
 \beq
 P(\tilx|x, c)
 =
-[\pi(x,c)]^{\tilx} [1-\pi(x,c)]^{1-\tilx}
+[\pi(x|c)]^{\tilx} [1-\pi(x|c)]^{1-\tilx}
 \eeq
 where
 
 \beq
-\pi(x,c)=
+\pi(x|c)=
 \frac{\theta^x P(\rvx=x|c)}{\sum_x numerator}
 \eeq
 
@@ -519,7 +519,7 @@ deterministic MTP case in which
 $P(\tilx|x,c)=\delta(\tilx, \tilx_c(x))$.
 We will also
 assume that
-the domain of $\tilx_c(x)$
+the domain $\XX_c$ of $\tilx_c(x)$
 is a union of disjoint sets $\XX^j_c$
 for $j=1,2, \dots, nj(c)$,
 and that on each set $\XX^j_c$,
@@ -623,8 +623,7 @@ is incorrectly assumed to be different from 1.
 \frac{1}{P_{\XX_c}}
 \sum_j
 \int_{\tilx\in \TIL{\XX}^j_c}
- d\tilx\; P(\tilx|c)
-\der{x^j_c(\tilx)}{\tilx}
+ d\tilx \der{x^j_c(\tilx)}{\tilx} P(\tilx|c)
 \frac{P(\rvx=x^j_c(\tilx)|c)}{P(\tilx|c)}
 \underbrace{\sum_y y P(y|\rvx=x_c^j(\tilx),c)}_{\caly_{|x_c^j(\tilx),c}}
 \\
@@ -916,26 +915,26 @@ E_{\s|c}[
 (IF_\s)^2]
 \eeq
 \qed
-\subsection{IPW estimate of $\Delta_{|c}$}
-{\bf Inverse Propensity Weighted (IPW)}
-estimate.
-Calculate the
-following estimates in this order:
-$\HAT{\tau}
-\rarrow\HAT{\theta}
-\rarrow\HAT{\Delta}_{|c}$
-
-
-\subsection{DR estimate
-of $\Delta_{|c}$}
-
-{\bf Doubly Robust (DR)} estimate.
-Calculate the
-following estimates in this order:
-$\HAT{\tau}
-\rarrow\HAT{\theta}
-\rarrow\HAT{\gamma}
-\rarrow\HAT{\Delta}_{|c}$
+%\subsection{IPW estimate of $\Delta_{|c}$}
+%{\bf Inverse Propensity Weighted (IPW)}
+%estimate.
+%Calculate the
+%following estimates in this order:
+%$\HAT{\tau}
+%\rarrow\HAT{\theta}
+%\rarrow\HAT{\Delta}_{|c}$
+%
+%
+%\subsection{DR estimate
+%of $\Delta_{|c}$}
+%
+%{\bf Doubly Robust (DR)} estimate.
+%Calculate the
+%following estimates in this order:
+%$\HAT{\tau}
+%\rarrow\HAT{\theta}
+%\rarrow\HAT{\gamma}
+%\rarrow\HAT{\Delta}_{|c}$
 
 \section{Other Estimands besides $\Delta_{|c}$}
 
@@ -1213,10 +1212,10 @@ nodes in its DAGs. Furthermore, in HR,
  nodes $A_t$ and $L_t$
 have parent nodes
 that are time steps $0,1,2,3,\ldots $ in the past.
-I, on the other hand, will
+I, on the other hand, do
 not draw or consider parents that are
 more than one
 time steps in the past,
-because I will assume the effect of those parents is
+because I assume the effect of those parents is
 negligible to first approximation.
 
