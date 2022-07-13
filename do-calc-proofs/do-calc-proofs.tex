@@ -1,9 +1,8 @@
 \chapter{Do Calculus proofs}
 \label{ch-do-calc-proofs}
 
-In Chapter \ref{ch-do-calc}
-of Bayesuvius,
-we explained Do Calculus
+In Chapter \ref{ch-do-calc},
+we explained Do Calculus,
 but referred to this
 chapter for proofs
 of claims that
@@ -23,11 +22,11 @@ they are sometimes overkill
 for proving
  adjustment formulae
 for a single specific DAG.
-After all,  the
+Indeed, since the
  3 rules of Do Calculus
 are a consequence
-of the d-separation theorem.
-Hence, all adjustment
+of the d-separation theorem, it follows that
+all adjustment
 formulae should be
 provable from first principles,
 assuming only
@@ -36,7 +35,7 @@ and the standard rules of
 probability theory.
 
 In this chapter, we use the
- following conventions.
+ following conventions for bnet diagrams.
 
 \bnetInstantiations
 
@@ -176,36 +175,50 @@ with do operators
 in its condition) by
 an equivalent expression
 without do operators.
+The equivalent expression must 
+satisfy 2 constraints
+to be discussed  below.
 If a do-adjustment formula
 exists for a
 particular do-query, 
 then we say the do-query is
- {\bf do-identifiable}.\footnote{
-To prove that a do-query $P(y|\cald\rvx=x, z)$
-is do-identifiable
-for a graph $G$,
-just prove that $\rvy\perp\rvx|\rvz$
-in $\call_\rvx G$. 
-This is called Rule 2 of Do Calculus,
-but it is easy to understand just from
-the d-separation theorem.
-Info can be transmitted 
-between $\rvy$ and $\rvx$ by
-either (1) paths
-in $\cald_\rvx G$
-or (2) paths in $\call_\rvx G$.
-$P(y|\cald\rvx=x, z)=
-P(y|x, z)$
-means the info is being transmitted only
-by (1).
-So the Rule 2 premise is checking
-that no info is being transmitted
-by (2). }
+ {\bf do-identifiable (DI)}.
+% \footnote{
+%To prove that a do-query $P(y|\cald\rvx=x, z)$
+%is do-identifiable
+%for a graph $G$,
+%just prove that $\rvy\perp\rvx|\rvz$
+%in $\call_\rvx G$. 
+%This is called Rule 2 of Do Calculus,
+%but it is easy to understand just from
+%the d-separation theorem.
+%Info can be transmitted 
+%between $\rvy$ and $\rvx$ by
+%either (1) paths
+%in $\cald_\rvx G$
+%or (2) paths in $\call_\rvx G$.
+%$P(y|\cald\rvx=x, z)=
+%P(y|x, z)$
+%means the info is being transmitted only
+%by (1).
+%So the Rule 2 premise is checking
+%that no info is being transmitted
+%by (2). }
+A {\bf do-transport formula}
+expresses a do-query in terms
+of an equivalent do-query.
+This chapter deals with both
+do-adjustment and do-transport
+formulae.
+
 See Fig.\ref{fig-iden-noniden}
 for some simple
-examples of identifiable
-and non-identifiable
-do-queries.
+examples of of 
+bnets for which
+the do-query $P(y|\cald\rvx=x)$
+is
+DI
+and non-DI.
 
 \begin{figure}[h!]
 $$
@@ -222,143 +235,150 @@ $$
 \rvx\ar[rr]&&\rvy
 }
 \\
-P(y|\cald\rvx=x)=P(y|x)
-&&P(y|\cald\rvx=x)\neq P(y|x)
+(a) \text{$P(y|\cald\rvx=x)$ is DI}
+&&(b) \text{$P(y|\cald\rvx=x)$ is non-DI}
 \end{array}
 $$
 \caption{Examples of 
-identifiable
-and non-identifiable
-do-queries. $\cald\rvx=x$
-in a do-query
-means we erase the arrow
-$\rvz\rarrow\rvx$
-and replace node
-$\rvx$ by a delta function
-$\delta(x,x')$.
-Let $Q(y|x)=\sum_zP(y|x,z)P(z)$.
-In both cases,
-$P(y|\cald\rvx=x)=Q(y|x)$, 
-but in the non-identifiable
-case, $Q(y|x)$
-is summing over the
-unobserved node $\rvz$,
-so it is using 
-data that is not available.
-To distinguish between
-these two possibilities for $Q(y|x)$,
-we set $P(y|x)=Q(y|x)$
-in the identifiable case,
-and $P(y|\cald\rvx=x)=Q(y|\cald\rvx=x)$
-in the non-identifiable case.
+bnets for which
+the do-query $P(y|\cald\rvx=x)$
+is
+DI
+and non-DI.
 }
 \label{fig-iden-noniden}
 \end{figure}
 
-The following is the simplest of
-do-adjustment formulae:
+In general, the
+following is always true,
+whether it applies to a bnet
+with or without hidden nodes:
+
 \beq
 P(y|\cald\rvx=x)=P(y|x)
 \eeq
-By definition, 
-since identifiability
-gives permission us
-to remove $\cald$ operators, all do-identifiable
-problems satisfy this simplest 
-of adjustment 
-formulae. However,
-we aim to find 
-an adjustment formula that 
-utilizes the full distribution
-of the {\it observed} nodes. Adjustment
-formulae that don't 
-utilize the full
-distribution 
-of the observed nodes are 
-throwing
-away useful
-info
-from the dataset, and are less
-sensitive to deviations from the DAG model
-being hypothesized. 
+However, the right hand side of this equation is 
+seldom a valid adjustment formula
+for this query.
+We define a valid adjustment formula
+for query
+$P(y|\cald\rvx=x)$
+to be a bnet instantiation diagram
+that satisfies the
+following 2 constraints:
+Call the original bnet $G_0$
 
-Given a bnet $G$
-and an adjustment formula $AF$
-for the query $P(y|\cald\rvx=x, z)$,
-a simple identification method (SIM) that we 
-use in this chapter to prove 
-that $AF$ 
-applies to $G$, is
-the following:
 \begin{enumerate}
-\item
-From the bnet $G$,
-write 
-an instantiation
-of $G$ 
-in which
-the arrows entering
-node $x$
-are amputated,
-node $x$
-is replaced
-by $\cald\rvx=x$,
-and all observed and
-unobserved nodes, 
-except 
-$x, y, z$,
-are summed over.
-\item
-Replace all
-sums over 
-hidden nodes
-by sums over 
-observed nodes.
-\item 
-Once all
-nodes in the diagram
-represent
-observed nodes only,
-we can replace 
-the node $\cald\rvx=x$
-by $x$. 
-This is 
-justified because in
-the latest diagram (the one
-with no unobserved nodes), unavailable
-info  that
-belongs to unobserved nodes
-is not being used.
-After all,
-that is the meaning
-of 
-identifiability:
-that we can express
-a do-query using
-only the info
-that is available.
+\item {\bf(structure constraint)}
+
+The adjustment formula must be
+representable by a bnet instantiation 
+that has a DAG structure identical
+to the DAG structure of $G_0$,
+except that arrows entering node
+$\rvx$ have been amputated.
+All nodes  of that instatiation, except
+nodes  $x$ and $y$,
+must be summed over.
+
+\item {\bf (probabilities constraint)}
+
+\begin{itemize}
+\item If $G_0$ has hidden nodes,
+these must be renamed and 
+assigned a TPM that
+can be constructed 
+from the {\it observable }
+TPMs of $G_0$.
+\item The observable
+nodes 
+with hidden
+parents, must also be assigned a TPM that
+can be constructed 
+from the {\it observable }
+TPMs of $G_0$.
+\item The observable
+nodes with no hidden
+parents, must be assigned
+the same TPM as they have in $G_0$.
+\end{itemize}
 \end{enumerate}
+The reason for
+these 2 constraints
+is that we want
+an adjustment
+formula to utilize 
+as much information
+as possible
+from the original bnet $G_0$.
+Adjustment formulae are
+always numerically equal to $P(y|x)$,
+but when you
+effect that reduction,
+you are throwing
+away lots of
+valuable information
+carried by $G_0$.
 
-You can check that 
-using SIM,
-it is not possible to
-find an adjustment formula for
-the example
-of a non-identifiable
-query in Fig.\ref{fig-iden-noniden}.
-SIM does yield the backdoor adjustment
-formula for the
-identifiable
-query in Fig.\ref{fig-iden-noniden}.
 
 
-A {\bf do-transport formula}
-expresses a do-query in terms
-of an equivalent do-query.
+Based on these 2 constraints,
+we can easily see why the 
+query $P(y|\cald\rvx=x)$
+is DI (resp., non-DI)
+for bnet $(a)$ (resp., bnet $(b)$)
+of Fig.\ref{fig-iden-noniden}.
+For bnet $(a)$, after amputating arrow 
+$z\rarrow x$ and summing over node $z$,
+we get 
 
-This chapter deals with both
-do-adjustment and do-transport
-formulae.
+\beqa
+P(y|\cald\rvx=x)
+&=&
+\xymatrix{
+\sum z\ar[dr]
+\\
+x\ar[r]
+&y
+}
+\label{eq-simplest-identifiable}
+\eeqa
+The right hand
+side of Eq.(\ref{eq-simplest-identifiable})
+is a valid
+adjustment formula
+because it satisfies both constraints.
+For bnet $(b)$,
+if we amputate arrow 
+$z\rarrow x$ 
+and sum over node $z$,
+we get
+
+\beqa
+P(y|\cald \rvx =x)
+&=&
+\xymatrix{
+*++[F-o]{\sum z}\ar[rd]
+\\
+x\ar[r]
+&y
+}
+\label{eq-simplest-non-DI}
+\eeqa
+The right hand
+side of Eq.(\ref{eq-simplest-non-DI})
+is not a valid
+adjustment formula
+because it violates the
+second constraint. Furthermore,
+try as we may,  there
+is no way to replace the sum over
+hidden  node $z$ by a sum over an observed node,
+such that 
+constraint 2 is satisfied.
+
+
+
 
 
 \begin{claim} 
