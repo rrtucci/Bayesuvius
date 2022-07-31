@@ -1,0 +1,284 @@
+\chapter{LATE (Local Average Treatment Effect)(COMING SOON)}
+\label{ch-late}
+
+
+The {\bf Local Average Treatment Effect (LATE)}
+
+
+\begin{figure}[h!]
+$$
+\begin{array}{ccccc}
+\xymatrix{
+&&\rvx\ar[ddl]\ar[ddr]
+\\
+\\
+\rva\ar[r]
+&\rvd\ar[rr]&&\rvy
+}
+&
+\xymatrix{
+&&\rvx\ar[dl]\ar[dr]
+\\
+&
+[\rvd(a')]_{a'=0}^1\ar[d]
+&
+&[\rvy(d')]_{d'=0}^1\ar[d]
+\\
+\rva\ar[r]
+&\rvd\ar[rr]&&\rvy
+}
+\\
+G
+&
+G_+=
+\cali_{\rvd\rarrow \rvy}
+\cali_{\rva\rarrow \rvd}G
+\end{array}
+$$
+\caption{
+Bnet $G_+$ is bnet $G$
+after application of 2
+imagine operators.
+Imagine operators
+are discussed in Chapter \ref{ch-counterf}.
+}
+\label{fig-late-g-gplus}
+\end{figure}
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+ & \cellcolor[HTML]{ECF4FF}$d^\s(0)$ & \cellcolor[HTML]{ECF4FF}$d^\s(1)$ \\ \hline
+\cellcolor[HTML]{ECF4FF}never-takers & 0 & 0 \\ \hline
+\cellcolor[HTML]{ECF4FF}compliers & 0 & 1 \\ \hline
+\cellcolor[HTML]{ECF4FF}defiers & 1 & 0 \\ \hline
+\cellcolor[HTML]{ECF4FF}always-takers & 1 & 1 \\ \hline
+\end{tabular}
+\caption{Possible compliance
+behaviors  for individual $\s$.}
+\label{tab-late compliance}
+\end{table}
+
+\beq\color{blue}
+P(d|a,
+[d(a')]_{a'=0}^1
+) = \indi(\quad
+d= \underbrace
+{a d(a) + (1-a)d(1-a)}
+_{\sum_{a'=0}^1
+\delta(a,a')d(a')}
+\quad)
+\eeq
+
+\beq\color{blue}
+P(y|d,
+[y(d')]|_{d'=0}^1)
+= \indi(\quad
+y= \sum_{d'=0}^{1}
+\delta(d,d')
+y(d')
+\quad)
+\eeq
+
+
+\beq
+\cald_{|a} = \sum_d d\; P(d|a)
+\eeq
+
+\beq
+\caly_{|d,a}=\sum_y y\;P(y|d,a)
+=
+E_{|d,a}[\rvy]
+\eeq
+
+\beq
+\caly_{|\rvd=d}=\sum_y y\;P(y|d)
+= E_{|d}[\rvy]
+\eeq
+
+\beq
+\caly_{|\rva=a}=
+\sum_y y\;P(y|a)
+=
+E_{|a}[\rvy]
+\eeq
+
+monotonicity
+\beq
+d^\s(1)
+\geq
+ d^\s(0)
+\eeq
+rules out defiers
+(i.e., 
+$d^\s(1)=0,
+\;
+d^\s(0)=1$)
+
+Assume that $
+\cald_{|1}\neq\cald_{|0}
+$. Then
+LATE is defined by
+
+\beq
+LATE = \frac{\caly_{|\rva=1}-
+\caly_{|\rva=0}}
+{\cald_{|1}-\cald_{|0}}
+\eeq
+
+Complier
+\beq
+\calc=\{\rvd(0)=0, \rvd(1)=1\}
+\eeq 
+
+\begin{claim}
+If monotonicity is satisfied, then
+
+\beq
+P(\calc)=
+\cald_{|1}-\cald_{|0}
+\eeq
+\end{claim}
+\proof
+\beqa
+\cald_{|1}-\cald_{|0}
+&=&
+\sum_{d(0), d(1)}
+P(d(0), d(1))[d(1)-d(0)]
+\\
+&=&
+\left\{
+\begin{array}{r}
+P(d(0)=0, d(1)=0)
+\underbrace{[d(1)-d(0)]}_{0}
+\\
++P(d(0)=0, d(1)=1)
+\underbrace{[d(1)-d(0)]}
+_{1}
+\\
++\underbrace{P(d(0)=1, d(1)=0)}
+_{=0 \text{ by monotonicity}}
+[d(1)-d(0)]
+\\
++P(d(0)=1, d(1)=1)
+\underbrace{[d(1)-d(0)]}_{0}
+\end{array}
+\right.
+\\
+&=& P(\calc)
+\eeqa
+
+\qed
+
+
+\begin{claim}
+If monotonicity is satisfied, then
+
+\beq
+LATE=
+E_{|\calc}[\rvy(1)-\rvy(0)]
+\eeq
+ 
+\end{claim}
+\proof
+
+\begin{align}
+\caly_{|\rva=1}-
+\caly_{|\rva=0}
+&=
+E_{|\rva=1}[\rvy]
+-
+E_{|\rva=0}[\rvy]
+\\
+&=
+\sum_x
+\sum_{y(0), y(1)}
+\sum_{d(0), d(1)}
+\left\{
+\begin{array}{l}
+[y(d(1))-y(d(0))]
+\\
+*P(y(0), y(1)|x)
+\\
+*P(d(0), d(1)|x)
+\\
+*P(x)
+\end{array}
+\right.
+\\
+&=
+\sum_{y(0), y(1)}
+\sum_{d(0), d(1)}
+[y(d(1))-y(d(0))]
+\left\{
+\begin{array}{l}
+P(y(0), y(1)|d(0), d(1))
+\\
+*P(d(0), d(1))
+\end{array}
+\right.
+\\
+&=
+\sum_{y(0), y(1)}
+\left\{
+\begin{array}{r}
+\underbrace{[y(0)-y(0)]}_{0}
+\left\{
+\begin{array}{l}
+P(y(0), y(1)|d(0)=0, d(1)=0)
+\\
+*P(d(0)=0, d(1)=0)
+\end{array}
+\right.
+\\
+\\
++
+[y(1)-y(0)]
+\left\{
+\begin{array}{l}
+P(y(0), y(1)|d(0)=0, d(1)=1)
+\\
+*P(d(0)=0, d(1)=1)
+\end{array}
+\right.
+\\
+\\
++
+[y(0)-y(1)]
+\left\{
+\begin{array}{l}
+P(y(0), y(1)|d(0)=0, d(1)=0)
+\\
+*\underbrace{P(d(0)=0, d(1)=0)}
+_{=0 \text{  monotonicity}}
+\end{array}
+\right.
+\\
+\\
++
+\underbrace{[y(1)-y(1)]}_{0}
+\left\{
+\begin{array}{l}
+P(y(0), y(1)|d(0)=1, d(1)=1)
+\\
+*P(d(0)=1, d(1)=1)
+\end{array}
+\right.
+\end{array}
+\right.
+\\
+&=
+P(\calc)
+\sum_{y(0), y(1)}
+[y(1)-y(0)]
+P(y(0), y(1)|\calc)
+\\
+&=
+P(\calc)
+E_{|\calc}[\rvy(1)-\rvy(0)]
+\end{align}
+\qed
