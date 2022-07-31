@@ -1,8 +1,36 @@
-\chapter{LATE (Local Average Treatment Effect)(COMING SOON)}
+\chapter{LATE (Local Average Treatment Effect)}
 \label{ch-late}
 
+This
+chapter is based 
+on Refs.\cite{book-brady-neal,
+alves-book}.
 
-The {\bf Local Average Treatment Effect (LATE)}
+
+
+
+
+The {\bf Local Average Treatment Effect (LATE)} is
+the same as the ATE estimand\footnote{ATE 
+is defined 
+in the Potential Outcomes chapter,
+i.e.,  Chapter
+\ref{ch-pot-out}.},
+but it only 
+counts individuals
+that comply with the
+treatment they've been 
+assigned. LATE
+assumes 
+the same bnet
+that we considered
+when we 
+discussed Instrumental
+Variables (IV)
+\footnote{Instrumental
+Variables are discussed 
+in Chapters \ref{ch-instrumental}
+and \ref{ch-inst-ineq}.} 
 
 
 \begin{figure}[h!]
@@ -45,9 +73,57 @@ are discussed in Chapter \ref{ch-counterf}.
 \label{fig-late-g-gplus}
 \end{figure}
 
-% Please add the following required packages to your document preamble:
-% \usepackage[table,xcdraw]{xcolor}
-% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+Consider
+the bnets
+$G$
+and $G_+$
+of Fig.\ref{fig-late-g-gplus}.
+
+Let
+
+$\rva\in \bool$, instrumetal
+variable,
+initially assigned dose
+
+$\rvd\in \bool$, actual treatment 
+dose
+
+$\rvy\in \bool$, treatment outcome
+
+The  definition of the 
+imagine
+operators 
+used in $G_+$
+stipulates
+that nodes
+$\rvy$ and
+$\rvd$
+in $G_{+}$
+must be have the following
+deterministic TPMs
+(printed in blue below).
+
+
+\beq\color{blue}
+P(d|a,
+[d(a')]_{a'=0}^1
+) = \indi(\quad
+d= \underbrace 
+{a d(a) + (1-a)d(1-a)}
+_{=\sum_{a'=0}^1
+\delta(a,a')d(a')\quad=\quad d(a)}
+\quad)
+\eeq
+
+\beq\color{blue}
+P(y|d,
+[y(d')]|_{d'=0}^1)
+= \indi(\quad
+y= 
+y(d)
+\quad)
+\eeq
+
 \begin{table}[h!]
 \centering
 \begin{tabular}{|l|l|l|}
@@ -63,30 +139,50 @@ behaviors  for individual $\s$.}
 \label{tab-late compliance}
 \end{table}
 
-\beq\color{blue}
-P(d|a,
-[d(a')]_{a'=0}^1
-) = \indi(\quad
-d= \underbrace
-{a d(a) + (1-a)d(1-a)}
-_{\sum_{a'=0}^1
-\delta(a,a')d(a')}
-\quad)
-\eeq
-
-\beq\color{blue}
-P(y|d,
-[y(d')]|_{d'=0}^1)
-= \indi(\quad
-y= \sum_{d'=0}^{1}
-\delta(d,d')
-y(d')
-\quad)
-\eeq
-
+Table \ref{tab-late compliance}
+gives a name
+to the 4 possible compliance
+behaviors
+that might be exhibited by
+an individual
+$\s$ of
+a dataset.
+Below, we will
+use $\calc$ to
+denote the 
+conditions that 
+define a {\bf complier}:
 
 \beq
+\calc=\{\rvd(0)=0, \rvd(1)=1\}
+\eeq
+{\bf Monotonicity}
+is said to hold if
+\beq
+d^\s(1)
+\geq
+ d^\s(0)
+\eeq
+Note
+that monotonicity
+rules out defiers
+(i.e., 
+$d^\s(1)=0,
+\;
+d^\s(0)=1$),
+but
+allows the other 3 
+compliance behaviors.
+ 
+It is
+convenient
+to define
+the following
+expected values:
+\beq
 \cald_{|a} = \sum_d d\; P(d|a)
+=
+E_{|a}[\rvd]
 \eeq
 
 \beq
@@ -107,17 +203,6 @@ E_{|d,a}[\rvy]
 E_{|a}[\rvy]
 \eeq
 
-monotonicity
-\beq
-d^\s(1)
-\geq
- d^\s(0)
-\eeq
-rules out defiers
-(i.e., 
-$d^\s(1)=0,
-\;
-d^\s(0)=1$)
 
 Assume that $
 \cald_{|1}\neq\cald_{|0}
@@ -125,15 +210,13 @@ $. Then
 LATE is defined by
 
 \beq
-LATE = \frac{\caly_{|\rva=1}-
+\boxed{LATE = \frac{\caly_{|\rva=1}-
 \caly_{|\rva=0}}
 {\cald_{|1}-\cald_{|0}}
+}
 \eeq
 
-Complier
-\beq
-\calc=\{\rvd(0)=0, \rvd(1)=1\}
-\eeq 
+
 
 \begin{claim}
 If monotonicity is satisfied, then
@@ -176,6 +259,10 @@ _{=0 \text{ by monotonicity}}
 
 
 \begin{claim}
+Recall
+\beq
+ATE = E[\rvy(1)-\rvy(0)]
+\eeq
 If monotonicity is satisfied, then
 
 \beq
