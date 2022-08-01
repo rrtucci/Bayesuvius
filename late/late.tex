@@ -369,3 +369,105 @@ P(\calc)
 E_{|\calc}[\rvy(1)-\rvy(0)]
 \end{align}
 \qed
+
+It
+is instructive
+to evaluate 
+LATE for
+the special case 
+in which $G$
+of
+Fig.\ref{fig-late-g-gplus}
+is an LDEN (Linear
+Deterministic
+with External
+ Noise) bnet.\footnote{LDEN bnets are discussed in Chapter
+ \ref{ch-linear-sys}.}
+ 
+ Consider Fig.\ref{fig-late-lden}.
+ From that figure
+
+\begin{figure}[h!]
+$$
+\xymatrix{
+&&\rvx\ar[ddl]_\mu
+\ar[ddr]^\nu
+\\
+\\
+\rva\ar[r]^\alp
+&\rvd\ar[rr]^\delta
+&&\rvy
+}
+$$
+\caption{
+LDEN bnet for LATE}
+\label{fig-late-lden}
+\end{figure}
+
+\beq
+\rvd=\alp\rva +\mu\rvx
+\eeq
+
+\beq
+\rvy = \delta \rvd + \nu\rvx
+\eeq
+Note that
+
+\beq
+\av{\rvx, \rva}=0
+\eeq
+because 
+both possible paths
+from
+$\rva$ to $\rvx$
+(i.e., $\rva-\rvd-\rvx$
+and $\rva-\rvd-\rvy-\rvx$)
+are blocked by colliders.
+\begin{claim}
+For the LDEN bnet of Fig.\ref{fig-late-lden},
+
+\beq
+LATE = \delta =
+\frac{\av{\rvy,\rva}}
+{\av{\rvd, \rva}}
+\eeq
+\end{claim}
+\proof
+
+
+\beq
+\av{\rvd, \rva}=\alp
+\av{\rva, \rva}
+\eeq
+
+\beqa
+\av{\rvy, \rva}&=&
+\av{\delta(\alp\rva+\mu\rvx)
++\nu\rvx, \rva}
+\\
+&=&
+\alp\delta
+\av{\rva, \rva} 
+\eeqa
+Hence,
+
+\beq
+\frac{\av{\rvy,\rva}}
+{\av{\rvd, \rva}}=\delta
+\eeq
+
+\beqa
+E_{\rva=1}[\rvy]-
+E_{\rva=0}[\rvy]&=&
+E_{\rva=1}[\delta \rvd +\nu\rvx]-
+E_{\rva=0}[\delta \rvd +\nu\rvx]
+\\
+&=&
+\delta(E_{\rva=1}[\rvd]-
+E_{\rva=0}[\rvd])
++ \nu
+\underbrace{(E_{\rva=1}[\rvx]-
+E_{\rva=0}[\rvx])}_{0}
+\eeqa
+
+\qed
