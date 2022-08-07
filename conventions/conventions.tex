@@ -4384,13 +4384,15 @@ depends on both $C$ and $\nu$,
 whereas $|z^*|(C)$
 depends only on $C$.
 
-\section{p-value, general definition}
+\section{p-value}
 
 
 Given a parameter $\theta$, call
 $\theta=\theta_0$ (or  $\theta<\theta_0$ or $\theta>\theta_0$) the
 {\bf null hypothesis} $h_0$,
-and call the negation of $h_0$ the {\bf alternative hypothesis} $h_1$.
+and call the negation of $h_0$ (i.e., 
+$\theta\neq\theta_0$ (or  $\theta\geq\theta_0$ or $\theta\leq \theta_0$))
+the {\bf alternative hypothesis} $h_1$.
 Assume we
 are given data $\vec{x}=\{x^\s|\s\in \Sigma\}$. Assume
 also that we are given
@@ -4411,21 +4413,21 @@ A Bayesian would assume that there
 is a prior $P(h)$, and use it to
 calculate
 $P(h|\vec{x})=\frac{P(\vec{x}|h) P(h)}{P(\vec{x})}$.
-$P(\rvh\neq h_0|\vec{x})$
-is the probability that the null hypothesis is false.
+$P(\rvh= h_0|\vec{x})$
+is the probability that the null hypothesis is true.
 A p-value is a monotonically increasing function of
-$P(\rvh\neq h_0|\vec{x})$,
+$P(\rvh= h_0|\vec{x})$,
 so Bayesians have no trouble saying
 that  {\color{red} a p-value is
 a measure of
-$P(\rvh\neq h_0|\vec{x})$, i.e.,
+$P(\rvh= h_0|\vec{x})$, i.e.,
 a measure of the probability that
-the null-hypothesis is false}.
+the null-hypothesis is true}.
 
 Frequentists, on the other hand,
 believe that $h$
 is a ``parameter", not a random variable,
-so  $P(\rvh\neq h_0|\vec{x})$
+so  $P(\rvh= h_0|\vec{x})$
 is undefined.
 Next, we explain the correct
 way of thinking about p-values, according to
@@ -4446,45 +4448,47 @@ We welcome it.
 
 Call
 the random variable
-$\rvt$ the {\bf test statistic} and the function
-$OTS(\vecx)$ the {\bf observed test statistic}.
-$OTS(\vecx)$ is designed so that
-it becomes 0 when $h_0$
-is exactly satisfied,
-and its magnitude grows monotonically as $h_0$
-becomes less well satisfied.
+$\rvt$ the {\bf test statistic} and let 
+$t^*$ be a user defined
+parameter.
+$\rvt$ and $t^*$
+are defined so that
+when $\rvt$ is
+in the neighborhod of $t^*$,
+the $h_0$ hypothesis is 
+approximately satisfied.
 Frequentists define the {\bf p-value} $p$ as
 
 \beq
 p=
 \left\{
 \begin{array}{ll}
-P(\rvt \geq OTS(\vecx)|h_0)&\text{right-sided-tail,
+P(\rvt \geq t^*|h_0)&\text{right-sided-tail,
 if $h_0$ is $\theta<\theta_0$}
  \\
- P(\rvt\leq OTS(\vecx)|h_0)&\text{left-sided-tail,
+ P(\rvt\leq t^*|h_0)&\text{left-sided-tail,
  if $h_0$ is $\theta>\theta_0$}
  \\
- P(|\rvt| > |OTS(\vecx)|\;|h_0)&\text{double-sided-tail,
+ P(|\rvt| > |t^*|\;|h_0)&\text{double-sided-tail,
  if $h_0$ is $\theta=\theta_0$}
 \end{array}
 \right.
 \eeq
 Thus, for a Frequentist,
 {\color{red} a p-value is a probabilistic
-measure of the size of the region
+weight of the region
 where the $h_0$ hypothesis is
-extremely violated}.
-If that region is large,
+defined by the user to be violated}.
+If that weight is large,
 then the region where
-the $h_0$ hypothesis
-is approximately satisfied is small,
+the $h_0$ hypothesis is
+defined to be satisfied is small,
 which means the $h_0$
 hypothesis
-is unlikely.
-The larger the p-value, the
-less likely it is that the $h_0$
-hypothesis is true,
+is expected to be close to the truth.
+The larger the p-value,
+the closer $h_0$
+is expected to be near the truth,
 just like the Bayesian definition
 says.
 Note that the p-value
@@ -4494,31 +4498,22 @@ value from 0 to 1.
 Suppose we are given a subpopulation with $n$ samples,
  mean $\ol{x}$ and variance $\HAT{\s}$.
  Let $\theta_0=\mu_0$.
- For the z-test and the t-test,
-we define
+Define
 
 \beq
 \rvt=\rvz=
-\frac{\rvx-\mu}{\frac{\HAT{\s}}{\sqrt{n}}}, \quad
-OTS(\vecx)=z^*
-\;,
+\frac{\rvx-\mu_0}{\frac{\HAT{\s}}{\sqrt{n}}}
+\;. 
 \eeq
-where
-the {\bf z-score} $z^*$ is defined by
-
-
-\beq
-z^*=\frac{\ol{x}-\mu_0}{\frac{\HAT{\s}}{\sqrt{n}}}
-\;.
-\eeq
-For a {\bf z-test},
+For $n>30$, 
 
 \begin{subequations}
 \beqa
-P(\rvz\geq z^*|h_0)=\Phi(z^*)
+P(\rvz\geq z^*|h_0)
+=1-\Phi(z^*)=\Phi(-z^*)
 &\quad&\text{if $h_0$ is $\mu<\mu_0$}
 \\
-P(\rvz\leq z^*|h_0)=1-\Phi(z^*)=\Phi(-z^*)
+P(\rvz\leq z^*|h_0)=\Phi(z^*)
 &\quad&\text{if $h_0$ is $\mu>\mu_0$}
 \\
 P(|\rvz|\geq |z^*|\;|h_0)=2\Phi(-|z^*|)
@@ -4529,13 +4524,24 @@ P(|\rvz|\geq |z^*|\;|h_0)=2\Phi(-|z^*|)
 where $\Phi(x)$ is the cumulative distribution
 for the Standard Normal Distribution
 $\caln(x;\mu=0, \s=0)$.
-For a {\bf t-test}, $\Phi()$ is replaced
+For $n<30$, $\Phi()$ is replaced
 by $\Phi_S()$, where  $\Phi_S()$ is
 the cumulative distribution
 for the Student t-distribution ${\rm Stud}(x; \nu=n-1)$.
 Note that Eq.(\ref{eq-double-tail})
 agrees with
 Eq.(\ref{eq-conf-level2}).
+
+The quantity
+\beq
+z_{score}=
+\frac{\ol{x}-\mu_0}{\frac{\HAT{\s}}{\sqrt{n}}}
+\eeq
+is called the {\bf z score}.
+If $|z_{score}| > |z^*|$,
+then the $h_0$ hypothesis
+is defined to be violated
+(for the double sided case).
 
 \section{Short Summary of
 Boolean Algebra}
