@@ -1,0 +1,431 @@
+\chapter{Diffusion Models (COMING SOON)}
+\label{ch-diffusion}
+
+Diffusion Model (DM)
+
+\section{DM bnet}
+\begin{figure}[h!]
+$$
+\xymatrix@C=4pc@R=3pc{
+&\rvz^1\ar[d]^{\sqrt{\beta^0}}
+&\rvz^2\ar[d]^{\sqrt{\beta^1}}
+&\rvz^3\ar[d]^{\sqrt{\beta^2}}
+\\
+\rvx^0\ar[r]_{\sqrt{\alp^0}}
+&\rvx^1\ar[r]_{\sqrt{\alp^1}}
+&\rvx^2\ar[r]_{\sqrt{\alp^2}}
+&\rvx^3(= \TIL{\rvx}^3)\ar[dl]
+\\
+\TIL{\rvx}^0
+&\TIL{\rvx}^1\ar[l]
+&\TIL{\rvx}^2\ar[l]
+&
+}
+$$
+\caption{Bnet for DM with $T=3$.}
+\label{fig-diffusion1}
+\end{figure}
+
+
+\beq
+0< \alp^t\
+< 1, \; \beta^t= 1-\alp^t
+\eeq
+
+\beq
+\alp^{[1,t]}= \prod_{\tau=1}^t \alp^\tau
+\eeq
+
+\beq \color{blue}
+P(x_0)=\delta(x_0, x'_0)
+\quad \text{ (original image) }
+\eeq
+
+\beq \color{blue}
+P(x^t|x^{t-1}, z^{t})=
+\indi(\quad x^t=\sqrt{\alp^t}\;x^{t-1}
++\sqrt{\beta^t}\;z^{t}\quad)
+\eeq
+
+\beq \color{blue}
+P(z^t) = \caln(z^t; \mu=0,
+ \s^2 =  I )
+\eeq
+
+\beqa \color{blue}
+P(\TIL{\rvx}^{t-1}=x^{t-1}|\TIL{\rvx}^{t}=x^{t})&=&\color{blue}
+\tilPT(x^{t-1}|x^{t})
+\\
+&=&\color{blue}
+\caln(x^{t-1}; \mu=\mu^{t-1}_\theta(x^t),
+\s^2 =\Sigma_\theta^{t-1}(x^t))
+ \eeqa
+ 
+ \begin{figure}[h!]
+ $$
+ \xymatrix@C=4pc@R=3pc{
+ &\rvz^1\ar[d]^{\sqrt{\beta^0}}
+ &\rvz^2\ar[d]^{\sqrt{\beta^1}}
+ &\rvz^3\ar[d]^{\sqrt{\beta^2}}
+ \\
+ \rvx^0\ar[r]_{\sqrt{\alp^0}}
+ &\rvx^1\ar[r]_{\sqrt{\alp^1}}
+ &\rvx^2\ar[r]_{\sqrt{\alp^2}}
+ &\rvx^3(= \TIL{\rvx}^3)\ar[ddl]
+ \\
+ \TIL{\rvx}^0
+ &\TIL{\rvx}^1\ar[dl]
+ &\TIL{\rvx}^2\ar[dl]
+ \\
+ \TIL{\rvz}^0\ar[u]^{1}
+ &\TIL{\rvz}^1\ar[u]^{1}
+ &\TIL{\rvz}^2\ar[u]^{1}
+ \\
+ \TIL{\rvz}_\theta^0\ar@/_2pc/[uu]_{-1}
+ &\TIL{\rvz}_\theta^1\ar@/_2pc/[uu]_{-1}
+ &\TIL{\rvz}_\theta^2\ar@/_2pc/[uu]_{-1}
+ }
+ $$
+ \caption{Bnet for DM with $T=3$.
+ This bnet simplies
+ the bnet of Fig.\ref{fig-diffusion1}.
+ by linearizing the reverse chain.}
+ \label{fig-diffusion2}
+ \end{figure}
+ 
+ \beq \color{blue}
+ P(\TIL{z}_\theta^t) = \caln(\TIL{z}_\theta^t; \mu=M^t_\theta,
+  \s =  \s^t )
+ \eeq
+ 
+\beq \color{blue}
+ P(\TIL{z}^t|\TIL{\rvx}^{t+1}) = \indi(\quad
+ \TIL{z}^t= M^t(x^{t+1})
+ \quad)
+ \eeq
+ 
+\beq \color{blue}
+ P(\TIL{x}^t|
+ \TIL{z}^t,
+ \TIL{z}_\theta^t
+ ) = \indi(\quad
+ \TIL{z}^t= 
+ \TIL{z}^t-
+  \TIL{z}_\theta^t
+ \quad)
+ \eeq
+ 
+ \beq
+ P(\TIL{z}^t)=
+ \caln(\TIL{z}^t;
+ \mu= M^t(\TIL{z}^{t+1})-M^t_\theta,
+ \s=\s^t)
+ \eeq
+ 
+ \section{Mean Value $M^{t-1}(x^t)$ }
+ \begin{claim}
+ \beq
+ \boxed{
+ \rvx^t = \sqrt{\alp^t}\; \rvx^{0}
+ +\sqrt{1-\alp^{[1,t]}}\;\rvw}
+ \label{eq-xt-x0-w}
+ \eeq
+ where $\rvw\sim \caln(0,I)$
+ 
+\beq
+ \xymatrix@C=5pc@R=3pc{
+ &\rvw\ar[d]^{\sqrt{1-\alp^{[1,t]}}}
+ \\
+ \rvx^0\ar[r]_{\sqrt{\alp^t}}
+ & \rvx^t
+ }
+ \eeq
+
+ \end{claim}
+ \proof
+ \qed
+ 
+  Solving Eq.(\ref{eq-xt-x0-w}) 
+  for $\rvx^0$, we get
+  \beq
+  \boxed{
+  \rvx^0 = \frac{1}{\sqrt{\alp^t}}
+  \rvx^t
+  -
+  \frac{\sqrt{1-\alp^{[1,t]}}}
+  {\sqrt{\alp^t}}\rvw
+  }
+  \label{eq-x0-xt-w}
+  \eeq
+
+ \beq
+ \xymatrix@C=5pc@R=3pc{
+ &\rvw\ar[dl]
+ _{\frac{\sqrt{1-\alp^{[1,t]}}}
+   {\sqrt{\alp^t}}}
+ \\
+ \rvx_0
+ & \rvx^t\ar[l]^{\frac{1}{\sqrt{\alp^t}}}
+ }
+ \eeq
+  
+ 
+ \begin{claim}
+ \beq
+ P(x^{t-1}|x^{t}, x^0)=
+ P(x^t|x^{t-1})
+ \frac
+ {P(x^{t-1}|x^0)}
+ {P(x^t|x^0)}
+ \eeq
+ \end{claim}
+ \proof
+ \beq
+ \overbrace{
+ P(x^t|x^{t-1}, x^0)}
+ ^{P(x^t|x^{t-1})}P(x^{t-1}|x^0)
+ =
+ P(x^{t-1}|x^{t}, x^0)P(x^t|x^0)
+ \eeq
+ \beq
+ \begin{array}{l}
+ \xymatrix{
+ &\sum z^1\ar[d]
+ &\cdots
+ &\sum z^{t-1}\ar[d]
+ &\sum z^{t}\ar[d]
+ \\
+ x^0\ar[r]
+ &\sum x^1\ar[r]
+ &\cdots\ar[r]
+ &x^{t-1}\ar[r]
+ &x^t
+ }
+ \\
+ \\
+ =
+ \xymatrix{
+ x^0\ar[r]
+ &x^{t-1}\ar[r]
+ &x^{t}
+ }
+  \\
+  \\
+  =
+  \xymatrix{
+  x^0\ar[r]\ar@/_1pc/[rr]_0
+  &x^{t-1}\ar[r]
+  &x^{t}
+  }\quad\text{(make fully connected)}
+ \\
+ \\
+ =
+ \xymatrix{
+ x^0\ar[r]\ar@/_1pc/[rr]
+ &x^{t-1}
+ &x^{t}\ar[l]
+ }\quad\text{(reverse arrow)}
+ \end{array}
+ \eeq
+ 
+ \beq
+ P(x^t|x^{t-1})P(x^{t-1}|x^0)
+ =
+ P(x^{t-1}|x^{t}, x^0)P(x^t|x^0)
+ \eeq
+ \qed
+ 
+ \beq
+ M^{t-1}(x^t)=
+ \sum_{x^{t-1}}
+ x^{t-1}P(x^{t-1}|x^t, x^0)
+ \eeq
+ 
+ \begin{claim}
+ \beq
+ \boxed{
+ M^{t-1}(x^t)
+ =
+ \frac{\sqrt{\alp^t}
+ (1-\alp^{[1,t-1]})}
+ {1-\alp^{[1,t]}}
+ x^t
+ +
+ \frac{\sqrt{\alp^{[1,t-1]}\beta^t}}
+  {1-\alp^{[1,t]}}
+  x^0
+  }
+  \label{eq-m-t-1}
+ \eeq
+ \end{claim}
+ \proof
+ \qed
+ 
+
+
+\begin{claim}
+\beq
+\boxed{
+M^{t-1}(x^t)=
+=
+ \frac{1}{\sqrt{\alp^t}}
+ \left(
+ x^t-
+ \frac{\beta^t}
+ {\sqrt{1-\alp^{[1,t]}}}
+ w
+ \right)
+ }
+ \eeq
+ \end{claim}
+ \proof
+ 
+ Use Eq.(\ref{eq-x0-xt-w})
+ to replace $x^0$ in 
+ Eq.(\ref{eq-m-t-1}).
+ \qed
+
+\section{Loss function ${\cal L}$}
+\beqa
+0&\leq&
+ D_{KL}(P(x^{1:T}|x^0)
+\parallel \tilPT(x^{1:T}|x^0))
+\\
+&=&
+\sum_{x^{1:T}}
+P(x^{1:T}|x^0)
+\ln
+\frac{P(x^{1:T}|x^0)}
+{\tilPT(x^{1:T}|x^0)}
+\\
+&=&
+\ln \tilPT(x^0)
++
+\sum_{x^{1:T}}
+P(x^{1:T}|x^0)
+\ln
+\frac{P(x^{1:T}|x^0)}
+{\tilPT(x^{0:T})}
+\eeqa
+
+\beq
+\underbrace{
+-\sum_{x^0}P(x^0)\ln\tilPT(x^0)
+}_{-E_{x^0}[\ln \tilPT(x^0)]}
+\leq
+\underbrace{
+\sum_{x^{0:T}}
+P(x^{0:T})
+\ln
+\frac{P(x^{1:T}|x^0)}
+{\tilPT(x^{0:T})}}_{
+E_{x^{0:T}}\left[\ln
+\frac{P(x^{1:T}|x^0)}
+{\tilPT(x^{0:T})}
+\right]=\call(\theta)}
+\eeq
+
+
+\begin{claim}
+\beq
+\call = \sum_{t=0}^T\call^t
+\eeq
+
+\beq
+\call^0 =
+-\ln \tilPT(x^0|x^1)
+\eeq
+
+\beq
+\call^{t-1}=
+E_{x^{0:T}}\left[\ln
+\frac{P(x^{t-1}|x^t,x^0)}
+{\tilPT(x^{t-1}|x^t)}
+\right]
+\quad \text{ for } t=2, 3, \ldots T
+\eeq
+
+\beq
+\call^T =
+E_{x^{0:T}}\left[\ln
+\frac{P(x^T|x^0)}
+{\tilPT(x^T)}
+\right]
+\eeq
+
+\end{claim}
+\proof
+\beqa
+\call
+&=&
+E_{x^{0:T}}
+\left[\ln 
+\frac{P(x^{1:T}|x^0)}
+{\tilPT(x^{0:T})}
+\right]
+\\
+&=&
+E_{x^{0:T}}
+\left[\ln 
+\frac{\prod_{t=1}^T P(x^t|x^{t-1})}
+{\tilPT(x^T)
+\prod^T_{t=1}\tilPT(x^{t-1}|x^t)}
+\right]
+\\
+&=&
+E_{x^{0:T}}
+\left[\ln 
+\frac{P(x^1|x^{0})\prod_{t=2}^T \overbrace
+{P(x^t|x^{t-1})}
+^{P(x^t|x^{t-1},x^0)}
+}
+{\tilPT(x^T)\tilPT(x^0|x^1)
+\prod^T_{t=2}\tilPT(x^{t-1}|x^t)}
+\right]
+\\
+&=&
+E_{x^{0:T}}
+\left[\ln 
+\frac{P(x^1|x^{0})\prod_{t=2}^T 
+P(x^{t-1}|x^t, x^0)
+\frac{P(x^t|x^0)}
+{P(x^{t-1}|x^0)}
+}
+{\tilPT(x^T)\tilPT(x^0|x^1)
+\prod^T_{t=2}\tilPT(x^{t-1}|x^t)}
+\right]
+\\
+&=&
+E_{x^{0:T}}
+\left[\ln 
+\frac{
+\cancel{P(x^1|x^{0})}
+\frac{P(x^T|x^0)}
+{\cancel{P(x^1|x^0)}}
+\prod_{t=2}^T 
+P(x^{t-1}|x^t, x^0)
+}
+{\tilPT(x^T)\tilPT(x^0|x^1)
+\prod^T_{t=2}\tilPT(x^{t-1}|x^t)}
+\right]
+\\
+&=&
+E_{x^{0:T}}
+\left[\ln 
+\frac{1}
+{\tilPT(x^0|x^1)}
+\cdot
+\frac{P(x^T|x^0)}
+{\tilPT(x^T)}
+\cdot
+\frac{
+\prod_{t=2}^T 
+P(x^{t-1}|x^t, x^0)
+}{
+\prod^T_{t=2}\tilPT(x^{t-1}|x^t)
+}
+\right]
+\eeqa
+\qed
+
+\section{Mean Value $M^{t}_\theta$ }
