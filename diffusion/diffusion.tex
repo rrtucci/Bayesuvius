@@ -2,11 +2,14 @@
 \label{ch-diffusion}
 \newcommand{\prodalp}[0]{\pi_1^t\alp}
 
+This paper is based on
+ Ref.\cite{weng-diffusion-model}
+
 Diffusion Model (DM)
 
 \section{Bnet for DM}
 
-Let
+For $t\in 1,2, \ldots , T$, let
 \beq
 0< \alp^t\
 < 1, \; \beta^t= 1-\alp^t
@@ -21,10 +24,9 @@ bnet for DM, and
 \ref{fig-diffusion2}
 shows the same bnet 
 in more detail.\footnote{
-The literature 
-on DM
-often uses $\rvz^{t-1}$ 
-instead of $\rvw^{t}$.
+Ref.\cite{weng-diffusion-model} uses $\rvz^{t}$ 
+instead of $\rvw^{t}$
+for white noise.
 Note that 
 the time index
 of 
@@ -46,20 +48,30 @@ $\rvw^{t_1}=\rvw^{t_2}$ .
 
 \begin{figure}[h!]
 $$
-\xymatrix@C=4pc@R=3pc{
-&\rvw^1\ar[d]^{\sqrt{\beta^0}}
-&\rvw^2\ar[d]^{\sqrt{\beta^1}}
-&\rvw^3\ar[d]^{\sqrt{\beta^2}}
+\xymatrix@C=5pc@R=3pc{
 \\
-\rvx^0\ar[r]_{\sqrt{\alp^0}}
-&\rvx^1\ar[r]_{\sqrt{\alp^1}}
-&\rvx^2\ar[r]_{\sqrt{\alp^2}}
+\text{Original}
+\\
+\text{Fake}
+}
+\xymatrix@C=5pc@R=3pc{
+\rvw^0\ar[dr]^{\sqrt{\beta^1}}
+&\rvw^1\ar[dr]^{\sqrt{\beta^2}}
+&\rvw^2\ar[dr]^{\sqrt{\beta^3}}
+\\
+\rvx^0\ar[r]_{\sqrt{\alp^1}}
+&\rvx^1\ar[r]_{\sqrt{\alp^2}}
+&\rvx^2\ar[r]_{\sqrt{\alp^3}}
 &\rvx^3(= \TIL{\rvx}^3)\ar[dl]
 \\
 \TIL{\rvx}^0
 &\TIL{\rvx}^1\ar[l]
 &\TIL{\rvx}^2\ar[l]
 &
+}
+\xymatrix@C=5pc@R=3pc{
+\\
+\text{Normal Dist.}
 }
 $$
 \caption{Bnet for DM with $T=3$.}
@@ -72,14 +84,14 @@ for the bnet of Fig.\ref{fig-diffusion1}
 are as follows:
 
 \beq \color{blue}
-P(x_0)=\delta(x_0, x'_0)
+P(x^0)=\delta(x^0, X^0)
 \quad \text{ (original image) }
 \eeq
 
 \beq \color{blue}
 P(x^t|x^{t-1}, w^{t})=
 \indi(\quad x^t=\sqrt{\alp^t}\;x^{t-1}
-+\sqrt{\beta^t}\;w^{t}\quad)
++\sqrt{\beta^t}\;w^{t-1}\quad)
 \eeq
 
 \beq \color{blue}
@@ -108,13 +120,13 @@ where $\s^{t-1}\in \RR$.
  \begin{figure}[h!]
  $$
  \xymatrix@C=4pc@R=3pc{
- &\rvw^1\ar[d]^{\sqrt{\beta^0}}
- &\rvw^2\ar[d]^{\sqrt{\beta^1}}
- &\rvw^3\ar[d]^{\sqrt{\beta^2}}
+ \rvw^0\ar[dr]^{\sqrt{\beta^1}}
+ &\rvw^1\ar[dr]^{\sqrt{\beta^2}}
+ &\rvw^2\ar[dr]^{\sqrt{\beta^3}}
  \\
- \rvx^0\ar[r]_{\sqrt{\alp^0}}
- &\rvx^1\ar[r]_{\sqrt{\alp^1}}
- &\rvx^2\ar[r]_{\sqrt{\alp^2}}
+ \rvx^0\ar[r]_{\sqrt{\alp^1}}
+ &\rvx^1\ar[r]_{\sqrt{\alp^2}}
+ &\rvx^2\ar[r]_{\sqrt{\alp^3}}
  &\rvx^3(= \TIL{\rvx}^3)\ar[ddl]\ar[dddl]
  \\
  \TIL{\rvx}^0
@@ -161,12 +173,15 @@ where $\s^{t-1}\in \RR$.
  \quad)
  \eeq
  
+ Note that these TPMs for the
+ bnet Fig.\ref{fig-diffusion2}
+ imply that
  \beq
 \underbrace{ P(
 \TIL{\rvx}^t=x^t|
  \TIL{\rvx}^{t+1}=x^{t+1}
  )
- }_{ \tilPT(x^t|x^{t+1})}
+ }_{ \text{call this }\tilPT(x^t|x^{t+1})}
  =\quad
  \caln(x^t;
  \mu= M^t(x^{t+1})
@@ -196,13 +211,40 @@ where $\s^{t-1}\in \RR$.
  \end{claim}
  \proof
  
- Recall that when 
- you multiply two Gaussians
- with variances $V_1$ and $V_2$,
- the variance of the
- product is $V_1+V_2$.
- We'll call this property
- the Variance of Gaussian Product (VGP).
+ Suppose $\rvx_1$ and $\rvx_2$
+ are independent
+ random variables with
+ variances $V_1$ and $V_2$,
+ respectively.
+ Then the variance $V$ of 
+ $\rvx=\rvx_1+\rvx_2$
+ is 
+ 
+ \beqa
+ V &=& \av{\rvx,\rvx}
+ \\
+ &=& 
+ \av{\rvx_1 + \rvx_2,\rvx_1 + \rvx_2}
+ \\
+ &=&
+ \av{\rvx_1, \rvx_1}
+ +
+ \av{\rvx_2, \rvx_2}
+ \\
+ &=&
+ V_1 + V_2
+ \eeqa
+ By similar reasoning, the 
+ mean of $\rvx$
+ equals the sum
+ of the means of $\rvx_1$
+ and $\rvx_2$.
+ It's also true
+ that if both $\rvx_1$
+ and $\rvx_2$  are normally
+ distributed, then $\rvx$ is too.
+ We will refer to a sum of independent normals as a SIN.
+ 
  Let $\rvw \sim \caln(0,I)$.
  
  
@@ -210,25 +252,25 @@ where $\s^{t-1}\in \RR$.
  \rvx^t 
  &=& 
  \sqrt{\alp^t} \rvx^{t-1}
- + \sqrt{1-\alp^t}\;\rvw^t
+ + \sqrt{1-\alp^t}\;\rvw^{t-1}
  \\
  &=&
  \sqrt{\alp^t} 
  [\sqrt{\alp^{t-1}} \rvx^{t-2}
-  + \sqrt{1-\alp^{t-1}}\;\rvw^{t-1}]
-  + \sqrt{1-\alp^t}\;\rvw^t
+  + \sqrt{1-\alp^{t-1}}\;\rvw^{t-2}]
+  + \sqrt{1-\alp^t}\;\rvw^{t-1}
   \\
   &=&
 \sqrt{\alp^t\alp^{t-1}}\; \rvx^{t-2}
 + 
-[ \sqrt{\alp^t(1-\alp^{t-1})}\;\rvw^{t-1}
-  + \sqrt{1-\alp^t}\;\rvw^t]
+[ \sqrt{\alp^t(1-\alp^{t-1})}\;\rvw^{t-2}
+  + \sqrt{1-\alp^t}\;\rvw^{t-1}]
   \\
   &=&
  \sqrt{\alp^t\alp^{t-1}}\; \rvx^{t-2}
  + 
  \sqrt{1-\alp^t\alp^{t-1}}\;\rvw
- \quad \text{(by VPG)}
+ \quad \text{(because it's a SIN)}
  \\
  &=& \cdots
  \\
@@ -241,8 +283,14 @@ where $\s^{t-1}\in \RR$.
  $\rvw$ by $\rvw^t$.
  This is justified
  because they are 
- both $\caln(0,I)$.
- 
+ both $\caln(0,I)$,
+ and,
+ when $t_1\neq t_2$,  we want the
+ $\rvw$ for $\rvx^{t_1}$
+ to
+ be independent
+ from the $\rvw$
+ for $\rvx^{t_2}$.
  
  \qed
  
@@ -271,7 +319,7 @@ where $\s^{t-1}\in \RR$.
  \eeq
   
  
- \begin{claim}
+ \begin{claim}\label{cl-diff-bayes}
  \beq
  P(x^{t-1}|x^{t}, x^0)=
  P(x^t|x^{t-1})
@@ -282,19 +330,19 @@ where $\s^{t-1}\in \RR$.
  \end{claim}
  \proof
  \beq
- \overbrace{
- P(x^t|x^{t-1}, x^0)}
- ^{P(x^t|x^{t-1})}P(x^{t-1}|x^0)
- =
  P(x^{t-1}|x^{t}, x^0)P(x^t|x^0)
+ =
+ \overbrace{
+  P(x^t|x^{t-1}, x^0)}
+  ^{P(x^t|x^{t-1})}P(x^{t-1}|x^0)
  \eeq
  \beq
  \begin{array}{l}
  \xymatrix{
- &\sum w^1\ar[d]
+ &\sum w^0\ar[d]
  &\cdots
+ &\sum w^{t-2}\ar[d]
  &\sum w^{t-1}\ar[d]
- &\sum w^{t}\ar[d]
  \\
  x^0\ar[r]
  &\sum x^1\ar[r]
@@ -309,7 +357,7 @@ where $\s^{t-1}\in \RR$.
  x^0\ar[r]
  &x^{t-1}\ar[r]
  &x^{t}
- }
+ }\text{(diagram A)}
   \\
   \\
   =
@@ -325,14 +373,18 @@ where $\s^{t-1}\in \RR$.
  x^0\ar[r]\ar@/_1pc/[rr]
  &x^{t-1}
  &x^{t}\ar[l]
- }\quad\text{(reverse arrow)}
+ }\quad\text{(reverse arrow)  (Diagram B)}
  \end{array}
+ \label{eq-diff-bayes}
  \eeq
  
  \beq
- P(x^t|x^{t-1})P(x^{t-1}|x^0)
+ \underbrace{P(x^{t-1}|x^{t}, x^0)P(x^t|x^0)
+ }_{\text{diagram B of Eq.\ref{eq-diff-bayes}}}
  =
- P(x^{t-1}|x^{t}, x^0)P(x^t|x^0)
+\underbrace{ P(x^t|x^{t-1})P(x^{t-1}|x^0)
+ }_{\text{diagram A of Eq.\ref{eq-diff-bayes}}
+ }
  \eeq
  \qed
  
@@ -343,6 +395,7 @@ where $\s^{t-1}\in \RR$.
  \eeq
  
  \begin{claim}
+ \label{cl-m-t-1}
  \beq
  \boxed{
  M^{t-1}(x^t)
@@ -360,6 +413,32 @@ where $\s^{t-1}\in \RR$.
  \eeq
  \end{claim}
  \proof
+ 
+ By Claim \ref{cl-diff-bayes},
+ we know that $\calq =P(x^{t-1}|x^t, x^0)$
+ can be expressed as a product
+ of two Gaussians
+ $P(x^t|x^{t-1})$
+ and $P(x^{t-1}|x^0)$,
+ divided by a third Gaussian
+ $P(x^t|x^0)$,
+ and all 3 of
+ these Gaussians
+ have been calculated 
+ in closed form
+ previously
+in this chapter. So
+it's just a matter
+of algebra to express
+$\calq$ as a Gaussian,
+complete the square
+inside the exponent
+of $\calq$,
+and thus obtain its mean value 
+$M^{t-1}(x^t)$.
+We leave the algebra to the
+reader. The algebra is also found 
+in Ref.\cite{weng-dif-mod}.
  \qed
  
 
@@ -375,7 +454,7 @@ M^{t-1}(x^t)=
  {\sqrt{1-\prodalp}}
  w^t
  \right)
- }
+ }\label{eq-m-t-1-xt}
  \eeq
  \end{claim}
  \proof
@@ -387,7 +466,7 @@ M^{t-1}(x^t)=
 
 
  
- Parameterize $M^{t-1}(x^t)$ by
+ Parameterize $M^{t-1}_\theta(x^t)$ by
  
  \beq
  \boxed{
@@ -409,19 +488,20 @@ M^{t-1}(x^t)=
    \eeq
  Then 
  
- \beqa
+ \begin{align}
  M^{t-1}(x^t)- M^{t-1}_\theta(x^t)
- &=&
+ &=
 C^t
-[w-n^{t-1}_\theta(x^t)]
+[w^t-n^{t-1}_\theta(x^t)]
 \\
-&=&
+&=
 C^t
 [w^t-n^{t-1}_\theta(
-\sqrt{\alp^t}\; x^{0}
+\sqrt{\prodalp}\; x^{0}
  +\sqrt{1-\prodalp}\;w^t
 )]
-\eeqa
+\label{eq-diff-M}
+\end{align}
 
 \section{Loss function ${\cal L}$}
 \beqa
@@ -574,11 +654,12 @@ P(x^{t-1}|x^t, x^0)
 \beqa
 \call^{t-1}
 &=&
-E_{x^0, w^t}
+E_{x^t}
 \left[
 \frac{1}{2(\s^{t-1})^2}
 [M^{t-1}(x^t)-M^{t-1}_\theta(x^t)]^2
 \right]
+\label{eq-loss-diff-ms}
 \\
 &=&
 E_{x^0, w^t}
@@ -590,22 +671,115 @@ E_{x^0, w^t}
  +\sqrt{1-\prodalp}\;w^t
 )\right]^2
 \right]
+\label{eq-from-diff-M}
 \eeqa
 \end{claim}
 \proof
+
+Eq.(\ref{eq-from-diff-M})
+ follows trivially from
+Eq.(\ref{eq-diff-M}).
+
+Recall that
+
+\beq
+\call^{t-1}=
+E_{x^{0:T}}\left[\ln
+\frac{P(x^{t-1}|x^t,x^0)}
+{\tilPT(x^{t-1}|x^t)}
+\right]
+\eeq
+
+The denominator
+$\tilPT(x^{t-1}|x^t)$
+is one of the TPMs for
+the bnet Fig.\ref{fig-diffusion2} ,
+and it's a normal distribution
+with mean $M^{t-1}_\theta(x^t)$.
+The numerator
+$P(x^{t-1}|x^t,x^0)$ is
+a normal distribution too;
+it was calculated
+in the proof
+of Claim \ref{cl-m-t-1},
+where its mean was called
+$M^{t-1}(x^t)$.
+Hence, after
+some algebra
+which is left to the
+reader,
+one can show Eq.(\ref{eq-loss-diff-ms}). 
+
+
 \qed
 
 \beq
 \call_{simple} =
 E_{x^0, w^t}
 \left[
-\left
-[w^t-n^{t-1}_\theta(
+\left[w^t-n^{t-1}_\theta(
 \sqrt{\prodalp}\; x^{0}
  +\sqrt{1-\prodalp}\;w^t
 )\right]^2
 \right]
+\label{eq-diff-loss-simple}
 \eeq
 
 \section{Algorithms for training
-and sampling }
+and sampling DM}
+
+\begin{algorithm}
+	\DontPrintSemicolon
+    \SetKwInOut{KwIn}{Input}
+    \SetKwInOut{KwOut}{Output}
+	\KwIn{$\{\beta^t\}_{t=1}^T$, 
+	$\eps>0$, $n^t_\theta(x)$ function,
+	$P(x^0)$, $T$, $\eta>0$}
+    \KwOut{$\theta_{new}=$ optimal $\theta$}
+    
+    \While{$|\theta-\theta_{new}| > \eps$}{
+    Choose $x^0\sim P(x^0)$\;
+    Choose $t\sim Uniform 
+    	(\{1,2, \ldots, T\})$\;
+    Choose $w \sim \caln(0, I)$\;
+    \tcp{Gradient descent for simple loss 
+    function given by Eq.(\ref{eq-diff-loss-simple}).}
+    $\theta_{new}= \theta +\eta
+    \partial_\theta 
+    \left[w-n^{t-1}_\theta(
+    \sqrt{\prodalp}x^{0}
+     +\sqrt{1-\prodalp}w
+    )\right]^2$\;
+    }    
+	\KwRet{$\theta_{new}$}
+    \caption{Algorithm for training DM (i.e., finding optimum $\theta$)}
+\end{algorithm}
+
+\begin{algorithm}
+	\DontPrintSemicolon
+    \SetKwInOut{KwIn}{Input}
+    \SetKwInOut{KwOut}{Output}
+	\KwIn{$n^t_\theta(x)$, 
+	where $\theta$ is optimal,
+	$T$, $\{\alp^t\}_{t=1}^T$,
+	$\{\s^t\}_{t=1}^T $
+	}
+    \KwOut{$x^0=$ fake image}
+    Choose $x^T\sim\caln(0, I)$\;
+    \For{$t=T, T-1, \ldots, 2,1$}{
+    	Choose $w\sim \caln(0,I)$ if $t>1$,
+    	else $w=0$\;
+    	\tcp{See Eq.\ref{eq-m-t-1-xt}}
+    	$x^{t-1}=
+      	\frac{1}{\sqrt{\alp^t}}
+      	\left(
+      	x^t-
+      	\frac{\beta^t}
+      	{\sqrt{1-\prodalp}}
+      	n^{t-1}_\theta(x^t)
+      	\right) + \s^t w$
+      	\;
+    }
+	\KwRet{$x^0$}
+    \caption{Algorithm for sampling DM (i.e., finding fake image $x^0$)}
+\end{algorithm}
