@@ -1,11 +1,58 @@
-\chapter{Diffusion Models (COMING SOON)}
+\chapter{Diffusion Models}
 \label{ch-diffusion}
 \newcommand{\prodalp}[0]{\pi_1^t\alp}
 
 This paper is based on
  Ref.\cite{weng-diffusion-model}
 
-Diffusion Model (DM)
+Diffusion Models (DM)
+are a way of generating 
+fake images from an
+original image.
+They are a competitor 
+to GANs (see Chapter \ref{ch-gan}),
+and are used in DALL-E 
+(OpenAI's 
+computer program
+that generates images from text).
+
+
+DM works by
+subjecting
+each degree of freedom 
+of the image 
+to a forward Markov
+chain
+of transformations
+labeled $t=0, 1, 2, \ldots, T$
+and a reverse Markov
+chain of transformations
+labeled $t=T-1, T-2, \ldots,
+0$.
+Each step
+of the forward chain
+multiplies each degree
+of freedom
+of the image by a constant
+and adds white noise
+to it.
+The last  image  ($t=T$)
+of the forward chain is
+changed to the
+point that it looks
+like a normal distribution.
+The reverse chain tries
+to undo,
+as well as possible, the alterations
+to the original image
+done by the forward chain.
+Full, faithful restoration
+is impossible
+because the
+forward chain
+is an irreversible 
+process. 
+
 
 \section{Bnet for DM}
 
@@ -18,6 +65,28 @@ For $t\in 1,2, \ldots , T$, let
 \beq
 \prodalp= \prod_{\tau=1}^t \alp^\tau
 \eeq
+Let 
+
+$\rvx^t, \TIL{\rvx}^t\in \RR^{df}$ for $t=0, 1, 2,
+\ldots, T$ be column vectors
+describing an image. Here $df$
+is the number of degrees of freedom 
+of the image. $\rvx^0$ 
+will denote the initial Original image,
+$\rvx^T=\TIL{\rvx}^T$
+will denote an image which 
+is very close to a 
+normal distribution,
+and $\TIL{\rvx}^0$
+will denote the final Fake image.
+
+$I\in \RR^{df\times df}$ is the 
+identity matrix
+
+$\rvw^t, \rva^t,
+\rvn^t_\theta \in\RR^{df}$
+
+
 
 Fig.\ref{fig-diffusion1} shows a
 bnet for DM, and  
@@ -43,7 +112,7 @@ and $\rvw^{t_2}$
 are uncorrelated for $t_1\neq t_2$,
 so we can get into 
 trouble if we assume
-$\rvw^{t_1}=\rvw^{t_2}$ .
+$\rvw^{t_1}=\rvw^{t_2}=\rvw$ .
 }
 
 \begin{figure}[h!]
@@ -119,6 +188,12 @@ where $\s^{t-1}\in \RR$.
  
  \begin{figure}[h!]
  $$
+\xymatrix@C=4pc@R=3pc{
+\\
+\text{Original}
+\\
+\text{Fake}
+}
  \xymatrix@C=4pc@R=3pc{
  \rvw^0\ar[dr]^{\sqrt{\beta^1}}
  &\rvw^1\ar[dr]^{\sqrt{\beta^2}}
@@ -140,6 +215,10 @@ where $\s^{t-1}\in \RR$.
  \rvn_\theta^0\ar@/_1pc/[uu]_{-1}
  &\rvn_\theta^1\ar@/_1pc/[uu]_{-1}
  &\rvn_\theta^2\ar@/_1pc/[uu]_{-1}
+ }
+ \xymatrix@C=4pc@R=3pc{
+ \\
+ \text{Normal Dist.}
  }
  $$
  \caption{The bnet of Fig.\ref{fig-diffusion1}
@@ -329,13 +408,27 @@ where $\s^{t-1}\in \RR$.
  \eeq
  \end{claim}
  \proof
- \beq
+
+ This is a simple
+ consequence of Bayes rule.
+ We will prove this
+ two ways: algebraically
+ and graphically.
+ 
+ The algebraic proof goes as follows.
+  \beq
  P(x^{t-1}|x^{t}, x^0)P(x^t|x^0)
  =
  \overbrace{
   P(x^t|x^{t-1}, x^0)}
   ^{P(x^t|x^{t-1})}P(x^{t-1}|x^0)
  \eeq
+ 
+ The  graphical proof,
+ although longer, is more 
+ intuitive.
+ Start by noticing that
+ 
  \beq
  \begin{array}{l}
  \xymatrix{
@@ -373,10 +466,11 @@ where $\s^{t-1}\in \RR$.
  x^0\ar[r]\ar@/_1pc/[rr]
  &x^{t-1}
  &x^{t}\ar[l]
- }\quad\text{(reverse arrow)  (Diagram B)}
+ }\quad\text{(reverse arrow)  (diagram B)}
  \end{array}
  \label{eq-diff-bayes}
  \eeq
+ Therefore,
  
  \beq
  \underbrace{P(x^{t-1}|x^{t}, x^0)P(x^t|x^0)
@@ -387,6 +481,9 @@ where $\s^{t-1}\in \RR$.
  }
  \eeq
  \qed
+ 
+ Define
+ the following mean value:
  
  \beq
  M^{t-1}(x^t)=
@@ -438,7 +535,7 @@ and thus obtain its mean value
 $M^{t-1}(x^t)$.
 We leave the algebra to the
 reader. The algebra is also found 
-in Ref.\cite{weng-dif-mod}.
+in Ref.\cite{weng-diffusion-model}.
  \qed
  
 
@@ -464,9 +561,8 @@ M^{t-1}(x^t)=
  Eq.(\ref{eq-m-t-1}).
  \qed
 
-
- 
- Parameterize $M^{t-1}_\theta(x^t)$ by
+ Let us
+ parameterize $M^{t-1}_\theta(x^t)$ by
  
  \beq
  \boxed{
@@ -480,13 +576,14 @@ M^{t-1}(x^t)=
   \right)}
  \eeq
  
- Let
+If we define
  \beq
  C^t=
  \frac{-\beta^t}
    {\sqrt{\alp^t(1-\prodalp)}}
+   \;,
    \eeq
- Then 
+ then 
  
  \begin{align}
  M^{t-1}(x^t)- M^{t-1}_\theta(x^t)
@@ -504,6 +601,8 @@ C^t
 \end{align}
 
 \section{Loss function ${\cal L}$}
+
+Note that
 \beqa
 0&\leq&
  D_{KL}(P(x^{1:T}|x^0)
@@ -540,12 +639,25 @@ P(x^{0:T})
 E_{x^{0:T}}\left[\ln
 \frac{P(x^{1:T}|x^0)}
 {\tilPT(x^{0:T})}
-\right]=\call(\theta)}
+\right]=\call(\theta)=\text{ loss function}}
+\label{eq-pos-leq-l}
 \eeq
 
 Henceforth, expected values $E_{x^{0:T}}$
 are to be understood as being with respect
 to $P(x^{0:T})$.
+
+The left had side of
+the inequality Eq.(\ref{eq-pos-leq-l})
+is expected to be a
+small positive constant,
+because we expect $\tilPT(x^0)\approx P(x^0)\approx \delta(x^0, X^0)$.
+Thus, we are justified
+in defining the right 
+hand side of 
+ Eq.(\ref{eq-pos-leq-l})
+ as loss function $\call=\call(\theta)$
+ to be minimized.
 
 \begin{claim}
 \beq
@@ -649,6 +761,25 @@ P(x^{t-1}|x^t, x^0)
 \eeqa
 \qed
 
+We expect $\tilPT(x^0|x^1)$
+in $\call^0$
+to depend
+only very weakly
+on $\theta$ because 
+it comes at the end of
+the reverse Markov chain.
+Likewise, we expect $\tilPT(x^T)$
+in $\call^T$
+to be approximately 
+a normal distribution
+independent of $\theta$,
+because it comes at the beginning
+of the reverse 
+Markov chain.
+Hence,
+we are justified in
+approximating 
+$\call\approx \sum_{t=2}^T \call^{t-1}$.
 
 \begin{claim}
 \beqa
@@ -680,7 +811,8 @@ Eq.(\ref{eq-from-diff-M})
  follows trivially from
 Eq.(\ref{eq-diff-M}).
 
-Recall that
+To show Eq.(\ref{eq-loss-diff-ms}),
+ recall that
 
 \beq
 \call^{t-1}=
@@ -712,6 +844,10 @@ one can show Eq.(\ref{eq-loss-diff-ms}).
 
 
 \qed
+
+Eq.(\ref{eq-from-diff-M})
+for $\call^{t-1}$
+is usually simplified to
 
 \beq
 \call_{simple} =
