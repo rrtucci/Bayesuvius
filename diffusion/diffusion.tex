@@ -59,14 +59,14 @@ studied DALL-E's algorithm,
 but my guess is that it works roughly as follows.
 Given a text description
 of an image, such as  
-"A hedgehog using a calculator
+``A hedgehog using a calculator
 in the style of Vincent van Gogh",
 it uses a neural net
 trained on a vast corpus of 
 words and images, to match
 separate words in the description
  with an image
- that represents each word.
+ for each word.
 Then it uses a second neural net
 to create a pastiche from
 the set of images created in the first
@@ -171,7 +171,9 @@ $$
 \text{Normal Dist.}
 }
 $$
-\caption{Bnet for DM with $T=3$.}
+\caption{Bnet for DM with $T=3$.
+See Chapter \ref{ch-linear-sys}
+ for an explanation of LDEN notation.}
 \label{fig-diffusion1}
 \end{figure}
 
@@ -204,7 +206,7 @@ P(\TIL{\rvx}^{t-1}=x^{t-1}|\TIL{\rvx}^{t}=x^{t})&=&\color{blue}
 \caln(x^{t-1}; \mu=M^{t-1}_\theta(x^t),
 \s^2 =\Sigma_\theta^{t-1}(x^t))
  \eeqa
-We will assume,
+We will assume
 that 
 
 \beq
@@ -250,7 +252,7 @@ where $\s^{t-1}\in \RR$.
  }
  $$
  \caption{The bnet of Fig.\ref{fig-diffusion1}
- shown in more detail.}
+ shown in more detail. }
  \label{fig-diffusion2}
  \end{figure}
  
@@ -417,7 +419,7 @@ where $\s^{t-1}\in \RR$.
  \beq
  \xymatrix@C=5pc@R=3pc{
  &\rvw^t\ar[dl]
- _{\frac{\sqrt{1-\prodalp}}
+ _{-\;\frac{\sqrt{1-\prodalp}}
    {\sqrt{\prodalp}}}
  \\
  \rvx_0
@@ -439,7 +441,7 @@ where $\s^{t-1}\in \RR$.
 
  This is a simple
  consequence of Bayes rule.
- We will prove this
+ We will prove this in
  two ways: algebraically
  and graphically.
  
@@ -562,7 +564,7 @@ of $\calq$,
 and thus obtain its mean value 
 $M^{t-1}(x^t)$.
 We leave the algebra to the
-reader. The algebra is also found 
+reader. If in doubt, the algebra can be found 
 in Ref.\cite{weng-diffusion-model}.
  \qed
  
@@ -630,7 +632,9 @@ C^t
 
 \section{Loss function ${\cal L}$}
 
-Note that
+Note that\footnote{$D_{KL}$
+is the Kullback-Leibler divergence.
+It's defined in Chapter \nameref{ch0-conventions}.}
 \beqa
 0&\leq&
  D_{KL}(P(x^{1:T}|x^0)
@@ -675,7 +679,7 @@ Henceforth, expected values $E_{x^{0:T}}$
 are to be understood as being with respect
 to $P(x^{0:T})$.
 
-The left had side of
+The left hand side of
 the inequality Eq.(\ref{eq-pos-leq-l})
 is expected to be a
 small positive constant,
@@ -806,8 +810,10 @@ of the reverse
 Markov chain.
 Hence,
 we are justified in
-approximating 
-$\call\approx \sum_{t=2}^T \call^{t-1}$.
+using 
+$\call'= \sum_{t=2}^T \call^{t-1}$ 
+as the new loss function
+to me minimized with respect to $\theta$. 
 
 \begin{claim}
 \beqa
@@ -837,7 +843,8 @@ E_{x^0, w^t}
 
 Eq.(\ref{eq-from-diff-M})
  follows trivially from
-Eq.(\ref{eq-diff-M}).
+Eq.(\ref{eq-diff-M})
+and Eq.(\ref{eq-loss-diff-ms}).
 
 To show Eq.(\ref{eq-loss-diff-ms}),
  recall that
@@ -897,23 +904,27 @@ and sampling DM}
     \SetKwInOut{KwIn}{Input}
     \SetKwInOut{KwOut}{Output}
 	\KwIn{$\{\beta^t\}_{t=1}^T$, 
-	$\eps>0$, $n^t_\theta(x)$ function,
+	$0<\eps<1$, $n^t_\theta(x)$ function,
+	$\theta_{in}$, $\Delta  \theta_{in}$,
 	$P(x^0)$, $T$, $\eta>0$}
-    \KwOut{$\theta_{new}=$ optimal $\theta$}
-    
-    \While{$|\theta-\theta_{new}| > \eps$}{
+    \KwOut{$\theta_{next}=$ optimal $\theta$}
+    $\Delta\theta = \Delta\theta_{in}$\;
+    $\theta_{next} = \theta_{in}$\;
+    \While{$|\Delta \theta| > \eps$}{
     Choose $x^0\sim P(x^0)$\;
     Choose $t\sim Uniform 
     	(\{1,2, \ldots, T\})$\;
     Choose $w \sim \caln(0, I)$\;
+    $\theta = \theta_{next}$\;
     \tcp{Gradient descent for simple loss 
     function given by Eq.(\ref{eq-diff-loss-simple}).}
-    $\theta_{new}= \theta +\eta
+    $\theta_{next}= \theta +\eta
     \partial_\theta 
     \left[w-n^{t-1}_\theta(
     \sqrt{\prodalp}x^{0}
      +\sqrt{1-\prodalp}w
     )\right]^2$\;
+    $\Delta \theta = \theta_{next}-\theta$\;
     }    
 	\KwRet{$\theta_{new}$}
     \caption{Algorithm for training DM (i.e., finding optimum $\theta$)}
