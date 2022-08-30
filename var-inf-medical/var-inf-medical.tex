@@ -1,0 +1,479 @@
+\chapter{Variational Inference 
+for Medical Diagnosis (COMING SOON)}
+\label{ch-var-inf-medical}
+
+This chapter is based
+on Ref.\cite{jaak-jordan}.
+
+\begin{figure}[h!]
+$$\xymatrix{
+\ul{\ell}
+\ar[dr]\ar[drr]\ar[drrr]\ar[drrrr]\ar[drrrrr]
+&
+&\rvd_1\ar[dl]\ar[drr]
+&\rvd_2\ar[dll]\ar[dl]\ar[dr]\ar[d]\ar[drr]
+&\rvd_3\ar[dll]\ar[d]\ar[dr]
+\\
+&\rvs_1
+&\rvs_2
+&\rvs_3
+&\rvs_4
+&\rvs_5
+}$$
+\caption{
+Typical bnet (bipartite, 2 level graph) 
+for medical diagnosis
+to which we will apply VBA.
+In this case, $nd=3$ and
+$ns=5$. 
+}
+\label{fig-var-bay-med-bnet}
+\end{figure}
+
+Fig.\ref{fig-var-bay-med-bnet}
+gives a typical bnet
+for medical diagnosis
+to which we will apply VBA.
+$\rvd_i\in \bool$
+are the possible diseases,
+$\rvs_i\in\bool$ are the possible
+symptoms, and $\ul{\ell}\in\bool$
+is the leakage  due to 
+possible error in 
+the parents of the symptoms.
+Note that the 
+arrows point from
+diseases to symptoms
+because diseases temporally precede
+the symptom.
+
+\beq
+\ZZ_{[1,n]}=\{1,2, \ldots, n\}
+\eeq
+
+\beq
+pa_\s = \{i\in\ZZ_{[1,nd]}: d_i\in pa(\rvs_\s)\}
+\eeq
+Note that $pa_\s$
+does not include $\ul{\ell}$  parent.
+
+\beq
+ch_i= \{j\in\ZZ_{[1,nd]}: d_j\in ch(\rvd_i)\}
+\eeq
+
+\beq
+\rvd_{A} =\{\rvd_k: k\in A\}
+\eeq
+
+\newcommand{\dall}[0]{d^{nd}}
+\beq
+\rvd^{nd} =\{\rvd_k: k\in \ZZ_{[1, nd]}\}
+\eeq
+
+\beq
+\rvd_{!j} =\{\rvd_k: k\in \ZZ_{[1, nd]}-\{j\}\}
+\eeq
+
+\beq \color{blue}
+P(d_j) = \text{ given }
+\eeq
+
+\beq \color{blue}
+P(\ell) = \text{ given }
+\eeq
+
+\beqa \color{blue}
+P(\rvs_\s=0|d_{pa_\s}, \ell)
+&=&\color{blue}
+\underbrace{P(\rvs_\s=0|\ell)}_{e^{-\theta_{\s|0}}}
+\prod_{j\in pa_\s}
+\underbrace{P(\rvs_\s=0|d_j)}_
+{e^{-\theta_{\s|j}d_j}}
+\\
+&=&\color{blue}
+e^{-\theta_{\s|0} -
+\sum_{j\in pa_\s}\theta_{\s|j}d_j}
+\eeqa
+where $\theta_{\s|0}, \theta_{\s|j}>0$.
+This  
+$P(\rvs_\s=0|d_{pa_\s}, \ell)$
+corresponds to
+the noisy-or model 
+(See Chapter \ref{ch-noisy-or}.).
+
+\beq \color{blue}
+P(\rvs_\s=1|d_{pa_\s})=
+1-
+e^{-\theta_{\s|0} -
+\sum_{j\in pa_\s}\theta_{\s|j}d_j}
+\eeq
+
+\beq
+x_\s=
+\theta_{\s|0} +
+\sum_{j\in pa_\s}\theta_{\s|j}d_j
+\eeq
+
+\begin{align}
+P(d_j|\rvs_A=0, \rvs_{A^c}=1)&=
+ \frac{P(\rvs_A=0, \rvs_{A^c}=1|d_j)P(d_j)}
+ {P(\rvs_A=0, \rvs_{A^c}=1)}
+ \\
+ &=\caln(!d_j)
+ \sum_{d_{!j}}P(\rvs_A=0, \rvs_{A^c}=1|\dall)P(\dall)
+ \\
+ &=\caln(!d_j)
+  \sum_{d_{!j}}P(\rvs_{A^c}=1|\dall)
+  P(\rvs_A=0|\dall)P(\dall)
+\\
+&=\caln(!d_j)\sum_{d_{!j}}
+\left\{
+\begin{array}{l}
+\prod_{\s\in A^c}
+\overbrace{(1-e^{-x_\s})
+}^{\text{ call } \calp_\s}
+\\
+\prod_{\s\in A}
+e^{-\theta_{\s|0}}
+\prod_{j\in pa_\s}[e^{-\theta_{\s|j}}]^{d_j}
+\\
+\prod_{j\in \ZZ_{[1,nd]}} P(d_j)
+\end{array}
+\right.
+\end{align}
+$A \subset \ZZ_{[1,ns]}$, $A^c=\ZZ_{[1,ns]}-A$.
+Summing
+over $d_{!j}$ seems
+crazy, because $nd>>1$,
+but
+we will
+approximate
+the summand
+so that the sum
+can be done in closed form.
+
+\beq
+f(x_\s)=\ln(1-e^{-x_\s})
+\eeq
+
+\beq
+\calp_\s = 1-e^{-x_\s} = e^{f(x_\s)}
+\eeq
+
+\beq
+f(x_\s)\leq x_\s X_\s - F(X_\s)
+\eeq
+
+
+
+\beq
+F(X_\s)=
+-X_\s\ln  X_\s
++(1+X_\s)\ln(1+X_\s)
+\eeq
+
+\beqa
+\calp_\s
+&=&
+e^{f(x_s)}
+\\
+&\leq &
+ e^{x_\s X_\s - F(X_\s)}
+ \\
+ &=&
+ \underbrace{
+ e^{-F(X_\s)}
+ e^{-\theta_{\s|0}X_\s}
+ \prod_{j\in
+  pa_\s}[e^{-\theta_{\s|j}X_\s}]^{d_j}
+  }_{\text{ call } \calb(X_\s)
+  }
+\eeqa
+
+\beqa
+\calp_\s &=&
+ e^{f(x_\s)}
+ \\
+ &=&
+  e^{f(\theta_{\s|0} +\sum_j
+ \theta_{\s|j d_j})}
+ \\
+ &\geq&
+ e^{
+ \sum_j q_{j|\s}
+ f\left(
+ \theta_{\s|0}
+ +\frac{\theta_{\s|j}d_j}{q_{j|\s}}
+ \right)
+ }
+ \\
+ &=&
+ e^{
+ \sum_j
+ q_{j|\s}\left[
+ d_j f\left(
+ \theta_{\s|0} + 
+ \frac{\theta_{\s|j}d_j}{q_{j|\s}}
+ \right)
+ +(1-d_j)f(\theta_{\s|0})
+ \right]
+ }
+ \\
+ &=&
+ \underbrace{
+e^{
+f(\theta_{\s|0})+
+\sum_j
+ q_{j|\s} d_j\left[
+  f\left(
+ \theta_{\s|0} + 
+ \frac{\theta_{\s|j}d_j}{q_{j|\s}}
+ \right)
+ - f(\theta_{\s|0})
+ \right]
+ }
+ }_{
+ \text{ call } \cala(q_{.|\s})
+ }
+  \eeqa
+  
+  
+\beq
+\boxed{
+\cala(q_{.|\s})
+\leq
+\calp_\s
+\leq
+\calb(X_\s)
+}
+\eeq
+
+\section{Convex/Concave functions,
+Jensen's Inequality}
+Suppose $f:\RR\rarrow \RR$.
+$f(x)$ is
+a  {\bf concave function} 
+if
+looks 
+like a cave ($\cap$) (i.e., $f''(x)>0$
+if differentiable)
+and it's a {\bf convex function} if it
+looks like a valley ($\cup$)
+(i.e., $f''(x)<0$
+if differentiable).
+More generally, if $f:\RR^n\rarrow \RR^m$,
+$f(x)$ is said
+to be concave
+if $f(\alp x+\beta y)>\alp f(x)
++\beta f(y)$ 
+and convex
+if
+$f(\alp x+\beta y)<\alp f(x)
++\beta f(y)$
+for $\alp, \beta\in\RR$
+
+\section{Dual Functions}
+
+
+If $f(x)$ is a convex function, we
+define its {\bf dual function} by
+
+\beq
+F(X) = \min_x (X^T x - f(x))
+\;.
+\eeq
+\begin{claim}
+If $f(x)$ is a convex function
+with dual $F(X)$, then
+\beq
+f(x)= \min_X(X^T x - F(X))
+\eeq
+
+ \beq
+ \nabla_X F(X(x)) = (\nabla_x f)^{-1}(x)
+ \eeq
+This is also true if we replace the 
+words ``convex" with ``concave"
+and ``min" with ``max".
+\end{claim}
+\proof
+
+\beq
+F(X) = X^Tx^* - f(x^*)
+\eeq
+
+\beq
+f(x^*) = X^Tx^* - F(X)
+\eeq
+
+\beq
+f(x) = (X^*)^Tx - F(X^*)
+\eeq
+
+
+
+\beq
+X_i = \partial_{x_i}f(x),\;
+X = \nabla_x f(x)
+\eeq 
+
+\beq
+x_i = \partial_{X_i}F(X),\;x = \nabla_X F(X)
+\eeq
+
+\beq
+x = \nabla_X F(\nabla_x f(x))
+\eeq
+
+\qed
+
+\begin{enumerate}
+\item 
+\beq
+\boxed{f(x) = f + f'x +\frac{1}{2}f''x^2}
+\eeq
+
+\beqa
+X&=&
+\partial_{x^*} f
+\\
+&=&
+f' + f''x^*
+\label{eq-X-xstar}
+\eeqa
+
+\beq
+x^* = \frac{X-f'}{f''}
+\eeq
+\beqa
+f(x^*)&=& f
++
+f' 
+\left[
+\frac{X-f'}{f''}\right]
++
+\frac{1}{2}f''
+\left[\frac{X-f'}{f''}\right]^2
+\\
+&=&
+\left[f - \frac{(f')^2}{2f''}\right]
++
+X^2\left[
+\frac{1}{2f''}
+\right]
+\eeqa
+
+\beqa
+F(X)&=&
+Xx^*-f(x^*)
+\\
+&=&
+X\left[\frac{X-f'}{f''}\right]
+-f(x^*)
+\\
+&=&
+\left[-f + \frac{(f')^2}{2f''}\right]
++
+X\left[
+\frac{-f'}{f''}
+\right]
++
+X^2\left[
+\frac{1}{2f''}
+\right]
+\eeqa
+
+\beqa
+x &=&
+\partial_{X^*} F
+\\
+&=& 
+\left[
+\frac{-f'}{f''}
+\right]
++
+X^*\left[
+\frac{1}{f''}
+\right]
+\eeqa
+
+\beq
+X^* = f' + f''x
+\quad\text{(see Eq.(\ref{eq-X-xstar}))}
+\eeq
+
+\beqa
+F(X^*)&=&
+\left[-f + \frac{(f')^2}{2f''}\right]
++
+[f' + xf'']
+\left[
+\frac{-f'}{f''}
+\right]
++
+[f'+f''x]^2
+\left[
+\frac{1}{2f''}
+\right]
+\\
+&=&
+-f + \frac{f''}{2} x^2
+\eeqa
+
+
+\beqa
+f(x)&=& X^*x - F(X^*)
+\\
+&=&
+[f'+f'' x]x
++f-\frac{f''}{2} x^2
+\\
+&=&
+f + f'x+\frac{f''}{2} x^2
+\eeqa
+
+
+\item
+\beq
+\boxed{f(x)= \ln(1-e^{-x})}
+\eeq
+
+\beqa
+X
+&=&
+\partial_{x^*} f(x^*)
+\\
+&=&
+\frac{e^{-x^*}}{1-e^{-x^*}}
+\eeqa
+
+\beq
+X=(1+X)e^{-x^*}
+\eeq
+\beq
+x^* = \ln\frac{1+X}{X}
+\eeq
+
+\beq
+f(x^*)=\ln\left(
+1 - \frac{X}{1+X}
+\right)=-\ln(1+X)
+\eeq
+
+\beqa
+F(X) &=& X x^* -f(x^*)
+\\
+&=&
+X \ln\frac{1+X}{X}
++\ln(1+X)
+\\
+&=&
+-X\ln  X
++(1+X)\ln(1+X)
+\eeqa
+\end{enumerate}
+
+
+
+
+
