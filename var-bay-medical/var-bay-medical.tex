@@ -1,9 +1,35 @@
-\chapter{Variational Inference 
+\chapter{Variational Bayesian Approximation
 for Medical Diagnosis (COMING SOON)}
-\label{ch-var-inf-medical}
+\label{ch-var-bay-medical}
 
 This chapter is based
 on Ref.\cite{jaak-jordan}.
+
+A Variational Bayesian Approximation (VBA)
+is when we approximate
+a probability distribution
+by another one that depends
+on a continuous variational parameter which can
+be adjusted to the value which
+makes the approximation
+as good as possible
+within the range of possible values
+the variational parameter
+can assume.
+There are many VBA methods.
+VBA methods are very old, and
+were first used in Physics
+and Engineering.
+
+Ref.\cite{jaak-jordan}, on which
+this chapter is based,
+applies VBA methods to the problem of diagnostic inference using the Quick Medical Reference (QMR) bipartite Bayesian Network. 
+According to Ref.\cite{jaak-jordan} 
+the maximal clique size of the QMR 
+bnet is
+150 nodes, which rules out exact methods
+of inference like the Junction Tree Algorithm
+(see Chapter \ref{ch-junc-tree}).
 
 \begin{figure}[h!]
 $$\xymatrix{
@@ -23,9 +49,13 @@ $$\xymatrix{
 \caption{
 Typical bnet (bipartite, 2 level graph) 
 for medical diagnosis
-to which we will apply VBA.
+to which we will apply VBA
+methods.
 In this case, $nd=3$ and
 $ns=5$. 
+According to Ref.\cite{jaak-jordan},
+for QMR, $nd\approx 600$ 
+and $ns\approx 4000$.
 }
 \label{fig-var-bay-med-bnet}
 \end{figure}
@@ -33,7 +63,7 @@ $ns=5$.
 Fig.\ref{fig-var-bay-med-bnet}
 gives a typical bnet
 for medical diagnosis
-to which we will apply VBA.
+to which we will apply VBA methods.
 $\rvd_i\in \bool$
 are the possible diseases,
 $\rvs_i\in\bool$ are the possible
@@ -44,21 +74,25 @@ the parents of the symptoms.
 Note that the 
 arrows point from
 diseases to symptoms
-because diseases temporally precede
-the symptom.
+because diseases precede
+timewise
+the symptoms.
 
 \beq
 \ZZ_{[1,n]}=\{1,2, \ldots, n\}
 \eeq
 
 \beq
-pa_\s = \{i\in\ZZ_{[1,nd]}: d_i\in pa(\rvs_\s)\}
+pa_\s = \{i\in\ZZ_{[1,nd]}: \rvd_i\in pa(\rvs_\s)\}
 \eeq
 Note that $pa_\s$
-does not include $\ul{\ell}$  parent.
+does not include $\ul{\ell}$,
+which is also a  parent
+of $\rvs_\s$.
 
 \beq
-ch_i= \{j\in\ZZ_{[1,nd]}: d_j\in ch(\rvd_i)\}
+ch_i= \{\s\in\ZZ_{[1,ns]}:
+ \rvs_\s\in ch(\rvd_i)\}
 \eeq
 
 \beq
@@ -113,6 +147,8 @@ x_\s=
 \theta_{\s|0} +
 \sum_{j\in pa_\s}\theta_{\s|j}d_j
 \eeq
+Suppose $A \subset 
+\ZZ_{[1,ns]}$, $A^c=\ZZ_{[1,ns]}-A$.
 
 \begin{align}
 P(d_j|\rvs_A=0, \rvs_{A^c}=1)&=
@@ -141,7 +177,6 @@ e^{-\theta_{\s|0}}
 \end{array}
 \right.
 \end{align}
-$A \subset \ZZ_{[1,ns]}$, $A^c=\ZZ_{[1,ns]}-A$.
 Summing
 over $d_{!j}$ seems
 crazy, because $nd>>1$,
@@ -190,13 +225,27 @@ e^{f(x_s)}
   }
 \eeqa
 
+
+Let $q_{j|\s}\in [0,1]$ 
+satisfy $\sum_j q_{j|\s}=1$.
+
+
 \beqa
 \calp_\s &=&
  e^{f(x_\s)}
  \\
  &=&
-  e^{f(\theta_{\s|0} +\sum_j
- \theta_{\s|j d_j})}
+  e^{f\left(\theta_{\s|0} +\sum_j
+ \theta_{\s|j}d_j \right)}
+ \\
+  &=&
+  e^{
+  f\left(
+  \theta_{\s|0}
+  +
+  \sum_j q_{j|\s}\frac{\theta_{\s|j}d_j}{q_{j|\s}}
+  \right)
+  }
  \\
  &\geq&
  e^{
@@ -247,6 +296,10 @@ f(\theta_{\s|0})+
 \calb(X_\s)
 }
 \eeq
+with 
+variational
+parameters 
+$q_{.|\s}$ and $X_s$.
 
 \section{Convex/Concave functions,
 Jensen's Inequality}
