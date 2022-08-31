@@ -8,14 +8,14 @@ on Ref.\cite{jaak-jordan}.
 A Variational Bayesian Approximation (VBA)
 is when we approximate
 a probability distribution
-by another one that depends
-on a continuous variational parameter which can
-be adjusted to the value which
-makes the approximation
-as good as possible
-within the range of possible values
-the variational parameter
-can assume.
+by another 
+probability distribution that depends
+on a continuous ``variational parameter". 
+This parameter is
+adjusted 
+within its range of possible values,
+to make the approximation
+as good as possible.
 There are many VBA methods.
 VBA methods are inspired by 
 ancient  methods
@@ -217,6 +217,10 @@ and
 \beq
 \calp_\s = 1-e^{-x_\s} = e^{f(x_\s)}
 \eeq
+$f(x_\s)$
+is a concave function.
+See Fig.\ref{fig-dual-dual-ln-1-e-x}
+for a plot of it.
 
 Next, we
 shall find a lower
@@ -225,13 +229,13 @@ for $\calp_\s$.
 
 To find
 the upper bound, we will use 
-the dual functions, which are
+dual functions, which are
 discussed in Section
 \ref{sec-dual-fun}.
 
 Let $F(X_\s)$ be the dual
  function of $f(x_\s)
- = \ln(1-e^{-x_\s})$.
+ = \ln(1-e^{-x_\s})$).
  In Section
  \ref{sec-dual-fun}, we show that
  
@@ -279,7 +283,7 @@ is discussed in Section
 [\nameref{sec-jensens}].
 Let $q_{j|\s}\in [0,1]$ 
 satisfy $\sum_j q_{j|\s}=1$.
-THen
+Then
 
 
 \beqa
@@ -378,6 +382,7 @@ define its {\bf dual function} by
 
 \beq
 F(X) = \min_x (X^T x - f(x))
+\label{eq-FX-def}
 \;.
 \eeq
 \begin{claim}
@@ -385,12 +390,15 @@ If $f(x)$ is a concave function
 with dual $F(X)$, then
 \beq
 f(x)= \min_X(X^T x - F(X))
+\label{eq-fx-as-min}
 \eeq
 
  \beq
  \nabla_X F(X(x)) = (\nabla_x f)^{-1}(x)
  \eeq
-This is also true if we replace the 
+Eqs.(\ref{eq-FX-def})  
+and (\ref{eq-fx-as-min}) 
+are also true if we replace the 
 words ``concave" with ``convex"
 and ``min" with ``max".
 \end{claim}
@@ -449,15 +457,21 @@ x = \nabla_X F(\nabla_x f(x))
 
 \qed
 
+See Fig.\ref{fig-dual-fun}
+for a geometrical
+representation
+of Eq.(\ref{eq-fx-as-min}).
+
 We end this section
 on dual functions with some
 examples.
 \hrule
 \begin{enumerate}
 \item
-
+Find the dual function of
 \beq
 \boxed{f(x) = e^x}
+\;.
 \eeq
 
 \beqa
@@ -486,8 +500,10 @@ X\ln X -X
 
 \hrule
 \item 
+Find the dual function of
 \beq
 \boxed{f(x) = f + f'x +\frac{1}{2}f''x^2}
+\;.
 \eeq
 
 \beqa
@@ -599,9 +615,12 @@ F(X)= \frac{X^2}{2 f'' }
 %\eeqa
 
 \hrule
+
 \item
+Find the dual function of
 \beq
 \boxed{f(x)= \ln(1-e^{-x})}
+\;.
 \eeq
 
 \beqa
