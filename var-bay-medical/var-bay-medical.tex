@@ -37,6 +37,9 @@ bnet is
 150 nodes, which rules out exact methods
 of inference like the Junction Tree Algorithm
 (see Chapter \ref{ch-junc-tree}).
+For such high complexity cases,
+one is forced to use
+either a VBA or Monte Carlo method.
 
 \begin{figure}[h!]
 $$\xymatrix{
@@ -321,21 +324,87 @@ and it's a {\bf convex function} if it
 looks like a valley ($\cup$)
 (i.e., $f''(x)<0$
 if differentiable).
-More generally, if $f:\RR^n\rarrow \RR^m$,
+More generally, if $f:\cald_f\rarrow \RR$,
 $f(x)$ is said
 to be concave
-if $f(\alp x+\beta y)>\alp f(x)
+if $f(\alp x+\beta y)\geq \alp f(x)
 +\beta f(y)$ 
 and convex
 if
-$f(\alp x+\beta y)<\alp f(x)
+$f(\alp x+\beta y)\leq \alp f(x)
 +\beta f(y)$
-for $\alp, \beta\in\RR$
+for $\alp, \beta\in\RR$.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4in]
+{conventions/jensens.png}
+\caption{Jensen's
+inequality when
+$f:\RR\rarrow\RR$ is 
+convex.}
+\label{fig-jensens}
+\end{figure}
+
+Suppose $f:\cald_f\rarrow \RR$
+is a convex function. Let 
+ $\alp,\beta$ be non-negative
+ numbers that sum to 1,
+ and $x,y, \alp x + \beta y\in \cald_f$.
+Note the geometrical 
+fact that (see Fig.\ref{fig-jensens})
+
+
+\beq
+f(\alp x + \beta y) \leq \alp f(x) 
++ \beta f(y)
+\eeq
+{\bf Jensen's inequality} is
+a simple generalization of this fact
+to sums of more than 2 terms.
+Let $\{p_i\}_{i=0}^n$ be 
+non-negative numbers that add to one.
+Also assume that
+ $\{x_i\}_{i=0}^n$, and $\sum_{=1}^n p_i x_i$ are  elements of $\cald_f$.
+Then
+
+\beq
+f\left(\sum_{=1}^n p_i x_i\right)
+\leq 
+\sum_{=1}^np_i f(x_i)
+\eeq
+or, written in terms 
+of expected values,
+
+\beq 
+f(E[\rvx])\leq E[f(\rvx)]
+\eeq
+The same result is true
+if $f$ is concave
+instead of convex and
+we reverse the inequalities.
+
+
 
 \section{Dual Functions}
 
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4in]
+{var-bay-medical/dual-fun.png}
+\caption{The dual
+function $f(x)$ of a convex function
+$F(X)$
+is the osculating (kissing)
+locus of the 
+family
+of lines $y=Xx + F(X)$
+for all $X$.}
+\label{fig-dual-fun}
+\end{figure}
 
-If $f(x)$ is a convex function, we
+
+If $f(x)$ is a concave function, we
 define its {\bf dual function} by
 
 \beq
@@ -343,7 +412,7 @@ F(X) = \min_x (X^T x - f(x))
 \;.
 \eeq
 \begin{claim}
-If $f(x)$ is a convex function
+If $f(x)$ is a concave function
 with dual $F(X)$, then
 \beq
 f(x)= \min_X(X^T x - F(X))
@@ -353,7 +422,7 @@ f(x)= \min_X(X^T x - F(X))
  \nabla_X F(X(x)) = (\nabla_x f)^{-1}(x)
  \eeq
 This is also true if we replace the 
-words ``convex" with ``concave"
+words ``concave" with ``convex"
 and ``min" with ``max".
 \end{claim}
 \proof
