@@ -1,5 +1,5 @@
 \chapter{Variational Bayesian Approximation
-for Medical Diagnosis (COMING SOON)}
+for Medical Diagnosis}
 \label{ch-var-bay-medical}
 
 This chapter is based
@@ -39,7 +39,7 @@ of inference like the Junction Tree Algorithm
 (see Chapter \ref{ch-junc-tree}).
 For such high complexity cases,
 one is forced to use
-either a VBA or Monte Carlo method.
+either a VBA or a Monte Carlo method.
 
 \begin{figure}[h!]
 $$\xymatrix{
@@ -75,8 +75,10 @@ gives a typical bnet
 for medical diagnosis
 to which we will apply VBA methods.
 $\rvd_i\in \bool$
+for $i=1,2, \ldots, nd$
 are the possible diseases,
-$\rvs_i\in\bool$ are the possible
+$\rvs_\s\in\bool$ 
+for $\s=1,2, \ldots, ns$ are the possible
 symptoms, and $\ul{\ell}\in\bool$
 is the leakage  due to 
 possible error in 
@@ -85,15 +87,16 @@ Note that the
 arrows point from
 diseases to symptoms
 because diseases precede
-timewise
+in time
 the symptoms.
 
+Let
 \beq
 \ZZ_{[1,n]}=\{1,2, \ldots, n\}
 \eeq
 
 \beq
-pa_\s = \{i\in\ZZ_{[1,nd]}: \rvd_i\in pa(\rvs_\s)\}
+pa_\s = \{i\in\ZZ_{[1,nd]}: \rvd_i\in pa(\rvs_\s)\} = \text{ parents of $\rvs_\s$}
 \eeq
 Note that $pa_\s$
 does not include $\ul{\ell}$,
@@ -102,7 +105,8 @@ of $\rvs_\s$.
 
 \beq
 ch_i= \{\s\in\ZZ_{[1,ns]}:
- \rvs_\s\in ch(\rvd_i)\}
+ \rvs_\s\in ch(\rvd_i)\}=
+ \text{ children of $\rvd_i$ }
 \eeq
 
 \beq
@@ -117,6 +121,11 @@ ch_i= \{\s\in\ZZ_{[1,ns]}:
 \beq
 \rvd_{!j} =\{\rvd_k: k\in \ZZ_{[1, nd]}-\{j\}\}
 \eeq
+
+The TPMs, printed in blue,
+for the bnet 
+Fig.\ref{fig-var-bay-med-bnet},
+are as follows:
 
 \beq \color{blue}
 P(d_j) = \text{ given }
@@ -152,6 +161,7 @@ e^{-\theta_{\s|0} -
 \sum_{j\in pa_\s}\theta_{\s|j}d_j}
 \eeq
 
+Define
 \beq
 x_\s=
 \theta_{\s|0} +
@@ -159,6 +169,7 @@ x_\s=
 \eeq
 Suppose $A \subset 
 \ZZ_{[1,ns]}$, $A^c=\ZZ_{[1,ns]}-A$.
+Then
 
 \begin{align}
 P(d_j|\rvs_A=0, \rvs_{A^c}=1)&=
@@ -197,10 +208,11 @@ the summand
 so that the sum
 can be done in closed form.
 
-
+Define
 \beq
 f(x_\s)=\ln(1-e^{-x_\s})
 \eeq
+and
 
 \beq
 \calp_\s = 1-e^{-x_\s} = e^{f(x_\s)}
@@ -208,17 +220,18 @@ f(x_\s)=\ln(1-e^{-x_\s})
 
 Next, we
 shall find a lower
-and and upper bound 
+and upper bound 
 for $\calp_\s$.
 
 To find
 the upper bound, we will use 
-dual functions. Dual functions are
+the dual functions, which are
 discussed in Section
 \ref{sec-dual-fun}.
 
 Let $F(X_\s)$ be the dual
- function of $f(x_\s)$.
+ function of $f(x_\s)
+ = \ln(1-e^{-x_\s})$.
  In Section
  \ref{sec-dual-fun}, we show that
  
@@ -230,11 +243,13 @@ Let $F(X_\s)$ be the dual
  -X_\s\ln  X_\s
  +(1+X_\s)\ln(1+X_\s)
  \eeqa
- 
+ and
 
 \beq
 f(x_\s)\leq x_\s X_\s - F(X_\s)
+\;.
 \eeq
+Therefore
 
 
 
@@ -259,11 +274,12 @@ e^{f(x_\s)}
 To find
 a lower bound for $P_\s$,
 we will use
-Jensen's inequality.
-Jensen's inequality is discussed in Section
+Jensen's inequality, which
+is discussed in Section
 [\nameref{sec-jensens}].
 Let $q_{j|\s}\in [0,1]$ 
 satisfy $\sum_j q_{j|\s}=1$.
+THen
 
 
 \beqa
@@ -322,7 +338,7 @@ f(\theta_{\s|0})+
  }
   \eeqa
   
-  
+ In conclusion, 
 \beq
 \boxed{
 \cala(q_{.|\s})
@@ -351,7 +367,7 @@ $F(X)$
 is the osculating (kissing)
 locus of the 
 family
-of lines $y=Xx + F(X)$
+of lines $y=Xx - F(X)$
 for all $X$.}
 \label{fig-dual-fun}
 \end{figure}
@@ -380,28 +396,52 @@ and ``min" with ``max".
 \end{claim}
 \proof
 
+Let $x^*$ 
+be the value of $x$
+which minimizes $F(X)=X^T x-f(x)$
+with respect to $x$. Hence,
 \beq
 F(X) = X^Tx^* - f(x^*)
+\;.
+\label{eq-FX}
 \eeq
+Rearranging terms in Eq.(\ref{eq-FX}),
+we get
 
 \beq
 f(x^*) = X^Tx^* - F(X)
+\label{eq-relabel-1}
 \eeq
 
+Let $X^*$ 
+be the value of $X$
+which minimizes $f(x)=X^T x-F(X)$
+with respect to $X$. Hence,
 \beq
 f(x) = (X^*)^Tx - F(X^*)
+\label{eq-relabel-2}
 \eeq
+Replacing $X^*$ by $X$
+and $x$ by $x^*$
+in Eq.(\ref{eq-relabel-2})
+yield Eq.(\ref{eq-relabel-1}).
 
 
-
+Note that minimization
+with respect to $x$
+is achieved if
 \beq
 X_i = \partial_{x_i}f(x),\;
 X = \nabla_x f(x)
-\eeq 
+\eeq
+whereas minimization 
+with respect to $X$
+is achieved if 
 
 \beq
 x_i = \partial_{X_i}F(X),\;x = \nabla_X F(X)
 \eeq
+Hence,
 
 \beq
 x = \nabla_X F(\nabla_x f(x))
@@ -409,6 +449,10 @@ x = \nabla_X F(\nabla_x f(x))
 
 \qed
 
+We end this section
+on dual functions with some
+examples.
+\hrule
 \begin{enumerate}
 \item
 
@@ -440,7 +484,7 @@ X\ln X -X
 
 
 
-
+\hrule
 \item 
 \beq
 \boxed{f(x) = f + f'x +\frac{1}{2}f''x^2}
@@ -554,7 +598,7 @@ F(X)= \frac{X^2}{2 f'' }
 %f + f'x+\frac{f''}{2} x^2
 %\eeqa
 
-
+\hrule
 \item
 \beq
 \boxed{f(x)= \ln(1-e^{-x})}
