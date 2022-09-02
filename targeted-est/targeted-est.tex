@@ -6,14 +6,19 @@
 
 This chapter is based on Refs.\cite{tlride} and  \cite{hoff}.
 
-The goal of Targeted Estimator (TE) theory is
-to find, given a cfit,
-a new cfit that is slightly
-displaced from the original,
-but has better behavior (i.e.,
-it converges faster, and with smaller
-bias and variance, as the number $N$
-of samples grows). This goal and
+Targeted Estimator (TE) theory  addresses
+the following concerns.
+Suppose $\Psi[P]$ is an estimator that depends on the full probability distribution $P$ of a fixed bayesian network.
+$\Psi[P]$ is a functional (i.e., a function of a function) of $P$. If $P$ is perturbed by a small amount $\delta P$, we get $\Psi[P+\delta P]$. $\Psi[P + \delta P]$ can be expanded in powers of $\delta P$.
+The term linear  in $\delta P$ defines the ``influence function"; it also defines the ``functional derivative"  of $\Psi$ with respect to $P$. {\it Why are influence functions useful?}
+ The influence function measures,
+ to first order in $\delta P$, how the estimator $\Psi$ responds to a perturbation 
+ $\delta P$ in $P$. In general, $\Psi$ does not have to be a counterfactual estimator, but it might be one, like an estimator of ATE, or PNS or whatever.
+{\it So what is this good for?} It is a way of generating linear "targeted" estimators
+that are less noisy
+and converge more quickly. It measures the sensitivity of an estimator to perturbations in $P$. It does not, however, measure sensitivity to changes in the DAG (the DAG is fixed throughout). And it does not generate new estimands.
+
+The goal of TE and
 the strategy one uses to achieve it, is
 explained more precisely in the next section.
 
