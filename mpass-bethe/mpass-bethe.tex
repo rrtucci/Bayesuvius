@@ -1,0 +1,147 @@
+\chapter{Message Passing, Bethe's theory
+(COMING SOON)}
+\label{ch-mpass-bethe}
+
+Define the {\bf partition function} $Z_\theta$ by
+\beq
+Z_\theta = \sum_x   e^{-\theta^T \calu(x)}
+\eeq
+
+
+
+\beqa
+\underbrace{P(x|\theta)
+}_{e^{-\cals_\theta(x)}} &=& 
+\exp( -\theta^T \calu (x) - \ln Z_\theta)
+\\
+&=&
+\frac{
+e^{-\theta^T \calu(x)}}{Z}
+\eeqa
+$\calu(x)$ is called {\bf sufficient
+statistic (SS)} for $\rvx$ because
+$P(\rvx=x) = P(\ul{\calu}=\calu(x)) $
+Hence, to know the statistics of $\rvx$,
+it is enough to know the statistics of $\calu(\rvx)$.
+
+\beqa
+-\partial_{\theta_i} \ln Z_\theta
+&=&
+\frac{1}{Z_\theta}
+\sum_x   
+\calu_i(x)
+e^{-\theta^T \calu(x)}
+\\
+&=&
+E_{\rvx|\theta}[\calu_i(\rvx)]=\av{\calu_i}
+\eeqa
+
+
+\begin{align}
+\partial_{\theta_j}
+\partial_{\theta_i} \ln Z_\theta
+&=
+\partial_{\theta_j}\frac{1}{Z_\theta}
+\sum_x   
+-\calu_i(x)
+e^{-\theta^T \calu(x)}
+\\
+&=
+\left\{
+\begin{array}{l}
+\frac{1}{Z_\theta}
+\sum_x   
+\calu_j(x)\calu_i(x)
+e^{-\theta^T \calu(x)}
+\\
++\frac{-1}{Z_\theta^2}
+\left[
+\sum_x   
+-\calu_j(x)
+e^{-\theta^T \calu(x)}
+\right]
+\left[
+\sum_x   
+-\calu_i(x)
+e^{-\theta^T \calu(x)}
+\right]
+\end{array}
+\right.
+\\
+&=
+\av{\calu_j\calu_i}
+-\av{\calu_j}\av{\calu_i}
+\\
+&=
+\av{\calu_j, \calu_i}
+\end{align}
+
+
+
+
+\beq
+-\cals_\theta(x)= -\theta^T \calu(x) 
+-\ln Z_\theta
+\eeq
+Define the {\bf entropy} $S$ by
+\footnote{In Thermodynamics,
+the entropy is denoted by the letter
+$S$. In Shannon Information
+Theory, and elsewhere in this
+book, it is denoted by the letter $H$.}
+
+\beqa
+S &=& \sum_x
+ P(x|\theta)\cals_\theta(x)
+ \\
+ &=&
+ -\sum_x P(x|\theta)\ln P(x|\theta)
+\eeqa
+Define the {\bf internal energy} $U$ by 
+\beq
+U = \sum_x P(x|\theta)\calu_\theta(x)
+\eeq
+
+\beq
+-S=-\theta^T U - \ln Z_\theta
+\eeq
+
+\beq
+\partial_{U_i} S= \theta_i
+\eeq
+$S$ is concave.
+$-S$ and $\ln Z_\theta$
+are convex dual functions.\footnote{
+Convex dual functions
+are discussed in Chapter \ref{ch-var-bay-medical}}.
+
+\begin{mdframed}[hidealllines=true,backgroundcolor=gray!10]
+{\bf Relationship to Thermodynamics}
+
+In Thermodynamics,
+$U$ is the internal energy
+and $S$ is the entropy
+of a system
+at {\bf temperature} $T$.
+Define $\theta\in\RR$ to be
+the inverse temperature 
+\beq
+\theta = \frac{1}{T}
+\eeq
+Define the {\bf free energy} $F$ by
+\beqa
+F&=& -T \ln Z_\theta
+\\
+&=&
+-T\ln 
+\sum_x e^{-\frac{\calu(x)}{T}}
+\eeqa
+Then
+
+\beq
+U-TS = F
+\eeq
+So the free energy equals
+the internal energy minus
+the energy held in disordered form.
+\end{mdframed}
