@@ -13,6 +13,7 @@ Z_\theta = \sum_x   e^{-\theta^T \calu(x)}
 \underbrace{P(x|\theta)
 }_{e^{-\cals_\theta(x)}} &=& 
 \exp( -\theta^T \calu (x) - \ln Z_\theta)
+\label{eq-px-at-theta}
 \\
 &=&
 \frac{
@@ -20,9 +21,9 @@ e^{-\theta^T \calu(x)}}{Z}
 \eeqa
 $\calu(x)$ is called {\bf sufficient
 statistic (SS)} for $\rvx$ because
-$P(\rvx=x) = P(\ul{\calu}=\calu(x)) $
-Hence, to know the statistics of $\rvx$,
-it is enough to know the statistics of $\calu(\rvx)$.
+$P(x|\theta)$
+is a functional (i.e.,
+a function of a function) of $\calu(x)$.
 
 \beqa
 -\partial_{\theta_i} \ln Z_\theta
@@ -146,36 +147,384 @@ the internal energy minus
 the energy held in disordered form.
 \end{mdframed}
 
+\newcommand{\ttheta}[0]{\TIL{\theta}}
+\newcommand{\tP}[0]{\TIL{P}}
+
 \beqa
-0&\leq& D_{KL}(P(x|\theta)
-\parallel P(x|\theta'))
+0&\leq& D_{KL}(P(x|\ttheta)
+\parallel P(x|\theta))
 \\
 &=&
-\sum_x P(x|\theta)\ln\frac{P(x|\theta)}
-{P(x|\theta')}
+\sum_x P(x|\ttheta)\ln
+\frac{P(x|\ttheta)}
+{P(x|\theta)}
 \\
 &=&
--S
--\sum_x P(x|\theta)
+-\TIL{S}
+-\sum_x P(x|\ttheta)
 \left[
--(\theta')^T\calu(x)-\ln Z_{\theta'}
+-(\theta)^T\calu(x)-\ln Z_{\theta}
 \right]
 \\
 &=&
--S
-+(\theta')^TU + \ln Z_{\theta'}
-\quad\text{($S, U$ correspond to parameter $\theta$)}
+-\TIL{S}
++(\theta)^T\TIL{U} + \ln Z_{\theta}
+\quad\text{($\TIL{S}, \TIL{U}$ correspond to parameter $\ttheta$)}
 \eeqa
 
 
 \beq
-S = \max_{\theta'}\left[
-(\theta')^TU + \ln Z_{\theta'}\right]
+\TIL{S} = \min_{\theta}\left[
+(\theta)^T\TIL{U} + \ln Z_{\theta}\right]
 \eeq
 
 \beq
--\ln Z_{\theta'}=
-\max_U \left[
-(\theta')^TU -S
+-\ln Z_{\theta}=
+\min_{\TIL{U}}\left[
+(\theta)^T\TIL{U} -\TIL{S}
+\right]
+\label{eq-max-u-tilde}
+\eeq
+
+\beq
+\TIL{P}(x)=P(x|\TIL{\theta})
+\eeq
+
+Mean Field approximation
+\beq
+\TIL{P}^{ind}(x)=
+\prod_
+k
+\TIL{P}(x_k)
+\eeq
+
+
+
+
+\beqa
+\TIL{S}^{ind}
+&=&
+-\sum_x\tP(x)\ln \prod_i \tP(x_i)
+\\
+&=&
+-\sum_{x_i} \tP(x_i)\ln \tP(x_i)
+\\
+&=&
+\sum_i \TIL{H}(\rvx_i)
+\eeqa
+
+\beq
+\TIL{P}^{tree}(x)=
+\TIL{P}^{ind}(x)
+\prod_
+{i-j}
+\frac{
+\TIL{P} (x_i
+, x_j )}{
+\TIL{P}(x_i)\TIL{P} (x_j )}
+\eeq
+
+\beqa
+\TIL{S}^{tree}
+&=&
+\sum_i\TIL{H}(\rvx_i)
+-
+\sum_{i-j}\sum_{x_i, x_j}
+\tP(x_i,x_j)
+\ln \frac{\tP(x_i, x_j)}
+{\tP(x_i)\tP(xj)}
+\\
+&=&
+\sum_i \TIL{H}(\rvx_i)
+-
+\sum_{i-j} \TIL{H}(\rvx_i:\rvx_j)
+\eeqa
+
+Note that $\TIL{S}^{tree}$
+can be write using the
+joint entropy $\TIL{H}(\rvx_i, \rvx_j)$
+instead of the mutual entropy
+$\TIL{H}(\rvx_i:\rvx_j)$.
+
+\beq
+\TIL{S}^{tree}=
+-\sum_i(d_i-1)\TIL{H}(\rvx_i)
++ \sum_{i-j}\TIL{H}(\rvx_i, \rvx_j)
+\eeq
+where $d_i$
+is the number of neighbors of node $i$.
+
+
+Bethe approximation.
+$\TIL{S}^{tree}$ is called the {\bf Bethe Entropy}
+\beq
+\TIL{S}^{tree} - \ln Z_{\theta}\geq
+(\theta)^T\TIL{U} \approx 0
+\eeq
+
+\beq
+-\ln Z_\theta
+\gtrapprox \TIL{S}^{tree}
+\eeq
+
+
+
+\beqa
+\cald &=&D_{KL}(P(x|\ttheta)
+\parallel P(x|\theta))
+\\
+&=&
+D_{KL}(\tP(x)
+\parallel P(x))
+\eeqa
+
+Note that ,
+in $m_{a\rdart i}(x_i)$,
+$i$ (i.e., the arrow target) 
+and $x_i$ (i.e., the argument
+of the function) 
+refer to the same thing and
+next to each other.
+This is always the case in
+our notation for messages.  
+
+\beq
+\TIL{P}_{i,j} (x_i
+, x_j ) 
+=\caln(!x_i, !x_j)
+ \Psi_{i,j}(x_i
+, x_j )
+\prod_{a\in \partial i \setminus j}
+m_{a\rdart i}(x_i)
+\prod_{b\in \partial j \setminus i}
+m_{b\rdart j}(x_j)
+\eeq
+
+\beq
+P(x)=\caln(!x)\prod_{i-j}\Psi_{i,j}(x_i, x_j)
+\eeq
+
+\beq
+m_{j\rdart i}^{new}
+(x_i) =
+\sum_{x_j}
+\Psi_{i,j}(x_i, x_j)
+\prod_{k\in
+\partial j\setminus i}
+m_{k\rdart j} (x_j) 
+\eeq
+
+If we replace $-\ln Z_\theta$ by
+$\TIL{S}^{tree}$ in Eq.(\ref{eq-max-u-tilde}),
+we get 
+
+\beq
+-S=\max_{\TIL{U}}\left[
+-(\theta)^T\TIL{U} +\TIL{S}^{tree}
 \right]
 \eeq
+
+\beqa
+(\theta)^T\TIL{U} &=&
+\sum_i \theta_i\sum_x \tP(x)\calu_i(x)
+\\
+&=&
+\sum_x\tP(x)
+\underbrace{\sum_i \theta_i \calu_i(x)}
+_{\text{ call } \Theta(x)}
+\eeqa
+
+the Bethe Variational Problem (BVP).
+
+\beq
+\max_{\tP}\left[
+-\sum_x \tP(x)\Theta(x)
++ \sum_i\TIL{H}(\rvx_i)
+-\sum_{i-j}\TIL{H}(\rvx_i:\rvx_j)
+\right]
+\eeq
+subject to $\sum_x \tP(x)=1$.
+
+\beq
+\call=
+\left\{
+\begin{array}{l}
+-\sum_x \tP(x)\Theta(x)
+\\
+-\sum_i (1-d_i) 
+\sum_{x_i}
+\tP(x_i)
+\ln
+\tP(x_i)
+\\
+-\sum_{i-j}\sum_{x_i, x_j}\tP(x_i, x_j)
+\ln P(x_i, x_j)
+\\
+\sum_x \lam(x)\left[
+\tP(x)-1
+\right]
+\end{array}
+\right\}
+\eeq
+
+
+\beqa
+\delta\left[f(x_i) \tP(x_i)\right] 
+&=&f( x_i)\delta 
+\sum_{x\setminus x_i}\tP(x)
+\\
+&=&
+f(x_i)
+\sum_{x\setminus x_i}\delta\tP(x)
+\\
+&=&
+\sum_{x'}
+\delta\tP(x')
+\left[
+\delta(x_i', x_i )f(x_i')
+\right]
+\eeqa
+Likewise,
+\beq
+\delta\left[f(x_i,x_j) \tP(x_i,x_j)\right] 
+=
+\sum_{x'}
+\delta\tP(x')
+\left[
+\delta(x_i', x_i )
+\delta(x_j', x_j )f(x_i', x_j')
+\right]
+\eeq
+
+\beq
+\delta\call=
+\sum_{x'}\delta\tP(x')
+\left\{
+\begin{array}{l}
+-\Theta(x')
+\\
+-\sum_i (1-d_i) 
+\left[1+\ln
+\tP(x_i')\right]
+\\
+-\sum_{i-j}
+\left[1+
+\ln \tP(x_i', x_j')\right]
+\\
+\lam(x')
+\end{array}
+\right\}
+\eeq
+
+\beq
+0=
+\left\{
+\begin{array}{l}
+-\Theta(x')
+\\
+-\sum_i  
+\left[1+\ln
+\tP(x_i')\right]
+\\
+-\sum_{i-j}
+\left[1+
+\ln \frac{\tP(x_i', x_j')}
+{\tP(x_i')\tP(x_j')}
+\right]
+\\
++\lam(x')
+\end{array}
+\right\}
+\eeq
+
+
+
+\beq
+m_{t\rdart s}(x_s)=
+e^{\lam_{t\rdart s}(x_s)}
+\eeq
+
+\beq
+\tP(x_i)
+=\caln(!x_i)
+e^{-\Theta(x_i)}
+\prod_{a\in \partial i}
+m_{a\rdart i}(x_i)
+\eeq
+
+\beq
+\tP(x_i, x_j)=
+\caln(!(x_i, x_j))
+e^{-\Theta(x_i, x_j) 
+- \Theta(x_i)
+-\Theta(x_j)}
+\left[\prod_{a\in \partial i
+\setminus j} m_{a\rdart i}(x_i)
+\right]
+\left[\prod_{b\in \partial j
+\setminus i} m_{b\rdart j}(x_j)
+\right]
+\eeq
+
+\beq
+0=
+\left\{
+\begin{array}{l}
+-\Theta(x)
+\\
++\sum_i \Theta(x_i)
+\\
++\sum_{i-j}\Theta(x_i, x_j)
+\end{array}
+\right\}
+\eeq
+
+\beqa
+0&=&
+\left\{
+\begin{array}{l}
+-\sum_i \ln 
+\prod_{a\in \partial i}m_{a\rdart i}(x_i)
+\\
+-\sum_{i-j}\ln 
+\frac{\left[\prod_{a\in \partial i
+\setminus j} m_{a\rdart i}(x_i)
+\right]
+\left[\prod_{b\in \partial j
+\setminus i} m_{b\rdart j}(x_j)
+\right]
+}{
+\prod_{a\in \partial i}m_{a\rdart i}(x_i)
+\prod_{b\in \partial j}m_{b\rdart j}(x_j)
+}
+\\
++\lam(x)
+\end{array}
+\right\}
+\\
+&=&
+\left\{
+\begin{array}{l}
+-\sum_i
+\sum_{a\in \partial i} \lam_{a\rdart i}(x_i)
+\\
++
+\sum_{i-j}\left[
+\lam_{j\rdart i}(x_i)+ \lam_{i\rdart j}(x_j)
+\right]
+\\
++\lam(x)
+\end{array}
+\right\}
+\\
+&=&
+\lam(x)
+\eeqa
+
+
+
+
+
+
+
+
