@@ -2,6 +2,139 @@
 (COMING SOON)}
 \label{ch-mpass-bethe}
 
+\newcommand{\ttheta}[0]{\TIL{\theta}}
+\newcommand{\tP}[0]{\TIL{p}}
+
+This chapter is based
+on Refs. \cite{WainJordan}
+and \cite{yedidia}.
+
+\section{Pairwise Factor
+Graphs and Message Passing}
+
+Note that 
+in $m_{a\rdart i}(x_i)$,
+$i$ (i.e., the arrow target) 
+and $x_i$ (i.e., the argument
+of the function) 
+refer to the same thing and
+next to each other.
+This is always the case in
+our notation for messages.  
+
+
+\begin{enumerate}
+\item 
+Assume $\Delta(x_i, x_j)$ is known and
+
+
+\beq
+p(x)=\caln(!x)\prod_{i-j}\Delta(x_i, x_j)
+\eeq
+
+\item Calculate $m_{j\rdart i}$
+for all $i-j$ using the recursion
+
+\beq
+m_{j\rdart i}^{new}
+(x_i) =
+\sum_{x_j}
+\Delta(x_i, x_j)
+\prod_{b\in
+\partial j\setminus i}
+m_{b\rdart j} (x_j) 
+\eeq
+
+\item Calculate $\tP (x_i
+, x_j )$ for all $i-j$ using 
+ 
+\beq
+\tP (x_i
+, x_j ) 
+=\caln(!x)
+ \Delta(x_i
+, x_j )
+\prod_{a\in \partial i \setminus j}
+m_{a\rdart i}(x_i)
+\prod_{b\in \partial j \setminus i}
+m_{b\rdart j}(x_j)
+\eeq
+\end{enumerate}
+
+Why it works?
+
+\beq
+\Delta(x_i, x_j)
+\approx m_{j\rdart i}(x_i)
+m_{i\rdart j}(x_j)
+\eeq
+
+\beq 
+\tP(x)\approx 
+\caln(!x)
+\prod_{i-j}
+m_{j\rdart i}(x_i)
+m_{i\rdart j}(x_j)
+\eeq
+\begin{enumerate}
+\item
+\beq 
+p(x)\approx 
+\tP(x)
+\eeq
+
+\item 
+
+\beqa
+m_{j\rdart i}^{new}
+(x_i) &\approx&
+\sum_{x_j}
+m_{i\rdart j}(x_j)m_{j\rdart i}(x_i)
+\prod_{b\in
+\partial j\setminus i}
+m_{b\rdart j} (x_j)
+\\
+&=&
+ m_{j\rdart i}(x_i)
+ \sum_{x_j}
+ \prod_{b\in \partial j}
+ m_{b\rdart j} (x_j)
+ \\
+ &=&
+ m_{j\rdart i}(x_i)
+\eeqa
+\item
+
+\beqa
+\tP(x_i, x_j) 
+&=&
+\sum_{x\setminus x_i, x_j}\tP(x)
+\\
+&=&
+\caln(!x)
+\sum_{x\setminus x_i, x_j}
+\prod_{i-j}
+m_{j\rdart i}(x_i)
+m_{i\rdart j}(x_j)
+\\
+&\approx &
+\caln(!x)
+ \Delta(x_i
+, x_j )
+\prod_{a\in \partial i \setminus j}
+m_{a\rdart i}(x_i)
+\prod_{b\in \partial j \setminus i}
+m_{b\rdart j}(x_j)
+\eeqa
+\end{enumerate}
+
+
+
+
+
+
+\section{ $-\ln Z_\theta$=
+Free Energy (FE)}
 Define the {\bf partition function} $Z_\theta$ by
 \beq
 Z_\theta = \sum_x   e^{-\theta^T \calu(x)}
@@ -147,9 +280,8 @@ the internal energy minus
 the energy held in disordered form.
 \end{mdframed}
 
-\newcommand{\ttheta}[0]{\TIL{\theta}}
-\newcommand{\tP}[0]{\TIL{P}}
-
+\section{$-\ln Z_{\theta^*}$=
+Minimum FE}
 \beqa
 0&\leq& D_{KL}(P(x|\ttheta)
 \parallel P(x|\theta))
@@ -187,15 +319,27 @@ the energy held in disordered form.
 \eeq
 
 \beq
-\TIL{P}(x)=P(x|\TIL{\theta})
+p(x) = P(x|\Theta), 
+\;
+\tP(x)=P(x|\TIL{\theta})
 \eeq
 
+\beqa
+\cald &=&D_{KL}(P(x|\ttheta)
+\parallel P(x|\theta))
+\\
+&=&
+D_{KL}(\tP(x)
+\parallel p(x))
+\eeqa
+
+\section{$-\ln Z^{tree}_\theta$=Tree (a.k.a. Bethe) FE}
 Mean Field approximation
 \beq
-\TIL{P}^{ind}(x)=
+\tP^{ind}(x)=
 \prod_
 k
-\TIL{P}(x_k)
+\tP(x_k)
 \eeq
 
 
@@ -214,14 +358,14 @@ k
 \eeqa
 
 \beq
-\TIL{P}^{tree}(x)=
-\TIL{P}^{ind}(x)
+\tP^{tree}(x)=
+\tP^{ind}(x)
 \prod_
 {i-j}
 \frac{
-\TIL{P} (x_i
+\tP (x_i
 , x_j )}{
-\TIL{P}(x_i)\TIL{P} (x_j )}
+\tP(x_i)\tP (x_j )}
 \eeq
 
 \beqa
@@ -256,7 +400,7 @@ is the number of neighbors of node $i$.
 
 
 Bethe approximation.
-$\TIL{S}^{tree}$ is called the {\bf Bethe Entropy}
+
 \beq
 \TIL{S}^{tree} - \ln Z_{\theta}\geq
 (\theta)^T\TIL{U} \approx 0
@@ -268,51 +412,11 @@ $\TIL{S}^{tree}$ is called the {\bf Bethe Entropy}
 \eeq
 
 
+\section{ 
+$-\ln Z^{tree}_{\theta^*}$=
+Tree Minimum FE,
+and message passing}
 
-\beqa
-\cald &=&D_{KL}(P(x|\ttheta)
-\parallel P(x|\theta))
-\\
-&=&
-D_{KL}(\tP(x)
-\parallel P(x))
-\eeqa
-
-Note that ,
-in $m_{a\rdart i}(x_i)$,
-$i$ (i.e., the arrow target) 
-and $x_i$ (i.e., the argument
-of the function) 
-refer to the same thing and
-next to each other.
-This is always the case in
-our notation for messages.  
-
-\beq
-\TIL{P}_{i,j} (x_i
-, x_j ) 
-=\caln(!x_i, !x_j)
- \Psi_{i,j}(x_i
-, x_j )
-\prod_{a\in \partial i \setminus j}
-m_{a\rdart i}(x_i)
-\prod_{b\in \partial j \setminus i}
-m_{b\rdart j}(x_j)
-\eeq
-
-\beq
-P(x)=\caln(!x)\prod_{i-j}\Psi_{i,j}(x_i, x_j)
-\eeq
-
-\beq
-m_{j\rdart i}^{new}
-(x_i) =
-\sum_{x_j}
-\Psi_{i,j}(x_i, x_j)
-\prod_{k\in
-\partial j\setminus i}
-m_{k\rdart j} (x_j) 
-\eeq
 
 If we replace $-\ln Z_\theta$ by
 $\TIL{S}^{tree}$ in Eq.(\ref{eq-max-u-tilde}),
@@ -334,9 +438,11 @@ we get
 _{\text{ call } \Theta(x)}
 \eeqa
 
-the Bethe Variational Problem (BVP).
 
+The {\bf Bethe Entropy} $S^{Bethe}$
+is defined by
 \beq
+-S^{Bethe}=
 \max_{\tP}\left[
 -\sum_x \tP(x)\Theta(x)
 + \sum_i\TIL{H}(\rvx_i)
@@ -344,6 +450,50 @@ the Bethe Variational Problem (BVP).
 \right]
 \eeq
 subject to $\sum_x \tP(x)=1$.
+
+\begin{claim}
+$S^{Bethe}$
+is achieved if
+
+\beq
+\tP(x) = \caln(!x)e^{\Theta(x)}
+\eeq
+
+\beq
+\Theta(x)
+=
+\sum_i \Theta(x_i)
++\sum_{i-j}\Theta(x_i, x_j)
+\eeq
+
+\beq
+m_{t\rdart s}(x_s)=
+e^{\lam_{t\rdart s}(x_s)}
+\eeq
+
+\beq
+\tP(x_i)
+=\caln(!x)
+e^{-\Theta(x_i)}
+\prod_{a\in \partial i}
+m_{a\rdart i}(x_i)
+\eeq
+
+\beq
+\tP(x_i, x_j)=
+\caln(!x)
+e^{-\Theta(x_i, x_j) 
+- \Theta(x_i)
+-\Theta(x_j)}
+\left[\prod_{a\in \partial i
+\setminus j} m_{a\rdart i}(x_i)
+\right]
+\left[\prod_{b\in \partial j
+\setminus i} m_{b\rdart j}(x_j)
+\right]
+\eeq
+\end{claim}
+\proof
 
 \beq
 \call=
@@ -439,32 +589,7 @@ Likewise,
 
 
 
-\beq
-m_{t\rdart s}(x_s)=
-e^{\lam_{t\rdart s}(x_s)}
-\eeq
 
-\beq
-\tP(x_i)
-=\caln(!x_i)
-e^{-\Theta(x_i)}
-\prod_{a\in \partial i}
-m_{a\rdart i}(x_i)
-\eeq
-
-\beq
-\tP(x_i, x_j)=
-\caln(!(x_i, x_j))
-e^{-\Theta(x_i, x_j) 
-- \Theta(x_i)
--\Theta(x_j)}
-\left[\prod_{a\in \partial i
-\setminus j} m_{a\rdart i}(x_i)
-\right]
-\left[\prod_{b\in \partial j
-\setminus i} m_{b\rdart j}(x_j)
-\right]
-\eeq
 
 \beq
 0=
@@ -520,6 +645,7 @@ e^{-\Theta(x_i, x_j)
 &=&
 \lam(x)
 \eeqa
+\qed
 
 
 

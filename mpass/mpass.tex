@@ -1978,161 +1978,18 @@ are either root nodes (parentless)
 or leaf nodes (childless).
 BP
 simplifies when dealing with
-bipartite bnets. In this section,
+bipartite bnets. Next,
 we will explain how
 it simplifies. But
 before doing so,
-let us explain how the
-following two types of
-diagrams
+let
+us define
+tree bnets and
+show how these
 can be replaced by
-equivalent bipartite bnets:
-
-\begin{itemize}
-\item Factor Graphs
-\item Tree bnets
-\end{itemize}
-\hrule
-
-Consider a product $g=\prod_\alp f_\alp$
-of scalar functions
- $f_\alp:S_{\rvx_0}
-\times S_{\rvx_1}
-\times \ldots S_{\rvx_{nx-1}}\rarrow \RR$
-for $\alp=0, 1, \ldots, nf-1$. For instance,
-consider $g:S_{\rvx_0}
-\times S_{\rvx_1} \times S_{\rvx_2}\rarrow \RR$
-defined by:
-
-\beq
-g(x_0,x_1,x_2) = f_0(x_0)
-f_1(x_0,x_1)f_2(x_0,x_1)f_3(x_1,x_2)
-\label{eq-g-fun}
-\;.
-\eeq
-The {\bf factor graph}
-for this function $g$
- is given by Fig.\ref{fig-fac-graph}.
+equivalent bipartite bnets.
 
 
-\begin{figure}[h!]
-\centering
-$$\xymatrix{
-*++[o][F]{x_0}\ar@{-}[d]\ar@{-}[dr]\ar@{-}[drr]
-&*++[o][F]{x_1}\ar@{-}[d]\ar@{-}[dr]\ar@{-}[drr]
-&*++[o][F]{x_2}\ar@{-}[dr]
-\\
-*+[F]{f_0}
-&*+[F]{f_1}
-&*+[F]{f_2}
-&*+[F]{f_3}
-}$$
-\caption{Factor graph for function
-$g$ defined by Eq.(\ref{eq-g-fun}).}
-\label{fig-fac-graph}
-\end{figure}
-
-\begin{figure}[h!]
-\centering
-$$\xymatrix{
-\rvx_0\ar[d]\ar[dr]\ar[drr]
-&\rvx_1\ar[d]\ar[dr]\ar[drr]
-&\rvx_2\ar[dr]
-\\
-\rvf_0&\rvf_1&\rvf_2&\rvf_3
-}$$
-\caption{Bipartite bnet
-corresponding to factor
-graph Fig.\ref{fig-fac-graph}.}
-\label{fig-bip-bnet}
-\end{figure}
-
-One
-can map
-any factor graph (the ``source")
-to a special bipartite bnet (the ``image"),
-as follows.
-Replace each $x_i$ by $\rvx_i\in S_{\rvx_i}$
-for $i=0,1, \ldots, nx-1$
- and each
- $f_\alpha$ by $\rvf_\alpha$
-for $\alpha=0, 1, \ldots, nf-1$.
-Then replace
-the connections (edges)
-of the factor graph
-by arrows from $\rvx_i$ to
-$\rvf_\alpha$. For example,
-Fig.\ref{fig-bip-bnet}
-is the image bipartite bnet of the source factor
-graph Fig.\ref{fig-fac-graph}.
-
-
-Let $\rvx^{nx}=
-(\rvx_0, \rvx_1, \ldots, \rvx_{nx-1})$
-and
-$\rvf^{nf}=
-(\rvf_0, \rvf_1, \ldots, \rvf_{nf-1})$.
-Let\footnote{
-Note that we are using
-$f_\alpha$
-to denote both a function
-$f_\alp(\cdot)$  and a Boolean
-value. Which one we mean
-will be clear from context.
-$f_\alp$ could also be used to
-denote, besides a function and a Boolean value,
-the real number
-$y_\alp=f_\alpha(x_{nb(\rvf_\alpha)})$.
-However, we won't be using it that third way
-in this chapter.}
-$f_\alp\in \bool$ for all $\alp$,
-and $y_\alp=
-f_\alpha(x_{nb(\rvf_\alpha)})$.
-Here we are using $nb(\rvf_\alp)$
-to denote  the neighborhood
-of node $\rvf_\alp$
-in the image bipartite bnet,
-and we are using $x_S$ to denote
-$(x_i)_{i\in S}$.
-Without loss of
-generality,
-we will assume
-that $y_\alp\in[0,1]$ for all $\alp$.
-Then we define the TPMs, printed
-in blue, for the
-image bipartite bnet, 
-as follows.
-
-
-
-
-\beq\color{blue}
-P(f_\alpha|x_{nx(\rvf_\alpha)})=
-y_\alp
-\delta(f_\alp, 1)
-+
-[1-y_\alp]
-\delta(f_\alp, 0)
-\;
-\eeq
-for $\alp=0, 1, \ldots , nf-1$
-and
-
-\beq\color{blue}
-P_{\rvx_i}(x_i)= \text{arbitrary prior}
-\eeq
-for $i=0, 1, \ldots, nx-1$.
-
-Note that
-
-\beq
-P(f^{nf}=1^{nf}|x^{nx})=
-\prod_\alpha
-f_\alpha(x_{nb(\rvf_\alpha)})
-\;.
-\eeq
-
-\hrule
 A {\bf tree bnet}
 is a bnet for which all
 nodes have exactly
