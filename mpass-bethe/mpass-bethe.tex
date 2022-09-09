@@ -12,13 +12,97 @@ and \cite{yedidia}.
 \section{Pairwise Factor
 Graphs and Message Passing}
 
+
+\begin{figure}[h!]
+$$\xymatrix{
+&*+[F]{\Delta}
+&
+&*+[F]{\Delta}
+&
+&*+[F]{\Delta}
+\\
+*++[o][F]{x_{11}}
+\ar@{-}[d]\ar@{-}[r]\ar@{-}[ru]
+&*+[F]{\Delta}\ar@{-}[r]
+&*++[o][F]{x_{12}}\ar@{-}[d]\ar@{-}[r]
+\ar@{-}[ru]
+&*+[F]{\Delta}\ar@{-}[r]
+&*++[o][F]{x_{13}}\ar@{-}[d]
+\ar@{-}[ru]
+\\
+*+[F]{\Delta}\ar@{-}[d]
+&*+[F]{\Delta}
+&*+[F]{\Delta}\ar@{-}[d]
+&*+[F]{\Delta}
+&*+[F]{\Delta}\ar@{-}[d]
+&*+[F]{\Delta}
+\\
+*++[o][F]{x_{21}}\ar@{-}[r]\ar@{-}[ru]
+&*+[F]{\Delta}\ar@{-}[r]
+&*++[o][F]{x_{22}}\ar@{-}[r]\ar@{-}[ru]
+&*+[F]{\Delta}\ar@{-}[r]
+&*++[o][F]{x_{23}}\ar@{-}[ru]
+}$$
+\caption{Example
+of pairwise factor graph.
+In this figure,
+a boxed $\Delta$
+between variables $x_i$
+and $x_j$,
+denotes the function
+$\Delta(x_i, x_j)$.
+Also, a boxed
+$\Delta$
+connected to a
+single variable $x_i$,
+denotes the function
+$\Delta(x_i, k)$,
+where $k$
+is a fixed number.
+}
+\label{fig-paiwise-mrf}
+\end{figure}
+
+Factor graphs
+are discussed in Chapter \ref{ch-factor-g}.
+
+A pairwise
+Markov Random Field (MRF)
+is a statistical model 
+whose probability
+distribution
+is of the form
+
+\beq
+p(x)=\caln(!x)\prod_{i-j}\Delta(x_i, x_j)
+\label{eq-pairwise-fg}
+\eeq
+where $x=(x_1, x_2,
+\ldots, x_n )$,
+where $i-j$
+represents the edge
+connecting
+nodes $i$ and $j$
+in an undirected graph (UG) $G$,
+and where  the product 
+is over all edges of $G$.
+UGs can be represented
+graphically
+by a factor graph.
+Fig.\ref{fig-paiwise-mrf}
+shows an example
+of a pairwise
+factor graph.
+
+
+
 Note that 
 in $m_{a\rdart i}(x_i)$,
 $i$ (i.e., the arrow target) 
 and $x_i$ (i.e., the argument
 of the function) 
 refer to the same thing and
-next to each other.
+are adjacent to each other.
 This is always the case in
 our notation for messages.  
 
@@ -26,14 +110,19 @@ our notation for messages.
 \begin{enumerate}
 \item 
 Assume $\Delta(x_i, x_j)$ is known and
+the full
+probability $p(x)$
+of the model
+is given by
+Eq.(\ref{eq-pairwise-fg}).
 
 
-\beq
-p(x)=\caln(!x)\prod_{i-j}\Delta(x_i, x_j)
-\eeq
+
 
 \item Calculate $m_{j\rdart i}$
-for all $i-j$ using the recursion
+for all 
+edges $i-j$ using the recursion
+relation
 
 \beq
 m_{j\rdart i}^{new}
@@ -46,7 +135,7 @@ m_{b\rdart j} (x_j)
 \eeq
 
 \item Calculate $\tP (x_i
-, x_j )$ for all $i-j$ using 
+, x_j )$ for all edges $i-j$ using 
  
 \beq
 \tP (x_i
