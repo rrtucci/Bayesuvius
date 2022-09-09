@@ -131,7 +131,7 @@ as follows.
 
 
 \beq\color{blue}
-P(f_\alpha|x_{nx(\rvf_\alpha)})=
+P(f_\alpha|x_{nb(\rvf_\alpha)})=
 y_\alp
 \delta(f_\alp, 1)
 +
@@ -146,15 +146,73 @@ and
 P_{\rvx_i}(x_i)= \text{arbitrary prior}
 \eeq
 for $i=0, 1, \ldots, nx-1$.
-
 Note that
 
 \beq
 P(f^{nf}=1^{nf}|x^{nx})=
 \prod_\alpha
-f_\alpha(x_{nb(\rvf_\alpha)})
+y_\alpha
 \;.
 \eeq
+
+\begin{figure}[h!]
+\centering
+$$\xymatrix{
+\rvx_0\ar[d]\ar[dr]\ar[drr]
+&\rvx_1\ar[d]\ar[dr]\ar[drr]
+&\rvx_2\ar[dr]
+\\
+\rvy_0\ar[d]
+&\rvy_1\ar[dl]
+&\rvy_2\ar[dll]
+&\rvy_3\ar[dlll]
+\\
+\rvy
+}$$
+\caption{Another bipartite bnet,
+alternative to Fig.\ref{fig-bip-bnet},
+corresponding to factor
+graph Fig.\ref{fig-fac-graph}.}
+\label{fig-bip-bnet-alt}
+\end{figure}
+
+Fig.\ref{fig-bip-bnet-alt}
+gives an another bipartite
+bnet,
+alternative to  
+Fig.\ref{fig-bip-bnet},
+corresponding to factor
+graph Fig.\ref{fig-fac-graph}.
+In this new bnet, we
+replaced the $\rvf_\alp\in\bool$
+nodes by $\rvy_\alp\in[0,1]$ nodes.
+We also  
+defined a new leaf node
+$\rvy\in \bool$
+with incoming 
+arrows from all
+nodes $\rvy_\alp$.
+The TPMs, printed in blue,
+for the $\rvy_\alp$
+and $\rvy$ nodes, are 
+as follows.
+
+\beq\color{blue}
+P(\rvy_\alpha=y_\alp|x_{nb(\rvy_\alpha)})=
+\delta(y_\alp,f_\alp(x_{nb(\rvy_\alpha)}))
+\eeq
+\beq\color{blue}
+P(y|\{y_\alp\}_{\alp=0}^{nf-1})=
+y\prod_\alp y_\alp
++
+(1-y)\left(1-\prod_\alp y_\alp\right)
+\eeq
+Note that 
+\beq
+P(\rvy=1|\{y_\alp\}_{\alp=0}^{nf-1})=
+\prod_\alp y_\alp
+\eeq
+
 
 We've shown
 how to go from a factor graph
@@ -187,6 +245,10 @@ $$
 \rdart}
 &
 \xymatrix@R=.7pc{
+*+[F]{P(a_1)}\ar@{-}[d]
+&&
+*+[F]{P(a_2)}\ar@{-}[d]
+\\
 *++[o][F]{a_1}\ar@{-}[dr]
 &
 &*++[o][F]{a_2}\ar@{-}[dl]
