@@ -9,8 +9,7 @@ This chapter is based
 on Refs. \cite{WainJordan}
 and \cite{yedidia}.
 
-\section{Pairwise Factor
-Graphs and Message Passing}
+\section{Pairwise MRFs and Message Passing}
 
 
 \begin{figure}[h!]
@@ -44,7 +43,8 @@ $$\xymatrix{
 &*++[o][F]{x_{23}}\ar@{-}[ru]
 }$$
 \caption{Example
-of pairwise factor graph.
+of factor graph
+for a pairwise MRF.
 In this figure,
 a boxed $\Delta$
 between variables $x_i$
@@ -81,30 +81,63 @@ where $x=(x_1, x_2,
 \ldots, x_n )$,
 where $i-j$
 represents the edge
-connecting
+that connects
 nodes $i$ and $j$
-in an undirected graph (UG) $G$,
+in an undirected graph $G$,
 and where  the product 
 is over all edges of $G$.
-UGs can be represented
+$G$ can be represented
 graphically
 by a factor graph.
 Fig.\ref{fig-paiwise-mrf}
 shows an example
 of a pairwise
+MRF
+and its
+representation as a
 factor graph.
 
+Note that a bnet can
+be easily converted to an
+equivalent
+bipartite MRF.
+You just
+set $\Delta(x_i, k)=p(x_i)$
+if $x_i$ is a root node
+of the bnet,
+and $\Delta(x_i, x_j)=p(x_i|x_j) $
+if $x_i$ isn't a root node.
+Of course, one
+must choose
+the arrow directions
+of the resulting
+graph
+so that the final
+choices assure
+that the bnet
+is acyclic.
 
-
-Note that 
-in $m_{a\rdart i}(x_i)$,
-$i$ (i.e., the arrow target) 
-and $x_i$ (i.e., the argument
-of the function) 
-refer to the same thing and
-are adjacent to each other.
+In what follows,
+we shall use
+{\bf messages (a.k.a. cavity fields)}
+ $m_{a\rdart i}(x_i)$,
+Note
+that in our
+notation
+for messages, the letter $i$
+appears twice,
+and both occurrences
+are next to each other.
 This is always the case in
-our notation for messages.  
+our notation for messages.
+
+In what follows,
+we shall use the notation
+$\partial i$  
+to denote indices
+$j$ such that
+$x_j$ is a 
+neighbor of $x_i$.
 
 
 \begin{enumerate}
@@ -134,6 +167,31 @@ m_{j\rdart i}^{new}
 m_{b\rdart j} (x_j) 
 \eeq
 
+\beq
+\xymatrix@C=.7pc{
+\\
+*++[o][F]{x_i}\ar@{-}[r]
+&*+[F]{m^{new}_{j\rdart i}(x_i)}
+&=\sum_{x_j}
+}
+\xymatrix@C.7pc{
+&&&*+[F]{m_{b_1\rdart j}(x_j)
+}
+\\
+*++[o][F]{x_i}\ar@{-}[r]
+&*+[F]{\Delta}\ar@{-}[r]
+&*++[o][F]{x_j}\ar@{-}[r]
+\ar@{-}[ru]\ar@{-}[rd]
+&*+[F]{
+m_{b_2\rdart j}(x_j)
+}
+\\
+&&&*+[F]{
+m_{b_1\rdart j}(x_j)
+}
+}
+\eeq
+
 \item Calculate $\tP (x_i
 , x_j )$ for all edges $i-j$ using 
  
@@ -148,6 +206,45 @@ m_{a\rdart i}(x_i)
 \prod_{b\in \partial j \setminus i}
 m_{b\rdart j}(x_j)
 \eeq
+
+\beq
+\xymatrix@C=.7pc{
+\\
+*++[o][F]{x_i}\ar@{-}[r]
+&
+*+[F]{\tP}
+\ar@{-}[r]
+&*++[o][F]{x_j}
+&=
+\caln(!x)
+}
+\xymatrix@C.7pc{
+*+[F]{m_{a_1\rdart i}(x_i)
+}\ar@{-}[dr]
+&&&&*+[F]{m_{b_1\rdart j}(x_j)
+}
+\\
+*+[F]{m_{a_2\rdart i}(x_i)
+}\ar@{-}[r]
+&*++[o][F]{x_i}\ar@{-}[r]
+&*+[F]{\Delta}\ar@{-}[r]
+&*++[o][F]{x_j}\ar@{-}[r]
+\ar@{-}[ru]\ar@{-}[rd]
+&*+[F]{
+m_{b_2\rdart j}(x_j)
+}
+\\
+*+[F]{m_{a_3\rdart i}(x_i)
+}\ar@{-}[ur]
+&&&&*+[F]{
+m_{b_1\rdart j}(x_j)
+}
+}
+\eeq
+
+\beq
+\tP(x_i)=\sum_{x_j}\tP(x_i, x_j)
+\eeq
 \end{enumerate}
 
 Why it works?
@@ -156,6 +253,19 @@ Why it works?
 \Delta(x_i, x_j)
 \approx m_{j\rdart i}(x_i)
 m_{i\rdart j}(x_j)
+\eeq
+
+\beq
+\xymatrix@C=.7pc{
+*++[o][F]{x_i}\ar@{-}[r]
+&*+[F]{\Delta}\ar@{-}[r]
+&*++[o][F]{x_j}
+&\approx
+&*++[o][F]{x_i}\ar@{-}[r]
+&*+[F]{m_{j\rdart i}(x_i)}
+&*+[F]{m_{i\rdart j}(x_j)}\ar@{-}[r]
+&*++[o][F]{x_j}
+}
 \eeq
 
 \beq 
@@ -190,6 +300,7 @@ m_{b\rdart j} (x_j)
  m_{b\rdart j} (x_j)
  \\
  &=&
+ \caln(!x)
  m_{j\rdart i}(x_i)
 \eeqa
 \item
@@ -199,7 +310,7 @@ m_{b\rdart j} (x_j)
 &=&
 \sum_{x\setminus x_i, x_j}\tP(x)
 \\
-&=&
+&\approx&
 \caln(!x)
 \sum_{x\setminus x_i, x_j}
 \prod_{i-j}
@@ -371,18 +482,26 @@ the energy held in disordered form.
 
 \section{$-\ln Z_{\theta^*}$=
 Minimum FE}
+
+
+\beq
+p(x) = P(x|\theta), 
+\;
+\tP(x)=P(x|\TIL{\theta})
+\eeq
+
 \beqa
-0&\leq& D_{KL}(P(x|\ttheta)
-\parallel P(x|\theta))
+0&\leq& D_{KL}(\tP(x))
+\parallel p(x))
 \\
 &=&
-\sum_x P(x|\ttheta)\ln
-\frac{P(x|\ttheta)}
-{P(x|\theta)}
+\sum_x \tP(x)\ln
+\frac{\tP(x)}
+{p(x)}
 \\
 &=&
 -\TIL{S}
--\sum_x P(x|\ttheta)
+-\sum_x \tP(x)
 \left[
 -(\theta)^T\calu(x)-\ln Z_{\theta}
 \right]
@@ -393,6 +512,31 @@ Minimum FE}
 \quad\text{($\TIL{S}, \TIL{U}$ correspond to parameter $\ttheta$)}
 \eeqa
 
+\beq
+-\ln Z_\theta\leq 
+-\TIL{S}
++(\theta)^T\TIL{U}
+\eeq
+
+\beq
+\theta^*=
+\argmin_\theta\left[
+-\TIL{S}
++(\theta)^T\TIL{U}\right]
+\eeq
+
+Henceforth,
+we will refer to
+$-\ln Z_\theta$ as the 
+{\bf FE (Free Energy)}
+and to 
+$-\ln Z_{\theta^*}$
+as the
+{\bf minimum FE}.
+
+Relationship to 
+convex dual functions\footnote{Convex dual functions are discussed
+in Chapter \ref{ch-var-bay-medical}}
 
 \beq
 \TIL{S} = \min_{\theta}\left[
@@ -404,26 +548,23 @@ Minimum FE}
 \min_{\TIL{U}}\left[
 (\theta)^T\TIL{U} -\TIL{S}
 \right]
-\label{eq-max-u-tilde}
 \eeq
+$\TIL{S}$ and $-\ln Z_\theta$ are
+convex dual functions.
 
 \beq
-p(x) = P(x|\Theta), 
-\;
-\tP(x)=P(x|\TIL{\theta})
+-\ln Z_{\theta^*}=
+(\theta^*)^T\TIL{U} -\TIL{S}
+\label{eq-duality-theta-star}
 \eeq
 
-\beqa
-\cald &=&D_{KL}(P(x|\ttheta)
-\parallel P(x|\theta))
-\\
-&=&
-D_{KL}(\tP(x)
-\parallel p(x))
-\eeqa
+\section{$-\ln Z^{tree}_\theta$=Tree FE
+(a.k.a. Bethe FE)}
 
-\section{$-\ln Z^{tree}_\theta$=Tree (a.k.a. Bethe) FE}
-Mean Field approximation
+Mean Field approximation, 
+variables $x_i$
+are independently
+distributed: 
 \beq
 \tP^{ind}(x)=
 \prod_
@@ -455,6 +596,7 @@ k
 \tP (x_i
 , x_j )}{
 \tP(x_i)\tP (x_j )}
+\label{eq-tP-tree}
 \eeq
 
 \beqa
@@ -488,17 +630,19 @@ where $d_i$
 is the number of neighbors of node $i$.
 
 
-Bethe approximation.
+
+
+{\bf Bethe approximation}
 
 \beq
-\TIL{S}^{tree} - \ln Z_{\theta}\geq
-(\theta)^T\TIL{U} \approx 0
+-\ln Z_{\theta^*}
+\approx -\ln Z_{\theta^*}^{tree}
 \eeq
-
-\beq
--\ln Z_\theta
-\gtrapprox \TIL{S}^{tree}
-\eeq
+In the next section, we 
+will evaluate
+$ -\ln Z_{\theta^*}^{tree}$
+using a message passing ansatz (an
+ansatz is an initial guess).
 
 
 \section{ 
@@ -507,13 +651,13 @@ Tree Minimum FE,
 and message passing}
 
 
-If we replace $-\ln Z_\theta$ by
-$\TIL{S}^{tree}$ in Eq.(\ref{eq-max-u-tilde}),
+If we replace $\TIL{S}$ by
+$\TIL{S}^{tree}$ in Eq.(\ref{eq-duality-theta-star}),
 we get 
 
 \beq
--S=\max_{\TIL{U}}\left[
--(\theta)^T\TIL{U} +\TIL{S}^{tree}
+-\ln Z^{tree}_{\theta^*}=\min_{\TIL{U}}\left[
+(\theta)^T\TIL{U} -\TIL{S}^{tree}
 \right]
 \eeq
 
@@ -527,25 +671,22 @@ we get
 _{\text{ call } \Theta(x)}
 \eeqa
 
-
-The {\bf Bethe Entropy} $S^{Bethe}$
-is defined by
 \beq
--S^{Bethe}=
-\max_{\tP}\left[
--\sum_x \tP(x)\Theta(x)
-+ \sum_i\TIL{H}(\rvx_i)
--\sum_{i-j}\TIL{H}(\rvx_i:\rvx_j)
+-\ln Z^{tree}_{\theta^*}=
+\min_{\tP}\left[
+\sum_x \tP(x)\Theta(x)
+-\sum_i\TIL{H}(\rvx_i)
++\sum_{i-j}\TIL{H}(\rvx_i:\rvx_j)
 \right]
 \eeq
 subject to $\sum_x \tP(x)=1$.
 
 \begin{claim}
-$S^{Bethe}$
+$-\ln Z^{tree}_{\theta^*}$
 is achieved if
 
 \beq
-\tP(x) = \caln(!x)e^{\Theta(x)}
+\tP(x) = \caln(!x)e^{-\Theta(x)}
 \eeq
 
 \beq
@@ -554,6 +695,9 @@ is achieved if
 \sum_i \Theta(x_i)
 +\sum_{i-j}\Theta(x_i, x_j)
 \eeq
+(This form for $\tP(x)$ and 
+$\Theta(x)$ agrees with Eq.(\ref{eq-tP-tree}))
+
 
 \beq
 m_{t\rdart s}(x_s)=
@@ -588,19 +732,19 @@ e^{-\Theta(x_i, x_j)
 \call=
 \left\{
 \begin{array}{l}
--\sum_x \tP(x)\Theta(x)
+\sum_x \tP(x)\Theta(x)
 \\
--\sum_i (1-d_i) 
++\sum_i (1-d_i) 
 \sum_{x_i}
 \tP(x_i)
 \ln
 \tP(x_i)
 \\
--\sum_{i-j}\sum_{x_i, x_j}\tP(x_i, x_j)
-\ln P(x_i, x_j)
++\sum_{i-j}\sum_{x_i, x_j}\tP(x_i, x_j)
+\ln \tP(x_i, x_j)
 \\
 \sum_x \lam(x)\left[
-\tP(x)-1
+1-\tP(x)
 \right]
 \end{array}
 \right\}
@@ -640,17 +784,17 @@ Likewise,
 \sum_{x'}\delta\tP(x')
 \left\{
 \begin{array}{l}
--\Theta(x')
+\Theta(x')
 \\
--\sum_i (1-d_i) 
++\sum_i (1-d_i) 
 \left[1+\ln
 \tP(x_i')\right]
 \\
--\sum_{i-j}
++\sum_{i-j}
 \left[1+
 \ln \tP(x_i', x_j')\right]
 \\
-\lam(x')
+-\lam(x')
 \end{array}
 \right\}
 \eeq
@@ -659,19 +803,19 @@ Likewise,
 0=
 \left\{
 \begin{array}{l}
--\Theta(x')
+\Theta(x)
 \\
--\sum_i  
++\sum_i  
 \left[1+\ln
-\tP(x_i')\right]
+\tP(x_i)\right]
 \\
--\sum_{i-j}
++\sum_{i-j}
 \left[1+
-\ln \frac{\tP(x_i', x_j')}
-{\tP(x_i')\tP(x_j')}
+\ln \frac{\tP(x_i, x_j)}
+{\tP(x_i)\tP(x_j)}
 \right]
 \\
-+\lam(x')
+-\lam(x)
 \end{array}
 \right\}
 \eeq
@@ -684,11 +828,11 @@ Likewise,
 0=
 \left\{
 \begin{array}{l}
--\Theta(x)
+\Theta(x)
 \\
-+\sum_i \Theta(x_i)
+-\sum_i \Theta(x_i)
 \\
-+\sum_{i-j}\Theta(x_i, x_j)
+-\sum_{i-j}\Theta(x_i, x_j)
 \end{array}
 \right\}
 \eeq
@@ -697,10 +841,10 @@ Likewise,
 0&=&
 \left\{
 \begin{array}{l}
--\sum_i \ln 
++\sum_i \ln 
 \prod_{a\in \partial i}m_{a\rdart i}(x_i)
 \\
--\sum_{i-j}\ln 
++\sum_{i-j}\ln 
 \frac{\left[\prod_{a\in \partial i
 \setminus j} m_{a\rdart i}(x_i)
 \right]
@@ -712,27 +856,27 @@ Likewise,
 \prod_{b\in \partial j}m_{b\rdart j}(x_j)
 }
 \\
-+\lam(x)
+-\lam(x)
 \end{array}
 \right\}
 \\
 &=&
 \left\{
 \begin{array}{l}
--\sum_i
+\sum_i
 \sum_{a\in \partial i} \lam_{a\rdart i}(x_i)
 \\
-+
+-
 \sum_{i-j}\left[
 \lam_{j\rdart i}(x_i)+ \lam_{i\rdart j}(x_j)
 \right]
 \\
-+\lam(x)
+-\lam(x)
 \end{array}
 \right\}
 \\
 &=&
-\lam(x)
+-\lam(x)
 \eeqa
 \qed
 
