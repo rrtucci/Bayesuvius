@@ -12,6 +12,9 @@ and \cite{yedidia}.
 \section{Pairwise MRFs and Message Passing}
 
 
+
+
+
 \begin{figure}[h!]
 $$\xymatrix{
 &*+[F]{\Delta}
@@ -328,6 +331,74 @@ m_{b\rdart j}(x_j)
 \eeqa
 \end{enumerate}
 
+More compressed notation
+pairwise MRF factor graph.
+Instead of using
+circles for variables
+and squares for functions,
+we use two labeled arrows between two
+nodes $x_1, x_2$.
+\beq
+\xymatrix@C=.7pc{
+*++[o][F]{x_1}\ar@{-}[r]
+&*+[F]{m_{2\rdart 1}(x_1)}
+&*+[F]{m_{1\rdart 2}(x_2)}\ar@{-}[r]
+&*++[o][F]{x_2}
+}
+=\quad
+\xymatrix@C=4pc{
+x_1\ar@<1ex>[r]^{m_{1\rdart 2}(x_2)}
+&x_2\ar@<1ex>[l]^{m_{2\rdart 1}(x_1)}
+}
+\eeq
+
+How it works?
+Next, we give an 
+example
+of how message 
+passing
+works. Refer to
+Fig\ref{fig-mp-3node-example}
+for this example.
+
+\begin{figure}[h!]
+$$\xymatrix@C=5pc{
+&&x_3\ar@<1ex>[ld]^{m_{3\rdart 2}(x_2)}
+\\
+x_1\ar@<1ex>[r]^{m_{1\rdart 2}(x_2)}
+&x_2\ar@<1ex>[l]^{m_{2\rdart 1}(x_1)}
+\ar@<1ex>[ru]^{m_{2\rdart 3}(x_3)}
+\ar@<1ex>[rd]^{m_{2\rdart 4}(x_4)}
+\\
+&&x_4\ar@<1ex>[lu]^{m_{4\rdart 2}(x_2)}
+}$$
+\caption{
+Example of compressed factor graph 
+for a pairwise MRF.}
+\label{fig-mp-3node-example}
+\end{figure}
+
+\begin{align}
+\tP(x_1)
+&=
+\caln(!x)m_{2\rdart 1}(x_1)
+\\
+&=
+\caln(!x)
+\sum_{x_2}
+\Delta(x_1,x_2)
+m_{3\rdart 2}(x_2)
+m_{4\rdart 2}(x_2)
+\\
+&=
+\caln(!x)
+\sum_{x_2}
+\Delta(x_1,x_2)
+\sum_{x_3}
+\Delta(x_2,x_3)
+\sum_{x_4}
+\Delta(x_2, x_4)
+\end{align}
 
 
 
