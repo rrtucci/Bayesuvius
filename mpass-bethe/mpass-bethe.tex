@@ -1,5 +1,5 @@
-\chapter{Message Passing, Bethe's theory
-(COMING SOON)}
+\chapter{Message Passing and 
+Bethe Free Energy}
 \label{ch-mpass-bethe}
 
 \newcommand{\ttheta}[0]{\TIL{\theta}}
@@ -9,9 +9,7 @@ This chapter is based
 on Refs. \cite{WainJordan}
 and \cite{yedidia}.
 
-\section{Pairwise MRFs and Message Passing}
-
-
+\section{2MRFs}
 
 
 
@@ -47,12 +45,12 @@ $$\xymatrix{
 }$$
 \caption{Example
 of factor graph
-for a pairwise MRF.
+for a 2MRF.
 In this figure,
 a boxed $\Delta$
 between variables $x_i$
 and $x_j$,
-denotes the function
+denotes the propagator  function
 $\Delta(x_i, x_j)$.
 Also, a boxed
 $\Delta$
@@ -62,6 +60,13 @@ denotes the function
 $\Delta(x_i, k)$,
 where $k$
 is a fixed number.
+If we view this factor graph
+as a representation of 3 dimensional device
+with the leaf nodes $\Delta$
+in the back part and everything else in the front part,
+then the back part can represent the light inputs from a scene, and the front part
+can represent the analysis being done 
+with the light inputs.
 }
 \label{fig-paiwise-mrf}
 \end{figure}
@@ -69,8 +74,7 @@ is a fixed number.
 Factor graphs
 are discussed in Chapter \ref{ch-factor-g}.
 
-A pairwise
-Markov Random Field (MRF)
+A pairwise Markov Random Field (2MRF)
 is a statistical model 
 whose probability
 distribution
@@ -78,7 +82,7 @@ is of the form
 
 \beq
 p(x)=\caln(!x)\prod_{i-j}\Delta(x_i, x_j)
-\label{eq-pairwise-fg}
+\label{eq-2mrf}
 \eeq
 where $x=(x_1, x_2,
 \ldots, x_n )$,
@@ -89,36 +93,62 @@ nodes $i$ and $j$
 in an undirected graph $G$,
 and where  the product 
 is over all edges of $G$.
-$G$ can be represented
+$p(x)$ can be represented
 graphically
 by a factor graph.
+
 Fig.\ref{fig-paiwise-mrf}
 shows an example
-of a pairwise
-MRF
-and its
-representation as a
+of a 2MRF
+represented as a
 factor graph.
+
+The {\bf Ising model} is
+another prototypical
+example of a 2MRF. 
+Let $T$ be the temperature
+of a system, 
+\beq
+\theta=\frac{1}{T}\;,
+\eeq
+and 
+$x= (x_1, x_2, \ldots, x_{nx})
+\in\{-1, 1\}^{nx}$.
+The Ising model
+is defined 
+for $J,h(x_i)\in \RR$ by
+
+\beq
+\eps(x)= -J\sum_{i-j}x_i x_j -\sum_i h(x_i)
+\eeq
+
+\beq
+P(x) =
+\frac{e^{\frac{-\eps(x)}{T}}}{Z_\theta}
+\eeq
+
 
 Note that a bnet can
 be easily converted to an
 equivalent
-bipartite MRF.
+2MRF.
 You just
 set $\Delta(x_i, k)=p(x_i)$
 if $x_i$ is a root node
 of the bnet,
 and $\Delta(x_i, x_j)=p(x_i|x_j) $
 if $x_i$ isn't a root node.
-Of course, one
-must choose
+One 
+must then choose
 the arrow directions
-of the resulting
-graph
-so that the final
-choices assure
-that the bnet
-is acyclic.
+of the bnet.
+A natural choice
+is to choose the
+bnet arrows so 
+that they all point from
+an $x_i$ to a $\Delta$.
+
+
 
 In what follows,
 we shall use
@@ -134,34 +164,52 @@ are next to each other.
 This is always the case in
 our notation for messages.
 
-In what follows,
+Henceforth, we will
+refer to the functions
+$\Delta(x_i, x_j)$
+as {\bf propagators},
+to make contact with 
+Physics.
+
+Henceforth,
 we shall use the notation
 $\partial i$  
-to denote indices
-$j$ such that
-$x_j$ is a 
-neighbor of $x_i$.
+to denote all nodes
+$j$ that
+are neighbors of node $i$.
+$\partial i$ is called
+the {\bf neighborhood or boundary} of $i$.
 
 
-\begin{enumerate}
-\item 
-Assume $\Delta(x_i, x_j)$ is known and
+\section{Message Passing Intuition}
+Next we present
+some results that will
+be derived later in the chapter,
+but which we will first
+present  now without proof,
+and explain how they
+make sense intuitively.
+Assume that the functions $\Delta(x_i, x_j)$ 
+are known
+for all edges $i-j$, and that
 the full
-probability $p(x)$
+probability distribution $p(x)$
 of the model
 is given by
-Eq.(\ref{eq-pairwise-fg}).
+Eq.(\ref{eq-2mrf}).
 
+\begin{enumerate}
+\item Calculate 
+message 
+$m_{j\rdart i}(x_i)$ 
+in terms of messages 
+leaving $x_j$.
+This is called 
+the {\bf message updating rule}.
 
-
-
-\item Calculate $m_{j\rdart i}$
-for all 
-edges $i-j$ using the recursion
-relation
-
+One has that
 \beq
-m_{j\rdart i}^{new}
+m_{j\rdart i}
 (x_i) =
 \sum_{x_j}
 \Delta(x_i, x_j)
@@ -169,13 +217,14 @@ m_{j\rdart i}^{new}
 \partial j\setminus i}
 m_{b\rdart j} (x_j) 
 \eeq
+This can be represented graphically by
 
 \beq
 \xymatrix@C=.7pc{
 \\
 *++[o][F]{x_i}\ar@{-}[r]
-&*+[F]{m^{new}_{j\rdart i}(x_i)}
-&=\sum_{x_j}
+&*+[F]{m_{j\rdart i}(x_i)}
+&=
 }
 \xymatrix@C.7pc{
 &&&*+[F]{m_{b_1\rdart j}(x_j)
@@ -183,21 +232,24 @@ m_{b\rdart j} (x_j)
 \\
 *++[o][F]{x_i}\ar@{-}[r]
 &*+[F]{\Delta}\ar@{-}[r]
-&*++[o][F]{x_j}\ar@{-}[r]
+&*++[o][F]{\sum x_j}\ar@{-}[r]
 \ar@{-}[ru]\ar@{-}[rd]
 &*+[F]{
 m_{b_2\rdart j}(x_j)
 }
 \\
 &&&*+[F]{
-m_{b_1\rdart j}(x_j)
+m_{b_3\rdart j}(x_j)
 }
 }
 \eeq
 
 \item Calculate $\tP (x_i
-, x_j )$ for all edges $i-j$ using 
- 
+, x_j )$ for any edge $i-j$ 
+in terms of messages entering $x_i$
+and leaving $x_j$
+
+One has that
 \beq
 \tP (x_i
 , x_j ) 
@@ -209,6 +261,7 @@ m_{a\rdart i}(x_i)
 \prod_{b\in \partial j \setminus i}
 m_{b\rdart j}(x_j)
 \eeq
+This can be represented graphically by
 
 \beq
 \xymatrix@C=.7pc{
@@ -240,23 +293,54 @@ m_{b_2\rdart j}(x_j)
 *+[F]{m_{a_3\rdart i}(x_i)
 }\ar@{-}[ur]
 &&&&*+[F]{
-m_{b_1\rdart j}(x_j)
+m_{b_3\rdart j}(x_j)
 }
 }
 \eeq
+\item
+Calculate $\tP(x_i)$
+in terms of messages entering $x_i$
 
+One has that
 \beq
 \tP(x_i)=\sum_{x_j}\tP(x_i, x_j)
+\eeq
+This can be represented graphically by
+
+\beq
+\xymatrix@C=.7pc{
+\\
+*++[o][F]{x_i}\ar@{-}[r]
+&
+*+[F]{\tP}
+&=
+\caln(!x))
+}
+\xymatrix@C.7pc{
+*+[F]{m_{a_1\rdart i}(x_i)
+}\ar@{-}[dr]
+\\
+*+[F]{m_{a_2\rdart i}(x_i)
+}\ar@{-}[r]
+&*++[o][F]{x_i}\ar@{-}[r]
+&*+[F]{m_{j\rdart i}(x_i)}
+\\
+*+[F]{m_{a_3\rdart i}(x_i)
+}\ar@{-}[ur]
+}
 \eeq
 \end{enumerate}
 
 Why it works?
 
+Suppose we approximate
+the propagator $\Delta(x_i, x_j)$ by
 \beq
 \Delta(x_i, x_j)
 \approx m_{j\rdart i}(x_i)
 m_{i\rdart j}(x_j)
 \eeq
+This can be represented graphically by
 
 \beq
 \xymatrix@C=.7pc{
@@ -270,28 +354,23 @@ m_{i\rdart j}(x_j)
 &*++[o][F]{x_j}
 }
 \eeq
+Then the results 1,2,3 above
+can be justified as follows.
 
-\beq 
-\tP(x)\approx 
-\caln(!x)
-\prod_{i-j}
-m_{j\rdart i}(x_i)
-m_{i\rdart j}(x_j)
-\eeq
+
 \begin{enumerate}
-\item
-\beq 
-p(x)\approx 
-\tP(x)
-\eeq
+
 
 \item 
 
 \beqa
-m_{j\rdart i}^{new}
+m_{j\rdart i}
 (x_i) &\approx&
 \sum_{x_j}
-m_{i\rdart j}(x_j)m_{j\rdart i}(x_i)
+\underbrace{
+m_{j\rdart i}(x_i)
+m_{i\rdart j}(x_j)
+}_{\Delta(x_i, x_j)}
 \prod_{b\in
 \partial j\setminus i}
 m_{b\rdart j} (x_j)
@@ -317,8 +396,10 @@ m_{b\rdart j} (x_j)
 \caln(!x)
 \sum_{x\setminus x_i, x_j}
 \prod_{i-j}
+\underbrace{
 m_{j\rdart i}(x_i)
 m_{i\rdart j}(x_j)
+}_{\Delta(x_i, x_j)}
 \\
 &\approx &
 \caln(!x)
@@ -329,15 +410,43 @@ m_{a\rdart i}(x_i)
 \prod_{b\in \partial j \setminus i}
 m_{b\rdart j}(x_j)
 \eeqa
+\item
+
+\begin{align}
+\tP(x_i) 
+&=
+\sum_{x_j}\tP(x_i, x_j)
+\\
+&\approx 
+\caln(!x)
+\sum_{x_j}
+\underbrace{
+m_{j\rdart i}(x_i)
+m_{i\rdart j}(x_j)
+}_{\Delta(x_i, x_j)}
+\prod_{a\in \partial i \setminus j}
+m_{a\rdart i}(x_i)
+\prod_{b\in \partial j \setminus i}
+m_{b\rdart j}(x_j)
+\\
+&\approx 
+\caln(!x)
+\prod_{a\in \partial i}
+m_{a\rdart i}(x_i)
+\end{align}
 \end{enumerate}
 
-More compressed notation
-pairwise MRF factor graph.
+Henceforth,
+we will ocassionally use
+the following more
+ compressed notation
+for the factor graph of a 2MRF.
 Instead of using
 circles for variables
 and squares for functions,
-we use two labeled arrows between two
-nodes $x_1, x_2$.
+we will use arrows pointing
+from $x_1$ to $x_2$
+and vice versa.
 \beq
 \xymatrix@C=.7pc{
 *++[o][F]{x_1}\ar@{-}[r]
@@ -352,12 +461,14 @@ x_1\ar@<1ex>[r]^{m_{1\rdart 2}(x_2)}
 }
 \eeq
 
-How it works?
+
 Next, we give an 
 example
-of how message 
+of how to use message 
 passing
-works. Refer to
+to find
+the marginal $\tP(x_i)$
+for any node $x_i$. Refer to
 Fig\ref{fig-mp-3node-example}
 for this example.
 
@@ -374,10 +485,13 @@ x_1\ar@<1ex>[r]^{m_{1\rdart 2}(x_2)}
 }$$
 \caption{
 Example of compressed factor graph 
-for a pairwise MRF.}
+for a 2MRF.}
 \label{fig-mp-3node-example}
 \end{figure}
 
+Using the message
+updating rule
+successively, we get
 \begin{align}
 \tP(x_1)
 &=
@@ -398,47 +512,109 @@ m_{4\rdart 2}(x_2)
 \Delta(x_2,x_3)
 \sum_{x_4}
 \Delta(x_2, x_4)
+\\
+&=
+\xymatrix@R=.5pc@C=.7pc{
+&&&&
+*++[o][F]{\sum x_3}
+\\
+&&&
+*+[F]{\Delta}\ar@{-}[ru]
+\\
+*++[o][F]{x_1}\ar@{-}[r]
+&*+[F]{\Delta}\ar@{-}[r]
+&*++[o][F]{\sum x_2}
+\ar@{-}[ru]\ar@{-}[rd]
+\\
+&&&*+[F]{\Delta}\ar@{-}[rd]
+\\
+&&&&
+*++[o][F]{\sum x_4}
+}
 \end{align}
 
-
-
+This 
+algorithm
+is guaranteed to work
+only for trees. In practice,
+one starts by calculating the 
+messages pointing up from
+the leaf nodes
+of the tree. Then one calculates
+the messages pointing up from the parents 
+of the leaf nodes of the tree.
+And so forth until
+one calculates
+all the messages 
+pointing up from the leaf nodes
+to the root node
+of the tree.
+Then one goes in the opposite
+direction, first calculating
+messages pointing down from the 
+root node to its children, from the
+children  of the root node 
+to their children. And so forth.
+By the end, 
+all upward and downward
+pointing 
+messages have been calculated.
+From this, $\tP(x_i)$
+for all $i$ can be calculated.
+$\tP(x_i)$
+is the product of all
+messages pointing into $x_i$.
+.
 
 
 \section{ $-\ln Z_\theta$=
 Free Energy (FE)}
+
+Suppose $\theta, \eps(x)\in \RR^{ni}$
+and $x=(x_1,x_2, \ldots, x_{nx})\in \RR^{nx}$.
 Define the {\bf partition function} $Z_\theta$ by
 \beq
-Z_\theta = \sum_x   e^{-\theta^T \calu(x)}
+Z_\theta = \sum_x   e^{-\theta^T \eps(x)}
 \eeq
-
+and the probability
+distribution $P(x|h)$ by
 
 
 \beqa
 \underbrace{P(x|\theta)
-}_{e^{-\cals_\theta(x)}} &=& 
-\exp( -\theta^T \calu (x) - \ln Z_\theta)
+}_{e^{LL_\theta(x)}} &=& 
+\exp( -\theta^T \eps (x) - \ln Z_\theta)
 \label{eq-px-at-theta}
 \\
 &=&
 \frac{
-e^{-\theta^T \calu(x)}}{Z}
+e^{-\theta^T \eps(x)}}{Z}
 \eeqa
-$\calu(x)$ is called {\bf sufficient
-statistic (SS)} for $\rvx$ because
+$\eps(x)$ is called a {\bf sufficient
+statistic } for $\rvx$ because
 $P(x|\theta)$
 is a functional (i.e.,
-a function of a function) of $\calu(x)$.
+a function of a function) of $\eps(x)$.
+Note that 
+by taking  
+first and higher order derivatives
+of $\ln Z_\theta$
+with respect to $\theta_i$,
+we can calculate
+the statistics
+of $\eps_i(x)$.
+
 
 \beqa
 -\partial_{\theta_i} \ln Z_\theta
 &=&
 \frac{1}{Z_\theta}
 \sum_x   
-\calu_i(x)
-e^{-\theta^T \calu(x)}
+\eps_i(x)
+e^{-\theta^T \eps(x)}
 \\
 &=&
-E_{\rvx|\theta}[\calu_i(\rvx)]=\av{\calu_i}
+E_{\rvx|\theta}[\eps_i(\rvx)]=\av{\eps_i}
 \eeqa
 
 
@@ -448,47 +624,48 @@ E_{\rvx|\theta}[\calu_i(\rvx)]=\av{\calu_i}
 &=
 \partial_{\theta_j}\frac{1}{Z_\theta}
 \sum_x   
--\calu_i(x)
-e^{-\theta^T \calu(x)}
+-\eps_i(x)
+e^{-\theta^T \eps(x)}
 \\
 &=
 \left\{
 \begin{array}{l}
 \frac{1}{Z_\theta}
 \sum_x   
-\calu_j(x)\calu_i(x)
-e^{-\theta^T \calu(x)}
+\eps_j(x)\eps_i(x)
+e^{-\theta^T \eps(x)}
 \\
 +\frac{-1}{Z_\theta^2}
 \left[
 \sum_x   
--\calu_j(x)
-e^{-\theta^T \calu(x)}
+-\eps_j(x)
+e^{-\theta^T \eps(x)}
 \right]
 \left[
 \sum_x   
--\calu_i(x)
-e^{-\theta^T \calu(x)}
+-\eps_i(x)
+e^{-\theta^T \eps(x)}
 \right]
 \end{array}
 \right.
 \\
 &=
-\av{\calu_j\calu_i}
--\av{\calu_j}\av{\calu_i}
+\av{\eps_j\eps_i}
+-\av{\eps_j}\av{\eps_i}
 \\
 &=
-\av{\calu_j, \calu_i}
+\av{\eps_j, \eps_i}
 \end{align}
 
-
+Define the log likelihood $LL_\theta(x)$
+by
 
 
 \beq
--\cals_\theta(x)= -\theta^T \calu(x) 
+LL_\theta(x)= -\theta^T \eps(x) 
 -\ln Z_\theta
 \eeq
-Define the {\bf entropy} $S$ by
+and the {\bf entropy} $S$ by
 \footnote{In Thermodynamics,
 the entropy is denoted by the letter
 $S$. In Shannon Information
@@ -496,15 +673,15 @@ Theory, and elsewhere in this
 book, it is denoted by the letter $H$.}
 
 \beqa
-S &=& \sum_x
- P(x|\theta)\cals_\theta(x)
+S &=& -\sum_x
+ P(x|\theta)LL_\theta(x)
  \\
  &=&
  -\sum_x P(x|\theta)\ln P(x|\theta)
 \eeqa
 Define the {\bf internal energy} $U$ by 
 \beq
-U = \sum_x P(x|\theta)\calu_\theta(x)
+U = \sum_x P(x|\theta)\eps_\theta(x)
 \eeq
 
 \beq
@@ -533,13 +710,18 @@ the inverse temperature
 \beq
 \theta = \frac{1}{T}
 \eeq
-Define the {\bf free energy} $F$ by
+Define the {\bf free energy} $F$ by\footnote{
+In this chapter,
+we often
+call $-\ln Z$
+the free energy 
+They are only equal if $T=1$.}
 \beqa
 F&=& -T \ln Z_\theta
 \\
 &=&
 -T\ln 
-\sum_x e^{-\frac{\calu(x)}{T}}
+\sum_x e^{-\frac{\eps(x)}{T}}
 \eeqa
 Then
 
@@ -554,12 +736,18 @@ the energy held in disordered form.
 \section{$-\ln Z_{\theta^*}$=
 Minimum FE}
 
-
+Suppose we consider
+$P(x|\theta)$ 
+for two 
+different parameter
+$\theta$ and $\ttheta$. Define
 \beq
 p(x) = P(x|\theta), 
 \;
 \tP(x)=P(x|\TIL{\theta})
 \eeq
+The Kullback-Leibler 
+divergence is always non-negative so:
 
 \beqa
 0&\leq& D_{KL}(\tP(x))
@@ -574,7 +762,7 @@ p(x) = P(x|\theta),
 -\TIL{S}
 -\sum_x \tP(x)
 \left[
--(\theta)^T\calu(x)-\ln Z_{\theta}
+-(\theta)^T\eps(x)-\ln Z_{\theta}
 \right]
 \\
 &=&
@@ -589,13 +777,14 @@ p(x) = P(x|\theta),
 +(\theta)^T\TIL{U}
 \eeq
 
+Let
+
 \beq
 \theta^*=
 \argmin_\theta\left[
 -\TIL{S}
 +(\theta)^T\TIL{U}\right]
 \eeq
-
 Henceforth,
 we will refer to
 $-\ln Z_\theta$ as the 
@@ -606,7 +795,8 @@ as the
 {\bf minimum FE}.
 
 Relationship to 
-convex dual functions\footnote{Convex dual functions are discussed
+convex/concave dual functions\footnote{
+Convex/concave dual functions are discussed
 in Chapter \ref{ch-var-bay-medical}}
 
 \beq
@@ -621,7 +811,7 @@ in Chapter \ref{ch-var-bay-medical}}
 \right]
 \eeq
 $\TIL{S}$ and $-\ln Z_\theta$ are
-convex dual functions.
+concave dual functions.
 
 \beq
 -\ln Z_{\theta^*}=
@@ -632,7 +822,11 @@ convex dual functions.
 \section{$-\ln Z^{tree}_\theta$=Tree FE
 (a.k.a. Bethe FE)}
 
-Mean Field approximation, 
+$\tP()x)$
+is said to satisfy 
+{\bf Mean Field Approximation (MFA)
+or independent variables approximation (IVA)}
+if its
 variables $x_i$
 are independently
 distributed: 
@@ -642,9 +836,8 @@ distributed:
 k
 \tP(x_k)
 \eeq
-
-
-
+In the MFA,
+the entropy is
 
 \beqa
 \TIL{S}^{ind}
@@ -658,6 +851,23 @@ k
 \sum_i \TIL{H}(\rvx_i)
 \eeqa
 
+A slightly more 
+complicated case than the
+MFA is when $\tP(x)$
+is defined on
+a tree graph $G^{tree}$
+with edges $i-j$.
+In such a case,
+it will take just
+a few examples of trees
+ $G^{tree}$
+to convince the reader 
+that in general, for 
+any tree  $G^{tree}$,
+$\tP(x)$
+must have the following form:
+
+
 \beq
 \tP^{tree}(x)=
 \tP^{ind}(x)
@@ -669,9 +879,13 @@ k
 \tP(x_i)\tP (x_j )}
 \label{eq-tP-tree}
 \eeq
+Hence,
 
 \beqa
 \TIL{S}^{tree}
+&=&-\sum_i\sum_{x_i}
+\tP^{tree}(x_i)\ln \tP^{tree}(x_i)
+\\
 &=&
 \sum_i\TIL{H}(\rvx_i)
 -
@@ -687,7 +901,7 @@ k
 \eeqa
 
 Note that $\TIL{S}^{tree}$
-can be write using the
+can be written in terms of the
 joint entropy $\TIL{H}(\rvx_i, \rvx_j)$
 instead of the mutual entropy
 $\TIL{H}(\rvx_i:\rvx_j)$.
@@ -700,27 +914,27 @@ $\TIL{H}(\rvx_i:\rvx_j)$.
 where $d_i$
 is the number of neighbors of node $i$.
 
-
-
-
-{\bf Bethe approximation}
+The following
+approximation
+is often called the {\bf Bethe approximation}
 
 \beq
 -\ln Z_{\theta^*}
 \approx -\ln Z_{\theta^*}^{tree}
 \eeq
-In the next section, we 
-will evaluate
-$ -\ln Z_{\theta^*}^{tree}$
-using a message passing ansatz (an
-ansatz is an initial guess).
+
 
 
 \section{ 
 $-\ln Z^{tree}_{\theta^*}$=
 Tree Minimum FE,
 and message passing}
-
+In this section, we 
+will evaluate
+$ -\ln Z_{\theta^*}^{tree}$
+exactly
+using a message passing ansatz (an
+ansatz is an initial guess).
 
 If we replace $\TIL{S}$ by
 $\TIL{S}^{tree}$ in Eq.(\ref{eq-duality-theta-star}),
@@ -730,17 +944,20 @@ we get
 -\ln Z^{tree}_{\theta^*}=\min_{\TIL{U}}\left[
 (\theta)^T\TIL{U} -\TIL{S}^{tree}
 \right]
+\label{eq-ln-z-tree-star}
 \eeq
+But note that
 
 \beqa
 (\theta)^T\TIL{U} &=&
-\sum_i \theta_i\sum_x \tP(x)\calu_i(x)
+\sum_i \theta_i\sum_x \tP(x)\eps_i(x)
 \\
 &=&
 \sum_x\tP(x)
-\underbrace{\sum_i \theta_i \calu_i(x)}
+\underbrace{\sum_i \theta_i \eps_i(x)}
 _{\text{ call } \Theta(x)}
 \eeqa
+so Eq.(\ref{eq-ln-z-tree-star}) becomes
 
 \beq
 -\ln Z^{tree}_{\theta^*}=
@@ -750,7 +967,8 @@ _{\text{ call } \Theta(x)}
 +\sum_{i-j}\TIL{H}(\rvx_i:\rvx_j)
 \right]
 \eeq
-subject to $\sum_x \tP(x)=1$.
+subject to $\sum_x \tP(x)=1$
+and $\tP(x)\geq 0$ for all $x$.
 
 \begin{claim}
 $-\ln Z^{tree}_{\theta^*}$
@@ -799,6 +1017,14 @@ e^{-\Theta(x_i, x_j)
 \end{claim}
 \proof
 
+We want to minimize
+the following Lagrangian
+with respect to variations
+$\delta\tP(x_i)$ 
+of $\tP(x)$,
+for each $i$.
+
+
 \beq
 \call=
 \left\{
@@ -814,61 +1040,58 @@ e^{-\Theta(x_i, x_j)
 +\sum_{i-j}\sum_{x_i, x_j}\tP(x_i, x_j)
 \ln \tP(x_i, x_j)
 \\
-\sum_x \lam(x)\left[
-1-\tP(x)
++\lam\left[
+\sum_x\tP(x)-1
 \right]
 \end{array}
 \right\}
 \eeq
+The term proportional to
+the Lagrange multiplier $\lam$
+enforces the constraint $\sum_x \tP(x)=1$.
+Note that in general,
 
+\beq
+\delta\tP(x)=
+\sum_i \delta\tP(x_i)
+\eeq
+so if we only vary $\tP(x_i)$,
 
 \beqa
-\delta\left[f(x_i) \tP(x_i)\right] 
-&=&f( x_i)\delta 
-\sum_{x\setminus x_i}\tP(x)
+\delta F(\tP(x))
+&=&
+\pder{F(\tP(x))}{\tP(x)}\delta\tP(x)
 \\
 &=&
-f(x_i)
-\sum_{x\setminus x_i}\delta\tP(x)
-\\
-&=&
-\sum_{x'}
-\delta\tP(x')
-\left[
-\delta(x_i', x_i )f(x_i')
-\right]
+\pder{F(\tP(x))}{\tP(x)}\delta\tP(x_i)
 \eeqa
-Likewise,
-\beq
-\delta\left[f(x_i,x_j) \tP(x_i,x_j)\right] 
-=
-\sum_{x'}
-\delta\tP(x')
-\left[
-\delta(x_i', x_i )
-\delta(x_j', x_j )f(x_i', x_j')
-\right]
-\eeq
+for any
+well behaved function $F:\RR\rarrow \RR$.
+Hence
+
 
 \beq
 \delta\call=
-\sum_{x'}\delta\tP(x')
+\sum_{x }\delta\tP(x _i)
 \left\{
 \begin{array}{l}
-\Theta(x')
+\Theta(x )
 \\
 +\sum_i (1-d_i) 
 \left[1+\ln
-\tP(x_i')\right]
+\tP(x_i )\right]
 \\
 +\sum_{i-j}
 \left[1+
-\ln \tP(x_i', x_j')\right]
+\ln \tP(x_i , x_j )\right]
 \\
--\lam(x')
++\lam
 \end{array}
 \right\}
 \eeq
+for any variation $\delta\tP(x_i)$.
+Setting the coefficient of 
+$\delta\tP(x_i)$ to zero now yields
 
 \beq
 0=
@@ -886,11 +1109,15 @@ Likewise,
 {\tP(x_i)\tP(x_j)}
 \right]
 \\
--\lam(x)
++\lam
 \end{array}
 \right\}
 \eeq
-
+for each $i$.
+If we now substitute
+the equations
+that are hypotheses to this claim,
+we get
 
 
 
@@ -927,7 +1154,7 @@ Likewise,
 \prod_{b\in \partial j}m_{b\rdart j}(x_j)
 }
 \\
--\lam(x)
++\lam
 \end{array}
 \right\}
 \\
@@ -942,13 +1169,18 @@ Likewise,
 \lam_{j\rdart i}(x_i)+ \lam_{i\rdart j}(x_j)
 \right]
 \\
--\lam(x)
++\lam
 \end{array}
 \right\}
 \\
 &=&
--\lam(x)
+\lam
 \eeqa
+So the hypotheses to this claim
+indeed do satisfy $\delta \call=0$
+for all variations $\delta\tP(x_i)$,
+for each $i$,
+with Lagrange multiplier $ \lam=0$.
 \qed
 
 
