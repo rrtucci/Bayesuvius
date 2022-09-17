@@ -97,28 +97,6 @@ dof(SST)=|\Sigma|-1
 \eeq
 
 \beqa
-SSB
-&=&\sum_{g=1}^{ng}
-|\Sigma_g|( \ol{x}_g -  \ol{x})^2
-\\
-&=&|\Sigma|
-\sum_{g=1}^{ng}
-\frac{|\Sigma_g|}
-{|\Sigma|}( 
-\underbrace{\ol{x}_g}
-_{E_{\rvx|\rvg}[x]} -  \ol{x})^2
-\\
-&=&
-|\Sigma|
-Var_\rvg(
-E_{\rvx|\rvg}[x])
-\eeqa
-
-\beq
-dof(SSB)= ng-1
-\eeq
-
-\beqa
 SSW &=& \sum_{g=1}^{ng}
 \sum_{\s=1}^{|\Sigma_g|}(x_{\s,g}- \ol{x}_g)^2
 \\
@@ -141,6 +119,32 @@ Var_{\rvx|\rvg}(x)
 \beq
 dof(SSW)=|\Sigma|-ng
 \eeq
+
+
+
+\beqa
+SSB
+&=&\sum_{g=1}^{ng}
+|\Sigma_g|( \ol{x}_g -  \ol{x})^2
+\\
+&=&|\Sigma|
+\sum_{g=1}^{ng}
+\frac{|\Sigma_g|}
+{|\Sigma|}( 
+\underbrace{\ol{x}_g}
+_{E_{\rvx|\rvg}[x]} -  \ol{x})^2
+\\
+&=&
+|\Sigma|
+Var_\rvg(
+E_{\rvx|\rvg}[x])
+\eeqa
+
+\beq
+dof(SSB)= ng-1
+\eeq
+
+
 
 
 
@@ -174,62 +178,60 @@ _{SSB/|\Sigma|}
 \qed
 
 
+
 \begin{figure}[h!]
-$$\xymatrix@R=3pc{
-\rvx_{\Sigma_1}\ar[r]\ar[ddr]
-\ar@/^2pc/[rrrrrrr]
-\ar@/^4pc/[rrrrrr]
-&\ol{\rvx}_{1}\ar[drrrrrr]\ar[dd]
-&\rvx_{\Sigma_2}\ar[r]\ar[ddr]
-\ar@/^2pc/[rrrrr]
-\ar@/^4pc/[rrrr]
-&\ol{\rvx}_{2}\ar[drrrr]\ar[dd]
-&\rvx_{\Sigma_3}\ar[r]\ar[ddr]
-\ar@/^2pc/[rrr]
-\ar@/^4pc/[rr]
-&\ol{\rvx}_{3}\ar[drr]\ar[dd]
-&\ol{\rvx}\ar[r]\ar[dr]
+$$\xymatrix{
+\rvx_{\Sigma_1}\ar@/^2pc/[rrrr]
+\ar[d]\ar@/_1pc/[dd]
+&\rvx_{\Sigma_2}\ar@/^2pc/[rrr]
+\ar[d]\ar@/_1pc/[dd]
+&\rvx_{\Sigma_3}\ar@/^2pc/[rr]
+\ar[d]\ar@/_1pc/[dd]
+&\ol{\rvx}\ar[r]\ar[rd]
 &\ul{SST}
 \\
-&&&&&&&\ul{SSB}
-\\
-&\ul{V}_1\ar@/_2pc/[rrrrrr]
-&
-&\ul{V}_2\ar@/_2pc/[rrrr]
-&
-&\ul{V}_3\ar@/_2pc/[rr]
+\ol{\rvx}_1\ar@/^2pc/[rrrr]\ar[d]
+&\ol{\rvx}_2\ar@/^2pc/[rrr]\ar[d]
+&\ol{\rvx}_3\ar@/^2pc/[rr]\ar[d]
 &
 &\ul{SSW}
+\\
+\ul{V}_1\ar@/^2pc/[rrrr]
+&\ul{V}_2\ar@/^2pc/[rrr]
+&\ul{V}_3\ar@/^2pc/[rr]
+&
+&\ul{SSB}
 }$$
 \caption{Bnet 
-for calculating $SST$, $SSB$ and $SSW$.}
+for calculating $SST$, $SSW$ and $SSB$.}
 \label{fig-bnet-ANOVA}
 \end{figure}
 
 \beq\color{blue}
-P(\ol{x}|\{x_{\Sigma_g}\}_{g=1}^{ng}) =\indi(
+P(\ol{x}|\{x_{\Sigma_g}\}_{g=1}^{ng}) =\indi\left(
 \ol{x}=
 \frac{1}{|\Sigma|}
 \sum_{g=1}^{ng}
 \sum_{\s\in\Sigma_g}x_{\s,g}
-)
+\right)
 \eeq
 
 
 \beq\color{blue}
-P(\ol{x}_g|x_{\Sigma_g}) =\indi(
+P(\ol{x}_g|x_{\Sigma_g}) =\indi\left(
 \ol{x}_g=
 \frac{1}{|\Sigma_g|}
 \sum_{\s\in\Sigma_g}x_{\s,g}
-)
+\right)
 \eeq
 
 \beq\color{blue}
-P(V_g|x_{\Sigma_g}, \ol{x}_g) =\indi(
+P(V_g|x_{\Sigma_g}, \ol{x}_g) =\indi\left(
 V_g=
 \frac{1}{|\Sigma_g|}
 \sum_{\s\in\Sigma_g}
 (x_{\s,g} -\ol{x}_g)^2
+\right)
 \eeq
 
 \beq\color{blue}
