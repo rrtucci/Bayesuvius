@@ -1,4 +1,4 @@
-\chapter{ANOVA (COMING SOON)}
+\chapter{ANOVA}
 \label{ch-ANOVA}
 
 ANOVA 
@@ -95,29 +95,34 @@ Let
 $dof$ stand for
 ``degrees of freedom"
 
-SS stand for ``Sum of Squares"
+$SS$ stand for ``Sum of Squares"
+
+$MS$ stand for ``Mean Square"
 
 $x_{\Sigma_g}=
-\{x_{\s, g}\}_{\s\in\Sigma_g}$
+\{x_{\s|g}\}_{\s\in\Sigma_g}$
 
 Define the {\bf SS Total} by
 \beqa
-SST
+SS_T
 &=&\sum_{g=1}^{ng}\sum_{\s\in\Sigma_g}
 (x_{\s|g}- \ol{x})^2
 \\
 &=&
 |\Sigma| Var_{\rvx}(x)
 \eeqa
+with $dof$ and $MS$ given by
 
 \beq
-dof(SST)=|\Sigma|-1
+dof_T=|\Sigma|-1
+,\;
+MS_T=\frac{SS_T}{dof_T}
 \eeq
 
 Define the {\bf SS Within} by
 
 \beqa
-SSW &=& \sum_{g=1}^{ng}
+SS_W &=& \sum_{g=1}^{ng}
 \sum_{\s\in\Sigma_g}(x_{\s|g}- \ol{x}_g)^2
 \\
 &=&|\Sigma|
@@ -135,15 +140,19 @@ E_\rvg[
 Var_{\rvx|\rvg}(x)
 ]
 \eeqa
+with $dof$ and $MS$ given by
+
 \beq
-dof(SSW)=|\Sigma|-ng
+dof_W=|\Sigma|-ng
+,\;
+MS_W=\frac{SS_W}{dof_W}
 \eeq
 
 Define the {\bf SS Between} by
 
 
 \beqa
-SSB
+SS_B
 &=&\sum_{g=1}^{ng}
 |\Sigma_g|( \ol{x}_g -  \ol{x})^2
 \\
@@ -159,38 +168,39 @@ _{E_{\rvx|\rvg}[x]} -  \ol{x})^2
 Var_\rvg(
 E_{\rvx|\rvg}[x])
 \eeqa
+with $dof$ and $MS$ given by
+
 
 \beq
-dof(SSB)= ng-1
+dof_B= ng-1
+,\;
+MS_B=\frac{SS_B}{dof_B}
 \eeq
-
-
-
 
 
 \begin{claim}
 \beq
-SST=SSW+SSB
+SS_T=SS_W+SS_B
 \eeq
 
 \beq
-dof(SST)=dof(SSW) + dof(SSB)
+dof_T=dof_W + dof_B
 \eeq
 \end{claim}
 \proof
 \beq
 \underbrace{Var_{\rvx}(x)}
-_{SST/|\Sigma|}
+_{SS_T/|\Sigma|}
 =
 \underbrace{E_\rvg[
 Var_{\rvx|\rvg}(x)
 ]}
-_{SSW/|\Sigma|}
+_{SS_W/|\Sigma|}
 +
 \underbrace{Var_\rvg(
 E_{\rvx|\rvg}[x])
 }
-_{SSB/|\Sigma|}
+_{SS_B/|\Sigma|}
 \;.
 \eeq
 
@@ -208,29 +218,29 @@ $$\xymatrix{
 &\rvx_{\Sigma_3}\ar@/^2pc/[rr]
 \ar[d]\ar@/_1pc/[dd]
 &\ol{\rvx}\ar[r]\ar[rd]
-&\ul{SST}
+&\ul{SS_T}
 \\
 \ol{\rvx}_1\ar@/^2pc/[rrrr]\ar[d]
 &\ol{\rvx}_2\ar@/^2pc/[rrr]\ar[d]
 &\ol{\rvx}_3\ar@/^2pc/[rr]\ar[d]
 &
-&\ul{SSW}
+&\ul{SS_W}
 \\
 \ul{V}_1\ar@/^2pc/[rrrr]
 &\ul{V}_2\ar@/^2pc/[rrr]
 &\ul{V}_3\ar@/^2pc/[rr]
 &
-&\ul{SSB}
+&\ul{SS_B}
 }$$
 \caption{Bnet 
-for calculating $SST$, $SSW$ and $SSB$.}
+for calculating $SS_T$, $SS_W$ and $SS_B$.}
 \label{fig-bnet-ANOVA}
 \end{figure}
 
 Fig.\ref{fig-bnet-ANOVA}
 shows a bnet for
-calculating $SST$,
-$SSW$ and $SSB$,
+calculating $SS_T$,
+$SS_W$ and $SS_B$,
 The TPMs, 
 printed in blue,
 for the bnet 
@@ -264,23 +274,64 @@ V_g=
 \eeq
 
 \beq\color{blue}
-P(SST|\{x_{\Sigma_g}\}_{g=1}^{ng},
+P(SS_T|\{x_{\Sigma_g}\}_{g=1}^{ng},
 \ol{x}) =\indi(
-SST=SST()
+SS_T=SS_T(\{x_{\Sigma_g}\}_{g=1}^{ng},
+\ol{x})
 )
 \eeq
 
 \beq\color{blue}
-P(SSB|\{\ol{x}_g\}_{g=1}^{ng},
+P(SS_B|\{\ol{x}_g\}_{g=1}^{ng},
 \ol{x}) =\indi(
-SSB=SSB()
+SS_B=SS_B(\{\ol{x}_g\}_{g=1}^{ng},
+\ol{x})
 )
 \eeq
 
 \beq\color{blue}
-P(SSW|\{V_g\}_{g=1}^{ng}) =\indi(
-SSW=SSW()
+P(SS_W|\{V_g\}_{g=1}^{ng}) =\indi(
+SS_W=SS_W(\{V_g\}_{g=1}^{ng})
 )
 \eeq
 
 \section{F-statistic and hypothesis testing}
+
+The {\bf F-statistic} for ANOVA is defined by
+
+\beq
+F=\frac{MS_B}{MS_W}
+\eeq
+(Note that $F$ 
+is the ratio of two chi-square
+distributions)
+
+Consider $ng=3$ for definiteness. Let
+
+$h_0$: that $\mu_1=\mu_2=\mu_3$ (null hypothesis) 
+
+$h_1=$ not $h_1$  (alternate hypothesis)
+
+Tables 
+and calculators that give 
+the p-value $p=p(F, dof_B, dof_W)$
+of the $F$ statistic,
+are widely available. 
+In Bayesian language,
+$p$
+measures
+the probability
+that $h_0$ is true.
+Assume $\alp=.05$.
+To determine if the difference between group means is ``statistically significant", 
+we compare $p$ with $\alp$. 
+If $p<\alp$, we reject the null hypothesis.
+Otherwise, we fail to reject the null hypothesis.
+
+If $h_0$ is rejected,  we can  perform {\bf post-hoc} tests to determine how much groups differ from each other.
+There are several  popular post-hoc tests,
+such as 
+the
+Tukey test,
+Bonferroni test, and 
+Scheffe test.
