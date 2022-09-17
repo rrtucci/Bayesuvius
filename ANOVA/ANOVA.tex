@@ -1,11 +1,13 @@
 \chapter{ANOVA (COMING SOON)}
 \label{ch-ANOVA}
 
-ANOVA (Analysis of Variance)
+ANOVA 
+stands for ``Analysis of Variance".
 
 \section{Law of Total Variance}
 
 \begin{claim}
+(Law of Total Variance)
 Suppose $P:S_\rvx\times S_\rvy\rarrow [0,1]$
 is a probability distribution.
 Suppose $f:S_\rvx\times S_\rvy\rarrow \RR$
@@ -78,15 +80,31 @@ A-\left( \sum_{x,y} P(x,y) f\right)^2
 \eeqa
 \qed
 
-\section{Estimates}
-$\Sigma=\cup_{g=1}^{ng}\Sigma_g$
+\section{Sum of Squares Estimates}
+Consider 
+a population $\Sigma$
+partitioned 
+into groups $\Sigma_g$
+such that
+$\Sigma=\cup_{g=1}^{ng}\Sigma_g$,
+where the 
 $\Sigma_g$ are mutually disjoint.
 
+Let
+
+$dof$ stand for
+``degrees of freedom"
+
+SS stand for ``Sum of Squares"
+
+$x_{\Sigma_g}=
+\{x_{\s, g}\}_{\s\in\Sigma_g}$
+
+Define the {\bf SS Total} by
 \beqa
 SST
-&=&\sum_{g=1}^{ng}\sum_{\s=1}
-^{|\Sigma_g|}
-(x_{\s,g}- \ol{x})^2
+&=&\sum_{g=1}^{ng}\sum_{\s\in\Sigma_g}
+(x_{\s|g}- \ol{x})^2
 \\
 &=&
 |\Sigma| Var_{\rvx}(x)
@@ -96,18 +114,19 @@ SST
 dof(SST)=|\Sigma|-1
 \eeq
 
+Define the {\bf SS Within} by
+
 \beqa
 SSW &=& \sum_{g=1}^{ng}
-\sum_{\s=1}^{|\Sigma_g|}(x_{\s,g}- \ol{x}_g)^2
+\sum_{\s\in\Sigma_g}(x_{\s|g}- \ol{x}_g)^2
 \\
 &=&|\Sigma|
 \sum_{g=1}^{ng}
 \frac{|\Sigma_g|}{|\Sigma|}
 \left\{
 \frac{1}{|\Sigma_g|}
-\sum_{\s=1}
-^{|\Sigma_g|}
-(x_{\s,g}- \ol{x}_g)^2
+\sum_{\s\in\Sigma_g}
+(x_{\s|g}- \ol{x}_g)^2
 \right\}
 \\
 &=&
@@ -120,6 +139,7 @@ Var_{\rvx|\rvg}(x)
 dof(SSW)=|\Sigma|-ng
 \eeq
 
+Define the {\bf SS Between} by
 
 
 \beqa
@@ -207,12 +227,21 @@ for calculating $SST$, $SSW$ and $SSB$.}
 \label{fig-bnet-ANOVA}
 \end{figure}
 
+Fig.\ref{fig-bnet-ANOVA}
+shows a bnet for
+calculating $SST$,
+$SSW$ and $SSB$,
+The TPMs, 
+printed in blue,
+for the bnet 
+Fig.\ref{fig-bnet-ANOVA},
+are as follows.
 \beq\color{blue}
 P(\ol{x}|\{x_{\Sigma_g}\}_{g=1}^{ng}) =\indi\left(
 \ol{x}=
 \frac{1}{|\Sigma|}
 \sum_{g=1}^{ng}
-\sum_{\s\in\Sigma_g}x_{\s,g}
+\sum_{\s\in\Sigma_g}x_{\s|g}
 \right)
 \eeq
 
@@ -221,7 +250,7 @@ P(\ol{x}|\{x_{\Sigma_g}\}_{g=1}^{ng}) =\indi\left(
 P(\ol{x}_g|x_{\Sigma_g}) =\indi\left(
 \ol{x}_g=
 \frac{1}{|\Sigma_g|}
-\sum_{\s\in\Sigma_g}x_{\s,g}
+\sum_{\s\in\Sigma_g}x_{\s|g}
 \right)
 \eeq
 
@@ -230,7 +259,7 @@ P(V_g|x_{\Sigma_g}, \ol{x}_g) =\indi\left(
 V_g=
 \frac{1}{|\Sigma_g|}
 \sum_{\s\in\Sigma_g}
-(x_{\s,g} -\ol{x}_g)^2
+(x_{\s|g} -\ol{x}_g)^2
 \right)
 \eeq
 
@@ -253,3 +282,5 @@ P(SSW|\{V_g\}_{g=1}^{ng}) =\indi(
 SSW=SSW()
 )
 \eeq
+
+\section{F-statistic and hypothesis testing}
