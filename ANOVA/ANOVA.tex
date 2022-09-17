@@ -102,6 +102,21 @@ $MS$ stand for ``Mean Square"
 $x_{\Sigma_g}=
 \{x_{\s|g}\}_{\s\in\Sigma_g}$
 
+Define the total 
+and group mean values by
+
+\beq
+\ol{x}=\frac{1}{|\Sigma|}
+\sum_{g=1}^{ng}\sum_{\s\in\Sigma_g}
+x_{\s|g}
+\eeq
+
+\beq
+\ol{x}_g=\frac{1}{|\Sigma_g|}
+\sum_{\s\in\Sigma_g}
+x_{\s|g}
+\eeq
+
 Define the {\bf SS Total} by
 \beqa
 SS_T
@@ -138,7 +153,7 @@ SS_W &=& \sum_{g=1}^{ng}
 |\Sigma|
 E_\rvg[
 Var_{\rvx|\rvg}(x)
-]
+]\quad\text{\color{red}(note this is a mean value)}
 \eeqa
 with $dof$ and $MS$ given by
 
@@ -167,6 +182,7 @@ _{E_{\rvx|\rvg}[x]} -  \ol{x})^2
 |\Sigma|
 Var_\rvg(
 E_{\rvx|\rvg}[x])
+\quad\text{\color{red}(note this is a variance)}
 \eeqa
 with $dof$ and $MS$ given by
 
@@ -188,6 +204,7 @@ dof_T=dof_W + dof_B
 \eeq
 \end{claim}
 \proof
+By the just proven Law of Variance, 
 \beq
 \underbrace{Var_{\rvx}(x)}
 _{SS_T/|\Sigma|}
@@ -211,11 +228,14 @@ _{SS_B/|\Sigma|}
 
 \begin{figure}[h!]
 $$\xymatrix{
-\rvx_{\Sigma_1}\ar@/^2pc/[rrrr]
+\rvx_{\Sigma_1}
+\ar@/^2pc/[rrrr]\ar@/^3pc/[rrr]
 \ar[d]\ar@/_1pc/[dd]
-&\rvx_{\Sigma_2}\ar@/^2pc/[rrr]
+&\rvx_{\Sigma_2}
+\ar@/^2pc/[rrr]\ar@/^3pc/[rr]
 \ar[d]\ar@/_1pc/[dd]
-&\rvx_{\Sigma_3}\ar@/^2pc/[rr]
+&\rvx_{\Sigma_3}
+\ar@/^2pc/[rr]\ar@/^3pc/[r]
 \ar[d]\ar@/_1pc/[dd]
 &\ol{\rvx}\ar[r]\ar[rd]
 &\ul{SS_T}
@@ -300,7 +320,9 @@ SS_W=SS_W(\{V_g\}_{g=1}^{ng})
 The {\bf F-statistic} for ANOVA is defined by
 
 \beq
-F=\frac{MS_B}{MS_W}
+F=\frac{MS_B}{MS_W}\quad\text{\color{red}
+$\left(=\frac{variance}
+{mean \; value}\right)$}
 \eeq
 (Note that $F$ 
 is the ratio of two chi-square
@@ -313,7 +335,8 @@ $h_0=$ hypothesis that $\mu_1=\mu_2=\mu_3$ (null hypothesis)
 $h_1=$ opposite of $h_0$  (alternative, opposite hypothesis)
 
 Tables 
-and calculators that give 
+and 
+software calculators that give 
 the p-value $p=p(F, dof_B, dof_W)$
 of the $F$ statistic,
 are widely available. 
@@ -326,9 +349,10 @@ Assume $\alp=.05$.
 To determine if the difference between group means is ``statistically significant", 
 we compare $p$ with $\alp$. 
 If $p<\alp$, we reject the null hypothesis.
-Otherwise, we fail to reject the null hypothesis.
+Otherwise, we fail to reject (accept) the null hypothesis.
 
-If $h_0$ is rejected,  we can  perform {\bf post-hoc} tests to determine how much groups differ from each other.
+If $h_0$ is rejected,  we can  perform {\bf post-hoc} tests to determine how much 
+the groups differ from each other.
 There are several  popular post-hoc tests,
 such as 
 the
