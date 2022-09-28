@@ -4520,84 +4520,10 @@ then the $h_0$ hypothesis
 is defined to be violated
 (for the double sided case).
 
-\section{Short Summary of
-Boolean Algebra}
-See Ref.\cite{wiki-bool} for more info
-about this topic.
-
-Suppose $x, y, z\in \bool$. Define
-
-\beq
-x\text{ or }y=x\V y= x+y-xy
-\;,
-\eeq
-
-\beq
-x \text{ and }y=x\A y= xy
-\;,
-\eeq
-and
-
-\beq
-\text{not }x=\ol{x}=1-x
-\;,
-\eeq
-where we are using
-normal addition and multiplication
-on the right hand sides.\footnote{Note the
-difference between $\V$ and modulus
-2 addition $\oplus$.
-For $\oplus$ (a.k.a. XOR): $x\oplus y=x+y-2xy$.}
 
 
 
-\begin{table}[h!]
-\centering
-\begin{tabular}{|
->{\columncolor[HTML]{ECF4FF}}l |l|}
-\hline
-Associativity & \begin{tabular}[c]{@{}l@{}}$x \V (y \V z)=(x \V y) \V z$\\ $x \A (y \A z)=(x \A y) \A z$\end{tabular} \\ \hline
-Commutativity & \begin{tabular}[c]{@{}l@{}}$x \V y=y \V x$\\ $x \A y=y \A x$\end{tabular} \\ \hline
-Distributivity & \begin{tabular}[c]{@{}l@{}}$x \A (y \V z)=(x \A y) \V (x \A z)$\\ $x \V (y \A z)=(x \V y) \A (x \V z)$\end{tabular} \\ \hline
-Identity & \begin{tabular}[c]{@{}l@{}}$x \V 0=x$\\ $x \A 1=x$\end{tabular} \\ \hline
-Annihilator & \begin{tabular}[c]{@{}l@{}}$x \A 0=0$\\ $x \V 1= 1$\end{tabular} \\ \hline
-Idempotence & \begin{tabular}[c]{@{}l@{}}$x \V x= x$\\ $x \A x= x$\end{tabular} \\ \hline
-Absorption & \begin{tabular}[c]{@{}l@{}}$x \A (x \V y)= x$\\ $x \V (x \A y)= x$\end{tabular} \\ \hline
-Complementation & \begin{tabular}[c]{@{}l@{}}$x \A \ol{x} = 0$\\ $x \V \ol{x}   = 1$\end{tabular} \\ \hline
-Double negation & $\ol{(\ol{x})} = x$ \\ \hline
-De Morgan Laws & \begin{tabular}[c]{@{}l@{}}$\ol{x} \A \ol{y} =\ol{(x \V y)}$\\ $\ol{x} \V \ol{y} = \ol{(x \A y)}$\end{tabular} \\ \hline
-\end{tabular}
-\caption{Boolean Algebra Identities}
-\label{tab-bool-alg}
-\end{table}
 
-Actually, since
-$x\A y=xy$, we can omit writing
-the symbol $\A$. The symbol
-$\A$ is useful to
-exhibit the symmetry
-of the identities, and
-to remark
-about
-the analogous identities
-for sets, where
-$\A$ becomes intersection $\cap$
-and $\V$ becomes union $\cup$. However,
-for practical calculations,
-$\A$ is an unnecessary nuisance.
-
-Since $x\in \bool$,
-\beq
-P(\ol{x})=1-P(x)
-\;.
-\eeq
-
-Clearly, from analyzing
-the simple event space $(x,y)\in \bool^2$,
-\beq
-P(x\V y)= P(x) + P(y) - P(x\A y)
-\;.
-\eeq
 
 \section{Convex/Concave functions,
 Jensen's Inequality}
@@ -4679,4 +4605,196 @@ instead of convex and
 we reverse the inequality
 signs.
 
+\section{Chebyshev's inequality}
 
+Chebyshev's inequality (CI)
+gives an upper bound for the area under the
+2 tails (left and right ones)
+of a probability distribution.
+
+Below, we follow the
+common practice of
+proving CI
+as a corollary of 
+Markov's Inequality (MI).
+
+
+\begin{claim}(Markov's Inequality)
+Let $\rvx$ be a non-negative random variable
+and let $ a> 0$. Then
+
+\beq
+P(\rvx\geq a) \leq \frac{E[\rvx]}{a}
+\eeq
+\end{claim}
+\proof
+\beqa
+\frac{E[\rvx]}{a}&=&
+\frac{\int_0^\infty dx\; x P(x)}
+{a}
+\\
+&\geq&
+\frac{\int_a^\infty dx\; x P(x)}
+{a}
+\\
+&\geq&
+\frac{\int_a^\infty dx\; a P(x)}
+{a}
+\\
+&=&
+P(\rvx\geq a)
+\eeqa
+\qed
+
+
+
+
+\begin{claim}(Chebyshev's inequality)
+Let $\rvx$
+be a random variable with mean $\mu$ and
+variance $\s^2$. Then for any real number $k>0$,
+
+\beq
+P(|\rvx-\mu|\geq k\s)\leq \frac{1}{k^2}
+\eeq
+\end{claim}
+\proof
+\beqa
+P(|\rvx-\mu|\geq k\s)
+&=&
+P(|\rvx-\mu|^2\geq k^2\s^2)
+\\
+&\leq&
+\frac{\s^2}{k^2 \s^2}
+\quad\text{ (by MI)}
+\\
+&=&
+\frac{1}{k^2}
+\eeqa
+\qed
+
+\hrule
+A (1 dimensional) Center
+of Mass (CM) 
+for a unit
+mass object is an expectation
+value where the
+probability distribution 
+is a normalized mass distribution.
+Hence, it's not too surprising that
+MI can be interpreted
+in terms of CMs.
+
+{\bf Physics Intuition for MI in terms of CMs:}
+
+\beq
+\underbrace{\int_0^{\infty}dx\; x P(x)
+}_{E[\rvx]=CM}
+=
+\underbrace{P(\rvx<a)}_{p^-}
+\underbrace{
+\frac{\int_0^a dx\; x P(x)}
+{P(\rvx<a)}
+}_{E_{\rvx<a}[\rvx]=CM^-}
++
+\underbrace{P(\rvx>a)}_{p^+}
+\underbrace{
+\frac{\int_a ^{\infty}dx\; x P(x)}
+{P(\rvx>a)}
+}_{E_{\rvx>a}[\rvx]=CM^+}
+\eeq
+
+
+\beqa
+\underbrace{(p^+ + p^-)}
+_{=1}CM&=& p^- CM^- + p^+ CM^+
+\\
+&\geq&
+p^+ CM^+
+\\
+&\geq&
+p^+ a
+\quad \text{(because $CM^+\geq a$)}
+\eeqa
+You can think of $p^+CM^+$
+as a torque with weight $p^+$
+and moment arm $CM^+$.
+
+\section{Short Summary of
+Boolean Algebra}
+See Ref.\cite{wiki-bool} for more info
+about this topic.
+
+Suppose $x, y, z\in \bool$. Define
+
+\beq
+x\text{ or }y=x\V y= x+y-xy
+\;,
+\eeq
+
+\beq
+x \text{ and }y=x\A y= xy
+\;,
+\eeq
+and
+
+\beq
+\text{not }x=\ol{x}=1-x
+\;,
+\eeq
+where we are using
+normal addition and multiplication
+on the right hand sides.\footnote{Note the
+difference between $\V$ and modulus
+2 addition $\oplus$.
+For $\oplus$ (a.k.a. XOR): $x\oplus y=x+y-2xy$.}
+
+
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|
+>{\columncolor[HTML]{ECF4FF}}l |l|}
+\hline
+Associativity & \begin{tabular}[c]{@{}l@{}}$x \V (y \V z)=(x \V y) \V z$\\ $x \A (y \A z)=(x \A y) \A z$\end{tabular} \\ \hline
+Commutativity & \begin{tabular}[c]{@{}l@{}}$x \V y=y \V x$\\ $x \A y=y \A x$\end{tabular} \\ \hline
+Distributivity & \begin{tabular}[c]{@{}l@{}}$x \A (y \V z)=(x \A y) \V (x \A z)$\\ $x \V (y \A z)=(x \V y) \A (x \V z)$\end{tabular} \\ \hline
+Identity & \begin{tabular}[c]{@{}l@{}}$x \V 0=x$\\ $x \A 1=x$\end{tabular} \\ \hline
+Annihilator & \begin{tabular}[c]{@{}l@{}}$x \A 0=0$\\ $x \V 1= 1$\end{tabular} \\ \hline
+Idempotence & \begin{tabular}[c]{@{}l@{}}$x \V x= x$\\ $x \A x= x$\end{tabular} \\ \hline
+Absorption & \begin{tabular}[c]{@{}l@{}}$x \A (x \V y)= x$\\ $x \V (x \A y)= x$\end{tabular} \\ \hline
+Complementation & \begin{tabular}[c]{@{}l@{}}$x \A \ol{x} = 0$\\ $x \V \ol{x}   = 1$\end{tabular} \\ \hline
+Double negation & $\ol{(\ol{x})} = x$ \\ \hline
+De Morgan Laws & \begin{tabular}[c]{@{}l@{}}$\ol{x} \A \ol{y} =\ol{(x \V y)}$\\ $\ol{x} \V \ol{y} = \ol{(x \A y)}$\end{tabular} \\ \hline
+\end{tabular}
+\caption{Boolean Algebra Identities}
+\label{tab-bool-alg}
+\end{table}
+
+Actually, since
+$x\A y=xy$, we can omit writing
+the symbol $\A$. The symbol
+$\A$ is useful to
+exhibit the symmetry
+of the identities, and
+to remark
+about
+the analogous identities
+for sets, where
+$\A$ becomes intersection $\cap$
+and $\V$ becomes union $\cup$. However,
+for practical calculations,
+$\A$ is an unnecessary nuisance.
+
+Since $x\in \bool$,
+\beq
+P(\ol{x})=1-P(x)
+\;.
+\eeq
+
+Clearly, from analyzing
+the simple event space $(x,y)\in \bool^2$,
+\beq
+P(x\V y)= P(x) + P(y) - P(x\A y)
+\;.
+\eeq
