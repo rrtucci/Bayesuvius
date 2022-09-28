@@ -4647,8 +4647,6 @@ P(\rvx\geq a)
 \qed
 
 
-
-
 \begin{claim}(Chebyshev's inequality)
 Let $\rvx$
 be a random variable with mean $\mu$ and
@@ -4673,6 +4671,40 @@ P(|\rvx-\mu|^2\geq k^2\s^2)
 \eeqa
 \qed
 
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2in]
+{conventions/cheby.png}
+\caption{
+Pictorial representation of 
+Chebyshev's Inequality (CI). 
+Markov's Inequality (MI) has a similar 
+representation, but $k$ is proportional
+to $\sqrt{a}$, 
+so the upper bound 
+for MI goes as $1/a$
+instead of $1/k^2$.
+}
+\label{fig-cheby}
+\end{figure}
+
+See Fig.\ref{fig-cheby}
+for a pictorial
+representation of CI.
+Note that the CI approximation 
+is always 
+a bad approximation for small $k$,
+and might not 
+become good even  for large $k$.
+For example, if the $\rvx$ distribution
+is a box centered at $\mu$,
+then $P(|\rvx-\mu|\geq k\s)=0$
+for $k\s$ larger than the
+width of the box, 
+so $1/k^2$
+is a terrible approximation
+for large $k$ too.
+
 \hrule
 A (1 dimensional) Center
 of Mass (CM) 
@@ -4680,7 +4712,7 @@ for a unit
 mass object is an expectation
 value where the
 probability distribution 
-is a normalized mass distribution.
+is a mass distribution.
 Hence, it's not too surprising that
 MI can be interpreted
 in terms of CMs.
@@ -4691,34 +4723,45 @@ in terms of CMs.
 \underbrace{\int_0^{\infty}dx\; x P(x)
 }_{E[\rvx]=CM}
 =
-\underbrace{P(\rvx<a)}_{p^-}
 \underbrace{
 \frac{\int_0^a dx\; x P(x)}
 {P(\rvx<a)}
 }_{E_{\rvx<a}[\rvx]=CM^-}
+\underbrace{P(\rvx<a)}_{f^-}
 +
-\underbrace{P(\rvx>a)}_{p^+}
 \underbrace{
 \frac{\int_a ^{\infty}dx\; x P(x)}
 {P(\rvx>a)}
 }_{E_{\rvx>a}[\rvx]=CM^+}
+\underbrace{P(\rvx>a)}_{f^+}
 \eeq
 
 
 \beqa
-\underbrace{(p^+ + p^-)}
-_{=1}CM&=& p^- CM^- + p^+ CM^+
+CM
+\underbrace{(f^+ + f^-)}
+_{=1}
+&=&  CM^-f^- +  CM^+f^+
 \\
 &\geq&
-p^+ CM^+
+ CM^+f^+
 \\
 &\geq&
-p^+ a
+a f^+
 \quad \text{(because $CM^+\geq a$)}
 \eeqa
-You can think of $p^+CM^+$
-as a torque with weight $p^+$
-and moment arm $CM^+$.
+You can think of $CM^+f^+$
+as a torque with
+moment arm= $CM^+$
+and force=$f^+$.
+In this picture,
+MI is the approximation
+of a torque with
+moment arm=CM  and 
+force=1, 
+by a smaller torque with 
+moment arm= any real $a>0$
+and force=$f^+\leq 1$.
 
 \section{Short Summary of
 Boolean Algebra}
