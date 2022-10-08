@@ -40,7 +40,7 @@ $ \ul{a}=$ heart attack? No=0, Yes=1
 
 $ \ul{t}=$ took medicine? No=0, Yes=1
 
-$ \ul{g}=$ gender? Female=0, Male=1
+$ \ul{g}=$ gender? Female=F, Male=M
 
 
 
@@ -134,7 +134,7 @@ Let
 [P(\rva=1|t,g)]_{t=0,1}
 \;
 \eeq
-for $g=0,1$, and
+for $g=M,F$, and
 
 \beq
 \vec{q}^{\;*}=[P(\rva=1|t)]_{t=0,1}
@@ -145,8 +145,8 @@ for $g=0,1$, and
 \centering
 \includegraphics[width=3.5in]
 {simpson/q-vecs.png}
-\caption{$\vec{q}^{\;0}$,
-$\vec{q}^{\;1}$ vectors
+\caption{$\vec{q}^{\;M}$,
+$\vec{q}^{\;F}$ vectors
 and bounding box for vector $\vec{q}^{\;*}$.  } 
 \label{fig-simpson-q-vecs}
 \end{figure}
@@ -154,7 +154,7 @@ and bounding box for vector $\vec{q}^{\;*}$.  }
 It is possible (see Fig.\ref{fig-simpson-q-vecs} 
 for a graphical explanation of how)
  to find perverse cases in which
- $ P(a=1|t, g=0)$ and $ P(a=1|t, g=1)$
+ $ P(a=1|t, g=M)$ and $ P(a=1|t, g=F)$
  increase with $ t$ but $ P(a=1|t)$ 
 decreases with $ t$. So it is possible 
 to conclude that the medicine is a failure
@@ -171,6 +171,48 @@ $ E_{\ul{g}|t}$ is an expected value
  on the random variable $ \ul{g}$
  conditioned on the root 
 random variable $ \ul{t}$.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2in]
+{simpson/simpson-continuous.png}
+\caption{
+Illustrative example of 
+Simpson's paradox, 
+assuming $t$ and $a$ are 
+continuous.
+The pink (for $g=F$) and blue 
+(for $g=M$) elliptical
+regions are clouds of sample points.
+The lines are the result of doing
+linear regression.
+For $g=M, F$ separately, increasing treatment 
+increases the probability of attack,
+but the opposite trend
+occurs if we amalgamate genders.
+}
+\label{fig-simpson-continuous}
+\end{figure}
+
+So far
+we have assumed 
+$a\in\bool$.
+Suppose that instead
+we assume $a$ is a continuous variable
+taking values in the interval $[0,1]$.
+This could reflect a continuum of possible 
+attacks from none to a deadly one.
+Likewise, suppose the treatment variable
+$t$ takes on values
+in the interval $[0,1]$. This might
+reflect a continuum of possible
+doses of a medicine.
+Fig. \ref{fig-simpson-continuous}
+  gives an illustrative
+  example 
+  of Simpson's paradox
+  for this case 
+  of continuous $a$ and $t$.
 
 
 So far, we have proven that probabilistically, 
@@ -210,8 +252,8 @@ But for such an average,
  bounding box in Fig.\ref{fig-simpson-q-vecs}
  degenerates to its diagonal 
 line that connects the tips
- of the two vectors $ \vec{q}^{\;0}$
- and $ \vec{q}^{\;1}$. The vector 
+ of the two vectors $ \vec{q}^{\;M}$
+ and $ \vec{q}^{\;F}$. The vector 
 $ \vec{q}^{\;*}$ must now fall on 
 that diagonal line and must therefore
  also fall in the success region.
@@ -234,14 +276,14 @@ two gendered populations.
 \hline
 \rowcolor[HTML]{ECF4FF} 
 $(a,t,g)$ & \begin{tabular}[c]{@{}l@{}}number of patients\\ segregated by gender\end{tabular} & \begin{tabular}[c]{@{}l@{}}number of patients\\ of either gender\end{tabular} \\ \hline
-0,0,0 & 19 & 47 \\ \cline{1-2}
-0,0,1 & 28 &  \\ \hline
-0,1,0 & 37 & 49 \\ \cline{1-2}
-0,1,1 & 12 &  \\ \hline
-1,0,0 & 1 & 13 \\ \cline{1-2}
-1,0,1 & 12 &  \\ \hline
-1,1,0 & 3 & 11 \\ \cline{1-2}
-1,1,1 & 8 &  \\ \hline
+0,0,M & 19 & 47 \\ \cline{1-2}
+0,0,F & 28 &  \\ \hline
+0,1,M & 37 & 49 \\ \cline{1-2}
+0,1,F & 12 &  \\ \hline
+1,0,M & 1 & 13 \\ \cline{1-2}
+1,0,F & 12 &  \\ \hline
+1,1,M & 3 & 11 \\ \cline{1-2}
+1,1,F & 8 &  \\ \hline
 \end{tabular}
 \caption{Data for numerical example 
  of Simpson's Paradox. This 
@@ -255,8 +297,8 @@ Ref.\cite{book-why}.}
 \beq
 P(a|t,g)=
 \begin{array}{c|cccc}
-&\scriptstyle 0,0 & \scriptstyle 0,1 &
-\scriptstyle  1,0 &\scriptstyle 1,1\\\hline
+&\scriptstyle 0,M & \scriptstyle 0,F &
+\scriptstyle  1,M &\scriptstyle 1,F\\\hline
 \scriptstyle  0& 19/20 & 28/40 & 37/40 & 12/20\\
 \scriptstyle 1& 1/20 & 12/40 & 3/40 & 8/20
 \end{array}
@@ -274,18 +316,18 @@ P(a|t)=
 \beq
 \begin{array}{lll}
 \frac{
-P(a=1,t=1, g=0)
+P(a=1,t=1, g=M)
 }{
-\sum_aP(a, t=1, g=0)
+\sum_aP(a, t=1, g=M)
 }=
-P(a=1|t=1, g=0) &=& \frac{3}{40}
+P(a=1|t=1, g=M) &=& \frac{3}{40}
 \\
 \frac{
-P(a=1,t=0, g=0)
+P(a=1,t=0, g=M)
 }{
-\sum_aP(a, t=0, g=0)
+\sum_aP(a, t=0, g=M)
 }=
-P(a=1|t=0, g=0) &=& \frac{1}{20}=\frac{2}{40}
+P(a=1|t=0, g=M) &=& \frac{1}{20}=\frac{2}{40}
 \end{array}
 \label{eq-g-eq-0}
 \eeq
@@ -293,18 +335,18 @@ P(a=1|t=0, g=0) &=& \frac{1}{20}=\frac{2}{40}
 \beq
 \begin{array}{lll}
 \frac{
-P(a=1,t=1, g=1)
+P(a=1,t=1, g=F)
 }{
-\sum_aP(a, t=1, g=1)
+\sum_aP(a, t=1, g=F)
 }=
-P(a=1|t=1, g=1) &=& \frac{8}{20}=\frac{16}{40}
+P(a=1|t=1, g=F) &=& \frac{8}{20}=\frac{16}{40}
 \\
 \frac{
-P(a=1,t=0, g=1)
+P(a=1,t=0, g=F)
 }{
-\sum_aP(a, t=0, g=1)
+\sum_aP(a, t=0, g=F)
 }=
-P(a=1|t=0, g=1) &=& \frac{12}{40}
+P(a=1|t=0, g=F) &=& \frac{12}{40}
 \end{array}
 \label{eq-g-eq-1}
 \eeq
