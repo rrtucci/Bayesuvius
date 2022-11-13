@@ -248,35 +248,41 @@ and non-DI.
 \label{fig-iden-noniden}
 \end{figure}
 
+Let $G$ be a graph before
+amputation
+of the arrows entering node $\rvx$,
+and let $G_x=\cald_{\rvx=x}G$
+be the same graph after amputation.
+Also let $P_G()=P()$ be
+the full probability distribution
+for graph $G$, and $P_{G_x}()$
+be that for $G_x$.
 In general, the
 following is always true,
 whether it applies to a bnet
-with or without hidden nodes:\footnote{Note that $P(y|\cald\rvx=x)=P(y|x)\neq P_0(y|x)$, where
-we are using $P_0()$ (respectively, $P()$)
-to denote the full probability distribution
-for the bnet before (respectively, after) amputation
-of the arrows entering node $\rvx$.
+with or without hidden nodes:\footnote{Note that $P_{G_x}(y|x)\neq P_G(y|x)=P(y|x)$.
 In fact,
-$P(y|\cald\rvx=x)= P_0(y|x)$
+$P_{G_x}(y|x)= P(y|x)$
 iff there is no confounding, 
-so $P(y|\cald\rvx=x)\neq P_0(y|x)$
-can be used to detect confounding.
+so $P_{G_x}(y|x)\neq P(y|x)$
+indicates confounding.
 }
 
 \beq
-P(y|\cald\rvx=x)=P(y|x)
+P(y|\cald\rvx=x)=P_{G_x}(y|x)
 \;
 \eeq
 However, the right hand side of this equation is 
-seldom a valid adjustment formula
-for this query.
+not a valid adjustment formula
+for this query
+because it's not expressed in terms
+of $P()$.
 We define a valid adjustment formula
 for query
 $P(y|\cald\rvx=x)$
 to be a bnet instantiation diagram
 that satisfies the
 following 2 constraints:
-Call the original bnet $G_0$.
 
 \begin{enumerate}
 \item {\bf(structural constraint)}
@@ -284,7 +290,7 @@ Call the original bnet $G_0$.
 The adjustment formula must be
 representable by a bnet instantiation 
 that has a DAG structure identical
-to the DAG structure of $G_0$,
+to the DAG structure of $G$,
 except that arrows entering node
 $\rvx$ have been amputated.
 All nodes  of that instatiation, except
@@ -294,41 +300,38 @@ must be summed over.
 \item {\bf (probabilitistic constraint)}
 
 \begin{itemize}
-\item If $G_0$ has hidden nodes,
+\item If $G$ has hidden nodes,
 these must be renamed and 
 assigned a TPM that
 can be constructed 
 from the {\it observable }
-TPMs of $G_0$.
+TPMs of $G$.
 \item The observable
-nodes of $G_0$ 
+nodes of $G$ 
 with hidden
 parents, must also be assigned a TPM that
 can be constructed 
 from the {\it observable }
-TPMs of $G_0$.
+TPMs of $G$.
 \item The observable
-nodes of $G_0$ with no hidden
+nodes of $G$ with no hidden
 parents, must be assigned
-the same TPM as they have in $G_0$.
+the same TPM as they have in $G$.
 \end{itemize}
 \end{enumerate}
 The reason for
 these 2 constraints
 is that we want
 an adjustment
-formula to utilize 
-as much information
-as possible
-from the original bnet $G_0$.
-Adjustment formulae are
-always numerically equal to $P(y|x)$,
-but when you
-effect that reduction,
-you throw
-away a lot of
-valuable information
-carried by $G_0$.
+formula to show
+exactly how it is calculated from
+the full probability distribution
+$P()$.
+If we don't show exactly
+how it is calculated,
+it is impossible to distinguish
+between marginals of $P()$ and $P_{G_x}()$
+such as $P(y|x)$ and $P_{G_x}(y|x)$.
 
 
 
@@ -689,7 +692,7 @@ P(y|\cald\rvx=x)&=
 \\
 &*++[F-o]{\sum u_2}\ar[dl]
 &&
-\sum z''\ar[ll]
+\sum x'\ar[ll]
 \\
 \sum w\ar[r]
 &\sum z
@@ -701,7 +704,7 @@ P(y|\cald\rvx=x)&=
 \xymatrix{
 &{\sum z'}\ar[ddl]\ar[ddrr]
 \\
-&{\sum z''}\ar[dl]
+&{\sum x'}\ar[dl]
 \\
 \sum w\ar[r]
 &\sum z
