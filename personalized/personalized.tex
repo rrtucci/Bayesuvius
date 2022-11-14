@@ -2496,515 +2496,524 @@ Set $E_{y|x}=O_{y|x}$ in Claim
 
 \section{Bounds on $PNS3$
 for specific bnet families}
-Define
-\beq
-E_{*|*,z} = E_{0|0, z} + E_{1|1, z}=ATE_z+1
-\eeq
-
-\beq
-O_{*,*|z} = O_{0,0|z} + O_{1,1| z}
-\eeq
 
 
-\begin{claim}\label{cl-pre-backdoor-bounds}
-If $\rvz\cap de(\rvx)=\emptyset$, then
-\beq
-\max\left\{
-\begin{array}{c}
-0\\
-E_{*|*,z}-1
-\\
-E_{0|0,z}-\sum_x O_{x,0|z}
-\\
-E_{1|1,z}-\sum_x O_{x,1|z}
-\end{array}
-\right\}
-\leq
-PNS_z
-\leq
-\min\left\{
-\begin{array}{c}
-E_{1|1,z}
-\\
-E_{0|0,z}
-\\
-O_{*,*|z}
-\\
-E_{*|*,z}-O_{*,*|z}
-\end{array}
-\right\}
-\label{eq-pre-backdoor-bounds}
-\eeq
+%
+%Define
+%\beq
+%E_{*|*,z} = E_{0|0, z} + E_{1|1, z}=ATE_z+1
+%\eeq
+%
+%\beq
+%O_{*,*|z} = O_{0,0|z} + O_{1,1| z}
+%\eeq
+%
+%
+%\begin{claim}\label{cl-pre-backdoor-bounds}
+%If $\rvz\cap de(\rvx)=\emptyset$, then
+%\beq
+%\max\left\{
+%\begin{array}{c}
+%0\\
+%E_{*|*,z}-1
+%\\
+%E_{0|0,z}-\sum_x O_{x,0|z}
+%\\
+%E_{1|1,z}-\sum_x O_{x,1|z}
+%\end{array}
+%\right\}
+%\leq
+%PNS_z
+%\leq
+%\min\left\{
+%\begin{array}{c}
+%E_{1|1,z}
+%\\
+%E_{0|0,z}
+%\\
+%O_{*,*|z}
+%\\
+%E_{*|*,z}-O_{*,*|z}
+%\end{array}
+%\right\}
+%\label{eq-pre-backdoor-bounds}
+%\eeq
+%
+%\beq
+%\max\left\{
+%\begin{array}{c}
+%0
+%\\
+%\frac{E_{0|0,z}-\sum_x O_{x,0|z}}
+%{O_{1,1|z}}
+%\end{array}
+%\right\}
+%\leq
+%PN_z
+%\leq
+%\min\left\{
+%\begin{array}{c}
+%1
+%\\
+%\frac{E_{0|0, z}-O_{0,0|z}}
+%{O_{1,1|z}}
+%\end{array}
+%\right\}
+%\eeq
+%
+%\beq
+%\max\left\{
+%\begin{array}{c}
+%0
+%\\
+%\frac{E_{1|1,z}-\sum_x O_{x,1|z}}
+%{O_{0,0|z}}
+%\end{array}
+%\right\}
+%\leq
+%PS_z
+%\leq
+%\min\left\{
+%\begin{array}{c}
+%1
+%\\
+%\frac{E_{1|1,z}-O_{1,1|z}}
+%{O_{0,0|z}}
+%\end{array}
+%\right\}
+%\eeq
+%\end{claim}
+%\proof
+%These are just the minimal bounds
+%where everything is conditioned on $z$.
+%\qed
+%
+%In the minimal bounds, node $\rvz$
+%is not mentioned because
+%the minimal bounds don't assume
+%that $\rvz$ exists.
+%Once we assume that
+%node $\rvz$ exists, then we can use it,
+%as
+%Claim \ref{cl-pre-backdoor-bounds} does.
+%
+%
+%\begin{claim}
+%If $\rvz$ satisfies the backdoor adjustment
+%criterion relative $(\rvx,\rvy)$,
+%then
+%\beq
+%\max\left\{
+%\begin{array}{c}
+%0\\
+%O_{*|*,z}-1
+%\\
+%\cancel{O_{0|0,z}-\sum_x O_{x,0|z}}
+%\\
+%\cancel{O_{1|1,z}-\sum_x O_{x,1|z}}
+%\end{array}
+%\right\}
+%\leq
+%PNS_z
+%\leq
+%\min\left\{
+%\begin{array}{c}
+%O_{1|1,z}
+%\\
+%O_{0|0,z}
+%\\
+%\cancel{O_{*,*|z}}
+%\\
+%\cancel{O_{*|*,z}-O_{*,*|z}}
+%\end{array}
+%\right\}
+%\eeq
+%
+%\beq
+%\max\left\{
+%\begin{array}{c}
+%0
+%\\
+%\frac{O_{0|0,z}-\sum_x O_{x,0|z}}
+%{O_{1,1|z}}
+%\end{array}
+%\right\}
+%\leq
+%PN_z
+%\leq
+%\min\left\{
+%\begin{array}{c}
+%1
+%\\
+%\frac{O_{0|0, z}-O_{0,0|z}}
+%{O_{1,1|z}}
+%\end{array}
+%\right\}
+%\eeq
+%
+%\beq
+%\max\left\{
+%\begin{array}{c}
+%0
+%\\
+%\frac{O_{1|1,z}-\sum_x O_{x,1|z}}
+%{O_{0,0|z}}
+%\end{array}
+%\right\}
+%\leq
+%PS_z
+%\leq
+%\min\left\{
+%\begin{array}{c}
+%1
+%\\
+%\frac{O_{1|1,z}-O_{1,1|z}}
+%{O_{0,0|z}}
+%\end{array}
+%\right\}
+%\eeq
+%\end{claim}
+%\proof
+%Satisfaction
+%of the backdoor criterion implies that
+%\beq
+%\underbrace{P(y|x,z)}_{O_{y|x,z}}
+%=\underbrace{P(\rvy_x=y|z)}_{E_{y|x,z}}
+%\eeq
+%Replace $E_{y|x,z}$ by $O_{y|x,z}$
+%in Claim
+%\ref{cl-pre-backdoor-bounds}.
+%These are just the minimal bounds,
+%when exogeneity holds, that were considered
+%previously. As before, the canceled
+%terms do not affect the bounds
+%so they can be dropped.
+%\qed
+%
+%So far we have
+%considered 2 families
+%of bnets: (1)
+%$\rvz\cap de(\rvx)=\emptyset$ and (2)
+%$\rvz$ satisfies backdoor adjustment
+%criterion.
+%Actually, (2) is a subset of (1).
+%Next, we will consider
+%bnets in which $\rvz$ is
+%a mediator relative to $(\rvx, \rvy)$.
+%A mediator $\rvz$ is impinged
+%by an arrow $\rvx\rarrow \rvz$,
+%so it definitely
+%does not satisfy (1).
+%Bnets that do not satisfy (1)
+%also fall outside the
+%purview of Potential Outcomes (PO) theory.
+%
+%
+%We say $\rvz$
+%is a {\bf partial mediator}
+%relative to $(\rvx, \rvy)$ if
+% $\rvy_x\perp(\rvx,
+%\rvz_{\ol{x}})_\&|\rvz_x$ for $x\in \bool$.
+%See Fig.\ref{fig-partial-mediator}
+%for an example.
+%In that figure,
+%the TPMs, printed in blue, for nodes
+%$\rvz$ and $\rvy$, are as follows.
+%
+%\beq\color{blue}
+%P(z|x, z_0, z_1)=\delta(z, z_x)
+%\eeq
+%
+%\beq\color{blue}
+%P(y|x, y_0, y_1)=\delta(y, y_x)
+%\eeq
+%
+%
+%If $\rvz$ is a partial mediator relative to $(\rvx, \rvy)$
+%and
+%there is no direct path
+%from $\rvx$ to $\rvy$,
+%we say $\rvx$ is a {\bf pure mediator}
+%relative to $(\rvx, \rvy)$.
+%
+%\begin{figure}[h!]
+%$$\xymatrix{
+%*++[F-o]{\rvu}\ar[dd]\ar[r]
+%&(\rvz_0, \rvz_1)\ar[r]
+%&\rvz\ar[rd]
+%\\
+%&
+%&
+%&(\rvy_0, \rvy_1)\ar[dr]
+%\\
+%\rvx\ar[rruu]
+%\ar[rrrr]
+%&&&&\rvy
+%}$$
+%\caption{Example of a bnet in
+%which $\rvz$ is a partial mediator
+%relative to $(\rvx, \rvy)$.
+%If $\rvx=1$, then
+%conditioning on $\rvz_{1}$
+%blocks the
+%paths from $\rvy_{1}$ to $\rvx$
+%and from $\rvy_{1}$
+% to $\rvz_{0}$.
+%If $\rvz$ is a partial mediator
+%relative to $(\rvx, \rvy)$,
+%and, in addition,
+% there is no arrow
+%$\rvx\rarrow \rvy$,
+%we say $\rvz$
+%is a pure
+%mediator relative to $(\rvx,\rvy)$.
+%}
+%\label{fig-partial-mediator}
+%\end{figure}
+%
+%\begin{claim} (Bounds if $\rvz$
+%is partial
+%mediator)
+%\label{cl-pte-partial-med}
+%
+%If $\rvz$ is a partial mediator
+%relative to $(\rvx, \rvy)$,
+%and $\rvx, \rvy, \rvz\in\bool$, then
+%
+%\beq
+%\max\left\{
+%\begin{array}{c}
+%0
+%\\
+%E_{*|*}-1
+%\\
+%E_{0|0}-\sum_x O_{x,0}
+%\\
+%E_{1|1}-\sum_x O_{x,1}
+%\end{array}
+%\right\}
+%\leq
+%PNS
+%\leq
+%\min\left\{
+%\begin{array}{c}
+%E_{1|1}
+%\\
+%E_{0|0}
+%\\
+%O_{*,*}
+%\\
+%E_{*|*}-O_{*,*}
+%\\
+%new
+%\end{array}
+%\right\}
+%\eeq
+%where
+%
+%\beq
+%new=
+%\sum_{z_0, z_1}\min
+%\left\{\begin{array}{c}
+%O_{1|1,z_1}\\O_{0|0,z_0}
+%\end{array}\right\}
+%\min
+%\left\{\begin{array}{c}
+%P(z_1)
+%\\
+%P(z_0)
+%\end{array}\right\}
+%\eeq
+%\end{claim}
+%\proof
+%
+%\begin{align}
+%PNS&= P(\rvy_1=1, \rvy_0=0)
+%\\
+%&=
+%\sum_{z_0,z_1}
+%P(\rvy_1=1, \rvy_{0}=0|z_1, z_0)P(z_1, z_0)
+%\\
+%&\leq
+%\sum_{z_0,z_1}
+%\min\left\{\begin{array}{c}
+%P(\rvy_1=1|z_1, z_0)\\
+%P(\rvy_{0}=0|z_1, z_0)
+%\end{array}
+%\right\}
+%\min\left\{\begin{array}{c}
+%P(z_1)
+%\\
+%P(z_0)
+%\end{array}
+%\right\}
+%\\
+%&=
+%\sum_{z_0,z_1}
+%\min\left\{\begin{array}{c}
+%P(\rvy=1|z_1)\\
+%P(\rvy=0|z_0)
+%\end{array}
+%\right\}
+%\min\left\{\begin{array}{c}
+%P(z_1)
+%\\
+%P(z_0)
+%\end{array}
+%\right\}
+%\text{(because
+% $\rvy_x\perp\rvz_{\ol{x}}|\rvz_x$)}
+%\\
+%&=
+%\sum_{z_0,z_1}
+%\min\left\{\begin{array}{c}
+%P(\rvy=1|\rvx=1,z_1)\\
+%P(\rvy=0|\rvx=0,z_0)
+%\end{array}
+%\right\}
+%\min\left\{\begin{array}{c}
+%P(z_1)
+%\\
+%P(z_0)
+%\end{array}
+%\right\}
+%\text{(because $\rvy_x\perp\rvx|\rvz_x$)}
+%\\
+%&=
+%\sum_{z_0,z_1}
+%\min\left\{\begin{array}{c}
+%P(\rvy=1|\rvx=1, \rvz=z_1)\\
+%P(\rvy=0|\rvx=0, \rvz=z_0)
+%\end{array}
+%\right\}
+%\min\left\{\begin{array}{c}
+%P(z_1)
+%\\
+%P(z_0)
+%\end{array}
+%\right\}
+%\\
+%&\quad\quad \nonumber
+%\text{(because $\rvz=\rvz_x$ at fixed $x$)}
+%\\
+%&=
+%\sum_{z_0,z_1}
+%\min\left\{\begin{array}{c}
+%O_{1|1,z_1}\\
+%O_{0|0,z_0}
+%\end{array}
+%\right\}
+%\min\left\{\begin{array}{c}
+%P(z_1)
+%\\
+%P(z_0)
+%\end{array}
+%\right\}
+%\end{align}
+%
+%\qed
+%
+%\begin{claim} (Bounds if $\rvz$
+%is a pure mediator)
+%
+%If $\rvz$ is a pure mediator
+%relative to $(\rvx, \rvy)$,
+%and $\rvx, \rvy, \rvz\in\bool$, then
+%Claim \ref{cl-pte-partial-med} for a
+%partial mediator is
+%still valid, except that
+%now ``new"
+%equals
+%
+%\beq
+%new=
+%\sum_{z_0, z_1}
+%\indi(z_0\neq z_1)
+%\min
+%\left\{\begin{array}{c}
+%O_{1|\rvx=z_1}\\
+%O_{0|\rvx=z_0}
+%\end{array}\right\}
+%\min
+%\left\{\begin{array}{c}
+%P(\rvz=z_1| \rvx=1)
+%\\
+%P(\rvz=z_0| \rvx=0)
+%\end{array}\right\}
+%\eeq
+%\end{claim}
+%
+%\proof
+%
+%\begin{align}
+%PNS&= P(\rvy_1=1, \rvy_0=0)
+%\\
+%&=
+%\sum_{z_0, z_1}\indi(z_0\neq z_1)
+%P(\rvy_{z_1}=1, \rvy_{z_0}=0)P(z_1, z_0)
+%\\
+%&\quad\quad \nonumber
+%\text{\quad (because $(\rvy_0, \rvy_1)\perp
+% (\rvz_0, \rvz_1)$ and $\rvy_0\neq \rvy_1$)}
+%\\
+%&\leq
+%\sum_{z_0, z_1}\indi(z_0\neq z_1)
+%\min\left\{\begin{array}{c}
+%P(\rvy_{z_1}=1)\\
+%P(\rvy_{z_0}=0)
+%\end{array}
+%\right\}
+%\min\left\{\begin{array}{c}
+%P(z_1)
+%\\
+%P(z_0)
+%\end{array}
+%\right\}
+%\\
+%&=
+%\sum_{z_0, z_1}\indi(z_0\neq z_1)
+%\min\left\{
+%\begin{array}{c}
+%P(\rvy=1|\rvx=z_1)\\
+%P(\rvy=0|\rvx=z_0)
+%\end{array}
+%\right\}
+%\min\left\{\begin{array}{c}
+%P(z_1|\rvx=1)
+%\\
+%P(z_0|\rvx=0)
+%\end{array}
+%\right\}
+%\\
+%&\quad\quad \nonumber
+%\text{(because $\rvy=\rvy_x$ at fixed $\rvx$
+%and $(z_0, z_1)_\&\perp \rvx$)}
+%\\
+%&=
+%\sum_{z_0, z_1}
+%\indi(z_0\neq z_1)
+%\min
+%\left\{
+%\begin{array}{c}
+%O_{1|\rvx=z_1}\\
+%O_{0|\rvx=z_0}
+%\end{array}
+%\right\}
+%\min
+%\left\{\begin{array}{c}
+%P(\rvz=z_1| \rvx=1)
+%\\
+%P(\rvz=z_0| \rvx=0)
+%\end{array}\right\}
+%\end{align}
+%\qed
+%\newpage
 
-\beq
-\max\left\{
-\begin{array}{c}
-0
-\\
-\frac{E_{0|0,z}-\sum_x O_{x,0|z}}
-{O_{1,1|z}}
-\end{array}
-\right\}
-\leq
-PN_z
-\leq
-\min\left\{
-\begin{array}{c}
-1
-\\
-\frac{E_{0|0, z}-O_{0,0|z}}
-{O_{1,1|z}}
-\end{array}
-\right\}
-\eeq
-
-\beq
-\max\left\{
-\begin{array}{c}
-0
-\\
-\frac{E_{1|1,z}-\sum_x O_{x,1|z}}
-{O_{0,0|z}}
-\end{array}
-\right\}
-\leq
-PS_z
-\leq
-\min\left\{
-\begin{array}{c}
-1
-\\
-\frac{E_{1|1,z}-O_{1,1|z}}
-{O_{0,0|z}}
-\end{array}
-\right\}
-\eeq
-\end{claim}
-\proof
-These are just the minimal bounds
-where everything is conditioned on $z$.
-\qed
-
-In the minimal bounds, node $\rvz$
-is not mentioned because
-the minimal bounds don't assume
-that $\rvz$ exists.
-Once we assume that
-node $\rvz$ exists, then we can use it,
-as
-Claim \ref{cl-pre-backdoor-bounds} does.
 
 
-\begin{claim}
-If $\rvz$ satisfies the backdoor adjustment
-criterion relative $(\rvx,\rvy)$,
-then
-\beq
-\max\left\{
-\begin{array}{c}
-0\\
-O_{*|*,z}-1
-\\
-\cancel{O_{0|0,z}-\sum_x O_{x,0|z}}
-\\
-\cancel{O_{1|1,z}-\sum_x O_{x,1|z}}
-\end{array}
-\right\}
-\leq
-PNS_z
-\leq
-\min\left\{
-\begin{array}{c}
-O_{1|1,z}
-\\
-O_{0|0,z}
-\\
-\cancel{O_{*,*|z}}
-\\
-\cancel{O_{*|*,z}-O_{*,*|z}}
-\end{array}
-\right\}
-\eeq
-
-\beq
-\max\left\{
-\begin{array}{c}
-0
-\\
-\frac{O_{0|0,z}-\sum_x O_{x,0|z}}
-{O_{1,1|z}}
-\end{array}
-\right\}
-\leq
-PN_z
-\leq
-\min\left\{
-\begin{array}{c}
-1
-\\
-\frac{O_{0|0, z}-O_{0,0|z}}
-{O_{1,1|z}}
-\end{array}
-\right\}
-\eeq
-
-\beq
-\max\left\{
-\begin{array}{c}
-0
-\\
-\frac{O_{1|1,z}-\sum_x O_{x,1|z}}
-{O_{0,0|z}}
-\end{array}
-\right\}
-\leq
-PS_z
-\leq
-\min\left\{
-\begin{array}{c}
-1
-\\
-\frac{O_{1|1,z}-O_{1,1|z}}
-{O_{0,0|z}}
-\end{array}
-\right\}
-\eeq
-\end{claim}
-\proof
-Satisfaction
-of the backdoor criterion implies that
-\beq
-\underbrace{P(y|x,z)}_{O_{y|x,z}}
-=\underbrace{P(\rvy_x=y|z)}_{E_{y|x,z}}
-\eeq
-Replace $E_{y|x,z}$ by $O_{y|x,z}$
-in Claim
-\ref{cl-pre-backdoor-bounds}.
-These are just the minimal bounds,
-when exogeneity holds, that were considered
-previously. As before, the canceled
-terms do not affect the bounds
-so they can be dropped.
-\qed
-
-So far we have
-considered 2 families
-of bnets: (1)
-$\rvz\cap de(\rvx)=\emptyset$ and (2)
-$\rvz$ satisfies backdoor adjustment
-criterion.
-Actually, (2) is a subset of (1).
-Next, we will consider
-bnets in which $\rvz$ is
-a mediator relative to $(\rvx, \rvy)$.
-A mediator $\rvz$ is impinged
-by an arrow $\rvx\rarrow \rvz$,
-so it definitely
-does not satisfy (1).
-Bnets that do not satisfy (1)
-also fall outside the
-purview of Potential Outcomes (PO) theory.
 
 
-We say $\rvz$
-is a {\bf partial mediator}
-relative to $(\rvx, \rvy)$ if
- $\rvy_x\perp(\rvx,
-\rvz_{\ol{x}})_\&|\rvz_x$ for $x\in \bool$.
-See Fig.\ref{fig-partial-mediator}
-for an example.
-In that figure,
-the TPMs, printed in blue, for nodes
-$\rvz$ and $\rvy$, are as follows.
 
-\beq\color{blue}
-P(z|x, z_0, z_1)=\delta(z, z_x)
-\eeq
-
-\beq\color{blue}
-P(y|x, y_0, y_1)=\delta(y, y_x)
-\eeq
-
-
-If $\rvz$ is a partial mediator relative to $(\rvx, \rvy)$
-and
-there is no direct path
-from $\rvx$ to $\rvy$,
-we say $\rvx$ is a {\bf pure mediator}
-relative to $(\rvx, \rvy)$.
-
-\begin{figure}[h!]
-$$\xymatrix{
-*++[F-o]{\rvu}\ar[dd]\ar[r]
-&(\rvz_0, \rvz_1)\ar[r]
-&\rvz\ar[rd]
-\\
-&
-&
-&(\rvy_0, \rvy_1)\ar[dr]
-\\
-\rvx\ar[rruu]
-\ar[rrrr]
-&&&&\rvy
-}$$
-\caption{Example of a bnet in
-which $\rvz$ is a partial mediator
-relative to $(\rvx, \rvy)$.
-If $\rvx=1$, then
-conditioning on $\rvz_{1}$
-blocks the
-paths from $\rvy_{1}$ to $\rvx$
-and from $\rvy_{1}$
- to $\rvz_{0}$.
-If $\rvz$ is a partial mediator
-relative to $(\rvx, \rvy)$,
-and, in addition,
- there is no arrow
-$\rvx\rarrow \rvy$,
-we say $\rvz$
-is a pure
-mediator relative to $(\rvx,\rvy)$.
-}
-\label{fig-partial-mediator}
-\end{figure}
-
-\begin{claim} (Bounds if $\rvz$
-is partial
-mediator)
-\label{cl-pte-partial-med}
-
-If $\rvz$ is a partial mediator
-relative to $(\rvx, \rvy)$,
-and $\rvx, \rvy, \rvz\in\bool$, then
-
-\beq
-\max\left\{
-\begin{array}{c}
-0
-\\
-E_{*|*}-1
-\\
-E_{0|0}-\sum_x O_{x,0}
-\\
-E_{1|1}-\sum_x O_{x,1}
-\end{array}
-\right\}
-\leq
-PNS
-\leq
-\min\left\{
-\begin{array}{c}
-E_{1|1}
-\\
-E_{0|0}
-\\
-O_{*,*}
-\\
-E_{*|*}-O_{*,*}
-\\
-new
-\end{array}
-\right\}
-\eeq
-where
-
-\beq
-new=
-\sum_{z_0, z_1}\min
-\left\{\begin{array}{c}
-O_{1|1,z_1}\\O_{0|0,z_0}
-\end{array}\right\}
-\min
-\left\{\begin{array}{c}
-P(z_1)
-\\
-P(z_0)
-\end{array}\right\}
-\eeq
-\end{claim}
-\proof
-
-\begin{align}
-PNS&= P(\rvy_1=1, \rvy_0=0)
-\\
-&=
-\sum_{z_0,z_1}
-P(\rvy_1=1, \rvy_{0}=0|z_1, z_0)P(z_1, z_0)
-\\
-&\leq
-\sum_{z_0,z_1}
-\min\left\{\begin{array}{c}
-P(\rvy_1=1|z_1, z_0)\\
-P(\rvy_{0}=0|z_1, z_0)
-\end{array}
-\right\}
-\min\left\{\begin{array}{c}
-P(z_1)
-\\
-P(z_0)
-\end{array}
-\right\}
-\\
-&=
-\sum_{z_0,z_1}
-\min\left\{\begin{array}{c}
-P(\rvy=1|z_1)\\
-P(\rvy=0|z_0)
-\end{array}
-\right\}
-\min\left\{\begin{array}{c}
-P(z_1)
-\\
-P(z_0)
-\end{array}
-\right\}
-\text{(because
- $\rvy_x\perp\rvz_{\ol{x}}|\rvz_x$)}
-\\
-&=
-\sum_{z_0,z_1}
-\min\left\{\begin{array}{c}
-P(\rvy=1|\rvx=1,z_1)\\
-P(\rvy=0|\rvx=0,z_0)
-\end{array}
-\right\}
-\min\left\{\begin{array}{c}
-P(z_1)
-\\
-P(z_0)
-\end{array}
-\right\}
-\text{(because $\rvy_x\perp\rvx|\rvz_x$)}
-\\
-&=
-\sum_{z_0,z_1}
-\min\left\{\begin{array}{c}
-P(\rvy=1|\rvx=1, \rvz=z_1)\\
-P(\rvy=0|\rvx=0, \rvz=z_0)
-\end{array}
-\right\}
-\min\left\{\begin{array}{c}
-P(z_1)
-\\
-P(z_0)
-\end{array}
-\right\}
-\\
-&\quad\quad \nonumber
-\text{(because $\rvz=\rvz_x$ at fixed $x$)}
-\\
-&=
-\sum_{z_0,z_1}
-\min\left\{\begin{array}{c}
-O_{1|1,z_1}\\
-O_{0|0,z_0}
-\end{array}
-\right\}
-\min\left\{\begin{array}{c}
-P(z_1)
-\\
-P(z_0)
-\end{array}
-\right\}
-\end{align}
-
-\qed
-
-\begin{claim} (Bounds if $\rvz$
-is a pure mediator)
-
-If $\rvz$ is a pure mediator
-relative to $(\rvx, \rvy)$,
-and $\rvx, \rvy, \rvz\in\bool$, then
-Claim \ref{cl-pte-partial-med} for a
-partial mediator is
-still valid, except that
-now ``new"
-equals
-
-\beq
-new=
-\sum_{z_0, z_1}
-\indi(z_0\neq z_1)
-\min
-\left\{\begin{array}{c}
-O_{1|\rvx=z_1}\\
-O_{0|\rvx=z_0}
-\end{array}\right\}
-\min
-\left\{\begin{array}{c}
-P(\rvz=z_1| \rvx=1)
-\\
-P(\rvz=z_0| \rvx=0)
-\end{array}\right\}
-\eeq
-\end{claim}
-
-\proof
-
-\begin{align}
-PNS&= P(\rvy_1=1, \rvy_0=0)
-\\
-&=
-\sum_{z_0, z_1}\indi(z_0\neq z_1)
-P(\rvy_{z_1}=1, \rvy_{z_0}=0)P(z_1, z_0)
-\\
-&\quad\quad \nonumber
-\text{\quad (because $(\rvy_0, \rvy_1)\perp
- (\rvz_0, \rvz_1)$ and $\rvy_0\neq \rvy_1$)}
-\\
-&\leq
-\sum_{z_0, z_1}\indi(z_0\neq z_1)
-\min\left\{\begin{array}{c}
-P(\rvy_{z_1}=1)\\
-P(\rvy_{z_0}=0)
-\end{array}
-\right\}
-\min\left\{\begin{array}{c}
-P(z_1)
-\\
-P(z_0)
-\end{array}
-\right\}
-\\
-&=
-\sum_{z_0, z_1}\indi(z_0\neq z_1)
-\min\left\{
-\begin{array}{c}
-P(\rvy=1|\rvx=z_1)\\
-P(\rvy=0|\rvx=z_0)
-\end{array}
-\right\}
-\min\left\{\begin{array}{c}
-P(z_1|\rvx=1)
-\\
-P(z_0|\rvx=0)
-\end{array}
-\right\}
-\\
-&\quad\quad \nonumber
-\text{(because $\rvy=\rvy_x$ at fixed $\rvx$
-and $(z_0, z_1)_\&\perp \rvx$)}
-\\
-&=
-\sum_{z_0, z_1}
-\indi(z_0\neq z_1)
-\min
-\left\{
-\begin{array}{c}
-O_{1|\rvx=z_1}\\
-O_{0|\rvx=z_0}
-\end{array}
-\right\}
-\min
-\left\{\begin{array}{c}
-P(\rvz=z_1| \rvx=1)
-\\
-P(\rvz=z_0| \rvx=0)
-\end{array}\right\}
-\end{align}
-\qed
-\newpage
 \section{Numerical Examples}
 
 I've written an open source Python program
