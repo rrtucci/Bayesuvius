@@ -1,20 +1,109 @@
 \chapter{Control Theory (linear): COMING SOON}
 \label{ch-control-th}
 
-\section{classical SISO model}
-
 \begin{figure}[h!]
 $$
 \begin{array}{ccc}
 \xymatrix{
 \ar[d]^{r(t)}
 \\
+*+[F]{\stackrel{\rm Controller}{C}}
+\ar@{-}[d]^{u(t)}
+&
+\ar@{-}[d]\ar@{-}[l]
+&
+\\
+*+[F]{\stackrel{\rm Prossess} {P}}
+\ar@{-}[r]^{\quad y(t)}
+&\ar@{-}[u]
+}
+\xymatrix{
+\rvr(t_{k})\ar[d]
+&
+\rvr(t_{k+1})\ar[d]
+\\
+\rvu(t_{k})\ar[d]\ar[rd]
+&\rvu(t_{k+1})\ar[d]
+\\
+\rvy(t_{k})\ar[r]
+&
+\rvy(t_{k+1})
+}
+\quad\quad\quad&
+\xymatrix{
+\rvr(t)\ar[d]
+\\
+\rvu(t)\ar[d]\ar@{~>}@/^2pc/[d]
+\\
+\rvy(t)
+\ar@(ur,dr)@{~>}[]
+}
+\end{array}
+$$
+\caption{xx}
+\label{fig-common-factor}
+\end{figure}
+
+\beq
+\left\{
+\begin{array}{l}
+\dot{y}(t)= f_1(y(t), u(t), \dot{u}(t))
+\\
+u(t) = f_2(r(t))
+\end{array}
+\right.
+\eeq
+
+\beq
+\dot{y}(t) \approx 
+\frac{y(t+\Delta t)-y(t)}{\Delta t}
+\eeq
+
+
+
+$t_k=t$, $t_{k+1}=t + \Delta t$, $\Delta t\rarrow 0$
+
+
+\beq\color{blue}
+P(y(t+\Delta t)|y(t), u(t),
+u(t+\Delta t))
+=
+\delta(\quad
+y(t+\Delta t)
+- y(t) -\Delta t f_1(y(t), u(t),
+\dot{u}(t))
+\quad)
+\eeq
+
+\beq\color{blue}
+P(u(t)|r(t)) = 
+\delta(\quad
+u(t)- f_2(r(t))
+\quad)
+\eeq
+
+
+\beq \color{blue}
+P(r(t)) = \text{given}
+\eeq
+
+
+
+
+\section{classical SISO model}
+
+\begin{figure}[h!]
+$$
+\begin{array}{ccc}
+\xymatrix{
+\ar[d]_{r(t)}^{+}
+\\
 *+[F]{\sum}
-\ar@{-}[d]^{+}
+\ar@{-}[d]_{e(t)}
 &\ar@{-}[l]^{-}_{f(t)}
 \\
 *+[F]{\stackrel{\rm Controller}{C}}
-\ar@{-}[d]^{u(t)}
+\ar@{-}[d]_{u(t)}
 &
 *+[F]{\stackrel{\rm Filter} {F}}
 \ar@{-}[u]\ar@{-}[d]
@@ -33,9 +122,9 @@ $$
 &
 \rvr(t_{k+1})\ar[d]
 \\
-\ul{\sum}(t_{k})\ar[d]
+\rve(t_{k})\ar[d]
 &
-\ul{\sum}(t_{k+1})\ar[d]
+\rve(t_{k+1})\ar[d]
 \\
 \rvu(t_{k})\ar[d]\ar[rd]
 &\rvu(t_{k+1})\ar[d]
@@ -50,7 +139,7 @@ $$
 \\
 \rvr(t)\ar[d]
 \\
-\ul{\sum}(t)\ar[d]
+\rve(t)\ar[d]
 \\
 \rvu(t)\ar[d]\ar@{~>}@/_1pc/[d]
 \\
@@ -65,9 +154,6 @@ $$
 
 
 
-
-
-$t_k=t$, $t_{k+1}=t + \Delta t$, $\Delta t\rarrow 0$
 
 \beq\color{blue}
 P(r(t)) = given
@@ -111,7 +197,9 @@ y(t) = (P\circledast  u)(t)
 \\
 u(t) = (C\circledast  e)(t)
 \\
-e(t)= r(t) - (F\circledast  y)(t)
+f(t) = (F\circledast  y)(t)
+\\
+e(t)= r(t) - f(t)
 \end{array}
 \right.
 \eeq
@@ -123,7 +211,9 @@ e(t)= r(t) - (F\circledast  y)(t)
 \\
 \TIL{u}(s) = \TIL{C}(s)\TIL{e}(s)
 \\
-\TIL{e}(s)= \TIL{r}(s) - \TIL{F}(s)\TIL{y}(s)
+\TIL{f}(s) =\TIL{F}(s)\TIL{y}(s)
+\\
+\TIL{e}(s)= \TIL{r}(s) - \TIL{f}(s)
 \end{array}
 \right.
 \eeq
