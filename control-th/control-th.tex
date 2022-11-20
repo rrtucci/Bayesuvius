@@ -7,36 +7,37 @@ $$
 \xymatrix{
 \ar[d]^{r(t)}
 \\
-*+[F]{\stackrel{\rm Controller}{C}}
+*+[F]{\stackrel{\rm Controller}{F_1}}
 \ar@{-}[d]^{u(t)}
 &
 \ar@{-}[d]\ar@{-}[l]
 &
 \\
-*+[F]{\stackrel{\rm Prossess} {P}}
+*+[F]{\stackrel{\rm Prossess} {F_2}}
 \ar@{-}[r]^{\quad y(t)}
 &\ar@{-}[u]
 }
 \xymatrix{
-\rvr(t_{k})\ar[d]
+\rvr_k\ar[d]
 &
-\rvr(t_{k+1})\ar[d]
+\rvr_{k+1}\ar[d]
 \\
-\rvu(t_{k})\ar[d]\ar[rd]
-&\rvu(t_{k+1})\ar[d]
+\rvu_k\ar[d]
+&\rvu_{k+1}\ar[d]
 \\
-\rvy(t_{k})\ar[r]
+\rvy_k\ar[r]\ar[ur]
 &
-\rvy(t_{k+1})
+\rvy_{k+1}
 }
 \quad\quad\quad&
 \xymatrix{
 \rvr(t)\ar[d]
 \\
-\rvu(t)\ar[d]\ar@{~>}@/^2pc/[d]
+\rvu(t)\ar[d]
 \\
-\rvy(t)
-\ar@(ur,dr)@{~>}[]
+\bullet
+\ar@(ur,dr)@{~>}[]^{\rvy(t)}
+\ar@{~>}@/^2pc/[u]
 }
 \end{array}
 $$
@@ -47,46 +48,44 @@ $$
 \beq
 \left\{
 \begin{array}{l}
-\dot{y}(t)= f_1(y(t), u(t), \dot{u}(t))
+u(t) = F_1(y(t), r(t), t)
 \\
-u(t) = f_2(r(t))
+\dot{y}(t)= F_2(y(t), u(t), t)
 \end{array}
 \right.
 \eeq
 
 \beq
 \dot{y}(t) \approx 
-\frac{y(t+\Delta t)-y(t)}{\Delta t}
+\frac{y(t+
+\Delta t)-y(t)}{\Delta t}
 \eeq
 
 
 
 $t_k=t$, $t_{k+1}=t + \Delta t$, $\Delta t\rarrow 0$
-
-
-\beq\color{blue}
-P(y(t+\Delta t)|y(t), u(t),
-u(t+\Delta t))
-=
-\delta(\quad
-y(t+\Delta t)
-- y(t) -\Delta t f_1(y(t), u(t),
-\dot{u}(t))
-\quad)
-\eeq
-
-\beq\color{blue}
-P(u(t)|r(t)) = 
-\delta(\quad
-u(t)- f_2(r(t))
-\quad)
-\eeq
-
+also, let $f(t_k)=f_k$
 
 \beq \color{blue}
-P(r(t)) = \text{given}
+P(r_k) = \text{given}
 \eeq
 
+\beq\color{blue}
+P(u_k|y_k, r_k) = 
+\delta(\quad
+u_k- F_1(y_k, r_k, t_k)
+\quad)
+\eeq
+
+
+\beq\color{blue}
+P(y_{k+1}|y_k, u_k)
+=
+\delta(\quad
+y_{k+1}
+- y_k -\Delta t F_2(y_k, u_k, t_k)
+\quad)
+\eeq
 
 
 
@@ -109,29 +108,29 @@ $$
 \ar@{-}[u]\ar@{-}[d]
 &
 \\
-*+[F]{\stackrel{\rm Prossess} {P}}
+*+[F]{\stackrel{\rm Prossess} {\Pi}}
 \ar@{-}[r]^{y(t)}
 &\ar@{-}[u]
 }
-\xymatrix{
-\rvf(t_{k})\ar@/_1.5pc/[dd]
+\xymatrix@C=3pc{
+\rvf_k\ar@/_1.5pc/[dd]
 &
-\rvf(t_{k+1})\ar@/_1.5pc/[dd]
+\rvf_{k+1}\ar@/_1.5pc/[dd]
 \\
-\rvr(t_{k})\ar[d]
+\rvr_k\ar[d]
 &
-\rvr(t_{k+1})\ar[d]
+\rvr_{k+1}\ar[d]
 \\
-\rve(t_{k})\ar[d]
+\rve_k\ar[d]\ar[rd]
 &
-\rve(t_{k+1})\ar[d]
+\rve_{k+1}\ar[d]
 \\
-\rvu(t_{k})\ar[d]\ar[rd]
-&\rvu(t_{k+1})\ar[d]
+\rvu_k\ar[d]\ar[rd]
+&\rvu_{k+1}\ar[d]
 \\
-\rvy(t_{k})\ar[r]\ar[ruuuu]
+\rvy_k\ar[ruuuu]
 &
-\rvy(t_{k+1})
+\rvy_{k+1}
 }
 \quad\quad\quad&
 \xymatrix{
@@ -139,31 +138,69 @@ $$
 \\
 \rvr(t)\ar[d]
 \\
-\rve(t)\ar[d]
+\rve(t)\ar[d]\ar@{~>}@/_1pc/[d]
 \\
 \rvu(t)\ar[d]\ar@{~>}@/_1pc/[d]
 \\
 \rvy(t)\ar@{~>}@/_2pc/[uuuu]
-\ar@(ur,dr)@{~>}[]
 }
 \end{array}
 $$
-\caption{xx}
+\caption{This diagram
+doesn't
+show all the arrows.
+In reality,
+for any arrow $a_k\rarrow b_{k+1}$ that
+points from the 
+time slice $t_k$
+to the time slice $t_{k+1}$,
+there should 
+be arrows 
+$a_{j}\rarrow b_{k+1}$
+for $j\in\{0,1,2, \cdots, k
+\}$.
+That's because
+SISO is defined
+in terms of convolutions,
+and a convolution
+at time $t$ requires
+memory for all times
+between 0 and $t$.
+}
 \label{fig-siso}
 \end{figure}
 
-
+\beq
+\left\{
+\begin{array}{l}
+f(t) = (F\circledast  y)(t)
+\\
+e(t)= r(t) - f(t)
+\\
+u(t) = (C\circledast  e)(t)
+\\
+y(t) = (\Pi\circledast  u)(t)
+\end{array}
+\right.
+\eeq
 
 
 \beq\color{blue}
-P(r(t)) = given
+P(r(t)) = \text{given}
 \eeq
 
 \beq\color{blue}
-P(e(t+\Delta t)|
-r(\cdot+\Delta t), f(\cdot))=
+P(f(t)|y(\cdot))
+=\delta(\quad
+f(t)-\Pi[y](t)
+\quad)
+\eeq
+
+\beq\color{blue}
+P(e(t)|
+r(t), f(t))=
 \delta(\quad
-e(t+\Delta t)- [r(t+\Delta t)-f(t)]
+e(t)- [r(t)-f(t)]
 \quad)
 \eeq
 
@@ -177,64 +214,44 @@ u(t)-C[e](t)
 \beq\color{blue}
 P(y(t)|u(\cdot))
 =\delta(\quad
-y(t)-P[u](t)
+y(t)-\Pi[u](t)
 \quad)
 \eeq
 
-\beq\color{blue}
-P(f(t)|y(\cdot))
-=\delta(\quad
-f(t)-P[y](t)
-\quad)
-\eeq
 
 
 
 \beq
 \left\{
 \begin{array}{l}
-y(t) = (P\circledast  u)(t)
-\\
-u(t) = (C\circledast  e)(t)
-\\
-f(t) = (F\circledast  y)(t)
-\\
-e(t)= r(t) - f(t)
-\end{array}
-\right.
-\eeq
-
-\beq
-\left\{
-\begin{array}{l}
-\TIL{y}(s) = \TIL{P}(s)\TIL{u}(s)
-\\
-\TIL{u}(s) = \TIL{C}(s)\TIL{e}(s)
-\\
 \TIL{f}(s) =\TIL{F}(s)\TIL{y}(s)
 \\
 \TIL{e}(s)= \TIL{r}(s) - \TIL{f}(s)
+\\
+\TIL{u}(s) = \TIL{C}(s)\TIL{e}(s)
+\\
+\TIL{y}(s) = \TIL{\Pi}(s)\TIL{u}(s)
 \end{array}
 \right.
 \eeq
 
 \beq
-\TIL{y}=\TIL{P}\TIL{C}[\TIL{r}-
+\TIL{y}=\TIL{\Pi}\TIL{C}[\TIL{r}-
 \TIL{F}\TIL{y}]
 \eeq
 
 \beq
-[1+\TIL{P}\TIL{C}\TIL{F}]\TIL{y}
+[1+\TIL{\Pi}\TIL{C}\TIL{F}]\TIL{y}
 =
-\TIL{P}\TIL{C}\TIL{r}
+\TIL{\Pi}\TIL{C}\TIL{r}
 \eeq
 
 \beq
 \TIL{y}=
 \underbrace{
 \left(
-\frac{\TIL{P}\TIL{C}}
-{1 + \TIL{P}\TIL{C}\TIL{F}}
+\frac{\TIL{\Pi}\TIL{C}}
+{1 + \TIL{\Pi}\TIL{C}\TIL{F}}
 \right)
 }_{\TIL{H}(s)}
 \TIL{r}
@@ -244,7 +261,7 @@ PID (Proportional-Integral-Derivative) Controller
 
 \beq
 u(t)=
-K_P e(t)
+K_\Pi e(t)
 +K_I
 \int_0^t
 d\tau \;
@@ -257,7 +274,7 @@ K_D\partial_t e(t)
 \beqa
 \TIL{u}(s)
 &=&
-K_P\TIL{e}(s)
+K_\Pi\TIL{e}(s)
 + K_I \frac{\TIL{e}}{s}
 +
 K_D (s\TIL{e}(s)-
@@ -266,7 +283,7 @@ e(0^+))
 &=&
 \underbrace{
 \left(
-K_P + \frac{K_I}{s}
+K_\Pi + \frac{K_I}{s}
 + K_D s
 \right)
 }_{\TIL{C}(s)}
@@ -275,12 +292,12 @@ K_P + \frac{K_I}{s}
 \eeqa
 
 \beq
-K_P = 2K,\;
+K_\Pi = 2K,\;
 K_D=KT,\; K=\frac{K}{T}
 \eeq
 
 \beq
-\TIL{P}(s)= \frac{1}{K(1+sT)}
+\TIL{\Pi}(s)= \frac{1}{K(1+sT)}
 \eeq
 
 \beq
@@ -298,13 +315,13 @@ K_D=KT,\; K=\frac{K}{T}
 \eeqa
 
 \beqa
-1+\TIL{P}\TIL{C}\TIL{F}&=&
+1+\TIL{\Pi}\TIL{C}\TIL{F}&=&
 1+\frac{1}{sT}
 \\
 &=&\frac{1}{sT}(1+sT)
 \\
 &=&
-\TIL{P}\TIL{C}
+\TIL{\Pi}\TIL{C}
 \eeqa
 
 \beq
@@ -312,6 +329,174 @@ K_D=KT,\; K=\frac{K}{T}
 \eeq
 
 \section{MIMO}
+
+
+ \begin{figure}[h!]
+ $$
+\begin{array}{ccc}
+\xymatrix{
+\ar[d]^{r(t)}
+\\
+*+[F]{
+\stackrel{\rm Controller}
+{F_1}}
+\ar@/_2pc/@{-}[dd]_{u(t)}
+\ar@{-}[d]^{u(t)}
+&\ar@{-}[l]
+\\
+\ar@{-}[d]^{x(t)}
+\bullet\ar@(ur,dr)@{-}[]^{F_2}
+\\
+*+[F]{\stackrel{\rm Process}{F_3}
+}\ar@{-}[d]^{y(t)}
+\ar@{-}[r]^{\quad y(t)}
+&\ar@{-}[uu]
+\\
+&
+}
+\quad\quad
+&
+\xymatrix{
+\rvr_k\ar[d]
+&
+\rvr_{k+1}\ar[d]
+\\
+\rvu_k\ar@/_2pc/[dd]
+\ar[rd]
+& \rvu_{k+1}\ar@/_2pc/[dd]
+\\
+\rvx_k\ar[d]\ar[r]
+&\rvx_{k+1}\ar[d]
+\\
+\rvy_k\ar[ruu]
+&\rvy_{k+1}
+}
+\quad\quad\quad
+&
+\xymatrix{
+\rvr(t)\ar[d]
+\\
+\rvu(t)\ar@/_2pc/[dd]
+\ar@{~>}[d]
+\\
+\bullet\ar[d]
+\ar@(ur,dr)@{~>}[]^{\rvx(t)}
+\\
+\rvy(t)
+\ar@{~>}@/_4pc/[uu]
+}
+\end{array}
+$$
+\caption{MIMO}
+\label{fig-mimo}
+\end{figure}
+
+\beq
+\left\{
+\begin{array}{l}
+u(t) = F_1(y(t), r(t),t)
+\\
+\dot{x}(t)= F_2(x(t), u(t), t)
+\\
+y(t) = F_3(x(t), u(t), t)
+\end{array}
+\right.
+\eeq
+
+
+\beq\color{blue}
+P(r_k)=\text{given}
+\eeq
+
+\beq\color{blue}
+P(u_{k+1}|y_k, r_{k+1}, t_k))=
+\delta(\quad
+u_{k+1}-
+F_1(y_k, r_{k+1}, t_k)
+\quad)
+\eeq
+
+\beq\color{blue}
+P(x_{k+1}|x_k, u_k)=
+\delta(\quad
+x_{k+1}- \Delta t F_2(x_k, u_k, t_k)
+\quad)
+\eeq
+
+\beq\color{blue}
+P(y_{k+1}|x_k, u_k)
+=
+\delta(\quad
+y_{k+1}-F_3(x_{k+1},
+u_{k+1}, t_{k+1})
+\quad)
+\eeq
+
+ 
+
+ 
+
+
+ \beq
+ \left\{
+ \begin{array}{l}
+ F_2 = A(t)x(t) + B(t)u(t)
+ \\
+ F_3 = C(t)x(t) + D(t)u(t)
+ \end{array}
+ \right.
+ \eeq
+ 
+ \begin{claim}
+ If the
+ coefficients  $A(t)$ and $B(t)$
+ are independent 
+ of time $t$, then
+ \beq
+  x(t)=
+  \call^{-1}
+  \left[
+  (sI - A)^{-1}x(0)
+  +
+  (sI-A)^{-1}B\TIL{u}(s)
+  \right]
+  \eeq
+ Alternatively, 
+  
+ \beq
+ x(t)=e^{At}x(0)
+ +
+ e^{At}
+ \int_0^t d\tau\;
+ e^{-\tau}
+ Bu(\tau)
+ \eeq
+ where
+ 
+ \beq
+ e^{At}= \sum_{k=0}^\infty
+ \frac{t^k}{k!}A^k
+ \eeq
+ \end{claim}
+ \proof
+ \qed
+ 
+ \beq
+ e^{At}=
+ \call^{-1}[(sI-A)^{-1}]
+ \eeq
+ 
+ \beq
+ e^{At}
+   \int_0^t d\tau\;
+   e^{-\tau}
+   Bu(\tau)
+   =
+  \call^{-1}[
+ (sI-A)^{-1}B\TIL{u}(s)]
+  \eeq
+ 
+
 
 
 
@@ -689,6 +874,36 @@ and the LT of that
 is $\TIL{f}
 \TIL{g}$.
 
+A common question
+is how does one 
+evaluate
+convolutions in practice.
+If one can sample and remember
+the waveforms $f(\tau)$
+and $g(\tau)$
+for all $\tau\in[0,t]$,
+then it's just a matter 
+of multiplication
+and addition of samples.
+Sometimes, even if we
+have no memory resources,
+it's possible to calculate a convolution. For example,
+if $g(t)=e^{st}step_0(t)$
+
+\beqa
+(f\circledast g)(t)
+&=&
+\int_0^t d\tau\;
+f(\tau)e^{s(t-\tau)}
+\\
+&=&
+\underbrace{e^{st}}_
+{g(t)}\TIL{f}(s)
+\eeqa
+so convolving this $g(\cdot)$
+merely evaluates it at $t$
+and multiplies it
+by a constant $\TIL{f}(s)$.
 
 
 
