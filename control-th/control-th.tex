@@ -1,4 +1,4 @@
-\chapter{Control Theory (linear): COMING SOON}
+\chapter{Control Theory (linear, deterministic): COMING SOON}
 \label{ch-control-th}
 
 See Section \ref{sec-laplace-trans}
@@ -95,11 +95,13 @@ y^{[k+1]}
 \quad)
 \eeq
 
+SISO (single input single output)
 
+MIMO (multiple input multiple output)
 
-\section{Convolution boxes model}
-``classical" SISO (single input single output)
-model
+\section{Classical model (continuous)}
+
+classical model = convolution boxes
 
 \begin{figure}[h!]
 $$
@@ -351,16 +353,20 @@ K_D=KT,\; K=\frac{K}{T}
 \quad \text{(output/input)}
 \eeq
 
-\section{Time derivative boxes model }
 
 
 
 
 
-modern (instead of classical)
+\section{Modern model (continuous) }
 
-MIMO (multiple input multiple output) model
-(instead of SISO)
+
+
+Modern CT model = state space model
+
+
+
+
 
 state variable $x(t)$
 
@@ -470,11 +476,33 @@ the {\bf linear} case.
  \right.
  \eeq
  
- Henceforth, assume the
+ If the 
   matrices  $A(t)$ and $B(t)$
-  are independent 
-  of time $t$. 
-  This is called the {\bf time invariant} case. Then
+  depend (resp., are independent)
+  of time $t$,
+  we say the system
+  is {\bf time variant}
+  (resp., {\bf time invariant}).
+  We will solve the 
+  differential
+  equation for
+  $x(t)$,
+  for both the time invariant and variant cases.
+  
+  \begin{itemize} 
+  \item time invariant case
+  
+
+  
+  \beq
+   \left\{
+   \begin{array}{l}
+ s\TIL{x}(s)-x(0)=A\TIL{x}(s) + B\TIL{u}(s)
+   \\
+   \TIL{y}(s)=C\TIL{x}(s)+ D\TIL{u}(s)
+   \end{array}
+   \right.
+   \eeq
  
  \beq
  \left\{
@@ -486,29 +514,32 @@ the {\bf linear} case.
  \end{array}
  \right.
  \eeq
- Assuming $x(0)=0$,
+
+  
+ \beq
+ \underbrace{\TIL{y}(s)}_{output}=
+ \TIL{H}_{y|u}(s)
+ \underbrace{\TIL{u}(s)}_{input}
+ \eeq
  
-   
- \beqa
- \TIL{H}_{y|u}(s) &=&
- \frac{\TIL{y}(s)}{\TIL{u}(s)}
- \quad \text{(output/input)}
- \\
- &=&
+  Assuming $x(0)=0$,
+  
+ \beq
+ \TIL{H}_{y|u}(s) =
  C(sI-A)^{-1}B
  +D
- \eeqa
+ \eeq
   
  
  \begin{claim}
-  
  \beq
- x(t)=e^{At}x(0)
+ x(t)=e^{A(t-t_0)}x(t_0)
  +
- e^{At}
- \int_0^t d\tau\;
- e^{-A\tau}
+ e^{A(t-t_0)}
+ \int_{t_0}^{t} d\tau\;
+ e^{-A(\tau-t_0)}
  Bu(\tau)
+ \label{eq-state-space-sol}
  \eeq
  where
  
@@ -516,7 +547,7 @@ the {\bf linear} case.
  e^{At}= \sum_{k=0}^\infty
  \frac{t^k}{k!}A^k
  \eeq
- Hence,
+ Hence, setting $t\geq t_0=0$,
  \beq
   e^{At}=
   \call^{-1}[(sI-A)^{-1}]
@@ -534,9 +565,332 @@ the {\bf linear} case.
    
  \end{claim}
  \proof
+ To check Eq.(\ref{eq-state-space-sol}),
+ just take the time derivative
+ of both sides and 
+ use $\partial_t\int^t d\tau\; f(\tau)= 
+ f(t)$
  \qed
-  \section{CT/ODE
- relationship}
+ 
+ \item time variant case
+ 
+ \begin{claim}
+ 
+ \beq
+ x(t)=
+ \cale(t,t{_0})x(t_0)
+ +
+ \int_{t_0}^t
+ d\tau\;
+ \cale(t,\tau)
+ B(\tau)u(\tau)
+ \label{eq-time-var-sol}
+ \eeq
+ where
+ the {\bf transition matrix
+ (a.k.a. evolution matrix)} $\cale(t, t_0)$
+ satisfies
+ 
+ \beq
+ \partial_t 
+ \cale(t, t_0) = A(t)
+ \eeq
+and
+
+\beq
+\cale(t,t)=1
+\eeq
+
+ \end{claim}
+ \proof 
+ To prove Eq.(\ref{eq-time-var-sol}),
+ just differentiate both sides of it
+ with respect to $t$,
+ and use $\partial_t\int^td\tau\; f(\tau) = f(t)$
+ \qed
+ 
+ In the time invariant case,
+ 
+ \beq 
+ \cale(t,t_0)=e^{A(t-t_0)}
+ \eeq
+ 
+ 
+ 
+ \end{itemize}
+ 
+ \section{Classical model (discrete)}
+ 
+ \beq
+ \left\{
+ \begin{array}{l}
+ f^{[n]} = (F\circledast  y)^{[n]}
+ \\
+ e^{[n]}= r^{[n]} - f^{[n]}
+ \\
+ u^{[n]} = (C\circledast  e)^{[n]}
+ \\
+ y^{[n]} = (\Pi\circledast  u)^{[n]}
+ \end{array}
+ \right.
+ \eeq
+ 
+ 
+ \beq
+ \left\{
+ \begin{array}{l}
+ \TIL{f}(z) =\TIL{F}(z)\TIL{y}(z)
+ \\
+ \TIL{e}(z)= \TIL{r}(z) - \TIL{f}(z)
+ \\
+ \TIL{u}(z) = \TIL{C}(z)\TIL{e}(z)
+ \\
+ \TIL{y}(z) = \TIL{\Pi}(z)\TIL{u}(z)
+ \end{array}
+ \right.
+ \eeq
+ 
+ 
+ 
+ \section{Modern model (discrete)}
+ 
+ \subsection{Discretizing continuous case}
+ 
+ \beq
+ \left\{
+ \begin{array}{l}
+ \partial_t x(t) = A x(t) + B u(t)
+ \\
+ y(t) = C x(t) + D u(t)
+ \end{array}
+ \right.
+ \eeq
+ 
+ 
+  
+ 
+ \beq
+ \partial_t x(t)=
+ \lim_{\Delta t\rarrow 0}
+ \frac{x(t+\Delta t)-x(t)}{\Delta t}
+ \eeq
+ 
+ \beq
+ \left\{
+ \begin{array}{l}
+ x(t+\Delta t) = (1 +\Delta t A) x(t) + B u(t)
+ \\
+ y(t) = C x(t) + D u(t)
+ \end{array}
+ \right.
+ \eeq
+ 
+ \beq
+ \HAT{A} = 
+ e^{A\Delta t}\approx 1+\Delta t A,
+ \eeq
+ 
+ \beq
+ \Delta t = T,
+ \quad t = nT
+ \eeq
+ 
+ \beq
+ x(t) = x(nT) = x^{[n]},
+ \quad u(t) = u(nT)= u^{[n]}
+ \eeq 
+ 
+ \beq
+ \left\{
+ \begin{array}{l}
+ x^{[n+1]} = 
+ \HAT{A} x^{[n]} + B u^{[n]}
+ \\
+ y^{[n]} = C x^{[n]} + D u^{[n]}
+ \end{array}
+ \right.
+ \eeq
+ 
+ Setting
+ $t=t_0+T$ in 
+  Eq.(\ref{eq-state-space-sol})
+ 
+ \begin{align}
+  x(t_0+T)&=
+  e^{AT}x(t_0)
+  +
+  e^{AT}
+  \int_{t_0}^{t_0+T} d\tau\;
+  e^{-A(\tau-t_0)}
+  Bu(\tau)
+  \\
+  &=
+   e^{AT}x(t_0)
+   +
+   e^{AT}
+   \int_{0}^{T} d\tau\;
+   e^{-A\tau}
+   Bu(\tau+t_0)
+   \quad\text{(substitute $\tau\rarrow 
+   \tau+t_0$)}
+  \end{align}
+  
+  \beq
+  t_0=nT
+  \eeq
+  
+  \beq
+   u(\tau + t)\approx u(t)
+  \quad\text{for $\tau\in [0, T]$}
+  \eeq
+  
+  \beq
+  x^{[n+1]}=
+  \underbrace{e^{AT}}_{\HAT{A}}
+  x^{[n]}
+    +
+    \underbrace{
+    e^{AT}
+    \left[
+    \int_{0}^{T} d\tau\;
+    e^{-A\tau}
+    \right]
+    B}_{\HAT{B}}
+    \;u^{[n]}
+ \eeq
+ 
+ \beq
+ \HAT{A}=e^{AT}
+ \eeq
+ 
+ \beqa
+ \HAT{B}
+ &=&
+ e^{AT}
+    \left[
+    \int_{0}^{T} d\tau\;
+    e^{-A\tau}
+    \right]
+    B
+ \\
+ &=&
+ e^{AT}(-A)^{-1}(e^{-AT}-I)B
+ \\
+ &=&
+ A^{-1}
+ (\HAT{A}-1)B
+ \eeqa
+ When $T<<1$,
+ $\HAT{A}-1\approx A$
+ so $A^{-1}
+ (\HAT{A}-1)B\approx B$.
+ 
+ \subsection{Solving Difference Equation}
+ 
+ \begin{itemize}
+ \item time invariant case
+ 
+ \beqa
+ x^{[n+1]} &=& \HAT{A}x^{[n]}+\HAT{B}u^{[n]}
+ \eeqa
+ 
+ \beqa
+  x^{[1]} &=& \HAT{A}x^{[0]}+
+  \HAT{B}u^{[0]}
+  \eeqa
+  
+\beqa
+x^{[2]}&=& \HAT{A}x^{[1]}
++\HAT{B}u^{[1]}
+\\
+&=&
+\HAT{A}^2 x^{[0]}
++\HAT{A}\HAT{B}u^{[0]}
+++\HAT{B}u^{[1]}
+\eeqa
+ 
+ \beqa
+ x^{[2]}&=&\HAT{A}x^{[2]}+ \HAT{B}u^{[2]}
+ \\
+ &=&
+ \HAT{A}^3 x^{[0]}
+ + \HAT{A}^2 \HAT{B}u^{[0]}
+ + \HAT{A}\HAT{B} u^{[1]}
+ + \HAT{B} u^{[2]}
+ \eeqa
+ 
+ \beq
+ x^{[n]}=
+ \HAT{A}^n x^{[n_0]}
+ +\sum_{k=0}^{n-1}
+ \HAT{A}^{n-k-1}
+ \HAT{B} u^{[k]}
+\eeq
+
+\beq
+z(\TIL{x}(z) - x^{[0]})
+= \HAT{A}\TIL{x}(z) + \HAT{B}\TIL{u}(z)
+\eeq
+
+\beq
+\left\{
+\begin{array}{l}
+\TIL{x}(z) = (zI -\HAT{A})^{-1}z x^{[0]}
++
+(zI -\HAT{A})^{-1}\HAT{B}\TIL{u}(z)
+\\
+\TIL{y}(z)= C\TIL{x}(z) + D\TIL{u}(z)
+\end{array}
+\right.
+\eeq
+Transfer matrix $\TIL{H}_{y|u}(z)$. Assuming $x^{[0]}=0$, 
+
+\beq
+\TIL{y}(z)=
+\underbrace{
+\left(
+\HAT{C}(zI-\HAT{A})^{-1}\HAT{B}
++\HAT{D}
+\right)}_{\TIL{H}_{y|u}(z)}
+\TIL{u}(z)
+\eeq
+
+
+ 
+ \item time variant case
+ 
+  \beq
+  x^{[n]}=
+  \cale^{[n,n_0]}x^{[n_0]}
+  +\sum_{k=0}^{n-1}
+  \cale^{[n, k+1]}
+  B^{[k]} u^{[k]}
+ \eeq
+ 
+ \beq
+ \cale^{[n+1, n_0]}=\HAT{A}^{[n]}
+ \cale^{[n,n_0]}
+ \eeq
+ 
+ \beq
+ \cale^{[n_0, n_0]} = I
+ \eeq
+ 
+ \beqa
+ \cale^{[n,n_0]}&=&
+ \HAT{A}^{[n-1]}\HAT{A}^{[n-2]}
+ \HAT{A}^{[n-3]}\cdots \HAT{A}^{[n_0]}
+ \\
+ &=&
+ \prod_{k\in \ZZ^{[1, n-n_0]}}\HAT{A}^{[n-k]}
+ \eeqa
+ 
+ \end{itemize}
+ 
+ 
+  \section{Higher than first order differential (or difference) equations}
+  
+  \subsection{Differential Equations}
  Let
  \beq
  \Omega = \partial_t^3
@@ -632,183 +986,71 @@ memory from one slice to the previous
 slice instead of to the
 previous 3 slices.
 
-\section{Time derivatives boxes model (discrete version)}
+\subsection{Difference Equations}
 
 \beq
-\left\{
-\begin{array}{l}
-\partial_t x(t) = A x(t) + B u(t)
+\underbrace{y^{[n+3]}}_{x_3^{[n+1]}}
++ a_2 \underbrace{y^{[n+2]}}_{x_2^{[n]}}
++ a_1 \underbrace{y^{[n+1]}}_{x_1^{[n]}}
++ a_0 \underbrace{y^{[n]}}_{x_0^{[n]}}
+=
+u^{[n]}
+\eeq
+
+\beq
+x^{[n]}=
+\left[
+\begin{array}{c}
+x_0^{[n]}
 \\
-y(t) = C x(t) + D u(t)
+x_1^{[n]}
+\\
+x_2^{[n]}
 \end{array}
-\right.
-\eeq
-
-The solution is\footnote{Take
-the time derivative
-of this equation
-for $x(t)$
-to check that it
-indeed solves the 
-first order differential
-equation for $x(t)$.
-Recall
-$\partial_t \int_{a}^t d\tau\;f(\tau)=f(t)$.}
-\beq
- x(t)=e^{A(t-t_0)}x(t_0)
- +
- e^{A(t-t_0)}
- \int_{t_0}^t d\tau\;
- e^{-A(\tau-t_0)}
- Bu(\tau)
- \eeq
- 
-
-\beq
-\partial_t x(t)=
-\lim_{\Delta t\rarrow 0}
-\frac{x(t+\Delta t)-x(t)}{\Delta t}
+\right]
 \eeq
 
 \beq
-\left\{
-\begin{array}{l}
-x(t+\Delta t) = (1 +\Delta t A) x(t) + B u(t)
+x^{[n+1]}=
+\underbrace{\left[
+\begin{array}{ccc}
+0&1&0
 \\
-y(t) = C x(t) + D u(t)
+0&0&1
+\\
+-a_0&-a_1&-a_2
 \end{array}
-\right.
-\eeq
-
-\beq
-\HAT{A} = 
-e^{A\Delta t}\approx 1+\Delta t A,
-\eeq
-
-\beq
-\Delta t = T,
-\quad t = nT
-\eeq
-
-\beq
-x(t) = x(nT) = x^{[n]},
-\quad u(t) = u(nT)= u^{[n]}
-\eeq 
-
-\beq
-\left\{
-\begin{array}{l}
-x^{[n+1]} = 
-\HAT{A} x^{[n]} + B u^{[n]}
+\right]
+}_{A}
+x^{[n]}
++ \underbrace{\left[
+\begin{array}{c}
+0
 \\
-y^{[n]} = C x^{[n]} + D u^{[n]}
+0
+\\
+1
 \end{array}
-\right.
-\eeq
-
-\begin{align}
- x(t_0+T)&=
- e^{AT}x(t_0)
- +
- e^{AT}
- \int_{t_0}^{t_0+T} d\tau\;
- e^{-A(\tau-t_0)}
- Bu(\tau)
- \\
- &=
-  e^{AT}x(t_0)
-  +
-  e^{AT}
-  \int_{0}^{T} d\tau\;
-  e^{-A\tau}
-  Bu(\tau+t_0)
-  \quad\text{(let $\tau\rarrow 
-  \tau+t_0$)}
- \end{align}
- 
- \beq
- t_0=nT
- \eeq
- 
- \beq
-  u(\tau + t)\approx u(t)
- \quad\text{for $\tau\in [0, T]$}
- \eeq
- 
- \beq
- x^{[n+1]}=
- \underbrace{e^{AT}}_{\HAT{A}}
- x^{[n]}
-   +
-   \underbrace{
-   e^{AT}
-   \left[
-   \int_{0}^{T} d\tau\;
-   e^{-A\tau}
-   \right]
-   B}_{\HAT{B}}
-   \;u^{[n]}
+\right]}_{B}
+u^{[n]}
 \eeq
 
 \beq
-\HAT{A}=e^{AT}
-\eeq
-
-\beqa
-\HAT{B}
-&=&
-e^{AT}
-   \left[
-   \int_{0}^{T} d\tau\;
-   e^{-A\tau}
-   \right]
-   B
-\\
-&=&
-e^{AT}(-A)^{-1}(e^{-AT}-I)B
-\\
-&=&
-A^{-1}
-(\HAT{A}-1)B
-\eeqa
-When $T<<1$,
-$\HAT{A}-1\approx A$
-so $A^{-1}
-(\HAT{A}-1)B\approx B$.
-
-
-
-
-\section{Causality} 
-
-In general,
-if $x:[0,\infty]\rarrow \CC$ is the input,
-$y:[0,\infty]\rarrow \CC$ is the output, and $h:[0,\infty]\rarrow \CC$
-is the {\bf transfer function}, 
-
-\beq
-\left\{
-\begin{array}{l}
-y(t) =\int_{0}^t d\tau\; h(t-\tau)x(\tau)=
-(h\circledast x)(t)
-\\
-\TIL{y}(s)=\TIL{h}(s)\TIL{x}(s)
+y^{[n]} = x_0^{[n]}=
+\underbrace{\left[
+\begin{array}{ccc}
+1&0&0
 \end{array}
-\right.
+\right]
+}_{C}
+x^{[n]}
 \eeq
-This result is 
-said to be causal
-because $y(t)$ does not
-depend on the future
-values of $x(\cdot)$ (i.e., on
-$x(\tau)$
-for $\tau > t$).
 
-For SISO, $h(t)$ is a scalar.
-For MIMO, it's a matrix.
- 
- 
-\section{Stability, Controlability, Observability}
+
+
+\section{Causality, Stability, Controlability, Observability}
+
+\subsection{Causality, Stability}
 
 Suppose $x(\cdot):\calt\rarrow \calx$.
  where $\calt=[0, \infty)$
@@ -820,6 +1062,9 @@ and $u(\cdot)$ bounded implies
 $y(\cdot)$ is bounded.
 
 
+\subsection{
+Controllability,
+Observability}
 $a\in\calx$ is {\bf controllable
 (resp., reachable) at time $t_0\in\calt$
 }
@@ -1316,7 +1561,7 @@ name & formula & comment \\ \hline
 \begin{tabular}{l}
  {\bf Bilateral Laplace}\\ {\bf transform (BLT)} 
  \end{tabular}& $\calb[f](s)=\int_{-\infty}^\infty dt\; e^{-st} f(t)$ & \begin{tabular}[c]{@{}l@{}}same as LT but\\ with $-\infty<t<\infty$\\ instead of $t>0$\end{tabular} \\ \hline
-{\bf Fourier transform (FT)} & $\calf[f](\omega)=\int_{-\infty}^\infty dt\; e^{-i\omega t} f(t)$ & \begin{tabular}[c]{@{}l@{}}Same as BLT but\\ with $s=i\omega\in\RR$\end{tabular} 
+{\bf Fourier transform (FT)} & $\calf[f](\omega)=\int_{-\infty}^\infty dt\; e^{-i\omega t} f(t)$ & \begin{tabular}[c]{@{}l@{}}Same as BLT but\\ with $s=i\omega\in i\RR$\end{tabular} 
 \\ \hline
 {\bf Star Transform (ST)} & $\call^*[f](s)=\sum_{n=0}^\infty  e^{-snT} f(nT)$ & \begin{tabular}[c]{@{}l@{}}Same as LT but\\ samples only\\ discrete points at
 \\ $t=nT$\end{tabular} \\ \hline
