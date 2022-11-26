@@ -1,6 +1,14 @@
 \chapter{Control Theory (linear): COMING SOON}
 \label{ch-control-th}
 
+See Section \ref{sec-laplace-trans}
+on Laplace Transforms.
+
+
+
+
+\section{Basic feedback model}
+
 \begin{figure}[h!]
 $$
 \begin{array}{ccc}
@@ -18,16 +26,16 @@ $$
 &\ar@{-}[u]
 }
 \xymatrix{
-\rvr_k\ar[d]
+\rvr^{[k]}\ar[d]
 &
-\rvr_{k+1}\ar[d]
+\rvr^{[k+1]}\ar[d]
 \\
-\rvu_k\ar[d]
-&\rvu_{k+1}\ar[d]
+\rvu^{[k]}\ar[d]
+&\rvu^{[k+1]}\ar[d]
 \\
-\rvy_k\ar[r]\ar[ur]
+\rvy^{[k]}\ar[r]\ar[ur]
 &
-\rvy_{k+1}
+\rvy^{[k+1]}
 }
 \quad\quad\quad&
 \xymatrix{
@@ -35,14 +43,14 @@ $$
 \\
 \rvu(t)\ar[d]
 \\
-\bullet
-\ar@(ur,dr)@{~>}[]^{\rvy(t)}
-\ar@{~>}@/^2pc/[u]
+\rvy(t)
+\ar@(ul,ur)@{~>}[]
+\ar@{~>}@/_2pc/[u]
 }
 \end{array}
 $$
 \caption{xx}
-\label{fig-common-factor}
+\label{fig-basic-feedback}
 \end{figure}
 
 \beq
@@ -50,13 +58,13 @@ $$
 \begin{array}{l}
 u(t) = F_1(y(t), r(t), t)
 \\
-\dot{y}(t)= F_2(y(t), u(t), t)
+\partial_t y(t)= F_2(y(t), u(t), t)
 \end{array}
 \right.
 \eeq
 
 \beq
-\dot{y}(t) \approx 
+\partial_t y(t) \approx 
 \frac{y(t+
 \Delta t)-y(t)}{\Delta t}
 \eeq
@@ -64,32 +72,34 @@ u(t) = F_1(y(t), r(t), t)
 
 
 $t_k=t$, $t_{k+1}=t + \Delta t$, $\Delta t\rarrow 0$
-also, let $f(t_k)=f_k$
+also, let $f(t_k)=f^{[k]}$
 
 \beq \color{blue}
-P(r_k) = \text{given}
+P(r^{[k]}) = \text{given}
 \eeq
 
 \beq\color{blue}
-P(u_k|y_k, r_k) = 
+P(u^{[k]}|y^{[k]}, r^{[k]}) = 
 \delta(\quad
-u_k- F_1(y_k, r_k, t_k)
+u^{[k]}- F_1(y^{[k]}, r^{[k]}, t_k)
 \quad)
 \eeq
 
 
 \beq\color{blue}
-P(y_{k+1}|y_k, u_k)
+P(y^{[k+1]}|y^{[k]}, u^{[k]})
 =
 \delta(\quad
-y_{k+1}
-- y_k -\Delta t F_2(y_k, u_k, t_k)
+y^{[k+1]}
+- y^{[k]} -\Delta t F_2(y^{[k]}, u^{[k]}, t_k)
 \quad)
 \eeq
 
 
 
-\section{classical SISO model}
+\section{Convolution boxes model}
+``classical" SISO (single input single output)
+model
 
 \begin{figure}[h!]
 $$
@@ -110,27 +120,30 @@ $$
 \\
 *+[F]{\stackrel{\rm Prossess} {\Pi}}
 \ar@{-}[r]^{y(t)}
+\ar[d]^{y(t)}
 &\ar@{-}[u]
+\\
+&
 }
 \xymatrix@C=3pc{
-\rvf_k\ar@/_1.5pc/[dd]
+\rvf^{[k]}\ar@/_1.5pc/[dd]
 &
-\rvf_{k+1}\ar@/_1.5pc/[dd]
+\rvf^{[k+1]}\ar@/_1.5pc/[dd]
 \\
-\rvr_k\ar[d]
+\rvr^{[k]}\ar[d]
 &
-\rvr_{k+1}\ar[d]
+\rvr^{[k+1]}\ar[d]
 \\
-\rve_k\ar[d]\ar[rd]
+\rve^{[k]}\ar[d]\ar[rd]
 &
-\rve_{k+1}\ar[d]
+\rve^{[k+1]}\ar[d]
 \\
-\rvu_k\ar[d]\ar[rd]
-&\rvu_{k+1}\ar[d]
+\rvu^{[k]}\ar[d]\ar[rd]
+&\rvu^{[k+1]}\ar[d]
 \\
-\rvy_k\ar[ruuuu]
+\rvy^{[k]}\ar[ruuuu]
 &
-\rvy_{k+1}
+\rvy^{[k+1]}
 }
 \quad\quad\quad&
 \xymatrix{
@@ -246,16 +259,25 @@ y(t)-\Pi[u](t)
 \TIL{\Pi}\TIL{C}\TIL{r}
 \eeq
 
-\beq
-\TIL{y}=
-\underbrace{
-\left(
-\frac{\TIL{\Pi}\TIL{C}}
-{1 + \TIL{\Pi}\TIL{C}\TIL{F}}
-\right)
-}_{\TIL{H}(s)}
-\TIL{r}
-\eeq
+
+\beqa
+\TIL{H}_{y|r}(s)
+&=&
+\frac{\TIL{y}(s)}{\TIL{r}(s)}
+\quad \text{(output/input)}
+\\
+&=&
+\frac{
+\overbrace{\TIL{\Pi}\TIL{C}}^{
+H_0=
+\TIL{H} \text{ with } F=0}
+}
+{1 + 
+\underbrace{\TIL{\Pi}\TIL{C}\TIL{F}
+}_{H_0\TIL{F}}
+}
+\eeqa
+
 
 PID (Proportional-Integral-Derivative) Controller
 
@@ -325,65 +347,69 @@ K_D=KT,\; K=\frac{K}{T}
 \eeqa
 
 \beq
-\TIL{H}(s)=1
+\TIL{H}_{y|r}(s)=1
+\quad \text{(output/input)}
 \eeq
 
-\section{MIMO}
+\section{Time derivative boxes model }
+
+
+
+
+
+modern (instead of classical)
+
+MIMO (multiple input multiple output) model
+(instead of SISO)
+
+state variable $x(t)$
+
+state variable representation
 
 
  \begin{figure}[h!]
  $$
 \begin{array}{ccc}
-\xymatrix{
-\ar[d]^{r(t)}
+\xymatrix@C=3pc@R=2pc{
+\ar[d]^{u(t)}
 \\
-*+[F]{
-\stackrel{\rm Controller}
-{F_1}}
 \ar@/_2pc/@{-}[dd]_{u(t)}
-\ar@{-}[d]^{u(t)}
-&\ar@{-}[l]
+\ar@{-}[d]^<<<{u(t)}
+&
 \\
+*+[F]{F_{AB}}
 \ar@{-}[d]^{x(t)}
-\bullet\ar@(ur,dr)@{-}[]^{F_2}
+\ar@(ul,ur)@{-}[]
 \\
-*+[F]{\stackrel{\rm Process}{F_3}
-}\ar@{-}[d]^{y(t)}
-\ar@{-}[r]^{\quad y(t)}
-&\ar@{-}[uu]
+*+[F]{F_{CD}}
+\ar[d]^{y(t)}
+&
 \\
 &
 }
 \quad\quad
 &
-\xymatrix{
-\rvr_k\ar[d]
-&
-\rvr_{k+1}\ar[d]
+\xymatrix@C=4pc{
+\rvu^{[k]}\ar@/_2pc/[dd]_D
+\ar[rd]^<<<{B}
+& \rvu^{[k+1]}\ar@/_2pc/[dd]
 \\
-\rvu_k\ar@/_2pc/[dd]
-\ar[rd]
-& \rvu_{k+1}\ar@/_2pc/[dd]
+\rvx^{[k]}\ar[d]_C\ar[r]^<<<{A}
+&\rvx^{[k+1]}\ar[d]
 \\
-\rvx_k\ar[d]\ar[r]
-&\rvx_{k+1}\ar[d]
-\\
-\rvy_k\ar[ruu]
-&\rvy_{k+1}
+\rvy^{[k]}
+&\rvy^{[k+1]}
 }
 \quad\quad\quad
 &
 \xymatrix{
-\rvr(t)\ar[d]
-\\
 \rvu(t)\ar@/_2pc/[dd]
 \ar@{~>}[d]
 \\
-\bullet\ar[d]
-\ar@(ur,dr)@{~>}[]^{\rvx(t)}
+\rvx(t)\ar[d]
+\ar@(ul,ur)@{~>}[]
 \\
 \rvy(t)
-\ar@{~>}@/_4pc/[uu]
 }
 \end{array}
 $$
@@ -391,84 +417,97 @@ $$
 \label{fig-mimo}
 \end{figure}
 
+The
+following
+equations
+called the {\bf state space equations} and $x(t)$ is called the {\bf state} 
+of the system.
 \beq
 \left\{
 \begin{array}{l}
-u(t) = F_1(y(t), r(t),t)
+\partial_t x(t)= F_{AB}(x(t), u(t), t)
 \\
-\dot{x}(t)= F_2(x(t), u(t), t)
-\\
-y(t) = F_3(x(t), u(t), t)
+y(t) = F_{CD}(x(t), u(t), t)
 \end{array}
 \right.
 \eeq
 
 
 \beq\color{blue}
-P(r_k)=\text{given}
+P(u^{[k]})=\text{given}
 \eeq
 
 \beq\color{blue}
-P(u_{k+1}|y_k, r_{k+1}, t_k))=
+P(x^{[k+1]}\cond x^{[k]}, u^{[k]})=
 \delta(\quad
-u_{k+1}-
-F_1(y_k, r_{k+1}, t_k)
+x^{[k+1]}- \Delta t F_{AB}(x^{[k]}, u^{[k]}, t_k)
 \quad)
 \eeq
 
 \beq\color{blue}
-P(x_{k+1}|x_k, u_k)=
-\delta(\quad
-x_{k+1}- \Delta t F_2(x_k, u_k, t_k)
-\quad)
-\eeq
-
-\beq\color{blue}
-P(y_{k+1}|x_k, u_k)
+P(y^{[k+1]}\cond x^{[k]}, u^{[k]})
 =
 \delta(\quad
-y_{k+1}-F_3(x_{k+1},
-u_{k+1}, t_{k+1})
+y^{[k+1]}-F_{CD}(x^{[k+1]},
+u^{[k+1]}, t_{k+1})
 \quad)
 \eeq
 
  
 
  
-
+Henceforth, assume $F_{AB}$
+and $F_{CD}$ are as follows. This is called
+the {\bf linear} case.
 
  \beq
  \left\{
  \begin{array}{l}
- F_2 = A(t)x(t) + B(t)u(t)
+ F_{AB}(x(t), u(t)) = A(t)x(t) + B(t)u(t)
  \\
- F_3 = C(t)x(t) + D(t)u(t)
+ F_{CD}(x(t), u(t)) = C(t)x(t) + D(t)u(t)
  \end{array}
  \right.
  \eeq
  
- \begin{claim}
- If the
- coefficients  $A(t)$ and $B(t)$
- are independent 
- of time $t$, then
+ Henceforth, assume the
+  matrices  $A(t)$ and $B(t)$
+  are independent 
+  of time $t$. 
+  This is called the {\bf time invariant} case. Then
+ 
  \beq
-  x(t)=
-  \call^{-1}
-  \left[
-  (sI - A)^{-1}x(0)
-  +
-  (sI-A)^{-1}B\TIL{u}(s)
-  \right]
-  \eeq
- Alternatively, 
+ \left\{
+ \begin{array}{l}
+ \TIL{x}(s) = (sI-A)^{-1} x(0)
+ + (sI-A)^{-1} B\TIL{u}(s)
+ \\
+ \TIL{y}(s)=C\TIL{x}(s)+ D\TIL{u}(s)
+ \end{array}
+ \right.
+ \eeq
+ Assuming $x(0)=0$,
+ 
+   
+ \beqa
+ \TIL{H}_{y|u}(s) &=&
+ \frac{\TIL{y}(s)}{\TIL{u}(s)}
+ \quad \text{(output/input)}
+ \\
+ &=&
+ C(sI-A)^{-1}B
+ +D
+ \eeqa
+  
+ 
+ \begin{claim}
   
  \beq
  x(t)=e^{At}x(0)
  +
  e^{At}
  \int_0^t d\tau\;
- e^{-\tau}
+ e^{-A\tau}
  Bu(\tau)
  \eeq
  where
@@ -477,30 +516,726 @@ u_{k+1}, t_{k+1})
  e^{At}= \sum_{k=0}^\infty
  \frac{t^k}{k!}A^k
  \eeq
+ Hence,
+ \beq
+  e^{At}=
+  \call^{-1}[(sI-A)^{-1}]
+  \eeq
+  
+  \beq
+  e^{At}
+    \int_0^t d\tau\;
+    e^{-\tau}
+    Bu(\tau)
+    =
+   \call^{-1}[
+  (sI-A)^{-1}B\TIL{u}(s)]
+   \eeq
+   
  \end{claim}
  \proof
  \qed
+  \section{CT/ODE
+ relationship}
+ Let
+ \beq
+ \Omega = \partial_t^3
+ + a_2\partial_t^2 + a_1\partial_t + a_0
+ \eeq
+ where $a_0, a_1, a_2$ are 
+ independent of time $t$,
+ and consider the {\bf linear,
+ constant
+ coefficients (LCC) ordinary differential
+ equation (ODE)}:
  
  \beq
- e^{At}=
- \call^{-1}[(sI-A)^{-1}]
+ \Omega y(y)= u(t)
+ \eeq
+ Assume $f(t)$ satisfies
+ 
+ \beq
+ \Omega f(t)=0
+ \eeq
+Let
+
+\beq
+\underbrace{\partial_t^3 y(t)}_{
+\partial_t x_2+\partial_t^3 f}
++ a_2\underbrace{\partial_t^2 y(t)}_{x_2
++\partial_t^2 f}
++ a_1 \underbrace{\partial_t y(t)}
+_{x_1+\partial_t f}
++ a_0 \underbrace{y(t)}_{x_0+f}
+ =u(t)
+\eeq
+
+\beq
+x(t)=
+\left[
+\begin{array}{c}
+x_0(t)
+\\
+x_1(t)
+\\
+x_2(t)
+\end{array}
+\right]
+\eeq
+Then
+
+\beq
+\partial_t x(t)=
+\underbrace{\left[
+\begin{array}{ccc}
+0&1&0
+\\
+0&0&1
+\\
+-a_0&-a_1&-a_2
+\end{array}
+\right]
+}_{A}
+x(t)
++ \underbrace{\left[
+\begin{array}{c}
+0
+\\
+0
+\\
+1
+\end{array}
+\right]}_{B}
+u(t)
+\eeq
+
+\beq
+y(t) = x_0(t) + f(t)=
+\underbrace{\left[
+\begin{array}{ccc}
+1&0&0
+\end{array}
+\right]
+}_{C}
+x(t)
++ f(t)
+\eeq
+If $\Omega u=0$, we can define $f=D u$.
+Otherwise, define $f=0$.
+
+What's going on here, from 
+a dynamical bnet perspective,
+is that we are defining the slices 
+to have enough variables 
+so that there only needs to be
+memory from one slice to the previous 
+slice instead of to the
+previous 3 slices.
+
+\section{Time derivatives boxes model (discrete version)}
+
+\beq
+\left\{
+\begin{array}{l}
+\partial_t x(t) = A x(t) + B u(t)
+\\
+y(t) = C x(t) + D u(t)
+\end{array}
+\right.
+\eeq
+
+The solution is\footnote{Take
+the time derivative
+of this equation
+for $x(t)$
+to check that it
+indeed solves the 
+first order differential
+equation for $x(t)$.
+Recall
+$\partial_t \int_{a}^t d\tau\;f(\tau)=f(t)$.}
+\beq
+ x(t)=e^{A(t-t_0)}x(t_0)
+ +
+ e^{A(t-t_0)}
+ \int_{t_0}^t d\tau\;
+ e^{-A(\tau-t_0)}
+ Bu(\tau)
+ \eeq
+ 
+
+\beq
+\partial_t x(t)=
+\lim_{\Delta t\rarrow 0}
+\frac{x(t+\Delta t)-x(t)}{\Delta t}
+\eeq
+
+\beq
+\left\{
+\begin{array}{l}
+x(t+\Delta t) = (1 +\Delta t A) x(t) + B u(t)
+\\
+y(t) = C x(t) + D u(t)
+\end{array}
+\right.
+\eeq
+
+\beq
+\HAT{A} = 
+e^{A\Delta t}\approx 1+\Delta t A,
+\eeq
+
+\beq
+\Delta t = T,
+\quad t = nT
+\eeq
+
+\beq
+x(t) = x(nT) = x^{[n]},
+\quad u(t) = u(nT)= u^{[n]}
+\eeq 
+
+\beq
+\left\{
+\begin{array}{l}
+x^{[n+1]} = 
+\HAT{A} x^{[n]} + B u^{[n]}
+\\
+y^{[n]} = C x^{[n]} + D u^{[n]}
+\end{array}
+\right.
+\eeq
+
+\begin{align}
+ x(t_0+T)&=
+ e^{AT}x(t_0)
+ +
+ e^{AT}
+ \int_{t_0}^{t_0+T} d\tau\;
+ e^{-A(\tau-t_0)}
+ Bu(\tau)
+ \\
+ &=
+  e^{AT}x(t_0)
+  +
+  e^{AT}
+  \int_{0}^{T} d\tau\;
+  e^{-A\tau}
+  Bu(\tau+t_0)
+  \quad\text{(let $\tau\rarrow 
+  \tau+t_0$)}
+ \end{align}
+ 
+ \beq
+ t_0=nT
  \eeq
  
  \beq
- e^{At}
-   \int_0^t d\tau\;
-   e^{-\tau}
-   Bu(\tau)
-   =
-  \call^{-1}[
- (sI-A)^{-1}B\TIL{u}(s)]
-  \eeq
+  u(\tau + t)\approx u(t)
+ \quad\text{for $\tau\in [0, T]$}
+ \eeq
+ 
+ \beq
+ x^{[n+1]}=
+ \underbrace{e^{AT}}_{\HAT{A}}
+ x^{[n]}
+   +
+   \underbrace{
+   e^{AT}
+   \left[
+   \int_{0}^{T} d\tau\;
+   e^{-A\tau}
+   \right]
+   B}_{\HAT{B}}
+   \;u^{[n]}
+\eeq
+
+\beq
+\HAT{A}=e^{AT}
+\eeq
+
+\beqa
+\HAT{B}
+&=&
+e^{AT}
+   \left[
+   \int_{0}^{T} d\tau\;
+   e^{-A\tau}
+   \right]
+   B
+\\
+&=&
+e^{AT}(-A)^{-1}(e^{-AT}-I)B
+\\
+&=&
+A^{-1}
+(\HAT{A}-1)B
+\eeqa
+When $T<<1$,
+$\HAT{A}-1\approx A$
+so $A^{-1}
+(\HAT{A}-1)B\approx B$.
+
+
+
+
+\section{Causality} 
+
+In general,
+if $x:[0,\infty]\rarrow \CC$ is the input,
+$y:[0,\infty]\rarrow \CC$ is the output, and $h:[0,\infty]\rarrow \CC$
+is the {\bf transfer function}, 
+
+\beq
+\left\{
+\begin{array}{l}
+y(t) =\int_{0}^t d\tau\; h(t-\tau)x(\tau)=
+(h\circledast x)(t)
+\\
+\TIL{y}(s)=\TIL{h}(s)\TIL{x}(s)
+\end{array}
+\right.
+\eeq
+This result is 
+said to be causal
+because $y(t)$ does not
+depend on the future
+values of $x(\cdot)$ (i.e., on
+$x(\tau)$
+for $\tau > t$).
+
+For SISO, $h(t)$ is a scalar.
+For MIMO, it's a matrix.
+ 
+ 
+\section{Stability, Controlability, Observability}
+
+Suppose $x(\cdot):\calt\rarrow \calx$.
+ where $\calt=[0, \infty)$
  
 
+$y(\cdot)$ is {\bf stable}
+if $x(\cdot)$ 
+and $u(\cdot)$ bounded implies
+$y(\cdot)$ is bounded.
+
+
+$a\in\calx$ is {\bf controllable
+(resp., reachable) at time $t_0\in\calt$
+}
+if there exist a time
+$t_1\in\calt$ and an input $u(\cdot)$ such that $x(t_0)=a$
+and $x(t_1)=0$ (resp., $x(t_0)=0$ and $x(t_1)=a$)
+$x(\cdot)$ is {\bf controllable 
+(resp., reachable)
+at time $t_0\in\calt$}
+if it is controllable 
+(resp., reachable)
+at time $t_0\in\calt$ for all $a\in\calx$.
+
+
+$a\in\calx$ is {\bf observable at time $t_0\in\calt$}
+if there exists a $t_1\in \calt$
+such that 
+$x(t_0)=a$
+and $a$
+can be determined from
+the values of 
+$y(t)$ for $t\in [t_0, t_1]$.
+$x(\cdot)$ is {\bf observable
+at time $t_0\in\calt$ } 
+if it is 
+observable 
+at time $t_0\in\calt$ for all $a\in \calx$.
+
+\section{Signal Flow Graph}
+See Ref.\cite{wiki-signal-flow}
+
+Fig.\ref{fig-basic-flow-graph}
+shows a simple 
+convolution boxes
+diagram and it's equivalent
+flow graph.
+Note that in going 
+from the box diagram
+to the flow graph,
+the wire labels become the node
+labels,
+and the box labels 
+become
+the arrow labels.
+Note also
+that node and arrow
+labels are all
+Laplace Transforms.
 
 
 
-\section{Laplace Transforms}
+\begin{figure}[h!]
+$$
+\begin{array}{cc}
+\xymatrix{
+\ar[d]_{\TIL{r}}^{+}
+\\
+*+[F]{\sum}
+\ar@{-}[d]_{\TIL{e}}
+&\ar@{-}[l]^{-}_{\TIL{f}}
+\\
+*+[F]{\stackrel{\rm Controller}{\TIL{C}}}
+\ar@{-}[d]_{\TIL{u}}
+&
+*+[F]{\stackrel{\rm Filter} {\TIL{F}}}
+\ar@{-}[u]\ar@{-}[d]
+&
+\\
+*+[F]{\stackrel{\rm Prossess} {\TIL{\Pi}}}
+\ar@{-}[r]^{\TIL{y}}
+\ar[d]^{\TIL{y}}
+&\ar@{-}[u]
+\\
+&
+}
+&
+\xymatrix{
+\TIL{\rvf}\ar@/_1.5pc/[dd]_{-1}
+\\
+\TIL{\rvr}\ar[d]^{+1}
+\\
+\TIL{\rve}\ar[d]_{\TIL{C}}
+\\
+\TIL{\rvu}\ar[d]_{\TIL{\Pi}}
+\\
+\TIL{\rvy}\ar@/_2pc/[uuuu]_{\TIL{F}}
+}
+\end{array}
+$$
+\caption{xx
+}
+\label{fig-basic-flow-graph}
+\end{figure}
+
+\beq
+\left\{
+\begin{array}{l}
+\TIL{\rve}=\TIL{\rvr}-\TIL{\rvf}
+\\
+\TIL{\rvu}=\TIL{C}\TIL{\rve}
+\\
+\TIL{\rvy}=\TIL{\ul{\Pi}}\TIL{\rvu}
+\\
+\TIL{\rvf}=\TIL{F}\TIL{\rvy}
+\end{array}
+\right.
+\eeq
+
+\beq
+\TIL{y} =\TIL{\Pi}\TIL{C}
+(\TIL{r}-
+\underbrace{\TIL{f}}_{\TIL{F}\TIL{y}})
+\eeq
+
+\beq
+\frac{\TIL{y}}{\TIL{r}}
+=
+\frac{\TIL{\Pi}\TIL{C}}
+{1+\TIL{\Pi}\TIL{C}\TIL{F}}
+\eeq
+
+{\bf marginalizer node}
+
+$\rvx=(x_1, x_2, x_3)$
+
+\beq\color{blue}
+P(\rvx_i=X|y)= \delta(X, x_i)
+\eeq
+
+\begin{figure}[h!]
+$$
+\begin{array}{ccc}
+\xymatrix@C=4pc{
+&\rvy_1
+\\
+\rvx\ar[ru]_>>>{\alpha_1}
+\ar[r]_>>>{\alpha_2}
+\ar[rd]_>>>{\alpha_3}
+&\rvy_2
+\\
+&\rvy_3
+}
+&
+\xymatrix@C=4pc{
+&\rvy_1
+\\
+\rvx\ar[ru]_>>>{\alpha_1}|-\circ^{\rvx_1}
+\ar[r]_>>>{\alpha_2}|-\circ^{\rvx_2}
+\ar[rd]_>>>{\alpha_3}|-\circ^{\rvx_3}
+&\rvy_2
+\\
+&\rvy_3
+}
+&
+\xymatrix@C=4pc{
+&\rvy_1
+\\
+\rvx\ar[ru]_{\alpha_1}|-<\circ
+\ar[r]_{\alpha_2}|-<\circ
+\ar[rd]_{\alpha_3}|-<\circ
+&\rvy_2
+\\
+&\rvy_3
+}
+\\
+(a)&(b)&(c)
+\end{array}
+$$
+\caption{xx}
+\label{fig-marginalizer}
+\end{figure}
+
+
+
+\begin{claim}
+Getting rid of bubbles (i.e., self feedback cycles)
+\beq
+\begin{array}{ccc}
+\xymatrix{
+\rva\ar[dr]_{\alpha}
+&
+&\rvb\ar[dl]^{\beta}
+\\
+&\rvx\ar@(ul,ur)[]^\mu
+}
+&\xymatrix{\\=}&
+\xymatrix{
+\rva\ar[dr]_{\frac{\alpha}{1-\mu}}
+&
+&\rvb\ar[dl]^{\frac{\beta}{1-\mu}}
+\\
+&\rvx
+}
+\end{array}
+\eeq
+\end{claim}
+\proof
+From the left hand diagram,
+
+\beq
+\rvx=\mu\rvx + \alpha\rva + \beta\rvb
+\eeq
+Hence, 
+\beq
+\rvx =
+\frac{\alpha}{1-\mu}\rva
++
+\frac{\beta}{1-\mu}\rvb
+\eeq
+\qed
+
+\begin{claim}
+Getting rid of 2-node  cycles
+\beq
+\begin{array}{ccc}
+\xymatrix{
+\rva\ar[d]_\alpha
+&\rvb\ar[d]^\beta
+\\
+\rvx\ar@/^1pc/[r]^\mu
+&\rvy\ar@/^1pc/[l]^\nu
+}
+&
+\xymatrix{\\=}
+&
+\xymatrix@C=6pc{
+\rva\ar[d]
+_{\frac{\alpha}{1-\mu\nu}}
+\ar[rd]
+^<<<<<{\frac{\mu\alpha}{1-\mu\nu}}
+&\rvb\ar[d]
+^{\frac{\beta}{1-\mu\nu}}
+\ar[dl]
+_<<<<<{\frac{\nu\beta}{1-\mu\nu}}
+\\
+\rvx
+&\rvy
+}
+\end{array}
+\eeq
+
+\end{claim}
+\proof
+
+\beq
+\left\{
+\begin{array}{l}
+\nu \rvy + +\alp\rva =\rvx
+\\
+\beta\rvb + \mu\rvx = \rvy
+\end{array}
+\right.
+\eeq
+
+\beq
+\left[
+\begin{array}{cc}
+-1&\nu
+\\
+\mu&-1
+\end{array}
+\right]
+\left[
+\begin{array}{c}
+\rvx
+\\
+\rvy
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c}
+-\alpha \rva
+\\
+-\beta\rvb
+\end{array}
+\right]
+\eeq
+
+\beq
+\left[
+\begin{array}{cc}
+-1&\nu
+\\
+\mu&-1
+\end{array}
+\right]^{-1}
+=
+\frac{1}{1-\mu\nu}
+\left[
+\begin{array}{cc}
+-1&-\nu
+\\
+-\mu&-1
+\end{array}
+\right]
+\eeq
+
+\beq
+\left[
+\begin{array}{c}
+\rvx
+\\
+\rvy
+\end{array}
+\right]
+=
+\frac{1}{1-\mu\nu}
+\left[
+\begin{array}{cc}
+1&\nu
+\\
+\mu&1
+\end{array}
+\right]
+\left[
+\begin{array}{c}
+\alpha\rva
+\\
+\beta\rvb
+\end{array}
+\right]
+\eeq
+
+\qed
+
+We could continue by showing
+how to eliminate cycles
+with $3, 4\ldots$ cycle nodes,
+but
+the pattern is clear.
+If there are $N$
+cycle nodes $\rvl_1, \rvl_2,\cdots, \rvl_N$,
+then
+any arrow $\rva\rarrow \rvl_{k_0}$
+in the feedback graph
+is replaced by $N$ arrows
+$\rva\rarrow \rvl_k$
+for $k=1,2, \ldots,N$
+in the non-feedback graph.
+Let $G_{cycle}$
+be the product
+of the gains in the cycle.
+If $\alpha_{k_0}$
+is the gain of arrow
+$\rva\rarrow\rvl_{k_0}$
+in the feedback graph,
+then the gain of $\rva\rarrow\rvl_k$
+in the non-feedback graph equals
+the product of the gains
+in the path  $\rva\maparrow{\alpha_{k_0}}\rvl_{k_0}\rarrow\cdots\rarrow\rvl_k$
+divided by $1-G_{cycle}$.
+
+
+
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=3in]
+{control-th/flow_graph_3eqs.png}
+\caption{xx}
+\label{fig-flow-graph-3eqs}
+\end{figure}
+
+
+\beq
+\begin{array}{l}
+\rvx_1 = (c_{11}+1)\rvx_1 + c_{12}\rvx_2 
++c_{13}\rvx_3 -\rvy_1
+\\
+\rvx_2 = c_{21}\rvx_1 + (c_{22}+1)x_2
++c_{23}\rvx_3 -\rvy_2
+\\
+\rvx_3 = c_{31}\rvx_1 + c_{32}\rvx_2
++(c_{33}+1)\rvx_3 -\rvy_3
+\end{array}
+\eeq
+
+\beq
+\left[
+\begin{array}{c}
+\rvy_1
+\\
+\rvy_2
+\\
+\rvy_3
+\end{array}
+\right]
+=
+\left[
+\begin{array}{ccc}
+c_{11}&c_{12}&c_{13}
+\\
+c_{21}&c_{22}&c_{23}
+\\
+c_{31}&c_{32}&c_{33}
+\end{array}
+\right]
+\left[
+\begin{array}{c}
+\rvx_1
+\\
+\rvx_2
+\\
+\rvx_3
+\end{array}
+\right]
+\eeq
+\beq
+y=Cx
+\eeq
+
+
+\section{Laplace transform}
+\label{sec-laplace-trans}
 
 This section
 is a watered down version
@@ -530,13 +1265,33 @@ is defined as
 \int_{0-}^\infty dt\; e^{-st} f(t)
 \label{eq-def-lap-trans}
 \eeq
+Note that the LT is a linear functional\footnote{
+A functional $\calf[f]$ is a function
+of a function $f$,
+or,
+equivalently,
+a function
+of a vector
+with possibly
+infinitely
+many components
+given by $[f(x)]_{\forall x}$.}
+
+\beq
+\call[af+bg](t)
+=
+a\TIL{f}(s)
++ b\TIL{g}(s)
+\eeq
+for $f,g:[0, \infty]\rarrow \CC$
+and $a,b\in\CC$.
 For LTs,
 we assume functions 
 $f(t)$ that
 vanish for $t<0^-$.
 They can jump
-to a finite (with a step function) or
-infinite value 
+to a finite value (with a step function) or
+an infinite value 
 (
 with a Dirac delta function) 
 at $t=0$, 
@@ -547,7 +1302,61 @@ ordinary
 differential
 equations
 with {\bf initial conditions}
-such as $x(0)=5$, $\dot{x}(0)=10$.
+such as $x(0)=5$, $\partial_t x(0)=10$.
+
+
+
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\rowcolor[HTML]{ECF4FF} 
+name & formula & comment \\ \hline
+\begin{tabular}{l}
+ {\bf Bilateral Laplace}\\ {\bf transform (BLT)} 
+ \end{tabular}& $\calb[f](s)=\int_{-\infty}^\infty dt\; e^{-st} f(t)$ & \begin{tabular}[c]{@{}l@{}}same as LT but\\ with $-\infty<t<\infty$\\ instead of $t>0$\end{tabular} \\ \hline
+{\bf Fourier transform (FT)} & $\calf[f](\omega)=\int_{-\infty}^\infty dt\; e^{-i\omega t} f(t)$ & \begin{tabular}[c]{@{}l@{}}Same as BLT but\\ with $s=i\omega\in\RR$\end{tabular} 
+\\ \hline
+{\bf Star Transform (ST)} & $\call^*[f](s)=\sum_{n=0}^\infty  e^{-snT} f(nT)$ & \begin{tabular}[c]{@{}l@{}}Same as LT but\\ samples only\\ discrete points at
+\\ $t=nT$\end{tabular} \\ \hline
+\begin{tabular}{l}
+{\bf Moment Generating}\\ 
+{\bf Function}
+\end{tabular} 
+& 
+\begin{tabular}{l}
+$E_\rvx[e^{-s\rvx}]=\int_0^\infty
+dx\;  e^{-sx} P(x)$\\
+$\av{\rvx^n} = \left[(-\partial_\rvs)^n E_\rvt[e^{-s\rvx}]\right]_{s=0}$
+\end{tabular}
+ & \begin{tabular}[c]{@{}l@{}}Same as LT but\\ 
+for probability \\ distribution
+\\
+$P:[0,\infty]\rarrow[0,1]$
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{Transforms that are akin to the Laplace transform.
+Don't be intimidated by all these
+transforms. 
+They are all 
+just 
+fancy
+dot products
+like $\vec{a}\cdot\vec{b}$.}
+\label{tab-akin-to-LT}
+\end{table}
+See Table
+\ref{tab-akin-to-LT}.
+If the function $f(t)$
+does not vanish for $t<0$,
+we can use the
+{\bf Bilateral Laplace Transform (BLT)}. 
+The BLT gives the
+{\bf Fourier transform (FT)} when 
+$s=i\omega$.
+In this section,
+we will only discuss the LT.
 
 The following
 intuition
@@ -606,22 +1415,7 @@ is valid
 in the special case of phasors.
 
 
-If the function $f(t)$
-does not vanish for $t<0$,
-we can use the
-{\bf Bi-Laplacian Transform}
-which is defined by
-\beq
-\calb[f](s)=
-\int_{-\infty}^\infty
-dt\; e^{-st} f(t)
-\eeq
-The Bi-Laplacian 
-transform gives the
-{\bf Fourier transform} when 
-$s=i\omega$.
-In this section,
-we will only discuss the LT.
+
 
 
 The {\bf Inverse
@@ -630,27 +1424,6 @@ is defined so that
 
 \beq \call^{-1}[\underbrace{\call[f]}_{\TIL{f}}](t)
 = f(t)
-\eeq
-
-
-
-If $f(t)=P(t)$
-is a probability
-distribution,
-the LT 
-is identical
-to the 
-{\bf Moment Generating function} in Probability Theory
-\beq
-\call[P](s)= E_\rvt[e^{-s\rvt}]
-\eeq
-The moments
-generating function
-can be used 
-to calculate 
-the moments of $\rvs$ as follows:
-\beq
-\av{s^n} = (-\partial_\rvs)^n E_\rvt[e^{-s\rvt}]
 \eeq
 
 Next, we 
@@ -670,17 +1443,30 @@ $f,g:[0,\infty]\rarrow \CC$
 
 $f(t)\maparrow{\call} \TIL{f}(s)$
 
-
-\begin{itemize}
-
-\item linearity
+Define {\bf Dirac delta function} by
 
 \beq
-af(t)+bg(t)
-\maparrow{\call}
-a\TIL{f}(s)
-+ b\TIL{g}(s)
+\delta(t) =\int_{-\infty}^{\infty}
+d\omega\; e^{i\omega t}
+=
+\left\{
+\begin{array}{ll}
+\infty & \text{if $t=0$}
+\\
+0 &\text{otherwise}
+\end{array}
+\right.
 \eeq
+and the
+{\bf Heaviside step function} by
+
+\beq
+step_a(t)=
+\indi(t-a>0)
+\eeq
+
+
+\begin{itemize}
 
 \item
 Dirac delta function
@@ -694,27 +1480,21 @@ e^{-sa}
 \item 
 Heaviside step function
 
-Define the
-{\bf Heaviside step function} by
 
-\beq
-step_a(t)=
-\indi(t-a>0)
-\eeq
 
 \beq
 step_a(t)
 \maparrow{\call}
 \frac{1}{s}
-e^{-sa}\quad (for Re(s)>0)
+e^{-sa}\quad \text{(for $Re(s)>0$)}
 \eeq
 
-\item rectangular impulse
+\item box
 
 \beq
 step_0(t) - step_a(t)
 \maparrow{\call} \frac{1}{s}
-(1-e^{-sa})\quad(for Re(s)>0)
+(1-e^{-sa})\quad\text{(for $Re(s)>0$)}
 \eeq
 
 \item ramp
@@ -723,7 +1503,7 @@ step_0(t) - step_a(t)
 t\;step_0(t)
 \maparrow{\call}
 \frac{1}{s^2}
-\quad(for Re(s)>0)
+\quad\text{(for $Re(s)>0$)}
 \eeq
 
 \item sine, cosine
@@ -745,7 +1525,7 @@ polynomial rise, exponential drop
 \frac{t^n}{n!}e^{-at}\;step_0(t)
 \maparrow{\call}
 \frac{1}{(s+a)^{n+1}}
-\quad(for Re(s)>-a)
+\quad\text{(for $Re(s)>-a$)}
 \eeq
 
 \item Exponential approach to steady state
@@ -754,7 +1534,7 @@ polynomial rise, exponential drop
 (1-e^{-at})step_0(t)
 \maparrow{\call}
 \frac{a}{s(s+a)}
-\quad (for Re(s)>0, Re(s)>-a)
+\quad \text{(for $Re(s)>0, Re(s)>-a$)}
 \eeq
 
 
@@ -789,28 +1569,131 @@ step_0(t)
 \partial_t^n f(0)
 \eeqa
 
-\item limits of $f(t)$
-
-
-\beqa
-\lim_{s\rarrow \infty}s\TIL{f}(s)
-&=&
-\lim_{s\rarrow \infty}s\int_0^\infty dt\; e^{-st}f(t)
-\\
-&\approx& 
-f(0^+)\lim_{s\rarrow \infty}
-\underbrace{s\int_0^\infty dt\; e^{-st}
-}_{=1}
-\\
-&=&
-f(0^+)
-\eeqa
+\item
+derivatives of $\TIL{f}(s)$
 
 \beq
-\lim_{s\rarrow 0}s\TIL{f}(s)
-= f(\infty)
+(-t)f(t)
+\maparrow{\call}
+ \partial_s
+\TIL{f}(s)
 \eeq
 
+\beq
+(-t)^kf(t)
+\maparrow{\call} (\partial_s)^k
+\TIL{f}(s)
+\eeq
+
+\item
+derivatives of $f(t)$
+
+Define
+
+\beq
+f^{\geq 1}(t)
+=f(t) - 
+f(0^+)
+\eeq
+
+
+\beq
+f^{\geq 2}(t)
+=f(t) - 
+f(0^+) - t f'(0^+)
+\eeq
+
+\beq
+\partial_t f(t)
+\maparrow{\call}
+s
+\TIL{f^{\geq 1}}(s)
+\quad \text{(a.k.a. $f(t)$ {\bf differentiator})}
+\eeq
+
+
+\beq
+(\partial_t)^2 f(t)
+\maparrow{\call}
+s^2
+\TIL{f^{\geq 2}}(s)
+\eeq
+
+\item
+integral of $f(t)$ (a.k.a. $f(t)$ 
+{\bf integrator})
+
+\beq 
+\int_0^t d\tau\; f(\tau)
+\maparrow{\call}
+\frac{1}{s}\TIL{f}(s)
+\eeq
+Note that
+
+\beqa
+\int_0^t d\tau\; f(\tau)
+&=&
+\int_{-\infty}^\infty d\tau\; f(\tau)
+step_0(\tau)step_0(t-\tau)
+\\
+&=&
+((f step_0)\circledast  step_0)(t)
+\eeqa
+
+
+\item
+integral of $\TIL{f}(s)$
+
+\beq \frac{1}{t}f(t)
+\maparrow{\call}
+\int_s^\infty d\s\; \TIL{f}(\s)
+\eeq
+
+\item shifting $\TIL{f}(s)$ (frequency shifting)
+
+
+
+\beq
+e^{at}f(t)\maparrow{\call} \TIL{f}(s-a)
+\quad\text{(for  $a>0$)}
+\eeq
+
+
+
+\item shifting $f(t)$ (time shifting).
+
+
+
+\beq
+f(t-a)\;step_a(t)\maparrow{\call}
+e^{-as}\TIL{f}(s)
+\quad\text{(for  $a>0$)}
+\eeq
+
+
+\item time scaling
+
+\beq
+f(at)
+\maparrow{\call}
+\frac{1}{a}
+\TIL{f}
+\left(\frac{s}{a}\right)
+\quad\text{(for  $a>0$)}
+\eeq
+
+\item multiplication
+
+\beq
+f(t)g(t)
+\maparrow{\call}
+\frac{1}{i2\pi}
+\lim_{T\rarrow \infty}
+\int_{c-iT}^{c+iT}
+ds'\;
+\TIL{f}(s')
+\TIL{g}(s-s')
+\eeq
 
 
 \item convolution $(f\circledast  g)(t)$
@@ -836,8 +1719,8 @@ d\tau\; f(\tau)g(t-\tau)
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=3in]
-{control-th/convolution.png}
+\includegraphics[width=2.5in]
+{conventions/convolution.png}
 \caption{Pictorial
 representation
 of the convolution
@@ -905,40 +1788,24 @@ merely evaluates it at $t$
 and multiplies it
 by a constant $\TIL{f}(s)$.
 
+\item circular convolution
 
-
-\item shifting $\TIL{f}(s)$ (frequency shifting)
-
-
+$f_T, g_T$ 
+periodic functions
+with period $T$
 
 \beq
-e^{at}f(t)\maparrow{\call} \TIL{f}(s-a)
-\quad\text{(for  $a>0$)}
+(f_T\circledast_C g_T)(t)
+=
+\int_0^Td\tau\;
+f_T(\tau)g_T(t-\tau)
 \eeq
 
-
-
-\item shifting $f(t)$ (time shifting).
-
-
-
 \beq
-f(t-a)\;step_a(t)\maparrow{\call}
-e^{-as}\TIL{f}(s)
-\quad\text{(for  $a>0$)}
-\eeq
-
-\item time scaling
-
-\beq
-f(at)
+(f_T\circledast_C g_T)(t)
 \maparrow{\call}
-\frac{1}{a}
-\TIL{f}
-\left(\frac{s}{a}\right)
-\quad\text{(for  $a>0$)}
+\TIL{f_T}(s) \TIL{g_T}(s)
 \eeq
-
 
 \item complex 
 conjugation
@@ -946,94 +1813,33 @@ conjugation
 f^*(t)\maparrow{\call}\TIL{f}^*(s^*)
 \eeq
 
-\item
-derivatives of $\TIL{f}(s)$
+\item cross correlation
 
 \beq
-(-t)f(t)
+(f,g)_{CC}=
+\int_0^\infty
+d\tau\;
+f^*(\tau)
+g(t+\tau)
+\eeq
+
+\beq
+(f,g)_{CC}
 \maparrow{\call}
- \partial_s
-\TIL{f}(s)
+\TIL{f}^*(-s^*)\TIL{g}(s)
 \eeq
 
-\beq
-(-t)^kf(t)
-\maparrow{\call} (\partial_s)^k
-\TIL{f}(s)
-\eeq
-
-\item
-derivatives of $f(t)$
-
-Define
-
-\beq
-f^{\geq 1}(t)
-=f(t) - 
-f(0^+)
-\eeq
-
-
-\beq
-f^{\geq 2}(t)
-=f(t) - 
-f(0^+) - t f'(0^+)
-\eeq
-
-\beq
-\partial_t f(t)
-\maparrow{\call}
-s
-\TIL{f^{\geq 1}}(s)
-\eeq
-
-
-\beq
-(\partial_t)^2 f(t)
-\maparrow{\call}
-s^2
-\TIL{f^{\geq 2}}(s)
-\eeq
-
-\item
-integral of $f(t)$
-
-\beq 
-\int_0^t d\tau\; f(\tau)
-\maparrow{\call}
-\frac{1}{s}\TIL{f}(s)
-\eeq
-Note that
-
-\beqa
-\int_0^t d\tau\; f(\tau)
-&=&
-\int_{-\infty}^\infty d\tau\; f(\tau)
-step_0(\tau)step_0(t-\tau)
-\\
-&=&
-((f step_0)\circledast  step_0)(t)
-\eeqa
-
-
-\item
-integral of $\TIL{f}(s)$
-
-\beq \frac{1}{t}f(t)
-\maparrow{\call}
-\int_s^\infty d\s\; \TIL{f}(\s)
-\eeq
-
-\item $f(t)$ periodic $f(t)=f(t+T)$
+\item $f_T(t)$ periodic 
+with period $T$
 
 \beq
 \cali_a^b=
 \int_a^b dt\;
-e^{-st}f(t)
+e^{-st}f_T(t)
 \eeq
 
 \beqa
-\TIL{f}(s)
+\TIL{f_T}(s)
 &=& \cali_0^T + \cali_{T}^{2T}
 +
 \cali_{2T}^{3T}+\cdots
@@ -1046,10 +1852,52 @@ e^{-st}f(t)
 \eeqa
 
 \beq
-f(t)\maparrow{\call}
+f_T(t)\maparrow{\call}
 \frac{1}{1-e^{-sT}}
 \int_0^T dt\;
-e^{-st}f(t)
+e^{-st}f_T(t)
+\eeq
+
+\item
+periodic summation
+
+\beq
+\sum_{n=0}^\infty
+f(t-nT)u_0(t-nT)
+\maparrow{\call}
+\frac{1}{1{\color{red}-}e^{-Ts}}
+\TIL{f}(s)
+\eeq
+
+\beq
+\sum_{n=0}^\infty
+{\color{red}(-1)^n}
+f(t-nT)u_0(t-nT)
+\maparrow{\call}
+\frac{1}{1{\color{red}+}e^{-Ts}}
+\TIL{f}(s)
+\eeq
+
+\item limits of $f(t)$
+
+
+\beqa
+\lim_{s\rarrow \infty}s\TIL{f}(s)
+&=&
+\lim_{s\rarrow \infty}s\int_0^\infty dt\; e^{-st}f(t)
+\\
+&\approx& 
+f(0^+)\lim_{s\rarrow \infty}
+\underbrace{s\int_0^\infty dt\; e^{-st}
+}_{=1}
+\\
+&=&
+f(0^+)
+\eeqa
+
+\beq
+\lim_{s\rarrow 0}s\TIL{f}(s)
+= f(\infty)
 \eeq
 
 \item Inverse LT
@@ -1061,7 +1909,7 @@ can be calculated
 by performing
 the
 following
-complex path integral:
+complex contour integral:
 
 \beq
 \underbrace{\call^{-1}[\TIL{f}(s)](t)}_
@@ -1099,7 +1947,522 @@ is known from LT tables. For instance,
  u_0(t)[1-e^{-t}]
 \end{align}
 
+\item {Bode, Nyquist plots}
+
+$s=\s+i\omega$
+
+{\bf Bode plot}: plot of
+$$(\log_{10}(\omega),
+|\TIL{f}(i\omega)|)$$ and,
+right below it, plot of
+$$(\log_{10}(\omega),
+phase\{\TIL{f}(i\omega)\})$$.
+
+{\bf Nyquist plot}: plot of
+$$(Re \TIL{f}(i\omega), Im \TIL{f}(i\omega))$$
+or, equivalently,
+plot of
+
+$$(|\TIL{f}(i\omega)|, phase(\TIL{f}(i\omega)))$$
+on polar graph paper.
+
+Usually, $\TIL{f}(i\omega)$
+is a gain (i.e.,  LT
+of output
+divided by LT
+of input).
+
+
+
+\beq
+\begin{array}{c|c|c|c}
+f(t)&\TIL{f}(i\omega)
+&|\TIL{f}(i\omega)|&
+phase(\TIL{f}(i\omega))
+\\ \hline\hline
+\delta(t)
+&1
+&1
+&0
+\\
+step_0(t)
+&
+\frac{1}
+{i\omega}
+&\frac{1}{|\omega|}
+&-\frac{\pi}{2}
+\\
+t\;step_0(t)
+&
+\frac{1}
+{(i\omega)^2}
+&
+\frac{1}{\omega^2}
+&
+-\pi
+\\
+\frac{t^2}{2} step_a(t)
+&
+\frac{1}
+{(i\omega)^3 }
+&
+\frac{1}{|\omega|^3}
+&
+\frac{\pi}{2}
+\end{array}
+\eeq
+
+the narrower $f(t)$ is,
+the broader $|\TIL{f}(i\omega)|$ is.
+The more 
+$f(t)$ is a high pass filter,
+the more 
+$|\TIL{f}(i\omega)|$
+is a low pass filter.
 
 
 
 \end{itemize}
+
+\section{Z-transform}
+\label{sec-z-transform}
+
+This section
+is a watered down version
+of the Wikipedia entry 
+for
+Z-transforms 
+(Ref.\cite{wiki-z-transform}), which we highly recommend.
+Before reading 
+this section,
+we recommend that the 
+reader read Section \ref{sec-laplace-trans}
+on Laplace transforms,
+as those are usually
+taught first.
+
+Suppose $x^{[n]}\in\CC$
+for all $n\in \ZZ^{\geq 0}$ ($\ZZ^{\geq 0}=$non-negative
+integers), and $z\in \CC$. Then 
+we define the {\bf Z-transform (ZT)} by
+\beq
+\calz{[x]}(z)=
+\TIL{x}(z) =
+\sum_{n=0}^\infty x^{[n]} z^{-n}
+\eeq
+Note that the ZT is a linear functional
+
+\beq
+\calz[a x^{[n]} + b y^{[n]}]=
+a \TIL{x}(z) + b\TIL{y}(z)
+\eeq
+for $x^{[n]}, y^{[n]}\in\CC$
+for all $n\in \ZZ^{\geq 0}$ non-negative
+integers, and $a,b\in\CC$.
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\rowcolor[HTML]{ECF4FF} 
+name & formula & comment \\ \hline
+\begin{tabular}{l}
+{\bf Bilateral}
+\\{\bf ZT (BZT)}
+\end{tabular} & $\TIL{x}(z)=\sum_{n=-\infty}^\infty x^{[n]} z^{-n}$ & \begin{tabular}[c]{@{}l@{}}Same as ZT but\\ with $n\in \ZZ$\\ instead of \\ $n\in\ZZ^{\geq 0}$\end{tabular} \\ \hline
+\begin{tabular}{l}
+{\bf Discrete time Fourier}\\
+{\bf transform (DTFT)}
+\end{tabular} & $\TIL{x}_{2\pi}(\omega)=\sum_{n=-\infty}^{\infty}x^{[n]}e^{-i\omega n}$ & \begin{tabular}[c]{@{}l@{}}same as BZT but \\ with $z = e^{i\omega}$\end{tabular} \\ \hline
+\begin{tabular}{l}
+{\bf Discrete Fourier}
+\\
+{\bf transform (DFT)}
+\end{tabular} & $\TIL{x}^{[k]}=\sum_{n=0}^{N-1}x^{[n]} e^{-i \frac{2\pi kn}{N}}$ & \begin{tabular}[c]{@{}l@{}}Same as  ZT but a\\finite ($N$) number of\\ $x^{[n]}$ components, and\\ with $z=e^{i\frac{2\pi k}{N}}$
+\\
+(N roots of unity\\
+on unit circle)\end{tabular} \\ \hline
+\begin{tabular}{l}
+{\bf Probability}\\
+{\bf Generating Function}
+\end{tabular} & $\TIL{P}(z)=\sum_{n=0}^{\infty}P^{[n]}
+z^n$ & \begin{tabular}[c]{@{}l@{}}same as ZT but \\ with $s\rarrow -s$
+and \\
+$P^{[n]}:\ZZ^{\geq 0} \rarrow [0,1]$
+\\
+is a discrete prob.
+\\
+distribution. If \\
+$z=e^{-T}$, get moment\\
+genetating function.
+\end{tabular} \\
+\hline
+\end{tabular}
+\caption{Transforms that are akin to the Z-transform.
+Don't be intimidated by all these
+transforms. 
+They are all 
+just 
+fancy
+dot products
+like $\vec{a}\cdot\vec{b}$.}
+\label{tab-akin-to-ZT}
+\end{table}
+See Table \ref{tab-akin-to-ZT}.
+
+
+\beq
+e^{-st}=z^{-n}
+\eeq
+
+\beq
+t=nT
+\eeq
+
+\beq
+\boxed{
+z= e^{sT}}
+\eeq
+
+\beq
+s=\s +i\omega, \quad
+z = re^{i\theta} 
+\eeq
+
+\beq
+r =e^{\s T}
+,\quad
+\theta =\omega T
+\eeq
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=5in]
+{conventions/s-z-planes.png}
+\caption{Relationship
+between the s-plane (for Laplace transform)
+and z-plane (for Z-transform.)}
+\label{fig-s-z-planes}
+\end{figure}
+
+As shown in Fig.\ref{fig-s-z-planes},
+the map
+from the s-plane (for
+Laplace transforms)
+to the z-plane (for
+Z-transforms) maps:
+
+
+left half plane $\rarrow$
+inside of the unit
+circle
+
+real axis $\rarrow$ unit circle
+
+right half plane $\rarrow$ outside
+of unit circle
+
+Discrete unit step
+\beq
+u_j^{[n]}=\indi(n\geq j)
+\eeq
+
+Kronecker delta function
+\beq
+\delta_j^{[n]} = \indi(n=j)
+\eeq
+
+
+Region of
+convergence (ROC)
+for a Z-tranform is very important
+(can't tell 
+from the transform formula alone
+without knowing the
+time series it came from). Won't list it here, but it
+can be found in Ref.\cite{wiki-z-transform}
+along with proofs.
+
+\begin{mdframed}[hidealllines=true,backgroundcolor=gray!10]
+Note: ZT  formulae
+can be checked by
+replacing
+$z=e^{sT}$
+for $0<T<<1$
+and checking that
+\beq 
+T \calz[x](e^{sT})\approx 
+\call[f](s)
+\eeq
+\end{mdframed}
+
+
+
+\begin{itemize} 
+
+\item Kronecker delta function
+
+\beq
+\delta_{n_0}^{[n]}
+\maparrow{\calz}
+z^{-n_0}
+\eeq
+
+Compare this with
+
+\beq
+\delta(t-a)
+\maparrow{\call} e^{-sa}
+\eeq
+with $a=n_0T$
+and $z=e^{sT}$.
+
+
+\item unit step
+
+\beq
+a^n u_0^{[n]}
+\maparrow{\calz}
+\frac{1}{1-az^{-1}}
+\quad \text{for $|z|>|a|$}
+\eeq
+
+
+\beq
+-a^n u_0^{[-n-1]}
+\maparrow{\calz}
+\frac{1}{1-az^{-1}}
+\quad \text{for $|z|<|a|$}
+\eeq
+
+Compare this with
+
+\beq
+step_0(t)
+\maparrow{\call}
+\frac{1}{s}
+\quad \text{\text{(for $Re(s)>0$)}}
+\eeq
+for $a=1$, $z=e^{sT}\approx 1 + sT$.
+
+
+\item ramp
+
+\beq
+n a^n u_0^{[n]}
+\maparrow{\calz}
+\frac{az^{-1}}{(1-az^{-1})^2}
+\quad \text{for $|z|>|a|$}
+\eeq
+
+
+\beq
+-n a^n u_0^{[-n-1]}
+\maparrow{\calz}
+\frac{az^{-1}}{(1-az^{-1})^2}
+\quad \text{for $|z|<|a|$}
+\eeq
+
+\item sine, cosine
+
+\beq
+a^n\sin(\omega_0n)u_0^{[n]}
+\maparrow{\calz}
+\frac{az^{-1}\sin\omega_0}
+{1-2az^{-1}\cos\omega_0 + a^2 z^{-2}}
+\eeq
+
+\beq
+a^n\cos(\omega_0n)u_0^{[n]}
+\maparrow{\calz}
+\frac{1-az^{-1}\cos\omega_0}
+{1-2az^{-1}\cos\omega_0 + a^2 z^{-2}}
+\eeq
+
+\item time expansion
+
+\beq
+x^{[n/K]}\indi(n/K\in\ZZ)
+\maparrow{\calz}
+\TIL{x}(z^K)
+\eeq
+
+\item decimation
+\beq
+x^{[Kn]}
+\maparrow{\calz}
+\frac{1}{K}
+\sum_{p=0}^{K-1}
+\TIL{x}\left(
+z^{\frac{1}{K}}
+e^{-i 2\pi \frac{p}{K}}
+\right)
+\eeq
+
+\item time delay
+
+\beq
+x^{[n-k]}u_0^{[n]}
+\maparrow{\calz}
+z^{-k}\TIL{x}(z) 
+\quad \text{(for $k>0$)}
+\eeq
+
+\item time advance
+
+\beq
+x^{[n+k]}
+\maparrow{\calz}
+z^{k}
+\left(
+\TIL{x}(z)
+-z^k\sum_{n=0}^{k-1}
+x^{[n]}z^{-n}
+\right)
+\quad \text{(for $k>0$)}
+\eeq
+
+\item first difference backwards
+
+\beq
+x^{[n]}u_0^{[n]}
+-x^{[n-1]}u_0^{[n-1]}
+\maparrow{\calz}
+(1-z^{-1})\TIL{x}(z)
+\eeq
+
+\item first difference forward
+
+\beq
+x^{[n+1]}u_0^{[n+1]}
+-x^{[n]}u_0^{[n]}
+\maparrow{\calz}
+z\left( (1-z^{-1})
+\TIL{x} -x^{[0]}
+\right)
+\eeq  
+
+\item time reversal
+
+\beq
+x^{[-n]}
+\maparrow{\calz}
+\TIL{x}(z^{-1})
+\eeq
+
+\item scaling in z-domain
+
+\beq
+a^n x^{[n]}
+\maparrow{\calz}
+\TIL{x}(a^{-1}z)
+\eeq
+
+\item complex conjugation
+
+\beq
+(x^{[n]})^*
+\maparrow{\calz} \TIL{x}^*(z^*)
+\eeq
+
+\beq
+Re(x^{[n]})
+\maparrow{\calz}
+\frac{1}{2}
+(\TIL{x}(z)+\TIL{x}^*(z^*))
+\eeq
+
+\beq
+Im(x^{[n]})
+\maparrow{\calz}
+\frac{1}{2i}
+(\TIL{x}(z)-\TIL{x}^*(z^*))
+\eeq
+
+\item $\TIL{x}(z)$ differentiation
+
+\beq
+nx^{[n]}
+\maparrow{\calz}
+-z\partial_z \TIL{x}(z)
+\eeq
+
+\item convolution
+
+\beq
+x_1^{[n]}\circledast x_2^{[n]}=
+\sum_{k=0}^nx_1^{[k]}x_2^{[n-k]}
+\eeq
+
+\beq
+x_1^{[n]}\circledast x_2^{[n]}
+\maparrow{\calz}
+\TIL{x}_1(z)\TIL{x}_2(z)
+\eeq
+
+\item cross-correlation
+
+\beq
+(x_1^{[-n]})^*\circledast x_2^{[n]}
+\maparrow{\calz}
+\TIL{x_1}^*\left(\frac{1}{z^*}\right))
+\TIL{x}_2(z)
+\eeq
+
+\item accumulation
+
+\beq
+\sum_{k=-\infty}^\infty
+x^{[k]}
+\maparrow{\calz}
+\frac{1}{1-z^{-1}}
+\TIL{x}(z)
+\eeq
+
+\item multiplication
+
+\beq
+x_1^{[n]} x_2^{[n]}
+\maparrow{\calz}
+\frac{1}{i2\pi}
+\oint_C \frac{dw}{w}\;
+\TIL{x}_1(w)
+\TIL{x}_2\left(
+{\color{red}\frac{z}{w}}
+\right)
+\eeq
+
+\item Parseval's theorem
+
+\beq
+\sum_{k=-\infty}^{\infty}
+x_1^{[n]}(x_2^{[n]})^*
+=
+\frac{1}{i2\pi}
+\oint_C \frac{dw}{w}\;
+\TIL{x}_1(w)
+\TIL{x}_2\left(
+{\color{red}
+\frac{1}{w^*}}
+\right)
+\eeq
+
+\item limits of $x^{[n]}$
+
+initial value theorem
+
+\beq
+x^{[0]}=\lim_{z\rarrow \infty}
+\TIL{x}(z)
+\eeq
+
+final value theorem
+
+\beq
+x^{[\infty]}=\lim_{z\rarrow 1}
+(z-1)\TIL{x}(z)
+\eeq
+
+\end{itemize}
+
+
