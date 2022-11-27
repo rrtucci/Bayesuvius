@@ -56,8 +56,8 @@ SISO and MIMO systems in this chapter.
 Another distinction
 commonly
 made in CT books
-is between {\bf time variant}
-and {\bf time invariant } systems.
+is between {\bf time-variant}
+and {\bf time-invariant } systems.
 We will explain what those terms
 mean later on in this chapter.
 This chapter will consider
@@ -124,7 +124,7 @@ $$
 $$
 \caption{Basic feedback model
 represented as: $(a)$ a
-box diagram, $(b)$ one
+wired-boxes diagram, $(b)$ one
 slice of a dynamical bnet 
 (see Chapter \ref{ch-dyn-bnet}),
 and $(c)$ a ``rolled" dynamical bnet
@@ -275,23 +275,35 @@ Bnets $(b)$ and $(c)$
 don't
 show all the arrows.
 In reality,
-for any arrow $a_k\rarrow b_{k+1}$ that
+for any arrow $a^{[k]}\rarrow b^{[k+1]}$ that
 points from the 
 time slice $t_k$
 to the time slice $t_{k+1}$,
 there should 
 be arrows 
-$a_{j}\rarrow b_{k+1}$
+$a^{[j]}\rarrow b^{[k+1]}$
 for $j\in\{0,1,2, \cdots, k
 \}$.
 That's because
-the classic model is defined
+the classical model is defined
 in terms of convolutions,
 and a convolution
 at time $t$ requires
 memory for all times
 between 0 and $t$.
-}
+If we take
+the Laplace transform
+of figures $(a)$ and $(c)$ (or 
+the Z-transform of figure $(b)$),
+then we get a
+Signal Flow (SF) graph. SF graphs will
+be discussed later on in this chapter.
+In SF graphs,
+the only
+inter slice arrows are between 
+adjacent slices; i.e., SF graphs have
+no arrows that 
+span more than 1 slice.}
 \label{fig-classic-model}
 \end{figure}
 A {\bf classical
@@ -674,38 +686,52 @@ F_{CD}(x(t), u(t)) = C(t)x(t) + D(t)u(t)
 for some
 matrices
 $A(t), B(t), C(t), D(t)$.
+In the linear case,
+the modern model is
+described by the following
+equations:
+
+\beq
+ \left\{
+ \begin{array}{l}
+ \partial_t x(t) = A x(t) + B u(t)
+ \\
+ y(t) = C x(t) + D u(t)
+ \end{array}
+ \right.
+ \label{eq-modern-linear-analog}
+ \eeq
+ 
+ 
 
 If the 
 matrices  $A(t), B(t), C(t), D(t)$
-depend (resp., are independent)
-of time $t$,
+depend on (resp., are independent of)
+time $t$,
 we say the system
-is {\bf time variant}
-(resp., {\bf time invariant}).
+is {\bf time-variant}
+(resp., {\bf time-invariant}).
 Next, we solve the 
 differential
 equation for
 $x(t)$,
-for both the time invariant and variant cases.
+for both the time-invariant and variant cases.
 
 \begin{itemize} 
-\item time invariant case
+\item time-invariant case
 
 
 Taking the Laplace transform
-of the first equation
-(the one with $\partial_x(t)$0
-of the system of equations 
-Eq.(\ref{eq-nonlinear-modern})
-in the linear, time invariant case,
+of the first equation of
+Eqs.(\ref{eq-modern-linear-analog}),
 we get
+
 \beq
 s\TIL{x}(s)-x(0)=A\TIL{x}(s) + B\TIL{u}(s)
 \eeq
 Hence,
-in the linear, time invariant case,
 the Laplace transform
-of Eq.(\ref{eq-nonlinear-modern})
+of Eqs.(\ref{eq-modern-linear-analog})
 is
  
  \beq
@@ -778,9 +804,10 @@ If we define the transfer function
  f(t)$
  \qed
  
- \item time variant case
+ \item time-variant case
  
  \begin{claim}
+ \label{cl-modern-time-variant}
  
  \beq
  x(t)=
@@ -815,7 +842,7 @@ and
  and use $\partial_t\int^td\tau\; f(\tau) = f(t)$
  \qed
  
- In the time invariant case,
+ In the time-invariant case,
  
  \beq 
  \cale(t,t_0)=e^{A(t-t_0)}
@@ -825,12 +852,17 @@ and
  
  \end{itemize}
  
- \section{Classical model (digital)}
+ \section{Classical model (digital)} 
+ In this section,
+ we will define
+ the classical model
+ with discrete rather
+ than continuous time.
  
  If we discretize time (i.e., 
  sample time
  at discrete times
- separayed by a time
+ separated by a time
  interval $T$),
  then 
  the equivalent 
@@ -881,40 +913,63 @@ defined in Section
  
  \section{Modern model (digital)}
  
- \subsection{Discretizing analog model}
+ In this section,
+  we will define
+  the modern model
+  with discrete rather
+  than continuous time.
+We will do this
+2 different ways. 
+First, we will 
+approximate the time derivates
+in a differential equation
+with a discrete approximation.
+This approach is interesting
+and instructive but
+not perfect, because
+it's an approximation.
+Second, we will define
+difference equations
+and solve them exactly.
+The second approach 
+is better for most purposes,
+because it gives exact results,
+not approximations.
  
- \beq
- \left\{
- \begin{array}{l}
- \partial_t x(t) = A x(t) + B u(t)
- \\
- y(t) = C x(t) + D u(t)
- \end{array}
- \right.
- \eeq
+ 
+ \subsection{Discretizing analog model}
  
  
   
+ Ibf we approximate
+ $\partial_t x(t)$ by
  
  \beq
  \partial_t x(t)=
  \lim_{\Delta t\rarrow 0}
  \frac{x(t+\Delta t)-x(t)}{\Delta t}
  \eeq
+ then Eqs.(\ref{eq-modern-linear-analog})
+ reduce to
  
  \beq
  \left\{
  \begin{array}{l}
- x(t+\Delta t) = (1 +\Delta t A) x(t) + B u(t)
+ x(t+\Delta t) = (1 +\Delta t A) x(t) +\Delta t B u(t)
  \\
  y(t) = C x(t) + D u(t)
  \end{array}
  \right.
  \eeq
+ Using the new notation
  
  \beq
  \HAT{A} = 
  e^{A\Delta t}\approx 1+\Delta t A,
+ \eeq
+ 
+ \beq
+ \HAT{B}\approx \Delta t B
  \eeq
  
  \beq
@@ -926,21 +981,24 @@ defined in Section
  x(t) = x(nT) = x^{[n]},
  \quad u(t) = u(nT)= u^{[n]}
  \eeq 
+ we get
  
  \beq
  \left\{
  \begin{array}{l}
  x^{[n+1]} = 
- \HAT{A} x^{[n]} + B u^{[n]}
+ \HAT{A} x^{[n]} + \HAT{B} u^{[n]}
  \\
  y^{[n]} = C x^{[n]} + D u^{[n]}
  \end{array}
  \right.
+ \label{eq-modern-difference-eqs}
  \eeq
  
  Setting
  $t=t_0+T$ in 
-  Eq.(\ref{eq-state-space-sol})
+  Eq.(\ref{eq-state-space-sol}),
+  we get
  
  \begin{align}
   x(t_0+T)&=
@@ -961,15 +1019,18 @@ defined in Section
    \quad\text{(substitute $\tau\rarrow 
    \tau+t_0$)}
   \end{align}
+  Now setting
   
   \beq
   t_0=nT
   \eeq
+  and
   
   \beq
    u(\tau + t)\approx u(t)
   \quad\text{for $\tau\in [0, T]$}
   \eeq
+  we get
   
   \beq
   x^{[n+1]}=
@@ -985,10 +1046,12 @@ defined in Section
     B}_{\HAT{B}}
     \;u^{[n]}
  \eeq
+ where
  
  \beq
  \HAT{A}=e^{AT}
  \eeq
+ and
  
  \beqa
  \HAT{B}
@@ -1008,18 +1071,26 @@ defined in Section
  (\HAT{A}-1)B
  \eeqa
  When $T<<1$,
- $\HAT{A}-1\approx A$
+ $\HAT{A}-1\approx AT$
  so $A^{-1}
- (\HAT{A}-1)B\approx B$.
+ (\HAT{A}-1)B\approx BT$.
  
  \subsection{Solving Difference Equation}
  
  \begin{itemize}
- \item time invariant case
+ \item time-invariant case
+ 
+ Consider the following difference equation
+ taken from
+ Eqs.(\ref{eq-modern-difference-eqs})
  
  \beqa
  x^{[n+1]} &=& \HAT{A}x^{[n]}+\HAT{B}u^{[n]}
  \eeqa
+ To solve
+ this difference equation,
+ we notice that
+ 
  
  \beqa
   x^{[1]} &=& \HAT{A}x^{[0]}+
@@ -1045,6 +1116,8 @@ x^{[2]}&=& \HAT{A}x^{[1]}
  + \HAT{A}\HAT{B} u^{[1]}
  + \HAT{B} u^{[2]}
  \eeqa
+ The general pattern is clear.
+ In general,  
  
  \beq
  x^{[n]}=
@@ -1054,10 +1127,28 @@ x^{[2]}&=& \HAT{A}x^{[1]}
  \HAT{B} u^{[k]}
 \eeq
 
+It is also possible
+to solve Eqs.(\ref{eq-modern-difference-eqs})
+using Z-transforms (See Section
+\ref{sec-z-transform}).
+The Z-transform
+of the first of
+those two equations is
+
 \beq
 z(\TIL{x}(z) - x^{[0]})
 = \HAT{A}\TIL{x}(z) + \HAT{B}\TIL{u}(z)
 \eeq
+Therefore, the
+Z-transform of 
+Eqs.(\ref{eq-modern-difference-eqs}) is\footnote{Notice the
+$z$ factor multipying
+$x^{[0]}$. There 
+is no counterpart $s$
+factor
+multiplying $x(0)$
+in the analog case.
+That's because $z=e^{sT}$.}
 
 \beq
 \left\{
@@ -1070,7 +1161,8 @@ z(\TIL{x}(z) - x^{[0]})
 \end{array}
 \right.
 \eeq
-Transfer matrix $\TIL{H}_{y|u}(z)$. Assuming $x^{[0]}=0$, 
+From this
+we can get the transfer matrix $\TIL{H}_{y|u}(z)$. Assuming $x^{[0]}=0$, 
 
 \beq
 \TIL{y}(z)=
@@ -1084,8 +1176,13 @@ Transfer matrix $\TIL{H}_{y|u}(z)$. Assuming $x^{[0]}=0$,
 
 
  
- \item time variant case
+ \item time-variant case
  
+ We can also give a
+ discrete version of Claim
+ \ref{cl-modern-time-variant}
+ 
+ \begin{claim}
   \beq
   x^{[n]}=
   \cale^{[n,n_0]}x^{[n_0]}
@@ -1093,15 +1190,18 @@ Transfer matrix $\TIL{H}_{y|u}(z)$. Assuming $x^{[0]}=0$,
   \cale^{[n, k+1]}
   B^{[k]} u^{[k]}
  \eeq
+ where
  
  \beq
  \cale^{[n+1, n_0]}=\HAT{A}^{[n]}
  \cale^{[n,n_0]}
  \eeq
+ and
  
  \beq
  \cale^{[n_0, n_0]} = I
  \eeq
+ Hence
  
  \beqa
  \cale^{[n,n_0]}&=&
@@ -1111,11 +1211,62 @@ Transfer matrix $\TIL{H}_{y|u}(z)$. Assuming $x^{[0]}=0$,
  &=&
  \prod_{k\in \ZZ^{[1, n-n_0]}}\HAT{A}^{[n-k]}
  \eeqa
+ \end{claim}
+ \proof Left to reader.
+ \qed
  
  \end{itemize}
  
  
   \section{Higher than first order differential (or difference) equations}
+  
+If in the time-invariant
+analog modern model, 
+we express $x(t)$
+in terms of $y(t)$
+and $u(t)$
+
+\beq
+x(t)= C^{-1}[y(t) -Du(t)]
+\eeq
+and then we plug this into the
+equation for $\partial_t x(t)$,
+we get
+
+\beq
+\partial_t
+\left(
+\underbrace{
+ C^{-1}[y(t) -Du(t)]}_{x(t)}
+\right)
+= A \underbrace{
+ C^{-1}[y(t) -Du(t)]}_{x(t)} + Bu(t)
+\eeq
+Hence, it appears
+that this model can
+only accommodate a
+first order time derivative
+of the output $y(t)$.
+Next we give
+a transformation 
+whereby a model
+with
+$y(t)$ derivatives that are higher
+than 1st order,
+can be re-expressed
+in a form
+that only 
+has 1st order
+time derivatives.
+We will
+also give
+an analogous result for 
+the time-invariant digital modern
+model. We will show that those  
+digital models 
+can accommodate higher
+than 1st order 
+time differences.
   
   \subsection{Differential Equations}
  Let
@@ -1123,7 +1274,7 @@ Transfer matrix $\TIL{H}_{y|u}(z)$. Assuming $x^{[0]}=0$,
  \Omega = \partial_t^3
  + a_2\partial_t^2 + a_1\partial_t + a_0
  \eeq
- where $a_0, a_1, a_2$ are 
+ where $a_0, a_1, a_2\in \CC$ are 
  independent of time $t$,
  and consider the {\bf linear,
  constant
@@ -1131,7 +1282,7 @@ Transfer matrix $\TIL{H}_{y|u}(z)$. Assuming $x^{[0]}=0$,
  equation (ODE)}:
  
  \beq
- \Omega y(y)= u(t)
+ \Omega y(t)= u(t)
  \eeq
  Assume $f(t)$ satisfies
  
@@ -1214,6 +1365,7 @@ slice instead of to the
 previous 3 slices.
 
 \subsection{Difference Equations}
+Let 
 
 \beq
 \underbrace{y^{[n+3]}}_{x_3^{[n+1]}}
@@ -1223,6 +1375,7 @@ previous 3 slices.
 =
 u^{[n]}
 \eeq
+Then
 
 \beq
 x^{[n]}=
@@ -1323,16 +1476,23 @@ observable
 at time $t_0\in\calt$ for all $a\in \calx$.
 
 \section{Signal Flow Graph}
-See Ref.\cite{wiki-signal-flow}
+This section is based on Ref.\cite{wiki-signal-flow}
 
 Fig.\ref{fig-basic-flow-graph}
-shows a simple 
-convolution boxes
-diagram and it's equivalent
-flow graph.
+is 
+the Laplace transform
+of Figs.\ref{fig-classic-model} 
+$(a)$ and $(c)$.
+It shows 2
+graphical representations 
+(as a wired-boxes diagram and
+as a bnet with feedback cycles) of the
+Laplace transform of the
+classical
+model.
 Note that in going 
-from the box diagram
-to the flow graph,
+from the wired-boxes diagram
+to the bnet,
 the wire labels become the node
 labels,
 and the box labels 
@@ -1383,10 +1543,29 @@ $$
 }
 \end{array}
 $$
-\caption{xx
+\caption{This figure
+is
+the Laplace transform 
+of Figs.\ref{fig-classic-model}
+$(a)$ and
+$(c)$.
 }
 \label{fig-basic-flow-graph}
 \end{figure}
+
+Fig.\ref{fig-basic-flow-graph}
+$(c)$ is what is called a Signal
+Flow (SF) graph. According
+to Wikipedia Ref.\cite{wiki-signal-flow},
+SF graphs were invented by Shannon
+in 1942, and later 
+studied and promoted by Mason.
+
+
+
+The SF graph of Fig.\ref{fig-basic-flow-graph}
+implies the following 
+system of equations:
 
 \beq
 \left\{
@@ -1401,72 +1580,59 @@ $$
 \end{array}
 \right.
 \eeq
+From this system of
+equations,
+we find that
 
 \beq
 \TIL{y} =\TIL{\Pi}\TIL{C}
 (\TIL{r}-
 \underbrace{\TIL{f}}_{\TIL{F}\TIL{y}})
 \eeq
+Hence,
+just as we found previously, the transfer function
+$\TIL{H}_{y|r}(s)$ is given by
 
 \beq
+\TIL{H}_{y|r}(s)=
 \frac{\TIL{y}}{\TIL{r}}
 =
 \frac{\TIL{\Pi}\TIL{C}}
 {1+\TIL{\Pi}\TIL{C}\TIL{F}}
 \eeq
 
-{\bf marginalizer node}
+SF graphs are 
+the same as 
+LDEN (Linear Deterministic
+with External Noise) bnets discussed in
+Chapter \ref{ch-linear-sys},
+except for 2 important
+differences: (1) SF graphs
+have no external random nodes
+(2)
+unlike the LDEN considered in 
+Chapter \ref{ch-linear-sys},
+SF graphs can have feedback cycles.
 
-$\rvx=(x_1, x_2, x_3)$
+In SF graphs, the
+multiplicative factors
+carried by the arrows  are called 
+``gains".
 
-\beq\color{blue}
-P(\rvx_i=X|y)= \delta(X, x_i)
-\eeq
-
-\begin{figure}[h!]
-$$
-\begin{array}{ccc}
-\xymatrix@C=4pc{
-&\rvy_1
-\\
-\rvx\ar[ru]_>>>{\alpha_1}
-\ar[r]_>>>{\alpha_2}
-\ar[rd]_>>>{\alpha_3}
-&\rvy_2
-\\
-&\rvy_3
-}
-&
-\xymatrix@C=4pc{
-&\rvy_1
-\\
-\rvx\ar[ru]_>>>{\alpha_1}|-\circ^{\rvx_1}
-\ar[r]_>>>{\alpha_2}|-\circ^{\rvx_2}
-\ar[rd]_>>>{\alpha_3}|-\circ^{\rvx_3}
-&\rvy_2
-\\
-&\rvy_3
-}
-&
-\xymatrix@C=4pc{
-&\rvy_1
-\\
-\rvx\ar[ru]_{\alpha_1}|-<\circ
-\ar[r]_{\alpha_2}|-<\circ
-\ar[rd]_{\alpha_3}|-<\circ
-&\rvy_2
-\\
-&\rvy_3
-}
-\\
-(a)&(b)&(c)
-\end{array}
-$$
-\caption{xx}
-\label{fig-marginalizer}
-\end{figure}
+Next, we shall discuss
+some properties of the
+feedback cycles of SG graphs.
 
 
+
+An approach
+that I like
+is to 
+re-express
+an SF graph 
+with feedback cycles
+by one without them
+that is easier to understand.
 
 \begin{claim}
 Getting rid of bubbles (i.e., self feedback cycles)
@@ -1537,6 +1703,7 @@ _<<<<<{\frac{\nu\beta}{1-\mu\nu}}
 
 \end{claim}
 \proof
+From the left hand  diagram,
 
 \beq
 \left\{
@@ -1547,6 +1714,7 @@ _<<<<<{\frac{\nu\beta}{1-\mu\nu}}
 \end{array}
 \right.
 \eeq
+Hence,
 
 \beq
 \left[
@@ -1572,6 +1740,7 @@ _<<<<<{\frac{\nu\beta}{1-\mu\nu}}
 \end{array}
 \right]
 \eeq
+But
 
 \beq
 \left[
@@ -1591,6 +1760,7 @@ _<<<<<{\frac{\nu\beta}{1-\mu\nu}}
 \end{array}
 \right]
 \eeq
+so
 
 \beq
 \left[
@@ -1648,18 +1818,30 @@ in the path  $\rva\maparrow{\alpha_{k_0}}\rvl_{k_0}\rarrow\cdots\rarrow\rvl_k$
 divided by $1-G_{cycle}$.
 
 
-
+SG graphs 
+with feedback cycles can be
+used to represent a general
+system of $N$ linear equation
+in $N$ unknowns (i.e. $y=Cx$,
+where $C$ is
+an $N\times N$ matrix).
+Fig.\ref{fig-flow-graph-3eqs}
+shows an SF graph that
+does this for $N=3$.
 
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=3in]
 {control-th/flow_graph_3eqs.png}
-\caption{xx}
+\caption{SF graph
+that represents a general
+system of 3 linear equations 
+with 3 unknowns.}
 \label{fig-flow-graph-3eqs}
 \end{figure}
 
-
+In Fig.\ref{fig-flow-graph-3eqs},
 \beq
 \begin{array}{l}
 \rvx_1 = (c_{11}+1)\rvx_1 + c_{12}\rvx_2 
@@ -1672,6 +1854,7 @@ divided by $1-G_{cycle}$.
 +(c_{33}+1)\rvx_3 -\rvy_3
 \end{array}
 \eeq
+so
 
 \beq
 \left[
@@ -1706,6 +1889,134 @@ c_{31}&c_{32}&c_{33}
 \beq
 y=Cx
 \eeq
+Note that if 
+we get rid of the cycles
+by setting $c_{11}=c_{22}=c_{33}=-1$,
+the {\it general}
+system of 3 linear equations 
+for 3 unknowns 
+cannot be represented.
+The cycles are necessary for
+doing this.
+
+\section{Marginalizer nodes}
+Suppose we have a bnet node $\rvx$
+that has multiple components.
+For instance, suppose
+$\rvx=(\rvx_1, \rvx_2, \rvx_3)$.
+Then,
+for $i=1,2,3$, we can define 
+3 {\bf marginalizer nodes}
+with TPMs given by
+
+\beq\color{blue}
+P(\rvx_i=\xi|y)= \delta(\xi, x_i)
+\quad\text{(for $\xi\in S_{\rvx_i}$)}
+\eeq
+
+Figs.\ref{fig-marginalizer}
+and \ref{fig-marginalizer-lden}
+show 3 different
+styles of representing
+marginalizer nodes graphically.
+In this book,
+we will use style $(c)$.
+
+\begin{figure}[h!]
+$$
+\begin{array}{ccc}
+\xymatrix@C=4pc{
+&\rvy_1
+\\
+\rvx\ar[ru]
+\ar[r]
+\ar[rd]
+&\rvy_2
+\\
+&\rvy_3
+}
+&
+\xymatrix@C=4pc{
+&\rvy_1
+\\
+\rvx\ar[ru]|-\circ^{\rvx_1}
+\ar[r]|-\circ^{\rvx_2}
+\ar[rd]|-\circ^{\rvx_3}
+&\rvy_2
+\\
+&\rvy_3
+}
+&
+\xymatrix@C=4pc{
+&\rvy_1
+\\
+\rvx\ar[ru]|-<\circ
+\ar[r]|-<\circ
+\ar[rd]|-<\circ
+&\rvy_2
+\\
+&\rvy_3
+}
+\\
+(a)&(b)&(c)
+\end{array}
+$$
+\caption{3 styles
+of representing marginalizer nodes
+in an arbitrary bnet.
+This book
+will use $(c)$.}
+\label{fig-marginalizer}
+\end{figure}
+
+
+\begin{figure}[h!]
+$$
+\begin{array}{ccc}
+\xymatrix@C=4pc{
+&\rvy_1
+\\
+\rvx\ar[ru]_>>>{\alpha_1}
+\ar[r]_>>>{\alpha_2}
+\ar[rd]_>>>{\alpha_3}
+&\rvy_2
+\\
+&\rvy_3
+}
+&
+\xymatrix@C=4pc{
+&\rvy_1
+\\
+\rvx\ar[ru]_>>>{\alpha_1}|-\circ^{\rvx_1}
+\ar[r]_>>>{\alpha_2}|-\circ^{\rvx_2}
+\ar[rd]_>>>{\alpha_3}|-\circ^{\rvx_3}
+&\rvy_2
+\\
+&\rvy_3
+}
+&
+\xymatrix@C=4pc{
+&\rvy_1
+\\
+\rvx\ar[ru]_{\alpha_1}|-<\circ
+\ar[r]_{\alpha_2}|-<\circ
+\ar[rd]_{\alpha_3}|-<\circ
+&\rvy_2
+\\
+&\rvy_3
+}
+\\
+(a)&(b)&(c)
+\end{array}
+$$
+\caption{3 styles
+of representing marginalizer nodes
+in a LDEN bnet (see Chapter \ref{ch-linear-sys}).
+This book
+will use $(c)$.}
+\label{fig-marginalizer-lden}
+\end{figure}
+
 
 
 \section{Laplace transform}
@@ -2649,7 +2960,7 @@ Kronecker delta function
 
 Region of
 convergence (ROC)
-for a Z-tranform is very important
+for a Z-transform is very important
 (can't tell 
 from the transform formula alone
 without knowing the
