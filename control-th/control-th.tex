@@ -1,13 +1,82 @@
-\chapter{Control Theory (linear, deterministic): COMING SOON}
+\chapter{Control Theory (linear, deterministic)}
 \label{ch-control-th}
 
-See Section \ref{sec-laplace-trans}
-on Laplace Transforms.
+This chapter is
+based on Ref.\cite{wikibooks-control-systems}
+and \cite{wiki-signal-flow}.
 
+We will assume that
+the reader has read Section \ref{sec-laplace-trans}
+on Laplace Transforms
+and Section \ref{sec-z-transform}
+on Z-transforms.
+
+Control Theory (CT)
+studies the optimal
+control of systems
+with feedback. 
+The systems studied can
+be 
+\begin{itemize}
+\item linear or non-linear,
+\item deterministic or stochastic,
+\item continuous time (analog)
+or
+discrete time (digital).
+\end{itemize}
+This chapter will deal
+with linear deterministic
+systems of either 
+the analog or digital kind.
+
+As explained in Chapter
+\ref{ch-dyn-bnet},
+dynamical bnets and feedback
+are two ways
+of viewing the same 
+physical phenomenon.
+Also, there are numerous examples
+of dynamical bnets in this book:
+Kalman filters, Hidden Markov Models,
+Reinforcement Learning,
+Recursive Neural Nets, to name a few.
+Hence, a chapter 
+on CT is very 
+pertinent to this book.
+
+Two acronyms
+commonly 
+used in CT books
+are:
+{\bf SISO} (single input single output)
+and
+{\bf MIMO} (multiple input multiple output). We will consider both
+SISO and MIMO systems in this chapter.
+
+Another distinction
+commonly
+made in CT books
+is between {\bf time variant}
+and {\bf time invariant } systems.
+We will explain what those terms
+mean later on in this chapter.
+This chapter will consider
+both types of systems.
 
 
 
 \section{Basic feedback model}
+
+CT uses feedback to
+control
+a {\bf system or process}.
+Fig.\ref{fig-basic-feedback}
+shows a very basic
+feedback model,
+represented
+with 3 equivalent
+diagrams.
+
 
 \begin{figure}[h!]
 $$
@@ -25,6 +94,7 @@ $$
 \ar@{-}[r]^{\quad y(t)}
 &\ar@{-}[u]
 }
+&
 \xymatrix{
 \rvr^{[k]}\ar[d]
 &
@@ -37,7 +107,7 @@ $$
 &
 \rvy^{[k+1]}
 }
-\quad\quad\quad&
+&\quad\quad
 \xymatrix{
 \rvr(t)\ar[d]
 \\
@@ -47,11 +117,32 @@ $$
 \ar@(ul,ur)@{~>}[]
 \ar@{~>}@/_2pc/[u]
 }
+\\
+\\
+(a)&(b)&\quad\quad(c)
 \end{array}
 $$
-\caption{xx}
+\caption{Basic feedback model
+represented as: $(a)$ a
+box diagram, $(b)$ one
+slice of a dynamical bnet 
+(see Chapter \ref{ch-dyn-bnet}),
+and $(c)$ a ``rolled" dynamical bnet
+ with feedback cycles. 
+}
 \label{fig-basic-feedback}
 \end{figure}
+
+The diagrams of 
+Fig.\ref{fig-basic-feedback}
+represent
+graphically
+the following
+system
+of equations.
+Here $t\in[0,\infty]$
+is time and
+$u,y:[0,\infty]$.
 
 \beq
 \left\{
@@ -62,17 +153,27 @@ u(t) = F_1(y(t), r(t), t)
 \end{array}
 \right.
 \eeq
+If we approximate the 
+time derivative of $y(t)$ by
 
 \beq
 \partial_t y(t) \approx 
 \frac{y(t+
 \Delta t)-y(t)}{\Delta t}
 \eeq
+and we set
 
+$t_k=t$, $t_{k+1}=t + \Delta t$, $0< \Delta t<< 0$, 
 
+$f(t_k)=f^{[k]}$ for $f=y,u$,
+\\then we get 
+Fig.\ref{fig-basic-feedback}
 
-$t_k=t$, $t_{k+1}=t + \Delta t$, $\Delta t\rarrow 0$
-also, let $f(t_k)=f^{[k]}$
+The TPMs, 
+printed in blue,
+of the bnet
+in Fig.\ref{fig-basic-feedback},
+are as follows:
 
 \beq \color{blue}
 P(r^{[k]}) = \text{given}
@@ -95,13 +196,11 @@ y^{[k+1]}
 \quad)
 \eeq
 
-SISO (single input single output)
 
-MIMO (multiple input multiple output)
 
-\section{Classical model (continuous)}
 
-classical model = convolution boxes
+\section{Classical model (analog)}
+
 
 \begin{figure}[h!]
 $$
@@ -127,6 +226,7 @@ $$
 \\
 &
 }
+&
 \xymatrix@C=3pc{
 \rvf^{[k]}\ar@/_1.5pc/[dd]
 &
@@ -147,7 +247,7 @@ $$
 &
 \rvy^{[k+1]}
 }
-\quad\quad\quad&
+&\quad\quad
 \xymatrix{
 \rvf(t)\ar@/_1.5pc/[dd]
 \\
@@ -159,10 +259,20 @@ $$
 \\
 \rvy(t)\ar@{~>}@/_2pc/[uuuu]
 }
+\\
+\\
+(a)& (b) &\quad\quad (c)
 \end{array}
 $$
-\caption{This diagram
-doesn't
+\caption{
+Classical Model
+represented
+with
+the same 3
+types of diagrams
+as Fig.\ref{fig-basic-feedback}.
+Bnets $(b)$ and $(c)$
+don't
 show all the arrows.
 In reality,
 for any arrow $a_k\rarrow b_{k+1}$ that
@@ -175,15 +285,35 @@ $a_{j}\rarrow b_{k+1}$
 for $j\in\{0,1,2, \cdots, k
 \}$.
 That's because
-SISO is defined
+the classic model is defined
 in terms of convolutions,
 and a convolution
 at time $t$ requires
 memory for all times
 between 0 and $t$.
 }
-\label{fig-siso}
+\label{fig-classic-model}
 \end{figure}
+A {\bf classical
+model} is a bunch of
+ convolution boxes
+ connected by wires.
+ See Fig.\ref{fig-classic-model}
+ for 3
+ graphical
+ representations of
+ the classical model.
+ 
+The diagrams of 
+Fig.\ref{fig-classic-model}
+represent
+graphically
+the following
+system
+of equations.
+Here $t\in[0,\infty]$
+is time and
+$f,e,u,y:[0,\infty]\rarrow \CC$.
 
 \beq
 \left\{
@@ -197,8 +327,18 @@ u(t) = (C\circledast  e)(t)
 y(t) = (\Pi\circledast  u)(t)
 \end{array}
 \right.
+\label{eq-classic-analog}
 \eeq
+where $()f\circledast g)(t)$
+denotes a covolution,
+as defined in Section \ref{sec-laplace-trans}
+on Laplace transforms.
 
+The TPMs, 
+printed in blue,
+of the bnet
+in Fig.\ref{fig-classic-model},
+are as follows:
 
 \beq\color{blue}
 P(r(t)) = \text{given}
@@ -234,7 +374,10 @@ y(t)-\Pi[u](t)
 \eeq
 
 
-
+If we take
+the Laplace transform
+of Eqs.(\ref{eq-classic-analog},
+we get
 
 \beq
 \left\{
@@ -246,9 +389,11 @@ y(t)-\Pi[u](t)
 \TIL{u}(s) = \TIL{C}(s)\TIL{e}(s)
 \\
 \TIL{y}(s) = \TIL{\Pi}(s)\TIL{u}(s)
+\label{eq-classic-analog-lap}
 \end{array}
 \right.
 \eeq
+Thus
 
 \beq
 \TIL{y}=\TIL{\Pi}\TIL{C}[\TIL{r}-
@@ -260,7 +405,10 @@ y(t)-\Pi[u](t)
 =
 \TIL{\Pi}\TIL{C}\TIL{r}
 \eeq
-
+From this,
+we can solve for the 
+{\bf transfer or gain function}
+$\TIL{H}_{y|r}(s)$
 
 \beqa
 \TIL{H}_{y|r}(s)
@@ -280,8 +428,13 @@ H_0=
 }
 \eeqa
 
-
-PID (Proportional-Integral-Derivative) Controller
+A special
+and very common
+type of controller
+function $u(t)$
+called the 
+{\bf Proportional-Integral-Derivative (PID) Controller}
+is defined as
 
 \beq
 u(t)=
@@ -293,6 +446,9 @@ e(\tau)
 +
 K_D\partial_t e(t)
 \eeq
+The Laplace transform
+of the PID controller
+is 
 
 
 \beqa
@@ -315,19 +471,29 @@ K_\Pi + \frac{K_I}{s}
 \quad\text{(assume $e(0^+)=0$)}
 \eeqa
 
+
+\begin{claim}
+A PID controller
+has unit gain ($\TIL{H}_{y|r}(s)=1$)
+if its
+defining parameters satisfy:
+
 \beq
 K_\Pi = 2K,\;
 K_D=KT,\; K=\frac{K}{T}
 \eeq
+\end{claim}
+\proof
 
 \beq
 \TIL{\Pi}(s)= \frac{1}{K(1+sT)}
 \eeq
+and
 
 \beq
 \TIL{F}(s) = \frac{1}{1+sT}
 \eeq
-
+so
 
 
 \beqa
@@ -337,6 +503,7 @@ K_D=KT,\; K=\frac{K}{T}
 &=&
 \frac{K}{sT}\left(1 +sT\right)^2
 \eeqa
+and
 
 \beqa
 1+\TIL{\Pi}\TIL{C}\TIL{F}&=&
@@ -347,41 +514,30 @@ K_D=KT,\; K=\frac{K}{T}
 &=&
 \TIL{\Pi}\TIL{C}
 \eeqa
+Hence,
 
 \beq
 \TIL{H}_{y|r}(s)=1
 \quad \text{(output/input)}
 \eeq
+\qed
 
 
 
 
 
 
-\section{Modern model (continuous) }
-
-
-
-Modern CT model = state space model
-
-
-
-
-
-state variable $x(t)$
-
-state variable representation
+\section{Modern model (analog) }
 
 
  \begin{figure}[h!]
  $$
 \begin{array}{ccc}
-\xymatrix@C=3pc@R=2pc{
+\xymatrix@R=2pc{
 \ar[d]^{u(t)}
 \\
 \ar@/_2pc/@{-}[dd]_{u(t)}
 \ar@{-}[d]^<<<{u(t)}
-&
 \\
 *+[F]{F_{AB}}
 \ar@{-}[d]^{x(t)}
@@ -389,11 +545,9 @@ state variable representation
 \\
 *+[F]{F_{CD}}
 \ar[d]^{y(t)}
-&
 \\
 &
 }
-\quad\quad
 &
 \xymatrix@C=4pc{
 \rvu^{[k]}\ar@/_2pc/[dd]_D
@@ -406,8 +560,7 @@ state variable representation
 \rvy^{[k]}
 &\rvy^{[k+1]}
 }
-\quad\quad\quad
-&
+&\quad\quad
 \xymatrix{
 \rvu(t)\ar@/_2pc/[dd]
 \ar@{~>}[d]
@@ -417,15 +570,51 @@ state variable representation
 \\
 \rvy(t)
 }
+\\
+\\
+(a)&(b)&\quad\quad(c)
 \end{array}
 $$
-\caption{MIMO}
-\label{fig-mimo}
+\caption{Modern Model
+represented
+with
+the same 3
+types of diagrams
+as Fig.\ref{fig-basic-feedback}.}
+\label{fig-modern-model}
 \end{figure}
 
-The
-following
-equations
+A {\bf modern
+model (a.k.a. state space model)} is a bunch of
+ time dependent
+ boxes, some with 
+ first order
+ time derivatives, 
+ connected by wires.
+ See Fig.\ref{fig-modern-model}
+ for 3
+ graphical
+ representations of
+ the classical model.
+
+The diagrams of 
+Fig.\ref{fig-modern-model}
+represent
+graphically
+the following
+system
+of equations.
+Here $t\in[0,\infty]$
+is time and
+
+$u:[0, \infty]\rarrow \CC^{nu}$
+
+$x:[0, \infty]\rarrow \CC^{nx}$
+
+$y:[0, \infty]\rarrow \CC^{ny}$
+\\ for some integers $nu, nx, ny$.
+These
+equations are
 called the {\bf state space equations} and $x(t)$ is called the {\bf state} 
 of the system.
 \beq
@@ -436,7 +625,14 @@ of the system.
 y(t) = F_{CD}(x(t), u(t), t)
 \end{array}
 \right.
+\label{eq-nonlinear-modern}
 \eeq
+
+The TPMs, 
+printed in blue,
+of the bnet
+in Fig.\ref{fig-modern-model},
+are as follows:
 
 
 \beq\color{blue}
@@ -459,50 +655,58 @@ u^{[k+1]}, t_{k+1})
 \quad)
 \eeq
 
- 
 
- 
+
+
 Henceforth, assume $F_{AB}$
 and $F_{CD}$ are as follows. This is called
 the {\bf linear} case.
 
- \beq
- \left\{
- \begin{array}{l}
- F_{AB}(x(t), u(t)) = A(t)x(t) + B(t)u(t)
- \\
- F_{CD}(x(t), u(t)) = C(t)x(t) + D(t)u(t)
- \end{array}
- \right.
- \eeq
- 
- If the 
-  matrices  $A(t)$ and $B(t)$
-  depend (resp., are independent)
-  of time $t$,
-  we say the system
-  is {\bf time variant}
-  (resp., {\bf time invariant}).
-  We will solve the 
-  differential
-  equation for
-  $x(t)$,
-  for both the time invariant and variant cases.
-  
-  \begin{itemize} 
-  \item time invariant case
-  
+\beq
+\left\{
+\begin{array}{l}
+F_{AB}(x(t), u(t)) = A(t)x(t) + B(t)u(t)
+\\
+F_{CD}(x(t), u(t)) = C(t)x(t) + D(t)u(t)
+\end{array}
+\right.
+\eeq
+for some
+matrices
+$A(t), B(t), C(t), D(t)$.
 
-  
-  \beq
-   \left\{
-   \begin{array}{l}
- s\TIL{x}(s)-x(0)=A\TIL{x}(s) + B\TIL{u}(s)
-   \\
-   \TIL{y}(s)=C\TIL{x}(s)+ D\TIL{u}(s)
-   \end{array}
-   \right.
-   \eeq
+If the 
+matrices  $A(t), B(t), C(t), D(t)$
+depend (resp., are independent)
+of time $t$,
+we say the system
+is {\bf time variant}
+(resp., {\bf time invariant}).
+Next, we solve the 
+differential
+equation for
+$x(t)$,
+for both the time invariant and variant cases.
+
+\begin{itemize} 
+\item time invariant case
+
+
+Taking the Laplace transform
+of the first equation
+(the one with $\partial_x(t)$0
+of the system of equations 
+Eq.(\ref{eq-nonlinear-modern})
+in the linear, time invariant case,
+we get
+\beq
+s\TIL{x}(s)-x(0)=A\TIL{x}(s) + B\TIL{u}(s)
+\eeq
+Hence,
+in the linear, time invariant case,
+the Laplace transform
+of Eq.(\ref{eq-nonlinear-modern})
+is
  
  \beq
  \left\{
@@ -515,14 +719,16 @@ the {\bf linear} case.
  \right.
  \eeq
 
+If we define the transfer function
+ $\TIL{H}_{y|u}(s)$ by
   
  \beq
  \underbrace{\TIL{y}(s)}_{output}=
  \TIL{H}_{y|u}(s)
  \underbrace{\TIL{u}(s)}_{input}
  \eeq
- 
-  Assuming $x(0)=0$,
+ then,
+ assuming $x(0)=0$,
   
  \beq
  \TIL{H}_{y|u}(s) =
@@ -619,7 +825,17 @@ and
  
  \end{itemize}
  
- \section{Classical model (discrete)}
+ \section{Classical model (digital)}
+ 
+ If we discretize time (i.e., 
+ sample time
+ at discrete times
+ separayed by a time
+ interval $T$),
+ then 
+ the equivalent 
+ of Eqs.(\ref{eq-classic-analog})
+ is
  
  \beq
  \left\{
@@ -633,8 +849,19 @@ and
  y^{[n]} = (\Pi\circledast  u)^{[n]}
  \end{array}
  \right.
+ \label{eq-classic-digital}
  \eeq
- 
+ where $(x\circledast y)^{[n]}$
+denotes a 
+discrete convolution, as 
+defined in Section
+ \ref{sec-z-transform}
+ on Z-transforms.
+ And
+ if we take
+ the Z-transform
+ of Eqs.(\ref{eq-classic-digital}),
+ we get
  
  \beq
  \left\{
@@ -652,9 +879,9 @@ and
  
  
  
- \section{Modern model (discrete)}
+ \section{Modern model (digital)}
  
- \subsection{Discretizing continuous case}
+ \subsection{Discretizing analog model}
  
  \beq
  \left\{
@@ -1050,10 +1277,12 @@ x^{[n]}
 
 \section{Causality, Stability, Controlability, Observability}
 
+Suppose $x, u, y:\calt\rarrow \calx$.
+ where $\calt=[0, \infty)$.
+
 \subsection{Causality, Stability}
 
-Suppose $x(\cdot):\calt\rarrow \calx$.
- where $\calt=[0, \infty)$
+
  
 
 $y(\cdot)$ is {\bf stable}
