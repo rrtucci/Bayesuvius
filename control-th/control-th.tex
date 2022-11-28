@@ -1428,25 +1428,110 @@ x^{[n]}
 
 
 
-\section{Causality, Stability, Controlability, Observability}
-
-Suppose $x, u, y:\calt\rarrow \calx$.
- where $\calt=[0, \infty)$.
-
-\subsection{Causality, Stability}
-
-
- 
+\section{Causality, Stability}
 
 $y(\cdot)$ is {\bf stable}
 if $x(\cdot)$ 
 and $u(\cdot)$ bounded implies
 $y(\cdot)$ is bounded.
 
+Consider the analog time-invariant modern model.
+Suppose its transfer function is
 
-\subsection{
+\beq
+\TIL{H}_{y|u}(s)
+= K\frac{\caln(s)}{\cald(s)}
+\eeq
+where
+\beq
+\caln(s)= \prod_{a=1}^{A}(s-s_a)^{na}
+\eeq
+and
+
+\beq
+\cald(s)= \prod_{b=1}^{B}(s-s_b)^{nb}
+\eeq
+and where 
+the polynomials $\caln(s)$ and $\cald(s)$
+have no common factors. The $\{s_a\}_{\forall a}$ are
+called the {\bf zeros}
+of the transfer function,
+and the $\{s_b\}_{\forall b}$ are called the
+{\bf poles} of the transfer function.
+This model
+is 
+\begin{itemize}
+\item
+{\bf stable} if the zeros of the
+transfer function fall on the
+left half of the $s$-plane (i.e., 
+if $Re(s_b)<0$ for all $b$)
+
+\item
+{\bf marginally stable} if
+$Re(s_b)=0$ for some $b$
+and $Re(s_b)<0$
+for the others.
+Marginally stable systems
+sustain undamped oscillations.
+They may become unstable
+if perturbed.
+
+\item {\bf unstable}
+if $Re(s_b)> 0$ for some $b$.
+\end{itemize}
+
+To get an intuition for why this is so,
+look at the Inverse Laplace transform 
+of $1/(s-s_b)$:
+
+\beq
+\int_{\gamma-iT}^{\gamma+iT}ds\;
+\frac{e^{st}}{s-s_b}
+\eeq
+where $\gamma, T\in\RR$
+and $Re(s_b)< \gamma$.
+At the pole, $s=s_b=\s_b+i\omega_b$, so
+
+
+\beq
+e^{st}=e^{s_b t} = e^{\s_b t} 
+e^{i\omega_b t}
+\eeq
+As $t\rarrow \infty$, 
+the integral blows up 
+if $\s_b>0$ and
+converges if $\s_b<0$.
+As $t\rarrow \infty$, 
+integration under poles in
+the left half plane
+doesn't
+blow up
+because it is ultimately
+dampened by a decaying
+exponential.
+
+An analogous result holds for the
+digital time-invariant 
+modern model,
+except that in that case,
+the transfer function $\TIL{H}_{y|u}(z)$
+is a Z-transform (instead of a Laplace
+transform), and stability
+occurs if the poles of the transfer
+function fall inside the unit circle 
+of the z-plane (instead
+of the left half plane
+of the s-plane.)
+
+
+
+\section{
 Controllability,
 Observability}
+Suppose $x, u, y:\calt\rarrow \calx$.
+ where $\calt=[0, \infty)$.
+ 
 $a\in\calx$ is {\bf controllable
 (resp., reachable) at time $t_0\in\calt$
 }
