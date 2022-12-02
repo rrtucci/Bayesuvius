@@ -124,11 +124,16 @@ $$
 $$
 \caption{Basic feedback model
 represented as: $(a)$ a
-wired-boxes diagram, $(b)$ one
+wired time-dependent boxes diagram, $(b)$ one
 slice of a dynamical bnet 
 (see Chapter \ref{ch-dyn-bnet}),
 and $(c)$ a ``rolled" dynamical bnet
  with feedback cycles. 
+ Note that, as in Chapter \ref{ch-dyn-bnet},
+ feedback arrows that go from one time 
+ slice to the next,
+ are represented by 
+ wavy arrows.
 }
 \label{fig-basic-feedback}
 \end{figure}
@@ -142,7 +147,7 @@ system
 of equations.
 Here $t\in[0,\infty]$
 is time and
-$u,y:[0,\infty]$.
+$u,y:[0,\infty]\rarrow \CC$.
 
 \beq
 \left\{
@@ -172,7 +177,7 @@ Fig.\ref{fig-basic-feedback}
 The TPMs, 
 printed in blue,
 of the bnet
-in Fig.\ref{fig-basic-feedback},
+in Fig.\ref{fig-basic-feedback}$(b)$,
 are as follows:
 
 \beq \color{blue}
@@ -308,14 +313,16 @@ span more than 1 slice.}
 \end{figure}
 A {\bf classical
 model} is a bunch of
- convolution boxes
- connected by wires.
+ wired convolution boxes.
  See Fig.\ref{fig-classic-model}
  for 3
  graphical
  representations of
  the classical model.
  
+Let $t\in[0,\infty]$
+=time and
+$f,e,u,y:[0,\infty]\rarrow \CC$.
 The diagrams of 
 Fig.\ref{fig-classic-model}
 represent
@@ -323,9 +330,7 @@ graphically
 the following
 system
 of equations.
-Here $t\in[0,\infty]$
-is time and
-$f,e,u,y:[0,\infty]\rarrow \CC$.
+
 
 \beq
 \left\{
@@ -341,7 +346,7 @@ y(t) = (\Pi\circledast  u)(t)
 \right.
 \label{eq-classic-analog}
 \eeq
-where $()f\circledast g)(t)$
+where $(f\circledast g)(t)$
 denotes a covolution,
 as defined in Section \ref{sec-laplace-trans}
 on Laplace transforms.
@@ -432,7 +437,7 @@ $\TIL{H}_{y|r}(s)$
 \frac{
 \overbrace{\TIL{\Pi}\TIL{C}}^{
 H_0=
-\TIL{H} \text{ with } F=0}
+\lim_{F\rarrow 0}\TIL{H} }
 }
 {1 + 
 \underbrace{\TIL{\Pi}\TIL{C}\TIL{F}
@@ -441,7 +446,7 @@ H_0=
 \eeqa
 
 A special
-and very common
+and fairly common
 type of controller
 function $u(t)$
 called the 
@@ -467,7 +472,7 @@ is
 \TIL{u}(s)
 &=&
 K_\Pi\TIL{e}(s)
-+ K_I \frac{\TIL{e}}{s}
++ K_I \frac{\TIL{e}(s)}{s}
 +
 K_D (s\TIL{e}(s)-
 e(0^+))
@@ -476,7 +481,7 @@ e(0^+))
 \underbrace{
 \left(
 K_\Pi + \frac{K_I}{s}
-+ K_D s
++ K_Ds
 \right)
 }_{\TIL{C}(s)}
 \TIL{e}(s)
@@ -487,15 +492,13 @@ K_\Pi + \frac{K_I}{s}
 \begin{claim}
 A PID controller
 has unit gain ($\TIL{H}_{y|r}(s)=1$)
-if its
-defining parameters satisfy:
+if:
 
 \beq
 K_\Pi = 2K,\;
-K_D=KT,\; K=\frac{K}{T}
+K_D=KT,\; K_I=\frac{K}{T}
 \eeq
 \end{claim}
-\proof
 
 \beq
 \TIL{\Pi}(s)= \frac{1}{K(1+sT)}
@@ -505,7 +508,7 @@ and
 \beq
 \TIL{F}(s) = \frac{1}{1+sT}
 \eeq
-so
+\proof
 
 
 \beqa
@@ -515,7 +518,7 @@ so
 &=&
 \frac{K}{sT}\left(1 +sT\right)^2
 \eeqa
-and
+so
 
 \beqa
 1+\TIL{\Pi}\TIL{C}\TIL{F}&=&
@@ -530,7 +533,6 @@ Hence,
 
 \beq
 \TIL{H}_{y|r}(s)=1
-\quad \text{(output/input)}
 \eeq
 \qed
 
@@ -597,27 +599,22 @@ as Fig.\ref{fig-basic-feedback}.}
 \end{figure}
 
 A {\bf modern
-model (a.k.a. state space model)} is a bunch of
- time dependent
+model (a.k.a. state space model)} is a bunch of wired
+ time-dependent
  boxes, some with 
  first order
- time derivatives, 
- connected by wires.
+ time derivatives.
  See Fig.\ref{fig-modern-model}
  for 3
  graphical
  representations of
- the classical model.
+ the modern model.
 
-The diagrams of 
-Fig.\ref{fig-modern-model}
-represent
-graphically
-the following
-system
-of equations.
-Here $t\in[0,\infty]$
-is time and
+
+Let 
+
+$t\in[0,\infty]$
+=time 
 
 $u:[0, \infty]\rarrow \CC^{nu}$
 
@@ -625,10 +622,14 @@ $x:[0, \infty]\rarrow \CC^{nx}$
 
 $y:[0, \infty]\rarrow \CC^{ny}$
 \\ for some integers $nu, nx, ny$.
-These
-equations are
-called the {\bf state space equations} and $x(t)$ is called the {\bf state} 
-of the system.
+The diagrams of 
+Fig.\ref{fig-modern-model}
+represent
+graphically
+the following
+system
+of equations.
+
 \beq
 \left\{
 \begin{array}{l}
@@ -639,11 +640,15 @@ y(t) = F_{CD}(x(t), u(t), t)
 \right.
 \label{eq-nonlinear-modern}
 \eeq
+These
+equations are
+called the {\bf state space equations} and $x(t)$ is called the {\bf state} 
+of the system.
 
 The TPMs, 
 printed in blue,
 of the bnet
-in Fig.\ref{fig-modern-model},
+in Fig.\ref{fig-modern-model}$(b)$,
 are as follows:
 
 
@@ -654,16 +659,16 @@ P(u^{[k]})=\text{given}
 \beq\color{blue}
 P(x^{[k+1]}\cond x^{[k]}, u^{[k]})=
 \delta(\quad
-x^{[k+1]}- \Delta t F_{AB}(x^{[k]}, u^{[k]}, t_k)
+x^{[k+1]}-x^{[k]}-\Delta t F_{AB}(x^{[k]}, u^{[k]}, t_k)
 \quad)
 \eeq
 
 \beq\color{blue}
-P(y^{[k+1]}\cond x^{[k]}, u^{[k]})
+P(y^{[k]}\cond x^{[k]}, u^{[k]})
 =
 \delta(\quad
-y^{[k+1]}-F_{CD}(x^{[k+1]},
-u^{[k+1]}, t_{k+1})
+y^{[k]}-F_{CD}(x^{[k]},
+u^{[k]}, t_{k})
 \quad)
 \eeq
 
@@ -788,7 +793,7 @@ If we define the transfer function
   \beq
   e^{At}
     \int_0^t d\tau\;
-    e^{-\tau}
+    e^{-A\tau}
     Bu(\tau)
     =
    \call^{-1}[
@@ -922,15 +927,16 @@ We will do this
 2 different ways. 
 First, we will 
 approximate the time derivates
-in a differential equation
+in all differential equations
 with a discrete approximation.
 This approach is interesting
 and instructive but
 not perfect, because
 it's an approximation.
-Second, we will define
-difference equations
-and solve them exactly.
+Second, we will replace
+all differential equations by
+difference equations,
+and solve the latter exactly.
 The second approach 
 is better for most purposes,
 because it gives exact results,
@@ -941,7 +947,7 @@ not approximations.
  
  
   
- Ibf we approximate
+ If we approximate
  $\partial_t x(t)$ by
  
  \beq
@@ -1108,7 +1114,7 @@ x^{[2]}&=& \HAT{A}x^{[1]}
 \eeqa
  
  \beqa
- x^{[2]}&=&\HAT{A}x^{[2]}+ \HAT{B}u^{[2]}
+ x^{[3]}&=&\HAT{A}x^{[2]}+ \HAT{B}u^{[2]}
  \\
  &=&
  \HAT{A}^3 x^{[0]}
@@ -1121,7 +1127,7 @@ x^{[2]}&=& \HAT{A}x^{[1]}
  
  \beq
  x^{[n]}=
- \HAT{A}^n x^{[n_0]}
+ \HAT{A}^n x^{[0]}
  +\sum_{k=0}^{n-1}
  \HAT{A}^{n-k-1}
  \HAT{B} u^{[k]}
@@ -1220,8 +1226,8 @@ we can get the transfer matrix $\TIL{H}_{y|u}(z)$. Assuming $x^{[0]}=0$,
  
   \section{Higher than first order differential (or difference) equations}
   
-If in the time-invariant
-analog modern model, 
+If in the analog, time-invariant
+modern model, 
 we express $x(t)$
 in terms of $y(t)$
 and $u(t)$
@@ -1260,8 +1266,10 @@ has 1st order
 time derivatives.
 We will
 also give
-an analogous result for 
-the time-invariant digital modern
+an analogous result for the
+digital
+(instead of analog)
+ time-invariant modern
 model. We will show that those  
 digital models 
 can accommodate higher
@@ -1301,6 +1309,7 @@ _{x_1+\partial_t f}
 + a_0 \underbrace{y(t)}_{x_0+f}
  =u(t)
 \eeq
+and
 
 \beq
 x(t)=
@@ -1361,7 +1370,7 @@ is that we are defining the slices
 to have enough variables 
 so that there only needs to be
 memory from one slice to the previous 
-slice instead of to the
+slice, instead of, to the
 previous 3 slices.
 
 \subsection{Difference Equations}
@@ -1375,7 +1384,7 @@ Let
 =
 u^{[n]}
 \eeq
-Then
+and
 
 \beq
 x^{[n]}=
@@ -1389,6 +1398,7 @@ x_2^{[n]}
 \end{array}
 \right]
 \eeq
+Then
 
 \beq
 x^{[n+1]}=
@@ -1432,7 +1442,7 @@ x^{[n]}
 
 $y(\cdot)$ is {\bf stable}
 if $x(\cdot)$ 
-and $u(\cdot)$ bounded implies
+and $u(\cdot)$ are bounded implies
 $y(\cdot)$ is bounded.
 
 Consider the analog time-invariant modern model.
@@ -1533,20 +1543,23 @@ Observability}
 Suppose $x, u, y:\calt\rarrow \calx$.
  where $\calt=[0, \infty)$.
  
+ \begin{itemize}
+ \item
 $a\in\calx$ is {\bf controllable
 (resp., reachable) at time $t_0\in\calt$
 }
 if there exist a time
 $t_1\in\calt$ and an input $u(\cdot)$ such that $x(t_0)=a$
 and $x(t_1)=0$ (resp., $x(t_0)=0$ and $x(t_1)=a$)
+\item
 $x(\cdot)$ is {\bf controllable 
 (resp., reachable)
 at time $t_0\in\calt$}
-if it is controllable 
+if, for all $a\in\calx$, 
+ $a$ is controllable 
 (resp., reachable)
-at time $t_0\in\calt$ for all $a\in\calx$.
-
-
+at time $t_0\in\calt$ .
+\item
 $a\in\calx$ is {\bf observable at time $t_0\in\calt$}
 if there exists a $t_1\in \calt$
 such that 
@@ -1555,40 +1568,31 @@ and $a$
 can be determined from
 the values of 
 $y(t)$ for $t\in [t_0, t_1]$.
+\item
 $x(\cdot)$ is {\bf observable
 at time $t_0\in\calt$ } 
-if it is 
+if,
+for all $a\in \calx$, $a$ is 
 observable 
-at time $t_0\in\calt$ for all $a\in \calx$.
+at time $t_0\in\calt$.
+\end{itemize}
 
 \section{Signal Flow Graph}
 This section is based on Ref.\cite{wiki-signal-flow}
 
 Fig.\ref{fig-basic-flow-graph}
 is 
-the Laplace transform
+the Laplace transform (LT)
 of Figs.\ref{fig-classic-model} 
 $(a)$ and $(c)$.
-It shows 2
+Fig.\ref{fig-basic-flow-graph} shows 2
 graphical representations 
-(as a wired-boxes diagram and
-as a bnet with feedback cycles) of the
-Laplace transform of the
+of the
+LT of the
 classical
-model.
-Note that in going 
-from the wired-boxes diagram
-to the bnet,
-the wire labels become the node
-labels,
-and the box labels 
-become
-the arrow labels.
-Note also
-that node and arrow
-labels are all
-Laplace Transforms.
-
+model:
+$(a)$ as the LT of a wired time-dependent boxes diagram and $(c)$
+as the LT of a bnet with feedback cycles.
 
 
 \begin{figure}[h!]
@@ -1627,6 +1631,9 @@ $$
 \\
 \TIL{\rvy}\ar@/_2pc/[uuuu]_{\TIL{F}}
 }
+\\
+\\
+(a)&(c)
 \end{array}
 $$
 \caption{This figure
@@ -1645,7 +1652,7 @@ Flow (SF) graph. According
 to Wikipedia Ref.\cite{wiki-signal-flow},
 SF graphs were invented by Shannon
 in 1942, and later 
-studied and promoted by Mason.
+extended and promoted by Mason circa 1955.
 
 
 
@@ -1692,7 +1699,7 @@ the same as
 LDEN (Linear Deterministic
 with External Noise) bnets discussed in
 Chapter \ref{ch-linear-sys},
-except for 2 important
+except with 2 important
 differences: (1) SF graphs
 have no external random nodes
 (2)
