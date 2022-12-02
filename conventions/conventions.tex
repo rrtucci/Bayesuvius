@@ -4999,7 +4999,7 @@ except that
 in this case
 the index $t$ for
 their components
-is a non-countable set $[0,\infty)$.
+is an uncountable set $[0,\infty)$.
 As with all
 dot products, its maximum
 is achieved 
@@ -5026,7 +5026,7 @@ we get
 dt\; e^{-(s-s_0)t}
 \\
 &=&
-\TIL{f}(s_0)\delta(s-s_0)
+\TIL{f}(s_0)\delta_+(s-s_0)
 \eeqa
 So our intuition
 is this:
@@ -5046,29 +5046,7 @@ in the special case of phasors.
 
 
 
-
-
-
-
-Next, we 
-will list
-some of the
-many
-properties of 
-LTs.
-Henceforth,
-we will
-use the following
-notation:
-
-$a, b\in\CC$
-
-$f,g:[0,\infty]\rarrow \CC$
-
-$f(t)\maparrow{\call} \TIL{f}(s)$ means
-$\call[f](s) =\TIL{f}(s)$ 
-
-Define {\bf Dirac delta function} by
+Define the {\bf Dirac delta function} by
 
 \beq
 \delta(t) =\int_{-\infty}^{\infty}
@@ -5091,6 +5069,28 @@ step_a(t)=
 \eeq
 
 
+
+Next, we 
+will list
+some of the
+many
+properties of 
+LTs.
+Henceforth,
+we will
+use the following
+notation:
+
+$a, b\in\CC$
+
+$f,g:[0,\infty]\rarrow \CC$
+
+$f(t)\maparrow{\call} \TIL{f}(s)$ means
+$\call[f](s) =\TIL{f}(s)$ 
+
+
+
+
 \begin{itemize}
 
 \item
@@ -5111,7 +5111,7 @@ Heaviside step function
 step_a(t)
 \maparrow{\call}
 \frac{1}{s}
-e^{-sa}\quad \text{(for $Re(s)>0$)}
+e^{-sa}\quad \text{(for $Re(s)>0$, $a>0$)}
 \eeq
 
 \item box
@@ -5119,7 +5119,7 @@ e^{-sa}\quad \text{(for $Re(s)>0$)}
 \beq
 step_0(t) - step_a(t)
 \maparrow{\call} \frac{1}{s}
-(1-e^{-sa})\quad\text{(for $Re(s)>0$)}
+(1-e^{-sa})\quad\text{(for $Re(s)>0$, $a>0$)}
 \eeq
 
 \item ramp
@@ -5129,6 +5129,15 @@ t\;step_0(t)
 \maparrow{\call}
 \frac{1}{s^2}
 \quad\text{(for $Re(s)>0$)}
+\eeq
+
+\item curved ramp
+
+\beq
+\frac{t^n}{n!}u_0(t) 
+\maparrow{\call}
+\frac{1}{s^{n+1}}
+\quad \text{(for $Re(s)>0)$ and $n\geq 0$)}
 \eeq
 
 \item sine, cosine
@@ -5218,31 +5227,37 @@ Define
 \beq
 f^{\geq 1}(t)
 =f(t) - 
-f(0^+)
+f(0^+)u_0(t)
 \eeq
 
 
 \beq
 f^{\geq 2}(t)
-=f(t) - 
-f(0^+) - t f'(0^+)
+= f(t) - 
+f(0^+)u_0(t) - t f'(0^+)u_0(t)
 \eeq
 
-\beq
+\beqa
 \partial_t f(t)
-\maparrow{\call}
+&\maparrow{\call}&
 s
 \TIL{f^{\geq 1}}(s)
+\\
+&=&
+s\TIL{f}(s) - f(0^+)
 \quad \text{(a.k.a. $f(t)$ {\bf differentiator})}
-\eeq
+\eeqa
 
 
-\beq
+\beqa
 (\partial_t)^2 f(t)
-\maparrow{\call}
+&\maparrow{\call}&
 s^2
 \TIL{f^{\geq 2}}(s)
-\eeq
+\\
+&=&
+s^2\TIL{f}(s)- sf'(0^+)- f(0^+)
+\eeqa
 
 \item
 integral of $f(t)$ (a.k.a. $f(t)$ 
@@ -5312,7 +5327,7 @@ f(at)
 \beq
 f(t)g(t)
 \maparrow{\call}
-\frac{1}{i2\pi}
+\frac{1}{2\pi i}
 \lim_{T\rarrow \infty}
 \int_{c-iT}^{c+iT}
 ds'\;
@@ -5623,7 +5638,7 @@ Here is some
 principle" type intuition 
 about the relationship
 between a function
-$f(t)$ and its LT $f(s)$
+$f(t)$ and its LT $\TIL{f}(s)$
 for $s=i\omega\in i\RR$.
 
 \beq
@@ -5653,7 +5668,7 @@ t\;step_0(t)
 &
 -\pi
 \\
-\frac{t^2}{2} step_a(t)
+\frac{t^2}{2} step_0(t)
 &
 \frac{1}
 {(i\omega)^3 }
@@ -5741,7 +5756,9 @@ name & formula & comment \\ \hline
 {\bf Discrete Fourier}
 \\
 {\bf transform (DFT)}
-\end{tabular} & $\TIL{x}^{[k]}=\sum_{n=0}^{N-1}x^{[n]} e^{-i \frac{2\pi kn}{N}}$ & \begin{tabular}[c]{@{}l@{}}Same as  ZT but a\\finite ($N$) number of\\ $x^{[n]}$ components, and\\ with $z=e^{i\frac{2\pi k}{N}}$
+\end{tabular} & $\TIL{x}^{[k]}=\sum_{n=0}^{N-1}x^{[n]} e^{-i \frac{2\pi kn}{N}}$ & \begin{tabular}[c]{@{}l@{}}Same as  ZT but a\\finite ($N$) number of\\ $x^{[n]}$ components, and\\ with $z=e^{i\frac{2\pi k}{N}}$ for
+\\
+$k=0, 1, \dots, N-1$
 \\
 (N roots of unity\\
 on unit circle)\end{tabular} \\ \hline
@@ -5749,7 +5766,7 @@ on unit circle)\end{tabular} \\ \hline
 {\bf Probability}\\
 {\bf Generating Function}
 \end{tabular} & $\TIL{P}(z)=\sum_{n=0}^{\infty}P^{[n]}
-z^n$ & \begin{tabular}[c]{@{}l@{}}same as ZT but \\ with $s\rarrow -s$
+z^n$ & \begin{tabular}[c]{@{}l@{}}same as ZT but \\ with $n\rarrow -n$
 and \\
 $P^{[n]}:\ZZ^{\geq 0} \rarrow [0,1]$
 \\
@@ -5846,13 +5863,26 @@ inside of the unit
 circle
 
 \item
-real axis $\rarrow$ unit circle
+imaginary axis $\rarrow$ unit circle
 
 \item
 right half plane $\rarrow$ outside
 of unit circle
 
 \end{itemize}
+
+
+
+Define the {\bf discrete unit step
+function} by
+\beq
+u_j^{[n]}=\indi(n\geq j)
+\eeq
+and the
+{\bf Kronecker delta function} by
+\beq
+\delta_j^{[n]} = \indi(n=j)
+\eeq
 
 Next, we 
 will list
@@ -5871,18 +5901,6 @@ are defined only for $n\in \ZZ^{\geq 0}$
 $x^{[n]}\maparrow{\calz} \TIL{x}(z)$ means
 $\calz[x^{[n]}] =\TIL{x}(z)$ 
 
-Define the {\bf discrete unit step
-function} by
-\beq
-u_j^{[n]}=\indi(n\geq j)
-\eeq
-and the
-{\bf Kronecker delta function} by
-\beq
-\delta_j^{[n]} = \indi(n=j)
-\eeq
-
-
 The {\bf Region Of
 Convergence (ROC)}
 for a ZTs is very important
@@ -5900,7 +5918,8 @@ $z=e^{sT}$
 for $0<T<<1$
 and checking that
 \beq 
-T \calz[x](e^{sT})\approx 
+ \calz[x](e^{sT})\approx 
+ \frac{1}{T}
 \call[f](s)
 \eeq
 \end{mdframed}
