@@ -11,6 +11,13 @@ on Laplace Transforms
 and Section \ref{sec-z-transform}
 on Z-transforms.
 
+By {\bf discrete time or discretizing time}, we mean 
+ sampling all signals
+ at discrete times
+ separated by a finite time
+ interval $T$
+ called the {\bf sampling time}.
+
 Control Theory (CT)
 studies the optimal
 control of systems
@@ -22,7 +29,17 @@ be
 \item deterministic or stochastic,
 \item continuous time (analog)
 or
-discrete time (digital).
+discrete time (digital).\footnote{A signal $x(t)$ is a function of time $t$.
+We can discretize $t$ ($\Delta t$, sampling), or discretize 
+$x$ ($\Delta x$, quantization),
+or both. We will use the word
+``digital" or ``sampled' to
+describe a theory with discretized $t$,
+but continuous $x$. 
+Sometimes,
+the word ``digital"
+is used instead to describe
+a theory with both $x$ and $t$ discretized.}.
 \end{itemize}
 This chapter will deal
 with linear deterministic
@@ -644,6 +661,10 @@ These
 equations are
 called the {\bf state space equations} and $x(t)$ is called the {\bf state} 
 of the system.
+The equation for $\partial_t x(t)$
+is called the {\bf state equation}
+and the one for $y(t)$
+is called the {\bf output equation}.
 
 The TPMs, 
 printed in blue,
@@ -825,7 +846,7 @@ If we define the transfer function
  \label{eq-time-var-sol}
  \eeq
  where
- the {\bf transition matrix
+ the {\bf state transition matrix
  (a.k.a. evolution matrix)} $\cale(t, t_0)$
  satisfies
  
@@ -864,11 +885,7 @@ and
  with discrete rather
  than continuous time.
  
- If we discretize time (i.e., 
- sample time
- at discrete times
- separated by a time
- interval $T$),
+ If we discretize time,
  then 
  the equivalent 
  of Eqs.(\ref{eq-classic-analog})
@@ -926,21 +943,24 @@ defined in Section
 We will do this
 2 different ways. 
 First, we will 
-approximate the time derivates
+approximate the time derivatives
 in all differential equations
 with a discrete approximation.
 This approach is interesting
 and instructive but
 not perfect, because
-it's an approximation.
+it's an approximation (i.e., it
+assumes the sampling time $T=\Delta t$
+is very small).
 Second, we will replace
 all differential equations by
 difference equations,
 and solve the latter exactly.
 The second approach 
 is better for most purposes,
-because it gives exact results,
-not approximations.
+because it gives exact results
+(i.e., correct to all orders in $T$),
+instead of approximations.
  
  
  \subsection{Discretizing analog model}
@@ -1440,19 +1460,61 @@ x^{[n]}
 
 \section{Causality, Stability}
 
-$y(\cdot)$ is {\bf stable}
-if $x(\cdot)$ 
-and $u(\cdot)$ are bounded implies
-$y(\cdot)$ is bounded.
+A linear system with input $x(t)$
+and output $y(t)$
+has  a kernel function $H(t, \tau)$
+such that
+
+\beq
+y(t)=\int_0^{\Lambda} H(t,\tau)x(\tau)
+\eeq
+In general,
+$x$ and $y$
+are vectors, so
+$H(t,\tau)$
+is a matrix.
+
+A system
+is  {\bf time-invariant}
+if $H(t,\tau)=H(t-\tau)$. For time-invariant
+systems, $H(t)$
+is called the 
+{\bf impulse response}
+(because $y(t)=H(t)$
+when $x(\tau)=\delta(\tau)$ )
+and its Laplace transform
+$\TIL{H}(s)$
+is called the {\bf transfer function}.
+
+A system  is {\bf causal}
+if $\Lambda=t$ (i.e.,  the output $y(t)$ depends only on 
+the input $x(\tau)$
+for $\tau<t$.).
+
+An system is {\bf stable}
+if a bounded input $x(\cdot)$  implies
+a bounded output $y(\cdot)$.
+(BIBO=Bounded Input, Bounded Output).
+
+
 
 Consider the analog time-invariant modern model.
-Suppose its transfer function is
+Suppose its transfer function is\footnote{We 
+are assuming that the transfer 
+function is a scalar $1\times 1$ matrix. If
+it has
+row or column dimensions  larger than one,
+one analyzes
+each entry
+of the transfer function matrix as if it were
+a scalar transfer function.}
 
 \beq
 \TIL{H}_{y|u}(s)
 = K\frac{\caln(s)}{\cald(s)}
 \eeq
-where
+where $K\in \CC$ is some
+constant independent of $s$, 
 \beq
 \caln(s)= \prod_{a=1}^{A}(s-\alpha_a)^{na}
 \eeq
@@ -1499,8 +1561,9 @@ of $1/(s-\beta_b)$:
 \lim_{t\rarrow \infty}
 \int_{\gamma-iT}^{\gamma+iT}ds\;
 \frac{e^{st}}{s-\beta_b}
+= K e^{\beta_b t}u_0(t)
 \eeq
-where $\gamma, T\in\RR$
+where $K\in \CC$,  $\gamma, T\in\RR$
 and $Re(\beta_b)< \gamma$.
 At the pole, $s=\beta_b$, so
 
