@@ -1460,16 +1460,16 @@ x^{[n]}
 
 \section{Causality, Stability}
 
-A linear system with input $x(t)$
+A linear system with input $u(t)$
 and output $y(t)$
 has  a kernel function $H(t, \tau)$
 such that
 
 \beq
-y(t)=\int_0^{\Lambda} H(t,\tau)x(\tau)
+y(t)=\int_0^{\Lambda} H(t,\tau)u(\tau)
 \eeq
 In general,
-$x$ and $y$
+$u$ and $y$
 are vectors, so
 $H(t,\tau)$
 is a matrix.
@@ -1481,18 +1481,18 @@ systems, $H(t)$
 is called the 
 {\bf impulse response}
 (because $y(t)=H(t)$
-when $x(\tau)=\delta(\tau)$ )
+when $u(\tau)=\delta(\tau)$ )
 and its Laplace transform
 $\TIL{H}(s)$
 is called the {\bf transfer function}.
 
 A system  is {\bf causal}
 if $\Lambda=t$ (i.e.,  the output $y(t)$ depends only on 
-the input $x(\tau)$
+the input $u(\tau)$
 for $\tau<t$.).
 
 An system is {\bf stable}
-if a bounded input $x(\cdot)$  implies
+if a bounded input $u(\cdot)$  implies
 a bounded output $y(\cdot)$.
 (BIBO=Bounded Input, Bounded Output).
 
@@ -1641,21 +1641,50 @@ at time $t_0\in\calt$.
 \end{itemize}
 
 \section{Signal Flow Graph}
-This section is based on Ref.\cite{wiki-signal-flow}
+This section 
+Signal Flow (SF) 
+graphs
+is based on Ref.\cite{wiki-signal-flow}.
+According Ref.\cite{wiki-signal-flow},
+SF graphs were invented by Shannon
+in 1942
+to model ``differential equation machines". 
+They were later 
+extended and promoted by Mason circa 1955.
 
-Fig.\ref{fig-basic-flow-graph}
-is 
-the Laplace transform (LT)
-of Figs.\ref{fig-classic-model} 
-$(a)$ and $(c)$.
-Fig.\ref{fig-basic-flow-graph} shows 2
-graphical representations 
-of the
-LT of the
-classical
-model:
-$(a)$ as the LT of a wired time-dependent boxes diagram and $(c)$
-as the LT of a bnet with feedback cycles.
+SF graphs are 
+very similar to
+LDEN (Linear Deterministic
+with External Noise) bnets discussed in
+Chapter \ref{ch-linear-sys}. However, 
+there are some important differences between
+the two, such as: (1) SF graphs
+have no external random nodes
+(2)
+unlike the LDEN considered in 
+Chapter \ref{ch-linear-sys},
+SF graphs can have feedback cycles.
+
+In SF graphs, the
+multiplicative factors
+carried by the arrows  are called 
+``gains". In SF graphs,
+the gains are always 
+Laplace transforms (for the analog case)
+or Z-transforms (for the digital case).
+In this section, 
+we will only discuss SF graphs for the
+analog case, but keep in mind that the digital
+case is very similar.
+
+Next we will discuss the
+classical and modern analog
+models in terms of SF graphs.
+
+\begin{itemize} 
+
+\item classical model
+
 
 
 \begin{figure}[h!]
@@ -1702,24 +1731,25 @@ $$
 \caption{This figure
 is
 the Laplace transform 
-of Figs.\ref{fig-classic-model}
+of classical model Figs.\ref{fig-classic-model}
 $(a)$ and
 $(c)$.
 }
-\label{fig-basic-flow-graph}
+\label{fig-classic-flow-graph}
 \end{figure}
 
-Fig.\ref{fig-basic-flow-graph}
+Fig.\ref{fig-classic-flow-graph}
+is 
+the Laplace transform
+of Figs.\ref{fig-classic-model} 
+$(a)$ and $(c)$.
+Fig.\ref{fig-classic-flow-graph}
 $(c)$ is what is called a Signal
-Flow (SF) graph. According
-to Wikipedia Ref.\cite{wiki-signal-flow},
-SF graphs were invented by Shannon
-in 1942, and later 
-extended and promoted by Mason circa 1955.
+Flow (SF) graph. 
 
 
 
-The SF graph of Fig.\ref{fig-basic-flow-graph}
+The SF graph of Fig.\ref{fig-classic-flow-graph}
 implies the following 
 system of equations:
 
@@ -1757,23 +1787,96 @@ $\TIL{H}_{y|r}(s)$ is given by
 {1+\TIL{\Pi}\TIL{C}\TIL{F}}
 \eeq
 
-SF graphs are 
-the same as 
-LDEN (Linear Deterministic
-with External Noise) bnets discussed in
-Chapter \ref{ch-linear-sys},
-except with 2 important
-differences: (1) SF graphs
-have no external random nodes
-(2)
-unlike the LDEN considered in 
-Chapter \ref{ch-linear-sys},
-SF graphs can have feedback cycles.
+\item modern model
 
-In SF graphs, the
-multiplicative factors
-carried by the arrows  are called 
-``gains".
+\begin{figure}[h!]
+ $$
+\begin{array}{ccc}
+\xymatrix@R=2pc{
+\ar[d]^{\TIL{u}}
+\\
+\ar@/_2pc/@{-}[dd]_{\TIL{u}}
+\ar@{-}[d]^<<<{\TIL{u}}
+\\
+*+[F]{F_{AB}}
+\ar@{-}[d]^{\TIL{x}}
+\ar@(ul,ur)@{-}[]
+\\
+*+[F]{F_{CD}}
+\ar[d]^{\TIL{y}}
+\\
+&
+}
+&\quad\quad
+\xymatrix@R=4pc{
+\TIL{\rvu}\ar@/_2pc/[dd]_D
+\ar@{~>}[d]^{\frac{B}{s}}
+\\
+\TIL{\rvx}\ar[d]^C
+\ar@(ul,ur)@{~>}[]^>>{\frac{A}{s}}
+\\
+\TIL{\rvy}
+}
+&
+\xymatrix{
+\TIL{\rvu}\ar[d]^B
+\ar@/_2pc/[dddd]_D
+\\
+\ul{\sum}\ar[d]^1
+\\
+\TIL{\ul{\partial_t x}}\ar[d]^{\frac{1}{s}}
+\\
+\TIL{\rvx}\ar@/_2pc/[uu]_A
+\ar[d]^C
+\\
+\TIL{\rvy}
+}
+\\
+\\
+(a)&\quad\quad(c)& (c')
+\end{array}
+$$
+\caption{This figure
+is
+the Laplace transform 
+of modern model Figs.\ref{fig-modern-model}
+$(a)$ and
+$(c)$.
+Figure $(c')$ is a finer grained 
+version of figure $(c)$.}
+\label{fig-modern-flow-graph}
+\end{figure}
+
+Fig.\ref{fig-modern-flow-graph}
+is 
+the Laplace transform 
+of Figs.\ref{fig-modern-model} 
+$(a)$ and $(c)$.
+Fig.\ref{fig-modern-flow-graph}
+$(c)$ is what is called a Signal
+Flow (SF) graph. 
+
+
+
+The SF graph of Fig.\ref{fig-modern-flow-graph}
+implies the following 
+system of equations:
+
+\beq
+\left\{
+\begin{array}{l}
+\TIL{x} = \frac{1}{s}(A\TIL{x} +
+ B\TIL{u})
+ \\
+\TIL{y} = C\TIL{x} + D\TIL{u}
+\end{array}
+\right.
+\eeq
+
+
+\end{itemize}
+
+
 
 Next, we shall discuss
 some properties of the
@@ -2054,5 +2157,4 @@ with 3 unknowns
 cannot be represented.
 The cycles are necessary for
 doing this.
-
 
