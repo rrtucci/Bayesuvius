@@ -430,19 +430,21 @@ we get
 Thus
 
 \beq
-\TIL{y}=\TIL{\Pi}\TIL{C}[\TIL{r}-
+\TIL{H}_{y|e}=
+\frac{\TIL{y}}{\TIL{e}}
+=\TIL{\Pi}\TIL{C}
+\eeq
+
+\beq
+\TIL{y}=\TIL{H}_{y|e}[\TIL{r}-
 \TIL{F}\TIL{y}]
 \eeq
 
 \beq
-[1+\TIL{\Pi}\TIL{C}\TIL{F}]\TIL{y}
+[1+\TIL{H}_{y|e}\TIL{F}]\TIL{y}
 =
-\TIL{\Pi}\TIL{C}\TIL{r}
+\TIL{H}_{y|e}\TIL{r}
 \eeq
-From this,
-we can solve for the 
-{\bf transfer or gain function}
-$\TIL{H}_{y|r}(s)$
 
 \beqa
 \TIL{H}_{y|r}(s)
@@ -452,20 +454,36 @@ $\TIL{H}_{y|r}(s)$
 \\
 &=&
 \frac{
-\overbrace{\TIL{\Pi}\TIL{C}}^{
-H_0=
-\lim_{F\rarrow 0}\TIL{H} }
+\TIL{H}_{y|e}
 }
 {1 + 
-\underbrace{\TIL{\Pi}\TIL{C}\TIL{F}
-}_{H_0\TIL{F}}
-}
+\TIL{H}_{y|e}\TIL{F}}
 \eeqa
+
+$\TIL{H}_{y|e}$ and 
+$\TIL{H}_{y|r}(s)$ are both called
+{\bf gain or transfer functions}.
+$\TIL{H}_{y|e}$  is
+called the {\bf open loop gain}
+and 
+$\TIL{H}_{y|r}(s)$
+is called the {\bf closed loop gain}.
+If $|H_{y|r}|$ is less than (resp., more than)
+1, we say that there is {\bf negative feedback} (resp., {\bf positive feedback})
+because the $\TIL{r}$ signal
+is reduced (resp., magnified).
+If the open loop gain $|\TIL{H}_{y|e}|>>1$,
+then the closed loop gain
+$|\TIL{H}_{y|r}|\approx \frac{1}{|\TIL{F}|}$.
+So negative (resp., positive)
+feedback occurs if $|\TIL{F}|>1$
+(resp., $|\TIL{F}|<1$)
+
 
 A special
 and fairly common
 type of controller
-function $u(t)$
+box $\TIL{C}(s)$
 called the 
 {\bf Proportional-Integral-Derivative (PID) Controller}
 is defined as
@@ -485,25 +503,30 @@ of the PID controller
 is 
 
 
-\beqa
+\begin{align}
 \TIL{u}(s)
-&=&
+&=
 K_\Pi\TIL{e}(s)
 + K_I \frac{\TIL{e}(s)}{s}
 +
 K_D (s\TIL{e}(s)-
 e(0^+))
 \\
-&=&
+&=
 \underbrace{
 \left(
-K_\Pi + \frac{K_I}{s}
-+ K_Ds
+\underbrace{K_\Pi}
+_{\stackrel{\rm proportinal}
+ {\rm controller}} 
++ \underbrace{\frac{K_I}{s}}
+_{\stackrel{\rm integrator} {\rm controller}}
++ \underbrace{K_D s}
+_{\stackrel{\rm differentiator} {\rm controller}}
 \right)
-}_{\TIL{C}(s)}
+}_{\TIL{C}(s)\text{, PID controller}}
 \TIL{e}(s)
 \quad\text{(assume $e(0^+)=0$)}
-\eeqa
+\end{align}
 
 
 \begin{claim}
@@ -787,6 +810,76 @@ If we define the transfer function
  C(sI-A)^{-1}B
  +D
  \eeq
+ 
+ Note from
+ the last equation
+ that the set of poles of $\TIL{H}_{y|u}(s)$
+ is a subset of the 
+ set of eigenvalues of $A$.
+ 
+ If we set
+ 
+ \beq
+ A = 
+ \left[
+ \begin{array}{ccccc}
+ 0&1&0&\cdots&0
+ \\
+ 0&0&1&\cdots&0
+ \\
+ \vdots&\vdots&\vdots&&\vdots
+ \\
+ 0&0&0&\cdots&1
+ \\
+ -b_0&-b_1&-b_2&\cdots&-b_{n-1}
+ \end{array}
+ \right]
+ \eeq
+ 
+ \beq
+ B=\left[
+ \begin{array}{c}
+ 0
+ \\
+ 0
+ \\
+ \vdots
+ \\
+ 1
+ \end{array}
+ \right]
+ \eeq
+ 
+ \beq
+ C=\left[
+ \begin{array}{cccc}
+ a_0 & a_1 & \cdots & a_{m-1}
+ \end{array}
+ \right]
+ \eeq
+ 
+\beq
+D=0
+\eeq
+then we get
+
+\beqa
+ \TIL{H}_{y|u}(s) &=&
+  C(sI-A)^{-1}B
+  +D
+\\
+&=&
+\frac{s^m + a_{m-1}s^{m-1}
++\cdots + a_0}
+{s^n + b_{n-1}s^{n-1}
++\cdots + b_0}
+\eeqa
+This makes it
+possible
+to start with
+a desired transfer function,
+and build an analog modern
+model that achieves it.
   
  
  \begin{claim}
@@ -930,6 +1023,40 @@ defined in Section
  \end{array}
  \right.
  \eeq
+ 
+ The {\bf digital PID controller box} $\TIL{C}(z) $ is given by
+ 
+ \begin{align}
+ \TIL{u}(z)
+ &=
+ K_\Pi\TIL{e}(z)
+ + K_I \frac{\TIL{e}(z)}{s}
+ +
+ K_D (s\TIL{e}(z)-
+ e(0^+))
+ \\
+ &=
+ \underbrace{
+ \left(
+ \underbrace{K_\Pi}
+ _{\stackrel{\rm proportinal}
+  {\rm controller}} 
+ + \underbrace{K_I\frac{T}{2}\left(
+ \frac{z+1}{z-1}
+ \right)}
+ _{\stackrel{\rm integrator} {\rm controller}}
+ + \underbrace{K_D\frac{1}{T} \left(
+ \frac{z-1}{z}
+ \right)}
+ _{\stackrel{\rm differentiator} {\rm controller}}
+ \right)
+ }_{\TIL{C}(z)\text{, PID controller}}
+ \TIL{e}(z)
+ \quad\text{(assume $e(0^+)=0$)}
+ \end{align}
+ 
+
+ 
  
  
  
@@ -1200,6 +1327,12 @@ we can get the transfer matrix $\TIL{H}_{y|u}(z)$. Assuming $x^{[0]}=0$,
 \TIL{u}(z)
 \eeq
 
+As for the analog modern model,
+it is possible to find
+for the digital modern model, matrices $\HAT{A},
+\HAT{B}, \HAT{C}, \HAT{D}$
+that produce a transfer function
+of a desired form.
 
  
  \item time-variant case
@@ -1393,6 +1526,8 @@ memory from one slice to the previous
 slice, instead of, to the
 previous 3 slices.
 
+
+
 \subsection{Difference Equations}
 Let 
 
@@ -1458,18 +1593,18 @@ x^{[n]}
 
 
 
-\section{Causality, Stability}
+\section{Time-Invariance, Causality, Stability}
 
-A linear system with input $u(t)$
+A linear system with input $r(t)$
 and output $y(t)$
 has  a kernel function $H(t, \tau)$
 such that
 
 \beq
-y(t)=\int_0^{\Lambda} H(t,\tau)u(\tau)
+y(t)=\int_0^{\Lambda} H(t,\tau)r(\tau)
 \eeq
 In general,
-$u$ and $y$
+$r$ and $y$
 are vectors, so
 $H(t,\tau)$
 is a matrix.
@@ -1481,18 +1616,18 @@ systems, $H(t)$
 is called the 
 {\bf impulse response}
 (because $y(t)=H(t)$
-when $u(\tau)=\delta(\tau)$ )
+when $r(\tau)=\delta(\tau)$ )
 and its Laplace transform
 $\TIL{H}(s)$
 is called the {\bf transfer function}.
 
 A system  is {\bf causal}
 if $\Lambda=t$ (i.e.,  the output $y(t)$ depends only on 
-the input $u(\tau)$
+the input $r(\tau)$
 for $\tau<t$.).
 
 An system is {\bf stable}
-if a bounded input $u(\cdot)$  implies
+if a bounded input $r(\cdot)$  implies
 a bounded output $y(\cdot)$.
 (BIBO=Bounded Input, Bounded Output).
 
@@ -1609,18 +1744,16 @@ Suppose $x, u, y:\calt\rarrow \calx$.
  \begin{itemize}
  \item
 $a\in\calx$ is {\bf controllable
-(resp., reachable) at time $t_0\in\calt$
+at time $t_0\in\calt$
 }
 if there exist a time
 $t_1\in\calt$ and an input $u(\cdot)$ such that $x(t_0)=a$
-and $x(t_1)=0$ (resp., $x(t_0)=0$ and $x(t_1)=a$)
+and $x(t_1)=0$.
 \item
 $x(\cdot)$ is {\bf controllable 
-(resp., reachable)
 at time $t_0\in\calt$}
 if, for all $a\in\calx$, 
  $a$ is controllable 
-(resp., reachable)
 at time $t_0\in\calt$ .
 \item
 $a\in\calx$ is {\bf observable at time $t_0\in\calt$}
@@ -1678,7 +1811,7 @@ analog case, but keep in mind that the digital
 case is very similar.
 
 Next we will discuss the
-classical and modern analog
+analog classical and analog (time-invariant) modern
 models in terms of SF graphs.
 
 \begin{itemize} 
@@ -1744,8 +1877,7 @@ the Laplace transform
 of Figs.\ref{fig-classic-model} 
 $(a)$ and $(c)$.
 Fig.\ref{fig-classic-flow-graph}
-$(c)$ is what is called a Signal
-Flow (SF) graph. 
+$(c)$ is an SF graph. 
 
 
 
@@ -1766,28 +1898,8 @@ system of equations:
 \end{array}
 \right.
 \eeq
-From this system of
-equations,
-we find that
 
-\beq
-\TIL{y} =\TIL{\Pi}\TIL{C}
-(\TIL{r}-
-\underbrace{\TIL{f}}_{\TIL{F}\TIL{y}})
-\eeq
-Hence,
-just as we found previously, the transfer function
-$\TIL{H}_{y|r}(s)$ is given by
-
-\beq
-\TIL{H}_{y|r}(s)=
-\frac{\TIL{y}}{\TIL{r}}
-=
-\frac{\TIL{\Pi}\TIL{C}}
-{1+\TIL{\Pi}\TIL{C}\TIL{F}}
-\eeq
-
-\item modern model
+\item time-invariant modern model 
 
 \begin{figure}[h!]
  $$
@@ -1841,7 +1953,7 @@ is
 the Laplace transform 
 of modern model Figs.\ref{fig-modern-model}
 $(a)$ and
-$(c)$.
+$(c)$, for the time-invariant case.
 Figure $(c')$ is a finer grained 
 version of figure $(c)$.}
 \label{fig-modern-flow-graph}
@@ -1851,10 +1963,10 @@ Fig.\ref{fig-modern-flow-graph}
 is 
 the Laplace transform 
 of Figs.\ref{fig-modern-model} 
-$(a)$ and $(c)$.
+$(a)$ and $(c)$
+for the time-invariant case.
 Fig.\ref{fig-modern-flow-graph}
-$(c)$ is what is called a Signal
-Flow (SF) graph. 
+$(c)$ is an SF graph. 
 
 
 
@@ -1880,7 +1992,7 @@ system of equations:
 
 Next, we shall discuss
 some properties of the
-feedback cycles of SG graphs.
+feedback cycles of SF graphs.
 
 
 
@@ -2077,7 +2189,7 @@ in the path  $\rva\maparrow{\alpha_{k_0}}\rvl_{k_0}\rarrow\cdots\rarrow\rvl_k$
 divided by $1-G_{cycle}$.
 
 
-SG graphs 
+SF graphs 
 with feedback cycles can be
 used to represent a general
 system of $N$ linear equation
