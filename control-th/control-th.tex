@@ -107,7 +107,7 @@ $$
 \ar@{-}[d]\ar@{-}[l]
 &
 \\
-*+[F]{\stackrel{\rm Prossess} {F_2}}
+*+[F]{\stackrel{\rm Process} {F_2}}
 \ar@{-}[r]^{\quad y(t)}
 &\ar@{-}[u]
 }
@@ -164,7 +164,7 @@ system
 of equations.
 Here $t\in[0,\infty]$
 is time and
-$u,y:[0,\infty]\rarrow \CC$.
+$r,u,y:[0,\infty]\rarrow \CC$.
 
 \beq
 \left\{
@@ -187,7 +187,7 @@ and we set
 
 $t_k=t$, $t_{k+1}=t + \Delta t$, $0< \Delta t<< 0$, 
 
-$f(t_k)=f^{[k]}$ for $f=y,u$,
+$f(t_k)=f^{[k]}$ for $f=r,y,u$,
 \\then we get 
 Fig.\ref{fig-basic-feedback}
 
@@ -241,7 +241,7 @@ $$
 \ar@{-}[u]\ar@{-}[d]
 &
 \\
-*+[F]{\stackrel{\rm Prossess} {\Pi}}
+*+[F]{\stackrel{\rm Process} {\Pi}}
 \ar@{-}[r]^{y(t)}
 \ar[d]^{y(t)}
 &\ar@{-}[u]
@@ -339,7 +339,7 @@ model} is a bunch of
  
 Let $t\in[0,\infty]$
 =time and
-$f,e,u,y:[0,\infty]\rarrow \CC$.
+$f,e,r,u,y:[0,\infty]\rarrow \CC$.
 The diagrams of 
 Fig.\ref{fig-classic-model}
 represent
@@ -480,8 +480,7 @@ feedback occurs if $|\TIL{F}|>1$
 (resp., $|\TIL{F}|<1$)
 
 
-A special
-and fairly common
+A common
 type of controller
 box $\TIL{C}(s)$
 called the 
@@ -535,8 +534,8 @@ has unit gain ($\TIL{H}_{y|r}(s)=1$)
 if:
 
 \beq
-K_\Pi = 2K,\;
-K_D=KT,\; K_I=\frac{K}{T}
+K_\Pi = 2K,\quad
+K_D=KT,\quad K_I=\frac{K}{T}
 \eeq
 \end{claim}
 
@@ -1085,7 +1084,7 @@ because it gives exact results
 instead of approximations.
  
  
- \subsection{Discretizing analog model}
+ \subsection{Discretizing derivatives}
  
  
   
@@ -1127,7 +1126,8 @@ instead of approximations.
  
  \beq
  x(t) = x(nT) = x^{[n]},
- \quad u(t) = u(nT)= u^{[n]}
+ \quad u(t) = u(nT)= u^{[n]},
+ \quad y(t) = y(nT)= y^{[n]}
  \eeq 
  we get
  
@@ -1418,7 +1418,7 @@ an analogous result for the
 digital
 (instead of analog)
  time-invariant modern
-model. We will show that those  
+model; that is, we will show that those  
 digital models 
 can accommodate higher
 than 1st order 
@@ -1621,7 +1621,7 @@ if $\Lambda=t$ (i.e.,  the output $y(t)$ depends only on
 the input $r(\tau)$
 for $\tau<t$.).
 
-An system is {\bf stable}
+A system is {\bf stable}
 if a bounded input $r(\cdot)$  implies
 a bounded output $y(\cdot)$.
 (BIBO=Bounded Input, Bounded Output).
@@ -1646,19 +1646,19 @@ a scalar transfer function.}
 where $K\in \CC$ is some
 constant independent of $s$, 
 \beq
-\caln(s)= \prod_{a=1}^{A}(s-\alpha_a)^{na}
+\caln(s)= \prod_{a=1}^{A}(s-\alpha_a)^{m_a}
 \eeq
 and
 
 \beq
-\cald(s)= \prod_{b=1}^{B}(s-\beta_b)^{nb}
+\cald(s)= \prod_{b=1}^{B}(s-\beta_b)^{n_b}
 \eeq
 and where 
 the polynomials $\caln(s)$ and $\cald(s)$
-have no common factors. The $\{\alpha_a\}_{\forall a}$ are
+have no common factors. The $\{\alpha_a\}_{a=1}^A$ are
 called the {\bf zeros}
 of the transfer function,
-and the $\{\beta_b\}_{\forall b}$ are called the
+and the $\{\beta_b\}_{b=1}^B$ are called the
 {\bf poles} of the transfer function.
 This system
 is 
@@ -1683,8 +1683,8 @@ if perturbed.
 if $Re(\beta_b)> 0$ for some $b$.
 \end{itemize}
 
-To get some intuition for why this is so,
-look at the inverse Laplace transform 
+To get some intuition as to why this is so,
+let's look at the inverse Laplace transform 
 of $1/(s-\beta_b)$:
 
 \beq
@@ -1769,7 +1769,7 @@ at time $t_0\in\calt$.
 \end{itemize}
 
 \section{Signal Flow Graph}
-This section 
+This section on
 Signal Flow (SF) 
 graphs
 is based on Ref.\cite{wiki-signal-flow}.
@@ -1832,7 +1832,7 @@ $$
 \ar@{-}[u]\ar@{-}[d]
 &
 \\
-*+[F]{\stackrel{\rm Prossess} {\TIL{\Pi}}}
+*+[F]{\stackrel{\rm Process} {\TIL{\Pi}}}
 \ar@{-}[r]^{\TIL{y}}
 \ar[d]^{\TIL{y}}
 &\ar@{-}[u]
@@ -2087,9 +2087,9 @@ Hence,
 \beq
 \left[
 \begin{array}{cc}
--1&\nu
+1&-\nu
 \\
-\mu&-1
+-\mu&1
 \end{array}
 \right]
 \left[
@@ -2102,9 +2102,9 @@ Hence,
 =
 \left[
 \begin{array}{c}
--\alpha \rva
+\alpha \rva
 \\
--\beta\rvb
+\beta\rvb
 \end{array}
 \right]
 \eeq
@@ -2113,18 +2113,18 @@ But
 \beq
 \left[
 \begin{array}{cc}
--1&\nu
+1&-\nu
 \\
-\mu&-1
+-\mu&1
 \end{array}
 \right]^{-1}
 =
 \frac{1}{1-\mu\nu}
 \left[
 \begin{array}{cc}
--1&-\nu
+1&\nu
 \\
--\mu&-1
+\mu&1
 \end{array}
 \right]
 \eeq
