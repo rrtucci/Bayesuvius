@@ -233,24 +233,24 @@ dual functions, which are
 discussed in Section
 \ref{sec-dual-fun}.
 
-Let $F(X_\s)$ be the dual
+Let $\TIL{f}(p_\s)$ be the dual
  function of $f(x_\s)
- = \ln(1-e^{-x_\s})$).
+ = \ln(1-e^{-x_\s})$.
  In Section
  \ref{sec-dual-fun}, we show that
  
  \beqa
- F(X_\s)&=&
- \min_{x_\s}(x_\s X_\s - f(x_\s))
+ \TIL{f}(p_\s)&=&
+ \min_{x_\s}(x_\s p_\s - f(x_\s))
  \\
  &=&
- -X_\s\ln  X_\s
- +(1+X_\s)\ln(1+X_\s)
+ -p_\s\ln  p_\s
+ +(1+p_\s)\ln(1+p_\s)
  \eeqa
  and
 
 \beq
-f(x_\s)\leq x_\s X_\s - F(X_\s)
+f(x_\s)\leq x_\s p_\s - \TIL{f}(p_\s)
 \;.
 \eeq
 Therefore
@@ -263,15 +263,15 @@ Therefore
 e^{f(x_\s)}
 \\
 &\leq &
- e^{x_\s X_\s - F(X_\s)}
+ e^{x_\s p_\s - \TIL{f}(p_\s)}
  \\
  &=&
  \underbrace{
- e^{-F(X_\s)}
- e^{-\theta_{\s|0}X_\s}
+ e^{-\TIL{f}(p_\s)}
+ e^{-\theta_{\s|0}p_\s}
  \prod_{j\in
-  pa_\s}[e^{-\theta_{\s|j}X_\s}]^{d_j}
-  }_{\text{ call } \calb(X_\s)
+  pa_\s}[e^{-\theta_{\s|j}p_\s}]^{d_j}
+  }_{\text{ call } \calb(p_\s)
   }
 \eeqa
 
@@ -349,337 +349,12 @@ f(\theta_{\s|0})+
 \leq
 \calp_\s
 \leq
-\calb(X_\s)
+\calb(p_\s)
 }
 \eeq
 with 
 variational
 parameters 
-$q_{.|\s}$ and $X_\s$.
-
-
-\section{Convex/Concave Dual Functions}
-\label{sec-dual-fun}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=4in]
-{var-bay-medical/dual-fun.png}
-\caption{The dual
-function $f(x)$ of a concave function
-$F(X)$
-is the osculating (kissing)
-locus of the 
-family
-of lines $y=Xx - F(X)$
-for all $X$.}
-\label{fig-dual-fun}
-\end{figure}
-
-
-If $f(x)$ is a concave function, we
-define its {\bf concave dual (a.k.a. concave
-conjugate) function} by
-
-\beq
-F(X) = \min_x (X^T x - f(x))
-\label{eq-FX-def}
-\;.
-\eeq
-\begin{claim}
-If $f(x)$ is a concave function
-with dual $F(X)$, then
-\beq
-f(x)= \min_X(X^T x - F(X))
-\label{eq-fx-as-min}
-\eeq
-
- \beq
- \nabla_X F(X(x)) = (\nabla_x f)^{-1}(x)
- \eeq
-Eqs.(\ref{eq-FX-def})  
-and (\ref{eq-fx-as-min}) 
-are also true if we replace the 
-words ``concave" with ``convex"
-and ``min" with ``max".
-\end{claim}
-\proof
-
-Let $x^*$ 
-be the value of $x$
-which minimizes $F(X)=X^T x-f(x)$
-with respect to $x$. Hence,
-\beq
-F(X) = X^Tx^* - f(x^*)
-\;.
-\label{eq-FX}
-\eeq
-Rearranging terms in Eq.(\ref{eq-FX}),
-we get
-
-\beq
-f(x^*) = X^Tx^* - F(X)
-\label{eq-relabel-1}
-\eeq
-
-Let $X^*$ 
-be the value of $X$
-which minimizes $f(x)=X^T x-F(X)$
-with respect to $X$. Hence,
-\beq
-f(x) = (X^*)^Tx - F(X^*)
-\label{eq-relabel-2}
-\eeq
-Replacing $X^*$ by $X$
-and $x$ by $x^*$
-in Eq.(\ref{eq-relabel-2})
-yield Eq.(\ref{eq-relabel-1}).
-
-
-Note that minimization
-with respect to $x$
-is achieved if
-\beq
-X_i = \partial_{x_i}f(x),\;
-X = \nabla_x f(x)
-\eeq
-whereas minimization 
-with respect to $X$
-is achieved if 
-
-\beq
-x_i = \partial_{X_i}F(X),\;x = \nabla_X F(X)
-\eeq
-Hence,
-
-\beq
-x = \nabla_X F(\nabla_x f(x))
-\eeq
-
-\qed
-
-See Fig.\ref{fig-dual-fun}
-for a geometrical
-representation
-of Eq.(\ref{eq-fx-as-min}).
-
-We end this section
-on dual functions with some
-examples.
-
-\hrule
-\begin{enumerate}
-\item
-Find the dual function of
-\beq
-\boxed{f(x) = e^x}
-\;.
-\eeq
-
-\beqa
-X &=& \partial_{x^*}f
-\\
-&=&
-e^{x^*}
-\eeqa
-
-\beq
-x^* = \ln  X
-\eeq
-
-\beq
-f(x^*) = X
-\eeq
-
-\beqa
-F(X)&=&x^*X - f(x^*)
-\\
-&=&
-X\ln X -X
-\eeqa
-
-
-
-\hrule
-\item 
-Find the dual function of
-\beq
-\boxed{f(x) = f + f'x +\frac{1}{2}f''x^2}
-\;.
-\eeq
-
-\beqa
-X&=&
-\partial_{x^*} f
-\\
-&=&
-f' + f''x^*
-\label{eq-X-xstar}
-\eeqa
-
-\beq
-x^* = \frac{X-f'}{f''}
-\eeq
-\beqa
-f(x^*)&=& f
-+
-f' 
-\left[
-\frac{X-f'}{f''}\right]
-+
-\frac{1}{2}f''
-\left[\frac{X-f'}{f''}\right]^2
-\\
-&=&
-\left[f - \frac{(f')^2}{2f''}\right]
-+
-X^2\left[
-\frac{1}{2f''}
-\right]
-\eeqa
-
-\beqa
-F(X)&=&
-Xx^*-f(x^*)
-\\
-&=&
-X\left[\frac{X-f'}{f''}\right]
--f(x^*)
-\\
-&=&
-\left[-f + \frac{(f')^2}{2f''}\right]
-+
-X\left[
-\frac{-f'}{f''}
-\right]
-+
-X^2\left[
-\frac{1}{2f''}
-\right]
-\eeqa
-
-Note that when $f=f'=0$,
-we get 
-
-\beq
-f(x)=\frac{f'' x^2}{2} 
-,\quad 
-F(X)= \frac{X^2}{2 f'' }
-\eeq
-
-Note that if $f$ is convex
-(resp., concave), $F$
-is convex too (resp., concave too).
-
-%\beqa
-%x &=&
-%\partial_{X^*} F
-%\\
-%&=& 
-%\left[
-%\frac{-f'}{f''}
-%\right]
-%+
-%X^*\left[
-%\frac{1}{f''}
-%\right]
-%\eeqa
-%
-%\beq
-%X^* = f' + f''x
-%\quad\text{(see Eq.(\ref{eq-X-xstar}))}
-%\eeq
-%
-%\beqa
-%F(X^*)&=&
-%\left[-f + \frac{(f')^2}{2f''}\right]
-%+
-%[f' + xf'']
-%\left[
-%\frac{-f'}{f''}
-%\right]
-%+
-%[f'+f''x]^2
-%\left[
-%\frac{1}{2f''}
-%\right]
-%\\
-%&=&
-%-f + \frac{f''}{2} x^2
-%\eeqa
-%
-%
-%\beqa
-%f(x)&=& X^*x - F(X^*)
-%\\
-%&=&
-%[f'+f'' x]x
-%+f-\frac{f''}{2} x^2
-%\\
-%&=&
-%f + f'x+\frac{f''}{2} x^2
-%\eeqa
-
-\hrule
-
-\item
-Find the dual function of
-\beq
-\boxed{f(x)= \ln(1-e^{-x})}
-\;.
-\eeq
-
-\beqa
-X
-&=&
-\partial_{x^*} f(x^*)
-\\
-&=&
-\frac{e^{-x^*}}{1-e^{-x^*}}
-\eeqa
-
-\beq
-X=(1+X)e^{-x^*}
-\eeq
-\beq
-x^* = \ln\frac{1+X}{X}
-\eeq
-
-\beq
-f(x^*)=\ln\left(
-1 - \frac{X}{1+X}
-\right)=-\ln(1+X)
-\eeq
-
-\beqa
-F(X) &=& X x^* -f(x^*)
-\\
-&=&
-X \ln\frac{1+X}{X}
-+\ln(1+X)
-\\
-&=&
--X\ln  X
-+(1+X)\ln(1+X)
-\eeqa
-\end{enumerate}
-
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=3.5in]
-{var-bay-medical/dual-ex.png}
-\caption{$f(x)=e^x$ and its dual.}
-\label{fig-dual-ex}
-\end{figure}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=3.5in]
-{var-bay-medical/dual-ln-1-e-x.png}
-\caption{$f(x)=\ln(1-e^{-x})$ and its dual.}
-\label{fig-dual-dual-ln-1-e-x}
-\end{figure}
-
+$q_{.|\s}$ and $p_\s$.
 
 

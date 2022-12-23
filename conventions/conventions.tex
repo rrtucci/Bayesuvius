@@ -5072,8 +5072,7 @@ up_a(t)=
 
 Next, we 
 will list
-some of the
-many
+some examples and
 properties of 
 LTs.
 Henceforth,
@@ -5090,7 +5089,7 @@ $\call[f](s) =\TIL{f}(s)$
 
 
 
-
+\subsection{Examples}
 \begin{itemize}
 
 \item
@@ -5170,8 +5169,11 @@ polynomial rise, exponential drop
 \frac{a}{s(s+a)}
 \quad \text{(for $Re(s)>0, Re(s)>-a$)}
 \eeq
+\end{itemize}
 
+\subsection{Properties}
 
+\begin{itemize}
 
 \item Taylor series of $f(t)$
 
@@ -5919,8 +5921,7 @@ up_j^{[n]}=\indi(n\geq j)
 
 Next, we 
 will list
-some of the
-many
+some examples and
 properties of 
 ZTs.
 Henceforth,
@@ -5976,7 +5977,7 @@ $up_0^{[n]}\approx up_0(t)$
 \end{mdframed}
 
 
-
+\subsection{Examples}
 \begin{itemize} 
 
 \item Kronecker delta function
@@ -6063,7 +6064,10 @@ a^n\cos(\omega_0n)up_0^{[n]}
 \frac{1-az^{-1}\cos\omega_0}
 {1-2az^{-1}\cos\omega_0 + a^2 z^{-2}}
 \eeq
+\end{itemize}
 
+\subsection{Properties}
+\begin{itemize}
 \item time expansion
 
 \beq
@@ -6273,6 +6277,659 @@ all singularities
 of $\TIL{x}(z)$.
 
 \end{itemize}
+
+
+\section{Legendre Transformation (dual functions)}
+\label{sec-dual-fun}
+This section is a
+watered down version of
+the Wikipedia article 
+Ref.\cite{wiki-legendre-transformation},
+which we highly recommend.
+
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=6in]
+{conventions/dual-fun-detail.png}
+\caption{The line
+$y=xp$ goes through the
+origin and has arbitrary slope 
+$p$. $p^*$ is 
+the special slope at $x$
+for which the line
+$y=xp^*$,
+if
+displaced parallelly,
+can be made tangential (kissing)
+to
+the curve $y=f(x)$.}
+\label{fig-dual-fun-detail}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=6in]
+{conventions/dual-fun.png}
+\caption{The dual
+function $\TIL{f}(p)$ of a concave or convex function
+$f(x)$
+is the osculating (kissing)
+locus of the 
+family
+of lines $y=px - \TIL{f}(p)$
+where $p$
+is the slope 
+of $f(x)$
+at the kissing point.}
+\label{fig-dual-fun}
+\end{figure}
+
+Let $x,p\in\RR^n$.
+If $f:\RR^n\rarrow \RR$ is a concave function, we
+define its {\bf dual (a.k.a.
+conjugate) function} 
+$\TIL{f}:\RR^n\rarrow \RR$ by
+
+\beq
+\TIL{f}(p) = \min_x (p^T x - f(x))
+\label{eq-Fp-def}
+\;.
+\eeq
+This definition also applies if
+one replaces the words ``concave" 
+by ``convex" and
+``min" by a ``max".\footnote{This 
+book does not try to be
+mathematically rigorous
+beyond the level
+of applied math. To be truly
+rigorous and general,
+replace ``max" by ``supremum"
+and ``min" by ``infimum".
+Technically,
+min and max should
+only be used for finite sets,
+but physicists and engineers 
+often discretize over a finite set.}
+$\TIL{f}(p)$
+is also called the 
+{\bf Legendre transformation (or
+Legendre transform)} (LT)
+of $f(x)$.
+
+In Physics, $x$ is the position
+vector and $p$ is the momentum 
+vector of a system.
+
+See Figs.
+\ref{fig-dual-fun-detail}
+and \ref{fig-dual-fun}
+for a pictorial
+representation
+of LT.
+
+Note that 
+the right hand side of
+Eq.\ref{eq-Fp-def}
+implies that
+
+\beq
+\sum_i
+(p_i-\partial_{x_i}
+f(x))\delta x_i=0
+\eeq 
+for all variations $\delta x_i$.
+If minimization is achieved
+when $x=x^*$, then
+
+\beq 
+p= \nabla_{x^*} f(x^*),
+\quad x^*=
+(\nabla_{x^*} f)^{-1}(p)
+\eeq
+
+\subsection{Examples}
+We end this section
+on dual functions with some
+examples.
+
+\begin{enumerate}
+\item
+Find the dual function of
+\beq
+\boxed{f(x) = e^x}
+\;.
+\eeq
+
+\beqa
+p &=& \partial_{x^*}f
+\\
+&=&
+e^{x^*}
+\eeqa
+
+\beq
+x^* = \ln  p
+\eeq
+
+\beq
+f(x^*) = p
+\eeq
+
+\beqa
+\TIL{f}(p)&=&x^*p - f(x^*)
+\\
+&=&
+p\ln p -p
+\eeqa
+
+
+
+\hrule
+\item 
+Find the dual function of
+\beq
+\boxed{f(x) = f + f'x +\frac{1}{2}f''x^2}
+\;.
+\eeq
+
+\beqa
+p&=&
+\partial_{x^*} f
+\\
+&=&
+f' + f''x^*
+\label{eq-p-xstar}
+\eeqa
+
+\beq
+x^* = \frac{p-f'}{f''}
+\eeq
+\beqa
+f(x^*)&=& f
++
+f' 
+\left[
+\frac{p-f'}{f''}\right]
++
+\frac{1}{2}f''
+\left[\frac{p-f'}{f''}\right]^2
+\\
+&=&
+\left[f - \frac{(f')^2}{2f''}\right]
++
+p^2\left[
+\frac{1}{2f''}
+\right]
+\eeqa
+
+\beqa
+\TIL{f}(p)&=&
+px^*-f(x^*)
+\\
+&=&
+p\left[\frac{p-f'}{f''}\right]
+-f(x^*)
+\\
+&=&
+\left[-f + \frac{(f')^2}{2f''}\right]
++
+p\left[
+\frac{-f'}{f''}
+\right]
++
+p^2\left[
+\frac{1}{2f''}
+\right]
+\eeqa
+
+Note that when $f=f'=0$,
+we get 
+
+\beq
+f(x)=\frac{f'' x^2}{2} 
+,\quad 
+\TIL{f}(p)= \frac{p^2}{2 f'' }
+\eeq
+
+Note that if $f$ is convex
+(resp., concave), $\TIL{f}$
+is convex too (resp., concave too).
+
+%\beqa
+%x &=&
+%\partial_{p^*} \TIL{f}
+%\\
+%&=& 
+%\left[
+%\frac{-f'}{f''}
+%\right]
+%+
+%p^*\left[
+%\frac{1}{f''}
+%\right]
+%\eeqa
+%
+%\beq
+%p^* = f' + f''x
+%\quad\text{(see Eq.(\ref{eq-p-xstar}))}
+%\eeq
+%
+%\beqa
+%\TIL{f}(p^*)&=&
+%\left[-f + \frac{(f')^2}{2f''}\right]
+%+
+%[f' + xf'']
+%\left[
+%\frac{-f'}{f''}
+%\right]
+%+
+%[f'+f''x]^2
+%\left[
+%\frac{1}{2f''}
+%\right]
+%\\
+%&=&
+%-f + \frac{f''}{2} x^2
+%\eeqa
+%
+%
+%\beqa
+%f(x)&=& p^*x - \TIL{f}(p^*)
+%\\
+%&=&
+%[f'+f'' x]x
+%+f-\frac{f''}{2} x^2
+%\\
+%&=&
+%f + f'x+\frac{f''}{2} x^2
+%\eeqa
+
+\hrule
+
+\item
+Find the dual function of
+\beq
+\boxed{f(x)= \ln(1-e^{-x})}
+\;.
+\eeq
+
+\beqa
+p
+&=&
+\partial_{x^*} f(x^*)
+\\
+&=&
+\frac{e^{-x^*}}{1-e^{-x^*}}
+\eeqa
+
+\beq
+p=(1+p)e^{-x^*}
+\eeq
+\beq
+x^* = \ln\frac{1+p}{p}
+\eeq
+
+\beq
+f(x^*)=\ln\left(
+1 - \frac{p}{1+p}
+\right)=-\ln(1+p)
+\eeq
+
+\beqa
+\TIL{f}(p) &=& p x^* -f(x^*)
+\\
+&=&
+p \ln\frac{1+p}{p}
++\ln(1+p)
+\\
+&=&
+-p\ln  p
++(1+p)\ln(1+p)
+\eeqa
+\end{enumerate}
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=3.5in]
+{conventions/dual-ex.png}
+\caption{$f(x)=e^x$ and its dual.}
+\label{fig-dual-ex}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=3.5in]
+{conventions/dual-ln-1-e-x.png}
+\caption{$f(x)=\ln(1-e^{-x})$ and its dual.}
+\label{fig-dual-dual-ln-1-e-x}
+\end{figure}
+
+
+
+
+\subsection{Properties}
+
+\begin{claim}
+If $f(x)$ is a concave function
+with dual $\TIL{f}(p)$, then
+\beq
+f(x)= \min_p(p^T x - \TIL{f}(p))
+\label{eq-fx-as-min}
+\eeq
+
+ \beq
+ \nabla_p \TIL{f}(p(x)) = (\nabla_x f)^{-1}(x)
+ \eeq
+Eqs.(\ref{eq-Fp-def})  
+and (\ref{eq-fx-as-min}) 
+are also true if we replace the 
+words ``concave" with ``convex"
+and ``min" with ``max".
+\end{claim}
+\proof
+
+Let $x^*$ 
+be the value of $x$
+which minimizes $\TIL{f}(p)=p^T x-f(x)$
+with respect to $x$. Hence,
+\beq
+\TIL{f}(p) = p^Tx^* - f(x^*)
+\;.
+\label{eq-Fp}
+\eeq
+Rearranging terms in Eq.(\ref{eq-Fp}),
+we get
+
+\beq
+f(x^*) = p^Tx^* - \TIL{f}(p)
+\label{eq-relabel-1}
+\eeq
+
+Let $p^*$ 
+be the value of $p$
+which minimizes $f(x)=p^T x-\TIL{f}(p)$
+with respect to $p$. Hence,
+\beq
+f(x) = (p^*)^Tx - \TIL{f}(p^*)
+\label{eq-relabel-2}
+\eeq
+Replacing $p^*$ by $p$
+and $x$ by $x^*$
+in Eq.(\ref{eq-relabel-2})
+yield Eq.(\ref{eq-relabel-1}).
+
+
+Note that minimization
+with respect to $x$
+is achieved if
+\beq
+p_i = \partial_{x_i}f(x),\;
+p = \nabla_x f(x)
+\eeq
+whereas minimization 
+with respect to $p$
+is achieved if 
+
+\beq
+x_i = \partial_{p_i}\TIL{f}(p),\;x = \nabla_p \TIL{f}(p)
+\eeq
+Hence,
+
+\beq
+x = \nabla_p \TIL{f}(\nabla_x f(x))
+\eeq
+
+\qed
+
+\begin{claim}
+If $f(x)$ is concave
+(resp., convex),
+the $\TIL{f}(p)$
+is also concave (resp., convex)
+\end{claim}
+\proof
+
+\beq 
+\TIL{f}(p)
+=
+x^*p - f(x^*)
+\eeq
+
+\beq
+\frac{d\TIL{f}}{dp}
+=
+x^* +
+\underbrace{(p- f'(x^*))}_{=0}
+\frac{dx^*}{dp}
+= x^*
+\eeq
+
+\beq
+\frac{d^2\TIL{f}}{dp^2}
+=
+\frac{dx^*}
+{dp}
+\eeq
+
+
+\beq
+p= f'(x^*),
+\quad x^* = (f')^{-1}(p)
+\eeq
+
+\beq
+dp = f''(x^*)dx^*,
+\quad
+\frac{dx^*}{dp}=
+\frac{1}{f''(x^*)}
+\eeq
+
+\beq
+\frac{d^2\TIL{f}}{dp^2}
+=
+\frac{1}{f''(x^*)}
+\eeq
+
+
+
+\qed
+
+\begin{claim}
+ LT is its own 
+ inverse (a.k.a.
+ a self-inverse
+ or involution
+ transformation)
+\beq
+\TIL{\TIL{f}}(x) = f(x)
+\eeq
+\end{claim}
+\proof
+$x=x_1, p=x_2$
+
+\beq
+\TIL{f}(x_2)=
+x_2 x_1^* -f(x_1^*),
+\quad 
+x_2=f'(x_1^*)
+\eeq
+
+\beq
+\TIL{\TIL{f}}(x_3)=
+x_3 x_2^* -\TIL{f}(x_2^*),
+\quad 
+x_3=(\TIL{f})'(x_2^*)
+\eeq
+
+\beqa
+\TIL{\TIL{f}}(x_3)&=&
+x_3
+x_2^*
+-x_2^*
+ x_1^* +f(x_1^*)
+ \\
+&=&
+f(x_1^*) \quad \text{( for $x_1^*=x_3$)}
+\eeqa
+
+\beq
+x=x_3=
+(\TIL{f})'(x_2^*)=
+(\TIL{f})'(f'(x_1^*))=x_1^*
+\eeq
+
+
+
+
+
+\qed
+
+Additional properties
+\begin{itemize}
+\item Scaling
+\beq
+ag(bx)\maparrow{LT} a \TIL{g}(\frac{p}{ab})
+\eeq
+for $a,b>0$
+\item Translation
+
+\beq
+g(x+y)+b
+\maparrow{LT} \TIL{g}(p)-p^Ty -b
+\eeq
+\item Frenchel's inequality
+
+\beq
+p^Tx \leq f(x) + \TIL{f}(p)
+\eeq
+
+\end{itemize}
+
+
+
+\subsection{Connection to Fourier transform
+and Quantum Mechanics}
+
+Recall how Fourier transforms (FTs)
+arise in Quantum Mechanics.
+Suppose $x,p\in\RR$ and
+\beq
+\psi(x)
+=\av{\psi|x},
+\quad
+\TIL{\psi}(p)
+=\av{\psi|p}
+,\quad
+\av{x|p}=
+\frac{e^{-ipx}}{\sqrt{2\pi}}
+\eeq
+Then
+
+\beqa
+\TIL{\psi}(p)
+&=&\int_{-\infty}^{\infty}
+dx \av{\psi|x}
+\av{x|p}
+\\
+&=&
+\int_{-\infty}^{\infty}
+\frac{dx}{\sqrt{2\pi}}\;
+e^{-ipx}\psi(x)
+\eeqa
+and
+
+\beqa
+\psi(x)
+&=&\int_{-\infty}^{\infty}
+ dp \av{\psi|p}\av{p|x}
+\\
+&=&
+\int_{-\infty}^{\infty}
+\frac{dp}{\sqrt{2\pi}}\;
+e^{ipx}\TIL{\psi}(p)
+\eeqa
+
+Define a {\bf convolution}
+of two 
+wave functions $\psi_1, 
+\psi_2:\RR\rarrow \RR$
+by
+
+
+\beq
+(\psi_1\circledast\psi_2)(x)=
+\int_{-\infty}^{\infty}
+dy\;
+\psi_1(y)\psi_2(x-y)
+\eeq
+Then
+
+\beq
+(\psi_1\circledast\psi_2)^\sim(p)=
+\TIL{\psi_1}(p)\TIL{\psi_2}(p)
+\eeq
+
+If, in the definition
+of LT,
+we replace the minimum
+over $x$ of
+an arbitrary function $\Gamma:\RR\rarrow \RR$
+by
+
+\beq
+\min_x \Gamma(x)\rarrow
+i\ln\int_{-\infty}^{\infty}
+\frac{dx}{\sqrt{2\pi}} 
+\exp\{-i\Gamma(x)\}
+\eeq
+then we get the
+definition
+of a FT:
+
+\beq
+\underbrace{e^{-i\TIL{f}(p)}}_
+{\TIL{\psi}(p)}=
+\int_{-\infty}^{\infty}
+\frac{dx}{\sqrt{2\pi}}
+\;
+e^{-ip^Tx} 
+\underbrace{e^{i f(x)}
+}_{\psi(x)}
+\eeq
+
+Define the
+{\bf infimal convolution}
+of two functions
+$f,g:\RR^n\rarrow \RR$ by
+
+\beq
+(f\circledast_{inf} g)(x)
+=
+\min_y \left\{
+f(y) + g(x-y)
+\right\}
+\eeq
+Then
+
+\beq
+(f\circledast_{inf} g)^\sim(p)=
+\TIL{f}(p) +\TIL{g}(p)
+\label{eq-lt-inf-conv}
+\eeq
+Eq.(\ref{eq-lt-inf-conv}) requires
+a proof that we leave to the reader,
+but note that it's just
+what would be expected 
+from our ``mapping" of 
+LT to FT.
+
+
+
+
 
 
 
