@@ -1540,6 +1540,40 @@ in an $ACE$ calculation.
 
 \section{PO Confounder Sensitivity Analysis}
 
+There are various ``sensitivity analysis" strategies that are commonly used (for example, by
+the software PyWhy)
+as a sanity check for a
+PO analysis.
+\begin{itemize}
+\item {\bf vary columns of dataset}
+\begin{enumerate}
+\item {\bf randomize $\rvy$ column} (random outcome) This should make $ATE=0$.
+\item {\bf randomize $\rvx$ column}
+(random common cause) This should make $ATE=0$.
+\item {\bf randomize $\rvd$ column} (placebo treatment dose) This should make $ATE=0$.
+\item {\bf add new column $\rvu$}, where $\rvu$ is an ``unobserved 
+common cause".
+This should change $ATE$ 
+in a predictable manner. See below.
+\item {\bf add new column $\rvu$}, where $\rvu$ is a ``randomized 
+common cause".
+This should not change $ATE$.
+\end{enumerate}
+\item {\bf vary rows of dataset},
+either all of them or some of them.
+Replace them by a dataset that 
+should obey same DAG.
+This should not change $ATE$.
+\item {\bf vary good controls}. If using
+a DAG that is more complicated than the
+naive triangular PO DAG,
+vary from one set of good
+controls to another.
+This should not change $ATE$.
+
+\end{itemize}
+
+
 \begin{figure}[h!]
 $$
 \xymatrix{
@@ -1556,9 +1590,18 @@ $$
 \caption{LDEN bnet used to do PO confounder
 sensitivity analysis.
 Node $\rvu$
-is an unobserved confounder. }
+is an unobserved common cause confounder. }
 \label{eq-po-sen-ana}
 \end{figure}
+
+We end this section by 
+deriving a formula
+for the change in $ATE$
+when an unobserved
+common cause $\rvu$ is added to the 
+naive triangular PO DAG.
+(See Fig.\ref{eq-po-sen-ana})
+
 
 Consider the LDEN bnet of Fig.\ref{eq-po-sen-ana}.
 whose structure equations,
