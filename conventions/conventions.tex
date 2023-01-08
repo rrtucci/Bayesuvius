@@ -722,11 +722,10 @@ s(x)[1-s(x)][1-2s(x)]
 \eeqa
 \qed
 
-\section{Estimand, Estimator (curve-fit, cfit), Estimate, Bias}
+\section{Estimand, Estimator (curve-fit), Estimate, Bias}
 \label{sec0-estimand}
 For an {\bf estimand} $\theta$,
-an {\bf estimator (a.k.a. curve fit,
-cfit)} $\ul{\HAT{\theta}}$
+an {\bf estimator (a.k.a. curve-fit)} $\ul{\HAT{\theta}}$
 gives {\bf estimate} $E[\ul{\HAT{\theta}}(\theta)]=\theta+b$
 with {\bf bias} $b$.
 We say this estimate is an {\bf unbiased estimate}
@@ -760,7 +759,7 @@ use the same letter with a
 hat to denote two different quantities, of course.
 When we need to distinguish semantically
 between the real value and the function,
-we will call the function a cfit,
+we will call the function a curve-fit,
 and the real value the estimate.
 
 \section{Maximum Likelihood Estimate,
@@ -847,7 +846,7 @@ R= -2[\ln L(\theta_0) -\ln L(\HAT{\theta})]
 Suppose we are
 given $nsam$ samples $y^\s\in\RR$
 labeled by an index $\s$,
-and a cfit $\haty^\s(a)\in\RR$
+and a curve-fit $\haty^\s(a)\in\RR$
 that depends on a parameter $a\in\RR$.
 Define the {\bf Mean Square
 Error (MSE)}
@@ -1756,27 +1755,29 @@ y=X\beta+\eps
 Define the {\bf projection matrices}
 
 \beq
-\A=X(X^TX)^{-1}X^T
-\;,\;\;\V=1-\A
+I_X=X(X^TX)^{-1}X^T
+\;,\;\;A_X=1-I_X
 \eeq
 A square matrix $M$
 is symmetric if $M^T=M$
 and is idempotent if $M^2=M$.
-$\A$ is symmetric
+$I_X$ is symmetric
 and idempotent
-and so is $\V$.
-Note that $\A$ and $\V$
+and so is $A_X$.
+Note that $I_X$ and $A_X$
 also satisfy:
 
 \beq
-\V\A=\A\V=0
+A_XI_X=I_XA_X=0
 \eeq
 and
 
 \beq
-\A X=X\;,\;\; \V X=0
+I_X X=X\;,\;\; A_X X=0
 \;.
 \eeq
+$I_X$ acts as the identity on $X$, and
+$A_X$ annihilates $X$.
 
 One has
 
@@ -1802,7 +1803,7 @@ Define
 
 \beq
 \HAT{y}=
-X\HAT{\beta}= \A y
+X\HAT{\beta}= I_X y
 \;,
 \eeq
 and
@@ -1810,11 +1811,11 @@ and
 \beq
 \HAT{\eps}=
 y-X\HAT{\beta}=
-y-\HAT{y}=(1-\A)y=\V y
+y-\HAT{y}=(1-I_X)y=A_X y
 \;.
 \eeq
 \end{subequations}
-$\A$ is sometimes  called the {\bf hat matrix},
+$I_X$ is sometimes  called the {\bf hat matrix},
 because it gives $y$ a hat.
 
 Given any function $f=f(y,X,\eps)$
@@ -1826,16 +1827,16 @@ is of {\bf order $\calo$ under scaling}.
 Note that $\{\HAT{y},
  \HAT{\eps}\}$
 are all of order 1 under scaling,
-$\{\beta, \HAT{\beta}, \A, \V\}$
+$\{\beta, \HAT{\beta}, I_X, A_X\}$
 are all of order 0 under scaling,
 and $B$ is of order $-1$ under scaling.
-Thus, each cfit (i.e., symbol
+Thus, each curve-fit (i.e., symbol
 with a hat)
 scales the same way as its estimand (i.e., same
 symbol
 without a hat). Furthermore,
-$\beta$, its cfit $\HAT{\beta}$, and
-the projection matrices $\A, \V$
+$\beta$, its curve-fit $\HAT{\beta}$, and
+the projection matrices $I_X, A_X$
 are invariant ($\calo=0$) under scaling.
 
 
@@ -1847,8 +1848,8 @@ a sum of 2 orthogonal estimates:
 
 
 \beq
-y= \underbrace{\HAT{y}}_{\A y} +
-\underbrace{\HAT{\eps}}_{\V y}
+y= \underbrace{\HAT{y}}_{I_X y} +
+\underbrace{\HAT{\eps}}_{A_X y}
 \;.
 \eeq
 Fig.\ref{fig-lin-reg-vecs}
@@ -1892,13 +1893,13 @@ One finds that
 
 
 \beq
-\av{\HAT{\rvy}}=\A
+\av{\HAT{\rvy}}=I_X
 \underbrace{\av{\rvy}}_{X\beta}
 =\av{\rvy}
 \eeq
 
 \beq
-\av{\HAT{\rveps}}=\V
+\av{\HAT{\rveps}}=A_X
 \underbrace{\av{\rvy}}_{X\beta}
 =0
 \eeq
@@ -1945,7 +1946,7 @@ It follows that
 \beq
 \av{\HAT{\rveps},
 \HAT{\rveps}^T}=
-\V\av{\rvy, \rvy^T}\V^T=\xi^2\V
+A_X\av{\rvy, \rvy^T}A_X^T=\xi^2A_X
 \label{eq-homo}
 \;,
 \eeq
@@ -1953,7 +1954,7 @@ It follows that
 \beq
 \av{\HAT{\rvy},
 \HAT{\rvy}^T}=
-\A\av{\rvy, \rvy^T}\A^T=\xi^2\A
+I_X\av{\rvy, \rvy^T}I_X^T=\xi^2I_X
 \eeq
 and
 
@@ -2033,14 +2034,14 @@ SS_\rvy=\tr\av{\rvy,\rvy^T}
 
 \beq
 SS_{\HAT{\rvy}}=\tr\av{\HAT{\rvy},\HAT{\rvy}^T}
-=\tr\av{\A\rvy, \rvy^T}
+=\tr\av{I_X\rvy, \rvy^T}
 \eeq
 
 \beq
 SS_{res}=\tr\av{\HAT{\rveps}, \HAT{\rveps}^T}
-=\tr\av{\V\rvy, \rvy^T}
+=\tr\av{A_X\rvy, \rvy^T}
 \eeq
-Now use $\A + \V=1$.
+Now use $I_X + A_X=1$.
 \qed
 
 
@@ -2063,7 +2064,7 @@ $R^2$ reduces to
 
 
 \beq
-R^2 =\frac{\tr\; \A}{nsam}
+R^2 =\frac{\tr\; I_X}{nsam}
 \;.
 \eeq
 
@@ -2083,7 +2084,7 @@ $i$ is never equal to 0.
 $\rvy\in\RR$:  true value
 of dependent y-variable
 
-$\HAT{\rvy}\in\RR$: cfit
+$\HAT{\rvy}\in\RR$: curve-fit
 of dependent y-variable
 
 $\ul{\eps}\in\RR$: residual

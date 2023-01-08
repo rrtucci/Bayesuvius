@@ -1576,6 +1576,7 @@ This should not change $ATE$.
 
 \begin{figure}[h!]
 $$
+\begin{array}{cc}
 \xymatrix{
 &\rvu\ar@{-->}[ldd]_{\alp'}
 \ar@{-->}[rdd]^{\beta'}
@@ -1586,11 +1587,25 @@ $$
 \\
 \rvd\ar[rr]_\delta
 &&\rvy
-}$$
-\caption{LDEN bnet used to do PO confounder
+}
+&
+\xymatrix{
+&\rvx
+\ar[ld]^\alp
+\ar[rd]_\beta
+\\
+A_\rvu\rvd\ar[rr]_\delta
+&&A_\rvu\rvy
+}
+\\
+(a)&(b)
+\end{array}
+$$
+\caption{LDEN bnets used to do PO confounder
 sensitivity analysis.
 Node $\rvu$
-is an unobserved common cause confounder. }
+is an unobserved common cause confounder. 
+The operator $A_\rvu$ in bnet $(b)$ annihilates $\rvu$ (i.e., $A_\rvu \rvu =0$)}
 \label{eq-po-sen-ana}
 \end{figure}
 
@@ -1603,7 +1618,7 @@ naive triangular PO DAG.
 (See Fig.\ref{eq-po-sen-ana})
 
 
-Consider the LDEN bnet of Fig.\ref{eq-po-sen-ana}.
+Consider the LDEN bnet of Fig.\ref{eq-po-sen-ana} $(a)$,
 whose structure equations,
 printed in blue, are as follows:
 
@@ -1652,11 +1667,26 @@ ATE|_{\beta'=0}=\delta=\frac{d\rvy}{d\rvd}
 \eeq
 
 \beq
-ATE-ATE|_{\beta'=0}=\frac{\beta'}{\alp'}
-=
-\frac{\quad\frac{d\rvy}{d\rvu}\quad}
-{\frac{d\rvd}{d\rvu}}
+\boxed{
+ATE-ATE|_{\beta'=0}=\frac{\beta'}{\alp'}}
+\label{eq-po-ate-change}
 \eeq
+Note that the right hand side 
+of Eq.(\ref{eq-po-ate-change})
+is the product of the gains
+along the path $\rvd\rarrow \rvu\rarrow\rvy$.
+The gain 
+$1/\alp'$ for $\rvd\rarrow\rvu$  
+equals 
+the inverse of the gain 
+$\alp'$ for $\rvu\rarrow\rvd$.
+
+Neither $\alp'$ nor $\beta'$
+are observed, but the right hand side
+of Eq.(\ref{eq-po-ate-change})
+can be bounded above by
+an observable quantity.
+This is done in Chapter \ref{ch-omitted-var-bias}.
 
 
 \section{$(SDO,ATE)$ space}
