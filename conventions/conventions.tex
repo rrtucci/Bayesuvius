@@ -2058,7 +2058,7 @@ R^2= 1 -\;\frac{SS_{res}}{SS_\rvy}=
 =
 \frac{\tr \av{\HAT{\rvy},\HAT{\rvy}^T}}
 { \tr \av{\rvy,\rvy^T}}
-\eeq
+\label{eq-r-sq-ss}\eeq
 If homo-spread holds, then
 $R^2$ reduces to
 
@@ -2285,7 +2285,8 @@ implies
 \;.
 \eeq
 
-\subsubsection{Geometry of LR with random $x_\s$}
+\subsubsection{LR with random $x_\s$,
+expressed in derivative notation}
 Recall that
 
 \beq
@@ -2316,46 +2317,58 @@ For $k=1, \ldots, n$,
 \;.
 \label{eq-beta-0-wrong}
 \eeq
+Define
+the linear operator
 
+\beq
+\pder{\rva}{\rvb}=
+\frac{\av{\rvb, \rva}}
+{\av{\rvb, \rvb}}
+\eeq
+for any two random variables $\rva, \rvb$.
+Then Eq.(\ref{eq-beta-0-wrong}),
+after dividing both
+of its sides by $\av{\rvx_k, \rvx_k}$,
+can be written as
+
+\beq
+\pder{\rvy}{\rvx_k}=
+\sum_{j=1}^n\beta_j\pder{\rvx_j}{\rvx_k}
+\eeq
 Let $\rvx^n$ and $\beta^n$ be
 $n$-dimensional column vectors.
-Then Eq.(\ref{eq-beta-0-wrong})
-can be represented
- in matrix notation by
-\beq
-\av{\rvx^n, \rvy}=
-\av{\rvx^n, (\rvx^n)^T}\beta^n
-\;.
-\eeq
-Hence,
+If we further define
 
+\beq
+\nabla_{\rvx^n}\rvy
+=\left[\pder{\rvy}{\rvx_1},
+\pder{\rvy}{\rvx_2},
+\ldots, \pder{\rvy}{\rvx^n}\right]^T
+\eeq
+and 
+\beq
+J_{k,j}=
+\pder{\rvx_j}{\rvx_k}
+\;,
+\eeq
+then
+
+\beq
+\nabla_{\rvx^n}\rvy=
+J\beta^n
+\eeq
+so
 \beq
 \boxed{
 \beta^n=
-\av{\rvx^n, (\rvx^n)^T}^{-1}
-\av{ \rvx^n, \rvy}
-\;.}
-\label{eq-beta-random-lin-reg}
+J^{-1}
+\nabla_{\rvx^n}\rvy}
+\label{eq-beta-j-nabla}
 \eeq
-For $\beta_0$, use
-
-\beq
-\beta_0=
-\av{\rvy}-\av{\rvx^n}^T \beta^n
-\eeq
-
-Notice that
-Eq.(\ref{eq-beta-random-lin-reg})
-for the regression coefficients
-is the same
-as Eq.(\ref{eq-beta-random-from-nonrandom}).
-So we have rederived the same formula
-via a different method.
-
 
 Next, we will
 write
- Eq.(\ref{eq-beta-random-lin-reg})
+ Eq.(\ref{eq-beta-j-nabla})
 for the special cases
 $n=1$ and $n=2$,
 where $n$ is the
@@ -2368,9 +2381,9 @@ number of independent x-variables $\rvx_j$
 \rvy = \beta_0 + \beta_1\rvx + \rveps
 \eeq
 
-Eq.(\ref{eq-beta-random-lin-reg}) becomes
+Eq.(\ref{eq-beta-j-nabla}) becomes
 \beq
-\beta_1=
+\beta_1=\pder{\rvy}{\rvx_1}=
 \frac{\av{\rvy,\rvx}}{\av{\rvx,\rvx}}
 \eeq
 
@@ -2381,14 +2394,7 @@ Eq.(\ref{eq-beta-random-lin-reg}) becomes
 \beq
 \rvy = \beta_0 + \beta_1 \rvx_1 + \beta_2 \rvx_2 +\rveps
 \eeq
-Define
-
-
-\beq
-C_{i,j}=\av{\rvx_i, \rvx_j}
-\eeq
-for all $i,j$.
-Then Eq.(\ref{eq-beta-random-lin-reg})
+Eq.(\ref{eq-beta-j-nabla})
 becomes\footnote{
 Recall that if
 $
@@ -2426,29 +2432,29 @@ $
 \end{array}
 \right]
 &=&
-C^{-1}
+J^{-1}
 \left[
 \begin{array}{c}
-\av{\rvy, \rvx_1}
+\partial_{\rvx_1}\rvy
 \\
-\av{\rvy, \rvx_2}
+\partial_{\rvx_2}\rvy
 \end{array}
 \right]
 \\
 &=&
-\frac{1}{\det C}
+\frac{1}{\det J}
 \left[
 \begin{array}{cc}
-C_{22}&-C_{12}
+J_{22}&-J_{12}
 \\
--C_{21}&C_{11}
+-J_{21}&J_{11}
 \end{array}
 \right]
 \left[
 \begin{array}{c}
-\av{\rvy, \rvx_1}
+\partial_{\rvx_1}\rvy
 \\
-\av{\rvy, \rvx_2}
+\partial_{\rvx_2}\rvy
 \end{array}
 \right]
 \eeqa
@@ -2457,13 +2463,20 @@ C_{22}&-C_{12}
 Hence,
 \beq
 \beta_1
-=\pder{\rvy}{\rvx_1}=
+=
 \frac{
-C_{22}\av{\rvy, \rvx_1}
--C_{12}\av{\rvy, \rvx_2}
+J_{22}\partial_{\rvx_1}\rvy
+-J_{12}\partial_{\rvx_2}\rvy
 }
 {
-C_{11}C_{22}-C_{12}^2
+J_{11}J_{22}-J_{12}^2
+}=
+\frac{
+\partial_{\rvx_1}\rvy
+-J_{12}\partial_{\rvx_2}\rvy
+}
+{
+1-J_{12}^2
 }
 \label{eq-beta-lr-plane}
 \eeq
@@ -2480,8 +2493,13 @@ $Y\rarrow \rvy$, $Z\rarrow \rvx_2$.
 
 \end{enumerate}
 
-\subsubsection{Regression
- interpreted as differentiation
+
+
+
+
+
+
+\subsubsection{Double regression
  of $y$}
 
 Finding the derivative of $y$
@@ -2494,7 +2512,7 @@ $\HAT{\beta}=\frac{d}{dX}
 Recall that
 
 \beq
-\rvy = \beta_0 + \sum_{k=1}^n \rvx_k \beta_k + \ul{\eps}
+\rvy = \beta_0 + \sum_{j=1}^n \rvx_j \beta_j + \ul{\eps}
 \;.
 \eeq
 Therefore,
@@ -2502,14 +2520,14 @@ Therefore,
 \beqa
 \av{\rvx_i, \rvy}
 &=&
-\sum_{k=1}^n \av{\rvx_i, \rvx_k}\beta_k
+\sum_{j=1}^n \av{\rvx_i, \rvx_j}\beta_j
 \\
 &=&
  \av{\rvx_i, \rvx_i}\beta_i
 +
-\sum_{k=1}^n
-\indi(k\neq i)
- \av{\rvx_i, \rvx_k}\beta_k
+\sum_{j=1}^n
+\indi(j\neq i)
+ \av{\rvx_i, \rvx_j}\beta_j
 \;.
 \eeqa
 Hence,
@@ -2519,27 +2537,15 @@ Hence,
 =
 \frac{\av{\rvx_i, \rvy}}
 {\av{\rvx_i, \rvx_i}}
--\sum_{k=1}^n
-\indi(k\neq i)
-\frac{ \av{\rvx_i, \rvx_k}}
+-\sum_{j=1}^n
+\indi(j\neq i)
+\frac{ \av{\rvx_i, \rvx_j}}
 {\av{\rvx_i, \rvx_i}}
-\beta_k
+\beta_j
 \;.
 \label{eq-beta-i-non-deriv}
 \eeq
 
-Let's represent
-the linear
-operator
-$\av{\rvx_i, \rvx_i}^{-1}\av{\rvx_i, \cdot}
-$ as a derivative:
-
-\beq
-\frac{d\;\cdot}{d\rvx_i}=
-\frac{\av{\rvx_i, \cdot}}
-{\av{\rvx_i, \rvx_i}}
-\;.
-\eeq
 Eq.(\ref{eq-beta-i-non-deriv})
 can be expressed
 in derivative notation as:
@@ -2547,24 +2553,15 @@ in derivative notation as:
 \beq
 \beta_i
 =
-\frac{d \rvy}
-{d\rvx_i}
--\sum_{k=1}^n\indi(k\neq i)
-\frac{ d\rvx_k}
-{d\rvx_i}
-\beta_k
+\pder{\rvy}
+{\rvx_i}
+-\sum_{j=1}^n\indi(j\neq i)
+\pder{\rvx_j}
+{\rvx_i}
+\beta_j
 \label{eq-beta-i-deriv}
 \eeq
-Note that Eq.(\ref{eq-beta-i-deriv})
-evokes the formula for differentials:
-
-\beq
-d\rvy=
-\sum_{k=1}^n \beta_kd\rvx_k
-\;.
-\eeq
-
-Note also that,
+Note that,
 because of the
 linearity of the derivative operator,
 Eq.(\ref{eq-beta-i-deriv})
@@ -2572,12 +2569,12 @@ implies:
 
 \beq
 \beta_i=
-\frac{d}
-{d\rvx_i}
+\pder{}
+{\rvx_i}
 \left(\rvy
 -
-\underbrace{\sum_{k=1}^n
-\indi(k\neq i)\rvx_k \beta_k
+\underbrace{\sum_{j=1}^n
+\indi(j\neq i)\rvx_j \beta_j
 }_{\rvy-\rvx_i\beta_i}
 \right)
 \label{eq-beta-i-2-steps}
@@ -2590,22 +2587,22 @@ $\HAT{\beta}_i$
 in two steps:
 
 STEP 1: Regress $\rvy-\rvx_i\beta_i$
-on $(\rvx_k)_{k\in \{1,2,
+on $(\rvx_j)_{j\in \{1,2,
 \ldots, n\}- \{ i\}}$.
 Get estimates
-$(\HAT{\beta}_k)_{k\in \{1,2,
+$(\HAT{\beta}_j)_{j\in \{1,2,
 \ldots, n\}- \{ i\}}$.
 
-STEP 2: Regress $\rvy-\sum_{k\neq i} \rvx_k\HAT{\beta}_k$ on $\rvx_i$.
+STEP 2: Regress $\rvy-\sum_{j\neq i} \rvx_j\HAT{\beta}_j$ on $\rvx_i$.
 Get estimate $\HAT{\beta}_i$.
 
 Of course, one can also
 find $\HAT{\beta}_i$
 by regressing $\rvy$
-on $(\rvx_k)_{k\in \{1,2,
+on $(\rvx_j)_{j\in \{1,2,
 \ldots, n\}}$, to get
 estimates
-$(\HAT{\beta}_k)_{k\in \{1,2,
+$(\HAT{\beta}_j)_{j\in \{1,2,
 \ldots, n\}}$.
 
 \section{Logistic Regression (LoR)}
