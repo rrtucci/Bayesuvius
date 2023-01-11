@@ -2383,29 +2383,47 @@ for the special cases
 $n=1$ and $n=2$,
 where $n$ is the
 number of independent x-variables $\rvx_j$.
-We will use the following notation, which is
-used throughout this book.
-For any two random
-variables, $\rva, \rvb$, let
+We will use the following notation.
+For any random
+variables $\rva, \rvb, \rvx$, let
 
 \beq
-\s_\rva =\sqrt{\av{\rva, \rva}}
+E_{|\rvx}[\rva]=\av{\rva}^{|\rvx}
+\quad\text{(mean)}
+\eeq
+
+\beq
+\av{\rva, \rvb}^{|\rvx}=
+\av{\rva\rvb}^{|\rvx}
+-
+\av{\rva}^{|\rvx}\av{\rvb}^{|\rvx}
+\quad\text{(covariance)}
+\eeq
+
+\beq
+\s_\rva^{|\rvx} =\sqrt{\av{\rva, \rva}^{|\rvx}}
 \quad \text{(standard deviation)}
 \eeq
 
 \beq
-\rho_{\rva, \rvb} =\frac{\av{\rva,\rvb}}
-{\s_\rva \s_\rvb}
+\rho_{\rva, \rvb}^{|\rvx} =\frac{\av{\rva, \rvb}^{|\rvx}}
+{\s_\rva^{|\rvx} \s_\rvb^{|\rvx}}
 \quad \text{(correlation)}
 \eeq
 
 \beq
-\pder{\rvb}{\rva}=
-\frac{\av{\rva,\rvb}}
-{\av{\rva, \rva}}=
-\rho_{\rva, \rvb}\frac{\s_\rvb}
-{\s_\rva}
+\partial_\rva^{|\rvx}\rvb=
+\left[\pder{}{\rva}\right]^{|\rvx}\rvb=
+\frac{\av{\rva,\rvb}^{|\rvx}}
+{\av{\rva, \rva}^{|\rvx}}=
+\rho_{\rva, \rvb}^{|\rvx}\frac{
+\s_\rvb^{|\rvx}}
+{\s_\rva^{|\rvx}}
+\quad\text{(partial derivative)}
 \eeq
+``$|\rvx$" means that the variable
+$\rvx$ is held fixed
+when taking all averages.
 
 
 \begin{enumerate}
@@ -2562,8 +2580,54 @@ if  we replace in Pearl's
 formulae $X\rarrow \rvx_1$,
 $Y\rarrow \rvy$, $Z\rarrow \rvx_2$.
 
+Note that Eq.(\ref{eq-beta-lr-plane})
+can also be written as
 
 
+\beqa
+\beta_1
+&=&
+\frac{
+\partial_{\rvx_1}\rvy
+-J_{21}\partial_{\rvx_2}\rvy
+}
+{
+1-J_{21}J_{12}
+}
+\\
+&=&
+\partial_{\rvx_1}\rvy
++\underbrace{\frac{J_{21}J_{12}
+\partial_{\rvx_1}-J_{21}
+\partial_{\rvx_2}
+}{1-J_{21}J_{12}}}
+_{\calo}
+\rvy
+\eeqa
+The linear operator $\calo$
+satisfies
+
+\beq
+\calo(\rvx_1)=0
+\eeq
+and
+\beq
+\calo(\rvx_2)=
+-J_{21}=
+-\partial_{\rvx_1}\rvx_2
+\eeq
+Therefore
+
+\beq
+\calo = -\partial^{|\rvx_1}_{\rvx_1}
+\eeq
+and
+
+\beq
+\beta_1=
+\partial_{\rvx_1}\rvy
+-\partial_{\rvx_1}^{|\rvx_1}\rvy
+\eeq
 
 \end{enumerate}
 
@@ -2641,8 +2705,8 @@ linearity of the derivative operator,
 Eq.(\ref{eq-beta-i-deriv})
 implies:
 
-\beq
-\beta_i=
+\beqa
+\beta_i&=&
 \pder{}
 {\rvx_i}
 \left(\rvy
@@ -2651,9 +2715,14 @@ implies:
 \indi(j\neq i)\rvx_j \beta_j
 }_{\rvy-\rvx_i\beta_i}
 \right)
+\\
+&=&
+\left[\partial_{\rvx_i}
+-
+\partial^{|\rvx_i}_{\rvx_i}\right]\rvy
 \label{eq-beta-i-2-steps}
 \;.
-\eeq
+\eeqa
 
 Eq.(\ref{eq-beta-i-2-steps})
 can be used to find
@@ -2661,8 +2730,7 @@ $\HAT{\beta}_i$
 in two steps:
 
 STEP 1: Regress $\rvy-\rvx_i\beta_i$
-on $(\rvx_j)_{j\in \{1,2,
-\ldots, n\}- \{ i\}}$.
+on $(\rvx_j)_{j\in \{1,2,\ldots, n\}- \{ i\}}$.
 Get estimates
 $(\HAT{\beta}_j)_{j\in \{1,2,
 \ldots, n\}- \{ i\}}$.
