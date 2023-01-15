@@ -430,35 +430,112 @@ Correlation Coefficient of $(\rvx, \rvy)$
 \frac{\av{\rvx, \rvy}}
 {\sqrt{\av{\rvx, \rvx}\av{\rvy, \rvy}}}
 \eeq
+
+\item Partial derivative of $\rvy$
+wrt (i.e., with respect to) $\rvx$
+
+\beq
+\partial_\rvx\rvy
+=
+\pder{\rvy}{\rvx}
+=
+\frac{\av{\rvx,\rvy}}
+{\av{\rvx, \rvx}}
+=
+\rho_{\rvx, \rvy}\frac{
+\s_\rvy}
+{\s_\rvx}
+\eeq
 \end{itemize}
+
 
 \section{Conditional Covariance}
 Let $\rvx, \rvy, \rva$
 be random variables.
-The covariance $Cov(\rvx, \rvy|\rva)$
+The covariance $Cov(\rvx, \rvy|\rva=a)$
 of $\rvx$ and $\rvy$
-given $\rva$, is defined
+given $\rva=a$, is defined
 the same
 way as $Cov(\rvx, \rvy)$,
 except that all
 expected values are
-conditioned on $\rva$.
+conditioned on $\rva=a$.
 
 
 
 \beq
-Cov(\rvx, \rvy|\rva)=
-\av{\rvx, \rvy}_{|\rva}
+Cov(\rvx, \rvy|\rva=a)=
+\av{\rvx, \rvy}^{|a}
 =
-\av{(\rvx-\av{\rvx}_{|\rva})
-(\rvy-\av{\rvy}_{|\rva})}_{|\rva}
+\av{(\rvx-\av{\rvx}^{|a})
+(\rvy-\av{\rvy}^{|a})}^{|a}
 \eeq
 where
 
 \beq
-\av{\rvx}_{|\rva}=E_{\rvx|\rva}[\rvx]
+\av{\rvx}^{|a}=E_{\rvx|a}[\rvx]
 \;.
 \eeq
+
+In this book, we will use the following notation
+for conditional averages.
+For any random
+variables $\rvx, \rvy, \rva$, let
+
+\beq
+E_{|a}[\rvx]=\av{\rvx}^{|a}
+\quad\text{(mean)}
+\eeq
+
+\beq
+\av{\rvx, \rvy}^{|a}=
+\av{\rvx\rvy}^{|a}
+-
+\av{\rvx}^{|a}\av{\rvy}^{|a}
+\quad\text{(covariance)}
+\eeq
+
+\beq
+\s_\rvx^{|a} =\sqrt{\av{\rvx, \rvx}^{|a}}
+\quad \text{(standard deviation)}
+\eeq
+
+\beq
+\rho_{\rvx, \rvy}^{|a} 
+=
+\frac{\av{\rvx, \rvy}^{|a}}
+{\s_\rvx^{|a} \s_\rvy^{|a}}
+=
+\left[
+\frac{\av{\rvx, \rvy}}
+{\s_\rvx \s_\rvy}
+\right]^{|a}
+\quad \text{(correlation)}
+\eeq
+
+\beq
+\partial_\rvx^{|a}\rvy
+=
+\left[\pder{}{\rvx}\right]^{|a}\rvy
+=
+\frac{\av{\rvx,\rvy}^{|a}}
+{\av{\rvx, \rvx}^{|a}}
+=
+\rho_{\rvx, \rvy}^{|a}\frac{
+\s_\rvy^{|a}}
+{\s_\rvx^{|a}}
+=
+\left[
+\rho_{\rvx, \rvy}\frac{
+\s_\rvy}
+{\s_\rvx}\right]^{|a}
+\quad\text{(partial derivative)}
+\eeq
+``$|a$" means that the variable
+$\rva$ is held fixed to $a$
+when taking all averages.
+
+
 
 
 
@@ -2295,6 +2372,64 @@ implies
 
 \subsubsection{LR with random $x_\s$,
 expressed in derivative notation}
+
+Recall our notation for {\it conditional} averages.
+For any random
+variables $\rvx, \rvy, \rva$, let
+
+\beq
+E_{|a}[\rvx]=\av{\rvx}^{|a}
+\quad\text{(mean)}
+\eeq
+
+\beq
+\av{\rvx, \rvy}^{|a}=
+\av{\rvx\rvy}^{|a}
+-
+\av{\rvx}^{|a}\av{\rvy}^{|a}
+\quad\text{(covariance)}
+\eeq
+
+\beq
+\s_\rvx^{|a} =\sqrt{\av{\rvx, \rvx}^{|a}}
+\quad \text{(standard deviation)}
+\eeq
+
+\beq
+\rho_{\rvx, \rvy}^{|a} 
+=
+\frac{\av{\rvx, \rvy}^{|a}}
+{\s_\rvx^{|a} \s_\rvy^{|a}}
+=
+\left[
+\frac{\av{\rvx, \rvy}}
+{\s_\rvx \s_\rvy}
+\right]^{|a}
+\quad \text{(correlation)}
+\eeq
+
+\beq
+\partial_\rvx^{|a}\rvy
+=
+\left[\pder{}{\rvx}\right]^{|a}\rvy
+=
+\frac{\av{\rvx,\rvy}^{|a}}
+{\av{\rvx, \rvx}^{|a}}
+=
+\rho_{\rvx, \rvy}^{|a}\frac{
+\s_\rvy^{|a}}
+{\s_\rvx^{|a}}
+=
+\left[
+\rho_{\rvx, \rvy}\frac{
+\s_\rvy}
+{\s_\rvx}\right]^{|a}
+\quad\text{(partial derivative)}
+\eeq
+``$|a$" means that the variable
+$\rva$ is held fixed to $a$
+when taking all averages.
+
 Recall that
 
 \beq
@@ -2346,6 +2481,7 @@ can be written as
 Let $\rvx^n$ and $\beta^n$ be
 $n$-dimensional column vectors.
 If we further define
+the gradient
 
 \beq
 \nabla_{\rvx^n}\rvy
@@ -2388,66 +2524,9 @@ Next, we will
 write
  Eq.(\ref{eq-beta-j-nabla})
 for the special cases
-$n=1$ and $n=2$,
+$n=1,2,3$,
 where $n$ is the
 number of independent x-variables $\rvx_j$.
-We will use the following notation.
-For any random
-variables $\rva, \rvb, \rvx$, let
-
-\beq
-E_{|x}[\rva]=\av{\rva}^{|x}
-\quad\text{(mean)}
-\eeq
-
-\beq
-\av{\rva, \rvb}^{|x}=
-\av{\rva\rvb}^{|x}
--
-\av{\rva}^{|x}\av{\rvb}^{|x}
-\quad\text{(covariance)}
-\eeq
-
-\beq
-\s_\rva^{|x} =\sqrt{\av{\rva, \rva}^{|x}}
-\quad \text{(standard deviation)}
-\eeq
-
-\beq
-\rho_{\rva, \rvb}^{|x} 
-=
-\frac{\av{\rva, \rvb}^{|x}}
-{\s_\rva^{|x} \s_\rvb^{|x}}
-=
-\left[
-\frac{\av{\rva, \rvb}}
-{\s_\rva \s_\rvb}
-\right]^{|x}
-\quad \text{(correlation)}
-\eeq
-
-\beq
-\partial_\rva^{|x}\rvb
-=
-\left[\pder{}{\rva}\right]^{|x}\rvb
-=
-\frac{\av{\rva,\rvb}^{|x}}
-{\av{\rva, \rva}^{|x}}
-=
-\rho_{\rva, \rvb}^{|x}\frac{
-\s_\rvb^{|x}}
-{\s_\rva^{|x}}
-=
-\left[
-\rho_{\rva, \rvb}\frac{
-\s_\rvb}
-{\s_\rva}\right]^{|x}
-\quad\text{(partial derivative)}
-\eeq
-``$|x$" means that the variable
-$\rvx$ is held fixed to $x$
-when taking all averages.
-
 
 \begin{enumerate}
 \item $n=1$ ($\rvy$ fitted by a line)
@@ -2683,7 +2762,18 @@ $$
 \caption{Bnet for Linear Regression
 of $\rvy$
 with a 3 dimensional feature
-vector $\rvx=(\rvx_1, \rvx_2, \rvx_3)$}
+vector $\rvx=(\rvx_1, \rvx_2, \rvx_3)$.
+$\av{\rvx_j, \rveps}=0$ because
+the path from $\rvx_j$
+to $\rveps$ is blocked by a 
+collider node.
+Note that even though node $\rvy$
+is deterministic, nodes $\rvx_j$ may
+be probabilistic. Hence, this is only
+a partial LDEN 
+(LDEN are 
+discussed in Chapter \ref{ch-linear-sys})
+}
 \label{fig-LR-3x}
 \end{figure}
 
@@ -2773,7 +2863,7 @@ a_{12}&a_{13}
 \centering
 \includegraphics[width=3.5in]
 {conventions/3d-matrix-inv.png}
-\caption{Inverse of 3 dimensional matrix $A$
+\caption{Inverse of the 3 dimensional matrix $A$
 given by Fig.\ref{fig-3dim-matrix}.}
 \label{fig-3dim-matrix-inv}
 \end{figure}
@@ -2971,6 +3061,14 @@ R^2_{{\rvy}\sim \HAT{\rvy}}
 \frac{\s_{\HAT{\rvy}}}
 {\s_\rvy}
 \eeq
+
+\beq
+R^2_{{\rvy}\sim \HAT{\rvy}}
+R^2_{\HAT{\rvy}\sim \rvy}=
+\rho^2_{\rvy, \HAT{\rvy}}
+\eeq
+
+
 
 
 \section{Logistic Regression (LoR)}
