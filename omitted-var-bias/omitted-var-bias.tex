@@ -1,4 +1,4 @@
-\chapter{Omitted variable bias: COMING SOON}
+\chapter{Omitted Variable Bias}
 \label{ch-omitted-var-bias}
 
 This paper is
@@ -14,6 +14,25 @@ which is an introduction
 to sensitivity analysis
 for the Potential Outcomes (PO)
 model.
+
+We will
+ use the terms {\bf ``PO Sensitivity Analysis}"
+and {\bf ``Omitted Variable Bias (OVB)"}
+to mean the same thing.
+In this chapter,
+we consider 2 types 
+of OVB. LDEN bnets for
+these two cases are depicted in Fig.\label{eq-ovb-sen-ana}.
+In Fig.\label{eq-ovb-sen-ana}$(a)$, the omitted variable
+is a confounder,
+and in Fig.\label{eq-ovb-sen-ana} $(b)$,
+it's a mediator.
+
+Next we express OVB for these two cases as
+a product of gains along a path
+that is introduced by the unobserved node, and then we re-express the OVB 
+in terms of correlations between the nodes.
+ 
 
 
 \begin{figure}[h!]
@@ -74,6 +93,8 @@ is an unobserved mediator.}
 
 
 \hrule
+\noindent {\bf CASE $(a)$, confouder}
+
 Consider the LDEN bnet of Fig.\ref{eq-ovb-sen-ana}$(a)$,
 whose structure equations,
 printed in blue, are as follows:
@@ -95,21 +116,35 @@ printed in blue, are as follows:
 \right.
 \eeq
 
+In Section \ref{intro-pot-out-sensitivity},
+we showed that
+for confounder case $(a)$,
 \beq
 \boxed{
-ATE-ATE|_{\beta'=0}=\frac{\beta'}{\alp'}
+OVB_{con}=ATE-ATE|_{\beta'=0}=\frac{\beta'}{\alp'}
 }
 \eeq
+This result is easy to understand.
+$ATE|_{\beta'=0}=\delta$ due to the
+directed path $\rvd\rarrow\rvy$,
+whereas $ATE = \delta +\frac{\beta'}{\alp'}$
+due to the two directed paths 
+$\rvd\rarrow \rvy$ and
+$\rvd\rarrow \rvc\rarrow\rvy$.
+Note that traveling from $\rvc$ to $\rvd$ has gain $\alp'$,
+so traveling in
+the opposite direction has gain $\frac{1}{\alp'}$.
+
+In the following claim,
+we express the OVB
+in terms of correlations
+between the nodes of the bnet.
 
 
-``$|x$"
-at the end of a line means 
-all averages in that line are taken 
-at with $\rvx$ held fixed to
-the value $x$.
 
 \begin{claim}
 \beq
+OVB_{con}=
 \frac{\beta'}{\alp'}
 =
 \frac{
@@ -120,12 +155,11 @@ the value $x$.
 \label{eq-bias-confounder}
 \eeq
 If $\s_{\eps_\rvm}=\s_{\eps_\rvd}=0$,
-then $\rho_{\rvy,\rvc}=\rho_{\rvc, \rvd}=1$
+then $\rho_{\rvy,\rvc}=\rho_{\rvd, \rvc}=1$
 and  
 
 \beq
-\frac{\beta'}{\alp'}
-=
+OVB_{con}=
 \frac{
 \s_\rvy^{|d,x}
 }{
@@ -134,7 +168,12 @@ and
 \eeq
 
 \end{claim}
-\proof
+\proof\footnote{We use ``$|x$"
+at the end of a line
+to mean all
+averages in that
+line are taken
+at fixed $\rvx=x$.}
 
 \beq
 \av{\rvc, \rveps_\rvd}=0\quad\quad|x
@@ -273,8 +312,8 @@ the following are true
 \quad\quad|d,x
 \eeq
 
-Combining the expressions we've gotten
-for $\alp'$ and $\beta'$ yields
+Combining the expressions we've calculated
+for $\alp'$ and $\beta'$,  yields
 
 \beq
 \frac{\beta'}{\alp'}
@@ -288,13 +327,16 @@ for $\alp'$ and $\beta'$ yields
 \right]^{|x}
 \eeq
 
+Now note that
 \beq
 \s_\rvc^2 = \av{\rveps_\rvc, \rveps_\rvc}
 \eeq
+so
 
 \beq
 \s_\rvc^{|x}=\s_\rvc^{|d,x}
 \eeq
+Therefore,
 
 \beq
 \frac{\beta'}{\alp'}
@@ -310,6 +352,8 @@ for $\alp'$ and $\beta'$ yields
 
 
 \hrule
+\noindent {\bf CASE $(b)$, mediator}
+
 Consider the LDEN bnet of Fig.\ref{eq-ovb-sen-ana}$(b)$,
 whose structure equations,
 printed in blue, are as follows:
@@ -332,9 +376,15 @@ printed in blue, are as follows:
 \right.
 \eeq
 
+By an argument
+analogous to the one used
+previously in
+this chapter to 
+prove that $OVB_{con}=\frac{\beta'}{\alp'}$,
+we get
 \beq
 \boxed{
-ATE-ATE|_{\mu=0}=\lam\mu}
+OVB_{med}=ATE-ATE|_{\mu=0}=\lam\mu}
 \eeq
 
 \begin{claim}\footnote{Eq.(\ref{eq-bias-mediator})
@@ -344,6 +394,7 @@ gives the bias for unobserved confounders instead
 of unobserved mediators. But the formula for the bias for unobserved confounders is given by Eq.(\ref{eq-bias-confounder})
 }
 \beq
+OVB_{med}=
 \lam\mu=
 \frac{
 [\rho_{\rvy, \rvm}\s_\rvy]^{|d,x}}
@@ -362,7 +413,7 @@ $\rho_{\rva,\rvb}=\frac{\av{\rva,\rvb}}
 {\s_\rva \s_\rvb}$.}
 
 \beq 
-|\lam\mu| \leq 
+|OVB_{med}| \leq 
 \left|\frac{\s_\rvy^{|d,x}}{\s_{\rvd}}
 \right|
 \eta
@@ -373,7 +424,7 @@ $\rho_{\rva,\rvb}=\frac{\av{\rva,\rvb}}
 \beq
 \av{\rvd, \eps_\rvm}=0
 \eeq
-because paths from $\rvd$ to $\rvm$
+because paths from $\rvd$ to $\rveps_\rvm$
 are blocked by a collider.
 
 \beq
@@ -521,25 +572,18 @@ $[\s_\rvd^2]^{|d,x}=0$ so
 \qed
 \hrule
 
-Let $\calb_{con}=\frac{\alp'}{\beta'}$
-be the bias
- for the confounder case
-(Fig.\ref{eq-ovb-sen-ana}$(a)$), and 
-$\calb_{med}=\lam\mu$ be the bias for the mediator case
-(Fig.\ref{eq-ovb-sen-ana}$(b)$).
-
-Note that both $\calb_{con}$ and $\calb_{med}$
+Note that both $OVB_{con}$ and $OVB_{med}$
 are equal to a product 
 $\calf_\rvd\calf_\rvy$ of two
 factors $\calf_\rvd$ and $\calf_\rvy$.
-For $\calb_{con}$
+For $OVB_{con}$
 
 \beq
 \calf_\rvy = [\rho_{\rvy,\rvc}\s_\rvy]^{|d,x},
 \quad \calf_\rvd =
 \frac{1}{[\rho_{\rvd,\rvc}\s_\rvd]^{|x}}
 \eeq
-For $\calb_{med}$, 
+For $OVB_{med}$, 
 \beq
 \calf_\rvy = [\rho_{\rvy,\rvm}\s_\rvy]^{|d,x},
 \quad
@@ -548,7 +592,7 @@ For $\calb_{med}$,
 1-\rho^2_{\rvd,\rvm}}}
 \eeq
 $\calf_\rvy$ is the same
-for the confounder and mediator cases, except that the node $\rvc$ in $\calf_\rvd$ 
+for the confounder and mediator cases, except that the node $\rvc$ in $\calf_\rvy$ 
 for the confounder case is changed to $\rvm$ in the mediator case. This is to be expected, because 
 in both cases the arrow from
 the unobserved node points into
