@@ -1578,8 +1578,13 @@ This should not change $ATE$.
 $$
 \begin{array}{cc}
 \xymatrix{
-&\rvu\ar@{-->}[ldd]_{\alp'}
-\ar@{-->}[rdd]^{\beta'}
+\eps_\rvd\ar[ddd]
+&\eps_\rvc\ar[d]
+&\eps_\rvy\ar[ddd]
+&\eps_\rvx\ar[lldd]
+\\
+&*++[F-o]{\rvc}\ar[ldd]_{\alp'}
+\ar[rdd]^{\beta'}
 \\
 &\rvx
 \ar[ld]^\alp
@@ -1590,12 +1595,16 @@ $$
 }
 &
 \xymatrix{
-&\rvx
+A_\rvc\eps_\rvd\ar[dd]
+&A_\rvc\eps_\rvx\ar[d]
+&A_\rvc\eps_\rvy\ar[dd]
+\\
+&A_\rvc\rvx
 \ar[ld]^\alp
 \ar[rd]_\beta
 \\
-A_\rvu\rvd\ar[rr]_\delta
-&&A_\rvu\rvy
+A_\rvc\rvd\ar[rr]_\delta
+&&A_\rvc\rvy
 }
 \\
 (a)&(b)
@@ -1603,9 +1612,9 @@ A_\rvu\rvd\ar[rr]_\delta
 $$
 \caption{LDEN bnets used to do PO confounder
 sensitivity analysis.
-Node $\rvu$
+Node $\rvc$
 is an unobserved common cause confounder. 
-The operator $A_\rvu$ in bnet $(b)$ annihilates $\rvu$ (i.e., $A_\rvu \rvu =0$)}
+The operator $A_\rvc$ in bnet $(b)$ annihilates $\rvc$ (i.e., $A_\rvc \rvc =0$)}
 \label{eq-po-sen-ana}
 \end{figure}
 
@@ -1613,7 +1622,7 @@ We end this section by
 deriving a formula
 for the change in $ATE$
 when an unobserved
-common cause $\rvu$ is added to the 
+common cause $\rvc$ is added to the 
 naive triangular PO DAG.
 (See Fig.\ref{eq-po-sen-ana})
 
@@ -1624,28 +1633,31 @@ printed in blue, are as follows:
 
 
 \beq\color{blue}
-\rvd=\alp\rvx +\alp'\rvu
+\rvd=\alp\rvx +\alp'\rvc + \eps_\rvd
 \eeq
 
 \beq\color{blue}
-\rvy = \beta \rvx + \beta'\rvu + \delta \rvd
+\rvy = \beta \rvx + \beta'\rvc + \delta \rvd
++\eps_\rvy
 \eeq
+where $\eps_\rvd$ and $\eps_\rvy$
+are root nodes with zero mean.
 Therefore,
 
 \beq
-\rvu = \frac{1}{\alp'}(\rvd-\alp\rvx)
+\rvc = \frac{1}{\alp'}(\rvd-\eps_\rvd -\alp\rvx)
 \eeq
 
 \beq
 \rvy = \left(\beta-\;\frac{\alp\beta'}{\alp'}\right)\rvx
 +\left(\delta+\frac{\beta'}{\alp'}\right)
-\rvd
+(\rvd-\eps_\rvd) +\eps_\rvy
 \eeq
 
 
 \beq
-\caly_{d|x,u}=E[\rvy(d)|x,u]=E[\rvy|d,x,u]
-=\beta x+ \beta'u +\delta d
+\caly_{d|x,c}=E[\rvy(d)|x,c]=E[\rvy|d,x,c]
+=\beta x+ \beta'c +\delta d
 \eeq
 
 \beq
@@ -1674,12 +1686,12 @@ ATE-ATE|_{\beta'=0}=\frac{\beta'}{\alp'}}
 Note that the right hand side 
 of Eq.(\ref{eq-po-ate-change})
 is the product of the gains
-along the path $\rvd\rarrow \rvu\rarrow\rvy$.
+along the path $\rvd\rarrow \rvc\rarrow\rvy$.
 The gain 
-$1/\alp'$ for $\rvd\rarrow\rvu$  
+$1/\alp'$ for $\rvd\rarrow\rvc$  
 equals 
 the inverse of the gain 
-$\alp'$ for $\rvu\rarrow\rvd$.
+$\alp'$ for $\rvc\rarrow\rvd$.
 
 Neither $\alp'$ nor $\beta'$
 are observed, but the right hand side

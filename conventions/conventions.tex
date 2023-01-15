@@ -2112,6 +2112,14 @@ regression coefficients
 \rvy = \HAT{\rvy}+\ul{\eps}
 \eeq
 
+Fitting $y$
+with a hyperplane
+in the variables $x^n=(x_i)_{i=1}^n$
+(i.e., finding
+the best coefficients $\beta^n=(\beta_i)_{i=1}^n$)
+is called {\bf regressing $y$ on $x^n$}.
+
+
 \subsubsection{Transforming
 expressions
 from
@@ -2388,41 +2396,56 @@ For any random
 variables $\rva, \rvb, \rvx$, let
 
 \beq
-E_{|\rvx}[\rva]=\av{\rva}^{|\rvx}
+E_{|x}[\rva]=\av{\rva}^{|x}
 \quad\text{(mean)}
 \eeq
 
 \beq
-\av{\rva, \rvb}^{|\rvx}=
-\av{\rva\rvb}^{|\rvx}
+\av{\rva, \rvb}^{|x}=
+\av{\rva\rvb}^{|x}
 -
-\av{\rva}^{|\rvx}\av{\rvb}^{|\rvx}
+\av{\rva}^{|x}\av{\rvb}^{|x}
 \quad\text{(covariance)}
 \eeq
 
 \beq
-\s_\rva^{|\rvx} =\sqrt{\av{\rva, \rva}^{|\rvx}}
+\s_\rva^{|x} =\sqrt{\av{\rva, \rva}^{|x}}
 \quad \text{(standard deviation)}
 \eeq
 
 \beq
-\rho_{\rva, \rvb}^{|\rvx} =\frac{\av{\rva, \rvb}^{|\rvx}}
-{\s_\rva^{|\rvx} \s_\rvb^{|\rvx}}
+\rho_{\rva, \rvb}^{|x} 
+=
+\frac{\av{\rva, \rvb}^{|x}}
+{\s_\rva^{|x} \s_\rvb^{|x}}
+=
+\left[
+\frac{\av{\rva, \rvb}}
+{\s_\rva \s_\rvb}
+\right]^{|x}
 \quad \text{(correlation)}
 \eeq
 
 \beq
-\partial_\rva^{|\rvx}\rvb=
-\left[\pder{}{\rva}\right]^{|\rvx}\rvb=
-\frac{\av{\rva,\rvb}^{|\rvx}}
-{\av{\rva, \rva}^{|\rvx}}=
-\rho_{\rva, \rvb}^{|\rvx}\frac{
-\s_\rvb^{|\rvx}}
-{\s_\rva^{|\rvx}}
+\partial_\rva^{|x}\rvb
+=
+\left[\pder{}{\rva}\right]^{|x}\rvb
+=
+\frac{\av{\rva,\rvb}^{|x}}
+{\av{\rva, \rva}^{|x}}
+=
+\rho_{\rva, \rvb}^{|x}\frac{
+\s_\rvb^{|x}}
+{\s_\rva^{|x}}
+=
+\left[
+\rho_{\rva, \rvb}\frac{
+\s_\rvb}
+{\s_\rva}\right]^{|x}
 \quad\text{(partial derivative)}
 \eeq
-``$|\rvx$" means that the variable
-$\rvx$ is held fixed
+``$|x$" means that the variable
+$\rvx$ is held fixed to $x$
 when taking all averages.
 
 
@@ -2609,6 +2632,8 @@ satisfies
 
 \beq
 A_{\rvx_1}(\rvx_1)=0
+\quad\text{($A_{\rvx_1}$
+annihilates $\rvx_1$)}
 \eeq
 and
 \beq
@@ -2619,15 +2644,144 @@ J_{21}=
 Therefore
 
 \beq
-A_{\rvx_1} = \partial^{|\rvx_1}_{\rvx_1}
+A_{\rvx_1} = \partial^{|x_1}_{\rvx_1}
 \eeq
 and
 
 \beq
 \beta_1=
 \partial_{\rvx_1}\rvy
--\partial_{\rvx_1}^{|\rvx_1}\rvy
+-\partial_{\rvx_1}^{|x_1}\rvy
 \eeq
+If we define
+
+\beq
+I_{\rvx_1}=1-A_{\rvx_1}
+\eeq
+then
+
+\beq
+\beta_1 = \partial_{\rvx_1}
+(I_{\rvx_1}\rvy)
+\eeq
+
+\item $n=3$ ($\rvy$ fitted by a volume)
+
+\begin{figure}[h!]
+$$
+\xymatrix{
+\rvx_1\ar[dd]\ar[rd]
+\ar@/^1pc/[rrd]^{\beta_1}
+&&\rveps\ar[d]
+\\
+&\rvx_2\ar[r]^{\beta_2}&\rvy
+\\
+\rvx_3\ar[ur]
+\ar@/_1pc/[rru]_{\beta_3}
+}
+$$
+\caption{Bnet for Linear Regression
+of $\rvy$
+with a 3 dimensional feature
+vector $\rvx=(\rvx_1, \rvx_2, \rvx_3)$}
+\label{fig-LR-3x}
+\end{figure}
+
+
+\beq
+\rvx^3 = [\rvx_1, \rvx_2, \rvx_3]^T
+\eeq
+
+\beq
+\beta^3= [\beta_1,\beta_2, \beta_3]^T
+\eeq
+
+\beq
+\rvy = [\beta^3]^T\rvx^3 + \rveps
+\eeq
+
+\beq
+J_{i,j} =
+\pder{\rvx_i}{\rvx_j}
+\eeq
+
+\beq
+\beta^3=
+(J^T)^{-1}\nabla_{\rvx^3}\rvy
+\eeq
+
+\beq
+J^T
+=
+\left[
+\begin{array}{ccc}
+1&a_{12}&a_{13}\\
+a_{21}&1&a_{23}\\
+a_{31}&a_{32}&1
+\end{array}
+\right]=A
+\eeq
+
+\beq
+a_{i,j}=
+\pder{\rvx_j}{\rvx_i}
+\eeq
+
+Using Figs.\ref{fig-3dim-matrix}
+and \ref{fig-3dim-matrix-inv}, we get
+
+\begin{align}
+\beta_1&=
+\frac{1}{\det A}
+\left(
+\det{\left[
+\begin{array}{cc}
+1&a_{23}
+\\
+a_{32}&1
+\end{array}
+\right]}\partial_{\rvx_1}\rvy
++
+\det{\left[
+\begin{array}{cc}
+a_{13}&a_{12}
+\\
+1&a_{32}
+\end{array}
+\right]}\partial_{\rvx_2}\rvy
++
+\det{\left[
+\begin{array}{cc}
+a_{12}&a_{13}
+\\
+1&a_{23}
+\end{array}
+\right]}\partial_{\rvx_3}\rvy
+\right)
+\end{align}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.5in]
+{conventions/3d-matrix.png}
+\caption{Arbitrary 3 dimensional matrix $A$}
+\label{fig-3dim-matrix}
+\end{figure}
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=3.5in]
+{conventions/3d-matrix-inv.png}
+\caption{Inverse of 3 dimensional matrix $A$
+given by Fig.\ref{fig-3dim-matrix}.}
+\label{fig-3dim-matrix-inv}
+\end{figure}
+
+
+
+
+
 
 \end{enumerate}
 
@@ -2639,13 +2793,6 @@ and
 
 \subsubsection{Double regression
  of $y$}
-
-Finding the derivative of $y$
-with respect to (wrt) $X$
-(a.k.a. ``{\bf Regressing $y$ on $X$}")
-is finding
-$\HAT{\beta}=\frac{d}{dX}
-\underbrace{y}_{X\beta}$.
 
 Recall that
 
@@ -2719,7 +2866,7 @@ implies:
 &=&
 \left[\partial_{\rvx_i}
 -
-\partial^{|\rvx_i}_{\rvx_i}\right]\rvy
+\partial^{|x_i}_{\rvx_i}\right]\rvy
 \label{eq-beta-i-2-steps}
 \;.
 \eeqa
@@ -2746,6 +2893,85 @@ on $(\rvx_j)_{j\in \{1,2,
 estimates
 $(\HAT{\beta}_j)_{j\in \{1,2,
 \ldots, n\}}$.
+
+\subsubsection{$R^2$ with random $x_\sigma$}
+
+Recall that
+
+\beq
+\rvy =
+\underbrace{\beta_0 +\sum_{j=1}^{n}
+\beta_{j} \rvx_j}_{\HAT{\rvy}}
++\ul{\eps}
+\;.
+\eeq
+
+
+Assume
+
+\beq
+\av{\rveps}=0
+\eeq
+and
+\beq
+\av{\rvx_j, \ul{\eps}}=0
+\eeq
+for all $j$.
+
+\beq
+\HAT{\rvy} = \rvy -\rveps
+\eeq
+
+\beqa
+\av{\HAT{\rvy}, \HAT{\rvy}}
+&=&
+\av{\HAT{\rvy}, \rvy-\rveps}
+\\
+&=&
+\av{\HAT{\rvy}, \rvy}
+\label{eq-cov-y-yhat}
+\eeqa
+
+\beqa
+\av{\rvy, \rvy}
+&=&
+\av{\HAT{\rvy}-\eps_\rvy,
+\HAT{\rvy}-\eps_\rvy}
+\\
+&=&
+\av{\HAT{\rvy}, \HAT{\rvy}}
++
+\av{\rveps, \rveps}
+\label{eq-yvar-as-sum}
+\eeqa
+
+The goodness of fit measure $R^2$
+for this model
+is defined by 
+\beq
+R^2_{{\rvy}\sim \HAT{\rvy}}
+=
+\frac{\av{\HAT{\rvy}, \HAT{\rvy}} }
+{\av{{\rvy}, {\rvy}}}
+=
+1 - \frac{\av{\rveps, \rveps} }
+{\av{{\rvy}, {\rvy}}}
+\eeq
+where we are using Eq.(\ref{eq-yvar-as-sum}).
+By Eq.(\ref{eq-cov-y-yhat}), we 
+also have
+\beq
+R^2_{{\rvy}\sim \HAT{\rvy}}
+=
+\frac{\av{{\rvy}, \HAT{\rvy}}}
+{\av{{\rvy},{\rvy}}}
+=
+\pder{\HAT{\rvy}}{\rvy}=
+\rho_{\rvy, \HAT{\rvy}}
+\frac{\s_{\HAT{\rvy}}}
+{\s_\rvy}
+\eeq
+
 
 \section{Logistic Regression (LoR)}
 

@@ -1,43 +1,22 @@
 \chapter{Omitted variable bias: COMING SOON}
 \label{ch-omitted-var-bias}
 
-Recall our notation defined in Chapter \ref{ch-conventions}:
-\beq
-E[\rva]=\av{\rva}
-\eeq
+This paper is
+loosely based on Refs.\cite{cinelli-haz}
+and \cite{cherno-cinelli}.
 
-
-\beq
-cov(\rva, \rvb)= \av{\rva, \rvb}=
-\av{\rva\rvb}-\av{\rva}\av{\rvb}
-\eeq
-
-\beq
-\s_\rva= \sqrt{\av{\rva,\rva}}
-\eeq
-
-\beq
-corr(\rva, \rvb) = \rho_{\rva, \rvb}=
-\frac{\av{\rva,\rvb}}{\sqrt{\av{\rva,\rva}
-\av{\rvb,\rvb}}}
-\leq 1
-\eeq
-
-\beq
-\partial_\rvb\rva(\rvx)=
-\frac{\av{\rvb, \rva}^{|\rvx-\rvb}}{\av{\rvb, \rvb}^{|\rvx-\rvb}}
-=
-\rho_{\rva, \rvb}^{|\rvx-\rvb}
-\frac{\s_\rva^{|\rvx-\rvb}}
-{\s_\rvb^{|\rvx-\rvb}}
-\eeq
 
 \begin{figure}[h!]
 $$
 \begin{array}{cc}
 \xymatrix{
-&\rvu\ar@{-->}[ldd]_{\alp'}
-\ar@{-->}[rdd]^{\beta'}
+\eps_\rvd\ar[ddd]
+&\eps_\rvc\ar[d]
+&\eps_\rvy\ar[ddd]
+&\eps_\rvx\ar[ddll]
+\\
+&*++[F-o]{\rvc}\ar[ldd]_{\alp'}
+\ar[rdd]^{\beta'}
 \\
 &\rvx
 \ar[ld]^\alp
@@ -48,618 +27,809 @@ $$
 }
 &
 \xymatrix{
+\eps_\rvd\ar[ddd]
+&\eps_\rvm\ar[d]
+&\eps_\rvy\ar[ddd]
+&\eps_\rvx\ar[ddll]
+\\
+&*++[F-o]{\rvm}
+\ar[rdd]^{\mu}
+\\
 &\rvx
 \ar[ld]^\alp
 \ar[rd]_\beta
 \\
-A_\rvu\rvd\ar[rr]_\delta
-&&A_\rvu\rvy
+\rvd\ar[rr]_\delta
+\
+\ar[ruu]^\lam
+&&\rvy
 }
 \\
 (a)&(b)
 \end{array}
 $$
-\caption{LDEN bnets used to do PO confounder
+\caption{LDEN bnets used to do PO
 sensitivity analysis.
-Node $\rvu$
-is an unobserved common cause confounder. 
-The operator $A_\rvu$ in bnet $(b)$ annihilates $\rvu$ (i.e., $A_\rvu \rvu =0$)}
+Node $\rvc$ in $(a)$
+is an unobserved confounder,
+and node $\rvm$ in $(b)$
+is an unobserved mediator.}
 \label{eq-ovb-sen-ana}
 \end{figure}
 
-Consider the LDEN bnets of Fig.\ref{eq-ovb-sen-ana}.
+
+
+
+
+
+
+\hrule
+Consider the LDEN bnet of Fig.\ref{eq-ovb-sen-ana}$(a)$,
 whose structure equations,
 printed in blue, are as follows:
 
-For $(a)$,
 \beq
 \color{blue}
 \left\{
 \begin{array}{l}
-\rvu = \rveps_\rvu
-\\ 
-\rvx = \rveps_x
-\\ 
-\rvd = \alp\rvx +\alp'\rvu +\rveps_\rvd
+\rvc = \rveps_\rvc
+\\
+\rvx = \eps_\rvx
+\\
+\rvd = \alp\rvx +\alp'\rvc + \eps_\rvd
 \\ 
 \rvy = \delta \rvd +
-\beta \rvx + \beta'\rvu + \rveps_\rvy
+\beta \rvx + \beta'\rvc
++\eps_\rvy
 \end{array}
 \right.
 \eeq
-
-For $(b)$,
-\beq
-\color{blue}
-\left\{
-\begin{array}{l}
-\rvx^S = \rveps_x^S
-\\ 
-\rvd^S = \alp\rvx^S +\rveps_\rvd^S
-\\
-\rvy^S = \delta \rvd^S +
-\beta \rvx^S  + \rveps_\rvy^S
-\end{array}
-\right.
-\eeq
-
-\beq
-A_\rvu(\rvu, \rvx, \rvd, \rvy, \rveps)=
-(0, \rvx^S, \rvd^S, \rvy^S, \rveps^S)
-\eeq
-
 
 \beq
 \boxed{
-ATE-ATE|_{\beta'=0}=\frac{\beta'}{\alp'}}
-\eeq
-
-\hrule
-
-\beq
-\rvx^3_\beta = [\rvd, \rvx, \rvu]^T
-\eeq
-
-\beq
-\beta^3= [\delta, \beta, \beta']^T
-\eeq
-
-\beq
-\rvy = [\beta^3]^T\rvx^3_\beta + \eps_\rvy
-\eeq
-
-\beq
-(J_\beta)_{i,j} =
-\pder{(\rvx_\beta)_i}{(\rvx_\beta)_j}
-\eeq
-
-\beq
-\beta^3=
-(J^T_\beta)^{-1}\nabla_{\rvx^3}\rvy
-\eeq
-
-\beq
-J^T_\beta=
-\left[
-\begin{array}{ccc}
-1
-&
-\pder{\rvx}
-{\rvd}
-&
-\pder{\rvu}
-{\rvd}
-\\
-\pder{\rvd}
-{\rvx}
-&
-1
-&
-\pder{\rvu}
-{\rvx}
-\\
-\pder{\rvd}
-{\rvu}
-&
-\pder{\rvx}
-{\rvu}
-&
-1
-\end{array}
-\right]
-=
-\left[
-\begin{array}{ccc}
-1&a_{12}&a_{13}\\
-a_{21}&1&a_{23}\\
-a_{31}&a_{32}&1
-\end{array}
-\right]=A
-\eeq
-
-\beq
-a_{12}=\partial_\rvd\rvx,
-\quad
-a_{13}=\partial_\rvd\rvu
-\eeq
-
-\beq
-a_{21}=\partial_\rvx\rvd,
-\quad
-a_{23}=\partial_\rvx\rvu
-\eeq
-
-\beq
-a_{31}=\partial_\rvu\rvd,
-\quad
-a_{32}=\partial_\rvu\rvx
-\eeq
-
-
-
-\begin{align}
-\beta'&=
-\frac{1}{\det A}
-\left(
-\det{\left[
-\begin{array}{cc}
-a_{21}&1
-\\
-a_{31}&a_{32}
-\end{array}
-\right]}\partial_\rvd\rvy
-+
-\det{\left[
-\begin{array}{cc}
-a_{12}&1
-\\
-a_{32}&a_{31}
-\end{array}
-\right]}\partial_\rvx\rvy
-+
-\det{\left[
-\begin{array}{cc}
-1&a_{12}
-\\
-a_{21}&1
-\end{array}
-\right]}\partial_\rvu\rvy
-\right)
-\\
-&=
-\frac{1}{\det A}
-\left(
-\det{\left[
-\begin{array}{cc}
-\partial_\rvx\rvd&1
-\\
-\partial_\rvu\rvd&\partial_\rvu\rvx
-\end{array}
-\right]}\partial_\rvd\rvy
-+
-\det{\left[
-\begin{array}{cc}
-\partial_\rvd\rvx&1
-\\
-\partial_\rvu\rvx&\partial_\rvu\rvd
-\end{array}
-\right]}\partial_\rvx\rvy
-+
-\det{\left[
-\begin{array}{cc}
-1&\partial_\rvd\rvx
-\\
-\partial_\rvx\rvd&1
-\end{array}
-\right]}\partial_\rvu\rvy
-\right)
-\end{align}
-
-\hrule
-
-\beq
-\rvx^2_\alp = [\rvx, \rvu]^T
-\eeq
-
-\beq
-\alp^2= [\alp, \alp']^T
-\eeq
-
-\beq
-\rvd = [\alp^2]^T\rvx^2_\alp + \eps_\rvd
-\eeq
-
-\beq
-(J_\alp)_{i,j} =
-\pder{(\rvx_\alp)_i}{(\rvx_\alp)_j}
-\eeq
-
-\beq
-\alp^2=
-(J^T_\alp)^{-1}\nabla_{\rvx^2_\alp}\rvd
-\eeq
-
-\beq
-J^T_\alp=
-\left[
-\begin{array}{cc}
-1&\pder{\rvu}{\rvx}
-\\
-\pder{\rvx}{\rvu}&1
-\end{array}
-\right]
-\eeq
-
-\beq
-(J^T_\alp)^{-1}=
-\frac{1}{1-(\partial_\rvx\rvu)
-(\partial_\rvu\rvx)}
-\left[
-\begin{array}{cc}
-1&-\pder{\rvu}{\rvx}
-\\
--\pder{\rvx}{\rvu}&1
-\end{array}
-\right]
-\eeq
-
-\beq
-\alp'=
-\frac{1}{1-\partial_\rvx\rvu
-\partial_\rvu\rvx
-}
-\left(
--\partial_\rvu\rvx \partial_\rvx\rvd
-+
-\partial_\rvu\rvd
-\right)
-\eeq
-
-
-
-
-
-\hrule
-
-
-\beqa
-A_{\rvd, \rvx} &=&
-1-\rvd\partial_\rvd
--\rvx\partial_\rvx
-\\
-&=&
-\rvu \partial_\rvu
-\\
-&=&
-1-A_\rvu
-\eeqa
-
-\beq
-A_\rvx = 
-1 -\rvx \partial_\rvx
-\eeq
-
-
-
-\beqa
-\beta' &=& 
-\partial_{A_{\rvd,\rvx}\rvu}
-A_{\rvd, \rvx}\rvy
-\\
-&=&
-\partial_\rvu
-A_{\rvd, \rvx}\rvy
-\\
-&=&
-\rho_{\rvu,A_{\rvd, \rvx}\rvy}
-\frac{\s_{A_{\rvd, \rvx}\rvy}}{\s_\rvu}
-\eeqa
-
-
-\beqa
-\alp'
-&=&
-\partial_{A_{\rvx}\rvu}
-A_{\rvx}\rvd
-\\
-&=&
-\partial_\rvu
-A_{\rvx}\rvd
-\\
-&=&
-\rho_{\rvu,A_{\rvx}\rvd}
-\frac{\s_{A_\rvx\rvd}}
-{\s_\rvu}
-\eeqa
-
-\beq
-\frac{\beta'}{\alp'}=
-\frac{\rho_{\rvu,A_{\rvd, \rvx}\rvy}}
-{\rho_{\rvu, {A_\rvx\rvd}}}
-\quad
-\frac{\s_{A_{\rvd,\rvx}\rvy}}
-{\s_{A_\rvx\rvd}}
-\eeq
-
-
-
-\beqa
-\frac{\av{A_{\rvd, \rvx}\rvu,
-A_{\rvd, \rvx}\rvu}}
-{\av{A_\rvx\rvu, A_\rvx\rvu}}
-&=&
-\frac{\av{\rvu,
-\rvu}}
-{\av{A_\rvx\rvu, A_\rvx\rvu}}
-\eeqa
-
-
-\beqa
-\rho_{A_\rvx\rvu, A_\rvx\rvd}
-&=&
-\partial_{A_\rvx\rvd}
-(A_\rvx\rvu)
-\;
-\partial_{A_\rvx\rvu}
-(A_\rvx\rvd)
-\\
-&=&
-\rho_{\rvu, A_\rvx\rvd}
-\eeqa
-
-\beqa
-1-\rho_{A_\rvx\rvu, A_\rvx\rvd}^2
-&=&
-\frac{\av{A_\rvx\rvu,A_\rvx\rvu}
-\av{ A_\rvx\rvd, A_\rvx\rvd}-
-\av{A_\rvx\rvu,A_\rvx\rvd}^2
-}
-{\av{A_\rvx\rvu,A_\rvx\rvu}
-\av{ A_\rvx\rvd, A_\rvx\rvd}}
-\\
-&=&
-\frac{
-\av{ A_\rvx\rvu, A_\rvx\rvu}
--\frac{\av{A_\rvx\rvu,A_\rvx\rvd}^2}
-{\av{ A_\rvx\rvd, A_\rvx\rvd}}
-}
-{\av{A_\rvx\rvu,A_\rvx\rvu}}
-\\
-&=&
-\frac{\av{\rvu,\rvu}}
-{\av{A_\rvx\rvu,A_\rvx\rvu}}
-\eeqa
-
-\beq
-\Delta(d) = \indi(d=1)-\indi(d=0)
-\eeq
-
-Long $V=(d,x,u)$, Short $V^S=(d^S,x^S)$
-
-\beqa
-\underbrace{\alp(V)}_
-{\rarrow\alp^S(V^S)}
-&=&
-\;\frac{-1}{d-E_{|x,u}[\rvd]}
-\\
-&=&
-\;\frac{-1}{d-\sum_{d'=0}^1d'P(d'|x,u)}
-\\
-&=&
-\underbrace{\frac{\Delta(d)}
-{P(d|x,u)}
-}_{\rarrow \frac{\Delta(d^S)}
-{P(d^S|x^S)}}
-\eeqa
-
-
-
-\beqa
-\underbrace{\caly_{|V}}_
-{\rarrow \caly^S_{|V^S}}
-&=&
-\underbrace{E_{|d,x,u}[\rvy]}_
-{\rarrow E_{|d,x}[\rvy^S]}
-\\
-&=&
-E_{|x,u}[\rvy(d)]
-\\
-&=&
-\sum_{y(d)}P(y(d)|x,u)y(d)
-\\
-&=&
-\underbrace{\caly_{d|x,u}}_
-{\rarrow \caly^S_{d^S|x^S}}
-\eeqa
-
-
-\beq
-\underbrace{\caly_{d}}_{
-\rarrow\caly_{d^S}^S}
-=
-\underbrace{\sum_{x,u}P(x,u)
-\caly_{d|x}}_{
-\rarrow
-\sum_{x^S}P(x^S)
-\caly^S_{d^S|x^S}
+ATE-ATE|_{\beta'=0}=\frac{\beta'}{\alp'}
 }
 \eeq
 
 
-
-\begin{align}
-\underbrace{E_{\rvy,\rvV}[\rvy\alp(\rvV)]}_
-{\rarrow E_{\rvy^S,\rvV^S}[\rvy^S\alp(\rvV^S)]}
-&=
-E_{\rvV}\left[\alp(\rvV)
-E_{\rvy|\rvV}
-[\rvy]
-\right]
-\\
-&=
-E_{\rvV}\left[\alp(\rvV)
-\caly_{|\rvV}
-\right]
-\\
-&=
-E_{\rvx,\rvu}\left[E_{\rvd|\rvx,\rvu}
-\left[\alp(\rvV)
-\caly_{\rvd|\rvx,\rvu}\right]
-\right]
-\\
-&=
-\sum_{x,u} P(x,u)
-\sum_d P(d|x,u)
-\frac{\Delta(d)}
-{P(d|x,u)}
-\caly_{d|x,u}
-\\
-&=
-\underbrace{\caly_{d=1}-\caly_{d=0}}_
-{\rarrow
-\caly_{d^S=1}^S-\caly_{d^S=0}^S}
-\end{align}
-
-\beq
-\underbrace{ATE}_
-{\rarrow ATE^S} 
-=
-\underbrace{\caly_{1}-\caly_{0}}_
-{\rarrow\caly_{1}^S-\caly_{0}^S}
-\eeq
+``$|x$"
+at the end of a line means 
+all averages in that line are taken 
+at with $\rvx$ held fixed to
+the value $x$.
 
 \begin{claim}
-
-\beqa
-ATE-ATE^S
-&=&
-\av{\alp(V)-\alp^S(x^S),
-\caly_{|V}+\caly^S_{|V^S}}_{\rvV, \rvV^S}
-\\
-&=&
-\rho B
-\eeqa
-where
-
 \beq
-\rho = \rho_{\alp(V)-\alp^S(x^S),
-\caly_{|V}+\caly^S_{|V^S}}
+\frac{\beta'}{\alp'}
+=
+\frac{
+[\rho_{\rvy,\rvc}\s_\rvy]^{|d,x}
+}{
+[\rho_{\rvd,\rvc}\s_\rvd]^{|x}
+}
+\label{eq-bias-confounder}
 \eeq
+If $\s_{\eps_\rvm}=\s_{\eps_\rvd}=0$,
+then $\rho_{\rvy,\rvc}=\rho_{\rvc, \rvd}=1$
+and  
 
 \beq
-B=B_\alp
-B_\caly
-\eeq
-
-\beq
-B_{\alp} = \s_{\alp(V)-\alp^S(V^S)}
-\eeq
-
-\beq
-B_\caly = \s_{\caly_{|V}+\caly^S_{|V^S}}
+\frac{\beta'}{\alp'}
+=
+\frac{
+\s_\rvy^{|d,x}
+}{
+\s_\rvd^{|x}
+}
 \eeq
 
 \end{claim}
 \proof
 
-\beqa
-ATE-ATE^S
-&=&
-E_{\rvV, \rvV^S}\left[\alp(V)\caly_{|V}-
-\alp(V^S)\caly_{|V^S}^S
-\right]
-\eeqa
+\beq
+\av{\rvc, \rveps_\rvd}=0\quad\quad|x
+\label{eq-first-alp-prime-eq}
+\eeq
+because the paths from $\rvc$ to
+$\rveps_\rvd$ are blocked by colliders. 
+
+\beq
+\av{\rvd, \rveps_\rvd}=
+\av{\alp'\rvc +\rveps_\rvd, \rveps_\rvd}=
+\av{\rveps_\rvd, \rveps_\rvd}\quad\quad|x
+\eeq 
 
 \beqa
-\underbrace{E_\rvV[\alp(V)]}_
-{\rarrow E_{\rvV^S}[\alp(V^S)]}
+\av{\rvd, \rvd}
 &=&
-\sum_{d,x,u}P(x,u)P(d|x,u)
-\frac{\Delta(d)}{P(d|x,u)}
-\\
-&=&
-\sum_{d,x,u}P(x,u)\Delta(d)
-\\
-&=&
-\underbrace{0}_
-{\rarrow 0}
+\av{\alp'\rvc +\rveps_\rvd,
+\alp'\rvc +\rveps_\rvd}=
+(\alp')^2\av{\rvc,\rvc}
++
+\av{\rveps_\rvd, \rveps_\rvd}
+\quad\quad|x
 \eeqa
 
 \beq
-E_{\rvV, \rvV^S}[\alp(V)\caly^S_{|V^S)}]=
-E_{\rvV, \rvV^S}[\alp^S(V^S)
-\caly_{|V}]=0
+\s_\rvd = |\alp'|\s_\rvc
+\sqrt{1 + \left(\frac{\s_{\rveps_\rvd}}
+{\alp'\s_\rvc}\right)^2}
+\quad\quad|x
+\eeq
+
+\beqa
+\rho_{\rvd, \rvc}
+&=&
+\frac{\av{\rvd,\rvc}}{\sqrt{
+\av{\rvd,\rvd}\av{\rvc, \rvc}
+}}
+\quad\quad|x
+\\
+&=&
+\frac{\av{\alp'\rvc +\rveps_\rvd,\rvc}}
+{\sqrt{
+\av{\alp'\rvc +\rveps_\rvd,
+\alp'\rvc +\rveps_\rvd}\av{\rvc, \rvc}
+}}
+\quad\quad|x
+\\
+&=&
+\frac{\alp'\av{\rvc,\rvc}}
+{\sqrt{
+((\alp')^2\av{\rvc,\rvc}
++
+\av{\rveps_\rvd, \rveps_\rvd})
+\av{\rvc, \rvc}
+}}
+\quad\quad|x
+\\
+&=&
+\frac{\alp'\s_\rvc}
+{\sqrt{
+(\alp'\s_\rvc)^2
++
+\s_{\rveps_\rvd}^2
+}}
+\quad\quad|x
+\\
+&=&
+\frac{\sign(\alp')}
+{\sqrt{1+
+\left(
+\frac{\s_{\rveps_\rvd}}
+{\alp'\s_\rvc}\right)^2
+}}
+\quad\quad|x
+\eeqa
+
+\beq
+\av{\rvc, \rvd}=\alp'\av{\rvc, \rvc}
+\quad\quad|x
+\eeq
+
+\beq
+\alp' =
+\partial_\rvc\rvd =
+\rho_{\rvc, \rvd}
+\frac{\s_\rvd}{\s_\rvc}
+\quad\quad|x
+\eeq
+
+All equations from Eq.(\ref{eq-first-alp-prime-eq})
+up to this point,
+remain valid
+if we make the following
+replacements:
+\beq
+\begin{array}{lll}
+\rvd&\rarrow& \rvy
+\\
+\rveps_\rvd&\rarrow& \rveps_\rvy
+\\
+\rvc&\rarrow&\rvc
+\\
+\alp'&\rarrow& \beta'
+\\ 
+|x&\rarrow& |d,x
+\end{array}
+\eeq
+In particular,
+the following are true
+
+\beq
+\s_\rvy = |\beta'|\s_\rvc
+\sqrt{1 + \left(\frac{\s_{\rveps_\rvy}}
+{\beta'\s_\rvc}\right)}
+\quad\quad|d,x
+\eeq
+
+\beq
+\rho_{\rvy,\rvc}
+=
+\frac{sign(\beta')}
+{\sqrt{1+
+\left(
+\frac{\s_{\rveps_\rvy}}
+{\beta'\s_\rvc}\right)^2
+}}
+\quad\quad|d,x
+\eeq
+
+\beq
+\beta' =
+\partial_\rvc\rvy =
+\rho_{\rvy,\rvc}
+\frac{\s_\rvy}{\s_\rvc}
+\quad\quad|d,x
+\eeq
+
+Combining the expressions we've gotten
+for $\alp'$ and $\beta'$ yields
+
+\beq
+\frac{\beta'}{\alp'}
+=
+\left[
+\frac{\rho_{\rvy,\rvc}\s_\rvy}{\s_\rvc}
+\right]^{|d,x}
+\left[
+\frac{\s_\rvc}{
+\rho_{\rvd,\rvc}\s_\rvd}
+\right]^{|x}
+\eeq
+
+\beq
+\s_\rvc^2 = \av{\rveps_\rvc, \rveps_\rvc}
+\eeq
+
+\beq
+\s_\rvc^{|x}=\s_\rvc^{|d,x}
+\eeq
+
+\beq
+\frac{\beta'}{\alp'}
+=
+\frac{
+[\rho_{\rvy,\rvc}\s_\rvy]^{|d,x}
+}{
+[\rho_{\rvd,\rvc}\s_\rvd]^{|x}
+}
 \eeq
 \qed
 
+
+
+\hrule
+Consider the LDEN bnet of Fig.\ref{eq-ovb-sen-ana}$(b)$,
+whose structure equations,
+printed in blue, are as follows:
+
 \beq
-\rvd = \alp \rvx + \alp'\rvu + \rvu_\rvd
+\color{blue}
+\left\{
+\begin{array}{l}
+\rvm = \lam\rvd +\eps_\rvm
+\\
+\rvx = \eps_\rvx
+\\
+\rvd = \alp\rvx + \eps_\rvd
+\\ 
+\rvy = \delta \rvd +
+\beta \rvx 
++\mu \rvm
++\eps_\rvy
+\end{array}
+\right.
+\eeq
+
+\beq
+\boxed{
+ATE-ATE|_{\mu=0}=\lam\mu}
+\eeq
+
+\begin{claim}\footnote{Eq.(\ref{eq-bias-mediator})
+appears in Ref.\cite{cinelli-haz},
+but that paper claims it 
+gives the bias for unobserved confounders instead
+of unobserved mediators. But the formula for the bias for unobserved confounders is given by Eq.(\ref{eq-bias-confounder})
+}
+\beq
+\lam\mu=
+\frac{
+[\rho_{\rvy, \rvm}\s_\rvy]^{|d,x}}
+{\s_{\rvd}}
+\underbrace{\left[\frac{\rho_{\rvd, \rvm}}{\sqrt{
+1-\rho^2_{\rvd,\rvm}
+}}\right]
+}_{\tan\theta}
+\label{eq-bias-mediator}
+\eeq
+If $|\tan\theta|\leq \eta$, 
+then\footnote{Recall that,
+by the Schwarz Inequality, $|\rho_{\rva, \rvb}|\leq 1$ 
+for any correlation coefficient 
+$\rho_{\rva,\rvb}=\frac{\av{\rva,\rvb}}
+{\s_\rva \s_\rvb}$.}
+
+\beq 
+|\lam\mu| \leq 
+\left|\frac{\s_\rvy^{|d,x}}{\s_{\rvd}}
+\right|
+\eta
+\eeq
+\end{claim}
+\proof
+
+\beq
+\av{\rvd, \eps_\rvm}=0
+\eeq
+because paths from $\rvd$ to $\rvm$
+are blocked by a collider.
+
+\beq
+\av{\rvd, \rvm}=\lam\av{\rvd, \rvd}
+\eeq
+
+\beq
+\lam =
+\pder{\rvm}{\rvd}=
+\rho_{\rvd, \rvm}
+\frac{\s_\rvm}{\s_\rvd}
+\eeq
+
+\beq
+\av{\rvm, \eps_\rvy}=0
+\eeq
+because the paths from
+$\rvm$ to $\eps_\rvy$
+are blocked by a collider.
+Hence,
+
+\beq
+\av{\rvm, \rvy}=\mu\av{\rvm, \rvm}
+\quad\quad|d,x
+\eeq
+
+\beq
+\mu = \pder{\rvy}{\rvm}
+=
+\rho_{\rvy, \rvm}
+\frac{\s_\rvy}{\s_\rvm}
+\quad\quad|d,x
+\eeq
+
+\beq
+\lam\mu=
+\rho_{\rvd, \rvm}
+\frac{\s_\rvm}{\s_\rvd}
+\left[\rho_{\rvy, \rvm}
+\frac{\s_\rvy}{\s_\rvm}\right]^{|d,x}
 \eeq
 
 \beqa
-\av{I_\rvd \rvu, I_\rvd \rvu}
-&=&\av{(I_\rvd \rvu)^2}
--
-\av{I_\rvd \rvu}^2
+\s_\rvm^2
+&=&
+\av{\rvm, \rvm}
 \\
 &=&
-\av{(I_\rvd \rvu)^2}
--
-\av{\rvu}\av{I_\rvd\rvu}
-\quad\text{ (because $\av{I_\rvd\rvu}=
-\av{\rvu}$)}
+\av{\lam\rvd+\rveps_\rvm,
+\lam\rvd+\rveps_\rvm}
 \\
 &=&
-\av{\rvu I_\rvd \rvu}
--
-\av{\rvu}\av{I_\rvd\rvu}
-\quad\text{ (because $I^2_\rvd
-=I_\rvd
-$)}
+\lam^2\av{\rvd,\rvd}
++\av{\rveps_\rvm, \rveps_\rvm}
 \\
 &=&
-\av{\rvu, I_\rvd \rvu}
+\lam^2\s_\rvd^2
+\left(1 + 
+\left(\frac{\s_{\rveps_\rvm}}{
+\lam\s_\rvd}\right)^2
+\right)
+\eeqa
+$[\s_\rvd^2]^{|d,x}=0$ so
+
+\beq
+[\s_{\rvm}^{|d,x}]^2
+=
+\s^2_{\rveps_\rvm}
+\eeq
+
+\beq
+\frac{\s_\rvm}
+{\s_\rvm^{|d,x}}
+=
+\frac{\lam\s_\rvd}
+{\s_{\eps_\rvm}}
+\sqrt{
+1 + \left(
+\frac{\s_{\rveps_\rvm}}{\lam\s_\rvd}
+\right)^2
+}
+\eeq
+
+
+\beqa
+\av{\rvd, \rvm}
+&=&
+\av{\rvd, \lam\rvd +\rveps_\rvm}
+\\
+&=&
+\lam\s_\rvd^2
 \eeqa
 
-\begin{align}
-R^2_{\rvu\sim I_\rvd\rvu}
-&=
-\frac{\av{I_\rvd \rvu, I_\rvd \rvu} }
-{\av{\rvu, \rvu}}
-\quad\text{(by definition)}
+\beqa
+\rho_{\rvd, \rvm}
+&=&
+\frac{\av{\rvd, \rvm}}
+{\s_\rvd\s_\rvm
+}
 \\
-&=
-1 - \frac{\av{A_\rvd \rvu, A_\rvd \rvu} }
-{\av{\rvu, \rvu}}
-\quad\text{(by $\s_{A_\rvd\rvu}
-+
-\s_{I_\rvd\rvu} = \s_{\rvu}$. See Eq.(\ref{eq-r-sq-ss})}
+&=&
+\frac{\lam\s_\rvd}{\s_\rvm}
 \\
-&=
-\frac{\av{\rvu, I_\rvd \rvu}^2}
-{\av{\rvu,\rvu}\av{I_\rvd \rvu, I_\rvd \rvu}}
-\\
-&=
-\rho^2_{\rvu, I_\rvd \rvu}
-\end{align}
+&=&
+\frac{1}
+{
+\sqrt{
+1 + \left(
+\frac{\s_{\rveps_\rvm}}{\lam\s_\rvd}
+\right)^2
+}
+}
+\eeqa
 
-\section{Inverse of 3 dim matrix}
+\beqa
+\sqrt{1-\rho^2_{\rvd,\rvm}}
+&=&
+\frac{
+\frac{\s_{\rveps_\rvm}}{\lam\s_\rvd}}
+{
+\sqrt{
+1 + \left(
+\frac{\s_{\rveps_\rvm}}{\lam\s_\rvd}
+\right)^2
+}
+}
+\eeqa
 
-\begin{figure}[h!]
-\centering
-\includegraphics[width=1.5in]
-{omitted-var-bias/3d-matrix.png}
-\caption{Arbitrary 3 dimensional matrix $A$}
-\label{fig-3dim-matrix}
-\end{figure}
+\beq
+\frac{\s_\rvm}
+{\s_\rvm^{|d,x}}
+=
+\frac{1}
+{\sqrt{1-\rho_{\rvd,\rvm}^2}}
+\eeq
 
-\begin{figure}[h!]
-\centering
-\includegraphics[width=3in]
-{omitted-var-bias/3d-matrix-inv.png}
-\caption{Inverse of 3 dimensional matrix $A$}
-\label{fig-3dim-matrix-inv}
-\end{figure}
+\beq
+\lam\mu
+=
+\frac{[\rho_{\rvy, \rvm}\s_\rvy]^{|d,x}}{\s_\rvd}
+\frac{\rho_{\rvd, \rvm}}{\sqrt{
+1-\rho^2_{\rvd,\rvm}
+}}
+\eeq
+\qed
+\hrule
+
+Let $\calb_{con}=\frac{\alp'}{\beta'}$
+be the bias
+ for the confounder case
+(Fig.\ref{eq-ovb-sen-ana}$(a)$), and 
+$\calb_{med}=\lam\mu$ be the bias for the mediator case
+(Fig.\ref{eq-ovb-sen-ana}$(b)$).
+
+Note that both $\calb_{con}$ and $\calb_{med}$
+are equal to a product 
+$\calf_\rvd\calf_\rvy$ of two
+factors $\calf_\rvd$ and $\calf_\rvy$.
+For $\calb_{con}$
+
+\beq
+\calf_\rvy = [\rho_{\rvy,\rvc}\s_\rvy]^{|d,x},
+\quad \calf_\rvd =
+\frac{1}{[\rho_{\rvd,\rvc}\s_\rvd]^{|x}}
+\eeq
+For $\calb_{med}$, 
+\beq
+\calf_\rvy = [\rho_{\rvy,\rvm}\s_\rvy]^{|d,x},
+\quad
+\calf_\rvd =
+\frac{\rho_{\rvd, \rvm}}{\s_\rvd\sqrt{
+1-\rho^2_{\rvd,\rvm}}}
+\eeq
+$\calf_\rvy$ is the same
+for the confounder and mediator cases, except that the node $\rvc$ in $\calf_\rvd$ 
+for the confounder case is changed to $\rvm$ in the mediator case. This is to be expected, because 
+in both cases the arrow from
+the unobserved node points into
+$\rvy$.
+On the other hand,
+$\calf_\rvd$ is different
+for the confounder and mediator cases,
+because in the confounder case, the unobserved node $\rvc$ points into $\rvd$,
+whereas  in the mediator case,
+$\rvd$ points into the unobserved node $\rvm$.
 
 
 
+%\hrule
+%On reference \cite{cherno-cinelli}
+%
+%
+%
+%
+%\beqa
+%A_{\rvd, \rvx} &=&
+%1-\rvd\partial_\rvd
+%-\rvx\partial_\rvx
+%\\
+%&=&
+%\rvc \partial_\rvc
+%\\
+%&=&
+%1-A_\rvc
+%\eeqa
+%
+%\beq
+%A_\rvx = 
+%1 -\rvx \partial_\rvx
+%\eeq
+%
+%
+%
+%\beqa
+%\beta' &=& 
+%\partial_{A_{\rvd,\rvx}\rvc}
+%A_{\rvd, \rvx}\rvy
+%\\
+%&=&
+%\partial_\rvc
+%A_{\rvd, \rvx}\rvy
+%\\
+%&=&
+%\rho_{\rvc,A_{\rvd, \rvx}\rvy}
+%\frac{\s_{A_{\rvd, \rvx}\rvy}}{\s_\rvc}
+%\eeqa
+%
+%
+%\beqa
+%\alp'
+%&=&
+%\partial_{A_{\rvx}\rvc}
+%A_{\rvx}\rvd
+%\\
+%&=&
+%\partial_\rvc
+%A_{\rvx}\rvd
+%\\
+%&=&
+%\rho_{\rvc,A_{\rvx}\rvd}
+%\frac{\s_{A_\rvx\rvd}}
+%{\s_\rvc}
+%\eeqa
+%
+%\beq
+%\frac{\beta'}{\alp'}=
+%\frac{\rho_{\rvc,A_{\rvd, \rvx}\rvy}}
+%{\rho_{\rvc, {A_\rvx\rvd}}}
+%\quad
+%\frac{\s_{A_{\rvd,\rvx}\rvy}}
+%{\s_{A_\rvx\rvd}}
+%\eeq
+%
+%
+%
+%\beqa
+%\frac{\av{A_{\rvd, \rvx}\rvc,
+%A_{\rvd, \rvx}\rvc}}
+%{\av{A_\rvx\rvc, A_\rvx\rvc}}
+%&=&
+%\frac{\av{\rvc,
+%\rvc}}
+%{\av{A_\rvx\rvc, A_\rvx\rvc}}
+%\eeqa
+%
+%
+%\beqa
+%\rho_{A_\rvx\rvc, A_\rvx\rvd}
+%&=&
+%\partial_{A_\rvx\rvd}
+%(A_\rvx\rvc)
+%\;
+%\partial_{A_\rvx\rvc}
+%(A_\rvx\rvd)
+%\\
+%&=&
+%\rho_{\rvc, A_\rvx\rvd}
+%\eeqa
+%
+%\beqa
+%1-\rho_{A_\rvx\rvc, A_\rvx\rvd}^2
+%&=&
+%\frac{\av{A_\rvx\rvc,A_\rvx\rvc}
+%\av{ A_\rvx\rvd, A_\rvx\rvd}-
+%\av{A_\rvx\rvc,A_\rvx\rvd}^2
+%}
+%{\av{A_\rvx\rvc,A_\rvx\rvc}
+%\av{ A_\rvx\rvd, A_\rvx\rvd}}
+%\\
+%&=&
+%\frac{
+%\av{ A_\rvx\rvc, A_\rvx\rvc}
+%-\frac{\av{A_\rvx\rvc,A_\rvx\rvd}^2}
+%{\av{ A_\rvx\rvd, A_\rvx\rvd}}
+%}
+%{\av{A_\rvx\rvc,A_\rvx\rvc}}
+%\\
+%&=&
+%\frac{\av{\rvc,\rvc}}
+%{\av{A_\rvx\rvc,A_\rvx\rvc}}
+%\eeqa
+%
+%\beq
+%\Delta(d) = \indi(d=1)-\indi(d=0)
+%\eeq
+%
+%Long $V=(d,x,c)$, Short $V^S=(d^S,x^S)$
+%\beq
+%A_\rvc(\rvc, \rvx, \rvd, \rvy)=
+%(0, \rvx^S, \rvd^S, \rvy^S)
+%\eeq
+%
+%\beqa
+%\underbrace{\alp(V)}_
+%{\rarrow\alp^S(V^S)}
+%&=&
+%\;\frac{-1}{d-E_{|x,u}[\rvd]}
+%\\
+%&=&
+%\;\frac{-1}{d-\sum_{d'=0}^1d'P(d'|x,u)}
+%\\
+%&=&
+%\underbrace{\frac{\Delta(d)}
+%{P(d|x,u)}
+%}_{\rarrow \frac{\Delta(d^S)}
+%{P(d^S|x^S)}}
+%\eeqa
+%
+%
+%
+%\beqa
+%\underbrace{\caly_{|V}}_
+%{\rarrow \caly^S_{|V^S}}
+%&=&
+%\underbrace{E_{|d,x,u}[\rvy]}_
+%{\rarrow E_{|d,x}[\rvy^S]}
+%\\
+%&=&
+%E_{|x,u}[\rvy(d)]
+%\\
+%&=&
+%\sum_{y(d)}P(y(d)|x,u)y(d)
+%\\
+%&=&
+%\underbrace{\caly_{d|x,u}}_
+%{\rarrow \caly^S_{d^S|x^S}}
+%\eeqa
+%
+%
+%\beq
+%\underbrace{\caly_{d}}_{
+%\rarrow\caly_{d^S}^S}
+%=
+%\underbrace{\sum_{x,u}P(x,u)
+%\caly_{d|x}}_{
+%\rarrow
+%\sum_{x^S}P(x^S)
+%\caly^S_{d^S|x^S}
+%}
+%\eeq
+%
+%
+%
+%\begin{align}
+%\underbrace{E_{\rvy,\rvV}[\rvy\alp(\rvV)]}_
+%{\rarrow E_{\rvy^S,\rvV^S}[\rvy^S\alp(\rvV^S)]}
+%&=
+%E_{\rvV}\left[\alp(\rvV)
+%E_{\rvy|\rvV}
+%[\rvy]
+%\right]
+%\\
+%&=
+%E_{\rvV}\left[\alp(\rvV)
+%\caly_{|\rvV}
+%\right]
+%\\
+%&=
+%E_{\rvx,\rvc}\left[E_{\rvd|\rvx,\rvc}
+%\left[\alp(\rvV)
+%\caly_{\rvd|\rvx,\rvc}\right]
+%\right]
+%\\
+%&=
+%\sum_{x,u} P(x,u)
+%\sum_d P(d|x,u)
+%\frac{\Delta(d)}
+%{P(d|x,u)}
+%\caly_{d|x,u}
+%\\
+%&=
+%\underbrace{\caly_{d=1}-\caly_{d=0}}_
+%{\rarrow
+%\caly_{d^S=1}^S-\caly_{d^S=0}^S}
+%\end{align}
+%
+%\beq
+%\underbrace{ATE}_
+%{\rarrow ATE^S} 
+%=
+%\underbrace{\caly_{1}-\caly_{0}}_
+%{\rarrow\caly_{1}^S-\caly_{0}^S}
+%\eeq
+%
+%\begin{claim}
+%
+%\beqa
+%ATE-ATE^S
+%&=&
+%\av{\alp(V)-\alp^S(x^S),
+%\caly_{|V}+\caly^S_{|V^S}}_{\rvV, \rvV^S}
+%\\
+%&=&
+%\rho B
+%\eeqa
+%where
+%
+%\beq
+%\rho = \rho_{\alp(V)-\alp^S(x^S),
+%\caly_{|V}+\caly^S_{|V^S}}
+%\eeq
+%
+%\beq
+%B=B_\alp
+%B_\caly
+%\eeq
+%
+%\beq
+%B_{\alp} = \s_{\alp(V)-\alp^S(V^S)}
+%\eeq
+%
+%\beq
+%B_\caly = \s_{\caly_{|V}+\caly^S_{|V^S}}
+%\eeq
+%
+%\end{claim}
+%\proof
+%
+%\beqa
+%ATE-ATE^S
+%&=&
+%E_{\rvV, \rvV^S}\left[\alp(V)\caly_{|V}-
+%\alp(V^S)\caly_{|V^S}^S
+%\right]
+%\eeqa
+%
+%\beqa
+%\underbrace{E_\rvV[\alp(V)]}_
+%{\rarrow E_{\rvV^S}[\alp(V^S)]}
+%&=&
+%\sum_{d,x,u}P(x,u)P(d|x,u)
+%\frac{\Delta(d)}{P(d|x,u)}
+%\\
+%&=&
+%\sum_{d,x,u}P(x,u)\Delta(d)
+%\\
+%&=&
+%\underbrace{0}_
+%{\rarrow 0}
+%\eeqa
+%
+%\beq
+%E_{\rvV, \rvV^S}[\alp(V)\caly^S_{|V^S)}]=
+%E_{\rvV, \rvV^S}[\alp^S(V^S)
+%\caly_{|V}]=0
+%\eeq
+%\qed
+%
+%
