@@ -14,9 +14,9 @@ books calls them
 because they are very 
 convenient for doing causal analysis.
 We will refer  to
-them as linear  Deterministic with 
+them as {\bf linear  Deterministic with 
 External Noise
- (LDEN) diagrams.
+ (LDEN)} diagrams.
 This chapter
 is devoted to LDEN diagrams,
 except that we will
@@ -55,8 +55,8 @@ mutually independent.
 When we
 draw
 a DEN diagram,
-we will
-never draw the exogenous nodes,
+we will sometimes
+not draw the exogenous nodes,
 leaving them implicit.
 
 A {\bf linear DEN diagram (LDEN)} is 
@@ -246,18 +246,28 @@ following {\bf structural equations}:
 \;.
 \eeqa
 \end{subequations}
-Eqs.\ref{eq-fully-conn-2}
-constitute a system of 2 
-linear equations in 2 unknowns
-(the $\rvx$'s) so we can solve
-for the $\rvx$'s in terms 
-of the $\alpha$'s and $\rvu$'s.
-
+Note that
+\begin{subequations}
+\beqa
+\rvx_0 &=&\rvu_0
+\\
+\rvx_1 &=& \alp_{1|0}\rvu_0 + \rvu_1
+\eeqa
+\end{subequations}
+so the $\rvx_i$ can be 
+expressed in terms of the $\rvu_i$.
 Note also that
 \beq
-\av{\rvx_1, \rvx_0}=
+\av{\rvx_0, \rvx_1}=
 \alp_{1|0}\av{\rvx_0, \rvx_0}
-\;.
+\;
+\eeq
+so
+
+\beq
+\alp_{1|0}=\frac{\av{\rvx_0, \rvx_1}}
+{\av{\rvx_0, \rvx_0}}=
+\pder{\rvx_1}{\rvx_0}
 \eeq
 Thus, $\alp_{1|0}$
 can be estimated  
@@ -272,7 +282,7 @@ $$
 \rvx_0\ar[d]_{\alp_{1|0}}
 \ar[dr]^{\alp_{2|0}}
 \\
-\rvx_1\ar[r]^{\alp_{2|1}}
+\rvx_1\ar[r]_{\alp_{2|1}}
 &\rvx_2
 }$$
 \caption{
@@ -300,39 +310,202 @@ following {\bf structural equations}:
 \;.
 \eeqa
 \end{subequations}
-Eqs.\ref{eq-fully-conn-3}
-constitute a system of
-3 linear  equations in 3 unknowns
-(the $\rvx$'s) so we can solve
-for the $\rvx$'s in terms 
-of the $\alpha$'s and $\rvu$'s.
+Let
+\beq
+\rvx^3=
+\left[
+\begin{array}{c}
+\rvx_0
+\\
+\rvx_1
+\\
+\rvx_2
+\end{array}
+\right]\;,
+\quad
+\rvu^3=
+\left[
+\begin{array}{c}
+\rvu_0
+\\
+\rvu_1
+\\
+\rvu_2
+\end{array}
+\right]
+\eeq
+Define the $\alp$ matrix by
+
+\beq
+A=\left[
+\begin{array}{ccc}
+0&0&0
+\\
+\alp_{1|0}&0&0
+\\
+\alp_{2|0}&\alp_{2|1}&0
+\end{array}
+\right]
+\eeq
+Note that
+
+\beq
+\rvx^3 = A\rvx^3 + \rvu^3
+\eeq
+so
+
+\beq
+\rvx^3 = (1-A)^{-1}\rvu^3
+\eeq
+
 
 Note also that
 \begin{subequations}
 \label{eq-fully-conn-3-covs}
 \beqa
-\av{\rvx_1, \rvx_0}&=&
+\av{\rvx_0, \rvx_1}&=&
 \alp_{1|0}\av{\rvx_0, \rvx_0}
 \\
-\av{\rvx_2, \rvx_0}&=&
+\av{\rvx_0, \rvx_2}&=&
 \alp_{2|0}\av{\rvx_0, \rvx_0}
 +
-\alp_{2|1}\av{\rvx_1, \rvx_0}
+\alp_{2|1}\av{\rvx_0, \rvx_1}
 \\
-\av{\rvx_2, \rvx_1}&=&
-\alp_{2|0}\av{\rvx_0, \rvx_1}
+\av{\rvx_1, \rvx_2}&=&
+\alp_{2|0}\av{\rvx_1, \rvx_0}
 +
 \alp_{2|1}\av{\rvx_1, \rvx_1}
 \eeqa
 \end{subequations}
-Eqs.\ref{eq-fully-conn-3-covs}
-constitute a system of
-3 linear  equations in 3 unknowns
-(the $\alpha$'s) so we can solve
-solve for the $\alpha$'s in terms
-of covariances $\av{\rvx_i, \rvx_j}$.
-This gives an estimate
-for the $\alp$'s.
+Hence
+\beq
+\alp_{1|0} = \frac{\av{\rvx_0, \rvx_1}}
+{\av{\rvx_0, \rvx_0}}
+=
+\pder{\rvx_1}{\rvx_0}
+\eeq
+
+\beq
+\left[
+\begin{array}{c}
+\av{\rvx_0, \rvx_2}
+\\
+\av{\rvx_1, \rvx_2}
+\end{array}
+\right]
+=
+\left[
+\begin{array}{cc}
+\av{\rvx_0, \rvx_0}
+&
+\av{\rvx_0, \rvx_1}
+\\
+\av{\rvx_1, \rvx_0}
+&
+\av{\rvx_1, \rvx_1}
+\end{array}
+\right]
+\left[
+\begin{array}{c}
+\alp_{2|0}
+\\
+\alp_{2|1}
+\end{array}
+\right]
+\eeq
+Let
+
+\beq
+\alp^{(2)}=
+\left[
+\begin{array}{c}
+\alp_{2|0}
+\\
+\alp_{2|1}
+\end{array}\right]
+\;,\quad
+\rvx^{(2)}= \left[
+\begin{array}{c}
+\rvx_0
+\\
+\rvx_1
+\end{array}
+\right]
+\;,\quad
+\av{\rvx^{(2)},\rvx_2}
+=\left[
+\begin{array}{c}
+\av{\rvx_0,\rvx_2}
+\\
+\av{\rvx_1,\rvx_2}
+\end{array}
+\right]
+\eeq
+Define the covariance matrix $C^{(2)}$
+for the third row of $A$ by
+
+\beq
+C^{(2)}=
+\left[
+\begin{array}{cc}
+\av{\rvx_0, \rvx_0}
+&
+\av{\rvx_0, \rvx_1}
+\\
+\av{\rvx_1, \rvx_0}
+&
+\av{\rvx_1, \rvx_1}
+\end{array}
+\right]
+\eeq
+Then
+
+\beq
+\av{ \rvx^{(2)},\rvx_2}=C^{(2)}\alp^{(2)}
+\eeq
+so
+
+
+\beq
+\alp^{(2)}=
+[C^{(2)}]^{-1}\av{\rvx^{(2)},\rvx_2}
+\eeq
+Alternatively, let
+
+\beq
+\nabla^{(2)}\rvx_2=
+\left[
+\begin{array}{c}
+\partial_{\rvx_0}\rvx_2
+\\
+\partial_{\rvx_1}\rvx_2
+\end{array}
+\right]
+\eeq
+Define the 
+Jacobian matrix for the third row of $A$ by
+
+\beq
+J_{i,j}^{(2)}=\pder{\rvx_i}{\rvx_j}
+\eeq
+for $i,j\in\{0,1\}$.
+Then
+
+\beq
+\nabla^{(2)}\rvx_2=
+J^{(2)T}\alp^{(2)}
+\eeq
+so
+
+\beq
+\alp^{(2)}=
+[J^{(2)T}]^{-1}\nabla^{(2)}\rvx_2
+\eeq
+$C^{(2)}$ has the nice property that
+it is a symmetric matrix, whereas
+$J^{(2)}$ has the nice property
+that its diagonal elements are all 1.
+
 
 
 \subsection{Fully
@@ -443,7 +616,9 @@ Note that
 \rvx=(1-A)^{-1}\rvu
 \;.
 \eeq
-Therefore,
+so the $\rvx_i$ can be expressed 
+in terms of the $\rvu_i$. 
+More precisely,
 
 
 \beq
@@ -454,50 +629,48 @@ Therefore,
 if $i>j$,
 
 \beq
-\av{\rvu_i, \rvx_j}
-=\av{\rvu_i, f_j(\rvu_{\leq j})}=0
+\av{\rvx_j,\rvu_i}
+=\av{f_j(\rvu_{\leq j}),\rvu_i}=0
 \;.
 \eeq
 Thus, if $i>j$, 
 
 \beqa
-\av{\rvx_i, \rvx_j}&=&
-\sum_{k<i}\alp_{i|k}\av{\rvx_k, \rvx_j}
+\av{\rvx_j, \rvx_i}&=&
+\sum_{k<i}\alp_{i|k}\av{\rvx_j, \rvx_k}
 +
-\av{\rvu_i, \rvx_j}
+\av{\rvx_j, \rvu_i}
 \\
 &=&
-\sum_{k<i}\alp_{i|k}\av{\rvx_k, \rvx_j}
+\sum_{k<i}\alp_{i|k}\av{\rvx_j, \rvx_k}
 \;.
 \label{eq-alp-covs-gen}
 \eeqa
-In matrix notation, 
-Eq.(\ref{eq-alp-covs-gen}) becomes
+As illustrated for the cases $nx=2, 3$
+above,
+Eqs.(\ref{eq-alp-covs-gen}) can be 
+expressed as a system of equations
+for each row of the matrix $A$,
+and those systems of equations can be 
+solved to express the $\alp_{i|k} $
+in terms of the covariances $\av{\rvx_i, \rvx_j}$.
 
+Dividing both sides of 
+Eq.(\ref{eq-alp-covs-gen}) by $\av{\rvx_j, \rvx_j}$, we get, for $i>j$,
 \beq
-\av{\rvx, \rvx^T}_L=A[\av{\rvx, \rvx^T}_L + 
-\av{\rvx,\rvx^T}_D]
+\pder{\rvx_i}{\rvx_j}=
+\sum_{k<i}\alp_{i|k}\pder{\rvx_k}{\rvx_j}
+\label{eq-alp-jacobian-gen}
 \eeq
-where
-we are
-using 
-$\av{\rvx, \rvx^T}_{i, j}=
-\av{\rvx_i, \rvx_j}$
-and denoting
-the strictly lower triangular part
-and diagonal part
-of a matrix $M$ by $M_L$  
-and $M_D$. Thus,
-
-\beq
-A = \av{\rvx, \rvx^T}_L[\av{\rvx, \rvx^T}_L
-+ \av{\rvx, \rvx^T}_D]^{-1}
-\;.
-\eeq
-This gives an estimate
-for the $\alp$'s
-in terms of the
- covariances $\av{\rvx_i, \rvx_j}$.
+As illustrated for the cases $nx=2, 3$
+above,
+Eqs.(\ref{eq-alp-jacobian-gen}) can be 
+expressed as a system of equations
+for each row of the matrix $A$,
+and those systems of equations can be 
+solved to express the $\alp_{i|k} $
+in terms of the partial
+derivatives $\pder{\rvx_i}{\rvx_j}$.
 
 \section{Non-linear DEN diagrams}
 This chapter 
@@ -540,7 +713,7 @@ for $i=0, 1, \ldots, nx-1$.
 Here the $f_i$ are 
 possibly non-linear
 functions
-that depend
+that depend on
 the states
 $x_{<i}$ and $u_i$
 of nodes $\rvx_{<i}$
@@ -565,9 +738,8 @@ With this generalization,
 we can make any
 $f_i()$
 represent a
-continuous probability
-distribution
-such as a Gaussian,
+continuous function
+such as a polynomial,
 or a discrete-valued Boolean
 function
 such as an OR gate.
