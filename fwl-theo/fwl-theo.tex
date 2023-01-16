@@ -6,16 +6,13 @@ The Frisch-Waugh-Lovell (FWL) theorem
 (mnemonic: FoWL Theorem)
 is a method used in Linear Regression (LR).
 It allows us to
-calculate
-a regression coefficient
-by doing LR with two residuals. Let's call them
-the {\bf independent residual} and the
-{\bf dependent or target residual}.\footnote{Standard 
-LR is performed with two features,
-the independent feature and the dependent or target feature.}
-These  two residuals are calculated 
-with the help of two previously
-performed LR steps.
+calculate,
+for LR with
+two features $\rvx_1$ and $\rvx_2$,
+the regression coefficient 
+of feature $\rvx_2$
+by conditioning
+on feature $\rvx_1$.
 
 As in Section \ref{sec-conv-lr}
 on LR, we will consider
@@ -61,218 +58,142 @@ A_1 y = A_1X_2\beta_2  + A_1\eps
 so we can estimate $\beta_2$ by
 
 \beq
-\boxed{
 \HAT{\beta}_2=
-(A_1X_2)^{-1}A_1 y}
+(A_1X_2)^{-1}A_1 y
 \label{eq-fwl-nonrand}
 \;.
 \eeq
-\section{FWL, assuming $x^\s$ are random}
 
+\section{FWL, assuming $x^\s$ are random}
 
 Assume for simplicity that 
 $k_1=k_2=1$
 in Eq.(\ref{eq-y-x1-x2-eps}). Let
-$\beta_1=\alp\in\RR$, 
-$\beta_2=\beta\in\RR$.
+$\beta_1,\beta_2\in\RR$.
 When the $x^\s$ are random and i.i.d.,
-and
+the
 $X_1, X_2$ are
 replaced by 
 the random variables
-$\rvx, \rvd\in \RR$,
-Eq.(\ref{eq-y-x1-x2-eps})
-is equivalent to
-
-
-\beq
-\rvy=\alpha \rvx + \beta \rvd
-+ \rvu_\rvy
-\label{eq-y-ax-bd-u}
-\;.
-\eeq
-
-As usual, we will denote
-the linear operator
-$\av{\rvx,\rvx}^{-1}\av{\rvx, \cdot}$
-by a derivative operator:
-
-\beq
-\frac{\av{\rvx, \cdot}}
-{\av{\rvx,\rvx}}=
-\pder{\cdot}{\rvx}
-\;.
-\eeq
-Define operators $U_\rvx$ and $A_\rvx$ by
-
-\beq
-U_\rvx(\cdot)= \rvx\pder{\cdot}{\rvx}
-\eeq
+$\rvx_1, \rvx_2\in \RR$,
 and
+Eq.(\ref{eq-y-x1-x2-eps})
+becomes
 
 \beq
-A_\rvx = 1 - U_\rvx
-\;.
-\eeq
-Note that
-
-\beq
-U_\rvx\rvx=\rvx\;,\;\;
-A_\rvx \rvx=0
-\;.
+\rvy = \beta_1 \rvx_1 + 
+\beta_2\rvx_2 + \rveps_\rvy
+\label{eq-y-x1-x2-rand}
 \eeq
 
-If we apply $A_\rvx$ to Eq.(\ref{eq-y-ax-bd-u}), we get
-
-\beq
-A_\rvx\rvy = \beta A_\rvx \rvd
-+A_\rvx\rvu_\rvy
-\;.
-\eeq
-Hence,
-
-\beq
-\av{A_\rvx\rvd, A_\rvx\rvy}=
-\beta\av{A_\rvx\rvd, A_\rvx\rvd}
-\;.
-\eeq
-Thus,
-
-\beq
-\boxed{
-\beta = \pder{(A_\rvx \rvy)}{(A_\rvx\rvd)}
-}
-\;.
-\label{eq-fwl-rand}
-\eeq
-\hrule
-Eqs.(\ref{eq-fwl-nonrand})
-and (\ref{eq-fwl-rand})
-constitute our statement
-of the FWL theorem. They
-are the main result of this chapter.
-But before ending this chapter,
-let us show how the
-FWL theorem for random $x^\s$
-can be interpreted
-graphical using LDEN diagrams
-(LDEN diagrams
-are discussed in Chapter \ref{ch-linear-sys}).
+Fig.\ref{fig-fwl-ab}
+shows two LDEN bnets in
+which Eq.(\ref{eq-y-x1-x2-rand})
+can arise.
 
 
 \begin{figure}[h!]
 $$
+\begin{array}{cc}
 \xymatrix{
-\rvu_\rvd\ar[d]
-&\rvx\ar[dr]^\alpha
-\ar[dl]_\gamma
-&\rvu_\rvy\ar[d]
+\rveps_{\rvx_2}\ar[dd]
+&\rveps_{\rvx_1}\ar[d]
+&\rveps_{\rvy}\ar[dd]
 \\
-\rvd\ar[rr]_\beta&&\rvy
+&\rvx_1\ar[dr]^{\beta_1}
+\ar[dl]_\alp
 \\
-&(a)
-}\;\;\;
-\xymatrix{\rvu_\rvd\ar[d]
-&\rvx\ar[dr]^{\alpha'}\ar[dl]_\gamma
-&\rvu'_\rvy\ar[d]
-\\
-\rvd&&\rvy
-\\
-&(b)}
-\;\;\;
-\xymatrix{
-\\
-A_\rvx\rvd\ar[rr]_\beta&&A_\rvx\rvy
-\\
-&(c)
-}$$
-\caption{LDEN diagrams for discussing the FWL theorem.
+\rvx_2\ar[rr]_{\beta_2}
+&&\rvy
 }
-\label{fig-fwl-abc}
+&
+\xymatrix{
+\rveps_{\rvx_2}\ar[dd]
+&\rveps_{\rvx_1}\ar[d]
+&\rveps_{\rvy}\ar[dd]
+\\
+&\rvx_1\ar[dr]^{\beta_1}
+\\
+\rvx_2\ar[rr]_{\beta_2}
+\ar[ur]^\lam
+&&\rvy
+}
+\\
+(a)&(b)
+\end{array}$$
+\caption{LDEN bnets for discussing the FWL theorem.
+$(a)$ and $(b)$ only
+differ in the direction of the 
+arrow between $\rvx_1$
+and $\rvx_2$.
+}
+\label{fig-fwl-ab}
 \end{figure}
 
-Fig.\ref{fig-fwl-abc}$(a)$
-is a graphical
-representation of the following equations:
-\begin{subequations}
+The structure equations,
+printed in blue,
+for the 2 bnets of Fig.\ref{fig-fwl-ab},
+are as follows:
+
+For $(a)$,
 \beq
+\color{blue}
 \left\{
 \begin{array}{l}
-\rvd = \gamma \rvx + \rvu_\rvd
+\rvx_1 = \rveps_{\rvx_1}
 \\
-\rvy = \alpha \rvx + \beta\rvd + \rvu_\rvy
+\rvx_2 = \alp\rvx_1 +\rveps_{\rvx_2}
+\\
+\boxed{\rvy = \beta_1 \rvx_1 + 
+\beta_2\rvx_2 + \rveps_\rvy}
 \end{array}
 \right.
-\;.
-\label{eq-fwl-a}
 \eeq
-Likewise, Fig.\ref{fig-fwl-abc}$(b)$
-represents
 
+For $(b)$,
 \beq
+\color{blue}
 \left\{
 \begin{array}{l}
-\rvd = \gamma \rvx + \rvu_\rvd
+\rvx_1 = \lam\rvx_2+\rveps_{\rvx_1}
 \\
-\rvy = \alpha'\rvx + \rvu'_\rvy
+\rvx_2 = \rveps_{\rvx_2}
+\\
+\boxed{\rvy = \beta_1 \rvx_1 + 
+\beta_2\rvx_2 + \rveps_\rvy}
 \end{array}
 \right.
-\label{eq-fwl-b}
 \eeq
-and Fig.\ref{fig-fwl-abc}$(c)$
-represents
+What we are going to say next
+depends only on the boxed
+equation, so it applies
+equally to cases $(a)$ and $(b)$.
+
+Assume
+\beq
+\av{\rveps_\rvy}=0
+\eeq
+Note that
 
 \beq
-A_\rvx\rvy = \beta A_\rvx \rvd
-\;.
-\label{eq-fwl-c}
+\av{\rvx_j, \rveps_\rvy}=0
 \eeq
-\end{subequations}
-
-Applying $\partial_\rvx$ to Eq.(\ref{eq-fwl-a})
-yields
+because the path from 
+$\rvx_j$ to $\rveps_\rvy$ is 
+blocked by a collider.
+Hence
 
 \beq
-\pder{\rvy}{\rvx}=
-\alp
-+\beta\pder{\rvd}{\rvx}
-\;,\quad
-\gamma=\pder{\rvd}{\rvx}
-\eeq
-Applying $\partial_\rvx$ to Eq.(\ref{eq-fwl-b})
-yields
-
-
-\beq
-\alp'=\pder{\rvy}{\rvx}
-\;.
-\eeq
-Therefore,
-
-\beq
-\alp'=\alp +\beta\gamma
-\;.
+\av{\rvx_2, \rvy}^{|x_1}= \beta_2 \av{\rvx_2, \rvx_2}^{|x_1}
 \eeq
 
-Applying $A_\rvx$ to Eq.(\ref{eq-fwl-b})
-yields
 \beq
-A_\rvx\rvy=(1-\rvx\pder{}{\rvx})\rvy=
-\rvy-\alp'\rvx
-\eeq
-and
-
-\beq
-A_\rvx\rvd=
-(1-\rvx\pder{}{\rvx})\rvd
+\beta_2 = 
+\left[\frac{\av{\rvx_2, \rvy}}
+{\av{\rvx_2, \rvx_2}}\right]^{|x_1}
 =
-\rvd-\gamma\rvx
-\;.
+\left[\pder{}{\rvx_2}\right]^{|x_1}
+\rvy
 \eeq
-Therefore, Eq.(\ref{eq-fwl-c})
-is equivalent to
 
-\beq
-\rvy-\alpha'\rvx = \beta(\rvd-\gamma\rvx)
-\;.
-\eeq
+
