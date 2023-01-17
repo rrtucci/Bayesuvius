@@ -30,7 +30,7 @@ it's a mediator.
 
 Next we express OVB for these two cases as
 a product of gains along a path
-that is introduced by the unobserved node, and then we re-express the OVB 
+that goes through the unobserved node, and then we re-express the OVB 
 in terms of correlations between the nodes.
  
 
@@ -135,8 +135,8 @@ Note that traveling from $\rvc$ to $\rvd$ has gain $\alp'$,
 so traveling in
 the opposite direction has gain $\frac{1}{\alp'}$.
 
-In the following claim,
-we express the OVB
+Next
+we express $OVB_{con}$
 in terms of correlations
 between the nodes of the bnet.
 
@@ -175,12 +175,15 @@ averages in that
 line are taken
 at fixed $\rvx=x$.}
 
+Note that
+
 \beq
 \av{\rvc, \rveps_\rvd}=0\quad\quad|x
 \label{eq-first-alp-prime-eq}
 \eeq
 because the paths from $\rvc$ to
 $\rveps_\rvd$ are blocked by colliders. 
+Hence,
 
 \beq
 \av{\rvd, \rveps_\rvd}=
@@ -258,14 +261,17 @@ $\rveps_\rvd$ are blocked by colliders.
 
 \beq
 \alp' =
-\partial_\rvc\rvd =
+\frac{\av{\rvc,\rvd}}{\av{\rvc,\rvc}}
+=
+\partial_\rvc\rvd 
+=
 \rho_{\rvc, \rvd}
 \frac{\s_\rvd}{\s_\rvc}
 \quad\quad|x
 \eeq
 
-All equations from Eq.(\ref{eq-first-alp-prime-eq})
-up to this point,
+All equations between Eq.(\ref{eq-first-alp-prime-eq})
+and this point,
 remain valid
 if we make the following
 replacements:
@@ -312,8 +318,8 @@ the following are true
 \quad\quad|d,x
 \eeq
 
-Combining the expressions we've calculated
-for $\alp'$ and $\beta'$,  yields
+Combining our newly found expressions for
+for $\alp'$ and $\beta'$,  we get
 
 \beq
 \frac{\beta'}{\alp'}
@@ -331,7 +337,8 @@ Now note that
 \beq
 \s_\rvc^2 = \av{\rveps_\rvc, \rveps_\rvc}
 \eeq
-so
+which is independent
+of $\rvd$ and $\rvx$, so
 
 \beq
 \s_\rvc^{|x}=\s_\rvc^{|d,x}
@@ -387,11 +394,17 @@ we get
 OVB_{med}=ATE-ATE|_{\mu=0}=\lam\mu}
 \eeq
 
+Next
+we express $OVB_{med}$
+in terms of correlations
+between the nodes of the bnet.
+
+
 \begin{claim}\footnote{Eq.(\ref{eq-bias-mediator})
 appears in Ref.\cite{cinelli-haz},
 but that paper claims it 
 gives the bias for unobserved confounders instead
-of unobserved mediators. But the formula for the bias for unobserved confounders is given by Eq.(\ref{eq-bias-confounder})
+of unobserved mediators. But the formula for the bias for unobserved confounders is given by Eq.(\ref{eq-bias-confounder}).
 }
 \beq
 OVB_{med}=
@@ -421,11 +434,12 @@ $\rho_{\rva,\rvb}=\frac{\av{\rva,\rvb}}
 \end{claim}
 \proof
 
+Note that
 \beq
 \av{\rvd, \eps_\rvm}=0
 \eeq
 because paths from $\rvd$ to $\rveps_\rvm$
-are blocked by a collider.
+are blocked by a collider. Hence,
 
 \beq
 \av{\rvd, \rvm}=\lam\av{\rvd, \rvd}
@@ -433,13 +447,18 @@ are blocked by a collider.
 
 \beq
 \lam =
+\frac{\av{\rvd,\rvm}}{\av{\rvd,\rvd}}
+=
 \pder{\rvm}{\rvd}=
 \rho_{\rvd, \rvm}
 \frac{\s_\rvm}{\s_\rvd}
 \eeq
 
+Note that also
+
 \beq
 \av{\rvm, \eps_\rvy}=0
+\quad\quad |d,x
 \eeq
 because the paths from
 $\rvm$ to $\eps_\rvy$
@@ -452,12 +471,19 @@ Hence,
 \eeq
 
 \beq
-\mu = \pder{\rvy}{\rvm}
+\mu 
+=
+\frac{\av{\rvm,\rvy}}{\av{\rvm,\rvm}}
+= \pder{\rvy}{\rvm}
 =
 \rho_{\rvy, \rvm}
 \frac{\s_\rvy}{\s_\rvm}
 \quad\quad|d,x
 \eeq
+Combining
+our newly found
+expressions for $\lam$ and $\mu$,
+we get
 
 \beq
 \lam\mu=
@@ -466,7 +492,14 @@ Hence,
 \left[\rho_{\rvy, \rvm}
 \frac{\s_\rvy}{\s_\rvm}\right]^{|d,x}
 \eeq
+Let
 
+\beq
+e_\lam =
+\frac{\s_{\rveps_\rvm}}{
+\lam\s_\rvd}
+\eeq
+Then
 \beqa
 \s_\rvm^2
 &=&
@@ -483,31 +516,31 @@ Hence,
 &=&
 \lam^2\s_\rvd^2
 \left(1 + 
-\left(\frac{\s_{\rveps_\rvm}}{
-\lam\s_\rvd}\right)^2
+e_\lam^2
 \right)
+\;,
 \eeqa
-$[\s_\rvd^2]^{|d,x}=0$ so
+and, since $[\s_\rvd^2]^{|d,x}=0$, we have
 
 \beq
 [\s_{\rvm}^{|d,x}]^2
 =
 \s^2_{\rveps_\rvm}
 \eeq
+Hence,
 
 \beq
 \frac{\s_\rvm}
 {\s_\rvm^{|d,x}}
 =
-\frac{\lam\s_\rvd}
-{\s_{\eps_\rvm}}
+\frac{1}
+{e_\lam}
 \sqrt{
-1 + \left(
-\frac{\s_{\rveps_\rvm}}{\lam\s_\rvd}
-\right)^2
+1 + 
+e_\lam^2
 }
 \eeq
-
+Furthermore,
 
 \beqa
 \av{\rvd, \rvm}
@@ -517,6 +550,7 @@ $[\s_\rvd^2]^{|d,x}=0$ so
 &=&
 \lam\s_\rvd^2
 \eeqa
+so
 
 \beqa
 \rho_{\rvd, \rvm}
@@ -532,33 +566,28 @@ $[\s_\rvd^2]^{|d,x}=0$ so
 \frac{1}
 {
 \sqrt{
-1 + \left(
-\frac{\s_{\rveps_\rvm}}{\lam\s_\rvd}
-\right)^2
+1 + 
+e_\lam^2
 }
 }
 \eeqa
-
-\beqa
-\sqrt{1-\rho^2_{\rvd,\rvm}}
-&=&
-\frac{
-\frac{\s_{\rveps_\rvm}}{\lam\s_\rvd}}
-{
-\sqrt{
-1 + \left(
-\frac{\s_{\rveps_\rvm}}{\lam\s_\rvd}
-\right)^2
-}
-}
-\eeqa
+Hence,
 
 \beq
+\sqrt{1-\rho^2_{\rvd,\rvm}}
+=
+\frac{
+e_\lam}
+{
+\sqrt{
+1 + e_\lam^2
+}
+}
+=
+\left(
 \frac{\s_\rvm}
 {\s_\rvm^{|d,x}}
-=
-\frac{1}
-{\sqrt{1-\rho_{\rvd,\rvm}^2}}
+\right)^{-1}
 \eeq
 
 \beq
