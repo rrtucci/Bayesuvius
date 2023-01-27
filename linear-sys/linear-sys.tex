@@ -241,7 +241,7 @@ We will present these solutions
 gradually, first for fully connected 
 LDEN diagrams, and then for the
 general case that does not require
-full connectedness.
+full connectivity.
 
 \section{Fully connected 
 LDEN diagrams}
@@ -259,11 +259,13 @@ This means that $\rvx_i$ happens after
 $\rvx_j$ if $i>j$.
 When the nodes are ordered topologically,
 $\alp_{i|j}=0$ if $j\geq i$.
+
 In the fully connected case, $\alp_{i|j}\neq 0$
 for all $j<i$,
 and for any node $\rvx_i$, all previous nodes
 are parents of $\rvx_i$ and we draw arrows  
 $\rvx_j\rarrow\rvx_i$ for $j=0, 1, \ldots, i-1$.
+
 In the not
 fully connected case,
 some of the $\alp_{i|j}$ 
@@ -502,6 +504,11 @@ C[diag(\av{\rvx_i, \rvx_i})]^{-1}
 [(1-A)^{-1}]^T[diag(\av{\rvx_i, \rvx_i})]^{-1}
 \eeqa
 
+$C$ has the nice property that
+it is a symmetric matrix, whereas
+$J$ has the nice property
+that its diagonal elements are all 1.
+
 \item UNK-G solution
 
 Note that
@@ -646,12 +653,8 @@ so
 \alp^{(2)}=
 [J^{(2)T}]^{-1}\nabla^{(2)}\rvx_2
 \eeq
-$C^{(2)}$ has the nice property that
-it is a symmetric matrix, whereas
-$J^{(2)}$ has the nice property
-that its diagonal elements are all 1.
-From either the $C$ or the $J$ expression,
-we see that the $\alp_{i|k}$
+From  the $C^{(r)}$ and the $J^{(r)}$ expressions for $r=1,2$,
+we see that the $\alp_{i|j}$
 can be expressed in terms of the
 covariances $\av{\rvx_i, \rvx_j}$.
 
@@ -668,7 +671,7 @@ and $\rvx_{<i}=
 Consider
 a fully connected
 LDEN diagram
-with  deterministic nodes labeled
+with  deterministic internal nodes labeled
 $\rvx_i$.
 The $\rvx_i$ labels 
 are assumed
@@ -690,7 +693,7 @@ x_i=\sum_{j<i}\alp_{i|j}x_j
 \label{eq-linear-pa-tpm}
 \eeq
 for some parameters $\alp_{i|j}\in \RR$.
-The exogenous 
+The external 
 nodes $\rvu.$  are assumed
 to be independent so
 
@@ -735,8 +738,7 @@ written in matrix form
 as follows.
 Define a strictly lower triangular
 matrix $A$
-with the connection 
-strengths $\alp_{i|j}\in \RR$
+with the arrow gains $\alp_{i|j}\in \RR$
 as entries.
 For example, for $nx=4$,
 
@@ -859,7 +861,7 @@ of unknown variables $\alp_{i|j}$,
 a few of the covariances too.
 That way, we can get a system
 of equations with the same number of
-equations as unknowns.
+equations as number of unknowns.
 So which of the covariances
 should be made into unknowns?
 A very natural choice
