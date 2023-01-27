@@ -66,6 +66,15 @@ have a TPM that is a linear
 function of the states
 of the parent nodes.
 
+This chapter 
+uses the notation
+$\av{\rvx, \rvy}$
+for the
+covariance
+of any two random variables $\rvx, \rvy$.
+This $\av{\rvx, \rvy}$ notation
+is defined in Chapter \ref{ch-conventions}.
+
 
 \section{Example
 of LDEN diagram}
@@ -170,8 +179,71 @@ is a general
 property
 of LDEN diagrams.
 
+\section{LDEN equations and their 2 solutions}
 
-\section{Fully Connected 
+
+LDEN diagrams are described by 
+a system of linear equations 
+(known as the {\bf structural equations}) of the form
+
+\beq
+\rvx_i = \sum_{j=0}^{nx-1} \alp_{i|j} 
+\rvx_j + \rvu_i
+\eeq
+for $i=0, 1, \dots, nx-1$,
+where the 
+$\rvx_i$ are the internal nodes,
+the $\alp_{i|j}$
+are
+the {\bf path coefficients} 
+(a.k.a. {\bf arrow gains}), and the
+$\rvu_i$ 
+are the external nodes 
+that inject noise into the system.
+Some of the $\alp_{i|j}$ may
+be zero,
+in which case
+the
+corresponding arrow
+$\rvx_j\rarrow \rvx_i$
+would not be drawn.
+The $\rvu_i$ are
+root nodes with
+zero covariance
+with each other.
+
+We can view this as either
+
+\begin{enumerate}
+\item UNK-C (unknown covariance matrix) solution
+
+a linear system 
+of equations with the unknowns 
+$\rvx_i$. We can solve for these
+unknowns using basic Linear Algebra.
+Once we solve for the unknowns,
+we can calculate the covariances $\av{\rvx_j, \rvx_k}$.
+
+\item UNK-G (unknown gains) solution
+
+a linear system 
+of equations with the
+unknowns $\alp_{i|j}$. We can solve for these
+unknowns using basic Linear Algebra.
+
+\end{enumerate}
+
+Next, we will find the 2
+solutions UNK-C and UNK-G 
+explicitly for arbitrary LDEN
+diagrams.
+We will present these solutions 
+gradually, first for fully connected 
+LDEN diagrams, and then for the
+general case that does not require
+full connectedness.
+
+\section{Fully connected 
 LDEN diagrams}
 The bnets that will be
 considered in this section
@@ -179,39 +251,30 @@ will all be fully connected.
 Fully connected
 bnets are
 defined in Chapter \ref{ch-bnet-def}.
-This section 
-uses the notation
-$\av{\rvx, \rvy}$
-for the
-covariance
-of any two random variables $\rvx, \rvy$.
-This $\av{\rvx, \rvy}$ notation
-is defined in Chapter \ref{ch-conventions}.
 
-
-Consider a LDEN diagram
-with 
-deterministic nodes
-$\rvx.=(\rvx_k)_{k=0, 1, \ldots nx-1}$
-and 
-corresponding exogenous nodes 
-$\rvu.=(\rvu_k)_{k=0, 1, \ldots nx-1}$.
-Assume $\av{\rvu_i, \rvu_j}=0$
-if $i\neq j$. The strength
-of each 
-connection 
-$\rvx_i\rarrow \rvx_j$
-of the LDEN diagram 
-is measured by a
-{\bf structural
-coefficient} $\alp_{j|i}\in \RR$.
-Some of the $\alp_{j|i}$ may
-be zero,
+In this section, we will assume that
+the nodes $\rvx_j$ are ordered topologically,
+with the root nodes first.
+This means that $\rvx_i$ happens after
+$\rvx_j$ if $i>j$.
+When the nodes are ordered topologically,
+$\alp_{i|j}=0$ if $j\geq i$.
+In the fully connected case, $\alp_{i|j}\neq 0$
+for all $j<i$,
+and for any node $\rvx_i$, all previous nodes
+are parents of $\rvx_i$ and we draw arrows  
+$\rvx_j\rarrow\rvx_i$ for $j=0, 1, \ldots, i-1$.
+In the not
+fully connected case,
+some of the $\alp_{i|j}$ 
+with $j<i$ are zero,
 in which case
 the
 corresponding arrow
-$i\rarrow j$
-would not be drawn.
+$\rvx_j\rarrow \rvx_i$
+is not drawn.
+
+
 
 \subsection{Fully connected 
 LDEN diagram with $nx=2$}
@@ -236,7 +299,7 @@ not shown).}
 Consider the 
 LDEN diagram of Fig.\ref{fig-fully-conn-2}.
 This diagram represents the 
-following {\bf structural equations}:
+following structural equations:
 \begin{subequations}
 \label{eq-fully-conn-2}
 \beqa
@@ -246,6 +309,9 @@ following {\bf structural equations}:
 \;.
 \eeqa
 \end{subequations}
+
+\begin{enumerate}
+\item UNK-C solution
 
 Note that
 \begin{subequations}
@@ -257,6 +323,28 @@ Note that
 \end{subequations}
 Thus, the $\rvx_i$ can be 
 expressed in terms of the $\rvu_i$.
+Using the fact that $\av{\rvu_i,\rvu_j}=0$
+for $i\neq j$, we get
+
+\beq
+\av{\rvx_0, \rvx_0}=\s^2_{\rvu_0}
+\eeq
+
+\beq
+\av{\rvx_1, \rvx_0} =
+\alp_{1|0}\s^2_{\rvu_0}
+\eeq
+
+\beq
+\av{\rvx_1, \rvx_1}=
+\alp^2_{1|0}\s^2_{\rvu_0}
++
+\s^2_{\rvu_1}
+\eeq
+
+
+
+\item UNK-G solution
 
 Note that
 
@@ -271,7 +359,10 @@ Therefore,
 \alp_{1|0}\av{\rvx_0, \rvx_0}
 \;
 \eeq
-so
+so\footnote{We are using the notation 
+$\pder{\rvb}{\rva}=
+\frac{\av{\rva,\rvb}}{\av{\rva, \rva}}$,
+for any two random variables $\rva,\rvb$}
 
 \beq
 \alp_{1|0}=\frac{\av{\rvx_0, \rvx_1}}
@@ -281,6 +372,7 @@ so
 Thus, $\alp_{1|0}$
 can be estimated  
 from the covariances $\av{\rvx_i, \rvx_j}$.
+\end{enumerate}
 
 \subsection{Fully connected 
 LDEN diagram with $nx=3$}
@@ -305,7 +397,7 @@ not shown).}
 Consider the LDEN diagram
 of Fig.\ref{fig-fully-conn-3}.
 This diagram represents the 
-following {\bf structural equations}:
+following structural equations:
 \begin{subequations}
 \label{eq-fully-conn-3}
 \beqa
@@ -320,9 +412,12 @@ following {\bf structural equations}:
 \eeqa
 \end{subequations}
 
+\begin{enumerate}
+\item UNK-C solution
+
 Let
 \beq
-\rvx^3=
+\rvx=
 \left[
 \begin{array}{c}
 \rvx_0
@@ -333,7 +428,7 @@ Let
 \end{array}
 \right]\;,
 \quad
-\rvu^3=
+\rvu=
 \left[
 \begin{array}{c}
 \rvu_0
@@ -344,7 +439,7 @@ Let
 \end{array}
 \right]
 \eeq
-Define the $\alp$ matrix by
+and
 
 \beq
 A=\left[
@@ -360,18 +455,56 @@ A=\left[
 Note that
 
 \beq
-\rvx^3 = A\rvx^3 + \rvu^3
+\rvx = A\rvx + \rvu
 \eeq
 so
 
 \beq
-\rvx^3 = (1-A)^{-1}\rvu^3
+\rvx = (1-A)^{-1}\rvu
 \eeq
 Thus, the $\rvx_i$ can
 be expressed in terms of the $\rvu_i$.
 
+If we define the covariance matrix by
 
-Note also that
+
+\beq
+C= \av{\rvx,\rvx^T}\;,\quad C_{i,j}=
+\av{\rvx_i, \rvx_j}
+\eeq
+then\footnote{We are using the notation
+$diag(a)=$ diagonal matrix
+with $a\in\RR^n$ along its diagonal.}
+\beqa
+C
+&=&
+(1-A)^{-1}\av{\rveps, \rveps^T}
+[(1-A)^{-1}]^T
+\\
+&=&
+(1-A)^{-1}diag(\s^2_{\rveps_i})
+[(1-A)^{-1}]^T
+\eeqa
+
+If we define the Jacobian matrix $J$ by
+\beq
+J_{i,j}= \pder{\rvx_i}{\rvx_j}
+\eeq
+then
+
+\beqa
+J
+&=&
+C[diag(\av{\rvx_i, \rvx_i})]^{-1}
+\\
+&=&
+(1-A)^{-1}diag(\s^2_{\rveps_i})
+[(1-A)^{-1}]^T[diag(\av{\rvx_i, \rvx_i})]^{-1}
+\eeqa
+
+\item UNK-G solution
+
+Note that
 \begin{subequations}
 \label{eq-fully-conn-3-covs}
 \beqa
@@ -522,7 +655,7 @@ we see that the $\alp_{i|k}$
 can be expressed in terms of the
 covariances $\av{\rvx_i, \rvx_j}$.
 
-
+\end{enumerate}
 
 \subsection{Fully
 connected 
@@ -539,7 +672,7 @@ with  deterministic nodes labeled
 $\rvx_i$.
 The $\rvx_i$ labels 
 are assumed
-to be in {\bf topological order}
+to be in  topological order
 (i.e., the parents of
 node $\rvx_i$ are $\rvx_{<i}$).
 Let the TPMs,
@@ -551,12 +684,12 @@ as follows.
 \beq\color{blue}
 P(x_i|x_{<i}, u_i)=
 \indi(
-x_i=\sum_{k<i}\alp_{i|k}x_k
+x_i=\sum_{j<i}\alp_{i|j}x_j
  + u_i)
 \;,
 \label{eq-linear-pa-tpm}
 \eeq
-for some parameters $\alp_{i|k}\in \RR$.
+for some parameters $\alp_{i|j}\in \RR$.
 The exogenous 
 nodes $\rvu.$  are assumed
 to be independent so
@@ -586,20 +719,24 @@ E_{\rvu.}[\prod_i P(x_i|x_{<i}, u_i)]
 In terms of random variables,
 this system
 is described by the following 
-{\bf structural equations}:
+structural equations:
 
 \beq
-\rvx_i=\sum_{k<i}\alp_{i|k}\rvx_k
+\rvx_i=\sum_{j<i}\alp_{i|j}\rvx_j
  + \rvu_i
 \;.
 \eeq
+
+\begin{enumerate}
+\item UNK-C solution
+
 The structural equations can be
 written in matrix form
 as follows.
 Define a strictly lower triangular
 matrix $A$
 with the connection 
-strengths $\alp_{i|k}\in \RR$
+strengths $\alp_{i|j}\in \RR$
 as entries.
 For example, for $nx=4$,
 
@@ -630,35 +767,48 @@ Note that
 
 \beq
 \rvx=(1-A)^{-1}\rvu
-\;.
+\label{eq-x-one-minus-a-u}
 \eeq
 so the $\rvx_i$ can be expressed 
 in terms of the $\rvu_i$. 
-More precisely,
 
+Just like we did for the
+case $nx=3$, we can now
+use Eq.(\ref{eq-x-one-minus-a-u}) to
+express,
+in terms of $A$ and the $\av{\rvu_i, \rvu_i}=
+\s^2_{\rvu_i}$, the covariance
+matrix $C=\av{\rvx, \rvx^T}$
+and the Jacobian matrix 
+$J$ with $J_{i,j}=\pder{\rvx_i}{\rvx_j}$.
+. 
+
+\item UNK-G solution
+
+Note that
 
 \beq
 \rvx_i=f_i(\rvu_{\leq i})
 \;.
 \eeq
 Therefore,
-if $i>j$,
+if $i>k$,
 
 \beq
-\av{\rvx_j,\rvu_i}
-=\av{f_j(\rvu_{\leq j}),\rvu_i}=0
+\av{\rvx_k,\rvu_i}
+=\av{f_k(\rvu_{\leq k}),\rvu_i}=0
 \;.
 \eeq
-Thus, if $i>j$, 
+Thus, if $i>k$, 
 
 \beqa
-\av{\rvx_j, \rvx_i}&=&
-\sum_{k<i}\alp_{i|k}\av{\rvx_j, \rvx_k}
+\av{\rvx_k, \rvx_i}&=&
+\sum_{j<i}\alp_{i|j}\av{\rvx_k, \rvx_j}
 +
-\av{\rvx_j, \rvu_i}
+\av{\rvx_k, \rvu_i}
 \\
 &=&
-\sum_{k<i}\alp_{i|k}\av{\rvx_j, \rvx_k}
+\sum_{j<i}\alp_{i|j}\av{\rvx_k, \rvx_j}
 \;.
 \label{eq-alp-covs-gen}
 \eeqa
@@ -668,25 +818,74 @@ Eqs.(\ref{eq-alp-covs-gen}) can be
 expressed as a system of equations
 for each row of the matrix $A$,
 and those systems of equations can be 
-solved to express the $\alp_{i|k} $
+solved to express the $\alp_{i|j} $
 in terms of the covariances $\av{\rvx_i, \rvx_j}$.
 
 Dividing both sides of 
-Eq.(\ref{eq-alp-covs-gen}) by $\av{\rvx_j, \rvx_j}$, we get, for $i>j$,
+Eq.(\ref{eq-alp-covs-gen}) by $\av{\rvx_k, \rvx_k}$, we get, for $i>k$,
 \beq
-\pder{\rvx_i}{\rvx_j}=
-\sum_{k<i}\alp_{i|k}\pder{\rvx_k}{\rvx_j}
+\pder{\rvx_i}{\rvx_k}=
+\sum_{j<i}\alp_{i|j}\pder{\rvx_j}{\rvx_k}
 \label{eq-alp-jacobian-gen}
 \eeq
-As shown for the cases $nx=2, 3$
-above,
-Eqs.(\ref{eq-alp-jacobian-gen}) can be 
-expressed as a system of equations
-for each row of the matrix $A$,
-and those systems of equations can be 
-solved to express the $\alp_{i|k} $
-in terms of the partial
-derivatives $\pder{\rvx_i}{\rvx_j}$.
+
+
+\end{enumerate}
+
+\section{Not fully connected LDEN diagrams}
+
+When the LDEN diagram is not
+fully connected, some $\alp_{i|j}$
+might be zero for $i>j$, and the
+corresponding arrow $\rvx_j\rarrow\rvx_i$
+is not drawn. If that is the case,
+the formulae that we gave above,
+for the fully connected LDEN diagram,
+for the UNK-C solution, still apply,
+but the formulae that we gave above, for the UNK-G solution,
+must be modified as follows.
+
+The problem with the previously
+presented UNK-G solution is that,
+when we solve for the $\alp_{i|j}$
+in each row of $A$,
+we are sometimes solving for $\alp_{i|j}$
+which we know a priori are equal to zero.
+So basically, we are solving a system of equations with more equations than unknowns,
+what is called an ``overdetermined" system
+of equations. A simple solution
+to this quandary is to add to the set
+of unknown variables $\alp_{i|j}$,
+a few of the covariances too.
+That way, we can get a system
+of equations with the same number of
+equations as unknowns.
+So which of the covariances
+should be made into unknowns?
+A very natural choice
+is to make the covariance $\av{\rvx_i, \rvx_j}$
+an unknown if $\alp_{i|j}=0$
+for some $i>j$.
+This is what I do in Ref.\cite{scumpy},
+and it works like a charm.
+A fully connected LDEN diagram with $N$ nodes
+has $N^2/2-N/2$ arrows. If $M$ of those are 
+missing, our final result 
+will be $M$ constraints among the 
+covariances, and $N^2/2-N/2 - M$
+equations expressing the non-zero $\alp_{i|j}$
+in terms of covariances.
+
+
+ 
+
+
+
+\section{SCuMpy}
+Check out my free open source
+software SCuMpy \cite{scumpy}.
+SCuMpy ia a Python library for doing both symbolic and numeric calculations for linear Structural Causal Models (SCM) (i.e., LDEN diagrams).
+
 
 \section{Non-linear DEN diagrams}
 This chapter 
@@ -760,26 +959,4 @@ function
 such as an OR gate.
 
 
-Eqs.(\ref{eq-nonlinear-pa-tpm})
-and (\ref{eq-pa-nonlinear-struc})
-are the TPMs and
-structural equations
-for a 
-fully connected, non-linear DEN diagram.
-For a non-fully connected 
-diagram, 
-\begin{itemize}
-\item
-replace the multinode $x_{<i}$
-by a subset of itself,
-in 
-Eqs.(\ref{eq-nonlinear-pa-tpm})
-and (\ref{eq-pa-nonlinear-struc})
-,
-and
-\item
-delete
-the corresponding arrows
-from the graph.
-\end{itemize}
 
