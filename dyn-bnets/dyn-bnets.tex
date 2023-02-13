@@ -4,52 +4,70 @@
 \begin{figure}[h!]
 $$
 \xymatrix{
-\rvc^{(0)}\ar@[red][r]\ar@[red][rdd]
-&\rvc^{(1)}\ar[r]\ar[rdd]
+\rvc^{(0)}\ar@[green][r]\ar@[green][rdd]
+&\rvc^{(1)}\ar@[green][r]\ar@[green][rdd]
 &\rvc^{(2)}
 &\ldots
-&\rvc^{(T-2)}\ar[r]\ar[rdd]
+&\rvc^{(T-2)}\ar@[green][r]\ar@[green][rdd]
 &\rvc^{(T-1)}
 \\
-\rvb^{(0)}\ar@[red][rd]\ar@[red][r]
-&\rvb^{(1)}\ar[rd]\ar[r]
+\rvb^{(0)}\ar@[green][rd]\ar@[green][r]
+&\rvb^{(1)}\ar@[green][rd]\ar@[green][r]
 &\rvb^{(2)}
 &\ldots
-&\rvb^{(T-2)}\ar[rd]\ar[r]
+&\rvb^{(T-2)}\ar@[green][rd]\ar@[green][r]
 &\rvb^{(T-1)}
 \\
-\rva^{(0)}
-&\rva^{(1)}\ar@[red][u]
+\rva^{(0)}\ar[u]
+&\rva^{(1)}\ar[u]
 &\rva^{(2)}\ar[u]
 &\ldots
 &\rva^{(T-2)}\ar[u]
 &\rva^{(T-1)}\ar[u]
 }$$
 \caption{
-Example of a dynamical bnet. The
-pattern of red arrows is repeated $T-1$ times.
+Example of a DBN. Same
+time-slice (in black) is repeated $T$ times.
+Green arrows connect adjacent slices.
 }
 \label{fig-dyn-bnet}
 \end{figure}
 
 
 
-A dynamical bnet is simply
-a time homogeneous Markov chain (see Chapter
+A {\bf dynamical bnet (DBN)} is simply
+a Markov chain $\rva_0\rarrow \rva_1\rarrow\ldots \rva_{T-1}$ (see Chapter
 \ref{ch-mchain})
-for which each node is 
-called a {\bf time slice},
-and each time slice 
+for which each node $\rva_i$ is 
+called a {\bf time-slice}.
+Each time-slice 
 represents
 at finer resolution a sub-DAG
-which is the same 
-between any
-2 successive time slices.
+which has the same 
+structure (but
+not necessarily the same TPMs)
+in every time-slice.\footnote{Sometimes,
+it is convenient to
+define time-slices that are influenced by
+the $n$-previous time-slices.
+instead of just $n=1$.
+By defining a bigger time-slice that contains
+$n$ of the original time-slices,
+we can get bigger time-slices
+that only listen to 
+the adjacent previous bigger time-slice.}
+ If the
+TMPs are the same for all time-slices,
+we call it a {\bf time-homogeneous dynamical bnet}.
 Fig.\ref{fig-dyn-bnet} gives an example
-of a dynamical bnet.
+of a DBN.
+In that figure, each time-slice
+is represented in black, and
+arrows connecting adjacent time-slices
+are represented in green.
 In Fig.\ref{fig-dyn-bnet},
 we've drawn the 3 nodes of
-each time slice vertically,
+each time-slice vertically,
 and labeled them
 with a superscript ${.}^{(t)}$,
 where $t\in \{
@@ -58,20 +76,22 @@ is the time
 of the slice.
 To fully 
 specify the
-dynamical bnet
+DBN
 of Fig.\ref{fig-dyn-bnet},
 we would also have to specify
 the TPMs 
 
 $P(c^{(0)})$, 
 
-$P(b^{(0)})$
+$P(b^{(0)})$,
+
+$P(a^{(0)})$,
 
 $P(c^{(1)}|c^{(0)})$,
  
 $P(b^{(1)}|b^{(0)}, a^{(1)})$
 
-$P(a^{(1)}|b^{(0)}, c^{(0)})$.
+$P(a^{(1)}|b^{(0)}, c^{(0)})$, etc.
 
 Dynamical bnets
 are very common
@@ -81,7 +101,7 @@ Hidden Markov Models (Chapter \ref{ch-hmm})
 and
 Recurrent Neural Networks 
 (Chapter \ref{ch-rnn})
-are famous examples of dynamical bnets.
+are famous examples of DBNs.
 
 Bnets are acyclic; they can't have cycles
 (i.e, closed directed paths).
@@ -94,19 +114,19 @@ represents
 Fig.\ref{fig-dyn-bnet} more 
 compactly using feedback loops. 
 Any bnet with feedback loops
-can be ``unrolled" into a dynamical bnet.
+can be ``unrolled" into a DBN.
 
 
 \begin{figure}[h!]
 $$
 \xymatrix{
 \rvc^{(t)}
-\ar@/^4pc/@[green][dd]
-\ar@(ul,ur)@[green][]
+\ar@/^4pc/@[green]@{-->}[dd]
+\ar@(ul,ur)@[green]@{-->}[]
 \\
 \rvb^{(t)}
-\ar@/^1pc/@[green][d]
-\ar@(ul,ur)@[green][]
+\ar@/^1pc/@[green]@{-->}[d]
+\ar@(ul,ur)@[green]@{-->}[]
 \\
 \rva^{(t)}\ar[u]
 }$$
@@ -114,9 +134,9 @@ $$
 Dynamical bnet Fig.\ref{fig-dyn-bnet}
 represented 
 more compactly using feedback loops.
-Wavy arrows
-point to the future, from nodes of the $t$ time slice
-to nodes of the $t+1$ time slice.
+Dashed green arrows
+point to the future, from nodes of the $t$ time-slice
+to nodes of the $t+1$ time-slice.
 }
 \label{fig-dyn-bnet-compact}
 \end{figure}
