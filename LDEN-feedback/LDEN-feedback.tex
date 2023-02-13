@@ -1,6 +1,42 @@
 \chapter{LDEN with feedback loops: 
 COMING SOON}\label{ch-LDEN-feedback}
 
+\begin{figure}[h!]
+$$
+\begin{array}{cc}
+\xymatrix@R=4pc{
+\rvx_0\ar@(ul,ur)@[green][]^{\beta_{0|0}}
+\ar@[green]@/_3pc/[d]_{\beta_{1|0}}
+\ar[d]^{\alp{1|0}}
+\\
+\rvx_1\ar@(dl,dr)@[green][]_{\beta_{1|1}}
+\ar@[green]@/_3pc/[u]_{\beta_{0|1}}
+}
+&
+\xymatrix{
+\rvx_0^{[1]}\ar[d]
+\ar[r]\ar[rd]
+&\rvx_0^{[2]}\ar[d]
+\ar[r]\ar[rd]
+&\rvx_0^{[3]}\ar[d]
+\\
+\rvx_1^{[1]}\ar[r]\ar[ru]
+&\rvx_1^{[2]}\ar[r]\ar[ru]
+&\rvx_1^{[3]}
+}
+\\
+(a)&(b)
+\end{array}
+$$
+\caption{
+LDEN diagram with two $\rvx_j$
+nodes
+(exogenous nodes $\rvu_j$
+not shown).}
+\label{fig-LDEN-fb-2}
+\end{figure}
+
+
 
 \beqa
 \rvx_0^{[t+1]} &=& \underbrace{\sum_{j=0}^1\beta_{0|j}\rvx_j^{[t]}
@@ -53,20 +89,30 @@ z\TIL{\rvx}_1(z) &=&
 \end{array}
 \right]
 ,\quad
-M =
-\left[
+A=\left[
 \begin{array}{cc}
-\frac{\beta_{0|0}}{z}
-&\frac{\beta_{0|1}}{z}
+0
+&0
 \\
-\alp_{1|0} + \frac{\beta_{1|0}}{z}
-&\frac{\beta_{1|1}}{z}
+\alp_{1|0}
+&0
+\end{array}
+\right]
+,\quad
+B=\left[
+\begin{array}{cc}
+\beta_{0|0}
+&\beta_{0|1}
+\\
+\beta_{1|0}
+&\beta_{1|1}
 \end{array}
 \right]
 \eeq
 
 \beq
-0 = M\TIL{x} + \TIL{u}
+0 = \underbrace{(\frac{1}{z}B+A)}_
+{M}\TIL{x} + \TIL{u}
 \eeq
 
 \beq
@@ -77,11 +123,11 @@ M = LU
 L = 
 \left[
 \begin{array}{cc}
-1
+-1
 &0
 \\
 l_{1,0}
-&1
+&-1
 \end{array}
 \right],
 \quad
@@ -95,4 +141,36 @@ u_{0,0}
 &u_{1,1}
 \end{array}
 \right]
+\eeq
+
+\beq
+\TIL{\rvX} = U\TIL{\rvx}
+\eeq
+
+\beq
+\TIL{\rvX}=(L+1)\TIL{\rvX} + \TIL{u}
+\eeq
+
+\beq
+[C_{\TIL{\rvx}}]_{i,j} =\av{\rvx_i, \rvx_j},
+\quad  
+[C_{\TIL{\rvX}}]_{i,j} =\av{\rvX_i, \rvX_j}
+\eeq
+
+\beqa
+C_{\TIL{\rvx}}=\av{\TIL{\rvx}, \TIL{\rvx}^T}
+&=&
+U^{-1}\av{\TIL{\rvX}, \TIL{\rvX}^T}(U^{-1})^T
+\\
+&=&
+U^{-1}C_{\TIL{\rvX}}(U^{-1})^T
+\eeqa
+
+\beq
+C_{\TIL{\rvX}}=
+UC_{\TIL{\rvX}}U^T
+\eeq
+
+\beq
+LU = \frac{1}{z}B + A
 \eeq
