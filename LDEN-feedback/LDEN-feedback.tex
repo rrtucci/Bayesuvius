@@ -39,20 +39,20 @@ not shown).}
 
 
 \beqa
-\rvx_0^{[t+1]} &=& \underbrace{\sum_{j=0}^1\beta_{0|j}\rvx_j^{[t]}
+\rvx_0^{[n+1]} &=& \underbrace{\sum_{j=0}^1\beta_{0|j}\rvx_j^{[n]}
  }_{\text{from past}}
- +\rvu_0^{[t+1]}
+ +\rvu_0^{[n+1]}
 \\
-\rvx_1^{[t+1]} &=&
-\underbrace{\sum_{j=0}^1\beta_{1|j}\rvx_j^{[t]}
+\rvx_1^{[n+1]} &=&
+\underbrace{\sum_{j=0}^1\beta_{1|j}\rvx_j^{[n]}
 }_{\text{from past}}
-+  \alp_{1|0}\rvx_0^{[t+1]} + \rvu_1^{[t+1]}
++  \alp_{1|0}\rvx_0^{[n+1]} + \rvu_1^{[n+1]}
 \eeqa
 
 $\rvx^{[0]}_j=0$ for all $j$.
 
 \beq
-\rvx^{[t+1]}_j
+\rvx^{[n+1]}_j
 \maparrow{\calz}
 z
 \left(
@@ -111,66 +111,295 @@ B=\left[
 \eeq
 
 \beq
-0 = \underbrace{(\frac{1}{z}B+A)}_
-{M}\TIL{x} + \TIL{u}
+\indi_A = 1 - A
 \eeq
 
 \beq
-M = LU
+M(z)= \indi_A -B/z
 \eeq
 
 \beq
-L = 
-\left[
-\begin{array}{cc}
--1
-&0
-\\
-l_{1,0}
-&-1
-\end{array}
-\right],
+M(z)\TIL{x}(z) =\TIL{u}(z)
+\eeq
+
+
+\beq
+[C_{\TIL{\rva}}^{z_1,z_2}]_{i,j} =\av{\TIL{\rva}_i(z_1), \TIL{\rva}_j(z_2)},
 \quad
-U = 
-\left[
-\begin{array}{cc}
-u_{0,0}
-&u_{0,1}
-\\
-0
-&u_{1,1}
-\end{array}
+[C_{\rva}^{[n]}]_{i,j} =\av{\rva_i^{[n]}, \rva_j^{[n]}}
+\eeq
+for $\rva = \rvx, \rvX, \rvu, \TIL{\rvx},
+\TIL{\rvX}, \TIL{\rvu}$
+
+
+
+\begin{claim}
+\beq
+\boxed{
+C_\rvx^{[n]}
+=
+[\indi_A^{-1}B]^n
+\indi_A^{-1}
+diag(\s^2_{\rvu_i})
+ (\indi_A^{-1})^T
+\left[B^T(\indi_A^{-1})^T\right]^n
+}
+\eeq
+
+\end{claim}
+\proof
+
+\beq
+x_1^{[n]} x_2^{[n]}=
+\calz^{-1}\left[
+\frac{1}{2\pi i}
+\oint_C \frac{dw}{w}\;
+\TIL{x}_1(w)
+\TIL{x}_2\left(
+\frac{z}{w}
+\right)
 \right]
 \eeq
 
 \beq
-\TIL{\rvX} = U\TIL{\rvx}
+\underbrace{\calz^{-1}[\TIL{x}(z)]}
+_{x^{[n]}}=
+\frac{1}{2\pi i}
+\oint_C dz\;
+\TIL{x}(z)z^{n-1}
 \eeq
 
 \beq
-\TIL{\rvX}=(L+1)\TIL{\rvX} + \TIL{u}
+\underbrace{
+\av{\rvx^{[n]},\rvx^{[n]T}}
+}_{C^{[n]}_\rvx}
+=
+\calz^{-1}\left[
+\frac{1}{2\pi i}
+\oint_C \frac{dw}{w}\;
+\underbrace{
+\av{
+\TIL{\rvx}(w),
+\TIL{\rvx}^T\left(
+\frac{z}{w}
+\right)}
+}_{C^{w,z/w}_{\TIL{\rvx}}}
+\right]
 \eeq
 
 \beq
-[C_{\TIL{\rvx}}]_{i,j} =\av{\rvx_i, \rvx_j},
-\quad  
-[C_{\TIL{\rvX}}]_{i,j} =\av{\rvX_i, \rvX_j}
+C_{\TIL{\rvx}}^{w, z/w}=
+M^{-1}(w)
+C_{\TIL{\rvu}}^{w,z/w}
+(M^{-1})^T(z/w)
+\eeq
+
+
+\beq
+C^{[n]}_\rvx
+=
+\calz^{-1}
+\left[
+\frac{1}{2\pi i}
+\oint_C \frac{dw}{w}\;
+M^{-1}(w)C_{\TIL{\rvu}}^{w,z/w}
+(M^{-1})^T(z/w)
+\right]
+\eeq
+
+\beq
+\av{\rvu_i^{[n]},\rvu_j^{[n]}
+} =\delta(i,j)\s^2_{\rvu_i}
+\heavy_0^{[n]}
+\eeq
+
+\beq\calz\left[
+a^n \heavy_0^{[n]}\right]=
+\frac{1}{1-a/z}=
+\frac{z}{z-a}
+\quad \text{for $|z|>|a|$}
+\eeq
+
+
+\beq
+\calz[\av{\rvu_i^{[n]},\rvu_j^{[n]}}]
+= \delta(i,j)\s^2_{\rvu_i}\frac{1}{1-1/z}
+\eeq
+
+\beq
+\calz[\av{\rvu_i^{[n]}, \rvu_j^{[n]}}]=
+\frac{1}{2\pi i}
+\oint_C \frac{dw}{w}\;
+\av{\TIL{\rvu}_i(w),
+\TIL{\rvu}_j\left(
+\frac{z}{w}
+\right)}
+\eeq
+
+\beq
+\av{\TIL{\rvu}_i(w),\TIL{\rvu}_j(z/w)}
+= \delta(i,j)\s^2_{\rvu_i}\frac{1}{1-1/z}
+\eeq
+
+\beq
+C^{[n]}_\rvx
+=
+\calz^{-1}
+\left[
+\frac{1}{2\pi i}
+\oint_C \frac{dw}{w}\;
+M^{-1}(w)\frac{diag(\s^2_{\rvu_i})}
+{1-1/z}
+(M^{-1})^T(z/w)
+\right]
 \eeq
 
 \beqa
-C_{\TIL{\rvx}}=\av{\TIL{\rvx}, \TIL{\rvx}^T}
-&=&
-U^{-1}\av{\TIL{\rvX}, \TIL{\rvX}^T}(U^{-1})^T
+M^{-1}(w)&=&(\indi_A - B/w)^{-1}
 \\
 &=&
-U^{-1}C_{\TIL{\rvX}}(U^{-1})^T
+(\indi_Aw -B)^{-1}w
+\\
+&=&
+(w-\indi_A^{-1}B)^{-1}w\indi_A^{-1}
+\\
+&=&
+\frac{1}
+{w-\indi_A^{-1}B}
+[w\indi_A^{-1}]
+\eeqa
+
+\beqa
+(M^{-1})^T(z/w)&=&
+\left[\frac{z}{w}(\indi_A^{-1})^T\right]
+\frac{1}
+{z/w-B^T(\indi_A^{-1})^T}
+\\
+&=&
+(\indi_A^{-1})^T
+\frac{z}
+{z-B^T(\indi_A^{-1})^Tw}
 \eeqa
 
 \beq
-C_{\TIL{\rvX}}=
-UC_{\TIL{\rvX}}U^T
+\calz^{-1}_z\left[
+(M^{-1})^T(z/w)\right]
+=
+ (\indi_A^{-1})^T
+\left[B^T(\indi_A^{-1})^Tw\right]^n
+\eeq
+
+\begin{align}
+C_\rvx^{[n]}
+&=
+\frac{1}{2\pi i}
+\oint_C \frac{dw}{w}\;
+M^{-1}(w)
+diag(\s^2_{\rvu_i})
+\calz^{-1}_z\left[
+(M^{-1})^T(z/w)\right]
+\\
+&=
+\left[
+\frac{1}{2\pi i}
+\oint_C dw\;
+\frac{w^n}
+{w-\indi_A^{-1}B}
+\right]
+\indi_A^{-1}
+diag(\s^2_{\rvu_i})
+ (\indi_A^{-1})^T
+\left[B^T(\indi_A^{-1})^Tw\right]^n
+\\
+&=
+\calz_{w}^{-1}
+\left[
+\frac{w}
+{w-\indi_A^{-1}B}
+\right]
+\indi_A^{-1}
+diag(\s^2_{\rvu_i})
+ (\indi_A^{-1})^T
+\left[B^T(\indi_A^{-1})^T\right]^n
+\\
+&=
+[\indi_A^{-1}B]^n
+\indi_A^{-1}
+diag(\s^2_{\rvu_i})
+ (\indi_A^{-1})^T
+\left[B^T(\indi_A^{-1})^T\right]^n
+\end{align}
+\qed
+
+\beq
+\rvx^{[n+1]} = B\rvx^{[n]} + A\rvx^{[n+1]}
++ \rvu^{[n+1]}
 \eeq
 
 \beq
-LU = \frac{1}{z}B + A
+\av{\rvu^{[n+1]}, \rvx^{[n]T}}=0
 \eeq
+
+\beq
+(1-A)\av{\rvx^{[n+1]}, \rvx^{[n]T}}=
+B \av{\rvx^{[n]}, \rvx^{[n]T}}
+\eeq
+
+\beq
+\boxed{
+B = \av{\rvx^{[n]}, \rvx^{[n]T}}^{-1}
+\indi_A\av{\rvx^{[n+1]}, \rvx^{[n]T}}
+}
+\eeq
+
+\beq
+\av{\rvx^{[n]}, \rvx^{[n+1]T}}\indi_A^T=
+\av{\rvx^{[n]}, \rvx^{[n]T}}B^T
+\eeq
+
+\beq
+\av{\rvx^{[n]}, \rvx^{[n+1]T}}=
+\av{\rvx^{[n]}, \rvx^{[n]T}}B^T
+(\indi_A^T)^{-1}
+\eeq
+
+\beq
+\av{\rvx^{[n+1]}, \rvx^{[n+1]T} }
+= B
+\underbrace{
+\av{\rvx^{[n]},\rvx^{[n+1]T} }}_
+{\av{\rvx^{[n]}, \rvx^{[n]T}}B^T
+(\indi_A^T)^{-1}} + A\av{\rvx^{[n+1]},\rvx^{[n+1]T} }
++ \av{\rvu^{[n+1]}, \rvx^{[n+1]T} }
+\eeq
+
+For any matrix $A$,
+define $SL(A)$ 
+to be the strictly lower triangular
+matrix obtained from matrix $A$ by
+setting to zero all terms 
+on main diagonal and above it.
+Note that
+
+\beq 
+SL(\av{\rvu^{[n+1]}, \rvx^{[n+1]T} })=0
+\eeq
+by causality,
+because the nodes are topologically ordered
+and $\rvx^{[n+1]}$ cannot be correlated
+with the future noise $\rvu^{[n+1]}$.
+Thus,
+
+\beq
+SL\left(\av{\rvx^{[n+1]}, \rvx^{[n+1]^T} }
+-\underbrace{B
+\av{\rvx^{[n]}, \rvx^{[n]T}}B^T
+(\indi_A^T)^{-1}}_{=K}
+\right)
+= SL\left(A\av{\rvx^{[n+1]},\rvx^{[n+1]^T} }\right)
+\eeq
+$K$ can be calculated a priori   before
+solving for $A$. In  Chapter \ref{ch-linear-sys}, we solved for 
+$A$ in the case $K=0$.
+The same method can be used to solve for
+$A$ when $K\neq 0$.
