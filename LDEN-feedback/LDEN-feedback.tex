@@ -1,13 +1,24 @@
 \chapter{LDEN with feedback loops: 
 COMING SOON}\label{ch-LDEN-feedback}
 
+This chapter assumes that
+the reader has read Chapter 
+\ref{ch-linear-sys} on LDEN  (linear
+deterministic with external noise) diagrams
+and Section \ref{sec-z-transform} on the Z-transform.
+The algorithm described in this 
+chapter
+was first published here, and 
+is implemented 
+in my software SCuMpy (see Ref.\cite{scumpy}).
+
 \begin{figure}[h!]
 $$
 \begin{array}{cc}
 \xymatrix@R=4pc{
 \rvx_0\ar@(ul,ur)@[green]@{-->}[]^{\beta_{0|0}}
 \ar@[green]@{-->}@/_3pc/[d]_{\beta_{1|0}}
-\ar[d]^{\alp{1|0}}
+\ar[d]^{\alp_{1|0}}
 \\
 \rvx_1\ar@(dl,dr)@[green]@{-->}[]_{\beta_{1|1}}
 \ar@[green]@{-->}@/_3pc/[u]_{\beta_{0|1}}
@@ -29,11 +40,16 @@ $$
 \end{array}
 $$
 \caption{
-LDEN diagram with two $\rvx_j$
+LDEN diagrams with two $\rvx_j$
 nodes
 (exogenous nodes $\rvu_j$
-not shown).}
-\label{fig-LDEN-fb-2}
+not shown). Figure $(a)$ shows a single time-slice
+with feedback loops. Figure $(b)$ is an
+``unrolled" version of figure $(a)$
+showing 3 time-slices.
+LDEN diagrams with feedback loops are
+a special case of Dynamic Bayesian networks  (DBN) (see Chapter \ref{ch-dyn-bnet})}
+\label{fig-LDEN-fb-2nds}
 \end{figure}
 
 
@@ -49,13 +65,16 @@ not shown).}
 +  \alp_{1|0}\rvx_0^{[n+1]} + \rvu_1^{[n+1]}
 \eeqa
 
-$\rvx^{[0]}_j=0$ for all $j$.
+for $n=0,1,2, \dots$ with
+$
+\rvx^{[0]}_j=0$ for all $j$.
+
+From Section \ref{sec-z-transform}
 
 \beq
-\rvx^{[n+1]}_j
-\maparrow{\calz}
-z
-\left(
+\calz(\rvx^{[n+1]}_j)
+=
+z\left(
 \TIL{\rvx}_j(z)
 -z
 \rvx^{[0]}_j
@@ -135,20 +154,28 @@ for $\rva = \rvx, \rvX, \rvu, \TIL{\rvx},
 
 \begin{claim}
 \beq
-\boxed{
 C_\rvx^{[n]}
-=
-[\indi_A^{-1}B]^n
+= G^{n-1}\; C_1 \;(G^T)^{n-1}
+\eeq
+for $n=1,2,3 \ldots$,
+where the ``growth matrix" $G$ is given by
+
+\beq
+G=\indi_A^{-1}B
+\eeq
+and the ``initial covariance matrix" 
+$C_1$ by
+
+\beq C_1 =
 \indi_A^{-1}
 diag(\s^2_{\rvu_i})
  (\indi_A^{-1})^T
-\left[B^T(\indi_A^{-1})^T\right]^n
-}
 \eeq
 
 \end{claim}
 \proof
 
+Section \ref{sec-z-transform}
 \beq
 x_1^{[n]} x_2^{[n]}=
 \calz^{-1}\left[
@@ -167,6 +194,7 @@ _{x^{[n]}}=
 \frac{1}{2\pi i}
 \oint_C dz\;
 \TIL{x}(z)z^{n-1}
+\label{eq-z-transform-inverse}
 \eeq
 
 \beq
@@ -206,24 +234,62 @@ M^{-1}(w)C_{\TIL{\rvu}}^{w,z/w}
 (M^{-1})^T(z/w)
 \right]
 \eeq
+For all $i$,
+$\rvu_i^{[0]}=0$ because
+$\rvx_i^{[0]}=0$.
+Keep in mind that $\heavy_0^{[n]}=1$ at $n=0$.
+
+
 
 \beq
 \av{\rvu_i^{[n]},\rvu_j^{[n]}
 } =\delta(i,j)\s^2_{\rvu_i}
-\heavy_0^{[n]}
+\heavy_1^{[n]}
 \eeq
+
+
+Section \ref{sec-z-transform}
 
 \beq\calz\left[
 a^n \heavy_0^{[n]}\right]=
 \frac{1}{1-a/z}=
 \frac{z}{z-a}
 \quad \text{for $|z|>|a|$}
+\label{eq-z-transform-heavy}
 \eeq
+
+\beq
+\calz[\delta_{n_0}^{[n]}] = z^{-n_0}
+\eeq
+
+\beq
+H_0^{[n]}=\sum_{k=0}^\infty\delta^{[n]}_k
+\eeq
+
+\beq
+\heavy^{[n]}_{1} = 
+\heavy^{[n]}_{0} -\delta^{[n]}_0
+\eeq
+
+\beqa
+\calz[\heavy^{[n]}_{1}]
+&=&
+\calz[\heavy^{[n]}_{0}]-
+\calz[\delta^{[n]}_0]
+\\
+&=&
+\frac{z}{z-1}-1
+\\
+&=&
+\frac{1}{z-1}
+\eeqa
+
+
 
 
 \beq
 \calz[\av{\rvu_i^{[n]},\rvu_j^{[n]}}]
-= \delta(i,j)\s^2_{\rvu_i}\frac{1}{1-1/z}
+= \delta(i,j)\s^2_{\rvu_i}\frac{1}{z-1}
 \eeq
 
 \beq
@@ -238,7 +304,9 @@ a^n \heavy_0^{[n]}\right]=
 
 \beq
 \av{\TIL{\rvu}_i(w),\TIL{\rvu}_j(z/w)}
-= \delta(i,j)\s^2_{\rvu_i}\frac{1}{1-1/z}
+= \delta(i,j)\s^2_{\rvu_i}\frac{1}{z-1}
+\approx
+\delta(i,j)\s^2_{\rvu_i}\frac{1}{z}
 \eeq
 
 \beq
@@ -249,7 +317,7 @@ C^{[n]}_\rvx
 \frac{1}{2\pi i}
 \oint_C \frac{dw}{w}\;
 M^{-1}(w)\frac{diag(\s^2_{\rvu_i})}
-{1-1/z}
+{z}
 (M^{-1})^T(z/w)
 \right]
 \eeq
@@ -264,15 +332,15 @@ M^{-1}(w)&=&(\indi_A - B/w)^{-1}
 (w-\indi_A^{-1}B)^{-1}w\indi_A^{-1}
 \\
 &=&
-\frac{1}
+\frac{w}
 {w-\indi_A^{-1}B}
-[w\indi_A^{-1}]
+\indi_A^{-1}
 \eeqa
 
 \beqa
 (M^{-1})^T(z/w)&=&
-\left[\frac{z}{w}(\indi_A^{-1})^T\right]
-\frac{1}
+(\indi_A^{-1})^T
+\frac{z/w}
 {z/w-B^T(\indi_A^{-1})^T}
 \\
 &=&
@@ -282,11 +350,21 @@ M^{-1}(w)&=&(\indi_A - B/w)^{-1}
 \eeqa
 
 \beq
+x^{[n-1]}=
+\calz^{-1}\left[
+\frac{1}{z}\TIL{x}(z)\right] 
+\label{eq-z-delay}
+\eeq
+
+Using Eq.(\ref{eq-z-transform-heavy})
+and Eq.(\ref{eq-z-delay}), we get
+\beq
 \calz^{-1}_z\left[
+\frac{1}{z}
 (M^{-1})^T(z/w)\right]
 =
  (\indi_A^{-1})^T
-\left[B^T(\indi_A^{-1})^Tw\right]^n
+\left[B^T(\indi_A^{-1})^Tw\right]^{n-1}
 \eeq
 
 \begin{align}
@@ -303,31 +381,33 @@ diag(\s^2_{\rvu_i})
 \left[
 \frac{1}{2\pi i}
 \oint_C dw\;
-\frac{w^n}
+\frac{w^{n-1}}
 {w-\indi_A^{-1}B}
 \right]
 \indi_A^{-1}
 diag(\s^2_{\rvu_i})
  (\indi_A^{-1})^T
-\left[B^T(\indi_A^{-1})^Tw\right]^n
+\left[B^T(\indi_A^{-1})^T\right]^{n-1}
 \\
 &=
 \calz_{w}^{-1}
 \left[
-\frac{w}
+\frac{1}
 {w-\indi_A^{-1}B}
 \right]
 \indi_A^{-1}
 diag(\s^2_{\rvu_i})
  (\indi_A^{-1})^T
-\left[B^T(\indi_A^{-1})^T\right]^n
+\left[B^T(\indi_A^{-1})^T\right]^{n-1}
+\quad\text{(by Eq.(\ref{eq-z-transform-inverse}))}
 \\
 &=
-[\indi_A^{-1}B]^n
+[\indi_A^{-1}B]^{n-1}
 \indi_A^{-1}
 diag(\s^2_{\rvu_i})
  (\indi_A^{-1})^T
-\left[B^T(\indi_A^{-1})^T\right]^n
+\left[B^T(\indi_A^{-1})^T\right]^{n-1}
+\;\text{(by Eqs.(\ref{eq-z-transform-heavy})(\ref{eq-z-delay}))}
 \end{align}
 \qed
 
@@ -377,26 +457,28 @@ For any matrix $A$,
 define $SL(A)$ 
 to be the strictly lower triangular
 matrix obtained from matrix $A$ by
-setting to zero all terms 
-on main diagonal and above it.
+setting to zero all entries 
+on the main diagonal of $A$ and above it.
 Note that
 
 \beq 
 SL(\av{\rvu^{[n+1]}, \rvx^{[n+1]T} })=0
 \eeq
 by causality,
-because the nodes are topologically ordered
+because the nodes are assumed to be topologically ordered (when the feedback
+arrows are removed),
 and $\rvx^{[n+1]}$ cannot be correlated
 with the future noise $\rvu^{[n+1]}$.
 Thus,
 
 \beq
+\boxed{
 SL\left(\av{\rvx^{[n+1]}, \rvx^{[n+1]^T} }
 -\underbrace{B
 \av{\rvx^{[n]}, \rvx^{[n]T}}B^T
 (\indi_A^T)^{-1}}_{=K}
 \right)
-= SL\left(A\av{\rvx^{[n+1]},\rvx^{[n+1]^T} }\right)
+= SL\left(A\av{\rvx^{[n+1]},\rvx^{[n+1]^T} }\right)}
 \eeq
 $K$ can be calculated a priori   before
 solving for $A$. In  Chapter \ref{ch-linear-sys}, we solved for 
