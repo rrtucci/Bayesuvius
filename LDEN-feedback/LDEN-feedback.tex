@@ -1,5 +1,4 @@
-\chapter{LDEN with feedback loops: 
-COMING SOON}\label{ch-LDEN-feedback}
+\chapter{LDEN with feedback loops}\label{ch-LDEN-feedback}
 
 This chapter assumes that
 the reader has read Chapter 
@@ -52,7 +51,10 @@ a special case of Dynamic Bayesian networks  (DBN) (see Chapter \ref{ch-dyn-bnet
 \label{fig-LDEN-fb-2nds}
 \end{figure}
 
-
+Consider Fig.\ref{fig-LDEN-fb-2nds}
+of an LDEN diagram
+with feedback loops. It represents the
+following two ``structural equations": 
 
 \beqa
 \rvx_0^{[n+1]} &=& \underbrace{\sum_{j=0}^1\beta_{0|j}\rvx_j^{[n]}
@@ -67,9 +69,13 @@ a special case of Dynamic Bayesian networks  (DBN) (see Chapter \ref{ch-dyn-bnet
 
 for $n=0,1,2, \dots$ with
 $
-\rvx^{[0]}_j=0$ for all $j$.
+\rvx^{[0]}_j=
+\rvu^{[0]}_j=0$ for all $j$.
 
-From Section \ref{sec-z-transform}
+From the
+results of Section \ref{sec-z-transform}, we
+conclude that
+
 
 \beq
 \calz(\rvx^{[n+1]}_j)
@@ -81,6 +87,14 @@ z\left(
 \right)= z\TIL{\rvx}_j(z)
 \eeq
 
+\beq
+\calz(\rvu^{[n+1]}_j)
+= z\TIL{\rvu}_j(z)
+\eeq
+Therefore, in $z$-space, the
+two structural equations are
+as follows:
+
 \beqa
 z\TIL{\rvx}_0(z) &=& \sum_{j=0}^1\beta_{0|j}
 \TIL{\rvx}_j(z)
@@ -90,6 +104,9 @@ z\TIL{\rvx}_1(z) &=&
 \sum_{j=0}^1\beta_{1|j}\TIL{\rvx}_j(z)
 +  \alp_{1|0}z\TIL{\rvx}_0(z) + z\TIL{\rvu}_1(z)
 \eeqa
+We can express these two $z$-space structural 
+equations in matrix form. 
+Let
  
 \beq
 \TIL{x}=\left[
@@ -136,26 +153,75 @@ B=\left[
 \beq
 M(z)= \indi_A -B/z
 \eeq
+Then the two $z$-space structural equations 
+reduce to the single matrix equation:
 
 \beq
 M(z)\TIL{x}(z) =\TIL{u}(z)
 \eeq
+If the DAG for a single
+time-slice has $N>2$ nodes, then this matrix equation is still valid. In that case,
+$A$  and $B$ must be $N\times N$ matrices.
+The graph for a single time slice is 
+acyclic (i.e., a DAG), so we 
+can order its nodes topologically.
+This just means
+that $\rvx_i$ is a child of
+$\rvx_j$ if $i>j$. If the nodes are
+indexed topologically,
+then $\alpha_{i|j}=0$ for $i\leq j$,
+so matrix $A$ is strictly lower diagonal.
+Henceforth, everything we say
+will be valid for an arbitrary number $N\geq 2$ of nodes.
+ 
 
+For $\rva = \rvx, \rvu$, let
+\beq
+[C_{\rva}^{[n]}]_{i,j} =\av{\rva_i^{[n]}, \rva_j^{[n]}},
+\quad
+[C_{\rva}^{[n, n+1]}]_{i,j} =\av{\rva_i^{[n]}, \rva_j^{[n+1]}}
+\eeq
+and
 
 \beq
 [C_{\TIL{\rva}}^{z_1,z_2}]_{i,j} =\av{\TIL{\rva}_i(z_1), \TIL{\rva}_j(z_2)},
-\quad
-[C_{\rva}^{[n]}]_{i,j} =\av{\rva_i^{[n]}, \rva_j^{[n]}}
 \eeq
-for $\rva = \rvx, \rvX, \rvu, \TIL{\rvx},
-\TIL{\rvX}, \TIL{\rvu}$
+
+
+
+Let 
+
+$\calc$ = single time covariance matrices $[C^{[n]}_\rvx]_{i,j}=\langle \underline{x}_i^{[n]}, \underline{x}_j^{[n]}\rangle$ and $[C^{[n+1]}_\rvx]_{i,j}=\langle \underline{x}_i^{[n+1]}, \underline{x}_j^{[n+1]}\rangle$, and two-times covariance matrix $[C^{[n, n+1]}_\rvx]_{i,j}=\langle \underline{x}_i^{[n]}, \underline{x}_j^{[n+1]}\rangle$.
+
+$A=$ strictly lower triangular matrix with entries $\alpha_{i|j}$ = gain of arrow 
+$x^{[n]}_j\rightarrow x^{[n]}_i$
+
+$B=$ matrix with entries $\beta_{i|j}$ = gain of arrow 
+$x^{[n]}_j\rightarrow x^{[n+1]}_i$
+
+The rest of this chapter will
+be dedicated to 
+accomplishing the following 2 tasks:
+
+\begin{enumerate}
+\item
+Express $\calc$ in terms of $A$ and $B$
+
+\item
+Express $A$ and $B$ in terms of $\calc$
+
+\end{enumerate}
+Due to the linearity of the model,
+we will find that these two tasks
+can be accomplished exactly, in closed form.
 
 
 
 \begin{claim}
+$C_\rvx^{[n]}=\av{\rvx^{[n]},\rvx^{[n]T}}$
+satisfies
 \beq
-C_\rvx^{[n]}
-= G^{n-1}\; C_1 \;(G^T)^{n-1}
+C_\rvx^{[n]}= G^{n-1}\; C_\rvx^{[1]} \;(G^T)^{n-1}
 \eeq
 for $n=1,2,3 \ldots$,
 where the ``growth matrix" $G$ is given by
@@ -164,18 +230,30 @@ where the ``growth matrix" $G$ is given by
 G=\indi_A^{-1}B
 \eeq
 and the ``initial covariance matrix" 
-$C_1$ by
+$C_\rvx^{[1]}=\av{\rvx^{[1]},\rvx^{[1]T}}$ by
 
-\beq C_1 =
+\beq C_\rvx^{[1]} =
 \indi_A^{-1}
 diag(\s^2_{\rvu_i})
  (\indi_A^{-1})^T
 \eeq
 
+Once we know the single time covariance matrix $\av{\rvx^{[n]},\rvx^{[n]T}}$,
+the 2 times covariance matrix $\av{\rvx^{[n]},\rvx^{[n+1]T}}$ can be found using the equation
+
+\beq
+\av{\rvx^{[n]}, \rvx^{[n+1]T}}=
+\av{\rvx^{[n]}, \rvx^{[n]T}}G^T
+\label{eq-2-time-one-g}
+\eeq
+
 \end{claim}
 \proof
 
-Section \ref{sec-z-transform}
+Recall from Section \ref{sec-z-transform}
+that
+
+Z-transform of same-time product
 \beq
 x_1^{[n]} x_2^{[n]}=
 \calz^{-1}\left[
@@ -188,15 +266,8 @@ x_1^{[n]} x_2^{[n]}=
 \right]
 \eeq
 
-\beq
-\underbrace{\calz^{-1}[\TIL{x}(z)]}
-_{x^{[n]}}=
-\frac{1}{2\pi i}
-\oint_C dz\;
-\TIL{x}(z)z^{n-1}
-\label{eq-z-transform-inverse}
-\eeq
 
+It follows that
 \beq
 \underbrace{
 \av{\rvx^{[n]},\rvx^{[n]T}}
@@ -214,6 +285,7 @@ _{x^{[n]}}=
 }_{C^{w,z/w}_{\TIL{\rvx}}}
 \right]
 \eeq
+where
 
 \beq
 C_{\TIL{\rvx}}^{w, z/w}=
@@ -221,6 +293,7 @@ M^{-1}(w)
 C_{\TIL{\rvu}}^{w,z/w}
 (M^{-1})^T(z/w)
 \eeq
+so therefore
 
 
 \beq
@@ -233,11 +306,21 @@ C^{[n]}_\rvx
 M^{-1}(w)C_{\TIL{\rvu}}^{w,z/w}
 (M^{-1})^T(z/w)
 \right]
+\label{eq-cov-missing-uutilde}
 \eeq
+\begin{mdframed}[hidealllines=true,backgroundcolor=gray!10]
+At this
+juncture,
+we would like to
+find an expression for $C_{\TIL{\rvu}}^{w,z/w}$
+to plug into Eq.(\ref{eq-cov-missing-uutilde}).
+This gray shaded frame is dedicated
+to finding such an expression.
+
 For all $i$,
-$\rvu_i^{[0]}=0$ because
-$\rvx_i^{[0]}=0$.
-Keep in mind that $\heavy_0^{[n]}=1$ at $n=0$.
+$\rvu_i^{[0]}=0$.
+Keep in mind that $\heavy_0^{[n]}=1$ at $n=0$,
+so we must have
 
 
 
@@ -248,8 +331,10 @@ Keep in mind that $\heavy_0^{[n]}=1$ at $n=0$.
 \eeq
 
 
-Section \ref{sec-z-transform}
+Recall from Section \ref{sec-z-transform}
+that:
 
+Z-transform of Heavyside unit step function:
 \beq\calz\left[
 a^n \heavy_0^{[n]}\right]=
 \frac{1}{1-a/z}=
@@ -258,13 +343,18 @@ a^n \heavy_0^{[n]}\right]=
 \label{eq-z-transform-heavy}
 \eeq
 
+Z-transform of discrete Kronecker
+delta function:
 \beq
 \calz[\delta_{n_0}^{[n]}] = z^{-n_0}
 \eeq
 
+Unit step function
+as a sum of delta functions:
 \beq
 H_0^{[n]}=\sum_{k=0}^\infty\delta^{[n]}_k
 \eeq
+It follows that
 
 \beq
 \heavy^{[n]}_{1} = 
@@ -283,14 +373,14 @@ H_0^{[n]}=\sum_{k=0}^\infty\delta^{[n]}_k
 &=&
 \frac{1}{z-1}
 \eeqa
-
-
-
-
+Therefore,
 \beq
 \calz[\av{\rvu_i^{[n]},\rvu_j^{[n]}}]
 = \delta(i,j)\s^2_{\rvu_i}\frac{1}{z-1}
+\label{eq-cov-un-un}
 \eeq
+We can satisfy Eq.(\ref{eq-cov-un-un})
+and the following equation
 
 \beq
 \calz[\av{\rvu_i^{[n]}, \rvu_j^{[n]}}]=
@@ -300,15 +390,33 @@ H_0^{[n]}=\sum_{k=0}^\infty\delta^{[n]}_k
 \TIL{\rvu}_j\left(
 \frac{z}{w}
 \right)}
+\label{eq-contour-u-tilde}
 \eeq
+if we set
 
 \beq
 \av{\TIL{\rvu}_i(w),\TIL{\rvu}_j(z/w)}
 = \delta(i,j)\s^2_{\rvu_i}\frac{1}{z-1}
 \approx
 \delta(i,j)\s^2_{\rvu_i}\frac{1}{z}
+\label{eq-utilde-utilde}
 \eeq
+I believe that approximating $1/(z-1)$ 
+by $1/z$ leads to a very small
+change in the subsequent results 
+of this chapter. This 
+approximation merely shifts a pole 
+from $z=1$ to $z=0$,
+and we will only use this expression
+to do complex contour integrals
+over a circle in the
+complex plane with radius $|z|>>1$.
+\end{mdframed}
 
+Plugging
+ Eq.(\ref{eq-utilde-utilde}) into
+ Eq.(\ref{eq-cov-missing-uutilde})
+ now yields
 \beq
 C^{[n]}_\rvx
 =
@@ -321,6 +429,7 @@ M^{-1}(w)\frac{diag(\s^2_{\rvu_i})}
 (M^{-1})^T(z/w)
 \right]
 \eeq
+where
 
 \beqa
 M^{-1}(w)&=&(\indi_A - B/w)^{-1}
@@ -336,6 +445,7 @@ M^{-1}(w)&=&(\indi_A - B/w)^{-1}
 {w-\indi_A^{-1}B}
 \indi_A^{-1}
 \eeqa
+and
 
 \beqa
 (M^{-1})^T(z/w)&=&
@@ -349,6 +459,21 @@ M^{-1}(w)&=&(\indi_A - B/w)^{-1}
 {z-B^T(\indi_A^{-1})^Tw}
 \eeqa
 
+Next, we will avail
+ourselves of 2 more 
+results from Section \ref{sec-z-transform}:
+
+Inverse Z-transform:
+\beq
+\underbrace{\calz^{-1}[\TIL{x}(z)]}
+_{x^{[n]}}=
+\frac{1}{2\pi i}
+\oint_C dz\;
+\TIL{x}(z)z^{n-1}
+\label{eq-z-transform-inverse}
+\eeq
+
+Time delay:
 \beq
 x^{[n-1]}=
 \calz^{-1}\left[
@@ -409,30 +534,48 @@ diag(\s^2_{\rvu_i})
 \left[B^T(\indi_A^{-1})^T\right]^{n-1}
 \;\text{(by Eqs.(\ref{eq-z-transform-heavy})(\ref{eq-z-delay}))}
 \end{align}
+
+Eq.(\ref{eq-2-time-one-g})
+is the same as Eq.(\ref{eq-A-B-linear-full}),
+and the latter is proven below.
 \qed
 
+The structural equations in $n$ (i.e., time) space,
+and in matrix form, can be expressed as:
 \beq
 \rvx^{[n+1]} = B\rvx^{[n]} + A\rvx^{[n+1]}
 + \rvu^{[n+1]}
+\label{eq-struc-time}
 \eeq
+
+Applying $\av{\cdot, \rvx^{[n]T} }$
+from the right to Eq.(\ref{eq-struc-time}), we get
+
+\beq 
+(1-A)\av{\rvx^{[n+1]}, \rvx^{[n]T}}=
+B \av{\rvx^{[n]}, \rvx^{[n]T}}
++ \av{\rvu^{[n+1]}, \rvx^{[n]T}}
+\eeq
+Note that
 
 \beq
 \av{\rvu^{[n+1]}, \rvx^{[n]T}}=0
 \eeq
-
-\beq
-(1-A)\av{\rvx^{[n+1]}, \rvx^{[n]T}}=
-B \av{\rvx^{[n]}, \rvx^{[n]T}}
-\eeq
+by causality, 
+because the $\rvx^{[n]}$
+can't be affected by the noise in the future.
+Therefore
 
 \beq
 \boxed{
 \indi_A\av{\rvx^{[n]}, \rvx^{[n+1]T}}^T=
 B \av{\rvx^{[n]}, \rvx^{[n]T}}}
+\label{eq-A-B-linear-full}
 \eeq
 
 
-
+Applying $\av{\cdot, \rvx^{[n+1]T} }$
+from the right to Eq.(\ref{eq-struc-time}), we get
 \beq
 \av{\rvx^{[n+1]}, \rvx^{[n+1]T} }
 = B
@@ -466,10 +609,48 @@ SL\left(\av{\rvx^{[n+1]}, \rvx^{[n+1]^T} }
 }_{K}
 \right)
 = SL\left(A\av{\rvx^{[n+1]},\rvx^{[n+1]^T} }\right)}
-\label{eq-sl-a-k}
+\label{eq-A-B-linear-sl}
 \eeq
+
+$A$ and $B$ satisfy a system of 2 linear equations (the two boxed
+equations above, Eq.(\ref{eq-A-B-linear-full})
+and Eq.(\ref{eq-A-B-linear-sl})) with two unknowns $A,B$.
+To solve that system of 2 equations in $(A, B)$, we can:
+
+\begin{enumerate}
+\item First solve
+Eq.(\ref{eq-A-B-linear-sl})) for $A$ in terms of $B$ and $\calc$, thus obtaining $A(B,
+\calc)$.
+To do this step,
+we can use the same method that was used
+in Chapter \ref{ch-linear-sys},
+for LDEN without feedback loops, to solve for
+$A$ when $K= 0$.
+ 
+Caveat: Eq.(\ref{eq-A-B-linear-sl})) for $A$ has the same number of equations as unknowns as long as
+all $\alp_{i|j}\neq 0$ for all $i>j$. If some of those $\alp_{i|j}$ are zero, then we get an
+overdetermined system of linear equations.
+To solve that problem, for every 
+$i, j$ such that $i>j$ and  $\alp_{i|j}= 0$,
+replace that unknown by $\av{\rvx_i^{[n]},
+\rvx_j^{[n]}}$.
+
+\item Then we can substitute $A(B, \calc)$ into the remaining equation
+Eq.(\ref{eq-A-B-linear-full})
+to obtain $B(\calc)$. 
+
+Caveat: Eq.(\ref{eq-A-B-linear-full})) for $B$ has the same number of equations as unknowns as long as
+all $\beta_{i|j}\neq 0$ for all $i,j$. If some of those $\beta_{i|j}$ are zero, then we get an
+overdetermined system of linear equations.
+To solve that problem, for every 
+$i, j$ such that $\beta_{i|j}= 0$,
+replace that unknown by $\av{\rvx_j^{[n]},
+\rvx_i^{[n+1]}}$.
+
+\item Finally, we can substitute $B(\calc)$ into $A(B,
+\calc)$ to get $A(B(\calc), \calc)$.
+\end{enumerate}
  
  
-The same method can be used to solve for
-$A$ when $K\neq 0$.
+
 
