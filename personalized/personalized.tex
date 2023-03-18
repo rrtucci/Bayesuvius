@@ -429,23 +429,25 @@ because the TPM at node $\rvy$
 is a delta function that
 enforces this equality.
 
-\section{$ATE = PNS - AMM$}
+\section{$ATE = PB - PH$}
 
-Define the {\bf Probability of Necessity and Sufficiency}
+Define the {\bf probability of benefit (PB)}
+ (a.k.a. {\bf Probability of Necessity and Sufficiency (PNS)}) by
 \beq
-PNS = P(\rvy_0=0, \rvy_1=1)
+PB = PNS= P(\rvy_0=0, \rvy_1=1)
 \eeq
-and the {\bf Amonotonicity Measure} by
+and the {\bf probability of harm (PH)} by
 \beq
-AMM = P(\rvy_0=1, \rvy_1=0)
+PH =P(\rvy_0=1, \rvy_1=0)
 \eeq
+
 
 \begin{claim}
 \beq
-PNS=P(\rvy_1-\rvy_0=1)
+PB=P(\rvy_1-\rvy_0=1)
 \eeq
 \beq
-AMM=P(\rvy_1-\rvy_0=-1)
+PH=P(\rvy_1-\rvy_0=-1)
 \eeq
 \end{claim}
 \proof
@@ -461,20 +463,19 @@ $\rvy_0=1$).
 \centering
 \includegraphics[width=3.5in]
 {personalized/pns-ate.png}
-\caption{Probability simplex
+\caption{Shown in green, the probability simplex
 $\{(x,y): x\geq 0, y\geq 0, x+y\leq 1\}$
-with $x=PNS$
-and $y=AMM$.
-Values of $PNS$ and $ATE$
-at corners
-are given.
-Points on line $x+y=1$ can only be
-achieved if $P(1,1)=P(0,0)=0$. }
+with $x=PB$
+and $y=PH$. The region of possible
+$(PB, PH)$ values 
+is a subset of that simplex. Also shown are 
+the constant $ATE$ contours
+in the $(PB, PH)$ plane. }
 \label{fig-pns-ate}
 \end{figure}
 \begin{claim}
 \beq
-ATE = PNS - AMM
+ATE = PB - PH
 \eeq
 \end{claim}
 \proof
@@ -493,18 +494,17 @@ P(\rvy_1=1) -P(\rvy_0=1)
 \sum_{y_0}P(y_0, \rvy_1=1) - \sum_{y_1}P(\rvy_0=1, y_1)
 \\
 &=&
-\underbrace{P(\rvy_0=0, \rvy_1=1)}_{PNS} -
-\underbrace{P(\rvy_0=1, \rvy_1=0)}_{AMM}
+\underbrace{P(\rvy_0=0, \rvy_1=1)}_{PB} -
+\underbrace{P(\rvy_0=1, \rvy_1=0)}_{PH}
 \eeqa
 \qed
 
 
 
 See Fig.\ref{fig-pns-ate}
-for a visualization
-of the extreme values of
-$PNS$ and the corresponding values
-of $ATE$.
+for an illustration  of the constant $ATE$ contours
+in the $(PB, PH)$ plane.
+
 
 \section{Probabilities Relevant to PTE theory}
 Note\footnote{
@@ -663,10 +663,10 @@ PNS3=(PNS, PN, PS)
 \;.
 \eeq
 
-{\bf Amonotonicity Measure (AMM)}
+{\bf Amonotonicity Measure (PH)}
 
 \beq
-AMM=
+PH=
 P(\rvy_0=1, \rvy_1=0)
 \eeq
 
@@ -1163,7 +1163,7 @@ excludes the only other
 case, namely $(1,0)$.}
  holds for simplex $\cals$ if
 
-\beq AMM=P(\rvy_0=1,
+\beq PH=P(\rvy_0=1,
  \rvy_1=0)=0\eeq\;.
 Equivalently,
 
@@ -1179,7 +1179,7 @@ which is true iff
 Monotonicity gives {\color{red} 2
 constraints}.
 
-Note that when $AMM=0$, $PNS=ATE$.
+Note that when $PH=0$, $PNS=ATE$.
 \end{itemize}
 
 
@@ -1461,18 +1461,18 @@ PNS =\Pmat{\eps_+}{0}{0}{0}
 \eeq
 
 \beq
-AMM =\Pmat{0}{0}{0}{\eps_+}
+PH =\Pmat{0}{0}{0}{\eps_+}
 \eeq
 
 \beq
-ATE=PNS-AMM=
+ATE=PNS-PH=
 \Pmat{\eps_+}{0}{0}{-\eps_+}
 \eeq
 
 
-When $AMM=0$,
+When $PH=0$,
 \beq
-P(\rvy=1)|_{AMM=0}=
+P(\rvy=1)|_{PH=0}=
 \Pmat{\eps_1}{\eps_+}{0}{0}
 \eeq
 
@@ -1724,7 +1724,7 @@ has the MRP
 which is obviously true.
 
 \beq
-P(\rvy=1)|_{AMM=0}\leq E_{1|1}
+P(\rvy=1)|_{PH=0}\leq E_{1|1}
 \eeq
 has the MRP
 
@@ -1736,8 +1736,8 @@ has the MRP
 which is obviously true.
 
 \beq
-E_{1|0}|_{AMM=0}\leq
-P(\rvy=1)|_{AMM=0}
+E_{1|0}|_{PH=0}\leq
+P(\rvy=1)|_{PH=0}
 \eeq
 has the MRP
 
