@@ -648,10 +648,12 @@ it goes from 00 to 11}
 
 
 {\bf Probability of
-Necessity and Sufficiency (PNS)}
+Necessity and Sufficiency (PNS)
+(a.k.a., Probability
+of Benefit (PB))}
 
 \beq
-PNS=
+PNS=PB=
 P(\rvy_0=0, \rvy_1=1)
 \eeq
 
@@ -663,7 +665,7 @@ PNS3=(PNS, PN, PS)
 \;.
 \eeq
 
-{\bf Amonotonicity Measure (PH)}
+{\bf Probability of Harm (PH)}
 
 \beq
 PH=
@@ -3017,6 +3019,160 @@ for specific bnet families}
 
 
 
+
+
+\section{Bounds on $ATE$ imposed by Obs. Probs.}
+
+\begin{claim}
+
+\beq
+O_{0,0}+O_{1,1}-1
+\leq ATE \leq
+O_{0,0}+O_{1,1}
+\eeq
+\end{claim}
+\proof
+\beq
+O_{0,0}+O_{1,1}-1=
+\Pmat{0}{-\eps_0}{-\eps_1}{-\eps_+}
+\eeq
+
+
+\beq
+ATE = \Pmat{\eps_+}{0}{0}{-\eps_+}
+\eeq
+
+\beq
+O_{0,0}+O_{1,1}=
+\Pmat{\eps_+}{\eps_1}{\eps_0}{0}
+\eeq
+\qed
+
+\section{Bounds on $PNS$ in terms of $ATE$
+and Obs. Probs.}
+
+\begin{claim}
+\beq
+\max\left\{
+\begin{array}{c}
+0
+\\
+ATE
+\end{array}
+\right\}
+\leq
+PNS
+\leq
+\min
+\left\{
+\begin{array}{c}
+O_{0,0}+ O_{1,1}
+\\
+O_{0,1}+ O_{1,0}+ ATE
+\end{array}
+\right\}
+\eeq
+Hence,
+
+\beq
+\max\left\{
+\begin{array}{c}
+0
+\\
+ATE
+\end{array}
+\right\}
+\leq
+PNS
+\leq
+\min
+\left\{
+\begin{array}{c}
+1
+\\
+1+ ATE
+\end{array}
+\right\}
+\eeq
+
+\end{claim}
+\proof
+
+Note that
+\beq
+ATE = \Pmat{\eps_+}{0}{0}{-\eps_+}
+\eeq
+and
+
+\beq
+PNS =
+\Pmat{\eps_+}{0}{0}{0}
+\eeq
+so
+
+\beq
+\max\left\{
+\begin{array}{c}
+0
+\\
+ATE
+\end{array}
+\right\}
+=
+\max\left\{
+\begin{array}{c}
+0
+\\
+\Pmat{\eps_+}{0}{0}{-\eps_+}
+\end{array}
+\right\}
+\leq
+\Pmat{\eps_+}{0}{0}{0}
+=
+PNS
+\eeq
+
+Next note that
+
+\beq
+O_{0,0}+O_{1,1}=
+\Pmat{\eps_+}{\eps_1}{\eps_0}{0}
+\eeq
+
+\beq
+O_{1,0}+O_{0,1}=
+\Pmat{0}{\eps_0}{\eps_1}{\eps_+}
+\eeq
+
+\beq
+O_{1,0}+O_{0,1} + ATE=
+\Pmat{\eps_+}{\eps_0}{\eps_1}{0}
+\eeq
+so
+\beq
+PNS=
+\Pmat{\eps_+}{0}{0}{0}
+\leq
+\min\left\{
+\begin{array}{c}
+\Pmat{\eps_+}{\eps_1}{\eps_0}{0}
+\\
+\Pmat{\eps_+}{\eps_0}{\eps_1}{0}
+\end{array}
+\right\}
+=
+\min\left\{
+\begin{array}{c}
+O_{0,0}+O_{1,1}
+\\
+O_{1,0}+O_{0,1} + ATE
+\end{array}
+\right\}
+\eeq
+\qed
+
+
+
 \section{Numerical Examples}
 
 I've written an open source Python program
@@ -3044,3 +3200,11 @@ with data entered
 by Boris Sobolev.}
 \label{fig-sobolev}
 \end{figure}
+
+
+
+
+
+
+
+
