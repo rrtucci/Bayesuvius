@@ -253,37 +253,37 @@ gradient
 during each {\bf stage (a.k.a. iteration)} of
 Fig.\ref{fig-nn-ext}.
 We will also  refer to
-$nsam(\vecx)$ as the {\bf mini-batch size}.
-A {\bf mini-batch} is a subset
+$nsam(\vecx)$ as the {\bf batch size}.
+A {\bf batch} is a subset
 of the training dataset.
 
 
 
-To train a bnet with a data
-set (d-set),
+To train a bnet with a dataset,
 the standard procedure
-is to split the d-set into 3 parts:
+is to split the dataset into 3 parts
+(I like to call them the {\bf ttt datasets}):
 \begin{enumerate}
 \item
-{\bf training d-set},
+{\bf training dataset},
 \item
-{\bf testing1 d-set}, for
+{\bf tuning (a.k.a. validation) dataset}, for
 tuning
 of hyperparameters
 like $nsam(\vecx)$,  $\Lambda$,
 and $nh(i)$
 for each $i$.
 \item
-{\bf testing2 d-set}, for measuring
+{\bf testing dataset}, for measuring
 how well the model
-tuned with the testing1 d-set
+tuned with the tuning dataset
 performs.
 \end{enumerate}
 
-The training d-set is
-itself split into mini-batches.
+The training dataset is
+itself split into batches.
 An {\bf epoch} is a pass through all
-the training d-set.
+the batches in the training dataset.
 
 Define
 \beq
@@ -464,10 +464,10 @@ r^\lam_i\sum_j w^\lam_{i|j}h^{\lam-1}_j[\sigma]
 This reduces overfitting.
 Overfitting might
 occur if the weights follow too closely
-several similar minibatches.
+several similar batches.
 This dropout procedure adds a random
-component to each minibatch
-making groups of similar minibatches
+component to each batch
+making groups of similar batches
 less likely.
 
 The random $\rvr^\lam_i$ nodes
