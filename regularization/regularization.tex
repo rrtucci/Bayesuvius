@@ -7,7 +7,9 @@
 
 RC is the practice of adding 
 a convex function  $\calr:\RR^n\rarrow \RR$
-(called the {\bf regulator function}) to
+(called the {\bf regulator function}\footnote{This function is also commonly called a {\bf penalty function}.
+It can  also be thought  of, from a Bayesian perspective,
+as the log of a prior probability, and the cost function as a log likehood function.}) to
 a convex function  function $\calc:\RR^n\rarrow \RR$
 (called the {\bf  cost function}), when one
 wishes to minimize the cost function. In Machine Learning,
@@ -41,18 +43,22 @@ such that $w_k\rarrow w^*$
 as $k
 \rarrow \infty$.
 
-There are many ways
+There are many methods
 of biasing the 
 minimum of a convex function that  don't
 involve adding a regulator
 function.
-For example, early stopping
-of training for Neural Nets,
-or adding latent variables
+For example, Early Stopping
+of training 
+and Cross Validation for Neural Nets,
+or adding Latent Variables
 to a Bayesian Network.
-We won't discuss those types
-of 
-RCs in this chapter.
+Or Constraint Optimization where hard equality and/or inequality constraints are imposed (as in Linear Programming,
+Lagrange multipliers, Khun-Tucker conditions, method of simple substitution of constraints).
+We won't discuss those types of
+RCs in this chapter.\footnote{RC that adds a regulator function (resp., doesn't add)
+is sometimes called Explicit (resp., Implicit)
+regularization.}
 
 
 
@@ -103,7 +109,7 @@ Then
 
 
 \begin{itemize}
-\item $L_1$ norm RC (called LASSO)
+\item $L_1$ norm RC (called LASSO or Basis Pursuit)
 \beq
 \calr(w) =\lam\norm{w}_1
 \eeq
@@ -123,6 +129,13 @@ $L_1 + L_2$ norm RC (called Elastic Net)
 
 \subsection{$L_1$ norm RC can lead to sparsity}
 
+The obvious way to induce sparsity in 
+the minimum $w^*$ is to use the $L_0$ norm of $w$ as regulator.
+However, calculating $\norm{w}_0$ is
+hard (NP-hard, in fact). In this section, we will
+show that using the $L_1$ norm
+of $w$ as regulator can also induce sparsity (not as well the
+$L_0$ norm, but still not bad.)
 \begin{figure}[h!]
 \centering
 \includegraphics[width=4in]
@@ -291,6 +304,8 @@ X^Ty
 (X^TX)^{-1}X^Ty
 \;\;\text{(valid for $\lam=\frac{1}{n_0}>>1$)}
 \eeqa
+Truncating this series is itself
+a kind of regularization.
 
 
 \section{Proximal functions}
@@ -339,8 +354,11 @@ analytical rather a numerical
 example of proximal functions.
 We  begin by defining the
 shrinking function\footnote{We call it a
-shrinking function because
-it shrinks a neighborhood-of-zero to zero.}
+{\bf shrinking function} because
+it shrinks a neighborhood-of-zero to zero.
+Another common name for this function is a
+ {\bf soft-threshold function}, because
+ it makes the transition from negative to positive y axis values occur over the interval of $x\in [-\alp, \alp]$ instead of $x\in [0,0]$.}
  $sh_0: \RR\rarrow \RR$ and its inverse
 $sh_0^{-1}:\RR\rarrow\RR$  for any $\alp>0$:
 
