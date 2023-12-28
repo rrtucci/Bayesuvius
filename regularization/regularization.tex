@@ -10,17 +10,17 @@ a convex function  $\calr:\RR^n\rarrow \RR$
 (called the {\bf regulator function}) to
 a convex function  function $\calc:\RR^n\rarrow \RR$
 (called the {\bf  cost function}), when one
-wishes to minimize the cost function. In ML,
+wishes to minimize the cost function. In Machine Learning,
 the variable being minimized over is often the weights 
 of a Neural Net, so we denote it by $w\in \RR^n$, and use $w^*\in \RR^n$
 to represent the
 minimum of $\calc^+(w) =\calc(w)+ \calr(w)$. 
 
-In some cases (like in p-norm RC,
+In some cases (like in $L_p$ norm RC,
 which we discuss below),
 the minimum of $\calc^+(w)$
 and that of $\calc(w)$
-are not the same but very close. in such cases,
+are not the same but very close. In such cases,
 displacing the minimum of 
 $\calc(w)$ 
 might be done in order
@@ -56,7 +56,7 @@ RCs in this chapter.
 
 
 
-Cost functions commonly used in Statistics and in
+Cost functions commonly used in Statistics and
 Machine Learning (ML) are of the form
 
 
@@ -90,54 +90,54 @@ In RC, we add a regulator $\calr(w)$ to $\calc(w)$:
 
 
 
-\section{p-norm RC}
+\section{$L_p$ norm RC}
 
-See \ref{sec-p-norm}
+See \ref{sec-$L_p$ norm}
 for the definition of
-p-norms.
+$L_p$ norms.  Let
 
 \beq
 \calc^+(w) = \calc(w) + \calr(w)
 \eeq
-
+Then
 
 
 \begin{itemize}
-\item 1-norm RC (called LASSO)
+\item $L_1$ norm RC (called LASSO)
 \beq
 \calr(w) =\lam\norm{w}_1
 \eeq
 
-\item 2-norm RC (called Ridge or Tikhonov Regression)
+\item $L_2$ norm RC (called Ridge or Tikhonov Regression) (note that the 2-norm is squared)
 \beq
-\calr(w) =\lam\norm{w}_2
+\calr(w) =\lam\norm{w}_2^2
 \eeq
 
 \item
-1\&2-norm RC (called Elastic Net)
+$L_1 + L_2$ norm RC (called Elastic Net)
 \beq
 \calr(w) =\lam_1\norm{w}_1
 + \lam_2\norm{w}_2^2
 \eeq
 \end{itemize}
 
-\subsection{1-norm RC can lead to sparsity}
+\subsection{$L_1$ norm RC can lead to sparsity}
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=4in]
 {regularization/sparsity.png}
 \caption{Pictorial explanation of
-why 1-norm RC can lead to sparsity
-and 2-norm RC can help avert it. Sometimes 
+why $L_1$ norm RC can lead to sparsity
+and $L_2$ norm RC can help avert it. Sometimes 
 you want sparsity and sometimes you don't. $c$ in this figure is some 
 fixed constant.
 }
 \label{fig-sparsity}
 \end{figure}
 
-Assume $\calc(w)$ is linear in $w$.\footnote{What we are say next about sparsity also applies in some cases when $\calc(w)$ is not linear in $w$. For example, it applies sometimes when $\calc(w)$
-is quadratic in $w$ as occurs in Least Squares.}.
+Assume $\calc(w)$ is linear in $w$.\footnote{What we say here about sparsity also applies in some cases when $\calc(w)$ is not linear in $w$. For example, it applies sometimes when $\calc(w)$
+is quadratic in $w$ as occurs in Least Squares.}
 For example, 
 \beq
 \calc(w)= Xw-y
@@ -159,7 +159,7 @@ represented in green.
 In Fig.\ref{fig-sparsity} $(a)$,
 we imagine that $\calr(w)=\norm{w}_1$
 and in Fig.\ref{fig-sparsity} $(b)$, that
-$\calr(w)=\norm{w}_2$.
+$\calr(w)=\norm{w}_2^2$.
 For points $w$ such that $\calr(w)$
 has a well defined gradient, 
 minimization of 
@@ -173,7 +173,7 @@ $\calc$ and $\calr$ be equal in magnitude but opposite in direction.
 \nabla_w\calc = -\nabla_w \calr
 \eeq
 But when $\calr(w)$ is
-the 1-norm,  $\nabla_w\calr$ is not defined along the $w_1$
+the $L_1$ norm,  $\nabla_w\calr$ is not defined along the $w_1$
 and $w_2$ axes. To avoid this, we can 
 approximate the diamond contour $\norm{w}_1=c$
 by rounding out its corners
@@ -192,7 +192,7 @@ there would be a diamond contour
  of the diamond contour. Call that
  kissing point $w^*$. Note from
  Fig.\ref{fig-sparsity} $(a)$ that that kissing point $w^*=(0,c)$ would be
- sparse. In going from the $(a)$ to the $(b)$ part Fig.\ref{fig-sparsity},
+ sparse. In going from the Fig.\ref{fig-sparsity} $(a)$ to Fig.\ref{fig-sparsity} $(b)$,
  we have replaced the diamond contour
  $\norm{w}_1=c$ by
  a circular contour $\norm{w}_2=c$,
@@ -201,7 +201,7 @@ there would be a diamond contour
  the kissing point $w^*$ is no longer sparse; both of its components are non-zero.
  
  The moral of Fig.\ref{fig-sparsity}
- is that 1-norm RC can lead to sparsity and 2-norm RC can help avert it.
+ is that $L_1$ norm RC can lead to sparsity and $L_2$ norm RC can help avert it.
  Sometimes we want the vector of weights $w$ to be sparse so as to give
  a succinct description.
  At other times, we want solutions in set $A$ to be spread out over many dimensions instead of being sparse and clumped together in a small number of dimensions.
@@ -211,7 +211,7 @@ there would be a diamond contour
 
 
 
-\subsection{2-norm RC for Least Squares}
+\subsection{$L_2$ norm RC for Least Squares}
 As in Section \ref{sec-conv-lr} on Linear Regression, 
 suppose $w\in\RR^n$, $X\in \RR^{nsam\times n}$,
  and  $y\in\RR^{nsam} $. Let
@@ -252,17 +252,17 @@ X^T(Xw-y)+\lam n  w=0
 
 \beqa
 w&=&
-(X^TX + \lam  nI)^{-1}(X^Ty)
+(X^TX + \lam  nI)^{-1}X^Ty
 \\
 &=&
 \frac{1}{\lam n}(I + 
-\frac{X^T X}{\lam n})^{-1}(X^Ty)
+\frac{X^T X}{\lam n})^{-1}X^Ty
 \eeqa
 
 Note that for $\lam=0$, the minimum $w^*$ of $\calc^+(w)$ is
 
 \beq
-w^*= (X^TX)^{-1}X^T 
+w^*= (X^TX)^{-1}X^Ty 
 \;\;\text{(valid for $\lam=0$)}
 \eeq
 When $\lam>>1$,
@@ -283,7 +283,7 @@ Then
 w^* &=& \frac{n_0}{n}
 \sum_{i=0}^{\infty}
 (-\;\frac{n_0 X^TX}{n})^i
-(X^Ty)
+X^Ty
 \\
 &=&
 -\sum_{i=0}^{\infty}
@@ -316,6 +316,7 @@ Henceforth we assume $\WW=\RR^n$,
 so the projected vector $v$ and
 its projection $w$ are in the same
 vector space $\RR^n$.
+
 See Fig.\ref{fig-proximal-example}
 for a numerical example of a 
 proximal function $w^{prox}:\RR\rarrow \RR$.
@@ -337,10 +338,11 @@ Next, we will discuss an
 analytical rather a numerical
 example of proximal functions.
 We  begin by defining the
-shrinking function $sh_0: \RR\rarrow \RR$ and its inverse
-$sh_0^{-1}:\RR\rarrow\RR$ (We call it a
+shrinking function\footnote{We call it a
 shrinking function because
-it shrinks a neighborhood-of-zero to zero) for any $\alp>0$
+it shrinks a neighborhood-of-zero to zero.}
+ $sh_0: \RR\rarrow \RR$ and its inverse
+$sh_0^{-1}:\RR\rarrow\RR$  for any $\alp>0$:
 
 \beq
 sh_0(v; \alp) = (v-\alp)\indi(v>\alp) + (v+\alp)\indi(v<-\alp)
@@ -358,7 +360,7 @@ $sh^{-1}_0$.
 \centering
 \includegraphics[width=3.7in]
 {regularization/sh_0_w.png}
-\caption{Picture
+\caption{Plot
 of the functions $sh_0(w; \alpha)$ and $sh_0^{-1}(w; \alpha)$.
 }
 \label{fig-sh_0_w}
@@ -440,7 +442,7 @@ and
 \calc^+(w) = \calc(w) + \calr(w, w^*)
 \;,
 \eeq
-where $w^*$ is the minimum in $w$
+where $w^*$ is the $w$-minimum 
 of both $\calc(w)$ and $\calr(w, w^*)$:
 
 
