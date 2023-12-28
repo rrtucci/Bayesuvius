@@ -77,6 +77,86 @@ and the one-hot encoding
 of a set with $n$ elements requires
 $n$ or more registers.
 
+\section{p-norm}
+\label{sec-p-norm}
+
+For $p\in [0, \infty]$
+and $\vec{x}\in\RR^p$ or $\vec{x}\in\CC^p$,  
+the {\bf p-norm} $\norm{\vec{x}}_p$ of $\vec{x}$
+is defined as
+ 
+\beq
+\norm{\vec{x}}_p 
+ = \left(\sum_i |x_i|^p
+\right)^{\frac{1}{p}}
+\eeq
+Hence,
+
+
+\beq
+\norm{\vec{x}}_0 = \sum_i \indi(|x_i| >0) = \text{number of non-zero $x_i$}
+\eeq
+
+\beq
+\norm{\vec{x}}_1 = \sum_i |x_i|
+\eeq
+
+\beq
+\norm{\vec{x}}_2 = \sqrt{\sum_i (x_i)^2}
+\eeq
+
+\beq
+\norm{\vec{x}}_3 = \left(\sum_i |x_i|^3
+\right)^\frac{1}{3}
+\eeq
+
+\beqa
+\norm{\vec{x}}_\infty
+&=&
+\lim_{p\rarrow\infty}
+\norm{\vec{x}}_p
+\\
+&=&
+\lim_{p\rarrow\infty}((\max_i|x_i|)^p)^{\frac{1}{p}}
+\;\; \text{(because one $|x_i|^p$ dominates the rest)}
+\\
+&=& 
+\max_i|x_i|
+\eeqa
+
+Note that as $\lim_{p\rarrow 0}\norm{\vec{x}}_p \neq  \norm{\vec{x}}_0$. In fact, as $p\rarrow 0$, 
+
+\beqa
+\norm{\vec{x}}_p&\rarrow&
+(\text{number of non-zero $x_i$})^{\frac{1}{p}}\;\;
+\text{(because $|x|^0=1$ for $x\neq  0$)}
+\\
+&\rarrow& 
+\norm{\vec{x}}_0^{\frac{1}{p}}
+\rarrow \infty
+\eeqa
+
+When $p$ is large and only a few
+of the $p$ components of $\vec{x}\in\CC^p$ are non-zero, we say 
+$\vec{x}$ is {\bf sparse}. $\norm{\vec{x}}_0$ is used to measure
+the {\bf sparsity} of vectors.
+
+Fig.\ref{fig-normballs.png} shows the {\bf unit balls}
+$\{\vec{x}\in \RR^n:\norm{\vec{x}}_p\leq 1\}$ for various values of $p$ and for $n=2$.
+$\{\vec{x}\in \RR^2:\norm{\vec{x}}_0\leq 1\}$ is not shown. It equals all the $x$ and $y$ axes, because, by definition, it contains all $(x,y)\in\RR^2$ such that $x=0$ or $y=0$ or both (i.e., zero or 1 non-zero components). 
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=6in]
+{conventions/normballs.png}
+\caption{Unit Balls
+$\{\vec{x}\in \RR^2:\norm{\vec{x}}_p\leq 1\}$  for various values of $p$ and for $n=2$.
+}
+\label{fig-normballs.png}
+\end{figure}
+
+
+
 \section{Special sets}
 Define $\ZZ, \RR, \CC$ to be
  the integers, real numbers
