@@ -9,12 +9,13 @@ RC is the practice of adding
 a convex function  $\calr:\RR^n\rarrow \RR$
 (called the {\bf regulator function}\footnote{This function is also commonly called a {\bf penalty function}.
 It can  also be thought  of, from a Bayesian perspective,
-as the log of a prior probability, and the cost function can be thought of as a log likehood function.}) to
-a convex function  function $\calc:\RR^n\rarrow \RR$
-(called the {\bf  cost function}), when one
+as the log of a prior probability, and the cost function can be thought of as a log likelihood function.}) to
+a convex function  $\calc:\RR^n\rarrow \RR$
+(called the {\bf  cost function}\footnote{This function is also commonly
+called the {\bf loss function}.}), when one
 wishes to minimize the cost function. In Machine Learning,
 the variable being minimized over is often the weights 
-of a Neural Net, so we denote it by $w\in \RR^n$, and use $w^*\in \RR^n$
+of a Neural Net, so we will denote it by $w\in \RR^n$, and use $w^*\in \RR^n$
 to represent the
 minimum of $\calc^+(w) =\calc(w)+ \calr(w)$. 
 
@@ -57,8 +58,8 @@ Or Constraint Optimization where hard equality and/or inequality constraints are
 Lagrange multipliers, Khun-Tucker conditions, method of simple substitution of constraints).
 We won't discuss those types of
 RCs in this chapter\footnote{RC that adds a regulator function (resp., doesn't add)
-is sometimes called Explicit (resp., Implicit)
-regularization.}, except for a brief section on latent nodes at the end.
+is sometimes called {\bf Explicit (resp., Implicit)
+regularization}.}, except for a brief section on latent nodes at the end.
 
 
 
@@ -71,7 +72,8 @@ Machine Learning (ML) are of the form
 \HAT{\calc}(\haty_\s(x_\s, w), y_\s)
 \eeq
 where the sum is over $nsam$ samples.
-A common type of $\HAT{\calc}(w)$ is
+A common, more specific type of $\calc(w)$ is
+
 
 \beq
 \calc(w) = \frac{1}{nsam}\sum_{\s=1}^{nsam}
@@ -105,7 +107,8 @@ $L_p$ norms.  Let
 \beq
 \calc^+(w) = \calc(w) + \calr(w)
 \eeq
-Then
+Then,
+for $\lam, \lam_1, \lam_2>0$,
 
 
 \begin{itemize}
@@ -134,8 +137,8 @@ the minimum $w^*$ is to use the $L_0$ norm of $w$ as regulator.
 However, calculating $\norm{w}_0$ is
 hard (NP-hard, in fact). In this section, we will
 show that using the $L_1$ norm
-of $w$ as regulator can also induce sparsity (not as well the
-$L_0$ norm, but still not bad.)
+of $w$ as regulator can also induce sparsity (not as well as the
+$L_0$ norm, but still significant.)
 \begin{figure}[h!]
 \centering
 \includegraphics[width=4in]
