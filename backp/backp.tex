@@ -1,6 +1,153 @@
 \chapter{Back Propagation
  (Automatic Differentiation)}
  \label{ch-backp}
+ 
+\section{Toy Example}
+This example
+comes from Ref.\cite{backp-toy}.
+
+Consider the following system of 4 equations:
+\beq
+\left\{
+\begin{array}{l}
+b= w_1a
+\\
+c=w_2a
+\\
+d=w_3b+w_4c
+\\
+L=10-d
+\end{array}
+\right.
+\label{eq-backp-toy-eqs}
+\eeq
+
+To calculate $\nabla_w L$ where 
+ $w=(w_1, w_2, w_3, w_4)$, we can use the
+the chain rule for partial derivatives.
+This yields
+
+
+\begin{subequations}
+\beq
+\pder{L}{w_4}=\pder{L}{d}\pder{d}{w_4}=(-1)(c)
+\eeq
+
+\beq
+\pder{L}{w_3}=\pder{L}{d}\pder{d}{w_3}=(-1)(b)
+\eeq
+
+\beq
+\pder{L}{w_2}=\pder{L}{d}\pder{d}{c}\pder{c}{w_2}
+=(-1)(w_4)(a)
+\eeq
+
+\beq
+\pder{L}{w_1}=\pder{L}{d}\pder{d}{b}
+\pder{b}{w_1}
+=
+(-1)(w_3)(a)
+\eeq
+\end{subequations}
+
+Now note that the system of equations 
+Eq.(\ref{eq-backp-toy-eqs}) can
+be represented graphically by the bnet (with
+deterministic nodes) of 
+Fig.\ref{fig-toy-backp-bnet}.
+The calculation 
+of $\nabla_wL$ can also be represented
+graphically with the aid of the defining bnet
+Fig.\ref{fig-toy-backp-bnet}. This is done in Fig.\ref{fig-toy-backp-deriv-bnet}.
+As illustrated by that figure,
+the derivative $\partial_{w_i}L$ for $i=1,2,3,4$
+is the product of the derivatives along the
+arrows from $w_i$ to $L$.
+
+
+\begin{figure}[h!]
+\centering
+$$
+\xymatrix{
+&\rvw_2\ar[d]
+\\
+&\rvc\ar[rdd]
+\\
+&&\rvw_4\ar[d]
+\\
+\rva\ar[r]
+\ar[ruu]
+&\rvb\ar[r]
+&\rvd\ar[r]
+&\rvL
+\\
+&\rvw_1\ar[u]
+&\rvw_3\ar[u]
+}
+$$
+\caption{bnet 
+for which we want to calculate $\nabla_w L$ where 
+ $w=(w_1, w_2, w_3, w_4)$}
+\label{fig-toy-backp-bnet}
+\end{figure}
+
+
+\begin{figure}[h!]
+\centering
+$$
+\begin{array}{ccc}
+\xymatrix{
+&\rvw_2\ar[d]_{\partial_{w_2}c}
+\\
+&\rvc\ar[rdd]_{\partial_{c}d}
+\\
+&&\rvw_4\ar[d]^{\partial_{w_4}d}
+\\
+\rva\ar[r]_{\partial_{a}b}
+\ar[ruu]^{\partial_{a}c}
+&\rvb\ar[r]_{\partial_{b}d}
+&\rvd\ar[r]_{\partial_d L}
+&\rvL
+\\
+&\rvw_1\ar[u]_{\partial_{w_1}b}
+&\rvw_3\ar[u]_{\partial_{w_3}d}
+}
+&
+\xymatrix{\\ \\ =}
+&
+\xymatrix{
+&\rvw_2\ar[d]_{a}
+\\
+&\rvc\ar[rdd]_{w_4}
+\\
+&&\rvw_4\ar[d]^{c}
+\\
+\rva\ar[r]_{w_1}
+\ar[ruu]^{w_2}
+&\rvb\ar[r]_{w_3}
+&\rvd\ar[r]_{-1}
+&\rvL
+\\
+&\rvw_1\ar[u]_{a}
+&\rvw_3\ar[u]_{b}
+}
+\end{array}
+$$
+\caption{bnet of 
+Fig. \ref{fig-toy-backp-bnet}
+with derivatives along each arrow.
+}
+\label{fig-toy-backp-deriv-bnet}
+\end{figure}
+
+
+
+
+
+
+
+
+
 
 \section{General Theory}
 
