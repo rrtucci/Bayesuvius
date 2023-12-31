@@ -1,41 +1,41 @@
-\chapter{Regularization of Cost Functions}
+\chapter{Regularization of Loss Functions}
 \label{ch-regularization}
 
 
  The topic
- of this chapter is Regularization of Cost functions (RC).
+ of this chapter is Regularization of Loss functions (ROLF).
 
-RC is the practice of adding 
+ROLF is the practice of adding 
 a convex function  $\calr:\RR^n\rarrow \RR$
 (called the {\bf regulator function}\footnote{This function is also commonly called a {\bf penalty function}.
 It can  also be thought  of, from a Bayesian perspective,
-as the log of a prior probability, and the cost function can be thought of as a log likelihood function.}) to
-a convex function  $\calc:\RR^n\rarrow \RR$
-(called the {\bf  cost function}\footnote{This function is also commonly
-called the {\bf loss function}.}), when one
-wishes to minimize the cost function. In Machine Learning,
+as the log of a prior probability, and the loss function can be thought of as a log likelihood function.}) to
+a convex function  $\call:\RR^n\rarrow \RR$
+(called the {\bf  loss function}\footnote{This function is also commonly
+called the {\bf cost or error function}.}), when one
+wishes to minimize the loss function. In Machine Learning,
 the variable being minimized over is often the weights 
 of a Neural Net, so we will denote it by $w\in \RR^n$, and use $w^*\in \RR^n$
 to represent the
-minimum of $\calc^+(w) =\calc(w)+ \calr(w)$. 
+minimum of $\call^+(w) =\call(w)+ \calr(w)$. 
 
-In some cases (like in $L_p$ norm RC,
+In some cases (like in $L_p$ norm ROLF,
 which we discuss below),
-the minimum of $\calc^+(w)$
-and that of $\calc(w)$
+the minimum of $\call^+(w)$
+and that of $\call(w)$
 are not the same but very close. In such cases,
 displacing the minimum of 
-$\calc(w)$ 
+$\call(w)$ 
 might be done in order
 to avoid overfitting, or
 to spread out degenerate solutions, or to produce
 sparse solutions. 
 
-In other cases (like in proximal RC, which we discuss below),
-the minimum of $\calc^+(w)$
-and that of $\calc(w)$
+In other cases (like in proximal ROLF, which we discuss below),
+the minimum of $\call^+(w)$
+and that of $\call(w)$
 are the  same. 
-In such cases, RC might be done
+In such cases, ROLF might be done
 to improve the
 convergence properties
 of a sequence of points
@@ -57,80 +57,82 @@ to a Bayesian Network.
 Or Constraint Optimization where hard equality and/or inequality constraints are imposed (as in Linear Programming,
 Lagrange multipliers, Khun-Tucker conditions, method of simple substitution of constraints).
 We won't discuss those types of
-RCs in this chapter\footnote{RC that adds a regulator function (resp., doesn't add)
+ROLFs in this chapter\footnote{ROLF that adds a regulator function (resp., doesn't add)
 is sometimes called {\bf Explicit (resp., Implicit)
 regularization}.}, except for a brief section on latent nodes at the end.
 
 
 
-Cost functions commonly used in Statistics and
+Loss functions commonly used in Statistics and
 Machine Learning (ML) are of the form
 
 
 \beq
-\calc(w) = \sum_{\s=1}^{nsam}
-\HAT{\calc}(\haty_\s(x_\s, w), y_\s)
+\call(w) = \sum_{\s=1}^{nsam}
+\HAT{\call}(\haty_\s(x_\s, w), y_\s)
 \eeq
 where the sum is over $nsam$ samples.
-A common, more specific type of $\calc(w)$ is
+A common, more specific type of $\call(w)$ is the
+{\bf mean square error} which is
+given by
 
 
 \beq
-\calc(w) = \frac{1}{nsam}\sum_{\s=1}^{nsam}
+\call(w) = \frac{1}{nsam}\sum_{\s=1}^{nsam}
 \norm{\haty_\s(x_\s, w)-y_\s)}_2
 \eeq
-This cost function is convex, so it has a minimum:
+This loss function is convex, so it has a minimum:
 
 \beq
 \left\{
 \begin{array}{l}
-w^* = \argmin_w \calc(w)
+w^* = \argmin_w \call(w)
 \\
-Cost = \min_w \calc(w) = \calc(w^*)
+Loss = \min_w \call(w) = \call(w^*)
 \end{array}
 \right.
 \eeq
-In RC, we add a regulator $\calr(w)$ to $\calc(w)$:
+In ROLF, we add a regulator $\calr(w)$ to $\call(w)$:
 
 \beq
-\calc^+(w) = \calc(w) + \calr(w)
+\call^+(w) = \call(w) + \calr(w)
 \eeq
 
 
 
-\section{$L_p$ norm RC}
+\section{$L_p$ norm ROLF}
 
 See \ref{sec-p-norm}
 for the definition of
 $L_p$ norms.  Let
 
 \beq
-\calc^+(w) = \calc(w) + \calr(w)
+\call^+(w) = \call(w) + \calr(w)
 \eeq
 Then,
 for $\lam, \lam_1, \lam_2>0$,
 
 
 \begin{itemize}
-\item $L_1$ norm RC (called LASSO or Basis Pursuit)
+\item $L_1$ norm ROLF (called LASSO or Basis Pursuit)
 \beq
 \calr(w) =\lam\norm{w}_1
 \eeq
 
-\item $L_2$ norm RC (called Ridge or Tikhonov Regression) (note that the $L_2$ norm is squared)
+\item $L_2$ norm ROLF (called Ridge or Tikhonov Regression) (note that the $L_2$ norm is squared)
 \beq
 \calr(w) =\lam\norm{w}_2^2
 \eeq
 
 \item
-$L_1 + L_2$ norm RC (called Elastic Net)
+$L_1 + L_2$ norm ROLF (called Elastic Net)
 \beq
 \calr(w) =\lam_1\norm{w}_1
 + \lam_2\norm{w}_2^2
 \eeq
 \end{itemize}
 
-\subsection{$L_1$ norm RC can lead to sparsity}
+\subsection{$L_1$ norm ROLF can lead to sparsity}
 
 The obvious way to induce sparsity in 
 the minimum $w^*$ is to use the $L_0$ norm of $w$ as regulator.
@@ -144,19 +146,19 @@ $L_0$ norm, but still significant.)
 \includegraphics[width=4in]
 {regularization/sparsity.png}
 \caption{Pictorial explanation of
-why $L_1$ norm RC can lead to sparsity
-and $L_2$ norm RC can help avert it. Sometimes 
+why $L_1$ norm ROLF can lead to sparsity
+and $L_2$ norm ROLF can help avert it. Sometimes 
 you want sparsity and sometimes you don't. $c$ in this figure is some 
 fixed constant.
 }
 \label{fig-sparsity}
 \end{figure}
 
-Assume $\calc(w)$ is linear in $w$.\footnote{What we say here about sparsity also applies in some cases when $\calc(w)$ is not linear in $w$. For example, it applies sometimes when $\calc(w)$
+Assume $\call(w)$ is linear in $w$.\footnote{What we say here about sparsity also applies in some cases when $\call(w)$ is not linear in $w$. For example, it applies sometimes when $\call(w)$
 is quadratic in $w$ as occurs in Least Squares.}
 For example, 
 \beq
-\calc(w)= Xw-y
+\call(w)= Xw-y
 \eeq
 where $w\in\RR^n$, $X\in \RR^{nsam\times n}$,  and $y\in\RR^{nsam}$.
 $nsam$ is often the number of samples. That's why we name it that way.
@@ -180,13 +182,13 @@ For points $w$ such that $\calr(w)$
 has a well defined gradient, 
 minimization of 
 \beq
-\calc^+(w) = \calc(w) +\calr(w)
+\call^+(w) = \call(w) +\calr(w)
 \eeq
 requires that the $w$-gradients of
-$\calc$ and $\calr$ be equal in magnitude but opposite in direction.
+$\call$ and $\calr$ be equal in magnitude but opposite in direction.
 
 \beq
-\nabla_w\calc = -\nabla_w \calr
+\nabla_w\call = -\nabla_w \calr
 \eeq
 But when $\calr(w)$ is
 the $L_1$ norm,  $\nabla_w\calr$ is not defined along the $w_1$
@@ -201,7 +203,7 @@ there would be a diamond contour
  and $(c,0)$. However, this is an exceptional case. Usually, the slope
  of the green line is not $\pm 1$.
  In that case, the only way for 
- $\calc$ and $\calr$ to have
+ $\call$ and $\calr$ to have
  opposite gradients is if the diamond 
  contour and the green line 
  kiss at one of the (rounded)  corners
@@ -217,7 +219,7 @@ there would be a diamond contour
  the kissing point $w^*$ is no longer sparse; both of its components are non-zero.
  
  The moral of Fig.\ref{fig-sparsity}
- is that $L_1$ norm RC can lead to sparsity and $L_2$ norm RC can help avert it.
+ is that $L_1$ norm ROLF can lead to sparsity and $L_2$ norm ROLF can help avert it.
  Sometimes we want the vector of weights $w$ to be sparse so as to give
  a succinct description.
  At other times, we want solutions in set $A$ to be spread out over many dimensions instead of being sparse and clumped together in a small number of dimensions.
@@ -227,18 +229,18 @@ there would be a diamond contour
 
 
 
-\subsection{$L_2$ norm RC for Least Squares}
+\subsection{$L_2$ norm ROLF for Least Squares}
 As in Section \ref{sec-conv-lr} on Linear Regression, 
 suppose $w\in\RR^n$, $X\in \RR^{nsam\times n}$,
  and  $y\in\RR^{nsam} $. Let
 
 \beq
-\calc^+(w)=\calc(w) + \calr(w)
+\call^+(w)=\call(w) + \calr(w)
 \eeq
 where
 
 \beq
-\calc(w)=
+\call(w)=
 \frac{1}{n}
 (Xw-y)^T(Xw-y)
 \eeq
@@ -252,7 +254,7 @@ If we vary the  vector $w$ by an
 infinitesimal amount $\delta w^T$, we get
 
 \beq
-0= \delta\calc^+(w)=
+0= \delta\call^+(w)=
 \delta w^T
 \left[\frac{2X^T}{n}(Xw-y) +2 \lam w \right]
 \eeq
@@ -275,7 +277,7 @@ w&=&
 \frac{X^T X}{\lam n})^{-1}X^Ty
 \eeqa
 
-Note that for $\lam=0$, the minimum $w^*$ of $\calc^+(w)$ is
+Note that for $\lam=0$, the minimum $w^*$ of $\call^+(w)$ is
 
 \beq
 w^*= (X^TX)^{-1}X^Ty 
@@ -320,12 +322,12 @@ $w^{prox}:\RR^n \rarrow \WW$ by
 
 \beq
 \boxed{
-w^{prox}(v; \alp\calc, \WW) = \argmin_{w\in \WW}
+w^{prox}(v; \alp\call, \WW) = \argmin_{w\in \WW}
 \underbrace{
 \left(
-\calc(w) +
+\call(w) +
 \underbrace{ \frac{1}{2\alp}\norm{w-v}^2}_{\calr(w,v)}
-\right)}_{\calc^+(w, v)}}
+\right)}_{\call^+(w, v)}}
 \eeq
 $w^{prox}(v)$ can be viewed as a 
 projection of $v\in\RR^n$
@@ -345,9 +347,9 @@ proximal function $w^{prox}:\RR\rarrow \RR$.
 \includegraphics[width=3in]
 {regularization/proximal-example.png}
 \caption{Example of a proximal
-function. x-axis is $w$ and $v=5$. Green curve: $\calc(w)=|w|$. Red curve: $\calr(w, 5)=\frac{1}{2}(w-5)^2$, Blue curve: $\calc^+(w, 5)=\calc(w)+\calr(w,5)$. Note that we are adding 2 convex functions so the minimum of the sum is somewhere in between the minima of the two summands.
+function. x-axis is $w$ and $v=5$. Green curve: $\call(w)=|w|$. Red curve: $\calr(w, 5)=\frac{1}{2}(w-5)^2$, Blue curve: $\call^+(w, 5)=\call(w)+\calr(w,5)$. Note that we are adding 2 convex functions so the minimum of the sum is somewhere in between the minima of the two summands.
 $w^{prox}(5) =\argmin_w
-\calc^+(w, 5)=4$.
+\call^+(w, 5)=4$.
 }
 \label{fig-proximal-example}
 \end{figure}
@@ -390,7 +392,7 @@ of the functions $sh_0(w; \alpha)$ and $sh_0^{-1}(w; \alpha)$.
 \begin{claim}
 For $\WW=\RR$ and $w, v\in\RR$, if 
 \beq
-\calc(w)= |w|
+\call(w)= |w|
 \;,
 \eeq
 then
@@ -402,7 +404,7 @@ and
 
 
 \beq
-\calc^+(w^{prox}(v), v)
+\call^+(w^{prox}(v), v)
 =
 |sh_0(v; \alp)| + \frac{\alp}{2}
 \eeq
@@ -410,7 +412,7 @@ and
 \end{claim}
 \proof
 \beq
-0=\frac{d\calc^+}{dw}
+0=\frac{d\call^+}{dw}
 =
 \alp[\indi(w>0)-\indi(w<0)] + (w-v)
 \eeq
@@ -436,7 +438,7 @@ Note that
 \eeq
 so
 \beqa
-\calc^+(w_{prox}(v), v)&=&|w^{prox}(v;\alp)|
+\call^+(w_{prox}(v), v)&=&|w^{prox}(v;\alp)|
 + \frac{\alp}{2}
 \\
 &=&
@@ -447,34 +449,39 @@ so
 
 
 
-\section{Proximal RC}
+\section{Proximal ROLF}
 
 Proximal functions can be 
-used to do RC as follows.
+used to do ROLF as follows.
 For $w,v\in\RR^n$
 and $\alp>0$,  let
 
 \beq
 \calr(w, v) = \frac{1}{2\alp}\norm{w-v}^2_2
 \eeq
-and
+and\footnote{Note
+that $\call$ here could be the mean square error
+plus an $L_p$ norm. A loss function plus a regulator function gives
+a new loss function to
+which a new regulator may be added.
+}
 
 \beq
-\calc^+(w) = \calc(w) + \calr(w, w^*)
+\call^+(w) = \call(w) + \calr(w, w^*)
 \;,
 \eeq
 where $w^*$ is the $w$-minimum 
-of both $\calc(w)$ and $\calr(w, w^*)$:
+of both $\call(w)$ and $\calr(w, w^*)$:
 
 
 \beq
-w^* = \argmin_w \calc(w)
+w^* = \argmin_w \call(w)
 =\argmin_w \calr(w, w^*)
 \eeq
 Hence,
 
 \beq
-w^* = \argmin_w \left[ \calc(w) +
+w^* = \argmin_w \left[ \call(w) +
 \calr(w, w^*)\right]
 \;.
 \eeq
@@ -488,7 +495,7 @@ $w_k \rarrow w^*$ as
 \beq
 w_{k+1}=
 \underbrace{\argmin_w
-\left(\calc(w) + \frac{1}{2\alp}
+\left(\call(w) + \frac{1}{2\alp}
 \norm{w-w_k}^2_2\right)
 }_{w^{prox}(w_k)}
 \eeq
@@ -498,7 +505,7 @@ to find its minimum, we find
 
 \beq
 0= \alp
-\underbrace{\nabla_w\calc(w_{k+1})}_{\approx \nabla_w\calc(w_{k})}+ w_{k+1}-w_k
+\underbrace{\nabla_w\call(w_{k+1})}_{\approx \nabla_w\call(w_{k})}+ w_{k+1}-w_k
 \eeq
 
 Thus, the following 3 recursion relations\footnote{Some people use a sequence $\alp_k\in \RR_+$ instead of the constant $\alp>0$. This is called an
@@ -511,9 +518,9 @@ can be used to calculate $w_k$:
 
 \beq
 \boxed{
-w_{k+1}  = w_{k} -\alp\nabla_w\calc(w_{k})}
+w_{k+1}  = w_{k} -\alp\nabla_w\call(w_{k})}
 \xymatrix{
-&&\ar[d]^{-\alp\nabla_w\calc(w_k)}\\
+&&\ar[d]^{-\alp\nabla_w\call(w_k)}\\
 \ar[rr]_{w_{k+1}}\ar[rru]^{w_k}&&
 }
 \label{eq-non-prox-steep-d}
@@ -530,7 +537,7 @@ w^{prox}(w_k)}
 \beq
 \boxed{
 w_{k+1}=
-w^{prox}(w_k-\alp \nabla_w\calc(w_k))}
+w^{prox}(w_k-\alp \nabla_w\call(w_k))}
 \label{eq-prox-steep-d}
 \eeq
 \end{subequations}
@@ -562,8 +569,8 @@ In this book, \hiddenNodes
  Kalman Filtering (see Chapter \ref{ch-kalman}) and
  Hidden Markov Model (see Chapter \ref{ch-hmm}).
  
-This being a book about bnets and a chapter about RC,
+This being a book about bnets and a chapter about ROLF,
 we would like to stress that UN 
 can be viewed as a very natural and powerful way of
-doing (implicit) RC when using bnets.
+doing (implicit) ROLF when using bnets.
 
