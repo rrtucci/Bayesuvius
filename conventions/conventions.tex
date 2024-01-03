@@ -7511,7 +7511,356 @@ what would be expected
 from our ``mapping" of 
 LT to FT.
 
+\section{Numpy tensor methods}
 
+Numpy contains 
+excellent documentation
+which we highly recommend.
+So why this appendix? 
+The purpose of this appendix is
+to compare the tensor
+operations
+used in Physics (Elasticity, Fluid Mechanics, General Relativity)
+to the tensor operations
+used in Machine Learning (ML) as exemplified by Numpy.
+ 
+ But first, some notation.
+ 
+For integers $M\geq N$, let
+\beq
+\rho(N,M) = [N, N+1, \ldots, M-2, M-1]=[N:M]
+\eeq
+and 
+\beq
+\rho(N) = \rho(0,N)=[0:N]
+\eeq
+$\rho()$ acts the
+the same way as 
+the function {\tt range()} in Python.
+
+We will also use
+\beq
+A^{\rho(N)} = (A^0, A^1, \ldots A^{N-1})
+\eeq
+and
+
+\beq
+pow(a,r) = \underbrace{[a, a, \ldots, a]}_{\text{$r$ repetitions}}
+\eeq
+
+For increased clarity, 
+will usually use upper case letters for space dimensions like $N$ in $i^N$,
+and lower case letters for indices
+like $i$ in $i^N$.
+
+We will use $i$ and $i^N$ to represent
+the same thing, an
+element of $\rho(N)$,
+an index value.
+The second notation is more explicit but optional.
+
+For {\bf scalars} $\alp, \beta\in\RR$, the {\bf linear combination of tensors} $T, S$ is defined by
+
+
+
+\beq
+[T^{i,j,k}, S^{i,j,k}]
+\rarrow \alp T^{i,j,k} + \beta S^{i,j,k}
+\eeq
+The {\bf Kronecker (K) delta function} is defined by
+
+\beq
+\delta_{
+i^N}^{j^N} = \delta_{
+i^N, j^N} =\indi(
+i^N=j^N)
+\eeq
+Upper indices can be lowered by means of the K delta function :
+
+\beq
+S_j = \sum_i S^i \delta_{i,j}
+\eeq
+
+The {\bf Einstein implicit summation convention} is the
+practice of omitting the summation sign, assuming  that repeated indices are summed over if 
+one index is covariant (upper)
+and the other is contravariant (lower).
+\beq
+S^iT_i = \sum_i S^i T_i
+\eeq
+Sums between a lower and an upper index are called {\bf contractions}.
+
+$dim$
+ refers to the positions
+ of indices in a tensor (e.g., $dim=0$ for $i$, $dim=1$ for $j$ and 
+ $dim=2$ for $k$ in $T^{i,j,k}$).
+$axis\in \rho(N)$ 
+refers to the values of an index  along a
+particular dimension
+(e.g., we say $i$ is along $dim=0$ in $T^{i^N, j,k}$). 
+ For a 2-dim array: (1)
+  swapping axes along $dim=0$ (resp., $dim=1$) refers 
+ to swapping rows
+ (resp., columns).
+ (2)
+ swapping dimensions 0 and 1 means transposing the array.
+
+
+Numpy contains a huge number of tensor methods.
+Among those, there are 3 broad types of methods that concern us here:
+
+\begin{enumerate}
+
+\item {\bf tensor algebra methods}. These include
+element-wise (i.e., entry-wise) summation, subtraction, multiplication and
+division $(+,-,*,/)$ of 2 tensors with the same shape, or a tensor and a scalar.
+
+\item
+{\bf methods 
+for permuting  the entries of a tensor}. These
+ entry permutation methods
+ can be of 3 kinds
+ (1) methods that
+ permute entries by permuting the  locations of indices of a tensor 
+ (2) methods  that 
+ permute entries by permuting the  axes
+ of a tensor along
+ a particular dimension
+ (e.g., row permutation and column permutation for 2-dim arrays)
+(3) methods that
+are neither pure 1 or pure 2.
+
+\item {\bf methods for adding or
+discarding tensor entries}.
+\end{enumerate}
+Out of these three categories, Physics uses (1) often,
+ (2) rarely and (3) almost never. ML, on the other hand, uses all three methods. This is
+probably due to the fact
+that Physics loves linearity, and (3) is not a linear transformation, but (1) is.
+
+Next I will discuss in a visual manner\footnote{The Numpy methods in this list are discussed here purely visually and analytically, without numerical examples. For numerical examples, see the excellent Numpy docs.}, a random
+assortment of Numpy 
+methods that I find interesting, and difficult to understand to the beginner (like me). This discussion in no way pretends to be
+a substitute for the excellent Numpy documentation.
+ 
+Besides the usual Physics notation
+discussed at the beginning of this appendix, I will 
+use below my own way of visualizing Numpy tensor methods. Namely, I will 
+use a graphical box (what I call a ``box of puzzle pieces") to indicate a box containing all the pieces of information
+from which a tensor is constructed.
+If you don't like my graphical box,
+just replace it by $f(X)$,
+where $X$ is the contents of the box and
+$f$ is some function.
+
+
+\begin{enumerate}
+\item {\bf broadcasting}
+
+\beq
+T^{
+i^N,0} + S^{0,j^M}\rarrow
+\boxed{T^{
+i^N, 0} + S^{0,j^M}}^{
+i^N, j^M}
+\eeq
+
+\item {\bf concatenate()} along $dim=0$
+
+\beq
+[T_0^{
+\rho(N_0), j, k},
+T_1^{\rho(N_1), j, k},
+T_2^{\rho(N_2), j, k}]
+\rarrow
+\boxed{
+\begin{array}{l}
+T_0^{\rho(N_0), j, k}
+\\
+T_1^{\rho(N_1), j, k}
+\\
+T_2^{\rho(N_2), j, k}
+\end{array}
+}^{
+\rho(N), j, k}
+\eeq
+where $N= N_0 + N_1 + N_2$
+
+\item {\bf expand\_dims()} (i.e., unsqueeze) along $dim=0$
+
+\beq
+T^{j,k}
+\rarrow 
+\boxed{T^{j,k}}^{0,j,k}
+\eeq
+
+\item {\bf flatten()}
+
+\beq
+T^{
+i^{N_0},j^{N_1},k^{N_2}}\rarrow
+T^{i_1, j_1, k_1}
+\delta_{a^N(i_1, j_1, k_1)}^{b^N(i,j,k)}
+\eeq
+where $N=N_0N_1N_2$.
+
+\item {\bf gather()}\footnote{This operation comes from
+pytorch. Numpy doesn't have it.} along $dim=0$
+
+\beq
+\text{ source}=
+T^{
+\rho(N),j,k}\rarrow 
+\boxed{
+\begin{array}{l}
+T^{s_0^N(j,k), j, k}
+\\
+T^{s_1^N(j,k), j, k}
+\\
+\vdots
+\\
+T^{s_{M-1}^N(j,k), j, k}
+\end{array}
+}^{\rho(M),j, k}
+\eeq
+
+\beq
+{\rm index}=I^{\rho(M), j,k}=\boxed{
+\begin{array}{l}
+s_0^N(j,k)
+\\
+s_1^N(j,k)
+\\
+\vdots
+\\
+s_{M-1}^N(j,k)
+\end{array}}^{\rho(M), j,k}
+\eeq
+
+
+
+\item {\bf repeat()} with $r=[r_0, r_1, \ldots, r_{N-1}]$
+along $dim=0$
+
+\beq
+T^{
+\rho(N),j,k}\rarrow
+\boxed{
+\begin{array}{l}
+pow(T^{0,j,k}, r_0)
+\\
+pow(T^{1,j,k}, r_1)
+\\
+\vdots
+\\
+pow(T^{N-1,j,k}, r_{N-1})
+\end{array}
+}^{\rho(R), j, k}
+\eeq
+where $R=\sum_{i=0}^{N-1}r_i$.
+Note that concatenate() along $dim=0$ and repeat() 
+ with $r=pow(1, N)$
+along $dim=0$, are the same thing. So repeat() is a 
+souped up version of concatenate().
+
+
+\item {\bf reshape()} from shape 
+$(N_0, N_1, N_2)$ to shape $(N,M)$
+
+\beq
+T^{
+\rho(N_0),
+\rho(N_1),
+\rho(N_2)}
+\rarrow
+\boxed{T^{
+\rho(N_0),
+\rho(N_1),
+\rho(N_2)}}^{\rho(N),\rho(M)}
+\eeq
+where
+$N_0N_1N_2=NM$.
+
+\item {\bf split()} along $dim=0$
+
+\beq
+\boxed{
+\begin{array}{l}
+T_0^{\rho(N_0), j, k}
+\\
+T_1^{\rho(N_1), j, k}
+\\
+T_2^{\rho(N_2), j, k}
+\end{array}}^{
+\rho(N), j, k}
+\rarrow 
+[T_0^{\rho(N_0), j, k},
+T_1^{\rho(N_1), j, k},
+T_2^{\rho(N_2), j, k}]
+\eeq
+where $N= N_0 + N_1 + N_2$
+
+
+
+
+\item {\bf squeeze()} $dim=0$
+
+\beq
+T^{0,j,k}
+\rarrow
+\boxed{T^{0,j,k}}^{j,k}
+\eeq
+
+\item {\bf stack()} along $dim=0$
+
+\beq
+[T_0^{i, j, k},
+T_1^{i, j, k},
+T_2^{i, j, k}]
+\rarrow
+\boxed{
+\begin{array}{l}
+T_0^{i, j, k}
+\\
+T_1^{i, j, k}
+\\
+T_2^{i, j, k}
+\end{array}
+}^{
+\rho(3), i, j, k}
+\eeq
+Compare this to concatenate(). stack()
+creates a new dimension 
+whereas concatenate() doesn't. concatenate() just increases the range
+of an existing dimension.
+
+
+\item {\bf tensordot()} (i.e., contraction) along $dim=0$
+
+\beq
+[T^{\rho(N),j,k}, S^{\rho(N),j,k}]\rarrow 
+T^{i,j,k}\delta_{i,i'} S^{i',j,k}
+\eeq
+
+
+
+
+
+\item {\bf transpose()} by a permutation
+$\sigma:\rho(3)\rarrow \rho(3)$. \footnote{ a permutation $\s:\rho(N) \rarrow \rho(N)$ is a bijection, i.e., a 1-1 onto map.}
+
+\beq
+T^{i,j,k} \rarrow T^{i_1, j_1, k_1}
+\delta_{i_1, j_1, k_1}^{\sigma(i, j, k)}
+\eeq
+For example,
+
+\beq
+T^{i,j,k} \rarrow T^{i_1, j_1, k_1}
+\delta_{i_1, j_1, k_1}^{k,j,i}
+\eeq
+
+\end{enumerate}
 
 
 
