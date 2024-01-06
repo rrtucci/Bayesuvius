@@ -7679,7 +7679,7 @@ T_2^{[n_2], \beta, \gamma}
 }^{
 [n], \beta, \gamma}
 \eeq
-where $n= n_0 + n_1 + n_2$
+where $n= n_0 + n_1 + n_2$.
 
 \item {\bf expand\_dims()} (i.e., unsqueeze) along $dim=0$
 
@@ -7699,7 +7699,22 @@ T^{
 {[n_0]},{[n_1]},{[n_2]}}
 }^{[n]}
 \eeq
-where $n=n_0n_1n_2$.
+where $n_0n_1n_2=n$.
+A more fine grained description is
+
+\beq
+T^{
+{\alpha, \beta, \gamma}}\rarrow
+\boxed{
+T^{
+{[n_0]},{[n_1]},{[n_2]}}
+}^{\mu(\alpha, \beta, \gamma)}
+\eeq
+where
+$n_0 n_1 n_2=n$ and
+$\mu:[n_0]\times[n_1]\times[n_2]\rarrow [n]$
+is a 1-1 onto function.
+
 
 \item {\bf gather()}\footnote{This operation is available in
 PyTorch. So far Numpy doesn't have it in direct form.} along $dim=0$
@@ -7776,7 +7791,27 @@ T^{
 [n_2]}}^{[n],[m]}
 \eeq
 where
-$n_0n_1n_2=nm$.
+$n_0n_1n_2=nm$. A more fine grained description is
+
+\beq
+T^{
+\alpha,
+\beta,
+\gamma}
+\rarrow
+\boxed{T^{
+[n_0],
+[n_1],
+[n_2]}}^{\mu(\alpha, \beta, \gamma),
+\nu(\alpha, \beta, \gamma)}
+\eeq
+where $n_0n_1n_2=nm$ and
+$\mu:[n_0]\times[n_1]\times[n_2]\rarrow [n]$
+and
+$\nu:[n_0]\times[n_1]\times[n_2]\rarrow [m]$
+are 1-1 onto functions.
+flatten() is clearly a special case of reshape().
+
 
 \item {\bf split()} along $dim=0$
 
@@ -7858,4 +7893,3 @@ T^{\alpha, \beta, \gamma} \rarrow T^{\alpha_1, \beta_1, \gamma_1}
 \eeq
 
 \end{enumerate}
-
