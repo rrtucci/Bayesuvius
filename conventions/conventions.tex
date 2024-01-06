@@ -7520,27 +7520,27 @@ So why this appendix?
 The purpose of this appendix is
 to compare the tensor
 operations
-used in Physics (Elasticity, Fluid Mechanics, General Relativity and Quantum Mechanics all use tensors. Tensors in various guises are ubiquitous in Physics.)
+used in Physics\footnote{Elasticity, Fluid Mechanics, General Relativity and Quantum Mechanics all use tensors. Tensors in various guises are ubiquitous in Physics.}
 to the tensor operations
 used in Machine Learning (ML) as exemplified by Numpy.
  
  But first, some notation.
  
-For integers $M> N$, let
+For integers $m> n$, let
 \beq
-\rho(N,M) = [N, N+1, \ldots, M-2, M-1]=[N:M]
+[n:m] = [n, n+1, \ldots, m-2, m-1]
 \eeq
 and 
 \beq
-\rho(N) = \rho(0,N)=[0:N]
+[n] = [0:n]
 \eeq
-$\rho()$ acts the
+$[n:m]$ acts the
 the same way as 
-the function {\tt range()} in Python.
+the function {\tt range(n,m)} in Python.
 
 We will also use
 \beq
-A^{\rho(N)} = (A^0, A^1, \ldots A^{N-1})
+A^{[n]} = (A^0, A^1, \ldots A^{n-1})
 \eeq
 and
 
@@ -7549,55 +7549,50 @@ pow(a,r) = \underbrace{[a, a, \ldots, a]}_{\text{$r$ repetitions}}
 \eeq
 
 For increased clarity, 
-will usually use upper case letters for space dimensions like $N$ in $i^N$,
-and lower case letters for indices
-like $i$ in $i^N$.
+we will usually use lower case Greek
+letters to denote tensor indices.
 
-We will use $i$ and $i^N$ to represent
-the same thing, an
-element of $\rho(N)$,
-an index value.
-The second notation is more explicit but optional.
 
-For {\bf scalars} $\alp, \beta\in\RR$, the {\bf linear combination of tensors} $T, S$ is defined by
+For {\bf scalars} $a,b\in\RR$, the {\bf linear combination of tensors} $T, S$ is defined by
 
 
 
 \beq
-[T^{i,j,k}, S^{i,j,k}]
-\rarrow \alp T^{i,j,k} + \beta S^{i,j,k}
+[T^{\alpha, \beta, \gamma}, S^{\alpha, \beta, \gamma}]
+\rarrow a T^{\alpha, \beta, \gamma} + b S^{\alpha, \beta, \gamma}
 \eeq
 The {\bf Kronecker (K) delta function} is defined by
 
 \beq
 \delta_{
-i^N}^{j^N} = \delta_{
-i^N, j^N} =\indi(
-i^N=j^N)
+\alpha}^{\beta} = \delta_{
+\alpha, \beta} =\indi(
+\alpha=\beta)
 \eeq
 Upper indices can be lowered by means of the K delta function :
 
 \beq
-S_j = \sum_i S^i \delta_{i,j}
+S_\beta = \sum_\alpha S^\alpha \delta_{\alpha,\beta}
 \eeq
 
 The {\bf Einstein implicit summation convention} is the
-practice of omitting the summation sign, assuming  that repeated indices are summed over if 
+practice of omitting the summation sign and assuming  that repeated indices are summed over if 
 one index is covariant (upper)
 and the other is contravariant (lower).
 \beq
-S^iT_i = \sum_i S^i T_i
+S^\alpha T_\alpha = \sum_\alpha 
+S^\alpha T_\alpha
 \eeq
 Sums between a lower and an upper index are called {\bf contractions}.
 
 $dim$
  refers to the positions
- of indices in a tensor (e.g., $dim=0$ for $i$, $dim=1$ for $j$ and 
- $dim=2$ for $k$ in $T^{i,j,k}$).
-$axis\in \rho(N)$ 
+ of indices in a tensor (e.g., $dim=0$ for $\alpha$, $dim=1$ for $\beta$ and 
+ $dim=2$ for $\gamma$ in $T^{\alpha, \beta, \gamma}$).
+$axis\in [n]$ 
 refers to the values of an index  along a
 particular dimension
-(e.g., we say $axis=i$ along $dim=0$ in $T^{i, j,k}$). 
+(e.g., we say $axis=\alpha$ along $dim=0$ in $T^{\alpha, \beta, \gamma}$). 
  For a 2-dim array: (1)
   swapping axes along $dim=0$ (resp., $dim=1$) refers 
  to swapping rows
@@ -7658,51 +7653,53 @@ $f$ is some function.
 \item {\bf broadcasting}
 
 \beq
-T^{
-i^N,0} + S^{0,j^M}\rarrow
-\boxed{T^{
-i^N, 0} + S^{0,j^M}}^{
-i^N, j^M}
+T^{\alpha,0} + S^{0,\beta}
+\rarrow
+\boxed{
+T^{\alpha, 0} + S^{0,\beta}
+}^{\alpha, \beta}
 \eeq
 
 \item {\bf concatenate()} along $dim=0$
 
 \beq
 [T_0^{
-\rho(N_0), j, k},
-T_1^{\rho(N_1), j, k},
-T_2^{\rho(N_2), j, k}]
+[n_0], \beta, \gamma},
+T_1^{[n_1], \beta, \gamma},
+T_2^{[n_2], \beta, \gamma}]
 \rarrow
 \boxed{
 \begin{array}{l}
-T_0^{\rho(N_0), j, k}
+T_0^{[n_0], \beta, \gamma}
 \\
-T_1^{\rho(N_1), j, k}
+T_1^{[n_1], \beta, \gamma}
 \\
-T_2^{\rho(N_2), j, k}
+T_2^{[n_2], \beta, \gamma}
 \end{array}
 }^{
-\rho(N), j, k}
+[n], \beta, \gamma}
 \eeq
-where $N= N_0 + N_1 + N_2$
+where $n= n_0 + n_1 + n_2$
 
 \item {\bf expand\_dims()} (i.e., unsqueeze) along $dim=0$
 
 \beq
-T^{j,k}
+T^{\beta, \gamma}
 \rarrow 
-\boxed{T^{j,k}}^{0,j,k}
+\boxed{T^{\beta, \gamma}}^{0,\beta, \gamma}
 \eeq
 
 \item {\bf flatten()}
 
 \beq
 T^{
-i^{N_0},j^{N_1},k^{N_2}}\rarrow
-T^{i_1, j_1, k_1}
-\delta_{a^N(i_1, j_1, k_1)}^{b^N(i,j,k)}
+{[n_0]},{[n_1]},{[n_2]}}\rarrow
+\boxed{
+T^{
+{[n_0]},{[n_1]},{[n_2]}}
+}^{[n]}
 \eeq
-where $N=N_0N_1N_2$.
+where $n=n_0n_1n_2$.
 
 \item {\bf gather()}\footnote{This operation is available in
 PyTorch. So far Numpy doesn't have it in direct form.} along $dim=0$
@@ -7710,95 +7707,95 @@ PyTorch. So far Numpy doesn't have it in direct form.} along $dim=0$
 \beq
 \text{ source}=
 T^{
-\rho(N),j,k}\rarrow 
+[n],\beta, \gamma}\rarrow 
 \boxed{
 \begin{array}{l}
-T^{s_0^N(j,k), j, k}
+T^{s_0^{[n]}(\beta, \gamma), \beta, \gamma}
 \\
-T^{s_1^N(j,k), j, k}
+T^{s_1^{[n]}(\beta, \gamma), \beta, \gamma}
 \\
 \vdots
 \\
-T^{s_{M-1}^N(j,k), j, k}
+T^{s_{m-1}^{[n]}(\beta, \gamma), \beta, \gamma}
 \end{array}
-}^{\rho(M),j, k}
+}^{[m],\beta, \gamma}
 \eeq
 
 \beq
-{\rm index}=I^{\rho(M), j,k}=\boxed{
+{\rm index}=I^{[m], \beta, \gamma}=\boxed{
 \begin{array}{l}
-s_0^N(j,k)
+s_0^{[n]}(\beta, \gamma)
 \\
-s_1^N(j,k)
+s_1^{[n]}(\beta, \gamma)
 \\
 \vdots
 \\
-s_{M-1}^N(j,k)
-\end{array}}^{\rho(M), j,k}
+s_{m-1}^{[n]}(\beta, \gamma)
+\end{array}}^{[m], \beta, \gamma}
 \eeq
 
 
 
-\item {\bf repeat()} with $r=[r_0, r_1, \ldots, r_{N-1}]$
+\item {\bf repeat()} with $r=[r_0, r_1, \ldots, r_{n-1}]$
 along $dim=0$
 
 \beq
 T^{
-\rho(N),j,k}\rarrow
+[n],\beta, \gamma}\rarrow
 \boxed{
 \begin{array}{l}
-pow(T^{0,j,k}, r_0)
+pow(T^{0,\beta, \gamma}, r_0)
 \\
-pow(T^{1,j,k}, r_1)
+pow(T^{1,\beta, \gamma}, r_1)
 \\
 \vdots
 \\
-pow(T^{N-1,j,k}, r_{N-1})
+pow(T^{n-1,\beta, \gamma}, r_{n-1})
 \end{array}
-}^{\rho(R), j, k}
+}^{[R], \beta, \gamma}
 \eeq
-where $R=\sum_{i=0}^{N-1}r_i$.
-Note that concatenate() along $dim=0$ and repeat() 
- with $r=pow(1, N)$
+where $R=\sum_{i=0}^{n-1}r_i$.
+note that concatenate() along $dim=0$ and repeat() 
+ with $r=pow(1, n)$
 along $dim=0$, are the same thing. So repeat() is a 
 souped up version of concatenate().
 
 
 \item {\bf reshape()} from shape 
-$(N_0, N_1, N_2)$ to shape $(N,M)$
+$(n_0, n_1, n_2)$ to shape $(n,m)$
 
 \beq
 T^{
-\rho(N_0),
-\rho(N_1),
-\rho(N_2)}
+[n_0],
+[n_1],
+[n_2]}
 \rarrow
 \boxed{T^{
-\rho(N_0),
-\rho(N_1),
-\rho(N_2)}}^{\rho(N),\rho(M)}
+[n_0],
+[n_1],
+[n_2]}}^{[n],[m]}
 \eeq
 where
-$N_0N_1N_2=NM$.
+$n_0n_1n_2=nm$.
 
 \item {\bf split()} along $dim=0$
 
 \beq
 \boxed{
 \begin{array}{l}
-T_0^{\rho(N_0), j, k}
+T_0^{[n_0], \beta, \gamma}
 \\
-T_1^{\rho(N_1), j, k}
+T_1^{[n_1], \beta, \gamma}
 \\
-T_2^{\rho(N_2), j, k}
+T_2^{[n_2], \beta, \gamma}
 \end{array}}^{
-\rho(N), j, k}
+[n], \beta, \gamma}
 \rarrow 
-[T_0^{\rho(N_0), j, k},
-T_1^{\rho(N_1), j, k},
-T_2^{\rho(N_2), j, k}]
+[T_0^{[n_0], \beta, \gamma},
+T_1^{[n_1], \beta, \gamma},
+T_2^{[n_2], \beta, \gamma}]
 \eeq
-where $N= N_0 + N_1 + N_2$
+where $n= n_0 + n_1 + n_2$
 
 
 
@@ -7806,28 +7803,28 @@ where $N= N_0 + N_1 + N_2$
 \item {\bf squeeze()} $dim=0$
 
 \beq
-T^{0,j,k}
+T^{0,\beta, \gamma}
 \rarrow
-\boxed{T^{0,j,k}}^{j,k}
+\boxed{T^{0,\beta, \gamma}}^{\beta, \gamma}
 \eeq
 
 \item {\bf stack()} along $dim=0$
 
 \beq
-[T_0^{i, j, k},
-T_1^{i, j, k},
-T_2^{i, j, k}]
+[T_0^{\alpha, \beta, \gamma},
+T_1^{\alpha, \beta, \gamma},
+T_2^{\alpha, \beta, \gamma}]
 \rarrow
 \boxed{
 \begin{array}{l}
-T_0^{i, j, k}
+T_0^{\alpha, \beta, \gamma}
 \\
-T_1^{i, j, k}
+T_1^{\alpha, \beta, \gamma}
 \\
-T_2^{i, j, k}
+T_2^{\alpha, \beta, \gamma}
 \end{array}
 }^{
-\rho(3), i, j, k}
+[3], \alpha, \beta, \gamma}
 \eeq
 Compare this to concatenate(). stack()
 creates a new dimension 
@@ -7838,8 +7835,8 @@ of an existing dimension.
 \item {\bf tensordot()} (i.e., contraction) along $dim=0$
 
 \beq
-[T^{\rho(N),j,k}, S^{\rho(N),j,k}]\rarrow 
-T^{i,j,k}\delta_{i,i'} S^{i',j,k}
+[T^{[n],\beta, \gamma}, S^{[n],\beta, \gamma}]\rarrow 
+T^{\alpha, \beta, \gamma}\delta_{\alpha,\alpha'} S^{\alpha',\beta, \gamma}
 \eeq
 
 
@@ -7847,17 +7844,18 @@ T^{i,j,k}\delta_{i,i'} S^{i',j,k}
 
 
 \item {\bf transpose()} by a permutation
-$\sigma:\rho(3)\rarrow \rho(3)$. \footnote{ a permutation $\s:\rho(N) \rarrow \rho(N)$ is a bijection, i.e., a 1-1 onto map.}
+$\sigma:[3]\rarrow [3]$. \footnote{ a permutation $\s:[n] \rarrow [n]$ is a bijection, i.e., a 1-1 onto map.}
 
 \beq
-T^{i,j,k} \rarrow T^{i_1, j_1, k_1}
-\delta_{i_1, j_1, k_1}^{\sigma(i, j, k)}
+T^{\alpha, \beta, \gamma} \rarrow T^{\alpha_1, \beta_1, \gamma_1}
+\delta_{\alpha_1, \beta_1, \gamma_1}^{\sigma(\alpha, \beta, \gamma)}
 \eeq
 For example,
 
 \beq
-T^{i,j,k} \rarrow T^{i_1, j_1, k_1}
-\delta_{i_1, j_1, k_1}^{k,j,i}
+T^{\alpha, \beta, \gamma} \rarrow T^{\alpha_1, \beta_1, \gamma_1}
+\delta_{\alpha_1, \beta_1, \gamma_1}^{\gamma,\beta,\alpha}
 \eeq
 
 \end{enumerate}
+
