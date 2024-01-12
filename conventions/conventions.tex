@@ -7512,6 +7512,7 @@ from our ``mapping" of
 LT to FT.
 
 \section{Numpy tensor methods}
+\label{sec-numpy-tensors}
 
 Numpy contains 
 excellent documentation
@@ -7538,12 +7539,34 @@ $[n:m]$ acts the
 the same way as 
 the function {\tt range(n,m)} in Python.
 
-We will also use
+We will use
 \beq
-A^{[n]} = (A^0, A^1, \ldots A^{n-1})
+A^{[n]} =\left[ \begin{array}{c}
+A^0\\A^1\\ \vdots\\ A^{n-1}
+\end{array}\right] = 
+A^{[n],[1]}
+\eeq 
+to denote column vector,
+\beq
+A^{[n]T} =[A^0, A^1, \cdots, A^{n-1}] =
+A^{[1], [n]}
 \eeq
+to denote a row vector
 and
+\beq
+A = \left[
+\begin{array}{ccc}
+A^{0,0}&\cdots&A^{0,m-1}
+\\
+\vdots&\vdots&\vdots
+\\
+A^{n-1,0}&\cdots&A^{n-1,m-1}
+\end{array}
+\right]=A^{[n],[m]}
+\eeq
+to denote an $n\times m$ matrix.
 
+Let
 \beq
 pow(a,r) = \underbrace{[a, a, \ldots, a]}_{\text{$r$ repetitions}}
 \eeq
@@ -7574,6 +7597,7 @@ Upper indices can be lowered by means of the K delta function :
 \beq
 S_\beta = \sum_\alpha S^\alpha \delta_{\alpha,\beta}
 \eeq
+In this case, since the metric $\delta_{\alpha, \beta}$ is the K delta function, $S^{\alpha} =S_\alpha$.
 
 The {\bf Einstein implicit summation convention} is the
 practice of omitting the summation sign and assuming  that repeated indices are summed over if 
@@ -7893,3 +7917,4 @@ T^{\alpha, \beta, \gamma} \rarrow T^{\alpha_1, \beta_1, \gamma_1}
 \eeq
 
 \end{enumerate}
+

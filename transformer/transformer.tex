@@ -49,29 +49,29 @@ Let
 $\cals$ be the
 set of words in a sentence,
 
-$h^t_i\in \RR^{nh}$ be
-an $nh$ dimensional column vector
+$x_i^t\in \RR^{nx}$ be
+an $nx$ dimensional column vector
 for word $i\in \cals$ at time $t$.
 
-$Q^t, K^t, V^t\in \RR^{nh\times nh}$
-be the  {\bf prior-attention matrices for time
-slice $t$}.
+$W_\rvq^t, W_\rvk^t, W_\rvv^t\in \RR^{nx\times nx}$
+be the  weight matrices for time
+slice $t$.
 These matrices are learned by training
 the net.
 The letters $Q,K,V$ stand for
  Query, Key and Value,
 respectively.
-They transform $h^t_i$ 
+They transform $x_i^t$ 
 as follows
 
 \beq
 \left\{
 \begin{array}{l}
-v^t = V^t h^t_i
+v_i^t = W_\rvv^t x_i^t
 \\
-q^t = Q^t h^t_i
+q_i^t = W_\rvq^t x_i^t
 \\
-k^t = K^t h^t_i
+k_i^t = W_\rvk^t x_i^t
 \end{array}
 \right.
 \eeq
@@ -84,35 +84,35 @@ $$
 &\rvv_0^t\ar[rrd]
 \ar[rrdddd]\ar[rrddddddd]
 \\
-\rvh_0^t \ar[ru]^{V^t_0}\ar@[red][r]^{Q^t_0}
-\ar[rd]_{K^t_0}
+\rvx_0^t \ar[ru]^{W_{\rvv 0}^t}\ar@[red][r]^{W_{\rvq 0}^t}
+\ar[rd]_{W_{\rvk 0}^t}
 &\rvq_0^t\ar@[red][rr]
-&&\rvh_0^{t+1}
+&&\rvx_0^{t+1}
 \\
-&\rvk^t_0\ar[rru]
+&\rvk_0^t\ar[rru]
 \ar[rrdd]\ar[rrddddd]
 \\
 %%%%%
 &\rvv_1^t\ar[rrd]
 \ar[rrdddd]\ar[rruu]
 \\
-\rvh_1^t\ar[ru]^{V^t_1}\ar@[red][r]^{Q^t_1}
-\ar[rd]_{K^t_1}
+\rvx_1^t\ar[ru]^{W_{\rvv 1}^t}\ar@[red][r]^{W_{\rvq 1}^t}
+\ar[rd]_{W_{\rvk 1}^t}
 &\rvq_1^t\ar@[red][rr]
-&&\rvh_1^{t+1}
+&&\rvx_1^{t+1}
 \\
-&\rvk^t_1\ar[rru]
+&\rvk_1^t\ar[rru]
 \ar[rrdd]\ar[rruuuu]
 \\
 %%%%%
 &\rvv_2^t\ar[rrd]
 \ar[rruu]\ar[rruuuuu]
 \\
-\rvh_2^t \ar[ru]^{V^t_2}\ar@[red][r]^{Q^t_2}\ar[rd]_{K^t_2}
+\rvx_2^t \ar[ru]^{W_{\rvv 2}^t}\ar@[red][r]^{W_{\rvq 2}^t}\ar[rd]_{W_{\rvk 2}^t}
 &\rvq_2^t\ar@[red][rr]
-&&\rvh_2^{t+1}
+&&\rvx_2^{t+1}
 \\
-&\rvk^t_2\ar[rru]
+&\rvk_2^t\ar[rru]
 \ar[rruuuu]\ar[rruuuuuuu]
 }
 $$
@@ -120,16 +120,16 @@ $$
 of dynamical bnet for
  a transformer network (TN)
 of a 3-word sentence.
-Note that $k^t_i$
+Note that $k_i^t$
 for all $i$
-points to $\rvh^{t+1}_j$ for all $j$.
+points to $\rvx^{t+1}_j$ for all $j$.
 Likewise,
-$\rvv^t_i$
+$\rvv_i^t$
 for all $i$
-points to $\rvh^{t+1}_j$ for all $j$.
+points to $\rvx^{t+1}_j$ for all $j$.
 However, 
-$\rvq^t_i$
-points only to $\rvh^{t+1}_i$.
+$\rvq_i^t$
+points only to $\rvx^{t+1}_i$.
 }
 \label{fig-transformer}
 \end{figure}
@@ -144,42 +144,42 @@ Fig.\ref{fig-transformer},
 are as follows:
 
 \beq\color{blue}
-P(v^t_i|V^t, h^t_i)=
+P(v_i^t|W_\rvv^t, x_i^t)=
 \indi(\;\;\;
-v^t = V^t h^t_i
+v_i^t = W_\rvv^t x_i^t
 \;\;\;)
 \eeq
 
 \beq\color{blue}
-P(q^t_i|Q^t, h^t_i)=
+P(q_i^t|W_\rvq^t, x_i^t)=
 \indi(\;\;\;
-q^t = Q^t h^t_i
+q_i^t = W_\rvq^t x_i^t
 \;\;\;)
 \eeq
 
 \beq\color{blue}
-P(k^t_i|K^t, h^t_i)=
+P(k_i^t|W_\rvk^t, x_i^t)=
 \indi(\;\;\;
-k^t= K^t h^t_i
+k_i^t= W_\rvk^t x_i^t
 \;\;\;)
 \eeq
 
 \beq\color{blue}
-P(h^{t+1}_i|v^t_.,q^t_i,
- k^t_.)
+P(x^{t+1}_i|v_.^t,q_i^t,
+ k_.^t)
 =
 \indi(\;\;\;
-h_i^{t+1}=
+x_i^{t+1}=
 \underbrace{
 \sum_{j\in\cals}
-v^t_{j}
+v_j^t
 \underbrace{
-\frac{e^{(q^t_i)^T k^t_j}}
+\frac{e^{(q_i^t)^T k_j^t}}
 {\sum_{j'\in \cals}
-e^{(q^t_i)^Tk^t_{j'}}}
+e^{(q_i^t)^T k_{j'}^t}}
 }_{w_{j|q_i^t}=
-\softmax((q_i^t)^T k^t_j)(j)}\;
-}_{E_{\rvj|q_i^t}[v^t_\rvj]={\bf Attention}}
+\softmax((q_i^t)^T k_j^t)(j)}\;
+}_{E_{\rvj|q_i^t}[v_\rvj^t]={\bf Attention}}
 \;\;\;)
 \eeq
 
@@ -187,25 +187,25 @@ e^{(q^t_i)^Tk^t_{j'}}}
 To improve stability
 of the dynamical bnet,
 it is common to think 
-of the  matrices $V^t, Q^t, K^t$ as nodes
+of the  matrices $W_\rvv^t, W_\rvq^t, W_\rvk^t$ as nodes
 pointed to by a ``head" root node $\rvc
 \in\{0,1, \ldots, nc-1\}$, with TPMs,
 printed in blue, as follows.
 
 \begin{subequations}
 \beq\color{blue}
-P(V^t|c)=
-\delta(V^t, V^t_c)
+P(W_\rvv^t|c)=
+\delta(W_\rvv^t, W_{\rvv c}^t)
 \eeq
 
 \beq\color{blue}
-P(Q^t|c)=
-\delta(Q^t, Q^t_c)
+P(W_\rvq^t|c)=
+\delta(W_\rvq^t, W_{\rvq c}^t)
 \eeq
 
 \beq\color{blue}
-P(K^t|c)=
-\delta(K^t, K^t_c)
+P(W_\rvk^t|c)=
+\delta(W_\rvk^t, W_{\rvk c}^t)
 \eeq
 \end{subequations}
 Even better,
@@ -223,7 +223,7 @@ On first encounter, the structure of a Transformer net
 seems a bit mysterious. Then one realizes that this is
 an old friend. As shown in Fig.\ref{fig-transformer-TAN-Bayes}, if one 
 shrinks some nodes
-of the Transformer net, it becomes a TAN Bayes net. Each of the 3 subgraphs $\rvh^t, (\rvv^t, \rvq^t, \rvk^t), \rvh^{t+1} $
+of the Transformer net, it becomes a TAN Bayes net. Each of the 3 subgraphs $\rvx^t, (\rvv^t, \rvq^t, \rvk^t), \rvx^{t+1} $
 also constitutes a TAN Bayes net. (TAN Bayes nets
 were introduced in Chapter \ref{ch-chow})\footnote{A {\bf reverse or upside down tree} is obtained by reversing the directions of all the arrows of a tree directed graph. A TAN Bayes net is normally defined as in Chapter\ref{ch-chow}, as a Naive Bayes net augmented with a tree. In transformers, the Naive Bayes Net is augmented with a reverse tree (RT) instead of a tree (T), so technically transformers contain RTAN (or simply AN) Bayes nets, not TAN Bayes nets. }
 
@@ -232,7 +232,7 @@ were introduced in Chapter \ref{ch-chow})\footnote{A {\bf reverse or upside down
 \includegraphics[width=3.5in]
 {transformer/transformer-TAN-Bayes.png}
 \caption{If the blue boxes in this graph are each ``shrunk" to single nodes,
-then it becomes a TAN Bayes Net. Each of the 3 subgraphs $\rvh^t, (\rvv^t, \rvq^t, \rvk^t), \rvh^{t+1} $
+then it becomes a TAN Bayes Net. Each of the 3 subgraphs $\rvx^t, (\rvv^t, \rvq^t, \rvk^t), \rvx^{t+1} $
 also constitutes a TAN Bayes net. (TAN Bayes nets
 were introduced in Chapter \ref{ch-chow}).}
 \label{fig-transformer-TAN-Bayes}
