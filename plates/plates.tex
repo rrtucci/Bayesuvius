@@ -1,0 +1,99 @@
+\chapter{Plate Notation}
+\label{ch-plates}
+
+In this section, we 
+will use the Numpy-like tensor notation
+discussed in Section 
+\ref{sec-numpy-tensors}. In particular, note that $[n] = [0:n] = \{0, 1,\ldots, n-1\}$ and that $T^{[n], [m]}$ is an $n\times m$ matrix.
+
+{\bf Plate notation} is used to simplify 
+equal parts of a bnet that occur in parallel.
+Suppose you have a bnet containing as a subset, $\Lam$ node sets $S_\lam$, where
+$\lam\in [\Lam]$. Suppose
+any two $S_\lam$ have the same number of equivalent nodes,
+and two equivalent nodes have the same TPM.
+Rather than drawing all $\Lam$ sets, 
+we think of them as {\bf layers} of a {\bf plate} (or stack)
+that come out of the page like a stack of pancakes with the pancakes
+lying flat on the page.
+That way we only have to draw one pancake, instead of $\Lam$.
+We only draw once instead of $\Lam$ times, each node and the arrows entering and exiting
+that node. Quite a saving in labor and bnet complexity! 
+And a bnet can have more 
+than one plate, and a node can belong
+to more than one plate!
+
+Plates are often used in Machine Learning (see, for example,
+Chapter \ref{ch-transformer} on Transformers Networks).
+
+Fig.\ref{fig-texnn-for-rock_layers}
+gives an example of a bnet with 2 nested plates\footnote{Fig.\ref{fig-texnn-for-rock_layers}
+and the blue TPMs were
+rendered with my free, open source software 
+{\tt texnn} (see Ref.\cite{texnn})
+{\tt texnn} 
+can keep track of 
+the tensor shapes
+of each node, for bnets with one or more plates.
+}. 
+The TPMs for this bnet are of the following
+form (we print them in blue).
+
+\begin{figure}[h!]\centering
+$$\xymatrix{
+&&*+[F*:SkyBlue]{\underline{Q}^{[20],[10]}}\ar[dr]&&&
+\\
+&&*+[F*:SkyBlue]{\underline{K}^{[20],[10]}}\ar[r]&*+[F*:SkyBlue]{\underline{A}^{[20]}}\ar[ddrr]&&
+\\
+&&*+[F*:SkyBlue]{\underline{V}^{[20],[10]}}\ar[ur]&&&
+\\
+*+[F*:pink]{\underline{X}}\ar[uurr]\ar[uuurr]\ar[urr]\ar[rrrrr]&&&&&*+[F*:pink]{\underline{Y}}
+\save
+\POS"1,3"."3,3"."1,3"."3,3"!C*+<1.0em>\frm{--}
+\POS"1,3"."3,3"."1,4"."3,4"!C*+<2.0em>\frm{-,}
+\restore
+\\
+*+[F--]{\;\;}&\text{$10$ layers}
+\\
+*+[F-,]{\;\;}&\text{$20$ layers}
+}$$
+\caption{Example of a bnet with 2 nested plates.  In general, multiple plates need not be 
+nested.}
+\label{fig-texnn-for-rock_layers}
+\end{figure}
+
+\begin{subequations}
+
+\begin{equation}\color{blue}
+P(A^{[20]}|Q^{[20],[10]},K^{[20],[10]},V^{[20],[10]})=
+\label{eq-A-fun-rock_layers}
+\end{equation}
+
+\begin{equation}\color{blue}
+P(K^{[20],[10]}|X)=
+\label{eq-K-fun-rock_layers}
+\end{equation}
+
+\begin{equation}\color{blue}
+P(Q^{[20],[10]}|X)=
+\label{eq-Q-fun-rock_layers}
+\end{equation}
+
+\begin{equation}\color{blue}
+P(V^{[20],[10]}|X)=
+\label{eq-V-fun-rock_layers}
+\end{equation}
+
+\begin{equation}\color{blue}
+P(X)=
+\label{eq-X-fun-rock_layers}
+\end{equation}
+
+\begin{equation}\color{blue}
+P(Y|X,A^{[20]})=
+\label{eq-Y-fun-rock_layers}
+\end{equation}
+
+\end{subequations}
+
+
