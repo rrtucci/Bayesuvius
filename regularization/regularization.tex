@@ -19,7 +19,7 @@ of a Neural Net, so we will denote it by $w\in \RR^n$, and use $w^*\in \RR^n$
 to represent the
 minimum of $\call^+(w) =\call(w)+ \calr(w)$. 
 
-In some cases (like in $L_p$ norm ROLF,
+In some cases (like in $L^p$ norm ROLF,
 which we discuss below),
 the minimum of $\call^+(w)$
 and that of $\call(w)$
@@ -100,11 +100,11 @@ In ROLF, we add a regulator $\calr(w)$ to $\call(w)$:
 
 
 
-\section{$L_p$ norm ROLF}
+\section{$L^p$ norm ROLF}
 
 See \ref{sec-p-norm}
 for the definition of
-$L_p$ norms.  Let
+$L^p$ norms.  Let
 
 \beq
 \call^+(w) = \call(w) + \calr(w)
@@ -114,40 +114,40 @@ for $\lam, \lam_1, \lam_2>0$,
 
 
 \begin{itemize}
-\item $L_1$ norm ROLF (called LASSO or Basis Pursuit)
+\item $L^1$ norm ROLF (called LASSO or Basis Pursuit)
 \beq
 \calr(w) =\lam\norm{w}_1
 \eeq
 
-\item $L_2$ norm ROLF (called Ridge or Tikhonov Regression) (note that the $L_2$ norm is squared)
+\item $L^2$ norm ROLF (called Ridge or Tikhonov Regression) (note that the $L^2$ norm is squared)
 \beq
 \calr(w) =\lam\norm{w}_2^2
 \eeq
 
 \item
-$L_1 + L_2$ norm ROLF (called Elastic Net)
+$L^1 + L_2$ norm ROLF (called Elastic Net)
 \beq
 \calr(w) =\lam_1\norm{w}_1
 + \lam_2\norm{w}_2^2
 \eeq
 \end{itemize}
 
-\subsection{$L_1$ norm ROLF can lead to sparsity}
+\subsection{$L^1$ norm ROLF can lead to sparsity}
 
 The obvious way to induce sparsity in 
-the minimum $w^*$ is to use the $L_0$ norm of $w$ as regulator.
+the minimum $w^*$ is to use the $L^0$ norm of $w$ as regulator.
 However, calculating $\norm{w}_0$ is
 hard (NP-hard, in fact). In this section, we will
-show that using the $L_1$ norm
+show that using the $L^1$ norm
 of $w$ as regulator can also induce sparsity (not as well as the
-$L_0$ norm, but still significant.)
+$L^0$ norm, but still significant.)
 \begin{figure}[h!]
 \centering
 \includegraphics[width=4in]
 {regularization/sparsity.png}
 \caption{Pictorial explanation of
-why $L_1$ norm ROLF can lead to sparsity
-and $L_2$ norm ROLF can help avert it. Sometimes 
+why $L^1$ norm ROLF can lead to sparsity
+and $L^2$ norm ROLF can help avert it. Sometimes
 you want sparsity and sometimes you don't. $c$ in this figure is some 
 fixed constant.
 }
@@ -191,7 +191,7 @@ $\call$ and $\calr$ be equal in magnitude but opposite in direction.
 \nabla_w\call = -\nabla_w \calr
 \eeq
 But when $\calr(w)$ is
-the $L_1$ norm,  $\nabla_w\calr$ is not defined along the $w_1$
+the $L^1$ norm,  $\nabla_w\calr$ is not defined along the $w_1$
 and $w_2$ axes. To avoid this, we can 
 approximate the diamond contour $\norm{w}_1=c$
 by rounding out its corners
@@ -219,7 +219,7 @@ there would be a diamond contour
  the kissing point $w^*$ is no longer sparse; both of its components are non-zero.
  
  The moral of Fig.\ref{fig-sparsity}
- is that $L_1$ norm ROLF can lead to sparsity and $L_2$ norm ROLF can help avert it.
+ is that $L^1$ norm ROLF can lead to sparsity and $L^2$ norm ROLF can help avert it.
  Sometimes we want the vector of weights $w$ to be sparse so as to give
  a succinct description.
  At other times, we want solutions in set $A$ to be spread out over many dimensions instead of being sparse and clumped together in a small number of dimensions.
@@ -229,7 +229,7 @@ there would be a diamond contour
 
 
 
-\subsection{$L_2$ norm ROLF for Least Squares}
+\subsection{$L^2$ norm ROLF for Least Squares}
 As in Section \ref{sec-conv-lr} on Linear Regression, 
 suppose $w\in\RR^n$, $X\in \RR^{nsam\times n}$,
  and  $y\in\RR^{nsam} $. Let
@@ -461,7 +461,7 @@ and $\alp>0$,  let
 \eeq
 and\footnote{Note
 that $\call$ here could be the mean square error
-plus an $L_p$ norm. A loss function plus a regulator function gives
+plus an $L^p$ norm. A loss function plus a regulator function gives
 a new loss function to
 which a new regulator may be added.
 }
