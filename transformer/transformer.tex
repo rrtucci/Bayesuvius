@@ -5,35 +5,65 @@ The primary reference for this chapter is  Ref.\cite{attention-is-all-you-need}.
 Ref.\cite{attention-is-all-you-need} is  
  the highly influential  2017 paper entitled
 ``Attention is all you need" 
-that introduced Transformer Networks (TNs) and 
+that introduced {\bf Transformer Networks} (TNs) and 
 Attention into the AI vernacular.
 Besides Ref.\cite{attention-is-all-you-need},
-I used blog posts
+I also read blog posts
 such as Ref.\cite{joshi-trans}
 and the Wikipedia article on  TN (Ref. \cite{wiki-transformer}).
 For a complete list of the large number
-of excellent blog post that I used to learn
+of excellent blog post that I read to learn
 this subject, see my open source software texnn
-(Ref.\cite{texnn}). 
-texnn is python software that I wrote
+(Ref.\cite{texnn}).\footnote{
+texnn is
+ Python software 
+ that I wrote
 specifically for drawing the bnets
-of this chapter, but then I 
+of this chapter, but later I 
 generalized it to a stand-alone app that can draw
-any bnet, not just a TN bnet.
+any bnet (including SCMs, NNs and TNs), not just a TN bnet.}
 
 Transformer Networks (TN)
-have been taking the field of
+have been taking the fields of
 Natural Language Processing (NLP)
+and Large Language Models (LLM)
 by storm in recent years.
 They were introduced in 2017 and already
-are the basis of
+are the basis of numerous LLMs.
+For example,
 BERT (Bidirectional Encoder
 Representations from Transformers)
-and GPT (Generative Pre-trained Transformer),
+and ChatGPT (Generative Pre-trained Transformer),
 two TN libraries that
 have been trained with
 huge databases such as all of
 English Wikipedia (2,500M words).
+
+How well ChatGPT works was a huge
+surprise to most people, including experts in AI/ML.
+My conjecture is that this surprising
+LLM performance is
+ due to causality.
+ Let me explain. I believe TNs and the LLM that use them, are just curve-fitters (so are Least Squares, vanilla NNs, Convolutional NNs, etc.). But, we lucked out, because
+TNs are very good at fitting causal data, and the space of all human generated text, including math
+equations and computer code,
+is causality connected (i.e., has
+a {\bf causally connected topology}.).
+
+Normally, TNs are
+drawn as box diagrams
+that are somewhat cryptic and ambiguous, at least to me.
+In this chapter,
+instead of 
+drawing them as box diagrams,
+I represent them as causal DAGs (bnets). This makes their
+causal nature more explicit than 
+the box diagrams, and,
+in my opinion, also makes them
+less ambiguous  and more understandable than the box diagrams.
+
+
+
 
 Recurrent Neural Nets (RNNs)
 are discussed in Chapter \ref{ch-rnn}.
@@ -55,11 +85,9 @@ Dynamical bnets are discussed in Chapter \ref{ch-dyn-bnet}.
 In Chapter \ref{ch-rnn},
 we showed that RNNs
 are dynamical bnets.
-The goal of
-this chapter
-is to define TNs,
-and to show that they too are
-dynamical bnets.
+In this chapter
+ we will show that TNs
+dynamical bnets too.
 
 
 In this chapter, we 
@@ -72,10 +100,11 @@ discussed in Section
 
 Let
 
-$\ell$ be the number of words in a sentence.
+$\ell$ be the maximum number of words allowed in a sentence.
+Some words might be blanks (padding).
 
-$x_\alp^t\in \RR^{d}$ be
-an $d$ dimensional column vector
+$e_\alp^t\in \RR^{d}$ be
+a $d$ dimensional column vector
 for word $\alp\in [\ell]$ at time $t$.
 
 $W_\rvq^t, W_\rvk^t, W_\rvv^t\in \RR^{d\times d}$
@@ -86,17 +115,17 @@ the net.
 The letters $Q,K,V$ stand for
  Query, Key and Value,
 respectively.
-They transform $x_\alp^t$ 
+They transform $e_\alp^t$ 
 as follows
 
 \beq
 \left\{
 \begin{array}{l}
-v_\alp^t = W_\rvv^t x_\alp^t
+v_\alp^t = W_\rvv^t e_\alp^t
 \\
-q_\alp^t = W_\rvq^t x_\alp^t
+q_\alp^t = W_\rvq^t e_\alp^t
 \\
-k_\alp^t = W_\rvk^t x_\alp^t
+k_\alp^t = W_\rvk^t e_\alp^t
 \end{array}
 \right.
 \eeq
@@ -122,6 +151,12 @@ $$\xymatrix@C=4pc{
 {\underline{e_2^t}}\ar[dr]_{W_{\rvk}^t}\ar@[red][r]^{W_{\rvq}^t}\ar[ur]^{W_{\rvv}^t}&{\underline{q_2^t}}\ar@[red][r]&{\underline{e_2^{t+1}}}
 \\
 &{\underline{k_2^t}}\ar[uuuuuuur]\ar[uuuur]\ar[ur]&
+\save
+\POS"2,1"."8,1"."2,1"."8,1"!C*+<1.0em>\frm{--}
+\POS"1,2"."3,2"."1,3"."3,3"!C*+<1.5em>\frm{--}
+\POS"4,2"."6,2"."4,3"."6,3"!C*+<1.5em>\frm{--}
+\POS"7,2"."9,2"."7,3"."9,3"!C*+<1.5em>\frm{--}
+\restore
 }$$
 \caption{Recurrent single-head attention for 3 words. Time-slice $t$
 of dynamical bnet for
@@ -129,16 +164,16 @@ of dynamical bnet for
 of a 3-word sentence.
 Note that $k_\alp^t$
 for all $\alp$
-points to $\rvx^{t+1}_\beta$ for all $\beta\in[\ell]$.
+points to $\rve^{t+1}_\beta$ for all $\beta\in[\ell]$.
 Likewise,
 $\rvv_\alp^t$
 for all $\alp$
-points to $\rvx^{t+1}_\beta$ for all $\beta$.
+points to $\rve^{t+1}_\beta$ for all $\beta\in [\ell]$.
 However, 
 $\rvq_\alp^t$
-points only to $\rvx^{t+1}_\alp$.
+points only to $\rve^{t+1}_\alp$.
 }
-\label{fig-transformer}
+\label{fig-transformer-full-3-word}
 \end{figure}
 
 Fig.\ref{fig-transformer}
@@ -151,37 +186,42 @@ Fig.\ref{fig-transformer},
 are as follows:
 
 \beq\color{blue}
-P(v_\alp^t|W_\rvv^t, x_\alp^t)=
+P(v_\alp^t|e_\alp^t)=
 \indi(\;\;\;
-v_\alp^t = W_\rvv^t x_\alp^t
+v_\alp^t = W_\rvv^t e_\alp^t
 \;\;\;)
 \eeq
 
 \beq\color{blue}
-P(q_\alp^t|W_\rvq^t, x_\alp^t)=
+P(q_\alp^t|e_\alp^t)=
 \indi(\;\;\;
-q_\alp^t = W_\rvq^t x_\alp^t
+q_\alp^t = W_\rvq^t e_\alp^t
 \;\;\;)
 \eeq
 
 \beq\color{blue}
-P(k_\alp^t|W_\rvk^t, x_\alp^t)=
+P(k_\alp^t|e_\alp^t)=
 \indi(\;\;\;
-k_\alp^t= W_\rvk^t x_\alp^t
+k_\alp^t= W_\rvk^t e_\alp^t
 \;\;\;)
 \eeq
 
 \beq\color{blue}
-P(x^{t+1}_\alp|v_.^t,q_\alp^t,
+P(e^{t+1}_\alp|v_.^t,q_\alp^t,
  k_.^t)
 =
 \indi(\;\;\;
-x_\alp^{t+1}=
+e_\alp^{t+1}=
 \sum_{\beta\in[\ell]}
 v_\beta^t
 P(\beta|q_\alp^t)
 \;\;)
+\label{eq-attention-average}
 \eeq
+where the conditional
+probability 
+$P(\beta|q_\alp^t)$ is 
+called defined as
 
 \beqa
 P(\beta|q_\alp^t)&=&
@@ -193,54 +233,28 @@ P(\beta|q_\alp^t)&=&
 e^{(q_\alp^t)^T k_{\beta'}^t}}
 \eeqa
 
+The right hand side of Eq.(\ref{eq-attention-average})
+constitutes an average over 
+all the word vectors $\{\rvv_\alp^t: \alp\in[\ell]\}$
+in a sentence.
+This average, 
+or the conditional
+probability $P(\beta|q_\alp^t)$,
+are called an {\bf Attention}.
 
-To improve stability
-of the dynamical bnet,
-it is common to think 
-of the  matrices $W_\rvv^t, W_\rvq^t, W_\rvk^t$ as nodes
-pointed to by a ``head" root node $\rvc
-\in\{0,1, \ldots, nc-1\}$, with TPMs,
-printed in blue, as follows.
 
-\begin{subequations}
-\beq\color{blue}
-P(W_\rvv^t|c)=
-\delta(W_\rvv^t, W_{\rvv c}^t)
-\eeq
 
-\beq\color{blue}
-P(W_\rvq^t|c)=
-\delta(W_\rvq^t, W_{\rvq c}^t)
-\eeq
 
-\beq\color{blue}
-P(W_\rvk^t|c)=
-\delta(W_\rvk^t, W_{\rvk c}^t)
-\eeq
-\end{subequations}
-Even better,
-one can go fully
-Bayesian, 
-and make
-these 3  distributions 
-arbitrary categorical
-distributions  
-to be determined by net training,
-instead of mere
-delta functions.
-
-On first encounter, the structure of a Transformer net
+On first encounter, the structure of a TN
 seems a bit mysterious. Then one realizes that this is
-an old friend. As shown in Fig.\ref{fig-transformer-TAN-Bayes}, if one 
-shrinks some nodes
-of the Transformer net, it becomes a TAN Bayes net. Each of the 3 subgraphs $\rvx^t, (\rvv^t, \rvq^t, \rvk^t), \rvx^{t+1} $
+an old friend. 
+If the dashed  boxes in 
+Fig.\ref{fig-transformer-full-3-word} are each ``shrunk" to single nodes,
+then it becomes a TAN Bayes Net. Each of the 3 subgraphs $\rve^t, (\rvv^t, \rvq^t, \rvk^t), \rve^{t+1} $
 also constitutes a TAN Bayes net. (TAN Bayes nets
-were introduced in Chapter \ref{ch-chow})\footnote{A {\bf reverse or upside down tree} is obtained by reversing the directions of all the arrows of a tree directed graph. A TAN Bayes net is normally defined as in Chapter\ref{ch-chow}, as a Naive Bayes net augmented with a tree. In transformers, the Naive Bayes Net is augmented with a reverse tree (RT) instead of a tree (T), so technically transformers contain RTAN (or simply AN) Bayes nets, not TAN Bayes nets. }
+were introduced in Chapter \ref{ch-chow}).\footnote{A {\bf reverse or upside down tree} is obtained by reversing the directions of all the arrows of a tree directed graph. A TAN Bayes net is normally defined as in Chapter\ref{ch-chow}, as a Naive Bayes net augmented with a tree. In transformers, the Naive Bayes Net is augmented with a reverse tree (RT) instead of a tree (T), so technically transformers contain RTAN (or simply AN) Bayes nets, not TAN Bayes nets. }
 
-If the blue boxes in this graph are each ``shrunk" to single nodes,
-then it becomes a TAN Bayes Net. Each of the 3 subgraphs $\rvx^t, (\rvv^t, \rvq^t, \rvk^t), \rvx^{t+1} $
-also constitutes a TAN Bayes net. (TAN Bayes nets
-were introduced in Chapter \ref{ch-chow}).
+
 
 
 
@@ -343,7 +357,6 @@ $$\xymatrix@R=4pc@C=4pc{
 Our tensor notation is discussed in Section 
 \ref{sec-numpy-tensors} of Bayesuvius.
 
-TA = Transformer Architecture
 
 $\ell=$ maximum number of words in a sentence segment. $\alp\in [\ell]$, $\ell\sim 100$
 
@@ -402,8 +415,8 @@ S^{\beta, \gamma}\right]
 _{\alp_\in [a], \gamma \in [c]}
 \eeq
 
-Most treatments of TA, including the
-Transformers is All You Need paper,  order the
+Most treatments of TN, including the
+``Transformers is All You Need paper",  order the
 operations chronologically from
 left to right. So if $A$ occurs before $B$,
 they write $AB$.
@@ -416,9 +429,9 @@ and is the overwhelming precedent.
 
 
 \beq
-x^{\beta, \alp} =\delta(\beta, \beta(\alp))
+e^{\beta, \alp} =\delta(\beta, \beta(\alp))
 \left(
-x^{[L], [\ell]} \text{ has one hot columns.}
+e^{[L], [\ell]} \text{ has one hot columns.}
 \right)
 \eeq
 
@@ -427,10 +440,10 @@ x^{[L], [\ell]} \text{ has one hot columns.}
 \beq
 e^{\delta, \alp} = \sum_\beta 
 E^{\delta, \beta}
-x^{\beta, \alp}
+e^{\beta, \alp}
 \;\;
 \left(
-e^{[d],[\ell]}= E^{[d], [L]}x^{[L], [\ell]}
+e^{[d],[\ell]}= E^{[d], [L]}e^{[L], [\ell]}
 \right)
 \eeq
 
@@ -578,8 +591,8 @@ Total Embedding equals initial embedding plus
 positional embedding:$E = E_0 + E_{pos}$
 
 
-The purpose of positional embedding is to take $x^{\beta, \alp}$ to $e^{\delta, \alp}=
-\sum_\beta E^{\delta,\beta}_{pos} x^{\beta, \alp}$
+The purpose of positional embedding is to take $e^{\beta, \alp}$ to $e^{\delta, \alp}=
+\sum_\beta E^{\delta,\beta}_{pos} e^{\beta, \alp}$
 where $e^{\delta, \alp}$ changes quickly as $\delta$ (i.e., position) changes.
 
 \item {\bf ReLU}
@@ -592,13 +605,13 @@ max element-wise
 
 \item {\bf Feed Forward neural net}
 \beq
-F(x^{[1], [\ell]}) = ReLU(x^{[1],[\ell]}
+F(e^{[1], [\ell]}) = ReLU(e^{[1],[\ell]}
 W_1^{[\ell], [d]} + b_1^{[1],[d]}) W_2^{[d], [\ell]} + b_1^{[1],[\ell]}
 \eeq
 
 \beq
-F(x^{[\ell]}) = W_2^{[\ell], [d]}ReLU(
-W_1^{[d], [\ell]}x^{[\ell]} + b_1^{[d]})  + b_1^{[\ell]}
+F(e^{[\ell]}) = W_2^{[\ell], [d]}ReLU(
+W_1^{[d], [\ell]}e^{[\ell]} + b_1^{[d]})  + b_1^{[\ell]}
 \eeq
 
 \item {\bf Softmax}
@@ -607,17 +620,17 @@ softmax() takes a vector and returns
 a vector of probabilities of the same length
 
 \beq
-x^{[n]}\rarrow P^{[n]}
+e^{[n]}\rarrow P^{[n]}
 \eeq
 where
 
 \beq
 P^\alp=
-\frac{\exp(x^\alp)}
-{\sum_{\alp\in[n]} \exp(x^\alp )}
+\frac{\exp(e^\alp)}
+{\sum_{\alp\in[n]} \exp(e^\alp )}
 \;\;
-\left(P^{[n]}=\frac{\exp(x^{[n]})}
-{\norm{\exp(x^{[n]})
+\left(P^{[n]}=\frac{\exp(e^{[n]})}
+{\norm{\exp(e^{[n]})
 }_0}
 \right)
 \eeq
@@ -662,7 +675,10 @@ Normalization can also involve subtracting the mean $\av{X}$ of the signal $X$  
 
 For better results, the Decoder contains a pair of multi-head attentions in series, and $\Lam$ of those pairs in parallel.
 
-\item{Shifted Output}
+\item{\bf Shifted Output}
+
+{\bf forced teaching}
+
 
 \begin{figure}[h!]
 \centering
@@ -677,6 +693,18 @@ truth tokens, and lower case ones represent
 predictions.}
 \label{fig-transformer-train-test}
 \end{figure}
+
+\item {\bf Masked Attention}
+
+\beq
+P(\alp|\nu, \alp') = 0 
+\text{ if $\alp'>\alp$}
+\eeq
+$\alp$ and $\alp'$ are
+sentence positions and $\alp'$ is the future of $\alp$.
+So as to
+not violate causality,
+ do not pay attention to sentence positions in the future.
 
 
 
@@ -856,16 +884,13 @@ e^{[d], [\ell]} = \;\;\text{prior}
 \end{subequations}
 
 \subsection{Encoder}
-
 \begin{figure}[h!]\centering
 \begin{minipage}{.4\linewidth}
 \includegraphics[width=2in]{transformer/encoder.jpg}
 \end{minipage}%blank lines between minispaces breaks this
 \begin{minipage}{.6\linewidth}
 $$\xymatrix@R=2.5pc@C=0.1pc{
-*+[F*:Dandelion]{\underline{v}^{[\Lambda],[D], [\ell]}}&*+[F*:Dandelion]{\underline{k}^{[\Lambda],[D], [\ell]}}&&
-\\
-*+[F*:yellow]{\underline{n}^{[\Lambda],[d], [\ell]}}\ar[ur]\ar[u]&&&
+*+[F*:yellow]{\underline{n}^{[\Lambda],[d], [\ell]}}&&&
 \\
 &*+[F*:SkyBlue]{\underline{F}^{[\Lambda],[d], [\ell]}}\ar[ul]&&
 \\
@@ -877,7 +902,7 @@ $$\xymatrix@R=2.5pc@C=0.1pc{
 \\
 *+[F*:gray]{\underline{e}^{[\Lambda],[d], [\ell]}}\ar[urr]\ar[uuu]\ar[ur]\ar[urrr]&&&
 \\
-*+[F*:Lavender]{\underline{x}^{[L],[\ell]}}\ar[u]&&&
+*+[F*:Lavender]{\underline{x}^{[\Lambda],[L],[\ell]}}\ar[u]&&&
 \save
 \POS"1,1"."7,1"."1,4"."7,4"!C*+<4.0em>\frm{-,}
 \restore
@@ -922,13 +947,8 @@ V^{[\Lambda],[D], [\ell]} = W_\rvv^{[D], [d]}e^{[\Lambda],[d], [\ell]}
 \end{equation}
 
 \begin{equation}\color{blue}
-e^{[\Lambda],[d], [\ell]} = E^{[\Lambda],[d], [L]}x^{[L],[\ell]}
+e^{[\Lambda],[d], [\ell]} = E^{[\Lambda],[d], [L]}x^{[\Lambda],[L],[\ell]}
 \label{eq-p-fun-encoder}
-\end{equation}
-
-\begin{equation}\color{blue}
-k^{[\Lambda],[D], [\ell]} = U_\rvk^{[D],[d]}n^{[\Lambda],[d], [\ell]}
-\label{eq-k-fun-encoder}
 \end{equation}
 
 \begin{equation}\color{blue}
@@ -937,12 +957,7 @@ n^{[\Lambda],[d], [\ell]} = \text{normalize}(N^{[\Lambda],[d], [\ell]} + F^{[\La
 \end{equation}
 
 \begin{equation}\color{blue}
-v^{[\Lambda],[D], [\ell]} = U_\rvv^{[D], [d]}n^{[\Lambda],[d], [\ell]}
-\label{eq-q-fun-encoder}
-\end{equation}
-
-\begin{equation}\color{blue}
-x^{[L],[\ell]} = \;\;\text{prior}
+x^{[\Lambda],[L],[\ell]} = \;\;\text{prior}
 \label{eq-R-fun-encoder}
 \end{equation}
 
@@ -964,11 +979,11 @@ $$\xymatrix@R=2.5pc@C=0.2pc{
 \\
 &&*+[F*:SkyBlue]{\underline{F}^{[\Lambda],[d], [\ell]}}\ar[ur]&
 \\
-&&&*+[F*:yellow]{\underline{j}^{[\Lambda],[d], [\ell]}}\ar[ul]\ar[uu]
+&*+[F*:Dandelion]{\underline{o}^{[\Lambda],[d],[\ell]}}\ar[rr]&&*+[F*:yellow]{\underline{j}^{[\Lambda],[d], [\ell]}}\ar[ul]\ar[uu]
 \\
-&*+[F*:Dandelion]{\underline{o}^{[\Lambda],[d],[\ell]}}\ar[urr]&&
+*+[F*:Dandelion]{\underline{v}^{[\Lambda],[D], [\ell]}}\ar[ur]&*+[F*:Dandelion]{\underline{k}^{[\Lambda],[D], [\ell]}}\ar[u]&*+[F*:Dandelion]{\underline{q}^{[\Lambda],[D], [\ell]}}\ar[ul]&
 \\
-*+[F*:Dandelion]{\underline{v}^{[\Lambda],[D], [\ell]}}\ar[ur]&*+[F*:Dandelion]{\underline{k}^{[\Lambda],[D], [\ell]}}\ar[u]&*+[F*:Dandelion]{\underline{q}^{[\Lambda],[D], [\ell]}}\ar[ul]&*+[F*:yellow]{\underline{a}^{[\Lambda],[d], [\ell]}}\ar[uu]\ar[l]
+*+[F*:yellow]{\underline{n}^{[\Lambda],[D], [\ell]}}\ar[ur]\ar[u]&&&*+[F*:yellow]{\underline{a}^{[\Lambda],[d], [\ell]}}\ar[uu]\ar[ul]
 \\
 &*+[F*:Dandelion]{\underline{O}^{[\Lambda],[d],[\ell]}}\ar[urr]&&
 \\
@@ -1046,8 +1061,13 @@ j^{[\Lambda],[d], [\ell]} = \text{normalize}(o^{[\Lambda],[d],[\ell]} + a^{[\Lam
 \end{equation}
 
 \begin{equation}\color{blue}
-k^{[\Lambda],[D], [\ell]} = \;\;\text{prior, obtained from encoder.}
+k^{[\Lambda],[D], [\ell]} = U_\rvk^{[D],[d]}n^{[\Lambda],[D], [\ell]}
 \label{eq-k-fun-decoder}
+\end{equation}
+
+\begin{equation}\color{blue}
+n^{[\Lambda],[D], [\ell]} = \;\;\text{Prior comming from Encoder.}
+\label{eq-n-fun-decoder}
 \end{equation}
 
 \begin{equation}\color{blue}
@@ -1056,13 +1076,13 @@ o^{[\Lambda],[d],[\ell]} = \text{multi\_head\_attention}(v^{[\Lambda],[D], [\ell
 \end{equation}
 
 \begin{equation}\color{blue}
-q^{[\Lambda],[D], [\ell]} = U_\rvq^{[D], [d]}a^{[\Lambda],[d], [\ell]}
-\label{eq-v-fun-decoder}
+q^{[\Lambda],[D], [\ell]} = U_\rvq^{[D],[d]}a^{[\Lambda],[d], [\ell]}
+\label{eq-q-fun-decoder}
 \end{equation}
 
 \begin{equation}\color{blue}
-v^{[\Lambda],[D], [\ell]} = \;\;\text{prior, obtained from encoder.}
-\label{eq-q-fun-decoder}
+v^{[\Lambda],[D], [\ell]} = U_\rvv^{[D], [d]}n^{[\Lambda],[D], [\ell]}
+\label{eq-v-fun-decoder}
 \end{equation}
 
 \begin{equation}\color{blue}
@@ -1071,5 +1091,3 @@ x^{[L],[\ell]} = \;\;\text{prior}
 \end{equation}
 
 \end{subequations}
-
-
