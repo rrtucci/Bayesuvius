@@ -117,7 +117,7 @@ the net.
 The letters $Q,K,V$ stand for
  Query, Key and Value,
 respectively.
-They trans\rva$e_\alp^t$ 
+They transform $e_\alp^t$ 
 as follows
 
 \beq
@@ -132,7 +132,7 @@ k_\alp^t = W_\rvk^t e_\alp^t
 
 
 
-\begin{figure}[h!]\centering
+\begin{figure}[!h]\centering
 $$\xymatrix@C=4pc{
 &{\underline{v_0^t}}\ar[dr]\ar[ddddr]\ar[dddddddr]&&
 \\
@@ -158,7 +158,7 @@ $$\xymatrix@C=4pc{
 \POS"7,2"."9,2"."7,3"."9,3"!C*+<1.5em>\frm{--}
 \restore
 }$$
-\caption{Dynamical bnet  with single-head attention for 3 words. Time-slice $t$.
+\caption{Dynamical bnet  with single-head Attention for 3 words. Time-slice $t$.
 Note that $k_\alp^t$
 for all $\alp$
 points to $\rva^t_{\alp'}$ for all ${\alp'}$.
@@ -251,7 +251,7 @@ have been proposed. This particular one
 is the original
 one from the ``Attention is all
 you need paper". Some people
-call it the ``scaled dot product attention".}
+call it the ``scaled dot product Attention".}
 
 \beq
 \boxed{
@@ -262,14 +262,14 @@ call it the ``scaled dot product attention".}
 
 
 
-On first encounter, the structure of an attention bnet
+On first encounter, the structure of an Attention bnet
 seems a bit mysterious. Then one realizes that this is
 an old friend. 
 If the dashed  boxes in 
 Fig.\ref{fig-transformer-full3} are each ``shrunk" to single nodes,
 then it becomes a TAN Bayes Net. Each of the 3 subgraphs $\rve^t, (\rvv^t, \rvq^t, \rvk^t), \rva^t $
 also constitutes a TAN Bayes net. \footnote{Tree Augmented Naive (TAN) Bayes nets
-were introduced in Chapter \ref{ch-chow}.}.\footnote{A {\bf reverse or upside down tree} is obtained by reversing the directions of all the arrows of a tree directed graph. A TAN Bayes net is normally defined as in Chapter\ref{ch-chow}, as a Naive Bayes net augmented with a tree. In an attention bnet, the Naive Bayes Net is augmented with a reverse tree (RT) instead of a tree (T), so technically attention bnets contain RTAN Bayes nets, not TAN Bayes nets. }
+were introduced in Chapter \ref{ch-chow}.}.\footnote{A {\bf reverse or upside down tree} is obtained by reversing the directions of all the arrows of a tree directed graph. A TAN Bayes net is normally defined as in Chapter\ref{ch-chow}, as a Naive Bayes net augmented with a tree. In an Attention bnet, the Naive Bayes Net is augmented with a reverse tree (RT) instead of a tree (T), so technically Attention bnets contain RTAN Bayes nets, not TAN Bayes nets. }
 In broad terms, Fig.\ref{fig-transformer-full3}
 can be described by saying that
 each word undergoes a special
@@ -278,6 +278,10 @@ classification,
 and the results of that classification
 are sent to the new version of each word (except the q class which only sends
 info to one word, not all of them).
+
+It's also useful to think of Attention
+as a filter with input signal $(e^t)^{[d], [\ell]}$ and output signal
+$(e^{t+1})^{[d], [\ell]}$.
 
 Fig.\ref{fig-transformer-full3} can
 be ``folded" (i.e., the 3 words can be
@@ -288,14 +292,14 @@ shapes of tensors by a superscript,
 using the tensor notation
 explained in Section \ref{sec-numpy-tensors}. We will continue doing this henceforth in this chapter.
 
-The structure equations for 
+The structural equations for
 Fig.\ref{fig-transformer-recurrent-folded-1head}, printed in blue,
 are as follows.
 
 
 
 
-\begin{figure}[h!]\centering
+\begin{figure}[!h]\centering
 $$\xymatrix@R=4pc@C=4pc{
 &*+[F*:Dandelion]{\underline{(k^t)}^{[d],[\ell]}}\ar[dr]&&
 \\
@@ -407,7 +411,7 @@ P({\alp'}|\alp, \nu)&=&
 e^{(k^t)^{\nu,\delta,\alp''} (q^t)^{\nu, \delta, \alp}}}
 \eeqa
 
-\begin{figure}[h!]\centering
+\begin{figure}[!h]\centering
 $$\xymatrix@R=4pc@C=4pc{
 &*+[F*:Dandelion]{\underline{(k^t)}^{[D],[\ell]}}\ar[dr]&&
 \\
@@ -422,7 +426,7 @@ have the same tensor shape.}
 \label{fig-transformer-recurrent-folded-multi-head}
 \end{figure}
 
-The structure equations, printed in blue,
+The structural equations, printed in blue,
 for the bnet 
 Fig.\ref{fig-transformer-recurrent-folded-multi-head}, are as follows.
 Note that Attention() always has the
@@ -489,7 +493,7 @@ will discuss
  is to find a causal DAG (bnet)
  version of that figure.
 
-\begin{figure}[h!]
+\begin{figure}[!h]
 \centering
 \includegraphics[width=6in]
 {transformer/transformer.png}
@@ -838,9 +842,15 @@ instance, $\norm{A+B}_2$).
 Normalization keeps the signal from growing too big and saturating the signal entering components upstream.
 Normalization can also involve subtracting the mean $\av{X}$ of the signal $X$  so as to get a signal $X-\av{X}$  that has zero mean.
 
+\item {\bf Plates}
+
+Fig.\ref{fig-vanilla-transformer}
+uses plates (a.k.a. stacks). These are explained in Chapter \ref{ch-plates}.
+
+
 \item {\bf Redundancy}
 
-For better results, the Decoder contains a pair of multi-head Attentions in series, and $\Lam$ of those pairs in parallel.
+For better results, the Decoder contains a pair of multi-head Attentions in series, and $\Lam$ of those pairs in parallel (i.e.,  $\Lam$ layers of a plate).
 
 \item{\bf Right Shifted Outputs}
 
@@ -853,7 +863,7 @@ We explain forced teaching
 in Fig.\ref{fig-transformer-full-3-words-train-test}.
 
 
-\begin{figure}[h!]
+\begin{figure}[!h]
 \centering
 \includegraphics[width=6in]
 {transformer/transformer-train-test.png}
@@ -881,6 +891,11 @@ not violate causality,
 this condition enforces the constraint that no attention is paid to sentence positions in the future $\alp$.
 
 
+\item {\bf plates}
+
+Fig.\ref{fig-vanilla-transformer}
+uses plates (a.k.a. stacks). These are explained in Chapter \ref{ch-plates}.
+
 
 \end{itemize}
 
@@ -891,11 +906,11 @@ gives a
 bnet representation of
 the ``Single Head Attention"
 portion of Fig.\ref{fig-vanilla-transformer}.
-The structure equations for that bnet,
+The structural equations for that bnet,
 printed in blue, are as follows.
  
 
-\begin{figure}[h!]\centering
+\begin{figure}[!h]\centering
 \begin{minipage}{.5\linewidth}
 \includegraphics[width=2in]{transformer/scaled-dot-prod-att.jpg}
 \end{minipage}%blank lines between minispaces breaks this
@@ -969,10 +984,10 @@ gives a
 bnet representation of
 the ``Multi-Head Attention"
 portion of Fig.\ref{fig-vanilla-transformer}.
-The structure equations for that bnet,
+The structural equations for that bnet,
 printed in blue, are as follows.
 
-\begin{figure}[h!]\centering
+\begin{figure}[!h]\centering
 \begin{minipage}{.3\linewidth}
 \includegraphics[width=1.7in]{transformer/multi-head-att.png}
 \end{minipage}%blank lines between minispaces breaks this
@@ -1083,80 +1098,77 @@ gives a
 bnet representation of
 the ``Encoder"
 portion of Fig.\ref{fig-vanilla-transformer}.
-The structure equations for that bnet,
+The structural equations for that bnet,
 printed in blue, are as follows.
 
 
-\begin{figure}[h!]\centering
+\begin{figure}[!h]\centering
 \begin{minipage}{.4\linewidth}
-\includegraphics[width=2in]{
-transformer/encoder.jpg}
+\includegraphics[width=2in]{transformer/encoder.jpg}
 \end{minipage}%blank lines between minispaces breaks this
 \begin{minipage}{.6\linewidth}
-$$\xymatrix@R=2.5pc@C=0.1pc{
-*+[F*:yellow]{\underline{n}^{[\Lambda],[d], [\ell]}}&&&
+$$\xymatrix@R=3.5pc@C=0.1pc{
+*+[F*:yellow]{\underline{n}^{[d], [\ell]}}&&&
 \\
-&*+[F*:SkyBlue]{\underline{F}^{[\Lambda],[d], [\ell]}}\ar[ul]&&
+&*+[F*:SkyBlue]{\underline{F}^{[d], [\ell]}}\ar[ul]&&
 \\
-*+[F*:yellow]{\underline{N}^{[\Lambda],[d], [\ell]}}\ar[ur]\ar[uu]&&&
+*+[F*:yellow]{\underline{N}^{[d], [\ell]}}\ar[ur]\ar[uu]&&&
 \\
-&&*+[F*:Dandelion]{\underline{A}^{[\Lambda],[D], [\ell]}}\ar[ull]_{W_\rva}&
+&&*+[F*:Dandelion]{\underline{A}^{[D], [\ell]}}\ar[ull]_{W_\rva}&
 \\
-&*+[F*:Dandelion]{\underline{Q}^{[\Lambda],[D], [\ell]}}\ar[ur]&*+[F*:Dandelion]{\underline{K}^{[\Lambda],[D], [\ell]}}\ar[u]&*+[F*:Dandelion]{\underline{V}^{[\Lambda],[D], [\ell]}}\ar[ul]
+&*+[F*:Dandelion]{\underline{Q}^{[D], [\ell]}}\ar[ur]&*+[F*:Dandelion]{\underline{K}^{[D], [\ell]}}\ar[u]&*+[F*:Dandelion]{\underline{V}^{[D], [\ell]}}\ar[ul]
 \\
-*+[F*:gray]{\underline{e}^{[\Lambda],[d], [\ell]}}\ar[urr]^{W_\rvk}\ar[uuu]\ar[ur]^{W_\rvq}\ar[urrr]_{W_\rvv}&&&
+*+[F*:gray]{\underline{e}^{[d], [\ell]}}\ar[urr]^{W_\rvk}\ar[uuu]\ar[ur]^{W_\rvq}\ar[urrr]_{W_\rvv}&&&
 \\
 *+[F*:Lavender]{\underline{x}^{[L],[\ell]}}\ar[u]&&&
 \save
-\POS"1,1"."6,1"."1,4"."6,4"!C*+<4.0em>\frm{-,}
+\POS"1,1"."5,1"."1,4"."5,4"!C*+<6.0em>\frm{-,}
 \restore
-\\
-*+[F-,]{\;\;}&\text{$\Lambda$ layers}
 }$$
 \end{minipage}
-\caption{Encoder of Vanilla Transformer Net.}
+\caption{Encoder of Vanilla Transformer Net. The boxed part is repeated $\Lam$ times in a series connection.}
 \label{fig-texnn-for-encoder}
 \end{figure}
 
 \begin{subequations}
 
 \begin{equation}\color{blue}
-A^{[\Lambda],[D], [\ell]} = \text{Attention}(Q^{[\Lambda],[D], [\ell]},K^{[\Lambda],[D], [\ell]},V^{[\Lambda],[D], [\ell]})
+A^{[D], [\ell]} = \text{Attention}(Q^{[D], [\ell]},K^{[D], [\ell]},V^{[D], [\ell]})
 \label{eq-O-fun-encoder}
 \end{equation}
 
 \begin{equation}\color{blue}
-F^{[\Lambda],[d], [\ell]} = \text{feed\_forward\_nn}(N^{[\Lambda],[d], [\ell]})
+F^{[d], [\ell]} = \text{feed\_forward\_nn}(N^{[d], [\ell]})
 \label{eq-F-fun-encoder}
 \end{equation}
 
 \begin{equation}\color{blue}
-K^{[\Lambda],[D], [\ell]} = W_\rvk^{[D], [d]}e^{[\Lambda],[d], [\ell]}
+K^{[D], [\ell]} = W_\rvk^{[D], [d]}e^{[d], [\ell]}
 \label{eq-K-fun-encoder}
 \end{equation}
 
 \begin{equation}\color{blue}
-N^{[\Lambda],[d], [\ell]} = \text{normalize}(e^{[\Lambda],[d], [\ell]} + W_\rva^{[d],[D]}A^{[\Lambda],[D], [\ell]})
+N^{[d], [\ell]} = \text{normalize}(e^{[d], [\ell]} + W_\rva^{[d],[D]}A^{[D], [\ell]})
 \label{eq-N-fun-encoder}
 \end{equation}
 
 \begin{equation}\color{blue}
-Q^{[\Lambda],[D], [\ell]} = W_\rvq^{[D], [d]}e^{[\Lambda],[d], [\ell]}
+Q^{[D], [\ell]} = W_\rvq^{[D], [d]}e^{[d], [\ell]}
 \label{eq-Q-fun-encoder}
 \end{equation}
 
 \begin{equation}\color{blue}
-V^{[\Lambda],[D], [\ell]} = W_\rvv^{[D], [d]}e^{[\Lambda],[d], [\ell]}
+V^{[D], [\ell]} = W_\rvv^{[D], [d]}e^{[d], [\ell]}
 \label{eq-V-fun-encoder}
 \end{equation}
 
 \begin{equation}\color{blue}
-e^{[\Lambda],[d], [\ell]} = E^{[\Lambda],[d], [L]}x^{[L],[\ell]}
+e^{[d], [\ell]} = E^{[d], [L]}x^{[L],[\ell]}
 \label{eq-p-fun-encoder}
 \end{equation}
 
 \begin{equation}\color{blue}
-n^{[\Lambda],[d], [\ell]} = \text{normalize}(N^{[\Lambda],[d], [\ell]} + F^{[\Lambda],[d], [\ell]})
+n^{[d], [\ell]} = \text{normalize}(N^{[d], [\ell]} + F^{[d], [\ell]})
 \label{eq-n-fun-encoder}
 \end{equation}
 
@@ -1168,6 +1180,7 @@ x^{[L],[\ell]} = \;\;\text{prior}
 \end{subequations}
 
 
+
 \subsection{Decoder}
 
 Fig.\ref{fig-texnn-for-decoder}
@@ -1175,72 +1188,69 @@ gives a
 bnet representation of
 the ``Decoder"
 portion of Fig.\ref{fig-vanilla-transformer}.
-The structure equations for that bnet,
+The structural equations for that bnet,
 printed in blue, are as follows.
 
 \begin{figure}[h!]\centering
 \begin{minipage}{.4\linewidth}
-\includegraphics[width=2in]{
-transformer/decoder.jpg}
+\includegraphics[width=2in]{transformer/decoder.jpg}
 \end{minipage}%blank lines between minispaces breaks this
 \begin{minipage}{.6\linewidth}
-$$\xymatrix@R=2.5pc@C=0.2pc{
+$$\xymatrix@R=3pc@C=0.2pc{
 &&&*+[F*:SpringGreen]{\underline{P}^{[L],[\ell]}}
 \\
 &&&*+[F*:Orchid]{\underline{I}^{[L],[\ell]}}\ar[u]
 \\
-&&&*+[F*:yellow]{\underline{Y}^{[\Lambda],[d], [\ell]}}\ar[u]
+&&&*+[F*:yellow]{\underline{Y}^{[d], [\ell]}}\ar[u]
 \\
-&&*+[F*:SkyBlue]{\underline{F}^{[\Lambda],[d], [\ell]}}\ar[ur]&
+&&*+[F*:SkyBlue]{\underline{F}^{[d], [\ell]}}\ar[ur]&
 \\
-&*+[F*:Dandelion]{\underline{a}^{[\Lambda],[D],[\ell]}}\ar[rr]^{U_\rva}&&*+[F*:yellow]{\underline{j}^{[\Lambda],[d], [\ell]}}\ar[ul]\ar[uu]
+&*+[F*:Dandelion]{\underline{a}^{[D],[\ell]}}\ar[rr]^{U_\rva}&&*+[F*:yellow]{\underline{j}^{[d], [\ell]}}\ar[ul]\ar[uu]
 \\
-*+[F*:Dandelion]{\underline{v}^{[\Lambda],[D], [\ell]}}\ar[ur]&*+[F*:Dandelion]{\underline{k}^{[\Lambda],[D], [\ell]}}\ar[u]&*+[F*:Dandelion]{\underline{q}^{[\Lambda],[D], [\ell]}}\ar[ul]&
+*+[F*:Dandelion]{\underline{v}^{[D], [\ell]}}\ar[ur]&*+[F*:Dandelion]{\underline{k}^{[D], [\ell]}}\ar[u]&*+[F*:Dandelion]{\underline{q}^{[D], [\ell]}}\ar[ul]&
 \\
-*+[F*:yellow]{\underline{n}^{[\Lambda],[d], [\ell]}}\ar[ur]_{U_\rvk}\ar[u]^{U_\rvv}&&&*+[F*:yellow]{\underline{J}^{[\Lambda],[d], [\ell]}}\ar[uu]\ar[ul]
+*+[F*:yellow]{\underline{n}^{[d], [\ell]}}\ar[ur]_{U_\rvk}\ar[u]^{U_\rvv}&&&*+[F*:yellow]{\underline{J}^{[d], [\ell]}}\ar[uu]\ar[ul]^{U_\rvq}
 \\
-&*+[F*:Dandelion]{\underline{A}^{[\Lambda],[D],[\ell]}}\ar[urr]^{W_\rva}&&
+&*+[F*:Dandelion]{\underline{A}^{[D],[\ell]}}\ar[urr]^{W_\rva}&&
 \\
-*+[F*:Dandelion]{\underline{Q}^{[\Lambda],[D], [\ell]}}\ar[ur]&*+[F*:Dandelion]{\underline{K}^{[\Lambda],[D], [\ell]}}\ar[u]&*+[F*:Dandelion]{\underline{V}^{[\Lambda],[D], [\ell]}}\ar[ul]&
+*+[F*:Dandelion]{\underline{Q}^{[D], [\ell]}}\ar[ur]&*+[F*:Dandelion]{\underline{K}^{[D], [\ell]}}\ar[u]&*+[F*:Dandelion]{\underline{V}^{[D], [\ell]}}\ar[ul]&
 \\
-&&&*+[F*:gray]{\underline{e}^{[\Lambda],[d],[\ell]}}\ar[uuu]\ar[ull]_{W_\rvk}\ar[ulll]^{W_\rvq}\ar[ul]_{W_\rvv}
+&&&*+[F*:gray]{\underline{e}^{[d],[\ell]}}\ar[uuu]\ar[ull]_{W_\rvk}\ar[ulll]^{W_\rvq}\ar[ul]_{W_\rvv}
 \\
 &&&*+[F*:Lavender]{\underline{x}^{[L],[\ell]}}\ar[u]
 \save
-\POS"3,1"."10,1"."3,4"."10,4"!C*+<4.0em>\frm{-,}
+\POS"3,1"."9,1"."3,4"."9,4"!C*+<6.0em>\frm{-,}
 \restore
-\\
-*+[F-,]{\;\;}&\text{$\Lambda$ layers}
 }$$
 \end{minipage}
-\caption{Decoder of Vanilla Transformer Net.}
+\caption{Decoder of Vanilla Transformer Net. The boxed part is repeated $\Lam$ times in a series connection.}
 \label{fig-texnn-for-decoder}
 \end{figure}
 
 \begin{subequations}
 
 \begin{equation}\color{blue}
-A^{[\Lambda],[D],[\ell]} = \text{Attention}(Q^{[\Lambda],[D], [\ell]},K^{[\Lambda],[D], [\ell]},V^{[\Lambda],[D], [\ell]})
+A^{[D],[\ell]} = \text{Attention}(Q^{[D], [\ell]},K^{[D], [\ell]},V^{[D], [\ell]})
 \label{eq-o-fun-decoder}
 \end{equation}
 
 \begin{equation}\color{blue}
-F^{[\Lambda],[d], [\ell]} = \text{feed\_forward\_nn}(j^{[\Lambda],[d], [\ell]})
+F^{[d], [\ell]} = \text{feed\_forward\_nn}(j^{[d], [\ell]})
 \label{eq-B-fun-decoder}
 \end{equation}
 
 \begin{equation}\color{blue}
-I^{[L],[\ell]} = W^{[L],[\Lambda], [d]}Y^{[\Lambda],[d], [\ell]}
+I^{[L],[\ell]} = W^{[L], [d]}Y^{[d], [\ell]}
 \label{eq-I-fun-decoder}
 \end{equation}
 
 \begin{equation}\color{blue}
-J^{[\Lambda],[d], [\ell]} = \text{normalize}(W_\rva^{[d], [D]}A^{[\Lambda],[D],[\ell]} + e^{[\Lambda],[d],[\ell]})
+J^{[d], [\ell]} = \text{normalize}(W_\rva^{[d], [D]}A^{[D],[\ell]} + e^{[d],[\ell]})
 \label{eq-a-fun-decoder}
 \end{equation}
 
 \begin{equation}\color{blue}
-K^{[\Lambda],[D], [\ell]} = W_\rvk^{[D],[d]}e^{[\Lambda],[d],[\ell]}
+K^{[D], [\ell]} = W_\rvk^{[D],[d]}e^{[d],[\ell]}
 \label{eq-K-fun-decoder}
 \end{equation}
 
@@ -1250,52 +1260,52 @@ P^{[L],[\ell]} = \text{softmax}(I^{[L],[\ell]})\;\;\text{$(\sum_{\alp\in[\ell]}P
 \end{equation}
 
 \begin{equation}\color{blue}
-Q^{[\Lambda],[D], [\ell]} = W_\rvq^{[D],[d]}e^{[\Lambda],[d],[\ell]}
+Q^{[D], [\ell]} = W_\rvq^{[D],[d]}e^{[d],[\ell]}
 \label{eq-Q-fun-decoder}
 \end{equation}
 
 \begin{equation}\color{blue}
-V^{[\Lambda],[D], [\ell]} = W_\rvv^{[D],[d]}e^{[\Lambda],[d],[\ell]}
+V^{[D], [\ell]} = W_\rvv^{[D],[d]}e^{[d],[\ell]}
 \label{eq-V-fun-decoder}
 \end{equation}
 
 \begin{equation}\color{blue}
-Y^{[\Lambda],[d], [\ell]} = \text{normalize}(F^{[\Lambda],[d], [\ell]} + J^{[\Lambda],[d], [\ell]})
+Y^{[d], [\ell]} = \text{normalize}(F^{[d], [\ell]} + J^{[d], [\ell]})
 \label{eq-Y-fun-decoder}
 \end{equation}
 
 \begin{equation}\color{blue}
-a^{[\Lambda],[D],[\ell]} = \text{Attention}(v^{[\Lambda],[D], [\ell]},k^{[\Lambda],[D], [\ell]},q^{[\Lambda],[D], [\ell]})
+a^{[D],[\ell]} = \text{Attention}(v^{[D], [\ell]},k^{[D], [\ell]},q^{[D], [\ell]})
 \label{eq-O-fun-decoder}
 \end{equation}
 
 \begin{equation}\color{blue}
-e^{[\Lambda],[d],[\ell]} = E^{[\Lambda],[d],[L]}x^{[L],[\ell]}
+e^{[d],[\ell]} = E^{[d],[L]}x^{[L],[\ell]}
 \label{eq-p-fun-decoder}
 \end{equation}
 
 \begin{equation}\color{blue}
-j^{[\Lambda],[d], [\ell]} = \text{normalize}(U_\rva^{[d],[D]}a^{[\Lambda],[D],[\ell]} + J^{[\Lambda],[d], [\ell]})
+j^{[d], [\ell]} = \text{normalize}(U_\rva^{[d],[D]}a^{[D],[\ell]} + J^{[d], [\ell]})
 \label{eq-j-fun-decoder}
 \end{equation}
 
 \begin{equation}\color{blue}
-k^{[\Lambda],[D], [\ell]} = U_\rvk^{[D],[d]}n^{[\Lambda],[d], [\ell]}
+k^{[D], [\ell]} = U_\rvk^{[D],[d]}n^{[d], [\ell]}
 \label{eq-k-fun-decoder}
 \end{equation}
 
 \begin{equation}\color{blue}
-n^{[\Lambda],[d], [\ell]} = \;\;\text{Prior coming from Encoder.}
+n^{[d], [\ell]} = \;\;\text{Prior coming from Encoder.}
 \label{eq-n-fun-decoder}
 \end{equation}
 
 \begin{equation}\color{blue}
-q^{[\Lambda],[D], [\ell]} = U_\rvq^{[D],[d]}J^{[\Lambda],[d], [\ell]}
+q^{[D], [\ell]} = U_\rvq^{[D],[d]}J^{[d], [\ell]}
 \label{eq-q-fun-decoder}
 \end{equation}
 
 \begin{equation}\color{blue}
-v^{[\Lambda],[D], [\ell]} = U_\rvv^{[D], [d]}n^{[\Lambda],[d], [\ell]}
+v^{[D], [\ell]} = U_\rvv^{[D], [d]}n^{[d], [\ell]}
 \label{eq-v-fun-decoder}
 \end{equation}
 
@@ -1305,3 +1315,26 @@ x^{[L],[\ell]} = \;\;\text{prior, right shifted output}
 \end{equation}
 
 \end{subequations}
+
+\section{BERT}
+
+BERT is a realization of the Encoder part of the Vanilla tranet.
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
+\begin{table}[!h]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+ & \cellcolor[HTML]{FFFFC7}BERT base & \cellcolor[HTML]{FFFFC7}BERT large \\ \hline
+\cellcolor[HTML]{FFFFC7}$\ell$ & 512? & 512? \\ \hline
+\cellcolor[HTML]{FFFFC7}\begin{tabular}[c]{@{}l@{}}$L$\\ {\tt vocab\_size}\end{tabular} & 30,522 & 30,522 \\ \hline
+\cellcolor[HTML]{FFFFC7}\begin{tabular}[c]{@{}l@{}}$d$\\ {\tt hidden size}\end{tabular} & 768 & 768 \\ \hline
+\cellcolor[HTML]{FFFFC7}\begin{tabular}[c]{@{}l@{}}$n_\rvh$\\ {\tt num\_attention\_heads}\end{tabular} & 12 & 12 \\ \hline
+\cellcolor[HTML]{FFFFC7}\begin{tabular}[c]{@{}l@{}}$\Lambda$\\ {\tt num\_hidden\_layers}\end{tabular} & 12 & 24 \\ \hline
+\cellcolor[HTML]{FFFFC7}\begin{tabular}[c]{@{}l@{}}$D'$\\ {\tt intermediate\_size}\end{tabular} & 3,072 & 3,072 \\ \hline
+\end{tabular}
+\caption{Some hyperparameters for BERT base and BERT large}
+\label{tab-bert}
+\end{table}
