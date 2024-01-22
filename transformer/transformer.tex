@@ -5,12 +5,12 @@ The primary reference for this chapter is  Ref.\cite{attention-is-all-you-need}.
 Ref.\cite{attention-is-all-you-need} is  
  the highly influential  2017 paper entitled
 ``Attention is all you need" 
-that introduced {\bf Transformer Networks} (TNs) and 
+that introduced {\bf Transformer Networks} (tranets) and 
 Attention into the AI vernacular.
 Besides Ref.\cite{attention-is-all-you-need},
 I also read blog posts
 such as Ref.\cite{joshi-trans}
-and the Wikipedia article on  TN (Ref. \cite{wiki-transformer}).
+and the Wikipedia article on  tranet (Ref. \cite{wiki-transformer}).
 For a complete list of the large number
 of excellent blog post that I read to learn
 this subject, see my open source software texnn
@@ -21,9 +21,9 @@ texnn is
 specifically for drawing the bnets
 of this chapter, but later I 
 generalized it to a stand-alone app that can draw
-any bnet (including SCMs, NNs and TNs), not just a TN bnet.}
+any bnet (including SCMs, NNs and tranets), not just a tranet bnet.}
 
-Transformer Networks (TN)
+Transformer Networks (tranet)
 have been taking the fields of
 Natural Language Processing (NLP)
 and Large Language Models (LLM)
@@ -34,7 +34,7 @@ For example,
 BERT (Bidirectional Encoder
 Representations from Transformers)
 and ChatGPT (Generative Pre-trained Transformer),
-two TN libraries that
+two tranet libraries that
 have been trained with
 huge databases such as all of
 English Wikipedia (2,500M words).
@@ -44,13 +44,13 @@ surprise to most people, including experts in AI/ML.
 My conjecture is that this surprising
 LLM performance is
  due to causality.
- Let me explain. I believe TNs and the LLM that use them, are just curve-fitters (so are Least Squares, vanilla NNs, Convolutional NNs, etc.). But, we lucked out, because
-TNs are very good at fitting causal data, and the space of all human generated text, including math
+ Let me explain. I believe tranets and the LLM that use them, are just curve-fitters (so are Least Squares, vanilla NNs, Convolutional NNs, etc.). But, we lucked out, because
+tranets are very good at fitting causal data, and the space of all human generated text, including math
 equations and computer code,
 is causality connected (i.e., has
 a {\bf causally connected topology}.).
 
-Normally, TNs are
+Normally, tranets are
 drawn as box diagrams
 that are somewhat cryptic and ambiguous, at least to me.
 In this chapter,
@@ -67,26 +67,26 @@ less ambiguous  and more understandable than the box diagrams.
 
 Recurrent Neural Nets (RNNs)
 are discussed in Chapter \ref{ch-rnn}.
-TNs are quickly displacing RNNs, 
-an older method, in NLP.  TNs are better than RNNs 
+tranets are quickly displacing RNNs, 
+an older method, in NLP.  tranets are better than RNNs 
 for doing NLP in several important ways. Whereas
  RNNs analyze the tokens (words) of a sentence 
 sequentially (like a Kalman Filter), 
-TNs analyze them in parallel, and thus are more
+tranets analyze them in parallel, and thus are more
  amenable to parallel computing. Also, because
  RNNs analyze the words of a sentence sequentially, 
 they tend to give more importance to the end 
 of a sentence than to its beginning. That's because 
 RNNs start forgetting the beginning of a sentence
  by the time they reach its end, like a patient 
-with Alzheimer's. TNs do not suffer from this malady.
+with Alzheimer's. tranets do not suffer from this malady.
 
 Dynamical bnets are discussed in Chapter \ref{ch-dyn-bnet}.
 In Chapter \ref{ch-rnn},
 we showed that RNNs
 are dynamical bnets.
 In this chapter
- we will show that TNs
+ we will show that tranets
 dynamical bnets too.
 
 
@@ -103,8 +103,10 @@ Let
 $\ell$ be the maximum number of words allowed in a sentence.
 Some words might be blanks (padding).
 
+$d$ be the so called {\bf hidden or embedding dimension}.
+
 $e_\alp^t\in \RR^{d}$ be
-a $d$ dimensional column vector
+a $d$ column vector
 for word $\alp\in [\ell]$ at time $t$.
 
 $W_\rvq^t, W_\rvk^t, W_\rvv^t\in \RR^{d\times d}$
@@ -119,38 +121,36 @@ They transform $e_\alp^t$
 as follows
 
 \beq
-\left\{
-\begin{array}{l}
 v_\alp^t = W_\rvv^t e_\alp^t
-\\
+\eeq
+\beq
 q_\alp^t = W_\rvq^t e_\alp^t
-\\
+\eeq
+\beq
 k_\alp^t = W_\rvk^t e_\alp^t
-\end{array}
-\right.
 \eeq
 
 
 
 \begin{figure}[h!]\centering
 $$\xymatrix@C=4pc{
-&{\underline{v_0^t}}\ar[dr]\ar[ddddr]\ar[dddddddr]&
+&{\underline{v_0^t}}\ar[dr]\ar[ddddr]\ar[dddddddr]&&
 \\
-{\underline{e_0^t}}\ar[dr]_{W_{\rvk}^t}\ar@[red][r]^{W_{\rvq}^t}\ar[ur]^{W_{\rvv}^t}&{\underline{q_0^t}}\ar@[red][r]&{\underline{e_0^{t+1}}}
+{\underline{e_0^t}}\ar[dr]_{W_{\rvk}^t}\ar@[red][r]^{W_{\rvq}^t}\ar[ur]^{W_{\rvv}^t}&{\underline{q_0^t}}\ar@[red][r]&{\underline{a_0^t}}\ar[r]^{1}&{\underline{e_0^{t+1}}}
 \\
-&{\underline{k_0^t}}\ar[ur]\ar[ddr]\ar[dddddr]&
+&{\underline{k_0^t}}\ar[ur]\ar[ddr]\ar[dddddr]&&
 \\
-&{\underline{v_1^t}}\ar[uur]\ar[dr]\ar[ddddr]&
+&{\underline{v_1^t}}\ar[uur]\ar[dr]\ar[ddddr]&&
 \\
-{\underline{e_1^t}}\ar[dr]_{W_{\rvk}^t}\ar@[red][r]^{W_{\rvq}^t}\ar[ur]^{W_{\rvv}^t}&{\underline{q_1^t}}\ar@[red][r]&{\underline{e_1^{t+1}}}
+{\underline{e_1^t}}\ar[dr]_{W_{\rvk}^t}\ar@[red][r]^{W_{\rvq}^t}\ar[ur]^{W_{\rvv}^t}&{\underline{q_1^t}}\ar@[red][r]&{\underline{a_1^t}}\ar[r]^{1}&{\underline{e_1^{t+1}}}
 \\
-&{\underline{k_1^t}}\ar[uuuur]\ar[ur]\ar[ddr]&
+&{\underline{k_1^t}}\ar[uuuur]\ar[ur]\ar[ddr]&&
 \\
-&{\underline{v_2^t}}\ar[uuuuur]\ar[uur]\ar[dr]&
+&{\underline{v_2^t}}\ar[uuuuur]\ar[uur]\ar[dr]&&
 \\
-{\underline{e_2^t}}\ar[dr]_{W_{\rvk}^t}\ar@[red][r]^{W_{\rvq}^t}\ar[ur]^{W_{\rvv}^t}&{\underline{q_2^t}}\ar@[red][r]&{\underline{e_2^{t+1}}}
+{\underline{e_2^t}}\ar[dr]_{W_{\rvk}^t}\ar@[red][r]^{W_{\rvq}^t}\ar[ur]^{W_{\rvv}^t}&{\underline{q_2^t}}\ar@[red][r]&{\underline{a_2^t}}\ar[r]^{1}&{\underline{e_2^{t+1}}}
 \\
-&{\underline{k_2^t}}\ar[uuuuuuur]\ar[uuuur]\ar[ur]&
+&{\underline{k_2^t}}\ar[uuuuuuur]\ar[uuuur]\ar[ur]&&
 \save
 \POS"2,1"."8,1"."2,1"."8,1"!C*+<1.0em>\frm{--}
 \POS"1,2"."3,2"."1,3"."3,3"!C*+<1.5em>\frm{--}
@@ -160,30 +160,31 @@ $$\xymatrix@C=4pc{
 }$$
 \caption{Recurrent single-head attention for 3 words. Time-slice $t$
 of dynamical bnet for
- a transformer network (TN)
+ a transformer network (tranet)
 of a 3-word sentence.
 Note that $k_\alp^t$
 for all $\alp$
-points to $\rve^{t+1}_\beta$ for all $\beta\in[\ell]$.
+points to $\rva^t_{\alp'}$ for all ${\alp'}$.
 Likewise,
 $\rvv_\alp^t$
 for all $\alp$
-points to $\rve^{t+1}_\beta$ for all $\beta\in [\ell]$.
+points to $\rva^t_{\alp'}$ for all ${\alp'}$.
 However, 
 $\rvq_\alp^t$
-points only to $\rve^{t+1}_\alp$.
+points only to $\rva^t_\alp$.
 }
-\label{fig-transformer-full-3-word}
+\label{fig-transformer-full3}
 \end{figure}
 
-Fig.\ref{fig-transformer}
-represents a TN 
+Fig.\ref{fig-transformer-full3}
+represents a tranet 
 of a 3-word sentence as a dynamical bnet.
 The TPMs,
 printed in blue,
 for bnet
-Fig.\ref{fig-transformer},
+Fig.\ref{fig-transformer-full3},
 are as follows:
+
 
 \beq\color{blue}
 P(v_\alp^t|e_\alp^t)=
@@ -207,53 +208,66 @@ k_\alp^t= W_\rvk^t e_\alp^t
 \eeq
 
 \beq\color{blue}
-P(e^{t+1}_\alp|v_.^t,q_\alp^t,
+P(e_\alp^{t+1}|a_\alp^t)=
+\indi(\;\;\;
+e_\alp^{t+1}= a_\alp^t
+\;\;\;)
+\eeq
+
+\beq\color{blue}
+P(a^{t+1}_\alp|v_.^t,q_\alp^t,
  k_.^t)
 =
 \indi(\;\;\;
-e_\alp^{t+1}=
-\sum_{\beta\in[\ell]}
-v_\beta^t
-P(\beta|q_\alp^t)
+a_\alp^{t+1}=
+\sum_{{\alp'}\in[\ell]}
+v_{\alp'}^t
+P({\alp'}|\alp)
 \;\;)
 \label{eq-attention-average}
 \eeq
 where the conditional
 probability 
-$P(\beta|q_\alp^t)$ is 
+$P({\alp'}|\alp)$ is 
 called defined as
 
 \beqa
-P(\beta|q_\alp^t)&=&
-\softmax((q_\alp^t)^T k_\beta^t)(\beta)
+P({\alp'}|\alp)&=&
+\softmax\left[\sum_{\delta \in [d]}
+(k^t)^{\delta, [\ell]} 
+(q^t)^{\delta, \alp}\right](\alp'|\alp)
 \\
 &=&
-\frac{e^{(q_\alp^t)^T k_\beta^t}}
-{\sum_{\beta'\in [\ell]}
-e^{(q_\alp^t)^T k_{\beta'}^t}}
+\frac{e^{(k_{\alp'}^t)^T q_\alp^t}}
+{\sum_{\alp''\in [\ell]}
+e^{(k_{\alp''}^t)^T q_\alp^t}}
 \eeqa
 
 The right hand side of Eq.(\ref{eq-attention-average})
 constitutes an average over 
 all the word vectors $\{\rvv_\alp^t: \alp\in[\ell]\}$
 in a sentence.
-This average, 
-or the conditional
-probability $P(\beta|q_\alp^t)$,
-are called an {\bf Attention}.
+This average is called a {\bf Attention}
+(for a single head).
+
+\beq
+\boxed{
+{\rm Attention}^{\delta,\alp} \left((v^t)^{[d],[\ell]},
+(k^t)^{[d],[\ell]},(q^t)^{[d],[\ell]}\right)=
+\sum_{\alp'\in [\ell]} (v^t)^{\delta, \alp'} P(\alp'|\alp)}
+\eeq
 
 
 
-
-On first encounter, the structure of a TN
+On first encounter, the structure of a tranet
 seems a bit mysterious. Then one realizes that this is
 an old friend. 
 If the dashed  boxes in 
-Fig.\ref{fig-transformer-full-3-word} are each ``shrunk" to single nodes,
-then it becomes a TAN Bayes Net. Each of the 3 subgraphs $\rve^t, (\rvv^t, \rvq^t, \rvk^t), \rve^{t+1} $
+Fig.\ref{fig-transformer-full3} are each ``shrunk" to single nodes,
+then it becomes a TAN Bayes Net. Each of the 3 subgraphs $\rve^t, (\rvv^t, \rvq^t, \rvk^t), \rva^t $
 also constitutes a TAN Bayes net. \footnote{Tree Augmented Naive (TAN) Bayes nets
 were introduced in Chapter \ref{ch-chow}}.\footnote{A {\bf reverse or upside down tree} is obtained by reversing the directions of all the arrows of a tree directed graph. A TAN Bayes net is normally defined as in Chapter\ref{ch-chow}, as a Naive Bayes net augmented with a tree. In transformers, the Naive Bayes Net is augmented with a reverse tree (RT) instead of a tree (T), so technically transformers contain RTAN (or simply AN) Bayes nets, not TAN Bayes nets. }
-In broad terms, Fig.\ref{fig-transformer-full-3-word}
+In broad terms, Fig.\ref{fig-transformer-full3}
 can be described by saying that
 each word undergoes a special
 kind of 3-class (q,k,v) Naive Bayes
@@ -262,24 +276,42 @@ and the results of that classification
 are sent to the new version of each word (except the q class which only sends
 info to one word, not all of them).
 
+Fig.\ref{fig-transformer-full3} can
+be ``folded" (i.e., the 3 words can be
+represented by as single node).
+When folded, Fig.\ref{fig-transformer-full3}
+becomes Fig.\ref{fig-transformer-recurrent-folded-1head}. Note that in Fig.\ref{fig-transformer-recurrent-folded-1head}, we have started indicating the
+shapes of tensors by a superscript,
+using the tensor notation
+explained in Section \ref{sec-numpy-tensors}. We will continue doing this henceforth in this chapter.
 
+The structure equations for 
+Fig.\ref{fig-transformer-recurrent-folded-1head}, printed in blue,
+are as follows.
 
 
 
 
 \begin{figure}[h!]\centering
 $$\xymatrix@R=4pc@C=4pc{
-&{\underline{(k^t)}^{[d],[\ell]}}\ar[dr]&
+&*+[F*:Dandelion]{\underline{(k^t)}^{[d],[\ell]}}\ar[dr]&&
 \\
-{\underline{(e^t)}^{[d],[\ell]}}\ar[ur]^{W_\rvk^{[d], [d]}}\ar@[red][r]^{W_\rvq^{[d], [d]}}\ar[dr]_{W_\rvv^{[d], [d]}}&{\underline{(q^t)}^{[d],[\ell]}}\ar@[red][r]&{\underline{(e^{t+1})}^{[d],[\ell]}}
+*+[F*:SkyBlue]{\underline{(e^t)}^{[d],[\ell]}}\ar[ur]^{W_\rvk^{[d], [d]}}\ar@[red][r]^{W_\rvq^{[d], [d]}}\ar[dr]_{W_\rvv^{[d], [d]}}&*+[F*:Dandelion]{\underline{(q^t)}^{[d],[\ell]}}\ar@[red][r]&*+[F*:Dandelion]{\underline{(a^t)}^{[d],[\ell]}}\ar[r]^{1}&*+[F*:SkyBlue]{\underline{(e^{t+1})}^{[d],[\ell]}}
 \\
-&{\underline{(v^t)}^{[d],[\ell]}}\ar[ur]&
+&*+[F*:Dandelion]{\underline{(v^t)}^{[d],[\ell]}}\ar[ur]&&
 }$$
-\caption{Recurrent single-head attention for $\ell=3$ words. Folded. Note that the  input $e^t$ and the output $e^{t+1}$ have the same shape.}
-\label{fig-texnn-for-transformer-recurrent-3-words-folded}
+\caption{Folded version of
+Fig.\ref{fig-transformer-full3} when $\ell=3$. Note that all orange nodes
+have the same tensor shape.}
+\label{fig-transformer-recurrent-folded-1head}
 \end{figure}
 
 \begin{subequations}
+
+\begin{equation}\color{blue}
+(a^t)^{[d],[\ell]} = \text{Attention}((v^t)^{[d],[\ell]},(k^t)^{[d],[\ell]},(q^t)^{[d],[\ell]})
+\label{eq-X-fun-transformer-recurrent-3-words-folded}
+\end{equation}
 
 \begin{equation}\color{blue}
 (e^t)^{[d],[\ell]} = \;\;\text{prior}
@@ -287,8 +319,8 @@ $$\xymatrix@R=4pc@C=4pc{
 \end{equation}
 
 \begin{equation}\color{blue}
-(e^{t+1})^{[d],[\ell]} = \text{Attention}((v^t)^{[d],[\ell]},(q^t)^{[d],[\ell]},(k^t)^{[d],[\ell]})
-\label{eq-X-fun-transformer-recurrent-3-words-folded}
+(e^{t+1})^{[d],[\ell]} = (a^t)^{[d],[\ell]}
+\label{eq-x-fun-transformer-recurrent-3-words-folded}
 \end{equation}
 
 \begin{equation}\color{blue}
@@ -309,21 +341,97 @@ $$\xymatrix@R=4pc@C=4pc{
 \end{subequations}
 
 
+
+
+
 \subsection{Multi-Head Attention}
+
+
+Let 
+
+$n_\rvh=$ number of heads. $\nu\in[n_\rvh]$.
+
+$D= n_\rvh d$,
+where $d$
+is, as before, the hidden, embedding dimension. $\Delta \in [D]$. We will do some tensor reshaping 
+$T^{[n_\rvh][d]}\rarrow T^{[D]}$, or, 
+equivalently,
+$T^{\nu, \delta}\rarrow T^{\Delta}$.
+
+\begin{equation}
+(k^t)^{\nu,\delta,\alp} =
+\sum_{\delta'\in [d]} W_\rvk^{\nu,\delta, \delta'} (e^t)^{\delta',\alp}
+\end{equation}
+
+\begin{equation}
+(q^t)^{\nu,\delta,\alp} =\sum_{\delta'\in [d]} W_\rvq^{\nu,\delta, \delta'} (e^t)^{\delta',\alp}
+\end{equation}
+
+\begin{equation}
+(v^t)^{\nu,\delta,\alp} =
+\sum_{\delta'\in [d]} W_\rvv^{\nu,\delta, \delta'} (e^t)^{\delta',\alp}
+\end{equation}
+
+We define the {\bf Multi-head Attention}
+by
+\beq
+\boxed{
+{\rm Attention}^{\nu, \delta, \alp}\left((v^t)^{[D],[\ell]},
+(k^t)^{[D],[\ell]},(q^t)^{[D],[\ell]}\right)=
+\sum_{\alp'\in[\ell]} (v^t)^{\nu, \delta, \alp'} P(\alp'|\alp, \nu)}
+\eeq
+where
+
+\beqa
+P({\alp'}|\alp, \nu)&=&
+\softmax\left[\sum_{\delta \in [d]}
+(k^t)^{\nu, \delta, [\ell]} 
+(q^t)^{\nu, \delta, \alp}\right](\alp'|\alp,\nu)
+\\
+&=&
+\frac{e^{(k^t)^{\nu, \delta, \alp'} 
+(q^t)^{\nu, \delta, \alp}}}
+{\sum_{\delta\in[d]}\sum_{\alp''\in [\ell]}
+e^{(k^t)^{\nu,\delta,\alp''} (q^t)^{\nu, \delta, \alp}}}
+\eeqa
 
 \begin{figure}[h!]\centering
 $$\xymatrix@R=4pc@C=4pc{
-&{\underline{(k^t)}^{[D],[\ell]}}\ar[dr]&
+&*+[F*:Dandelion]{\underline{(k^t)}^{[D],[\ell]}}\ar[dr]&&
 \\
-{\underline{(e^t)}^{[d],[\ell]}}\ar[ur]^{W_\rvk^{[D], [d]}}\ar@[red][r]^{W_\rvq^{[D], [d]}}\ar[dr]_{W_\rvv^{[D], [d]}}&{\underline{(q^t)}^{[D],[\ell]}}\ar@[red][r]&{\underline{(e^{t+1})}^{[d],[\ell]}}
+*+[F*:SkyBlue]{\underline{(e^t)}^{[d],[\ell]}}\ar[ur]^{W_\rvk^{[D], [d]}}\ar@[red][r]^{W_\rvq^{[D], [d]}}\ar[dr]_{W_\rvv^{[D], [d]}}&*+[F*:Dandelion]{\underline{(q^t)}^{[D],[\ell]}}\ar@[red][r]&*+[F*:Dandelion]{\underline{(a^t)}^{[D],[\ell]}}\ar[r]^{W_\rva^{[d],[D]}}&*+[F*:SkyBlue]{\underline{(e^{t+1})}^{[d],[\ell]}}
 \\
-&{\underline{(v^t)}^{[D],[\ell]}}\ar[ur]&
+&*+[F*:Dandelion]{\underline{(v^t)}^{[D],[\ell]}}\ar[ur]&&
 }$$
-\caption{Recurrent single-head attention for $\ell=3$ words. Folded. Note that the  input $e^t$ and the output $e^{t+1}$ have the same shape $([d], [\ell])$.}
-\label{fig-texnn-for-transformer-recurrent-3-words-folded-multi-head}
+\caption{Multi-head version of
+the single head tranet Fig.\ref{fig-transformer-recurrent-folded-1head}. Note that all orange nodes
+have the same tensor shape.}
+\label{fig-transformer-recurrent-folded-multi-head}
 \end{figure}
 
+The structure equations, printed in blue,
+for the bnet 
+Fig.\ref{fig-transformer-recurrent-folded-multi-head}, are as follows.
+Note that Attention always has the
+same shape as its 3 arguments. Note also that the
+3 weight matrices
+$W_\rvk^{[D], [d]}$,
+$W_\rvq^{[D], [d]}$,
+and
+$W_\rvv^{[D], [d]}$
+raise the hidden dimension,
+whereas the weight matrix 
+$W_\rva^{[d], [D]}$
+lowers it.
+$W_\rva^{[d], [D]}=1$
+in the single head case.
+
 \begin{subequations}
+
+\begin{equation}\color{blue}
+(a^t)^{[D],[\ell]} = \text{Attention}((v^t)^{[D],[\ell]},(k^t)^{[D],[\ell]},(q^t)^{[D],[\ell]})
+\label{eq-X-fun-transformer-recurrent-3-words-folded-multi-head}
+\end{equation}
 
 \begin{equation}\color{blue}
 (e^t)^{[d],[\ell]} = \;\;\text{prior}
@@ -331,8 +439,8 @@ $$\xymatrix@R=4pc@C=4pc{
 \end{equation}
 
 \begin{equation}\color{blue}
-(e^{t+1})^{[d],[\ell]} = \text{Multi-Head-Attention}((v^t)^{[D],[\ell]},(q^t)^{[D],[\ell]},(k^t)^{[D],[\ell]})
-\label{eq-X-fun-transformer-recurrent-3-words-folded-multi-head}
+(e^{t+1})^{[d],[\ell]} = W_\rva^{[d],[D]}(a^t)^{[D],[\ell]}
+\label{eq-x-fun-transformer-recurrent-3-words-folded-multi-head}
 \end{equation}
 
 \begin{equation}\color{blue}
@@ -353,19 +461,17 @@ $$\xymatrix@R=4pc@C=4pc{
 \end{subequations}
 
 
-\section{Vanilla TN}
+\section{Vanilla tranet}
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=6in]
 {transformer/transformer.png}
-\caption{Vanilla Transformer}
+\caption{Vanilla tranet}
 \label{fig-vanilla-transformer}
 \end{figure}
 
-Our tensor notation is discussed in Section 
-\ref{sec-numpy-tensors} of Bayesuvius.
-
+Let
 
 $\ell=$ maximum number of words in a sentence segment. $\alp\in [\ell]$, $\ell\sim 100$
 
@@ -380,6 +486,10 @@ $D=n_\rvh d=8(64)=512$, hidden dimension for all heads,
 $\Delta\in [D]$
 
 $\Lambda=6$, number of layers in plate (a.k.a., stack), $\lam\in[\Lambda]$
+
+Our tensor notation is discussed in Section 
+\ref{sec-numpy-tensors}.
+
 
 reshaping
 \beq
@@ -424,7 +534,7 @@ S^{\beta, \gamma}\right]
 _{\alp_\in [a], \gamma \in [c]}
 \eeq
 
-Most treatments of TN, including the
+Most treatments of tranet, including the
 ``Transformers is All You Need paper",  order the
 operations chronologically from
 left to right. So if $A$ occurs before $B$,
@@ -700,7 +810,7 @@ A hash character represents the SOS (start of sentence) token,
 and a period represents the EOS (end of sentence) token. Capital letters represent ground
 truth tokens, and lower case ones represent 
 predictions.}
-\label{fig-transformer-train-test}
+\label{fig-transformer-full-3-words-train-test}
 \end{figure}
 
 \item {\bf Masked Attention}
@@ -790,11 +900,11 @@ V^{[d],[\ell]} = \;\;\text{prior}
 \subsection{Multi-Head Attention}
 
 \begin{figure}[h!]\centering
-\begin{minipage}{.35\linewidth}
-\includegraphics[width=2in]{transformer/multi-head-att.png}
+\begin{minipage}{.3\linewidth}
+\includegraphics[width=1.7in]{transformer/multi-head-att.png}
 \end{minipage}%blank lines between minispaces breaks this
-\begin{minipage}{.65\linewidth}
-$$\xymatrix@C=0.7pc{
+\begin{minipage}{.7\linewidth}
+$$\xymatrix@C=1.3pc{
 &&*+[F*:Orchid]{\underline{Q_0}^{[d],[\ell]}}\ar[dddr]&&&
 \\
 &*+[F*:Dandelion]{\underline{Q}^{[D], [\ell]}}\ar[ur]\ar[dr]&&&&
@@ -803,7 +913,7 @@ $$\xymatrix@C=0.7pc{
 \\
 &&*+[F*:Orchid]{\underline{K_0}^{[d],[\ell]}}\ar[r]&*+[F*:Orchid]{\underline{A_0}^{[d],[\ell]}}\ar[dr]&&
 \\
-*+[F*:SpringGreen]{\underline{e}^{[d], [\ell]}}\ar[r]\ar[uuur]\ar[dddr]&*+[F*:Dandelion]{\underline{K}^{[D], [\ell]}}\ar[ur]\ar[dr]&&&*+[F*:yellow]{\underline{A}^{[D],[\ell]}}\ar[r]&*+[F*:Dandelion]{\underline{O}^{[d],[\ell]}}
+*+[F*:SpringGreen]{\underline{e}^{[d], [\ell]}}\ar[r]^{W_\rvk}\ar[uuur]^{W_\rvq}\ar[dddr]^{W_\rvv}&*+[F*:Dandelion]{\underline{K}^{[D], [\ell]}}\ar[ur]\ar[dr]&&&*+[F*:Dandelion]{\underline{A}^{[D],[\ell]}}\ar[r]^{W_\rva}&*+[F*:SpringGreen]{\underline{O}^{[d],[\ell]}}
 \\
 &&*+[F*:Orchid]{\underline{K_1}^{[d],[\ell]}}\ar[r]&*+[F*:Orchid]{\underline{A_1}^{[d],[\ell]}}\ar[ur]&&
 \\
@@ -814,7 +924,7 @@ $$\xymatrix@C=0.7pc{
 &&*+[F*:Orchid]{\underline{V_1}^{[d],[\ell]}}\ar[uuur]&&&
 }$$
 \end{minipage}
-\caption{Multi-head Attention with 2 heads.Note that the input $\rve$ and output $\underline{O}$ have the same shape.}
+\caption{Multi-head Attention with 2 heads. Note that the orange nodes all have the same tensor shape.}
 \label{fig-texnn-for-multi-head-att}
 \end{figure}
 
@@ -826,12 +936,12 @@ A^{[D],[\ell]} = [A_0^{[d],[\ell]}|A_1^{[d],[\ell]}]
 \end{equation}
 
 \begin{equation}\color{blue}
-A_0^{[d],[\ell]} = \text{scaled\_dot\_prod\_att}(Q_0^{[d],[\ell]},K_0^{[d],[\ell]},V_0^{[d],[\ell]})
+A_0^{[d],[\ell]} = \text{Attention}(V_0^{[d],[\ell]},K_0^{[d],[\ell]},Q_0^{[d],[\ell]})
 \label{eq-X-fun-multi-head-att}
 \end{equation}
 
 \begin{equation}\color{blue}
-A_1^{[d],[\ell]} = \text{scaled\_dot\_prod\_att}(Q_1^{[d],[\ell]},K_1^{[d],[\ell]},V_1^{[d],[\ell]})
+A_1^{[d],[\ell]} = \text{Attention}(V_1^{[d],[\ell]},K_1^{[d],[\ell]},Q_1^{[d],[\ell]})
 \label{eq-Y-fun-multi-head-att}
 \end{equation}
 
@@ -851,7 +961,7 @@ K_1^{[d],[\ell]} = \text{linear}(K^{[D], [\ell]})\;\;\text{(split, then project 
 \end{equation}
 
 \begin{equation}\color{blue}
-O^{[d],[\ell]} = W_\rvo^{[d],[D]}A^{[D],[\ell]}
+O^{[d],[\ell]} = W_\rva^{[d],[D]}A^{[D],[\ell]}
 \label{eq-F-fun-multi-head-att}
 \end{equation}
 
@@ -892,10 +1002,14 @@ e^{[d], [\ell]} = \;\;\text{prior}
 
 \end{subequations}
 
+
 \subsection{Encoder}
+
+
 \begin{figure}[h!]\centering
 \begin{minipage}{.4\linewidth}
-\includegraphics[width=2in]{transformer/encoder.jpg}
+\includegraphics[width=2in]{
+transformer/encoder.jpg}
 \end{minipage}%blank lines between minispaces breaks this
 \begin{minipage}{.6\linewidth}
 $$\xymatrix@R=2.5pc@C=0.1pc{
@@ -905,11 +1019,11 @@ $$\xymatrix@R=2.5pc@C=0.1pc{
 \\
 *+[F*:yellow]{\underline{N}^{[\Lambda],[d], [\ell]}}\ar[ur]\ar[uu]&&&
 \\
-&&*+[F*:Dandelion]{\underline{O}^{[\Lambda],[d], [\ell]}}\ar[ull]&
+&&*+[F*:Dandelion]{\underline{A}^{[\Lambda],[D], [\ell]}}\ar[ull]_{W_\rva}&
 \\
 &*+[F*:Dandelion]{\underline{Q}^{[\Lambda],[D], [\ell]}}\ar[ur]&*+[F*:Dandelion]{\underline{K}^{[\Lambda],[D], [\ell]}}\ar[u]&*+[F*:Dandelion]{\underline{V}^{[\Lambda],[D], [\ell]}}\ar[ul]
 \\
-*+[F*:gray]{\underline{e}^{[\Lambda],[d], [\ell]}}\ar[urr]\ar[uuu]\ar[ur]\ar[urrr]&&&
+*+[F*:gray]{\underline{e}^{[\Lambda],[d], [\ell]}}\ar[urr]^{W_\rvk}\ar[uuu]\ar[ur]^{W_\rvq}\ar[urrr]_{W_\rvv}&&&
 \\
 *+[F*:Lavender]{\underline{x}^{[L],[\ell]}}\ar[u]&&&
 \save
@@ -919,11 +1033,16 @@ $$\xymatrix@R=2.5pc@C=0.1pc{
 *+[F-,]{\;\;}&\text{$\Lambda$ layers}
 }$$
 \end{minipage}
-\caption{Encoder.}
+\caption{Encoder of Vanilla Transform Net.}
 \label{fig-texnn-for-encoder}
 \end{figure}
 
 \begin{subequations}
+
+\begin{equation}\color{blue}
+A^{[\Lambda],[D], [\ell]} = \text{Attention}(Q^{[\Lambda],[D], [\ell]},K^{[\Lambda],[D], [\ell]},V^{[\Lambda],[D], [\ell]})
+\label{eq-O-fun-encoder}
+\end{equation}
 
 \begin{equation}\color{blue}
 F^{[\Lambda],[d], [\ell]} = \text{feed\_forward\_nn}(N^{[\Lambda],[d], [\ell]})
@@ -936,13 +1055,8 @@ K^{[\Lambda],[D], [\ell]} = W_\rvk^{[D], [d]}e^{[\Lambda],[d], [\ell]}
 \end{equation}
 
 \begin{equation}\color{blue}
-N^{[\Lambda],[d], [\ell]} = \text{normalize}(e^{[\Lambda],[d], [\ell]} + O^{[\Lambda],[d], [\ell]})
+N^{[\Lambda],[d], [\ell]} = \text{normalize}(e^{[\Lambda],[d], [\ell]} + W_\rva^{[d],[D]}A^{[\Lambda],[D], [\ell]})
 \label{eq-N-fun-encoder}
-\end{equation}
-
-\begin{equation}\color{blue}
-O^{[\Lambda],[d], [\ell]} = \text{multi\_headed\_attention}(Q^{[\Lambda],[D], [\ell]},K^{[\Lambda],[D], [\ell]},V^{[\Lambda],[D], [\ell]})
-\label{eq-O-fun-encoder}
 \end{equation}
 
 \begin{equation}\color{blue}
@@ -971,7 +1085,6 @@ x^{[L],[\ell]} = \;\;\text{prior}
 \end{equation}
 
 \end{subequations}
-
 
 
 \subsection{Decoder}
