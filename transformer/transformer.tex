@@ -23,21 +23,23 @@ of this chapter, but later I
 generalized it to a stand-alone app that can draw
 any bnet (including SCMs, NNs and tranets), not just a tranet bnet.}
 
-Transformer Networks (tranet)
+Transformer Networks (tranets)
 have been taking the fields of
 Natural Language Processing (NLP)
 and Large Language Models (LLM)
 by storm in recent years.
 They were introduced in 2017 and already
 are the basis of numerous LLMs.
-For example,
+Two famous examples are,
 BERT (Bidirectional Encoder
 Representations from Transformers)
-and ChatGPT (Generative Pre-trained Transformer),
-two tranet libraries that
+and ChatGPT (Generative Pre-trained Transformer).
+Both of these
 have been trained with
-huge databases such as all of
-English Wikipedia (2,500M words).
+huge databases,
+of which all of
+the English Wikipedia ($\sim 10^9$ words)
+is but a small part.
 
 How well ChatGPT works was a huge
 surprise to most people, including experts in AI/ML.
@@ -87,7 +89,7 @@ we showed that RNNs
 are dynamical bnets.
 In this chapter
  we will show that tranets
-dynamical bnets too.
+are dynamical bnets too.
 
 
 In this chapter, we 
@@ -106,17 +108,17 @@ Some words might be blanks (padding).
 $d$ be the so called {\bf hidden or embedding dimension}.
 
 $e_\alp^t\in \RR^{d}$ be
-a $d$ column vector
+a $d$-dimensional  column vector
 for word $\alp\in [\ell]$ at time $t$.
 
 $W_\rvq^t, W_\rvk^t, W_\rvv^t\in \RR^{d\times d}$
 be the  weight matrices for time
 slice $t$.
-These matrices are learned by training
-the net.
 The letters $Q,K,V$ stand for
  Query, Key and Value,
 respectively.
+These matrices are learned by training
+the net.
 They transform $e_\alp^t$ 
 as follows
 
@@ -176,7 +178,8 @@ points only to $\rva^t_\alp$.
 Fig.\ref{fig-transformer-full3}
 represents a tranet 
 of a 3-word sentence as a dynamical bnet.
-The TPMs,
+The TPMs
+(Transition Probability Matrices),
 printed in blue,
 for bnet
 Fig.\ref{fig-transformer-full3},
@@ -276,7 +279,7 @@ each word undergoes a special
 kind of 3-class (q,k,v) Naive Bayes
 classification,
 and the results of that classification
-are sent to the new version of each word (except the q class which only sends
+are sent to the new version of every word (except the q class which only sends
 info to one word, not all of them).
 
 It's also useful to think of Attention
@@ -405,7 +408,8 @@ P({\alp'}|\alp, \nu)&=&
 (q^t)^{\nu, \delta, \alp}\right](\alp'|\alp,\nu)
 \\
 &=&
-\frac{e^{(k^t)^{\nu, \delta, \alp'} 
+\frac{
+\sum_{\delta\in[d]}e^{(k^t)^{\nu, \delta, \alp'} 
 (q^t)^{\nu, \delta, \alp}}}
 {\sum_{\delta\in[d]}\sum_{\alp''\in [\ell]}
 e^{(k^t)^{\nu,\delta,\alp''} (q^t)^{\nu, \delta, \alp}}}
@@ -419,7 +423,7 @@ $$\xymatrix@R=4pc@C=4pc{
 \\
 &*+[F*:Dandelion]{\underline{(v^t)}^{[D],[\ell]}}\ar[ur]&&
 }$$
-\caption{Dynamical bnet with single-head Attention for 3 words. Time-slice $t$.
+\caption{Dynamical bnet with single-head Attention for $\ell$ words. Time-slice $t$.
 This is a generalization of
 the single head Attention of Fig.\ref{fig-transformer-recurrent-folded-1head}. Note that all orange nodes
 have the same tensor shape.}
@@ -483,7 +487,7 @@ in the single head case.
 In this section, we
 will discuss
  the tranet of
- the "Attention is all you need" paper, Ref.\cite{attention-is-all-you-need}.
+ the ``Attention is all you need" paper, Ref.\cite{attention-is-all-you-need}.
  As is common in the literature,
  we will refer to that tranet as 
  the ``Vanilla" tranet.
@@ -515,13 +519,21 @@ $n_\rvh=8$, number of heads, $\nu \in[n_\rvh]$
 $D=n_\rvh d=8(64)=512$, hidden dimension for all heads,
 $\Delta\in [D]$
 
-$\Lambda=6$, number of layers in plate (a.k.a., stack), $\lam\in[\Lambda]$
+$\Lambda=6$, number copies,
+connected in series,
+of boxed bnet, $\lam\in[\Lambda]$
 
 Our tensor notation is discussed in Section 
 \ref{sec-numpy-tensors}.
 Here is a quick review
 of some of the more essential
-facts in that section on tensors:
+facts in that section on tensors.
+Below will often accompany 
+  an equation in tensor
+  component notation
+  with, in parenthesis, the equivalent matrix equation.
+ 
+ 
 
 \begin{itemize}
 
@@ -570,8 +582,8 @@ S^{\beta, \gamma}\right]
 _{\alp_\in [a], \gamma \in [c]}
 \eeq
 
-Most treatments of tranet, including the
-``Transformers is All You Need paper",  order the
+Most treatments of tranets, including the
+``Attention is all you need" paper,  order the
 operations chronologically from
 left to right. So if $A$ occurs before $B$,
 they write $AB$.
@@ -591,15 +603,11 @@ we discuss some of the
 definitions needed to
 understand and motivate
  Fig.\ref{fig-vanilla-transformer}.
- Below will often accompany 
- an equation in tensor
- component notation
- with, in parenthesis, the equivalent matrix equation.
  
  
  \begin{itemize}
  
- \item {\bf Encoder Input}
+ \item {\bf Encoder Input $x^{\beta, \alp}$}
  \beq
  x^{\beta, \alp} =\delta(\beta, \beta(\alp))
  \left(
@@ -607,7 +615,7 @@ understand and motivate
  \right)
  \eeq
 
-\item {\bf Embedding (a.k.a. encoding) Matrix}
+\item {\bf Embedding (a.k.a. encoding) Matrix $E^{\delta, \beta}$}
 
 \beq
 e^{\delta, \alp} = \sum_\beta 
@@ -619,7 +627,7 @@ e^{[d],[\ell]}= E^{[d], [L]}x^{[L], [\ell]}
 \right)
 \eeq
 
-\item{\bf Weight matrices}
+\item{\bf Weight matrices $W_\rvq, W_\rvk, W_\rvv$}
 
 \beq
 Q^{\nu,\delta, \alp}=\sum_{\delta'}
@@ -676,16 +684,16 @@ Q^{\nu, [d], [\ell]}\right]_{\nu\in[n_\rvh]}
 
 \beqa
 A^{\nu, 
-\delta, \alp'}&=&
-\sum_{{\alp}}
+\delta, \alp}&=&
+\sum_{{\alp'}}
 V^{\nu, \delta, {\alp'}}
 \underbrace{
 {\rm softmax}(B^{\nu, [\ell],\alp})(\alp'|\alp, \nu)}_{
-P({\alp'}|\nu, \alp)}
+P({\alp'}|\alp, \nu)}
 \eeqa
 
 \beq
-\sum_{{\alp'}\in [\ell]}P({\alp'}|\nu, \alp)=1
+\sum_{{\alp'}\in [\ell]}P({\alp'}| \alp, \nu)=1
 \eeq
 
 \beq
@@ -734,19 +742,20 @@ V^{[3], 1}P(1|1)
 \right]
 \eeq
 
-\item{\bf Positional Embedding Matrix}
+\item{\bf Positional Embedding Matrix
+$E_{pos}^{\delta,\beta}$}
  
-$E_{pos}^{[d],[\ell]}$
+
 
 \beq
 E_{pos}^{\delta, \beta}=
 \left\{
 \begin{array}{ll}
-\sin\left(\frac{\beta}
-{10^{4\delta/d}}\right)= \sin(2\pi \frac{\beta}{\lam(\delta)})
+\sin\left(2\pi\frac{\beta}
+{(2\pi)10^{4\delta/d}}\right)= \sin(2\pi \frac{\beta}{\lam(\delta)})
 & \text{if $\delta$ is even}
 \\
-\cos\left(\frac{\beta}{10^{4(\delta-1)/d}}\right)=
+\cos\left(2\pi\frac{\beta}{(2\pi)10^{4(\delta-1)/d}}\right)=
 \cos(2\pi\frac{\beta}{\lam(\delta)})
 & \text{if $\delta$ is odd}
 \end{array}
@@ -759,7 +768,11 @@ of $\beta$, but increases rapidly with $\delta$, from $\lam(\delta=0)=2\pi*1$ to
 $\lam(\delta=d)= 2\pi* 10^4$.
 
 Total Embedding equals initial embedding plus 
-positional embedding:$E = E_0 + E_{pos}$
+positional embedding:
+
+\beq
+E^{\delta, \beta} = E_0^{\delta, \beta} + E_{pos}^{\delta, \beta}
+\eeq
 
 
 The purpose of positional embedding is to take $e^{\beta, \alp}$ to $e^{\delta, \alp}=
@@ -768,21 +781,18 @@ where $e^{\delta, \alp}$ changes quickly as $\delta$ (i.e., position) changes.
 
 \item {\bf ReLU}
 
-For a tensor $T$ of arbitrary shape
+For a tensor $T$ of arbitrary shape,
 \beq
 ReLU(T) = (T)_+ = max(0, T)
 \eeq
 max element-wise
 
-\item {\bf Feed Forward neural net}
-\beq
-F(e^{[1], [\ell]}) = ReLU(e^{[1],[\ell]}
-W_1^{[\ell], [d]} + b_1^{[1],[d]}) W_2^{[d], [\ell]} + b_1^{[1],[\ell]}
-\eeq
+\item {\bf Feed Forward Neural Net}
+
 
 \beq
-F(e^{[\ell]}) = W_2^{[\ell], [d]}ReLU(
-W_1^{[d], [\ell]}e^{[\ell]} + b_1^{[d]})  + b_1^{[\ell]}
+F(e^{\delta, \alp}) = \sum_{\Delta'} W_2^{\delta, \Delta'}ReLU\left(\sum_{\delta'}
+W_1^{\Delta', \delta'}e^{\delta', \alp} + b_1^{\Delta', \alp}\right)  + b_2^{\delta, \alp}
 \eeq
 
 \item {\bf Softmax}
@@ -817,7 +827,7 @@ For example,
 
 For any $a\in\RR$,
 \beq
-(a,a,a)\rarrow (1, 1, 1)/3
+(a,a,a)\rarrow \frac{1}{3}(1, 1, 1)
 \eeq
 
 
@@ -839,18 +849,20 @@ Add \& Normalize just means $(A + B)/norm$ where $A$ and $B$
 are the two input signals and ``norm" is some norm of $A+B$ (for
 instance, $\norm{A+B}_2$).
 
-Normalization keeps the signal from growing too big and saturating the signal entering components upstream.
+Normalization keeps the signal from growing too big and saturating the signal that will enter components upstream.
 Normalization can also involve subtracting the mean $\av{X}$ of the signal $X$  so as to get a signal $X-\av{X}$  that has zero mean.
 
-\item {\bf Plates}
-
-Fig.\ref{fig-vanilla-transformer}
-uses plates (a.k.a. stacks). These are explained in Chapter \ref{ch-plates}.
+%\item {\bf Plates}
+%
+%Fig.\ref{fig-vanilla-transformer}
+%uses plates (a.k.a. stacks). These are explained in Chapter \ref{ch-plates}.
 
 
 \item {\bf Redundancy}
 
-For better results, the Decoder contains a pair of multi-head Attentions in series, and $\Lam$ of those pairs in parallel (i.e.,  $\Lam$ layers of a plate).
+For better results, the Encoder
+and Decoder both contain $\Lam$ 
+copies, connected in series, of the boxed bnet.
 
 \item{\bf Right Shifted Outputs}
 
@@ -880,21 +892,21 @@ predictions.}
 \item {\bf Masked Attention}
 
 \beq
-P(\alp'|\nu, \alp) = 0 
+P(\alp'|\alp, \nu) = 0 \;\;\;
 \text{ if $\alp'<\alp$}
 \eeq
-$\alp$ and $\alp'$ are
+$\alp$, and $\alp'$ are
 sentence positions and $\alp'$ is in the future (downstream)
 compared to $\alp$.
 So as to
 not violate causality,
-this condition enforces the constraint that no attention is paid to sentence positions in the future $\alp$.
+this condition enforces the constraint that no attention is paid to sentence positions in the future of $\alp$.
 
 
-\item {\bf plates}
-
-Fig.\ref{fig-vanilla-transformer}
-uses plates (a.k.a. stacks). These are explained in Chapter \ref{ch-plates}.
+%\item {\bf plates}
+%
+%Fig.\ref{fig-vanilla-transformer}
+%uses plates (a.k.a. stacks). These are explained in Chapter \ref{ch-plates}.
 
 
 \end{itemize}
@@ -1126,7 +1138,7 @@ $$\xymatrix@R=3.5pc@C=0.1pc{
 \restore
 }$$
 \end{minipage}
-\caption{Encoder of Vanilla Transformer Net. The boxed part is repeated $\Lam$ times in a series connection.}
+\caption{Encoder of Vanilla Transformer Net. $\Lam$ copies of the boxed part are connected in series.}
 \label{fig-texnn-for-encoder}
 \end{figure}
 
@@ -1223,7 +1235,7 @@ $$\xymatrix@R=3pc@C=0.2pc{
 \restore
 }$$
 \end{minipage}
-\caption{Decoder of Vanilla Transformer Net. The boxed part is repeated $\Lam$ times in a series connection.}
+\caption{Decoder of Vanilla Transformer Net. $\Lam$ copies of the boxed part are connected in series.}
 \label{fig-texnn-for-decoder}
 \end{figure}
 
@@ -1330,7 +1342,7 @@ BERT is a realization of the Encoder part of the Vanilla tranet.
  & \cellcolor[HTML]{FFFFC7}BERT base & \cellcolor[HTML]{FFFFC7}BERT large \\ \hline
 \cellcolor[HTML]{FFFFC7}$\ell$ & 512? & 512? \\ \hline
 \cellcolor[HTML]{FFFFC7}\begin{tabular}[c]{@{}l@{}}$L$\\ {\tt vocab\_size}\end{tabular} & 30,522 & 30,522 \\ \hline
-\cellcolor[HTML]{FFFFC7}\begin{tabular}[c]{@{}l@{}}$d$\\ {\tt hidden size}\end{tabular} & 768 & 768 \\ \hline
+\cellcolor[HTML]{FFFFC7}\begin{tabular}[c]{@{}l@{}}$d$\\ {\tt hidden\_size}\end{tabular} & 768 & 768 \\ \hline
 \cellcolor[HTML]{FFFFC7}\begin{tabular}[c]{@{}l@{}}$n_\rvh$\\ {\tt num\_attention\_heads}\end{tabular} & 12 & 12 \\ \hline
 \cellcolor[HTML]{FFFFC7}\begin{tabular}[c]{@{}l@{}}$\Lambda$\\ {\tt num\_hidden\_layers}\end{tabular} & 12 & 24 \\ \hline
 \cellcolor[HTML]{FFFFC7}\begin{tabular}[c]{@{}l@{}}$D'$\\ {\tt intermediate\_size}\end{tabular} & 3,072 & 3,072 \\ \hline
