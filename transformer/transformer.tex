@@ -49,7 +49,7 @@ LLM performance is
  Let me explain. I believe tranets and the LLM that use them, are just curve-fitters (so are Least Squares, vanilla NNs, Convolutional NNs, etc.). But, we lucked out, because
 tranets are very good at fitting causal data, and the space of all human generated text, including math
 equations and computer code,
-is causality connected (i.e., has
+is causally connected (i.e., has
 a {\bf causally connected topology}.).
 
 Normally, tranets are
@@ -791,9 +791,12 @@ max element-wise.
 
 
 \beq
-F(e^{\delta, \alp}) = \sum_{\Delta'} W_2^{\delta, \Delta'}ReLU\left(\sum_{\delta'}
-W_1^{\Delta', \delta'}e^{\delta', \alp} + b_1^{\Delta', \alp}\right)  + b_2^{\delta, \alp}
+F(e^{\delta, \alp}) = \sum_{\Delta\in[n_{ff}]} W_2^{\delta, \Delta}ReLU\left(\sum_{\delta'\in [d]}
+W_1^{\Delta, \delta'}e^{\delta', \alp} + b_1^{\Delta, \alp}\right)  + b_2^{\delta, \alp}
 \eeq
+
+$n_{ff}$ is called the {\tt intermediate\_size}
+in BERT.
 
 \item {\bf Softmax}
 
@@ -1340,13 +1343,14 @@ BERT is a realization of the Encoder part of the Vanilla tranet.
 \centering
 \begin{tabular}{|l|l|l|}
 \hline
- & \cellcolor[HTML]{FFFFC7}BERT base & \cellcolor[HTML]{FFFFC7}BERT large \\ \hline
+ & \cellcolor[HTML]{FFFFC7}BERT base & \cellcolor[HTML]{FFFFC7}BERT large \\ 
+ \hline
 \cellcolor[HTML]{FFFFC7}$\ell$ & 512? & 512? \\ \hline
-\cellcolor[HTML]{FFFFC7}\begin{tabular}[c]{@{}l@{}}$L$\\ {\tt vocab\_size}\end{tabular} & 30,522 & 30,522 \\ \hline
-\cellcolor[HTML]{FFFFC7}\begin{tabular}[c]{@{}l@{}}$d$\\ {\tt hidden\_size}\end{tabular} & 768 & 768 \\ \hline
-\cellcolor[HTML]{FFFFC7}\begin{tabular}[c]{@{}l@{}}$n_\rvh$\\ {\tt num\_attention\_heads}\end{tabular} & 12 & 12 \\ \hline
-\cellcolor[HTML]{FFFFC7}\begin{tabular}[c]{@{}l@{}}$\Lambda$\\ {\tt num\_hidden\_layers}\end{tabular} & 12 & 24 \\ \hline
-\cellcolor[HTML]{FFFFC7}\begin{tabular}[c]{@{}l@{}}$D'$\\ {\tt intermediate\_size}\end{tabular} & 3,072 & 3,072 \\ \hline
+\cellcolor[HTML]{FFFFC7}$L$, {\tt vocab\_size} & 30,522 & 30,522 \\ \hline
+\cellcolor[HTML]{FFFFC7}$d$, {\tt hidden\_size} & 768 & 768 \\ \hline
+\cellcolor[HTML]{FFFFC7}$n_\rvh$, {\tt num\_attention\_heads} & 12 & 12 \\ \hline
+\cellcolor[HTML]{FFFFC7}$\Lambda$, {\tt num\_hidden\_layers} & 12 & 24 \\ \hline
+\cellcolor[HTML]{FFFFC7}$n_{ff}$, {\tt intermediate\_size} & 3,072 & 3,072 \\ \hline
 \end{tabular}
 \caption{Some hyperparameters for BERT base and BERT large}
 \label{tab-bert}
