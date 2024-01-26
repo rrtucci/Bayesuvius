@@ -1246,7 +1246,7 @@ $$\xymatrix@R=2pc@C=0.2pc{
 \\
 &&&*+[F*:Lavender]{\underline{x}^{[L],[\ell]}}\ar[u]
 \save
-\POS"3,1"."9,1"."3,4"."9,4"!C*+<7.5em>\frm{-,}
+\POS"4,1"."9,1"."4,4"."9,4"!C*+<9em>\frm{-,}
 \restore
 }$$
 \end{minipage}
@@ -1257,8 +1257,18 @@ $$\xymatrix@R=2pc@C=0.2pc{
 \begin{subequations}
 
 \begin{equation}\color{blue}
+a^{[D],[\ell]} = \text{Attention}(v^{[D], [\ell]},k^{[D], [\ell]},q^{[D], [\ell]})
+\label{eq-O-fun-decoder}
+\end{equation}
+
+\begin{equation}\color{blue}
 A^{[D],[\ell]} = \text{Attention}(Q^{[D], [\ell]},K^{[D], [\ell]},V^{[D], [\ell]})
 \label{eq-o-fun-decoder}
+\end{equation}
+
+\begin{equation}\color{blue}
+e^{[d],[\ell]} = E^{[d],[L]}x^{[L],[\ell]}
+\label{eq-p-fun-decoder}
 \end{equation}
 
 \begin{equation}\color{blue}
@@ -1272,6 +1282,11 @@ I^{[L],[\ell]} = W^{[L], [d]}Y^{[d], [\ell]}
 \end{equation}
 
 \begin{equation}\color{blue}
+j^{[d], [\ell]} = \text{normalize}(U_\rva^{[d],[D]}a^{[D],[\ell]} + J^{[d], [\ell]})
+\label{eq-j-fun-decoder}
+\end{equation}
+
+\begin{equation}\color{blue}
 J^{[d], [\ell]} = \text{normalize}(W_\rva^{[d], [D]}A^{[D],[\ell]} + e^{[d],[\ell]})
 \label{eq-a-fun-decoder}
 \end{equation}
@@ -1279,41 +1294,6 @@ J^{[d], [\ell]} = \text{normalize}(W_\rva^{[d], [D]}A^{[D],[\ell]} + e^{[d],[\el
 \begin{equation}\color{blue}
 K^{[D], [\ell]} = W_\rvk^{[D],[d]}e^{[d],[\ell]}
 \label{eq-K-fun-decoder}
-\end{equation}
-
-\begin{equation}\color{blue}
-P^{[L],[\ell]} = \text{softmax}(I^{[L],[\ell]})\;\;\text{$(\sum_{\alp\in[\ell]}P^{[L], \alp}=1)$}
-\label{eq-G-fun-decoder}
-\end{equation}
-
-\begin{equation}\color{blue}
-Q^{[D], [\ell]} = W_\rvq^{[D],[d]}e^{[d],[\ell]}
-\label{eq-Q-fun-decoder}
-\end{equation}
-
-\begin{equation}\color{blue}
-V^{[D], [\ell]} = W_\rvv^{[D],[d]}e^{[d],[\ell]}
-\label{eq-V-fun-decoder}
-\end{equation}
-
-\begin{equation}\color{blue}
-Y^{[d], [\ell]} = \text{normalize}(F^{[d], [\ell]} + J^{[d], [\ell]})
-\label{eq-Y-fun-decoder}
-\end{equation}
-
-\begin{equation}\color{blue}
-a^{[D],[\ell]} = \text{Attention}(v^{[D], [\ell]},k^{[D], [\ell]},q^{[D], [\ell]})
-\label{eq-O-fun-decoder}
-\end{equation}
-
-\begin{equation}\color{blue}
-e^{[d],[\ell]} = E^{[d],[L]}x^{[L],[\ell]}
-\label{eq-p-fun-decoder}
-\end{equation}
-
-\begin{equation}\color{blue}
-j^{[d], [\ell]} = \text{normalize}(U_\rva^{[d],[D]}a^{[D],[\ell]} + J^{[d], [\ell]})
-\label{eq-j-fun-decoder}
 \end{equation}
 
 \begin{equation}\color{blue}
@@ -1327,8 +1307,23 @@ n^{[d], [\ell]} = \;\;\text{Prior coming from Encoder.}
 \end{equation}
 
 \begin{equation}\color{blue}
+P^{[L],[\ell]} = \text{softmax}(I^{[L],[\ell]})\;\;\text{$(\sum_{\alp\in[\ell]}P^{[L], \alp}=1)$}
+\label{eq-G-fun-decoder}
+\end{equation}
+
+\begin{equation}\color{blue}
 q^{[D], [\ell]} = U_\rvq^{[D],[d]}J^{[d], [\ell]}
 \label{eq-q-fun-decoder}
+\end{equation}
+
+\begin{equation}\color{blue}
+Q^{[D], [\ell]} = W_\rvq^{[D],[d]}e^{[d],[\ell]}
+\label{eq-Q-fun-decoder}
+\end{equation}
+
+\begin{equation}\color{blue}
+V^{[D], [\ell]} = W_\rvv^{[D],[d]}e^{[d],[\ell]}
+\label{eq-V-fun-decoder}
 \end{equation}
 
 \begin{equation}\color{blue}
@@ -1339,6 +1334,11 @@ v^{[D], [\ell]} = U_\rvv^{[D], [d]}n^{[d], [\ell]}
 \begin{equation}\color{blue}
 x^{[L],[\ell]} = \;\;\text{prior, right shifted output}
 \label{eq-R-fun-decoder}
+\end{equation}
+
+\begin{equation}\color{blue}
+Y^{[d], [\ell]} = \text{normalize}(F^{[d], [\ell]} + J^{[d], [\ell]})
+\label{eq-Y-fun-decoder}
 \end{equation}
 
 \end{subequations}
