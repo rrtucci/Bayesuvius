@@ -749,12 +749,12 @@ V^{[3], 1}P(1|1)
 \eeq
 
 \item{\bf Positional Embedding Matrix
-$E_{pos}^{\delta,\beta}$}
+$\cale_{pos}^{\delta,\beta}$}
  
 
 
 \beq
-E_{pos}^{\delta, \beta}=
+\cale_{pos}^{\delta, \beta}=
 \left\{
 \begin{array}{ll}
 \sin\left(2\pi\frac{\beta}
@@ -767,7 +767,7 @@ E_{pos}^{\delta, \beta}=
 \end{array}
 \right.
 \eeq
-$E_{pos}^{\delta, \beta}$ changes in phase by $\pi/2$  
+$\cale_{pos}^{\delta, \beta}$ changes in phase by $\pi/2$  
 every time $\delta$ changes by 1. Its wavelength 
 $\lam$ is independent
 of $\beta$, but increases rapidly with $\delta$, from $\lam(\delta=0)=2\pi*1$ to 
@@ -777,12 +777,12 @@ Total Embedding equals initial embedding plus
 positional embedding:
 
 \beq
-E^{\delta, \beta} = E_0^{\delta, \beta} + E_{pos}^{\delta, \beta}
+\cale^{\delta, \beta} = \cale_0^{\delta, \beta} + \cale_{pos}^{\delta, \beta}
 \eeq
 
 
 The purpose of positional embedding is to take $e^{\beta, \alp}$ to $e^{\delta, \alp}=
-\sum_\beta E^{\delta,\beta}_{pos} e^{\beta, \alp}$
+\sum_\beta \cale^{\delta,\beta}_{pos} e^{\beta, \alp}$
 where $e^{\delta, \alp}$ changes quickly as $\delta$ (i.e., position) changes.
 
 \item {\bf ReLU}
@@ -1132,9 +1132,9 @@ printed in blue, are as follows.
 $$\xymatrix@R=2pc@C=0.1pc{
 *+[F*:yellow]{\underline{n}^{[d], [\ell]}}&&&
 \\
-&*+[F*:SkyBlue]{\underline{F}^{[d], [\ell]}}\ar[ul]&&
+&*+[F*:SkyBlue]{\underline{F}^{[d], [\ell]}}\ar[ul]_{1}&&
 \\
-*+[F*:yellow]{\underline{N}^{[d], [\ell]}}\ar[ur]\ar[uu]&&&
+*+[F*:yellow]{\underline{N}^{[d], [\ell]}}\ar[ur]\ar[uu]^{1}&&&
 \\
 &&*+[F*:Dandelion]{\underline{A}^{[D], [\ell]}}\ar[ull]_{W_\rva}&
 \\
@@ -1142,9 +1142,9 @@ $$\xymatrix@R=2pc@C=0.1pc{
 \\
 &&&
 \\
-*+[F*:gray]{\underline{e}^{[d], [\ell]}}\ar[uurr]^{W_\rvk}\ar[uuuu]\ar[uur]^{W_\rvq}\ar[uurrr]_{W_\rvv}&&&
+*+[F*:gray]{\underline{e}^{[d], [\ell]}}\ar[uurr]^{W_\rvk}\ar[uuuu]^{1}\ar[uur]^{W_\rvq}\ar[uurrr]_{W_\rvv}&&&
 \\
-*+[F*:Lavender]{\underline{x}^{[L],[\ell]}}\ar[u]&&&
+*+[F*:Lavender]{\underline{x}^{[L],[\ell]}}\ar[u]^{\cale}&&&
 \save
 \POS"1,1"."5,1"."1,4"."5,4"!C*+<7.0em>\frm{-,}
 \restore
@@ -1162,6 +1162,11 @@ A^{[D], [\ell]} = \text{Attention}(Q^{[D], [\ell]},K^{[D], [\ell]},V^{[D], [\ell
 \end{equation}
 
 \begin{equation}\color{blue}
+e^{[d], [\ell]} = \cale^{[d], [L]}x^{[L],[\ell]}
+\label{eq-p-fun-encoder}
+\end{equation}
+
+\begin{equation}\color{blue}
 F^{[d], [\ell]} = \text{feed\_forward\_nn}(N^{[d], [\ell]})
 \label{eq-F-fun-encoder}
 \end{equation}
@@ -1169,6 +1174,11 @@ F^{[d], [\ell]} = \text{feed\_forward\_nn}(N^{[d], [\ell]})
 \begin{equation}\color{blue}
 K^{[D], [\ell]} = W_\rvk^{[D], [d]}e^{[d], [\ell]}
 \label{eq-K-fun-encoder}
+\end{equation}
+
+\begin{equation}\color{blue}
+n^{[d], [\ell]} = \text{normalize}(N^{[d], [\ell]} + F^{[d], [\ell]})
+\label{eq-n-fun-encoder}
 \end{equation}
 
 \begin{equation}\color{blue}
@@ -1187,23 +1197,11 @@ V^{[D], [\ell]} = W_\rvv^{[D], [d]}e^{[d], [\ell]}
 \end{equation}
 
 \begin{equation}\color{blue}
-e^{[d], [\ell]} = E^{[d], [L]}x^{[L],[\ell]}
-\label{eq-p-fun-encoder}
-\end{equation}
-
-\begin{equation}\color{blue}
-n^{[d], [\ell]} = \text{normalize}(N^{[d], [\ell]} + F^{[d], [\ell]})
-\label{eq-n-fun-encoder}
-\end{equation}
-
-\begin{equation}\color{blue}
 x^{[L],[\ell]} = \;\;\text{prior}
 \label{eq-R-fun-encoder}
 \end{equation}
 
 \end{subequations}
-
-
 
 
 \subsection{Decoder}
@@ -1226,15 +1224,15 @@ $$\xymatrix@R=2pc@C=0.2pc{
 \\
 &&&*+[F*:Orchid]{\underline{I}^{[L],[\ell]}}\ar[u]
 \\
-&&&*+[F*:yellow]{\underline{Y}^{[d], [\ell]}}\ar[u]
+&&&*+[F*:yellow]{\underline{Y}^{[d], [\ell]}}\ar[u]_{W_{fin}}
 \\
-&&*+[F*:SkyBlue]{\underline{F}^{[d], [\ell]}}\ar[ur]&
+&&*+[F*:SkyBlue]{\underline{F}^{[d], [\ell]}}\ar[ur]_{1}&
 \\
-&*+[F*:Dandelion]{\underline{a}^{[D],[\ell]}}\ar[rr]^{U_\rva}&&*+[F*:yellow]{\underline{j}^{[d], [\ell]}}\ar[ul]\ar[uu]
+&*+[F*:Dandelion]{\underline{a}^{[D],[\ell]}}\ar[rr]^{U_\rva}&&*+[F*:yellow]{\underline{j}^{[d], [\ell]}}\ar[ul]\ar[uu]_{1}
 \\
 *+[F*:Dandelion]{\underline{v}^{[D], [\ell]}}\ar[ur]&*+[F*:Dandelion]{\underline{k}^{[D], [\ell]}}\ar[u]&*+[F*:Dandelion]{\underline{q}^{[D], [\ell]}}\ar[ul]&
 \\
-*+[F*:yellow]{\underline{n}^{[d], [\ell]}}\ar[ur]_{U_\rvk}\ar[u]^{U_\rvv}&&&*+[F*:yellow]{\underline{J}^{[d], [\ell]}}\ar[uu]\ar[ul]^{U_\rvq}
+*+[F*:yellow]{\underline{n}^{[d], [\ell]}}\ar[ur]_{U_\rvk}\ar[u]^{U_\rvv}&&&*+[F*:yellow]{\underline{J}^{[d], [\ell]}}\ar[uu]_{1}\ar[ul]^{U_\rvq}
 \\
 &*+[F*:Dandelion]{\underline{A}^{[D],[\ell]}}\ar[urr]^{W_\rva}&&
 \\
@@ -1242,9 +1240,9 @@ $$\xymatrix@R=2pc@C=0.2pc{
 \\
 &&&
 \\
-&&&*+[F*:gray]{\underline{e}^{[d],[\ell]}}\ar[uuuu]\ar[uull]_{W_\rvk}\ar[uulll]^{W_\rvq}\ar[uul]_{W_\rvv}
+&&&*+[F*:gray]{\underline{e}^{[d],[\ell]}}\ar[uuuu]_{1}\ar[uull]_{W_\rvk}\ar[uulll]^{W_\rvq}\ar[uul]_{W_\rvv}
 \\
-&&&*+[F*:Lavender]{\underline{x}^{[L],[\ell]}}\ar[u]
+&&&*+[F*:Lavender]{\underline{x}^{[L],[\ell]}}\ar[u]_{\cale}
 \save
 \POS"4,1"."9,1"."4,4"."9,4"!C*+<9em>\frm{-,}
 \restore
@@ -1267,7 +1265,7 @@ A^{[D],[\ell]} = \text{Attention}(Q^{[D], [\ell]},K^{[D], [\ell]},V^{[D], [\ell]
 \end{equation}
 
 \begin{equation}\color{blue}
-e^{[d],[\ell]} = E^{[d],[L]}x^{[L],[\ell]}
+e^{[d],[\ell]} = \cale^{[d],[L]}x^{[L],[\ell]}
 \label{eq-p-fun-decoder}
 \end{equation}
 
@@ -1277,7 +1275,7 @@ F^{[d], [\ell]} = \text{feed\_forward\_nn}(j^{[d], [\ell]})
 \end{equation}
 
 \begin{equation}\color{blue}
-I^{[L],[\ell]} = W^{[L], [d]}Y^{[d], [\ell]}
+I^{[L],[\ell]} = W_{fin}^{[L], [d]}Y^{[d], [\ell]}
 \label{eq-I-fun-decoder}
 \end{equation}
 
@@ -1342,6 +1340,7 @@ Y^{[d], [\ell]} = \text{normalize}(F^{[d], [\ell]} + J^{[d], [\ell]})
 \end{equation}
 
 \end{subequations}
+
 
 
 \section{BERT}
