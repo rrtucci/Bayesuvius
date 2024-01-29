@@ -167,7 +167,7 @@ The weights matrix $W^{[b], [a]}$ is learned by training.
 Some pseudo-code
 \begin{mdframed}[hidealllines=true,backgroundcolor=blue!10]
 {\tt
-dropo = nn.Dropout(pdrop)
+dropo = nn.Dropout($p_{drop}$)
 
 $y^{[n], [b]}$ = dropo($x^{[n],[a]}$)
 }
@@ -183,14 +183,11 @@ for all  $\nu\in[n]$.
 {\tt Linear}. But at the end of the
 training,
 {\tt  Dropout} flips a coin
-for each row $W$, with $P(Heads)=pdrop, P(Tails)=1-pdrop=pkeep$. If the coin lands on T, it keeps that row of $W$, whereas if lands on H,
-it sets that row to zero. The
-resulting matrix  is then
-divided by $pkeep$.
-The resulting matrix after that  is denoted by $\HAT{W}$.
-
- Then it divides the resulting
-matrix by $pkeep$ and calls the r
+for each row of $W$, with $P(Heads)=p_{drop}, P(Tails)=1-p_{drop}=p_{keep}$. If the coin lands on T, it keeps that row of $W$, whereas if lands on H,
+it sets that row to zero. Then the
+matrix  is
+divided by $p_{keep}$.
+The final matrix after all these operations  is denoted by $\HAT{W}$.
 
 
 
@@ -223,9 +220,9 @@ meaning of the tensors $\lam$ and $Y$.
 
 Let
 
-$L=$ {\tt num\_embeddings}
+$L=$ number of embeddings
 
-$d=$ {\tt embedding\_dim}
+$d=$ embedding dimension
 
 
 $\lam\in[L]$, $\alp\in[\ell]$,
@@ -261,14 +258,14 @@ Y^{\delta, \alp} = E^{\delta, \lam(\alp)}
 
 
 \beq
-{\ul \lam}^{\alp} =\lam(\alp)
+\Lam^{\alp} =\lam(\alp)
 \eeq
 
 \beq
-{\ul \lam}^\alp\rarrow Y^{\delta, \alp}=E^{\delta, \lam(\alp)}
+\Lam^\alp\rarrow Y^{\delta, \alp}=E^{\delta, \lam(\alp)}
 \;\;
 (
-{\ul \lam}^{[\ell]}
+\Lam^{[\ell]}
 \rarrow Y^{[d], [\ell]})
 \eeq
 
@@ -276,25 +273,34 @@ Replace $\alp$ by
 $(\nu_1, \nu_2)$.
 
 \beq
-{\ul \lam}^{\nu_1, \nu_2}\rarrow Y^{\delta, \nu_1, \nu_2}=E^{\delta, \lam(\nu_1, \nu_2)}
+\Lam^{\nu_1, \nu_2}\rarrow Y^{\delta, \nu_1, \nu_2}=E^{\delta, \lam(\nu_1, \nu_2)}
 \;\;
 (
-{\ul \lam}^{[n_1], [n_2]}
+\Lam^{[n_1], [n_2]}
 \rarrow Y^{[d], [n_1], [n_2]})
 \eeq
 Actually, {\tt emb()} orders the tensor
 indices of the output so that the $\delta$ index is on the right side rather than the left side of the input indices. Thus,
 
 \beq
-{
-{\ul \lam}^{[n_1], [n_2]}
-\rarrow Y^{[n_1], [n_2], [d]}
-}
+Y^{[n_1], [n_2], [d]}={\tt emb}(
+\Lam^{[n_1], [n_2]})
 \eeq
 
 
 
 \item{\bf Cross Entropy Loss}
+
+Some pseudo-code
+\begin{mdframed}[hidealllines=true,backgroundcolor=blue!10]
+{\tt
+
+loss = nn.CrossEntropyLoss()
+
+output = loss(input=$x^{[n_\rvc], [n_\rvs]}$, target=$t^{[n_\rvs]}$)
+}
+\end{mdframed}
+
 
 {\bf Cross Entropy}
 in Information Theory

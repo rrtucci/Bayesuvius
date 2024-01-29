@@ -229,18 +229,28 @@ P({\alp'}|\alp)
 where the conditional
 probability 
 $P({\alp'}|\alp)$ is 
-called defined as
+called defined as\footnote{
+The reason sums over 
+$\delta\in[d]$ are divided by
+$\sqrt{d}$ is to 
+prevent the argument of
+the exponential from getting too
+large.
+}
 
 \beqa
 P({\alp'}|\alp)&=&
-\softmax\left[\sum_{\delta \in [d]}
+\softmax\left[
+\frac{1}{\sqrt{d}}\sum_{\delta \in [d]}
 (k^t)^{\delta, [\ell]} 
 (q^t)^{\delta, \alp}\right](\alp'|\alp)
 \\
 &=&
-\frac{e^{(k_{\alp'}^t)^T q_\alp^t}}
+\frac{\exp\left(
+\frac{1}{\sqrt{d}}(k_{\alp'}^t)^T q_\alp^t\right)}
 {\sum_{\alp''\in [\ell]}
-e^{(k_{\alp''}^t)^T q_\alp^t}}
+\exp\left(
+\frac{1}{\sqrt{d}}(k_{\alp''}^t)^T q_\alp^t\right)}
 \eeqa
 
 The right hand side of Eq.(\ref{eq-attention-average})
@@ -403,19 +413,22 @@ where
 
 \beqa
 P({\alp'}|\alp, \nu)&=&
-\softmax\left[\sum_{\delta \in [d]}
+\softmax\left[
+\frac{1}{\sqrt{d}}
+\sum_{\delta \in [d]}
 (k^t)^{\nu, \delta, [\ell]} 
 (q^t)^{\nu, \delta, \alp}\right](\alp'|\alp,\nu)
 \\
 &=&
 \frac{
 \exp\left[
+\frac{1}{\sqrt{d}}
 \sum_{\delta\in[d]}(k^t)^{\nu, \delta, \alp'} 
 (q^t)^{\nu, \delta, \alp}
 \right]
 }{
 \sum_{\alp''\in [\ell]}
-\exp\left[
+\exp\left[\frac{1}{\sqrt{d}}
 \sum_{\delta\in[d]}(k^t)^{\nu, \delta, \alp''} 
 (q^t)^{\nu, \delta, \alp}
 \right]}
@@ -621,15 +634,15 @@ understand and motivate
  \right)
  \eeq
 
-\item {\bf Embedding (a.k.a. encoding) Matrix $E^{\delta, \beta}$}
+\item {\bf Embedding (a.k.a. encoding) Matrix $\cale^{\delta, \beta}$}
 
 \beq
 e^{\delta, \alp} = \sum_\beta 
-E^{\delta, \beta}
+\cale^{\delta, \beta}
 x^{\beta, \alp}
 \;\;
 \left(
-e^{[d],[\ell]}= E^{[d], [L]}x^{[L], [\ell]}
+e^{[d],[\ell]}= \cale^{[d], [L]}x^{[L], [\ell]}
 \right)
 \eeq
 
@@ -641,7 +654,7 @@ W_\rvq^{\nu, \delta, \delta'}e^{\delta', \alp}
 \;\;
 \left(
 Q^{[D], [\ell]}=
-W_\rvq^{[D],[d]}E^{[d],[\ell]}
+W_\rvq^{[D],[d]}e^{[d],[\ell]}
 \right)
 \eeq
 
@@ -654,7 +667,7 @@ e^{\delta', \alp}
 \;\;
 \left(
 K^{[D], [\ell]}=
-W_\rvk^{[D],[d]}E^{[d],[\ell]}
+W_\rvk^{[D],[d]}e^{[d],[\ell]}
 \right)
 \eeq
 
@@ -666,7 +679,7 @@ e^{\delta', \alp}
 \;\;
 \left(
 V^{[D], [\ell]}=
-W_\rvv^{[D],[d]}E^{[d],[\ell]}
+W_\rvv^{[D],[d]}e^{[d],[\ell]}
 \right)
 \eeq
 
