@@ -1,0 +1,609 @@
+\chapter{Sentence Splitting with SentenceAx}
+\label{ch-sentence-ax}
+
+%        Assume:
+%        batch_size= 24, s_{ba}
+%        hidden_size= 768,  d
+%        NUM_ILABELS= 6, n_{il}
+%        ILABELLING_DIM= 30
+%        \Lam=2 iterative layers
+%		D=5 number of depths.
+%
+%        Below we show the shape of the input and output tensors for each layer.
+%
+%        LINES for depth=0
+%        LINES for depth=1
+%        LINES for depth=2
+%        LINES for depth=3
+%        LINES for depth=4
+%
+%        where LINES=
+%        encoding_layer: [24, 84, 6]->[24, 105, 768]
+%        *****iterative layer 0: [24, 105, 768]->[24, 105, 768]
+%        dropout: [24, 105, 768]->[24, 105, 768]
+%        bunch of torch operations: [24, 105, 768]->[24, 84, 768]
+%        merge layer: [24, 84, 768]->[24, 84, 300]
+%        ilabelling_layer: [24, 84, 300]->[24, 84, 6]
+%        encoding_layer: [24, 84, 6]->[24, 105, 768]
+%        *****iterative layer 1:  [24, 105, 768]->[24, 105, 768]
+%        dropout: [24, 105, 768]->[24, 105, 768]
+%        bunch of torch operations: [24, 105, 768]->[24, 84, 768]
+%        merge layer: [24, 84, 768]->[24, 84, 300]
+%        ilabelling_layer: [24, 84, 300]->[24, 84, 6]
+
+
+The SentenceAx software (at github repo Ref.\cite{sentence-ax-github}) is a complete re-write of the Openie6 software
+(at github repo Ref.\cite{openie6-repo}).
+ The Openie6 software is described by its creators
+ in the paper Ref.\cite{openie6-paper},
+ which we will henceforth refer to as O6.
+
+ SentenceAx is a fine tuning of the BERT model.
+ The BERT model is the encoder part of the
+ vanilla Transformer network which
+ we discuss in Chapter \ref{ch-transformer}.
+
+ This chapter describes the technical
+ aspects of SentenceAx. Although this chapter
+ can be read without reading O6, we highly recommend to
+ our readers that they read O6 also.
+ Some parts of this chapter are taken almost verbatim
+ from O6. Other parts try to fill-in gaps in the
+ explanations provided by O6 or to improve those explanations. Yet others parts describe small changes that we made to the Openie6 software, in an effort to improve its clarity.
+
+
+
+ This chapter often uses different
+ notation from that in O6, because the author
+ is a compulsive notation changer. The fact that I
+ might use a different notation to say the same thing by no means should be
+ interpreted  as an affirmation that I believe I have improved the O6 theory in a non-trivial way. I haven't.
+
+ In this chapter, we
+ will use the Numpy-like tensor notation
+ discussed in Section
+ \ref{sec-numpy-tensors}. In particular, note that $[n] = [0:n] = \{0, 1,\ldots, n-1\}$ and that $T^{[n], [m]}$ is an $n\times m$ matrix.
+
+\section{Preliminary Conventions}
+
+\subsection{Tensor Notation}
+Our tensor notation is discussed in Section
+\ref{sec-numpy-tensors}.
+Here is a quick review
+of some of the more essential
+facts in that section on tensors.
+Below will often accompany
+  an equation in tensor
+  component notation
+  with, in parenthesis, the equivalent matrix equation.
+
+
+
+\begin{itemize}
+
+\item{\bf reshaping}
+
+\beq
+T^{\nu, \delta}\rarrow T^{\Delta}
+\;\;
+\left(
+T^{[n_\rvh], [d]} \rarrow T^{[D]}
+\right)
+\eeq
+
+\beq
+T^{\Delta}\rarrow T^{\nu, \delta}
+\;\;
+\left(
+T^{[D]}\rarrow T^{[n_\rvh], [d]}
+\right)
+\eeq
+
+\item {\bf concatenation}
+\beq
+T^{[n]}= (T^0, T^1,\ldots, T^{n-1})=
+(T^\nu)_{\nu\in[n]}
+\eeq
+
+\item {\bf Hadamard product (element-wise, entry-wise multiplication)}
+\beq
+T^{[n]}* S^{[n]}= (T^\nu S^\nu)_{\nu\in[n]}
+\eeq
+
+
+\item {\bf Matrix multiplication}
+
+$T^{[n]}= T^{[n], [1]}$ is a column vector.
+
+\beq
+(T^{[n]})^T S^{[n]}=\text{scalar}
+\eeq
+
+\beq
+T^{[a],[b]}S^{[b], [c]}
+=\left[\sum_{\beta\in[b]} T^{\alp, \beta}
+S^{\beta, \gamma}\right]
+_{\alp_\in [a], \gamma \in [c]}
+\eeq
+Most treatments of tranets, including the
+O6 and PyTorch,  order the
+operations chronologically from
+left to right. So if $A$ occurs before $B$,
+they write $AB$.
+This is contrary
+to what is done in Linear Algebra, where one
+orders the operations chronologically from right to left, and one writes $BA$.
+We will adhere to the Linear Algebra
+convention, since it is so prevalent
+and is the overwhelming precedent.
+\end{itemize}
+
+
+\subsection{PyTorch conventions}
+
+
+
+\begin{itemize}
+\item {\bf Linear}
+
+Some pseudo-code
+\begin{mdframed}[hidealllines=true,backgroundcolor=blue!10]
+{\tt
+lin = nn.Linear(b, a)
+
+$y^{[n], [b]}$ = lin($x^{[n],[a]}$)
+}
+\end{mdframed}
+
+\beq
+x^{\nu, [a]}\rarrow y^{\nu, [b]}=W^{[b], [a]}x^{\nu, [a]}
+\eeq
+for all  $\nu\in[n]$.
+
+The weights matrix $W^{[b], [a]}$ is learned by training.
+
+\item {\bf Dropout}
+
+Some pseudo-code
+\begin{mdframed}[hidealllines=true,backgroundcolor=blue!10]
+{\tt
+dropo = nn.Dropout(pdrop)
+
+$y^{[n], [b]}$ = dropo($x^{[n],[a]}$)
+}
+\end{mdframed}
+
+
+\beq
+x^{\nu, [a]}\rarrow y^{\nu, [b]}=\HAT{W}^{[b], [a]}x^{\nu, [a]}
+\eeq
+for all  $\nu\in[n]$.
+
+{\tt Dropout} learns a weight matrix $W$ just like
+{\tt Linear}. But at the end of the
+training,
+{\tt  Dropout} flips a coin
+for each row $W$, with $P(Heads)=pdrop, P(Tails)=1-pdrop=pkeep$. If the coin lands on T, it keeps that row of $W$, whereas if lands on H,
+it sets that row to zero. The
+resulting matrix  is then
+divided by $pkeep$.
+The resulting matrix after that  is denoted by $\HAT{W}$.
+
+ Then it divides the resulting
+matrix by $pkeep$ and calls the r
+
+
+
+\item {\bf Embedding}
+
+Some pseudo-code
+\begin{mdframed}[hidealllines=true,backgroundcolor=blue!10]
+{\tt
+
+emb = nn.Embedding(num\_embeddings=$L$, embedding\_dim=$d$)
+
+$Y^{[n_1], [n_2], [d]}$ =
+emb($\lam^{[n_1], [n_2]}$)
+}
+\end{mdframed}
+
+In SentenceAx, we use $L=100$ and $d=768$ (for BERT base).
+The $d$ is the ``hidden dimension" of BERT.
+The $L$ could be as large as the vocab size
+of BERT, but since we consider only
+sentences with 100 words at most,
+we may set $L=100$. $L$
+doesn't appear in the final answer
+because we sum over $\lam\in[L]$.
+
+Next, we explain in more detail the
+meaning of the tensors $\lam$ and $Y$.
+
+
+
+Let
+
+$L=$ {\tt num\_embeddings}
+
+$d=$ {\tt embedding\_dim}
+
+
+$\lam\in[L]$, $\alp\in[\ell]$,
+$\nu_1\in [n_1]$, $\nu_2\in[n_2]$
+
+$\ell = \nu_1 \nu_2$.
+
+Consider a matrices $X, E, Y$ such that
+
+\beq
+Y^{\delta, \alp} = \sum_{\lam}E^{\delta, \lam}
+X^{\lam, \alp}
+\;\;\;
+\left(
+Y^{[d], [\ell]} = E^{[d], [L]} X^{[L], [\ell]}
+\right)
+\eeq
+Assume, furthermore, that
+matrix $X$ has 1-hot columns
+
+\beq
+X^{\lam, \alp}
+=
+\delta(\lam, \lam(\alp))
+\eeq
+where $\lam(): [\ell]\rarrow [L]$.
+
+Hence,
+
+\beq
+Y^{\delta, \alp} = E^{\delta, \lam(\alp)}
+\eeq
+
+
+\beq
+{\ul \lam}^{\alp} =\lam(\alp)
+\eeq
+
+\beq
+{\ul \lam}^\alp\rarrow Y^{\delta, \alp}=E^{\delta, \lam(\alp)}
+\;\;
+(
+{\ul \lam}^{[\ell]}
+\rarrow Y^{[d], [\ell]})
+\eeq
+
+Replace $\alp$ by
+$(\nu_1, \nu_2)$.
+
+\beq
+{\ul \lam}^{\nu_1, \nu_2}\rarrow Y^{\delta, \nu_1, \nu_2}=E^{\delta, \lam(\nu_1, \nu_2)}
+\;\;
+(
+{\ul \lam}^{[n_1], [n_2]}
+\rarrow Y^{[d], [n_1], [n_2]})
+\eeq
+Actually, {\tt emb()} orders the tensor
+indices of the output so that the $\delta$ index is on the right side rather than the left side of the input indices. Thus,
+
+\beq
+{
+{\ul \lam}^{[n_1], [n_2]}
+\rarrow Y^{[n_1], [n_2], [d]}
+}
+\eeq
+
+
+
+\item{\bf Cross Entropy Loss}
+
+{\bf Cross Entropy}
+in Information Theory
+
+\beqa
+H(P_{tar}^\s, P_{in}^\s)
+&=&
+-\sum_{\gamma\in[n_\rvc]}P_{tar}(\gamma|\s) \ln P_{in}(\gamma|\s)
+\\
+&=&-\sum_{\gamma\in[n_\rvc]}P_{tar}(\gamma|\s) \ln
+\left[\frac{P_{in}(\gamma|\s)}{P_{tar}(\gamma|\s)}
+P_{tar}(\gamma|\s)\right]
+\\
+&=&
+H(P_{tar}^\s) + D_{KL}(P_{in}^\s\parallel P_{tar}^\s)
+\eeqa
+{\bf Cross Entropy Loss} in PyTorch
+
+Let
+
+$n_\rvs=$ total number of samples being considered,
+usually batch size.
+$\s\in [n_\rvs]$
+
+$n_\rvc=$ number of classes in classification. $\gamma\in[n_\rvc]$
+
+
+$x^{[n_\rvc], [n_\rvs]}=$ input  samples
+
+$t^{[n_\rvs]}=$ target samples
+
+\beqa
+P_{in}(\gamma|\s)&=&
+\frac{\exp(x^{\gamma, \s})}
+{\sum_{\gamma'\in[n_\rvc]}\exp(x^{\gamma', \s})}
+\\
+&=&
+{\rm softmax}(x^{[n_\rvc], \s})(\gamma|\s)
+\eeqa
+
+Suppose $W^\gamma:values(\rvt)\rarrow[0,1]$
+for all $\gamma\in[n_\rvc]$.
+
+\beq
+P_{tar}(\gamma|\s)=
+\frac{
+W^\gamma (t^{\s})\indi(t^{\s}\neq -100)}
+{\sum_{\gamma\in[n_\rvc]}numerator}
+\eeq
+
+-100 can be replaced by any other integer
+in $values(\rvt)$ for which we want the loss to be zero (for example, an integer used for padding)
+
+
+
+
+\beq
+\call_{CE}^\s(t^{\s}, x^{[n_\rvc], \s})=
+H(P_{tar}(\cdot|\s), P_{in}(\cdot|\s))
+\eeq
+
+
+\beq
+\call_{CE} = \frac{1}{n_\rvs} \sum_{\s\in[n_\rvs]}\call_{CE}^\s
+\eeq
+
+For example, if $W^\gamma=1$, and $n_\rvc=2$,
+
+\beqa
+\call_{CE} &=& \frac{1}{n_\rvs}\sum_{\s}
+\left[
+P_{tar}(0|\s)\ln P_{in}(0|\s)
++
+P_{tar}(0|\s)\ln (1-P_{in}(0|\s))
+\right]
+\eeqa
+
+In SentenceAx
+
+$x^{[n_\rvc], [n_\rvs]}=$ {\tt ll\_loss\_input}
+
+$t^{[n_\rvs]}$ = {\tt l\_loss\_target}
+
+
+\end{itemize}
+
+\section{Bayesian Network for this model}
+
+Let
+
+$\ell_{pad}=84$, padding length, for this batch
+
+$\ell_{enc}=105$, encoded length, for this batch, $\ell_{enc}\geq \ell_{pad}$
+
+$n_{dep}=5$, number of copies of solid box connected in series, number of depths
+
+ $n_{att}=2$, number of copies of
+dashed box connected in series, number of iterative (attention) layers.
+
+
+$d=768$, hidden dimension per head
+
+$n_\rvh$, number of heads (BERT base)
+
+$D=d n_\rvh$, hidden dimension
+for all heads
+
+
+$s_{ba}=24$, batch size
+
+$n_{ila}=6$, number of ilabels
+
+$d_{ila}=300$, ilabeling dimension
+
+\section{Loss $\call$ for this model}
+
+The Loss $\call$ is the sum of the
+Cross Entropy Loss $\call_{CE}$ and 4 penalty losses $\call_i$ for $i\in PL$ where
+$PL=\{ POSC, HVC, HVE, EC\}$.
+
+
+\beq
+\call = \call_{CE} +
+\sum_{i\in PL} \lam_{i}\call_i
+\eeq
+
+The $\lam_i$ are hyper-parameters.
+
+Next we will define the CE loss and the 4 penalty losses.
+
+
+
+
+Penalty Losses
+
+Below, we will use the standard
+notation for the positive-part function (a.k.a.
+the reLU function)
+
+\beqa
+(x)_+ &=&
+\left\{
+\begin{array}{ll}
+x& \text{ if } x\geq0
+\\
+0& \text{ if } x< 0
+\end{array}
+\right.
+\\
+&=& {\rm max}(0, x)
+\eeqa
+Since loss is supposed to be bounded below
+ (usually loss is greater or equal to zero),
+ the positive-part function arises frequently  when defining a loss.
+
+
+
+Let
+
+$\ell=$ number of words, length of sentence. $\alp \in [\ell]$
+
+$M=$ number of depths. $\mu\in[M]$
+
+$w^\alp=$ word at position $\alp$
+
+$T_{pos}=\{N, V, JJ, RB\}$, POS tags, N=Noun, V=Verb, JJ=Adjective, RB=Adverb
+
+$T_{ex}=\{ N, R, O, S\}$\footnote{
+The Openie6 and SentenceAx software use
+a different set for $T_{ex}$. In SentenceAx, we use for
+$T_{ex}$ the list {\tt BASE\_EXTAGS} (defined globally
+in the file {\tt sax\_globals}.)
+In {\tt BASE\_EXTAGS}, N becomes NONE (or 0)
+and R becomes REL (or 3).
+Also, 2 tranets are trained by Openie6 and SentenceAx,
+one for extraction (task=ex), and one for splitting (task=cc).
+For splitting, $T_{ex}$ is replaced by $T_{cc}$. In SentenceAx, we use for
+$T_{cc}$ the list {\tt BASE\_CCTAGS}  (defined globally
+in the file {\tt sax\_globals}.)
+In {\tt BASE\_CCTAGS}, N becomes NONE (or 0)
+and R becomes CC (or 3).}. extraction tags (extags),  S=Subject, R=Relation, O=Object, N=None
+
+
+$T_{ex}\backslash N = T_{ex}-\{N\}$
+
+
+$POS^\alp\in T_{pos}$, Part Of Sentence of $w^\alp$.
+
+
+
+Importance indicator function.
+\beq
+IMP^\alp = \indi(POS^\alp \in T_{pos})
+\eeq
+
+Head verb indicator function. A {\bf head verb} is any verb that isn't a {\bf light verb}
+(do, be, is, has, etc.).
+
+\beq
+HV^\alp = \indi(w^\alp \text{ is a head verb})
+\eeq
+
+We will
+derive from the data an empirical probability $P(\rvt^{\mu, \alp} =t )$ for a table element
+$\rvt^{\mu, \alp}\in T_{ex}$, for all $\mu\in [M]$ and $\alp\in[\ell]$.
+
+O6 describes how the 4 penalty losses
+deal with the following sentence, which we will refer to
+henceforth as the red-sent:
+
+\begin{quote}\color{red}
+Obama gained popularity after
+Oprah endorsed him for the presidency.
+\end{quote}
+
+For the red-sent, the head verbs are {\color{red} gained, endorsed}
+
+Two valid extractions from red-sent are:
+{\color{red}(Obama; gained; popularity)}
+and {\color{red}(Oprah; endorsed him for;
+ the presidency)}.
+
+
+\begin{enumerate}
+
+\item {\bf Part of Speech Coverage (POSC)}
+
+All words important words should be part of at least one extraction.
+
+In red-sent: the words {\color{red}Obama, gained, popularity,
+Oprah, endorsed, presidency} must be covered in
+the set of extractions.
+
+\beq
+\call_{POSC}=\sum_{\alp\in [\ell]}IMP^{\alp}P_{POSC}(\alp)
+\eeq
+
+\beq
+P_{POSC}(\alp)=
+1-{\rm max}_{\mu\in [M]}
+{\rm max}_{t\in T_{ex}\backslash N}P(\rvt^{\mu, \alp}=t)
+\eeq
+
+\item {\bf Head Verb Coverage (HVC)}
+
+Each head verb
+should be present in the relation (R) span of some
+(but not too many) extractions.\footnote{A span is a list of contiguous words.}
+
+In red-sent: {\color{red} (Obama;
+gained; popularity), (Obama; gained; presidency)} is not a comprehensive set of extractions.
+
+\beq
+\call_{HVC}=
+\sum_{\alp\in [\ell]}
+HV^\alp P_{HVC}(\alp)
+\eeq
+
+\beq
+P_{HVC}(\alp)=
+\left|
+1-\sum_{\mu\in [M]}P(\rvt^{\mu, \alp}=R)
+\right|
+\eeq
+
+\item {\bf Head Verb Exclusivity (HVE)}
+
+The relation (R) span
+of one extraction can contain at most one head
+verb.
+
+In red-sent: {\color{red}gained popularity after Oprah endorsed} is not a good relation as it contains two
+head verbs
+
+\beq
+\call_{HVE}=
+\sum_{\mu\in [M]}
+\left(
+\sum_{\alp\in [\ell]}
+HV^\alp P(\rvt^{\mu, \alp}=R)
+-1
+\right)_+
+\eeq
+
+\item {\bf Extraction Count (EC)}
+
+The total number of extractions with head verbs in the relation (R) span
+must be no fewer than the number of head verbs
+in the sentence.
+
+\beq
+\call_{EC}=
+\left(
+\sum_{\alp\in[\ell]} HV^\alp
+-
+\sum_{\mu\in [M]}EC^\mu
+\right)_+
+\eeq
+
+\beq
+EC^\mu=
+{\rm max}_{\alp\in [\ell]}
+HV^\alp P(\rvt^{\mu, \alp}=R)
+\eeq
+
+
+\end{enumerate}
+
+
+
+
+
