@@ -33,7 +33,7 @@
 
 
 The SentenceAx software (at github repo Ref.\cite{sentence-ax-github}) is a complete re-write of the Openie6 software
-(at github repo Ref.\cite{openie6-repo}).
+(at github repo Ref.\cite{openie6-github}).
  The Openie6 software is described by its creators
  in the paper Ref.\cite{openie6-paper},
  which we will henceforth refer to as O6.
@@ -50,7 +50,6 @@ The SentenceAx software (at github repo Ref.\cite{sentence-ax-github}) is a comp
  Some parts of this chapter are taken almost verbatim
  from O6. Other parts try to fill-in gaps in the
  explanations provided by O6 or to improve those explanations. Yet others parts describe small changes that we made to the Openie6 software, in an effort to improve its clarity.
-
 
 
  This chapter often uses different
@@ -154,11 +153,19 @@ lin = nn.Linear(b, a)
 $y^{[n], [b]}$ = lin($x^{[n],[a]}$)
 }
 \end{mdframed}
-
+In the L2R (left to right) convention followed by PyTorch
 \beq
-x^{\nu, [a]}\rarrow y^{\nu, [b]}=W^{[b], [a]}x^{\nu, [a]}
+x^{\nu, [a]}\rarrow y^{\nu, [b]}=x^{\nu, [a]}W^{[a], [b]}
 \eeq
-for all  $\nu\in[n]$.
+for all  $\nu\in[n]$. Alternatively, in
+the R2L convention followed by Linear Algera,,
+\beq
+x^{[a], \nu}\rarrow y^{[b], \nu}=W^{[b], [a]}
+x^{ [a], \nu}
+\eeq
+ 
+Note that in PyTorch, the rightmost index of the input is the 
+one that is summed over.
 
 The weights matrix $W^{[b], [a]}$ is learned by training.
 
@@ -175,7 +182,7 @@ $y^{[n], [b]}$ = dropo($x^{[n],[a]}$)
 
 
 \beq
-x^{\nu, [a]}\rarrow y^{\nu, [b]}=\HAT{W}^{[b], [a]}x^{\nu, [a]}
+x^{\nu, [a]}\rarrow y^{\nu, [b]}=x^{\nu, [a]}\HAT{W}^{[a], [b]}
 \eeq
 for all  $\nu\in[n]$.
 
@@ -378,12 +385,6 @@ P_{tar}(0|\s)\ln (1-P_{in}(0|\s))
 \right]
 \eeqa
 
-In SentenceAx
-
-$x^{[n_\rvc], [n_\rvs]}=$ {\tt ll\_loss\_input}
-
-$t^{[n_\rvs]}$ = {\tt l\_loss\_target}
-
 
 \end{itemize}
 
@@ -411,9 +412,99 @@ for all heads
 
 $s_{ba}=24$, batch size
 
-$n_{ila}=6$, number of ilabels
+$n_{il}=6$, number of ilabels
 
-$d_{ila}=300$, ilabeling dimension
+$d_{me}=300$, merge dimension
+
+Fig.\ref{fig-texnn-for-sentence-ax-bnet}
+shows the bnet  for SentenceAx.\footnote{The
+bnet of Fig.\ref{fig-texnn-for-sentence-ax-bnet}
+was drawn with the help of the texnn software (Ref.\cite{texnn})}. The structural equations, printed in 
+blue, for that bnet, are as follows.
+
+\begin{figure}[h!]\centering
+$$\xymatrix@R=3.5pc@C=2.5pc{
+*+[F*:SkyBlue]{\underline{E}^{[768], [105]}}&&*+[F*:Orchid]{\underline{S}^{[768], [105]}}\ar[ll]_{1}\ar[r]^{W_{me}}&*+[F*:pink]{\underline{M}^{[300], [105]}}\ar[r]^{W_{il}}&*+[F*:SpringGreen]{\underline{L}^{[6], [105]}}
+\\
+&&*+[F*:Orchid]{\underline{n}^{[768], [105]}}\ar[u]_{1}&&
+\\
+&&*+[F*:Dandelion]{\underline{A}^{[D], [105]}}\ar[u]_{W_\rva}&&
+\\
+&*+[F*:Dandelion]{\underline{V}^{[D], [105]}}\ar[ur]&*+[F*:Dandelion]{\underline{K}^{[D], [105]}}\ar[u]&*+[F*:Dandelion]{\underline{Q}^{[D], [105]}}\ar[ul]&
+\\
+&&&&
+\\
+*+[F*:SkyBlue]{\underline{X}^{[768], [105]}}\ar@/^5pc/[uuuuurr]^{1}&&*+[F*:Orchid]{\underline{B}^{[768], [105]}}\ar[uu]^{W_\rvk}\ar[uur]_{W_\rvq}\ar[uul]^{W_\rvv}&&
+\save
+\POS"1,1"."5,1"."1,4"."5,4"!C*+<4.5em>\frm{-,}
+\POS"3,2"."5,2"."3,4"."5,4"!C*+<3.5em>\frm{--}
+\restore
+}$$
+\caption{SentenceAx Bayesian network. $D= d n_\rvh$ where $d=768$ is the hidden dimension per head, and $n_\rvh=12$ is the number of heads. 2 copies of dashed box connected in series. 5 copies of plain box connected in series.}
+\label{fig-texnn-for-sentence-ax-bnet}
+\end{figure}
+
+\begin{subequations}
+
+\begin{equation}\color{blue}
+A^{[D], [105]} = \text{Attention}(Q^{[D], [105]},K^{[D], [105]},V^{[D], [105]})
+\label{eq-A-fun-sentence-ax-bnet}
+\end{equation}
+
+\begin{equation}\color{blue}
+B^{[768], [105]} = \text{BERT}()
+\label{eq-B-fun-sentence-ax-bnet}
+\end{equation}
+
+\begin{equation}\color{blue}
+E^{[768], [105]} = X^{[768], [105]}
+\label{eq-E-fun-sentence-ax-bnet}
+\end{equation}
+
+\begin{equation}\color{blue}
+K^{[D], [105]} = W_\rvk^{[D], [768]}B^{[768], [105]}
+\label{eq-K-fun-sentence-ax-bnet}
+\end{equation}
+
+\begin{equation}\color{blue}
+L^{[6], [105]} = W_{il}^{[6],[300]}M^{[300], [105]}
+\label{eq-L-fun-sentence-ax-bnet}
+\end{equation}
+
+\begin{equation}\color{blue}
+M^{[300], [105]} = W_{me}^{[300], [768]}S^{[768], [105]}
+\label{eq-M-fun-sentence-ax-bnet}
+\end{equation}
+
+\begin{equation}\color{blue}
+n^{[768], [105]} = W_\rva^{[768], [D]}A^{[D], [105]}
+\label{eq-n-fun-sentence-ax-bnet}
+\end{equation}
+
+\begin{equation}\color{blue}
+Q^{[D], [105]} = W_\rvq^{[D], [768]}B^{[768], [105]}
+\label{eq-Q-fun-sentence-ax-bnet}
+\end{equation}
+
+\begin{equation}\color{blue}
+S^{[768], [105]} = X^{[768], [105]} + n^{[768], [105]}
+\label{eq-S-fun-sentence-ax-bnet}
+\end{equation}
+
+\begin{equation}\color{blue}
+V^{[D], [105]} = W_\rvv^{[D], [768]}B^{[768], [105]}
+\label{eq-V-fun-sentence-ax-bnet}
+\end{equation}
+
+\begin{equation}\color{blue}
+X^{[768], [105]} = 0
+\label{eq-X-fun-sentence-ax-bnet}
+\end{equation}
+
+\end{subequations}
+
+
+
 
 \section{Loss $\call$ for this model}
 
