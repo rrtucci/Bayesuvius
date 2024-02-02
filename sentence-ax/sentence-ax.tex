@@ -32,31 +32,34 @@
 %        ilabelling_layer: [24, 84, 300]->[24, 84, 6]
 
 
-The SentenceAx software (at github repo Ref.\cite{sentence-ax-github}) is a complete re-write of the Openie6 software
+The SentenceAx (Sax) software (at github repo Ref.\cite{sentence-ax-github}) is a complete re-write of the Openie6 (O6) software
 (at github repo Ref.\cite{openie6-github}).
- The Openie6 software is described by its creators
+Sax is $99\%$ identical algorithmically to O6 but it's packaged in what we hope is a friendlier form.
+ The O6 software is described by its creators
  in the paper Ref.\cite{openie6-paper},
- which we will henceforth refer to as O6.
+ which we will henceforth refer to as 
+ the O6 paper.
 
- SentenceAx is a fine tuning of the BERT model.
+ Sax is a fine tuning of the BERT model.
+ What this means in the
+ language of Bayesian
+ Networks is that we use
+ BERT as a prior
+ probability.
  The BERT model is the encoder part of the
  vanilla Transformer network which
  we discuss in Chapter \ref{ch-transformer}.
 
  This chapter describes the technical
- aspects of SentenceAx. Although this chapter
- can be read without reading O6, we highly recommend to
- our readers that they read O6 also.
+ aspects of Sax. Although this chapter
+ can be read without reading the O6 paper, we highly recommend to
+ our readers that they read the O6 paper also.
  Some parts of this chapter are taken almost verbatim
- from O6. Other parts try to fill-in gaps in the
- explanations provided by O6 or to improve those explanations. Yet others parts describe small changes that we made to the Openie6 software, in an effort to improve its clarity.
+ from the O6 paper. Other parts try to fill-in gaps in the
+ explanations provided by the O6 paper or to improve those explanations. Yet others parts describe small changes that we made to the O6 software, in an effort to improve its clarity.
 
 
- This chapter often uses different
- notation from that in O6, because the author
- is a compulsive notation changer. The fact that I
- might use a different notation to say the same thing by no means should be
- interpreted  as an affirmation that I believe I have improved the O6 theory in a non-trivial way. I haven't.
+
 
  In this chapter, we
  will use the Numpy-like tensor notation
@@ -125,7 +128,7 @@ S^{\beta, \gamma}\right]
 _{\alp_\in [a], \gamma \in [c]}
 \eeq
 Most treatments of tranets, including the
-O6 and PyTorch,  order the
+the O6 paper and PyTorch,  order the
 operations chronologically from
 left to right. So if $A$ occurs before $B$,
 they write $AB$.
@@ -158,7 +161,7 @@ In the L2R (left to right) convention followed by PyTorch
 x^{\nu, [a]}\rarrow y^{\nu, [b]}=x^{\nu, [a]}W^{[a], [b]}
 \eeq
 for all  $\nu\in[n]$. Alternatively, in
-the R2L convention followed by Linear Algera,,
+the R2L convention followed in Linear Algebra,
 \beq
 x^{[a], \nu}\rarrow y^{[b], \nu}=W^{[b], [a]}
 x^{ [a], \nu}
@@ -182,7 +185,14 @@ $y^{[n], [b]}$ = dropo($x^{[n],[a]}$)
 
 
 \beq
-x^{\nu, [a]}\rarrow y^{\nu, [b]}=x^{\nu, [a]}\HAT{W}^{[a], [b]}
+x^{\nu, [a]}\rarrow y^{\nu, [b]}=x^{\nu, [a]}\calw^{[a], [b]}
+\;\;\text{(in L2R)}
+\eeq
+\beq
+x^{\nu, [a]}\rarrow y^{\nu, [b]}=
+\calw^{[b], [a]}x^{\nu, [a]}
+\;\;
+\text{(in R2L)}
 \eeq
 for all  $\nu\in[n]$.
 
@@ -190,11 +200,11 @@ for all  $\nu\in[n]$.
 {\tt Linear}. But at the end of the
 training,
 {\tt  Dropout} flips a coin
-for each row of $W$, with $P(Heads)=p_{drop}, P(Tails)=1-p_{drop}=p_{keep}$. If the coin lands on T, it keeps that row of $W$, whereas if lands on H,
-it sets that row to zero. Then the
+for each row of $W^{[b], [a]}$ (resp., column of $W^{[a], [b]}$), with $P(Heads)=p_{drop}, P(Tails)=1-p_{drop}=p_{keep}$. If the coin lands on T, it keeps that $W^{[b], [a]}$ (resp., column of $W^{[a], [b]}$), whereas if lands on H,
+it sets that row (res., column) to zero. Then the
 matrix  is
 divided by $p_{keep}$.
-The final matrix after all these operations  is denoted by $\HAT{W}$.
+The final matrix after all these operations  is denoted by $\calw$.
 
 
 
@@ -211,7 +221,7 @@ emb($\lam^{[n_1], [n_2]}$)
 }
 \end{mdframed}
 
-In SentenceAx, we use $L=100$ and $d=768$ (for BERT base).
+In Sax, we use $L=100$ and $d=768$ (for BERT base).
 The $d$ is the ``hidden dimension" of BERT.
 The $L$ could be as large as the vocab size
 of BERT, but since we consider only
@@ -385,6 +395,74 @@ P_{tar}(0|\s)\ln (1-P_{in}(0|\s))
 \right]
 \eeqa
 
+\item {\bf unsqueeze-repeat-gather}
+
+Some pseudo-code
+\begin{mdframed}[hidealllines=true,backgroundcolor=blue!10]
+\begin{verbatim}
+lll_loc = ll_loc0.unsqueeze(2).\
+    repeat(1, 1, lll_state.shape[2])
+lll_out = torch.gather(
+    input=lll_state, dim=1, index=lll_loc)
+\end{verbatim}
+\end{mdframed}
+Sax uses trio of operations unsqueeze-repeat-gather
+in the manner of the above pseudo-code. We have already 
+discussed in Section \ref{sec-numpy-tensors}
+how each of these 3 operations
+acts individually . Here we will discuss how they
+act jointly, when used as in the above
+pseudo-code.
+
+Let
+
+{\tt lll\_state=} $S^{[s_{ba}],[a], [d]}$
+
+{\tt ll\_loc0=} $L_0^{[s_{ba}], [a]}$
+
+{\tt lll\_loc=} $L^{[s_{ba}], [b], [d]}$
+
+{\tt lll\_out=} $O^{[s_{ba}], [b], [d]}$
+
+$\s\in s_{ba}, \alp\in[a], \beta\in[b], \delta\in[d]$
+
+{\tt unsqueeze(2)} takes 
+
+\beq
+L_0^{[s_{ba}], [a]}\rarrow L_0^{[s_{ba}], [a], 0}
+\eeq
+
+{\tt lll\_state.shape[2]} equals $d$, and {\tt repeat(1, 1, d)}
+takes
+
+\beq
+L_0^{[s_{ba}], [a], 0}\rarrow
+L^{[s_{ba}], [a], [d]}= 
+(\underbrace{L_0^{[s_{ba}], [a], 0}, 
+\ldots,
+L_0^{[s_{ba}], [a], 0}}_
+{\text{$d$ times}}) 
+\eeq
+
+Let 
+
+\beq
+\lam(\s, \alp)
+=
+L^{\s, \alp, \delta}=
+L_0^{\s, \alp}
+\eeq 
+Then the {\tt gather()} 
+with {\tt dim=1} outputs
+
+\beq 
+O^{\s, \alp, \delta}=
+S^{\s, \lam(\s, \alp), \delta}
+\eeq
+
+
+
+
 
 \end{itemize}
 
@@ -392,9 +470,9 @@ P_{tar}(0|\s)\ln (1-P_{in}(0|\s))
 
 Let
 
-$\ell_{pad}=84$, padding length, for this batch
+$\ell_{pad}=86$, padding length, for this batch
 
-$\ell_{enc}=105$, encoded length, for this batch, $\ell_{enc}\geq \ell_{pad}$
+$\ell_{enc}=121$, encoded length, for this batch, $\ell_{enc}\geq \ell_{pad}$
 
 $n_{dep}=5$, number of copies of solid box connected in series, number of depths
 
@@ -417,93 +495,146 @@ $n_{il}=6$, number of ilabels
 $d_{me}=300$, merge dimension
 
 Fig.\ref{fig-texnn-for-sentence-ax-bnet}
-shows the bnet  for SentenceAx.\footnote{The
+shows the bnet  for Sax.\footnote{The
 bnet of Fig.\ref{fig-texnn-for-sentence-ax-bnet}
 was drawn with the help of the texnn software (Ref.\cite{texnn})}. The structural equations, printed in 
 blue, for that bnet, are as follows.
 
 \begin{figure}[h!]\centering
-$$\xymatrix@R=3.5pc@C=2.5pc{
-*+[F*:SkyBlue]{\underline{E}^{[768], [105]}}&&*+[F*:Orchid]{\underline{S}^{[768], [105]}}\ar[ll]_{1}\ar[r]^{W_{me}}&*+[F*:pink]{\underline{M}^{[300], [105]}}\ar[r]^{W_{il}}&*+[F*:SpringGreen]{\underline{L}^{[6], [105]}}
+$$\xymatrix@R=2.5pc@C=2.5pc{
+&*+[F*:pink]{\underline{S}^{[86], [768]}}\ar[rr]_{W_{me}}&&*+[F*:SkyBlue]{\underline{M}^{[86], [300]}}\ar[r]_{W_{il}}&*+[F*:SpringGreen]{\underline{L}^{[86], [6]}}
 \\
-&&*+[F*:Orchid]{\underline{n}^{[768], [105]}}\ar[u]_{1}&&
+&&*+[F*:pink]{\underline{E}^{[86], [768]}}\ar[ul]^{1}&*+[F*:yellow]{\underline{a}^{[86]}}\ar[l]&
 \\
-&&*+[F*:Dandelion]{\underline{A}^{[D], [105]}}\ar[u]_{W_\rva}&&
+&&*+[F*:pink]{\underline{G}^{[86], [768]}}\ar[ur]&&
 \\
-&*+[F*:Dandelion]{\underline{V}^{[D], [105]}}\ar[ur]&*+[F*:Dandelion]{\underline{K}^{[D], [105]}}\ar[u]&*+[F*:Dandelion]{\underline{Q}^{[D], [105]}}\ar[ul]&
+&&*+[F*:Orchid]{\underline{n}^{[121], [768]}}\ar[u]&&
+\\
+&&*+[F*:Dandelion]{\underline{A}^{[121], [D]}}\ar[u]_{W_\rva}&&
+\\
+&*+[F*:Dandelion]{\underline{V}^{[121], [D]}}\ar[ur]&*+[F*:Dandelion]{\underline{K}^{[121], [D]}}\ar[u]&*+[F*:Dandelion]{\underline{Q}^{[121], [D]}}\ar[ul]&
 \\
 &&&&
 \\
-*+[F*:SkyBlue]{\underline{X}^{[768], [105]}}\ar@/^5pc/[uuuuurr]^{1}&&*+[F*:Orchid]{\underline{B}^{[768], [105]}}\ar[uu]^{W_\rvk}\ar[uur]_{W_\rvq}\ar[uul]^{W_\rvv}&&
+&*+[F*:pink]{\underline{X}^{[86], [768]}}\ar@/^5pc/[uuuuuuu]^{1}&*+[F*:Orchid]{\underline{B}^{[121], [768]}}\ar[uu]^{W_\rvk}\ar[uur]_{W_\rvq}\ar[uul]^{W_\rvv}&&
 \save
-\POS"1,1"."5,1"."1,4"."5,4"!C*+<4.5em>\frm{-,}
-\POS"3,2"."5,2"."3,4"."5,4"!C*+<3.5em>\frm{--}
+\POS"1,1"."6,1"."1,4"."6,4"!C*+<3.5em>\frm{-,}
+\POS"4,2"."6,2"."4,4"."6,4"!C*+<2.5em>\frm{--}
 \restore
 }$$
-\caption{SentenceAx Bayesian network. $D= d n_\rvh$ where $d=768$ is the hidden dimension per head, and $n_\rvh=12$ is the number of heads. 2 copies of dashed box connected in series. 5 copies of plain box connected in series.}
+\caption{Sax Bayesian network. 2 copies of dashed box are connected in series. 5 copies of plain box are connected in series. We display the tensor shape superscripts in the Linear Algebra R2L order. (PyTorch uses a L2R order instead). All tensor shape superscripts have been simplified by omitting a $[s_{ba}]$, where $s_{ba}=24$ is the batch size. $D= d n_\rvh$ where $d=768$ is the hidden dimension per head, and $n_\rvh=12$ is the number of heads. }
 \label{fig-texnn-for-sentence-ax-bnet}
 \end{figure}
+
+\begin{tabular}{ll}
+$\underline{a}^{[86]}$ :&{\tt ll\_greedy\_ilabel}\\
+$\underline{B}^{[121], [768]}$ :&{\tt lll\_hidstate}\\
+$\underline{E}^{[86], [768]}$ :&{\tt lll\_pred\_code}\\
+$\underline{G}^{[86], [768]}$ :&{\tt lll\_word\_hidstate}\\
+$\underline{L}^{[86], [6]}$ :&{\tt lll\_word\_score}\\
+$\underline{M}^{[86], [300]}$ :&{\tt lll\_merge\_hidstate}\\
+$\underline{n}^{[121], [768]}$ :&{\tt lll\_hidstate}\\
+$\underline{S}^{[86], [768]}$ :&{\tt lll\_word\_hidstate}\\
+$\underline{X}^{[86], [768]}$ :&{\tt lll\_word\_hidstate}
+\end{tabular}
+
+
 
 \begin{subequations}
 
 \begin{equation}\color{blue}
-A^{[D], [105]} = \text{Attention}(Q^{[D], [105]},K^{[D], [105]},V^{[D], [105]})
+A^{[121], [D]} = \text{Attention}(Q^{[121], [D]},K^{[121], [D]},V^{[121], [D]})
 \label{eq-A-fun-sentence-ax-bnet}
 \end{equation}
 
 \begin{equation}\color{blue}
-B^{[768], [105]} = \text{BERT}()
+\begin{aligned}
+a^{[86]} &= \text{argmax}(G^{[86], [768]};dim=-1)
+\label{eq-a-fun-sentence-ax-bnet}
+\\ &:{\tt ll\_greedy\_ilabel}
+\end{aligned}
+\end{equation}
+
+\begin{equation}\color{blue}
+\begin{aligned}
+B^{[121], [768]} &= \text{BERT}()
 \label{eq-B-fun-sentence-ax-bnet}
+\\ &:{\tt lll\_hidstate}
+\end{aligned}
 \end{equation}
 
 \begin{equation}\color{blue}
-E^{[768], [105]} = X^{[768], [105]}
+\begin{aligned}
+E^{[86], [768]} &= \text{embedding}(a^{[86]})
 \label{eq-E-fun-sentence-ax-bnet}
+\\ &:{\tt lll\_pred\_code}
+\end{aligned}
 \end{equation}
 
 \begin{equation}\color{blue}
-K^{[D], [105]} = W_\rvk^{[D], [768]}B^{[768], [105]}
+\begin{aligned}
+G^{[86], [768]} &= \text{gather}(n^{[121], [768]})
+\label{eq-G-fun-sentence-ax-bnet}
+\\ &:{\tt lll\_word\_hidstate}
+\end{aligned}
+\end{equation}
+
+\begin{equation}\color{blue}
+K^{[121], [D]} = B^{[121], [768]}W_\rvk^{[768], [D]}
 \label{eq-K-fun-sentence-ax-bnet}
 \end{equation}
 
 \begin{equation}\color{blue}
-L^{[6], [105]} = W_{il}^{[6],[300]}M^{[300], [105]}
+\begin{aligned}
+L^{[86], [6]} &= M^{[86], [300]}W_{il}^{[300],[6]}
 \label{eq-L-fun-sentence-ax-bnet}
+\\ &:{\tt lll\_word\_score}
+\end{aligned}
 \end{equation}
 
 \begin{equation}\color{blue}
-M^{[300], [105]} = W_{me}^{[300], [768]}S^{[768], [105]}
+\begin{aligned}
+M^{[86], [300]} &= G^{[86], [768]}W_{me}^{[768], [300]}
 \label{eq-M-fun-sentence-ax-bnet}
+\\ &:{\tt lll\_merge\_hidstate}
+\end{aligned}
 \end{equation}
 
 \begin{equation}\color{blue}
-n^{[768], [105]} = W_\rva^{[768], [D]}A^{[D], [105]}
+\begin{aligned}
+n^{[121], [768]} &= A^{[121], [D]}W_\rva^{[D], [768]}
 \label{eq-n-fun-sentence-ax-bnet}
+\\ &:{\tt lll\_hidstate}
+\end{aligned}
 \end{equation}
 
 \begin{equation}\color{blue}
-Q^{[D], [105]} = W_\rvq^{[D], [768]}B^{[768], [105]}
+Q^{[121], [D]} = B^{[121], [768]}W_\rvq^{[768], [D]}
 \label{eq-Q-fun-sentence-ax-bnet}
 \end{equation}
 
 \begin{equation}\color{blue}
-S^{[768], [105]} = X^{[768], [105]} + n^{[768], [105]}
+\begin{aligned}
+S^{[86], [768]} &= X^{[86], [768]} + E^{[86], [768]}
 \label{eq-S-fun-sentence-ax-bnet}
+\\ &:{\tt lll\_word\_hidstate}
+\end{aligned}
 \end{equation}
 
 \begin{equation}\color{blue}
-V^{[D], [105]} = W_\rvv^{[D], [768]}B^{[768], [105]}
+V^{[121], [D]} = B^{[121], [768]}W_\rvv^{[768], [D]}
 \label{eq-V-fun-sentence-ax-bnet}
 \end{equation}
 
 \begin{equation}\color{blue}
-X^{[768], [105]} = 0
+\begin{aligned}
+X^{[86], [768]} &= 0
 \label{eq-X-fun-sentence-ax-bnet}
+\\ &:{\tt lll\_word\_hidstate}
+\end{aligned}
 \end{equation}
 
 \end{subequations}
-
-
 
 
 \section{Loss $\call$ for this model}
@@ -560,17 +691,17 @@ $w^\alp=$ word at position $\alp$
 $T_{pos}=\{N, V, JJ, RB\}$, POS tags, N=Noun, V=Verb, JJ=Adjective, RB=Adverb
 
 $T_{ex}=\{ N, R, O, S\}$\footnote{
-The Openie6 and SentenceAx software use
-a different set for $T_{ex}$. In SentenceAx, we use for
+The O6 and Sax software use
+a different set for $T_{ex}$. In Sax, we use for
 $T_{ex}$ the list {\tt BASE\_EXTAGS} (defined globally
-in the file {\tt sax\_globals}.)
+in the file {\tt Sax\_globals}.)
 In {\tt BASE\_EXTAGS}, N becomes NONE (or 0)
 and R becomes REL (or 3).
-Also, 2 tranets are trained by Openie6 and SentenceAx,
+Also, 2 tranets are trained by O6 and Sax,
 one for extraction (task=ex), and one for splitting (task=cc).
-For splitting, $T_{ex}$ is replaced by $T_{cc}$. In SentenceAx, we use for
+For splitting, $T_{ex}$ is replaced by $T_{cc}$. In Sax, we use for
 $T_{cc}$ the list {\tt BASE\_CCTAGS}  (defined globally
-in the file {\tt sax\_globals}.)
+in the file {\tt Sax\_globals}.)
 In {\tt BASE\_CCTAGS}, N becomes NONE (or 0)
 and R becomes CC (or 3).}. extraction tags (extags),  S=Subject, R=Relation, O=Object, N=None
 
@@ -598,7 +729,7 @@ We will
 derive from the data an empirical probability $P(\rvt^{\mu, \alp} =t )$ for a table element
 $\rvt^{\mu, \alp}\in T_{ex}$, for all $\mu\in [M]$ and $\alp\in[\ell]$.
 
-O6 describes how the 4 penalty losses
+the O6 paper describes how the 4 penalty losses
 deal with the following sentence, which we will refer to
 henceforth as the red-sent:
 
@@ -699,8 +830,3 @@ HV^\alp P(\rvt^{\mu, \alp}=R)
 
 
 \end{enumerate}
-
-
-
-
-

@@ -7672,16 +7672,19 @@ just replace it by $f(X)$,
 where $X$ is the contents of the box and
 $f$ is some function.
 
+Below, let $\alp\in[a]$, $\beta\in[b]$, $\gamma\in[c]$,
+$\nu\in[n]$,
+$\mu\in[m]$,
+$\nu_i\in[n_i]$.
+
 
 \begin{enumerate}
 \item {\bf broadcasting}
 
 \beq
 T^{\alpha,0} + S^{0,\beta}
-\rarrow
-\boxed{
+\rarrow Y^{\alp, \beta}=
 T^{\alpha, 0} + S^{0,\beta}
-}^{\alpha, \beta}
 \eeq
 
 \item {\bf concatenate()} along $dim=0$
@@ -7705,12 +7708,16 @@ T_2^{[n_2], \beta, \gamma}
 \eeq
 where $n= n_0 + n_1 + n_2$.
 
-\item {\bf expand\_dims()} (i.e., unsqueeze) along $dim=0$
+\item {\bf expand\_dims()} (same as {\bf unsqueeze()}) along $dim=0$
+
+\beq
+T^{[b], [c]}\rarrow Y^{0, [b], [c]}
+\eeq
 
 \beq
 T^{\beta, \gamma}
 \rarrow 
-\boxed{T^{\beta, \gamma}}^{0,\beta, \gamma}
+Y^{0,\beta, \gamma} =  T^{\beta, \gamma}
 \eeq
 
 \item {\bf flatten()}
@@ -7718,10 +7725,7 @@ T^{\beta, \gamma}
 \beq
 T^{
 {[n_0]},{[n_1]},{[n_2]}}\rarrow
-\boxed{
-T^{
-{[n_0]},{[n_1]},{[n_2]}}
-}^{[n]}
+Y^{[n]}
 \eeq
 where $n_0n_1n_2=n$.
 A more fine grained description is
@@ -7729,49 +7733,49 @@ A more fine grained description is
 \beq
 T^{
 {\alpha, \beta, \gamma}}\rarrow
-\boxed{
-T^{
-{[n_0]},{[n_1]},{[n_2]}}
-}^{\mu(\alpha, \beta, \gamma)}
+Y^{\nu(\alpha, \beta, \gamma)}
 \eeq
 where
 $n_0 n_1 n_2=n$ and
-$\mu:[n_0]\times[n_1]\times[n_2]\rarrow [n]$
+$\nu:[n_0]\times[n_1]\times[n_2]\rarrow [n]$
 is a 1-1 onto function.
 
 
 \item {\bf gather()}\footnote{This operation is available in
 PyTorch. So far Numpy doesn't have it in direct form.} along $dim=0$
 
+
 \beq
-\text{ source}=
-T^{
-[n],\beta, \gamma}\rarrow 
-\boxed{
-\begin{array}{l}
-T^{s_0^{[n]}(\beta, \gamma), \beta, \gamma}
-\\
-T^{s_1^{[n]}(\beta, \gamma), \beta, \gamma}
-\\
-\vdots
-\\
-T^{s_{m-1}^{[n]}(\beta, \gamma), \beta, \gamma}
-\end{array}
-}^{[m],\beta, \gamma}
+S^{[a], [n_1], [n_2]}
+\rarrow Y^{[b], [n_1], [n_2]}
 \eeq
 
 \beq
-{\rm index}=I^{[m], \beta, \gamma}=\boxed{
-\begin{array}{l}
-s_0^{[n]}(\beta, \gamma)
-\\
-s_1^{[n]}(\beta, \gamma)
-\\
-\vdots
-\\
-s_{m-1}^{[n]}(\beta, \gamma)
-\end{array}}^{[m], \beta, \gamma}
+S^{\alp, \nu_1, \nu_2}
+\rarrow
+Y^{\beta, \nu_1, \nu_2}=S^{\beta(\alp, \nu_1, \nu_2),
+\nu_1, \nu_2}
 \eeq
+
+\beq
+I^{\alp, \nu_1, \nu_2}=
+\beta(\alp, \nu_1, \nu_2)
+\eeq
+
+{\tt source=} $S^{[a], [n_1], [n_2]}$, 
+{\tt index=} $I^{[a], [n_1], [n_2]}$
+
+\item {\bf max()} and {\bf argmax()} along $dim=0$
+
+\beq
+{\rm max:}\;\; T^{[a], [b]}\rarrow T^{\alp_0, [b]}
+\eeq
+
+\beq
+{\rm argmax:}\;\; T^{[a], [b]}\rarrow \alp_0
+\eeq
+
+where $T^{\alp_0, \beta}=\max\{T^{\alp, \beta}: \alp\in[a]\}$
 
 
 
@@ -7809,10 +7813,7 @@ T^{
 [n_1],
 [n_2]}
 \rarrow
-\boxed{T^{
-[n_0],
-[n_1],
-[n_2]}}^{[n],[m]}
+Y^{[n],[m]}
 \eeq
 where
 $n_0n_1n_2=nm$. A more fine grained description is
@@ -7823,10 +7824,7 @@ T^{
 \beta,
 \gamma}
 \rarrow
-\boxed{T^{
-[n_0],
-[n_1],
-[n_2]}}^{\mu(\alpha, \beta, \gamma),
+Y^{\mu(\alpha, \beta, \gamma),
 \nu(\alpha, \beta, \gamma)}
 \eeq
 where $n_0n_1n_2=nm$ and
@@ -7862,9 +7860,16 @@ where $n= n_0 + n_1 + n_2$
 \item {\bf squeeze()} $dim=0$
 
 \beq
+T^{0,[b], [c]}
+\rarrow
+Y^{[b], [c]}
+\eeq
+
+\beq
 T^{0,\beta, \gamma}
 \rarrow
-\boxed{T^{0,\beta, \gamma}}^{\beta, \gamma}
+Y^{\beta, \gamma}=
+T^{0,\beta, \gamma}
 \eeq
 
 \item {\bf stack()} along $dim=0$
@@ -7890,15 +7895,52 @@ creates a new dimension
 whereas concatenate() doesn't. concatenate() just increases the range
 of an existing dimension.
 
+\item {\bf sum()} along $dim=0$
+
+\beq
+T^{[a], [b]}\rarrow \sum_{\alp} T^{\alp, [b]}
+\eeq
 
 \item {\bf tensordot()} (i.e., contraction) along $dim=0$
 
 \beq
-[T^{[n],\beta, \gamma}, S^{[n],\beta, \gamma}]\rarrow 
-T^{\alpha, \beta, \gamma}\delta_{\alpha,\alpha'} S^{\alpha',\beta, \gamma}
+[T^{[n],\beta}, S^{[n],\beta}]\rarrow 
+T^{\alpha, \beta}\delta_{\alpha,\alpha'} S^{\alpha',\beta}
+=
+\sum_\alp
+T^{\alp, \beta}S^{\alp, \beta}
 \eeq
 
+\item {\bf  tile()}\footnote{
+tile() in Numpy corresponds
+to repeat() in PyTorch.}
 
+\beq
+{\tt reps} = [2,3]
+\eeq
+
+\beq
+T^{[a], [b]}\rarrow 
+\boxed{
+\begin{array}{ccc}
+T^{[a], [b]} & T^{[a], [b]} & T^{[a], [b]}
+\\
+T^{[a], [b]} & T^{[a], [b]} & T^{[a], [b]}
+\end{array}
+}
+^{[2a], [3b]}
+\eeq
+
+\beq
+T^{\alp, \beta}\rarrow 
+\boxed{
+\begin{array}{ccc}
+T^{[a], [b]} & T^{[a], [b]} & T^{[a], [b]}
+\\
+T^{[a], [b]} & T^{[a], [b]} & T^{[a], [b]}
+\end{array}
+}^{A(\alp,\beta), B(\alp,\beta)}
+\eeq
 
 
 
