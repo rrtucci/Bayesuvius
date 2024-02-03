@@ -1,44 +1,24 @@
 \chapter{Sentence Splitting with SentenceAx}
 \label{ch-sentence-ax}
 
-%        Assume:
-%        batch_size= 24, s_{ba}
-%        hidden_size= 768,  d
-%        NUM_ILABELS= 6, n_{il}
-%        ILABELLING_DIM= 30
-%        \Lam=2 iterative layers
-%		D=5 number of depths.
-%
-%        Below we show the shape of the input and output tensors for each layer.
-%
-%        LINES for depth=0
-%        LINES for depth=1
-%        LINES for depth=2
-%        LINES for depth=3
-%        LINES for depth=4
-%
-%        where LINES=
-%        encoding_layer: [24, 84, 6]->[24, 105, 768]
-%        *****iterative layer 0: [24, 105, 768]->[24, 105, 768]
-%        dropout: [24, 105, 768]->[24, 105, 768]
-%        bunch of torch operations: [24, 105, 768]->[24, 84, 768]
-%        merge layer: [24, 84, 768]->[24, 84, 300]
-%        ilabelling_layer: [24, 84, 300]->[24, 84, 6]
-%        encoding_layer: [24, 84, 6]->[24, 105, 768]
-%        *****iterative layer 1:  [24, 105, 768]->[24, 105, 768]
-%        dropout: [24, 105, 768]->[24, 105, 768]
-%        bunch of torch operations: [24, 105, 768]->[24, 84, 768]
-%        merge layer: [24, 84, 768]->[24, 84, 300]
-%        ilabelling_layer: [24, 84, 300]->[24, 84, 6]
+The Openie6 (O6) software
+(at github repo Ref.\cite{openie6-github})
+splits complex or compound 
+sentences into
+simple ones.\footnote{Simple sentences are essentially
+the same  as the triples (subject, relationship, object) which when visualized as a directed or undirected graph
+is called a  ``knowledge graph".} This is a necessary step in doing 
+DAG extraction from text (DEFT) (See Chapter \ref{ch-deft}).
 
-
-The SentenceAx (Sax) software (at github repo Ref.\cite{sentence-ax-github}) is a complete re-write of the Openie6 (O6) software
-(at github repo Ref.\cite{openie6-github}).
-Sax is $99\%$ identical algorithmically to O6 but it's packaged in what we hope is a friendlier form.
- The O6 software is described by its creators
+The O6 software is described by its creators
  in the paper Ref.\cite{openie6-paper},
  which we will henceforth refer to as 
  the O6 paper.
+
+The SentenceAx (Sax) software (at github repo Ref.\cite{sentence-ax-github}) is a complete re-write of 
+the  O6 software.
+Sax is $95\%$ identical algorithmically to O6, but it has been rewritten in what we hope is a friendlier form.
+ 
 
  Sax is a fine tuning of the BERT model.
  What this means in the
@@ -72,13 +52,21 @@ Sax is $99\%$ identical algorithmically to O6 but it's packaged in what we hope 
 Our tensor notation is discussed in Section
 \ref{sec-numpy-tensors}.
 Here is a quick review
-of some of the more essential
+of some of the more salient
 facts in that section on tensors.
-Below will often accompany
+Below, we will often accompany
   an equation in tensor
   component notation
-  with, in parenthesis, the equivalent matrix equation.
+  with the equivalent matrix equation,
+  in parenthesis.
+  
+We use  
+Greek letters for 
+tensor indices.
 
+Let $\alp\in[a]$, $\beta\in[b]$, $\gamma\in[c]$,
+$\delta \in[d]$,
+$\nu\in[n]$, $\Delta\in[D]$.
 
 
 \begin{itemize}
@@ -127,18 +115,28 @@ T^{[a],[b]}S^{[b], [c]}
 S^{\beta, \gamma}\right]
 _{\alp_\in [a], \gamma \in [c]}
 \eeq
-Most treatments of tranets, including the
+
+\end{itemize}
+
+Most treatments of Transformer Networks (tranets), including the
 the O6 paper and PyTorch,  order the
 operations chronologically from
-left to right. So if $A$ occurs before $B$,
+left to right (L2R). So if $A$ occurs before $B$,
 they write $AB$.
 This is contrary
 to what is done in Linear Algebra, where one
-orders the operations chronologically from right to left, and one writes $BA$.
-We will adhere to the Linear Algebra
-convention, since it is so prevalent
-and is the overwhelming precedent.
-\end{itemize}
+orders the operations chronologically from right to left (R2L), and one writes $BA$.
+In Chapter \ref{ch-transformer}
+on tranets,
+we followed the Linear Algebra
+convention.
+In this chapter,
+we will
+follow the PyTorch
+convention,
+because Sax is written with 
+PyTorch
+so it uses the PyTorch convention.
 
 
 \subsection{PyTorch conventions}
@@ -179,18 +177,18 @@ Some pseudo-code
 {\tt
 dropo = nn.Dropout($p_{drop}$)
 
-$y^{[n], [b]}$ = dropo($x^{[n],[a]}$)
+$y^{[n], [a]}$ = dropo($x^{[n],[a]}$)
 }
 \end{mdframed}
 
 
 \beq
-x^{\nu, [a]}\rarrow y^{\nu, [b]}=x^{\nu, [a]}\calw^{[a], [b]}
+x^{\nu, [a]}\rarrow y^{\nu, [a]}=x^{\nu, [a]}\calw_R^{[a], [a]}
 \;\;\text{(in L2R)}
 \eeq
 \beq
-x^{\nu, [a]}\rarrow y^{\nu, [b]}=
-\calw^{[b], [a]}x^{\nu, [a]}
+x^{\nu, [a]}\rarrow y^{\nu, [a]}=
+\calw_L^{[a], [a]}x^{\nu, [a]}
 \;\;
 \text{(in R2L)}
 \eeq
@@ -200,11 +198,11 @@ for all  $\nu\in[n]$.
 {\tt Linear}. But at the end of the
 training,
 {\tt  Dropout} flips a coin
-for each row of $W^{[b], [a]}$ (resp., column of $W^{[a], [b]}$), with $P(Heads)=p_{drop}, P(Tails)=1-p_{drop}=p_{keep}$. If the coin lands on T, it keeps that $W^{[b], [a]}$ (resp., column of $W^{[a], [b]}$), whereas if lands on H,
-it sets that row (res., column) to zero. Then the
+for each row of $W_L^{[a], [a]}$ (resp., column of $W_R^{[a], [a]}$), with $$P(Heads)=p_{drop}, \text{ and } P(Tails)=1-p_{drop}=p_{keep}.$$If the coin lands on T, it keeps that row of $W_L^{[a], [a]}$ (resp., column of $W_R^{[a], [a]}$), whereas if lands on H,
+it sets that row (resp., column) to zero. Then the
 matrix  is
 divided by $p_{keep}$.
-The final matrix after all these operations  is denoted by $\calw$.
+The final matrix after all these operations  is denoted by $\calw_L$ (resp., $\calw_R$).
 
 
 
@@ -247,7 +245,7 @@ $\nu_1\in [n_1]$, $\nu_2\in[n_2]$
 
 $\ell = \nu_1 \nu_2$.
 
-Consider a matrices $X, E, Y$ such that
+Consider  matrices $Y, E, X$ such that
 
 \beq
 Y^{\delta, \alp} = \sum_{\lam}E^{\delta, \lam}
@@ -257,7 +255,7 @@ X^{\lam, \alp}
 Y^{[d], [\ell]} = E^{[d], [L]} X^{[L], [\ell]}
 \right)
 \eeq
-Assume, furthermore, that
+Assume that
 matrix $X$ has 1-hot columns
 
 \beq
@@ -273,10 +271,12 @@ Hence,
 Y^{\delta, \alp} = E^{\delta, \lam(\alp)}
 \eeq
 
-
+If we define
 \beq
 \Lam^{\alp} =\lam(\alp)
 \eeq
+then {\tt emb()}
+maps
 
 \beq
 \Lam^\alp\rarrow Y^{\delta, \alp}=E^{\delta, \lam(\alp)}
@@ -286,8 +286,10 @@ Y^{\delta, \alp} = E^{\delta, \lam(\alp)}
 \rarrow Y^{[d], [\ell]})
 \eeq
 
-Replace $\alp$ by
+ Now replace $\alp$ by
 $(\nu_1, \nu_2)$.
+{\tt emb()}
+also maps
 
 \beq
 \Lam^{\nu_1, \nu_2}\rarrow Y^{\delta, \nu_1, \nu_2}=E^{\delta, \lam(\nu_1, \nu_2)}
@@ -320,7 +322,7 @@ output = loss(input=$x^{[n_\rvc], [n_\rvs]}$, target=$t^{[n_\rvs]}$)
 
 
 {\bf Cross Entropy}
-in Information Theory
+in Information Theory:
 
 \beqa
 H(P_{tar}^\s, P_{in}^\s)
@@ -334,12 +336,11 @@ P_{tar}(\gamma|\s)\right]
 &=&
 H(P_{tar}^\s) + D_{KL}(P_{in}^\s\parallel P_{tar}^\s)
 \eeqa
-{\bf Cross Entropy Loss} in PyTorch
+{\bf Cross Entropy Loss} in PyTorch:
 
 Let
 
-$n_\rvs=$ total number of samples being considered,
-usually batch size.
+$n_\rvs=$ total number of samples being considered (usually batch size).
 $\s\in [n_\rvs]$
 
 $n_\rvc=$ number of classes in classification. $\gamma\in[n_\rvc]$
@@ -349,6 +350,7 @@ $x^{[n_\rvc], [n_\rvs]}=$ input  samples
 
 $t^{[n_\rvs]}=$ target samples
 
+Define 
 \beqa
 P_{in}(\gamma|\s)&=&
 \frac{\exp(x^{\gamma, \s})}
@@ -361,6 +363,8 @@ P_{in}(\gamma|\s)&=&
 Suppose $W^\gamma:values(\rvt)\rarrow[0,1]$
 for all $\gamma\in[n_\rvc]$.
 
+Define
+
 \beq
 P_{tar}(\gamma|\s)=
 \frac{
@@ -368,10 +372,13 @@ W^\gamma (t^{\s})\indi(t^{\s}\neq -100)}
 {\sum_{\gamma\in[n_\rvc]}numerator}
 \eeq
 
--100 can be replaced by any other integer
-in $values(\rvt)$ for which we want the loss to be zero (for example, an integer used for padding)
+The -100 
+on the right side of the last
+equation can be replaced by any other integer
+in $values(\rvt)$ for which we want the loss to be zero (for example, it could be an integer used for padding)
 
-
+Now define
+the cross entropy loss $\call_{CE}$ by
 
 
 \beq
@@ -387,11 +394,11 @@ H(P_{tar}(\cdot|\s), P_{in}(\cdot|\s))
 For example, if $W^\gamma=1$, and $n_\rvc=2$,
 
 \beqa
-\call_{CE} &=& \frac{1}{n_\rvs}\sum_{\s}
+\call_{CE} &=& \frac{1}{n_\rvs}\sum_{\s\in[n_\rvs]}
 \left[
 P_{tar}(0|\s)\ln P_{in}(0|\s)
 +
-P_{tar}(0|\s)\ln (1-P_{in}(0|\s))
+P_{tar}(1|\s)\ln P_{in}(1|\s)
 \right]
 \eeqa
 
@@ -406,11 +413,11 @@ lll_out = torch.gather(
     input=lll_state, dim=1, index=lll_loc)
 \end{verbatim}
 \end{mdframed}
-Sax uses trio of operations unsqueeze-repeat-gather
+Sax uses the trio of operations unsqueeze-repeat-gather
 in the manner of the above pseudo-code. We have already 
 discussed in Section \ref{sec-numpy-tensors}
 how each of these 3 operations
-acts individually . Here we will discuss how they
+acts individually. Here we will discuss how they
 act jointly, when used as in the above
 pseudo-code.
 
@@ -444,7 +451,7 @@ L_0^{[s_{ba}], [a], 0}}_
 {\text{$d$ times}}) 
 \eeq
 
-Let 
+Now define 
 
 \beq
 \lam(\s, \alp)
@@ -453,7 +460,7 @@ L^{\s, \alp, \delta}=
 L_0^{\s, \alp}
 \eeq 
 Then the {\tt gather()} 
-with {\tt dim=1} outputs
+with {\tt dim=1} outputs.
 
 \beq 
 O^{\s, \alp, \delta}=
@@ -512,9 +519,9 @@ $$\xymatrix@R=2.5pc@C=3.5pc{
 \\
 *+[F*:Orchid]{\underline{d}^{[121], [768]}}\ar[r]&*+[F*:pink]{\underline{G}^{[86], [768]}}\ar@[red]@/_5pc/[uu]|-{\color{red} W_{me}}\ar[ul]^{1}&
 \\
-&*+[F*:Orchid]{\underline{I}^{[121], [768]}}\ar[ul]&
+&*+[F*:Orchid]{\underline{I}^{[121], [768]}}\ar[ul]&*+[F*:SkyBlue]{\underline{X}^{[86], [6]}}\ar[uu]
 \\
-&*+[F*:Orchid]{\underline{B}^{[121], [768]}}\ar[u]&*+[F*:SkyBlue]{\underline{X}^{[86], [6]}}\ar[uuu]
+&*+[F*:Orchid]{\underline{B}^{[121], [768]}}\ar[u]&
 \save
 \POS"3,1"."6,1"."3,3"."6,3"!C*+<4.8em>\frm{-,}
 \POS"6,2"."6,2"."6,2"."6,2"!C*+<3.8em>\frm{--}
@@ -584,7 +591,7 @@ G^{[86], [768]} &= \text{gather}(d^{[121], [768]};dim=-2)
 
 \begin{equation}\color{blue}
 \begin{aligned}
-I^{[121], [768]} &= \left[B^{[121], [768]}\indi(depth=0) M^{[86], [300]}\indi(depth> 0)\right]
+I^{[121], [768]} &= \left[B^{[121], [768]}\indi(depth=0)+ M^{[86], [300]}\indi(depth> 0)\right]
 \label{eq-I-fun-sentence-ax-bnet}
 \\ &:{\tt lll\_hidstate}
 \end{aligned}
@@ -625,7 +632,6 @@ X^{[86], [6]} &= L^{[86], [6]}\indi(depth> 0)
 \end{subequations}
 
 
-
 \section{Loss $\call$ for this model}
 
 The Loss $\call$ is the sum of the
@@ -637,19 +643,19 @@ $PL=\{ POSC, HVC, HVE, EC\}$.
 \call = \call_{CE} +
 \sum_{i\in PL} \lam_{i}\call_i
 \eeq
+where the $\lam_i$ are hyper-parameters
+to be determined  heuristically.
 
-The $\lam_i$ are hyper-parameters.
+In an earlier
+section, we discussed 
+the Cross Entropy Loss at 
+length. 
+In this section, we will discuss the 4 penalty losses.
 
-Next we will define the CE loss and the 4 penalty losses.
-
-
-
-
-Penalty Losses
 
 Below, we will use the standard
-notation for the positive-part function (a.k.a.
-the reLU function)
+notation for the {\bf positive-part function} (a.k.a.
+the {\bf reLU} function)
 
 \beqa
 (x)_+ &=&
@@ -664,8 +670,9 @@ x& \text{ if } x\geq0
 &=& {\rm max}(0, x)
 \eeqa
 Since loss is supposed to be bounded below
- (usually loss is greater or equal to zero),
- the positive-part function arises frequently  when defining a loss.
+ (usually it is defined to be greater or equal to zero),
+ the positive-part function 
+ comes in handy when defining a loss.
 
 
 
@@ -677,20 +684,21 @@ $M=$ number of depths. $\mu\in[M]$
 
 $w^\alp=$ word at position $\alp$
 
-$T_{pos}=\{N, V, JJ, RB\}$, POS tags, N=Noun, V=Verb, JJ=Adjective, RB=Adverb
+$T_{pos}=\{N, V, JJ, RB\}$, POS tags,
+POS=Part Of Speech,  N=Noun, V=Verb, JJ=Adjective, RB=Adverb
 
-$T_{ex}=\{ N, R, O, S\}$\footnote{
-The O6 and Sax software use
-a different set for $T_{ex}$. In Sax, we use for
+$T_{ex}=\{ S, R, O, N\}$\footnote{
+The Sax software uses
+a different set for $T_{ex}$ than $T_{ex}=\{ S, R, O, N\}$. In Sax, we use for
 $T_{ex}$ the list {\tt BASE\_EXTAGS} (defined globally
-in the file {\tt Sax\_globals}.)
+in the file {\tt sax\_globals}.)
 In {\tt BASE\_EXTAGS}, N becomes NONE (or 0)
 and R becomes REL (or 3).
-Also, 2 tranets are trained by O6 and Sax,
+Also note that 2 tranets are trained by  Sax,
 one for extraction (task=ex), and one for splitting (task=cc).
-For splitting, $T_{ex}$ is replaced by $T_{cc}$. In Sax, we use for
+For task=cc, $T_{ex}$ is replaced by $T_{cc}$. In Sax, we use for
 $T_{cc}$ the list {\tt BASE\_CCTAGS}  (defined globally
-in the file {\tt Sax\_globals}.)
+in the file {\tt sax\_globals}.)
 In {\tt BASE\_CCTAGS}, N becomes NONE (or 0)
 and R becomes CC (or 3).}. extraction tags (extags),  S=Subject, R=Relation, O=Object, N=None
 
@@ -702,30 +710,32 @@ $POS^\alp\in T_{pos}$, Part Of Sentence of $w^\alp$.
 
 
 
-Importance indicator function.
+{\bf Importance indicator function}.
 \beq
 IMP^\alp = \indi(POS^\alp \in T_{pos})
 \eeq
 
-Head verb indicator function. A {\bf head verb} is any verb that isn't a {\bf light verb}
+{\bf Head verb indicator function.} A {\bf head verb} is any verb that isn't a {\bf light verb}
 (do, be, is, has, etc.).
 
 \beq
 HV^\alp = \indi(w^\alp \text{ is a head verb})
 \eeq
 
-We will
-derive from the data an empirical probability $P(\rvt^{\mu, \alp} =t )$ for a table element
+Let $P(\rvt^{\mu, \alp} =t )$ 
+denote  an empirical probability  for a table element
 $\rvt^{\mu, \alp}\in T_{ex}$, for all $\mu\in [M]$ and $\alp\in[\ell]$.
 
-the O6 paper describes how the 4 penalty losses
-deal with the following sentence, which we will refer to
-henceforth as the red-sent:
+The O6 paper uses the following sentence
+to exemplify the 4 types
+of penalty losses. 
 
 \begin{quote}\color{red}
 Obama gained popularity after
 Oprah endorsed him for the presidency.
 \end{quote}
+Henceforth, we will refer to
+this sentence as the red-sent.
 
 For the red-sent, the head verbs are {\color{red} gained, endorsed}
 
@@ -739,9 +749,10 @@ and {\color{red}(Oprah; endorsed him for;
 
 \item {\bf Part of Speech Coverage (POSC)}
 
-All words important words should be part of at least one extraction.
+Penalize if 
+some important words do not belong to at least one extraction.
 
-In red-sent: the words {\color{red}Obama, gained, popularity,
+In red-sent: all the words {\color{red}Obama, gained, popularity,
 Oprah, endorsed, presidency} must be covered in
 the set of extractions.
 
@@ -757,9 +768,8 @@ P_{POSC}(\alp)=
 
 \item {\bf Head Verb Coverage (HVC)}
 
-Each head verb
-should be present in the relation (R) span of some
-(but not too many) extractions.\footnote{A span is a list of contiguous words.}
+Penalize if a head verb
+is not present in the relation (R) of any extraction.
 
 In red-sent: {\color{red} (Obama;
 gained; popularity), (Obama; gained; presidency)} is not a comprehensive set of extractions.
@@ -779,9 +789,8 @@ P_{HVC}(\alp)=
 
 \item {\bf Head Verb Exclusivity (HVE)}
 
-The relation (R) span
-of one extraction can contain at most one head
-verb.
+Penalize extractions that 
+contain more than one head verb in their relation (R).
 
 In red-sent: {\color{red}gained popularity after Oprah endorsed} is not a good relation as it contains two
 head verbs
@@ -798,8 +807,9 @@ HV^\alp P(\rvt^{\mu, \alp}=R)
 
 \item {\bf Extraction Count (EC)}
 
-The total number of extractions with head verbs in the relation (R) span
-must be no fewer than the number of head verbs
+Penalize if the total number of extractions with head verbs in the relation (R) 
+is too small; i.e., it is smaller
+ than the number of head verbs
 in the sentence.
 
 \beq

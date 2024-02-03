@@ -13,7 +13,7 @@ such as Ref.\cite{joshi-trans}
 and the Wikipedia article on  tranet (Ref. \cite{wiki-transformer}).
 For a complete list of the large number
 of excellent blog post that I read to learn
-this subject, see my open source software texnn
+about this subject, see my open source software texnn
 (Ref.\cite{texnn}).\footnote{
 texnn is
  Python software 
@@ -96,6 +96,88 @@ In this chapter, we
 will use the Numpy-like tensor notation
 discussed in Section 
 \ref{sec-numpy-tensors}. In particular, note that $[n] = [0:n] = \{0, 1,\ldots, n-1\}$ and that $T^{[n], [m]}$ is an $n\times m$ matrix.
+
+\section{Tensor Notation}
+Our tensor notation is discussed in Section
+\ref{sec-numpy-tensors}.
+Here is a quick review
+of some of the more salient
+facts in that section on tensors.
+Below, we will often accompany
+  an equation in tensor
+  component notation
+  with the equivalent matrix equation,
+  in parenthesis.
+  
+We use  
+Greek letters for 
+tensor indices.
+
+Let $\alp\in[a]$, $\beta\in[b]$, $\gamma\in[c]$,
+$\delta \in[d]$,
+$\nu\in[n]$, $\Delta\in[D]$.
+
+
+\begin{itemize}
+
+\item{\bf reshaping}
+
+\beq
+T^{\nu, \delta}\rarrow T^{\Delta}
+\;\;
+\left(
+T^{[n_\rvh], [d]} \rarrow T^{[D]}
+\right)
+\eeq
+
+\beq
+T^{\Delta}\rarrow T^{\nu, \delta}
+\;\;
+\left(
+T^{[D]}\rarrow T^{[n_\rvh], [d]}
+\right)
+\eeq
+
+\item {\bf concatenation}
+\beq
+T^{[n]}= (T^0, T^1,\ldots, T^{n-1})=
+(T^\nu)_{\nu\in[n]}
+\eeq
+
+\item {\bf Hadamard product (element-wise, entry-wise multiplication)}
+\beq
+T^{[n]}* S^{[n]}= (T^\nu S^\nu)_{\nu\in[n]}
+\eeq
+
+
+\item {\bf Matrix multiplication}
+
+$T^{[n]}= T^{[n], [1]}$ is a column vector.
+
+\beq
+(T^{[n]})^T S^{[n]}=\text{scalar}
+\eeq
+
+\beq
+T^{[a],[b]}S^{[b], [c]}
+=\left[\sum_{\beta\in[b]} T^{\alp, \beta}
+S^{\beta, \gamma}\right]
+_{\alp_\in [a], \gamma \in [c]}
+\eeq
+
+\end{itemize}
+
+Most treatments of tranets, including the
+``Attention is all you need" paper,  order the
+operations chronologically from
+left to right (L2R). So if $A$ occurs before $B$,
+they write $AB$.
+This is contrary 
+to what is done in Linear Algebra, where one 
+orders the operations chronologically from right to left (R2L), and one writes $BA$.
+In this chapter, will adhere to the Linear Algebra
+convention, since it is so prevalent
+and is the overwhelming precedent.
 
 \section{Recurrent Neural Net with Attention}
 \subsection{Single Head Attention}
@@ -541,78 +623,6 @@ $\Delta\in [D]$
 $\Lambda=6$, number copies,
 connected in series,
 of boxed bnet, $\lam\in[\Lambda]$
-
-Our tensor notation is discussed in Section 
-\ref{sec-numpy-tensors}.
-Here is a quick review
-of some of the more essential
-facts in that section on tensors.
-Below will often accompany 
-  an equation in tensor
-  component notation
-  with, in parenthesis, the equivalent matrix equation.
- 
- 
-
-\begin{itemize}
-
-\item{\bf reshaping}
-
-\beq
-T^{\nu, \delta}\rarrow T^{\Delta}
-\;\;
-\left(
-T^{[n_\rvh], [d]} \rarrow T^{[D]}
-\right)
-\eeq
-
-\beq
-T^{\Delta}\rarrow T^{\nu, \delta}
-\;\;
-\left(
-T^{[D]}\rarrow T^{[n_\rvh], [d]}
-\right)
-\eeq
-
-\item {\bf concatenation}
-\beq
-T^{[n]}= (T^0, T^1,\ldots, T^{n-1})= 
-(T^\nu)_{\nu\in[n]}
-\eeq
-
-\item {\bf Hadamard product (element-wise, entry-wise multiplication)}
-\beq
-T^{[n]}* S^{[n]}= (T^\nu S^\nu)_{\nu\in[n]}
-\eeq
-
-
-\item {\bf Matrix multiplication}
-
-$T^{[n]}= T^{[n], [1]}$ is a column vector.
-
-\beq
-(T^{[n]})^T S^{[n]}=\text{scalar}
-\eeq
-
-\beq
-T^{[a],[b]}S^{[b], [c]}
-=\left[\sum_{\beta\in[b]} T^{\alp, \beta}
-S^{\beta, \gamma}\right]
-_{\alp_\in [a], \gamma \in [c]}
-\eeq
-
-Most treatments of tranets, including the
-``Attention is all you need" paper,  order the
-operations chronologically from
-left to right. So if $A$ occurs before $B$,
-they write $AB$.
-This is contrary 
-to what is done in Linear Algebra, where one 
-orders the operations chronologically from right to left, and one writes $BA$.
-We will adhere to the Linear Algebra
-convention, since it is so prevalent
-and is the overwhelming precedent.
-\end{itemize}
 
 
 
