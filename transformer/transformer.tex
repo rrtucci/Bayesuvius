@@ -608,7 +608,7 @@ will discuss
 
 Let
 
-$\ell=$ maximum number of words in a sentence segment. $\alp\in [\ell]$, $\ell\sim 100$
+$\ell=$, context window, maximum number of words in a sentence segment. $\alp\in [\ell]$, $\ell\sim 100$
 
 $L=$ number of words in vocabulary, $\beta\in[L]$, $L>> \ell$
 
@@ -1373,7 +1373,21 @@ Y^{[d], [\ell]} = \text{normalize}(F^{[d], [\ell]} + J^{[d], [\ell]})
 
 \section{BERT}
 
-BERT is a realization of the Encoder part of the Vanilla tranet.
+I used the the Wikipedia article on BERT, Ref\cite{wiki-BERT} to
+write this section.
+
+BERT (Bidirectional Encoder Representations from Transformer) is a realization of the Encoder half of the Vanilla tranet.
+One  can either add a smaller NN to the output of BERT (this is called {\bf fine tuning}), or one can add a de-embedding layer to its output  so that the total device takes word lists to word lists.
+
+In the language of Bayesian Networks,
+fine tuning is the same as using BERT as a prior probability. See Chapter \ref{ch-sentence-ax} on sentence splitting for an example of BERT fine tuning.
+
+
+\subsection{BERT parameter values}
+
+BERT comes in two sizes, base and large.
+See Table \ref{tab-bert} for a listing
+of some BERT parameter values.
 
 % Please add the following required packages to your document preamble:
 % \usepackage[table,xcdraw]{xcolor}
@@ -1383,7 +1397,7 @@ BERT is a realization of the Encoder part of the Vanilla tranet.
 \begin{tabular}{|l|l|l|}
 \hline
  & \cellcolor[HTML]{FFFFC7}BERT base & \cellcolor[HTML]{FFFFC7}BERT large \\ \hline
-\cellcolor[HTML]{FFFFC7}$\ell$ & 512? & 512? \\ \hline
+\cellcolor[HTML]{FFFFC7}$\ell$, context window& 512 & 512 \\ \hline
 \cellcolor[HTML]{FFFFC7}$L$, {\tt vocab\_size} & 30,522 & 30,522 \\ \hline
 \cellcolor[HTML]{FFFFC7}$d$, {\tt hidden\_size} & 768 & 1024 \\ \hline
 \cellcolor[HTML]{FFFFC7}$n_\rvh$, {\tt num\_attention\_heads} & 12 & 16 \\ \hline
@@ -1391,6 +1405,98 @@ BERT is a realization of the Encoder part of the Vanilla tranet.
 \cellcolor[HTML]{FFFFC7}$D'$, {\tt intermediate\_size} & 3,072 & 3,072 \\ \hline
 \cellcolor[HTML]{FFFFC7}number of parameters & 110M & 340M \\ \hline
 \end{tabular}
-\caption{Some hyperparameters for BERT base and BERT large}
+\caption{Some hyper-parameter values for BERT base and BERT large}
 \label{tab-bert}
 \end{table}
+
+\subsection{BERT Embedding}
+So far, we have described the embedding step as a single step
+from tokenization into words, to 1 hot vectors, to embedding vectors.
+ There are
+other additional steps in  the embedding
+process that  we haven't
+described so far (namely, tokenization
+into subwords,
+adding special tokens, and
+padding). We would like to 
+describe those additional steps now, in the context of
+ the BERT model. Here is an example.
+
+
+Let's consider a short sentence: ``The cat is on the mat.''
+
+\begin{enumerate}
+
+  \item \textbf{Tokenization into words:}
+       Tokenize the sentence into individual words: 
+       
+       ``The'', ``cat'', ``is'', ``on'', ``the'', ``mat'', ``.''
+  
+  \item \textbf{Tokenization into subwords:}
+     Further tokenize words into subword units using WordPiece tokenization or a similar method. For example:
+         \begin{align*}
+           &The \rightarrow The \\
+           &cat \rightarrow ca, t \\
+           &is \rightarrow is \\
+           &on \rightarrow on \\
+           &the \rightarrow the \\
+           &mat \rightarrow mat \\
+           &. \rightarrow .
+         \end{align*}
+         
+         Any subword not appearing in BERTs vocabulary is replaced by [UNK] for "unknown".
+  
+  \item \textbf{Adding Special Tokens:}
+     Add special tokens, such as [CLS] (classification) at the beginning and [SEP] (separator) at the end:
+     
+      ``[CLS]", ``The'', ``ca'', ``t'', ``is'', ``on'', ``the'', ``mat'', ``.'', ``[SEP]''
+  
+  \item \textbf{Padding:}
+     If necessary, pad or truncate the sequence to a fixed length. Add  padding tokens ``[PAD]'' to reach a specified sequence length.
+  
+  \item \textbf{Embedding Matrix:}
+     Create a
+       tensor with 1-hot columns
+       \beq x^{\beta, \alp}
+       =\delta(\beta, \beta(\alp))
+       \eeq
+       where $\alp\in[\ell]$, $\beta\in[L]$ and where $\beta(\alp)$
+       is the location in the
+              BERT vocab
+       corresponding to token $\alp$ in the
+       the padded string.
+       Now multiply $x$ times the previously discussed embedding matrix $\cale$ to get \beq
+       e^{[d], [\ell]}=\cale^{[d], [L]}
+       x^{[L], [\ell]}\in\RR^{d\times \ell}\eeq
+       This gives a vector in $\RR^d$
+       for each token $\alp$ in the 
+       padded string.
+        The matrix $\cale$
+        is pre-trained and captures contextual information
+        and word similarities. It can also
+        include positional embedding, as discussed before. 
+\end{enumerate}
+
+\subsection{BERT training}
+BERT was trained simultaneously on two tasks.\footnote{Pretty much quoting Ref.\cite{wiki-BERT} in this section about BERT training}
+
+
+\begin{enumerate}
+\item {\bf language modeling}: 15\% of tokens were selected for prediction. Those tokens
+selected for
+prediction
+were replaced by the [MASK] token 80\% of the time,
+by a random word 10\% of the time,
+and not replaced at all 10\% of the time. The training objective was to predict the selected token given its context. 
+
+\item{\bf next sentence prediction: }
+Given two spans of text, the model predicts if these two spans appeared sequentially in the training corpus, outputting either [IsNext] or [NotNext].
+For example,
+
+\begin{itemize}
+\item given "[CLS] my dog is cute [SEP] he likes playing" the model should output token [IsNext].
+\item Given "[CLS] my dog is cute [SEP] how do magnets work" the model should output token [NotNext]
+\end{itemize}
+
+\end{enumerate}
+
