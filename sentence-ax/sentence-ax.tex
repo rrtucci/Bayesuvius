@@ -15,9 +15,9 @@ The O6 software is described by its creators
  which we will henceforth refer to as 
  the O6 paper.
 
-The SentenceAx (Sax) software (at github repo Ref.\cite{sentence-ax-github}) is a complete re-write of 
+My SentenceAx (Sax) software (at github repo Ref.\cite{sentence-ax-github}) is a complete re-write of 
 the  O6 software.
-Sax is $95\%$ identical algorithmically to O6, but it has been rewritten in what we hope is a friendlier form.
+Sax is $95\%$ identical algorithmically to O6, but I have rewritten it in what I hope is a friendlier form.
  
 
  Sax is a fine-tuning of the BERT model.
@@ -183,12 +183,12 @@ $y^{[n], [a]}$ = dropo($x^{[n],[a]}$)
 
 
 \beq
-x^{\nu, [a]}\rarrow y^{\nu, [a]}=x^{\nu, [a]}\calw_R^{[a], [a]}
+x^{\nu, [a]}\rarrow y^{\nu, [a]}=x^{\nu, [a]}\HAT{W}_R^{[a], [a]}
 \;\;\text{(in L2R)}
 \eeq
 \beq
-x^{\nu, [a]}\rarrow y^{\nu, [a]}=
-\calw_L^{[a], [a]}x^{\nu, [a]}
+x^{[a], \nu}\rarrow y^{[a], \nu}=
+\HAT{W}_L^{[a], [a]}x^{ [a],\nu}
 \;\;
 \text{(in R2L)}
 \eeq
@@ -198,11 +198,12 @@ for all  $\nu\in[n]$.
 {\tt Linear}. But at the end of the
 training,
 {\tt  Dropout} flips a coin
-for each row of $W_L^{[a], [a]}$ (resp., column of $W_R^{[a], [a]}$), with $$P(Heads)=p_{drop}, \text{ and } P(Tails)=1-p_{drop}=p_{keep}.$$If the coin lands on T, it keeps that row of $W_L^{[a], [a]}$ (resp., column of $W_R^{[a], [a]}$), whereas if lands on H,
+for each row of $W_L^{[a], [a]}$ (resp., column of $W_R^{[a],
+ [a]}$), with $$P(Heads)=p_{drop}, \text{ and } P(Tails)=1-p_{drop}=p_{keep}.$$If the coin lands on T, it keeps that row of $W_L^{[a], [a]}$ (resp., column of $W_R^{[a], [a]}$), whereas if lands on H,
 it sets that row (resp., column) to zero. Then the
 matrix  is
 divided by $p_{keep}$.
-The final matrix after all these operations  is denoted by $\calw_L$ (resp., $\calw_R$).
+The final matrix after all these operations  is denoted by $\HAT{W}_L$ (resp., $\HAT{W}_R$).
 
 
 
@@ -220,7 +221,7 @@ emb($\lam^{[n_1], [n_2]}$)
 \end{mdframed}
 
 In Sax, we use $L=100$ and $d=768$ (for BERT base).
-The $d$ is the ``hidden dimension" of BERT.
+The $d$ is the ``hidden dimension'' of BERT.
 The $L$ could be as large as the vocab size
 of BERT, but since we consider only
 sentences with 100 words at most,
@@ -334,7 +335,7 @@ H(P_{tar}^\s, P_{in}^\s)
 P_{tar}(\gamma|\s)\right]
 \\
 &=&
-H(P_{tar}^\s) + D_{KL}(P_{in}^\s\parallel P_{tar}^\s)
+H(P_{tar}^\s) + D_{KL}(P_{tar}^\s\parallel P_{in}^\s)
 \eeqa
 {\bf Cross Entropy Loss} in PyTorch:
 
@@ -387,19 +388,13 @@ the cross entropy loss $\call_{CE}$ by
 
 
 \beq
-\call_{CE}^\s(t^{\s}, x^{[n_\rvc], \s})=
-H(P_{tar}(\cdot|\s), P_{in}(\cdot|\s))
-\eeq
-
-
-\beq
-\call_{CE} = \frac{1}{n_\rvs} \sum_{\s\in[n_\rvs]}\call_{CE}^\s
+\call_{CE} = \frac{1}{n_\rvs} \sum_{\s\in[n_\rvs]}H(P_{tar}(\cdot|\s), P_{in}(\cdot|\s))
 \eeq
 
 For example, if $W^\gamma=1$, and $n_\rvc=2$,
 
 \beqa
-\call_{CE} &=& \frac{1}{n_\rvs}\sum_{\s\in[n_\rvs]}
+\call_{CE} &=& \frac{-1}{n_\rvs}\sum_{\s\in[n_\rvs]}
 \left[
 P_{tar}(0|\s)\ln P_{in}(0|\s)
 +
@@ -428,15 +423,15 @@ pseudo-code.
 
 Let
 
-{\tt lll\_state=} $S^{[s_{ba}],[a], [d]}$
+{\tt lll\_state=} $S^{[s_{ba}],[\Lam], [d]}$
 
 {\tt ll\_loc0=} $L_0^{[s_{ba}], [a]}$
 
-{\tt lll\_loc=} $L^{[s_{ba}], [b], [d]}$
+{\tt lll\_loc=} $L^{[s_{ba}], [a], [d]}$
 
-{\tt lll\_out=} $O^{[s_{ba}], [b], [d]}$
+{\tt lll\_out=} $O^{[s_{ba}], [a], [d]}$
 
-$\s\in s_{ba}, \alp\in[a], \beta\in[b], \delta\in[d]$
+$\s\in s_{ba}, \lam \in[\Lam], \alp\in[a], \delta\in[d]$
 
 {\tt unsqueeze(2)} takes 
 
@@ -465,7 +460,7 @@ L^{\s, \alp, \delta}=
 L_0^{\s, \alp}
 \eeq 
 Then the {\tt gather()} 
-with {\tt dim=1} outputs.
+with {\tt dim=1} outputs:
 
 \beq 
 O^{\s, \alp, \delta}=
@@ -742,11 +737,11 @@ Obama gained popularity after
 Oprah endorsed him for the presidency.
 \end{quote}
 Henceforth, we will refer to
-this sentence as the red-sent.
+this sentence as the osent (original sentence).
 
-For the red-sent, the head verbs are {\color{red} gained, endorsed}
+For the osent, the head verbs are {\color{red} gained, endorsed}
 
-Two valid extractions from red-sent are:
+Two valid extractions from osent are:
 {\color{red}(Obama; gained; popularity)}
 and {\color{red}(Oprah; endorsed him for;
  the presidency)}.
@@ -759,7 +754,7 @@ and {\color{red}(Oprah; endorsed him for;
 Penalize if 
 some important words do not belong to at least one extraction.
 
-In red-sent: all the words {\color{red}Obama, gained, popularity,
+In osent: all the words {\color{red}Obama, gained, popularity,
 Oprah, endorsed, presidency} must be covered in
 the set of extractions.
 
@@ -778,7 +773,7 @@ P_{POSC}(\alp)=
 Penalize if a head verb
 is not present in the relation (R) of any extraction.
 
-In red-sent: {\color{red} (Obama;
+In osent: {\color{red} (Obama;
 gained; popularity), (Obama; gained; presidency)} is not a comprehensive set of extractions.
 
 \beq
@@ -799,7 +794,7 @@ P_{HVC}(\alp)=
 Penalize extractions that 
 contain more than one head verb in their relation (R).
 
-In red-sent: {\color{red}gained popularity after Oprah endorsed} is not a good relation as it contains two
+In osent: {\color{red}gained popularity after Oprah endorsed} is not a good relation as it contains two
 head verbs
 
 \beq
@@ -817,7 +812,7 @@ HV^\alp P(\rvt^{\mu, \alp}=R)
 Penalize if the total number of extractions with head verbs in the relation (R) 
 is too small; i.e., it is smaller
  than the number of head verbs
-in the sentence.
+in the osent.
 
 \beq
 \call_{EC}=
