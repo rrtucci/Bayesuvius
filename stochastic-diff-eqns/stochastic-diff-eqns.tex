@@ -1,6 +1,7 @@
 \chapter{Stochastic Differential Equations COMING SOON}
 \label{ch-stochastic-diff-eqns}
 
+
 Stochastic Differential Equation (SDE)
 First order differential equation with noise
 
@@ -8,7 +9,47 @@ Ref.\cite{sde-applied-book}
 
 \section{Notation}
 
+$[a, b]=\{ x\in \RR: a\leq x \leq b\}$
+
+Suppose $i, j\in \{0, 1, \ldots, N-1\}$
+
+$[i \upto j] = [i, i+1, \ldots, j]$
+
+$[i:j] = [i, i+1, \ldots, j-1]$
+
+
 $[n]=[0:n]=\{0, 1, 2, \ldots, n-1\}$
+
+
+Suppose $t_0=0<t_1<t_2<\ldots < t_{N-1}$
+
+
+
+$t_{[i\upto j]} = [t_i, t_{i+1}, \ldots, t_j]$
+
+
+\beq
+\lim_{N\rarrow \infty}t_{[i\upto j]} =
+[t_i, t_j]
+\eeq
+
+
+
+Path
+
+$\rvx([t,s])=\{  \rvx(\tau): \tau\in[t,s]\}$
+
+
+$\rvx(t_{[j\upto k]}) =\{  x(\tau): \tau\in\{t_j, t_{j+1}, \ldots, t_k\}\}$
+
+$\rvx_{[j\upto k]} =\{ \rvx_j, \rvx_{j+1},
+\ldots,\rvx_k\}$
+
+
+Measure theorists speak of a family of sigma algebras wherein the elements of the family increase with $t$. They call this a {\bf filtration}. A path $x([t, s])$ is equivalent to a filtration,
+so we won't speak of filtrations here.
+
+
 
 $dx^n = dx_0 dx_1 \ldots dx_{n-1}$
 
@@ -127,7 +168,7 @@ $\rvB$ by $\rvB-\beta_0$}
 \item
 
 \beq
-E[(\Delta^{r}_{s}\rvB)^2] = n|r-s|
+E[(\Delta^{t}_{s}\rvB)^2] = n|t-s|
 \eeq
 where $\rvB(t)\in\RR^n$
 
@@ -160,6 +201,7 @@ E[(\Delta^{s}_{r}\rvB) (\Delta^{s'}_{r'}\rvB)]=n {\rm len}([r, s]\cap [r', s'])
 \eeq
 
 \end{enumerate}
+
 
 \section{SDE bnet}
 
@@ -343,6 +385,53 @@ L(x_3, t)\Delta_{2}^{3}\rvB
 +x_0
 \eeq
 
+\section{Simple properties of SDE}
+
+\subsection {Transition Matrices}
+\subsection{Markov chain}
+\subsection{Chapman-Kolgomorov Equation}
+Let $x(t_k) = x_k$
+
+\beq
+P(x_3|x_1) =\int dx^n_2\; P(x_3|x_2)P(x_2|x_1)
+\eeq
+
+\beqa
+P(x_3, x_2|x_1) &=&
+P(x_3|x_2, x_1)P(x_2|x_1)
+\\
+&=&
+P(x_3|x_2)P(x_2|x_1)
+\eeqa
+
+
+
+\subsection{Martingale}
+
+For $t, t_i < T$
+
+\beq
+E[\;|\rvy(t_i)|\;] < \infty \quad
+(E[\;|\rvy(t)|\;] < \infty) 
+\eeq
+
+
+\beq
+E\left[\rvy(t)|x(t_{[i\upto j]})\right]= y(t_j)
+\quad (E\left[\rvy(t)|x([0,s])\right]= y(s))
+\eeq
+
+
+Brownian motion is a martingale.
+\beq
+E[\rvB(t)| B(t_{[i\upto j]}] = B(t_j)
+\eeq
+
+
+It\^{o} integrals $\int L(\rvx(t), t)d\rvB(t)$
+are martingales too, but Stratonovich
+aren't. 
+
 
 
 \section{It\^{o} Integral}
@@ -468,6 +557,7 @@ d[\rvB_\alpha(t)\rvB_\beta(t)]=\delta(\alpha, \beta)
 d[\rvB_\alpha(t)]d[\rvB_\beta(t)]
 =Q_{\alpha, \beta}dt}
 \eeq
+
 
 
 \section{Some explicitly solvable examples}
@@ -649,13 +739,27 @@ d(\rvB^K) = K(K-1) \rvB^{K-2}dt
 
 $P(x, t)$
 Fokker-Planck equation (FP) (a.k.a. Fokker-Planck-Kolgomrov equation)
-\begin{claim} (FP)
+\begin{claim} FP for probability of $P(x, t)$
+	of single event $(x,t)$
+Let
+
 \beq
-\pder{P}{t}= 
+\calh_\rvx \bullet=
 \pder{}{x_\mu}\left[-
-Pf_\mu + \frac{1}{2}
-\pder{}{ x_\nu}(PL_{\mu,\alpha}Q_{\alpha,\beta}L^T_{\beta,\nu})\right]
+(\bullet f_\mu) + \frac{1}{2}
+\pder{}{ x_\nu}(\bullet L_{\mu,\alpha}Q_{\alpha,\beta}L^T_{\beta,\nu})\right]
 \eeq
+Then $P(x,t)$ satisfies
+
+\beq
+\pder{P}{t}= \calh_\rvx P
+\eeq
+which is solved formally by
+
+\beq
+P(t)=e^{(t-t_0)\calh_\rvx}P(t_0)
+\eeq
+
 
 \end{claim}
 \proof
@@ -763,63 +867,59 @@ $f_\mu =-\; \frac{1}{2}\pder{U}{x_\mu}$
 \right) 
 \eeq
 
-
 \qed
 
-
-
-
-
-
-\section{Martingale}
+Recall
 
 \beq
-E\left[\rvx(t)|\rvx([0,t])=x([0,t])\right]= x(t)
+\calh_\rvx \bullet=
+\pder{}{x_\mu}\left[-
+(\bullet f_\mu) + \frac{1}{2}
+\pder{}{ x_\nu}(\bullet L_{\mu,\alpha}Q_{\alpha,\beta}L^T_{\beta,\nu})\right]
 \eeq
 
-Brownian motion is a martingale
+Define $\calh_\rvx^*$ to be the same as $\calh_\rvx$
+but with every derivative $\pder{}{x_\mu}$
+replaced by its negative. Hence\footnote{For those
+	who know Quantum Mechanics, our $\calh$ equals 
+	a Hamiltonian $H$ times $i$, $\calh =Hi$.}
 
 \beq
-E[\;|\rvy(t_i)|\;] < \infty
-\eeq
-
-\beq
-E[\rvy(t_{i+1})| \{\rvx(t_j) =x(t_j) \}_{j\leq i}] = x(t_i)
-\eeq
-
-
-$s\leq t$
-
-\beq
-E[\;|\rvy(t)|\;]<\infty
-\eeq
-
-\beq
-E[\rvy(t)|\rvx(\leq s)=x(\leq s)]=y(s)
+\calh^*_\rvx \bullet=
+\pder{}{x_\mu}\left[+
+(\bullet f_\mu) + \frac{1}{2}
+\pder{}{ x_\nu}(\bullet L_{\mu,\alpha}Q_{\alpha,\beta}L^T_{\beta,\nu})\right]
 \eeq
 
 
-Brownian motion is a martingale.
+
+\begin{claim} Forward FP for transition matrix $P(y,t|x,s)$
+	
 \beq
-E[\rvB(t_{i+1})| \{\rvB(t_j) =B(t_j) \}_{j\leq i}] = B(t_i)
+\pder{P(y^t|x^s)}{t}=
+\calh_\rvy P(y^t|x^s)
 \eeq
 
-
-It\^{o} integrals $\int L(\rvx(t), t)d\rvB(t)$
-are martingales too, but Stratonovich 
-
-\section{Chapman-Kolgomorov Equation}
-
-Let $x(t_k) = x_k$
-
+\end{claim}
+	
+	
+\begin{claim} Backwards FP for transition matrix $P(y,t|x,s)$
 \beq
-P(x_3|x_1) =\int dx^n_2\; P(x_3|x_2)P(x_2|x_1)
+-\;\pder{P(y^t|x^s)}{s}=
+\calh^*_\rvx P(y^t|x^s)
 \eeq
+	
+\end{claim}
+	
+
+
+
+
 
 \section{First and second order statistics}
 
 \beq
-m_\mu = E[\rvx(t)]
+m_\mu = E[\rvx_\mu(t)]
 \eeq
 
 \beq
@@ -958,5 +1058,342 @@ V(t)\Psi^T(s,t) &\text{if } t<s
 \Psi(t,s)V(s) & \text{if }t\geq s
 \end{array}
 \right.
+\eeq
+
+\section{Lamperti Transform}
+
+\beq
+dx_\mu = f_\mu(x,t)dt + L_{\mu,\nu}(x, t)d\rvB_\nu
+\eeq
+
+\beq
+dy_\mu = g_\mu(y,t)dt + d\rvB_\mu
+\label{eq-g-def-grisa}
+\eeq
+
+
+\begin{claim} For $n=1$, the function 
+$g(y,t)$ in Eq.(\ref{eq-g-def-grisa}) 
+is given by
+
+\beq
+g(y,t)=
+\left.\left(
+\pder{}{t}
+\int_\xi^x \frac{du}{L(u,t)}
++
+\frac{f(x,t)}{L(x,t)}
+-\;
+\frac{1}{2}
+\pder{L(x,t)}{x}
+\right)\right|_{x\rarrow h^{-1}(y,t)}
+\eeq
+\end{claim}
+\proof
+
+\beq
+y=h=\int_\xi^x\frac{du}{L(u,t)}
+\eeq
+
+\beqa
+dy &=& \pder{h}{t}dt + \frac{dx}{L}
+-\;\frac{1}{2L^2}
+\pder{L}{x}(dx)^2
+\\
+&=&
+ \pder{h}{t}dt + \frac{fdt +  Ld\rvB}{L}
+-\;\frac{1}{2L^2}
+\pder{L}{x}\underbrace{(L\rvB)^2}_{L^2dt}
+\\
+&=&
+\left(
+\pder{h}{t} + \frac{f}{L} -\frac{1}{2}\pder{L}{x}
+\right)dt + d\rvB
+\eeqa
+
+
+
+
+
+\section{Feynman-Kac Path Integrals}
+
+$x(t_k)=x_k$
+
+\beq
+x_k = x_{k-1}
++f_k\Delta t +\Delta\rvB_k
+\eeq
+
+\beq
+\Delta\rvB_k \sim \caln(\mu=0, \s^2=q\Delta t)
+\eeq
+
+
+\begin{align}
+P(x_{[1\upto N]})&=
+\prod_{k=1}^N P(x_k|x_{k-1})
+\\
+&=
+\prod_{k=1}^N
+\left[
+\frac{1}{\sqrt{2\pi q\Delta t}}
+\exp\left(
+-\;
+\frac{(x_k-x_{k-1})^2}{2q\Delta t}
+\right)
+\right]
+\\
+&=
+\prod_{k=1}^N
+\left[
+\frac{1}{\sqrt{2\pi q \Delta t}}
+\exp\left(
+-\;
+\frac{(f_k\Delta t + \Delta B_k)^2}{2q\Delta t}
+\right)
+\right]
+\\
+&=
+\underbrace{\prod_{k=1}^N
+\left[
+\frac{1}{\sqrt{2\pi q \Delta t}}
+\right]}_{\gamma^N}
+\exp\left(
+-\;
+\frac{1}
+{2q}\int_0^{t_N}dt
+\left[(\ddot{B})^2 +
+2f\dot{B} +f^2\right]
+\right)
+\end{align}
+
+
+
+\beq
+P(B_{[0 \upto N]})
+=
+\gamma^N\exp\left(-\;
+\frac{1}{2 q}\int_0^{t_N} dt (\ddot{B})^2
+\right)
+\eeq
+
+\beq
+\frac{P(x_{[1\upto N]})}{P(B_{[1\upto N]})}=
+\exp\left(-\;
+\frac{1}{2q}\int_0^{t_N}dt
+\left[
+2f\dot{B} +f^2\right]
+\right)
+\eeq
+
+\beq
+\cald B = \gamma^N \prod_{k=1}^N dB_k
+\eeq
+$\RR^N=
+\text{set of all paths (instances) $x_{[1\upto N]}$ of random variable
+$\rvx_{[1\upto N]}$ }
+$
+
+
+\beq
+P(x_{N+1}|x_0=0)  =
+\int_{\RR^{N}}\cald B\;
+\exp\left(
+\frac{1}
+{2q}\int_0^{t_N}dt
+\left[(\ddot{B})^2 +
+2f\dot{B} -f^2\right]
+\right)
+\eeq
+
+\section{Karhunen–Loève series}
+
+\beq
+\int_0^{T}dt\;\ket{t}{\bra t} = 1,
+\;
+\av{t|t'}=\delta(t-t')
+\eeq
+
+\beq
+C(t, t')= \av{t|C|t'}
+\eeq
+
+
+For $n=1,2,3,\ldots$, 
+\beq
+C\ket{\phi_n}=\lam_n\ket{\phi_n}
+\eeq
+
+\beq
+\sum_{n=1}^\infty \ket{\phi_n}\bra{\phi_n}=1,
+\;
+\av{\phi_n|\phi_{n'}}=
+\delta(n,n')
+\eeq
+
+
+
+\beq
+C = \sum_{n=1}^\infty \ket{\phi_n}\lam_n\bra{\phi_n}
+\eeq
+
+
+
+\beq
+\phi_n(t) = \av{t|\phi_n},
+\;
+\phi_n^*(t) = \av{\phi_n|t}
+\eeq
+
+\beq
+\av{t|C|t'} = \sum_{n=1}^\infty \phi_n(t)\lam_n\phi_n^*(t')
+\eeq
+
+
+For Brownian motion,
+
+\beq
+\lam_n  =\left(\frac{2T}{(2n-1)\pi}
+\right)^2
+\eeq
+
+\beq
+\phi_n(t)=
+\sqrt{\frac{2}{T}}
+\sin \left(
+\frac{t}{\sqrt{\lam_n}}\right)
+\eeq
+
+
+Karhunen-Loeve expansion
+
+\beq
+\rvB(t) =\sum_n z_n\av{t|\phi_n}
+\eeq
+
+where
+
+\beq
+\lam_n\sim \caln(\mu=0, \s^2 =\lam_n)
+\eeq
+
+
+\section{Girsamov Theorem}
+\beq
+dx = f(x,t)dt + d\rvB, \quad x(0)=0
+\eeq
+
+\beq
+dy = g(y,t)dt + d\rvbeta, \quad y(0)=0
+\eeq
+
+\begin{claim}
+if $dx=dy$,
+
+\beq
+d\rvbeta =
+(f-g)dt + d\rvB
+\eeq
+
+\end{claim}
+\proof
+
+\beq
+(f-g)dt + d\rvB-d\rvbeta =0
+\eeq
+\qed
+
+\begin{claim}
+
+\beq
+\frac{P(x_{[1\upto N]})}{P(y_{[1\upto N]})}=
+\exp\left(-\;
+\frac{1}{2q}\int_0^{t_N}dt\;
+(f-g)^2 +
+\frac{1}{2q}\int 2(f-g)d{\rvB})
+\right)
+\eeq
+\end{claim}
+\proof
+
+
+\beq
+\frac{P(x_{[1\upto N]})}{P(y_{[1\upto N]})}=
+\exp\left(-\;
+\frac{1}{2q}\int_0^{t_N}dt
+\underbrace{
+\left[
+2f\dot{B}
+-2g\dot{\beta} + f^2-g^2
+\right]}_{\cala}
+\right)
+\eeq
+
+\beqa
+\cala &=&2f\dot{\rvB}
+ -2g[\dot{\rvB}+f-g]
++ f^2-g^2
+\\
+&=&
+(f-g)2\dot{\rvB}
++
+(f-g)(-2g) + (f-g)(f +g)
+\\
+&=&
+(f-g)[2\dot{\rvB}
+-2g + f +g]
+\\
+&=&
+(f-g)^2 + 2\dot{\rvB}(f-g))
+\eeqa
+\qed
+
+\begin{claim}
+If 
+\beq
+Z=
+\frac{P(x_{[1\upto N]})}
+{P(y_{[1\upto N]})}
+\eeq
+then
+
+\beq
+E[h(x_{[1\upto N]})]=
+E[Zh(y_{[1\upto N]})]
+\eeq
+\end{claim}
+\beqa
+E[h(\rvx_{[1\upto N]})]
+&=&
+\int \underbrace{dx_{[1\upto N]}}_
+{dy_{[1\upto N]}} P(x_{[1\upto N]}) 
+\underbrace{h(x_{[1\upto N]})}_
+{h(y_{[1\upto N]})}
+\\
+&=&
+\int dy_{[1\upto N]} 
+Z
+P(y_{[1\upto N]})
+h(y_{[1\upto N]})
+\\
+&=&
+E[Zh(y_{[1\upto N]})]
+\eeqa
+
+\section{Doob's Transform}
+
+\beq
+h(.|x_t)
+=
+\int dy\; h(.|y_{t+s})P(y_{t+s} |x_t)
+\eeq
+
+\beq
+P_h(y_{t+s}|x_t)=\frac{h(.|y_{t+s})P(y_{t+s}|x_t)}
+{h(.|x_t)}
+\eeq
+
+\beq 
+\int dy\; P_h(y_{t+s}|x_t)=1
 \eeq
 
