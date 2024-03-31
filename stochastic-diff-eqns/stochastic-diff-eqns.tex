@@ -33,7 +33,9 @@ $t_{[i\upto j]} = [t_i, t_{i+1}, \ldots, t_j]$
 [t_i, t_j]
 \eeq
 
-
+stochastic process $\rvx:(\Omega, \RR^+) \rarrow \RR^n$.
+Denote image of $t$ for this map by  $\rvx(t)$ or by $\rvx_t$. $\Omega$ 
+here denotes the set of all events $\omega$ (i.e., "outcome space") .
 
 Path
 
@@ -388,7 +390,16 @@ L(x_3, t)\Delta_{2}^{3}\rvB
 \section{Simple properties of SDE}
 
 \subsection {Transition Matrices}
+
+$P(y_t|x_s)$
+
 \subsection{Markov chain}
+
+For $s<t$, 
+\beq
+P(x(t)| x([0, s]))=
+P(x(t)| x(s))
+\eeq
 \subsection{Chapman-Kolgomorov Equation}
 Let $x(t_k) = x_k$
 
@@ -571,13 +582,13 @@ d\rvx_\mu= f(\rvx, t)dt + L(\rvx, t)d\rvB_\mu(t)
 \pder{P}{t}= 
 \pder{}{x_\mu}\left[-
 Pf_\mu + \frac{1}{2}
-\pder{}{ x_\nu}(PL_{\mu,\alpha}Q_{\alpha,\beta}L^T_{\beta,\nu})\right]
+\pder{}{ x_\nu}(PR_{\mu, \nu})\right]
 \eeq
 
 \begin{itemize}
 
 \item
-{\bf Brownian motion} ($f_\mu=0$, $(LQL^T)_{\mu,\nu}=2D\delta(\mu, \nu)$)
+{\bf Brownian motion} ($f_\mu=0$, $(R)_{\mu,\nu}=2D\delta(\mu, \nu)$)
 
 \beq
 dx_\mu =d\rvB_\mu
@@ -585,13 +596,13 @@ dx_\mu =d\rvB_\mu
 
 
 \item {\bf Overdamped Langevin Equation}
-($f_\mu=-\frac{1}{2}\pder{U}{x_\mu}$, $(LQL^T)_{\mu,\nu}=2D\delta(\mu, \nu)$)
+($f_\mu=-\frac{1}{2}\pder{U}{x_\mu}$, $(R)_{\mu,\nu}=2D\delta(\mu, \nu)$)
 
 \beq
 dx_\mu = -\;\frac{1}{2}\pder{U}{x_\mu}dt + d\rvB_\mu
 \eeq
 
-\item {\bf Ornstein–Uhlenbeck process (a.k.a. Langevin equation)} ($f_\mu=-\lam x_\mu$, $(LQL^T)_{\mu,\nu}=2D\delta(\mu, \nu)$)
+\item {\bf Ornstein–Uhlenbeck process (a.k.a. Langevin equation)} ($f_\mu=-\lam x_\mu$, $(R)_{\mu,\nu}=2D\delta(\mu, \nu)$)
 
 This is the same as the Langevin equation, if identify $\rvx$ with
 the velocity of the 
@@ -603,14 +614,14 @@ d\rvx = -\lam \rvx dt + d\rvB
 \eeq
 
 \item 
-{\bf 1-dim ($n=1$) Black-Sholes} ($f=a x$, $(LQL^T)=(b\rvx)^2 q$)
+{\bf 1-dim ($n=1$) Black-Sholes} ($f=a x$, $(R)=(b\rvx)^2 q$)
 
 \beq
 d\rvx = a \rvx dt + b \rvx d\rvB
 \eeq
 
 \item {\bf 1-dim ($n=1$) General SDE}
-($f=a x + c$, $(LQL^T)=(b\rvx + d)^2 q$)
+($f=a x + c$, $(R)=(b\rvx + d)^2 q$)
 
 
 \beq
@@ -652,12 +663,18 @@ Consider $n$ dimensional case $\rvx, \rvW\in \RR^n$. Let $\mu, \nu,\alpha, \beta
 d\rvx_\mu= f(\rvx, t)dt + L(\rvx, t)d\rvB_\mu(t)
 \eeq
 
+\beq
+R_{\mu, \nu} = L_{\mu,\alpha}Q_{\alpha,\beta}L^T_{\beta,\nu}
+\eeq
+
+
 \begin{claim}
 \beq
 d\phi=
 \left[\pder{\phi}{t} +
-\pder{\phi}{x_\mu} f_\mu +
-\frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}L_{\mu,\alpha}Q_{\alpha,\beta}L^T_{\beta,\nu}\right]dt
+ f_\mu\pder{\phi}{x_\mu} + 
+ \frac{R_{\mu, \nu}}{2}
+\frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}\right]dt
 +
 \pder{\phi}{x_\mu}L_{\mu,\nu}d\rvB_\nu
 \eeq
@@ -712,13 +729,13 @@ d\phi &=&
 \pder{\phi}{t}dt
 +
 \pder{\phi}{x_\mu} [f_\mu dt + L_{\mu,\nu}d\rvB_\nu]
-+ \frac{1}{2}
-\frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}L_{\mu,\alpha}Q_{\alpha,\beta}L^T_{\beta,\nu}dt
++ \frac{R_{\mu, \nu}}{2}
+\frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}dt
 \\
 &=&
 \left[\pder{\phi}{t} +
-\pder{\phi}{x_\mu} f_\mu + \frac{1}{2}
-\frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}L_{\mu,\alpha}Q_{\alpha,\beta}L^T_{\beta,\nu}\right]dt
+f_\mu \pder{\phi}{x_\mu} + \frac{R_{\mu, \nu}}{2}
+\frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}\right]dt
 +
 \pder{\phi}{x_\mu}L_{\mu,\nu}d\rvB_\nu
 \eeqa
@@ -737,30 +754,46 @@ d(\rvB^K) = K(K-1) \rvB^{K-2}dt
 + K\rvB^{K-1}d\rvB
 \eeq
 
-$P(x, t)$
-Fokker-Planck equation (FP) (a.k.a. Fokker-Planck-Kolgomrov equation)
-\begin{claim} FP for probability of $P(x, t)$
-	of single event $(x,t)$
-Let
+Fokker-Planck equation (FP) (a.k.a. Fokker-Planck-Kolgomorov equation)
+for probability $P(x, t)$
+of single event $(x,t)=x_t$
+
+\begin{claim}
+	\beq
+	\pder{P}{t}= \calf_\rvx P
+	\eeq
+	is solved formally by
+	
+	\beq
+	P(x_t)=e^{(t-t_0)\calf_\rvx}P(x_{t_0})
+	\eeq
+%	where
+%	
+%		\beq
+%	\calf_\rvx = 
+%	\lim_{s\rarrow 0+}
+%	\frac{E[\phi(x_{t+s})] - \phi(x_t)}{s}
+%	\eeq
+	\end{claim}
+
+\begin{claim} 
+Assume
+\beq
+dx = f(x_t)dt + L(x_t)d\rvB
+\eeq
+Then
 
 \beq
-\calh_\rvx \bullet=
-\pder{}{x_\mu}\left[-
-(\bullet f_\mu) + \frac{1}{2}
-\pder{}{ x_\nu}(\bullet L_{\mu,\alpha}Q_{\alpha,\beta}L^T_{\beta,\nu})\right]
-\eeq
-Then $P(x,t)$ satisfies
+	\pder{P}{t}= \calf_\rvx P
+	\eeq
+with
 
 \beq
-\pder{P}{t}= \calh_\rvx P
+\calf_\rvx \bullet=
+-\;\pder{}{x_\mu}
+(\bullet f_\mu) + 
+\frac{\partial^2}{ \partial x_\nu\partial x_\mu}(\bullet \frac{R_{\mu, \nu}}{2})
 \eeq
-which is solved formally by
-
-\beq
-P(t)=e^{(t-t_0)\calh_\rvx}P(t_0)
-\eeq
-
-
 \end{claim}
 \proof
 
@@ -790,8 +823,8 @@ udv = d(uv)-(du)v
 \int dt dx^n\; P(x, t)\frac{d\phi}{dt}=
 \int dt dx^n\; P(x, t)
 \left[\pder{\phi}{t} +
-\pder{\phi}{x_\mu} f_\mu + \frac{1}{2}
-\frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}L_{\mu,\alpha}Q_{\alpha,\beta}L^T_{\beta,\nu}\right]
+ f_\mu\pder{\phi}{x_\mu} + \frac{R_{\mu, \nu}}{2}
+\frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}\right]
 \eeq
 
 
@@ -801,7 +834,7 @@ udv = d(uv)-(du)v
 \int dt dx^n\;  \phi
 \left[-\;\pder{P}{t} -
 \pder{(Pf_\mu)}{x_\mu} + \frac{1}{2}
-\frac{\partial^2 }{\partial x_\mu\partial x_\nu}(PL_{\mu,\alpha}Q_{\alpha,\beta}L^T_{\beta,\nu})\right]
+\frac{\partial^2 }{\partial x_\mu\partial x_\nu}(PR_{\mu, \nu})\right]
 \eeq
 
 
@@ -820,7 +853,8 @@ dx = d\rvB
 \eeq
 
 Overdamped Langevin Equation\footnote{
-This equation arises from
+This equation, also known as Brownian dynamics (see
+Ref.\cite{wiki-brownian-dyn}),  arises from
 Newton's equation $m\ddot{x}= -\lam\dot{x} + -U'(x)$ when the acceleration $\ddot{x}$ is negligible, so the drag force and potential force cancel each other.} 
 
 \beq
@@ -872,45 +906,56 @@ $f_\mu =-\; \frac{1}{2}\pder{U}{x_\mu}$
 Recall
 
 \beq
-\calh_\rvx \bullet=
-\pder{}{x_\mu}\left[-
-(\bullet f_\mu) + \frac{1}{2}
-\pder{}{ x_\nu}(\bullet L_{\mu,\alpha}Q_{\alpha,\beta}L^T_{\beta,\nu})\right]
+\calf_\rvx \bullet=
+-\;\pder{}{x_\mu}
+(\bullet f_\mu) + 
+\frac{\partial^2}{ \partial x_\nu\partial x_\mu}(\bullet \frac{R_{\mu, \nu}}{2})
 \eeq
 
-Define $\calh_\rvx^*$ to be the same as $\calh_\rvx$
-but with every derivative $\pder{}{x_\mu}$
-replaced by its negative. Hence\footnote{For those
-	who know Quantum Mechanics, our $\calh$ equals 
-	a Hamiltonian $H$ times $i$, $\calh =Hi$.}
+Define $\calf_\rvx^*$ to be the same as $\calf_\rvx$
+but with every derivative $A\pder{B}{x_\mu}$
+replaced by $-B\pder{A}{x_\mu}$. Hence\footnote{For those
+	who know Quantum Mechanics, our $\calf$ equals 
+	a Hamiltonian $H$ times $i$, $\calf =Hi$.
+}
 
 \beq
-\calh^*_\rvx \bullet=
-\pder{}{x_\mu}\left[+
-(\bullet f_\mu) + \frac{1}{2}
-\pder{}{ x_\nu}(\bullet L_{\mu,\alpha}Q_{\alpha,\beta}L^T_{\beta,\nu})\right]
+\calb_\rvx \bullet=
+f_\mu\pder{\bullet}{x_\mu}
+ + \frac{R_{\mu, \nu}}{2}
+\frac{\partial^2\bullet}{\partial x_\mu\partial x_\nu}
 \eeq
 
 
 
-\begin{claim} Forward FP for transition matrix $P(y,t|x,s)$
+\begin{claim} Forward FP for transition matrix $ P(x_t|w_s)$
 	
 \beq
-\pder{P(y^t|x^s)}{t}=
-\calh_\rvy P(y^t|x^s)
+\pder{P(x_t|w_s)}{t}=
+\calf_\rvx P(x_t|w_s)
 \eeq
 
+with
+\beq
+P(x_0|w_s)=\delta(x-w)
+\eeq
 \end{claim}
 	
 	
-\begin{claim} Backwards FP for transition matrix $P(y,t|x,s)$
+\begin{claim} Backwards FP for transition matrix $P(y_u|x_t)$
 \beq
--\;\pder{P(y^t|x^s)}{s}=
-\calh^*_\rvx P(y^t|x^s)
+-\;\pder{P(y_u|x_t)}{t}=
+\calb_\rvx P(y_u|x_t)
+\eeq
+with
+
+\beq
+P(y_u|x_0) =\delta(y-x)
 \eeq
 	
 \end{claim}
 	
+
 
 
 
@@ -937,12 +982,18 @@ L_{\mu, \nu}(t)d\rvB_\nu
 \eeq
 
 \beq
+R_{\mu, \nu} = L_{\mu, \alp}Q_{\alp, \beta}L^T_{\beta, \nu} = (LQL^T)_{\mu, \nu}
+\eeq
+
+\beq
 \frac{dm}{dt}=
 a + Fm
 \eeq
 
+
+
 \beq
-\frac{dV}{dt}= FV+VF^T + LQL^T
+\frac{dV}{dt}= FV+VF^T + R
 \eeq
 
 Propagator
@@ -973,7 +1024,7 @@ m(t) = \Psi(t, t_0)m(t_0) +\int_{t_0}^{t}d\tau\;
 \beq
 V(t)=\Psi(t, t_0)V(t_0)\Psi^T(t, t_0)
 +
-\int_{t_0}^t d\tau\; \Psi(t, \tau)L(\tau)QL^T(\tau)
+\int_{t_0}^t d\tau\; \Psi(t, \tau)R(\tau)
 \Psi^T(t, \tau)
 \eeq
 
@@ -999,7 +1050,7 @@ m(t|s) =
 
 \beq
 V(t|s)=\int_s^td\tau\;
-\Psi(t, \tau)L(\tau)QL^T(t, \tau)\Psi^T(t, \tau)
+R(\tau)\Psi^T(t, \tau)
 \eeq
 
 \beq 
@@ -1014,7 +1065,7 @@ d\tau\; \Psi(t_{k+1}, \tau)a(\tau)
 \beq
 \Sigma_k=
 \int_{t_k}^{t_{k+1}}d\tau\;
-\Psi(t_{k+1}, \tau)L(\tau)QL^T(\tau)\Psi^T(t_{k+1}, \tau)
+\Psi(t_{k+1}, \tau)R(\tau)\Psi^T(t_{k+1}, \tau)
 \eeq
 
 
@@ -1059,6 +1110,181 @@ V(t)\Psi^T(s,t) &\text{if } t<s
 \end{array}
 \right.
 \eeq
+
+\section{Fourier Transform of stochastic process}
+
+\newcommand{\Tintegral}[1]{
+\int_{-\;\frac{T}{#1}}^{\frac{T}{#1}}}
+
+
+recall
+
+\beq
+\delta(t) =\frac{1}{2\pi} \int_{-\infty}^{\infty}d\omega \;e^{i\omega t}
+\eeq
+
+$x(t)\in\RR^n$
+\beq
+\TIL{x}(\omega)=\calf[x(t)](\omega)=
+\int_{-\infty}^{\infty}dt\; x(t) e^{-i\omega t}
+\eeq
+\beq
+x(t)=\calf^{-1}[x(\omega)](t)=
+\frac{1}{2\pi}
+\int_{-\infty}^{\infty}d\omega\; \TIL{x}(\omega) e^{i\omega t}
+\eeq
+
+\beq
+x_T(\omega)=\Tintegral{2}
+dt\;x(t) e^{-i\omega t}
+\eeq
+
+$A^\dagger$ is the Hermitian conjugate,
+which equals the complex conjugate and transpose
+
+
+{\bf power spectral density}
+\beq
+S_\rvx(\omega)= \lim_{T\rarrow 0}
+\frac{1}{T} E[\TIL{x}_T(\omega)\TIL{x}^\dagger_T(\omega)]
+\eeq
+
+
+
+\beq 
+S_{\rvW}(\omega)= \lim_{T\rarrow 0}
+\frac{1}{T}
+E[\TIL{\rvW}(\omega)
+\TIL{\rvW}^\dagger(\omega)] = Q
+\eeq
+
+
+{\bf autocorrelation function for stationary process}
+\beq
+C_\rvx(\tau)=
+E[x(t)x^T(t+\tau)]
+\eeq
+
+
+\begin{claim}
+
+\beq 
+\Tintegral{2}dt
+\Tintegral{2}ds\;
+g(t-s)=
+\int_{-T}^{T}d\tau\;g(\tau)(T-|\tau|)
+\eeq
+\end{claim}
+\proof
+
+Let 
+
+\beq 
+\tau=\frac{t-s}{\sqrt{2}},\quad
+\sigma=\frac{t+s}{\sqrt{2}}
+\eeq
+
+The absolute value of the Jacobian $|\frac{\partial(s, t)}{\partial(\tau, \sigma)}|$ equals 1.
+Hence,
+
+\begin{align}
+\Tintegral{2}dt
+\Tintegral{2}ds\;
+g(t-s)
+&=
+\Tintegral{\sqrt{2}}d\tau
+\int_{-\;\frac{T}{\sqrt{2}}-|\tau|}
+^{\frac{T}{\sqrt{2}}+|\tau|}d\sigma \;g(\sqrt{2}\tau)
+\quad(\text{See Fig. \ref{fig-integral-region}})
+\\
+&=
+\Tintegral{\sqrt{2}}d\tau
+\;g(\sqrt{2}\tau)
+(\sqrt{2}T - 2|\tau|)
+\\
+&=
+\int_{-T}
+^{T}d\tau'
+\;g(\tau')
+(T - |\tau'|)\quad(\tau' = \sqrt{2}\tau)
+\end{align}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.5in]
+{stochastic-diff-eqns/integral.png}
+\caption{Integral}
+\label{fig-integral-region}
+\end{figure}
+
+
+\qed
+
+\begin{claim}(Wiener Khinchin theorem)
+
+\beq
+S_\rvx(\omega)
+=
+\int_{-\infty}^{\infty}d\tau\; C_\rvx(\tau)e^{-i\omega \tau}
+\eeq
+If $C(\tau)=C(-\tau)$,
+
+\beq
+S_\rvx(\omega)
+=
+2\int_{0}^{\infty}d\tau\; C_\rvx(\tau)\cos(\omega\tau)
+\eeq
+
+\end{claim}
+\proof
+
+\beqa
+\frac{1}{T}
+E[|\TIL{x}(\omega)|^2]
+&=&\frac{1}{T}
+\Tintegral{2}ds
+\Tintegral{2}dt\; 
+E[x(t)x^T(s)]e^{iw(t-s)}
+\\
+&=&\frac{1}{T}
+\int_{-T}^{T}d\tau\;
+C(\tau)e^{i\omega \tau}(T-|\tau|)
+\\
+&\rarrow&
+\int_{-\infty}^{\infty}d\tau\; C(\tau)e^{i\omega \tau}
+\eeqa
+\qed
+
+
+\beq
+C_{\rvW}(\tau) = Q\delta(\tau)
+\eeq
+
+\beq
+\frac{d x}{dt}=Fx + L\rvW
+\eeq
+
+\beq
+-i\omega \TIL{x} = F\TIL{x} + L\TIL{\rvW}
+\eeq
+
+\beq
+\TIL{x}= i\omega(I-F)L\TIL{\rvW}
+\eeq
+
+\beqa
+S_{\rvW}(\omega) &=& \TIL{x}\TIL{x}^\dagger
+\\
+&=&
+(F-i\omega)^{-1}\underbrace{LQL^\dagger}_R(F+i\omega)
+\eeqa
+
+\beq
+C_{\rvx}(\tau)= \frac{1}{2\pi}
+\int_{-\infty}^{\infty}d\omega\; e^{-i\omega \tau}
+(F-i\omega)^{-1}\underbrace{LQL^\dagger}_R(F+i\omega)
+\eeq
+
 
 \section{Lamperti Transform}
 
@@ -1383,17 +1609,261 @@ E[Zh(y_{[1\upto N]})]
 \section{Doob's Transform}
 
 \beq
-h(.|x_t)
+D(.|x_t)
 =
-\int dy\; h(.|y_{t+s})P(y_{t+s} |x_t)
+\int dy\; D(.|y_{t+s})P(y_{t+s} |x_t)
 \eeq
 
 \beq
-P_h(y_{t+s}|x_t)=\frac{h(.|y_{t+s})P(y_{t+s}|x_t)}
-{h(.|x_t)}
+P^D(y_{t+s}|x_t)=\frac{D(.|y_{t+s})P(y_{t+s}|x_t)}
+{D(.|x_t)}
 \eeq
 
 \beq 
-\int dy\; P_h(y_{t+s}|x_t)=1
+\int dy\; P^D(y_{t+s}|x_t)=1
 \eeq
+
+
+
+
+
+
+Recall that
+
+\beq
+\calf_\rvx \bullet=
+-\;\pder{}{x_\mu}
+(\bullet f_\mu) + 
+\frac{\partial^2}{ \partial x_\nu\partial x_\mu}(\bullet \frac{R_{\mu, \nu}}{2})
+\eeq
+and
+
+\beq
+\calb_\rvx \bullet=
+f_\mu\pder{\bullet}{x_\mu}
+ + \frac{R_{\mu, \nu}}{2}
+\frac{\partial^2\bullet}{\partial x_\mu\partial x_\nu}
+\eeq
+
+If
+\beq
+\left[\pder{}{s} + \calb_\rvy\right] \phi(y_s)=0,
+\eeq
+then that implies we can define a process $y_s$
+such that
+
+\beq
+dy_\mu = f_\mu(y_s)ds + L_{\mu,\nu}(y_s)d\rvB_\nu
+\eeq
+with 
+
+\beq 
+P(z_t|y_s) =\phi(y_s)
+\eeq
+
+
+\begin{claim} (Doob's Transform)
+ \label{cl-doobs-transform}
+ 
+Let $\calf_\rvy^D$ (resp.,   
+$\calb_\rvy^{D}$) be the 
+	same as $\calf_\rvy$ (resp., 
+	$\calb_\rvy$), but with $f_\mu(y_t)$
+	replaced by $f^D_\mu(y_t)$
+		given by
+		\beq
+		f^D_\mu(y_t)=
+		f_\mu(y_t) +
+		R_{\mu, \nu}\pder{\ln D(.|y_t)}{y_\nu}
+		\eeq
+Suppose
+\beq
+\begin{array}{l}
+\left[\pder{}{s} + \calb_\rvy\right] D(.|y_s)=0,
+\\
+(dy_\mu = f_\mu(y_s)ds + L_{\mu,\nu}(y_s)d\rvB_\nu)
+\end{array}
+\eeq
+and
+\beq
+\begin{array}{l}
+\left[\pder{}{s} + \calb_\rvy^D\right] 
+P(y_{t+s}|x_t)=0
+\\
+(dy_\mu = f_\mu^B(y_{t+s}, x_t)ds + L_{\mu,\nu}(y_{t+s}, x_t)d\rvB_\nu)
+\end{array}
+\eeq
+Then
+	
+\beq
+\begin{array}{l}
+\left[\pder{}{s} + \calb_\rvy\right]
+P^D(y_{t+s}|x_t)
+=0
+\\
+(dy_\mu = f_\mu(y_{t+s}, x_t)ds + L_{\mu,\nu}(y_{t+s}, x_t)d\rvB_\nu)
+\end{array}
+\eeq
+
+	
+\end{claim}
+\proof
+
+$P_s=P(y_{t+s}|x_t)$, $D_s=D(.|y_{t+s})$, $D_0=D(.|y_{t})$
+
+$\partial_\mu=\pder{}{y_\mu}$,
+$\partial_\nu=\pder{}{y_\nu}$,
+$\partial_s=\pder{}{s}$
+
+
+
+
+\beq
+(\partial_s + \calb_\rvy)P^D_s
+=
+\frac{1}{D_0}
+\left[\partial_s(D_sP_s)
++f_\mu\partial_\mu(D_sP_s)
++\frac{R_{\mu, \nu}}{2}
+\partial_\mu\partial_\nu (D_sP_s)
+\right]
+\eeq
+
+
+\beq
+\partial_\mu\partial_\nu (D_sP_s)
+=
+\left\{
+\begin{array}{l}
+\partial_\mu\partial_\nu(D_s)P_s
+\\
++
+\partial_\nu(D_s)\partial_\mu(P_s)
+\\
++
+\partial_\mu(D_s)\partial_\nu(P_s)
+\\
++
+D_s
+\partial_\mu\partial_\nu (P_s)
+\end{array}
+\right.
+\eeq
+
+\beq
+(\partial_s + \calb_\rvy)P^D_s
+=\left\{
+\begin{array}{l}
+\frac{P_s}{D_s}
+\bcancel{\left[\partial_s +\calb_\rvy
+\right]D_s}
+\\
++
+\frac{1}{D_0}
+\left[D_s\partial_s(P_s)
++f_\mu D_s\partial_\mu P_s
+\right]
+\\
++\frac{R_{\mu, \nu}}{2}
+\left\{
+\begin{array}{l}
+\partial_\nu(D_s)\partial_\mu(P_s)
+\\
++
+\partial_\mu(D_s)\partial_\nu(P_s)
+\\
++
+D_s
+\partial_\mu\partial_\nu (P_s)
+\end{array}
+\right.
+\end{array}
+\right.
+\eeq
+
+
+\begin{align}
+(\partial_s + \calb_\rvy)P^D_s
+&=\left\{
+\begin{array}{l}
+\frac{D_s}{D_0}
+\left[\partial_s P_s
++f_\mu\partial_\mu P_s
++\frac{R_{\mu, \nu}}{2}
+\partial_\mu\partial_\nu P_s
+\right]
+\\
++R_{\mu, \nu}
+\partial_\nu(D_s)\partial_\mu(P_s)
+\end{array}
+\right.
+\\
+&=
+\frac{D_s}{D_0}
+\left[\partial_s P_s
++[f_\mu
++ R_{\mu, \nu}
+\partial_\nu(\ln D_s)
+]
+\partial_\mu P_s
++\frac{R_{\mu, \nu}}{2}
+\partial_\mu\partial_\nu P_s
+\right]
+\\
+&=
+\frac{D_s}{D_0}
+\left[\partial_s P_s
++f_\mu^D
+\partial_\mu P_s
++\frac{R_{\mu, \nu}}{2}
+\partial_\mu\partial_\nu P_s
+\right]
+\\
+&=
+\frac{D_s}{D_0}
+(\partial_s + \calb^D_\rvy)P_s
+\end{align}
+
+\qed
+
+\begin{itemize}
+\item 
+
+
+
+
+\end{itemize}
+
+Let A= $x_{t+s}$ , $B=x_T$.
+Bayes Rule says 
+
+\beq
+P(A|B, x_t)=\frac{P(B|A, x_t)P(A|x_t)}
+{P(B|x_t)}
+\eeq
+
+
+\beqa
+P(x_{t+s}|x_T, x_t)
+&=&
+\frac{
+P(x_T|x_{t+s}, x_t)P(x_{t+s}|x_t)
+}{
+P(x_T|x_t)
+}
+\\
+&=&
+\frac{
+P(x_T|x_{t+s})P(x_{t+s}|x_t)
+}{
+P(x_T|x_t)
+}
+\eeqa
+
+If we set
+
+\beq
+D(.|x_{t+s})= P(x_T|x_{t+s})
+\eeq
+then Claim \ref{cl-doobs-transform} applies
 
