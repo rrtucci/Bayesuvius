@@ -2,9 +2,10 @@
 \label{ch-stochastic-diff-eqns}
 
 
-Stochastic Differential Equation (SDE)
-First order differential equation with noise.
-DEN (Deterministic bnet with External Noise) (see Chapter \ref{ch-linear-sys})
+Stochastic Differential Equations (SDE)
+are deterministic first order differential equations with additive external white noise. When discretized, they 
+can be modelled as dynamic bnets of type
+DEN (Deterministic bnet with External Noise) (see Chapter \ref{ch-linear-sys}).
 
 \section{Notation}
 
@@ -32,7 +33,7 @@ Cov(\rva, \rvb) =\av{\rva, \rvb}=
 
 $[a, b]=\{ x\in \RR: a\leq x \leq b\}$
 
-Suppose $i, j\in \{0, 1, \ldots, N-1\}$
+Suppose $i, j\in \{0, 1,2, \ldots\}$
 
 $[i:j] =\{i, i+1, \ldots, j-1\}$  (like Python)
 
@@ -60,20 +61,21 @@ $t_{[i\upto j]} = [t_i, t_{i+1}, \ldots, t_j]$
 \eeq
 \hrule\noindent {\bf Stochastic Process}
 
-The {\bf outcome space} $\Omega$ 
-denotes the set of all {\bf events} $\omega$ .
+An {\bf outcome space} $\Omega$ 
+is a set of {\bf events} $\omega$.
+
 A {\bf stochastic process} $\rvx(t, \omega)\in\RR^n$ with $t\geq 0$ and $\omega\in\Omega$ is a map $\rvx:(\RR^+,\Omega) \rarrow \RR^n$. Normally, we don't write the $\omega$ dependence: we use $\rvx(t)$ instead of $\rvx(t, \omega)$.
 
 For compactness, we will sometimes denote $x(t)$ by $x_t$ and an event $(x,t)$ by  $(\XT{x}{t})$. 
 
 Will often use $x_i=x(t_i)$.
 
-We will use lower case Latin indices like $i,j,k$ for time indices
-and lower case Greek letters like $\alp, \beta, \mu, \nu$  for $x\in\RR^n$ components.
+We will use lower case Latin indices like $i,j,k\in [N]$ for time indices
+and lower case Greek letters like $\alp, \beta, \mu, \nu\in[n]$  for $x\in\RR^n$ components.
 Hence $x_{\mu, i}=x_\mu(t_i)$
 
-We will use the Einstein implicit index summation
-convention for lower case Greek indices.
+We will use the {\bf Einstein implicit summation
+convention} for lower case Greek indices.
 Hence
 
 \beq
@@ -85,7 +87,7 @@ $dx^n = dx_0 dx_1 \ldots dx_{n-1}$
 \hrule\noindent
 {\bf Path}
 
-A path is defined as one of following sets:
+A {\bf path} is defined as one of the following sets, depending on whether we are considering continuous or discretized time:
 
 $\rvx([t,s])=\{  \rvx(\tau): \tau\in[t,s]\}$
 
@@ -95,11 +97,11 @@ $\rvx(t_{[j\upto k]}) =\{  x(\tau): \tau\in\{t_j, t_{j+1}, \ldots, t_k\}\}$
 $\rvx_{[j\upto k]} =\{ \rvx_j, \rvx_{j+1},
 \ldots,\rvx_k\}$
 
-Measure theorists speak of a family of sigma algebras wherein the elements of the family increase with $t$. They call this a {\bf filtration}. A path $x([t, s])$ is equivalent to a filtration,
+Measure theorists speak of a set of sigma algebras wherein the algebras increase with $t$. They call this a {\bf filtration}. A path $x([t, s])$ is equivalent to a filtration,
 so we won't speak of filtrations here.
 \hrule
 For any matrix $A$,
-we will use $A^\dagger$ to denote the Hermitian conjugate $A$, $A^T$ to denote its transpose, and $A^*$ to denote its complex conjugate. $A^\dagger = A^{* T}$.
+we will use $A^\dagger$ to denote the Hermitian conjugate of $A$, $A^T$ to denote its transpose, and $A^*$ to denote its complex conjugate. $A^\dagger = A^{* T}$.
 
  
  \section{White Noise and Brownian Motion}
@@ -122,8 +124,10 @@ we will use $A^\dagger$ to denote the Hermitian conjugate $A$, $A^T$ to denote i
   
  
 
-White noise $\rvW(t)
+{\bf White noise} $\rvW(t)
 \in\RR^n$ for $t\geq 0$
+is a random process with the
+following properties:
 
 \begin{enumerate}
 \item
@@ -132,7 +136,7 @@ White noise $\rvW(t)
 \eeq
 
 \item
-$\rvW(t)$ and $\rvW(s)$ independent for
+$\rvW(t)$ and $\rvW(s)$ are independent for
 $t\neq s$
 
 \item
@@ -148,8 +152,11 @@ C_\rvW(t, s) = \av{\rvW(t), \rvW^T(s)} = Q\delta(t-s)
 
 
 \end{enumerate}
-Brownian motion (a.k.a. as a Wiener process) $\rvB\in\RR^n$
+{\bf Brownian motion} (a.k.a. as a Wiener process)
+$\rvB\in\RR^n$
 for $t\geq 0$
+is a random process with the
+following properties: 
 
 \begin{enumerate}
 
@@ -194,7 +201,7 @@ If $[r, s]\cap [r', s']=\emptyset$ then
 E[(\Delta^{s}_{r}\rvB) (\Delta^{s'}_{r'}\rvB)]=0
 \eeq
 
-
+For example,
 \beqa
 E[\Delta_1^4\rvB \Delta_3^6\rvB]
 &=&
@@ -401,6 +408,19 @@ L(x_3, t)\Delta_{2}^{3}\rvB
 +x_0
 \eeq
 
+In general, this chapter discusses
+systems that obey the following SDE 
+
+\beq
+dx_\mu =
+f_\mu(x, t)dt + L_{\mu, \nu}(x,t)d\rvB_\nu(t)
+\eeq
+A system for which $f$ and $L$ are
+both constant (i.e., independent of the event $(x,t)$) is said to be the {\bf Linear, Time-Invariant (LTI)}.
+
+
+
+
 \section{Simple properties of SDE}
 
 \subsection {Transition Matrices}
@@ -470,10 +490,12 @@ E[\rvB(t)| B(t_{[i\upto j]}] = B(t_j)
 \eeq
 
 
-It\^{o} integrals $\int L\XT{x}{t}d\rvB_t$
-are martingales too, but Stratonovich integrals
+It\^{o} integrals $\int L\XT{x}{t}d\rvB_t$ (discussed later)
+are martingales too, but Stratonovich integrals (discussed later)
 $\int L\XT{x}{t}\circ d\rvB_t$
 aren't. 
+
+
 
 
 
@@ -987,7 +1009,7 @@ but in 2 different ways.
 
 
 \section{First and second order statistics}
-
+\subsection{general (not-necessarily LTI) case}
 \beq
 m_\mu(t) = E[\rvx_\mu(t)]=
 \av{\rvx_\mu(t)}
@@ -1021,8 +1043,9 @@ a + Fm
 
 \beq
 \frac{dV}{dt}=
-VF^T +FV^T+ R
+VF^T +FV^T+ 2R
 \eeq
+
 \end{claim}
 \proof
 
@@ -1057,16 +1080,16 @@ F_{\nu,\alp}\rvx_\alp dt}
 \av{F_{\mu,\alp}\rvx_\alp dt, 
 \rvx_\nu}
 + 
-R_{\mu, \nu}dt
+2R_{\mu, \nu}dt
 \\
 &=&
-(VF^T+FV^T+R)dt
+(VF^T+FV^T+2R)dt
 \eeqa
 \qed
 
 Propagator
 \beq
-\pder{\Psi(\tau, t)}{\tau}  = F(\tau) \Psi(\tau, t)
+\pder{\Psi(t, s)}{t}  = F(t) \Psi(t, s)
 \eeq
 
 satisfies
@@ -1120,6 +1143,7 @@ We won't prove Eq.\ref{eq-sde-cov-s-t} here.
 For a proof,  see
 Ref.\cite{sde-applied-book}.
 \qed
+
 
 
 If $P(x,t=0)$ is a Gaussian, $P(x,t)$ must be Gaussian too,
@@ -1196,8 +1220,27 @@ $$
 
 
 
+\subsection{LTI case}
 
-\section{Fourier Transform of stochastic process}
+\beq
+\Psi(t, s) = e^{(t-s)F}
+\eeq
+
+
+At time $t=\infty$ 
+the LTI system reaches
+a {\bf steady state} (i.e., zero time derivatives of expected values)
+with mean value $m_\infty$
+and variance $V_\infty$ given by
+\beq
+0=a + Fm_\infty
+\eeq
+\beq
+0=V_\infty F^T  + F v_\infty^T + 2R 
+\eeq
+
+
+\section{Fourier Transform Analysis for LTI case}
 
 \newcommand{\Tintegral}[1]{
 \int_{-\;\frac{T}{#1}}^{\frac{T}{#1}}}
@@ -1240,7 +1283,7 @@ S_{\rvW}(\omega) = Q
 \eeq
 
 
-{\bf autocorrelation function for stationary process}
+{\bf autocorrelation function for stationary process}. $\tau$ is called the {\bf time lag}
 \beq
 AC_\rvx(\tau)=
 E[x(t)x^T(t+\tau)]
@@ -1357,16 +1400,35 @@ AC_{\rvW}(\tau) = Q\delta(\tau)
 S_{\rvW}(\omega) &=& \TIL{x}\TIL{x}^\dagger
 \\
 &=&
-(F+i\omega)^{-1}\underbrace{LQL^\dagger}_(2R)(F^T-i\omega)^{-1}
+(F+i\omega)^{-1}\underbrace{LQL^\dagger}
+_{2R}(F^T-i\omega)^{-1}
 \eeqa
 
 \beq
-AC_{\rvx}(\tau)= \frac{1}{2\pi}
+AC_{\rvx}(\tau)= 
 \int_{-\infty}^{\infty}d\omega\; e^{-i\omega \tau}
 (F+i\omega)^{-1}(2R)
 (F^T-i\omega)^{-1}
 \eeq
 
+When steady state is reached,
+the expected values (averages) of functions of $\rvx(t)$ cease to vary with time. Thus, we only need to compare $\rvx(t)$
+to itself, not to $\rvx(t+\tau)$ with $\tau>0$. 
+Hence, we only need to know $AC(\tau)$ at $\tau=0$.
+
+
+For steady state, by the Wiener Khinchin theorem, 
+\beq
+S_\rvx(\omega)=AC_\rvx(0) 2\pi\delta(w)
+\eeq
+where
+
+\beq
+AC_\rvx(0)=
+\int_{-\infty}^\infty
+dw\;(F+i\omega)^{-1}(2R)
+(F^T-i\omega)^{-1}
+\eeq
 
 
 \section{Lamperti Transform}
@@ -1980,14 +2042,14 @@ d\rvx = -\lam \rvx dt + d\rvB
 \eeq
 
 \item 
-{\bf 1-dim ($n=1$) Black-Sholes} ($f=a x$, $R=(b\rvx)^2 q$)
+{\bf 1-dim ($n=1$) Black-Sholes} ($f=a x$, $R=(b\rvx)^2 q/2$)
 
 \beq
 d\rvx = a \rvx dt + b \rvx d\rvB
 \eeq
 
-\item {\bf 1-dim ($n=1$) General SDE}
-($f=a x + c$, $R=(b\rvx + d)^2 q$)
+\item {\bf 1-dim ($n=1$) SDE with 
+($f=a x + c$, $R=(b\rvx + d)^2 q/2$)}
 
 
 \beq
@@ -2027,17 +2089,19 @@ SDE
 dx = -\lam x dt + d\rvB
 \eeq
 \hrule
-\noindent$P\XT{x}{t}$, Mean and Variance
+\noindent$P(x_t)$, Mean and Variance
 
 \beq
 P(x_t)=\caln(x_t;\mu=\av{\rvx_t}, 
-s^2=\av{\rvx_t, \rvx_t} )
-\eeq
-\beq
-\av{\rvx_t}=x_0e^{-\lam t}
+\s^2=\av{\rvx_t, \rvx_t} )
 \eeq
 
 \beq
+m(t)=\av{\rvx_t}=x_0e^{-\lam t}
+\eeq
+
+\beq
+V(t)=
 \av{\rvx_t, \rvx_t} = \frac{q}{2\lam}(1-e^{-\lam t})
 \eeq
 
@@ -2047,7 +2111,7 @@ s^2=\av{\rvx_t, \rvx_t} )
 \noindent transition  matrix, $P(\XT{x}{t}|\XT{x}{s})$, conditional mean and variance
 
 \beq
-P(\XT{x}{t}|\XT{x}{s})= \caln(\XT{x}{t}; \mu= m(t|s), \s^2=V(t|s))
+P(\XT{x}{t}|\XT{x}{s})= \caln(x_t; \mu= m(t|s), \s^2=V(t|s))
 \eeq
 \beq
 m(t|s)=x_s e^{-\lam (t-s)}
@@ -2068,7 +2132,7 @@ S(\omega) =
 
 \hrule\noindent steady state covariance
 \beq
-\av{x_\infty, x_\infty}=
+V_\infty=\av{x_\infty, x_\infty}=
 \frac{1}{2\pi}
 \int_{-\infty}^{\infty}d\omega\; S(\omega) = \frac{q}{2\lam}
 \eeq
@@ -2076,7 +2140,7 @@ S(\omega) =
 \hrule \noindent Doob's transform
 
 \beq
-D(\XT{x}{T}|\XT{x}{t})=\caln(x_T; \mu=a(t)x_t, \sigma^2(t))
+D(\XT{x}{T}|\XT{x}{t})=\caln(x_T; \mu=a(t)x_t, \s^2=\sigma^2(t))
 \eeq
 
 \beq
@@ -2085,18 +2149,10 @@ a(t)=e^{-\lam(T-t)}
 \beq
 \s^2(t) = \frac{q}{2\lam}[1-e^{-2\lam(T-t)}]
 \eeq
-$a(0)=e^{-\lam T}$, $a(T)=1$. $\s^2(T)=0$,
+$a(0)=e^{-\lam T}$, $a(T)=1$. $\s^2(T)=0$. 
+$D(\XT{x}{T}|\XT{x}{T})=
+\caln(x_T; \mu=x_T, \s^2=0)$
 
-
-\beqa
-\pder{\ln D}{x}&=&
-\left[-\;\frac{1}{2}\ln(2\pi\s^2) -\;\frac{1}{2\s^2}[x_T-ax]^2
-\right]
-\\
-&=&
-\frac{a}{\s^2}(x_T-ax)
-\eeqa
-Goes to zero $1 \frac{0}{0}\rarrow 0$ at $t=T$.
 
 \beq
 dx = \left[
