@@ -1479,6 +1479,61 @@ S_\rvx(\omega)
 \end{claim}
 \proof
 
+\begin{align}
+\int_{-\infty}^{\infty}d\tau\;
+AC_\rvx(\tau)
+e^{-i\omega\tau}
+&=
+\int_{-\infty}^{\infty}d\tau\;
+\av{x(t)x^\dagger(t+\tau)}
+e^{-i\omega\tau}
+\\
+&=
+\int_{-\infty}^{\infty}d\tau
+\int_{-\infty}^{\infty}\frac{d\omega_1}{2\pi}
+\int_{-\infty}^{\infty}\frac{d\omega_2}{2\pi}
+\av{\TIL{x}(\omega_1)\TIL{x}^\dagger(\omega_2)}
+e^{-i\omega\tau+i\omega_1t-i\omega_2(t+\tau)}
+\end{align}
+
+To get rid of the $t$ dependence on the right hand side
+of the last equation, apply $\frac{1}{T}\int_{-T/2}^{T/2}$ to both sides
+to get
+
+
+\begin{align}
+\int_{-\infty}^{\infty}d\tau\;
+AC_\rvx(\tau)
+e^{-i\omega\tau}
+&=
+\int_{-\infty}^{\infty}\frac{d\tau}{T}
+\int_{-\infty}^{\infty}\frac{d\omega_1}{2\pi}
+\int_{-\infty}^{\infty}d\omega_2
+\av{\TIL{x}(\omega_1)\TIL{x}^\dagger(\omega_1)}
+e^{-i(\omega+\omega_2)\tau}
+\delta(\omega_1-\omega_2)
+\\
+&=
+\int_{-\infty}^{\infty}\frac{d\tau}{T}
+\int_{-\infty}^{\infty}\frac{d\omega_1}{2\pi}
+\av{\TIL{x}(\omega_1)\TIL{x}^\dagger(\omega_1)}
+e^{-i(\omega+\omega_1)\tau}
+\\
+&=
+\frac{1}{T}
+\int_{-\infty}^{\infty}d\omega_1
+\av{\TIL{x}(\omega_1)\TIL{x}^\dagger(\omega_1)}
+\delta(\omega+\omega_1)
+\\
+&=
+\frac{1}{T}
+\av{\TIL{x}(\omega)\TIL{x}^\dagger(-\omega)}=
+\frac{1}{T}
+\av{\TIL{x}(\omega)\TIL{x}^T(\omega)}
+\end{align}
+Alternative proof:
+
+
 \beqa
 \frac{1}{T}
 E[|\TIL{x}_T(\omega)|^2]
@@ -1746,7 +1801,8 @@ for $k\in[0-N]$.
 Let
 $\cale\subset \RR^n\times [0, T]$. 
 Fig.\ref{fig-possible-paths}
-shows a possible set $\cale$.
+shows a possible set $\cale$
+when $n=1$.
 The path integration is over all
 paths $(B_k, t_k)$ for $k\in [0-N]$
 that live inside $\cale$.
