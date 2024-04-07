@@ -1,11 +1,24 @@
-\chapter{Stochastic Differential Equations COMING SOON}
+\chapter{Stochastic Differential Equations}
 \label{ch-stochastic-diff-eqns}
 
+This chapter is based mostly on Ref.\cite{sar-sol}.
 
-Stochastic Differential Equations (SDE)
+{\bf Stochastic Differential Equations (SDE)}
 are deterministic first order differential equations with additive external white noise. When discretized, they 
 can be modelled as dynamic bnets of type
 DEN (Deterministic bnet with External Noise) (see Chapter \ref{ch-linear-sys}).
+
+This chapter deals with {\bf Classical Stochastic Calculus}. In that calculus,
+the SDE have real valued solutions.
+A theory of {\bf Quantum Stochastic Calculus} has also been developed (see,
+for example,  Ref.\cite{part-quantum-sde}) that is
+very similar to the classical
+theory. In the quantum theory, the SDEs  have complex valued solutions. The quantum theory describes quantum 
+mechanical systems (such as lasers) 
+whereas the classical theory describes classical macroscopic systems such as a
+pollen particle undergoing Brownian motion
+while submerged in a liquid.
+
 
 \section{Notation}
 
@@ -129,45 +142,47 @@ we will use $A^\dagger$ to denote the Hermitian conjugate of $A$, $A^T$ to denot
 is a random process with the
 following properties:
 
-\begin{enumerate}
-\item
+\begin{itemize}
+\item ==========================
 \beq
 \rvW(t) =\caln(W(t);\mu=0, Cov=Q)
 \eeq
 
-\item
+\item ==========================
+
 $\rvW(t)$ and $\rvW(s)$ are independent for
 $t\neq s$
 
-\item
+\item ==========================
 
 \beq E[\rvW(t)]=0
 \eeq
 
-\item
+\item ==========================
 \beq
 C_\rvW(t, s) = \av{\rvW(t), \rvW^T(s)} = Q\delta(t-s)
 \eeq
 
 
 
-\end{enumerate}
-{\bf Brownian motion} (a.k.a. as a Wiener process)
-$\rvB\in\RR^n$
+\end{itemize}
+{\bf Brownian motion} (a.k.a. {\bf Wiener process})
+$\rvB(t)\in\RR^n$
 for $t\geq 0$
 is a random process with the
 following properties: 
 
-\begin{enumerate}
+\begin{itemize}
 
-\item
+\item==========================
 
 \beq 
-\rvB(0)=0\footnote{For $\rvB(0)=\beta_0\neq 0$, replace
+\rvB(0)=0\footnote{If wish to
+consider  $\rvB(0)=\beta_0\neq 0$, replace
 $\rvB$ by $\rvB-\beta_0$}
 \eeq
 
-\item
+\item ==========================
 
 \beq
 \frac{
@@ -186,19 +201,19 @@ $\rvB$ by $\rvB-\beta_0$}
 \eeq
 
 
-\item
+\item ==========================
 
-\beq
-E[|\Delta^{t}_{s}\rvB|^2] = n|t-s|
-\eeq
-where $\rvB(t)\in\RR^n$
-
-
-\item
-If $[r, s]\cap [r', s']=\emptyset$ then
+If $\rvB(t)\in\RR^n$ and
+$[r, s]\cap [r', s']=\emptyset$, then
 
 \beq
 E[(\Delta^{s}_{r}\rvB) (\Delta^{s'}_{r'}\rvB)]=0
+\label{eq-non-overlap-B}
+\eeq and
+
+\beq
+E[|\Delta^{t}_{s}\rvB|^2] = n|t-s|
+\label{eq-overlap-B}
 \eeq
 
 For example,
@@ -215,25 +230,34 @@ E[(\Delta_3^4\rvB)^2]
 &=& n |4-3|
 \eeqa
 
-In general
+Eqs.(\ref{eq-non-overlap-B}) and (\ref{eq-overlap-B}) can be written together as
 
 \beq
 E[(\Delta^{s}_{r}\rvB) (\Delta^{s'}_{r'}\rvB)]=n {\rm len}([r, s]\cap [r', s'])
 \eeq
 
-\end{enumerate}
+\end{itemize}
 
 
 \section{SDE bnet}
 
-special nodes
-
-We discussed {\bf marginalizer node} in Chapter
-\ref{ch-marginalizer}.
-
+In this section, we
+propose a bnet for a time discretized SDE.
+This bnet will be constructed by combining 
+some nodes of various special types that occur frequently in bnetology.
+One such special type of node that we  
+have discussed already, in 
+Chapter
+\ref{ch-marginalizer}),
+is a {\bf marginalizer node} .
+Here are a few others. The TPM or structural  
+equation 
+associated with the node are printed in blue.
 \begin{itemize}
 
-\item {\bf diff and diff0 nodes} 
+\item {\bf diff and diff0 nodes}
+
+The diff node is defined by 
 
 $$\xymatrix{
 \rva\ar[dr]
@@ -251,7 +275,7 @@ P(x|a, b) =\indi (x =a-b)
 \beq  \color{blue}
 x =a-b
 \eeq
- diff0 node is the diff node with $x=0$
+The diff0 node is the diff node with $x=0$.
  
 
 
@@ -344,12 +368,19 @@ $$
 \eeq
 \end{itemize}
 
-\hrule \noindent{\bf SED bnet}
+\hrule \noindent{\bf SDE bnet}
 
-$\rvx, \rvB\in \RR$
+Fig.\ref{fig-sde-3-nodes} gives a bnet for a
+general one-dimensional ($n=1$) SDE defined by
+
+
 \beq
 d\rvx= f(\rvx, t)dt + L(\rvx, t)d\rvB(t)
 \eeq
+with $\rvx, \rvB\in \RR$.
+Some of the structural equations, printed in blue,
+for the bnet of Fig.\ref{fig-sde-3-nodes}, are
+as follows.
 
 \begin{figure}
 $$
@@ -388,6 +419,8 @@ for the $\rvx_i$.}
 \end{figure}
 
 
+
+
 \beq
 \color{blue}
 \Delta_{2}^{3}\rvB = 
@@ -408,29 +441,47 @@ L(x_3, t)\Delta_{2}^{3}\rvB
 +x_0
 \eeq
 
-In general, this chapter discusses
-systems that obey the following SDE 
+
+
+
+
+\section{Simple Properties of SDE}
+In this section,
+we discuss several simple properties
+of SDEs.
+
+\subsection{STD with Constant Coefficients (CC)}
+The most general system discussed in this 
+chapter obeys the following SDE 
 
 \beq
 dx_\mu =
 f_\mu(x, t)dt + L_{\mu, \nu}(x,t)d\rvB_\nu(t)
 \eeq
+where $\mu, \nu\in [n]$.
 A system for which $f$ and $L$ are
-both constant (i.e., independent of the event $(x,t)$) is said to be the {\bf Linear, Time-Invariant (LTI)}.
+both constant (i.e., independent of the event $(x,t)$) is said to have CC {\bf Constant Coefficients}\footnote{Ref.\cite{sar-sol},
+on which most of this this chapter is
+based, calls systems with CC, LTI (linear, time-invariant) systems.}
 
 
+\subsection {Transition Probability Matrices}
 
+Suppose  $t,s\geq 0$ and $x, y\in \RR^n$,
+We define 
+the {\bf event transition probability matrix (TPM)} as
 
-\section{Simple properties of SDE}
+\beq
+P(\XT{y}{t}|\XT{x}{s})
+\eeq
 
-\subsection {Transition Matrices}
+If you are familiar with the Dirac bra-ket
+notation used in Quantum Mechanics,
+a TPM can be expressed in such notation as 
 
-For $t,s\geq 0$ and $x, y\in \RR^n$,
-
-$P(\XT{y}{t}|\XT{x}{s})$
-
-$\av{y|P_{t,s}|x}$
-where
+\beq \av{y|P_{t,s}|x}\eeq
+where $\{\ket{x}: x\in\RR^n\}$ is a
+complete orthonormal basis:
 \beq
 \int dx\;\ket{x}\bra{x}
 =1,\quad 
@@ -439,6 +490,18 @@ where
 
 \subsection{Markov chain}
 
+Let $\rvx(t_k)=x_k$ for $k\in[N]$. The bnet 
+$$
+x_0\rarrow\rvx_1\rarrow \rvx_2\rarrow\cdots\rarrow\rvx_{N-1}$$
+is called a {\bf Markov chain}. It satisfies
+
+\beq
+P(x_{i+1}| x_i, x_{i-1}, \ldots, x_0)=
+P(x_{i+1}| x_i)
+\eeq
+For continuous instead of discrete time,
+the Markov chain definition is generalized
+as follows.
 For $s<t$, 
 \beq
 P(x(t)| x([0, s]))=
@@ -470,17 +533,21 @@ Now integrate both sides over $x_2$.
 
 \subsection{Martingale}
 
-For $t, t_i < T$
+Let $0<t, t_i < T$ and $x(t_i)=x_i$
+for $i\in[N]$.
+A {\bf martingale}  for discrete (resp., continuous) time is a process $\rvy_i$ (resp., $\rvy(t)$)
+which satisfies
+
 
 \beq
 E[\;|\rvy(t_i)|\;] < \infty\quad \forall i\quad
-(E[\;|\rvy(t)|\;] < \infty \quad \forall t\geq 0) 
+(\text{resp., }E[\;|\rvy(t)|\;] < \infty \quad \forall t\geq 0) 
 \eeq 
 
 
 \beq
 E\left[\rvy(t)|x(t_{[i\upto j]})\right]= y(t_j)
-\quad (E\left[\rvy(t)|x([0,s])\right]= y(s))
+\quad (\text{resp., }E\left[\rvy(t)|x([0,s])\right]= y(s))
 \eeq
 
 
@@ -501,22 +568,23 @@ aren't.
 
 \section{It\^{o} Integral}
 
-Consider 1 dimensional case $\rvx, \rvW\in \RR$.
+Consider the 1 dimensional case $\rvx, \rvW\in \RR$.
 \beq
 \frac{d\rvx}{dt}= f(\rvx, t) + L(\rvx, t)\rvW(t)
 \eeq
 
 \beq
 \rvx(t) - \rvx(0) =
-\int_{0}^{t}dt\; f\XT{x}{t} + J
+\int_{0}^{t}dt\; f(x,t) + J
 \eeq
+where
 
 \beq
 J = \int_{0}^t dt\;
-L\XT{x}{t}\rvW(t)
+L(x, t)\rvW(t)
 \eeq
 
-$t_0=0 < t_1 <\ldots <t_{N-1}$, $t_k^*\in [t_k, t_{k+1})$
+For $t_0=0 < t_1 <\ldots <t_{N-1}$, $t_k^*\in [t_k, t_{k+1})$, define
 
 
 
@@ -524,18 +592,34 @@ $t_0=0 < t_1 <\ldots <t_{N-1}$, $t_k^*\in [t_k, t_{k+1})$
 J_N = 
 \sum_k L(\rvx, t_k^*)\Delta_{t_k}^{t_{k+1}}\rvB
 \eeq
+and
 
 \beq 
 J = \lim_{N\rarrow \infty} J_N
 \eeq
 
+$L(x,t)\rvW(t)$ is called an integrand,
+In non-rigorous calculus,
+we normally consider integrands
+that are smooth, so that as $N\rarrow \infty$
+and the separation between successive $t_i$
+goes to zero,
+the value of $J$
+is independent of where $t^*_k$
+is located inside the interval $[t_k, t_{k+1})$.
+In the SDE case, the integrand $L\rvW$ is continuous
+but very jagged, so the value of $J$ does
+depend on the choice of $t^*_k$.
 
-
-Suppose $L=\rvx=\rvB$
+Consider the special case that
+$L=\rvx=\rvB$, so 
 
 \beq
 J_N=\sum_k \rvB(t_k^*) \Delta_{t_k}^{t_{k+1}}\rvB
 \eeq
+Let us see how in this simple case,
+the value of $J$ depends on the
+choice of $t^*_k$.
 
 \begin{enumerate}
 
@@ -637,10 +721,11 @@ d[\rvB_\alpha(t)]d[\rvB_\beta(t)]
 \section{Fokker-Planck Equation}
 
 
-Consider $n$ dimensional case $\rvx, \rvW\in \RR^n$. Let $\mu, \nu,\alpha, \beta\in [n]$.
+Consider the $n$ dimensional case $\rvx, \rvW\in \RR^n$. Let $\mu, \nu,\alpha, \beta\in [n]$. Suppose
 \beq
 d\rvx_\mu= f(\rvx, t)dt + L(\rvx, t)d\rvB_\mu(t)
 \eeq
+where
 
 \beq
 R_{\mu, \nu} = \frac{1}{2} L_{\mu,\alpha}Q_{\alpha,\beta}L^T_{\beta,\nu}
@@ -660,10 +745,9 @@ d\phi=
 \end{claim}
 \proof
 
-
-
-
-
+The Taylor
+expansion of $\phi(x,t)$, up to second
+order derivatives, is
 
 \beq
 d\phi =
@@ -721,51 +805,33 @@ f_\mu \pder{\phi}{x_\mu} + R_{\mu, \nu}
 
 \qed
 
-$\rvx(0)=x_0$
-
-Example,  $n=1$, $\rvx=\rvB$, 
+For example,  if $n=1$, $\rvx=\rvB$, 
 $\phi = \rvB^K$
-
-$L=Q=1$, $f=0$
+and
+$L=Q=1$, $f=0$,
+we get
 
 \beq
 d(\rvB^m) = \left[m \rvB^{m-1}+ m(m-1) \rvB^{m-2}\right]dt
 + m\rvB^{m-1}d\rvB
 \eeq
 
-{\bf Fokker-Planck equation} (FP equation) (a.k.a. {\bf Fokker-Planck-Kolgomorov equation} )
-for probability $P(x,t)$
+The next claim defines the {\bf Fokker-Planck equation} (FP equation) (a.k.a. {\bf Fokker-Planck-Kolgomorov equation} )
+for the probability $P(x,t)$
 of single event $(x,t)$
 
-\begin{claim}
-	\beq
-	\pder{P}{t}= \calf_\rvx P
-	\eeq
-	is solved formally by
-	
-	\beq
-	P(x,t)=e^{(t-t_0)\calf_\rvx}P(x, t_0)
-	\eeq
-%	where
-%	
-%		\beq
-%	\calf_\rvx = 
-%	\lim_{s\rarrow 0+}
-%	\frac{E[\phi(\XT{x}{t+s})] - \phi(\XT{x}{t})}{s}
-%	\eeq
-	\end{claim}
 
 \begin{claim} 
 (Forward FP equation)
 
 Assume
 \beq
-dx = f\XT{x}{t}dt + L\XT{x}{t}d\rvB
+dx = f(x, t)dt + L(x, t)d\rvB
 \eeq
 Then
 
 \beq
-	\pder{P\XT{x}{t}}{t}= \calf_\rvx P\XT{x}{t}
+	\pder{P(x, t)}{t}= \calf_\rvx P(x, t)
 	\eeq
 with
 
@@ -817,8 +883,20 @@ udv = d(uv)-(du)v
 \pder{(Pf_\mu)}{x_\mu} + 
 \frac{\partial^2 }{\partial x_\mu\partial x_\nu}(PR_{\mu, \nu})\right]
 \eeq
+\qed
 
-
+\begin{claim}
+	\beq
+	\pder{P}{t}= \calf_\rvx P
+	\eeq
+	is solved formally by
+	
+	\beq
+	P(x,t)=e^{(t-t_0)\calf_\rvx}P(x, t_0)
+	\eeq
+\end{claim}
+\proof
+Just use the Taylor expansion of an exponential function and analogize with the case when $\calf_\rvx$ is a constant.
 \qed
 
 Note that 
@@ -826,6 +904,7 @@ Note that
 \pder{P}{t} = -\pder{J_\mu}{x_\mu}
 \label{eq-cons-prob}
 \eeq
+where
 
 \beq
 J_\mu = Pf_\mu - \pder{(PR_{\mu,\nu})}{x_\nu}
@@ -841,7 +920,7 @@ flux}, $f_\mu$ is called the {\bf drift},
 and $R_{\mu, \nu}$ is called the
 {\bf diffusion matrix} (or {\bf diffusion coefficient} if it's a scalar)
 
-Diffusion equation, $n=1$, $f=0$, $L=1$, $R=D>0$
+The forward FP equation when  $n=1$, $f=0$, $L=1$, $R=D>0$, is called the {\bf Diffusion Equation}.
 
 \beq
 dx = d\rvB
@@ -852,7 +931,9 @@ dx = d\rvB
 \frac{\partial^2P}{\partial^2x}
 \eeq
 
-Overdamped Langevin Equation\footnote{
+As another example of the forward FP,
+consider the
+{\bf Overdamped Langevin Equation}\footnote{
 This equation, also known as Brownian dynamics (see
 Ref.\cite{wiki-brownian-dyn}),  arises from
 Newton's equation $m\ddot{x}= -\lam\dot{x}  -U'(x)$ when the acceleration $\ddot{x}$ is negligible, so the drag force and potential force cancel each other.} 
@@ -876,14 +957,15 @@ Z = \int dx^n\;e^{-\lam U(x)}
 
 \end{claim}
 \proof
-$L=1$, $\pder{P}{t}=0$
+
+The forward FP equation with
+$L=1$, $\pder{P}{t}=0$ is
 \beq
 0= -
 \pder{(Pf_\mu)}{x_\mu} + \frac{1}{2\lam}
 \frac{\partial^2 P }{\partial x_\mu^2}
 \eeq
-
-$f_\mu =-\; \frac{1}{2}\pder{U}{x_\mu}$
+If we substitute $f_\mu =-\; \frac{1}{2}\pder{U}{x_\mu}$ into this, we get
 
 
 \beq
@@ -892,7 +974,7 @@ $f_\mu =-\; \frac{1}{2}\pder{U}{x_\mu}$
 \pder{P }{x_\mu}
 \right)
 \eeq
-
+If we now substitute the proposed value of $P$, we get $0=0$
 
 \beq
 0=
@@ -928,18 +1010,24 @@ f_\mu\pder{\bullet}{x_\mu}
 
 
 
-\begin{claim} Forward FP equation for transition matrix $ P(\XT{x}{t}|\XT{w}{s})$
+\begin{claim} (Forward FP equation for transition matrix $ P(\XT{x}{t}|\XT{w}{s})$)
+
+$ P(\XT{x}{t}|\XT{w}{s})$ satisfies
 	
 \beq
 \pder{P(\XT{x}{t}|\XT{w}{s})}{t}=
 \calf_\rvx P(\XT{x}{t}|\XT{w}{s})
+\label{eq-forward-fp-tm}
 \eeq
 with
 \beq
 P(\XT{x}{s}|\XT{w}{s})=\delta(x-w)
 \eeq
 
-In case you know Dirac notation, this claim can be stated in Dirac notation as
+In case you know Dirac bra-ket notation, the 
+differential
+equation Eq.(\ref{eq-forward-fp-tm})
+ can be expressed in Dirac notation as
 
 \beq
 \pder{\av{x|P_{t,s}|w}}{t}
@@ -957,10 +1045,13 @@ with
 
 	
 	
-\begin{claim} Backwards FP equation for transition matrix $P(\XT{y}{u}|\XT{x}{t})$
+\begin{claim} (Backward FP equation for transition matrix $P(\XT{y}{u}|\XT{x}{t})$)
+
+$P(\XT{y}{u}|\XT{x}{t})$ satisfies
 \beq
 -\;\pder{P(\XT{y}{u}|\XT{x}{t})}{t}=
 \calb_\rvx P(\XT{y}{u}|\XT{x}{t})
+\label{eq-backward-fp-tm}
 \eeq
 with
 
@@ -968,7 +1059,10 @@ with
 P(\XT{y}{t}|\XT{x}{t}) =\delta(y-x)
 \eeq
 
-In case you know Dirac notation, this claim can be stated in Dirac notation as
+In case you know Dirac bra-ket notation, the 
+differential
+equation Eq.(\ref{eq-backward-fp-tm})
+ can be expressed in Dirac notation as
 
 \beq
 -\; \pder{\av{y|P_{u,t}|x}}{t}
@@ -1009,7 +1103,16 @@ but in 2 different ways.
 
 
 \section{First and second order statistics}
-\subsection{general (not-necessarily LTI) case}
+In this section,
+we derive differential equations
+for the  first and second order statistics
+of an SDE without and with CC.
+\subsection{For general SDE}
+Suppose the SDE coefficients $f$ and $L$
+can depend on the event $(x,t)$.
+
+
+Let
 \beq
 m_\mu(t) = E[\rvx_\mu(t)]=
 \av{\rvx_\mu(t)}
@@ -1087,12 +1190,11 @@ F_{\nu,\alp}\rvx_\alp dt}
 \eeqa
 \qed
 
-Propagator
+We call a {\bf propagator}, a function $\Psi:\RR^+\times \RR^+\rarrow \RR$
+that satisfies
 \beq
 \pder{\Psi(t, s)}{t}  = F(t) \Psi(t, s)
 \eeq
-
-satisfies
 
 \beq
 \begin{array}{l}
@@ -1138,8 +1240,8 @@ V(t)\Psi^T(s,t) &\text{if } t<s
 Eqs.(\ref{eq-mt-psi} and (\ref{eq-Vt-psi}))
 can be proven simply by taking the time derivative of both sides.
 This yields the differential
-equations for $m(t)$ and $V(t)$ that were established in Claim \ref{cl-mt-Vt}
-We won't prove Eq.\ref{eq-sde-cov-s-t} here.
+equations for $m(t)$ and $V(t)$ that were established in Claim \ref{cl-mt-Vt}.
+We won't prove Eq.(\ref{eq-sde-cov-s-t}) here.
 For a proof,  see
 Ref.\cite{sde-applied-book}.
 \qed
@@ -1157,7 +1259,6 @@ P(x,t) = P(x(t))=
 \beq
 P(x(t)|x(s)) =\caln(x(t); \mu=m(t|s), \Sigma^2=V(t|s))
 \eeq
-
 where
 
 \beq
@@ -1171,6 +1272,10 @@ V(t|s)=\int_s^td\tau\;
 \Psi(t, \tau)
 R(\tau)\Psi^T(t, \tau)
 \eeq
+
+This transition matrix $P(x(t)|x(s))$, when we discretize time and set $x(t_k)=x_k$, defines the 
+dynamic bnet of Fig.\ref{fig-1st-2nd-order-bnet}.
+Define
 
 \beq 
 \Psi_k = \Psi(t_{k+1}, t_k)
@@ -1186,13 +1291,17 @@ d\tau\; \Psi(t_{k+1}, \tau)a(\tau)
 \int_{t_k}^{t_{k+1}}d\tau\;
 \Psi(t_{k+1}, \tau)R(\tau)\Psi^T(t_{k+1}, \tau)
 \eeq
+The TPMs,
+printed in blue, for the bnet of Fig.\ref{fig-1st-2nd-order-bnet}, are as follows:
 
+\beq \color{blue}
+P(x_{k+1}|x_k)= \indi(x_{k+1}=\Psi_kx_k + a_k +\eps_k)
+\eeq
 
-\beq
+\beq \color{blue}
 P(\eps_k) = \caln(\eps_k; \mu=0, \Sigma=\Sigma_k)
 \eeq
 
-$x(t_k)=x_k$
 
 
 
@@ -1210,25 +1319,24 @@ $$
 & \rvx_0\ar[l]
 }
 $$
-\caption{xx}
-\label{fig-ist-2nd-order-bnet}
+\caption{Bnet that satisfies the general SDE, 
+assuming $P(x,t=0)$ is a Gaussian.}
+\label{fig-1st-2nd-order-bnet}
 \end{figure}
 
-\beq\color{blue}
-\rvx_{k+1}= \Psi_k\rvx_k + a_k +\ul{\eps}_k
-\eeq
 
 
 
-\subsection{LTI case}
 
+\subsection{In case SDE has CC}
+When the SDE has CC,
 \beq
 \Psi(t, s) = e^{(t-s)F}
 \eeq
 
 
-At time $t=\infty$ 
-the LTI system reaches
+At time $t=\infty$, 
+a system with CC reaches
 a {\bf steady state} (i.e., zero time derivatives of expected values)
 with mean value $m_\infty$
 and variance $V_\infty$ given by
@@ -1240,23 +1348,28 @@ and variance $V_\infty$ given by
 \eeq
 
 
-\section{Fourier Transform Analysis for LTI case}
+\section{Fourier Analysis for CC case}
+
+In this section, we will apply Fourier
+analysis to the SDE with CC.
+
+We begin by recalling a few definitions from Fourier 
+analysis.
 
 \newcommand{\Tintegral}[1]{
 \int_{-\;\frac{T}{#1}}^{\frac{T}{#1}}}
 
-
-recall
+The Dirac delta function satisfies:
 
 \beq
 \delta(t) =\frac{1}{2\pi} \int_{-\infty}^{\infty}d\omega \;e^{i\omega t}
 \eeq
-
-$x(t)\in\RR^n$
+The Fourier Transform of $x(t)$ is
 \beq
 \TIL{x}(\omega)=\calf[x(t)](\omega)=
 \int_{-\infty}^{\infty}dt\; x(t) e^{-i\omega t}
 \eeq
+The inverse Fourier transform of $\TIL{x}(\omega)$ is
 \beq
 x(t)=\calf^{-1}[x(\omega)](t)=
 \frac{1}{2\pi}
@@ -1269,34 +1382,37 @@ dt\;x(t) e^{-i\omega t}
 \eeq
 
 
-
+Define the 
 {\bf power spectral density}
+of process $x(t)$ is by
 \beq
 S_\rvx(\omega)= \lim_{T\rarrow 0}
 \frac{1}{T} E[\TIL{x}_T(\omega)\TIL{x}^\dagger_T(\omega)]
 \eeq
-
+In case $\rvx=\rvW$= white noise,
 
 
 \beq 
 S_{\rvW}(\omega) = Q
 \eeq
 
-
-{\bf autocorrelation function for stationary process}. $\tau$ is called the {\bf time lag}
+Define the
+{\bf autocorrelation function for stationary process $\rvx(t)$} by
 \beq
 AC_\rvx(\tau)=
 E[x(t)x^T(t+\tau)]
 \eeq
-
+$\tau$ is called the {\bf time lag}.
 
 \begin{claim}
+
 
 \beq 
 \Tintegral{2}dt
 \Tintegral{2}ds\;
 g(t-s)=
 \int_{-T}^{T}d\tau\;g(\tau)(T-|\tau|)
+\label{eq-ac-integral-formula}
 \eeq
 \end{claim}
 \proof
@@ -1307,7 +1423,6 @@ Let
 \tau=\frac{t-s}{\sqrt{2}},\quad
 \sigma=\frac{t+s}{\sqrt{2}}
 \eeq
-
 The absolute value of the Jacobian $|\frac{\partial(s, t)}{\partial(\tau, \sigma)}|$ equals 1.
 Hence,
 
@@ -1337,14 +1452,16 @@ g(t-s)
 \centering
 \includegraphics[width=1.5in]
 {stochastic-diff-eqns/integral.png}
-\caption{Integral}
+\caption{Integration
+region
+for integral given by Eq.(\ref{eq-ac-integral-formula})}
 \label{fig-integral-region}
 \end{figure}
 
 
 \qed
 
-\begin{claim}(Wiener Khinchin theorem)
+\begin{claim}(Wiener Khinchin theorem (WK))
 
 \beq
 S_\rvx(\omega)
@@ -1376,21 +1493,33 @@ AC(\tau)e^{-i\omega \tau}(T-|\tau|)
 \\
 &\rarrow&
 \int_{-\infty}^{\infty}d\tau\; AC(\tau)e^{-i\omega \tau}
+\quad\text{(Use Eq.(\ref{eq-ac-integral-formula}))}
 \eeqa
 \qed
 
-
+As a trivial example of the WK theorem, note that
 \beq
 AC_{\rvW}(\tau) = Q\delta(\tau)
 \eeq
+Hence,  by the WK theorem,
 
+\beq
+S_\rvx(\omega)=Q
+\eeq
+
+Next, let us solve the 
+SDE with CC using Fourier Transforms. 
+Substituting Fourier Transforms for $x(t)$
+into this equation we get 
 \beq
 \frac{d x}{dt}=Fx + L\rvW
 \eeq
+we get
 
 \beq
 -i\omega \TIL{x} = F\TIL{x} + L\TIL{\rvW}
 \eeq
+Hence,
 
 \beq
 \TIL{x}= -( F+i\omega)^{-1}L\TIL{\rvW}
@@ -1431,8 +1560,11 @@ dw\;(F+i\omega)^{-1}(2R)
 \eeq
 
 
-\section{Lamperti Transform}
+\section{Lamperti Transformation}
 
+The {\bf Lamperti Transformation} answers
+the following question: If the next two
+SDE are satisfied, express $g_\mu$ in terms of $f_\mu$ and $L_{\mu, \nu}$
 \beq
 dx_\mu = f_\mu(x,t)dt + L_{\mu,\nu}(x,t)d\rvB_\nu
 \eeq
@@ -1443,6 +1575,7 @@ dy_\mu = g_\mu(y,t)dt + d\rvB_\mu
 \eeq
 
 
+
 \begin{claim} For $n=1$, the function 
 $g(y,t)$ in Eq.(\ref{eq-g-def-grisa}) 
 is given by
@@ -1451,7 +1584,7 @@ is given by
 g(y,t)=
 \left.\left(
 \pder{}{t}
-\int_\xi^x \frac{du}{L(u,t)}
+\int_\xi^x \frac{du}{L\XT{u}{t}}
 +
 \frac{f\XT{x}{t}}{L\XT{x}{t}}
 -\;
@@ -1461,10 +1594,11 @@ g(y,t)=
 \eeq
 \end{claim}
 \proof
-
+Suppose
 \beq
-y=h=\int_\xi^x\frac{du}{L(u,t)}
+y=h\eqdef\int_\xi^x\frac{du}{L(u,t)}
 \eeq
+Then
 
 \beqa
 dy &=& \pder{h}{t}dt + \frac{dx}{L}
@@ -1481,6 +1615,7 @@ dy &=& \pder{h}{t}dt + \frac{dx}{L}
 \pder{h}{t} + \frac{f}{L} -\frac{1}{2}\pder{L}{x}
 \right)dt + d\rvB
 \eeqa
+\qed
 
 
 
@@ -1488,17 +1623,60 @@ dy &=& \pder{h}{t}dt + \frac{dx}{L}
 
 \section{Feynman-Kac Path Integrals}
 
-$x(t_k)=x_k$
+{\bf Kac path integrals} (Kac PI)
+are weighted sums  over paths. Kac FPs
+are solutions of a classical SDE for specific boundary conditions. They were first proposed by Kac.
 
-\beq
-x_k = x_{k-1}
-+f_k\Delta t +\Delta\rvB_k
+{\bf Feynman path integrals} (Feynman PI) are similar to Kac PI,
+but the weights of the sum are complex valued instead of real valued. Feynman FPs
+are solutions of a quantum SDE (i.e., a Schroedinger equation) for specific boundary conditions.They
+were first proposed by Feynman,
+who  wrote a whole book
+about them (see Ref.\cite{feynman-hibbs})
+
+Despite its name,
+this section will
+deal only with  Kac PI.
+Furthermore, we will only
+consider the
+the one dimensional case $\rvx\in\RR$.
+The higher dimensional case
+is similar.
+
+
+\begin{figure}[h!]
+$$
+\xymatrix{
+\ul{\Delta B}_3 \ar[d]
+& \ul{\Delta B}_2 \ar[d]
+& \ul{\Delta B}_1 \ar[d]
+& \ul{\Delta B}_0\ar[d]
+\\
+\rvx_3 
+& \rvx _2 \ar[l]
+& \rvx_1 \ar[l]
+& \rvx_0\ar[l]
+}
+$$
+\caption{Bnet for defining 1-dim Kac PI.}
+\label{fig-1dim-kac-pi}
+\end{figure}
+
+Let $x(t_k)=x_k$ and consider the bnet
+of Fig.\ref{fig-1dim-kac-pi}.
+The
+TPMs, printed in blue, 
+for that bnet, are as follows
+
+\beq\color{blue}
+P(x_k|x_{k+1})= \indi(x_{k-1}
++f_k\Delta t +\Delta\rvB_k)
 \eeq
 
-\beq
+\beq \color{blue}
 \Delta\rvB_k \sim \caln(\mu=0, \s^2=q\Delta t)
 \eeq
-
+Then
 
 \begin{align}
 P(x_{[1\upto N]})&=
@@ -1561,15 +1739,19 @@ P(B_{[0 \upto N]})
 \beq
 \cald B = \gamma^N \prod_{k=1}^N dB_k
 \eeq
+
+Let
 $\RR^N=
 \text{set of all paths (instances) $x_{[1\upto N]}$ of random variable
 $\rvx_{[1\upto N]}$ }
 $
 
+$A\subset \RR$
 
+Then
 \beq
 P(x_{N+1}|x_0=0)  =
-\int_{\RR^{N}}\cald B\;
+\int_{A^{N}}\cald B\;
 \exp\left(
 \frac{1}
 {2q}\int_0^{t_N}dt
@@ -1580,21 +1762,37 @@ P(x_{N+1}|x_0=0)  =
 
 \section{Karhunen–Loève series}
 
+In this section
+we explain the {\bf Karhunen–Loève (KL) series}. The most intuitive
+way of explaining  KL series is
+using Dirac bra-ket notation.
+
+Let $\{\ket{t}
+ : t\in [0,T]\}$ be a complete orthonormal basis
 \beq
 \int_0^{T}dt\;\ket{t}{\bra t} = 1,
 \;
 \av{t|t'}=\delta(t-t')
 \eeq
 
+Let $C$ be the correlation 
+or autocorrelation matrix
+for a SDE. The matrix elements
+of $C$ are:
+
 \beq
 C(t, t')= \av{t|C|t'}
 \eeq
 
-
-For $n=1,2,3,\ldots$, 
+Suppose $C$ has eigenvalue,
+eigenvector pairs $(\lam_n, \ket{\phi_n})$ for
+ $n=1,2,3,\ldots$. Hence 
 \beq
 C\ket{\phi_n}=\lam_n\ket{\phi_n}
 \eeq
+where the states $\ket{\phi_n}$
+for all $n$, are a complete
+orthonormal basis. Then
 
 \beq
 \sum_{n=1}^\infty \ket{\phi_n}\bra{\phi_n}=1,
@@ -1604,18 +1802,18 @@ C\ket{\phi_n}=\lam_n\ket{\phi_n}
 \eeq
 
 
-
 \beq
 C = \sum_{n=1}^\infty \ket{\phi_n}\lam_n\bra{\phi_n}
 \eeq
 
 
-
+If we define
 \beq
 \phi_n(t) = \av{t|\phi_n},
 \;
 \phi_n^*(t) = \av{\phi_n|t}
 \eeq
+then
 
 \beq
 \av{t|C|t'} = \sum_{n=1}^\infty \phi_n(t)\lam_n\phi_n^*(t')
@@ -1637,7 +1835,8 @@ For Brownian motion,
 \eeq
 
 
-Karhunen-Loeve expansion
+The Karhunen–Loève expansion
+of $\rvB(t)$ is
 
 \beq
 \rvB(t) =\sum_n z_n\av{t|\phi_n}
@@ -1651,6 +1850,12 @@ z_n\sim \caln(\mu=0, \s^2 =\lam_n)
 
 
 \section{Girsamov Theorem}
+
+In this section,
+we explain the {\bf Grisamov theorem}.
+We divide the explanation into 3 parts.
+
+Suppose
 \beq
 dx = f(x,t)dt + d\rvB
 \label{eq-girsa-f}
@@ -1660,10 +1865,14 @@ dx = f(x,t)dt + d\rvB
 dy = g(y,t)dt + d\rvbeta
 \label{eq-girsa-g}
 \eeq
+and
+\beq
+dx=dy
+\eeq
+
+
 
 \begin{claim}(Girsanov theorem, part 1)
-
-If $dx=dy$,
 
 \beq
 d\rvbeta =
@@ -1738,6 +1947,7 @@ E[h(x_{[1\upto N]})]=
 E[Zh(y_{[1\upto N]})]
 \eeq
 \end{claim}
+\proof
 \beqa
 E[h(\rvx_{[1\upto N]})]
 &=&
@@ -1757,17 +1967,30 @@ E[Zh(y_{[1\upto N]})]
 \eeqa
 
 \section{Doob's Transform}
+In this section, we explain {\bf Doob's transform}. 
 
+We begin by assuming that a function
+$D(.|\XT{x}{t})$ \footnote{Sometimes, $D(.|\XT{x}{t})$ is denoted by the letter $h$, and this transform is called Doob's h-transform.}
+\footnote{Later on, we will see that the conditional probability
+$P(\XT{x}{T}|\XT{x}{t})=D(.|\XT{x}{t})$
+satisfies Eq.(\ref{eq-dooby}).}
+satifies the equation
 \beq
 D(.|\XT{x}{t})
 =
 \int dy\; D(.|\XT{y}{t+s})P(\XT{y}{t+s} |\XT{x}{t})
+\label{eq-dooby}
 \eeq
+Next we define a function 
+$P^D(\XT{y}{t+s}|\XT{x}{t})$ by
 
 \beq
 P^D(\XT{y}{t+s}|\XT{x}{t})=\frac{D(.|\XT{y}{t+s})P(\XT{y}{t+s}|\XT{x}{t})}
 {D(.|\XT{x}{t})}
 \eeq
+Note that $P^D(\XT{y}{t+s}|\XT{x}{t})$
+is a conditional probability as its symbol
+suggests.
 
 \beq 
 \int dy\; P^D(\XT{y}{t+s}|\XT{x}{t})=1
@@ -1846,8 +2069,9 @@ P^D(\XT{y}{t+s}|\XT{x}{t})
 	
 \end{claim}
 \proof
-
+For conciseness, define
 $P_s=P(\XT{y}{t+s}|\XT{x}{t})$, $D_s=D(.|\XT{y}{t+s})$, $D_0=D(.|y_{t})$
+, and
 
 $\partial_\mu=\pder{}{y_\mu}$,
 $\partial_\nu=\pder{}{y_\nu}$,
@@ -1972,6 +2196,7 @@ Bayes Rule says
 P(A|B, \XT{x}{t})=\frac{P(B|A, \XT{x}{t})P(A|\XT{x}{t})}
 {P(B|\XT{x}{t})}
 \eeq
+Hence,
 
 
 \beqa
@@ -1990,13 +2215,12 @@ P(\XT{x}{T}|\XT{x}{t+s})P(\XT{x}{t+s}|\XT{x}{t})
 P(\XT{x}{T}|\XT{x}{t})
 }
 \eeqa
-
 If we set
 
 \beq
 D(.|\XT{x}{t+s})= P(\XT{x}{T}|\XT{x}{t+s})
 \eeq
-then Claim \ref{cl-doobs-transform} applies
+then Claim \ref{cl-doobs-transform} applies.
 
 \section{Appendix: Some explicitly solvable examples}
 Let $\mu, \nu, \alpha, \beta\in [n]$
