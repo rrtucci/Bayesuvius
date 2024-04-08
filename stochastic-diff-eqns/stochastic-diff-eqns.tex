@@ -1845,15 +1845,28 @@ Let $\{\ket{t}
 \;
 \av{t|t'}=\delta(t-t')
 \eeq
+Express $\rvx(t)$ in bra-ket notation
+\beq
+\rvx(t)=\av{t|\rvx},
+\quad 
+\rvx^*(t)=\av{\rvx|t},
+\eeq
 
-Let $C$ be the correlation 
-or autocorrelation matrix
-for a SDE. The matrix elements
+Consider the operator
+\beq
+C=E[\ket{\rvx}\bra{\rvx}]
+-
+E[\ket{\rvx}]E[\bra{\rvx}]
+\eeq
+The matrix elements
 of $C$ are:
 
 \beq
-C(t, t')= \av{t|C|t'}
+C(t, t')= \av{t|C|t'} 
+=E[\rvx(t)\rvx^*(t')]-E[\rvx(t)]
+E[\rvx^*(t')]
 \eeq
+Hence, $C(t,t')$ is the correlation matrix in the $\{\ket{t}:t\in [0,T]\}$ basis.
 
 Suppose $C$ has eigenvalue,
 eigenvector pairs $(\lam_n, \ket{\phi_n})$ for
@@ -1884,40 +1897,123 @@ If we define
 \;
 \phi_n^*(t) = \av{\phi_n|t}
 \eeq
+
+\beq
+\rvx_n = \av{\rvx|\phi_n},
+\;
+\rvx^*_n = \av{\phi_n|\rvx}
+\eeq
 then
 
 \beq
-\av{t|C|t'} = \sum_{n=1}^\infty \phi_n(t)\lam_n\phi_n^*(t')
+\ket{\rvx}=\sum_n \rvx_n\ket{\phi_n}
 \eeq
-
-
-For Brownian motion,
+Note also that both
 
 \beq
-\lam_n  =\left(\frac{2T}{(2n-1)\pi}
-\right)^2
+\av{\phi_n|C|\phi_m}=
+E[\rvx_n\rvx^*_m]-
+E[\rvx_n]E[\rvx^*_m]
 \eeq
+and 
 
 \beq
-\phi_n(t)=
-\sqrt{\frac{2}{T}}
-\sin \left(
-\frac{t}{\sqrt{\lam_n}}\right)
+\av{\phi_n|C|\phi_m}=\lam_n\delta(n,m)
+\eeq
+are satisfied. Therefore,
+
+
+\beq
+\boxed
+{E[\rvx_n\rvx^*_m]-
+E[\rvx_n]E[\rvx^*_m]
+=
+\lam_n\delta(n,m)}
 \eeq
 
 
-The Karhunen–Loève expansion
-of $\rvB(t)$ is
+
+
+
+
+\begin{claim}
+The Karhunen–Loève expansion for Brownian motion $\rvB(t)$ is
+
+\beq
+C = \sum_n \ket{\phi_n}\lam_n\bra{\phi_n}
+\eeq
+for $n=0,1,2\ldots$
+where
 
 \beq
 \rvB(t) =\sum_n z_n\av{t|\phi_n}
 \eeq
 
-where
+\beq
+\av{t|\phi_n}=\sqrt{\frac{2}
+{T}}\sin \omega_n t
+\eeq
+
+\beq
+\omega_n = \frac{\pi}{T}(n +\frac{1}{2})
+\eeq
+
+\beq
+\lam_n = \frac{1}{\omega_n^2}
+\eeq
 
 \beq
 z_n\sim \caln(\mu=0, \s^2 =\lam_n)
 \eeq
+\end{claim}
+\proof
+\beq
+E[\rvB_t\rvB_s]-\underbrace{E[\rvB_t]E[\rvB_s]}_0=
+E[\rvB_t\rvB_s]=\min(t,s)
+\eeq
+
+\beq
+\int_0^T dt\;
+\min(s,t)\phi_n(t) = \lam_n
+\phi_n(s), \; 0\leq s\leq T
+\eeq
+
+\beqa
+\int_0^T dt\;
+\min(s,t)\sin\omega_n t=
+\int_0^s dt\; t\sin\omega_n t
++
+\int_s^T dt\;s\sin\omega_n t
+\eeqa
+\beqa
+\int_0^s dt\;t\sin\omega_n t &=&
+\left.\frac{\sin\omega_nt}{\omega_n^2}\right|_{t=0}^s
+-\left.\frac{t\cos\omega_n t}{\omega_n}\right|_{t=0}^s
+\\
+&=&
+\frac{\sin\omega_ns}{\omega_n^2}
+-
+\frac{s\cos\omega_ns}{\omega_n}
+\eeqa
+
+\beq
+\int_s^T dt\; s\sin\omega_n t
+=
+\left.-\;\frac{s\cos \omega_nt }{\omega_n}\right|_{t=s}^T
+=
+\frac{s\cos \omega_n s}{\omega_n}
+\eeq
+Hence
+
+\beq
+\int_0^T dt\;
+\min(s,t)\sin\omega_n t=
+\frac{\sin\omega_ns}{\omega_n^2}
+\eeq
+
+
+
+\qed
 
 
 \section{Girsamov Theorem}
