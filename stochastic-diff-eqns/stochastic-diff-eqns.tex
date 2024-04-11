@@ -1112,7 +1112,7 @@ the same matrix $P(\XT{y}{u}|\XT{x}{t})$,
 but in 2 different ways.
 
 Figure \ref{fig-fokker-planck}
-show the TPM arrows for the
+shows the TPM arrows for the
 forward FP 
 in red and for the
 backward FP in blue.
@@ -1398,32 +1398,34 @@ analysis.
 \newcommand{\Tintegral}[1]{
 \int_{-\;\frac{T}{#1}}^{\frac{T}{#1}}}
 
-The Dirac delta function satisfies:
+The {\bf Dirac delta function} satisfies:
 
 \beq
 \delta(t) =\frac{1}{2\pi} \int_{-\infty}^{\infty}d\omega \;e^{i\omega t}
 \eeq
-The Fourier Transform of $x(t)$ is
+The {\bf Fourier transform} of $x(t)$ is
 \beq
 \TIL{x}(\omega)=\calf[x(t)](\omega)=
 \int_{-\infty}^{\infty}dt\; x(t) e^{-i\omega t}
 \eeq
-The inverse Fourier transform of $\TIL{x}(\omega)$ is
+The {\bf inverse Fourier transform} of $\TIL{x}(\omega)$ is
 \beq
-x(t)=\calf^{-1}[x(\omega)](t)=
+x(t)=\calf^{-1}[\TIL{x}(\omega)](t)=
 \frac{1}{2\pi}
 \int_{-\infty}^{\infty}d\omega\; \TIL{x}(\omega) e^{i\omega t}
 \eeq
 
+Define the {\bf bounded-time Fourier transform} $\TIL{x}_T(\omega)$ by
+
 \beq
-x_T(\omega)=\Tintegral{2}
+\TIL{x}_T(\omega)=\Tintegral{2}
 dt\;x(t) e^{-i\omega t}
 \eeq
 
 
 Define the 
 {\bf power spectral density}
-of process $x(t)$ is by
+of process $x(t)$ by
 \beq
 S_\rvx(\omega)= \lim_{T\rarrow 0}
 \frac{1}{T} E[\TIL{x}_T(\omega)\TIL{x}^\dagger_T(\omega)]
@@ -1505,7 +1507,7 @@ for integral given by Eq.(\ref{eq-ac-integral-formula})}
 \beq
 S_\rvx(\omega)
 =
-\int_{-\infty}^{\infty}d\tau\; AC_\rvx(\tau)e^{-i\omega \tau}
+\int_{-\infty}^{\infty}d\tau\; AC_\rvx(\tau)e^{i\omega \tau}
 \eeq
 If $AC(\tau)=AC(-\tau)$,
 
@@ -1521,52 +1523,52 @@ S_\rvx(\omega)
 \begin{align}
 \int_{-\infty}^{\infty}d\tau\;
 AC_\rvx(\tau)
-e^{-i\omega\tau}
+e^{i\omega\tau}
 &=
 \int_{-\infty}^{\infty}d\tau\;
 \av{x(t)x^\dagger(t+\tau)}
-e^{-i\omega\tau}
+e^{i\omega\tau}
 \\
 &=
 \int_{-\infty}^{\infty}d\tau
 \int_{-\infty}^{\infty}\frac{d\omega_1}{2\pi}
 \int_{-\infty}^{\infty}\frac{d\omega_2}{2\pi}
 \av{\TIL{x}(\omega_1)\TIL{x}^\dagger(\omega_2)}
-e^{-i\omega\tau+i\omega_1t-i\omega_2(t+\tau)}
+e^{i\omega\tau+i\omega_1t-i\omega_2(t+\tau)}
 \end{align}
 
 To get rid of the $t$ dependence on the right hand side
-of the last equation, apply $\frac{1}{T}\int_{-T/2}^{T/2}$ to both sides
+of the last equation, apply $\frac{1}{T}\int_{-T/2}^{T/2}dt$ to both sides
 to get
 
 
 \begin{align}
 \int_{-\infty}^{\infty}d\tau\;
 AC_\rvx(\tau)
-e^{-i\omega\tau}
+e^{i\omega\tau}
 &=
 \int_{-\infty}^{\infty}\frac{d\tau}{T}
 \int_{-\infty}^{\infty}\frac{d\omega_1}{2\pi}
 \int_{-\infty}^{\infty}d\omega_2
 \av{\TIL{x}(\omega_1)\TIL{x}^\dagger(\omega_1)}
-e^{-i(\omega+\omega_2)\tau}
+e^{i(\omega-\omega_2)\tau}
 \delta(\omega_1-\omega_2)
 \\
 &=
 \int_{-\infty}^{\infty}\frac{d\tau}{T}
 \int_{-\infty}^{\infty}\frac{d\omega_1}{2\pi}
 \av{\TIL{x}(\omega_1)\TIL{x}^\dagger(\omega_1)}
-e^{-i(\omega+\omega_1)\tau}
+e^{i(\omega-\omega_1)\tau}
 \\
 &=
 \frac{1}{T}
 \int_{-\infty}^{\infty}d\omega_1
 \av{\TIL{x}(\omega_1)\TIL{x}^\dagger(\omega_1)}
-\delta(\omega+\omega_1)
+\delta(\omega-\omega_1)
 \\
 &=
 \frac{1}{T}
-\av{\TIL{x}(\omega)\TIL{x}^\dagger(-\omega)}=
+\av{\TIL{x}(\omega)\TIL{x}^\dagger(\omega)}=
 \frac{1}{T}
 \av{\TIL{x}(\omega)\TIL{x}^T(\omega)}
 \end{align}
@@ -1583,10 +1585,10 @@ E[x(t)x^T(s)]e^{-iw(t-s)}
 \\
 &=&\frac{1}{T}
 \int_{-T}^{T}d\tau\;
-AC(\tau)e^{-i\omega \tau}(T-|\tau|)
+AC(\tau)e^{i\omega \tau}(T-|\tau|)
 \\
 &\rarrow&
-\int_{-\infty}^{\infty}d\tau\; AC(\tau)e^{-i\omega \tau}
+\int_{-\infty}^{\infty}d\tau\; AC(\tau)e^{i\omega \tau}
 \quad\text{(Use Eq.(\ref{eq-ac-integral-formula}))}
 \eeqa
 \qed
@@ -1602,9 +1604,9 @@ S_\rvx(\omega)=Q
 \eeq
 
 Next, let us solve the 
-SDE with CC using Fourier Transforms. 
-Substituting Fourier Transforms for $x(t)$
-into this equation we get 
+SDE with CC using Fourier transforms. 
+Substituting Fourier transforms for $x(t)$
+into this equation 
 \beq
 \frac{d x}{dt}=Fx + L\rvW
 \eeq
@@ -1629,7 +1631,7 @@ _{2R}(F^T-i\omega)^{-1}
 
 \beq
 AC_{\rvx}(\tau)= 
-\int_{-\infty}^{\infty}d\omega\; e^{-i\omega \tau}
+\int_{-\infty}^{\infty}d\omega\; e^{i\omega \tau}
 (F+i\omega)^{-1}(2R)
 (F^T-i\omega)^{-1}
 \eeq
@@ -1723,10 +1725,10 @@ are solutions of a classical SDE for specific boundary conditions. They were fir
 
 {\bf Feynman path integrals} (Feynman PI) are similar to Kac PI,
 but the weights of the sum are complex valued instead of real valued. Feynman FPs
-are solutions of a quantum SDE (i.e., a Schroedinger equation) for specific boundary conditions.They
+are solutions of a quantum SDE (i.e., a Schroedinger equation) for specific boundary conditions. They
 were first proposed by Feynman,
-who  wrote a whole book
-about them (see Ref.\cite{feynman-hibbs})
+who  wrote this book
+about them: Ref.\cite{feynman-hibbs})
 
 Despite its name,
 this section will
@@ -1763,7 +1765,7 @@ TPMs, printed in blue,
 for that bnet, are as follows
 
 \beq\color{blue}
-P(x_k|x_{k+1})= \indi(x_{k-1}
+P(x_k|x_{k-1})= \indi(x_{k-1}
 +f_k\Delta t +\Delta\rvB_k)
 \eeq
 
@@ -1773,7 +1775,7 @@ P(x_k|x_{k+1})= \indi(x_{k-1}
 Then
 
 \begin{align}
-P(x_{[1\upto N]})&=
+P(x_{[1\upto N]}|x_0)&=
 \prod_{k=1}^N P(x_k|x_{k-1})
 \\
 &=
@@ -1938,9 +1940,9 @@ If we define
 \eeq
 
 \beq
-\rvx_n = \av{\rvx|\phi_n},
+\rvx^*_n = \av{\rvx|\phi_n},
 \;
-\rvx^*_n = \av{\phi_n|\rvx}
+\rvx_n = \av{\phi_n|\rvx}
 \eeq
 then
 
@@ -2103,8 +2105,8 @@ Eq.(\ref{eq-girsa-g}) .
 \frac{P(x_{[1\upto N]})}{P(y_{[1\upto N]})}=
 \exp\left(-\;
 \frac{1}{2q}\int_0^{t_N}dt\;
-(f-g)^2 +
-\frac{1}{2q}\int 2(f-g)d{\rvB})
+(f-g)^2 -
+\frac{1}{2q}\int 2(f-g)d{\rvB}
 \right)
 \eeq
 \end{claim}
@@ -2138,7 +2140,7 @@ From Eq.(\ref{eq-px-div-pb})
 -2g + f +g]
 \\
 &=&
-(f-g)^2 + 2\dot{\rvB}(f-g))
+(f-g)^2 + 2\dot{\rvB}(f-g)
 \eeqa
 \qed
 
@@ -2435,7 +2437,7 @@ then Claim \ref{cl-doobs-transform} applies.
 \section{Appendix: Some explicitly solvable examples}
 Let $\mu, \nu, \alpha, \beta\in [n]$
 \beq
-d\rvx_\mu= f(\rvx, t)dt + L(\rvx, t)d\rvB_\mu(t)
+d\rvx_\mu= f_\mu(\rvx, t)dt + L_{\mu, \nu}(\rvx, t)d\rvB_\nu(t)
 \eeq
 
 
