@@ -110,7 +110,12 @@ $\rvx(t_{[j\upto k]}) =\{  x(\tau): \tau\in\{t_j, t_{j+1}, \ldots, t_k\}\}$
 $\rvx_{[j\upto k]} =\{ \rvx_j, \rvx_{j+1},
 \ldots,\rvx_k\}$
 
-Measure theorists speak of a set of sigma algebras wherein the algebras increase with $t$. They call this a {\bf filtration}. A path $x([t, s])$ is equivalent to a filtration,
+Measure theorists speak of a set of sigma algebras 
+parametrized by $t$
+with the $t$ algebra
+containing
+all algebras with smaller t.
+ They call this a {\bf filtration}. A path $x([t, s])$ is equivalent to a filtration,
 so we won't speak of filtrations here.
 \hrule
 For any matrix $A$,
@@ -177,7 +182,7 @@ following properties:
 \item==========================
 
 \beq 
-\rvB(0)=0\footnote{If wish to
+\rvB(0)=0\footnote{If you wish to
 consider  $\rvB(0)=\beta_0\neq 0$, replace
 $\rvB$ by $\rvB-\beta_0$}
 \eeq
@@ -230,10 +235,11 @@ E[(\Delta_3^4\rvB)^2]
 &=& n |4-3|
 \eeqa
 
-Eqs.(\ref{eq-non-overlap-B}) and (\ref{eq-overlap-B}) can be written together as
+Eqs.(\ref{eq-non-overlap-B}) and (\ref{eq-overlap-B}) can be 
+combined as follows
 
 \beq
-E[(\Delta^{s}_{r}\rvB) (\Delta^{s'}_{r'}\rvB)]=n {\rm len}([r, s]\cap [r', s'])
+E[(\Delta^{s}_{r}\rvB) (\Delta^{s'}_{r'}\rvB)]=n\; {\rm len}([r, s]\cap [r', s'])
 \eeq
 
 \end{itemize}
@@ -244,7 +250,7 @@ E[(\Delta^{s}_{r}\rvB) (\Delta^{s'}_{r'}\rvB)]=n {\rm len}([r, s]\cap [r', s'])
 In this section, we
 propose a bnet for a time discretized SDE.
 This bnet will be constructed by combining 
-some nodes of various special types that occur frequently in bnetology.
+some nodes of various special types that occur frequently in bnet-tology.
 One such special type of node that we  
 have discussed already, in 
 Chapter
@@ -309,7 +315,7 @@ $$
 \end{array}
 \eeq
 
-\item {\bf incrementer nodes}
+\item {\bf increment nodes}
 
 $$
 \xymatrix{
@@ -334,7 +340,7 @@ $$
 \end{array}
 \eeq
 
-\item {\bf de-incrementer nodes}
+\item {\bf un-increment nodes}
 $$
 \xymatrix{
 &\Delta^3_2\rvx_2 \ar[dl] 
@@ -410,10 +416,10 @@ $$
 }
 $$
 \caption{Bnet for general SDE with $N=4$ number of times. Note that this bnet
-contains within it first an incrementer bnet
+contains within it first an increment bnet
 (in red) for the $\rvB_i$,
 and
-then a de-incrementer bnet (in green)
+then a un-increment bnet (in green)
 for the $\rvx_i$.}
 \label{fig-sde-3-nodes}
 \end{figure}
@@ -430,8 +436,8 @@ for the $\rvx_i$.}
 \beq
 \color{blue}
 \Delta_{2}^{3}\rvx = 
-f(x_3, t)\Delta_2^3 t +
-L(x_3, t)\Delta_{2}^{3}\rvB
+f(x_2, t)\Delta_2^3 t +
+L(x_2, t)\Delta_{2}^{3}\rvB
 \eeq
 
 \beq\color{blue}
@@ -467,7 +473,7 @@ based, calls systems with CC, LTI (linear, time-invariant) systems.}
 
 \subsection {Transition Probability Matrices}
 
-Suppose  $t,s\geq 0$ and $x, y\in \RR^n$,
+Suppose  $t,s\geq 0$ and $x, y\in \RR^n$.
 We define 
 the {\bf event transition probability matrix (TPM)} as
 
@@ -477,7 +483,7 @@ P(\XT{y}{t}|\XT{x}{s})
 
 If you are familiar with the Dirac bra-ket
 notation used in Quantum Mechanics,
-a TPM can be expressed in such notation as 
+note that a TPM can be expressed in such notation as 
 
 \beq \av{y|P_{t,s}|x}\eeq
 where $\{\ket{x}: x\in\RR^n\}$ is a
@@ -533,7 +539,7 @@ Now integrate both sides over $x_2$.
 
 \subsection{Martingale}
 
-Let $0<t, t_i < T$ and $x(t_i)=x_i$
+Let $0\leq t, t_i \leq T$ and $x(t_i)=x_i$
 for $i\in[N]$.
 A {\bf martingale}  for discrete (resp., continuous) time is a process $\rvy_i$ (resp., $\rvy(t)$)
 which satisfies
@@ -558,8 +564,9 @@ E[\rvB(t)| B(t_{[i\upto j]}] = B(t_j)
 
 
 It\^{o} integrals $\int L\XT{x}{t}d\rvB_t$ (discussed later)
-are martingales too, but Stratonovich integrals (discussed later)
+are martingales too, but Stratonovich integrals 
 $\int L\XT{x}{t}\circ d\rvB_t$
+(discussed later)
 aren't. 
 
 
@@ -598,7 +605,7 @@ and
 J = \lim_{N\rarrow \infty} J_N
 \eeq
 
-$L(x,t)\rvW(t)$ is called an integrand,
+Consider the integrand $L(x,t)\rvW(t)$.
 In non-rigorous calculus,
 we normally consider integrands
 that are smooth, so that as $N\rarrow \infty$
@@ -645,8 +652,7 @@ E[(\Delta_{t_k}^{t_{k+1}}\rvB)^2]
 Stratonovich integral
 
 \hrule
-\item $t_k^* = t_k$, Ito integral\footnote{More correctly,
-It\^{o}}
+\item $t_k^* = t_k$, It\^{o} (Ito) integral
 
 
 \beqa
@@ -661,6 +667,14 @@ E[(\Delta_{0}^{t_k}\rvB)\Delta_{t_k}^{t_{k+1}}\rvB]
 \beqa
 J_N &=& 
 \sum_k \rvB(t_k)\Delta_{t_k}^{t_{k+1}}\rvB
+\\
+&=&\sum_k B_k(B_{k+1}-B_k)
+\\
+\\
+&=&
+\frac{1}{2}\sum_k\left[
+-[B_{k+1}-B_k]^2
++ (B^2_{k+1}-B^2_{k})\right]
 \\
 &=&
 \frac{1}{2}\sum_k\left[
@@ -723,7 +737,7 @@ d[\rvB_\alpha(t)]d[\rvB_\beta(t)]
 
 Consider the $n$ dimensional case $\rvx, \rvW\in \RR^n$. Let $\mu, \nu,\alpha, \beta\in [n]$. Suppose
 \beq
-d\rvx_\mu= f(\rvx, t)dt + L(\rvx, t)d\rvB_\mu(t)
+d\rvx_\mu= f_\mu(\rvx, t)dt + L_{\mu,\nu}(\rvx, t)d\rvB_\nu(t)
 \eeq
 where
 
@@ -784,7 +798,7 @@ L_{\mu, \alpha}  L_{\nu, \beta} d\rvB_\alpha d\rvB_\beta
 \\
 &=&
 \frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}
-L_{\mu, \alpha}  L_{\nu, \beta} Q_{\alpha,\beta} dt
+L_{\mu, \alpha}  L_{\nu, \alp} Q_{\alpha,\alp} dt
 \eeqa
 
 \beqa
@@ -824,7 +838,7 @@ of single event $(x,t)$
 \begin{claim} 
 (Forward FP equation)
 
-Assume
+If
 \beq
 dx = f(x, t)dt + L(x, t)d\rvB
 \eeq
@@ -985,7 +999,7 @@ If we now substitute the proposed value of $P$, we get $0=0$
 
 \qed
 
-Recall
+Recall that
 
 \beq
 \calf_\rvx \bullet=
@@ -1024,7 +1038,8 @@ with
 P(\XT{x}{s}|\XT{w}{s})=\delta(x-w)
 \eeq
 
-In case you know Dirac bra-ket notation, the 
+In case you know Dirac bra-ket notation,
+note that the
 differential
 equation Eq.(\ref{eq-forward-fp-tm})
  can be expressed in Dirac notation as
@@ -1059,7 +1074,8 @@ with
 P(\XT{y}{t}|\XT{x}{t}) =\delta(y-x)
 \eeq
 
-In case you know Dirac bra-ket notation, the 
+In case you know Dirac bra-ket notation,
+note that the
 differential
 equation Eq.(\ref{eq-backward-fp-tm})
  can be expressed in Dirac notation as
@@ -1095,7 +1111,30 @@ They both constrain
 the same matrix $P(\XT{y}{u}|\XT{x}{t})$,
 but in 2 different ways.
 
-	
+Figure \ref{fig-fokker-planck}
+show the TPM arrows for the
+forward FP 
+in red and for the
+backward FP in blue.
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2.5in]
+{stochastic-diff-eqns/fokker-planck.png}
+\caption{Red arrows refer to 
+$P((x,t)|(w,s))$
+and $P((x,t+dt)|(w,s))$
+for the forward FP equation.
+Blue arrows refer to
+$P((y,u)|(x,t))$
+and
+$P((y,u)|(x,t+dt))$
+for the backwards FP equation.
+}
+\label{fig-fokker-planck}
+\end{figure}
+
 
 
 
@@ -2010,7 +2049,11 @@ Hence
 \min(s,t)\sin\omega_n t=
 \frac{\sin\omega_ns}{\omega_n^2}
 \eeq
-
+The $\sqrt{\frac{2}{T}}$
+factor in the definition
+of $\phi_n(t)$
+is necessary to insure
+that $\av{\phi_n|\phi_n}=1$.
 
 
 \qed
