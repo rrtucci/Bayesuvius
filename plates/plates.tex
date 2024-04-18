@@ -6,28 +6,57 @@ will use the Numpy-like tensor notation
 discussed in Section 
 \ref{sec-numpy-tensors}. In particular, note that $[n] = [0:n] = \{0, 1,\ldots, n-1\}$ and that $T^{[n], [m]}$ is an $n\times m$ matrix.
 
-{\bf Plate notation} is used to simplify 
-equal parts of a bnet that occur in parallel.
-Suppose you have a bnet containing as a subset, $\Lam$ node sets $S_\lam$, where
+Plate notation is often used in Machine Learning. See, for instance,
+Chapter \ref{ch-transformer} on Transformers Networks, for  examples of plate notation.
+
+
+{\bf Plate notation} is used to describe, in a compact way, a family of 
+equal, disjoint  sub-bnets of a bnet that are connected in parallel or in series.
+Suppose you have a bnet containing as a subset, $\Lam$ disjoint node sets $S_\lam$ (``sub-bnets"), where
 $\lam\in [\Lam]$. Suppose
 any two $S_\lam$ have the same number of equivalent nodes,
 and two equivalent nodes have the same TPM.
+
+In case the $S_\lam$ are {\bf connected in parallel (CIP)}:
 Rather than drawing all $\Lam$ sets, 
-we think of them as {\bf layers} of a {\bf plate} (or stack)
+we think of them as {\bf layers} of a {\bf stack}
 that come out of the page like a stack of pancakes with the pancakes
 lying flat on the page.
-That way we only have to draw one pancake, instead of $\Lam$.
+That way we only have to draw one pancake instead of $\Lam$.
 We only draw once instead of $\Lam$ times, each node and the arrows entering and exiting
 that node. Quite a saving in labor and bnet complexity! 
 And a bnet can have more 
 than one plate, and a node can belong
 to more than one plate!
 
-Plates are often used in Machine Learning (see, for example,
-Chapter \ref{ch-transformer} on Transformers Networks).
+In case the $S_\lam$ are {\bf connected in series (CIS)}: Rather than drawing all $\Lam$ sets, 
+we think of them as {\bf links} in a {\bf chain}.
+That way we only have to draw one link instead of $\Lam$.
+We only draw once instead of $\Lam$ times, each node and the arrows entering and exiting
+that node. 
+
+
+The simplest possible use
+of CIS plates is for representing
+a Markov chain. This is
+illustrated in  Fig.\ref{fig-texnn-for-markov}.
+\begin{figure}[h!]\centering
+$$\xymatrix{
+{\underline{y}}&&*+[F*:SkyBlue]{\underline{A}}\ar[ll]&&{\underline{x}}\ar[ll]
+\save
+\POS"1,2"."1,2"."1,4"."1,4"!C*+<1.0em>\frm{-,}
+\restore
+\\
+*+[F-,]{\;\;}&\text{$3$ links}
+} \quad\quad=\quad\quad \xymatrix{\rvy & \rvA\ar[l] &\rvA\ar[l] &\rvA\ar[l] & \rvx\ar[l]}$$
+\caption{3-link Markov chain represented in plate notation
+and without plates.}
+\label{fig-texnn-for-markov}
+\end{figure}
+
 
 Fig.\ref{fig-texnn-for-rock_layers}
-gives an example of a bnet with 2 nested plates\footnote{Fig.\ref{fig-texnn-for-rock_layers}
+gives an example of a bnet with 2 nested CIP plates\footnote{Fig.\ref{fig-texnn-for-rock_layers}
 and the blue TPMs were
 rendered with my free, open source software 
 {\tt texnn} (see Ref.\cite{texnn})
@@ -57,7 +86,7 @@ $$\xymatrix{
 \\
 *+[F-,]{\;\;}&\text{$20$ layers}
 }$$
-\caption{Example of a bnet with 2 nested plates.  In general, multiple plates need not be 
+\caption{Example of a bnet with 2 nested CIP plates.  In general, multiple plates need not be 
 nested.}
 \label{fig-texnn-for-rock_layers}
 \end{figure}
