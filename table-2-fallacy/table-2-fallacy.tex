@@ -1,0 +1,131 @@
+\chapter{Table 2 Fallacy}
+\label{ch-table-2-fallacy}
+The {\bf Table 2 Fallacy} (T2F) is so named
+because it is common in epidemiology papers
+to present a dataset in Table 1, 
+and a Linear Regression (LR) analysis of that dataset in Table 2.
+Thus, a T2F is an error in the interpretation of LR results.
+
+In LR, we define 2 types of variables:
+The dependent variables $x_i$
+and the  independent one $y$. So
+in LR, the set of dependent variables is  
+not divided into finer classes. However, in Causal Inference,
+dependent variables can be of various kinds, such as confounders, mediators, etc.
+
+The covariance matrices in Eqs.(\ref{eq-xy-with-Z}, \ref{eq-xy-with-M}, \ref{eq-xy-with-MZ}) were obtained
+using the software SCuMpy (see Ref.\cite{scumpy})
+
+Suppose we do a LR of the form $\rvY \sim \rvX + \rvZ$
+for the DAG in Fig.\ref{fig-xy-with-Z}
+wherein $\rvZ$ is a confounder.
+Conditioning on $\rvZ$ corresponds to
+setting $\s^2_{\eps_\rvZ}=\av{\rvZ, \rvZ}=0$ in Eq.(\ref{eq-xy-with-Z}).
+Likewise, conditioning on $\rvX$ corresponds to
+setting $\s^2_{\eps_\rvX}=\av{\rvX, \rvX}=0$.
+Note that
+\begin{itemize}
+\item
+The coefficient  $\alp_{\rvY|\rvX}$ of $\rvX$ when we condition on $\rvZ$ equals the {\bf full effect} (a.k.a. {total effect})
+of $\rvX$ on $\rvY$.
+\item
+The coefficient $\alp_{\rvY|\rvZ}$ of $\rvZ$ when we condition on $\rvX$
+is NOT equal to the full effect 
+$\left(\alpha_{\underline{X}|\underline{Z}} \alpha_{\underline{Y}|\underline{X}} + \alpha_{\underline{Y}|\underline{Z}}\right)$ of $\rvZ$ on $\rvY$;  rather its a {\bf partial effect} (a.k.a. {direct effect})
+of $\rvZ$ on $\rvY$.
+\end{itemize}
+T2F is the false assumption that both
+coefficients in the LR given by $\rvY\sim \rvX +\rvZ$
+are full effects.
+
+Suppose we do a LR of the form $\rvY \sim \rvX + \rvM$
+for the DAG in Fig.\ref{fig-xy-with-M}
+wherein $\rvM$ is a mediator.
+Note that in this case $\alp_{\rvY|\rvX}$
+is a partial effect and $\alp_{\rvY|\rvM}$ is a full effect.
+
+Finally, suppose we do a LR of the form $\rvY \sim \rvX + \rvM +\rvZ$
+for the DAG in Fig.\ref{fig-xy-with-MZ}
+wherein $\rvM$ is a mediator and $\rvZ$ is a confounder.
+Note that in this case $\alp_{\rvY|\rvZ}$ and
+$\alp_{\rvY|\rvX}$ are partial effects whereas $\alp_{\rvY|\rvM}$ is a full effect.
+\newpage
+\hrule
+\begin{figure}[!h]
+$$
+\xymatrix{
+&\rvZ\ar[dl]\ar[dr]
+\\
+\rvX\ar[rr]&&\rvY
+}$$
+\caption{$\rvX\rarrow\rvY$ with confounder $\rvZ$.}
+\label{fig-xy-with-Z}
+\end{figure}
+
+
+\beq
+\begin{array}{l}
+\left\langle\underline{Z},\underline{Y}\right\rangle = \sigma^2_{\underline{\epsilon}_{\underline{Z}}} \left(\alpha_{\underline{X}|\underline{Z}} \alpha_{\underline{Y}|\underline{X}} + \alpha_{\underline{Y}|\underline{Z}}\right)\quad
+\\
+\left\langle\underline{X},\underline{Y}\right\rangle = \alpha_{\underline{X}|\underline{Z}} \sigma^2_{\underline{\epsilon}_{\underline{Z}}} \left(\alpha_{\underline{X}|\underline{Z}} \alpha_{\underline{Y}|\underline{X}} + \alpha_{\underline{Y}|\underline{Z}}\right) + \alpha_{\underline{Y}|\underline{X}} \sigma^2_{\underline{\epsilon}_{\underline{X}}}\quad
+\end{array}
+\label{eq-xy-with-Z}
+\eeq
+Eq.(\ref{eq-xy-with-Z}) gives some covariance matrices for Fig.\ref{fig-xy-with-Z}.
+
+\hrule
+\begin{figure}[!h]
+$$
+\xymatrix{
+\rvX\ar[rr]\ar[dr]&&\rvY
+\\
+&\rvM\ar[ur]
+}$$
+\caption{$\rvX\rarrow\rvY$ with mediator $\rvM$.}
+\label{fig-xy-with-M}
+\end{figure}
+
+
+\beq
+\begin{array}{l}
+\left\langle\underline{X},\underline{Y}\right\rangle = \sigma^2_{\underline{\epsilon}_{\underline{X}}} \left(\alpha_{\underline{M}|\underline{X}} \alpha_{\underline{Y}|\underline{M}} + \alpha_{\underline{Y}|\underline{X}}\right)\quad
+\\
+\left\langle\underline{M},\underline{Y}\right\rangle = \alpha_{\underline{M}|\underline{X}} \sigma^2_{\underline{\epsilon}_{\underline{X}}} \left(\alpha_{\underline{M}|\underline{X}} \alpha_{\underline{Y}|\underline{M}} + \alpha_{\underline{Y}|\underline{X}}\right) + \alpha_{\underline{Y}|\underline{M}} \sigma^2_{\underline{\epsilon}_{\underline{M}}}\quad
+\end{array}
+\label{eq-xy-with-M}
+\eeq
+Eq.(\ref{eq-xy-with-M}) gives some covariance matrices for Fig.\ref{fig-xy-with-M}.
+
+\hrule
+\begin{figure}[!h]
+$$
+\xymatrix{
+&\rvZ\ar[dl]\ar[dr]
+\\
+\rvX\ar[rr]\ar[dr]&&\rvY
+\\
+&\rvM\ar[ur]
+}$$
+\caption{$\rvX\rarrow\rvY$ with confounder $\rvZ$
+and mediator $\rvM$.}
+\label{fig-xy-with-MZ}
+\end{figure}
+
+
+\beq
+\begin{array}{l}
+\left\langle\underline{Z},\underline{Y}\right\rangle = \sigma^2_{\underline{\epsilon}_{\underline{Z}}} \left(\alpha_{\underline{M}|\underline{X}} \alpha_{\underline{X}|\underline{Z}} \alpha_{\underline{Y}|\underline{M}} + \alpha_{\underline{X}|\underline{Z}} \alpha_{\underline{Y}|\underline{X}} + \alpha_{\underline{Y}|\underline{Z}}\right)\quad
+\\
+\left\langle\underline{X},\underline{Y}\right\rangle = \alpha_{\underline{X}|\underline{Z}} \sigma^2_{\underline{\epsilon}_{\underline{Z}}} \left(\alpha_{\underline{M}|\underline{X}} \alpha_{\underline{X}|\underline{Z}} \alpha_{\underline{Y}|\underline{M}} + \alpha_{\underline{X}|\underline{Z}} \alpha_{\underline{Y}|\underline{X}} + \alpha_{\underline{Y}|\underline{Z}}\right) + \sigma^2_{\underline{\epsilon}_{\underline{X}}} \left(\alpha_{\underline{M}|\underline{X}} \alpha_{\underline{Y}|\underline{M}} + \alpha_{\underline{Y}|\underline{X}}\right)\quad
+\\
+\left\langle\underline{M},\underline{Y}\right\rangle =
+\left\{\begin{array}{l}
+ \alpha_{\underline{M}|\underline{X}} \alpha_{\underline{X}|\underline{Z}} \sigma^2_{\underline{\epsilon}_{\underline{Z}}} \left(\alpha_{\underline{M}|\underline{X}} \alpha_{\underline{X}|\underline{Z}} \alpha_{\underline{Y}|\underline{M}} 
+ + \alpha_{\underline{X}|\underline{Z}} \alpha_{\underline{Y}|\underline{X}} + \alpha_{\underline{Y}|\underline{Z}}\right)
+ \\ + \alpha_{\underline{M}|\underline{X}} \sigma^2_{\underline{\epsilon}_{\underline{X}}} \left(\alpha_{\underline{M}|\underline{X}} \alpha_{\underline{Y}|\underline{M}} + \alpha_{\underline{Y}|\underline{X}}\right) + \alpha_{\underline{Y}|\underline{M}} \sigma^2_{\underline{\epsilon}_{\underline{M}}}\quad
+ \end{array}\right.
+\end{array}
+\label{eq-xy-with-MZ}
+\eeq
+Eq.(\ref{eq-xy-with-MZ}) gives some covariance matrices for Fig.\ref{fig-xy-with-MZ}.
+\hrule
