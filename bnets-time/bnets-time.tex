@@ -80,7 +80,8 @@ advocates that they are trying to do a provably impossible task,
 causal model from data. I could be wrong, but this is what I think he means.
 
 When Pearl says ``data”, he is referring to what is commonly called a dataset.
-A dataset is a table of data, where all the entries of each column have the
+A {\bf dataset} is a table of data, where all the entries of each column have
+the
 same units, and measure a single feature, and each row refers to one
 particular sample or individual. Datasets are particularly useful for
 estimating probability distributions and for training neural nets. When Pearl
@@ -117,6 +118,17 @@ dataset is causal model-free or causal model-less
 (although sometimes one can find a partial
 causal model hidden in there). A dataset
 is not a dataset++.
+
+{\bf Caveat to this section:} Define a {\bf time-series table (TST)} to be
+a table of data, where all the entries of each column have
+the
+same units, and measure a single feature at different times with time increasing down the table.
+Hence, the rows of a TST are chronologically ordered (they 
+specify a time series)
+whereas those of a dataset aren't. Whereas it is not possible to
+fully specify a DAG from a dataset alone, it is possible
+to do so from a TST. See the python app CausalFit (Ref.\cite{CausalFitbit}) for a possible
+way extracting a causal DAG from a Fitbit TST.
 
 \section{What is causality?}
 What is Causality, really, and how do Bayesian Networks
@@ -162,11 +174,6 @@ correlation between $\rvx$ and $\rvy$.
 As a trivial example, suppose
 $\rvc=2\rvx$, $\rvy=\rvc-2\rvx=0$.
 Since $\rvy=0$, it's uncorrelated with $\rvx$.
-
-
-
-
-
 
 The nodes of a bnet represent random variables. Some of those
 random variables are clearly events (i.e., they occur at a definite time).
