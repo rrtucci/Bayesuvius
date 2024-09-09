@@ -1,40 +1,41 @@
-\chapter{Non-negative Matrix Factorization}
+\chapter{Non-negative Matrix Factorization COMING SOON}
+\label{ch-nn-mat-fac}
 
-Based on Ref.\cite{wiki-nmf}.
+This chapter is based on Ref.\cite{wiki-nmf}.
 
 Given
- matrix $V$, factor it
+ matrix $Y$, factor it
  into product of two matrices
 
 \beq
-V=WH
+Y=WX
 \;,
 \eeq 
 
 where all 3 matrices
 have non-negative entries.
 
-$V\in \RR^{nv\times na}_{\geq 0}$: visible info matrix
+$Y\in \RR^{ny\times na}_{\geq 0}$: visible info matrix
 
-$W\in \RR^{nv\times nh}_{\geq 0}$: weight info matrix
+$W\in \RR^{ny\times nx}_{\geq 0}$: weight info matrix
 
-$H\in \RR^{nh\times na}_{\geq 0}$: hidden info matrix
+$X\in \RR^{nx\times na}_{\geq 0}$: hidden info matrix
 
 
-Usually, $nv > nh<na$ so compression of
+Usually, $ny > nx<na$ so compression of
 information (a.k.a. dimensional reduction,
  clustering)
 
 \section{Bnet 
 interpretation}
 
- Express node $\rvv$ as a chain of 
+ Express node $\rvy$ as a chain of 
  two nodes.
 
 \begin{figure}[h!]
 \centering
 $$\xymatrix{
-\rvv& \rva\ar[l]&= &\rvw &\rvh\ar[l]&\rva\ar[l]
+\rvy& \rva\ar[l]&= &\rvy &\rvx\ar[l]&\rva\ar[l]
 }$$
 \caption{Bnet interpretation of
 non-negative matrix factorization.}
@@ -45,33 +46,33 @@ for bnet Fig.\ref{fig-nmf},
 are as follows.
 
 \beq\color{blue}
-P(\rvv=w|a)=\frac{V_{w,a}}{\sum_w V_{w,a}}
+P(\rvy=y|a)=\frac{Y_{y,a}}{\sum_y Y_{y,a}}
 \eeq
 
 \beq\color{blue}
-P(w|h)=\frac{W_{w,h}}{\sum_w W_{w,h}}
+P(y|x)=\frac{W_{y,x}}{\sum_y W_{y,x}}
 \eeq
 
 \beq\color{blue}
-P(h|a)=\frac{\sum_w W_{w,h}}{ \sum_w V_{w,a}}H_{h,a}
+P(x|a)=\frac{\sum_y W_{y,x}}{ \sum_y Y_{y,a}}X_{x,a}
 \eeq
 
 \section{Simplest recursive
  algorithm}
 
-Initialize: Choose $nh$. Choose $W^{(0)}$ and $H^{(0)}$
+Initialize: Choose $nx$. Choose $W^{(0)}$ and $X^{(0)}$
 that have non-negative entries. 
 
 Update: For $n=0, 1 , \dots $,
 do
 
 \beq
-H_{i,j}^{(n+1)}\leftarrow H_{i,j}^{(n)}
+X_{i,j}^{(n+1)}\leftarrow X_{i,j}^{(n)}
 \frac{
-[(W^{(n)})^T V]_{i,j}
+[(W^{(n)})^T Y]_{i,j}
 }{
 [(W^{(n)})^T 
-\underbrace{W^{(n)} H^{(n)}}_{\approx V}
+\underbrace{W^{(n)} X^{(n)}}_{\approx Y}
 ]_{i,j}
 }
 \eeq
@@ -79,19 +80,19 @@ and
 \beq
 W_{i,j}^{(n+1)}\leftarrow W_{i,j}^{(n)}
 \frac{
-[V(H^{(n+1)})^T]_{i,j}
+[Y(X^{(n+1)})^T]_{i,j}
 }
 {
 [
-\underbrace{W^{(n)} H^{(n+1)}}_{\approx V}
-(H^{(n+1)})^T]_{i,j}
+\underbrace{W^{(n)} X^{(n+1)}}_{\approx Y}
+(X^{(n+1)})^T]_{i,j}
 }\;.
 \eeq
 After each step, record error defined by
 
 \beq
-\cale^{(n)} =\parallel V-W^{(n)}
-H^{(n)}\parallel_2
+\cale^{(n)} =\parallel Y-W^{(n)}
+X^{(n)}\parallel_2
 \;.
 \eeq
 Using 2-norm, a.k.a. Frobenius matrix norm.
@@ -102,7 +103,7 @@ Can also use Kullback-Leibler divergence for error:
 \beq
 \cale = 
 \sum_a P(a)
- D_{KL}(P(\rvv=w|a)\parallel \sum_hP(w|h)P(h|a))
+ D_{KL}(P(\rvy=y|a)\parallel \sum_xP(y|x)P(x|a))
 \;,
 \eeq
 for some arbitrary choice of prior $P(a)$. For 

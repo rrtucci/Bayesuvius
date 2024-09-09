@@ -1,0 +1,216 @@
+\chapter{Factor Analysis COMING SOON}
+\label{ch-factor-ana}
+
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
+\begin{table}[h!]
+\begin{tabular}{|l|l|l|}
+\hline
+hidden factors, X                          & observables, Y                                & weights, W \\ \hline
+\cellcolor[HTML]{F4B9FB}Efficiency   & \cellcolor[HTML]{F4B9FB}waiting time       & .2         \\ \cline{2-3} 
+\cellcolor[HTML]{F4B9FB}             & \cellcolor[HTML]{F4B9FB}cleanliness        & .4         \\ \cline{2-3} 
+\cellcolor[HTML]{F4B9FB}             & \cellcolor[HTML]{F4B9FB}staff behavior     & .4         \\ \hline
+\cellcolor[HTML]{B8FFDA}Food quality & \cellcolor[HTML]{B8FFDA}taste of food      & .4         \\ \cline{2-3} 
+\cellcolor[HTML]{B8FFDA}             & \cellcolor[HTML]{B8FFDA}food temperature   & .3         \\ \cline{2-3} 
+\cellcolor[HTML]{B8FFDA}             & \cellcolor[HTML]{B8FFDA}freashness of food & ,3         \\ \hline
+\end{tabular}
+\caption{Example of Factor Analysis (FA) expressed in tabular form.}
+\label{tab-factor-ana}
+\end{table}
+
+
+
+This chapter is based on Refs.\cite{wiki-factor-ana} and
+\cite{tipping-bishop}.
+
+Fig.\ref{tab-factor-ana} is an example
+of factor analysis (FA)
+expressed in tabular form.
+
+Let
+
+$\rvY, \Delta\rvY, M, \rv{\cale}\in \RR^{na\times nc}$
+
+$W\in \RR^{na\times nb}$
+
+$\rvX \in  \RR^{nb\times nc}$
+
+$\rvy_i, \Delta\rvy_i, \mu_i, \rveps_i\in \RR^{na\times 1}$ for $i=1, 2, \ldots nc$ are column vectors of $\rvY, \Delta \rvY, M, \rv{\cale}$.
+The components of $y_i$ will be denoted by $y_i^\gamma$ for $\gamma=1,2, \ldots, nc$.
+
+$\rvx_i\in \RR^{nb\times 1}$ for $i=1, 2, \ldots nc$ are column vectors of $\rvX$. The components of $x_i$ will be denoted by $x_i^\gamma$ for $\gamma=1,2, \ldots, nc$.
+
+Suppose
+
+\beq
+\underbrace{\Delta\rvY - M} _\rvY
+= W \rvX + \rv{\cale}
+\eeq
+
+\beq
+\underbrace{\Delta\rvy_i - \mu_i} _{\rvy_i}
+= W \rvx_i + \rveps_i
+\eeq
+
+
+
+In FA, the bnet Fig.\ref{fig-one-factor-bnet}
+is repeated 
+for $i=1, 2, \ldots, na$.
+Henceforth, will omit the $i$ 
+subscript, make it implicit, from 
+the column vectors $\rvy_i, \Delta \rvy_i, \rv{\mu}_i,
+,\eps_i$.
+and $\rvx_i$.
+We can make that index explicit if necessary, as when the index is being summed over.
+
+
+As explained in Fig.\ref{fig-naive-v-factor},
+ FA can be viewed as
+a slight generalization of
+Naive Bayes 
+(see Chapter \ref{ch-naive}).
+
+
+
+\begin{figure}[h!]
+$$\xymatrix{
+\rvx_i\ar[d]_W & \rveps_i \ar[ld]
+\\
+\rvy_i
+}$$
+\caption{In FA, this bnet is repeated
+for $i=1,2,\ldots, na$.  }
+\label{fig-one-factor-bnet}
+\end{figure}
+
+\begin{figure}[h!]
+$$
+\begin{array}{cc}
+\xymatrix{
+\rvc\ar[d] \ar[dr]
+&
+\\
+\rvy_1 & \rvy_2
+}
+&
+\xymatrix{
+x_1\ar[d]\ar[dr]& x_2\ar[dl]\ar[d]
+\\
+\rvy_1 & \rvy_2}
+\\
+\\
+\text{Naive Bayes} & 
+\text{Factor Analysis}
+\end{array}
+$$
+\caption{Structurally speaking
+(disregarding the TPMs of the nodes), if we disregard the noise nodes $\rveps_i$, FA can be viewed as a generalization of
+Naive Bayes (NB). In NB we have a single root node $\rvc$, whereas in FA,
+we can have multiple root nodes such as $\rvx_1$ and 
+$\rvx_2$.}
+\label{fig-naive-v-factor}
+\end{figure}
+
+
+
+
+\begin{enumerate}
+
+\item $P(x, \eps)=P(x)P(\eps)$
+
+\item $\rveps\sim \caln(0, \s I)$, $E[\rvy]=\mu$,
+$\av{\rvx, \rvx^T}=1$
+
+\end{enumerate}
+
+\beqa
+C_\rvy&=&\av{\Delta \rvy, \Delta\rvy^T}
+\\
+&=&
+\av{W\rvx + \rv{\eps}, [W\rvx + \rv{\eps}]^T}
+\\
+&=&
+W\av{\rvx, \rvx^T}W^T + \av{\rv{\eps}, \rv{\eps}^T}
+\\
+&=&
+WW^T + \s^2I
+\eeqa
+
+\begin{itemize}
+\item LDEN Model\footnote{LDEN=Linear Deterministic
+with External Noise. LDEN models are defined in Chapter \ref{ch-linear-sys}}, $\rvx$ deterministic
+
+\beq\color{blue}
+P(\eps) = \caln(\eps;0, \s=\s)= \frac{1}{(2\pi\s^2)^{na/2}}
+\exp\left(- \;\frac{\eps^T \eps}{2\s^2}\right)
+\eeq
+
+
+\beq\color{blue}
+P(x) = \delta(x, X)
+\eeq
+
+\beq\color{blue}
+P(y|x, \eps)=
+\indi(y=Wx +\eps)
+\eeq
+
+
+\item LDEN Model, $\rvx$ Gaussian
+
+\beq\color{blue}
+P(\eps) = \caln(\eps;0, \s=\s)= \frac{1}{(2\pi\s^2)^{na/2}}
+\exp\left(- \;\frac{\eps^T \eps}{2\s^2}\right)
+\eeq
+
+
+\beq\color{blue}
+P(x)=\caln(x; 0, \s=1)=\frac{1}{(2\pi)^{nb/2}}
+\exp\left(- \;\frac{x^T x}{2}\right)
+\eeq
+
+\beq\color{blue}
+P(y|x, \eps)=
+\indi(y=Wx +\eps)
+\eeq
+
+\end{itemize}
+
+\beqa
+P(y|x) &=&\sum_\eps P(y|x, \eps)P(\eps)
+\\
+&=& \frac{1}{(2\pi\s^2)^{na/2}}\exp\left(-\;\frac{1}{2\s^2}
+\norm{y-Wx-\mu}^2\right)
+\eeqa
+
+\beqa
+P(y)&=&\sum_x P(y|x) P(x)
+\\
+&=&
+\frac{1}{(2\pi)^{na/2}\sqrt{\det C_\rvy}}
+\exp\left(-\;\frac{1}{2}\Delta y^T C_\rvy^{-1}\Delta y\right)
+\eeqa
+
+\beq
+\calc = W^T W + \s^2 I
+\eeq
+$\calc$ is $nb\times nb$ whereas $C_\rvy=WW^T + \s^2I$ is $na\times na$.
+
+\beq
+\HAT{\calc} = \calc/\s^2
+\eeq
+
+\beq
+\Delta x = x -\calc^{-1}W^T\Delta y
+\eeq
+
+\beqa
+P(x|y) &=&\frac{ P(y|x)P(x)}{P(y)}
+\\
+&=&
+\frac{1}{(2\pi)^{nb/2}}\sqrt{\det \HAT{\calc}}
+\exp\left(-\;\frac{1}{2}\Delta x^T\HAT{\calc}\Delta x\right)
+\eeqa
