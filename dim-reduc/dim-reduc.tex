@@ -5,21 +5,20 @@
 This chapter is based on Ref. \cite{wiki-dim-reduc}.
 
 
-Suppose you have dataset with 500 feature columns $\rvX$ plus a treatment
+Suppose you have a dataset with 500 feature columns $\rvX$ plus a treatment
 column $\rvt$ and an outcome column $\rvy$.
-This is too much data
-for a causal DAG discovery program 
-like bnlearn (see Chapter \ref{ch-struc-learn}) to handle.
+Causal DAG discovery software such as  bnlearn (see Chapter \ref{ch-struc-learn}) 
+cannot handle that much data.
 In order to make any headway in this situation,
 some kind of lossy data compression is required. That is precisely what {\bf dimensionality reduction} (DR) is: a type
-of lossy data compression for datasets.
-More specifically, DM of a 500 feature dataset might entail the 
+of lossy data compression for datasets whereby the number of feature columns is reduced.
+More specifically, DR of a 500 feature dataset might entail the 
 following steps:
 \begin{enumerate}
 
-\item choose from the 500 features $\rvX$, a bunch of disjoint feature subsets $\rvS_i$ such that in each subset, the variables are very strongly correlated as in a clique, so they truly act as if they are inseparable, as a single node, call it a combined node.
+\item choose from the 500 features $\rvX$, a bunch of disjoint feature subsets $\rvS_i$ such that in each subset, the variables are very strongly correlated as in a clique, so they truly act as if they are inseparable, as a single node that we shall refer to as a combined node.
 
-\item reduce the number of values (i.e., states) of the combined nodes using DM.
+\item reduce the number of values (i.e., states) of the combined nodes using DR.
 
 \item run causal discovery on the uncombined nodes, combined nodes and $(\rvt, \rvy)$
  nodes.
@@ -29,9 +28,9 @@ The above steps for {\bf bnet  coarsening} can be
 viewed as a special case of what physicists call a {\bf Renormalization Group} (RG) transformation. Ken Wilson received a Nobel Prize in 1982 for his RG theory.
 
 In our steps for bnet coarsening,
-we did not specify how to do DM. 
-Probably the most common
-and famous method for doing DM is
+we did not specify how to do DR. 
+The most common
+method for doing DR is
 Principal Component Analysis (PCA)
 (see Chapter \ref{ch-pca}). PCA 
 only keeps the largest principal 
@@ -39,5 +38,5 @@ components so it is truly lossy. Non-negative Matrix Factorization
 (see Chapter \ref{ch-nn-mat-fac})
 and Factor Analysis (see Chapter \ref{ch-factor-ana})
 are often mentioned as other
-methods, besides PCA, for doing DM. The way I've
-defined DM, both of these methods aren't truly DM methods because both of them are non-lossy.
+methods, besides PCA, for doing DR. The way I've
+defined DR, both of these methods aren't truly DR methods because both of them are non-lossy.

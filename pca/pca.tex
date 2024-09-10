@@ -11,7 +11,7 @@ This chapter is based on Ref.\cite{wiki-pca}.
 
 {\bf Principal Component Analysis} (PCA)
 
-PCA is one of several possible ways of doing 
+PCA is the most common way of doing 
 {\bf Dimensionality Reduction} (See Chapter \ref{ch-dim-reduc})
 
 \begin{itemize}
@@ -19,31 +19,34 @@ PCA is one of several possible ways of doing
 
 \item{\bf Notation}
 
-$X=[x_1, x_2, \ldots, x_\calf]\in \RR^{N\times \calf}$ {\bf Initial dataset} to be dimensionality reduced. Assume $X$ has {\bf zero mean} throughout. If $X$ doesn't have zero mean initially, 
+
+$X=[x_1, x_2, \ldots, x_\calf]\in \RR^{N\times \calf}$ {\bf Initial dataset} to be dimensionality reduced (i.e., the number of its  feature columns to be reduced). Henceforth, we will assume that $X$ has {\bf zero mean}. If $X$ doesn't have zero mean initially, 
 replace $X_{\s, i}$ by 
 $X_{\s, i}-\frac{1}{N}\sum_\s X_{\s, i} $
 
 
 $Y=[y_1, y_2, \ldots, y_\calf]\in \RR^{N\times \calf}$. The $y_i$ for $i=1,2, \ldots, \calf$ are called the {\bf principal components} (PCs).
 
-$u\in \RR^{N\times 1}$
-
 $U= [u_1, u_2, \ldots u_{N}]
-\in\RR^{N \times N}$, $UU^T =U^TU =1$ ($U$ orthogonal)
+\in\RR^{N \times N}$, $UU^T =U^TU =1$ ($U$ orthogonal). Components of
+$u_i$ will be denoted by $(u_i)_f$
+for $f=1,2, \ldots, \calf$.
  
 $\Lam= \left[\begin{array}{c}
 \Lam_D\\
 0^{(N-\calf)\times \calf}
 \end{array}\right]\in\RR^{N\times \calf}$, $\Lam_D=diag(\lam_1, \lam_2, \ldots, \lam_{\calf})$
 
-$v\in \RR^{\calf\times 1}$
-
 $W= [w_1, w_2, \ldots w_{\calf}]\in\RR^{\calf\times \calf}$, $WW^T=W^TW=1$
-($W$ orthogonal)
+($W$ orthogonal) Components of
+$w_i$ will be denoted by $(w_i)_f$
+for $f=1,2, \ldots, \calf$.
 
 {\bf Singular Value Decomposition} (SVD)
-\beq X = U\Lam W^T
-\eeq
+\beqa X &=& U\Lam W^T
+\\
+&=& \sum_{f=1}^\calf \lam_f u_f w^T_f
+\eeqa
 
 \item {\bf Covariance Matrix}
 \beqa
@@ -52,14 +55,16 @@ X^T X &=& W \Lam^T U^T U \Lam W^T
 &=& W \Lam^T \Lam W^T
 \\
 &=& W \Lam_D^2 W^T
+\\
+&=&
+\sum_{f=1}^\calf \lam_f^2 w_f w_f^T
 \eeqa
 
-\beq
-[X^T X]_{i,j} = X_{\s, i} X_{\s, j}=W_{i, r}\lam^2_rW_{r, j}
-\eeq
-We will refer to $\lam_i^2$ and to $w_i=[W_{i, r}]_{r=1}^\calf$
+
+We will refer to $\lam_i^2$ 
 as the {\bf principal value} (PV)
-and the {\bf principal axis} (PA) 
+of X and to $w_i=[W_{i, r}]_{r=1}^\calf$
+as the {\bf principal axis} (PA) 
 of $X$.
 
 \beqa
@@ -69,108 +74,33 @@ Y &=& XW\\
 &=&
 U \Lam 
 \eeqa
-$Y= U\Lam$ is called the Polar Decomposition of $Y$
+
+$Y= U\Lam$ is called the {\bf Polar Decomposition} of $Y$
 
 \beq
-Y_{\s, i} = X_{\s, j}W_{j,i}=U_{\s, i}\lam_{i}
+Y_{\s, i} = \sum_j X_{\s, j}W_{j,i}=\sum_jU_{\s, j}\lam_{j}
+\delta_{j,i} 
+\eeq
+
+\beq
+y_i = Xw_i = u_i\lam_i
 \eeq
 
 
 \beqa
 [Y^T Y]_{i,j}&=&Y_{\s, i} Y_{\s, j}
 \\&=& 
-U_{\s, i}\lam_{i} U_{\s, j}\lam_{j}
+y^T_iy_j
+\\
+&=&
+\lam_i\lam_j u_i^T u_j
 \\&=&
 \lam_{i}^2\delta_{i,j}
 \eeqa
 
-\beq
-Y_{\s, i} = X_{\s, j}W_{j,i}=U_{\s, i}\lam_{i}
-\eeq
-
-
-
-\item{\bf PCA as solution to Maximization problem}
-\beqa
-W_{\cdot,1}&=&
-\argmax_{W_{\cdot,1}: \sum_j W_{j,1}^2=1}\sum_\s (Y_{\s, 1})^2 
-\\
-&=& \argmax_{W_{\cdot,1}: \sum_j W_{j,1}^2=1}\sum_\s (X_{\s, j}W_{j,1})^2
-\\
-&=& \argmax_{W_{\cdot,1}}\sum_\s
-\frac{(X_{\s, j}W_{j,1})^2}{W_{j,1}W_{j,1}}
-\eeqa
-
-
-\beq
-X_{\s, i}^\Phi = X_{\s, i} -\sum_{k=1}^{\Phi-1}
-\underbrace{X_{\s, a}W_{a,k}W^T_{k,i}}_{
-\Delta X^k_{\s, i}}
-\label{eq-X-super-f}
-\eeq
-If we multiple Eq.(\ref{eq-X-super-f}) by $ W_{i, j}$,
-and sum over $i$, we get
-
-\beqa
-Y_{\s, j}^\Phi &=& Y_{\s, j} -\sum_{k=1}^{\Phi-1}
-\underbrace{X_{\s, a}W_{a,k}}_{Y_{\s, k}}\delta_{k, j}
-\\
-&=& Y_{\s, j}
--Y_{\s, j}\indi(j\leq\Phi-1)
-\label{eq-Y-super-f}
-\eeqa
-See Fig.\ref{fig-XY-super-f}
-for a pictorial
-representation of Eqs.\ref{eq-X-super-f}
-and \ref{eq-Y-super-f}.
-
-
-\begin{figure}[!h]
-$$
-\begin{array}{ccc}
-\xymatrix@R=5pc@C=4pc{
-&\ar[l]_{\Delta X^1}
-&\ar[l]_{\Delta X^2}
-&\ar[l]_{\Delta X^3}
-\\
-\ar[u]|{X^1=X}
-\ar[ur]|{X^2}
-\ar[urr]|{X^3}
-\ar[urrr]|{X^4}
-}
-&\text{ times $W$ =}&
-\xymatrix@R=5pc@C=4pc{
-&\ar[l]_{\Delta Y^1}
-&\ar[l]_{\Delta Y^2}
-&\ar[l]_{\Delta Y^3}
-\\
-\ar[u]|{Y^1=Y}
-\ar[ur]|{Y^2}
-\ar[urr]|{Y^3}
-\ar[urrr]|{Y^4}
-}
-\end{array}
-$$
-\caption{Pictorial representation of Eqs.\ref{eq-X-super-f}and
-\ref{eq-Y-super-f}.
-This figure is not accurate in the sense that the vectors
-$\Delta X^1, \Delta X^2, \Delta X^3$ are in reality not coplanar. Also,
-$X^\Phi$ and $Y^\Phi$ both tend to zero as $\Phi\rarrow \calf$.}
-\label{fig-XY-super-f}
-\end{figure}
-
-
-\beqa
-W_{\cdot,\Phi}&=&
- \argmax_{W_{\cdot,\Phi}: \sum_j W_{j,\Phi}^2=1}\sum_\s (X^\Phi_{\s, j}W_{j,\Phi})^2
- \\
- &=& \argmax_{W_{\cdot,\Phi}}\sum_\s
- \frac{(X^\Phi_{\s, j}W_{j,\Phi})^2}{W_{j,\Phi}W_{j,\Phi}}
- \eeqa
- 
 \item {\bf Truncation}
 \beq
-Y_{\s, i\leq \Phi} = X_{\s, j}W_{j,i\leq \Phi}=U_{\s, i}\lam_{i\leq \Phi}
+Y_{\s, i\leq \Phi} = \sum_j X_{\s, j}W_{j,i\leq \Phi}=U_{\s, i}\lam_{i\leq \Phi}
 \eeq
 
 
@@ -184,11 +114,7 @@ Y-Y_{\leq \Phi} = U(\Lam - \Lam_{\leq \Phi})
 
 
 \beqa
-Error &=& 
-\tr\left[(X-X_{\leq \Phi})^T(X-X_{\leq \Phi})\right]
-\\
-&=& \tr\left[(X-X_{\leq \Phi})^T W W^T(X-X_{\leq \Phi})\right]
-\\
+Error 
 &=& \tr\left[(Y-Y_{\leq \Phi})^T(Y-Y_{\leq \Phi})\right]
 \\
 &=&
@@ -197,6 +123,101 @@ Error &=&
 &=&
 \sum_{i=\Phi+1}^\calf \lam_i
 \eeqa
+
+
+
+\item{\bf PCA as solution to maximization problem}
+\beqa
+w_1&=&
+\argmax_{w_1:\; w_1^Tw_1=1}
+y_1^T y_1
+\\
+&=& 
+\argmax_{w_1:\; w_1^Tw_1=1}
+w_1^T X^T X w_1
+\\
+&=& \argmax_{w_1}\sum_\s
+\frac{w_1^T X^T X w_1}{w_1^T w_1}
+\eeqa
+
+Diagonalization of $I_\calf$:
+\beq
+\sum_k w_k w^T_k = 1
+\eeq
+
+\beq
+X = \sum_{k=1}^{\calf}
+\underbrace{\underbrace{X w_k}_{Y_k} w^T_k}_{X_k}
+\eeq
+
+\beqa
+X^{\geq \Phi} &=& X -\sum_{k=1}^{\Phi-1}
+\underbrace{X w_k w^T_k}_{X_k}
+\\
+&=&
+\sum_{k=\Phi}^{\calf} X_k
+\label{eq-X-super-f}
+\eeqa
+
+\beqa
+\underbrace{X^{\geq \Phi} w_a}_{Y^\Phi_a}&=& \underbrace{Xw_a}_{Y_a}
+[1-\indi(a< \Phi)]
+\\
+&=&
+Y_a\indi(a\geq \Phi)
+\eeqa
+
+\beqa
+w_\Phi &=& \argmax_{w_\Phi:\; w_\Phi^Tw_\Phi =1}
+w_\Phi^T X^{\geq \Phi} X^{\geq \Phi} w_\Phi
+\\
+&=& \argmax_{w_\Phi}
+\frac{w_\Phi^T X^{\geq \Phi} X^{\geq \Phi} w_\Phi}
+{w_\Phi^T w_\Phi}
+\label{eq-Y-super-f}
+\eeqa
+See Fig.\ref{fig-XY-super-f}
+for a pictorial
+representation of Eqs.\ref{eq-X-super-f}
+and \ref{eq-Y-super-f}.
+
+
+\begin{figure}[!h]
+$$
+\begin{array}{ccc}
+\xymatrix@R=5pc@C=4pc{
+&\ar[l]_{ X_1}
+&\ar[l]_{ X_2}
+&\ar[l]_{ X_3}
+\\
+\ar[u]|{X^{\geq 1}=X}
+\ar[ur]|{X^{\geq 2}}
+\ar[urr]|{X^{\geq 3}}
+\ar[urrr]|{X^{\geq 4}}
+}
+&\text{ times $w_3$ =}&
+\xymatrix@R=5pc@C=4pc{
+&\ar[l]_{0}
+&\ar[l]_{0}
+&\ar[l]_{Y_3}
+\\
+\ar[u]|{Y_3}
+\ar[ur]|{Y_3}
+\ar[urr]|{Y_3}
+\ar[urrr]|{0}
+}
+\end{array}
+$$
+\caption{Pictorial representation of Eqs.\ref{eq-X-super-f}and
+\ref{eq-Y-super-f}.
+This figure is not accurate in the sense that the vectors
+$X_1, X_2, X_3$ are in reality not coplanar
+but rather mutually orthogonal. Also,
+$X^{\geq \Phi}$ tends to zero as $\Phi\rarrow \calf$.}
+\label{fig-XY-super-f}
+\end{figure}
+
+ 
 
 \item {\bf PCA calculation}
 
@@ -209,7 +230,8 @@ PCA calculation via Covariance Matrix
 \item Diagonalize covariance matrix 
 
 \beq
-X^TX=W^T \Lam^2 W=\lam^2_j w_j w_j^T
+X^T X=
+\sum_j\lam^2_j w_j w_j^T
 \eeq
 \item Order eigenvalues in diagonal of $\Lam^2$ and corresponding rows of $W$ so that eigenvalues $\lam^2_i$ are in decreasing order.
 \item Calculate $Y= XW$
@@ -248,32 +270,54 @@ replacing $X$ by $X -\lam_1 w_1 w_1^T$ and following the same algorithm that we 
 calculate the 1st PC of $X$.
 
 \item {\bf Plots}
+
+This section is based on Ref.\cite{wiki-biplot}.
+
+Suppose 
+
+\beq
+X= U\Lam W^T=\sum_{f=0}^{\calf}\lam_f u_f w_f^T
+\eeq
+where $\lam_f\in \RR$, $u_f\in \RR^{N\times 1}$
+and $w_f\in \RR^{\calf\times 1}$. 
  
  
- Suppose the unit column vectors $w_1,
- w_2\in\RR^{\calf\times 1}$
- are the first two PA, and $\lam_1^2, \lam_2^2$ are the corresponding PVs.
- 
- {\bf PC scores} are $(X_{\s, i}w_{i, 1},
- X_{\s, i}w_{i, 2})$ for all data points $\s$.
- 
- 
- Let $e_f\in \RR^{\calf\times 1}$ 
- be a one hot vector with 1 at position $f$.
- 
- 
- If $e_{g, f}w_{g, f' }= e_f\cdot w_{f'}$,
- then $(e_f\cdot w_1, e_f\cdot w_2)$ are the {\bf loadings} (i.e., weights) for feature $f$.
- 
- Fig.\ref{fig-scree} is a plot of the
- PVs $\lam_i^2$ versus $i$. Such a plot is 
- called a {\bf scree plot}.
- 
- Fig.\ref{fig-scores-loadings-biplot}
- shows three types of plots: a {\bf PC scores plot}, a {\bf loadings plot}, and a biplot. A {\bf biplot} is a superposition
- of the PC scores plot and the loadings plot.
- \end{itemize}
- 
+Suppose the unit column vectors $w_1,
+w_2\in\RR^{\calf\times 1}$
+are the first two PA, and $\lam_1^2, \lam_2^2$ are the corresponding PVs.
+
+{\bf PC scores} are defined as
+
+\beq
+\left(
+\frac{(Xw_1)_\s}{\sqrt{\lam_1}},
+\frac{(Xw_2)_\s}{\sqrt{\lam_2}}\right)
+=  (\sqrt{\lam_1}(u_1)_\s,\sqrt{\lam_2}(u_2)_\s) 
+\eeq
+for all data points $\s$.
+
+
+Let $e_f\in \RR^{\calf\times 1}$ 
+be a one hot vector with 1 at position $f=1,2 \dots, \calf$.
+
+
+The {\bf loadings} (i.e., weights) are defined as
+
+\beq
+(\sqrt{\lam_1}e_f^T w_1, \sqrt{\lam_2}e_f^T w_2)=
+(\sqrt{\lam_1}(w_1)_f, \sqrt{\lam_2}(w_2)_f)
+\eeq
+for all features $f$.
+
+Fig.\ref{fig-scree} is a plot of the
+PVs $\lam_i^2$ versus $i$. Such a plot is 
+called a {\bf scree plot}.
+
+Fig.\ref{fig-scores-loadings-biplot}
+shows three types of plots: a {\bf PC scores plot}, a {\bf loadings plot}, and a biplot. A {\bf biplot} is a superposition
+of the PC scores plot and the loadings plot.
+\end{itemize}
+
 \begin{figure}[h!]
 \centering
 \includegraphics[width=5in]

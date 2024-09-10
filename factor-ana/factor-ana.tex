@@ -9,7 +9,7 @@
 \begin{tabular}{|l|l|l|}
 \hline
 hidden factors, X                          & observables, Y                                & weights, W \\ \hline
-\cellcolor[HTML]{F4B9FB}Efficiency   & \cellcolor[HTML]{F4B9FB}waiting time       & .2         \\ \cline{2-3} 
+\cellcolor[HTML]{F4B9FB}Staff performance   & \cellcolor[HTML]{F4B9FB}waiting time       & .2         \\ \cline{2-3} 
 \cellcolor[HTML]{F4B9FB}             & \cellcolor[HTML]{F4B9FB}cleanliness        & .4         \\ \cline{2-3} 
 \cellcolor[HTML]{F4B9FB}             & \cellcolor[HTML]{F4B9FB}staff behavior     & .4         \\ \hline
 \cellcolor[HTML]{B8FFDA}Food quality & \cellcolor[HTML]{B8FFDA}taste of food      & .4         \\ \cline{2-3} 
@@ -38,9 +38,9 @@ $W\in \RR^{na\times nb}$
 $\rvX \in  \RR^{nb\times nc}$
 
 $\rvy_i, \Delta\rvy_i, \mu_i, \rveps_i\in \RR^{na\times 1}$ for $i=1, 2, \ldots nc$ are column vectors of $\rvY, \Delta \rvY, M, \rv{\cale}$.
-The components of $y_i$ will be denoted by $y_i^\gamma$ for $\gamma=1,2, \ldots, nc$.
+The components of $y_i$ will be denoted by $(y_i)_\gamma$ for $\gamma=1,2, \ldots, nc$.
 
-$\rvx_i\in \RR^{nb\times 1}$ for $i=1, 2, \ldots nc$ are column vectors of $\rvX$. The components of $x_i$ will be denoted by $x_i^\gamma$ for $\gamma=1,2, \ldots, nc$.
+$\rvx_i\in \RR^{nb\times 1}$ for $i=1, 2, \ldots nc$ are column vectors of $\rvX$. The components of $x_i$ will be denoted by $(x_i)_\gamma$ for $\gamma=1,2, \ldots, nc$.
 
 Suppose
 
@@ -58,13 +58,13 @@ Suppose
 
 In FA, the bnet Fig.\ref{fig-one-factor-bnet}
 is repeated 
-for $i=1, 2, \ldots, na$.
+for $i=1, 2, \ldots, nc$.
 Henceforth, will omit the $i$ 
 subscript, make it implicit, from 
 the column vectors $\rvy_i, \Delta \rvy_i, \rv{\mu}_i,
 ,\eps_i$.
 and $\rvx_i$.
-We can make that index explicit if necessary, as when the index is being summed over.
+We can make that index explicit if the situation calls for it, as  when the index is being summed over.
 
 
 As explained in Fig.\ref{fig-naive-v-factor},
@@ -82,7 +82,7 @@ $$\xymatrix{
 \rvy_i
 }$$
 \caption{In FA, this bnet is repeated
-for $i=1,2,\ldots, na$.  }
+for $i=1,2,\ldots, nc$.  }
 \label{fig-one-factor-bnet}
 \end{figure}
 
@@ -121,8 +121,8 @@ $\rvx_2$.}
 
 \item $P(x, \eps)=P(x)P(\eps)$
 
-\item $\rveps\sim \caln(0, \s I)$, $E[\rvy]=\mu$,
-$\av{\rvx, \rvx^T}=1$
+\item $E[\rvy]=\mu$,$\av{\rvx, \rvx^T}=1$, $\rveps\sim \caln(0, \s I)$
+
 
 \end{enumerate}
 
@@ -141,7 +141,9 @@ WW^T + \s^2I
 
 \begin{itemize}
 \item LDEN Model\footnote{LDEN=Linear Deterministic
-with External Noise. LDEN models are defined in Chapter \ref{ch-linear-sys}}, $\rvx$ deterministic
+with External Noise. LDEN models are defined in Chapter \ref{ch-linear-sys}}
+with deterministic
+$\rvx$ 
 
 \beq\color{blue}
 P(\eps) = \caln(\eps;0, \s=\s)= \frac{1}{(2\pi\s^2)^{na/2}}
@@ -159,7 +161,8 @@ P(y|x, \eps)=
 \eeq
 
 
-\item LDEN Model, $\rvx$ Gaussian
+\item LDEN Model
+with Gaussian $\rvx$
 
 \beq\color{blue}
 P(\eps) = \caln(\eps;0, \s=\s)= \frac{1}{(2\pi\s^2)^{na/2}}
@@ -213,4 +216,18 @@ P(x|y) &=&\frac{ P(y|x)P(x)}{P(y)}
 &=&
 \frac{1}{(2\pi)^{nb/2}}\sqrt{\det \HAT{\calc}}
 \exp\left(-\;\frac{1}{2}\Delta x^T\HAT{\calc}\Delta x\right)
+\eeqa
+
+\beq
+S=\frac{1}{nc}\sum_{i=1}^{nc} \delta y_i \delta y^T_i
+\eeq
+
+Log of posterior probability
+\beqa
+\call &=& \sum_{i=1}^{nc}\ln P(y_i)
+\\
+&=&
+-\;\frac{na\;\;nc}{2}\ln (2\pi) 
+-\; \frac{nc}{2}\ln \det(C_\rvy)
+-\;\frac{nc}{2} \tr (C_\rvy^{-1} S)
 \eeqa
