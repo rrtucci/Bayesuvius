@@ -1,4 +1,4 @@
-\chapter{Principal Component Analysis COMING SOON}
+\chapter{Principal Component Analysis}
 \label{ch-pca}
 
 
@@ -10,8 +10,7 @@
 This chapter is based on Ref.\cite{wiki-pca}.
 
 {\bf Principal Component Analysis} (PCA)
-
-PCA is the most common way of doing 
+is the most common way of doing 
 {\bf Dimensionality Reduction} (See Chapter \ref{ch-dim-reduc})
 
 \begin{itemize}
@@ -20,7 +19,7 @@ PCA is the most common way of doing
 \item{\bf Notation}
 
 
-$X=[x_1, x_2, \ldots, x_\calf]\in \RR^{N\times \calf}$ {\bf Initial dataset} to be dimensionality reduced (i.e., the number of its  feature columns to be reduced). Henceforth, we will assume that $X$ has {\bf zero mean}. If $X$ doesn't have zero mean initially, 
+$X=[x_1, x_2, \ldots, x_\calf]\in \RR^{N\times \calf}$ is the {\bf Initial dataset} to be dimensionality reduced (i.e., the number of its  feature columns is to be reduced). Henceforth, we will assume that $X$ has {\bf zero mean}. If $X$ doesn't have zero mean initially, 
 replace $X_{\s, i}$ by 
 $X_{\s, i}-\frac{1}{N}\sum_\s X_{\s, i} $
 
@@ -59,14 +58,17 @@ X^T X &=& W \Lam^T U^T U \Lam W^T
 &=&
 \sum_{f=1}^\calf \lam_f^2 w_f w_f^T
 \eeqa
-
+Reorder diagonal elements of $\Lam_D$
+and columns of $W$ so that  
+$\lam_1\geq \lam_2\geq \ldots\geq \lam_\calf$.
 
 We will refer to $\lam_i^2$ 
-as the {\bf principal value} (PV)
+as the ith {\bf principal value} (PV)
 of X and to $w_i=[W_{i, r}]_{r=1}^\calf$
-as the {\bf principal axis} (PA) 
+as the ith {\bf principal axis} (PA) 
 of $X$.
 
+Note that
 \beqa
 Y &=& XW\\
 &=& U\Lam W^T W
@@ -75,17 +77,20 @@ Y &=& XW\\
 U \Lam 
 \eeqa
 
-$Y= U\Lam$ is called the {\bf Polar Decomposition} of $Y$
+$Y= U\Lam$ is called the {\bf Polar Decomposition} of $Y$.
 
+Note that
 \beq
 Y_{\s, i} = \sum_j X_{\s, j}W_{j,i}=\sum_jU_{\s, j}\lam_{j}
 \delta_{j,i} 
 \eeq
+so
 
 \beq
 y_i = Xw_i = u_i\lam_i
 \eeq
 
+Note that
 
 \beqa
 [Y^T Y]_{i,j}&=&Y_{\s, i} Y_{\s, j}
@@ -99,14 +104,28 @@ y^T_iy_j
 \eeqa
 
 \item {\bf Truncation}
+
+Define $X_{\leq \Phi}$ by
+\beq
+X_{\leq \Phi} = U\Lam_{\leq \Phi}W^T
+\eeq
+where $\Lam_{\leq\Phi}= diag(\lam_1, \lam_2, \ldots, \lam_{\Phi}, 0^{\calf-\Phi})$.
+
+Define $Y_{\leq \Phi}$ by
+
 \beq
 Y_{\s, i\leq \Phi} = \sum_j X_{\s, j}W_{j,i\leq \Phi}=U_{\s, i}\lam_{i\leq \Phi}
 \eeq
 
+\beq
+Y_{\leq \Phi} = XW_{\leq \Phi} = U\Lam_{\leq \Phi} = X_{\leq \Phi}W
+\eeq
+Then
 
 \beq
-Y_{\leq \Phi} = XW_{\leq \Phi} = U\Lam_{\leq \Phi}
+X-X_{\leq \Phi} = U(\Lam - \Lam_{\leq \Phi})W^T
 \eeq
+
 
 \beq
 Y-Y_{\leq \Phi} = U(\Lam - \Lam_{\leq \Phi})
@@ -114,7 +133,8 @@ Y-Y_{\leq \Phi} = U(\Lam - \Lam_{\leq \Phi})
 
 
 \beqa
-Error 
+Error &=& \tr\left[(X-X_{\leq \Phi})^T(X-X_{\leq \Phi})\right]
+\\
 &=& \tr\left[(Y-Y_{\leq \Phi})^T(Y-Y_{\leq \Phi})\right]
 \\
 &=&
@@ -127,6 +147,8 @@ Error
 
 
 \item{\bf PCA as solution to maximization problem}
+
+Define the first PA $w_1$ by
 \beqa
 w_1&=&
 \argmax_{w_1:\; w_1^Tw_1=1}
@@ -140,15 +162,25 @@ w_1^T X^T X w_1
 \frac{w_1^T X^T X w_1}{w_1^T w_1}
 \eeqa
 
-Diagonalization of $I_\calf$:
+Consider the following 
+diagonalization of $I_\calf$ (This is one of
+many possible diagonalizations of $I_\calf$)
+\footnote{In Quantum Mechanics,
+$$\sum_i \ket{\phi_i}\bra{\phi_i}=1$$
+is called a {\bf completeness condition} for an orthonormal basis $\{\ket{\phi_i}:i\}$.
+{\bf Orthonormality} means $$\av{\phi_i|\phi_j}
+=\delta_{i,j}$$.}
 \beq
 \sum_k w_k w^T_k = 1
 \eeq
+Multiplying both sides 
+of this by $X$ on the left
 
 \beq
 X = \sum_{k=1}^{\calf}
 \underbrace{\underbrace{X w_k}_{Y_k} w^T_k}_{X_k}
 \eeq
+Define $X^{\geq \Phi}$ by
 
 \beqa
 X^{\geq \Phi} &=& X -\sum_{k=1}^{\Phi-1}
@@ -158,6 +190,8 @@ X^{\geq \Phi} &=& X -\sum_{k=1}^{\Phi-1}
 \sum_{k=\Phi}^{\calf} X_k
 \label{eq-X-super-f}
 \eeqa
+Multiplying $X^{\geq \Phi}$ on  the right
+by $w_a$ gives
 
 \beqa
 \underbrace{X^{\geq \Phi} w_a}_{Y^\Phi_a}&=& \underbrace{Xw_a}_{Y_a}
@@ -165,7 +199,12 @@ X^{\geq \Phi} &=& X -\sum_{k=1}^{\Phi-1}
 \\
 &=&
 Y_a\indi(a\geq \Phi)
+\label{eq-Y-super-f}
 \eeqa
+
+
+Now we can define the $\Phi$'th
+PA in terms of $X^{\geq \Phi}$ by
 
 \beqa
 w_\Phi &=& \argmax_{w_\Phi:\; w_\Phi^Tw_\Phi =1}
@@ -174,7 +213,6 @@ w_\Phi^T X^{\geq \Phi} X^{\geq \Phi} w_\Phi
 &=& \argmax_{w_\Phi}
 \frac{w_\Phi^T X^{\geq \Phi} X^{\geq \Phi} w_\Phi}
 {w_\Phi^T w_\Phi}
-\label{eq-Y-super-f}
 \eeqa
 See Fig.\ref{fig-XY-super-f}
 for a pictorial
@@ -233,13 +271,18 @@ PCA calculation via Covariance Matrix
 X^T X=
 \sum_j\lam^2_j w_j w_j^T
 \eeq
-\item Order eigenvalues in diagonal of $\Lam^2$ and corresponding rows of $W$ so that eigenvalues $\lam^2_i$ are in decreasing order.
+\item Order eigenvalues in diagonal of $\Lam^2$ and corresponding columns of $W$ so that eigenvalues $\lam^2_i$ are in decreasing order.
 \item Calculate $Y= XW$
 \end{enumerate}
 
 Iterative calculation of PCA
+(avoids calculating covariance matrix)
 
-$r^{(0)}_j\in \RR^{\calf \times 1}$ random column vector. $s^{(0)}_j=0^{\calf \times 1}$ zero column vector .
+Let 
+
+$r^{(0)}_j\in \RR^{\calf \times 1}$ random column vector. 
+
+$s^{(0)}_j=0^{\calf \times 1}$ zero column vector .
 
 
 \beq
@@ -264,8 +307,8 @@ $X^T X r^{(a)}\rarrow w_1$ and
 $r^{(a)T}X^T X r^{(a)}\rarrow \lam_1$ where
 $(\lam_1, w_1)$ are the first PV and PA of $X$.
 
-Additional PCs are obtained by {\bf deflation}. 
-For example, the second PC is obtained by 
+Additional (PV, PA) pairs are obtained by {\bf deflation}. 
+For example, the second (PV, PA) pair is obtained by 
 replacing $X$ by $X -\lam_1 w_1 w_1^T$ and following the same algorithm that we used to
 calculate the 1st PC of $X$.
 
@@ -322,7 +365,7 @@ of the PC scores plot and the loadings plot.
 \centering
 \includegraphics[width=5in]
 {pca/scree.png}
-\caption{Scree plot. (from Wikipedia entry "Scree plot")
+\caption{Scree plot. (from Wikipedia entry ``Scree plot")
 For a geologist, a scree is the edge of a cliff. It looks just like the blue 
 curve in this figure, like a decaying exponential.}
 \label{fig-scree}

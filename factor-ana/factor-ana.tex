@@ -1,4 +1,4 @@
-\chapter{Factor Analysis COMING SOON}
+\chapter{Factor Analysis}
 \label{ch-factor-ana}
 
 
@@ -38,33 +38,36 @@ $W\in \RR^{na\times nb}$
 $\rvX \in  \RR^{nb\times nc}$
 
 $\rvy_i, \Delta\rvy_i, \mu_i, \rveps_i\in \RR^{na\times 1}$ for $i=1, 2, \ldots nc$ are column vectors of $\rvY, \Delta \rvY, M, \rv{\cale}$.
-The components of $y_i$ will be denoted by $(y_i)_\gamma$ for $\gamma=1,2, \ldots, nc$.
+The components of $y_i$ will be denoted by $(y_i)_a$ for $a=1,2, \ldots, na$.
 
-$\rvx_i\in \RR^{nb\times 1}$ for $i=1, 2, \ldots nc$ are column vectors of $\rvX$. The components of $x_i$ will be denoted by $(x_i)_\gamma$ for $\gamma=1,2, \ldots, nc$.
+$\rvx_i\in \RR^{nb\times 1}$ for $i=1, 2, \ldots nc$ are column vectors of $\rvX$. The components of $x_i$ will be denoted by $(x_i)_a$ for $a=1,2, \ldots, na$.
 
 Suppose
 
+\begin{subequations}
+\label{eq-struc-eqs-fa}
 \beq
-\underbrace{\Delta\rvY - M} _\rvY
+\underbrace{\rvY - M} _{\Delta \rvY}
 = W \rvX + \rv{\cale}
 \eeq
 
 \beq
-\underbrace{\Delta\rvy_i - \mu_i} _{\rvy_i}
+\underbrace{\rvy_i - \mu_i} _{\Delta\rvy_i}
 = W \rvx_i + \rveps_i
 \eeq
-
+\end{subequations}
 
 
 In FA, the bnet Fig.\ref{fig-one-factor-bnet}
 is repeated 
 for $i=1, 2, \ldots, nc$.
-Henceforth, will omit the $i$ 
-subscript, make it implicit, from 
+Henceforth, will make implicit (i.e. omit) the $i$ 
+subscript from 
 the column vectors $\rvy_i, \Delta \rvy_i, \rv{\mu}_i,
 ,\eps_i$.
 and $\rvx_i$.
-We can make that index explicit if the situation calls for it, as  when the index is being summed over.
+We will make that index explicit in situations when it's
+necessary for clarity, as  when the index is being summed over.
 
 
 As explained in Fig.\ref{fig-naive-v-factor},
@@ -114,17 +117,18 @@ $\rvx_2$.}
 \label{fig-naive-v-factor}
 \end{figure}
 
-
+Besides the structural equations
+Eqs.(\ref{eq-struc-eqs-fa}), FA assumes
 
 
 \begin{enumerate}
 
-\item $P(x, \eps)=P(x)P(\eps)$
+\item $P(x, \eps)=P(x)P(\eps)$ 
+($\rvx$ and $\rveps$ are independent variables)
 
-\item $E[\rvy]=\mu$,$\av{\rvx, \rvx^T}=1$, $\rveps\sim \caln(0, \s I)$
-
-
+\item $E[\rvy]=\mu$, $\av{\rvx, \rvx^T}=1$, $\rveps\sim \caln(0, \s I)$
 \end{enumerate}
+Hence
 
 \beqa
 C_\rvy&=&\av{\Delta \rvy, \Delta\rvy^T}
@@ -139,9 +143,16 @@ W\av{\rvx, \rvx^T}W^T + \av{\rv{\eps}, \rv{\eps}^T}
 WW^T + \s^2I
 \eeqa
 
+In FA, the bnet Fig.\ref{fig-one-factor-bnet}
+is given the TPMs of an LDEN\footnote{LDEN=Linear Deterministic
+with External Noise. LDEN models are defined in Chapter \ref{ch-linear-sys}}.
+Root node $\rvx$ 
+can be given either a deterministic
+or a random TPM. We next give the TPMs, printed in blue,
+for these two cases:
+
 \begin{itemize}
-\item LDEN Model\footnote{LDEN=Linear Deterministic
-with External Noise. LDEN models are defined in Chapter \ref{ch-linear-sys}}
+\item LDEN Model
 with deterministic
 $\rvx$ 
 
@@ -182,6 +193,9 @@ P(y|x, \eps)=
 
 \end{itemize}
 
+If we assume that $\rvx$ has a 
+Gaussian TPM, we  the following
+
 \beqa
 P(y|x) &=&\sum_\eps P(y|x, \eps)P(\eps)
 \\
@@ -197,10 +211,10 @@ P(y)&=&\sum_x P(y|x) P(x)
 \exp\left(-\;\frac{1}{2}\Delta y^T C_\rvy^{-1}\Delta y\right)
 \eeqa
 
+Let
 \beq
 \calc = W^T W + \s^2 I
 \eeq
-$\calc$ is $nb\times nb$ whereas $C_\rvy=WW^T + \s^2I$ is $na\times na$.
 
 \beq
 \HAT{\calc} = \calc/\s^2
@@ -209,7 +223,9 @@ $\calc$ is $nb\times nb$ whereas $C_\rvy=WW^T + \s^2I$ is $na\times na$.
 \beq
 \Delta x = x -\calc^{-1}W^T\Delta y
 \eeq
+Note that $\calc$ is $nb\times nb$ whereas $C_\rvy=WW^T + \s^2I$ is $na\times na$.
 
+Using Bayes rue, we get
 \beqa
 P(x|y) &=&\frac{ P(y|x)P(x)}{P(y)}
 \\
@@ -218,12 +234,13 @@ P(x|y) &=&\frac{ P(y|x)P(x)}{P(y)}
 \exp\left(-\;\frac{1}{2}\Delta x^T\HAT{\calc}\Delta x\right)
 \eeqa
 
+Let
 \beq
-S=\frac{1}{nc}\sum_{i=1}^{nc} \delta y_i \delta y^T_i
+S=\frac{1}{nc}\sum_{i=1}^{nc} \Delta y_i \Delta y^T_i
 \eeq
-
-Log of posterior probability
-\beqa
+Then the
+log of the posterior probability of $\rvY$ is given by
+\beqa 
 \call &=& \sum_{i=1}^{nc}\ln P(y_i)
 \\
 &=&

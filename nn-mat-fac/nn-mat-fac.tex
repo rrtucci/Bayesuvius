@@ -1,30 +1,29 @@
-\chapter{Non-negative Matrix Factorization COMING SOON}
+\chapter{Non-negative Matrix Factorization}
 \label{ch-nn-mat-fac}
 
-This chapter is based on Ref.\cite{wiki-nmf}.
+This chapter about Non-Negative (NN) Matrix Factorization (MF) is based on Ref.\cite{wiki-nmf}.
 
-Given
- matrix $Y$, factor it
- into product of two matrices
+In NN MF, we are given a
+ matrix $Y$ with NN entries. Our goal is to factor it
+ into a product of two matrices $W$ and $X$
+ that also have NN entries.
 
 \beq
 Y=WX
 \;,
 \eeq 
+where
 
-where all 3 matrices
-have non-negative entries.
+$Y\in \RR^{ny\times na}_{\geq 0}$: visible data
 
-$Y\in \RR^{ny\times na}_{\geq 0}$: visible info matrix
+$W\in \RR^{ny\times nx}_{\geq 0}$: weight data
 
-$W\in \RR^{ny\times nx}_{\geq 0}$: weight info matrix
-
-$X\in \RR^{nx\times na}_{\geq 0}$: hidden info matrix
+$X\in \RR^{nx\times na}_{\geq 0}$: hidden data
 
 
-Usually, $ny > nx<na$ so compression of
-information (a.k.a. dimensional reduction,
- clustering)
+Usually, $ny > nx<na$ so 
+NN MF can be viewed as a type of (non-lossy) compression of
+information.
 
 \section{Bnet 
 interpretation}
@@ -60,10 +59,11 @@ P(x|a)=\frac{\sum_y W_{y,x}}{ \sum_y Y_{y,a}}X_{x,a}
 \section{Simplest recursive
  algorithm}
 
-Initialize: Choose $nx$. Choose $W^{(0)}$ and $X^{(0)}$
-that have non-negative entries. 
+\begin{itemize}
+\item Initialize: Choose $nx$. Choose $W^{(0)}$ and $X^{(0)}$
+that have NN entries. 
 
-Update: For $n=0, 1 , \dots $,
+\item Update: For $n=0, 1 , \dots $,
 do
 
 \beq
@@ -88,14 +88,14 @@ W_{i,j}^{(n+1)}\leftarrow W_{i,j}^{(n)}
 (X^{(n+1)})^T]_{i,j}
 }\;.
 \eeq
-After each step, record error defined by
+\item After each step, record error defined by
 
 \beq
 \cale^{(n)} =\parallel Y-W^{(n)}
 X^{(n)}\parallel_2
 \;.
 \eeq
-Using 2-norm, a.k.a. Frobenius matrix norm.
+In the last expression $\norm{\cdot}_2$ is the 2-norm, a.k.a. Frobenius matrix norm.
 Continue until reach acceptable error.
 
 Can also use Kullback-Leibler divergence for error:
@@ -108,3 +108,4 @@ Can also use Kullback-Leibler divergence for error:
 \eeq
 for some arbitrary choice of prior $P(a)$. For 
 example, can choose $P(a)$ uniform.
+\end{itemize}
