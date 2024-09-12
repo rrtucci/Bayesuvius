@@ -19,7 +19,7 @@ is the most common way of doing
 \item{\bf Notation}
 
 
-$X=[x_1, x_2, \ldots, x_\calf]\in \RR^{N\times \calf}$ is the {\bf Initial dataset} to be dimensionality reduced (i.e., the number of its  feature columns is to be reduced). Henceforth, we will assume that $X$ has {\bf zero mean}. If $X$ doesn't have zero mean initially, 
+$X=[x_1, x_2, \ldots, x_\calf]\in \RR^{N\times \calf}$ is the {\bf initial dataset} to be dimensionality reduced (i.e., the number of its  feature columns is to be reduced). Henceforth, we will assume that $X$ has {\it zero mean}. If $X$ doesn't have zero mean initially, 
 replace $X_{\s, i}$ by 
 $X_{\s, i}-\frac{1}{N}\sum_\s X_{\s, i} $
 
@@ -28,8 +28,8 @@ $Y=[y_1, y_2, \ldots, y_\calf]\in \RR^{N\times \calf}$. The $y_i$ for $i=1,2, \l
 
 $U= [u_1, u_2, \ldots u_{N}]
 \in\RR^{N \times N}$, $UU^T =U^TU =1$ ($U$ orthogonal). Components of
-$u_i$ will be denoted by $(u_i)_f$
-for $f=1,2, \ldots, \calf$.
+$u_\s$ will be denoted by $(u_\s)_{\s'}$
+for $\s'=1,2, \ldots, N$.
  
 $\Lam= \left[\begin{array}{c}
 \Lam_D\\
@@ -64,7 +64,7 @@ $\lam_1\geq \lam_2\geq \ldots\geq \lam_\calf$.
 
 We will refer to $\lam_i^2$ 
 as the ith {\bf principal value} (PV)
-of X and to $w_i=[W_{i, r}]_{r=1}^\calf$
+of X and to $w_i=[W_{r, i}]_{r=1}^\calf\in \RR^{\calf\times 1}$
 as the ith {\bf principal axis} (PA) 
 of $X$.
 
@@ -108,6 +108,7 @@ y^T_iy_j
 Define $X_{\leq \Phi}$ by
 \beq
 X_{\leq \Phi} = U\Lam_{\leq \Phi}W^T
+\label{eq-x-ulam-wt}
 \eeq
 where $\Lam_{\leq\Phi}= diag(\lam_1, \lam_2, \ldots, \lam_{\Phi}, 0^{\calf-\Phi})$.
 
@@ -117,9 +118,10 @@ Define $Y_{\leq \Phi}$ by
 Y_{\s, i\leq \Phi} = \sum_j X_{\s, j}W_{j,i\leq \Phi}=U_{\s, i}\lam_{i\leq \Phi}
 \eeq
 
-\beq
-Y_{\leq \Phi} = XW_{\leq \Phi} = U\Lam_{\leq \Phi} = X_{\leq \Phi}W
-\eeq
+\beqa
+Y_{\leq \Phi} &=& XW_{\leq \Phi} = U\Lam_{\leq \Phi}
+\\ &=& X_{\leq \Phi}W\;\;\text{(from Eq.(\ref{eq-x-ulam-wt}))}
+\eeqa
 Then
 
 \beq
@@ -141,7 +143,7 @@ Error &=& \tr\left[(X-X_{\leq \Phi})^T(X-X_{\leq \Phi})\right]
 \tr\left[(\Lam - \Lam_{\leq \Phi})^2\right]
 \\
 &=&
-\sum_{i=\Phi+1}^\calf \lam_i
+\sum_{i=\Phi+1}^\calf \lam_i^2
 \eeqa
 
 
@@ -194,13 +196,17 @@ Multiplying $X^{\geq \Phi}$ on  the right
 by $w_a$ gives
 
 \beqa
-\underbrace{X^{\geq \Phi} w_a}_{Y^\Phi_a}&=& \underbrace{Xw_a}_{Y_a}
+\underbrace{X^{\geq \Phi} w_a}_{Y^{\geq \Phi}_a}&=& \underbrace{Xw_a}_{Y_a}
 [1-\indi(a< \Phi)]
 \\
 &=&
 Y_a\indi(a\geq \Phi)
 \label{eq-Y-super-f}
 \eeqa
+See Fig.\ref{fig-XY-super-f}
+for a pictorial
+representation of Eqs.\ref{eq-X-super-f}
+and \ref{eq-Y-super-f}.
 
 
 Now we can define the $\Phi$'th
@@ -214,10 +220,6 @@ w_\Phi^T X^{\geq \Phi} X^{\geq \Phi} w_\Phi
 \frac{w_\Phi^T X^{\geq \Phi} X^{\geq \Phi} w_\Phi}
 {w_\Phi^T w_\Phi}
 \eeqa
-See Fig.\ref{fig-XY-super-f}
-for a pictorial
-representation of Eqs.\ref{eq-X-super-f}
-and \ref{eq-Y-super-f}.
 
 
 \begin{figure}[!h]
@@ -262,7 +264,7 @@ $X^{\geq \Phi}$ tends to zero as $\Phi\rarrow \calf$.}
 Note that $Y=XW$, where $X$ is the initial dataset and $W$ is the matrix that diagonalizes the covariance matrix $X^T X$. Hence, calculating $Y$
 does not require calculating the SVD of $X$ (in particular, it does not require calculating $U$). 
 
-PCA calculation via Covariance Matrix
+{\bf PCA calculation via Covariance Matrix}
 \begin{enumerate}
 \item Subtract mean from initial dataset $X$
 \item Diagonalize covariance matrix 
@@ -275,7 +277,7 @@ X^T X=
 \item Calculate $Y= XW$
 \end{enumerate}
 
-Iterative calculation of PCA
+{\bf Iterative calculation of PCA}
 (avoids calculating covariance matrix)
 
 Let 
@@ -307,10 +309,20 @@ $X^T X r^{(a)}\rarrow w_1$ and
 $r^{(a)T}X^T X r^{(a)}\rarrow \lam_1$ where
 $(\lam_1, w_1)$ are the first PV and PA of $X$.
 
-Additional (PV, PA) pairs are obtained by {\bf deflation}. 
+Higher order (PV, PA) pairs are obtained by {\bf deflation}. 
 For example, the second (PV, PA) pair is obtained by 
 replacing $X$ by $X -\lam_1 w_1 w_1^T$ and following the same algorithm that we used to
-calculate the 1st PC of $X$.
+calculate the 1st (PV, PA) pair of $X$.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4in]
+{pca/scree.png}
+\caption{Scree plot. (from Wikipedia entry ``Scree plot")
+For a geologist, a scree is the edge of a cliff. It looks just like the blue 
+curve in this figure, like a decaying exponential.}
+\label{fig-scree}
+\end{figure}
 
 \item {\bf Plots}
 
@@ -361,15 +373,7 @@ shows three types of plots: a {\bf PC scores plot}, a {\bf loadings plot}, and a
 of the PC scores plot and the loadings plot.
 \end{itemize}
 
-\begin{figure}[h!]
-\centering
-\includegraphics[width=5in]
-{pca/scree.png}
-\caption{Scree plot. (from Wikipedia entry ``Scree plot")
-For a geologist, a scree is the edge of a cliff. It looks just like the blue 
-curve in this figure, like a decaying exponential.}
-\label{fig-scree}
-\end{figure}
+
 
 \begin{figure}[h!]
 \centering
@@ -377,7 +381,7 @@ curve in this figure, like a decaying exponential.}
 {pca/pc-scores.png}
 \includegraphics[width=2.5in]
 {pca/loadings.png}
-\includegraphics[width=5in]
+\includegraphics[width=4.5in]
 {pca/biplot.png}
 
 \caption{PC scores plot, loadings plot, and biplot. (from the documentation for the Prism software made by graphpad.com)}
