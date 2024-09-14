@@ -1,0 +1,167 @@
+\chapter{Kernel Principal Component Analysis (Kernel PCA)}
+\label{ch-kerne-pca}
+
+This chapter is based on Ref.\cite{wiki-kernel-pca}.
+
+We will use vector sign
+as in $\vec{x}$ to denote 
+vectors in $\RR^{na}$. We will use kets as in  $\ket{\Phi}=\Phi\in \RR^{N\times 1}$ and bras as in $\bra{\Phi}=\Phi^T\in \RR^{1\times N}$ to denote a column vector and row vector in $\RR^N$.
+
+$\vec{x}_\s\in \RR^{na}$ for  $\s=1,2,\ldots N$
+
+$\Phi: \RR^{na}\rarrow \RR^N$. $\Phi$ 
+can be a matrix in $\RR^{N\times na}$ so that $
+\Phi (\vec{x}_\s)=\Phi \vec{x}_\s\in\RR^N$,
+but the most advantageous use of this
+kernel arises when $\Phi(\cdot)$ is a nonlinear map.
+ 
+{\bf ``Kernel trick" kernel}
+\beqa
+K(\vec{x}_\s, \vec{x}_{\rho}) &=& \av{\Phi(\vec{x}_\s) |
+\Phi(\vec{x}_{\rho})}
+\eeqa
+
+\beq
+K = [K(\vec{x}_\s, \vec{x}_{\rho})]
+\eeq
+
+\beqa
+C=\frac{1}{N}\sum_\s 
+\ket{\Phi(\vec{x}_\s)}
+\bra{\Phi(\vec{x}_\s)}
+\eeqa
+
+{\bf eigenvalue problem for C}
+\beq
+C \ket{v_j} = \lam_j \ket{v_j}
+\eeq
+
+
+
+\beq
+\bra{\Phi(\vec{x_\s})} C\ket{ v_j}=
+\lam_j\av{\Phi(\vec{x_\s}) | v_j}
+\eeq
+
+
+\beq
+\ket{v_j} = \sum_\rho A_{j,\rho}\ket{\Phi(\vec{x_\rho})}
+\eeq
+
+\beqa
+\boxed{
+\av{\Phi(\vec{x_\s}) |v_j}}
+&=&
+\sum_\rho A_{j,\rho}K_{\s, \rho}
+\\
+&=&
+\boxed{(K\ket{A_j})_\s=
+\av{\s|K|A_j}}
+\eeqa
+
+\beq
+\sum_\rho A_{j,\rho}\underbrace{\bra{\Phi(\vec{x_\s})} C
+\ket{\Phi(\vec{x_\rho})}}_{\frac{1}{N}K^2_{\s,\rho}}=
+\lam_j\sum_\s A_{j,\s}
+\underbrace{\av{\Phi(\vec{x_\s}) |\Phi(\vec{x_\rho})}}_{K_{\s, \rho}=K_{\rho, \s}}
+\eeq
+
+\beq 
+\ket{A_j}_\s = A_{j, \s}
+\eeq
+
+\beq
+K^2\ket{A_j} =  N\lam_j K\ket{A_j}
+\eeq
+
+{\bf eigenvalue problem for K}
+\beq
+ K\ket{A_j} =
+N\lam_j \ket{A_j} 
+\eeq
+
+\beqa
+\delta_{i,j}&=&\av{v_i|v_j}
+\\
+&=&
+\sum_\rho\sum_\s 
+A_{i,\s}A_{j, \rho}K_{\s, \rho}
+\\
+&=&
+\bra{A_i}K\ket{A_j}
+\\
+&=&
+N\lam_j\av{A_i|A_j}
+\eeqa
+
+
+
+{\bf Examples}
+
+\begin{itemize}
+\item Radial basis function
+\beq
+K(\vec{x}, \vec{y})= \exp\left(-\; 
+\frac{\norm{\vec{x}-\vec{y}}^2}{2\s^2}
+\right)
+\eeq
+
+\item Sigmoid kernel 
+\beq
+K(\vec{x}, \vec{y}) =
+\tanh(a\vec{x}\cdot \vec{y} + b)
+\eeq
+where $a,b\in\RR$
+\item Polynomial of order $d$
+
+\beq
+K(\vec{x}, \vec{y}) = (\vec{x}\cdot\vec{y})^d
+\eeq
+
+Consider $d=2$, $na=2$, $N=3$.
+\begin{claim}
+If
+
+\beq
+\Phi(\vec{x})= (x_1^2, x_2^2, \sqrt{2} x_1, x_2)
+\label{eq-rings-to-lines}
+\eeq
+then
+
+
+\beq 
+(\vec{x}\cdot\vec{y})^2 =\av{\Phi(\vec{x})|\Phi(\vec{y})}
+\eeq
+\end{claim}
+\proof
+
+\beqa
+( \vec{x}\cdot\vec{y})^2 &=&
+(x_1y_1+x_2y_2)^2
+\\
+&=&
+(x_1^2, x_2^2, \sqrt{2} x_1x_2)\cdot
+(y_1^2, y_2^2, \sqrt{2} y_1y_2)
+\\
+&=&
+\av{\Phi(\vec{x})|\Phi(\vec{y})}
+\eeqa
+\qed
+
+The map defined by Eq.(\ref{eq-rings-to-lines})
+is illustrated in Fig.\ref{fig-rings-to-lines}.
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2.9in]
+{kernel-pca/kernel-pca-rings}
+\includegraphics[width=2.9in]
+{kernel-pca/kernel-pca-lines}
+\caption{The map $\Phi(x_1,x_2)= (x_1^2, x_2^2, \sqrt{2} x_1, x_2)$ maps a ring in $\RR^2$ to a line in $\RR^3$.(plots from \cite{boram-lee-notes})}
+\label{fig-rings-to-lines}
+\end{figure}
+
+
+
+
+
+\end{itemize}
