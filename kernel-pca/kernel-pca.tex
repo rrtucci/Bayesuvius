@@ -1,29 +1,44 @@
 \chapter{Kernel Principal Component Analysis (Kernel PCA)}
-\label{ch-kerne-pca}
+\label{ch-kernel-pca}
 
 This chapter is based on Ref.\cite{wiki-kernel-pca}.
 
-We will use vector sign
+{\bf Kernel Principal Component Analysis (Kernel PCA)} applies
+to a special type
+of kernel that can be defined in terms of
+a nonlinear transformation $\Phi:\RR^{na}\rarrow \RR^{N}$
+where usually $N>na$. The idea is that a cloud of data points 
+$\vec{x}\in\RR^{na}$ might look very complicated 
+in $\RR^{na}$ but
+when mapped to $\RR^N$ as $\Phi(\vec{x})\in\RR^N$, it might look like a thin ellipse (a line wannabe). Kernel PCA is thus a method of dimensionality increase instead of what
+we called in Chapter \ref{ch-dim-reduc}, dimensionality
+reduction.  
+
+Henceforth, we will use a vector sign
 as in $\vec{x}$ to denote 
-vectors in $\RR^{na}$. We will use kets as in  $\ket{\Phi}=\Phi\in \RR^{N\times 1}$ and bras as in $\bra{\Phi}=\Phi^T\in \RR^{1\times N}$ to denote a column vector and row vector in $\RR^N$.
+vectors in $\RR^{na}$. We will use kets as in  $\ket{\Phi}=\Phi\in \RR^{N\times 1}$ and bras as in $\bra{\Phi}=\Phi^T\in \RR^{1\times N}$ to denote a column vectors and row vectors in $\RR^N$.
+
+Let
 
 $\vec{x}_\s\in \RR^{na}$ for  $\s=1,2,\ldots N$
 
 $\Phi: \RR^{na}\rarrow \RR^N$. $\Phi$ 
-can be a matrix in $\RR^{N\times na}$ so that $
-\Phi (\vec{x}_\s)=\Phi \vec{x}_\s\in\RR^N$,
+can be a matrix in $A\in \RR^{N\times na}$ so that $
+\Phi (\vec{x}_\s)=A\vec{x}_\s\in\RR^N$,
 but the most advantageous use of this
 kernel arises when $\Phi(\cdot)$ is a nonlinear map.
  
-{\bf ``Kernel trick" kernel}
+A {\bf ``Kernel trick" kernel} $K(\vec{x}_\s, \vec{x}_{\rho})$ is expressible as 
 \beqa
 K(\vec{x}_\s, \vec{x}_{\rho}) &=& \av{\Phi(\vec{x}_\s) |
 \Phi(\vec{x}_{\rho})}
 \eeqa
 
+Define a Kernel matrix $K\in R^{N\times N}$ with entries
 \beq
-K = [K(\vec{x}_\s, \vec{x}_{\rho})]
+K_{\s, \rho} = K(\vec{x}_\s, \vec{x}_{\rho})
 \eeq
+and a correlation matrix $C\in \RR^{N\times N}$ by
 
 \beqa
 C=\frac{1}{N}\sum_\s 
@@ -31,22 +46,27 @@ C=\frac{1}{N}\sum_\s
 \bra{\Phi(\vec{x}_\s)}
 \eeqa
 
-{\bf eigenvalue problem for C}
+The {\bf eigenvalue problem for C} is
 \beq
 C \ket{v_j} = \lam_j \ket{v_j}
 \eeq
+for $j=1,2, \ldots, na$.
 
 
-
+We have
 \beq
 \bra{\Phi(\vec{x_\s})} C\ket{ v_j}=
 \lam_j\av{\Phi(\vec{x_\s}) | v_j}
 \eeq
+We can express each eigenvector $\ket{v_j}$
+as a linear combination of  
+$\{\ket{\Phi(\vec{x}_\rho)}\}_{\rho=1}^N$
 
 
 \beq
 \ket{v_j} = \sum_\rho A_{j,\rho}\ket{\Phi(\vec{x_\rho})}
 \eeq
+Then
 
 \beqa
 \boxed{
@@ -64,21 +84,29 @@ C \ket{v_j} = \lam_j \ket{v_j}
 \ket{\Phi(\vec{x_\rho})}}_{\frac{1}{N}K^2_{\s,\rho}}=
 \lam_j\sum_\s A_{j,\s}
 \underbrace{\av{\Phi(\vec{x_\s}) |\Phi(\vec{x_\rho})}}_{K_{\s, \rho}=K_{\rho, \s}}
+\label{eq-k-squared-eva-eq}
 \eeq
+Using the notation
 
 \beq 
 \ket{A_j}_\s = A_{j, \s}
 \eeq
+Eq.(\ref{eq-k-squared-eva-eq}) can be expressed as
 
 \beq
 K^2\ket{A_j} =  N\lam_j K\ket{A_j}
 \eeq
 
-{\bf eigenvalue problem for K}
+The {\bf eigenvalue problem for K} is
 \beq
  K\ket{A_j} =
 N\lam_j \ket{A_j} 
 \eeq
+for $j=1,2, \ldots, na$.
+Note that the basis $\{\ket{A_j}\}_{j=1}^{na}$
+is orthogonal, as expected, and the basis
+$\{\sqrt{N\lam_j}\ket{A_j}\}_{j=1}^{na}$
+is orthonormal.
 
 \beqa
 \delta_{i,j}&=&\av{v_i|v_j}
@@ -105,13 +133,14 @@ K(\vec{x}, \vec{y})= \exp\left(-\;
 \frac{\norm{\vec{x}-\vec{y}}^2}{2\s^2}
 \right)
 \eeq
+where $\s\in\RR^{>0}$.
 
 \item Sigmoid kernel 
 \beq
 K(\vec{x}, \vec{y}) =
 \tanh(a\vec{x}\cdot \vec{y} + b)
 \eeq
-where $a,b\in\RR$
+where $a,b\in\RR$.
 \item Polynomial of order $d$
 
 \beq
