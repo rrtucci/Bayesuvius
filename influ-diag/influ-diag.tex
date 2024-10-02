@@ -12,8 +12,7 @@ represent chance, decision
 and utility nodes by no-frames, rectangles and doubly-lined rectangles, respectively.}
 
 Fig.\ref{fig-simple-id} and the information printed in blue 
-that follows it, are a simple example of an Influence
-Diagram (ID).
+that follows it, are a simple example of an ID.
 \begin{figure}[h!]
 $$
 \xymatrix{
@@ -89,7 +88,7 @@ optimization. They maximize $u=u_1+u_2$.}
  Table \ref{tab-id-nodes} compares these 3 types of nodes in an  ID. Note that a decision node
  is a deterministic node\footnote{Deterministic nodes
  are defined by Eq.(\ref{eq-def-det-node})}, but its TPM is 
- not known a priori, but is derived by an optimization algorithm which maximizes the total utility.
+ not known a priori. Instead, it is derived by an optimization algorithm which maximizes the total utility.
 
 % Please add the following required packages to your document preamble:
 % \usepackage[table,xcdraw]{xcolor}
@@ -100,8 +99,9 @@ optimization. They maximize $u=u_1+u_2$.}
                                                                                             & \cellcolor[HTML]{FFFFC7}\begin{tabular}[c]{@{}l@{}}Chance node \\ (oval)\end{tabular} & \cellcolor[HTML]{FFFFC7}\begin{tabular}[c]{@{}l@{}}Decision node\\ (rectangle)\end{tabular} & \cellcolor[HTML]{FFFFC7}\begin{tabular}[c]{@{}l@{}}Utility node\\ (diamond)\end{tabular} \\ \hline
 \cellcolor[HTML]{FFFFC7}type of states                                                      & discrete                                                                     & discrete                                                                      & continuous                                                                             \\ \hline
 \cellcolor[HTML]{FFFFC7} deterministic?                                                   & Not in general                                                                        & Yes                                                                                      & Yes                                                                                    \\ \hline
-\cellcolor[HTML]{FFFFC7}transition info\footnote{by ``transition info" of a node, we
-mean ``personal" node info
+\cellcolor[HTML]{FFFFC7}transition info\footnote{by \enquote{transition info}
+of a node, we
+mean \enquote{personal} node info
 other than a list of the states of the node and a list 
 of its parent nodes}                                                    & TPM                                                                                   & 
 deterministic TPM                                                                                  & \begin{tabular}[c]{@{}l@{}}utility function,\\ not normalized
@@ -122,9 +122,10 @@ Let
 
 $\rvc.=$ set of {\bf chance nodes}
 
-$\rvd.=$ set of {\bf decision nodes}
-Assume $\rvd_i$ are in chronological
-order, i.e., $\rvd_i$ occurs before $\rvd_{i+1}$ for all $i$.
+$\rvd.=$ set of {\bf decision nodes}.
+Assume $\rvd_i$ are in chronological (a.k.a., topological)
+order, i.e., $\rvd_i$ occurs before 
+(or concurrent with)  $\rvd_{i+1}$ for all $i$.
 
 $\rvu.=$ set of {\bf utility nodes}. Often, utility nodes are called {\bf value nodes} and only their sum is called a utility node.
 
@@ -155,8 +156,8 @@ $u(\rvc., d.)=\sum_i u_i(pa(\rvu_i))$ {\bf total utility function }
 Given $nd$ decision nodes $\{\rvd_i\}_{i=1}^{nd}$, we partition the set of chance nodes $\rvc.$
 into $nd+1$ disjoint subsets $\{\rv{\calc}_i\}_{i=0}^{nd}$ 
  in such a way that
-all nodes in $\rv{\calc}_{i-1}$ occur before $\rvd_i$, and
-$\rvd_i$  occurs before all nodes in $\rv{\calc}_{i}$.
+all nodes in $\rv{\calc}_{i-1}$ occur before (or concurrent with) $\rvd_i$, and
+$\rvd_i$  occurs before (or concurrent with) all nodes in $\rv{\calc}_{i}$.
 Thus,
 
 \beq
@@ -165,7 +166,7 @@ Thus,
 \ldots\prec \rv{\calc}_{nd-1}\prec \rvd_{nd}
 \prec \rv{\calc}_{nd}
 \eeq
-where $\prec$ is the partial chronological/topological
+where $\prec$ is the partial chronological (a.k.a., topological)
 ordering.
 
 
@@ -257,12 +258,21 @@ in its past.
 \begin{mdframed}[hidealllines=true,backgroundcolor=blue!10]
 On first encountering this algorithm, the
 reader might question how to do the maximization
-over $\cald_i$
+over $d_i$
 without knowing $\cald_{<i}$. It turns out that due to d-separation, all you have to do is pick one instatiation 
 and stick with it throughout when needed. The result for the 
 optimum policy and MEU 
 will
-be independent of the instantiation you chose. 
+be independent of the instantiation you chose.
+This is clear if you think of 
+$
+\rv{\cald}_0\rarrow \rv{\cald}_1\rarrow
+ \rv{\cald}_{nd}
+$
+as a Markov chain. When you maximize over $d_i$
+you hold it fixed, and $P(\calc_i|d_i, \cald_{<i}) =
+P(\calc_i|d_i)$.
+
 \end{mdframed} 
 
 
@@ -270,9 +280,11 @@ be independent of the instantiation you chose.
 \item {\bf Limited Memory ID (LIMID)}. 
 
 LIMIDs were first introduced 
-in Ref.\cite{limid-one}. According to that reference, LIMIDs are ``multistage decision problems in which the traditional assumption of no forgetting is
-relaxed." 
-Note that ``multistage decision problems" is another term
+in Ref.\cite{limid-one}. According to that reference, LIMIDs are
+\enquote{multistage
+decision problems in which the traditional assumption of no forgetting is
+relaxed.}
+Note that \enquote{multistage decision problems} is another term
 for a dynamic bnet (see Chapter \ref{ch-dyn-bnets}).
 
 Here is an example of LIMIDs.
@@ -295,7 +307,7 @@ of medicating the pig at time $i$.
  
 Fig.\ref{fig-pre-limid} shows a dynamic bnet that
 obeys the {\bf no forgetting} assumption so every decision is
-privy to the state of all previous decision and chance nodes.
+privy to the state of all previous decision and some chance nodes.
 Fig.\ref{fig-post-limid} shows the same bnet as 
 Fig.\ref{fig-pre-limid} after all arrows entering a decision $\rvd_i$ and originating at an earlier time, have been removed.
 
@@ -305,7 +317,7 @@ Fig.\ref{fig-pre-limid} after all arrows entering a decision $\rvd_i$ and origin
 \centering
 \includegraphics[width=4in]
 {influ-diag/pre-limid.jpg}
-\caption{Pig farming ID that obeys the ``no-forgetting"
+\caption{Pig farming ID that obeys the \enquote{no-forgetting}
 assumption.  
 }
 \label{fig-pre-limid}
@@ -326,7 +338,7 @@ except that the arrows pointing to a decision and originating at a previous time
 
 
 Ref.\cite{sha-influ-diag} proposes the following 3 exact methods for
-finding the optimal strategy, EU and MEU of an ID.
+finding the optimal strategy of an ID.
 \begin{enumerate}
 \item conversion to a decision
 tree 
@@ -410,10 +422,11 @@ Suppose $\rvd\rarrow \rvu$
 where $\rvd$ is a decision node and $\rvu$
 is a utility node, and $\rvd$ has only
 one child $\rvu$. Also
-$\rva.\cup\rvb.=pa(\rvd)\supset pa(\rvu)=\rvb.$. So the 
+$\rva.\cup\rvb.=pa(\rvd)\supset pa(\rvu)-\rvd=\rvb.$. So the 
 maximization is $\max_du (d(b., a.), b.)$.
 The value $d^*=\argmax_d u$
-should ve saved.
+should be saved
+if the optimum policy is desired.
 
 \beq
 \xymatrix{
@@ -460,7 +473,7 @@ utilities.
 
 VEA consists of the 
 the following steps applied in non-sequential
-order. VEA is valid for even if
+order. VEA is valid even with
 non-forgetting is assumed.
 
 \begin{enumerate}
