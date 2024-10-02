@@ -86,7 +86,10 @@ optimization. They maximize $u=u_1+u_2$.}
 
 
 
- Table \ref{tab-id-nodes} compares these 3 types of nodes in an  ID.
+ Table \ref{tab-id-nodes} compares these 3 types of nodes in an  ID. Note that a decision node
+ is a deterministic node\footnote{Deterministic nodes
+ are defined by Eq.(\ref{eq-def-det-node})}, but its TPM is 
+ not known a priori, but is derived by an optimization algorithm which maximizes the total utility.
 
 % Please add the following required packages to your document preamble:
 % \usepackage[table,xcdraw]{xcolor}
@@ -97,9 +100,8 @@ optimization. They maximize $u=u_1+u_2$.}
                                                                                             & \cellcolor[HTML]{FFFFC7}\begin{tabular}[c]{@{}l@{}}Chance node \\ (oval)\end{tabular} & \cellcolor[HTML]{FFFFC7}\begin{tabular}[c]{@{}l@{}}Decision node\\ (rectangle)\end{tabular} & \cellcolor[HTML]{FFFFC7}\begin{tabular}[c]{@{}l@{}}Utility node\\ (diamond)\end{tabular} \\ \hline
 \cellcolor[HTML]{FFFFC7}type of states                                                      & discrete                                                                     & discrete                                                                      & continuous                                                                             \\ \hline
 \cellcolor[HTML]{FFFFC7} deterministic?                                                   & Not in general                                                                        & Yes                                                                                      & Yes                                                                                    \\ \hline
-\cellcolor[HTML]{FFFFC7}transition info\footnote{by \enquote{transition info}
-of a node, we
-mean \enquote{personal} node info
+\cellcolor[HTML]{FFFFC7}transition info\footnote{by ``transition info" of a node, we
+mean ``personal" node info
 other than a list of the states of the node and a list 
 of its parent nodes}                                                    & TPM                                                                                   & 
 deterministic TPM                                                                                  & \begin{tabular}[c]{@{}l@{}}utility function,\\ not normalized
@@ -111,10 +113,11 @@ No                                                      & Yes                   
 \cellcolor[HTML]{FFFFC7}children type                                                       & chance, decision, value                                                               & chance, decision, value                                                                  & None                                                                                                                                                                   \\ \hline
 \end{tabular}
 \caption{Comparison of the 3 types
-of nodes in an influence diagram.
-}
+of nodes in an influence diagram.}
 \label{tab-id-nodes}
 \end{table}
+
+\section{Definitions}
 Let
 
 $\rvc.=$ set of {\bf chance nodes}
@@ -127,6 +130,12 @@ $\rvu.=$ set of {\bf utility nodes}. Often, utility nodes are called {\bf value 
 
 $\rvX.= \rvc. \cup \rvd. \cup \rvu.$ all nodes
 
+$pa(\rvX_i)=$ parents of node $\rvX_i$
+
+$va(\rvX_i)=$ set of values (a.k.a.) states that 
+node $\rvX_i$ can assume.
+
+
 $\rve.=$ {\bf evidence nodes}, the subset $\rve.$  of the chance nodes $\rvc.$ that is {\bf apriori observed}
 (i.e. measured before the experiment starts). If a decision node has a 
 chance node as a parent,
@@ -138,78 +147,132 @@ $u_i(pa(\rvu_i))=$ {\bf partial utility function}
 
 $u(\rvc., d.)=\sum_i u_i(pa(\rvu_i))$ {\bf total utility function }
 
+
 \begin{itemize}
 
+\item {\bf Chance node partition}
 
-\item{\bf Optimal Strategy}
+Given $nd$ decision nodes $\{\rvd_i\}_{i=1}^{nd}$, we partition the set of chance nodes $\rvc.$
+into $nd+1$ disjoint subsets $\{\rv{\calc}_i\}_{i=0}^{nd}$ 
+ in such a way that
+all nodes in $\rv{\calc}_{i-1}$ occur before $\rvd_i$, and
+$\rvd_i$  occurs before all nodes in $\rv{\calc}_{i}$.
+Thus,
+
+\beq
+\rv{\calc}_0\prec \rvd_1  \prec 
+\rv{\calc}_1\prec \rvd_2
+\ldots\prec \rv{\calc}_{nd-1}\prec \rvd_{nd}
+\prec \rv{\calc}_{nd}
+\eeq
+where $\prec$ is the partial chronological/topological
+ordering.
+
+
+
+\item{\bf Optimal Strategy (or Policy)}
+
+Define the conditional probabilities
+\beq
+P(d_i|pa(d_i))=
+\delta(d_i, \Delta_i(pa(d_i)))
+\eeq
+and
+
+\beq
+P(c.|d.)=\prod_{i}P(c_i|pa(c_i))
+\eeq
+If $\rvc_i$ is evidence,
+replace $P(c_i|pa(c_i))$
+by $\delta(c_i, c_i^*)$.
+
 
 Let
 \beq
-L_i = \lim_{pa(d_i)\rarrow pa(d_i)^*}
+\underbrace{\rv{\calc}_0}_{\cald_0},
+\underbrace{ \rvd_1,\rv{\calc}_1 }_{\rv{\cald}_1}, 
+\underbrace{\rvd_2, \rv{\calc}_2}_{\rv{\cald}_2}, 
+\ldots, 
+\underbrace{\rv{\cald}_{nd},\rv{\calc}_{nd}}_{ \cald_{nd}}
 \eeq
-for $i=1,2, \ldots, nd$.
-Next let
+and $\cald_{<i}= \cup_{j=1}^{i-1}\cald_j$.
 
-
+For $i=1, 2, \ldots ,nd$, let
 
 \beq
-pa(d_1)^* = \argmax_{pa(d_1)}E_{\rvc.-pa(\rvd_1)}[u(\rvc., d.)]
+\max_{\cald_i}=
+\max_{d_i}\sum_{\calc_{i}}
 \eeq
-
-
-\beq 
-pa(d_2)^* = \argmax_{pa(d_2)}L_1E_{\rvc.-pa(\rvd_1)-pa(\rvd_2)}[u(\rvc., d.)]
+\beq
+\argmax_{\cald_i}=
+\argmax_{d_i}\sum_{\calc_{i}}
 \eeq
-
-\beq 
-pa(d_3)^* = \argmax_{pa(d_3)}L_2 L_1 E_{\rvc.-pa(\rvd_1)-pa(\rvd_2)-pa(\rvd_3)}[u(\rvc., d.)]
-\eeq
-and so on for $pa(d_i)^*$ for $i=1,2, \ldots, nd$.
-
-Note that $\max_{pa(d_i)} = \max_{d_i}$
-because $d_i=d_i(pa(d_i)) $ where
-$d_i()$ is a smooth deterministic function.
-
-Define $d_i^*$ by
 
 \beq
-d_i^* = d_i(pa(d_i)^*)
+\Psi_{i}^*( \cald_{<i})=
+\max_{\cald_i}\underbrace{\max_{\cald_{i+1}}
+\ldots \max_{\cald_{nd}}
+P(c.|d.)u(c., d.)}_{\Psi_{i+1}^*(\cald_{<i+1})}
 \eeq
-
-
-\item {\bf Expected Utility}
-\beq
-EU(d.)=E_{\rvc.}[u(\rvc., d.)]=
-\sum_{c.} P(c.)u(c., d.)
-\eeq
-where 
-\beq
-P(c.)= P(c.-e.)\delta(e., e.')
-\eeq
-or
-\beq
-P(c.)= P(c.-e.-y.)\delta(e., e.')\delta(y., y^*)
-\eeq
-where 
-\beq 
-y^*.= \cup_{i=1}^{nd}pa(d_i)^*
-\eeq
-
-
-\item {\bf Maximum Expected Utility}
 
 \beq
-MEU=EU(d.^*)
+\Delta_{i}^*(\cald_{<i})=
+\argmax_{\cald_i}\underbrace{\max_{\cald_{i+1}}
+\ldots \max_{\cald_{nd}}
+P(c.|d.)u(c., d.)}_{\Psi_{i+1}^*(\cald_{<i+1})}
 \eeq
-where $d.^*$ is the optimal strategy.
+
+
+The {\bf optimum policy} is defined by
+
+\beq
+\Delta^*. = (\Delta_1^*, \Delta_2^*, \ldots,
+\Delta_{nd}^*)
+\eeq
+and the {\bf Maximum Expected Utility} (MEU) by
+\beq
+MEU =\sum_{\calc_0}\Psi_1(\calc_0)
+\eeq
+
+Thus, for example, if $nd=3$, we have 3 max-expectation problems to be performed 
+in the following order:
+
+\beq
+\left\{
+\begin{array}{ll}
+1)&\Psi_3(\cald_{<3} )=P(c.|d.)u(c., d.)
+\\
+2)&\Psi_{2}(\cald_{<2}) = \max_{\cald_2}\Psi_{3}(\cald_{<3})
+\\
+3)&\Psi_{1}(\calc_0)=\Psi_{1}(\cald_{<1}) = \max_{\cald_1}\Psi_{2}(\cald_{<2})
+\\
+4) &MEU = \sum_{\calc_0}\Psi_{1}(\calc_0)
+\end{array}
+\right.
+\eeq
+Note that $\Psi_i()$ at time  $i$
+depends solely on the decisions $\cald_{<i}$
+in its past.
+
+\begin{mdframed}[hidealllines=true,backgroundcolor=blue!10]
+On first encountering this algorithm, the
+reader might question how to do the maximization
+over $\cald_i$
+without knowing $\cald_{<i}$. It turns out that due to d-separation, all you have to do is pick one instatiation 
+and stick with it throughout when needed. The result for the 
+optimum policy and MEU 
+will
+be independent of the instantiation you chose. 
+\end{mdframed} 
+
 
 
 \item {\bf Limited Memory ID (LIMID)}. 
 
 LIMIDs were first introduced 
-in Ref.\cite{limid-one}. According to that reference, LIMIDs are \enquote{multistage decision problems in which the traditional assumption of no forgetting is
-relaxed.}
-Note that \enquote{multistage decision problems} is another term
+in Ref.\cite{limid-one}. According to that reference, LIMIDs are ``multistage decision problems in which the traditional assumption of no forgetting is
+relaxed." 
+Note that ``multistage decision problems" is another term
 for a dynamic bnet (see Chapter \ref{ch-dyn-bnets}).
 
 Here is an example of LIMIDs.
@@ -242,7 +305,7 @@ Fig.\ref{fig-pre-limid} after all arrows entering a decision $\rvd_i$ and origin
 \centering
 \includegraphics[width=4in]
 {influ-diag/pre-limid.jpg}
-\caption{Pig farming ID that obeys the \enquote{no-forgetting}
+\caption{Pig farming ID that obeys the ``no-forgetting"
 assumption.  
 }
 \label{fig-pre-limid}
