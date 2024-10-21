@@ -1,0 +1,371 @@
+\chapter{Petri Nets COMING SOON}
+\label{petri}
+
+\newcommand{\rpetriar}[1]{\ar@{.>}@/_1pc/[r]|*++[o][F-]{#1}}
+
+\newcommand{\lpetriar}[1]{\ar@{.>}@/_1pc/[l]|*++[o][F-]{#1}}
+
+\xymatrix@C=5pc{
+\rvx\rpetriar{8}
+\ar[r]
+&\rvy\lpetriar{9}
+}
+
+
+\section{Conventional Petri Nets}
+\subsection{Simple Example of Petri Net}
+
+\beq
+\xymatrix{
+&&*++[o][F-]{0}\ar[rd]
+\\
+*++[o][F-]{3}\ar[r]_<<<{\rvp_1}
+&\rvx_1\ar[ur]_>{\rvp_2}
+\ar[dr]
+&&\rvx_2\ar[r]_>>{\rvp_4}
+\ar@/_2pc/[lll]
+&*++[o][F-]{1}
+\\
+&&*++[o][F-]{2}\ar[ur]_<{\rvp_3}
+}
+\eeq
+
+\beq
+\xymatrix{
+&&*++[F-]{\phantom{0}}\ar[rd]
+\\
+*++[F-]{\bullet\bullet\bullet}\ar[r]_<<<{\rvp_1}
+&\rvx_1\ar[ur]_>{\rvp_2}
+\ar[dr]
+&&\rvx_2\ar[r]_>>{\rvp_4}
+\ar@/_2pc/[lll]
+&*++[F-]{\bullet}
+\\
+&&*++[F-]{\bullet\bullet}\ar[ur]_<<{\rvp_3}
+}
+\eeq
+
+\beq
+W^{\rvx\larrow}=
+\begin{array}{c|cc}
+&\rvx_1&\rvx_2
+\\ \hline
+\rvp_1&1&0
+\\
+\rvp_2&0&1
+\\
+\rvp_3&0&1
+\\
+\rvp_4&0&0
+\end{array}
+,\;
+W^{\rvx\rarrow}=
+\begin{array}{c|cc}
+&\rvx_1&\rvx_2
+\\ \hline
+\rvp_1&0&1
+\\
+\rvp_2&1&0
+\\
+\rvp_3&1&0
+\\
+\rvp_4&0&1
+\end{array}
+,\;
+W=
+W^{\rvx\rarrow}
+-W^{\rvx\larrow}=
+\begin{array}{c|cc}
+&\rvx_1&\rvx_2
+\\ \hline
+\rvp_1&-1&1
+\\
+\rvp_2&1&-1
+\\
+\rvp_3&1&-1
+\\
+\rvp_4&0&1
+\end{array}
+\eeq
+
+
+%0
+%p2
+%3  p1
+%/x1
+%@
+%x2 p4
+%t / 1
+%2 p3
+%@
+%(74.1)
+%p2
+%• • •   p1
+%/x1
+%>
+%
+%x2 p4
+%s / •
+%•• p3
+%>
+%(74.2)
+%Wx← =
+%x1 x2
+%p1 1 0
+%p2 0 1
+%p3 0 1
+%p4 0 0
+%, Wx→ =
+%x1 x2
+%p1 0 1
+%p2 1 0
+%p3 1 0
+%p4 0 1
+%, W = Wx→ −Wx← =
+%x1 x2
+%p1 −1 1
+%p2 1 −1
+%p3 1 −1
+%p4 0 1
+%(74.3)
+%553
+%If
+%p =
+%p1
+%p2
+%p3
+%p4
+%, x =
+%"
+%x1
+%x2
+%#
+%(74.4)
+%then
+%p(t) = p(0) +Wx =
+%p1(0) − x1 + x2
+%p2(0) + x1 − x2
+%p3(0) + x1 − x2
+%p4(0) + x2
+%(74.5)
+%p2
+%
+%p3
+%x ~ 2
+%p ~   1 p4
+%p1 p2 p3 p4
+%x2 1 −1 −1 1
+%(74.6)
+\subsection{Precise Definition of Petri Net}
+%Let
+%Z>0 = {1, 2, 3 . . .} natural numbers.
+%Z≥0 = {0, 1, 2, 3 . . .} natural numbers and zero.
+%pi = ith place (a.k.a. buffer, token holder) node. This node holds either
+%an inxeger ≥ 0 or that number of tokens (tokens are represenxed by bullet poinxs).
+%xi = ith transition node
+%P = {pi}np
+%i=1 set of all places
+%X = {xi}nx
+%i=1 set of all transitions
+%x → y an arrow (a.k.a. directed arc). Note that there are two type of arrows:
+%those that go from an transition to a place node and those which go from a place to
+%a transition node. Let x → y = y ← x = (x, y)
+%A = the set of all arrows. A ⊂ A = (P × X) ∪ (X × P) = {p → x or x → p :
+%p ∈ P, x ∈ X}.
+%A flow is a non-directed path of arrows from A.
+%μ : A → Z>0 = multiplicity of each arrow. If unstated, assume μ(a) = 1
+%for all a ∈ A. It’s also possible to extend the domain of μ() to A and define μ(a) = 0
+%for all a ∈ A − A.
+%p ∈ Znp×1
+%≥0 markings column vector. pi is the number of tokens in place pi.
+%We will use M : P → Z≥0 with M(pi) = pi.
+%554
+%t ∈ Znx×1
+%>0 . (column vector). How many times each transition occurs
+%p(0) = initial markings
+%Wx← ∈ {0, 1}np×nx. Wx←
+%i,j = 1 if there is an arrow pi
+%→ xj (enxering xj);
+%else Wx←
+%i,j = 0. More generally, in the case a multiplicity function μ() is given, let
+%Wx←
+%i,j = μ(pi
+%→ xj).
+%Wx→ ∈ {0, 1}np×nx. Wx→
+%i,j = +1 if there is an arrow pi
+%← xj (leaving xj);
+%else Wx→
+%i,j = 0. More generally, in the case a multiplicity function μ() is given, let
+%Wx→
+%i,j = μ(pi
+%← xj).
+%W = Wx→ − Wx← ∈ {−1, 0, 1}np×nx This is called the incidence matrix.
+%More generally, if a multiplicity function is given, W = Wx→ −Wx← ∈ Z.
+%{◦ → x} = {p : p → x ∈ A}: input places (a.k.a. places pre-set)
+%{x → ◦} = {p : x → p ∈ A}: output places (a.k.a. places post-set)
+%{◦ → p} = {x : x → p ∈ A}: input transitions (a.k.a. transitions
+%preset)
+%{p → ◦} = {x : p → x ∈ A}: output transitions (a.k.a. transitions
+%post-set)
+%Φ = ⟨P,X,W, p(0)⟩ is a Petri net.
+\subsection{Execution of a Petri net}
+%Consider a Petri Net Φ = ⟨P,X,W, p(0)⟩.
+%By firing step of a transition x, we mean the action of removing μ(p → x)
+%tokens from all p such that p → x ∈ {◦ → x}, and adding μ(x → p′) tokens to all p′
+%such that x → p′ ∈ {x → ◦}.
+%A transition x is enabled, i.e., it may fire if there are enough tokens in
+%the input places of x for a firing to be possible; i.e., if M(p) ≥ μ(p → x) for all p.
+%t ∈ Z>0 is the firing time.
+%p(t) = markings at firing time t.
+%x(t) = how many times each transition occurs at time t.
+%p(t) = p(0) +Wx(t) (74.7)
+%p(0), p(1), p(2), . . . is the sequence of firings
+%A marking p∗ is reachable from a marking p in n = 1, 2, . . . steps if
+%p can be transformed to p∗ by executing n firings. We write p Φ / p∗ and say a
+%marking p∗ is reachable from a marking p if p∗ is reachable from p in a finite
+%number of steps.
+%The reachability set of a Petri Net Φ with initial markings p(0) is defined as
+%R(Φ) = {p∗ : p(0) Φ / p∗ } (74.8)
+%555
+\section{Generalizations}
+\subsection{Continuous Petri net}
+%Replace pi → dxi
+%dt = x˙i(t) for all i = 1, 2, . . . , np.
+%x˙(t) = x˙(0) +Wx(t) (74.9)
+\subsection{Colored Petri Nets}
+\subsection{Stochastic Petri Nets}
+\subsection{Petri-Bayes Net}
+%Petrifying a Bnet
+%x / y =⇒ x /
+%3
+%&
+%f 2
+%y (74.10)
+%We will refer to the place between x and y as px,y.
+%a
+%b 􀀀 /
+%c
+%􀀀
+%d
+%=⇒
+%a
+%􀀀
+%3
+%v
+%6
+%5
+%V
+%b /
+%2
+%j *
+%1
+%U
+%c
+%􀀀
+%5
+%v
+%6
+%d
+%(74.11)
+{\bf Petri-Bayes Net}
+%a
+%3
+%U
+%b
+%􀀀
+%2
+%u
+%5
+%x
+%3
+%U
+%􀀀
+%4
+%u
+%5
+%c d
+%pa→x px→c px→d
+%· · ·
+%x −1 1 1 0
+%(74.12)
+%556
+%a
+%3
+%U
+%b
+%􀀀
+%2
+%v
+%5
+%x
+%3
+%U
+%􀀀
+%4
+%u
+%6
+%c d
+%pa→x px→b
+%· · ·
+%x −1 1 0
+%a
+%3
+%U
+%b
+%
+%2
+%u
+%5
+%x
+%3
+%U
+%􀀀
+%4
+%u
+%5
+%c y d
+%pa→x px→b
+%· · ·
+%x −1 1 0
+%(74.13)
+%a
+%3
+%U
+%b
+%􀀀
+%2
+%u
+%5
+%x
+%3
+%U
+%􀀀
+%4
+%u
+%5
+%c d
+%pc→x px→a px→b px→d
+%· · ·
+%x −1 1 1 1 0
+%a
+%3
+%U
+%b
+%􀀀
+%2
+%v
+%5
+%x
+%3
+%U
+%􀀀
+%4
+%u
+%6
+%c d
+%pc→x
+%· · ·
+%x −1 0
+%(74.14)
+%557
+%
