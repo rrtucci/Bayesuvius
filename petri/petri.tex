@@ -4,10 +4,10 @@
 
 
 
-\newcommand{\petriar}[3]{\ar@{.>}@/_1pc/[#1]|*++[o][F-]{#2}
+\newcommand{\petriar}[3]{{\ar@{.>}@/_1pc/[#1]|*++[o][F-]{#2}
 \ar[#1]
 \ar@{<.}@/^1pc/[#1]|*++[o][F-]{#3}
-}
+}}
 
 
 
@@ -269,11 +269,11 @@ $\rvp^\larrow = \{\rvx : \rvx \rarrow \rvp \in \cala \}=$ {\bf$\rvp$ input trans
 $\rvp^\rarrow = \{\rvx : \rvp \rarrow\rvx \in\cala\}=$ {\bf $\rvx$ output transitions (a.k.a. $\rvp$ post-set)}
 
 \hrule
-$\ket{p(0)}\in \ZZ_{\geq 0} =$ {\bf initial markings}
+$\ket{p(0)}\in \ZZ_{\geq 0}^{np\times 1} =$ {\bf initial markings}
 
-$\Phi = \av{\calp, \calx,W, p(0)}$ is a {\bf Petri net}.
+$\Phi = \av{\calp, \calx,\ket{p(0)}, W}$ is a {\bf Petri net}.
 \subsection{Execution of a Petri net}
-%Consider a Petri Net Φ = ⟨P,X,W, p(0)⟩.
+Consider a Petri Net $\Phi = \av{\calp, \calx,\ket{p(0)}, W}$.
 %By firing step of a transition x, we mean the action of removing μ(p → x)
 %tokens from all p such that p → x ∈ {◦ → x}, and adding μ(x → p′) tokens to all p′
 %such that x → p′ ∈ {x → ◦}.
@@ -451,3 +451,29 @@ $\Phi = \av{\calp, \calx,W, p(0)}$ is a {\bf Petri net}.
 %(74.14)
 %557
 %
+\beq
+\begin{array}{ccc}
+\xymatrix@R=5pc@C=5pc{
+&\rva\ar[dl]\ar[dr]
+\\
+\rvb\ar[rr]\ar[dr]
+&&\rvc\ar[dl]
+\\
+&\rvd
+}
+&\xymatrix@R=5pc{
+\\
+&\implies&}
+&
+\xymatrix@R=5pc@C=5pc{
+&\rva\petriar{dl}{1}{}
+\petriar{dr}{}{5}
+\\
+\rvb\petriar{rr}{}{2}
+\petriar{dr}{5}{}
+&&\rvc\petriar{dl}{3}{}
+\\
+&\rvd
+}
+\end{array}
+\eeq
