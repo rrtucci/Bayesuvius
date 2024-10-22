@@ -254,17 +254,17 @@ More generally, if a capacity function is given,
 \beq
 W_{i,j} =
  W^{\rvx \rarrow}_{i,j}-W^{\rvx \larrow}_{i,j}=
-\kappa(\rvp_i\rarrow \rvx_j)
--
 \kappa(\rvp_i\larrow \rvx_j)
+-
+\kappa(\rvp_i\rarrow \rvx_j)
 \eeq
 In Dirac notation, 
 
 \beq
 W =  \sum_{i,j}\left[
-\kappa(\rvp_i\rarrow \rvx_j)
--
 \kappa(\rvp_i\larrow \rvx_j)
+-
+\kappa(\rvp_i\rarrow \rvx_j)
 \right]
 \ket{\rvp_i}\bra{\rvx_j}
 \eeq
@@ -279,48 +279,184 @@ $\rvp^\larrow = \{\rvx : \rvx \rarrow \rvp \in \cala \}=$ {\bf$\rvp$ input trans
 $\rvp^\rarrow = \{\rvx : \rvp \rarrow\rvx \in\cala\}=$ {\bf $\rvx$ output transitions (a.k.a. $\rvp$ post-set)}
 
 \hrule
-$\ket{p(0)}\in \ZZ_{\geq 0}^{np\times 1} =$ {\bf initial markings}
+$\ket{b(0)}_\calp\in \ZZ_{\geq 0}^{np\times 1} =$ {\bf initial markings}
 
-$\Phi = \av{\calp, \calx,\ket{p(0)}, W}$ is a {\bf Petri net}.
+$\Phi = \av{\calp, \calx, W,\ket{b(0)}_\calp}$ is a {\bf Petri net}.
 \subsection{Execution of a Petri net}
-Consider a Petri Net $\Phi = \av{\calp, \calx,\ket{p(0)}, W}$.
-%By firing step of a transition x, we mean the action of removing μ(p → x)
-%tokens from all p such that p → x ∈ {◦ → x}, and adding μ(x → p′) tokens to all p′
-%such that x → p′ ∈ {x → ◦}.
-%A transition x is enabled, i.e., it may fire if there are enough tokens in
-%the input places of x for a firing to be possible; i.e., if M(p) ≥ μ(p → x) for all p.
-%t ∈ Z>0 is the firing time.
-%p(t) = markings at firing time t.
-%x(t) = how many times each transition occurs at time t.
-%p(t) = p(0) +Wx(t) (74.7)
-%p(0), p(1), p(2), . . . is the sequence of firings
-%A marking p∗ is reachable from a marking p in n = 1, 2, . . . steps if
-%p can be transformed to p∗ by executing n firings. We write p Φ / p∗ and say a
-%marking p∗ is reachable from a marking p if p∗ is reachable from p in a finite
-%number of steps.
-%The reachability set of a Petri Net Φ with initial markings p(0) is defined as
-%R(Φ) = {p∗ : p(0) Φ / p∗ } (74.8)
-%555
+Consider a Petri Net $\Phi = \av{\calp, \calx, W,\ket{b(0)}_\calp}$.
 
-In general, can replace $W\ket{a}_\calx$ by
-any vector
-$\ket{a}_\calx$ that depends on
-the current markings 
-$\ket{b}_\calp$
-for all place nodes,
-the arrow capacities
-$\kappa()$
-for
-all arrows.
+By (conventionsal) {\bf firing step} of a transition $\rvx$, we mean the action of removing $\mu(\rvp\rarrow \rvx)$
+tokens from all $\rvp$ such that $\rvp\in\rvx^\larrow$, and adding $\mu(\rvx\rarrow\rvp')$ tokens to all $\rvp'$
+such that $\rvp'\in\rvx^\rarrow$.
+
+A transition $\rvx$ is {\bf enabled} 
+(i.e., it may fire)
+for $\rvp\in \rvx^{\larrow}$, if there are enough tokens in 
+$\rvp$ for a firing to be possible; i.e., if $M(\rvp) \geq \mu(\rvp\rarrow \rvx)$. A transition $\rvx$ is {\bf fully enabled} if it is enabled for all $\rvp\in \rvx^\larrow$.
+
+$t \in \ZZ_{>0}$ is the firing time.
+
+$b_j(t) =$ {\bf markings of place $\rvp_j$} at firing time t.
+
+\beq
+\ket{b(t)}_\calp =\sum_j b_j(t) \ket{\rvp_j}
+\eeq
+
+$a_i(t) =$ how many times each transition $\rvx_i$
+occurs at time t
+(i.e., the {\bf strength of transition $\rvx_i$}
+at time $t$).
+
+\beq
+\ket{a(t)}_\calx =\sum_i a_i(t) \ket{\rvx_i}
+\eeq
+
+Note that we use subscripts $\calp$ and $\calx$ to
+indicate which basis, either the $\{\ket{\rvp_i}\}_{i=1}^{np}$
+or  $\{\ket{\rvx_i}\}_{i=1}^{nx}$
+we are referring to.
+
+{\bf Conventional firing rule}\footnote{Many others firing rules are possible}.
+
+\beq
+b_j(t+1) = b_j(t)
++\sum_i W_{j,i}(t) a_i(t)
+\eeq
+where $W_{j,i}(t)=0$ if 
+transition $\rvx_i$ 
+is not fully enabled.
+ 
+\beq
+\ket{b(t+1)}_\calp =
+\ket{b(t)}_\calp +
+W\ket{a(t)}_\calx
+\label{eq-firing-stepper}
+\eeq
+ 
+ In general, can replace $W\ket{a(t)}_\calx$ by
+ any vector 
+ $\ket{A(t)}_\calp$ that can depend on
+ the place markings $\mu()$
+ for all places
+ and
+ arrow capacities
+ $\kappa()$
+ for
+ all arrows.
+
+$\ket{a(0)}, \ket{a(1)}, \ket{a(2)},
+\ldots$ is the {\bf sequence of firing
+steps}.
+Often we fire a single transition
+in each step,
+instead of firing a linear combination 
+of them. In such a case, the
+sequence of firing steps reduces to
+$a_{i(0)}, a_{i(1)}, a_{i(2)},
+\ldots$
+
+
+A marking $\ket{b^*}_\calp$ is {\bf reachable} from a marking  $\ket{b}_\calp$ in 
+$n = 1, 2, \ldots$  steps if
+$\ket{b}_\calp$ can be transformed to $\ket{b^*}_\calp$ by executing $n$ firings. We write 
+$\xymatrix{\ket{b}_\calp\ar[r]_\Phi& \ket{b^*}_\calp}$ and say a
+marking $\ket{b^*}_\calp$ is reachable from a marking
+$\ket{b}_\calp$ if $\ket{b^*}_\calp$ is reachable from 
+$\ket{b}_\calp$ in a finite
+number of steps.
+The {\bf reachability set} of a Petri Net $\Phi$ with 
+initial markings $\ket{b(0)}_\calp$ is defined as
+
+\beq
+R(\Phi) = \{\ket{b^*}_\calp: 
+\xymatrix{\ket{b(0)}_\calp\ar[r]_\Phi& \ket{b^*}_\calp} \}
+\eeq
+
+
 
 \section{Generalizations}
 \subsection{Continuous Petri net}
-%Replace pi → dxi
-%dt = x˙i(t) for all i = 1, 2, . . . , np.
-%x˙(t) = x˙(0) +Wx(t) (74.9)
+So far we have considered
+discrete time $t\in \ZZ_{\geq 0}$.
+If we let the interval $\Delta t=t_{i+1}-t_i$ between
+succesive events tend to zero
+and if we replace $W$ by 
+$W/\Delta t$ in Eq.(\ref{eq-firing-stepper}), we get
+
+\beq
+\frac{db_j(t)}{dt}=
+\sum_i W_{j,i}a_i(t)
+\eeq
+
+
+\beq
+\frac{d\ket{b(t)}}{dt}=
+W\ket{a(t)}
+\eeq
+
+
+\beq
+\xymatrix@C=5pc{
+*++[o][F-]{a_1}
+&&*++[o][F-]{a_4}
+\ar[dl]|{W_{i,4}}
+\\
+*++[o][F-]{a_2}
+&
+\frac{db_i}{dt}
+\ar[lu]|{W_{1, i}}
+\ar[ld]|{W_{2,i}}
+\ar[l]|{W_{3, i}}
+& *++[o][F-]{a_5}
+\ar[l]|{W_{i,5}}
+\\
+*++[o][F-]{a_3}
+&&
+*++[o][F-]{a_6}
+\ar[lu]|{W_{i,6}}
+}
+\eeq
+We extend $W$ to
+
+\beq
+W^{new}=
+\begin{array}{c|cc}
+&\rvp_j&\rvx_i
+\\ \hline
+\rvp_j&0&W_{j,i}
+\\
+\rvx_i &-W_{j,i} &0
+\end{array}
+\eeq
+The extended matriix $W^{new}$ is now
+an anti-symmetric square matrix.
+
+
 \subsection{Colored Petri Nets}
+In a conventional Petri net, the tokens
+are all of the same kind,
+so the marking (i.e., content)
+of every place node is given by a scalar
+from either $\ZZ_{\geq 0}$
+or $\RR_{\geq 0}$.
+But if one considers
+tokens of various kinds,
+then one needs a vector to
+store their relative number.
+In the conventional case,
+the messages are scalars too, 
+but in the multicolored case,
+they become matrices or even tensors.
+In fact,  one can generalize conventional Petri networks
+so that the messages are objects of 
+a class\footnote{The objects
+or instances 
+of a class are defined in OOP (Object Oriented Programing).}
+
+
 \subsection{Stochastic Petri Nets}
 \subsection{Petri-Bayes Net}
+Fire nodes in topological order
 {\bf Petrifying a Bnet}
 
 \beq
@@ -374,7 +510,6 @@ We will refer to the place between $\rvx$ and $\rvy$ with arrow $\rvx\rarrow \rv
 
 
 \beq
-\begin{array}{c}
 \xymatrix@R=5pc@C=5pc{
 \rva\petriarDR{dr}{}{1}
 &&\rvb\petriar{dl}{2}{}
@@ -386,18 +521,7 @@ We will refer to the place between $\rvx$ and $\rvy$ with arrow $\rvx\rarrow \rv
 \rvc
 &&\rvd
 }
-\\
-\begin{array}{c|cccc}
-&\rvp_{a\rarrow x}
-&\rvp_{x\rarrow c}
-&\rvp_{x\rarrow d}
-&\cdots
-\\ \hline
-\rvx&-1&1&1&0
-\end{array}
-\end{array}
 \;\;\;
-\begin{array}{c}
 \xymatrix@R=5pc@C=5pc{
 \rva\petriarDR{dr}{}{1}
 &&\rvb\petriarUR{dl}{2}{}
@@ -410,19 +534,9 @@ We will refer to the place between $\rvx$ and $\rvy$ with arrow $\rvx\rarrow \rv
 &
 &\rvd
 }
-\\
-\begin{array}{c|ccc}
-&\rvp_{a\rarrow x}
-&\rvp_{x\rarrow b}
-&\cdots
-\\ \hline
-\rvx&-1&1&0
-\end{array}
-\end{array}
 \eeq
 
 \beq
-\begin{array}{c}
 \xymatrix@R=5pc@C=5pc{
 \rva\petriarDR{dr}{}{1}
 &&\rvb\petriarUR{dl}{2}{}
@@ -437,19 +551,9 @@ We will refer to the place between $\rvx$ and $\rvy$ with arrow $\rvx\rarrow \rv
 *++[o][F*:yellow]{\rve}
 &\rvd
 }
-\\
-\begin{array}{c|ccc}
-&\rvp_{a\rarrow x}
-&\rvp_{x\rarrow b}
-&\cdots
-\\ \hline
-\rvx&-1&1&0
-\end{array}
-\end{array}
 \eeq
 
 \beq
-\begin{array}{c}
 \xymatrix@R=5pc@C=5pc{
 \rva\petriarUR{dr}{}{1}
 &&\rvb\petriarUR{dl}{2}{}
@@ -461,19 +565,7 @@ We will refer to the place between $\rvx$ and $\rvy$ with arrow $\rvx\rarrow \rv
 \rvc
 &&\rvd
 }
-\\
-\begin{array}{c|ccccc}
-&\rvp_{c\rarrow x}
-&\rvp_{x\rarrow a}
-&\rvp_{x\rarrow b}
-&\rvp_{x\rarrow d}
-&\cdots
-\\ \hline
-\rvx&-1&1&1&1&0
-\end{array}
-\end{array}
 \;\;\;
-\begin{array}{c}
 \xymatrix@R=5pc@C=5pc{
 \rva\petriar{dr}{}{1}
 &&\rvb\petriar{dl}{2}{}
@@ -484,15 +576,6 @@ We will refer to the place between $\rvx$ and $\rvy$ with arrow $\rvx\rarrow \rv
 \\
 \rvc
 &
-{\rve}
 &\rvd
 }
-\\
-\begin{array}{c|cc}
-&\rvp_{c\rarrow x}
-&\cdots
-\\ \hline
-\rvx&-1&0
-\end{array}
-\end{array}
 \eeq
