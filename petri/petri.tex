@@ -1,15 +1,16 @@
 \chapter{Petri Nets COMING SOON}
 \label{petri}
 
-\newcommand{\rpetriar}[1]{\ar@{.>}@/_1pc/[r]|*++[o][F-]{#1}}
 
-\newcommand{\lpetriar}[1]{\ar@{.>}@/_1pc/[l]|*++[o][F-]{#1}}
 
-\xymatrix@C=5pc{
-\rvx\rpetriar{8}
-\ar[r]
-&\rvy\lpetriar{9}
+
+\newcommand{\petriar}[3]{\ar@{.>}@/_1pc/[#1]|*++[o][F-]{#2}
+\ar[#1]
+\ar@{<.}@/^1pc/[#1]|*++[o][F-]{#3}
 }
+
+
+
 
 
 \section{Conventional Petri Nets}
@@ -88,126 +89,189 @@ W^{\rvx\rarrow}
 \end{array}
 \eeq
 
+If
 
-%0
-%p2
-%3  p1
-%/x1
-%@
-%x2 p4
-%t / 1
-%2 p3
-%@
-%(74.1)
-%p2
-%• • •   p1
-%/x1
-%>
-%
-%x2 p4
-%s / •
-%•• p3
-%>
-%(74.2)
-%Wx← =
-%x1 x2
-%p1 1 0
-%p2 0 1
-%p3 0 1
-%p4 0 0
-%, Wx→ =
-%x1 x2
-%p1 0 1
-%p2 1 0
-%p3 1 0
-%p4 0 1
-%, W = Wx→ −Wx← =
-%x1 x2
-%p1 −1 1
-%p2 1 −1
-%p3 1 −1
-%p4 0 1
-%(74.3)
-%553
-%If
-%p =
-%p1
-%p2
-%p3
-%p4
-%, x =
-%"
-%x1
-%x2
-%#
-%(74.4)
-%then
-%p(t) = p(0) +Wx =
-%p1(0) − x1 + x2
-%p2(0) + x1 − x2
-%p3(0) + x1 − x2
-%p4(0) + x2
-%(74.5)
-%p2
-%
-%p3
-%x ~ 2
-%p ~   1 p4
-%p1 p2 p3 p4
-%x2 1 −1 −1 1
-%(74.6)
+\beq
+p=\left[
+\begin{array}{c}
+p_1
+\\
+p_2
+\\
+p_3
+\\
+p_4
+\end{array}
+\right]
+,\;
+x=
+\left[
+\begin{array}{c}
+x_1
+\\
+x_2
+\end{array}
+\right]
+\eeq
+
+\beq
+p(t) =
+p(0) + Wx
+=
+\left[
+\begin{array}{c}
+p_1(0)-x_1+x_2
+\\
+p_2(0) + x_1 -x_2
+\\
+p_3(0)+ x_1-x_2
+\\
+p_4(0) + x_2
+\end{array}
+\right]
+\eeq
+
+\beq
+\xymatrix{
+*++[o][F-]{\rvp_2}\ar[dr]
+&&*++[o][F-]{\rvp_3}\ar[dl]
+\\
+&{\rvx_2}\ar[ld]\ar[rd]
+\\
+*++[o][F-]{\rvp_1}
+&&*++[o][F-]{\rvp_4}
+}
+\eeq
+
+\beq
+\begin{array}{c|cccc}
+&\rvp_1&\rvp_2&\rvp_3&\rvp_4
+\\
+\hline
+\rvx_2&1&-1&-1&1
+\end{array}
+\eeq
+
 \subsection{Precise Definition of Petri Net}
-%Let
-%Z>0 = {1, 2, 3 . . .} natural numbers.
-%Z≥0 = {0, 1, 2, 3 . . .} natural numbers and zero.
-%pi = ith place (a.k.a. buffer, token holder) node. This node holds either
-%an inxeger ≥ 0 or that number of tokens (tokens are represenxed by bullet poinxs).
-%xi = ith transition node
-%P = {pi}np
-%i=1 set of all places
-%X = {xi}nx
-%i=1 set of all transitions
-%x → y an arrow (a.k.a. directed arc). Note that there are two type of arrows:
-%those that go from an transition to a place node and those which go from a place to
-%a transition node. Let x → y = y ← x = (x, y)
-%A = the set of all arrows. A ⊂ A = (P × X) ∪ (X × P) = {p → x or x → p :
-%p ∈ P, x ∈ X}.
-%A flow is a non-directed path of arrows from A.
-%μ : A → Z>0 = multiplicity of each arrow. If unstated, assume μ(a) = 1
-%for all a ∈ A. It’s also possible to extend the domain of μ() to A and define μ(a) = 0
-%for all a ∈ A − A.
-%p ∈ Znp×1
-%≥0 markings column vector. pi is the number of tokens in place pi.
-%We will use M : P → Z≥0 with M(pi) = pi.
-%554
-%t ∈ Znx×1
-%>0 . (column vector). How many times each transition occurs
-%p(0) = initial markings
-%Wx← ∈ {0, 1}np×nx. Wx←
-%i,j = 1 if there is an arrow pi
-%→ xj (enxering xj);
-%else Wx←
-%i,j = 0. More generally, in the case a multiplicity function μ() is given, let
-%Wx←
-%i,j = μ(pi
-%→ xj).
-%Wx→ ∈ {0, 1}np×nx. Wx→
-%i,j = +1 if there is an arrow pi
-%← xj (leaving xj);
-%else Wx→
-%i,j = 0. More generally, in the case a multiplicity function μ() is given, let
-%Wx→
-%i,j = μ(pi
-%← xj).
-%W = Wx→ − Wx← ∈ {−1, 0, 1}np×nx This is called the incidence matrix.
-%More generally, if a multiplicity function is given, W = Wx→ −Wx← ∈ Z.
-%{◦ → x} = {p : p → x ∈ A}: input places (a.k.a. places pre-set)
-%{x → ◦} = {p : x → p ∈ A}: output places (a.k.a. places post-set)
-%{◦ → p} = {x : x → p ∈ A}: input transitions (a.k.a. transitions
-%preset)
-%{p → ◦} = {x : p → x ∈ A}: output transitions (a.k.a. transitions
-%post-set)
-%Φ = ⟨P,X,W, p(0)⟩ is a Petri net.
+Let
+
+$\ZZ_{>0}= \{1, 2, 3, \dots\}$ natural numbers.
+
+$\ZZ_{\geq 0}= \{0, 1, 2, 3, \dots\}$ natural numbers and zero.
+
+\hrule
+$\rvp_i =$ ith {\bf place  (a.k.a. buffer, token holder) node}. This node holds either
+an integer $\geq 0$ or that number of tokens (tokens are represenxed by bullet points).
+
+$\calp = \{\rvp_i\}_{i=1}^{np}$, set of all places
+
+
+Let $\ket{\rvp_i}\in \ZZ^{np\times 1}$ be the one-hot 
+column vector with
+$1$ at position $i$. This will be our {markings or places basis}
+
+\hrule 
+
+$\rvx_i =$ ith {\bf transition node}
+
+
+
+$\calx = \{\rvx_i\}_{i=1}{nx}$, set of all transitions
+
+Let $\ket{\rvx_j}\in \ZZ^{nx\times 1}$ be the one-hot 
+column vector with
+$1$ at position $j$. This will be our {transitions basis}.
+
+\hrule
+
+$\rvx\rarrow \rvy$ denotes an {\bf arrow (a.k.a. directed arc)}. Note that there are two type of arrows:
+those that go from an transition to a place node and those which go from a place to
+a transition node. Let $\rvx\rarrow\rvy=\rvy\larrow \rvx = (\rvx,\rvy)$
+
+$\cala =$  the set of all arrows. $\cala \subset \ol {\cala} = (\calp \times \calx) \cup (\calx \times \calp) = \{\calp\rarrow\calx or \calx \rarrow \calp:
+\rvp\in\calp, \rvx \in \calx\}$.
+
+
+A {\bf flow} is a directed path of arrows from $\cala$.
+
+\hrule
+$\mu : \calp \rarrow \ZZ_{\geq 0}=$ {\bf markings (i.e., contents) of of each place}. Sometimes, it is convenient to consider a fractional number tokens in a place, so
+$\mu : \calp \rarrow \RR_{\geq 0}$.
+
+
+
+$\kappa : \cala\rarrow \ZZ_{>0}=$ {\bf capacity of each arrow}. If unstated, assume $\kappa(a) = 1$.
+for all $a\in\cala$. It's also possible to extend the domain of 
+$\kappa()$ to $\ol{\cala}$ and define $\kappa(a) = 0$
+for all $a\in \ol{\cala}-\cala$. Sometimes, it is convenient to consider a fractional arrow capacity, so
+$\kappa : \cala \rarrow \RR_{\geq 0}$.
+
+\hrule
+$W^{\rvx \larrow} \in \bool^{np\times nx}$. 
+$W^{\rvx \larrow}_{i,j} = 1$ if there is an arrow $\rvp_i\rarrow\rvx_j$
+(entering $\rvx_j$);
+else $W^{\rvx \larrow}_{i,j} = 0$. More generally, in the case a capacity function $\kappa()$ is given, let
+
+\beq
+W^{\rvx \larrow}_{i,j} = \kappa(\rvp_i\rarrow \rvx_j)
+\eeq
+In Dirac notation, 
+
+\beq
+W^{\rvx \larrow} = \sum_{i,j}\kappa(\rvp_i\rarrow \rvx_j)
+\ket{\rvp_i}\bra{\rvx_j}
+\eeq
+
+
+$W^{\rvx \rarrow} \in \bool^{np\times nx}$. 
+$W^{\rvx \rarrow}_{i,j} = 1$ if there is an arrow $\rvp_i\larrow\rvx_j$
+(leaving $\rvx_j$);
+else $W^{\rvx \rarrow}_{i,j} = 0$. More generally, in the case a capacity function $\kappa()$ is given, let
+
+\beq
+W^{\rvx \rarrow}_{i,j} = \kappa(\rvp_i\larrow \rvx_j)
+\eeq
+In Dirac notation, 
+
+\beq
+W^{\rvx \rarrow} = \sum_{i,j}\kappa(\rvp_i\larrow \rvx_j)
+\ket{\rvp_i}\bra{\rvx_j}
+\eeq
+
+$W =W^{\rvx \rarrow}-W^{\rvx \rarrow}\in \{-1, 0, 1\}^{np\times nx}$ This is called the {\bf incidence matrix}.
+More generally, if a capacity function is given, 
+
+\beq
+W_{i,j} =
+ W^{\rvx \rarrow}_{i,j}-W^{\rvx \larrow}_{i,j}=
+\kappa(\rvp_i\rarrow \rvx_j)
+-
+\kappa(\rvp_i\larrow \rvx_j)
+\eeq
+In Dirac notation, 
+
+\beq
+W =  \sum_{i,j}\left[
+\kappa(\rvp_i\rarrow \rvx_j)
+-
+\kappa(\rvp_i\larrow \rvx_j)
+\right]
+\ket{\rvp_i}\bra{\rvx_j}
+\eeq
+
+\hrule
+$\rvx^\larrow = \{\rvp : \rvp \rarrow \rvx\in\cala\}=$ {\bf $\rvx$ input places (a.k.a. $\rvx$ pre-set)}
+
+$\rvx^\rarrow = \{\rvp : \rvx \rarrow \rvp \in \cala\}=$ {\bf $\rvx$ output places (a.k.a. $\rvx$ post-set)}
+
+$\rvp^\larrow = \{\rvx : \rvx \rarrow \rvp \in \cala \}=$ {\bf$\rvp$ input transitions (a.k.a. $\rvp$ preset)}
+
+$\rvp^\rarrow = \{\rvx : \rvp \rarrow\rvx \in\cala\}=$ {\bf $\rvx$ output transitions (a.k.a. $\rvp$ post-set)}
+
+\hrule
+$\ket{p(0)}\in \ZZ_{\geq 0} =$ {\bf initial markings}
+
+$\Phi = \av{\calp, \calx,W, p(0)}$ is a {\bf Petri net}.
 \subsection{Execution of a Petri net}
 %Consider a Petri Net Φ = ⟨P,X,W, p(0)⟩.
 %By firing step of a transition x, we mean the action of removing μ(p → x)
@@ -235,7 +299,25 @@ W^{\rvx\rarrow}
 \subsection{Colored Petri Nets}
 \subsection{Stochastic Petri Nets}
 \subsection{Petri-Bayes Net}
-%Petrifying a Bnet
+{\bf Petrifying a Bnet}
+
+\beq
+\xymatrix@C=5pc{
+\rvx
+\ar[r]
+&\rvy
+}
+\;\;\;\;\;\;
+\implies
+\;\;\;\;\;\;
+\xymatrix@C=5pc{
+\rvx
+\petriar{r}{2}{3}
+&\rvy
+}
+\eeq
+
+
 %x / y =⇒ x /
 %3
 %&
