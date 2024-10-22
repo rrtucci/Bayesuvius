@@ -10,7 +10,7 @@
 }}
 
 % downstream red
-\newcommand{\petriarDR}[3]{\ar@[red]@{.>}@/_1pc/[#1]|*++[o][F-]{#2}
+\newcommand{\petriarDR}[3]{\ar@[red]@{->}@/_1pc/[#1]|*++[o][F-]{#2}
 \ar[#1]
 \ar@{<.}@/^1pc/[#1]|*++[o][F-]{#3}
 }
@@ -18,7 +18,7 @@
 % upstream red
 \newcommand{\petriarUR}[3]{\ar@{.>}@/_1pc/[#1]|*++[o][F-]{#2}
 \ar[#1]
-\ar@[red]@{<.}@/^1pc/[#1]|*++[o][F-]{#3}
+\ar@[red]@{<-}@/^1pc/[#1]|*++[o][F-]{#3}
 }
 
 
@@ -301,6 +301,18 @@ Consider a Petri Net $\Phi = \av{\calp, \calx,\ket{p(0)}, W}$.
 %The reachability set of a Petri Net Φ with initial markings p(0) is defined as
 %R(Φ) = {p∗ : p(0) Φ / p∗ } (74.8)
 %555
+
+In general, can replace $W\ket{a}_\calx$ by
+any vector
+$\ket{a}_\calx$ that depends on
+the current markings 
+$\ket{b}_\calp$
+for all place nodes,
+the arrow capacities
+$\kappa()$
+for
+all arrows.
+
 \section{Generalizations}
 \subsection{Continuous Petri net}
 %Replace pi → dxi
@@ -328,139 +340,10 @@ Consider a Petri Net $\Phi = \av{\calp, \calx,\ket{p(0)}, W}$.
 \eeq
 
 
-%x / y =⇒ x /
-%3
-%&
-%f 2
-%y (74.10)
-%We will refer to the place between x and y as px,y.
-%a
-%b 􀀀 /
-%c
-%􀀀
-%d
-%=⇒
-%a
-%􀀀
-%3
-%v
-%6
-%5
-%V
-%b /
-%2
-%j *
-%1
-%U
-%c
-%􀀀
-%5
-%v
-%6
-%d
-%(74.11)
+We will refer to the place between $\rvx$ and $\rvy$ with arrow $\rvx\rarrow \rvy$ as $\rvp_{x\rarrow y}$.
+
 {\bf Petri-Bayes Net}
-%a
-%3
-%U
-%b
-%􀀀
-%2
-%u
-%5
-%x
-%3
-%U
-%􀀀
-%4
-%u
-%5
-%c d
-%pa→x px→c px→d
-%· · ·
-%x −1 1 1 0
-%(74.12)
-%556
-%a
-%3
-%U
-%b
-%􀀀
-%2
-%v
-%5
-%x
-%3
-%U
-%􀀀
-%4
-%u
-%6
-%c d
-%pa→x px→b
-%· · ·
-%x −1 1 0
-%a
-%3
-%U
-%b
-%
-%2
-%u
-%5
-%x
-%3
-%U
-%􀀀
-%4
-%u
-%5
-%c y d
-%pa→x px→b
-%· · ·
-%x −1 1 0
-%(74.13)
-%a
-%3
-%U
-%b
-%􀀀
-%2
-%u
-%5
-%x
-%3
-%U
-%􀀀
-%4
-%u
-%5
-%c d
-%pc→x px→a px→b px→d
-%· · ·
-%x −1 1 1 1 0
-%a
-%3
-%U
-%b
-%􀀀
-%2
-%v
-%5
-%x
-%3
-%U
-%􀀀
-%4
-%u
-%6
-%c d
-%pc→x
-%· · ·
-%x −1 0
-%(74.14)
-%557
-%
+
 \beq
 \begin{array}{ccc}
 \xymatrix@R=5pc@C=5pc{
@@ -488,15 +371,17 @@ Consider a Petri Net $\Phi = \av{\calp, \calx,\ket{p(0)}, W}$.
 \end{array}
 \eeq
 
+
+
 \beq
 \begin{array}{c}
 \xymatrix@R=5pc@C=5pc{
-\rva\petriarDR{dr}{}{}
-&&\rvb\petriar{dl}{}{}
+\rva\petriarDR{dr}{}{1}
+&&\rvb\petriar{dl}{2}{}
 \\
 &\rvx
-\petriarDR{dr}{}{}
-\petriarDR{dl}{}{}
+\petriarDR{dr}{4}{}
+\petriarDR{dl}{1}{}
 \\
 \rvc
 &&\rvd
@@ -509,6 +394,105 @@ Consider a Petri Net $\Phi = \av{\calp, \calx,\ket{p(0)}, W}$.
 &\cdots
 \\ \hline
 \rvx&-1&1&1&0
+\end{array}
+\end{array}
+\;\;\;
+\begin{array}{c}
+\xymatrix@R=5pc@C=5pc{
+\rva\petriarDR{dr}{}{1}
+&&\rvb\petriarUR{dl}{2}{}
+\\
+&*++[o][F*:yellow]{\rvx}
+\petriar{dr}{4}{}
+\petriar{dl}{1}{}
+\\
+\rvc
+&
+&\rvd
+}
+\\
+\begin{array}{c|ccc}
+&\rvp_{a\rarrow x}
+&\rvp_{x\rarrow b}
+&\cdots
+\\ \hline
+\rvx&-1&1&0
+\end{array}
+\end{array}
+\eeq
+
+\beq
+\begin{array}{c}
+\xymatrix@R=5pc@C=5pc{
+\rva\petriarDR{dr}{}{1}
+&&\rvb\petriarUR{dl}{2}{}
+\\
+&{\rvx}
+\ar[d]
+\petriar{dr}{4}{}
+\petriar{dl}{1}{}
+\\
+\rvc
+&
+*++[o][F*:yellow]{\rve}
+&\rvd
+}
+\\
+\begin{array}{c|ccc}
+&\rvp_{a\rarrow x}
+&\rvp_{x\rarrow b}
+&\cdots
+\\ \hline
+\rvx&-1&1&0
+\end{array}
+\end{array}
+\eeq
+
+\beq
+\begin{array}{c}
+\xymatrix@R=5pc@C=5pc{
+\rva\petriarUR{dr}{}{1}
+&&\rvb\petriarUR{dl}{2}{}
+\\
+&{\rvx}
+\petriarDR{dr}{4}{}
+\petriarUR{dl}{1}{}
+\\
+\rvc
+&&\rvd
+}
+\\
+\begin{array}{c|ccccc}
+&\rvp_{c\rarrow x}
+&\rvp_{x\rarrow a}
+&\rvp_{x\rarrow b}
+&\rvp_{x\rarrow d}
+&\cdots
+\\ \hline
+\rvx&-1&1&1&1&0
+\end{array}
+\end{array}
+\;\;\;
+\begin{array}{c}
+\xymatrix@R=5pc@C=5pc{
+\rva\petriar{dr}{}{1}
+&&\rvb\petriar{dl}{2}{}
+\\
+&*++[o][F*:yellow]{\rvx}
+\petriar{dr}{4}{}
+\petriarUR{dl}{1}{}
+\\
+\rvc
+&
+{\rve}
+&\rvd
+}
+\\
+\begin{array}{c|cc}
+&\rvp_{c\rarrow x}
+&\cdots
+\\ \hline
+\rvx&-1&0
 \end{array}
 \end{array}
 \eeq
