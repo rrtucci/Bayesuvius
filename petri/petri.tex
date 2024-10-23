@@ -23,6 +23,44 @@
 This chapter
 is based on Refs.
 
+A {\bf Petri net} (pnet)
+is basically a diagram of an 
+idealized machine that 
+features actions (called transitions)
+and
+buffers (called places)
+that contain resources (called tokens).
+This diagram evolves in time like a motion picture.  In that motion picture, transitions are fired at various times, sometimes concurrently (i.e., in parallel) and the effect of that is shown  by the motion of the tokens. The evolution of many
+ machines can be abstracted
+to a pnet.
+
+A pnet  portrays the evolution and allocation of token resources of
+an idealized machine, whereas 
+a bnet 
+portrays the causal connections of events with each other. 
+Two big differences between the two diagrams  are:
+
+\begin{itemize}
+\item No evolution occurs in a bnet; it's as if the
+bnet's TPMs (transition probabilitiy matrices) had been calculated empirically, and those empirical distributions
+had reached a \ul{steady state} long ago.
+On the other hand, evolution does occur in a pnet, so
+we can say that a pnet  occupies a \ul{ transient state}.
+\item pnet diagrams portray a machine. They \ul{do not necessarily portray events} as nodes (although they can, and events do occur in their motion picture). bnets, on the
+other hand,  \ul{do portray  events} as nodes and
+their causal connections.
+
+\end{itemize}
+
+So if pnets and bnets are so different,
+why do I discuss pnets in this book. Well,
+it turns out one can build a pnet
+on top of a bnet, using the bnet nodes
+as the transitions of the pnet. The 
+resulting diagram,
+called  a {\bf Bayes-Petri net},
+gives both transient and steady state 
+information about causality.
 
 \section{Conventional Petri Nets}
 \subsection{Simple Example of Petri Net}
@@ -282,8 +320,8 @@ $\calx(\rvp\rarrow) = \{\rvx : \rvp \rarrow\rvx \in\cala\}=$ {\bf $\rvx$ output 
 \hrule
 $\ket{b(0)}_\calp\in \ZZ_{\geq 0}^{np\times 1} =$ {\bf initial markings}
 
-$\Phi = \av{\calp, \calx, W,\ket{b(0)}_\calp}$ is a {\bf Petri net}.
-\subsection{Execution of a Petri net}
+$\Phi = \av{\calp, \calx, W,\ket{b(0)}_\calp}$ is a {\bf pnet}.
+\subsection{Execution of a pnet}
 Consider a Petri Net $\Phi = \av{\calp, \calx, W,\ket{b(0)}_\calp}$.
 
 By (conventionsal) {\bf firing step} of a transition $\rvx$, we mean the action of removing $\mu(\rvp\rarrow \rvx)$
@@ -375,7 +413,7 @@ R(\Phi) = \{\ket{b^*}_\calp:
 
 
 \section{Generalizations}
-\subsection{Continuous Petri net}
+\subsection{Continuous pnet}
 So far we have considered
 discrete time $t\in \ZZ_{\geq 0}$.
 If we let the interval $\Delta t=t_{i+1}-t_i$ between
@@ -393,6 +431,7 @@ a {\bf continuous Petrin net} obeying:
 \beq
 \frac{d\ket{b(t)}_\calp}{dt}=
 W\ket{a(t)}_\calx
+\label{eq-diff-eq-W}
 \eeq
 
 
@@ -418,7 +457,7 @@ $$
 \ar[lu]|{W_{i,6}}
 }$$
 \caption{The place nodes (but not the transition nodes)
-of a continuous Petri net carry a time derivative.}
+of a continuous pnet carry a time derivative.}
 \label{eq-continuous-pn}
 \end{figure}
 We extend $W$ to
@@ -437,24 +476,47 @@ The extended matrix $\ol{W}$ is now
 an anti-symmetric square matrix.
 
 Thus, a continuous Petri Net can be 
-viewed as a bunch linear bnets,
-one for each place node that carries a
-different time derivative. Then
-the leg nodes of those
-different bnets are united 
-if they carry the same transition.
+viewed as $np$ linear bnets,
+one for each 
+time derivative $db_i(t)/dt$
+for $i=1,2, \ldots, np$. Then
+the leg nodes of those $np$
+different bnets are joined 
+if they carry the same transition $a_j(t)$.
 One writes an equation 
 for each place node (time derivative),
 but not for each transition node.
+\hrule
+{\bf Aside, for those who know Quantum Mechanics:}
 
-\footnote{Note that if we set $\ket{b(t)}=\ket{a(t)}=\ket{\psi(t)}$ and $\ol{W} =-iH$,
-we get a Schroedinger equation (on a finite, $np$-dimensional, space):
+Note that if we set $\ol{W}=-iH$,
+since $\ol{W}$ is anti-symmetric,
+it follows that  $H$ is Hermitian ($H=H^\dagger$). Consider Schoedinger's equation 
+(on a finite, $np+nx$ dimensional space)
+with the Hamiltonian $H$
 
-$$ \frac{d\ket{\psi(t)}}{dt} =-i H \ket{\psi(t)}$$}
+\beq
+\frac{d\ket{\psi(t)}}{dt} =-i H \ket{\psi(t)}
+\eeq 
+If we set
+
+\beq
+\ket{\psi(t)} =\left[
+\begin{array}{c}
+\ket{b(t)}_\calp\\
+\ket{a(t)}_\calx
+\end{array}
+\right]
+\eeq
+then the first $np$ equations are identical to Eq.(\ref{eq-diff-eq-W})
+
+
+
+ 
 
 
 \subsection{Colored Petri Nets}
-In a conventional Petri net, the tokens
+In a conventional pnet, the tokens
 are all of the same kind,
 so the marking (i.e., content)
 of every place node is given by a scalar
@@ -469,7 +531,7 @@ the messages that flow through the arrows
 are scalars too, 
 but in the multicolored case,
 they become matrices or even tensors.
-In fact,  one can generalize conventional Petri nets
+In fact,  one can generalize conventional pnets
 so that the messages are objects of 
 a class.\footnote{The objects
 or instances 
@@ -477,9 +539,47 @@ of a class are defined in OOP (Object Oriented Programing).}
 
 
 \subsection{Stochastic Petri Nets}
+For {\bf stochastic pnets},
+the components $a_i(t)$ of the transition strength vector $\ket{a(t)}_\calx$  are random variables rather than deterministic functions.
+What this means is that if we measure the value of $a_i$ at time $t$,
+we don't get a definite value, but rather a random one that obeys a probability distribution. For example, one might have
+
+
+\beq
+P[\rva_i(t)=a_i(t)] = \lam_i e^{-\lam_i a_i(t)}
+\;\; \text{($a_i(t), \lam_i >0$, exponential distribution)}
+\eeq
+for $i=1,2, \ldots , nx$. 
+
+Sometimes, one considers a {\bf hybrid stochastic pnet} in which some transitions are 
+deterministic and fire immediately (these are called {\bf intermediate transitions}), whereas
+other transitions fire at random times (these are called {\bf timed transitions}).
+
+Note that $\ket{\rva(t)}_\calx$ is a random 
+variable and $\ket{b(t)}_\calp$ is expressed in terms of  $\ket{\rva(t)}_\calx$, so $\ket{b(t)}_\calp$ becomes
+ a random variable too.
+
+A stochastic pnet can be either discrete or continuous in time. In the
+continuous in time case, $\rva_i(t)$
+is a  {\bf stochastic process}; i.e., a 
+random variable that 
+depends on continuous time. (See Chapter \ref{ch-stochastic-diff-eqns}).
+Let SOSE=system of ordinary deifferential equations. 
+Whereas a deterministic continuous pnet
+represents a \ul{SODE
+for deterministic variables},
+ a stochastic continuous pnet
+represents a \ul{SODE
+for stochastic} \ul{processes}.
+
+
+
+
+
+
 \subsection{Bayes-Petri Net}
 Fire nodes in topological order
-{\bf Petrifying a Bnet}
+{\bf petrifying a Bnet}
 
 \beq
 \xymatrix@C=5pc{
