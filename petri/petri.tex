@@ -20,7 +20,8 @@
 \ar[#1]
 \ar@[red]@{<-}@/^1pc/[#1]|*++[o][F-]{#3}
 }
-
+This chapter
+is based on Refs.
 
 
 \section{Conventional Petri Nets}
@@ -270,13 +271,13 @@ W =  \sum_{i,j}\left[
 \eeq
 
 \hrule
-$\rvx^\larrow = \{\rvp : \rvp \rarrow \rvx\in\cala\}=$ {\bf $\rvx$ input places (a.k.a. $\rvx$ pre-set)}
+$\calp(\rvx\larrow) = \{\rvp : \rvp \rarrow \rvx\in\cala\}=$ {\bf $\rvx$ input places (a.k.a. $\rvx$ pre-set)}
 
-$\rvx^\rarrow = \{\rvp : \rvx \rarrow \rvp \in \cala\}=$ {\bf $\rvx$ output places (a.k.a. $\rvx$ post-set)}
+$\calp(\rvx\rarrow) = \{\rvp : \rvx \rarrow \rvp \in \cala\}=$ {\bf $\rvx$ output places (a.k.a. $\rvx$ post-set)}
 
-$\rvp^\larrow = \{\rvx : \rvx \rarrow \rvp \in \cala \}=$ {\bf$\rvp$ input transitions (a.k.a. $\rvp$ preset)}
+$\calx(\rvp\larrow) = \{\rvx : \rvx \rarrow \rvp \in \cala \}=$ {\bf$\rvp$ input transitions (a.k.a. $\rvp$ preset)}
 
-$\rvp^\rarrow = \{\rvx : \rvp \rarrow\rvx \in\cala\}=$ {\bf $\rvx$ output transitions (a.k.a. $\rvp$ post-set)}
+$\calx(\rvp\rarrow) = \{\rvx : \rvp \rarrow\rvx \in\cala\}=$ {\bf $\rvx$ output transitions (a.k.a. $\rvp$ post-set)}
 
 \hrule
 $\ket{b(0)}_\calp\in \ZZ_{\geq 0}^{np\times 1} =$ {\bf initial markings}
@@ -286,13 +287,12 @@ $\Phi = \av{\calp, \calx, W,\ket{b(0)}_\calp}$ is a {\bf Petri net}.
 Consider a Petri Net $\Phi = \av{\calp, \calx, W,\ket{b(0)}_\calp}$.
 
 By (conventionsal) {\bf firing step} of a transition $\rvx$, we mean the action of removing $\mu(\rvp\rarrow \rvx)$
-tokens from all $\rvp$ such that $\rvp\in\rvx^\larrow$, and adding $\mu(\rvx\rarrow\rvp')$ tokens to all $\rvp'$
-such that $\rvp'\in\rvx^\rarrow$.
+tokens from all $\rvp\in\calp(\rvx\larrow)$, and adding $\mu(\rvx\rarrow\rvp')$ tokens to all $\rvp'\in\calp(\rvx\rarrow)$.
 
 A transition $\rvx$ is {\bf enabled} 
 (i.e., it may fire)
 for $\rvp\in \rvx^{\larrow}$, if there are enough tokens in 
-$\rvp$ for a firing to be possible; i.e., if $M(\rvp) \geq \mu(\rvp\rarrow \rvx)$. A transition $\rvx$ is {\bf fully enabled} if it is enabled for all $\rvp\in \rvx^\larrow$.
+$\rvp$ for a firing to be possible; i.e., if $M(\rvp) \geq \mu(\rvp\rarrow \rvx)$. A transition $\rvx$ is {\bf fully enabled} if it is enabled for all $\rvp\in \calp(\rvx\larrow)$.
 
 $t \in \ZZ_{>0}$ is the firing time.
 
@@ -382,6 +382,7 @@ If we let the interval $\Delta t=t_{i+1}-t_i$ between
 succesive events tend to zero
 and if we replace $W$ by 
 $W/\Delta t$ in Eq.(\ref{eq-firing-stepper}), we get
+a {\bf continuous Petrin net} obeying:
 
 \beq
 \frac{db_j(t)}{dt}=
@@ -390,36 +391,40 @@ $W/\Delta t$ in Eq.(\ref{eq-firing-stepper}), we get
 
 
 \beq
-\frac{d\ket{b(t)}}{dt}=
-W\ket{a(t)}
+\frac{d\ket{b(t)}_\calp}{dt}=
+W\ket{a(t)}_\calx
 \eeq
 
 
-\beq
+\begin{figure}[h!]
+$$
 \xymatrix@C=5pc{
-*++[o][F-]{a_1}
-&&*++[o][F-]{a_4}
+{a_1}
+&&{a_4}
 \ar[dl]|{W_{i,4}}
 \\
-*++[o][F-]{a_2}
+{a_2}
 &
-\frac{db_i}{dt}
+*+++[o][F-]{\frac{db_i}{dt}}
 \ar[lu]|{W_{1, i}}
 \ar[ld]|{W_{2,i}}
 \ar[l]|{W_{3, i}}
-& *++[o][F-]{a_5}
+& {a_5}
 \ar[l]|{W_{i,5}}
 \\
-*++[o][F-]{a_3}
+{a_3}
 &&
-*++[o][F-]{a_6}
+{a_6}
 \ar[lu]|{W_{i,6}}
-}
-\eeq
+}$$
+\caption{The place nodes (but not the transition nodes)
+of a continuous Petri net carry a time derivative.}
+\label{eq-continuous-pn}
+\end{figure}
 We extend $W$ to
 
 \beq
-W^{new}=
+\ol{W}=
 \begin{array}{c|cc}
 &\rvp_j&\rvx_i
 \\ \hline
@@ -428,8 +433,24 @@ W^{new}=
 \rvx_i &-W_{j,i} &0
 \end{array}
 \eeq
-The extended matriix $W^{new}$ is now
+The extended matrix $\ol{W}$ is now
 an anti-symmetric square matrix.
+
+Thus, a continuous Petri Net can be 
+viewed as a bunch linear bnets,
+one for each place node that carries a
+different time derivative. Then
+the leg nodes of those
+different bnets are united 
+if they carry the same transition.
+One writes an equation 
+for each place node (time derivative),
+but not for each transition node.
+
+\footnote{Note that if we set $\ket{b(t)}=\ket{a(t)}=\ket{\psi(t)}$ and $\ol{W} =-iH$,
+we get a Schroedinger equation (on a finite, $np$-dimensional, space):
+
+$$ \frac{d\ket{\psi(t)}}{dt} =-i H \ket{\psi(t)}$$}
 
 
 \subsection{Colored Petri Nets}
@@ -442,20 +463,21 @@ or $\RR_{\geq 0}$.
 But if one considers
 tokens of various kinds,
 then one needs a vector to
-store their relative number.
+store their numbers in each place node.
 In the conventional case,
-the messages are scalars too, 
+the messages that flow through the arrows
+are scalars too, 
 but in the multicolored case,
 they become matrices or even tensors.
-In fact,  one can generalize conventional Petri networks
+In fact,  one can generalize conventional Petri nets
 so that the messages are objects of 
-a class\footnote{The objects
+a class.\footnote{The objects
 or instances 
 of a class are defined in OOP (Object Oriented Programing).}
 
 
 \subsection{Stochastic Petri Nets}
-\subsection{Petri-Bayes Net}
+\subsection{Bayes-Petri Net}
 Fire nodes in topological order
 {\bf Petrifying a Bnet}
 
