@@ -321,10 +321,10 @@ $\calx(\rvp\rarrow) = \{\rvx : \rvp \rarrow\rvx \in\cala\}=$ {\bf $\rvx$ output 
 $\ket{b(0)}_\calp\in \ZZ_{\geq 0}^{np\times 1} =$ {\bf initial markings}
 
 $\Phi = \av{\calp, \calx, W,\ket{b(0)}_\calp}$ is a {\bf pnet}.
-\subsection{Execution of a Petri Net}
+\subsection{Firing of a Petri Net}
 Consider a pnet $\Phi = \av{\calp, \calx, W,\ket{b(0)}_\calp}$.
 
-By (conventionsal) {\bf firing step} of a transition $\rvx$, we mean the action of removing $\mu(\rvp\rarrow \rvx)$
+By (conventional) {\bf firing step} of a transition $\rvx$, we mean the action of removing $\mu(\rvp\rarrow \rvx)$
 tokens from all $\rvp\in\calp(\rvx\larrow)$, and adding $\mu(\rvx\rarrow\rvp')$ tokens to all $\rvp'\in\calp(\rvx\rarrow)$.
 
 A transition $\rvx$ is {\bf enabled} 
@@ -586,6 +586,46 @@ for stochastic} \ul{processes}.
 
 
 \subsection{Bayes-Petri Net}
+
+Given a bnet, one can construct a natural pnet, call it the bnets {\bf Bayes Petri Net},  that uses the nodes of the bnet as the transition nodes of the Bayes pnet. We refer to this construction
+ process as {\bf petrifying a bnet}.
+ 
+ Inspired by Pearl's message passing 
+ theory (see Chapter \ref{ch-mpass}), we petrify a single arrow bnet
+ by adding to it two pnet arcs: (see Fig.\ref{fig-petrify-probs-messages} )
+ \begin{itemize}
+ \item one pnet arc pointed ``downstream" with respect  
+ to the bnet arrow $\rvx\rarrow\rvy$. This
+ arc carries the transition
+ probability matrix (TPM) $P_{\rvy|\rvx}$
+ \item and another pnet arc  pointed ``upstream" with respect  
+  to the bnet arrow $\rvx\rarrow\rvy$. This
+  arc carries probability matrix $P_{\rvx|\rvy}$; i.e.,  the Bayes rule inverse of the bnet's TPM $P_{\rvy|\rvx}$.
+ \end{itemize}
+ 
+ \begin{figure}[h!]
+ $$
+ \xymatrix@C=5pc{
+ \rvx
+ \ar[r]
+ &\rvy
+ }
+ \;\;\;\;\;\;
+ \implies
+ \;\;\;\;\;\;
+ \xymatrix@C=5pc{
+ \rvx
+ \petriar{r}{P_{\rvy|\rvx}}{P_{\rvx|\rvy}}
+ &\rvy
+ }
+ $$
+ \caption{Petrifying an arrow with matrix messages.}
+ \label{fig-petrify-probs-messages}
+ \end{figure}
+ 
+
+
+
 Fire nodes in topological order
 {\bf petrifying a Bnet}
 
@@ -604,6 +644,7 @@ Fire nodes in topological order
 &\rvy
 }
 \eeq
+
 
 
 We will refer to the place between $\rvx$ and $\rvy$ with arrow $\rvx\rarrow \rvy$ as $\rvp_{x\rarrow y}$.
