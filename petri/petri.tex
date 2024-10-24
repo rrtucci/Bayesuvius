@@ -135,7 +135,7 @@ the number of tokens is represented by the number of bullet points within a rect
 
 Let
 \beq
-W^{\rvx\larrow}=
+W^{\rvp\rarrow}=
 \begin{array}{c|cc}
 &\rvx_1&\rvx_2
 \\ \hline
@@ -148,7 +148,7 @@ W^{\rvx\larrow}=
 \rvp_4&0&0
 \end{array}
 ,\;
-W^{\rvx\rarrow}=
+W^{\rvp\larrow}=
 \begin{array}{c|cc}
 &\rvx_1&\rvx_2
 \\ \hline
@@ -162,8 +162,8 @@ W^{\rvx\rarrow}=
 \end{array}
 ,\;
 W=
-W^{\rvx\rarrow}
--W^{\rvx\larrow}=
+W^{\rvp\larrow}
+-W^{\rvp\rarrow}=
 \begin{array}{c|cc}
 &\rvx_1&\rvx_2
 \\ \hline
@@ -205,8 +205,31 @@ x_2
 \end{array}
 \right]
 \eeq
-then 
+then:
 
+\beq
+p =
+{p(0) + Wx}
+=
+\left[
+\begin{array}{c}
+{p_1(0)-x_1+x_2}
+\\
+{p_2(0) + x_1 -x_2}
+\\
+{p_3(0)+ x_1-x_2}
+\\
+{p_4(0) + x_2}
+\end{array}
+\right]
+\eeq
+
+3 possible firing rules,
+in order of increasing severity, are:
+
+\begin{enumerate}
+\item If we require that all places end with zero or a
+positive number of tokens, then the firing rule is
 \beq
 p =
 \pospart{p(0) + Wx}
@@ -264,25 +287,37 @@ p=
 \end{array}
 \right]
 \eeq
-
-If we require that all that
+\item
+If we require that
 only incoming places
 with enough content are used, then the firing rule is
 
 
 \beq
-p = \pospart{p(0) - W^{\rvx\larrow}x}
-+ W^{\rvx\rarrow}x
+p = \pospart{p(0) - W^{\rvp\rarrow}x}
++ W^{\rvp\larrow}x
 \eeq
+\item
 If we require that all incoming places are used (\qt{fully
-enabled} condition) 
+enabled} condition), then the
+firing rule is
 \beq
 p = (p(0) - Wx)
 \;\;\;
 \indi\left[
-(p(0) - W^{\rvx\larrow} x)
+(p(0) - W^{\rvp\rarrow} x)
 \geq 0\right]
 \eeq
+\end{enumerate}
+The fully enabled 
+condition is usually assumed
+because it
+makes the most physical sense
+out of the 3. The first one can \qt{borrow on credit} (i.e., deliver tokens
+that it does not have yet) and the second
+one can \qt{create new
+tokens
+out of nothing}.
 
 \subsection{Precise Definition of Petri Net}
 Let
@@ -339,43 +374,43 @@ for all $a\in \ol{\cala}-\cala$. Sometimes, it is convenient to consider a fract
 $\kappa : \cala \rarrow \RR_{\geq 0}$.
 
 \hrule
-$W^{\rvx \larrow} \in \bool^{np\times nx}$. 
-$W^{\rvx \larrow}_{i,j} = 1$ if there is an arrow $\rvp_i\rarrow\rvx_j$
+$W^{\rvp\rarrow} \in \bool^{np\times nx}$. 
+$W^{\rvp\rarrow}_{i,j} = 1$ if there is an arrow $\rvp_i\rarrow\rvx_j$
 (entering $\rvx_j$);
-else $W^{\rvx \larrow}_{i,j} = 0$. More generally, in the case a capacity function $\kappa()$ is given, let
+else $W^{\rvp\rarrow}_{i,j} = 0$. More generally, in the case a capacity function $\kappa()$ is given, let
 
 \beq
-W^{\rvx \larrow}_{i,j} = \kappa(\rvp_i\rarrow \rvx_j)
+W^{\rvp\rarrow}_{i,j} = \kappa(\rvp_i\rarrow \rvx_j)
 \eeq
 In Dirac notation, 
 
 \beq
-W^{\rvx \larrow} = \sum_{i,j}\kappa(\rvp_i\rarrow \rvx_j)
+W^{\rvp\rarrow} = \sum_{i,j}\kappa(\rvp_i\rarrow \rvx_j)
 \ket{\rvp_i}\bra{\rvx_j}
 \eeq
 
 
-$W^{\rvx \rarrow} \in \bool^{np\times nx}$. 
-$W^{\rvx \rarrow}_{i,j} = 1$ if there is an arrow $\rvp_i\larrow\rvx_j$
+$W^{\rvp\larrow} \in \bool^{np\times nx}$. 
+$W^{\rvp\larrow}_{i,j} = 1$ if there is an arrow $\rvp_i\larrow\rvx_j$
 (leaving $\rvx_j$);
-else $W^{\rvx \rarrow}_{i,j} = 0$. More generally, in the case a capacity function $\kappa()$ is given, let
+else $W^{\rvp\larrow}_{i,j} = 0$. More generally, in the case a capacity function $\kappa()$ is given, let
 
 \beq
-W^{\rvx \rarrow}_{i,j} = \kappa(\rvp_i\larrow \rvx_j)
+W^{\rvp\larrow}_{i,j} = \kappa(\rvp_i\larrow \rvx_j)
 \eeq
 In Dirac notation, 
 
 \beq
-W^{\rvx \rarrow} = \sum_{i,j}\kappa(\rvp_i\larrow \rvx_j)
+W^{\rvp\larrow} = \sum_{i,j}\kappa(\rvp_i\larrow \rvx_j)
 \ket{\rvp_i}\bra{\rvx_j}
 \eeq
 
-$W =W^{\rvx \rarrow}-W^{\rvx \rarrow}\in \{-1, 0, 1\}^{np\times nx}$ This is called the {\bf incidence matrix}.
+$W =W^{\rvp\larrow}-W^{\rvp\rarrow}\in \{-1, 0, 1\}^{np\times nx}$ This is called the {\bf incidence matrix}.
 More generally, if a capacity function is given, 
 
 \beq
 W_{i,j} =
- W^{\rvx \rarrow}_{i,j}-W^{\rvx \larrow}_{i,j}=
+ W^{\rvp\larrow}_{i,j}-W^{\rvp\rarrow}_{i,j}=
 \kappa(\rvp_i\larrow \rvx_j)
 -
 \kappa(\rvp_i\rarrow \rvx_j)
