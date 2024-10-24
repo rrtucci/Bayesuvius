@@ -62,10 +62,11 @@ called  a {\bf Bayes-Petri net},
 gives both transient and steady state 
 information about causality.
 
-\section{Conventional Petri Net}
+\section{Original Petri Net}
 \subsection{Simple Example of Petri Net}
 
-\beq
+\begin{figure}[h!]
+$$
 \xymatrix{
 &&*++[o][F-]{0}\ar[rd]
 \\
@@ -77,10 +78,13 @@ information about causality.
 &*++[o][F-]{1}
 \\
 &&*++[o][F-]{2}\ar[ur]_<{\rvp_3}
-}
-\eeq
+}$$
+\caption{}
+\label{}
+\end{figure}
 
-\beq
+\begin{figure}[h!]
+$$
 \xymatrix{
 &&*++[F-]{\phantom{0}}\ar[rd]
 \\
@@ -93,7 +97,10 @@ information about causality.
 \\
 &&*++[F-]{\bullet\bullet}\ar[ur]_<<{\rvp_3}
 }
-\eeq
+$$
+\caption{}
+\label{}
+\end{figure}
 
 \beq
 W^{\rvx\larrow}=
@@ -180,7 +187,8 @@ p_4(0) + x_2
 \right]
 \eeq
 
-\beq
+\begin{figure}[h!]
+$$
 \xymatrix{
 *++[o][F-]{\rvp_2}\ar[dr]
 &&*++[o][F-]{\rvp_3}\ar[dl]
@@ -189,8 +197,10 @@ p_4(0) + x_2
 \\
 *++[o][F-]{\rvp_1}
 &&*++[o][F-]{\rvp_4}
-}
-\eeq
+}$$
+\caption{}
+\label{}
+\end{figure}
 
 \beq
 \begin{array}{c|cccc}
@@ -324,7 +334,7 @@ $\Phi = \av{\calp, \calx, W,\ket{b(0)}_\calp}$ is a {\bf pnet}.
 \subsection{Firing of a Petri Net}
 Consider a pnet $\Phi = \av{\calp, \calx, W,\ket{b(0)}_\calp}$.
 
-By (conventional) {\bf firing step} of a transition $\rvx$, we mean the action of removing $\mu(\rvp\rarrow \rvx)$
+By (original) {\bf firing step} of a transition $\rvx$, we mean the action of removing $\mu(\rvp\rarrow \rvx)$
 tokens from all $\rvp\in\calp(\rvx\larrow)$, and adding $\mu(\rvx\rarrow\rvp')$ tokens to all $\rvp'\in\calp(\rvx\rarrow)$.
 
 A transition $\rvx$ is {\bf enabled} 
@@ -354,7 +364,7 @@ indicate which basis, either the $\{\ket{\rvp_i}\}_{i=1}^{np}$
 or  $\{\ket{\rvx_i}\}_{i=1}^{nx}$
 we are referring to.
 
-{\bf Conventional firing rule}\footnote{Many others firing rules are possible}.
+{\bf Original firing rule}\footnote{Many others firing rules are possible}.
 
 \beq
 b_j(t+1) = b_j(t)
@@ -516,7 +526,7 @@ then the first $np$ equations are identical to Eq.(\ref{eq-diff-eq-W})
 
 
 \subsection{Colored Petri Net}
-In a conventional pnet, the tokens
+In a original pnet, the tokens
 are all of the same kind,
 so the marking (i.e., content)
 of every place node is given by a scalar
@@ -526,16 +536,16 @@ But if one considers
 tokens of various kinds,
 then one needs a vector to
 store their numbers in each place node.
-In the conventional case,
+In a original pnet,
 the messages that flow through the arrows
 are scalars too, 
-but in the multicolored case,
-they become matrices or even tensors.
-In fact,  one can generalize conventional pnets
+but in a {\bf colored pnet},
+they become lists, or matrices or even tensors.
+In fact,  one can generalize pnets
 so that the messages are objects of 
 a class.\footnote{The objects
 or instances 
-of a class are defined in OOP (Object Oriented Programing).}
+of a class are defined in OOP (Object Oriented Programming).}
 
 
 \subsection{Stochastic Petri Net}
@@ -581,55 +591,50 @@ represents a \ul{SODE
 for stochastic} \ul{processes}.
 
 
-
-
-
-
 \subsection{Bayes-Petri Net}
 
-Given a bnet, one can construct a natural pnet, call it the bnets {\bf Bayes Petri Net},  that uses the nodes of the bnet as the transition nodes of the Bayes pnet. We refer to this construction
- process as {\bf petrifying a bnet}.
+Given a bnet, one can construct a natural pnet, call it the bnet's {\bf Bayes Petri Net} (Bayes pnet),  that uses the nodes of the bnet as the transition nodes of the Bayes pnet. We will refer to this construction
+as the {\bf petrifying a bnet}.
+
+\begin{figure}[h!]
+$$
+\xymatrix@C=5pc{
+\rvx
+\ar[r]
+&\rvy
+}
+\;\;\;\;\;\;
+\implies
+\;\;\;\;\;\;
+\xymatrix@C=5pc{
+\rvx
+\petriar{r}{P_{\rvy|\rvx}}{P_{\rvx|\rvy}}
+&\rvy
+}
+$$
+\caption{Petrifying an arrow by 
+adding to it
+arcs that transmit \ul{matrix} messages
+upstream and downstream.}
+\label{fig-petrify-ar-matrix-messages}
+\end{figure}
  
- Inspired by Pearl's message passing 
- theory (see Chapter \ref{ch-mpass}), we petrify a single arrow bnet
- by adding to it two pnet arcs: (see Fig.\ref{fig-petrify-probs-messages} )
- \begin{itemize}
- \item one pnet arc pointed ``downstream" with respect  
- to the bnet arrow $\rvx\rarrow\rvy$. This
- arc carries the transition
- probability matrix (TPM) $P_{\rvy|\rvx}$
- \item and another pnet arc  pointed ``upstream" with respect  
-  to the bnet arrow $\rvx\rarrow\rvy$. This
-  arc carries probability matrix $P_{\rvx|\rvy}$; i.e.,  the Bayes rule inverse of the bnet's TPM $P_{\rvy|\rvx}$.
- \end{itemize}
- 
- \begin{figure}[h!]
- $$
- \xymatrix@C=5pc{
- \rvx
- \ar[r]
- &\rvy
- }
- \;\;\;\;\;\;
- \implies
- \;\;\;\;\;\;
- \xymatrix@C=5pc{
- \rvx
- \petriar{r}{P_{\rvy|\rvx}}{P_{\rvx|\rvy}}
- &\rvy
- }
- $$
- \caption{Petrifying an arrow with matrix messages.}
- \label{fig-petrify-probs-messages}
- \end{figure}
- 
+See Fig.\ref{fig-petrify-ar-matrix-messages}. Inspired by Pearl's message passing 
+theory (see Chapter \ref{ch-mpass}), we petrify a single arrow bnet $\rvx\rarrow \rvy$
+by adding to it two pnet arcs:
+\begin{itemize}
+\item one pnet arc pointed ``downstream" with respect  
+to the bnet arrow $\rvx\rarrow\rvy$. This
+arc carries the transition
+probability matrix (TPM) $P_{\rvy|\rvx}$
 
+\item and another pnet arc  pointed ``upstream" with respect  
+to the bnet arrow $\rvx\rarrow\rvy$. This
+arc carries probability matrix $P_{\rvx|\rvy}$; i.e.,  the Bayes rule inverse of the bnet's TPM $P_{\rvy|\rvx}$.
+\end{itemize}
 
-
-Fire nodes in topological order
-{\bf petrifying a Bnet}
-
-\beq
+\begin{figure}[h!]
+$$
 \xymatrix@C=5pc{
 \rvx
 \ar[r]
@@ -643,15 +648,32 @@ Fire nodes in topological order
 \petriar{r}{2}{3}
 &\rvy
 }
-\eeq
+$$
+\caption{Petrifying an arrow by 
+adding to it
+arcs that transmit \ul{scalar} messages
+upstream and downstream.}
+\label{fig-petrify-ar-scalar-messages}
+\end{figure}
 
 
 
-We will refer to the place between $\rvx$ and $\rvy$ with arrow $\rvx\rarrow \rvy$ as $\rvp_{x\rarrow y}$.
+Studying {\bf matrix} message passing (colored pnet) as in 
+Fig.\ref{fig-petrify-ar-matrix-messages}
+can be considered the ultimate goal
+of the theory of Bayes pnets, but as a first
+step in that direction,
+we will discuss {\bf scalar} message passing
+(uncolored pnet)
+as in Fig.\ref{fig-petrify-ar-scalar-messages}.
 
-{\bf Petri-Bayes Net}
+Just like the proponents of the original pnets
+considered the simpler case of uncolored pnets first,
+and later graduated to the colored case, we will do the same for Bayes pnets.
 
-\beq
+
+\begin{figure}[h!]
+$$
 \begin{array}{ccc}
 \xymatrix@R=5pc@C=5pc{
 &\rva\ar[dl]\ar[dr]
@@ -676,11 +698,43 @@ We will refer to the place between $\rvx$ and $\rvy$ with arrow $\rvx\rarrow \rv
 &\rvd
 }
 \end{array}
-\eeq
+$$
+\caption{Example of petrifying a bnet  with
+five arrows, not just one arrow as in Fig.\ref{fig-petrify-ar-scalar-messages}}
+\label{fig-petrify-five-ars}
+\end{figure}
+
+In Fig.\ref{fig-petrify-five-ars},
+we give an example
+of petrifying a bnet with 5 arrows,
+instead of just one arrow
+as in Fig.\ref{fig-petrify-ar-scalar-messages}.
+
+Henceforth in this chapter,
+the conditioned nodes of a bnet will
+be colored yellow.
 
 
+The {\bf firing rules} for a Bayes pnet 
+come directly from Pearl's d-separation rules
+which are discussed in Chapter 
+\ref{ch-dsep}. Since the bnet nodes 
+and pnet transition nodes
+of a Bayes pnet are the same,
+one natural way to
+to fire the pnet nodes 
+is to fire them
+one at a time, in topological order.
 
-\beq
+Figs.\ref{fig-firing-downstream},
+\ref{fig-firing-downstream-cond-par}
+and \ref{fig-firing-upstream}
+are 3 possible cases that are
+distinguished by the d-separation 
+motivated firing rules.
+
+\begin{figure}[h!]
+$$
 \xymatrix@R=5pc@C=5pc{
 \rva\petriarDR{dr}{}{1}
 &&\rvb\petriar{dl}{2}{}
@@ -705,9 +759,17 @@ We will refer to the place between $\rvx$ and $\rvy$ with arrow $\rvx\rarrow \rv
 &
 &\rvd
 }
-\eeq
+$$
+\caption{
+What happens to an \ul{incoming downstream} message
+impinging on bnet node $\rvx$,
+for 2 cases: $\rvx$ isn't and is conditioned on.
+}
+\label{fig-firing-downstream}
+\end{figure}
 
-\beq
+\begin{figure}[h!]
+$$
 \xymatrix@R=5pc@C=5pc{
 \rva\petriarDR{dr}{}{1}
 &&\rvb\petriarUR{dl}{2}{}
@@ -722,9 +784,17 @@ We will refer to the place between $\rvx$ and $\rvy$ with arrow $\rvx\rarrow \rv
 *++[o][F*:yellow]{\rve}
 &\rvd
 }
-\eeq
+$$
+\caption{What happens to an \ul{incoming downstream} message
+impinging on bnet node $\rvx$,
+in case
+$\rvx$ isn't conditioned on
+but one of its descendants is.}
+\label{fig-firing-downstream-cond-par}
+\end{figure}
 
-\beq
+\begin{figure}[h!]
+$$
 \xymatrix@R=5pc@C=5pc{
 \rva\petriarUR{dr}{}{1}
 &&\rvb\petriarUR{dl}{2}{}
@@ -749,4 +819,14 @@ We will refer to the place between $\rvx$ and $\rvy$ with arrow $\rvx\rarrow \rv
 &
 &\rvd
 }
-\eeq
+$$
+\caption{What happens to an \ul{incoming upstream} message
+impinging on bnet node $\rvx$,
+for 2 cases: $\rvx$ isn't and is conditioned on.}
+\label{fig-firing-upstream}
+\end{figure}
+
+
+
+
+
