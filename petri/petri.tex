@@ -1,8 +1,12 @@
-\chapter{Petri Nets COMING SOON}
+\chapter{Petri Nets}
 \label{petri}
 
 
+\newcommand{\pospart}[1]{\left(#1\right)^{\geq 0}}
 
+\newcommand{\posvec}[1]{
+\left(#1\right)^{\text{+vec}}
+}
 
 \newcommand{\petriar}[3]{{\ar@{.>}@/_1pc/[#1]|*++[o][F-]{#2}
 \ar[#1]
@@ -62,6 +66,19 @@ called  a {\bf Bayes-Petri net},
 gives both transient and steady state 
 information about causality.
 
+For $x\in \RR$, define
+the {\bf positive part} of $x$ by
+
+\beq
+\pospart{x} = x\indi(x\geq 0)
+\eeq
+For $x^n\in\RR^n$, define
+
+\beq
+x^n\geq 0 \;\;\text{ iff }\;\;
+x^n_i\geq 0 \;\;\forall i
+\eeq
+
 \section{Original Petri Net}
 \subsection{Simple Example of Petri Net}
 
@@ -112,10 +129,11 @@ $$
 $$
 \caption{Same pnet as that in Fig.\ref{fig-original-pnet-eg-square},
 except that here
-the number of tokens is represented by the number of bullet points within a rectangle.}}
+the number of tokens is represented by the number of bullet points within a rectangle.}
 \label{fig-original-pnet-eg-square}
 \end{figure}
 
+Let
 \beq
 W^{\rvx\larrow}=
 \begin{array}{c|cc}
@@ -158,6 +176,10 @@ W^{\rvx\rarrow}
 \rvp_4&0&1
 \end{array}
 \eeq
+Matrix $W$ is called the incidence matrix. Note that it
+ has a 1 (resp., $-1$) at position $(i,j)$
+if there is an arrow $\rvp_i\rarrow \rvx_j$
+(resp., $\rvp_i\larrow \rvx_j$).
 
 If
 
@@ -183,46 +205,83 @@ x_2
 \end{array}
 \right]
 \eeq
+then 
 
 \beq
-p(t) =
-p(0) + Wx
+p =
+\pospart{p(0) + Wx}
 =
 \left[
 \begin{array}{c}
-p_1(0)-x_1+x_2
+\pospart{p_1(0)-x_1+x_2}
 \\
-p_2(0) + x_1 -x_2
+\pospart{p_2(0) + x_1 -x_2}
 \\
-p_3(0)+ x_1-x_2
+\pospart{p_3(0)+ x_1-x_2}
 \\
-p_4(0) + x_2
+\pospart{p_4(0) + x_2}
+\end{array}
+\right]
+\eeq
+If we fire transition  $\rvx_2$ only (i.e., if we set $x_1=0, x_2=1$),
+we get 
+
+\beq
+p=
+\left[
+\begin{array}{c}
+\pospart{p_1(0)+1}
+\\
+\pospart{p_2(0) -1}
+\\
+\pospart{p_3(0)-1}
+\\
+\pospart{p_4(0) +1}
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c}
+\pospart{3+1}
+\\
+\pospart{0 -1}
+\\
+\pospart{2-1}
+\\
+\pospart{1 +1}
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c}
+4
+\\
+0
+\\
+1
+\\
+2
 \end{array}
 \right]
 \eeq
 
-\begin{figure}[h!]
-$$
-\xymatrix{
-*++[o][F-]{\rvp_2}\ar[dr]
-&&*++[o][F-]{\rvp_3}\ar[dl]
-\\
-&{\rvx_2}\ar[ld]\ar[rd]
-\\
-*++[o][F-]{\rvp_1}
-&&*++[o][F-]{\rvp_4}
-}$$
-\caption{}
-\label{}
-\end{figure}
+If we require that all that
+only incoming places
+with enough content are used, then the firing rule is
+
 
 \beq
-\begin{array}{c|cccc}
-&\rvp_1&\rvp_2&\rvp_3&\rvp_4
-\\
-\hline
-\rvx_2&1&-1&-1&1
-\end{array}
+p = \pospart{p(0) - W^{\rvx\larrow}x}
++ W^{\rvx\rarrow}x
+\eeq
+If we require that all incoming places are used (\qt{fully
+enabled} condition) 
+\beq
+p = (p(0) - Wx)
+\;\;\;
+\indi\left[
+(p(0) - W^{\rvx\larrow} x)
+\geq 0\right]
 \eeq
 
 \subsection{Precise Definition of Petri Net}
@@ -637,12 +696,12 @@ See Fig.\ref{fig-petrify-ar-matrix-messages}. Inspired by Pearl's message passin
 theory (see Chapter \ref{ch-mpass}), we petrify a single arrow bnet $\rvx\rarrow \rvy$
 by adding to it two pnet arcs:
 \begin{itemize}
-\item one pnet arc pointed ``downstream" with respect  
+\item one pnet arc pointed \qt{downstream} with respect
 to the bnet arrow $\rvx\rarrow\rvy$. This
 arc carries the transition
 probability matrix (TPM) $P_{\rvy|\rvx}$
 
-\item and another pnet arc  pointed ``upstream" with respect  
+\item and another pnet arc  pointed \qt{upstream} with respect
 to the bnet arrow $\rvx\rarrow\rvy$. This
 arc carries probability matrix $P_{\rvx|\rvy}$; i.e.,  the Bayes rule inverse of the bnet's TPM $P_{\rvy|\rvx}$.
 \end{itemize}
