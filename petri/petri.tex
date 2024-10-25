@@ -127,7 +127,7 @@ $$
 &&*++[F-]{\bullet\bullet}\ar[ur]_<<{\rvp_3}
 }
 $$
-\caption{Same pnet as that in Fig.\ref{fig-original-pnet-eg-square},
+\caption{Same pnet as that in Fig.\ref{fig-original-pnet-eg-circle},
 except that here
 the number of tokens is represented by the number of bullet points within a rectangle.}
 \label{fig-original-pnet-eg-square}
@@ -178,8 +178,8 @@ W^{\rvp\larrow}
 \eeq
 Matrix $W$ is called the incidence matrix. Note that it
  has a 1 (resp., $-1$) at position $(i,j)$
-if there is an arrow $\rvp_i\rarrow \rvx_j$
-(resp., $\rvp_i\larrow \rvx_j$).
+if there is an arrow $\rvp_i\larrow \rvx_j$
+(resp., $\rvp_i\rarrow \rvx_j$).
 
 If
 
@@ -246,7 +246,7 @@ p =
 \end{array}
 \right]
 \eeq
-If we fire transition  $\rvx_2$ only (i.e., if we set $x_1=0, x_2=1$),
+If we fire transition  $\rvx_2$ once (i.e., if we set $x_1=0, x_2=1$),
 we get 
 
 \beq
@@ -302,11 +302,15 @@ If we require that all incoming places are used (\qt{fully
 enabled} condition), then the
 firing rule is
 \beq
-p = (p(0) - Wx)
-\;\;\;
-\indi\left[
-(p(0) - W^{\rvp\rarrow} x)
-\geq 0\right]
+p = \left\{
+\begin{array}{ll}
+p(0) - Wx & \text{if }
+[p(0) - W^{\rvp\rarrow} x]
+\geq 0
+\\
+p(0) & \text{otherwise}
+\end{array}
+\right.
 \eeq
 \end{enumerate}
 The fully enabled 
@@ -343,7 +347,7 @@ $\rvx_i =$ ith {\bf transition node}
 
 
 
-$\calx = \{\rvx_i\}_{i=1}{nx}$, set of all transitions
+$\calx = \{\rvx_i\}_{i=1}^{nx}$, set of all transitions
 
 Let $\ket{\rvx_j}\in \ZZ^{nx\times 1}$ be the one-hot 
 column vector with
@@ -351,24 +355,24 @@ $1$ at position $j$. This will be our {transitions basis}.
 
 \hrule
 
-$\rvx\rarrow \rvy$ denotes an {\bf arrow (a.k.a. directed arc)}. Note that there are two type of arrows:
-those that go from an transition to a place node and those which go from a place to
+$\rvx\rarrow \rvy$ denotes an {\bf arrow (a.k.a. directed arc)}. Note that there are two types of arrows:
+those that go from a transition to a place node and those that go from a place to
 a transition node. Let $\rvx\rarrow\rvy=\rvy\larrow \rvx = (\rvx,\rvy)$
 
-$\cala =$  the set of all arrows. $\cala \subset \ol {\cala} = (\calp \times \calx) \cup (\calx \times \calp) = \{\calp\rarrow\calx or \calx \rarrow \calp:
-\rvp\in\calp, \rvx \in \calx\}$.
+$\cala =$  the set of all arrows.
+ \beq\cala \subset \ol {\cala} = (\calp \times \calx) \cup (\calx \times \calp) = \{\calp\rarrow\calx \text{ and } \calx \rarrow \calp:
+\rvp\in\calp, \rvx \in \calx\}\eeq
 
 
 A {\bf flow} is a directed path of arrows from $\cala$.
 
 \hrule
-$\mu : \calp \rarrow \ZZ_{\geq 0}=$ {\bf markings (i.e., contents) of of each place}. Sometimes, it is convenient to consider a fractional number tokens in a place, so
+$\mu : \calp \rarrow \ZZ_{\geq 0}=$ {\bf markings (i.e., contents) of  each place}. Sometimes, it is convenient to consider a fractional number of tokens in a place, so
 $\mu : \calp \rarrow \RR_{\geq 0}$.
 
 
 
-$\kappa : \cala\rarrow \ZZ_{>0}=$ {\bf capacity of each arrow}. If unstated, assume $\kappa(a) = 1$.
-for all $a\in\cala$. It's also possible to extend the domain of 
+$\kappa : \cala\rarrow \ZZ_{>0}=$ {\bf capacity of each arrow}. If unstated for some $a\in \cala$, assume $\kappa(a) = 1$. It's also possible to extend the domain of 
 $\kappa()$ to $\ol{\cala}$ and define $\kappa(a) = 0$
 for all $a\in \ol{\cala}-\cala$. Sometimes, it is convenient to consider a fractional arrow capacity, so
 $\kappa : \cala \rarrow \RR_{\geq 0}$.
@@ -376,7 +380,7 @@ $\kappa : \cala \rarrow \RR_{\geq 0}$.
 \hrule
 $W^{\rvp\rarrow} \in \bool^{np\times nx}$. 
 $W^{\rvp\rarrow}_{i,j} = 1$ if there is an arrow $\rvp_i\rarrow\rvx_j$
-(entering $\rvx_j$);
+(exiting $\rvp_i$);
 else $W^{\rvp\rarrow}_{i,j} = 0$. More generally, in the case a capacity function $\kappa()$ is given, let
 
 \beq
@@ -392,7 +396,7 @@ W^{\rvp\rarrow} = \sum_{i,j}\kappa(\rvp_i\rarrow \rvx_j)
 
 $W^{\rvp\larrow} \in \bool^{np\times nx}$. 
 $W^{\rvp\larrow}_{i,j} = 1$ if there is an arrow $\rvp_i\larrow\rvx_j$
-(leaving $\rvx_j$);
+(entering $\rvp_i$);
 else $W^{\rvp\larrow}_{i,j} = 0$. More generally, in the case a capacity function $\kappa()$ is given, let
 
 \beq
@@ -427,13 +431,13 @@ W =  \sum_{i,j}\left[
 \eeq
 
 \hrule
-$\calp(\rvx\larrow) = \{\rvp : \rvp \rarrow \rvx\in\cala\}=$ {\bf $\rvx$ input places (a.k.a. $\rvx$ pre-set)}
+$\calp(\rvx\larrow) = \{\rvp : \rvp \rarrow \rvx\in\cala\}=$ all {\bf $\rvx$ input places (a.k.a. $\rvx$ pre-set)}
 
-$\calp(\rvx\rarrow) = \{\rvp : \rvx \rarrow \rvp \in \cala\}=$ {\bf $\rvx$ output places (a.k.a. $\rvx$ post-set)}
+$\calp(\rvx\rarrow) = \{\rvp : \rvx \rarrow \rvp \in \cala\}=$ all {\bf $\rvx$ output places (a.k.a. $\rvx$ post-set)}
 
-$\calx(\rvp\larrow) = \{\rvx : \rvx \rarrow \rvp \in \cala \}=$ {\bf$\rvp$ input transitions (a.k.a. $\rvp$ preset)}
+$\calx(\rvp\larrow) = \{\rvx : \rvx \rarrow \rvp \in \cala \}=$ {\bf all $\rvp$ input transitions (a.k.a. $\rvp$ preset)}
 
-$\calx(\rvp\rarrow) = \{\rvx : \rvp \rarrow\rvx \in\cala\}=$ {\bf $\rvx$ output transitions (a.k.a. $\rvp$ post-set)}
+$\calx(\rvp\rarrow) = \{\rvx : \rvp \rarrow\rvx \in\cala\}=$ {\bf all $\rvp$ output transitions (a.k.a. $\rvp$ post-set)}
 
 \hrule
 $\ket{b(0)}_\calp\in \ZZ_{\geq 0}^{np\times 1} =$ {\bf initial markings}
@@ -442,24 +446,24 @@ $\Phi = \av{\calp, \calx, W,\ket{b(0)}_\calp}$ is a {\bf pnet}.
 \subsection{Firing of a Petri Net}
 Consider a pnet $\Phi = \av{\calp, \calx, W,\ket{b(0)}_\calp}$.
 
-By (original) {\bf firing step} of a transition $\rvx$, we mean the action of removing $\mu(\rvp\rarrow \rvx)$
-tokens from all $\rvp\in\calp(\rvx\larrow)$, and adding $\mu(\rvx\rarrow\rvp')$ tokens to all $\rvp'\in\calp(\rvx\rarrow)$.
+By a {\bf firing step} of a transition $\rvx$, we mean the action of removing $\kappa(\rvp\rarrow \rvx)$
+tokens from all $\rvp\in\calp(\rvx\larrow)$, and adding $\kappa(\rvx\rarrow\rvp')$ tokens to all $\rvp'\in\calp(\rvx\rarrow)$.
 
 A transition $\rvx$ is {\bf enabled} 
 (i.e., it may fire)
-for $\rvp\in \rvx^{\larrow}$, if there are enough tokens in 
-$\rvp$ for a firing to be possible; i.e., if $M(\rvp) \geq \mu(\rvp\rarrow \rvx)$. A transition $\rvx$ is {\bf fully enabled} if it is enabled for all $\rvp\in \calp(\rvx\larrow)$.
+for $\rvp\in \calp(\rvx\larrow)$, if there are enough tokens in 
+$\rvp$ for a firing to be possible; i.e., if $\mu(\rvp) \geq \kappa(\rvp\rarrow \rvx)$. A transition $\rvx$ is {\bf fully enabled} if it is enabled for all $\rvp\in \calp(\rvx\larrow)$.
 
-$t \in \ZZ_{>0}$ is the firing time.
+$t \in \ZZ_{>0}$ is the {\bf firing time}.
 
-$b_j(t) =$ {\bf markings of place $\rvp_j$} at firing time t.
+$b_j(t) =$ {\bf markings of place $\rvp_j$} at firing time $t$.
 
 \beq
 \ket{b(t)}_\calp =\sum_j b_j(t) \ket{\rvp_j}
 \eeq
 
-$a_i(t) =$ how many times each transition $\rvx_i$
-occurs at time t
+$a_i(t) =$ how many times  transition $\rvx_i$
+occurs at time $t$
 (i.e., the {\bf strength of transition $\rvx_i$}
 at time $t$).
 
@@ -472,15 +476,15 @@ indicate which basis, either the $\{\ket{\rvp_i}\}_{i=1}^{np}$
 or  $\{\ket{\rvx_i}\}_{i=1}^{nx}$
 we are referring to.
 
-{\bf Original firing rule}\footnote{Many others firing rules are possible}.
+{\bf (Original) Firing rule
+for transition vector $\ket{a(t)}_\calx$}.
 
 \beq
 b_j(t+1) = b_j(t)
 +\sum_i W_{j,i}(t) a_i(t)
 \eeq
-where $W_{j,i}(t)=0$ if 
-transition $\rvx_i$ 
-is not fully enabled.
+or, equivalently,
+
  
 \beq
 \ket{b(t+1)}_\calp =
@@ -488,6 +492,9 @@ is not fully enabled.
 W\ket{a(t)}_\calx
 \label{eq-firing-stepper}
 \eeq
+where $W(t)=0$ if 
+transition vector $\ket{a(t)}_\calx$ 
+is not fully enabled.
  
  In general, can replace $W\ket{a(t)}_\calx$ by
  any vector 
@@ -503,7 +510,7 @@ W\ket{a(t)}_\calx
 $\ket{a(0)}, \ket{a(1)}, \ket{a(2)},
 \ldots$ is the {\bf sequence of firing
 steps}.
-Often we fire a single transition
+Often we fire a single transition node
 in each step,
 instead of firing a linear combination 
 of them. In such a case, the
@@ -530,7 +537,7 @@ R(\Phi) = \{\ket{b^*}_\calp:
 
 
 
-\section{Generalizations}
+\section{Variants}
 \subsection{Continuous Petri Net}
 So far we have considered
 discrete time $t\in \ZZ_{\geq 0}$.
@@ -543,6 +550,7 @@ a {\bf continuous Petri net} obeying:
 \beq
 \frac{db_j(t)}{dt}=
 \sum_i W_{j,i}a_i(t)
+\label{eq-SODE}
 \eeq
 
 
@@ -558,26 +566,28 @@ $$
 \xymatrix@C=5pc{
 {a_1}
 &&{a_4}
-\ar[dl]|{W_{i,4}}
+\ar[dl]|{W_{j,4}}
 \\
 {a_2}
 &
-*+++[o][F-]{\frac{db_i}{dt}}
-\ar[lu]|{W_{1, i}}
-\ar[ld]|{W_{2,i}}
-\ar[l]|{W_{3, i}}
+*+++[o][F-]{\frac{db_j}{dt}}
+\ar[lu]|{W_{1, j}}
+\ar[ld]|{W_{2,j}}
+\ar[l]|{W_{3, j}}
 & {a_5}
-\ar[l]|{W_{i,5}}
+\ar[l]|{W_{j,5}}
 \\
 {a_3}
 &&
 {a_6}
-\ar[lu]|{W_{i,6}}
+\ar[lu]|{W_{j,6}}
 }$$
-\caption{The place nodes (but not the transition nodes)
+\caption{Representation of Eq.(\ref{eq-SODE}). The place nodes (but not the transition nodes)
 of a continuous pnet carry a time derivative.}
-\label{eq-continuous-pn}
+\label{fig-continuous-pn}
 \end{figure}
+
+
 We extend $W$ to
 
 \beq
@@ -590,9 +600,12 @@ We extend $W$ to
 \rvx_i &-W_{j,i} &0
 \end{array}
 \eeq
-The extended matrix $\ol{W}$ is now
+The extended matrix $\ol{W}$ is 
 an anti-symmetric square matrix.
 
+Eq.(\ref{eq-SODE})
+can be represented by 
+ the bnet (see Fig.\ref{fig-continuous-pn}).
 Thus, a continuous Petri Net can be 
 viewed as $np$ linear bnets,
 one for each 
@@ -607,7 +620,7 @@ but not for each transition node.
 \hrule
 {\bf Aside, for those who know Quantum Mechanics:}
 
-Note that if we set $\ol{W}=-iH$,
+Note that if we set $H = i\ol{W}$,
 since $\ol{W}$ is anti-symmetric,
 it follows that  $H$ is Hermitian ($H=H^\dagger$). Consider Schoedinger's equation 
 (on a finite, $np+nx$ dimensional space)
@@ -640,17 +653,19 @@ so the marking (i.e., content)
 of every place node is given by a scalar
 from either $\ZZ_{\geq 0}$
 or $\RR_{\geq 0}$.
+In the original pnet,
+the messages that flow through the arrows
+are scalars too.
 But if one considers
 tokens of various kinds,
-then one needs a vector to
+then one needs a vector or list  to
 store their numbers in each place node.
-In a original pnet,
-the messages that flow through the arrows
-are scalars too, 
-but in a {\bf colored pnet},
-they become lists, or matrices or even tensors.
-In fact,  one can generalize pnets
-so that the messages are objects of 
+This leads
+to the definition of a {\bf colored pnet}, wherein
+place node markings
+and arrow messages become lists, or matrices, or  tensors,
+or even
+the objects of 
 a class.\footnote{The objects
 or instances 
 of a class are defined in OOP (Object Oriented Programming).}
@@ -677,10 +692,11 @@ Note that $\ket{\rva(t)}_\calx$ is a random
 variable and $\ket{b(t)}_\calp$ is expressed in terms of  $\ket{\rva(t)}_\calx$, so $\ket{b(t)}_\calp$ becomes
  a random variable too.
  
-Whereas when  Fig.\ref{eq-continuous-pn}
+When  Fig.\ref{fig-continuous-pn}
 refers to a deterministic
 continuous bnet, all nodes
-are deterministic, when it refers
+are deterministic.
+On the other hand, when it refers
 to a stochastic continuous bnet,
 all nodes are random variables
 with TPMs. 
@@ -702,11 +718,14 @@ for stochastic} \ul{processes}.
 \subsection{Bayes-Petri Net}
 
 Given a bnet, one can construct a natural pnet, call it the bnet's {\bf Bayes Petri Net} (Bayes pnet),  that uses the nodes of the bnet as the transition nodes of the Bayes pnet. We will refer to this construction
-as the {\bf petrifying a bnet}.
+as  {\bf petrifying a bnet}.
 
 \begin{figure}[h!]
 $$
+\begin{array}{c}
 \xymatrix@C=5pc{
+(a)
+&
 \rvx
 \ar[r]
 &\rvy
@@ -719,15 +738,35 @@ $$
 \petriar{r}{P_{\rvy|\rvx}}{P_{\rvx|\rvy}}
 &\rvy
 }
+\\
+\xymatrix@C=5pc{
+(b)
+&
+\rvx
+\ar[r]
+&\rvy
+}
+\;\;\;\;\;\;
+\implies
+\;\;\;\;\;\;
+\xymatrix@C=5pc{
+\rvx
+\petriar{r}{2}{3}
+&\rvy
+}
+\end{array}
 $$
 \caption{Petrifying an arrow by 
 adding to it
-arcs that transmit \ul{matrix} messages
-upstream and downstream.}
-\label{fig-petrify-ar-matrix-messages}
+arcs that transmit
+either matrix 
+messages
+(in $(a))$
+or scalar messages (in $(b))$.}
+\label{fig-petrify-ar}
 \end{figure}
  
-See Fig.\ref{fig-petrify-ar-matrix-messages}. Inspired by Pearl's message passing 
+See Fig.\ref{fig-petrify-ar} $(a)$. Inspired by Pearl's message passing 
 theory (see Chapter \ref{ch-mpass}), we petrify a single arrow bnet $\rvx\rarrow \rvy$
 by adding to it two pnet arcs:
 \begin{itemize}
@@ -741,28 +780,6 @@ to the bnet arrow $\rvx\rarrow\rvy$. This
 arc carries probability matrix $P_{\rvx|\rvy}$; i.e.,  the Bayes rule inverse of the bnet's TPM $P_{\rvy|\rvx}$.
 \end{itemize}
 
-\begin{figure}[h!]
-$$
-\xymatrix@C=5pc{
-\rvx
-\ar[r]
-&\rvy
-}
-\;\;\;\;\;\;
-\implies
-\;\;\;\;\;\;
-\xymatrix@C=5pc{
-\rvx
-\petriar{r}{2}{3}
-&\rvy
-}
-$$
-\caption{Petrifying an arrow by 
-adding to it
-arcs that transmit \ul{scalar} messages
-upstream and downstream.}
-\label{fig-petrify-ar-scalar-messages}
-\end{figure}
 
 \begin{figure}[h!]
 $$
@@ -792,20 +809,20 @@ $$
 \end{array}
 $$
 \caption{Example of petrifying a bnet  with
-five arrows, not just one arrow as in Fig.\ref{fig-petrify-ar-scalar-messages}}
+five arrows, not just one arrow as in Fig.\ref{fig-petrify-ar}}$(b)$
 \label{fig-petrify-five-ars}
 \end{figure}
 
 
 
 Studying {\bf matrix} message passing (colored pnet) as in 
-Fig.\ref{fig-petrify-ar-matrix-messages}
+Fig.\ref{fig-petrify-ar} $(a)$
 can be considered the ultimate goal
 of the theory of Bayes pnets, but as a first
 step in that direction,
 we will discuss {\bf scalar} message passing
 (uncolored pnet)
-as in Fig.\ref{fig-petrify-ar-scalar-messages}.
+as in Fig.\ref{fig-petrify-ar} $(b)$.
 Just like the proponents of the original pnets
 considered the simpler case of uncolored pnets first,
 and later graduated to the colored case, we will do the same for Bayes pnets.
@@ -817,7 +834,7 @@ In Fig.\ref{fig-petrify-five-ars},
 we give an example
 of petrifying a bnet with 5 arrows,
 instead of just one arrow
-as in Fig.\ref{fig-petrify-ar-scalar-messages}.
+as in Fig.\ref{fig-petrify-ar}.
 
 Henceforth in this chapter,
 the conditioned nodes of a bnet will
@@ -827,20 +844,21 @@ be colored yellow.
 The {\bf firing rules} for a Bayes pnet 
 come directly from Pearl's d-separation rules
 which are discussed in Chapter 
-\ref{ch-dsep}. Since the bnet nodes 
-and pnet transition nodes
-of a Bayes pnet are the same,
-one natural way to
-to fire the pnet nodes 
-is to fire them
-one at a time, in topological order.
-
+\ref{ch-dsep}. 
 Figs.\ref{fig-firing-downstream},
 \ref{fig-firing-downstream-cond-par}
 and \ref{fig-firing-upstream}
-are 3 possible cases that are
-distinguished by the d-separation 
+are 3 cases that 
+must be considered in the d-separation 
 motivated firing rules.
+Since the bnet nodes 
+and pnet transition nodes
+of a Bayes pnet are the same,
+one natural way to
+fire the pnet nodes 
+is to fire them
+one at a time, in topological order.
+
 
 \begin{figure}
 $$
@@ -872,7 +890,7 @@ $$
 \caption{
 What happens to an \ul{incoming downstream} message
 impinging on bnet node $\rvx$,
-for 2 cases: $\rvx$ isn't and is conditioned on.
+with $\rvx$ conditioned on or not conditioned on.
 }
 \label{fig-firing-downstream}
 \end{figure}
@@ -931,7 +949,7 @@ $$
 $$
 \caption{What happens to an \ul{incoming upstream} message
 impinging on bnet node $\rvx$,
-for 2 cases: $\rvx$ isn't and is conditioned on.}
+with $\rvx$ conditioned on or not conditioned on.}
 \label{fig-firing-upstream}
 \end{figure}
 
