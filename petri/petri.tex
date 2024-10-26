@@ -57,10 +57,11 @@ their causal connections.
 \end{itemize}
 
 So if pnets and bnets are so different,
-why do I discuss pnets in this book. Well,
-it turns out one can build a pnet
+why do I discuss pnets in this book
+about bnets? Well,
+it turns out that one can build a pnet
 on top of a bnet, using the bnet nodes
-as the transitions of the pnet. The 
+as the transition nodes of the pnet. The 
 resulting diagram,
 called  a {\bf Bayes-Petri net},
 gives both transient and steady state 
@@ -106,7 +107,9 @@ $$
 \\
 &&*++[o][F-]{2}\ar[ur]_<{\rvp_3}
 }$$
-\caption{Simple example of an original pnet. The number of tokens in each place
+\caption{Simple example of a pnet.
+Place nodes are labelled $\{\rvp_i\}_{i=1}^{4}$ and 
+transition nodes $\{\rvx_i\}_{i=1}^2$.  The number of tokens in each place $\rvp_i$
 is indicated by a number (or a whitespace for 0 tokens) within a circle.}
 \label{fig-original-pnet-eg-circle}
 \end{figure}
@@ -334,12 +337,12 @@ $\ZZ_{\geq 0}= \{0, 1, 2, 3, \dots\}$ natural numbers and zero.
 $\rvp_i =$ ith {\bf place  (a.k.a. buffer, token holder) node}. This node holds either
 an integer $\geq 0$ or that number of tokens (tokens are represenxed by bullet points).
 
-$\calp = \{\rvp_i\}_{i=1}^{np}$, set of all places
+$\calp = \{\rvp_i\}_{i=1}^{np}$, set of all place nodes.
 
 
 Let $\ket{\rvp_i}\in \ZZ^{np\times 1}$ be the one-hot 
 column vector with
-$1$ at position $i$. This will be our {markings or places basis}
+$1$ at position $i$. $\{\rvp_i\}_{i=1}^{np}$ will be our {markings or places basis}
 
 \hrule 
 
@@ -347,11 +350,11 @@ $\rvx_i =$ ith {\bf transition node}
 
 
 
-$\calx = \{\rvx_i\}_{i=1}^{nx}$, set of all transitions
+$\calx = \{\rvx_i\}_{i=1}^{nx}$, set of all transition nodes.
 
-Let $\ket{\rvx_j}\in \ZZ^{nx\times 1}$ be the one-hot 
+Let $\ket{\rvx_i}\in \ZZ^{nx\times 1}$ be the one-hot 
 column vector with
-$1$ at position $j$. This will be our {transitions basis}.
+$1$ at position $i$. $\{\rvx_i\}_{i=1}^{nx}$ will be our {transitions basis}.
 
 \hrule
 
@@ -360,14 +363,15 @@ those that go from a transition to a place node and those that go from a place t
 a transition node. Let $\rvx\rarrow\rvy=\rvy\larrow \rvx = (\rvx,\rvy)$
 
 $\cala =$  the set of all arrows.
- \beq\cala \subset \ol {\cala} = (\calp \times \calx) \cup (\calx \times \calp) = \{\calp\rarrow\calx \text{ and } \calx \rarrow \calp:
+ \beq\cala \subset \ol {\cala} = (\calp \times \calx) \cup (\calx \times \calp) = \{\calp\rarrow\calx \text{ or } \calx \rarrow \calp:
 \rvp\in\calp, \rvx \in \calx\}\eeq
 
 
 A {\bf flow} is a directed path of arrows from $\cala$.
 
 \hrule
-$\mu : \calp \rarrow \ZZ_{\geq 0}=$ {\bf markings (i.e., contents) of  each place}. Sometimes, it is convenient to consider a fractional number of tokens in a place, so
+$\mu : \calp \rarrow \ZZ_{\geq 0}=$ {\bf marking (i.e., content,
+number of tokens) of  each place}. Sometimes, it is convenient to consider a fractional number of tokens in a place, so
 $\mu : \calp \rarrow \RR_{\geq 0}$.
 
 
@@ -440,23 +444,23 @@ $\calx(\rvp\larrow) = \{\rvx : \rvx \rarrow \rvp \in \cala \}=$ {\bf all $\rvp$ 
 $\calx(\rvp\rarrow) = \{\rvx : \rvp \rarrow\rvx \in\cala\}=$ {\bf all $\rvp$ output transitions (a.k.a. $\rvp$ post-set)}
 
 \hrule
-$\ket{b(0)}_\calp\in \ZZ_{\geq 0}^{np\times 1} =$ {\bf initial markings}
+$\ket{b(0)}_\calp\in \ZZ_{\geq 0}^{np\times 1} =$ {\bf initial marking}
 
 $\Phi = \av{\calp, \calx, W,\ket{b(0)}_\calp}$ is a {\bf pnet}.
 \subsection{Firing of a Petri Net}
 Consider a pnet $\Phi = \av{\calp, \calx, W,\ket{b(0)}_\calp}$.
 
-By a {\bf firing step} of a transition $\rvx$, we mean the action of removing $\kappa(\rvp\rarrow \rvx)$
+By a {\bf firing step} of a transition $\rvx\in \calx$, we mean the action of removing $\kappa(\rvp\rarrow \rvx)$
 tokens from all $\rvp\in\calp(\rvx\larrow)$, and adding $\kappa(\rvx\rarrow\rvp')$ tokens to all $\rvp'\in\calp(\rvx\rarrow)$.
 
-A transition $\rvx$ is {\bf enabled} 
+A transition $\rvx\in \calx$ is {\bf enabled} 
 (i.e., it may fire)
 for $\rvp\in \calp(\rvx\larrow)$, if there are enough tokens in 
-$\rvp$ for a firing to be possible; i.e., if $\mu(\rvp) \geq \kappa(\rvp\rarrow \rvx)$. A transition $\rvx$ is {\bf fully enabled} if it is enabled for all $\rvp\in \calp(\rvx\larrow)$.
+$\rvp$ for a firing to be possible; i.e., if $\mu(\rvp) \geq \kappa(\rvp\rarrow \rvx)$. A transition $\rvx\in\calx$ is {\bf fully enabled} if it is enabled for all $\rvp\in \calp(\rvx\larrow)$.
 
 $t \in \ZZ_{>0}$ is the {\bf firing time}.
 
-$b_j(t) =$ {\bf markings of place $\rvp_j$} at firing time $t$.
+$b_j(t) =$ {\bf marking of place $\rvp_j$} at firing time $t$.
 
 \beq
 \ket{b(t)}_\calp =\sum_j b_j(t) \ket{\rvp_j}
@@ -465,7 +469,7 @@ $b_j(t) =$ {\bf markings of place $\rvp_j$} at firing time $t$.
 $a_i(t) =$ how many times  transition $\rvx_i$
 occurs at time $t$
 (i.e., the {\bf strength of transition $\rvx_i$}
-at time $t$).
+at firing time $t$).
 
 \beq
 \ket{a(t)}_\calx =\sum_i a_i(t) \ket{\rvx_i}
@@ -493,7 +497,7 @@ W\ket{a(t)}_\calx
 \label{eq-firing-stepper}
 \eeq
 where $W(t)=0$ if 
-transition vector $\ket{a(t)}_\calx$ 
+the transition
 is not fully enabled.
  
  In general, can replace $W\ket{a(t)}_\calx$ by
@@ -528,7 +532,7 @@ $\ket{b}_\calp$ if $\ket{b^*}_\calp$ is reachable from
 $\ket{b}_\calp$ in a finite
 number of steps.
 The {\bf reachability set} of a Petri Net $\Phi$ with 
-initial markings $\ket{b(0)}_\calp$ is defined as
+initial marking $\ket{b(0)}_\calp$ is defined as
 
 \beq
 R(\Phi) = \{\ket{b^*}_\calp: 
@@ -606,7 +610,7 @@ an anti-symmetric square matrix.
 Eq.(\ref{eq-SODE})
 can be represented by 
  the bnet (see Fig.\ref{fig-continuous-pn}).
-Thus, a continuous Petri Net can be 
+Thus, a continuous pnet can be 
 viewed as $np$ linear bnets,
 one for each 
 time derivative $db_i(t)/dt$
@@ -647,13 +651,13 @@ then the first $np$ equations are identical to Eq.(\ref{eq-diff-eq-W})
 
 
 \subsection{Colored Petri Net}
-In a original pnet, the tokens
+In an original pnet, the tokens
 are all of the same kind,
 so the marking (i.e., content)
 of every place node is given by a scalar
 from either $\ZZ_{\geq 0}$
 or $\RR_{\geq 0}$.
-In the original pnet,
+In an original pnet,
 the messages that flow through the arrows
 are scalars too.
 But if one considers
@@ -661,7 +665,8 @@ tokens of various kinds,
 then one needs a vector or list  to
 store their numbers in each place node.
 This leads
-to the definition of a {\bf colored pnet}, wherein
+to the definition of a {\bf colored pnet},
+as a pnet wherein
 place node markings
 and arrow messages become lists, or matrices, or  tensors,
 or even
