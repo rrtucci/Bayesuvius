@@ -43,7 +43,7 @@ $$
 \PinkCircle{\rvp_1}\ar@/^1pc/[r]|a
 &
 \Circle{\rvp_2}\ar@/^1pc/[l]|b
-\ar[d]|c \ar@(ru,lu)[]|a
+\ar[d]|c \ar@(ru,lu)[]_a
 \\
 \Circle{\rvp_3}\ar@/^1pc/[r]|b
 \ar[u]|a
@@ -53,7 +53,7 @@ $$
 \Circle{\rvp_1}\ar@/^1pc/[r]|a
 &
 \PinkCircle{\rvp_2}\ar@/^1pc/[l]|b
-\ar[d]|c \ar@(ru,lu)[]|a
+\ar[d]|c \ar@(ru,lu)[]_a
 \\
 \Circle{\rvp_3}\ar@/^1pc/[r]|b
 \ar[u]|a
@@ -63,7 +63,7 @@ $$
 \Circle{\rvp_1}\ar@/^1pc/[r]|a
 &
 \PinkCircle{\rvp_2}\ar@/^1pc/[l]|b
-\ar[d]|c \ar@(ru,lu)[]|a
+\ar[d]|c \ar@(ru,lu)[]_a
 \\
 \Circle{\rvp_3}\ar@/^1pc/[r]|b
 \ar[u]|a
@@ -73,7 +73,7 @@ $$
 \Circle{\rvp_1}\ar@/^1pc/[r]|a
 &
 \Circle{\rvp_2}\ar@/^1pc/[l]|b
-\ar[d]|c \ar@(ru,lu)[]|a
+\ar[d]|c \ar@(ru,lu)[]_a
 \\
 \Circle{\rvp_3}\ar@/^1pc/[r]|b
 \ar[u]|a
@@ -81,11 +81,14 @@ $$
 }
 \end{array}
 $$
-\caption{Example of deterministic FSM. Pink nodes carry the single pink token which is present at 
+\caption{Example of a deterministic FSM. Pink nodes carry the single token which is present at 
 some place node at all times.
-The history of the pink node traces out the string \qt{aac}.}
-\label{fig-eg-det-fsm}
+The token history traces out the string \qt{aac}.}
+\label{fig-det-fsm}
 \end{figure}
+Fig.\ref{fig-det-fsm}
+gives an example of a deterministic
+FSM.
 
 \subsection{Precise Definition}
 {\bf Finite State Machine} (FSM) (a.k.a. {\bf Finite Automaton}, (FA))
@@ -100,11 +103,11 @@ $\calx(\rvp\rarrow)=\{\rvx: \rvp\rarrow\rvx \text{ is an arrow of the pnet}\}$.
 New terms and notation:
 
 A FSM contains exactly one {\bf pink place node}. We will 
-say that this pink place node contains the {\bf pink token}.
-Each transition appends a string to the {\bf history of the pink token}.
+imagine that this pink place node contains a single token.
+Each transition appends a string to the {\bf token history string}.
 
 $\calp_{acc}\subset \calp$ are the 
-{\bf accepting places}. Places which, if reached by the pink token, terminate the pink token history.
+{\bf accepting places}. Places which, if reached by the token, terminate the token history.
 
 $\Sigma=$ {\bf alphabet}, a finite set of symbols
 from which to create strings. For example,
@@ -131,7 +134,12 @@ $\rvp_{i(0)}\in\calp$.
 \begin{mdframed}[hidealllines=true,backgroundcolor=blue!10]
 For a {\bf deterministic FA}:
 \begin{itemize}
-\item For each $\rvp\in\calp$, the function $f_\rvp:\calx(\rvp\rarrow)\rarrow \Sigma$ is 1-1.
+\item For each $\rvp\in\calp$, the function $f_\rvp:\calx(\rvp\rarrow)\rarrow \Sigma$ is 1-1.\footnote{If it weren't 1-1,
+it would have to choose 
+between 2 outgoing paths
+that appended the same string to the token history.
+This choice would make
+the FSM non-deterministic.}
 
 \item
 we will often indicate a node for 
@@ -140,7 +148,7 @@ or simply by $a$.
 \end{itemize}\end{mdframed}
 
 \section{Non-deterministic FSM}
-\subsection{Simple Example}
+\subsection{Example}
 
 \begin{figure}
 $$
@@ -149,7 +157,7 @@ $$
 &\Circle{\rvp_2}\ar[r]|1
 &\DCircle{\rvp_3}
 \\
-\PinkCircle{\rvp_4}\ar@(ru,lu)[]|{0,1}
+\PinkCircle{\rvp_4}\ar@(ru,lu)[]_{0,1}
 \ar[ru]|\emptyset
 \ar[rd]|\emptyset
 \\
@@ -163,6 +171,9 @@ Example of a
 non-deterministic FSM.}
 \label{fig-non-det-fsm}
 \end{figure}
+Fig.\ref{fig-non-det-fsm}
+gives an example of a non-deterministic
+FSM.
 
 
 \subsection{Precise Definition}
@@ -190,3 +201,136 @@ or simply by $a, b, \ldots$.
 \end{itemize}\end{mdframed}
 
 \section{Equivalency of deterministic and non-deterministic FSM}
+
+\begin{figure}[h!]
+$$
+\xymatrix@R=.1pc{
+& a\ar[dl]
+\\
+\Circle{\rvp_1}\ar[rd]
+\ar[dd]
+\\
+& b
+\\
+\emptyset\ar[dd]
+\\
+&c\ar[dl]
+\\
+\Circle{\rvp_2}\ar[rd]
+\\
+&d
+\save "2,1"."6,1"*++[F--]\frm{}
+\restore
+}
+$$
+\caption{Place nodes $\rvp_1, \rvp_2$ connected by
+a null transition can be merged into a single
+place node. This will eliminate the null transition.}
+\label{fig-shrink-null-tra}
+\end{figure}
+
+\begin{figure}[h!]
+$$
+\begin{array}{ccc}
+\xymatrix@R=.3pc{
+& a\ar[dl]
+\\
+\Circle{\rvp_1}\ar[rd]
+\ar[dd]
+\\
+& b
+\\
+x,y\ar[dd]
+\\
+&c\ar[dl]
+\\
+\Circle{\rvp_2}\ar[rd]
+\\
+&d
+}
+&
+\xymatrix
+{
+\\
+\\
+\implies}
+&
+\xymatrix@R=.3pc{
+& a\ar[dl]
+\\
+\Circle{\rvp_1}\ar[rd]
+\ar[ddd]|x
+\ar@/_2pc/[ddddd]|y
+\\
+& b
+\\
+\\
+\Circle{\rvp_2'}\ar[rdd]
+&c\ar[ldd]\ar[l]
+\\
+\\
+\Circle{\rvp_2''}\ar[r]
+&d
+}
+\end{array}
+$$
+\caption{A place node $\rvp_2$
+that receives two alphabet 
+symbols $x, y$ at once, can 
+can be cloned into two place nodes
+$\rvp_2'$ and $\rvp_2''$ that receive
+ $x$ and $y$ respectively.
+}
+\label{fig-split-x-y}
+\end{figure}
+
+
+\begin{figure}[h!]
+$$
+\begin{array}{ccc}
+\xymatrix@R=.3pc{
+& a\ar[dl]
+\\
+\Circle{\rvp_1}\ar[rd]
+\ar[ddd]|x
+\ar@/_2pc/[ddddd]|x
+\\
+& b
+\\
+\\
+\Circle{\rvp_2'}\ar[rdd]
+&c\ar[ldd]\ar[l]
+\\
+\\
+\Circle{\rvp_2''}\ar[r]
+&d
+}&
+\xymatrix
+{
+\\
+\\
+\implies}
+&
+\xymatrix@R=.3pc{
+& a\ar[dl]
+\\
+\Circle{\rvp_1}\ar[rd]
+\ar[dd]
+\\
+& b
+\\
+x\ar[dd]
+\\
+&c\ar[dl]
+\\
+\Circle{\rvp_2}\ar[rd]
+\\
+&d
+}
+\end{array}
+$$
+\caption{Two place nodes $\rvp_2'$ and $\rvp_2''$
+that receive the same symbol $x$, can be
+merged into a single place node $\rvp_2$.}
+\label{fig-merge-two-x}
+\end{figure}
