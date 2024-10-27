@@ -1,20 +1,59 @@
 \chapter{Finite State Machine}
 \label{ch-finite-state}
 
-$\calx =\{\rvx_i\}_{i=1}^{nx}$ are the {\bf transition nodes}
-and 
-$\calp =\{\rvp_i\}_{i=1}^{np}$ are the {\bf place (or state) nodes}
+{\bf Finite State Machine} (FSM) (a.k.a. {\bf Finite Automaton}, (FA))
 
+$\calx =\{\rvx_i\}_{i=1}^{nx}$ are the {\bf transition nodes} of the pnet.
+
+$\calp =\{\rvp_i\}_{i=1}^{np}$ are the {\bf place (or state) nodes} of the pnet.
+
+$\calx(\rvp\rarrow)=\{\rvx: \rvp\rarrow\rvx \text{ is an arrow of the pnet}\}$.
+
+\hrule
 New terms and notation:
 
+$\calp_{acc}\subset \calp$ are the 
+{\bf accepting states}. States which, if reached, terminate a trajectory.
+
+
+
 $\Sigma=$ {\bf alphabet}, a finite set of symbols
-from which to create a string. For example,
-$\{0, 1\}$ or $\{a, b, c\}$.
+from which to create strings. For example,
+$\Sigma$ might be $\{0, 1\}$ or $\{a, b, c\}$.
 
 
-$\phi_\rvx:\calp\rarrow \Sigma$ for each
-$\rvx\in \calx$,  is the 
-{\bf transition function} for transition node $\rvx$.
+$f_\rvp:\calx(\rvp\rarrow)\rarrow \Sigma$ for each
+$\rvp\in \calp$,  is the 
+{\bf transition function} for place node $\rvp$. 
+\begin{mdframed}[hidealllines=true,backgroundcolor=blue!10]We will often write in a 
+FSM diagram, $\rvx_i=a$ if $f_{\rvp}(\rvx_i)=a$. \end{mdframed}
 
-$\phi_\calx =
-\{\phi_\rvx: \rvx\in \calx\}$
+
+
+$f_\calp =
+\{f_\rvp: \rvp\in \calp\}$
+
+
+
+
+
+$\rvp(0)\in \calp$, {\bf starting state (i.e., starting place)}
+
+
+
+$\Phi=\av{\calp,\calp_{acc}, \calx, \Sigma, f_\calp, \rvp(0) }$ is a {\bf Finite Automaton (FA)}\footnote{Recall from Chapter \ref{ch-petri} that a Petri net is defined as $\Phi = \av{\calp, \calx, W,\ket{b(0)}_\calp}$.
+}
+
+\hrule
+For a {\bf deterministic FA}, the functions
+$f_\rvp$ for all $\rvp\in \calp$
+must all be 1-1 and onto (i.e., bijections).
+Furthermore, we must have 
+$\emptyset\not\in \Sigma$. 
+
+For a {\bf non-deterministic FA},  the functions
+$f_\rvp$ need not be bijective.
+Furthermore, we must have 
+$\emptyset\in \Sigma$. If $f_\rvp(\rvx)=\text{empty set}=\emptyset$, we say there is a  {\bf null transition} for arrow 
+$\rvp\rarrow \rvx$.\footnote{The empty set is sometimes denoted by $\eps$ 
+when discussing FSM.}
