@@ -1,16 +1,23 @@
 \chapter{Finite State Machine}
 \label{ch-finite-state}
 
+This chapter is mostly based on Refs.\cite{fsm-brilliant}, \cite{wiki-det-automaton} and
+\cite{wiki-nondet-automaton}.
 
+A {\bf Finite State Machine} (FSM) (a.k.a. {\bf Finite Automaton} (FA))  can be explained as a 
+special case of a Petri net, and that
+is the approach we take in this chapter.
+Petri nets are discussed in Chapter \ref{ch-petri}. We will assume
+that the reader has read that chapter before tackling this one.
 
-
+{\bf Some nomenclature:}
 
 Let $|S|$ denote the number of elements
 in a set $|S|$.
 The {\bf power set of set $S$}, denoted by $2^S$,
 is the set of all the subsets of $S$, including the empty set.
 Note that $|2^S|=2^{|S|}$. Indeed
-consider the binomial expansion
+A consider the binomial expansion
 
 \beq
 (1 + 1)^{|S|}=\sum_{i=0}^{|S|}{|S| \choose i}
@@ -91,7 +98,7 @@ gives an example of a deterministic
 FSM.
 
 \subsection{Precise Definition}
-{\bf Finite State Machine} (FSM) (a.k.a. {\bf Finite Automaton}, (FA))
+
 
 $\calx =\{\rvx_i\}_{i=1}^{nx}$ are the {\bf transition nodes} of the pnet.
 
@@ -202,6 +209,18 @@ or simply by $a, b, \ldots$.
 
 \section{Equivalency of deterministic and non-deterministic FSM}
 
+At first glance, it might
+seem that non-deterministic FSM
+are more general than  deterministic ones.
+However, they are equivalent
+in the sense that they generate identical languages (i.e., collections of strings). Their equivalence can be
+established by using the transformations described in Figs.\ref{fig-shrink-null-tra},
+\ref{fig-split-x-y}
+and \ref{fig-merge-two-x}
+to reduce  a non-deterministic FSM
+to a deterministic one.
+
+
 \begin{figure}[h!]
 $$
 \xymatrix@R=.1pc{
@@ -276,7 +295,7 @@ x,y\ar[dd]
 $$
 \caption{A place node $\rvp_2$
 that receives two alphabet 
-symbols $x, y$ at once, can 
+symbols $x, y$ at once, 
 can be cloned into two place nodes
 $\rvp_2'$ and $\rvp_2''$ that receive
  $x$ and $y$ respectively.
