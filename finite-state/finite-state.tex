@@ -16,8 +16,8 @@ Let $|S|$ denote the number of elements
 in a set $|S|$.
 The {\bf power set of set $S$}, denoted by $2^S$,
 is the set of all the subsets of $S$, including the empty set.
-Note that $|2^S|=2^{|S|}$. Indeed
-A consider the binomial expansion
+Note that $|2^S|=2^{|S|}$. Indeed,
+consider the binomial expansion
 
 \beq
 (1 + 1)^{|S|}=\sum_{i=0}^{|S|}{|S| \choose i}
@@ -28,7 +28,7 @@ is the number of subsets of $S$ with $i$ elements.
 Consider a function
 $f:A\rarrow B$. 
 
-The {\bf domain} of $f$ is $A$.
+The {\bf domain} of $f$ is $A$,
 and its {\bf range} is $B$.
 
 The {\bf image} of $f$
@@ -89,17 +89,19 @@ $$
 }
 \end{array}
 $$
-\caption{Example of a deterministic FSM. Pink nodes carry the single token which is present at 
-some place node at all times.
-The token history traces out the string \qt{aac}.}
+\caption{Example of a deterministic FSM. Pink nodes carry the single pink token.
+The pink token's movements trace out the string \qt{aac}.}
 \label{fig-det-fsm}
 \end{figure}
 Fig.\ref{fig-det-fsm}
 gives an example of a deterministic
-FSM.
+FSM. A FSM contains exactly one {\bf pink place node}. We will 
+imagine that this pink place node contains a single pink token. This token moves around with each step.
+Each step appends a string to the {\bf string history} of the pink token.
 
 \subsection{Precise Definition}
 
+Recall the following terms used for pnets:
 
 $\calx =\{\rvx_i\}_{i=1}^{nx}$ are the {\bf transition nodes} of the pnet.
 
@@ -110,27 +112,11 @@ chapter, since we are treating FSM as a special case of pnets, we use the words 
 $\calx(\rvp\rarrow)=\{\rvx: \rvp\rarrow\rvx \text{ is an arrow of the pnet}\}$.
 
 \hrule
-New terms and notation:
-
-A FSM contains exactly one {\bf pink place node}. We will 
-imagine that this pink place node contains a single token.
-Each transition appends a string to the {\bf token history string}.
-
-$\calp_{acc}\subset \calp$ are the 
-{\bf acceptor places}. A token history must end in an acceptor place, but it may visit
-an acceptor place multiple times.
+New terms and notation not used for pnets:
 
 $\Sigma=$ {\bf alphabet}, a finite set of symbols
 from which to create strings. For example,
 $\Sigma$ might be $\{0, 1\}$ or $\{a, b, c\}$.
-
-$\delta:\calx\times\calp\rarrow \calp$ is the 
-{\bf transition function}. It maps each place node $\rvp(t)\in\calp$ and transition $\rvx(t)\in\calx$ to the next place $\rvp(t+1)\in\calp$ in a history $\rvp(0), \rvp(1), \ldots$. We will write this as
-
-\beq
-\ket{\rvp(t+1)}=\rvx(t)\ket{\rvp(t)}
-\eeq
-
 
 $\lam:\calx\rarrow\Sigma$, is the {\bf label function}. $\lam(\rvx)=a$ means alphabet symbol $a$ is assigned to transition $\rvx$.  
 
@@ -140,6 +126,28 @@ to the domain $\calx(\rvp\rarrow)$.
 
 
 $\rvp(0)\in \calp$, {\bf starting place }
+
+
+
+$\calp_{acc}\subset \calp$ are the 
+{\bf acceptor places}. The pink token must end in an acceptor place, but it may visit
+an acceptor place multiple times.
+
+
+
+$\delta:\calx\times\calp\rarrow \calp$ is the 
+{\bf transition function}. It maps each place node $\rvp(t)\in\calp$ and transition $\rvx(t)\in\calx$ to the next place node $\rvp(t+1)\in\calp$ in a {\bf place history} $\rvp(0), \rvp(1), \ldots$. We will write this as
+
+\beq
+\ket{\rvp(t+1)}=\rvx(t)\ket{\rvp(t)}
+\eeq
+The place history is the places visited by the pink token. Each transition of
+the pink token  between places appends a string
+to the pink tokens's {\bf string history}.
+
+
+
+
 \hrule
 Recall from Chapter \ref{ch-petri} that a Petri net is defined as $\Phi_{pnet} = \av{\calp, \calx, W,\ket{b(0)}_\calp}$.
 A {\bf Finite Automaton (FA)}
@@ -164,7 +172,7 @@ in $\calp$ such that
 \end{enumerate}
 If the automaton does not accept the string $h$,
 it is said to {\bf reject} it. The set $\call(\Phi_{FA})$ of all strings 
-accepted by the FA i called its {\bf language}.
+accepted by the FA is called its {\bf language}.
 
 \begin{mdframed}[hidealllines=true,backgroundcolor=blue!10]
 For a {\bf deterministic FA}:
@@ -172,7 +180,7 @@ For a {\bf deterministic FA}:
 \item For each $\rvp\in\calp$, the function  $\lam_\rvp$ is 1-1.\footnote{If it weren't 1-1,
 it would have to choose 
 between 2 outgoing paths
-that appended the same string to the token history.
+that appended the same string to the string history.
 This choice would make
 the FSM non-deterministic.}
 
@@ -212,6 +220,10 @@ FSM.
 
 
 \subsection{Precise Definition}
+For a non-deterministic FSM,
+everything we said for a deterministic FSM,
+except for the shaded box, is valid. The shaded 
+box must be replaced by the following shaded box:
 
 \begin{mdframed}[hidealllines=true,backgroundcolor=blue!10]
 For a {\bf non-deterministic FA}:
@@ -228,7 +240,7 @@ Note that the new range contains the empty set.
 If $\lam_\rvp(\rvx)=\emptyset$, we say there is a  {\bf null transition} for arrow 
 $\rvp\rarrow \rvx$.\footnote{The empty set is sometimes denoted by $\eps$ 
 when discussing FSM.} A null transition 
-transfers the node accross without adding anything to the token history. 
+transfers the node accross without adding anything to the string history. 
 \item
 we will often indicate a node for 
 which $\lam_{\rvp}(\rvx_i)=\{a,b, \ldots\}\subset\Sigma$ either by $\rvx_i=a, b, \ldots$
