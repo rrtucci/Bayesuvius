@@ -6,7 +6,7 @@ This chapter is mostly based on Refs.\cite{fsm-brilliant}, \cite{wiki-det-automa
 
 A {\bf Finite State Machine} (FSM) (a.k.a. {\bf Finite Automaton} (FA))  can be explained as a 
 special case of a Petri net, and that
-is the approach we take in this chapter.
+is the approach that we take in this chapter.
 Petri nets are discussed in Chapter \ref{ch-petri}. We will assume
 that the reader has read that chapter before tackling this one.
 
@@ -28,7 +28,8 @@ is the number of subsets of $S$ with $i$ elements.
 Consider a function
 $f:A\rarrow B$. 
 
-The {\bf range} of $f$ is $B$.
+The {\bf domain} of $f$ is $A$.
+and its {\bf range} is $B$.
 
 The {\bf image} of $f$
 is $Im(f)=\{f(a): a\in A\}$. 
@@ -102,7 +103,9 @@ FSM.
 
 $\calx =\{\rvx_i\}_{i=1}^{nx}$ are the {\bf transition nodes} of the pnet.
 
-$\calp =\{\rvp_i\}_{i=1}^{np}$ are the {\bf place (or state) nodes} of the pnet.
+$\calp =\{\rvp_i\}_{i=1}^{np}$ are the {\bf place (or state) nodes} of the pnet.\footnote{In this
+chapter, since we are treating FSM as a special case of pnets, we use the words \qt{state} and
+\qt{place} interchangeably.}
 
 $\calx(\rvp\rarrow)=\{\rvx: \rvp\rarrow\rvx \text{ is an arrow of the pnet}\}$.
 
@@ -114,34 +117,59 @@ imagine that this pink place node contains a single token.
 Each transition appends a string to the {\bf token history string}.
 
 $\calp_{acc}\subset \calp$ are the 
-{\bf accepting places}. Places which, if reached by the token, terminate the token history.
+{\bf acceptor places}. A token history must end in an acceptor place, but it may visit
+an acceptor place multiple times.
 
 $\Sigma=$ {\bf alphabet}, a finite set of symbols
 from which to create strings. For example,
 $\Sigma$ might be $\{0, 1\}$ or $\{a, b, c\}$.
 
-$f_\rvp:\calx(\rvp\rarrow)\rarrow \Sigma$ for each
-$\rvp\in \calp$,  is the 
-{\bf transition function} for place node $\rvp$. 
+$\delta:\calx\times\calp\rarrow \calp$ is the 
+{\bf transition function}. It maps each place node $\rvp(t)\in\calp$ and transition $\rvx(t)\in\calx$ to the next place $\rvp(t+1)\in\calp$ in a history $\rvp(0), \rvp(1), \ldots$. We will write this as
 
-$f_\calp =
-\{f_\rvp: \rvp\in \calp\}$
+\beq
+\ket{\rvp(t+1)}=\rvx(t)\ket{\rvp(t)}
+\eeq
 
-$\rvp_{i(0)}\in \calp$, {\bf starting place }
+
+$\lam:\calx\rarrow\Sigma$, is the {\bf label function}. $\lam(\rvx)=a$ means alphabet symbol $a$ is assigned to transition $\rvx$.  
+
+
+$\lam_\rvp:\calx(\rvp\rarrow)\rarrow\Sigma$, this is the {\bf restriction of the label function $\lam()$}
+to the domain $\calx(\rvp\rarrow)$.
+
+
+$\rvp(0)\in \calp$, {\bf starting place }
 \hrule
 Recall from Chapter \ref{ch-petri} that a Petri net is defined as $\Phi_{pnet} = \av{\calp, \calx, W,\ket{b(0)}_\calp}$.
 A {\bf Finite Automaton (FA)}
 is defined by adding extra stuff to
 $\Phi_{pnet}$, namely by
-$\Phi_{FA}=\av{\Phi_{pnet},\calp_{acc}, \Sigma, f_\calp}$.
+$\Phi_{FA}=\av{\Phi_{pnet},\calp_{acc}, \Sigma, \lam, \delta}$\footnote{This definition has some redundancy. Only 
+$\av{\calp, \Sigma, p(0), \calp_{acc}, \delta}$
+is sufficient.}.
 $\ket{b(0)}_\calp$ in the definition
 of $\Phi_{pnet}$ is replaced by
-$\rvp_{i(0)}\in\calp$.
+$\rvp(0)\in\calp$.
+
+Let $h=a_1a_2a_3\ldots a_n$ be a string
+over the alphabet $\Sigma$.
+The automaton $\Phi_{FA}$ {\bf accepts (or generates) the string} $h$
+if a sequence of places $\rvp(0), \rvp(1), \ldots, \rvp(T)$ exists
+in $\calp$ such that 
+\begin{enumerate}
+\item $\rvp(0)$  is the starting place
+\item $\ket{\rvp(t+1) }= \rvx(n)\ket{\rvp(t)}$
+\item $\rvp(T)\in \calp_{acc}$
+\end{enumerate}
+If the automaton does not accept the string $h$,
+it is said to {\bf reject} it. The set $\call(\Phi_{FA})$ of all strings 
+accepted by the FA i called its {\bf language}.
 
 \begin{mdframed}[hidealllines=true,backgroundcolor=blue!10]
 For a {\bf deterministic FA}:
 \begin{itemize}
-\item For each $\rvp\in\calp$, the function $f_\rvp:\calx(\rvp\rarrow)\rarrow \Sigma$ is 1-1.\footnote{If it weren't 1-1,
+\item For each $\rvp\in\calp$, the function  $\lam_\rvp$ is 1-1.\footnote{If it weren't 1-1,
 it would have to choose 
 between 2 outgoing paths
 that appended the same string to the token history.
@@ -150,7 +178,7 @@ the FSM non-deterministic.}
 
 \item
 we will often indicate a node for 
-which $f_{\rvp}(\rvx_i)=a$ either by $\rvx_i=a$
+which $\lam_{\rvp}(\rvx_i)=a$ either by $\rvx_i=a$
 or simply by $a$. 
 \end{itemize}\end{mdframed}
 
@@ -189,21 +217,21 @@ FSM.
 For a {\bf non-deterministic FA}:
 \begin{itemize}
 \item
-$f_\rvp:\calx(\rvp\rarrow)\rarrow 2^\Sigma$ 
+$\lam_\rvp:\calx(\rvp\rarrow)\rarrow 2^\Sigma$ 
 instead of 
-$f_\rvp:\calx(\rvp\rarrow)\rarrow \Sigma$ (i.e., the range of $f_\rvp$
+$\lam_\rvp:\calx(\rvp\rarrow)\rarrow \Sigma$ (i.e., the range of $\lam_\rvp$
 is the power set of $\Sigma$ 
 instead of $\Sigma$).
-The function $f_\rvp$ is not necessarily
+The function $\lam_\rvp$ is not necessarily
 1-1.
 Note that the new range contains the empty set.
-If $f_\rvp(\rvx)=\emptyset$, we say there is a  {\bf null transition} for arrow 
+If $\lam_\rvp(\rvx)=\emptyset$, we say there is a  {\bf null transition} for arrow 
 $\rvp\rarrow \rvx$.\footnote{The empty set is sometimes denoted by $\eps$ 
 when discussing FSM.} A null transition 
 transfers the node accross without adding anything to the token history. 
 \item
 we will often indicate a node for 
-which $f_{\rvp}(\rvx_i)=\{a,b, \ldots\}\subset\Sigma$ either by $\rvx_i=a, b, \ldots$
+which $\lam_{\rvp}(\rvx_i)=\{a,b, \ldots\}\subset\Sigma$ either by $\rvx_i=a, b, \ldots$
 or simply by $a, b, \ldots$. 
 \end{itemize}\end{mdframed}
 
