@@ -1,27 +1,49 @@
 \chapter{Turing Machine COMING SOON}
 \label{ch-turing}
 
-Turing Machine (TM)
-
 \newcommand{\TA}[0]{\Sigma^+}
 
+This chapter is based on Ref.\cite{wiki-turing-machine}.
+
+A {\bf Turing Machine} (TM)  can be explained as a 
+special case of a Petri net (pnet), and that
+is the approach that we take in this chapter.
+Petri nets are discussed in Chapter \ref{ch-petri}. We will assume
+that the reader has read that chapter before tackling this one.
+
+In fact, a TM can be viewed as a generalization
+of a special case of a Petri net called a Finite
+State Machine (FSM).  FSM are discussed
+in Chapter \ref{ch-finite-state}.
+We will assume
+that the reader has read that chapter too before tackling this one.
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=6in]
+{turing/turing-physical.jpg}
+\caption{View of Mount Vesuvius from
+  Pompeii}
+\label{fig-turing-phsical}
+\end{figure}
 
 \section{Example}
 
 \begin{figure}[h!]
 $$
 \begin{array}{cc}
-\xymatrix@C=5pc@R=3pc{
+\xymatrix@C=6pc@R=3pc{
 \PinkCircle{\rva}
-\ar[rr]|{\rvx_1=0/P,R}
-\ar[rd]|{\rvx_3=1/P, L}
+\ar[rr]|{\rvx_1=(0,P,R)}
+\ar[rd]|{\rvx_3=(1,P, L)}
 &&\Circle{\rvb}
-\ar@/_2pc/[ll]|{\rvx_2=0/P,L}
+\ar@/_2pc/[ll]|{\rvx_2=(0,P,L)}
 \\
 \ar[u]
 &\Circle{\rvc}
-\ar[ru]|{\rvx_4=0/P, L}
-\ar[r]|{\rvx_5=1/P, R}
+\ar[ru]|{\rvx_4=(0,P, L)}
+\ar[r]|{\rvx_5=(1,P, R)}
 &\DCircle{\rvh}
 }
 &
@@ -35,35 +57,43 @@ $$
 \hline\hline
 \rva\rarrow\rvx_1
 &\rvb
-&0/P,R
+&(0,P,R)
 \\ \hline
 \rvb\rarrow\rvx_2
 &\rva
-&0/P,L
+&(0,P,L)
 \\ \hline
 \rva\rarrow\rvx_3
 &\rvc
-& 1/P,L
+& (1,P,L)
 \\ \hline
 \rvc\rarrow\rvx_4
 &\rvb
-& 0/P,L
+& (0,P,L)
 \\\hline
 \rvc\rarrow\rvx_5
 &\rvh
-&1/P,R
+&(1,P,R)
 \\ \hline
 \end{array}
 \end{array}
 $$
-\caption{}
-\label{}
+\caption{The \qt{3-state busy beaver} Turing machine represented as a FSM Petri net.}
+\label{fig-3-state-bb}
 \end{figure}
+
+Fig.\ref{fig-3-state-bb} shows an example of
+a TM represented as a FSM Petri net. Everything in this diagram
+should be familiar after reading the chapters
+on pnets and FSM, except for the labelling of the 
+transition nodes.
+
+
 
 \section{Precise Definition}
 
 \hrule
-Same as in FA:
+Same as in FSM:
 
 $\calx =\{\rvx_i\}_{i=1}^{nx}$ are the {\bf transition nodes} of the pnet.
 
@@ -79,7 +109,7 @@ $\Delta:\calx\times\calp\rarrow \calp$ is the
 \hrule
 New for TM
 
-$HALT\in \calp$
+$HALT\in \calp_{acc}$
 
 $\TA =$ {\bf tape alphabet}
 
@@ -87,15 +117,18 @@ $B\in \TA$ {\bf blank space}.
 
 $\Sigma=$ {\bf input alphabet}. $\Sigma\subset\TA-\{B\}$. 
 
-$\lam_{r}:\calx\rarrow \TA$ {\bf read symbol}
+$\lam_{r}:\calx\rarrow \TA$ {\bf read symbol assigning function}
 
-$\lam_{w}:\calx\rarrow \TA$ {\bf write symbol}
+$\lam_{w}:\calx\rarrow \TA$ {\bf write symbol assigning function}
 
-$\lam_{m}:\calx\rarrow \{L,R\}$ {\bf move command}
+$\lam_{m}:\calx\rarrow \{L,R\}$ {\bf move command
+assigning function}
 
-$\lam = (\lam_r, \lam_w, \lam_m)$
+$\lam = (\lam_r, \lam_w, \lam_m)$ is the
+{\bf transition labelling function}
 
-$\lam_\rvp: \calx(\rvp\rarrow)\rarrow \TA$
+$\lam_\rvp: \calx(\rvp\rarrow)\rarrow \TA$ is the
+{\bf restriction of $\lam()$ to $\calx(\rvp\rarrow)$}
 
 \hrule
 $\Phi_{TM}=\av{\Phi_{pnet},\calp_{acc}, \Sigma,
