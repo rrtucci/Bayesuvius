@@ -13,14 +13,15 @@ Petri nets are discussed in Chapter \ref{ch-petri}. FSM are discussed
 in Chapter \ref{ch-finite-state}. We will assume
 that the reader has read those two chapters before tackling this one.
 
-Fig.\ref{fig-turing-phsical} is
-a diagram of the components
-of a TM, if one were to build one.
+Fig.\ref{fig-turing-phsical} presents an idealized physical model
+of a TM.
 It consists of a 
 \begin{itemize}
 \item
 a {\bf tape}. The tape is infinite in both directions,
+and separated into tape cells,
 but only a finite number of tape cells may be non-blank.
+Each non-blank cell contains one symbol from a pre-defined set of symbols called the tape alphabet.
 \item
 a {\bf head}
 that is one tape cell wide. It moves, relative to the tape,  from one tape cell, 
@@ -35,7 +36,7 @@ the current place/state ($\rvp_2$ in Fig.\ref{fig-turing-phsical})
 \centering
 \includegraphics[width=6in]
 {turing/turing-physical.jpg}
-\caption{Turing Machine if one were to build one.}
+\caption{Idealized physical model of Turing Machine.}
 \label{fig-turing-phsical}
 \end{figure}
 
@@ -100,7 +101,7 @@ $$
 
 \begin{table}[h!]
 \begin{tabular}{lllllllllll}
-1 &  &  &  &  & A &  &  &  &  &  
+1 &  &  &  &  & $\rva$ &  &  &  &  &  
 \\ \hline
 \multicolumn{1}{|l|}{\cellcolor[HTML]{FFFFC7}0} 
 & \multicolumn{1}{l|}{0} 
@@ -117,7 +118,7 @@ $$
 \end{tabular}
 \\
 \begin{tabular}{lllllllllll}
-2 &  &  &  &  &  & B &  &  &  &  
+2 &  &  &  &  &  & $\rvb$ &  &  &  &  
 \\ \hline
 \multicolumn{1}{|l|}{\cellcolor[HTML]{FFFFC7}0} 
 & \multicolumn{1}{l|}{0} 
@@ -134,7 +135,7 @@ $$
 \end{tabular}
 \\
 \begin{tabular}{lllllllllll}
-3 &  &  &  &  & A &  &  &  &  &  
+3 &  &  &  &  & $\rva$ &  &  &  &  &  
 \\ \hline
 \multicolumn{1}{|l|}{\cellcolor[HTML]{FFFFC7}0} 
 & \multicolumn{1}{l|}{0} 
@@ -151,7 +152,7 @@ $$
 \end{tabular}
 \\
 \begin{tabular}{lllllllllll}
-4 &  &  &  & C & &  &  &  &  &  
+4 &  &  &  & $\rvc$ & &  &  &  &  &  
 \\ \hline
 \multicolumn{1}{|l|}{\cellcolor[HTML]{FFFFC7}0} 
 & \multicolumn{1}{l|}{0} 
@@ -168,7 +169,7 @@ $$
 \end{tabular}
 \\
 \begin{tabular}{lllllllllll}
-5 &  &  & B & & &  &  &  &  &  
+5 &  &  & $\rvb$ & & &  &  &  &  &  
 \\ \hline
 \multicolumn{1}{|l|}{\cellcolor[HTML]{FFFFC7}0} 
 & \multicolumn{1}{l|}{0} 
@@ -184,18 +185,18 @@ $$
 \\ \hline
 \end{tabular}
 \caption{First five steps of Busy Beaver TM 
-in Fig.\ref{fig-3-state-bb}. }
+defined by Fig.\ref{fig-3-state-bb}. }
 \label{tab-busy-beaver}
 \end{table}
 
 Fig.\ref{fig-3-state-bb} shows an example of
 a TM represented as a FSM Petri net. Everything in this diagram
-should be familiar after reading the chapters
+should be familiar to the reader after reading the chapters
 on pnets and FSM, except for the
 transition  labelling function $\lam()$.
 
 Whereas $\lam$ is a scalar (i.e., an element of the alphabet $\Sigma$)
-for a FSM, for a TM its a triple $(\lam_r, \lam_w, \lam_m)$.
+for a FSM, for a TM it's a triple $(\lam_r, \lam_w, \lam_m)$.
 $\lam_r$ is the tape symbol read, $\lam_w$
 is the tape symbol written (after erasing the 
 previous one). $\lam_m\in\{R, L\}$
@@ -233,10 +234,10 @@ $\calx =\{\rvx_i\}_{i=1}^{nx}$ are the {\bf transition nodes} of the pnet.
 
 $\calp =\{\rvp_i\}_{i=1}^{np}$ are the {\bf place (or state) nodes} of the pnet.
 
-$\rvp(0)\in \calp$, {\bf starting place }
+$\rvp(0)\in \calp$, {\bf starting/initial place }
 
 $\calp_{acc}\subset \calp$ are the 
-{\bf acceptor places}
+{\bf acceptor/final places}. 
 
 $\Delta:\calx\times\calp\rarrow \calp$ is the 
 {\bf transition function}
@@ -250,13 +251,16 @@ $\TA =$ {\bf tape alphabet}
 $B\in \TA$ is the  symbol for a {\bf blank space}.
 
 $\Sigma=$ {\bf input alphabet}. $\Sigma\subset\TA-\{B\}$. 
+This is the set of symbols other than $B$ that occur in the 
+initial tape.
 
 $\lam_{r}:\calx\rarrow \TA$ is the {\bf read  labelling function}
 
 $\lam_{w}:\calx\rarrow \TA$ is the {\bf write  labelling function}
 
 $\lam_{m}:\calx\rarrow \{L,R\}$ is the {\bf move 
-labelling function}
+labelling function} $L=$move Left, $R=$move Right. Some machines use $\{L,R,N\}$
+as the range of $\lam_m$. $N$ is the command \qt{No movement}.
 
 $\lam = (\lam_r, \lam_w, \lam_m)$ is the
 {\bf transition labelling function}
