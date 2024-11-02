@@ -166,39 +166,34 @@ apply a force on each other.
 \begin{figure}[h!]
 $$\xymatrix{
 \rveps^+
-\ar@{.>}@<2ex>[rr]^{\pi_{\rvx|\rveps^+}}
-\ar@{<--}@<-2ex>[rr]_{\pi_{\rveps^+|\rvx}}
+\ar@{.>}@<2ex>[rr]^{\pi^U_{\rvx|\rveps^+}}
+\ar@{<--}@<-2ex>[rr]_{\pi^D_{\rveps^+|\rvx}}
 &&
 \rvx\ar[ll]
-\ar@{.>}@<2ex>[rr]^{\pi_{\rveps^-|\rvx}}
-\ar@{<--}@<-2ex>[rr]_{\pi_{\rvx|\rveps^-}}
+\ar@{.>}@<2ex>[rr]^{\pi^U_{\rveps^-|\rvx}}
+\ar@{<--}@<-2ex>[rr]_{\pi^D_{\rvx|\rveps^-}}
 &&
 \rveps^-\ar[ll]
 }$$
 \caption{3 node Markov chain
 $\rveps^+\larrow\rvx\larrow \rveps^-$.
-The $\pi+$  messages
-(probability functions)
+The $\pi^D$  messages
 travel downstream (i.e.,
 they carry info
 in the direction
 of the graph arrows, towards the future).
-$\pi+$ messages are indicated by
+$\pi^D$ messages are indicated by
 $\pi_{\rvb|\rva}$ where node $\rva$ occurs
 before node $\rvb$.
-The $\pi-$  messages
-(likelihood functions) travel
+The $\pi^U$  messages
+ travel
 upstream (i.e., they
 carry info opposite to
 direction of the graph arrows,
 towards the past).
-$\pi-$ messages are indicated by
+$\pi^U$ messages are indicated by
 $\pi_{\rvb|\rva}$ where node $\rva$ occurs
 after node $\rvb$. 
-In his book Ref.\cite{pearl-1988book}, Pearl uses
-symbol $\pi$ for $\pi+$
-probabilities and symbol $\lam$ for $\pi-$ probabilities.
-We will use $\pi$ for both.
 $\rveps^+$
 stands for future evidence and
 $\rveps^-$ for past evidence.}
@@ -210,31 +205,30 @@ Consider the
 $\rveps^+\larrow\rvx\larrow \rveps^-$
 shown in
 Fig.\ref{fig-mp-3chain}.
-Define
+Define\footnote{In his book Ref.\cite{pearl-1988book}, Pearl uses
+symbol $\pi$ for $P(x|\cdot)$ (i.e., probabilities of $x$)
+and symbol $\lam$ for $P(\cdot|x)$ (i.e., likelihoods of $x$).
+We will not use that notation.}
 
 
 \beq
-\pi_{ \rvx|\rveps^+}(x)=
-P(x|\eps^-)
-\text{ (past of $\rvx$)}
+\pi^U_{ \rvx|\rveps^+}(x|\eps^+)=
+P(x|\eps^+)
 \eeq
 
 \beq
-\pi_{\rveps^+| \rvx}(x)=
+\pi^D_{\rveps^+| \rvx}(\eps^+|x)=
 P(\eps^+|x)
-\text{ (future of $\rvx$)}
 \eeq
 
 \beq
-\pi_{ \rveps^-|\rvx}(\eps^-)=
-P(\eps^-)=\delta(\eps^-, \eps^-_0)
-\text{ (past of $\rveps^-$)}
+\pi^U_{ \rveps^-|\rvx}(\eps^-|x)=
+P(\eps^-|x)
 \eeq
 
 \beq
-\pi_{\rvx| \rveps^-}(\eps^-)=
-P(\eps^+|\eps^-)
-\text{ (future of $\rveps^-$)}
+\pi^D_{\rvx| \rveps^-}(x|\eps^-)=
+P(x|\eps^-)
 \;.
 \eeq
 Furthermore,
@@ -267,12 +261,15 @@ P(\eps^+, x,\eps^-)
 \\
 &=&
 \caln(!x)
+P(\eps^+|x, \eps^-)P(x|\eps^-)
+\\
+&=&
+\caln(!x)
 P(\eps^+|x)P(x|\eps^-)
 \\
 &=&
 \caln(!x)
-\pi_{\rveps^+| \rvx}(x)
-\pi_{ \rvx|\rveps^+}(x)
+\pi^D(\eps^+|x)\pi^D(x|\eps^-)
 \label{eq-2-sided-bayes}
 \;.
 \eeqa
@@ -282,47 +279,45 @@ $\caln(!x)$ means
 a constant that is independent of $x$.}
 
 \beq
-P(x|\eps^+)=
+\underbrace{P(x|\eps^+)}_{\pi^U}=
 \caln(!x)
 \underbrace{P(\eps^+|x)}_
-{\pi_{\rveps^+| \rvx}(x)}
+{\pi^D}
 P(x)
 \;.
 \eeq
 Thus, Eq.(\ref{eq-2-sided-bayes})
 is like a 2-sided Bayes rule.
 
-Note that the $\pi+$ messages and
-$\pi-$ messages propagate
-independently
-of each other, via the
- TPM $P(x|\eps^-)$:
+Note that the $\pi^D$ messages and
+$\pi^U$ messages propagate
+into each other, via the
+ TPM $P(\eps^+|\eps^-)$ or $P(\eps^-|\eps^+)$:
 
 \begin{subequations}
 \beq
-\underbrace{\pi_{\rvx|\rveps^+}(x)}_
-{P(x|\eps^-_0)}
-=\sum_{\eps^-}P(x|\eps^-)
-\underbrace{\pi_{\rvx}( \rveps^-|\eps^-)}_
-{\delta(\eps^-, \eps^-_0)}
+\underbrace{P(x|\eps^+)}_
+{\pi^U}
+=\sum_{\eps^-}
+\underbrace{P(x| \eps^-)}_
+{\pi^D}P(\eps^-|\eps^+)
 \eeq
 
 \beq
 \underbrace{
-\pi_{\rvx| \rveps^-}(\eps^-)}_
-{P(\eps^+|\eps^-)}
+P(\eps^+|x)}_{\pi^D}
 =
-\sum_x P(x|\eps^-)
-\underbrace{
-\pi_{\rveps^+| \rvx}(x)}_
-{P(\eps^+|x)}
+\sum_{\eps^-} P(\eps^+|\eps^-)
+\underbrace
+{P(\eps^-| x)}_
+{\pi^U}
 \eeq
 \label{eq-pi-lam-propagate}
 \end{subequations}
 
 Eqs.(\ref{eq-pi-lam-propagate})
 suggest that we define an edge bnet
-for the $\pi+$ and $\pi-$
+for the $\pi^D$ and $\pi^U$
 messages (these messages
 live in the edges
 between the nodes
@@ -335,8 +330,8 @@ We will call it
 the {\bf BP 2-track bnet}
 for the bnet Fig.\ref{fig-mp-3chain},
 because it has two \qt{tracks},
-one for $\pi+$ messages and another
-for $\pi-$ ones.
+one for $\pi^D$ messages and another
+for $\pi^U$ ones.
 The TPMs, printed in blue,
 for bnet
 Fig.\ref{fig-BEL-2pi}, are
@@ -344,13 +339,13 @@ as follows:
 
 \begin{figure}[h!]
 $$\xymatrix{
-&\ul{\pi}_{\rvx|\rveps^+}\ar[dr]
-&&\ul{\pi}_{\rveps^-|\rvx}\ar[ll]
+&\ul{\pi^U}_{\rvx|\rveps^+}
+&&\ul{\pi^D}_{\rvx|\rveps^-}\ar[ll]\ar[dl]
 \\
 &&\rvB_\rvx
 \\
-&\ul{\pi}_{\rveps^+|\rvx}\ar[rr]\ar[ru]
-&&\ul{\pi}_{\rvx|\rveps^-}
+&\ul{\pi^D}_{\rveps^+|\rvx}\ar[ru]
+&&\ul{\pi^U}_{\rveps^-|\rvx}\ar[ll]
 }$$
 \caption{BP 2-track
 bnet for the bnet
@@ -935,10 +930,10 @@ events are portrayed in
 chronological order
 in Fig.\ref{fig-multiframe-5chain}.
 In that figure,
-$\pi+$ messages
+$\pi^D$ messages
 are indicated by
 dashed red arrows,
-and $\pi-$ messages
+and $\pi^U$ messages
 by dotted red arrows.
 These steps, or
 message  sending events,
@@ -1077,25 +1072,25 @@ Consider Fig.\ref{fig-pi-lam},
 which illustrates
 a bnet node $\rvx$ receiving and sending
 messages to its neighbors.
-The $\pi+$  messages
+The $\pi^D$  messages
 (probability functions)
 travel downstream (i.e.,
 they carry info
 in the direction
 of the graph arrows, towards the future).
-$\pi+$ messages are indicated by
+$\pi^D$ messages are indicated by
 $\pi_{\rvb|\rva}$ where node $\rva$ occurs
 before node $\rvb$.
-The $\pi-$  messages
+The $\pi^U$  messages
 (likelihood functions) travel
 upstream (i.e., they
 carry info opposite to
 direction of the graph arrows,
 towards the past).
-$\pi-$ messages are indicated by
+$\pi^U$ messages are indicated by
 $\pi_{\rvb|\rva}$ where node $\rva$ occurs
 after node $\rvb$. In his book Ref.\cite{pearl-1988book}, Pearl uses
-$\pi$ for $\pi+$
+$\pi$ for $\pi^D$
 messages and $\lam$ for $pi-$ messages.
 We will use $\pi$ for both.
 
@@ -1311,8 +1306,8 @@ and
 \;,
 \eeq
 for all $\rvb\in ch(\rvx)$.
-By $X|_\pi+$ (resp., $X|_\pi-$)
-we mean the $\pi+$ (resp., $\pi-$)
+By $X|_\pi^D$ (resp., $X|_\pi^U$)
+we mean the $\pi^D$ (resp., $\pi^U$)
 component of $X$.
 
 \item {\bf Calculating $\calm^{(t)OUT}_\rvx$
@@ -1770,7 +1765,7 @@ P(x| a^{na})
 \prod_{k\neq i}
 \underbrace{
 P(a_k|\eps^-_{\rvx \rva_k})
-}_{ \pi_{\rvx}(\rva_k|a_k)}
+}_{ \pi_{\rva_k|\rvx}(a_k)}
 \eeqa
 
 \item{\bf RULE 2 (red child)}
@@ -1801,7 +1796,7 @@ Note that
 \beqa
 \underbrace{
 P(x| \eps^-_{\rvx \rvb_i})
-}_{ \rvx|\pi_{\rvb_i}(x)}
+}_{ \pi_{\rvx|\rvb_i}(x)}
 &=&
 P(x| (\eps^+_{\rvx \rvb_k})_{k\neq i}, \eps^-_\rvx)
 \\
@@ -1854,7 +1849,7 @@ are shown in Fig.\ref{fig-multiframe-9tree}.
 Fig.\ref{fig-multiframe-9tree}
 has frames in chronological order,
 showing the direction of travel
-of the $\pi+\&\pi-$ information.
+of the $\pi^D\&\pi^U$ information.
 This sequence of frames also indicates
 the order
 in which we solve for the entries of
@@ -2712,10 +2707,10 @@ The recursive nature
 of BP
 is evident from
 RULES 1 and 2
-that define $\pi+$'s
-and $\pi-$'s
+that define $\pi^D$'s
+and $\pi^U$'s
 in terms of other
-$\pi+$'s and $\pi-$'s.}
+$\pi^D$'s and $\pi^U$'s.}
 of the decomposition.
 I prefer to call it a {\bf
 recursive sum of products
