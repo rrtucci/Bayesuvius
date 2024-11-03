@@ -163,20 +163,22 @@ apply a force on each other.
 
 
 \section{BP for Markov Chains}
-\begin{figure}[h!]
-$$\xymatrix{
-\rveps^+
-\ar@{<--}@<2ex>[rr]^{\pi_{\rveps^+\ldart\rvx}}
-\ar@{.>}@<-2ex>[rr]_{\lam_{\rveps^+\rdart\rvx}}
-&&
-\rvx\ar[ll]
-\ar@{<--}@<2ex>[rr]^{\pi_{\rvx\ldart\rveps^-}}
-\ar@{.>}@<-2ex>[rr]_{\lam_{\rvx\rdart\rveps^-}}
-&&
-\rveps^-\ar[ll]
-}$$
-\caption{3 node Markov chain
-$\rveps^+\larrow\rvx\larrow \rveps^-$.
+
+\hrule
+Notation:
+
+$\rva\rdart\rvb$ and $\rvb\ldart\rva$ will mean the same thing, namely either a dot or dashed
+message arrow, but not a bnet arrow.
+
+$\pi_{\rvb\ldart\rva}(a) = P(a|\eps^-)$
+
+$\lam_{\rvb\rdart\rva}(b) = P(\eps^+|b)$
+
+Note that the argument of 
+$\pi_{\rvb\ldart\rva}(a)$ and
+$\lam_{\rvb\rdart\rva}(b)$ is the node at
+the starting end of the double arrow.
+
 The $\pi$  messages
 (probability functions)
 travel downstream (i.e., 
@@ -197,102 +199,10 @@ or by a right double arrow $\rdart$.
 $\rveps^+$
 stands for future evidence and 
 $\rveps^-$ for past evidence. 
-}
-\label{fig-mp-3chain}
-\end{figure}
-
-Consider the 
-3 node Markov chain
-$\rveps^+\larrow\rvx\larrow \rveps^-$
-shown in 
-Fig.\ref{fig-mp-3chain}.
-Define\footnote{The pattern
-behind these definitions,
-in case it eludes you, 
-is as follows: the $\pi$'s
-always carry information
-about the past
-and the $\lam$'s 
-about the future.
-But the past or future of 
-what? Of the argument
-of the function.
-Out  of the
-two random variables
-in the subscript
-of the function,
-the one on the 
-right hand side
-of the subscript, 
-the  one which
-is adjacent but beneath 
- the argument, is always the 
-argument.}
+\hrule
 
 
-\beq
-\pi_{\rveps^+\ldart \rvx}(x)=
-P(x|\eps^-)
-\text{ (past of $\rvx$)}
-\eeq
 
-\beq 
-\lam_{\rveps^+\rdart \rvx}(x)=
-P(\eps^+|x)
-\text{ (future of $\rvx$)}
-\eeq
-
-\beq
-\pi_{\rvx\ldart \rveps^-}(\eps^-)=
-P(\eps^-)=\delta(\eps^-, \eps^-_0)
-\text{ (past of $\rveps^-$)}
-\eeq
-
-\beq 
-\lam_{\rvx\rdart \rveps^-}(\eps^-)=
-P(\eps^+|\eps^-)
-\text{ (future of $\rveps^-$)}
-\;.
-\eeq
-Furthermore,
-define the Belief BEL
-in $x$
-to be 
-
-\beq
-BEL_\rvx(x)
-=
-P(x|\eps)
-\;,
-\eeq
-where
-
-\beq
-\rveps=\rveps^+\cup\rveps^-
-\;.
-\eeq
-It follows that
-
-\beqa
-BEL_\rvx(x)
-&=&
-P(x|\eps^+, \eps^-)=
-\\
-&=&
-\caln(!x)
-P(\eps^+, x,\eps^-)
-\\
-&=&
-\caln(!x)
-P(\eps^+|x)P(x|\eps^-)
-\\
-&=&
-\caln(!x)
-\lam_{\rveps^+\rdart \rvx}(x)
-\pi_{\rveps^+\ldart \rvx}(x)
-\label{eq-2-sided-bayes}
-\;.
-\eeqa
 Note that Bayes rule would affirm
  that\footnote{As usual in this book,
 $\caln(!x)$ means
@@ -375,56 +285,6 @@ bnet for the bnet
 \label{fig-BEL-2pi}
 \end{figure}
 
-\beq\color{blue}
-P(\pi_{\rvx\ldart \rveps^-})= 
-\prod_{\eps^-}
-\indi(\pi_{\rvx\ldart \rveps^-}(\eps^-)
-=P(\eps^-))
-\eeq
-
-\beq\color{blue}
-P(\pi_{\rveps^+\ldart \rvx}|
-\pi_{\rvx\ldart \rveps^-})=
-\prod_x
-\indi\left(
-\pi_{\rveps^+\ldart \rvx}(x)=
-\sum_{\eps^-}P(x|\eps^-)
-\pi_{\rvx\ldart \rveps^-}(\eps^-)
-\right)
-\eeq
-
-\beq\color{blue}
-P(B_\rvx|
-\pi_{\rveps^+\ldart \rvx},
-\lam_{\rveps^+\rdart \rvx})=
-\prod_x
-\indi\left(
-B_\rvx(x)=BEL_\rvx(x)
-\right)
-\eeq
-
-\beq\color{blue}
-P(
-\lam_{\rveps^+\rdart \rvx})=
-\prod_{x}
-\indi\left(
-\lam_{\rveps^+\rdart \rvx}(x)
-=
-P(\eps^+|x)
-\right)
-\eeq
-
-\beq\color{blue}
-P(\lam_{\rvx\rdart \rveps^-}|
-\lam_{\rveps^+\rdart \rvx})=
-\prod_{\eps^-}
-\indi\left(
-\lam_{\rvx\rdart \rveps^-}(\eps^-)
-=
-\sum_x P(x|\eps^-)
-\lam_{\rveps^+\rdart \rvx}(x)
-\right)
-\eeq
 
 \hrule
 
@@ -479,65 +339,41 @@ $\rva$ and $\rvb$. Define
 
 
 \beq
+\begin{array}{l|l|l|l}
+\pi_{\rveps^+\ldart \rvb}(b)=
+P(b|\eps^-)
+&
 \pi_{\rvb\ldart \rvx}(x)=
 P(x|\eps^-)
-\text{ (past of $\rvx$)}
-\;,
-\eeq
-
-\beq 
-\lam_{\rvb\rdart \rvx}(x)=
-P(\eps^+|x)
-\text{ (future of $\rvx$)}
-\;,
-\eeq
-
-\beq
+&
 \pi_{\rvx\ldart \rva}(a)=
 P(a|\eps^-)
-\text{ (past of $\rva$)}
-\;
-\eeq
-and
-
-\beq 
-\lam_{\rvx\rdart \rva}(a)=
-P(\eps^+|a)
-\text{ (future of $\rva$)}
-\;.
-\eeq
-Define the Belief BEL in $x$ to be
-
-\beq
-BEL_\rvx(x)
-=
-P(x|\eps)
-\;,
-\eeq
-where
-
-\beq
-\rveps=\rveps^+\cup\rveps^-
-\;.
-\eeq
-Then
-
-
-\beqa
-BEL_\rvx(x)
-&=&
-\caln(!x)
-P(\eps^+|x)P(x|\eps^-)
+&
+\pi_{\rva\ldart \rveps^-}(\eps^-)=
+P(\eps^-|\eps^-)
 \\
-&=&
-\caln(!x)
-\lam_{\rvb\rdart \rvx}(x)
-\pi_{\rvb\ldart \rvx}(x)
-\;.
-\eeqa
+\lam_{\rveps^+\rdart \rvb}(\eps^+)=
+P(\eps^+|\eps^+)
+&
+\lam_{\rvb\rdart \rvx}(b)=
+P(\eps^+|b)
+&
+\lam_{\rvx\rdart \rva}(x)=
+P(\eps^+|x)
+&
+\lam_{\rva\rdart \rveps^-}(a)=
+P(\eps^+|a)
+\end{array}
+\eeq
+
 
 In analogy
-with the case of BP for a 3 node Markov
+with the case of BP for a
+P(\pi_{\rvb\ldart\rvx}|\pi_{\rvx\ldart\rva})=
+\prod_{x}\indi\left(
+\pi_{\rvb\ldart\rvx}(x)=\sum_a P(x|a)
+\pi_{\rvx\ldart\rva}(a)
+ 3 node Markov
 chain, we can define the bnet
 Fig.\ref{fig-BEL-4pi},
 which we refer to as the
@@ -562,10 +398,11 @@ $$\xymatrix{
 &&\rvB_\rvx
 &&\rvB_\rva
 \\
-&\ul{\lam}_{\rveps^+\rdart\rvb}\ar[rr]\ar[ur]
-&&\ul{\lam}_{\rvb\rdart\rvx}\ar@[red][rr]\ar@[red][ur]
-&&\ul{\lam}_{\rvx\rdart\rva}\ar[rr]\ar[ur]
-&&\ul{\lam}_{\rva\rdart\rveps^-}
+&\ul{\lam}_{\rveps^+\rdart\rvb}\ar[rr]
+&&\ul{\lam}_{\rvb\rdart\rvx}
+\ar@[red][rr]\ar[ul]
+&&\ul{\lam}_{\rvx\rdart\rva}\ar[rr]\ar@[red][ul]
+&&\ul{\lam}_{\rva\rdart\rveps^-}\ar[ul]
 }$$
 \caption{BP 2-track bnet for the bnet
 Fig.\ref{fig-mp-5chain}.}
@@ -583,16 +420,6 @@ P(\pi_{\rvb\ldart\rvx}|\pi_{\rvx\ldart\rva})=
 \eeq
 
 \beq\color{blue}
-P(B_\rvx|
-\pi_{\rvb\ldart \rvx},
-\lam_{\rvb\rdart \rvx})=
-\prod_x
-\indi\left(
-B_\rvx(x)=BEL_\rvx(x)
-\right)
-\eeq
-
-\beq\color{blue}
 P(\lam_{\rvx\rdart \rva}|
 \lam_{\rvb\rdart \rvx})=
 \prod_{a}
@@ -604,6 +431,18 @@ P(\lam_{\rvx\rdart \rva}|
 \right)
 \label{eq-pr-lam-bar-lam}
 \eeq
+
+\beq\color{blue}
+P(B_\rvx|
+\pi_{\rvb\ldart \rvx},
+\lam_{\rvx\rdart \rva})=
+\prod_x
+\indi\left(
+B_\rvx(x)=BEL_\rvx(x)
+\right)
+\eeq
+
+
 
 Let us represent the Markov
 chain of Fig.\ref{fig-mp-5chain}
