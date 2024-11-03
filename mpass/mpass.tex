@@ -165,19 +165,19 @@ apply a force on each other.
 \section{BP for Markov Chains}
 
 \hrule
-Notation:
+{\bf Notation} (See Fig.\ref{fig-mp-1chain}):
 
-$\rva\rdart\rvb$ and $\rvb\ldart\rva$ will mean the same thing, namely either a dot or dashed
-message arrow, but not a bnet arrow.
-
-$\pi_{\rvb\ldart\rva}(a) = P(a|\eps^-)$
-
-$\lam_{\rvb\rdart\rva}(b) = P(\eps^+|b)$
-
-Note that the argument of 
-$\pi_{\rvb\ldart\rva}(a)$ and
-$\lam_{\rvb\rdart\rva}(b)$ is the node at
-the starting end of the double arrow.
+\begin{figure}[h!]
+$$\xymatrix{
+\rvb
+\ar@{<--}@<2ex>[rr]^{\pi_{\rvb\ldart\rva}}
+\ar@{.>}@<-2ex>[rr]_{\lam_{\rvb\rdart\rva}}
+&&\rva\ar[ll]
+}$$
+\caption{One arrow ($\rvb\larrow\rva$ ) of a bnet,
+adorned with message passing arrows.}
+\label{fig-mp-1chain}
+\end{figure}
 
 The $\pi$  messages
 (probability functions)
@@ -185,8 +185,7 @@ travel downstream (i.e.,
 they carry info
 in the direction
 of the graph arrows, towards the future)
-and are indicated by a dashed arrow
-or by a left double arrow $\ldart$. 
+and are indicated by a dashed arrow. 
 The $\lam$  messages 
 (likelihood functions) travel 
 upstream (i.e., they 
@@ -194,99 +193,26 @@ carry info opposite to
 direction of the graph arrows,
 towards the past)
 and are indicated
-by a dotted arrow
-or by a right double arrow $\rdart$.
+by a dotted arrow.
 $\rveps^+$
 stands for future evidence and 
 $\rveps^-$ for past evidence. 
+
+$\rva\rdart\rvb$ and $\rvb\ldart\rva$ will mean the same thing, namely either a (dot or dashed)
+message arrow, but not a (solid) bnet arrow.
+
+$\pi_{\rvb\ldart\rva}(a) = P(a|\eps^-)$
+
+$\lam_{\rvb\rdart\rva}(a) = P(\eps^+|a)$
+
+Note that the argument of 
+$\pi_{\rvb\ldart\rva}(a)$
+is the source node of the double arrow
+and the argument of 
+$\lam_{\rvb\rdart\rva}(a)$ is the destination node
+of the double arrow.
 \hrule
 
-
-
-Note that Bayes rule would affirm
- that\footnote{As usual in this book,
-$\caln(!x)$ means
-a constant that is independent of $x$.}
-
-\beq
-P(x|\eps^+)=
-\caln(!x)
-\underbrace{P(\eps^+|x)}_
-{\lam_{\rveps^+\rdart \rvx}(x)}
-P(x)
-\;.
-\eeq
-Thus, Eq.(\ref{eq-2-sided-bayes})
-is like a 2-sided Janus Bayes rule.
-
-Note that the $\pi$ messages and
-$\lam$ messages propagate 
-independently
-of each other, via the 
- TPM $P(x|\eps^-)$:
-
-\begin{subequations}
-\beq
-\underbrace{\pi_{\rveps^+\ldart\rvx}(x)}_
-{P(x|\eps^-_0)}
-=\sum_{\eps^-}P(x|\eps^-)
-\underbrace{\pi_{\rvx\ldart \rveps^-}(\eps^-)}_
-{\delta(\eps^-, \eps^-_0)}
-\eeq
-
-\beq
-\underbrace{
-\lam_{\rvx\rdart \rveps^-}(\eps^-)}_
-{P(\eps^+|\eps^-)}
-=
-\sum_x P(x|\eps^-)
-\underbrace{
-\lam_{\rveps^+\rdart \rvx}(x)}_
-{P(\eps^+|x)}
-\eeq
-\label{eq-pi-lam-propagate}
-\end{subequations}
-
-Eqs.(\ref{eq-pi-lam-propagate})
-suggest that we define an edge bnet
-for the $\pi$ and $\lam$
-messages (these messages
-live in the edges
-between the nodes
-$\rveps^+, \rvx, \rveps^-$).
-Such an edge bnet, shown
-in Fig.\ref{fig-BEL-2pi}, is 
-complementary to 
-bnet for the nodes themselves.
-We will call it
-the {\bf BP 2-track bnet}
-for the bnet Fig.\ref{fig-mp-3chain},
-because it has two \qt{tracks},
-one for $\pi$ messages and another
-for $\lam$ ones.
-The TPMs, printed in blue,
-for bnet
-Fig.\ref{fig-BEL-2pi}, are 
-as follows:
-
-\begin{figure}[h!]
-$$\xymatrix{
-&\ul{\pi}_{\rveps^+\ldart\rvx}\ar[dr]
-&&\ul{\pi}_{\rvx\ldart\rveps^-}\ar[ll]
-\\
-&&\rvB_\rvx
-\\
-&\ul{\lam}_{\rveps^+\rdart\rvx}\ar[rr]\ar[ru]
-&&\ul{\lam}_{\rvx\rdart\rveps^-}
-}$$
-\caption{BP 2-track
-bnet for the bnet
- Fig.\ref{fig-mp-3chain}.}
-\label{fig-BEL-2pi}
-\end{figure}
-
-
-\hrule
 
 \begin{figure}[h!]
 $$\xymatrix{
@@ -312,31 +238,12 @@ $$\xymatrix{
 \label{fig-mp-5chain}
 \end{figure}
 
-So far in 
-this section, we have considered Markov
-chains with 3 nodes.
-Before 
-concluding our
-discussion of BP for Markov chains,
-let us consider BP
-for a slightly longer chain.
-Let us consider
+Consider
 the 5 node Markov
 chain
 $\rveps^+\larrow\rvb\larrow\rvx\larrow\rva\larrow\rveps^-$
 shown in Fig.\ref{fig-mp-5chain}.
-We have already dealt 
-with the end nodes
-of a Markov chain in the 
-3 node Markov chain
-example above,
-so in the 
-5 node case, let us
-focus on the internal (i.e., not at
-an end) node $\rvx$ and its neighbors
-$\rva$ and $\rvb$. Define
-
-
+Define
 
 \beq
 \begin{array}{l|l|l|l}
@@ -352,62 +259,134 @@ P(a|\eps^-)
 \pi_{\rva\ldart \rveps^-}(\eps^-)=
 P(\eps^-|\eps^-)
 \\
-\lam_{\rveps^+\rdart \rvb}(\eps^+)=
-P(\eps^+|\eps^+)
-&
-\lam_{\rvb\rdart \rvx}(b)=
+\lam_{\rveps^+\rdart \rvb}(b)=
 P(\eps^+|b)
 &
-\lam_{\rvx\rdart \rva}(x)=
+\lam_{\rvb\rdart \rvx}(x)=
 P(\eps^+|x)
 &
-\lam_{\rva\rdart \rveps^-}(a)=
+\lam_{\rvx\rdart \rva}(a)=
 P(\eps^+|a)
+&
+\lam_{\rva\rdart \rveps^-}(\eps^-)=
+P(\eps^+|\eps^-)
 \end{array}
 \eeq
+Furthermore,
+define the Belief BEL
+in $x$
+to be 
 
+\beq
+BEL_\rvx(x)
+=
+P(x|\eps)
+\;,
+\eeq
+where
 
-In analogy
-with the case of BP for a
-P(\pi_{\rvb\ldart\rvx}|\pi_{\rvx\ldart\rva})=
-\prod_{x}\indi\left(
-\pi_{\rvb\ldart\rvx}(x)=\sum_a P(x|a)
-\pi_{\rvx\ldart\rva}(a)
- 3 node Markov
-chain, we can define the bnet
-Fig.\ref{fig-BEL-4pi},
-which we refer to as the
-{\bf BP
-2-track bnet} for Fig.\ref{fig-mp-5chain}.
-The TPMs, printed in blue,
- for bnet Fig.\ref{fig-BEL-4pi}, are
-as follows:
+\beq
+\rveps=\rveps^+\cup\rveps^-
+\;.
+\eeq
+It follows that\footnote{As usual in this book,
+$\caln(!x)$ means
+a constant that is independent of $x$.}
 
+\beqa
+BEL_\rvx(x)
+&=&
+P(x|\eps^+, \eps^-)=
+\\
+&=&
+\caln(!x)
+P(\eps^+, x,\eps^-)
+\\
+&=&
+\caln(!x)
+P(\eps^+|x, \eps^-)P(x|\eps^-)
+\\
+&=&
+\caln(!x)
+P(\eps^+|x)P(x|\eps^-)
+\\
+&=&
+\caln(!x)
+\lam_{\rvb\rdart \rvx}(x)
+\pi_{\rvb\ldart \rvx}(x)
+\label{eq-2-sided-bayes}
+\;.
+\eeqa
+Note that the $\pi$ messages and
+$\lam$ messages propagate 
+independently
+of each other, via the 
+ TPM $P(x|a)$.
 
+\begin{subequations}
+\beq
+\underbrace{P(x|\eps^-)}_
+{\pi_{\rvb\ldart\rvx}(x)}
+=\sum_a P(x|a)
+\underbrace{P(a|\eps^-)}_
+{\pi_{\rvx\ldart\rva}(a)}
+\eeq
 
-
+\beq
+\underbrace{P(\eps^+|a)}_
+{\lam_{\rvx\rdart \rva}(a)}
+=
+\sum_x P(x|a)
+\underbrace{P(\eps^+|x)}_
+{\lam_{\rvb\rdart \rvx}(x)}
+\eeq
+\label{eq-pi-lam-propagate}
+\end{subequations}
 
 \begin{figure}[h!]
 $$\xymatrix{
-&\ul{\pi}_{\rveps^+\ldart\rvb}\ar[dr]
-&&\ul{\pi}_{\rvb\ldart\rvx}\ar[ll]\ar@[red][dr]
-&&\ul{\pi}_{\rvx\ldart\rva}\ar@[red][ll]\ar[dr]
+\ul{\pi}_{\rveps^+\ldart\rvb}\ar[d]
+&&\ul{\pi}_{\rvb\ldart\rvx}\ar[ll]\ar@[red][d]
+&&\ul{\pi}_{\rvx\ldart\rva}\ar@[red][ll]\ar[d]
 &&\ul{\pi}_{\rva\ldart\rveps^-}\ar[ll]
 \\
-&&\rvB_\rvb
+\rvB_\rvb
 &&\rvB_\rvx
 &&\rvB_\rva
 \\
-&\ul{\lam}_{\rveps^+\rdart\rvb}\ar[rr]
+\ul{\lam}_{\rveps^+\rdart\rvb}\ar[rr]\ar[u]
 &&\ul{\lam}_{\rvb\rdart\rvx}
-\ar@[red][rr]\ar[ul]
-&&\ul{\lam}_{\rvx\rdart\rva}\ar[rr]\ar@[red][ul]
-&&\ul{\lam}_{\rva\rdart\rveps^-}\ar[ul]
+\ar@[red][rr]\ar@[red][u]
+&&\ul{\lam}_{\rvx\rdart\rva}\ar[rr]\ar[u]
+&&\ul{\lam}_{\rva\rdart\rveps^-}
 }$$
 \caption{BP 2-track bnet for the bnet
-Fig.\ref{fig-mp-5chain}.}
+Fig.\ref{fig-mp-5chain}.
+We've marked in red the cell of the
+ bnet pertaining to
+Eqs.(\ref{eq-pi-lam-propagate})
+}
 \label{fig-BEL-4pi}
 \end{figure}
+
+ Eqs.(\ref{eq-pi-lam-propagate})
+ suggest that we define a message bnet
+ for the $\pi$ and $\lam$
+ messages.
+ Such a message bnet, shown
+ in Fig.\ref{fig-BEL-4pi}, is 
+ complementary to original
+ bnet.
+ We will call it
+ the {\bf BP 2-track bnet}
+ for the bnet Fig.\ref{fig-mp-5chain},
+ because it has two \qt{tracks},
+ one for $\pi$ messages and another
+ for $\lam$ ones.
+ The TPMs, printed in blue,
+ for the red cell of bnet
+ Fig.\ref{fig-BEL-4pi}, are 
+ as follows:
 
 
 \beq\color{blue}
@@ -435,7 +414,7 @@ P(\lam_{\rvx\rdart \rva}|
 \beq\color{blue}
 P(B_\rvx|
 \pi_{\rvb\ldart \rvx},
-\lam_{\rvx\rdart \rva})=
+\lam_{\rvb\rdart \rvx})=
 \prod_x
 \indi\left(
 B_\rvx(x)=BEL_\rvx(x)
