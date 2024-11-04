@@ -163,9 +163,10 @@ apply a force on each other.
 
 
 \section{BP for Markov Chains}
+\label{sec-bp-markov}
 
 \hrule
-{\bf Message Arrow Notation} (See Fig.\ref{fig-mp-1chain}):
+{\bf Message Arrows Notation} (See Fig.\ref{fig-mp-1chain}):
 
 \begin{figure}[h!]
 $$\xymatrix{
@@ -211,7 +212,25 @@ $\pi_{\rvb\ldart\rva}(a)$
 is the source node of the double arrow
 and the argument of 
 $\lam_{\rvb\rdart\rva}(a)$ is the destination node
-of the double arrow.
+of the double arrow. It's also true that
+in both $\pi_{\rvb\ldart\rva}(a)$ and
+$\pi_{\rvb\ldart\rva}(a)$, the argument $a$ in parenthesis
+appears next to $\rva$ in the subscript.
+
+Note that 
+we indicate
+messages that travel
+\qt{downstream}
+(resp., \qt{upstream}), by
+arrows with dashed (resp., dotted)
+ lines as shafts.
+Mnemonic: think of the shaft as a
+ velocity vector field
+for the message.
+You travel faster when
+you swim downstream as opposed
+to upstream.
+
 \hrule
 
 
@@ -599,7 +618,7 @@ B
 \underbrace{P(\pi_{\rvb\ldart\rvx}|
 \pi_{\rvx\ldart\rva})}_{B_\pi}
 \underbrace{P(\lam_{\rvx\rdart \rva}|
-\lam_{\rvb\rdart \rvx})}_{B_\pi}
+\lam_{\rvb\rdart \rvx})}_{B_\lam}
 \;,
 \eeq
 where
@@ -642,13 +661,13 @@ CSE using a dynamical bnet.\footnote{
 The term
 dynamical bnet
 was used in Chapter \ref{ch-dyn-bnets}
-to mean a time inhomogeneous
+to mean a time homogeneous
 Markov chain, but 
 here we are stretching its meaning to
 include
 Markov chains
 that aren't 
-time inhomogeneous.}
+time homogeneous.}
 To solve
 the CSE
 represented by
@@ -911,9 +930,13 @@ $IN$ to $OUT$ at fixed time $t$.
 
 Consider Fig.\ref{fig-pi-lam},
 which illustrates
-a bnet node $\rvx$ receiving and sending
-messages to its neighbors.
-The $\pi$  messages
+a bnet node $\rvx$ receiving messages from and sending
+them to its neighbors.
+The $\pi$ and $\lam$ messages
+are labelled in accordance to
+the notational conventions
+previously stated in Section \ref{sec-bp-markov}.
+The $\pi$
 (probability functions)
 travel downstream (i.e., 
 they carry info
@@ -931,25 +954,7 @@ and are indicated
 by a dotted arrow
 or by a right double arrow $\rdart$.
 
-Note that argument $arg$ of the $\pi(arg)$
-and $\lam(arg)$
-functions is always the same
-as the letter in the subscript
-that is closest to the argument.
-
-Note that in Fig.\ref{fig-pi-lam},
-we indicate
-messages that travel
-\qt{downstream}
-(resp., \qt{upstream}), by
-arrows with dashed (resp., dotted)
- lines as shafts.
-Mnemonic: think of the shaft as a
- velocity vector field
-for the message.
-You travel faster when
-you swim downstream as opposed
-to upstream.
+Let
 
 $pa(\rvx)=$ parents of node $\rvx$
 
@@ -963,8 +968,8 @@ neighbors of node $\rvx$
 \begin{figure}[h!]
 \centering
 \includegraphics[width=6in]{mpass/pi-lam.png}
-\caption{Node $\rvx$ receiving
-and sending messages to
+\caption{Node $\rvx$ receiving messages from
+and sending them to
  its neighbors. (neighbors=
 parents and children).
 }
