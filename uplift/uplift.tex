@@ -26,7 +26,7 @@ Difference-in-Differences (Chapter \ref{ch-did})
 and Synthetic Controls (Chapter \ref{ch-syn-con}).
 
 In UP,
-each {\bf participant person}
+each {\bf participant person (i.e., sample $\s$)}
 is interrogated at two well
 anticipated, fairly closely spaced times
 $t_0$ and $t_1$ (as opposed to 
@@ -49,22 +49,15 @@ In between times
 $t_0$ and $t_1$,
 every participant might
 be sent a brochure on climate change.
+
 In UP, as in all 
 other PO applications, 
-each {\bf sample}
+each participant
 $\s$
 is in the 
 treated or control
 groups, but not both.
-But in UP,
-the same participant can be
-in both the 
-treated and control groups.
-If so, that participant
-is considered two different samples $\s$;
-for example, $\s=treated Bob, control Bob$.
-In UP,
-the samples
+The participants
 are aware  of which
 of those groups they are in,
 so they are not \qt{treatment blind}.
@@ -88,13 +81,13 @@ and $t=t_1$ corresponds to $d=1=treated$.}
 \label{fig-uplift-y-t}
 \end{figure}
 
-Let $y^B_t\in \RR$ for $t=t_0, t_1$
+Let $y^\s_t\in \RR$ for $t=t_0, t_1$
 be the treatment response at time $t$
-for participant $B$. (We are using here
+for participant (i.e., sample) $\s$. (We are using here
 the same notation as in Chapter \ref{ch-pot-out}).
-Call $\delta^B=
-y^B_{t_1}-y^B_{t_0}$ the {\bf participant uplift}
-for participant $B$.
+Call $\delta^\s=
+y^\s_{t_1}-y^\s_{t_0}$ the {\bf participant uplift}
+for participant $\s$.
 As shown
 in Fig.\ref{fig-uplift-y-t},
 UP classifies participants
@@ -108,27 +101,38 @@ by an {\bf UP-diagnostic-test}.
 \begin{itemize}
 \item
 For a {\bf Persuadable} participant,
-$\delta^B>0$.
+$\delta^\s>0$.
 \item
 For a {\bf SleepyDogs}
-participant, $\delta^B< 0$.
+participant, $\delta^\s< 0$.
 \item
 For a {\bf SureThings} participant,
- $\delta^B\approx 0$
-and $y^B_{t_0}$ is high.
+ $\delta^\s\approx 0$
+and $y^\s_{t_0}$ is high.
 \item
 For a {\bf LostCauses} participant,
-$\delta^B\approx 0$
-and $y^B_{t_0}$ is low.
+$\delta^\s\approx 0$
+and $y^\s_{t_0}$ is low.
 \end{itemize}
 
+In general,
+$x=(x_0, x_1,\dots, x_{n-1})$ is an $n$ dimensional 
+vector of features $x_i$.
+If any of the $x_i$
+is a priori continuous, we will
+assume it has  been binned into
+a finite number of bins.
+Let $S_\rvx$ be the finite set of  all feature vectors.
 
-Suppose $B$
-belongs to
-stratum $A_x$.
-What is commonly called 
-the {\bf uplift} 
-is the {\bf stratum-uplift}
+
+Let $A_x = \{\s: x^\s \approx x\}$ for  $x\in S_\rvx$.
+The set $A_x$ of all samples with
+a feature vector $x^\s$ close to $x$ 
+is called the $x$ {\bf stratum}.
+
+
+
+The {\bf stratum-uplift} is
  $\delta_x=ACE_x$.
 Strata can also be
 classified into
@@ -142,9 +146,9 @@ and may
 have different
 {\bf participant and stratum UP-types}.
 For example, he may have positive 
-participant uplift
+participant uplift $\delta^\s$
 and therefore have a Persuadable participant UP-type,
-but his stratum-uplift
+but his stratum-uplift  $\delta_x$
 might be negative, so
 he has
 the SleepyDogs stratum UP-type.
@@ -242,21 +246,6 @@ dataset $DS= \{ (\s, d^\s, x^\s, y^\s):
  \s=0, 1, 2, \ldots, nsam-1\}$.
 where $d^\s\in \bool$, $x^\s \in S_\rvx$,
 $y^\s\in \RR$.
-A  participant $B$
-is assigned two different
-$\s$
-if he/she
-belongs to
-both the treated and control groups.
-We will assume 
-$S_\rvx$ is a finite set.
-In general,
-$x=(x_0, x_1,\dots, x_{n-1})$ is an $n$ dimensional 
-vector of features $x_i$.
-If any of the $x_i$
-is a priori continuous, we will
-assume it has  been binned into
-a finite number of bins.
 
 \begin{figure}[h!]
 \centering
@@ -281,21 +270,23 @@ that are calculated
 during these steps.
 
 \begin{enumerate}
-\item Find $A_x$ 
+\item Find 
+
+\beq
+A_x = \{\s: x^\s \approx x\}\eeq
 for each observed $x\in S_\rvx$.
 Set $A_x=\emptyset$ for unobserved $x\in S_\rvx$.
  
-\item Calculate $\delta_x$
+\item Use Eq.(\ref{eq-est-ace-uplift})
+to calculate $\delta_x$
 for each $x\in S_\rvx$.
 Set $\delta_x=0$ if $A_x=\emptyset$.
 
-\item Calculate
-the set 
-
-\beq\{\Delta_c\}_{c=0, 1, \ldots, nc-1}=
-\{\delta_x: x\in S_\rvx\}
-\eeq
-of distinct uplifts $\delta_x$.
+\item Partition 
+the set $\{\delta_x: x\in S_\rvx\}$
+into disjoint bins. Call
+$\Delta_c$  the average $\delta_x$ 
+within bin $c$ for $c=0, 1, \ldots, nc-1$.
 The class labels 
 $c$ should be assigned
 so that the sequence of
@@ -309,12 +300,13 @@ is monotonic and non-increasing; i.e.,
 Now calculate 
 
 \beq
-\calx_c =\{ x: \delta_x =\Delta_c\}
+\calx_c =\{ x: \delta_x \approx \Delta_c\}
 \eeq
  for each $c$.
 By the end of this step,
 we will have calculated 
-$\{(\calx_c, \Delta_c)\}_{c=0, 1, \ldots, nc-1}$.
+$\{(\calx_c, \Delta_c)\}_{c=0, 1, \ldots, nc-1}$
+from $\{(x, \delta_x)\}_{x\in S_\rvx}$.
 We will refer to the $\calx_c$
 as {\bf strata-bins}. Note that
 \beqa
@@ -332,6 +324,10 @@ as {\bf strata-bins}. Note that
 \item
 For each $c$,
 calculate 
+
+\beq
+A_{d,x}=\{\s\in A_x: d^\s = d\}
+\eeq
 
 \beq
 \Sigma_{d,c}=\cup_{x\in \calx_c}A_{d,x}
@@ -355,7 +351,6 @@ and
 \caption{
 Plot
 of UP results.
-Alternative to Qini curves.
 } 
 \label{fig-qini-fake}
 \end{figure}
@@ -365,19 +360,30 @@ plotting
 the results 
 of UP in an
 intuitive
-way
-that even a
-business type can understand.
-UP software
-often plots something
-called a Qini
-curve, 
-but I find Qini
-curves opaque, confusingly defined 
-in the literature, unnecessary
-and 
-not very well motivated. So I don't
-use them.
+way.
+
+Another common plot of UP results is
+called a {\bf Qini
+curve}.
+A Qini curve is a plot 
+of $(X_c,Y_c)$
+for all $c$, where
+
+\beq
+X_c= \sum_{c'=0}^{c}|\calx_{c'}|
+\eeq
+is the cumulative population (counting the
+samples in
+order of decreasing uplift) and
+
+\beq
+Y_c=\sum_{c'=0}^c \Delta_{c'}
+\eeq
+is the cumulative uplift.
+A Qini curve rises fast at first and then plateaus
+at some value $c_0$. 
+Participants $\s$ for whom  $c>c_0$ are ignored 
+for marketing purposes.
 
 
 
