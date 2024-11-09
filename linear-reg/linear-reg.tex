@@ -1,4 +1,4 @@
-\chapter{Linear regression, Ordinary Least Squares (OLS)}
+\chapter{Linear Regression, Ordinary Least Squares (OLS)}
 \label{ch-linear-reg}
 Wikipedia articles
 \begin{enumerate}
@@ -81,7 +81,7 @@ specified.
 
 
 \section{LR, assuming
-$x_\s$ are non-random}
+$x^\s$ are non-random}
 
 Let
 
@@ -178,7 +178,9 @@ if $\beta_{k_0}$ is given by:
 When $W=1$,
 
 \beq
-\HAT{\beta}= (X^T X)^{-1} X^T y
+\HAT{\beta}= 
+\underbrace{(X^T X)^{-1} X^T}_
+{\partial_X} y
 \;.
 \label{eq-betahat-non-ran}
 \eeq
@@ -207,7 +209,7 @@ implies Eq.(\ref{eq-betahat-non-ran-w}).
 \qed
 
 \subsection{Geometry of LR
-with non-random $x_\s$.}
+with non-random $x^\s$.}
 
 Recall that
 
@@ -220,7 +222,8 @@ y=X\beta+\eps
 Define the {\bf projection matrices}
 
 \beq
-I_X=X(X^TX)^{-1}X^T
+I_X=X
+\underbrace{(X^TX)^{-1}X^T}_{\partial_X}
 \;,\;\;A_X=1-I_X
 \eeq
 A square matrix $M$
@@ -247,6 +250,11 @@ $A_X$ annihilates $X$.
 One has
 
 \beq
+X^T(y-\eps)=X^T X\beta
+\eeq
+Hence
+
+\beq
 \beta=
 (X^TX)^{-1}X^T(y-\eps)
 \;.
@@ -258,7 +266,7 @@ Define
 \begin{subequations}
 \beq \boxed{
 \HAT{\beta}=
-\underbrace{(X^TX)^{-1}X^T}_B \;y
+\underbrace{(X^TX)^{-1}X^T}_{\partial_X} \;y
 \;,
 }
 \label{eq-beta-nonrandom-lin-reg}
@@ -294,7 +302,7 @@ Note that $\{\HAT{y},
 are all of order 1 under scaling,
 $\{\beta, \HAT{\beta}, I_X, A_X\}$
 are all of order 0 under scaling,
-and $B$ is of order $-1$ under scaling.
+and $\partial_X$ is of order $-1$ under scaling.
 Thus, each curve-fit (i.e., symbol
 with a hat)
 scales the same way as its estimand (i.e., same
@@ -334,8 +342,15 @@ $y=X\beta+\eps$ and $y=\HAT{y}+\HAT{\eps}$.}
 
 \subsection{LR Goodness of Fit, $R^2$}
 
+Assume $X$ and $\beta$ are not random.
+This makes $\rvy=X\beta +\rveps$ and $\ul{\HAT{\beta}}=
+\partial_X\rvy
+$
+random.
 
-Assume the components of $\eps$
+\begin{enumerate}
+\item
+First assume that the components of $\eps$
 are random with zero mean:
 
 \beq
@@ -343,38 +358,40 @@ E[\rveps]=\av{\rveps}=0
 \eeq
 
 
-
-Assume $X$ and $\beta$ are not random.
-This makes $\rvy=X\beta +\rveps$ and $\ul{\HAT{\beta}}=
-(X^TX)^{-1}X^T\rvy
-$
-random.
 One finds that
 
 \begin{subequations}
 \beq
+\left\{
+\begin{array}{l}
 \av{\rvy}=X\beta
-\eeq
-
-
-\beq
+\\
 \av{\HAT{\rvy}}=I_X
 \underbrace{\av{\rvy}}_{X\beta}
 =\av{\rvy}
+\end{array}
+\right.
 \eeq
 
 \beq
+\left\{
+\begin{array}{l}
+\av{\rveps}=0
+\\
 \av{\HAT{\rveps}}=A_X
 \underbrace{\av{\rvy}}_{X\beta}
-=0
+=0=\av{\rveps}
+\end{array}
+\right.
 \eeq
 
 \beq
-\av{\ul{\HAT{\beta}}}=\beta
+\av{\ul{\HAT{\beta}}}=
+\partial_X \rvy = \av{\partial_X (\rvy-\rveps)}=\av{\beta}=\beta
 \eeq
 
 
-So far, we have
+\item So far, we have
 assumed a zero mean value for $\eps$.
 Next, assume
 {\bf  \qt{homoscedasticity} (homo-spread)}\footnote{I
@@ -401,35 +418,44 @@ It follows that
 
 \begin{subequations}
 \label{eq-lin-re-variances}
-\beq
-\av{\rvy, \rvy^T}=
-\av{\rveps, \rveps^T}=
-\xi^2 I_{nsam}
-\;,
-\eeq
 
 \beq
+\left\{
+\begin{array}{l}
+\av{\rveps, \rveps^T}=\xi^2 I_{nsam}
+\\
 \av{\HAT{\rveps},
 \HAT{\rveps}^T}=
 A_X\av{\rvy, \rvy^T}A_X^T=\xi^2A_X
+\end{array}
+\right.
 \label{eq-homo}
-\;,
 \eeq
 
 \beq
+\left\{
+\begin{array}{l}
+\av{\rvy, \rvy^T}=
+\av{\rveps, \rveps^T}=
+\xi^2 I_{nsam}
+\\
 \av{\HAT{\rvy},
 \HAT{\rvy}^T}=
 I_X\av{\rvy, \rvy^T}I_X^T=\xi^2I_X
+\end{array}
+\right.
 \eeq
 and
 
 \beq
 \av{\HAT{\ul{\beta}},
 \HAT{\ul{\beta}}^T}=
-B\av{\rvy, \rvy^T}B^T=\xi^2 (X^TX)^{-1}
+\partial_X\av{\rvy, \rvy^T}\partial_X^T=\xi^2 (X^TX)^{-1}
 \;.
 \eeq
 \end{subequations}
+\end{enumerate}
+\hrule
 
 For any random column vector $\rva$,
 let
@@ -437,12 +463,10 @@ let
 \beq
 \norm{\rva}^2= \rva^T\rva=\tr(\rva\rva^T)
 \eeq
-and
+Hence
 
 \beq
 \av{\norm{\rva-\av{\rva}}^2}=
-\av{\rva^T\rva}-\av{\rva^T}\av{\rva}
-=
 \tr\av{\rva, \rva^T}
 \;.
 \eeq
@@ -453,13 +477,11 @@ Define the following sums of squares (SS):
 \label{eq-lin-reg-ss}
 \beq
 SS_{\rvy}=\av{\norm{\rvy-\av{\rvy}}^2}
-=\av{\rvy^T\rvy}-\av{\rvy^T}\av{\rvy}
 =\tr\av{\rvy,\rvy^T}
 \eeq
 
 \beq
 SS_{\HAT{\rvy}}=\av{\norm{\HAT{\rvy}-\av{\HAT{\rvy}}}^2}
-=\av{\HAT{\rvy}^T\HAT{\rvy}}-\av{\HAT{\rvy}^T}\av{\HAT{\rvy}}
 =\tr\av{\HAT{\rvy},\HAT{\rvy}^T}
 \eeq
 
@@ -473,7 +495,8 @@ SS_{res}=\av{\norm{\rvy-\HAT{\rvy}}^2}
 
 \begin{claim}
 The following is true
-without homo-spread:
+even if homo-spread
+is violated:
 
 
 \beq
@@ -499,11 +522,13 @@ SS_\rvy=\tr\av{\rvy,\rvy^T}
 
 \beq
 SS_{\HAT{\rvy}}=\tr\av{\HAT{\rvy},\HAT{\rvy}^T}
+=\tr\av{I_X\rvy, \rvy^T I_X^T}
 =\tr\av{I_X\rvy, \rvy^T}
 \eeq
 
 \beq
 SS_{res}=\tr\av{\HAT{\rveps}, \HAT{\rveps}^T}
+=\tr\av{A_X\rvy, \rvy^TA_X^T}
 =\tr\av{A_X\rvy, \rvy^T}
 \eeq
 Now use $I_X + A_X=1$.
@@ -547,7 +572,7 @@ pictorial explanation of $R^2$.
 
 
 \section{LR, assuming
-$x_\s$ are random}
+$x^\s$ are random}
 Let
 
 $i_0\in\{0, 1, 2, \ldots, n\}$ :
@@ -598,10 +623,9 @@ is called {\bf regressing $y$ on $x^n$}.
 
 
 \subsection{Transforming
-expressions
 from
 non-random to
-random $x_\s$ }
+random $x^\s$ }
 
 Define the following
 population averages:
@@ -629,7 +653,7 @@ E_\s[x^\s y^\s]-E_\s[x^\s]E_\s[y^\s]
 
 
 \begin{claim}\label{cl-sigma-to-ran}
-If the $x_\s$ are i.i.d. random
+If the $x^\s$ are i.i.d. random
 variables,
 
 \beq
@@ -752,7 +776,7 @@ C^{-1}_{j,k} \av{X_{\s,k} ,Y_\s}_\s
 \eeq
 for all $j=1,2,\ldots, n$.
 
-If we assume that the $x_\s$ are i.i.d.,
+If we assume that the $x^\s$ are i.i.d.,
 then, by  virtue of Claim \ref{cl-sigma-to-ran},
 the matrix $C$ tends to
 
@@ -770,10 +794,11 @@ implies
 \;.
 \eeq
 
-\subsection{LR with random $x_\s$,
+\subsection{LR with random $x^\s$,
 expressed in derivative notation}
 
-Recall our notation for {\it conditional} averages.
+Recall our notation for {\it conditional} averages.(See sections
+\ref{sec-notation-cov}, \ref{sec-cond-cov})
 For any random
 variables $\rvx, \rvy, \rva$, let
 
@@ -1350,7 +1375,7 @@ implies:
 -
 \underbrace{\sum_{j=1}^n
 \indi(j\neq i)\rvx_j \beta_j
-}_{\rvy-\rvx_i\beta_i}
+}_{\rvy-\rvx_i\beta_i-\beta_0-\rveps}
 \right)
 \\
 &=&
@@ -1384,7 +1409,7 @@ estimates
 $(\HAT{\beta}_j)_{j\in \{1,2,
 \ldots, n\}}$.
 
-\subsection{$R^2$ with random $x_\sigma$}
+\subsection{$R^2$ with random $x^\sigma$}
 
 Recall that
 
@@ -1425,8 +1450,8 @@ for all $j$.
 \beqa
 \av{\rvy, \rvy}
 &=&
-\av{\HAT{\rvy}-\eps_\rvy,
-\HAT{\rvy}-\eps_\rvy}
+\av{\HAT{\rvy}-\eps,
+\HAT{\rvy}-\eps}
 \\
 &=&
 \av{\HAT{\rvy}, \HAT{\rvy}}
