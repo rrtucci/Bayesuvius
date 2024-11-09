@@ -26,22 +26,29 @@ ordinary least squares (OLS), Ref.\cite{wiki-ols}
 
 Some nomenclature: In LR, the
 data consists of
-{\bf independent x-variables} $x^\s_1,
- x^\s_2, \ldots x^\s_n$
-and a {\bf dependent y-variable} $y^\s$.
-We find a linear fit $\haty^\s =
-\beta_0 + \sum_{i=1}^n \beta_i x^\s_i$
+{\bf independent x-variables} $x_{\s,1},
+ x_{\s,2}, \ldots x_{\s,n}$
+and a {\bf dependent y-variable} $y_\s$.
+We find a {\bf linear fit} $\haty_\s =
+\beta_0 + \sum_{i=1}^n \beta_i x_{\s i}$
 to the data.
-$\haty^\s$ is called the {\bf estimate}
-of $y^\s$.
+Fitting $y$
+with a hyperplane
+in the variables $x^n=(x_i)_{i=1}^n$
+(i.e., finding
+the best coefficients $\beta^n=(\beta_i)_{i=1}^n$)
+is called {\bf regressing $y$ on $x^n$}.
+$\haty_\s$ is the {\bf estimate}
+of the {\bf estimand} $y_\s$.
  The coefficients $\beta_0, \beta_i$
 are called {\bf regression coefficients}.
-$y^\s-\haty^\s=\eps^\s$
+$y_\s-\haty_\s=\eps^\s$
 are called  the {\bf residuals}.
 $\cale =\sum_\s (\eps^\s)^2$
 is called the {\bf error or cost}. We choose the
 regression coefficients
 so as to minimize the error.
+
 
 Below, we consider two types of LR:
 
@@ -81,7 +88,7 @@ specified.
 
 
 \section{LR, assuming
-$x^\s$ are non-random}
+$x_\s$ are non-random}
 
 Let
 
@@ -158,10 +165,10 @@ The
 
 \beq
 \cale=
-\underbrace{(y_{\s}-X_{\s, j_0}\beta_{j_0})}
+\underbrace{(y_{\s}-x_{\s j_0}\beta_{j_0})}
 _{\text{residual $\eps_\s$}}
 W_{\s, \s'}
-\underbrace{(y_{\s'}-X_{\s', k_0}
+\underbrace{(y_{\s'}-x_{\s' k_0}
 \beta_{k_0})}_{\eps_{\s'}}
 \;,
 \eeq
@@ -193,9 +200,9 @@ the variation $\delta\cale$
  must vanish:
 \beq
 0=\delta \cale=
--2 X_{\s j_0}(\delta \beta_{j_0})
+-2 x_{\s j_0}(\delta \beta_{j_0})
 W_{\s, \s'}(y_{\s'}
--X_{\s' k_0}
+-x_{\s' k_0}
 \beta_{k_0})
 \;.
 \eeq
@@ -209,7 +216,7 @@ implies Eq.(\ref{eq-betahat-non-ran-w}).
 \qed
 
 \subsection{Geometry of LR
-with non-random $x^\s$.}
+with non-random $x_\s$.}
 
 Recall that
 
@@ -572,7 +579,7 @@ pictorial explanation of $R^2$.
 
 
 \section{LR, assuming
-$x^\s$ are random}
+$x_\s$ are random}
 Let
 
 $i_0\in\{0, 1, 2, \ldots, n\}$ :
@@ -614,62 +621,57 @@ regression coefficients
 \rvy = \HAT{\rvy}+\ul{\eps}
 \eeq
 
-Fitting $y$
-with a hyperplane
-in the variables $x^n=(x_i)_{i=1}^n$
-(i.e., finding
-the best coefficients $\beta^n=(\beta_i)_{i=1}^n$)
-is called {\bf regressing $y$ on $x^n$}.
+
 
 
 \subsection{Transforming
 from
 non-random to
-random $x^\s$ }
+random $x_\s$ }
 
 Define the following
 population averages:
 
 
 \beq
-E_\s[x^\s]=
+E_\s[x_\s]=
 \frac{1}{nsam}
-\sum_\s x^\s
+\sum_\s x_\s
 \;,
 \eeq
 
 \beq
-E_\s[x^\s y^\s]=
+E_\s[x_\s y_\s]=
 \frac{1}{nsam}
-\sum_\s x^\s y^\s
+\sum_\s x_\s y_\s
 \;,
 \eeq
 
 \beq
-\av{x^\s,y^\s}_\s=
-E_\s[x^\s y^\s]-E_\s[x^\s]E_\s[y^\s]
+\av{x_\s,y_\s}_\s=
+E_\s[x_\s y_\s]-E_\s[x_\s]E_\s[y_\s]
 \;.
 \eeq
 
 
 \begin{claim}\label{cl-sigma-to-ran}
-If the $x^\s$ are i.i.d. random
+If the $x_\s$ are i.i.d. random
 variables,
 
 \beq
-E_\s[x^\s] =\av{\rvx}
+E_\s[x_\s] =\av{\rvx}
 \;
 \label{eq-exp-x}
 \eeq
 \beq
-E_\s[x^\s y^\s]
+E_\s[x_\s y_\s]
 =
 \av{\rvx\rvy}
 \label{eq-exp-xy}
 \eeq
 
 \beq
-\av{x^\s,y^\s}_\s
+\av{x_\s,y_\s}_\s
 =
 \av{\rvx, \rvy}
 \label{eq-exp-x--y}
@@ -678,14 +680,14 @@ E_\s[x^\s y^\s]
 \proof
 \beqa
 \frac{1}{nsam}
-\sum_\s x^\s
+\sum_\s x_\s
 &=&
 \frac{1}{nsam}
 \sum_{x\in S_\rvx}
 x
 \underbrace{
-\sum_\s \indi(x^\s=x)}_
-{N(x^\s=x)}
+\sum_\s \indi(x_\s=x)}_
+{N(x_\s=x)}
 \\
 &=&
 \sum_{x}x\;P(x)
@@ -696,15 +698,15 @@ x
 
 \beqa
 \frac{1}{nsam}
-\sum_\s x^\s y^\s
+\sum_\s x_\s y_\s
 &=&
 \frac{1}{nsam}
 \sum_{x\in S_\rvx}
 \sum_{y\in S_\rvy}
 xy
 \underbrace{
-\sum_\s \indi(x^\s=x, y^\s=y)}_
-{N(x^\s=x, y^\s=y)}
+\sum_\s \indi(x_\s=x, y_\s=y)}_
+{N(x_\s=x, y_\s=y)}
 \\
 &=&
 \sum_{x,y}xy\;P(x,y)
@@ -720,32 +722,32 @@ Eq.(\ref{eq-exp-x}) and Eq.(\ref{eq-exp-xy}).
 Recall that
 
 \beq
-Y_\s = \beta_0 +  \sum_{j=1}^n X_{\s,j}\beta_j + \eps_\s
+y_\s = \beta_0 +  \sum_{j=1}^n x_{\s j}\beta_j + \eps_\s
 \;.
 \eeq
 
 Assume
 \beq
-E_\s[X_{\s,k} \eps_\s]=E_\s[X_{\s,k}]
+E_\s[x_{\s k} \eps_\s]=E_\s[x_{\s k}]
 \underbrace{E_\s[ \eps_\s]}_{=0}=0
 \;.
 \eeq
 Then we have
 
 \beq
-E_\s[X_{\s,k} Y_\s]=
-E_\s[X_{\s,k}]\beta_0 + \sum_{j=1}^n
-E_\s [X_{\s,k} X_{\s,j}] \beta_j +
-\underbrace{E_\s[X_{\s,k} \eps_\s]}_{=0}
+E_\s[x_{\s k} y_\s]=
+E_\s[x_{\s k}]\beta_0 + \sum_{j=1}^n
+E_\s [x_{\s k} x_{\s j}] \beta_j +
+\underbrace{E_\s[x_{\s k} \eps_\s]}_{=0}
 \label{eq-EXY}
 \eeq
 and
 
 \beq
-E_{\s'}[X_{\s',k}]E_\s[ Y_\s]=
-E_{\s'}[X_{\s',k}]\beta_0 + \sum_{j=1}^n
-E_{\s'} [X_{\s',k}] E_\s[ X_{\s,j}] \beta_j +
-\underbrace{E_{\s'}[X_{\s',k}]  E_\s[ \eps_\s]}_{=0}
+E_{\s'}[x_{\s' k}]E_\s[ y_\s]=
+E_{\s'}[x_{\s' k}]\beta_0 + \sum_{j=1}^n
+E_{\s'} [x_{\s' k}] E_\s[ x_{\s j}] \beta_j +
+\underbrace{E_{\s'}[x_{\s' k}]  E_\s[ \eps_\s]}_{=0}
 \label{eq-EX-EY}
 \;.
 \eeq
@@ -753,9 +755,9 @@ Subtracting
 Eq.(\ref{eq-EX-EY}) from Eq.(\ref{eq-EXY}), we get
 
 \beq
-\av{X_{\s,k} ,Y_\s}_\s=
+\av{x_{\s k} ,y_\s}_\s=
 \sum_{j=1}^n
-\av{X_{\s,k}, X_{\s,j}}_\s \beta_j
+\av{x_{\s k}, x_{\s j}}_\s \beta_j
 \label{eq-avX-comma-Y}
 \;.
 \eeq
@@ -764,19 +766,19 @@ covariance matrix $C$
 by
 
 \beq
-C_{k,j}=\av{X_{\s,k}, X_{\s,j}}_\s
+C_{k,j}=\av{x_{\s k}, x_{\s j}}_\s
 \:.
 \eeq
 Then Eq.(\ref{eq-avX-comma-Y}) implies
 
 \beq
 \beta_j =\sum_{k=1}^n
-C^{-1}_{j,k} \av{X_{\s,k} ,Y_\s}_\s
+C^{-1}_{j,k} \av{x_{\s k} ,y_\s}_\s
 \label{eq-beta_j-c-inv}
 \eeq
 for all $j=1,2,\ldots, n$.
 
-If we assume that the $x^\s$ are i.i.d.,
+If we assume that the $x_\s$ are i.i.d.,
 then, by  virtue of Claim \ref{cl-sigma-to-ran},
 the matrix $C$ tends to
 
@@ -794,7 +796,7 @@ implies
 \;.
 \eeq
 
-\subsection{LR with random $x^\s$,
+\subsection{LR with random $x_\s$,
 expressed in derivative notation}
 
 Recall our notation for {\it conditional} averages.(See sections
@@ -1407,7 +1409,7 @@ of $\HAT{\beta}_2$.
 
 
 
-\subsection{$R^2$ with random $x^\sigma$}
+\subsection{$R^2$ with random $x_\sigma$}
 
 Recall that
 
@@ -1570,7 +1572,7 @@ dataset to the dataset
 $\{(x_\s,\lodds( p_\s)):\s\in\Sigma\}$,
 and fitting the latter dataset
 with a hyperplane.
-Let $P(\rvY_\s=1)=p_\s\in [0,1]$.
+Let $P(\rvy_\s=1)=p_\s\in [0,1]$.
 LoR can be used
 for binary
 classification
@@ -1579,6 +1581,6 @@ binary class
 variable $c_\s\in \bool$ by
 
 \beq
-c_\s =\indi(P(\rvY_\s=1)>\alp)
+c_\s =\indi(P(\rvy_\s=1)>\alp)
 \eeq
 for some $0<\alp<1$.
