@@ -24,7 +24,7 @@ ordinary least squares (OLS), Ref.\cite{wiki-ols}
 \end{enumerate}
 
 
-Some nomenclature: In LR, the
+Some nomenclature: Let $\s=0, 1, 2,\ldots, nsam-1$ denote the {\bf sample}. In LR, the
 data consists of
 {\bf independent x-variables} $x_{\s,1},
  x_{\s,2}, \ldots x_{\s,n}$
@@ -79,12 +79,11 @@ it comes
 from the residuals
 only.
 
-Once one assumes that certain
-variables are random, a
+If the problem being considered requires LR, especially if some of the variables
+describing the problem are best modelled as random variables, it is
+useful to specify a visual
 \qt{model} (i.e., a bnet,
-with probabilities expressed as TPMs)
- must be
-specified.
+with probabilities expressed as TPMs).
 
 
 \section{LR, assuming
@@ -301,9 +300,12 @@ because it gives $y$ a hat.
 Given any function $f=f(y,X,\eps)$
 and a scalar factor $\xi\in \RR$,
 suppose
-$f(\xi y, \xi X, \xi\eps)=\xi^\calo f(y,X,\eps)$.
+
+\beq
+f(\xi y, \xi X, \xi\eps)=\xi^\omega f(y,X,\eps)
+\eeq
 Then we will say that $f(\cdot)$
-is of {\bf order $\calo$ under scaling}.
+is of {\bf order $\omega$ under scaling}.
 Note that $\{\HAT{y},
  \HAT{\eps}\}$
 are all of order 1 under scaling,
@@ -317,7 +319,7 @@ symbol
 without a hat). Furthermore,
 $\beta$, its curve-fit $\HAT{\beta}$, and
 the projection matrices $I_X, A_X$
-are invariant ($\calo=0$) under scaling.
+are invariant ($\omega=0$) under scaling.
 
 
 
@@ -363,9 +365,7 @@ are random with zero mean:
 \beq
 E[\rveps]=\av{\rveps}=0
 \eeq
-
-
-One finds that
+Then
 
 \begin{subequations}
 \beq
@@ -394,12 +394,13 @@ One finds that
 
 \beq
 \av{\ul{\HAT{\beta}}}=
-\partial_X \rvy = \av{\partial_X (\rvy-\rveps)}=\av{\beta}=\beta
+\av{\partial_X \rvy} = \av{\partial_X (\rvy-\rveps)}=\av{\beta}=\beta
 \eeq
 
 
 \item So far, we have
-assumed a zero mean value for $\eps$.
+assumed that $\eps$
+has zero mean value.
 Next, assume
 {\bf  \qt{homoscedasticity} (homo-spread)}\footnote{I
  find the word \qt{homoscedasticity}
@@ -472,12 +473,14 @@ let
 \eeq
 Hence
 
-\beq
-\av{\norm{\rva-\av{\rva}}^2}=
+\beqa
+\av{\norm{\rva-\av{\rva}}^2}&=&
+\tr\av{[\rva -\av{\rva}]
+[\rva -\av{\rva}]^T}
+\\
+&=&
 \tr\av{\rva, \rva^T}
-\;.
-\eeq
-
+\eeqa
 Define the following sums of squares (SS):
 
 \begin{subequations}
@@ -1308,8 +1311,95 @@ given by Fig.\ref{fig-3dim-matrix}.}
 
 
 
-\subsection{Regression on residuals
- of $y$}
+
+
+
+\subsection{$R^2$ with random $x_\sigma$}
+
+Recall that
+
+\beq
+\rvy =
+\underbrace{\beta_0 +\sum_{j=1}^{n}
+\beta_{j} \rvx_j}_{\HAT{\rvy}}
++\ul{\eps}
+\;.
+\eeq
+
+
+Assume
+
+\beq
+\av{\rveps}=0
+\eeq
+and
+\beq
+\av{\rvx_j, \ul{\eps}}=0
+\eeq
+for all $j$.
+
+\beq
+\HAT{\rvy} = \rvy -\rveps
+\eeq
+
+\beqa
+\av{\HAT{\rvy}, \HAT{\rvy}}
+&=&
+\av{\HAT{\rvy}, \rvy-\rveps}
+\\
+&=&
+\av{\HAT{\rvy}, \rvy}
+\label{eq-cov-y-yhat}
+\eeqa
+
+\beqa
+\av{\rvy, \rvy}
+&=&
+\av{\HAT{\rvy}-\eps,
+\HAT{\rvy}-\eps}
+\\
+&=&
+\av{\HAT{\rvy}, \HAT{\rvy}}
++
+\av{\rveps, \rveps}
+\label{eq-yvar-as-sum}
+\eeqa
+
+The goodness of fit measure $R^2$
+for this model
+is defined by
+\beq
+R^2_{{\rvy}\sim \HAT{\rvy}}
+=
+\frac{\av{\HAT{\rvy}, \HAT{\rvy}} }
+{\av{{\rvy}, {\rvy}}}
+=
+1 - \frac{\av{\rveps, \rveps} }
+{\av{{\rvy}, {\rvy}}}
+\eeq
+where we are using Eq.(\ref{eq-yvar-as-sum}).
+By Eq.(\ref{eq-cov-y-yhat}), we
+also have
+\beq
+R^2_{{\rvy}\sim \HAT{\rvy}}
+=
+\frac{\av{{\rvy}, \HAT{\rvy}}}
+{\av{{\rvy},{\rvy}}}
+=
+\pder{\HAT{\rvy}}{\rvy}=
+\rho_{\rvy, \HAT{\rvy}}
+\frac{\s_{\HAT{\rvy}}}
+{\s_\rvy}
+\eeq
+
+\beq
+R^2_{{\rvy}\sim \HAT{\rvy}}
+R^2_{\HAT{\rvy}\sim \rvy}=
+\rho^2_{\rvy, \HAT{\rvy}}
+\eeq
+
+
+\subsection{Regressing Residuals}
 
 Recall that
 
@@ -1408,94 +1498,6 @@ of $\HAT{\beta}_2$.
 
 
 
-
-\subsection{$R^2$ with random $x_\sigma$}
-
-Recall that
-
-\beq
-\rvy =
-\underbrace{\beta_0 +\sum_{j=1}^{n}
-\beta_{j} \rvx_j}_{\HAT{\rvy}}
-+\ul{\eps}
-\;.
-\eeq
-
-
-Assume
-
-\beq
-\av{\rveps}=0
-\eeq
-and
-\beq
-\av{\rvx_j, \ul{\eps}}=0
-\eeq
-for all $j$.
-
-\beq
-\HAT{\rvy} = \rvy -\rveps
-\eeq
-
-\beqa
-\av{\HAT{\rvy}, \HAT{\rvy}}
-&=&
-\av{\HAT{\rvy}, \rvy-\rveps}
-\\
-&=&
-\av{\HAT{\rvy}, \rvy}
-\label{eq-cov-y-yhat}
-\eeqa
-
-\beqa
-\av{\rvy, \rvy}
-&=&
-\av{\HAT{\rvy}-\eps,
-\HAT{\rvy}-\eps}
-\\
-&=&
-\av{\HAT{\rvy}, \HAT{\rvy}}
-+
-\av{\rveps, \rveps}
-\label{eq-yvar-as-sum}
-\eeqa
-
-The goodness of fit measure $R^2$
-for this model
-is defined by
-\beq
-R^2_{{\rvy}\sim \HAT{\rvy}}
-=
-\frac{\av{\HAT{\rvy}, \HAT{\rvy}} }
-{\av{{\rvy}, {\rvy}}}
-=
-1 - \frac{\av{\rveps, \rveps} }
-{\av{{\rvy}, {\rvy}}}
-\eeq
-where we are using Eq.(\ref{eq-yvar-as-sum}).
-By Eq.(\ref{eq-cov-y-yhat}), we
-also have
-\beq
-R^2_{{\rvy}\sim \HAT{\rvy}}
-=
-\frac{\av{{\rvy}, \HAT{\rvy}}}
-{\av{{\rvy},{\rvy}}}
-=
-\pder{\HAT{\rvy}}{\rvy}=
-\rho_{\rvy, \HAT{\rvy}}
-\frac{\s_{\HAT{\rvy}}}
-{\s_\rvy}
-\eeq
-
-\beq
-R^2_{{\rvy}\sim \HAT{\rvy}}
-R^2_{\HAT{\rvy}\sim \rvy}=
-\rho^2_{\rvy, \HAT{\rvy}}
-\eeq
-
-
-
-
 \section{Logistic Regression (LoR)}
 
 Suppose
@@ -1572,7 +1574,7 @@ dataset to the dataset
 $\{(x_\s,\lodds( p_\s)):\s\in\Sigma\}$,
 and fitting the latter dataset
 with a hyperplane.
-Let $P(\rvy_\s=1)=p_\s\in [0,1]$.
+Let $P(\rvb_\s=1)=p_\s\in [0,1]$.
 LoR can be used
 for binary
 classification
@@ -1581,6 +1583,7 @@ binary class
 variable $c_\s\in \bool$ by
 
 \beq
-c_\s =\indi(P(\rvy_\s=1)>\alp)
+c_\s =\indi(P(\rvb_\s=1)>\alp)
 \eeq
 for some $0<\alp<1$.
+
