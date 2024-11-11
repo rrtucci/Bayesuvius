@@ -12,27 +12,25 @@ Population and Sample
 Variances}, in
 Chapter \ref{ch-conventions}.
 
-Jackknife Resampling (JR)
-is a way of
-generating from an
-original list
-of $n$ samples,
-a new list of $n$ synthetic
-(i.e., man made, not
-occurring physically
-in Nature) samples
-obtained by deleting
-one of the
-samples from the original list
-and
-averaging over the rest.
+{\bf Jackknife resampling} (JR) is a statistical technique used to estimate the precision (or bias) of sample statistics, like the mean, variance, and standard error. It involves creating from a list of
+$n$ samples, $n$ new list
+with $n-1$ samples. The new
+list are created by leaving out one different sample each time.
+One can then relate
+the statistics of those $n$ new lists with the statistics of the 
+original list.
+It's called JR because, like
+a jacknife,
+it has multiple applications,
+such as variance estimation, bias correction and influence analysis. 
+
 
 
 Let $\Sigma=\{0,1,2, \ldots, n-1\}$.
 Let us consider the list of samples
 
 \beq
-\vec{x}=(x^\s)_{\s\in\Sigma}
+x^n=(x^\s)_{\s\in\Sigma}
 \;,
 \eeq
 where the $x^\s$ are assumed to be i.i.d. with
@@ -71,37 +69,37 @@ so both of these estimators are unbiased.
 
 Now define lists
 of samples with one
-of the items in $\vec{x}$ deleted:
+of the items in $x^n$ deleted:
 
 \beq
-\vec{x}_\xi=(x^\s)_{\s\in\Sigma-\{\xi\}}
+x^{n-1}_\xi=(x^\s)_{\s\in\Sigma-\{\xi\}}
 \;.
 \label{eq-def-vec-x-xi}
 \eeq
 
 Suppose we are given functions
-of $\vec{x}$ and $\vec{x}_\xi$
+of $x^n$ and $x^{n-1}_\xi$
 
 \beq
-A=A^n(\vec{x})
+A=\Phi(x^n; n)
 \;,
 \eeq
 
 \beq
-A_\xi=A^{n-1}(\vec{x}_\xi)
+A_\xi=\Phi(x^{n-1}_\xi; n-1)
 \;.
 \label{eq-def-a-xi}
 \eeq
-Then define a list $\vec{A}$ by
+Then define a list $A^n$ by
 \beq
-\vec{A}=(A_\xi)_{\xi\in \Sigma}
+A^n=(A_\xi)_{\xi\in \Sigma}
 \;.
 \eeq
 One can also define a list
-$\vec{B}$ by:
+$B^n$ by:
 
 \beq
-\vec{B}=
+B^n=
 (B_\xi)_{\xi\in \Sigma}
 \eeq
 where
@@ -117,20 +115,20 @@ A_\xi
 \eeqa
 Later on,
 we will see why
-the list $\vec{B}$
+the list $B^n$
 just defined is of
 interest.
 
 \begin{figure}[h!]
 $$
 \xymatrix{
-&\vec{\rvx}
+&\rvx^n
 \ar[lddd]
 \ar[d]\ar[dr]\ar[drr]
 \\
-&\vec{\rvx}_0\ar[d]
-&\vec{\rvx}_1\ar[d]
-&\vec{\rvx}_2\ar[d]
+&\rvx^{n-1}_0\ar[d]
+&\rvx^{n-1}_1\ar[d]
+&\rvx^{n-1}_2\ar[d]
 \\
 &\rvA_0\ar[d]
 &\rvA_1\ar[d]
@@ -156,21 +154,21 @@ for that bnet,
 are as follows:
 
 \beq\color{blue}
-P(\vec{x}_\xi|\vec{x})=
+P(x^{n-1}_\xi|x^n)=
 \indi(\;\;\;
-\vec{x}_\xi= \text{ defined by Eq.(\ref{eq-def-vec-x-xi})}
+x^{n-1}_\xi= \text{ defined by Eq.(\ref{eq-def-vec-x-xi})}
 \;\;\;)
 \eeq
 
 \beq\color{blue}
-P(A_\xi|\vec{x}_\xi)=
+P(A_\xi|x^{n-1}_\xi)=
 \indi(\;\;\;
 A_\xi= \text{ defined by Eq.(\ref{eq-def-a-xi})}
 \;\;\;)
 \eeq
 
 \beq\color{blue}
-P(B_\xi|\vec{A}_\xi, A)=
+P(B_\xi|A^n, A)=
 \indi(\;\;\;
 B_\xi= \text{ defined by Eq.(\ref{eq-def-b-xi})}
 \;\;\;)
@@ -179,7 +177,7 @@ B_\xi= \text{ defined by Eq.(\ref{eq-def-b-xi})}
 
 
 \section{Case
-$A=A^n(\vec{x})=\frac{1}{n}
+$A=\Phi(x^n; n)=\frac{1}{n}
 \sum_\sigma x^\sigma$}
 
 Suppose
@@ -216,7 +214,7 @@ E[\rvA_\xi]=\mu
 \av{\rvA_\xi, \rvA_{\xi'}}=
 V_1
 \left[
-\frac{n-2-\delta(\xi, \xi')}{n-1}
+\frac{n-2-\delta(\xi, \xi')}{(n-1)^2}
 \right]
 \eeq
 \end{claim}
@@ -227,20 +225,20 @@ E[\rvA_\xi]=\frac{1}{n-1}\sum_\s \indi(\xi\neq\s)E[\rvx^\s]=\mu
 
 \beqa
 \av{\rvA_\xi, \rvA_{\xi'}}&=&
-\frac{1}{n-1}
+\frac{1}{(n-1)^2}
 \sum_\s\sum_{\s'}
 [1-\delta(\s, \xi)]
 [1-\delta(\s', \xi')]\av{x^\s, x^{\s'}}
 \\
 &=&
-\frac{V_1}{n-1}
+\frac{V_1}{(n-1)^2}
 \sum_\s\sum_{\s'}
 [1-\delta^\s_\xi-\delta^{\s'}_{\xi'}
 +
 \delta^\s_\xi\delta^{\s'}_{\xi'}]\delta^\s_{\s'}
 \\
 &=&
-\frac{V_1}{n-1}
+\frac{V_1}{(n-1)^2}
 [n-2+\delta^\xi_{\xi'}]
 \eeqa
 \qed
@@ -301,8 +299,8 @@ Note that
 \eeq
 by Eq.(\ref{eq-prox-to-A}).
 Hence, we can estimate
-$V_1$ from $\vec{A}$
-instead of $\vec{x}$.
+$V_1$ from $A^n$
+instead of $x^n$.
 
 Note that
 \beqa
