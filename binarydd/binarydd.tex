@@ -1,5 +1,7 @@
 \chapter{Binary Decision Diagrams}\label{ch-binarydd}
 
+{\bf Binary Decision Diagram} (BDD)
+
 \begin{figure}[h!]
 $$
 \begin{array}{c}
@@ -80,10 +82,27 @@ x_1&x_2&x_3&f(A_{x_1,x_2,x_2})
 \end{array}
 \end{array}
 $$
-\caption{xx}
+\caption{Example of a binary tree and the truth table it represents.
+The truth table gives the values of $
+f(x_1, x_2,x_3)=
+\bar{x}_1(x_2+\bar{x}_3)  + x_1 x_2 $ }
 \label{fig-bdd-tree}
 \end{figure}
 
+Fig.\ref{fig-bdd-tree} shows an
+example of a binary tree and the 
+truth table it represents.
+Wewill  convert this tree 
+ into a BDD in this chapter. Each node asks a question with a binary (Boolean) answer. An answer of 0 (resp., 1 ) is indicated by a dashed (resp., solid) arrow. The same question is asked by all nodes at the same level (i.e., depth) of the tree. In addition to the question, nodes are labeled uniquely by the random variable $\rvA_{x_1, x_2, \ldots, n}$,
+where $n$ is the level of the node
+and $x_i$ is the answer to the question $x_i?$.
+The leaves of
+the tree are square boxes that report 
+
+\beq
+f(x_1, x_2,x_3)=
+\bar{x}_1(x_2+\bar{x}_3)  + x_1 x_2
+\eeq
 \begin{figure}[h!]
 $$
 \xymatrix@C=.1pc{
@@ -108,18 +127,39 @@ $$
 &&\Rect{1}
 }
 $$
-\caption{xx}
+\caption{The same tree as in Fig.\ref{fig-bdd-tree}, after dropping 
+some labels that are not needed
+for our discussion of BDDs.}
 \label{fig-bdd-tree-simp}
 \end{figure}
 
-Order $x_1<x_2<x_3$
+
+Fig.\ref{fig-bdd-tree-simp} shows
+the same tree as in  Fig.\ref{fig-bdd-tree}, after dropping 
+some labels that are not needed
+for our discussion of BDDs.
+Node that the {\bf level ordering} of the tree is
+$x_1<x_2<x_3$. Other level
+orderings such as $x_2< x_1 < x_3$
+are possible. For a given
+truth table, some level 
+orderings lead to a BDD 
+that has the full  
+exponential complexity $2^n$
+of the tree, where $n$ is 
+the number of levels. Other level orderings
+might lead to a BDD that have lower (such as linear in $n$) 
+complexity.
 
 
 
 \subsection{Simplification of Binary Tree}
 
-
-3 Rules
+A BDD is obtained
+from a binary tree by 
+successive application of the
+following
+3 rules:
 
 \begin{enumerate}
 \item Merge equivalent leaves (EL)
@@ -128,8 +168,12 @@ Order $x_1<x_2<x_3$
 and target nodes of arrows.
 \end{enumerate}
 
-
-
+Fig.\ref{fig-el-pa-example} 
+gives an example
+of the application of rules EL and PA.
+Fig.\ref{fig-example-in-rule}
+gives an example of the 
+application o9f the IN rule.
 
 
 \begin{figure}[h!]
@@ -177,7 +221,10 @@ x_3?\ar@{-->}[drrrrrr]\ar[drrrr]
 &&
 }
 $$
-\caption{xx}
+\caption{This is the 
+result of applying the
+the EL rule, followed by the PA
+rule, to Fig.\ref{fig-bdd-tree-simp}.}
 \label{fig-el-pa-example}
 \end{figure}
 
@@ -248,8 +295,10 @@ x_1?\ar@{-->}[d]\ar[dr]
 &\Rect{1}
 }\end{array}
 $$
-\caption{xxx}
-\label{fig-example-in}
+\caption{An example 
+to illustrate the application of the
+IN rule}
+\label{fig-example-in-rule}
 \end{figure}
 
 
@@ -260,6 +309,7 @@ $$
 
 \begin{figure}[h!]
 $$
+\begin{array}{cc}
 \xymatrix@C=.1pc{
 &&&&&&&x_1?\ar@{-->}[dllll]
 \ar[dr]
@@ -278,8 +328,9 @@ $$
 &&
 &&
 }
+&
 \xymatrix@C=.1pc{
-&&&&&&&\Circle{\rva, x_1?}\ar@{-->}[dlll]|{\ol{x_1}}
+&&&&&&&\Circle{\rva, x_1?}\ar@{-->}[dllll]|{\ol{x_1}}
 \ar[dr]|{x_1}
 \\
 &&&\Circle{\rvb, x_2?}\ar@{-->}[dll]|{\ol{x_2}}\ar[drr]|{x_2}
@@ -296,8 +347,20 @@ $$
 &&
 &&
 }
+\\
+(a) & (b)
+\end{array}
 $$
-\caption{xx}
+\caption{
+Fig. $(a)$ 
+is the BDD 
+at the end of the
+simplifications chain in  Fig.\ref{fig-el-pa-example}.
+Fig. $(b)$ 
+is a bnet that
+is equivalent to the BDD of
+Fig. $(a)$
+}
 \label{fig-bdd-to-bnet}
 \end{figure}
 
