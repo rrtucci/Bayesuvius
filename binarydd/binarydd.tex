@@ -87,6 +87,10 @@ f(x_1, x_2,x_3)=
 \label{fig-bdd-tree}
 \end{figure}
 
+This chapter is based
+on Wikipedia article Ref.\cite{wiki-bdd}
+and other references.
+
 A {\bf Binary Decision Diagram} (BDD) is a 
 graph which represents 
 in a more concise manner
@@ -98,7 +102,7 @@ Fig.\ref{fig-bdd-tree} shows an
 example of a binary tree and its 
 truth table.
 We will  convert this tree 
- into a BDD in this chapter. Each node asks a question with a binary (Boolean) answer. An answer of 0 (resp., 1 ) is indicated by a dashed (resp., solid) arrow. The same question is asked by all nodes at the same level (i.e., depth) of the tree. In addition to the question, nodes are labeled uniquely by the random variable $\rvA_{x_1, x_2, \ldots, n}$,
+ into a BDD in this chapter. Each node asks a question with a binary (Boolean) answer. An answer of 0 (resp., 1 ) is indicated by a dashed (resp., full) arrow. The same question is asked by all nodes at the same level (i.e., depth) of the tree. In addition to the question, nodes are labeled uniquely by the random variable $\rvA_{x_1, x_2, \ldots, x_n}$,
 where $n$ is the level of the node
 and $x_i$ is the answer to the question $x_i?$.
 The leaves of
@@ -144,17 +148,17 @@ Fig.\ref{fig-bdd-tree-simp} shows
 the same tree as in  Fig.\ref{fig-bdd-tree}, after dropping 
 some labels that are not needed
 for our discussion of BDDs.
-Node that the {\bf level ordering} of the tree is
-$x_1<x_2<x_3$. Other level
+Note that the {\bf question ordering} of the tree is
+$x_1<x_2<x_3$. Other question
 orderings such as $x_2< x_1 < x_3$
 are possible. For a given
-truth table, some level 
+truth table, some question 
 orderings lead to a BDD 
 that has the full  
 exponential complexity $2^n$
 of the tree, where $n$ is 
-the number of levels. Other level orderings
-might lead to a BDD that have lower (such as linear in $n$) 
+the number of levels. Other question orderings
+might lead to BDDs that have lower (such as linear in $n$) 
 complexity.
 
 
@@ -171,7 +175,7 @@ following
 \item Merge equivalent leaves (EL)
 \item Merge isomorphic nodes (IN)
 \item Eliminate parallel 0/1 arrows (PA) by merging source
-and target nodes of arrows.
+and target nodes of the parallel  arrows.
 \end{enumerate}
 
 Fig.\ref{fig-el-pa-example} 
@@ -366,7 +370,11 @@ $(b)$
 is a LD (Linear Deterministic) bnet that
 is equivalent to the BDD of
 $(a)$. $(b)$ is
-obtained by keeping a subset of the arrows in $(a)$.
+obtained by keeping a subset of the arrows in $(a)$. The remaining
+arrows are given gain $x_i$
+(resp., $\bar{x}_i$) if they are full 
+(resp., dashed) and originate from
+a node with question $x_i?$.
 }
 \label{fig-bdd-to-bnet}
 \end{figure}
@@ -393,7 +401,7 @@ are as follows:
 \eeq
 
 \beq\color{blue}
-\rvb = \bar{x}_1
+\rvb = \bar{x}_1\rva
 \eeq
 
 \beq\color{blue}
@@ -475,4 +483,5 @@ as a LD bnet.
 In general, any boolean polynomial
 can be expressed as a LD bnet. In particular, the sum of products and product of sums
 canonical forms
-of any boolean expression can be expressed thus.
+of any boolean expression can be expressed 
+thus.
