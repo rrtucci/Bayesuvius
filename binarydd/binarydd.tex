@@ -1,7 +1,5 @@
 \chapter{Binary Decision Diagrams}\label{ch-binarydd}
 
-{\bf Binary Decision Diagram} (BDD)
-
 \begin{figure}[h!]
 $$
 \begin{array}{c}
@@ -82,17 +80,24 @@ x_1&x_2&x_3&f(A_{x_1,x_2,x_2})
 \end{array}
 \end{array}
 $$
-\caption{Example of a binary tree and the truth table it represents.
+\caption{Example of a binary tree and its truth table.
 The truth table gives the values of $
 f(x_1, x_2,x_3)=
 \bar{x}_1(x_2+\bar{x}_3)  + x_1 x_2 $ }
 \label{fig-bdd-tree}
 \end{figure}
 
+A {\bf Binary Decision Diagram} (BDD) is a 
+graph which represents 
+in a more concise manner
+the information in
+a binary tree and
+its accompanying truth table.
+
 Fig.\ref{fig-bdd-tree} shows an
-example of a binary tree and the 
-truth table it represents.
-Wewill  convert this tree 
+example of a binary tree and its 
+truth table.
+We will  convert this tree 
  into a BDD in this chapter. Each node asks a question with a binary (Boolean) answer. An answer of 0 (resp., 1 ) is indicated by a dashed (resp., solid) arrow. The same question is asked by all nodes at the same level (i.e., depth) of the tree. In addition to the question, nodes are labeled uniquely by the random variable $\rvA_{x_1, x_2, \ldots, n}$,
 where $n$ is the level of the node
 and $x_i$ is the answer to the question $x_i?$.
@@ -102,6 +107,7 @@ the tree are square boxes that report
 \beq
 f(x_1, x_2,x_3)=
 \bar{x}_1(x_2+\bar{x}_3)  + x_1 x_2
+\label{eq-bdd-truth-table}
 \eeq
 \begin{figure}[h!]
 $$
@@ -153,7 +159,7 @@ complexity.
 
 
 
-\subsection{Simplification of Binary Tree}
+\subsection{Conversion of Binary Tree into BDD}
 
 A BDD is obtained
 from a binary tree by 
@@ -173,7 +179,7 @@ gives an example
 of the application of rules EL and PA.
 Fig.\ref{fig-example-in-rule}
 gives an example of the 
-application o9f the IN rule.
+application of the IN rule.
 
 
 \begin{figure}[h!]
@@ -352,20 +358,83 @@ $$
 \end{array}
 $$
 \caption{
-Fig. $(a)$ 
+$(a)$ 
 is the BDD 
 at the end of the
-simplifications chain in  Fig.\ref{fig-el-pa-example}.
-Fig. $(b)$ 
-is a bnet that
+conversion chain in  Fig.\ref{fig-el-pa-example}.
+$(b)$ 
+is a LD (Linear Deterministic) bnet that
 is equivalent to the BDD of
-Fig. $(a)$
+$(a)$. $(b)$ is
+obtained by keeping a subset of the arrows in $(a)$.
 }
 \label{fig-bdd-to-bnet}
 \end{figure}
 
 
-\begin{figure}
+
+
+In Fig.\ref{fig-bdd-to-bnet}, $(a)$
+is a BDD and 
+$(b)$ is a LD (Linear Deterministic) bnet equivalent to $(a)$.
+The structural equations of the LD bnet, printed in blue,
+are as follows:
+
+\beq\color{blue}
+\rvy=  x_2 \rvc + x_3 \rve + \bar{x}_3\rvd
+\eeq
+
+\beq\color{blue}
+\rvd=\bar{x}_2\rvb
+\eeq
+
+\beq\color{blue}
+\rve=x_2\rvb
+\eeq
+
+\beq\color{blue}
+\rvb = \bar{x}_1
+\eeq
+
+\beq\color{blue}
+\rvc=x_1\rva
+\eeq
+Therefore
+
+\beq
+\rvy = [\bar{x}_1(x_2 x_3 +\bar{x}_2\bar{x}_3)
++ x_1 x_2
+]\rva
+\label{eq-3-histories-coeff}
+\eeq
+
+The equivalence of $(a)$ and $(b)$
+follows from the following transformation
+of Eq.(\ref{eq-bdd-truth-table})
+
+\begin{align}
+f(x_1, x_2,x_3) =&
+\bar{x}_1(x_2+\bar{x}_3)  + x_1 x_2
+\\
+=&
+\bar{x}_1[x_2(x_3+\bar{x}_3)+\bar{x}_3
+(x_2+ \bar{x}_2)]  + x_1 x_2
+\;\text{(because $x+\bar{x}=1$ in base 2)}
+\\
+=&
+\bar{x}_1[x_2(x_3)+\bar{x}_3
+(\bar{x}_2)]  + x_1 x_2\;, \text{
+(because $2x_2\bar{x}_3=0$ in base 2)
+}
+\label{eq-bdd-truth-table-equiv}
+\end{align}
+Note that the right 
+hand side of Eq.(\ref{eq-bdd-truth-table-equiv})
+gives the same 3 \qt{Feynman histories}
+as the coefficient of $\rva$ in
+ Eq.(\ref{eq-3-histories-coeff}).
+
+\begin{figure}[h!]
 $$
 \begin{array}{ccc}
 \xymatrix{
@@ -393,6 +462,17 @@ $$
 \rvc= (x_1 + x_2)\rva
 \end{array}
 $$
-\caption{xx}
+\caption{Expressing the sum or product 
+of two boolean variables $x_1$, $x_2$ 
+as a LD bnet}
 \label{fig-bdd-and-or}
 \end{figure}
+
+It's easy to  express the sum or product 
+of two boolean variables $x_1$, $x_2$ 
+as a LD bnet.
+(see Fig.\ref{fig-bdd-and-or})
+In general, any boolean polynomial
+can be expressed as a LD bnet. In particular, the sum of products and product of sums
+canonical forms
+of any boolean expression can be expressed thus.
