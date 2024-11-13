@@ -1,7 +1,17 @@
 \chapter{Binary Decision Diagrams}\label{ch-binarydd}
 
 
+\subsection{Simplification of Binary Tree}
 
+
+3 Rules
+
+\begin{enumerate}
+\item Merge equivalent leaves
+\item Merge isomorphic nodes
+\item Eliminate parallel 0/1 arrows by merging source
+and target nodes of arrows.
+\end{enumerate}
 
 
 $$
@@ -149,47 +159,90 @@ $$
 }
 
 $$
-\begin{array}{ccc}
-\xymatrix{
-\Circle{x_1?}\ar[d]
-\ar\ar@{-->}[dr]
+\xymatrix@C=.1pc{
+&&&&&&x_1?\ar@{-->}[dllll]
+\ar[drrr]
 \\
-\Circle{x_2?}\ar[ddr]
-\ar@/_2pc/@{-->}[dd]
-&\Circle{x_2?}\ar[dr]
-\ar@{-->}[dl]
+&&x_2?\ar@{-->}[dll]\ar[drr]
+&&&&&&&x_2?\ar@{-->}[ddlllll]\ar[ddlll]
 \\
-\Circle{x_3?}
-\ar[d]
-\ar@{-->}[dr]
-&&\Circle{x_3?}
-\ar@{-->}[dll]
-\ar[dl]
+x_3?\ar[drrrrrr]\ar@{-->}[drrrr]
+&&&&x_3?\ar@{-->}[d]\ar[drr]
 \\
-\Rect{0}
-&\Rect{1}
-}
 &&
-\xymatrix{
-\Circle{\rvA}\ar[d]|{\ol{x_1}}
-\ar@{-->}[dr]|{x_1}
+&&\Rect{0}
+&&\Rect{1}
+&&
+&&
+&&
+}
+\xymatrix{\\\\
+\implies}
+\xymatrix@C=.1pc{
+&&&&&&x_1?\ar@{-->}[dllll]
+\ar[drrr]
 \\
-\Circle{\rvA_{1}}\ar[ddr]|{x_2}
-\ar@/_2pc/@{-->}[dd]
-&\Circle{\rvA_{0}}\ar[dr]
-\ar@{-->}[dl]
+&&x_2?\ar@{-->}[dll]\ar@/_1pc/[dll]
+&&&&&&&x_2?\ar@{-->}[ddlllll]\ar[ddlll]
 \\
-\Circle{\rvA_{10}}
-\ar[d]
-\ar@{-->}[dr]|{\ol{x_3}}
-&&\Circle{\rvA_{11}}
-\ar@{-->}[dll]
-\ar[dl]
+x_3?\ar[drrrrrr]\ar@{-->}[drrrr]
+&&&&
+\\
+&&
+&&\Rect{0}
+&&\Rect{1}
+&&
+&&
+&&
+}
+$$
+
+$$
+\xymatrix@C=.1pc{
+&&&&&&x_1?\ar@{-->}[dllll]
+\ar[drrr]
+\\
+&&x_2?\ar@{-->}[dll]\ar@/_1pc/[dll]
+&&&&&&&x_2?\ar@{-->}[ddlllll]\ar[ddlll]
+\\
+x_3?\ar[drrrrrr]\ar@{-->}[drrrr]
+&&&&
+\\
+&&
+&&\Rect{0}
+&&\Rect{1}
+&&
+&&
+&&
+}
+\xymatrix{\\\\\implies}
+\xymatrix@C=.1pc{
+&x_1?\ar@{-->}[dl]\ar[dr]
+\\
+x_2?\ar@{-->}[d]\ar[drr]
+&&x_2?\ar[d]\ar@{-->}[dll]
+\\
+\Rect{0}
+&&\Rect{1}
+}
+\xymatrix{\\\\\implies}
+\xymatrix@C=.1pc{x_1?\ar@{-->}[d]\ar@/_1pc/[d]
+\\
+x_2?\ar@{-->}[d]\ar[dr]
 \\
 \Rect{0}
 &\Rect{1}
 }
-\end{array}
+\xymatrix{\\\\\implies}
+\xymatrix@C=.1pc{
+\\
+x_1?\ar@{-->}[d]\ar[dr]
+\\
+\Rect{0}
+&\Rect{1}
+}
 $$
 
 
+
+Order $x_1<x_2<x_3$
