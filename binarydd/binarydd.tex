@@ -1,5 +1,6 @@
 \chapter{Binary Decision Diagrams}\label{ch-binarydd}
 
+\begin{figure}[h!]
 $$
 \begin{array}{c}
 \xymatrix@C=.1pc{
@@ -79,9 +80,12 @@ x_1&x_2&x_3&f(A_{x_1,x_2,x_2})
 \end{array}
 \end{array}
 $$
+\caption{xx}
+\label{fig-bdd-tree}
+\end{figure}
 
+\begin{figure}[h!]
 $$
-\xymatrix{\\\\\implies}
 \xymatrix@C=.1pc{
 &&&&&&&x_1?\ar@{-->}[dllll]
 \ar[drrrr]
@@ -104,6 +108,9 @@ $$
 &&\Rect{1}
 }
 $$
+\caption{xx}
+\label{fig-bdd-tree-simp}
+\end{figure}
 
 Order $x_1<x_2<x_3$
 
@@ -125,7 +132,7 @@ and target nodes of arrows.
 
 
 
-
+\begin{figure}[h!]
 $$
 \xymatrix{
 \\\\
@@ -150,21 +157,18 @@ $$
 &&
 &&
 }
-$$
-$$
 \xymatrix{
 \\\\\stackrel{PA}{\implies}}
 \xymatrix@C=.1pc{
-&&&&&&&x_1?\ar@{-->}[dllll]
-\ar[drrrr]
+&&&&&&x_1?\ar@{-->}[dllll]
+\ar[d]
 \\
-&&&x_2?\ar@{-->}[dll]\ar[drr]
-&&&&&&&&x_2?\ar@{-->}[ddlllll]\ar[ddlll]
+&&x_2?\ar@{-->}[dll]\ar[drr]
+&&&&x_2?\ar@{-->}[ddll]\ar[dd]
 \\
-&x_3?\ar@{-->}[drrrrrrr]\ar[drrrrr]
-&&&&x_3?\ar@{-->}[dr]\ar[drrr]
+x_3?\ar@{-->}[drrrrrr]\ar[drrrr]
+&&&&x_3?\ar@{-->}[d]\ar[drr]
 \\
-&&
 &&
 &&\Rect{0}
 &&\Rect{1}
@@ -173,10 +177,13 @@ $$
 &&
 }
 $$
+\caption{xx}
+\label{fig-el-pa-example}
+\end{figure}
 
-
-
+\begin{figure}[h!]
 $$
+\begin{array}{c}
 \xymatrix@C=.1pc{
 &&&&&&x_1?\ar@{-->}[dllll]
 \ar[drrr]
@@ -213,9 +220,7 @@ x_3?\ar[drrrrrr]\ar@{-->}[drrrr]
 &&
 &&
 }
-$$
-
-$$
+\\
 \xymatrix{\\\\\stackrel{PA}{\implies}}
 \xymatrix@C=.1pc{
 &x_1?\ar@{-->}[dl]\ar[dr]
@@ -241,21 +246,26 @@ x_1?\ar@{-->}[d]\ar[dr]
 \\
 \Rect{0}
 &\Rect{1}
-}
+}\end{array}
 $$
+\caption{xxx}
+\label{fig-example-in}
+\end{figure}
 
 
 
 
 
 \section{Equivalent Bnet}
+
+\begin{figure}[h!]
 $$
 \xymatrix@C=.1pc{
 &&&&&&&x_1?\ar@{-->}[dllll]
-\ar[drrrr]
+\ar[dr]
 \\
 &&&x_2?\ar@{-->}[dll]\ar[drr]
-&&&&&&&&x_2?\ar@{-->}[ddlllll]\ar[ddlll]
+&&&&&x_2?\ar@{-->}[ddll]\ar[dd]
 \\
 &x_3?\ar@{-->}[drrrrrrr]\ar[drrrrr]
 &&&&x_3?\ar@{-->}[dr]\ar[drrr]
@@ -268,14 +278,12 @@ $$
 &&
 &&
 }
-\xymatrix{
-\\\\\implies}
 \xymatrix@C=.1pc{
-&&&&&&&\Circle{\rva, x_1?}\ar@{-->}[dllll]|{\ol{x_1}}
-\ar[drrrr]|{x_1}
+&&&&&&&\Circle{\rva, x_1?}\ar@{-->}[dlll]|{\ol{x_1}}
+\ar[dr]|{x_1}
 \\
 &&&\Circle{\rvb, x_2?}\ar@{-->}[dll]|{\ol{x_2}}\ar[drr]|{x_2}
-&&&&&&&&\Circle{\rvc, x_2?}\ar[ddlll]|{x_2}
+&&&&&\Circle{\rvc, x_2?}\ar[dd]|{x_2}
 \\
 &\Circle{\rvd, x_3?}\ar@{-->}[drrrrrrr]|{\ol{x_3}}
 &&&&\Circle{\rve, x_3?}\ar[drrr]|{x_3}
@@ -283,9 +291,45 @@ $$
 &&
 &&
 &&
-&&\Rect{1}
+&&\Rect{\ul{y}}
 &&
 &&
 &&
 }
 $$
+\caption{xx}
+\label{fig-bdd-to-bnet}
+\end{figure}
+
+
+\begin{figure}
+$$
+\begin{array}{ccc}
+\xymatrix{
+\Circle{\rva}
+\ar[d]|{x_1}
+\\
+\Circle{\rvb}
+\ar[d]|{x_2}
+\\
+\Circle{\rvc}
+}
+&\;\;\;&
+\xymatrix{
+&\Circle{\rva}\ar[dl]|1
+\ar[dr]|1
+\\
+\Circle{\rvb}\ar[dr]|{x_1}
+&&\Circle{\rvc}\ar[dl]|{x_2}
+\\
+&\Circle{\rvd}
+}
+\\
+\rvc=x_2\rvb=x_2x_1\rva
+&&
+\rvc= (x_1 + x_2)\rva
+\end{array}
+$$
+\caption{xx}
+\label{fig-bdd-and-or}
+\end{figure}
