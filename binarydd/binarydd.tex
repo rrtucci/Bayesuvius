@@ -1,19 +1,5 @@
 \chapter{Binary Decision Diagrams}\label{ch-binarydd}
 
-
-\subsection{Simplification of Binary Tree}
-
-
-3 Rules
-
-\begin{enumerate}
-\item Merge equivalent leaves
-\item Merge isomorphic nodes
-\item Eliminate parallel 0/1 arrows by merging source
-and target nodes of arrows.
-\end{enumerate}
-
-
 $$
 \begin{array}{c}
 \xymatrix@C=.1pc{
@@ -37,14 +23,14 @@ $$
 &&\rvA_{110}\ar[d]
 &&\rvA_{111}\ar[d]
 \\
-1
-&&0
-&&0
-&&1
-&&0
-&&0
-&&1
-&&1
+\Rect{1}
+&&\Rect{0}
+&&\Rect{0}
+&&\Rect{1}
+&&\Rect{0}
+&&\Rect{0}
+&&\Rect{1}
+&&\Rect{1}
 }
 \\
 \begin{array}{ccc|l}
@@ -94,7 +80,8 @@ x_1&x_2&x_3&f(A_{x_1,x_2,x_2})
 \end{array}
 $$
 
-
+$$
+\xymatrix{\\\\\implies}
 \xymatrix@C=.1pc{
 &&&&&&&x_1?\ar@{-->}[dllll]
 \ar[drrrr]
@@ -116,8 +103,33 @@ $$
 &&\Rect{1}
 &&\Rect{1}
 }
+$$
+
+Order $x_1<x_2<x_3$
 
 
+
+\subsection{Simplification of Binary Tree}
+
+
+3 Rules
+
+\begin{enumerate}
+\item Merge equivalent leaves (EL)
+\item Merge isomorphic nodes (IN)
+\item Eliminate parallel 0/1 arrows (PA) by merging source
+and target nodes of arrows.
+\end{enumerate}
+
+
+
+
+
+
+$$
+\xymatrix{
+\\\\
+\stackrel{EL}{\implies}}
 \xymatrix@C=.1pc{
 &&&&&&&x_1?\ar@{-->}[dllll]
 \ar[drrrr]
@@ -138,7 +150,10 @@ $$
 &&
 &&
 }
-
+$$
+$$
+\xymatrix{
+\\\\\stackrel{PA}{\implies}}
 \xymatrix@C=.1pc{
 &&&&&&&x_1?\ar@{-->}[dllll]
 \ar[drrrr]
@@ -157,6 +172,9 @@ $$
 &&
 &&
 }
+$$
+
+
 
 $$
 \xymatrix@C=.1pc{
@@ -177,7 +195,7 @@ x_3?\ar[drrrrrr]\ar@{-->}[drrrr]
 &&
 }
 \xymatrix{\\\\
-\implies}
+\stackrel{IN}{\implies}}
 \xymatrix@C=.1pc{
 &&&&&&x_1?\ar@{-->}[dllll]
 \ar[drrr]
@@ -198,24 +216,7 @@ x_3?\ar[drrrrrr]\ar@{-->}[drrrr]
 $$
 
 $$
-\xymatrix@C=.1pc{
-&&&&&&x_1?\ar@{-->}[dllll]
-\ar[drrr]
-\\
-&&x_2?\ar@{-->}[dll]\ar@/_1pc/[dll]
-&&&&&&&x_2?\ar@{-->}[ddlllll]\ar[ddlll]
-\\
-x_3?\ar[drrrrrr]\ar@{-->}[drrrr]
-&&&&
-\\
-&&
-&&\Rect{0}
-&&\Rect{1}
-&&
-&&
-&&
-}
-\xymatrix{\\\\\implies}
+\xymatrix{\\\\\stackrel{PA}{\implies}}
 \xymatrix@C=.1pc{
 &x_1?\ar@{-->}[dl]\ar[dr]
 \\
@@ -225,7 +226,7 @@ x_2?\ar@{-->}[d]\ar[drr]
 \Rect{0}
 &&\Rect{1}
 }
-\xymatrix{\\\\\implies}
+\xymatrix{\\\\\stackrel{IN}{\implies}}
 \xymatrix@C=.1pc{x_1?\ar@{-->}[d]\ar@/_1pc/[d]
 \\
 x_2?\ar@{-->}[d]\ar[dr]
@@ -233,7 +234,7 @@ x_2?\ar@{-->}[d]\ar[dr]
 \Rect{0}
 &\Rect{1}
 }
-\xymatrix{\\\\\implies}
+\xymatrix{\\\\\stackrel{PA}{\implies}}
 \xymatrix@C=.1pc{
 \\
 x_1?\ar@{-->}[d]\ar[dr]
@@ -245,4 +246,46 @@ $$
 
 
 
-Order $x_1<x_2<x_3$
+
+
+\section{Equivalent Bnet}
+$$
+\xymatrix@C=.1pc{
+&&&&&&&x_1?\ar@{-->}[dllll]
+\ar[drrrr]
+\\
+&&&x_2?\ar@{-->}[dll]\ar[drr]
+&&&&&&&&x_2?\ar@{-->}[ddlllll]\ar[ddlll]
+\\
+&x_3?\ar@{-->}[drrrrrrr]\ar[drrrrr]
+&&&&x_3?\ar@{-->}[dr]\ar[drrr]
+\\
+&&
+&&
+&&\Rect{0}
+&&\Rect{1}
+&&
+&&
+&&
+}
+\xymatrix{
+\\\\\implies}
+\xymatrix@C=.1pc{
+&&&&&&&\Circle{\rva, x_1?}\ar@{-->}[dllll]|{\ol{x_1}}
+\ar[drrrr]|{x_1}
+\\
+&&&\Circle{\rvb, x_2?}\ar@{-->}[dll]|{\ol{x_2}}\ar[drr]|{x_2}
+&&&&&&&&\Circle{\rvc, x_2?}\ar[ddlll]|{x_2}
+\\
+&\Circle{\rvd, x_3?}\ar@{-->}[drrrrrrr]|{\ol{x_3}}
+&&&&\Circle{\rve, x_3?}\ar[drrr]|{x_3}
+\\
+&&
+&&
+&&
+&&\Rect{1}
+&&
+&&
+&&
+}
+$$
