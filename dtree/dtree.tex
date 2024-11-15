@@ -3,7 +3,7 @@ This chapter is based
 mainly on Ref.\cite{stu-nor-book}.
 
 
-\begin{figure}
+\begin{figure}[h!]
 \centering
 \begin{istgame}
 \xtdistance{25mm}{50mm}
@@ -17,8 +17,8 @@ mainly on Ref.\cite{stu-nor-book}.
 \istb{N} 
 \istb{Y}{\text{No loan}}[[draw,fill=red]below]
 \endist
-\istrooto(RD)(CR-1){\makecell{Senior\\
-Citizen?}}
+\istrooto(RD)(CR-1){\makecell{School\\
+Teacher?}}
 \istb{N}{\text{No loan}}[[draw,fill=red]below]
 \istb{Y}{\text{Loan}}[[draw,fill=green]below]
 \endist
@@ -32,7 +32,7 @@ loan?}}
 \istb{Y}{\text{No loan}}[[draw,fill=red]below]
 \endist
 \end{istgame}
-\caption{Example of a decision tree}
+\caption{Example of a decision tree.}
 \label{fig-dtree-loan}
 \end{figure}
 
@@ -75,12 +75,8 @@ sum to 1.}
 \end{figure}
 
 
-Fig.\ref{fig-dtree-waiting}
-shows a typical decision tree (dtree).
-This example was taken
-from Ref.\cite{stu-nor-book},
-where it is analyzed
-in detail.
+Fig.\ref{fig-dtree-loan}
+shows a typical {\bf decision tree (dtree)}.
 As you can see,
 a dtree contains two main types
 of nodes: the non-leaf nodes,
@@ -104,7 +100,7 @@ a tree branch labeled by the choice
 question node.
 The {\bf leaf nodes} represent
 endpoints, goals, final
-conclusions, etc.
+conclusions, payoffs, etc.
 Dtrees can be viewed
 as classifiers. They
 take in a large amount 
@@ -117,8 +113,8 @@ then we call each
 $c\in S_\rvc$
 a  {\bf class of the classifier}.
 In the case of
-Fig.\ref{fig-dtree-waiting},
-$S_\rvc=\{False, True\}$.
+Fig.\ref{fig-dtree-loan},
+$S_\rvc=\{\text{No Loan, Loan}\}$.
 
 Dtrees can be used 
 with
@@ -154,17 +150,16 @@ the column vector
 of probabilities
 carried by each node of a dtree
 as its {\bf Transition
-Probability Vector (TPV)}.
-Without the TPVs,
+Probability Vector (branch probablities)}.
+Without the branch probablities,
 a dtree can be used 
 as a deterministic classifier,
 to classify inputs.
-With the TPVs,
+With the branch probablities,
 it can be used as a 
 probabilistic sampler (to generate
 random samples.)
 
-\section{Transforming a dtree into a bnet}
 A trivial 
 observation
 that is seldom made
@@ -175,86 +170,10 @@ let's call it
 its \qt{image} bnet,
 in a very natural way.
 We use the dtree
-of Fig.\ref{fig-dtree-waiting}
+of Fig.\ref{fig-dtree-loan}
 as an example to show 
-how to do this. As 
-a first 
-step,
-we go from
-Fig.\ref{fig-dtree-waiting}
-to
-Fig.\ref{fig-dtree-waiting-labels}
-by
-replacing
-all the labels of the
-nodes and of the branches of
-the dtree 
-by abridged symbols. 
-Next, we go 
-from Fig.\ref{fig-dtree-waiting-labels}
-to Fig.\ref{fig-dtree-waiting-dags},
-by replacing all tree branches 
-by arrows pointing down,
- and by
-moving the tree branch labels 
-down so that they
-become a suffix to the question 
-that the tree branch leads to.
-At this point,
-we have created
-Fig.\ref{fig-dtree-waiting-dags},
-which constitutes
-the DAG of the image bnet.
-It remains for us to define
-a TPM for each node
-of this DAG.
+how to do this. 
 
-\begin{table}[]
-\centering
-\begin{tabular}{|l|l|l|l|}
-\hline
-$P(x|a)$ & \cellcolor[HTML]{ECF4FF}$a=a_0$ & \cellcolor[HTML]{ECF4FF}$a\in S^-_\rva-\{a_0\}$ & \cellcolor[HTML]{ECF4FF}$null$ \\ \hline
-\cellcolor[HTML]{ECF4FF}0 & $p_0$ & 0 & 0 \\ \hline
-\cellcolor[HTML]{ECF4FF}1 & $p_1$ & 0 & 0 \\ \hline
-\cellcolor[HTML]{ECF4FF}$\vdots$ & $\vdots$ & 0 & 0 \\ \hline
-\cellcolor[HTML]{ECF4FF}$N^-_\rvx-1$ & $p_{N_\rvx-1}$ & 0 & 0 \\ \hline
-\cellcolor[HTML]{ECF4FF}$null$ & 0 & 1 & 1 \\ \hline
-\end{tabular}
-\caption{TPM of a node of a dtree image bnet.}
-\label{tab-dtree-tpm}
-\end{table}
-
-
-Table \ref{tab-dtree-tpm}
-gives the 
-TPM $P(x|a)$
-for a node $\rvx$
-with single parent $\rva$
-of a dtree image bnet. 
-Say node $\rvx$ has 
-a set $S^-_\rvx$
-of possible tree branches
-coming out of it. 
-Let $N^-_\rvx = |S^-_\rvx|$.
-Let $S_\rvx=S^-_\rvx\cup \{null\}$
-and $N_\rvx=|S_\rvx|=N^-_\rvx+1$.
-Define $S^-_\rva$, $N^-_\rva$,
-$S_\rva$
-and $N_\rva$
-analogously for node $\rva$.
-In Table \ref{tab-dtree-tpm},
-$S^-_\rvx=\{0,1, \ldots, N^-_\rvx-1\}$
-and 
-$a_0$ is the value
-of node $\rva$ which 
-labels the tree branch
-connecting nodes $\rva$ and $\rvx$.
-$\vec{p}=(p_0, p_1, \ldots, p_{N_\rvx-1})$
-is a probability
-distribution 
-associated with node $\rvx$,
-its TPV.
-TPVs
 can be learned from
 a dataset
 following
@@ -262,39 +181,6 @@ the dtree Structure Learning (SL)
 algorithm
 discussed in Section \ref{sec-dtree-sl}.
 
-Table \ref{tab-dtree-tpm}
-also applies when node $\rvx$
-is a leaf node,
-except that for leaf nodes,
-$\vec{p}$ is one hot (i.e., 
-all components are zero 
-except for one 
-component which is 1).
-Also, all 
-leaf nodes
-$\rvx$ have the same $S^-_\rvx$,
-namely $S_\rvc$.
-
-
-Adding a null state
-to the set of states (SOS) of each node 
-of the image bnet
-is necessary
-because, once $null$
-is added 
-to the SOS of any node,
-it must be added to the SOS
- of all descendant
-nodes.
-$null$ must be added to the 
-SOS of the children of
-the root node
-to
-take care of the situations
-when those first children
-don't receive the state 
-they were expecting from their
-parent, i.e., the root node.
 
 
 When drawing dtrees,
@@ -360,7 +246,7 @@ Each
 TPM of a $NB^*$ bnet
  can have several non-trivial
 columns instead of just one
-TPV= $\vec{p}$.
+branch probablities= $\vec{p}$.
 
 
 \section{Structure Learning for  Dtrees}\label{sec-dtree-sl}
@@ -500,125 +386,34 @@ criterion and Gain.}
 
 
 
-\begin{figure}[h!]
-$$
-\xymatrix{
-&
-\\
-\rvx_j\ar[r]_{\rvx_j=x_j}
-\ar[ru]^{\rvx_j=x_j'}&
-\\
-\{N_j(c,x_j)\}_{c\in S_\rvc, x_j\in S_{\rvx_j}}
-\\
-\sum_{c\in S_\rvc}N_j(c,x_j)=N_j(x_j)
-\\
-\sum_{x_j\in S_{\rvx_j}}N_j(c,x_j)=N_j(c)
-&
-\sum_{c\in S_\rvc}N_j(c)=
-\sum_{x_j\in S_{\rvx_j}}N_j(x_j)=N_j
-}
-$$
-\caption{
-Some population numbers associated
-with the nodes of a dtree. $N_j(c, x_j)$ is the number
+
+Let $N_j(c, x_j)$ is the number
 of individuals $\s$
-in the population that reaches node $j$,
-belonging to class $c$ and having $\rvx_j=x_j$.} 
-\label{fig-dtree-notation}
-\end{figure}
-\begin{figure}[h!]
-$$
-\xymatrix{
-\rvj
-\ar[r]\ar@/^1pc/[rr]
-&
-\rvx_j \ar[r]
-&
-\rvc
-}$$
-\caption{Bnet derived from population
-numbers in Fig.\ref{fig-dtree-notation}}
-\label{fig-class-bnet}
-\end{figure}
+in the population that exits question node $j$,
+belonging to class $c$ and having $\rvx_j=x_j$.
+From $N_j(c, x_j)$, we can define 
+an empirical
+probability distribution 
 
-
-
-Fig.\ref{fig-dtree-notation}
-defines some population numbers
-associated
-with the nodes of a dtree.
-From these population numbers, we can define
-the bnet in Fig.\ref{fig-class-bnet}.
-The TPMs, printed in blue,
-for the (non-root) nodes of this bnet, are as follows
-
-\beq\color{blue}
-P(c|x_j,j)=
-\frac{N_j(c,x_j)}
-{N_j(x_j)}
+\beq
+P_j(c, x_j)
+=
+\frac{N_j(c, x_j)}{N_j}
+\;,\;\; \text{ where }
+N_j=\sum_{c, x_j}N_j(c, x_j)
 \eeq
 
-\beq\color{blue}
-P(x_j|j)=
-\frac{N_j(x_j)}
-{N_j}
-\eeq
-where $j\in J_0$
-$x_j\in S_{\rvx_j}$, and
-$c\in S_\rvc$ is a class node.
-
-
-
-One can define the following 
-information theory quantities\footnote{
-The average of $H(\rvc:b)$ over
-$b$ is $H(\rvc:\rvb)=\sum_bP(b)
-H(\rvc:b)$.
-Likewise,
-the average of
-$H(\rvc|b)$ over $b$ is 
-$H(\rvc|\rvb)=\sum_b P(b)H(\rvc|b)$.
-$H(\rvc:\rvb)$ 
-becomes $H(\rvc:b)$
-and $H(\rvc|\rvb)$
-becomes $H(\rvc|b)$
-when there is no $b-$prior (i.e., 
-$P(b)$ is a delta function).
-}
-associated with the bnet Fig.\ref{fig-class-bnet}.
-
+Once
+we have an empirical probability distribution
+$P_j(c, x_j)$ for each node $\rvx_j$,
+we can define
 
 \beqa
-INFO\_fin_j&=& 
--\sum_c P(c|j)\ln P(c|j)
-\\
+IG_j
 &=&
-H(\rvc|j)
+H_j(\rvc)-H_j(\rvc|\rvx_j)
 \\
-\eeqa
-
-
-
-
-\begin{align}
-INFO\_init_j
-&=
-\sum_{x_j\in S_{\rvx_j}} P(x_j|j)H(\rvc|x_j,j)
-\\
-&=
-H(\rvc|\rvx_j , j)
-\end{align}
-
-
-
-\beqa
-IG_j&=&
-INFO\_fin_j- INFO\_init_j
-\\
-&=&
-H(\rvc|j)-H(\rvc|\rvx_j , j)
-\\
-&=& H(\rvc:\rvx_j |j)
+&=& H_j(\rvc:\rvx_j)
 \label{eq-info-gain}
 \eeqa
 $IG_j$
@@ -646,39 +441,53 @@ is a good
 SAM
 for dtree SL.
 
-Note that if we approximate
+If we approximate
 
 \beqa
-\ln  P(c|x_j)
+\ln  P_j(c|x_j)
 &\approx&
-\ln [1 + P(c|x_j)-1]
+\ln [1 + P_j(c|x_j)-1]
 \\
 &\approx&
-P(c|x_j)-1
+P_j(c|x_j)-1
 \eeqa
-in $H(\rvc|x_j)$,
+in $H_j(\rvc|x_j)$,
 we get what is called 
 the {\bf Gini (or Gini Index)
 for node $\rvx_k$}:
 
 
 \beqa
-H(\rvc|x_j)
+H_j(\rvc|x_j)
 &=&
--\sum_c P(c|x_j)\ln P(c|x_j)
+-\sum_c P_j(c|x_j)\ln P_j(c|x_j)
 \\
 &\approx&
-1 -\sum_{c\in S_{\rvc}} P(c|x_j)^2
+1 -\sum_{c\in S_{\rvc}} P_j(c|x_j)^2
 \eqdef
  Gini_{x_j}
 \eeqa
 $Gini_{x_j}$
 is a fairly good
 polynomial approximation
-to $H(\rvc|x_j)$.
+to $H_j(\rvc|x_j)$.\footnote{
+The average of $H(\rvc:b)$ over
+$b$ is $H(\rvc:\rvb)=\sum_bP(b)
+H(\rvc:b)$.
+Likewise,
+the average of
+$H(\rvc|b)$ over $b$ is 
+$H(\rvc|\rvb)=\sum_b P(b)H(\rvc|b)$.
+$H(\rvc:\rvb)$ 
+becomes $H(\rvc:b)$
+and $H(\rvc|\rvb)$
+becomes $H(\rvc|b)$
+when 
+$P(b)$ is a delta function.
+}
 It is computationally
 much less expensive than
-$H(\rvc|x_j)$,
+$H_j(\rvc|x_j)$,
 because it does not
 require computing a log.
 
@@ -686,11 +495,11 @@ We say
 a probability 
 distribution $P_\rvx$, is {\bf pure (i.e., deterministic)}
  if $P_\rvx(x)=\delta(x, x_0)$. $Gini_{x_j}$
- and $H(\rvc|x_j)$ are both always
+ and $H_j(\rvc|x_j)$ are both always
 non-negative.
 They both vanish iff  
-$P(c|x_j)$ is pure.
-Thus, $Gini_{x_j}$ and  $H(\rvc|x_j)$ 
+$P_j(c|x_j)$ is pure.
+Thus, $Gini_{x_j}$ and  $H_j(\rvc|x_j)$ 
 are both good measures of  {\bf class impurity}.
 
 The {\bf average Gini of node $\rvx_j$} is defined as
@@ -699,7 +508,7 @@ The {\bf average Gini of node $\rvx_j$} is defined as
 AGini_j
 =
 \sum_{x_j\in S_{\rvx_j}}
-P(x_j|j)
+P_j(x_j)
  Gini_{x_j}
 \;.
 \eeq
@@ -733,11 +542,11 @@ using the following formula:
 
 \beq
 IG_j=
-\underbrace{H(\rvc|j)}_{\approx Gini_j}
+H_j(\rvc)
 -
 \sum_{x_j\in S_{\rvx_j}}
-P(x_j|j)
-\underbrace{H(\rvc|x_j)}_
+P_j(x_j)
+\underbrace{H_j(\rvc|x_j)}_
 {\approx Gini_{x_j}}
 \eeq
 One then chooses $j=\argmax_j IG_j$. This
@@ -754,7 +563,7 @@ as root node
 This minimizes the average impurity
 of the children of node $j$.
 Since $IG_j$
-differs from $AGini_j$ by $H(\rvc|j)$,
+differs from $AGini_j$ by $H_j(\rvc)$,
 maximizing $IG_j$
 and
 minimizing $AGini_j$
@@ -783,7 +592,7 @@ $j=temp?$ & \cellcolor[HTML]{CBCEFB}$x_j=hot$ & \cellcolor[HTML]{CBCEFB}$x_j=med
 \cellcolor[HTML]{FFCCC9}$c=stay$ & 1 & 2 & 2 \\ \hline
 $Gini$ & 0.375 & 0.48 & 0.48 \\ \hline
 \multicolumn{4}{|l|}{$AGini=0.45$} \\ \hline
-$H(\rvc|x_j)$ & $\approx 0.375$ & $\approx 0.48$ & $\approx 0.48$ \\ \hline
+$H_j(\rvc|x_j)$ & $\approx 0.375$ & $\approx 0.48$ & $\approx 0.48$ \\ \hline
 \multicolumn{4}{|l|}{$IG\approx 0$} \\ \hline
 \end{tabular}
 \caption{Evaluating AGini and IG for node $temp$.}
@@ -831,22 +640,22 @@ The Information Gain Ratio (IGR) is an alternative SAM.
 \beqa
 IGR_j
 &=&
-\frac{IG_j}{H(\rvx_j |j)}
+\frac{IG_j}{H_j(\rvx_j)}
 \\
 &=&
-\frac{H(\rvc:\rvx_j |j)}{H(\rvx_j |j)}
+\frac{H_j(\rvc:\rvx_j)}{H_j(\rvx_j)}
 \\
 &=&
-\frac{H(\rvx_j |j)-H(\rvx_j |\rvc, j)}
-{H(\rvx_j |j)}
+\frac{H_j(\rvx_j)-H_j(\rvx_j |\rvc)}
+{H_j(\rvx_j)}
 \\
 &=&
-1 -\;\frac{H(\rvx_j |\rvc, j)}{H(\rvx_j |j)}
+1 -\;\frac{H_j(\rvx_j |\rvc)}{H_j(\rvx_j)}
 \eeqa
 
 $0\leq IGR_j\leq 1$
 
-$IGR_j=0$ iff $H(\rvx_j |\rvc, j)=H(\rvx_j |j)$.
+$IGR_j=0$ iff $H_j(\rvx_j |\rvc)=H_j(\rvx_j)$.
 
 
 
