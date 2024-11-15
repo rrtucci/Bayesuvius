@@ -2,32 +2,78 @@
 This chapter is based 
 mainly on Ref.\cite{stu-nor-book}.
 
-\begin{figure}[h!]
+
+\begin{figure}
 \centering
-\includegraphics[width=4in]
-{dtree/dtree-waiting.png}
-\caption{Example of dtree taken from Ref.\cite{stu-nor-book}} 
-\label{fig-dtree-waiting}
+\begin{istgame}
+\xtdistance{25mm}{50mm}
+\istrooto(I){Income?}
+\istb{<30K}
+\istb{(30K, 100K)}
+\istb{100K+}{\text{Loan}}[[draw,fill=green]below]
+\endist
+\xtdistance{30mm}{30mm}
+\istrooto(CR)(I-1){\makecell{Criminal\\Record?}}
+\istb{N} 
+\istb{Y}{\text{No loan}}[[draw,fill=red]below]
+\endist
+\istrooto(RD)(CR-1){\makecell{Senior\\
+Citizen?}}
+\istb{N}{\text{No loan}}[[draw,fill=red]below]
+\istb{Y}{\text{Loan}}[[draw,fill=green]below]
+\endist
+\istrooto(PL)(I-2){\makecell{Previous\\
+loan?}}
+\istb{N}
+\istb{Y}{\text{Loan}}[[draw,fill=green]below]
+\endist
+\istrooto(CR2)(PL-1){\makecell{Criminal\\Record?}}
+\istb{N}{\text{Loan}}[[draw,fill=green]below]
+\istb{Y}{\text{No loan}}[[draw,fill=red]below]
+\endist
+\end{istgame}
+\caption{Example of a decision tree}
+\label{fig-dtree-loan}
 \end{figure}
 
 
-\begin{figure}[h!]
+\begin{figure}
 \centering
-\includegraphics[width=3.2in]
-{dtree/dtree-waiting-labels.png}
-\caption{Fig.\ref{fig-dtree-waiting} with
-abridged labels.} 
-\label{fig-dtree-waiting-labels}
+%\setistgameshorten{1.3pt} % use in a TeX group
+\begin{istgame}[scale=.7]
+\setxtshowarrows{Stealth[open]}(10pt)
+\xtShowArrows
+\xtdistance{25mm}{50mm}
+\istrooto(I){$\rvx_0$}
+\istb{p_1}
+\istb{p_2}
+\istb{p_3}{\rvx_3}[[draw,fill=green]below]
+\endist
+\xtdistance{30mm}{30mm}
+\istrooto(CR)(I-1){$\rvx_1$}
+\istb{p_4} 
+\istb{p_5}{\rvx_5}[[draw,fill=red]below]
+\endist
+\istrooto(RD)(CR-1){$\rvx_4$}
+\istb{p_8}{\rvx_8}[[draw,fill=red]below]
+\istb{p_9}{\rvx_9}[[draw,fill=green]below]
+\endist
+\istrooto(PL)(I-2){$\rvx_2$}
+\istb{p_6}
+\istb{p_7}{\rvx_7}[[draw,fill=green]below]
+\endist
+\istrooto(CR2)(PL-1){$\rvx_6$}
+\istb{p_{10}}{\rvx_{10}}[[draw,fill=green]below]
+\istb{p_{11}}{\rvx_{11}}[[draw,fill=red]below]
+\endist
+\end{istgame}
+\caption{LD (Linear Deterministic) bnet corresponding to Decision Tree in
+Fig.\ref{fig-dtree-loan}. The $p_i$ are
+probabilities. The probabilities exiting 
+each node
+sum to 1.}
 \end{figure}
 
-\begin{figure}[h!]
-\centering
-\includegraphics[width=3.2in]
-{dtree/dtree-waiting-dags.png}
-\caption{Fig.\ref{fig-dtree-waiting-labels}
-converted to a bnet.} 
-\label{fig-dtree-waiting-dags}
-\end{figure}
 
 Fig.\ref{fig-dtree-waiting}
 shows a typical decision tree (dtree).
