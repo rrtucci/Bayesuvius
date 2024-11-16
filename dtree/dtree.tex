@@ -36,45 +36,6 @@ loan?}}
 \label{fig-dtree-loan}
 \end{figure}
 
-
-\begin{figure}
-\centering
-%\setistgameshorten{1.3pt} % use in a TeX group
-\begin{istgame}[scale=.7]
-\setxtshowarrows{Stealth[open]}(10pt)
-\xtShowArrows
-\xtdistance{25mm}{50mm}
-\istrooto(I){$\rvx_0$}
-\istb{p_1}
-\istb{p_2}
-\istb{p_3}{\rvx_3}[[draw,fill=green]below]
-\endist
-\xtdistance{30mm}{30mm}
-\istrooto(CR)(I-1){$\rvx_1$}
-\istb{p_4} 
-\istb{p_5}{\rvx_5}[[draw,fill=red]below]
-\endist
-\istrooto(RD)(CR-1){$\rvx_4$}
-\istb{p_8}{\rvx_8}[[draw,fill=red]below]
-\istb{p_9}{\rvx_9}[[draw,fill=green]below]
-\endist
-\istrooto(PL)(I-2){$\rvx_2$}
-\istb{p_6}
-\istb{p_7}{\rvx_7}[[draw,fill=green]below]
-\endist
-\istrooto(CR2)(PL-1){$\rvx_6$}
-\istb{p_{10}}{\rvx_{10}}[[draw,fill=green]below]
-\istb{p_{11}}{\rvx_{11}}[[draw,fill=red]below]
-\endist
-\end{istgame}
-\caption{LD (Linear Deterministic) bnet corresponding to Decision Tree in
-Fig.\ref{fig-dtree-loan}. The $p_i$ are
-probabilities. The probabilities exiting 
-each node
-sum to 1.}
-\end{figure}
-
-
 Fig.\ref{fig-dtree-loan}
 shows a typical {\bf decision tree (dtree)}.
 As you can see,
@@ -116,137 +77,97 @@ In the case of
 Fig.\ref{fig-dtree-loan},
 $S_\rvc=\{\text{No Loan, Loan}\}$.
 
-Dtrees can be used 
-with
-probabilities attached to each node, or without
-probabilities
-(as a
-plain undirected graph(UG)).
-This is analogous to bnets,
-which can be used with
-probabilities attached to each node
- (as DAGs with
-TPMs specified for each node) or without
-probabilities (as plain
-DAGs).
-Dtrees differ 
-from bnets in that
-their tree branches 
-are labelled, whereas bnet arrows
- aren't labelled.
-Also,
-whereas the nodes of
-a bnet carry a matrix of 
-probabilities (the TPM),
-the nodes of a dtree carry
-just a column vector
-of probabilities
-which represents
-a single 
-probability distribution.
-Henceforth,
-we will refer to
-the column vector
-of probabilities
-carried by each node of a dtree
-as its {\bf Transition
-Probability Vector (branch probablities)}.
-Without the branch probablities,
-a dtree can be used 
-as a deterministic classifier,
-to classify inputs.
-With the branch probablities,
-it can be used as a 
-probabilistic sampler (to generate
-random samples.)
 
-A trivial 
-observation
-that is seldom made
-in the dtree pedagogical literature
-is that every dtree 
-maps into a special bnet, 
-let's call it
-its \qt{image} bnet,
-in a very natural way.
-We use the dtree
-of Fig.\ref{fig-dtree-loan}
-as an example to show 
-how to do this. 
+\begin{figure}[h!]
+\centering
+%\setistgameshorten{1.3pt} % use in a TeX group
+\begin{istgame}[scale=.7]
+\setxtshowarrows{Stealth[open]}(10pt)
+\xtShowArrows
+\xtdistance{25mm}{50mm}
+\istrooto(I){$\rvx_0$}
+\istb{p_1}
+\istb{p_2}
+\istb{p_3}{\rvy_3}[[draw,fill=green]below]
+\endist
+\xtdistance{30mm}{30mm}
+\istrooto(CR)(I-1){$\rvx_1$}
+\istb{p_4} 
+\istb{p_5}{\rvy_5}[[draw,fill=red]below]
+\endist
+\istrooto(RD)(CR-1){$\rvx_4$}
+\istb{p_8}{\rvy_8}[[draw,fill=red]below]
+\istb{p_9}{\rvy_9}[[draw,fill=green]below]
+\endist
+\istrooto(PL)(I-2){$\rvx_2$}
+\istb{p_6}
+\istb{p_7}{\rvy_7}[[draw,fill=green]below]
+\endist
+\istrooto(CR2)(PL-1){$\rvx_6$}
+\istb{p_{10}}{\rvy_{10}}[[draw,fill=green]below]
+\istb{p_{11}}{\rvy_{11}}[[draw,fill=red]below]
+\endist
+\end{istgame}
+\caption{LD (Linear Deterministic) bnet corresponding to Decision Tree in
+Fig.\ref{fig-dtree-loan}.
+The $p_i$ are
+probabilities.
+}
+\label{fig-bnet-loan}
+\end{figure}
 
-can be learned from
-a dataset
-following
-the dtree Structure Learning (SL)
-algorithm
-discussed in Section \ref{sec-dtree-sl}.
+An LD (Linear Deterministic) bnet is a bnet
+with structural equations
+are of the form
+\beq\color{blue}
+\rvb =\sum_{\rva\in pa(\rvb)} g_\rva \rva
+\eeq
+for every node $\rvb$,
+where the gains $g_\rva$
+are real numbers.
 
+Every dtree can be
+converted trivially, in a natural way,
+into a LD bnet.
+Fig.\ref{fig-bnet-loan}
+is a LD bnet
+corresponding to 
+dtree shown in Fig.\ref{fig-dtree-loan}.
+Note the following important points about 
+Fig.\ref{fig-bnet-loan}
+\begin{itemize}
 
+ \item 
+ The arrows are labelled by {\bf branch probabilities} $p_i$. 
+  The probabilities $p_i$ exiting 
+each node
+sum to 1. Also,
+if $\rvx_\alp$ is a root node,
 
-When drawing dtrees,
-some people put
-info 
-like explanations 
-and probabilities on the
-branches
-of  the dtree.
-That
-info can all
-be preserved
-in the TPM
-and  the
-node names and
- node state names
-of the image bnet nodes.
-One can also place info
-inside tool tips attached to
-the node name and node state names.
-Often,
-the pedagogical literature
-states that 
-dtrees are more explicit and  
-carry
-more info than their
-image bnets,
-but if one 
-follows the above
-prescriptions,
-both can carry
-the same info.
+\beq
+P(\rvx_\alp=x)=p_j
+\eeq
+where $j$ labels one of the 
+children of $\rvx_\alp$. Hence,
+$j$ is a function of $x$, 
+$j=f(x)$, and $\sum_{x\in val(\rvx_\alp)}
+p_{f(x)}=1$.
+
+\item The leaf and non-leaf nodes are different in nature.
+The non-leaf nodes ask questions 
+which their branches answer, whereas 
+the leaf nodes don't
+ask anything; leaf nodes only have answers to
+the question of their parent node. Thus we represent non-leaf nodes and leaf nodes differently. Leaf nodes are enclosed by an oval and have an 
+$\rvx_\alp$ label.
+Leaf nodes are enclosed by a rectangle,
+and have an
+$\rvy_\alp$  label.
+
+\end{itemize}
 
 
 
-A naive Bayes (NB) bnet 
-(see Chapter \ref{ch-naive})
-consists of a single \qt{class node}
-with states $S_\rvc$ that fans
-out with arrows 
-pointing to the
-\qt{feature nodes}.
-If each leaf node
-of a NB bnet
-fans out into 
-a set of new leaf
-nodes, and those new
-leaf nodes
-also
-fan out
-and so on,
-we get a 
-generalized NB bnet.
-Let's call
-this type of tree bnet an $NB^*$ bnet.
-An $NB^*$ bnet
-has the same graph structure
-as the image bnet of a dtree,
-but it's more general,
-because its 
-TPMs are more general. 
-Each 
-TPM of a $NB^*$ bnet
- can have several non-trivial
-columns instead of just one
-branch probablities= $\vec{p}$.
 
 
 \section{Structure Learning for  Dtrees}\label{sec-dtree-sl}
@@ -632,10 +553,7 @@ possible candidates
 and choose the candidate
 with the lowest AGini (or highest IG).
 
-
-\section{Information Gain Ratio}
-
-The Information Gain Ratio (IGR) is an alternative SAM.
+The {\bf Information Gain Ratio} (IGR) is an alternative SAM.
 
 \beqa
 IGR_j
