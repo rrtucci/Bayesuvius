@@ -1,41 +1,38 @@
 \chapter{Linear Deterministic Bnets 
 with External 
-Noise (LDEN)}\label{ch-LDEN}
+Noise (LDEN Bnets)}\label{ch-LDEN}
 
-A {\bf Linear Deterministic (LD)} bnet is a bnet with TPMs, given in blue, 
+A {\bf Linear Deterministic (LD)} bnet is a bnet with TPMs
 of the form
 
 \beq
 \color{blue}
-P(b|\{\rva=a\}_{\rva\in pa(\rvb)})=
+P(b|\{\rva_j=a_j\}_{\forall j})=
 \indi\left(
-b =\sum_{\rva\in pa(\rvb),
-\rva=a}
-g_\rva a\right)
+b =\sum_{j}
+g_j a_j\right)
 \eeq
 or, equivalently, with 
 {\bf structural  equations}
 of the form
 
 \beq\color{blue}
-\begin{array}{cc}
-\xymatrix{\\
-\rvb =\sum_{\rva\in pa(\rvb)} g_\rva \rva
-}
-&
-\color{black}
+\rvb =\sum_{j} g_j \rva_j
+\quad\quad\quad
+{\color{black}
 \xymatrix{
 \rva_1\ar[dr]|{g_1}
 &\rva_2\ar[d]|{g_2}
 &\rva_3\ar[dl]|{g_3}
 \\
 &\rvb
-}
-\end{array}
+}}
 \eeq
 for every node $\rvb$
 of the bnet,
-where the {\bf gains} $g_\rva$
+where $\{\rva_j\}_{\forall j}$
+are the parent nodes of $\rvb$,
+and the {\bf gains} $g_j$
 are real numbers.
 
 In this chapter, we will consider 
@@ -52,26 +49,26 @@ convenient for doing causal analysis.
 We will refer  to
 them as {\bf Linear  Deterministic with 
 External Noise
- (LDEN)} diagrams.
+ (LDEN) bnets}.
 This chapter
-is devoted to LDEN diagrams,
+is devoted to LDEN bnets,
 except that we will
 say a few words
 about non-linear DEN
-diagrams at the end.
+bnets at the end.
 
 
-A {\bf DEN diagram}
+A {\bf DEN bnet}
 is a special kind of bnet.
 To 
-build a DEN diagram,
+build a DEN bnet,
 start with a 
 deterministic bnet $G$.
 The deterministic
 nodes of $G$ are called
 the {\bf endogenous (internal) variables}.
 Now make a bigger bnet $\ol{G}$
-called a DEN diagram
+called a DEN bnet
 by 
 adding to each node $\rva$ of $G$ a
 non-deterministic  
@@ -90,13 +87,13 @@ root nodes, they are
 mutually independent.
 When we
 draw
-a DEN diagram,
+a DEN bnet,
 we will sometimes
 not draw the exogenous nodes,
 leaving them implicit.
 
-A {\bf linear DEN diagram (LDEN)} is 
-a DEN diagram
+A {\bf linear DEN (LDEN) bnet} is 
+a DEN bnet
 whose deterministic nodes
 have a TPM that is a linear 
 function of the states
@@ -113,7 +110,7 @@ is defined in Chapter \ref{ch-conventions}.
 
 
 \section{Example
-of LDEN diagram}
+of LDEN bnet}
 
 
 \begin{figure}[h!]
@@ -125,7 +122,7 @@ $$\xymatrix{
 &\rvy
 }$$
 \caption{
-Example of a LDEN diagram wherein
+Example of a LDEN bnet wherein
 $\rvx$ splits
 into two nodes $\rvz$
 and $\rvw$,
@@ -142,7 +139,7 @@ real numbers.
 \end{figure}
 
 The TPMs, printed in blue,
-for the LDEN diagram
+for the LDEN bnet
 Fig.\ref{fig-scm-diamond},
 are as follows.
 
@@ -213,12 +210,12 @@ from $\rvz$ to $\rvy(\rvz)$.
 This
 is a general
 property
-of LDEN diagrams.
+of LDEN bnets.
 
 \section{LDEN equations and their 2 solutions}
 
 
-LDEN diagrams are described by 
+LDEN bnets are described by 
 a system of linear equations 
 (known as the {\bf structural equations}) of the form
 
@@ -272,15 +269,15 @@ unknowns using basic Linear Algebra.
 Next, we will find the 2
 solutions UNK-CM and UNK-G 
 explicitly for arbitrary LDEN
-diagrams.
+bnets.
 We will present these solutions 
 gradually, first for fully connected 
-LDEN diagrams, and then for the
+LDEN bnets, and then for the
 general case that does not require
 full connectivity.
 
 \section{Fully connected 
-LDEN diagrams}
+LDEN bnets}
 The bnets that will be
 considered in this section
 will all be fully connected.
@@ -315,7 +312,7 @@ is not drawn.
 
 
 \subsection{Fully connected 
-LDEN diagram with $nx=2$}
+LDEN bnet with $nx=2$}
 
 \begin{figure}[h!]
 $$
@@ -327,7 +324,7 @@ $$
 }$$
 \caption{
 Fully connected 
-LDEN diagram with two $\rvx_j$
+LDEN bnet with two $\rvx_j$
 nodes
 (exogenous nodes $\rvu_j$
 not shown).}
@@ -335,8 +332,8 @@ not shown).}
 \end{figure}
 
 Consider the 
-LDEN diagram of Fig.\ref{fig-fully-conn-2}.
-This diagram represents the 
+LDEN bnet of Fig.\ref{fig-fully-conn-2}.
+This bnet represents the 
 following structural equations:
 \begin{subequations}
 \label{eq-fully-conn-2}
@@ -413,7 +410,7 @@ from the covariances $\av{\rvx_i, \rvx_j}$.
 \end{enumerate}
 
 \subsection{Fully connected 
-LDEN diagram with $nx=3$}
+LDEN bnet with $nx=3$}
 
 \begin{figure}[h!]
 $$
@@ -425,16 +422,16 @@ $$
 &\rvx_2
 }$$
 \caption{
-Fully connected LDEN diagram with 
+Fully connected LDEN bnet with 
 three $\rvx_j$ nodes
 (exogenous nodes $\rvu_j$
 not shown).}
 \label{fig-fully-conn-3}
 \end{figure}
 
-Consider the LDEN diagram
+Consider the LDEN bnet
 of Fig.\ref{fig-fully-conn-3}.
-This diagram represents the 
+This bnet represents the 
 following structural equations:
 \begin{subequations}
 \label{eq-fully-conn-3}
@@ -698,7 +695,7 @@ covariances $\av{\rvx_i, \rvx_j}$.
 
 \subsection{Fully
 connected 
-LDEN diagram with arbitrary $nx$} 
+LDEN bnet with arbitrary $nx$} 
 
 Let $\rvx.=(x_i)_{i=0, 1,
  \ldots, nx-1}$
@@ -706,7 +703,7 @@ and $\rvx_{<i}=
 (x_k)_{k=0, 1, \ldots, i-1}$.
 Consider
 a fully connected
-LDEN diagram
+LDEN bnet
 with  deterministic internal nodes labeled
 $\rvx_i$.
 The $\rvx_i$ labels 
@@ -717,7 +714,7 @@ node $\rvx_i$ are $\rvx_{<i}$).
 Let the TPMs,
 printed in blue, for the nodes $\rvx.$
 of the 
-LDEN diagram, be
+LDEN bnet, be
 as follows.
 
 \beq\color{blue}
@@ -870,15 +867,15 @@ Eq.(\ref{eq-alp-covs-gen}) by $\av{\rvx_k, \rvx_k}$, we get, for $i>k$,
 
 \end{enumerate}
 
-\section{Not fully connected LDEN diagrams}
+\section{Not fully connected LDEN bnets}
 
-When the LDEN diagram is not
+When the LDEN bnet is not
 fully connected, some $\alp_{i|j}$
 might be zero for $i>j$, and the
 corresponding arrow $\rvx_j\rarrow\rvx_i$
 is not drawn. If that is the case,
 the formulae that we gave above,
-for the fully connected LDEN diagram,
+for the fully connected LDEN bnet,
 for the UNK-CM solution, still apply,
 but the formulae that we gave above, for the UNK-G solution,
 must be modified as follows.
@@ -906,7 +903,7 @@ an unknown if $\alp_{i|j}=0$
 for some $i>j$.
 This is what I do in Ref.\cite{scumpy},
 and it works like a charm.
-A fully connected LDEN diagram with $N$ nodes
+A fully connected LDEN bnet with $N$ nodes
 has $N^2/2-N/2$ arrows. If $M$ of those are 
 missing, our final result 
 will be $M$ constraints among the 
@@ -915,10 +912,10 @@ equations expressing the non-zero $\alp_{i|j}$
 in terms of covariances.
 
 
-\section{LDEN diagram with conditioned nodes}
+\section{LDEN bnet with conditioned nodes}
 
 Conditioning on a node $\rvx$ 
-of an LDEN diagram means assuming that $\rvx$  is
+of an LDEN bnet means assuming that $\rvx$  is
 fixed at a specific value $x$.
 Normally, we assume 
 
@@ -950,31 +947,31 @@ for examples where this occurs.
 \section{SCuMpy}
 Check out my free open source
 software SCuMpy \cite{scumpy}.
-SCuMpy ia a Python library for doing both symbolic and numeric calculations for linear Structural Causal Models (SCM) (i.e., LDEN diagrams).
+SCuMpy ia a Python library for doing both symbolic and numeric calculations for linear Structural Causal Models (SCM) (i.e., LDEN bnets).
 
 
-\section{Non-linear DEN diagrams}
+\section{Non-linear DEN bnets}
 This chapter 
 is dedicated to
-linear DEN diagrams. This
+linear DEN bnets. This
 implicitly
 assumes that 
 the deterministic
 nodes $\rvx.$
 of the 
-DEN diagram have
+DEN bnet have
 an interval of
 real values as their
 possible states.
 A trivial
 but very useful
 generalization
-of linear DEN diagrams is to
+of linear DEN bnets is to
 replace Eq.(\ref{eq-linear-pa-tpm})
 for the TPMs
 of the
 deterministic nodes
-of the diagram by
+of the bnet by
 
 \beq\color{blue}
 P(x_i|x_{<i}, u_i)=
