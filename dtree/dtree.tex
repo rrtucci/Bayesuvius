@@ -233,11 +233,11 @@ for $\s\in \Sigma_{vali}$,
 then we say the classifier  $Y$
 suffers from {\bf overfitting}.
 We can learn the structure
-and TPVs of a dtree from a dataset $DS$,
+and braching probabilities of a dtree from a dataset $DS$,
 by using the
 dtree {\bf Structure Learning (SL)}
 algorithm that we will 
-discuss in detail later. However,
+discuss in detail below. However,
 that algorithm
 is prone to produce
 a classifier $Y$ that overfits.
@@ -340,7 +340,8 @@ N_j=\sum_{c, x_j}N_j(c, x_j)
 
 Once
 we have an empirical probability distribution
-$P_j(c, x_j)$ for each node $\rvx_j$,
+$P_j(c, x_j)$ for each node $\rvx_j$ and
+class $c$,
 we can define
 
 \beqa
@@ -389,7 +390,7 @@ P_j(c|x_j)-1
 in $H_j(\rvc|x_j)$,
 we get what is called 
 the {\bf Gini (or Gini Index)
-for node $\rvx_k$}:
+for node $\rvx_j$}:
 
 
 \beqa
@@ -403,7 +404,7 @@ H_j(\rvc|x_j)
  Gini_{x_j}
 \eeqa
 $Gini_{x_j}$
-is a fairly good
+is a reasonable
 polynomial approximation
 to $H_j(\rvc|x_j)$.\footnote{
 The average of $H(\rvc:b)$ over
@@ -447,7 +448,7 @@ P_j(x_j)
  Gini_{x_j}
 \;.
 \eeq
-It measure 
+$AGini_j$ measures
 the average impurity
 of the children of node $\rvx_j$.
 
@@ -511,7 +512,8 @@ Suppose we deduce from a dataset
 the numbers in the yellow cells
 in Table \ref{tab-temp-gini}.
 These numbers are repeated in  Fig.\ref{fig-stump-3cildren}.
-Then we can calculate the white cells as follows: 
+Then we can calculate the white cells 
+in Table \ref{tab-temp-gini} as follows: 
 
 % Please add the following required packages to your document preamble:
 % \usepackage[table,xcdraw]{xcolor}
@@ -525,10 +527,12 @@ $j=temp?$ & \cellcolor[HTML]{CBCEFB}$x_j=hot$ & \cellcolor[HTML]{CBCEFB}$x_j=med
 \cellcolor[HTML]{9AFF99}$c=play$ & 3 & 3 & 3 \\ \hline
 \rowcolor[HTML]{FFFFC7} 
 \cellcolor[HTML]{FFCCC9}$c=stay$ & 1 & 2 & 2 \\ \hline
-$Gini$ & 0.375 & 0.48 & 0.48 \\ \hline
+$Gini$ & 0.37 & 0.48 & 0.48 \\ \hline
 \multicolumn{4}{|l|}{$AGini=0.45$} \\ \hline
-$H_j(\rvc|x_j)$ & $\approx 0.375$ & $\approx 0.48$ & $\approx 0.48$ \\ \hline
-\multicolumn{4}{|l|}{$IG\approx 0$} \\ \hline
+$H_j(\rvc|x_j)$ & $0.56$ & $0.67$ & $.67$ \\ \hline
+\multicolumn{4}{|l|}{$H_j(\rvc|\rvx_j)=0.64$} \\ \hline
+\multicolumn{4}{|l|}{$H_j(\rvc)=0.65$} \\ \hline
+\multicolumn{4}{|l|}{$IG_j(\rvc)=0.01$} \\ \hline
 \end{tabular}
 \caption{Evaluating AGini and IG for node $temp$.}
 \label{tab-temp-gini}
@@ -540,7 +544,7 @@ $H_j(\rvc|x_j)$ & $\approx 0.375$ & $\approx 0.48$ & $\approx 0.48$ \\ \hline
 \centering
 \includegraphics[width=1.5in]
 {dtree/stump-3children.png}
-\caption{Tree stump
+\caption{Sub-tree
 corresponding to Table \ref{tab-temp-gini}.}
 \label{fig-stump-3cildren}
 \end{figure}
@@ -548,13 +552,16 @@ corresponding to Table \ref{tab-temp-gini}.}
 
 
 \begin{itemize}
-\item Gini(hot)$=1-(3/4)-(1/4)=0.375$
+\item Gini(hot)$=1-(3/4)-(1/4)=0.375$ (with logs=0.56)
 \item Gini(med)$=1-(3/5)^2-(2/5)^2=0.48$
+(with logs=0.67)
 \item Gini(cold)$=1-(3/5)^2-(2/5)^2=0.48$
+(with logs=0.67)
 \item AGini $ = (4/14)(0.375)+
 (5/14)(0.48) + (5/14)(0.48) = 0.45 $
-\item IG $\approx [1 -(6/9)^2-(3/9)^2]-AGini= 
-0.44-0.45\approx 0$
+(with logs=$H_j(\rvc|\rvx_j)=0.64$)
+\item $H_j(\rvc)=-(9/14)\ln (9/14) - (5/14)\ln (5/14) = 0.65$
+\item $IG_j=H_j(\rvc)-H_j(\rvc|\rvx_j)=0.01$
 \end{itemize}
 
 This gives
@@ -595,8 +602,8 @@ $IGR_j=0$ iff $H_j(\rvx_j |\rvc)=H_j(\rvx_j)$.
 \subsection{Pseudo-code}
 
 Below,
-we give the standard
-algorithm for SL
+we give one of the first
+algorithms for SL
 of a dtree, in the form
 of pseudo-code.
 The strategy
@@ -634,8 +641,8 @@ invented by Quinlan in 1986. Uses $IG_j$ as SAM.
 C4.5/C5.0 are successors to ID3.
 \end{itemize}
 
-Thus, CART and ID were 
-invented independently around the same time.
+CART and ID were 
+invented around the same time.
 The main difference between them is the SAM
 being used.
 
