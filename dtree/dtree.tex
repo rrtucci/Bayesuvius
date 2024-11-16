@@ -77,7 +77,7 @@ In the case of
 Fig.\ref{fig-dtree-loan},
 $S_\rvc=\{\text{No Loan, Loan}\}$.
 
-
+\section{Conversion to Bnet}
 \begin{figure}[h!]
 \centering
 %\setistgameshorten{1.3pt} % use in a TeX group
@@ -116,33 +116,82 @@ probabilities.
 \label{fig-bnet-loan}
 \end{figure}
 
+
 An LD (Linear Deterministic) bnet is a bnet
 with structural equations
-are of the form
+of the form
+
 \beq\color{blue}
+\begin{array}{cc}
+\xymatrix{\\
 \rvb =\sum_{\rva\in pa(\rvb)} g_\rva \rva
+}
+&
+\color{black}
+\xymatrix{
+\rva_1\ar[dr]|{g_1}
+&\rva_2\ar[d]|{g_2}
+&\rva_3\ar[dl]|{g_3}
+\\
+&\rvb
+}
+\end{array}
+\eeq
+or, equivalently,
+
+\beq
+\color{blue}
+P(b|\{\rva=a\}_{\rva\in pa(\rvb)})=
+\indi\left(
+b =\sum_{\rva\in pa(\rvb)}
+g_\rva a\indi(\rva=a)\right)
 \eeq
 for every node $\rvb$,
 where the gains $g_\rva$
 are real numbers.
 
 Every dtree can be
-converted trivially, in a natural way,
+converted in a natural 
+and trivial way,
 into a LD bnet.
 Fig.\ref{fig-bnet-loan}
 is a LD bnet
 corresponding to 
 dtree shown in Fig.\ref{fig-dtree-loan}.
+The structural equations of 
+the bnet in Fig.\ref{fig-bnet-loan}
+are
+
+\beq\color{blue}
+\rvx_j=p_j \;pa(\rvx_j)
+\eeq
+for all non-leaf nodes $\rvx_j$, and
+
+\beq\color{blue}
+\rvy_j=p_j \;pa(\rvy_j)
+\eeq
+for all leaf nodes $\rvy_j$.
+
 Note the following important points about 
 Fig.\ref{fig-bnet-loan}
 \begin{itemize}
+\item The leaf and non-leaf nodes are different in nature.
+The non-leaf nodes ask questions 
+which their branches answer, whereas 
+the leaf nodes don't
+ask anything; leaf nodes only have answers to
+the question of their parent node. Thus we represent non-leaf nodes and leaf nodes differently. Non-leaf nodes are enclosed by an oval and have an 
+$\rvx_\alp$ label.
+Leaf nodes are enclosed by a rectangle,
+and have an
+$\rvy_\alp$  label.
 
  \item 
  The arrows are labelled by {\bf branch probabilities} $p_i$. 
   The probabilities $p_i$ exiting 
 each node
-sum to 1. Also,
-if $\rvx_\alp$ is a root node,
+sum to 1.
+If $\rvx_\alp$ is a non-leaf node,
 
 \beq
 P(\rvx_\alp=x)=p_j
@@ -150,19 +199,13 @@ P(\rvx_\alp=x)=p_j
 where $j$ labels one of the 
 children of $\rvx_\alp$. Hence,
 $j$ is a function of $x$, 
-$j=f(x)$, and $\sum_{x\in val(\rvx_\alp)}
-p_{f(x)}=1$.
+$j=f(x)$, and 
 
-\item The leaf and non-leaf nodes are different in nature.
-The non-leaf nodes ask questions 
-which their branches answer, whereas 
-the leaf nodes don't
-ask anything; leaf nodes only have answers to
-the question of their parent node. Thus we represent non-leaf nodes and leaf nodes differently. Leaf nodes are enclosed by an oval and have an 
-$\rvx_\alp$ label.
-Leaf nodes are enclosed by a rectangle,
-and have an
-$\rvy_\alp$  label.
+\beq
+\sum_{x\in val(\rvx_\alp)}
+p_{f(x)}=1
+\eeq
+
 
 \end{itemize}
 
