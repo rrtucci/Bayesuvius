@@ -26,7 +26,8 @@ Difference-in-Differences (Chapter \ref{ch-did})
 and Synthetic Controls (Chapter \ref{ch-syn-con}).
 
 In UP,
-each {\bf participant person (i.e., sample $\s$)}
+each {\bf participant person} (i.e., {\bf sample} $\s$,
+where $$\s\in \Sigma=\{0,1,2, \ldots, nsam-1\}$$)
 is interrogated at two well
 anticipated, fairly closely spaced times
 $t_0$ and $t_1$ (as opposed to 
@@ -85,8 +86,13 @@ Let $y^\s_t\in \RR$ for $t=t_0, t_1$
 be the treatment response at time $t$
 for participant (i.e., sample) $\s$. (We are using here
 the same notation as in Chapter \ref{ch-pot-out}).
-Call $\delta^\s=
-y^\s_{t_1}-y^\s_{t_0}$ the {\bf participant uplift}
+Call 
+
+\beq
+\delta^\s=
+y^\s_{t_1}-y^\s_{t_0}\eeq
+
+the {\bf participant uplift}
 for participant $\s$.
 As shown
 in Fig.\ref{fig-uplift-y-t},
@@ -243,7 +249,7 @@ Eq.(\ref{eq-ace-esti-posi}):
 The input
 to UP is a PO
 dataset $DS= \{ (\s, d^\s, x^\s, y^\s):
- \s=0, 1, 2, \ldots, nsam-1\}$.
+ \s\in\Sigma\}$.
 where $d^\s\in \bool$, $x^\s \in S_\rvx$,
 $y^\s\in \RR$.
 
@@ -407,80 +413,29 @@ In this section,
 we will describe
 how to build UP decision trees (UP dtrees),
 and explain why they are needed
-for UP.
+for UP. This section is based 
+mainly on Ref.\cite{jaros} (highly recommended).
 
 Generic dtrees are 
 described in Chapter \ref{ch-dtree}.
-This section 
-complements rather than replaces
-that chapter so the reader
-is advised to read
-that chapter first.
+In the discussion below, we will assume that the reader has read
+that chapter already.
 
-Ref.\cite{jaros} is an excellent paper on the use of
-dtrees in UP.
+For our previous discussion,
+we assumed a dataset 
+$DS= \{ (\s, d^\s, x^\s, y^\s):
+ \s\in\Sigma\}$ and 
+ assumed we had a 
+ method to obtain the strata
+ $c^\s$ of each sample $\s$.
+In this section, we will assume 
+from the onset an
+extended dataset
+$DS^+= \{ (\s, c^\s, d^\s, x^\s, y^\s):
+ \s\in\Sigma\}$
+that contains the strata $c^\s$ for each sample $\s$.
 
-
-The
-analysis described
-previously in  
-Section
-\ref{sec-up-analysis},
-although theoretically correct,
-will work very poorly in practice.
-The strata-bins
-of Section
-\ref{sec-up-analysis}
-correspond to
-the classification
-classes of a dtree.
-But strata-bins are very
-specific so they  
-severely overfit the data.
-Although dtrees 
-can also suffer from overfitting,
-there are known methods of 
-preventing or mitigating overfitting in dtrees.
-
-There are also tasks 
-that dtrees 
-can do well
-and the methods
-explained so far
-cannot do well.
-For example,
-suppose we have 
-a classless
-dataset $DS^-=\{(\s, x^\s):\s\in \Sigma^-\}$
-and we want to predict
-the class $c^\s$ and
-uplift $\Delta_{c^\s}$
-for each of these individuals 
-$\s\in \Sigma^-$.
-A dtree can easily
-do that. The alternative
-is to use the classy dataset 
-$DS=\{(\s, x^\s, c^\s):\s\in \Sigma\}$
-to
-prepare a dictionary
-that orders
-the elements
-of $S_\rvx$ and gives a
-class $c$ and an uplift value
-$\Delta_c$ for each
-feature vector $x\in S_\rvx$.
-But
-such a dictionary overfits
-and says nothing for 
-feature vectors $x$
-that do not show up in 
-the classy dataset $DS$; i.e., the
-dictionary 
-doesn't guess (interpolate). Dtrees,
-on the other hand, do
-guess.
-
-So, without further ado,
+Next,
 let us describe how to
 modify the results
 of Chapter \ref{ch-dtree}
@@ -490,11 +445,17 @@ The main difference,
 as we will
 explain in detail
 next,
-is that the Information
+is that we use two dtrees ($d=0,1$) instead 
+of one. Each dtree reduces to a LD bnet. The two
+bnets have the same structure but
+different branch probabilities.
+Furthermore, instead of the Information
 Gain metric
-used for generic dtrees
-needs to be replaced
-by another metric.
+used for generic dtrees,
+we use a different
+metric, one 
+that connects the branch probabilities
+of the twin bnets.
 
 For UP, we consider two dtrees,
 labeled by the treatment dose $d=0,1$ (no dose, dose). 
@@ -507,15 +468,15 @@ an empirical
 probability distribution 
 
 \beq
-P(c, x_j|j, d)
+P(c, d, x_j|j)
 =
-\frac{N_j^d(c, x_j)}{N_j^d}
+\frac{N_j^d(c, x_j)}{N_j}
 \;,\;\; \text{ where }
-N_j^d=\sum_{c, x_j}N_j^d(c, x_j)
+N_j=\sum_{c, d, x_j}N_j^d(c, x_j)
 \eeq
 Once
 we have an empirical probability distribution
-$P(c, x_j| j, d)$ for each node $\rvx_j$ and
+$P(c, d, x_j| j)$ for each node $\rvx_j$ and
 class $c$,
 we can define various conditional 
 probabilities, and from those
@@ -674,7 +635,7 @@ If $P(c|j,d)=P(c|d)$
 for all $c,d$, then $SAM\_KL_j=0$.
 \item
 \label{item-no-control}
-Suppose $N^0_r=0$ for all nodes $r\in J_0$
+Suppose $N(d=0)=0$ for all nodes $r\in J_0$
  (i.e., no control population)
 and we use the Laplace Correction
 when warranted. Then
@@ -722,10 +683,10 @@ as follows:
 P(c|j,d)=
 \left\{
 \begin{array}{ll}
-\frac{N^d_j(c)}
-{N^d_j}&\text{ if } N^d_j>0
+\frac{N_j^d(c)}
+{N_j^d}&\text{ if } N_j^d>0
 \\
-U_\rvc(c) & \text{ if $N^d_j=0$ (Laplace Correction)}
+U_\rvc(c) & \text{ if $N_j^d=0$ (Laplace Correction)}
 \end{array}
 \right.
 \eeq
@@ -735,7 +696,7 @@ U_\rvc(c) & \text{ if $N^d_j=0$ (Laplace Correction)}
 
 \begin{claim}
 \label{claim-no-control}
-Suppose $N^0_r=0$ for all dtree nodes $r\in J_0$
+Suppose $N_r(0)=0$ for all dtree nodes $r\in J_0$
 and we use the Laplace Correction
 when warranted. Then
 
@@ -767,7 +728,7 @@ For all $x_j\in S_{\rvx_j}$, we must also have
 
 
 \beq
-N_j=N_j^1,  N(x_j)=N^1(x_j)
+N_j=N_j^1, \quad N_j(x_j)=N_j^1(x_j)
 \eeq
 so
 
