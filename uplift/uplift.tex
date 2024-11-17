@@ -496,92 +496,32 @@ used for generic dtrees
 needs to be replaced
 by another metric.
 
-
-
-
-
-
-\begin{figure}[h!]
-$$
-\xymatrix{
-&
-\\
-\rvx_j\ar[r]_{\rvx_j=x_j}
-\ar[ru]^{\rvx_j=x_j'}&
-\\
-\{N^d_j(c,x_j)\}_{c\in S_\rvc, x_j\in S_{\rvx_j}}
-\\
-\sum_{c\in S_\rvc}N^d_j(c,x_j)=N^d_j(x_j)
-\\
-\sum_{x_j\in S_{\rvx_j}}N^d_j(c,x_j)=N^d_j(c)
-&
-\sum_{c\in S_\rvc}N^d_j(c)=
-\sum_{x_j\in S_{\rvx_j}}N^d_j(x_j)=N^d_j
-}
-$$
-\caption{Fig.\ref{fig-dtree-notation}
- with $d$ dependence added.
-$d\in \bool$
-is the treatment dose.
-} 
-\label{fig-dtree-notation-uplift}
-\end{figure}
-
-\begin{figure}
-$$
-\xymatrix{
-\rvd\ar[dr]\ar[drr]
-\\
-\rvj
-\ar[r]\ar@/^1pc/[rr]
-&
-\rvx_j\ar[r]
-&
-\rvc
-}$$
-\caption{Bnet derived from population
-numbers in Fig.\ref{fig-dtree-notation-uplift}}
-\label{fig-class-bnet-uplift}
-\end{figure}
-
-
-
-Fig.\ref{fig-dtree-notation-uplift}
-was obtained from Fig.\ref{fig-dtree-notation}
-by adding $d$ dependence.
-$d\in \bool$
-is the treatment dose.
-Note that in UP, we build a dtree
-in which every node carries a double ($d=0,1$)
-TPV. This
-is in contrast to the generic dtrees built
-in Chapter \ref{ch-dtree}, in which 
-each node carries a single TPV.
-$N^d_j(c, x_j)$ is 
-the number
+For UP, we consider two dtrees,
+labeled by the treatment dose $d=0,1$ (no dose, dose). 
+For each $d$, let $N_j^d(c, x_j)$ be the number
 of individuals $\s$
-in the population that reaches node $\rvx_j$
-with $d\in \bool$, belonging
-to class $c\in S_\rvc$ and having $\rvx_j=x_j$. 
-From these population numbers, we can define
-the bnet in Fig.\ref{fig-class-bnet-uplift}.
-The TPMs, printed in blue,
-for the (non-root) nodes of this bnet, are as follows
+in the population that is exiting question node $j$,
+belonging to class $c$ and having $\rvx_j=x_j$.
+From $N_j^d(c, x_j)$, we can define 
+an empirical
+probability distribution 
 
-
-
-\beq\color{blue}
-P(c|x_j,j,d)=
-\frac{N^d_j(c,x_j)}
-{N^d_j(x_j)}
-\label{eq-p-c-pre-laplace}
+\beq
+P(c, x_j, j, d)
+=
+\frac{N_j^d(c, x_j)}{N_j^d}
+\;,\;\; \text{ where }
+N_j^d=\sum_{c, x_j}N_j^d(c, x_j)
 \eeq
+Once
+we have an empirical probability distribution
+$P(c, x_j, j, d)$ for each node $\rvx_j$ and
+class $c$,
+we can define various conditional 
+probabilities, and from those
+conditional probabilities,
+we can define various metrics.
 
-\beq\color{blue}
-P(x_j|j, d)=
-\frac{N^d(x_j)}
-{N_j^d}
-\eeq
 
 
 In Chapter
@@ -597,8 +537,7 @@ Information Gain
 is a bad
 SAM for SL of UP dtrees,
 because it knows nothing about
- $d=0,1$
-and the double TPVs of nodes in UP dtrees.
+ $d=0,1$.
 For
 UP dtrees,
 we need a SAM specifically
@@ -770,14 +709,11 @@ U_\rvc(c)=\frac{1}{N_\rvc}
 \eeq
 for all $c\in S_\rvc$.
 
-Eq.(\ref{eq-p-c-pre-laplace})
-for the TPM of node
-$\rvc$ in the bnet Fig.\ref{fig-class-bnet-uplift} can be
+Empirical 
+probabilities that are undefined
+when $N_j^d=0$ can be
 \qt{Laplace Corrected}
-as follows
-so that it is no longer
-undefined when
-its denominator vanishes:
+as follows:
 
 \beq
 P(c|j,d)=
