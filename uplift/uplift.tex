@@ -128,10 +128,10 @@ If any of the $x_i$
 is a priori continuous, we will
 assume it has  been binned into
 a finite number of bins.
-Let $S_\rvx$ be the finite set of  all feature vectors.
+Let $val(\rvx)$ be the finite set of  all feature vectors.
 
 
-Let $A_x = \{\s: x^\s \approx x\}$ for  $x\in S_\rvx$.
+Let $A_x = \{\s: x^\s \approx x\}$ for  $x\in val(\rvx)$.
 The set $A_x$ of all samples with
 a feature vector $x^\s$ close to $x$ 
 is called the $x$ {\bf stratum}.
@@ -250,7 +250,7 @@ The input
 to UP is a PO
 dataset $DS= \{ (\s, d^\s, x^\s, y^\s):
  \s\in\Sigma\}$.
-where $d^\s\in \bool$, $x^\s \in S_\rvx$,
+where $d^\s\in \bool$, $x^\s \in val(\rvx)$,
 $y^\s\in \RR$.
 
 \begin{figure}[h!]
@@ -280,16 +280,16 @@ during these steps.
 
 \beq
 A_x = \{\s: x^\s \approx x\}\eeq
-for each observed $x\in S_\rvx$.
-Set $A_x=\emptyset$ for unobserved $x\in S_\rvx$.
+for each observed $x\in val(\rvx)$.
+Set $A_x=\emptyset$ for unobserved $x\in val(\rvx)$.
  
 \item Use Eq.(\ref{eq-est-ace-uplift})
 to calculate $\delta_x$
-for each $x\in S_\rvx$.
+for each $x\in val(\rvx)$.
 Set $\delta_x=0$ if $A_x=\emptyset$.
 
 \item Partition 
-the set $\{\delta_x: x\in S_\rvx\}$
+the set $\{\delta_x: x\in val(\rvx)\}$
 into disjoint bins. Call
 $\Delta_c$  the average $\delta_x$ 
 within bin $c$ for $c=0, 1, \ldots, nc-1$.
@@ -312,7 +312,7 @@ Now calculate
 By the end of this step,
 we will have calculated 
 $\{(\calx_c, \Delta_c)\}_{c=0, 1, \ldots, nc-1}$
-from $\{(x, \delta_x)\}_{x\in S_\rvx}$.
+from $\{(x, \delta_x)\}_{x\in val(\rvx)}$.
 We will refer to the $\calx_c$
 as {\bf strata-bins}. Note that
 \beqa
@@ -522,7 +522,7 @@ for doing SL of UP dtrees.
 \item{\bf SAM\_DD} (DD=Delta Delta)
 
 For $d\in \bool$
-and $c, c'\in S_\rvc$, define the increments
+and $c, c'\in val(\rvc)$, define the increments
 
 \beq
 \partial_d f(d)=f(1)-f(0)
@@ -553,7 +553,7 @@ SAM\_DD_j&=& \max_{c,c'}|\partial_{c',c}\partial_d P(c|j,d)|
 \begin{align}
 SAM\_KL_j&=
 \left[
-\sum_{x_j\in S_{\rvx_j}}
+\sum_{x_j\in val(\rvx_j)}
 P(x_j|j)
 D_{KL}(P_{\rvc|x_j,j,1}\parallel P_{\rvc|x_j,j,0})
 \right]
@@ -562,14 +562,14 @@ D_{KL}(P_{\rvc|j,1}\parallel P_{\rvc|j,0})
 \\
 &=\left\{\begin{array}{l}
 \left[
-\sum_{x_j\in S_{\rvx_j}}
+\sum_{x_j\in val(\rvx_j)}
 P(x_j|j)
- \sum_{c\in S_\rvc}P(c|x_j,j,1) 
+ \sum_{c\in val(\rvc)}P(c|x_j,j,1)
 \ln \frac{P(c|x_j,j,1) }{ P(c|x_j,j,0) }
 \right]
 \\
 -
-\sum_{c\in S_\rvc} 
+\sum_{c\in val(\rvc)}
 P(c|j,1) 
 \ln \frac{P(c|j,1) }{ P(c|j,0) }
 \end{array}
@@ -668,14 +668,14 @@ below.
 
 
 
-Let $N_\rvc=|S_\rvc|$.
+Let $N_\rvc=|val(\rvc)|$.
 Define the uniform probability 
 distribution 
 
 \beq
 U_\rvc(c)=\frac{1}{N_\rvc}
 \eeq
-for all $c\in S_\rvc$.
+for all $c\in val(\rvc)$.
 
 Empirical 
 probabilities that are undefined
@@ -728,7 +728,7 @@ D_{KL}(P_{\rvc|r,1}\parallel U_\rvc)
 \;.
 \label{eq-kl-reduce}
 \eeqa
-For all $x_j\in S_{\rvx_j}$, we must also have
+For all $x_j\in val(\rvx_j)$, we must also have
 
 
 \beq
@@ -749,7 +749,7 @@ Now using Eqs.(\ref{eq-kl-reduce}) and
 \beqa
 SAM\_KL_j&=&
 -\left[
-\sum_{x_j\in S_{\rvx_j}}
+\sum_{x_j\in val(\rvx_j)}
 P(x_j|j)
 H(\rvc|x_j,j,1)
 \right]
@@ -758,7 +758,7 @@ H(\rvc|j,1)
 \\
 &=&
 -\left[
-\sum_{x_j\in S_{\rvx_j}}
+\sum_{x_j\in val(\rvx_j)}
 P(x_j|j,1)
 H(\rvc|x_j,j,1)
 \right]

@@ -23,7 +23,7 @@ It also covers a few
 other types of sampling.
 
 Throughout this chapter,
-we use $P_\rvx:S_\rvx\rarrow [0,1]$
+we use $P_\rvx:val(\rvx)\rarrow [0,1]$
 to denote the target probability
 distribution
 that we wish to obtain samples from.
@@ -85,7 +85,7 @@ distributed over $[0,1]$.
 
 $\ul{\vecx}^{(t)}=(\rvx^{(t)}[\sigma])_{\sigma=0,1, 
 \ldots, nsam(t)-1}$
-where $\rvx^{(t)}[\sigma] \in S_\rvx$ for all $\sigma$. 
+where $\rvx^{(t)}[\sigma] \in val(\rvx)$ for all $\sigma$.
 Vector of samples collected 
 up to time $t$.
 
@@ -153,11 +153,11 @@ see Ref.\cite{wiki-reject}.
 
 This method samples
 from a \qt{candidates} probability distribution
-$P_\rvc:S_\rvx\rarrow [0,1]$,
+$P_\rvc:val(\rvx)\rarrow [0,1]$,
 in cases where sampling directly
 from the
 target probability distribution
-$P_\rvx:S_\rvx\rarrow [0,1]$
+$P_\rvx:val(\rvx)\rarrow [0,1]$
 is not possible.
 
 
@@ -193,23 +193,23 @@ distributed over $[0,1]$.
 
 $\rva^{(t)}\in \bool$= accept candidate? (no=0, yes=1)
 
-$\rvc^{(t)}\in S_\rvx$=  sample that is a 
+$\rvc^{(t)}\in val(\rvx)$=  sample that is a
 candidate for being accepted
 
 $\ul{\vecx}^{(t)}=(\rvx^{(t)}[\sigma])_{\sigma=0,1, 
 \ldots, nsam(t)-1}$
-where $\rvx^{(t)}[\sigma] \in S_\rvx$ for all $\sigma$. 
+where $\rvx^{(t)}[\sigma] \in val(\rvx)$ for all $\sigma$.
 Vector of samples collected 
 up to time $t$.
 
 This algorithm requires
  a priori definition of a candidate
 probability distribution 
-$P_\rvc:S_\rvx\rarrow \RR$ such that
+$P_\rvc:val(\rvx)\rarrow \RR$ such that
 \beq
 P_\rvx(x)< \beta P_\rvc(x)
 \eeq
-for all $x\in S_\rvx$, for 
+for all $x\in val(\rvx)$, for
 some $\beta\in \RR$.
 
 The TPMs, printed
@@ -351,20 +351,20 @@ distributed over $[0,1]$.
 
 $\rva^{(t)}\in \bool$= accept candidate? (no=0, yes=1)
 
-$\rvc^{(t)}\in S_\rvx$= sample that is a 
+$\rvc^{(t)}\in val(\rvx)$= sample that is a
 candidate for being accepted
 
-$\rvm^{(t)}\in S_\rvx$= memory
+$\rvm^{(t)}\in val(\rvx)$= memory
 of last accepted sample
 
 $\ul{\vecx}^{(t)}=(\rvx^{(t)}[\sigma])_{\sigma=0,1, 
 \ldots, nsam(t)-1}$
-where $\rvx^{(t)}[\sigma] \in S_\rvx$ for all $\sigma$. 
+where $\rvx^{(t)}[\sigma] \in val(\rvx)$ for all $\sigma$.
 Vector of samples collected 
 up to time $t$.
 
 A {\bf proposal TPM}
-$P_{\rvc|\rvx}:S_\rvx^2\rarrow [0,1]$ 
+$P_{\rvc|\rvx}:val(\rvx)^2\rarrow [0,1]$
 must be specified a priori 
 for this algorithm.
 
@@ -490,7 +490,7 @@ P_\rvx(x)=\pi(x)
 \eeq
 
 {\bf Reversibility (detailed balance):}
-For all $x, x'\in S_\rvx$,
+For all $x, x'\in val(\rvx)$,
 
 \beq
 P(x'|x)\pi(x)=P(x|x')\pi(x')
@@ -695,7 +695,7 @@ original references,
 see Ref.\cite{wiki-imp-sam}.
 
 Suppose random
-variables $\rvx[\sigma]\in S_\rvx$ for
+variables $\rvx[\sigma]\in val(\rvx)$ for
 $\sigma=0, 1, \ldots, nsam-1$ are i.i.d.
 with probability distribution $P_\rvx$.
  Then
@@ -705,14 +705,14 @@ E_{\rvx}[f(x)]\approx
 f(x[\sigma])
 \;
 \eeq
-for any $f:S_\rvx\rarrow \RR$.
+for any $f:val(\rvx)\rarrow \RR$.
 Sometimes,
 instead of using i.i.d.
 samples 
-$\rvx[\sigma]\in S_\rvx$
+$\rvx[\sigma]\in val(\rvx)$
 where $\rvx[\sigma]\sim P_\rvx$,
 we wish to use i.i.d. samples
-$\rvy[\sigma]\in S_\rvx$ where
+$\rvy[\sigma]\in val(\rvx)$ where
 $\rvy[\sigma]\sim P_\rvy$.
 
 
@@ -732,7 +732,7 @@ Sampling from $P_\rvy(y)$ instead
 of $P_\rvx(x)$
 might reduce (or increase) 
 variance for a particular
- $f:S_\rvx\rarrow \RR$.
+ $f:val(\rvx)\rarrow \RR$.
 
 \beq
 Var_\rvx[f(x)]=

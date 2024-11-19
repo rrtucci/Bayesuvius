@@ -68,14 +68,14 @@ take in a large amount
 of information about a population 
 and compress that information
 to just a few classes.
-If $S_\rvc$ is the 
+If $val(\rvc)$ is the
 set of distinct leaf node labels,
 then we call each
-$c\in S_\rvc$
+$c\in val(\rvc)$
 a  {\bf class of the classifier}.
 In the case of
 Fig.\ref{fig-dtree-loan},
-$S_\rvc=\{\text{No Loan, Loan}\}$.
+$val(\rvc)=\{\text{No Loan, Loan}\}$.
 
 \section{Conversion to Bnet}
 \begin{figure}[h!]
@@ -199,23 +199,23 @@ $DS=\{(\s, x^\s, c^\s): \s\in \Sigma\}$ be a dataset
 $\s\in \Sigma$ be an individual (a sample)
 from a population, 
 
-$x^\s\in S_\rvx$ be the {\bf
+$x^\s\in val(\rvx)$ be the {\bf
 feature (attributes, questions) vector}.
-$S_\rvx= S_{\rvx_0}\times S_{\rvx_1}
-\times\ldots\times S_{\rvx_{nj-1}}$,
-$x=(x_0, x_1, \ldots, x_{nj-1})\in S_\rvx$, 
-$x_j\in S_{\rvx_j}$
+$val(\rvx)= val(\rvx_0)\times val(\rvx_1)
+\times\ldots\times val(\rvx_{nj-1})$,
+$x=(x_0, x_1, \ldots, x_{nj-1})\in val(\rvx)$,
+$x_j\in val(\rvx_j)$
 
 
-$c^\s\in S_\rvc$ be a {\bf classification class}
+$c^\s\in val(\rvc)$ be a {\bf classification class}
 
 We will
-assume $S_\rvx$ and $S_\rvc$ are finite sets.
+assume $val(\rvx)$ and $val(\rvc)$ are finite sets.
 
 Building a {\bf classifier $Y$} 
 (curve fit) for a dtree means
 finding a deterministic
-function $Y:S_\rvx\rarrow S_\rvc$ 
+function $Y:val(\rvx)\rarrow val(\rvc)$
 such that 
 $c^\s \approx Y(x^\s)$
 for all $\s\in \Sigma$.
@@ -399,7 +399,7 @@ H_j(\rvc|x_j)
 -\sum_c P_j(c|x_j)\ln P_j(c|x_j)
 \\
 &\approx&
-1 -\sum_{c\in S_{\rvc}} P_j(c|x_j)^2
+1 -\sum_{c\in val(\rvc)} P_j(c|x_j)^2
 \eqdef
  Gini_{x_j}
 \eeqa
@@ -443,7 +443,7 @@ The {\bf average Gini of node $\rvx_j$} is defined as
 \beq
 AGini_j
 =
-\sum_{x_j\in S_{\rvx_j}}
+\sum_{x_j\in val(\rvx_j)}
 P_j(x_j)
  Gini_{x_j}
 \;.
@@ -480,7 +480,7 @@ using the following formula:
 IG_j=
 H_j(\rvc)
 -
-\sum_{x_j\in S_{\rvx_j}}
+\sum_{x_j\in val(\rvx_j)}
 P_j(x_j)
 \underbrace{H_j(\rvc|x_j)}_
 {\approx Gini_{x_j}}
@@ -668,10 +668,10 @@ defined in Chapter \ref{ch-conventions}.
 		\begin{itemize}
 		\item tree $T$,
 		\item population numbers $\{(r,c,x_r,N_r(c, x_r)):
-			r\in J_0, c\in S_\rvc, x_r\in S_{\rvx_r}\}$
+			r\in J_0, c\in val(\rvc), x_r\in val(\rvx_r)\}$
 			stored globally
 		\end{itemize}}
-	From $DS$, calculate $J_0$, $S_\rvc$, $S_{\rvx_i}$ for each $i$ \\
+	From $DS$, calculate $J_0$, $val(\rvc)$, $val(\rvx_i)$ for each $i$ \\
 	$c^\s$ is called the target feature/attribute.\\
 	$J\larrow J_0$\;
 	\SetKwFunction{FMain}{learn\_dtree}
@@ -690,11 +690,11 @@ defined in Chapter \ref{ch-conventions}.
 			\tcp{or replace $\argmax_{j\in J}IG_j$ 
 			by $\argmin_{j\in J}AGini_j$}
 			from $DS$, calculate $\{(r,c,x_r, N_r(c,x_r)):
-			c\in S_\rvc,x_r\in S_{\rvx_r} \}$ and 
+			c\in val(\rvc),x_r\in val(\rvx_r) \}$ and
 			store it globally\;
-		\For{$v\in S_{\rvx_r}$}{
+		\For{$v\in val(\rvx_r)$}{
 			\tcc{Notice that $J$ is the same every time repeat this loop,
-			so order in which $v\in S_{\rvx_r}$ are called does not matter.
+			so order in which $v\in val(\rvx_r)$ are called does not matter.
 			Furthermore, this means that multiple tree nodes may be labeled by same feature.}
 			On current tree $T$, add  a branch below $\rvx_r$ with label 
 			\qt{$\rvx_r = v$}\;

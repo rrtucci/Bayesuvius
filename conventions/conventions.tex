@@ -284,9 +284,9 @@ case letters to
 be non-random variables.
 
 \section{Probability distributions}
- $P_\rvx(x)=P(\rvx=x)=P(x)$ is the probability that random variable $\rvx$ equals $x\in S_\rvx$. $S_\rvx$ is the set of states (i.e., values) that $\rvx$ can assume and $n_\rvx = |S_\rvx|$ is the size (a.k.a. cardinality) of that set. Hence,
+ $P_\rvx(x)=P(\rvx=x)=P(x)$ is the probability that random variable $\rvx$ equals $x\in val(\rvx)$. $val(\rvx)$ is the set of states (i.e., values) that $\rvx$ can assume and $n_\rvx = |val(\rvx)|$ is the size (a.k.a. cardinality) of that set. Hence,
 \beq
-\sum_{x\in S_\rvx}P_\rvx(x)=1
+\sum_{x\in val(\rvx)}P_\rvx(x)=1
 \eeq
 
 \hrule
@@ -319,43 +319,43 @@ one point) closed sub-intervals (bins) of
 length $\Delta x$.
 Name one point
 in each bin to be the representative of that bin,
-and  let $S_\rvx$ be the
+and  let $val(\rvx)$ be the
 set of all the bin representatives. This is called
 discretization or binning. Then
 
 \beq
 \frac{1}{(b-a)}
 \int_{[a,b]} dx \; f(x)\rarrow
-\frac{\Delta x}{(b-a)} \sum_{x\in S_\rvx}f(x)
+\frac{\Delta x}{(b-a)} \sum_{x\in val(\rvx)}f(x)
 =
-\frac{1}{n_\rvx} \sum_{x\in S_\rvx}f(x)
+\frac{1}{n_\rvx} \sum_{x\in val(\rvx)}f(x)
  \;.
 \eeq
 Both sides of last equation are 1 when $f(x)=1$.
- Furthermore, if $y\in S_\rvx$, then
+ Furthermore, if $y\in val(\rvx)$, then
 
 \beq
 \int_{[a,b]} dx \; \delta(x-y)f(x)=f(y)
-\rarrow \sum_{x\in S_\rvx}\delta(x,y)f(x)
+\rarrow \sum_{x\in val(\rvx)}\delta(x,y)f(x)
 =f(y)
 \;.
 \eeq
 
-As usual in this book, let $S_\rvx$ denote the set of
+As usual in this book, let $val(\rvx)$ denote the set of
 values that the random variable $\rvx$ can take.
-When $S_\rvx\subset \RR$,
-we will assume that $S_\rvx$
+When $val(\rvx)\subset \RR$,
+we will assume that $val(\rvx)$
 for a probability distribution $P(x)$
 can be either a discrete or a continuous
 subset of $\RR$.\footnote{By a \qt{continuous set} we
 mean a finite set of intervals
  each of which has non-zero length.}
-When $S_\rvx$ is a discrete subset of $\RR$, $P(x)$
+When $val(\rvx)$ is a discrete subset of $\RR$, $P(x)$
 will denote a probability distribution
-for which $\sum_{x\in S_\rvx}P(x)=1$, whereas when
-$S_\rvx$ is continuous, $P(x)$ will denote
+for which $\sum_{x\in val(\rvx)}P(x)=1$, whereas when
+$val(\rvx)$ is continuous, $P(x)$ will denote
 a probability density
-for which $\int_{x\in S_\rvx}dx\; P(x)=1$.
+for which $\int_{x\in val(\rvx)}dx\; P(x)=1$.
 
 \section{Samples,
 i.i.d. variables}
@@ -366,7 +366,7 @@ i.i.d. variables}
 
  $nsam(\vecx)$ is the number of samples
  of $\vecx$.
-$\rvx[\sigma]\in S_\rvx$ are
+$\rvx[\sigma]\in val(\rvx)$ are
  i.i.d. (independent identically distributed)
 samples with
 
@@ -377,7 +377,7 @@ x[\sigma]\sim P_\rvx\;\;({\rm i.e.}\; P_{\ul{x[\sigma]}}=P_\rvx)
 \beq
 P(\rvx=x)=\frac{1}{nsam(\vecx)}\sum_\sigma \indi(x[\sigma]=x)
 \eeq
-Hence, for any $f:S_\rvx\rarrow \RR$,
+Hence, for any $f:val(\rvx)\rarrow \RR$,
 \beq
 \sum_x P(\rvx=x)f(x)
 =\frac{1}{nsam(\vecx)}\sum_\sigma f(x[\sigma])
@@ -412,8 +412,8 @@ P(\vecx)&\approx& [\prod_x P(x)^{P(x)}]^{nsam(\vecx)} \\
 \section{Expected Value and Variance}
 
 Given a random variable
- $\rvx$ with states $S_\rvx$ and
-a function $f:S_\rvx\rarrow \RR$, define
+ $\rvx$ with states $val(\rvx)$ and
+a function $f:val(\rvx)\rarrow \RR$, define
 
 \beq
 E_\rvx[f(\rvx)]=
@@ -441,7 +441,7 @@ Var_\rvx[\rvx]
 
 \section{Conditional Expected Value}
 
-Given a random variable $\rvx$ with states $S_\rvx$, a random variable $\rvy$ with states $S_\rvy,$ and a function $f:S_\rvx\times S_\rvy\rarrow \RR$, define
+Given a random variable $\rvx$ with states $val(\rvx)$, a random variable $\rvy$ with states $val(\rvy),$ and a function $f:val(\rvx)\times val(\rvy)\rarrow \RR$, define
 
 \beq
 E_{\rvx|\rvy}[f(\rvx, \rvy)]=
@@ -1232,10 +1232,10 @@ of these quantities add. }
 This discussion of the Cramer-Rao (CR) bound
 is based on Ref.\cite{wiki-cramer-rao}.
 
-Suppose $\rvx$ is a random variable with values $x\in S_\rvx$
+Suppose $\rvx$ is a random variable with values $x\in val(\rvx)$
 and $\theta\in\RR$ is a parameter.
 For any function
-$f_{\rvx,\theta}: S_\rvx\times \RR\rarrow \RR$,
+$f_{\rvx,\theta}: val(\rvx)\times \RR\rarrow \RR$,
 define
 
 \beq
@@ -1372,7 +1372,7 @@ I_\theta &=&
 
 
 
-A function  $t_\rvx:S_\rvx\rarrow \RR$
+A function  $t_\rvx:val(\rvx)\rarrow \RR$
 is called a {\bf test statistic} of random variable $\rvx$.
 
 \begin{claim}(Cramer-Rao bound for single parameter $\theta\in\RR$)
@@ -1451,7 +1451,7 @@ and vice versa.
 
 Now suppose the test statistic $t_\rvx$
 equals an {\bf estimator} $\HAT{\theta}$
-of $\theta$ with bias $b_\rvx:S_\rvx \rarrow \RR$.
+of $\theta$ with bias $b_\rvx:val(\rvx) \rarrow \RR$.
 
 \beq
 t_\rvx = \HAT{\theta}(\rvx) = \theta + b_\rvx
@@ -1714,7 +1714,7 @@ $x_{\leq t}=(x_0, x_1, \ldots, x_{t-1}, x_t)$.}
 \section{Entropy,
  Kullback-Leibler divergence, Cross-Entropy}
 
-For probability distributions $p(x), q(x)$ of $x\in S_\rvx$
+For probability distributions $p(x), q(x)$ of $x\in val(\rvx)$
 \begin{itemize}
 \item
 Entropy:
@@ -1832,7 +1832,7 @@ from $P_\rvx$ to $P_\rvy$.}
 Assume random variables $\rvx$
 and $\rvy$
 have the same set of states
-$S_\rvx=S_\rvy$. Then
+$val(\rvx)=val(\rvy)$. Then
 
 
 \beq
@@ -2007,7 +2007,7 @@ The
 for two
 probability distributions
 $PO(x)$ and $PE(x)$,
-where $x\in S_\rvx$,
+where $x\in val(\rvx)$,
 is defined
 as follows:
 \beq
@@ -2030,7 +2030,7 @@ Kullback-Leibler divergence.
 
 \begin{claim}
 If $\left|\frac{PO(x)}{PE(x)}-1\right|<<1$
-for all $x\in S_\rvx$, then
+for all $x\in val(\rvx)$, then
 
 \beq
 D_{KL}(PO\parallel PE)\approx D_{\chi^2}
@@ -2063,7 +2063,7 @@ D_{\chi^2}
 \eeqa
 \qed
 
-Let $nx=|S_\rvx|$.
+Let $nx=|val(\rvx)|$.
 Let $P_{\chi^2}(y)$
 be the $\chi^2$
 (with $nx-1$ degrees of freedom)

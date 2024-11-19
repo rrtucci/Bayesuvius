@@ -32,13 +32,13 @@ explained more precisely in the next section.
 
 
 Let $\rvb = (\rvb_1, \rvb_2, \ldots, \rvb_{n})$ denote
-the $n$ nodes of a Bayesian Network, and let $P_\rvb(b)$ for $b\in S_\rvb$
+the $n$ nodes of a Bayesian Network, and let $P_\rvb(b)$ for $b\in val(\rvb)$
 denote the full probability distribution of the bnet.
 
  Consider a population $\Sigma$ of
  individuals $\s\in \Sigma$ with $N=|\Sigma|$.
  The {\bf empirical probability distribution}
- $P_N:S_\rvb \rarrow [0,1]$ for this bnet is defined by
+ $P_N:val(\rvb) \rarrow [0,1]$ for this bnet is defined by
 
 \beq
 P_N(b) = \frac{1}{N}\sum_\s\delta(b, b_\s)
@@ -83,7 +83,7 @@ for an example of a bnet that fits this description.
 
 
 The curve-fit $\haty$ of $y$
-is a function $\haty:S_\rvd\times S_\rvx\rarrow \RR$
+is a function $\haty:val(\rvd)\times val(\rvx)\rarrow \RR$
 that minimizes the {\bf loss (a.k.a. loss functional)} $\call$
 given by
 
@@ -124,7 +124,7 @@ Let
 \delta P(X)=
 P(X)-P_{in}(X)
 \eeq
-where $P, P_{in}:S_\rvX\rarrow [0,1]$ are
+where $P, P_{in}:val(\rvX)\rarrow [0,1]$ are
 probability distributions.
 
 Define $\delta\haty(X)$ by
@@ -196,11 +196,11 @@ functions.
 \section{Functional Calculus}
 
 Define
-the Hilbert space of square integrable functions over $\rvX\in S_\rvX$
+the Hilbert space of square integrable functions over $\rvX\in val(\rvX)$
 by
 
 \beq
-\calh_\rvX =\{h: (h:S_\rvX\rarrow \RR) \text{ and }
+\calh_\rvX =\{h: (h:val(\rvX)\rarrow \RR) \text{ and }
 \sum_{ X\in S_ \rvX}[h(X)]^2 <\infty\}
 \eeq
 For any $f,g\in \calh_\rvX$,
@@ -217,7 +217,7 @@ and the norm
 \;.
 \eeq
 
-Suppose $P:S_\rvX\rarrow [0,1]$
+Suppose $P:val(\rvX)\rarrow [0,1]$
 is a probability distribution.
 Note that $P\in\calh_\rvX$.
 For any $f,g\in\calh_\rvX$,
@@ -343,7 +343,7 @@ in $f(\vecx)$ when $\vecx$ moves from $\vecx$ to $\vecx+\vecd$
 
 
 Consider probability
-distributions $P, P_{in}:S_\rvX\rarrow [0,1]$.
+distributions $P, P_{in}:val(\rvX)\rarrow [0,1]$.
 The {\bf linear approximation (a.k.a.
 one-step-approximation)}
 to the Taylor expansion of $\Psi[P]$ at
@@ -1055,7 +1055,7 @@ can be positive or negative. Hence,
 because a loss curve-fit must be non-negative. However, it can be
 defined as the derivative of a loss curve-fit. Suppose we define an $\eps\in\RR$
 parameterized
-family of probability distributions $P_\eps:S_\rvX\rarrow [0,1]$,
+family of probability distributions $P_\eps:val(\rvX)\rarrow [0,1]$,
 and we expand the loss $\call[P_\eps, \haty]$
 in powers of $\eps$:
 
