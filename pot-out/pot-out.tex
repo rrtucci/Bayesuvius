@@ -59,7 +59,7 @@ Suppose a {\bf population
 of individuals} $\s=0,1,2, \ldots, nsam-1$
 is given ($d^\s=1$) or is
 not given ($d^\s=0$)
-a {\bf treatment decision} $d^\s$,
+a {\bf treatment dose} $d^\s$,
 and that
 the
  {\bf treatment outcome (i.e., response)}
@@ -237,7 +237,7 @@ For each individual (a.k.a. unit, sample)
 $\s=0, 1, 2, \ldots nsam-1$, let:
 
 $\rvd^\s\in\bool$ be the
- treatment decision or drug dose.
+ treatment dose or drug dose.
 It equals 1 if
 treated
 and 0 if untreated.
@@ -307,7 +307,7 @@ P_{\rvy|\rvd, \rvx}(y^\s|d^\s, x^\s)
 Now let:
 
 $\rvd\in\bool$
-be the treatment decision.
+be the treatment dose.
 It equals
 1 if treated and 0 if untreated
 
@@ -400,7 +400,7 @@ y^\sigma(1)$ added to it.}
 
 \begin{figure}[h!]
 $$
-\begin{array}{ccccc}
+\begin{array}{ccc}
 \xymatrix{
 &\rvx^\s\ar[ddl]\ar[ddr]
 \\
@@ -423,25 +423,65 @@ G&G_{+}
 $$
 \caption{
 Bnet $G_+$ is bnet $G$
-with two new nodes $\rvy^\s(0)$
+with two new variables $\rvy^\s(0)$
 and $\rvy^\s(1)$
-added to it.
-The tuple node $[\rvy^\s(0), \rvy^\s(1)]$
-can also be represented by
-two nodes $\rvc\rarrow\rvy(\rvc)$,
-where $\rvc\in \bool$.
+added to it as a tuple node $[\rvy^\s(0), \rvy^\s(1)]$.
 }
 \label{fig-po-G-im-y0-y1}
 \end{figure}
 
+\begin{figure}[h!]
+$$
+\begin{array}{ccc}
+\xymatrix@C=.1pc{
+\rvx^\s\ar[d]
+\\
+[\rvy^\s(0),\rvy^\s(1)]\ar[d]
+\\
+\rvy^\s
+}
+&
+\xymatrix@C=.1pc{
+&\rvx^\s\ar[dl]\ar[dr]
+\\
+\rvy^\s(0)\ar[dr] 
+&& \rvy^\s(1)\ar[dl]
+\\
+&\rvy^\s
+}
+&
+\xymatrix{
+\rvx^\s\ar[d]
+\\
+\rvy^\s(\rvc^\s)\ar[d]
+&\rvc^\s\ar[l]
+\\
+\rvy^\s
+}
+\\
+(a)&(b)&(c)
+\end{array}
+$$
+\caption{$(a), (b), (c)$ are 3 equivalent ways of
+adding the variables $\rvy^\s(0)$,
+$\rvy^\s(1)$ to graph $G$
+to obtain $G_+$
+in Fig.\ref{fig-po-G-im-y0-y1}. 
+Note that $c^\s\in \bool$.}
+\label{fig-3-ways-y0-y1}
+\end{figure}
 
 
 Consider Fig.\ref{fig-po-G-im-y0-y1}.
 Bnet $G_+$
- was obtained by adding two new
-nodes $\rvy^\s(0)$
-and $\rvy^\s(1)$
+ was obtained by adding a tuple node
+$[\rvy^\s(0), \rvy^\s(1)]$
 to bnet $G$.
+Fig.\ref{fig-3-ways-y0-y1}
+shows 3 equivalent ways of
+adding the variables $\rvy^\s(0)$,
+$\rvy^\s(1)$ to graph $G$
+to obtain $G_+$.
 The
 TPMs, printed in blue,
  for bnet $G_+$,
@@ -470,7 +510,7 @@ P_{\rvy(c)|\rvd, \rvx}(y^\s(c)|d^\s, x^\s)
 & \text{ if INCLUDE arrow  with question mark}
 \\
 P_{\rvy(c)| \rvx}(y^\s(c)|x^\s)
-& \text{ if EXCLUDE arrow wit question mark}
+& \text{ if EXCLUDE arrow with question mark}
 \end{array}
 \right.
 \eeq
@@ -494,7 +534,13 @@ If we sum over the
 nodes $\rvy(0)$ and $\rvy(1)$
 of this bnet, we should
 get the bnet $G$.
-This is easy to check. Indeed,
+This is easy to check. Indeed,\footnote{To
+convince yourself that Eq.(\ref{eq-y-is-y-td})
+ is correct, note this.
+If $d^\s=0$, you can sum over
+$y^\s(1)$ firstly, thus
+setting $\sum_{y^\s(1)}P(y^\s(1)|d^\s, x^\s)=1$. 
+Secondly, you can sum over $y^\s(0)$.}
 
 \begin{align}
 P(y^\s|d^\s, x^\s)
@@ -565,7 +611,7 @@ of two of them, the
 so called {\bf factual
 distributions} with $c=d$.
 By measuring $\rvy$,
-we can't access the other
+we cannot access the other
 2 probability distributions,
 the so called {\bf counter-factual
 distributions}
@@ -648,7 +694,7 @@ can depend on $d$
 if $P(x|d)$ depends on $d$.
 
 
-$\caly_{0|0}, \caly_{1|1}$
+For $\caly_{c|d}$, the expected values $\caly_{0|0}, \caly_{1|1}$
 are said to be {\bf factual}
 (indicating compliant patients)
 whereas
@@ -700,10 +746,8 @@ E_{\rvy} [\rvy]
 In the weak-d limit,
 $\caly_{|d,x}$ is independent
 of $d$, but
-$\caly_{|d}$ can still depend
-if $P(x|d)$ depends on $d$,
-then
- $\caly_{|d}$ depends on $d$ too.
+$\caly_{|d}$ can still depend on  $d$
+if $P(x|d)$ depends on $d$.
 
 
 
@@ -721,7 +765,7 @@ In our notation \\
 \hline
 $i$, individual (i.e., unit, sample) index& $\s$ \\
 \hline
-$D_i=d_i$, treatment decision & $\rvd^\s=d^\s$\\
+$D_i=d_i$, treatment dose & $\rvd^\s=d^\s$\\
 \hline
 $Y_i=y_i$, treatment outcome& $\rvy^\s=y^\s$ \\
 \hline
@@ -814,10 +858,11 @@ Eq.(\ref{eq-y-to-yd}).
 The {\bf Conditional Independence Assumption}
  (CIA)
 is said to hold
- if
+ if\footnote{See Section \ref{sec-perp-p} for definition
+ of $\perp_P$}
 \beq
 (\rvy^\s(0), \rvy^\s(1),
-\rvy^\s)_\&\perp_P\rvd^\s | \rvx^\s
+\rvy^\s)\perp_P\rvd^\s | \rvx^\s
 \;.
 \label{eq-CIA2}
 \eeq
@@ -855,7 +900,7 @@ satisfies
 
 \beq
 (\rvy^\s(0), \rvy^\s(1),
-\rvy^\s)_\&\perp_P\rvd^\s
+\rvy^\s)\perp_P\rvd^\s
 \;.
 \label{eq-CIA-minus-x}
 \eeq
@@ -3437,7 +3482,7 @@ d^\s_{t+1}=  \alp d^\s_t + \gamma x^\s+ u^\s\;\;)
 \eeq
 
 Taking time averages
-of the treatment decision and
+of the treatment dose and
 treatment outcome, we get
 
 
