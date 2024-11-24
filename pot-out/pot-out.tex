@@ -2686,12 +2686,12 @@ g(x^\s)=P(\rvd^\s=1|x^\s)
 \;.
 \eeq
 $P(\rvd^\s=1|x^\s)$ is easy to calculate
-from the dataset. $g(x)=N_{1,x}/N_x$.
+from the dataset, using $g(x)=N_{1,x}/N_x$.
 
 \begin{figure}[h!]
 $$
-\begin{array}{ccccc}
-\xymatrix{
+\begin{array}{ccc}
+\xymatrix@C=.8pc{
 &&\rvx^\s\ar[ddll]\ar[d]
 \\
 &&[\rvy^\s(0),\rvy^\s(1)]\ar[d]
@@ -2701,7 +2701,7 @@ $$
 &\rvy^\s
 }
 &
-\xymatrix{
+\xymatrix@C=.8pc{
 &&\rvx^\s\ar[dl]\ar[d]
 \\
 &\rvg^\s\ar[dl]
@@ -2711,27 +2711,37 @@ $$
 &
 &\rvy^\s
 }
+&
+\xymatrix@C=.8pc{
+&&\rvg^\s\ar[ddll]\ar[d]
 \\
-G_+&G_{ps}
+&&[\rvy^\s(0),\rvy^\s(1)]\ar[d]
+\\
+\rvd^\s\ar[urr]^?\ar[rr]
+&
+&\rvy^\s
+}
+\\
+G_+&G_{g1}&G_{g2}
 \end{array}
 $$
-\caption{Bnet $G_{ps}$
+\caption{Bnets $G_+, G_{g1}, G_{g2}$
 used when doing propensity scoring.}
 \label{fig-po-G-ps}
 \end{figure}
 To use the
 propensity score,
 one replaces the bnet $G_{+}$
-by the bnet $G_{ps}$ as
+by the bnet $G_{g1}$ as
 shown in Fig.\ref{fig-po-G-ps}.
 The TPMs, printed in blue,
-for the 2 nodes of $G_{ps}$
+for the 2 nodes of $G_{g1}$
 that differ from the nodes
 of $G_{+}$,
 are as follows:\footnote{$g$ is a continuous variable
 in the interval $[0,1]$
 so its distribution 
-$P(g|x)$ is a Dirac Delta function. }
+$P(g|x)$ is a Dirac delta function. }
 
 
 \beq\color{blue}
@@ -2755,7 +2765,13 @@ P(d|x)&=&
 g(x)d + [1-g(x)](1-d)
 \\
 &=&
-P(\rvd=1|x)d + [1-P(\rvd=1|x)](1-d)
+\left\{
+\begin{array}{ll}
+g(x)&\text{if }d=1
+\\
+1-g(x) & \text{if }d=0
+\end{array}
+\right.
 \\
 &=&
 P(d|x)
@@ -2765,25 +2781,23 @@ P(d|x)
 We would like to do
 {\bf propensity score strata-matching} by
 matching g-strata instead of x-strata.
- PO calculations
-for x- strata-matching
-use the TPMs
-for $P(d|x)$, $P(x)$
-and $P(y|d,x)$.
-To do g-strata-matching
-using the same
-equations, but
-with $x$ replaced by $g$,
-we would need to solve for
+To do g-strata-matching,
+we use the graph $G_{g2}$
+in Fig.\ref{fig-po-G-ps}
+which differs from graph $G_+$
+in that node $\rvx^\s$ is replaced 
+by node $\rvg^\s$.
+Next we get the TPM of graph $G_{g2}$
+in terms of the TPM of graph $G_+$.
+We do this by expressing
 $P(d|g)$, $P(g)$
 and $P(y|d,g)$
 in terms of
 $P(d|x)$, $P(x)$
 and $P(y|d,x)$.
-We solve for those next.
 
 From the TPMs
-for $G_{ps}$, one has
+for $G_{g1}$, one has
 
 \beq
 \boxed{
@@ -2799,6 +2813,8 @@ P(g)=\sum_x \overbrace{
 P(x)}
 \;.
 \eeq
+Note that $P(g)$ is a linear
+combination of Dirac delta functions.
 Next, note that
 
 
@@ -2855,21 +2871,18 @@ effect $\cale
 we can estimate $\cale_x$,
 and then calculate $\cale$ from it, using
 \beq
-\cale=\sum_x P(x) \cale_x
-\;.
+\cale
+=
+\sum_x P(x) \cale_x
 \eeq
-Hence
-
-\beqa
-\cale &=& \int_0^1 dg
-\sum_x \delta(g-g(x))P(x)
-\cale_{x}
-\\
-&=&
-N_g\int_0^1dg
-\sum_{x\in g^{-1}(g)}
-P(x)\cale_{x}
-\eeqa
+In terms of $g$, this becomes
+\beq
+\cale = \int_0^1 dg \;P(g) \cale_{x\rarrow g}
+\eeq
+If we smooth $P(g)$, then the
+ integral over $g$ can be done by complex contour integration and reduces to a finite sum over a few residues.
+The large sum over $x$ has been
+swept under the rug, into the calculation of $P(g)$.
 
 \section{Propensity based  estimates of
 Treatment Effects}
