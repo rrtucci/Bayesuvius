@@ -59,10 +59,10 @@ Suppose a {\bf population
 of individuals} $\s=0,1,2, \ldots, nsam-1$
 is given ($d^\s=1$) or is
 not given ($d^\s=0$)
-a {\bf treatment dose} $d^\s$,
+a {\bf treatment dose} (i.e., {\bf treatment decision}) $d^\s$,
 and that
 the
- {\bf treatment outcome (i.e., response)}
+ {\bf treatment outcome} (i.e., {\bf treatment response})
 is measured by
 a real number $y^\s$.
 Table \ref{tab-pot-out-missing}
@@ -1314,7 +1314,7 @@ P_{\rvx}(x^\s)
 \eeq
 
 \beq
-P_{\cald\rvd}(\td)=\sum_x P_{\rvd|\rvx}
+Q(\td)=\sum_x P_{\rvd|\rvx}
 (\td|x)P_\rvx(x)
 \eeq
 
@@ -1324,7 +1324,7 @@ P(\td^\s)=
 \begin{array}{ll}
 \delta(\ul{\td^\s}, \td^\s)& \text{for $G_{do}$}
 \\
-P_{\cald\rvd}(\td^\s)
+Q(\td^\s)
 & \text{for $G_{do+}$}
 \end{array}
 \right.
@@ -1510,7 +1510,7 @@ $ACE$. This value for $ATE$
 is unacceptable
 because it does
 not give the result of an RCT
-whereas ACE defined
+whereas $ACE$ defined
 in terms of do operators
 always does.
 The reason\footnote{We are
@@ -1584,8 +1584,7 @@ by my software SCuMpy (see Ref.\cite{scumpy}).
 \label{intro-pot-out-sensitivity}
 
 There are various \qt{sensitivity analysis} strategies that are commonly
-used (for example, by
-the software PyWhy)
+used 
 as a sanity check for a
 PO analysis.
 \begin{itemize}
@@ -1695,7 +1694,8 @@ Therefore,
 \beq
 \rvy = \left(\beta-\;\frac{\alp\beta'}{\alp'}\right)\rvx
 +\left(\delta+\frac{\beta'}{\alp'}\right)
-(\rvd-\eps_\rvd) +\eps_\rvy
+\rvd-
+\frac{\beta'}{\alp'}\eps_\rvd +\eps_\rvy
 \eeq
 
 
@@ -1745,197 +1745,6 @@ an observable quantity.
 This is done in Chapter \ref{ch-omitted-var-bias}.
 
 
-\section{$(SDO,ATE)$ space}
-If we substitute
-$y^\s\rarrow y^\s( d^\s)$ and
- $y^{m(\s)}\rarrow y^\s(1-d^\s)$
-into
-the estimate
-Eq.(\ref{eq-est-ate}) for $ATE$
-and the estimate
-Eq.(\ref{eq-est-sdo}) for $SDO$,
-we get
-
-\beqa
-\HAT{ATE}_x
-&=&
-\frac{1}{N_x}\sum_{\s\in A_x}
- (2 d^\s-1)[y^\s( d^\s) -y^\s(1-d^\s)]
-\\
-&=&
-\frac{1}{N_x}\sum_{\s\in A_x}
- [y^\s(1) -y^\s(0)]
-\label{eq-est-ate-simple}
-\eeqa
-and
-
-\beqa
-\HAT{SDO}_x
-&=&
-\frac{1}{N_{1,x}}
-\sum_{\s\in A_x}  d^\s y^\s( d^\s)
--
-\frac{1}{N_{0,x}}
-\sum_{\s\in A_x} (1- d^\s) y^\s( d^\s)
-\\
-&=&
-\frac{1}{N_{1,x}}
-\sum_{\s\in A_{1,x}} y^\s(1)
--
-\frac{1}{N_{0,x}}
-\sum_{\s\in A_{0,x}}  y^\s(0)
-\;.
-\label{eq-est-sdo-simple}
-\eeqa
-
-Recall that
-$\HAT{\cale}=E_x[\HAT{\cale}_x]=
-\sum_x \frac{N_x}{N}\HAT{\cale}_x$
-for $\cale\in\{ATE, SDO\}$.
-
-Recall also that
-$ACE=ATE=0$ is the null
-result in an RCT.
-
-
-Suppose that
-the treatment outcome $y^\s$
-has only two
-possible values, 0 and 1.
-Then, $-1\leq ATE \leq 1$
-and
-$-1\leq SDO \leq 1$.
-But does  $ATE=0$
-imply $SDO=0$
-or vice versa?
-Next, we answer
-that question
-and more
-by finding
-the region
-of accessibility in the
-$(SDO, ATE)$
-plane,
-assuming $y^\s\in \bool$.
-
-
-\newpage
-
-\begin{figure}[h!]
-\centering
-\subfloat[$ATE=-1$ $(SDO=-1)$ point A]{
-\begin{tabular}{|
->{\columncolor[HTML]{ECF4FF}}l |l|l|l|}
-\hline
-\cellcolor[HTML]{CBCEFB}$\s$ & \cellcolor[HTML]{CBCEFB}$ d^\s$ & \cellcolor[HTML]{CBCEFB}$y^\s(0)$ & \cellcolor[HTML]{CBCEFB}$y^\s(1)$ \\ \hline
-1 & 0 & 1 & 0 \\ \hline
-2 & 0 & 1 & 0 \\ \hline
-3 & 0 & 1 & 0 \\ \hline
-4 & 1 & 1 & 0 \\ \hline
-5 & 1 & 1 & 0 \\ \hline
-6 & 1 & 1 & 0 \\ \hline
-\end{tabular}
-}
-\quad
-\subfloat[$ATE=\frac{1}{2}$ $(SDO=0)$ point B]{
-\begin{tabular}{|
->{\columncolor[HTML]{ECF4FF}}l |l|l|l|}
-\hline
-\cellcolor[HTML]{CBCEFB}$\s$ & \cellcolor[HTML]{CBCEFB}$ d^\s$ & \cellcolor[HTML]{CBCEFB}$y^\s(0)$ & \cellcolor[HTML]{CBCEFB}$y^\s(1)$ \\ \hline
-1 & 0 & 0 & 1 \\ \hline
-2 & 0 & 0 & 1 \\ \hline
-3 & 0 & 0 & 1 \\ \hline
-4 & 1 & 0 & 0 \\ \hline
-5 & 1 & 0 & 0 \\ \hline
-6 & 1 & 0 & 0 \\ \hline
-\end{tabular}
-}
-\quad
-\subfloat[$ATE=1$ $(SDO=1$) point C]{
-\begin{tabular}{|
->{\columncolor[HTML]{ECF4FF}}l |l|l|l|}
-\hline
-\cellcolor[HTML]{CBCEFB}$\s$ & \cellcolor[HTML]{CBCEFB}$ d^\s$ & \cellcolor[HTML]{CBCEFB}$y^\s(0)$ & \cellcolor[HTML]{CBCEFB}$y^\s(1)$ \\ \hline
-1 & 0 & 0 & 1 \\ \hline
-2 & 0 & 0 & 1 \\ \hline
-3 & 0 & 0 & 1 \\ \hline
-4 & 1 & 0 & 1 \\ \hline
-5 & 1 & 0 & 1 \\ \hline
-6 & 1 & 0 & 1 \\ \hline
-\end{tabular}
-}
-\caption{Examples of PO datasets. Exploring $ATE$ extremes.}
-\label{fig-ate-possi}
-\end{figure}
-
-\begin{figure}[h!]
-\centering
-\subfloat[$SDO=-1$ $(ATE=0)$ point D]{
-\begin{tabular}{|
->{\columncolor[HTML]{ECF4FF}}l |l|l|l|}
-\hline
-\cellcolor[HTML]{CBCEFB}$\s$ & \cellcolor[HTML]{CBCEFB}$ d^\s$ & \cellcolor[HTML]{CBCEFB}$y^\s(0)$ & \cellcolor[HTML]{CBCEFB}$y^\s(1)$ \\ \hline
-1 & 0 & 1 & 1 \\ \hline
-2 & 0 & 1 & 1 \\ \hline
-3 & 0 & 1 & 1 \\ \hline
-4 & 1 & 0 & 0 \\ \hline
-5 & 1 & 0 & 0 \\ \hline
-6 & 1 & 0 & 0 \\ \hline
-\end{tabular}
-}
-\quad
-\subfloat[$SDO=0$ $(ATE=-\;\frac{1}{2})$ point E]{
-\begin{tabular}{|
->{\columncolor[HTML]{ECF4FF}}l |l|l|l|}
-\hline
-\cellcolor[HTML]{CBCEFB}$\s$ & \cellcolor[HTML]{CBCEFB}$ d^\s$ & \cellcolor[HTML]{CBCEFB}$y^\s(0)$ & \cellcolor[HTML]{CBCEFB}$y^\s(1)$ \\ \hline
-1 & 0 & 1 & 0 \\ \hline
-2 & 0 & 1 & 0 \\ \hline
-3 & 0 & 1 & 0 \\ \hline
-4 & 1 & 1 & 1 \\ \hline
-5 & 1 & 1 & 1 \\ \hline
-6 & 1 & 1 & 1 \\ \hline
-\end{tabular}
-}
-\quad
-\subfloat[$SDO=1$ $(ATE=0$) point F]{
-\begin{tabular}{|
->{\columncolor[HTML]{ECF4FF}}l |l|l|l|}
-\hline
-\cellcolor[HTML]{CBCEFB}$\s$ & \cellcolor[HTML]{CBCEFB}$ d^\s$ & \cellcolor[HTML]{CBCEFB}$y^\s(0)$ & \cellcolor[HTML]{CBCEFB}$y^\s(1)$ \\ \hline
-1 & 0 & 0 & 0 \\ \hline
-2 & 0 & 0 & 0 \\ \hline
-3 & 0 & 0 & 0 \\ \hline
-4 & 1 & 1 & 1 \\ \hline
-5 & 1 & 1 & 1 \\ \hline
-6 & 1 & 1 & 1 \\ \hline
-\end{tabular}
-}
-\caption{Examples of PO datasets. Exploring $SDO$ extremes.}
-\label{fig-sdo-possi}
-\end{figure}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=2.5in]
-{pot-out/sdo-ate-polytope.png}
-\caption{
-Green parallelogram
-is accessible region in
-$(SDO,ATE)$ plane,
-assuming $y^\s\in \bool$.
-Each of the
-six points A, B, \ldots F
-corresponds to one of the six tables
-in Figs. \ref{fig-ate-possi}
-and \ref{fig-sdo-possi}.
-Segment $DF$
-corresponds to the null
-result in an RCT.
-}
-\label{fig-sdo-ate-polytope}
-\end{figure}
-
 
 
 \section{Strata-Matching}
@@ -1978,7 +1787,7 @@ $A_x=A_{0,x}\cup A_{1,x}$ and $A=\cup_x A_x$.
 Let $N_{ d,x}=|A_{ d,x}|$,
 $N_x= |A_x|$ and $N=|A|$.
 
-In an exact   strata-matching,
+In exact   strata-matching,
 we match each individual with
 $ d^\s=d, x^\s=x$
 with
@@ -1996,7 +1805,7 @@ are non-empty for all $x$.
 The purpose of map $m()$
 is
 to fill in the missing data in the
-PO dataset. See Fig.\ref{tab-po-s-map}
+PO dataset. See Table \ref{tab-po-s-map}
 for a pictorial representation of
 this.
 
@@ -2397,6 +2206,197 @@ can be proven to be true using
 the methods of
 section \ref{sec-td-ignored}.
 
+\subsection{$(SDO,ATE)$ space}
+If we substitute
+$y^\s\rarrow y^\s( d^\s)$ and
+ $y^{m(\s)}\rarrow y^\s(1-d^\s)$
+into
+the estimate
+Eq.(\ref{eq-est-ate}) for $ATE$
+and the estimate
+Eq.(\ref{eq-est-sdo}) for $SDO$,
+we get
+
+\beqa
+\HAT{ATE}_x
+&=&
+\frac{1}{N_x}\sum_{\s\in A_x}
+ (2 d^\s-1)[y^\s( d^\s) -y^\s(1-d^\s)]
+\\
+&=&
+\frac{1}{N_x}\sum_{\s\in A_x}
+ [y^\s(1) -y^\s(0)]
+\label{eq-est-ate-simple}
+\eeqa
+and
+
+\beqa
+\HAT{SDO}_x
+&=&
+\frac{1}{N_{1,x}}
+\sum_{\s\in A_x}  d^\s y^\s( d^\s)
+-
+\frac{1}{N_{0,x}}
+\sum_{\s\in A_x} (1- d^\s) y^\s( d^\s)
+\\
+&=&
+\frac{1}{N_{1,x}}
+\sum_{\s\in A_{1,x}} y^\s(1)
+-
+\frac{1}{N_{0,x}}
+\sum_{\s\in A_{0,x}}  y^\s(0)
+\;.
+\label{eq-est-sdo-simple}
+\eeqa
+
+Recall that
+$\HAT{\cale}=E_x[\HAT{\cale}_x]=
+\sum_x \frac{N_x}{N}\HAT{\cale}_x$
+for $\cale\in\{ATE, SDO\}$.
+
+Recall also that
+$ACE=ATE=0$ is the null
+result in an RCT.
+
+
+Suppose that
+the treatment outcome $y^\s$
+has only two
+possible values, 0 and 1.
+Then, $-1\leq ATE \leq 1$
+and
+$-1\leq SDO \leq 1$.
+But does  $ATE=0$
+imply $SDO=0$
+or vice versa?
+Next, we answer
+that question
+and more
+by finding
+the region
+of accessibility in the
+$(SDO, ATE)$
+plane,
+assuming $y^\s\in \bool$.
+
+
+\newpage
+
+\begin{figure}[h!]
+\centering
+\subfloat[$ATE=-1$ $(SDO=-1)$ point A]{
+\begin{tabular}{|
+>{\columncolor[HTML]{ECF4FF}}l |l|l|l|}
+\hline
+\cellcolor[HTML]{CBCEFB}$\s$ & \cellcolor[HTML]{CBCEFB}$ d^\s$ & \cellcolor[HTML]{CBCEFB}$y^\s(0)$ & \cellcolor[HTML]{CBCEFB}$y^\s(1)$ \\ \hline
+1 & 0 & 1 & 0 \\ \hline
+2 & 0 & 1 & 0 \\ \hline
+3 & 0 & 1 & 0 \\ \hline
+4 & 1 & 1 & 0 \\ \hline
+5 & 1 & 1 & 0 \\ \hline
+6 & 1 & 1 & 0 \\ \hline
+\end{tabular}
+}
+\quad
+\subfloat[$ATE=\frac{1}{2}$ $(SDO=0)$ point B]{
+\begin{tabular}{|
+>{\columncolor[HTML]{ECF4FF}}l |l|l|l|}
+\hline
+\cellcolor[HTML]{CBCEFB}$\s$ & \cellcolor[HTML]{CBCEFB}$ d^\s$ & \cellcolor[HTML]{CBCEFB}$y^\s(0)$ & \cellcolor[HTML]{CBCEFB}$y^\s(1)$ \\ \hline
+1 & 0 & 0 & 1 \\ \hline
+2 & 0 & 0 & 1 \\ \hline
+3 & 0 & 0 & 1 \\ \hline
+4 & 1 & 0 & 0 \\ \hline
+5 & 1 & 0 & 0 \\ \hline
+6 & 1 & 0 & 0 \\ \hline
+\end{tabular}
+}
+\quad
+\subfloat[$ATE=1$ $(SDO=1$) point C]{
+\begin{tabular}{|
+>{\columncolor[HTML]{ECF4FF}}l |l|l|l|}
+\hline
+\cellcolor[HTML]{CBCEFB}$\s$ & \cellcolor[HTML]{CBCEFB}$ d^\s$ & \cellcolor[HTML]{CBCEFB}$y^\s(0)$ & \cellcolor[HTML]{CBCEFB}$y^\s(1)$ \\ \hline
+1 & 0 & 0 & 1 \\ \hline
+2 & 0 & 0 & 1 \\ \hline
+3 & 0 & 0 & 1 \\ \hline
+4 & 1 & 0 & 1 \\ \hline
+5 & 1 & 0 & 1 \\ \hline
+6 & 1 & 0 & 1 \\ \hline
+\end{tabular}
+}
+\caption{Examples of PO datasets. Exploring $ATE$ extremes.}
+\label{fig-ate-possi}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\subfloat[$SDO=-1$ $(ATE=0)$ point D]{
+\begin{tabular}{|
+>{\columncolor[HTML]{ECF4FF}}l |l|l|l|}
+\hline
+\cellcolor[HTML]{CBCEFB}$\s$ & \cellcolor[HTML]{CBCEFB}$ d^\s$ & \cellcolor[HTML]{CBCEFB}$y^\s(0)$ & \cellcolor[HTML]{CBCEFB}$y^\s(1)$ \\ \hline
+1 & 0 & 1 & 1 \\ \hline
+2 & 0 & 1 & 1 \\ \hline
+3 & 0 & 1 & 1 \\ \hline
+4 & 1 & 0 & 0 \\ \hline
+5 & 1 & 0 & 0 \\ \hline
+6 & 1 & 0 & 0 \\ \hline
+\end{tabular}
+}
+\quad
+\subfloat[$SDO=0$ $(ATE=-\;\frac{1}{2})$ point E]{
+\begin{tabular}{|
+>{\columncolor[HTML]{ECF4FF}}l |l|l|l|}
+\hline
+\cellcolor[HTML]{CBCEFB}$\s$ & \cellcolor[HTML]{CBCEFB}$ d^\s$ & \cellcolor[HTML]{CBCEFB}$y^\s(0)$ & \cellcolor[HTML]{CBCEFB}$y^\s(1)$ \\ \hline
+1 & 0 & 1 & 0 \\ \hline
+2 & 0 & 1 & 0 \\ \hline
+3 & 0 & 1 & 0 \\ \hline
+4 & 1 & 1 & 1 \\ \hline
+5 & 1 & 1 & 1 \\ \hline
+6 & 1 & 1 & 1 \\ \hline
+\end{tabular}
+}
+\quad
+\subfloat[$SDO=1$ $(ATE=0$) point F]{
+\begin{tabular}{|
+>{\columncolor[HTML]{ECF4FF}}l |l|l|l|}
+\hline
+\cellcolor[HTML]{CBCEFB}$\s$ & \cellcolor[HTML]{CBCEFB}$ d^\s$ & \cellcolor[HTML]{CBCEFB}$y^\s(0)$ & \cellcolor[HTML]{CBCEFB}$y^\s(1)$ \\ \hline
+1 & 0 & 0 & 0 \\ \hline
+2 & 0 & 0 & 0 \\ \hline
+3 & 0 & 0 & 0 \\ \hline
+4 & 1 & 1 & 1 \\ \hline
+5 & 1 & 1 & 1 \\ \hline
+6 & 1 & 1 & 1 \\ \hline
+\end{tabular}
+}
+\caption{Examples of PO datasets. Exploring $SDO$ extremes.}
+\label{fig-sdo-possi}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2.5in]
+{pot-out/sdo-ate-polytope.png}
+\caption{
+Green parallelogram
+is accessible region in
+$(SDO,ATE)$ plane,
+assuming $y^\s\in \bool$.
+Each of the
+six points A, B, \ldots F
+corresponds to one of the six tables
+in Figs. \ref{fig-ate-possi}
+and \ref{fig-sdo-possi}.
+Segment $DF$
+corresponds to the null
+result in an RCT.
+}
+\label{fig-sdo-ate-polytope}
+\end{figure}
+
 
 
 \subsection{Approximate   strata-matching}
@@ -2728,12 +2728,15 @@ The TPMs, printed in blue,
 for the 2 nodes of $G_{ps}$
 that differ from the nodes
 of $G_{+}$,
-are as follows:
+are as follows:\footnote{$g$ is a continuous variable
+in the interval $[0,1]$
+so its distribution 
+$P(g|x)$ is a Dirac Delta function. }
 
 
 \beq\color{blue}
 P(g^\s|x^\s)=
-\delta(g^\s, g(x^\s))
+\delta(g^\s-g(x^\s))
 \eeq
 
 \beq\color{blue}
@@ -2767,7 +2770,7 @@ for x- strata-matching
 use the TPMs
 for $P(d|x)$, $P(x)$
 and $P(y|d,x)$.
-To do g- strata-matching
+To do g-strata-matching
 using the same
 equations, but
 with $x$ replaced by $g$,
@@ -2792,7 +2795,7 @@ and
 \beq
 \boxed{
 P(g)=\sum_x \overbrace{
-\delta(g,g(x))}^{P(g|x)}
+\delta(g-g(x))}^{P(g|x)}
 P(x)}
 \;.
 \eeq
@@ -2809,7 +2812,7 @@ so we need to find $P(x|g)$. Since
 P(x|g)&=&\frac{P(g|x)P(x)}{P(g)}
 \\
 &=&
-\frac{\delta(g, g(x))P(x)}{P(g)}
+\frac{\delta(g-g(x))P(x)}{P(g)}
 \eeqa
 we finally get
 
@@ -2817,7 +2820,7 @@ we finally get
 \boxed{
 P(y| d,g)=
 \sum_x P(y|d,x)
-\frac{\delta(g, g(x))P(x)}{P(g)}
+\frac{\delta(g-g(x))P(x)}{P(g)}
 }
 \;.
 \label{eq-p-y-dg}
@@ -2828,17 +2831,19 @@ looks complicated, but all
 it is saying is that
 
 \beq
-P(y|d,g)P(g)=
+P(y|d,g)P(g)= N_g
 \sum_{x\in g^{-1}(g)}
  P(y|d,x)P(x)
 \;,
 \eeq
 where $g^{-1}(g)=
-\{x: g(x)=g\}$.
+\{x: g(x)=g\}$
+and $N_g$ is the number of $g$
+when we discretize the interval $[0,1]$.
 In general,
 
 \beq
-\sum_x\delta(g, g(x))=
+\sum_x\delta(g-g(x))= N_g
 \sum_{x\in g^{-1}(g)}
 \eeq
 
@@ -2856,16 +2861,48 @@ and then calculate $\cale$ from it, using
 Hence
 
 \beqa
-\cale &=& \sum_g
-\sum_x \delta(g, g(x))P(x)
+\cale &=& \int_0^1 dg
+\sum_x \delta(g-g(x))P(x)
 \cale_{x}
 \\
 &=&
-\sum_g
+N_g\int_0^1dg
 \sum_{x\in g^{-1}(g)}
 P(x)\cale_{x}
 \eeqa
 
+\section{Propensity based  estimates of
+Treatment Effects}
+
+In the  strata-matching
+section \ref{sec-strata-matching}, we gave an estimate
+of $ACE_x$.
+In strata-matching, one
+fills in the missing
+counterfactual values
+via the map $m()$.
+This is justified
+because,
+by CIA (weak-d limit),
+the counterfactual
+distributions
+are assumed to equal
+the factual distributions (see Fig.
+\ref{fig-y-diffs-square-probs}).
+In this
+section,
+we give estimates
+of treatment effects that
+are based on the  formulae derived
+in Section \ref{sec-propensities}.
+The estimates given in this section
+do no require
+the map $m()$, because
+the identification of
+counterfactual distributions
+with factual ones was used to
+derive the formulae
+of  Section \ref{sec-propensities}.
 
 Let
 \beq
@@ -2876,34 +2913,34 @@ Note that $g_{0|x}+g_{1|x}=1$.
 We will
 refer to $g_d(x)$
 for $d\in \bool$
-as a two {\bf propensities}
+as {\bf dual propensities}
 and to $g_1(x)$ as the
 {\bf propensity score}.
 
 Define
 \beq
 \delta_{y|x}=
-P(y|d=1,x)-P(y|d=0,x)
+P(y|\rvd=1,x)-P(y|\rvd=0,x)
 \eeq
 Note that
 
 \beqa
 \delta_{y|x}
 &=&
-\frac{P(y, d=1|x)}{g_{1|x}}
+\frac{P(y, \rvd=1|x)}{g_{1|x}}
 -
-\frac{P(y, d=0| x)}{g_{0|x}}
+\frac{P(y, \rvd=0| x)}{g_{0|x}}
 \\
 &=&
-\frac{P(y, d=1|x)g_{0|x}
+\frac{P(y, \rvd=1|x)g_{0|x}
 -
-P(y, d=0|x)g_{1|x}}
+P(y, \rvd=0|x)g_{1|x}}
 {
 g_{0|x}g_{1|x}
 }
 \\
 &=&
-\frac{P(y, d=1|x)
+\frac{P(y, \rvd=1|x)
 -
 P(y|x)g(x)}
 {
@@ -3072,39 +3109,9 @@ SDO
 \;\text{(by SUTVA)}
 \end{align}
 
-\section{Propensity based  estimates of
-treatment effects}
 
-In the  strata-matching
-section \ref{sec-strata-matching}, we gave an estimate
-of $ACE_x$.
-In strata-matching, one
-fills in the missing
-counterfactual values
-via the map $m()$.
-This is justified
-because,
-by CIA (weak-d limit),
-the counterfactual
-distributions
-are assumed to equal
-the factual distributions (see Fig.
-\ref{fig-y-diffs-square-probs}).
-In this
-section,
-we give estimates
-of treatment effects that
-are based on the  formulae derived
-in Section \ref{sec-propensities}.
-The estimates given in this section
-do no require
-the map $m()$, because
-the identification of
-counterfactual distributions
-with factual ones was used to
-derive the formulae
-of  Section \ref{sec-propensities}.
 
+\section{Doubly Robust Estimates of Treatment Effects}
 
 
 
