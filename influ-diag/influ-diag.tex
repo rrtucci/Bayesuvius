@@ -7,11 +7,11 @@ An {\bf Influence Diagram (ID)} is
 a DAG that generalizes a bnet by adding
 2 new types of nodes. IDs have 3 types of nodes: chance, decision and utility (a.k.a value) nodes, represented, respectively, by ovals, rectangles and diamonds.\footnote{Since our
 bnet drawing software {\tt xypic} cannot draw diamond frames for nodes,
-in this book, we sometimes 
+in this book, we sometimes
 represent chance, decision
 and utility nodes by no-frames, rectangles and doubly-lined rectangles, respectively.}
 
-Fig.\ref{fig-simple-id} and the information printed in blue 
+Fig.\ref{fig-simple-id} and the information printed in blue
 that follows it, are a simple example of an ID.
 \begin{figure}[h!]
 $$
@@ -77,7 +77,7 @@ u_2(d_2, c)=
 \eeq
 \item Decision nodes:
 
-{\color{blue}$P(d_1)$ and $P(d_2|b, d_1)$ 
+{\color{blue}$P(d_1)$ and $P(d_2|b, d_1)$
 are deterministic TPMs obtain by
 optimization. They maximize $u=u_1+u_2$.}
 \end{itemize}
@@ -87,7 +87,7 @@ optimization. They maximize $u=u_1+u_2$.}
 
  Table \ref{tab-id-nodes} compares these 3 types of nodes in an  ID. Note that a decision node
  is a deterministic node\footnote{Deterministic nodes
- are defined by Eq.(\ref{eq-def-det-node})}, but its TPM is 
+ are defined by Eq.(\ref{eq-def-det-node})}, but its TPM is
  not known a priori. Instead, it is derived by an optimization algorithm which maximizes the total utility.
 
 % Please add the following required packages to your document preamble:
@@ -102,13 +102,13 @@ optimization. They maximize $u=u_1+u_2$.}
 \cellcolor[HTML]{FFFFC7}transition info\footnote{by \qt{transition info}
 of a node, we
 mean \qt{personal} node info
-other than a list of the states of the node and a list 
-of its parent nodes}                                                    & TPM                                                                                   & 
+other than a list of the states of the node and a list
+of its parent nodes}                                                    & TPM                                                                                   &
 deterministic TPM                                                                                  & \begin{tabular}[c]{@{}l@{}}utility function,\\ not normalized
 \end{tabular}
 \\ \hline
 \cellcolor[HTML]{FFFFC7}\begin{tabular}[c]{@{}l@{}}
-transition info \\ known a priori\end{tabular} & Yes                                                                                   & 
+transition info \\ known a priori\end{tabular} & Yes                                                                                   &
 No                                                      & Yes                                                                           \\ \hline
 \cellcolor[HTML]{FFFFC7}children type                                                       & chance, decision, value                                                               & chance, decision, value                                                                  & None                                                                                                                                                                   \\ \hline
 \end{tabular}
@@ -124,7 +124,7 @@ $\rvc.=$ set of {\bf chance nodes}
 
 $\rvd.=$ set of {\bf decision nodes}.
 Assume $\rvd_i$ are in chronological (a.k.a., topological)
-order, i.e., $\rvd_i$ occurs before 
+order, i.e., $\rvd_i$ occurs before
 (or concurrent with)  $\rvd_{i+1}$ for all $i$.
 
 $\rvu.=$ set of {\bf utility nodes}. Often, utility nodes are called {\bf value nodes} and only their sum is called a utility node.
@@ -138,7 +138,7 @@ node $\rvX_i$ can assume.
 
 
 $\rve.=$ {\bf evidence nodes}, the subset $\rve.$  of the chance nodes $\rvc.$ that is {\bf apriori observed}
-(i.e. measured before the experiment starts). If a decision node has a 
+(i.e. measured before the experiment starts). If a decision node has a
 chance node as a parent,
 we will assume it is measured immediately before the decision is made,
 not apriori.
@@ -154,14 +154,14 @@ $u(\rvc., d.)=\sum_i u_i(pa(\rvu_i))$ {\bf total utility function }
 \item {\bf Chance node partition}
 
 Given $nd$ decision nodes $\{\rvd_i\}_{i=1}^{nd}$, we partition the set of chance nodes $\rvc.$
-into $nd+1$ disjoint subsets $\{\rv{\calc}_i\}_{i=0}^{nd}$ 
+into $nd+1$ disjoint subsets $\{\rv{\calc}_i\}_{i=0}^{nd}$
  in such a way that
 all nodes in $\rv{\calc}_{i-1}$ occur before (or concurrent with) $\rvd_i$, and
 $\rvd_i$  occurs before (or concurrent with) all nodes in $\rv{\calc}_{i}$.
 Thus,
 
 \beq
-\rv{\calc}_0\prec \rvd_1  \prec 
+\rv{\calc}_0\prec \rvd_1  \prec
 \rv{\calc}_1\prec \rvd_2
 \ldots\prec \rv{\calc}_{nd-1}\prec \rvd_{nd}
 \prec \rv{\calc}_{nd}
@@ -191,9 +191,9 @@ by $\delta(c_i, c_i^*)$.
 Let
 \beq
 \underbrace{\rv{\calc}_0}_{\cald_0},
-\underbrace{ \rvd_1,\rv{\calc}_1 }_{\rv{\cald}_1}, 
-\underbrace{\rvd_2, \rv{\calc}_2}_{\rv{\cald}_2}, 
-\ldots, 
+\underbrace{ \rvd_1,\rv{\calc}_1 }_{\rv{\cald}_1},
+\underbrace{\rvd_2, \rv{\calc}_2}_{\rv{\cald}_2},
+\ldots,
 \underbrace{\rv{\cald}_{nd},\rv{\calc}_{nd}}_{ \cald_{nd}}
 \eeq
 and $\cald_{<i}= \cup_{j=1}^{i-1}\cald_j$.
@@ -235,7 +235,7 @@ and the {\bf Maximum Expected Utility} (MEU) by
 MEU =\sum_{\calc_0}\Psi_1(\calc_0)
 \eeq
 
-Thus, for example, if $nd=3$, we have 3 max-expectation problems to be performed 
+Thus, for example, if $nd=3$, we have 3 max-expectation problems to be performed
 in the following order:
 
 \beq
@@ -259,27 +259,27 @@ in its past.
 On first encountering this algorithm, the
 reader might question how to do the maximization
 over $d_i$
-without knowing $\cald_{<i}$. It turns out that due to d-separation, all you have to do is pick one instatiation 
-and stick with it throughout when needed. The result for the 
-optimum policy and MEU 
+without knowing $\cald_{<i}$. It turns out that due to d-separation, all you have to do is pick one instatiation
+and stick with it throughout when needed. The result for the
+optimum policy and MEU
 will
 be independent of the instantiation you chose.
-This is clear if you think of 
+This is clear if you think of
 $
-\rv{\cald}_0\rarrow \rv{\cald}_1\rarrow\cdots\rarrow 
+\rv{\cald}_0\rarrow \rv{\cald}_1\rarrow\cdots\rarrow
  \rv{\cald}_{nd}
 $
 as a Markov chain. When you maximize over $d_i$
 you hold it fixed, and $P(\calc_i|d_i, \cald_{<i}) =
 P(\calc_i|d_i)$.
 
-\end{mdframed} 
+\end{mdframed}
 
 
 
-\item {\bf Limited Memory ID (LIMID)}. 
+\item {\bf Limited Memory ID (LIMID)}.
 
-LIMIDs were first introduced 
+LIMIDs were first introduced
 in Ref.\cite{limid-one}. According to that reference, LIMIDs are
 \qt{multistage
 decision problems in which the traditional assumption of no forgetting is
@@ -295,20 +295,20 @@ at various times $T=\{1,2,3,4\}$.
 Node $\rvh_i\in\bool$
 refers to the health of a pig at time $i$.
 
-Node $\rvt_i\in \bool$ refers to a test 
+Node $\rvt_i\in \bool$ refers to a test
 conducted on the pig at time $i$.
 
-Node $\rvd_i\in \bool$ refers to a decision 
+Node $\rvd_i\in \bool$ refers to a decision
 made by the farmer at time $i$ on whether to medicate the pig.
 
-Node $\rvu_i\in \RR$ refers to the utility (monetary value)  
+Node $\rvu_i\in \RR$ refers to the utility (monetary value)
 of medicating the pig at time $i$.
 
- 
+
 Fig.\ref{fig-pre-limid} shows a dynamic bnet that
 obeys the {\bf no forgetting} assumption so every decision is
 privy to the state of all previous decision and some chance nodes.
-Fig.\ref{fig-post-limid} shows the same bnet as 
+Fig.\ref{fig-post-limid} shows the same bnet as
 Fig.\ref{fig-pre-limid} after all arrows entering a decision $\rvd_i$ and originating at an earlier time, have been removed.
 
 
@@ -318,7 +318,7 @@ Fig.\ref{fig-pre-limid} after all arrows entering a decision $\rvd_i$ and origin
 \includegraphics[width=4in]
 {influ-diag/pre-limid.jpg}
 \caption{Pig farming ID that obeys the \qt{no-forgetting}
-assumption.  
+assumption.
 }
 \label{fig-pre-limid}
 \end{figure}
@@ -341,7 +341,7 @@ Ref.\cite{sha-influ-diag} proposes the following 3 exact methods for
 finding the optimal strategy of an ID.
 \begin{enumerate}
 \item conversion to a decision
-tree 
+tree
 \item calculation directly from ID, using Variable
 Elimination Algorithm (VEA)
 \item conversion to a rooted cluster tree.
@@ -392,7 +392,7 @@ x&&y\ar[ll]
 \eeq
 
 \item Summing over the states of a chance node. Suppose
-$\rvx\rarrow \rvu$ 
+$\rvx\rarrow \rvu$
 where $\rvx$ is a chance node and $\rvu$
 is a utility node, and $\rvx$ has only one child $\rvu$. Then
 \beq
@@ -417,15 +417,15 @@ x\ar[rr]
 }
 \eeq
 
-\item Finding state of decision node that maximizes utility. 
-Suppose $\rvd\rarrow \rvu$ 
+\item Finding state of decision node that maximizes utility.
+Suppose $\rvd\rarrow \rvu$
 where $\rvd$ is a decision node and $\rvu$
 is a utility node, and $\rvd$ has only
 one child $\rvu$. Also
 $\rva.\cup\rvb.=pa(\rvd)\supset pa(\rvu)-\rvd=\rvb.$.\footnote{
 This means that when you condition on
 $pa(\rvd)$ you also
-condition on $pa(\rvu)-\rvd$}. So the 
+condition on $pa(\rvu)-\rvd$}. So the
 maximization is $\max_du (d(b., a.), b.)$.
 The value $d^*=\argmax_d u$
 should be saved
@@ -453,7 +453,7 @@ if the optimum policy is desired.
 \eeq
 
 \item Combining partial
-utilities. 
+utilities.
 \beq
 \xymatrix{
 \corchete{a.}\ar[d]
@@ -474,8 +474,8 @@ utilities.
 \eeq
 \end{enumerate}
 
-VEA consists of the 
-the following steps applied in non-sequential
+VEA consists of the
+following steps applied in non-sequential
 order. VEA is valid even with
 non-forgetting is assumed.
 
@@ -486,13 +486,13 @@ $\rvc$, sum over it.
 
 \item
 If $\rvd\rarrow \rvu$ where $\rvd$
-is a decision node 
+is a decision node
 and $\rvu$ is a utility node, and $\rvd$ has exactly one child $\rvu$, and all $pa(\rvu)-\rvd$ have been
 observed already, find $\max_d$ and remove $\rvd$.
 
 \item If $\rvc\rarrow\rvu$,
 where $\rvc$ is a chance node
-and $\rvu$ is a utility node, and $\rvc$ has at most one child, then, after reversing arcs to its 
+and $\rvu$ is a utility node, and $\rvc$ has at most one child, then, after reversing arcs to its
 non-utility children in reverse chronological order,
 sum over $\rvc$ and remove it.
 
@@ -698,28 +698,28 @@ b\ar[r]
 
 
 %\section{Conversion to Tree}
-%Finding the optimal strategy 
+%Finding the optimal strategy
 %for an ID with discrete chance and decision nodes is basically
 %a problem of finding a list of possible instantiations
 %for the parents of each decision node, and finding the
-%instatiation that maximizes each each utility function.
+%instatiation that maximizes each utility function.
 %Trees are eminently suited for generating lists of
 %possibilities.
 %
 %We begin by assigning each  chance node
 %of Fig.\ref{fig-sha-fig1}  to
-%the first decision that requires it. This is shown 
+%the first decision that requires it. This is shown
 %in Fig.\ref{fig-jensen-stages}.
 %
 %
 %The next steps of the exact
 %method 1 are illustrated by Fig.\ref{fig-sha-fig134},
 %which we discuss next.
-%T=Top, B=Bottom, L=Left, R=Right. 
+%T=Top, B=Bottom, L=Left, R=Right.
 %\begin{itemize}
 %\item{\bf TL:} the ID of Fig.\ref{fig-sha-fig1},
 %\item{\bf TR:} the ID of TL after reduction to requisite
-%observations. 
+%observations.
 %\item{\bf BL:} the ID of TR after reduction to a tree.
 %
 %This requires reversing some arrows. To reverse
@@ -767,4 +767,3 @@ b\ar[r]
 %\end{figure}
 %
 %
-

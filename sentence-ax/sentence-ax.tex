@@ -3,7 +3,7 @@
 
 The Openie6 (O6) software
 (at github repo Ref.\cite{openie6-github})
-splits complex or compound 
+splits complex or compound
 sentences into
 simple ones.\footnote{Simple sentences are essentially
 the same  as the triples (subject, relationship, object) which, when visualized as a directed or undirected graph,
@@ -13,13 +13,13 @@ DAG extraction from text (DEFT) (See Chapter \ref{ch-deft}).
 
 The O6 software is described by its creators
  in the paper Ref.\cite{openie6-paper},
- which we will henceforth refer to as 
+ which we will henceforth refer to as
  the O6 paper.
 
-My SentenceAx (Sax) software (at github repo Ref.\cite{sentence-ax-github}) is a complete re-write of 
+My SentenceAx (Sax) software (at github repo Ref.\cite{sentence-ax-github}) is a complete re-write of
 the  O6 software.
 Sax is $95\%$ identical algorithmically to O6, but I have rewritten it in what I hope is a friendlier form.
- 
+
 
  Sax is a fine-tuning of the BERT model.
  What this means in the
@@ -60,9 +60,9 @@ Below, we will often accompany
   component notation
   with the equivalent matrix equation,
   in parenthesis.
-  
-We use  
-Greek letters for 
+
+We use
+Greek letters for
 tensor indices.
 
 Let $\alp\in[a]$, $\beta\in[b]$, $\gamma\in[c]$,
@@ -120,7 +120,7 @@ _{\alp_\in [a], \gamma \in [c]}
 \end{itemize}
 
 Most treatments of Transformer Networks (tranets), including the
-the O6 paper and PyTorch,  order the
+O6 paper and PyTorch,  order the
 operations chronologically from
 left to right (L2R). So if $A$ occurs before $B$,
 they write $AB$.
@@ -135,7 +135,7 @@ In this chapter,
 we will
 follow the PyTorch
 convention,
-because Sax is written with 
+because Sax is written with
 PyTorch
 so it uses the PyTorch convention.
 
@@ -165,8 +165,8 @@ the R2L convention followed in Linear Algebra,
 x^{[a], \nu}\rarrow y^{[b], \nu}=W^{[b], [a]}
 x^{ [a], \nu}
 \eeq
- 
-Note that in PyTorch, the rightmost index of the input is the 
+
+Note that in PyTorch, the rightmost index of the input is the
 one that is summed over.
 
 The weights matrix $W^{[b], [a]}$ is learned by training.
@@ -349,15 +349,15 @@ $n_\rvc=$ number of classes in classification. $\gamma\in[n_\rvc]$
 
 
 $x^{[n_\rvc], [n_\rvs]}=$ input  samples. Roughly
-speaking, if $x, y$ is the 
+speaking, if $x, y$ is the
 data in supervised training,
 then this is the prediction $pred = forward(x)$.
 
-$t^{[n_\rvs]}=$ target samples. Roughly speaking, if $x, y$ is the 
+$t^{[n_\rvs]}=$ target samples. Roughly speaking, if $x, y$ is the
 data in supervised training,
 then this is $y$.
 
-Define 
+Define
 \beqa
 P_{in}(\gamma|\s)&=&
 \frac{\exp(x^{\gamma, \s})}
@@ -379,7 +379,7 @@ W^\gamma (t^{\s})\indi(t^{\s}\neq -100)}
 {\sum_{\gamma\in[n_\rvc]}numerator}
 \eeq
 
-The -100 
+The -100
 on the right side of the last
 equation can be replaced by any other integer
 in $values(\rvt)$ for which we want the loss to be zero (for example, it could be an integer used for padding)
@@ -415,7 +415,7 @@ lll_out = torch.gather(
 \end{verbatim}
 \end{mdframed}
 Sax uses the trio of operations unsqueeze-repeat-gather
-in the manner of the above pseudo-code. We have already 
+in the manner of the above pseudo-code. We have already
 discussed in Section \ref{sec-numpy-tensors}
 how each of these 3 operations
 acts individually. Here we will discuss how they
@@ -434,7 +434,7 @@ Let
 
 $\s\in s_{ba}, \lam \in[\Lam], \alp\in[a], \delta\in[d]$
 
-{\tt unsqueeze(2)} takes 
+{\tt unsqueeze(2)} takes
 
 \beq
 L_0^{[s_{ba}], [a]}\rarrow L_0^{[s_{ba}], [a], 0}
@@ -445,25 +445,25 @@ takes
 
 \beq
 L_0^{[s_{ba}], [a], 0}\rarrow
-L^{[s_{ba}], [a], [d]}= 
-(\underbrace{L_0^{[s_{ba}], [a], 0}, 
+L^{[s_{ba}], [a], [d]}=
+(\underbrace{L_0^{[s_{ba}], [a], 0},
 \ldots,
 L_0^{[s_{ba}], [a], 0}}_
-{\text{$d$ times}}) 
+{\text{$d$ times}})
 \eeq
 
-Now define 
+Now define
 
 \beq
 \lam(\s, \alp)
 =
 L^{\s, \alp, \delta}=
 L_0^{\s, \alp}
-\eeq 
-Then the {\tt gather()} 
+\eeq
+Then the {\tt gather()}
 with {\tt dim=1} outputs:
 
-\beq 
+\beq
 O^{\s, \alp, \delta}=
 S^{\s, \lam(\s, \alp), \delta}
 \eeq
@@ -507,7 +507,7 @@ shows the bnet  for Sax.\footnote{The
 bnet of Fig.\ref{fig-texnn-for-sentence-ax-bnet}
 and its structural equations
 printed in blue,
-were produced via the texnn software (Ref.\cite{texnn})}. The structural equations, printed in 
+were produced via the texnn software (Ref.\cite{texnn})}. The structural equations, printed in
 blue, for that bnet, are as follows.
 
 \begin{figure}[h!]\centering
@@ -650,9 +650,9 @@ where the $\lam_i$ are hyper-parameters
 to be determined  heuristically.
 
 In an earlier
-section, we discussed 
-the Cross Entropy Loss at 
-length. 
+section, we discussed
+the Cross Entropy Loss at
+length.
 In this section, we will discuss the 4 penalty losses.
 
 
@@ -674,7 +674,7 @@ x& \text{ if } x\geq0
 \eeqa
 Since loss is supposed to be bounded below
  (usually it is defined to be greater or equal to zero),
- the positive-part function 
+ the positive-part function
  comes in handy when defining a loss.
 
 
@@ -725,13 +725,13 @@ IMP^\alp = \indi(POS^\alp \in T_{pos})
 HV^\alp = \indi(w^\alp \text{ is a head verb})
 \eeq
 
-Let $P(\rvt^{\mu, \alp} =t )$ 
+Let $P(\rvt^{\mu, \alp} =t )$
 denote  an empirical probability  for a table element
 $\rvt^{\mu, \alp}\in T_{ex}$, for all $\mu\in [M]$ and $\alp\in[\ell]$.
 
 The O6 paper uses the following sentence
 to exemplify the 4 types
-of penalty losses. 
+of penalty losses.
 
 \begin{quote}\color{red}
 Obama gained popularity after
@@ -752,7 +752,7 @@ and {\color{red}(Oprah; endorsed him for;
 
 \item {\bf Part of Speech Coverage (POSC)}
 
-Penalize if 
+Penalize if
 some important words do not belong to at least one extraction.
 
 In osent: all the words {\color{red}Obama, gained, popularity,
@@ -792,7 +792,7 @@ P_{HVC}(\alp)=
 
 \item {\bf Head Verb Exclusivity (HVE)}
 
-Penalize extractions that 
+Penalize extractions that
 contain more than one head verb in their relation (R).
 
 In osent: {\color{red}gained popularity after Oprah endorsed} is not a good relation as it contains two
@@ -810,7 +810,7 @@ HV^\alp P(\rvt^{\mu, \alp}=R)
 
 \item {\bf Extraction Count (EC)}
 
-Penalize if the total number of extractions with head verbs in the relation (R) 
+Penalize if the total number of extractions with head verbs in the relation (R)
 is too small; i.e., it is smaller
  than the number of head verbs
 in the osent.

@@ -2,10 +2,10 @@
 \label{ch-transformer}
 
 The primary reference for this chapter is  Ref.\cite{attention-is-all-you-need}.
-Ref.\cite{attention-is-all-you-need} is  
+Ref.\cite{attention-is-all-you-need} is
  the highly influential  2017 paper entitled
 \qt{Attention is all you need}
-that introduced {\bf Transformer Networks} (tranets) and 
+that introduced {\bf Transformer Networks} (tranets) and
 Attention into the AI vernacular.
 Besides Ref.\cite{attention-is-all-you-need},
 I also read blog posts
@@ -16,10 +16,10 @@ of excellent blog post that I read to learn
 about this subject, see my open source software texnn
 (Ref.\cite{texnn}).\footnote{
 texnn is
- Python software 
+ Python software
  that I wrote
 specifically for drawing the bnets
-of this chapter, but later I 
+of this chapter, but later I
 generalized it to a stand-alone app that can draw
 any bnet (including SCMs, NNs and tranets), not just a tranet bnet.}
 
@@ -56,10 +56,10 @@ Normally, tranets are
 drawn as box diagrams
 that are somewhat cryptic and ambiguous, at least to me.
 In this chapter,
-instead of 
+instead of
 drawing them as box diagrams,
 I represent them as causal DAGs (bnets). This makes their
-causal nature more explicit than 
+causal nature more explicit than
 the box diagrams, and,
 in my opinion, also makes them
 less ambiguous  and more understandable than the box diagrams.
@@ -69,18 +69,18 @@ less ambiguous  and more understandable than the box diagrams.
 
 Recurrent Neural Nets (RNNs)
 are discussed in Chapter \ref{ch-rnn}.
-tranets are quickly displacing RNNs, 
-an older method, in NLP.  tranets are better than RNNs 
+tranets are quickly displacing RNNs,
+an older method, in NLP.  tranets are better than RNNs
 for doing NLP in several important ways. Whereas
- RNNs analyze the tokens (words) of a sentence 
-sequentially (like a Kalman Filter), 
+ RNNs analyze the tokens (words) of a sentence
+sequentially (like a Kalman Filter),
 tranets analyze them in parallel, and thus are more
  amenable to parallel computing. Also, because
- RNNs analyze the words of a sentence sequentially, 
-they tend to give more importance to the end 
-of a sentence than to its beginning. That's because 
+ RNNs analyze the words of a sentence sequentially,
+they tend to give more importance to the end
+of a sentence than to its beginning. That's because
 RNNs start forgetting the beginning of a sentence
- by the time they reach its end, like a patient 
+ by the time they reach its end, like a patient
 with Alzheimer's. tranets do not suffer from this malady.
 
 Dynamical bnets are discussed in Chapter \ref{ch-dyn-bnets}.
@@ -92,9 +92,9 @@ In this chapter
 are dynamical bnets too.
 
 
-In this chapter, we 
+In this chapter, we
 will use the Numpy-like tensor notation
-discussed in Section 
+discussed in Section
 \ref{sec-numpy-tensors}. In particular, note that $[n] = [0:n] = \{0, 1,\ldots, n-1\}$ and that $T^{[n], [m]}$ is an $n\times m$ matrix.
 
 \section{Tensor Notation}
@@ -108,9 +108,9 @@ Below, we will often accompany
   component notation
   with the equivalent matrix equation,
   in parenthesis.
-  
-We use  
-Greek letters for 
+
+We use
+Greek letters for
 tensor indices.
 
 Let $\alp\in[a]$, $\beta\in[b]$, $\gamma\in[c]$,
@@ -172,8 +172,8 @@ Most treatments of tranets, including the
 operations chronologically from
 left to right (L2R). So if $A$ occurs before $B$,
 they write $AB$.
-This is contrary 
-to what is done in Linear Algebra, where one 
+This is contrary
+to what is done in Linear Algebra, where one
 orders the operations chronologically from right to left (R2L), and one writes $BA$.
 In this chapter, will adhere to the Linear Algebra
 convention, since it is so prevalent
@@ -201,7 +201,7 @@ The letters $Q,K,V$ stand for
 respectively.
 These matrices are learned by training
 the net.
-They transform $e_\alp^t$ 
+They transform $e_\alp^t$
 as follows
 
 \beq
@@ -250,7 +250,7 @@ Likewise,
 $\rvv_\alp^t$
 for all $\alp$
 points to $\rva^t_{\alp'}$ for all ${\alp'}$.
-However, 
+However,
 $\rvq_\alp^t$
 points only to $\rva^t_\alp$.
 }
@@ -258,7 +258,7 @@ points only to $\rva^t_\alp$.
 \end{figure}
 
 Fig.\ref{fig-transformer-full3}
-represents a tranet 
+represents a tranet
 of a 3-word sentence as a dynamical bnet.
 The TPMs
 (Transition Probability Matrices),
@@ -309,12 +309,12 @@ P({\alp'}|\alp)
 \label{eq-attention-average}
 \eeq
 where the conditional
-probability 
-$P({\alp'}|\alp)$ is 
+probability
+$P({\alp'}|\alp)$ is
 defined as\footnote{
-The reason sums over 
+The reason sums over
 $\delta\in[d]$ are divided by
-$\sqrt{d}$ is to 
+$\sqrt{d}$ is to
 prevent the argument of
 the exponential from getting too
 large.
@@ -324,7 +324,7 @@ large.
 P({\alp'}|\alp)&=&
 \softmax\left[
 \frac{1}{\sqrt{d}}\sum_{\delta \in [d]}
-(k^t)^{\delta, [\ell]} 
+(k^t)^{\delta, [\ell]}
 (q^t)^{\delta, \alp}\right](\alp'|\alp)
 \\
 &=&
@@ -336,7 +336,7 @@ P({\alp'}|\alp)&=&
 \eeqa
 
 The right hand side of Eq.(\ref{eq-attention-average})
-constitutes an average over 
+constitutes an average over
 all the word vectors $\{\rvv_\alp^t: \alp\in[\ell]\}$
 in a sentence.
 This average is called the {\bf Attention}
@@ -359,8 +359,8 @@ call it the \qt{scaled dot product Attention}.}
 
 On first encounter, the structure of an Attention bnet
 seems a bit mysterious. Then one realizes that this is
-an old friend. 
-If the dashed  boxes in 
+an old friend.
+If the dashed  boxes in
 Fig.\ref{fig-transformer-full3} are each \qt{shrunk} to single nodes,
 then it becomes a TAN Bayes Net. Each of the 3 subgraphs $\rve^t, (\rvv^t, \rvq^t, \rvk^t), \rva^t $
 also constitutes a TAN Bayes net. \footnote{Tree Augmented Naive (TAN) Bayes nets
@@ -454,7 +454,7 @@ single head Attention, as defined
 in the previous section,
 to multi-head Attention.
 
-Let 
+Let
 
 $n_\rvh=$ number of heads. $\nu\in[n_\rvh]$.
 
@@ -462,7 +462,7 @@ $d=$
 same as before, the hidden, embedding dimension. $\delta\in [d]$
 
 $D= n_\rvh d$. $\Delta \in [D]$. We will do some tensor reshaping:
-$T^{[n_\rvh],[d]}\rarrow T^{[D]}$, or, 
+$T^{[n_\rvh],[d]}\rarrow T^{[D]}$, or,
 in component form,
 $T^{\nu, \delta}\rarrow T^{\Delta}$.
 
@@ -498,20 +498,20 @@ P({\alp'}|\alp, \nu)&=&
 \softmax\left[
 \frac{1}{\sqrt{d}}
 \sum_{\delta \in [d]}
-(k^t)^{\nu, \delta, [\ell]} 
+(k^t)^{\nu, \delta, [\ell]}
 (q^t)^{\nu, \delta, \alp}\right](\alp'|\alp,\nu)
 \\
 &=&
 \frac{
 \exp\left[
 \frac{1}{\sqrt{d}}
-\sum_{\delta\in[d]}(k^t)^{\nu, \delta, \alp'} 
+\sum_{\delta\in[d]}(k^t)^{\nu, \delta, \alp'}
 (q^t)^{\nu, \delta, \alp}
 \right]
 }{
 \sum_{\alp''\in [\ell]}
 \exp\left[\frac{1}{\sqrt{d}}
-\sum_{\delta\in[d]}(k^t)^{\nu, \delta, \alp''} 
+\sum_{\delta\in[d]}(k^t)^{\nu, \delta, \alp''}
 (q^t)^{\nu, \delta, \alp}
 \right]}
 \eeqa
@@ -532,7 +532,7 @@ have the same tensor shape.}
 \end{figure}
 
 The structural equations, printed in blue,
-for the bnet 
+for the bnet
 Fig.\ref{fig-transformer-recurrent-folded-multi-head}, are as follows.
 Note that Attention() always has the
 same tensor shape as its 3 arguments. Note also that the
@@ -542,7 +542,7 @@ $W_\rvq^{[D], [d]}$,
 and
 $W_\rvv^{[D], [d]}$
 raise the hidden dimension,
-whereas the weight matrix 
+whereas the weight matrix
 $W_\rva^{[d], [D]}$
 lowers it.
 $W_\rva^{[d], [D]}=1$
@@ -591,9 +591,9 @@ will discuss
  the \qt{Attention is all you need} paper, Ref
  .\cite{attention-is-all-you-need}.
  As is common in the literature,
- we will refer to that tranet as 
+ we will refer to that tranet as
  the \qt{Vanilla} tranet.
- Ref.\cite{attention-is-all-you-need} describes its tranet 
+ Ref.\cite{attention-is-all-you-need} describes its tranet
  graphically with Fig.\ref{fig-vanilla-transformer}.
  Our goal
  is to find a causal DAG (bnet)
@@ -614,7 +614,7 @@ $\ell=$, context window, maximum number of words in a sentence segment. $\alp\in
 $L=$ number of words in vocabulary, $\beta\in[L]$, $L>> \ell$
 
 $d=d_\rvq=d_\rvk=d_\rvv=64$, hidden dimension  per head,
-$\delta\in[d]$. 
+$\delta\in[d]$.
 
 $n_\rvh=8$, number of heads, $\nu \in[n_\rvh]$
 
@@ -629,14 +629,14 @@ of boxed bnet, $\lam\in[\Lambda]$
 
 Before we present the bnet
 version of Fig.\ref{fig-vanilla-transformer},
-we discuss some of the 
+we discuss some of the
 definitions needed to
 understand and motivate
  Fig.\ref{fig-vanilla-transformer}.
- 
- 
+
+
  \begin{itemize}
- 
+
  \item {\bf Encoder Input $x^{\beta, \alp}$}
  \beq
  x^{\beta, \alp} =\delta(\beta, \beta(\alp))
@@ -648,7 +648,7 @@ understand and motivate
 \item {\bf Embedding (a.k.a. encoding) Matrix $\cale^{\delta, \beta}$}
 
 \beq
-e^{\delta, \alp} = \sum_\beta 
+e^{\delta, \alp} = \sum_\beta
 \cale^{\delta, \beta}
 x^{\beta, \alp}
 \;\;
@@ -711,7 +711,7 @@ B^{\nu, {\alp'}, \alp}=
 \eeq
 
 \beqa
-A^{\nu, 
+A^{\nu,
 \delta, \alp}&=&
 \sum_{{\alp'}}
 V^{\nu, \delta, {\alp'}}
@@ -739,34 +739,34 @@ Important: Note that the softmax() makes the
 ${\alp'}$ component a probability,
 not the $\alp$ one!
 
-For example, suppose $\nu=1$ (one head), $\ell=2$ (a 2 word segment), 
+For example, suppose $\nu=1$ (one head), $\ell=2$ (a 2 word segment),
 and $d=3$ (hidden dimension is 3).
 The $Q^{[3], [2]}, K^{[3], [2]}, V^{[3], [2]}$ are $3\times 2$ matrices
 (i.e., two 3-dim column vectors).
-One uses the $Q^{[3], [2]}$ and $K^{[3], [2]}$ to arrive at a 
+One uses the $Q^{[3], [2]}$ and $K^{[3], [2]}$ to arrive at a
 $2\times 2$ matrix $P(\alp'|\alp)$
 of probabilities.
 Then one uses that matrix of probabilities to replace
 
 \beq
 \left[
-V^{[3], 0}, V^{[3], 1} 
+V^{[3], 0}, V^{[3], 1}
 \right]
 \rarrow
 \left[
 V^{[3], 0} P(0|0)
-+ 
++
 V^{[3], 1}P(1|0)
 ,
 V^{[3], 0} P(0|1)
-+ 
++
 V^{[3], 1}P(1|1)
 \right]
 \eeq
 
 \item{\bf Positional Embedding Matrix
 $\cale_{pos}^{\delta,\beta}$}
- 
+
 
 
 \beq
@@ -783,13 +783,13 @@ $\cale_{pos}^{\delta,\beta}$}
 \end{array}
 \right.
 \eeq
-$\cale_{pos}^{\delta, \beta}$ changes in phase by $\pi/2$  
-every time $\delta$ changes by 1. Its wavelength 
+$\cale_{pos}^{\delta, \beta}$ changes in phase by $\pi/2$
+every time $\delta$ changes by 1. Its wavelength
 $\lam$ is independent
-of $\beta$, but increases rapidly with $\delta$, from $\lam(\delta=0)=2\pi*1$ to 
+of $\beta$, but increases rapidly with $\delta$, from $\lam(\delta=0)=2\pi*1$ to
 $\lam(\delta=d)= 2\pi* 10^4$.
 
-Total Embedding equals initial embedding plus 
+Total Embedding equals initial embedding plus
 positional embedding:
 
 \beq
@@ -880,20 +880,20 @@ Normalization can also involve subtracting the mean $\av{X}$ of the signal $X$  
 \item {\bf Redundancy}
 
 For better results, the Encoder
-and Decoder both contain $\Lam$ 
+and Decoder both contain $\Lam$
 copies, connected in series, of the boxed bnet.
 
 Redundancy (see Chapter \ref{ch-reliability}) has been used to
 avoid catastrophic failure at least as early as
 the dawn of the age
 of rocketry, when it
-was used to avoid the all too common 
+was used to avoid the all too common
 occurrence of exploding rockets.
 There are 2 basic types of
 redundancy: in series connection (as in the repeated identical
 layers in a feedforward
 NN or a recurrent NN),
-and in parallel connection (as in  
+and in parallel connection (as in
 tranet heads, and the plates in a bnet (see Chapter \ref{ch-plates})).
 
 \item{\bf Right Shifted Outputs}
@@ -901,7 +901,7 @@ tranet heads, and the plates in a bnet (see Chapter \ref{ch-plates})).
 \qt{Outputs (Shifted Right)} in Fig.\ref{fig-vanilla-transformer}
 refers to what is called
 {\bf forced teaching}
-in the RNN (recurrent neural net) 
+in the RNN (recurrent neural net)
 literature.
 We explain forced teaching
 in Fig.\ref{fig-transformer-full-3-words-train-test}.
@@ -916,7 +916,7 @@ in Fig.\ref{fig-transformer-full-3-words-train-test}.
 the encoder and decoder, respectively.
 A hash character represents the SOS (start of sentence) token,
 and a period represents the EOS (end of sentence) token. Capital letters represent ground
-truth tokens, and lower case ones represent 
+truth tokens, and lower case ones represent
 predictions.}
 \label{fig-transformer-full-3-words-train-test}
 \end{figure}
@@ -954,7 +954,7 @@ portion of Fig.\ref{fig-vanilla-transformer}.
 The structural equations for that bnet,
 printed in blue,
 are as follows.
- 
+
 
 \begin{figure}[!h]\centering
 \begin{minipage}{.5\linewidth}
@@ -1369,7 +1369,7 @@ Y^{[d], [\ell]} = \text{normalize}(F^{[d], [\ell]} + J^{[d], [\ell]})
 
 \section{BERT}
 
-I used the the Wikipedia article on BERT, Ref\cite{wiki-BERT} to
+I used the Wikipedia article on BERT, Ref\cite{wiki-BERT} to
 write this section.
 
 BERT (Bidirectional Encoder Representations from Transformer) is a realization of the Encoder half of the Vanilla tranet.
@@ -1414,7 +1414,7 @@ process that  we haven't
 described so far (namely, tokenization
 into subwords,
 adding special tokens, and
-padding). We would like to 
+padding). We would like to
 describe those additional steps now, in the context of
  the BERT model. Here is an example.
 
@@ -1424,10 +1424,10 @@ Let's consider a short sentence: \qt{The cat is on the mat.}
 \begin{enumerate}
 
   \item \textbf{Tokenization into words:}
-       Tokenize the sentence into individual words: 
-       
+       Tokenize the sentence into individual words:
+
        \qt{The}, \qt{cat}, \qt{is}, \qt{on}, \qt{the}, \qt{mat}, \qt{.}
-  
+
   \item \textbf{Tokenization into subwords:}
      Further tokenize words into subword units using WordPiece tokenization or a similar method. For example:
          \begin{align*}
@@ -1439,18 +1439,18 @@ Let's consider a short sentence: \qt{The cat is on the mat.}
            &mat \rightarrow mat \\
            &. \rightarrow .
          \end{align*}
-         
+
          Any subword not appearing in BERTs vocabulary is replaced by [UNK] for
           \qt{unknown}.
-  
+
   \item \textbf{Adding Special Tokens:}
      Add special tokens, such as [CLS] (classification) at the beginning and [SEP] (separator) at the end:
-     
+
       \qt{[CLS]}, \qt{The}, \qt{ca}, \qt{t}, \qt{is}, \qt{on}, \qt{the}, \qt{mat}, \qt{.}, \qt{[SEP]}
-  
+
   \item \textbf{Padding:}
      If necessary, pad or truncate the sequence to a fixed length. Add  padding tokens \qt{[PAD]} to reach a specified sequence length.
-  
+
   \item \textbf{Embedding Matrix:}
      Create a
        tensor with 1-hot columns
@@ -1461,17 +1461,17 @@ Let's consider a short sentence: \qt{The cat is on the mat.}
        is the location in the
               BERT vocab
        corresponding to token $\alp$ in the
-       the padded string.
+       padded string.
        Now multiply $x$ times the previously discussed embedding matrix $\cale$ to get \beq
        e^{[d], [\ell]}=\cale^{[d], [L]}
        x^{[L], [\ell]}\in\RR^{d\times \ell}\eeq
        This gives a vector in $\RR^d$
-       for each token $\alp$ in the 
+       for each token $\alp$ in the
        padded string.
         The matrix $\cale$
         is pre-trained and captures contextual information
         and word similarities. It can also
-        include positional embedding, as discussed before. 
+        include positional embedding, as discussed before.
 \end{enumerate}
 
 \subsection{BERT training}
@@ -1490,7 +1490,7 @@ selected for
 prediction
 were replaced by the [MASK] token 80\% of the time,
 by a random word 10\% of the time,
-and not replaced at all 10\% of the time. The training objective was to predict the selected token given its context. 
+and not replaced at all 10\% of the time. The training objective was to predict the selected token given its context.
 
 \item{\bf next sentence prediction: }
 Given two spans of text, the model predicts if these two spans appeared sequentially in the training corpus, outputting either [IsNext] or [NotNext].
@@ -1504,4 +1504,3 @@ should output token [IsNext].
 \end{itemize}
 
 \end{enumerate}
-

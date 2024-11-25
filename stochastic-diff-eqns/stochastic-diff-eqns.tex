@@ -4,7 +4,7 @@
 This chapter is based mostly on Ref.\cite{sar-sol}.
 
 {\bf Stochastic Differential Equations (SDE)}
-are deterministic first order differential equations with additive external white noise. When discretized, they 
+are deterministic first order differential equations with additive external white noise. When discretized, they
 can be modelled as dynamic bnets of type
 DEN (Deterministic bnet with External Noise) (see Chapter \ref{ch-LDEN}).
 
@@ -13,8 +13,8 @@ the SDE have real valued solutions.
 A theory of {\bf Quantum Stochastic Calculus} has also been developed (see,
 for example,  Ref.\cite{part-quantum-sde}) that is
 very similar to the classical
-theory. In the quantum theory, the SDEs  have complex valued solutions. The quantum theory describes quantum 
-mechanical systems (such as lasers) 
+theory. In the quantum theory, the SDEs  have complex valued solutions. The quantum theory describes quantum
+mechanical systems (such as lasers)
 whereas the classical theory describes classical macroscopic systems such as a
 pollen particle undergoing Brownian motion
 while submerged in a liquid.
@@ -24,7 +24,7 @@ while submerged in a liquid.
 
 \hrule\noindent {\bf Random variables, mean, covariance}
 
-\beq 
+\beq
 \av{\rva} = E[\rva]
 \eeq
 
@@ -51,7 +51,7 @@ Suppose $i, j\in \{0, 1,2, \ldots\}$
 $[i:j] =\{i, i+1, \ldots, j-1\}$  (like Python)
 
 $[i \upto j] = \{i, i+1, \ldots, j\}$ (To distinguish from Python,
-we use dash instead of colon 
+we use dash instead of colon
 to indicate that last int is included.
 )
 
@@ -74,12 +74,12 @@ $t_{[i\upto j]} = [t_i, t_{i+1}, \ldots, t_j]$
 \eeq
 \hrule\noindent {\bf Stochastic Process}
 
-An {\bf outcome space} $\Omega$ 
+An {\bf outcome space} $\Omega$
 is a set of {\bf events} $\omega$.
 
 A {\bf stochastic process} $\rvx(t, \omega)\in\RR^n$ with $t\geq 0$ and $\omega\in\Omega$ is a map $\rvx:(\RR^+,\Omega) \rarrow \RR^n$. Normally, we don't write the $\omega$ dependence: we use $\rvx(t)$ instead of $\rvx(t, \omega)$.
 
-For compactness, we will sometimes denote $x(t)$ by $x_t$ and an event $(x,t)$ by  $(\XT{x}{t})$. 
+For compactness, we will sometimes denote $x(t)$ by $x_t$ and an event $(x,t)$ by  $(\XT{x}{t})$.
 
 Will often use $x_i=x(t_i)$.
 
@@ -110,7 +110,7 @@ $\rvx(t_{[j\upto k]}) =\{  x(\tau): \tau\in\{t_j, t_{j+1}, \ldots, t_k\}\}$
 $\rvx_{[j\upto k]} =\{ \rvx_j, \rvx_{j+1},
 \ldots,\rvx_k\}$
 
-Measure theorists speak of a set of sigma algebras 
+Measure theorists speak of a set of sigma algebras
 parametrized by $t$
 with the $t$ algebra
 containing
@@ -121,9 +121,9 @@ so we won't speak of filtrations here.
 For any matrix $A$,
 we will use $A^\dagger$ to denote the Hermitian conjugate of $A$, $A^T$ to denote its transpose, and $A^*$ to denote its complex conjugate. $A^\dagger = A^{* T}$.
 
- 
+
  \section{White Noise and Brownian Motion}
- 
+
  \begin{figure}[h!]
  \centering
  \includegraphics[width=4in]
@@ -131,7 +131,7 @@ we will use $A^\dagger$ to denote the Hermitian conjugate of $A$, $A^T$ to denot
  \caption{One dimensional white noise $\rvW(t)$}
  \label{fig-white-noise-t}
  \end{figure}
- 
+
  \begin{figure}[h!]
   \centering
   \includegraphics[width=4in]
@@ -139,8 +139,8 @@ we will use $A^\dagger$ to denote the Hermitian conjugate of $A$, $A^T$ to denot
   \caption{One dimensional Brownian motion $\rvB(t)$}
   \label{fig-brownian-motion-t}
   \end{figure}
-  
- 
+
+
 
 {\bf White noise} $\rvW(t)
 \in\RR^n$ for $t\geq 0$
@@ -175,13 +175,13 @@ C_\rvW(t, s) = \av{\rvW(t), \rvW^T(s)} = Q\delta(t-s)
 $\rvB(t)\in\RR^n$
 for $t\geq 0$
 is a random process with the
-following properties: 
+following properties:
 
 \begin{itemize}
 
 \item==========================
 
-\beq 
+\beq
 \rvB(0)=0\footnote{If you wish to
 consider  $\rvB(0)=\beta_0\neq 0$, replace
 $\rvB$ by $\rvB-\beta_0$}
@@ -235,7 +235,7 @@ E[(\Delta_3^4\rvB)^2]
 &=& n |4-3|
 \eeqa
 
-Eqs.(\ref{eq-non-overlap-B}) and (\ref{eq-overlap-B}) can be 
+Eqs.(\ref{eq-non-overlap-B}) and (\ref{eq-overlap-B}) can be
 combined as follows
 
 \beq
@@ -249,21 +249,21 @@ E[(\Delta^{s}_{r}\rvB) (\Delta^{s'}_{r'}\rvB)]=n\; {\rm len}([r, s]\cap [r', s']
 
 In this section, we
 propose a bnet for a time discretized SDE.
-This bnet will be constructed by combining 
+This bnet will be constructed by combining
 some nodes of various special types that occur frequently in bnet-tology.
-One such special type of node that we  
-have discussed already, in 
+One such special type of node that we
+have discussed already, in
 Chapter
 \ref{ch-marginalizer}),
 is a {\bf marginalizer node} .
-Here are a few others. The TPM or structural  
-equation 
+Here are a few others. The TPM or structural
+equation
 associated with the node are printed in blue.
 \begin{itemize}
 
 \item {\bf diff and diff0 nodes}
 
-The diff node is defined by 
+The diff node is defined by
 
 $$\xymatrix{
 \rva\ar[dr]
@@ -282,7 +282,7 @@ P(x|a, b) =\indi (x =a-b)
 x =a-b
 \eeq
 The diff0 node is the diff node with $x=0$.
- 
+
 
 
 \item {\bf accumulator nodes}
@@ -294,7 +294,7 @@ $$
 &\rvx_1\ar[d]
 &\rvx_0\ar[d]
 \\
-\rvs_3 
+\rvs_3
 &\rvs_2\ar[l]
  &\rvs_1\ar[l]
   &\rvs_0\ar[l]
@@ -319,13 +319,13 @@ $$
 
 $$
 \xymatrix{
-\rvB_3\ar[dr] 
+\rvB_3\ar[dr]
 && \rvB_2\ar[dl]\ar[dr]
 && \rvB_1\ar[dl]\ar[dr]
 && \rvB_0\ar[dl]
 \\
-&\Delta^3_2\rvB 
-&&\Delta^2_1 \rvB 
+&\Delta^3_2\rvB
+&&\Delta^2_1 \rvB
 &&\Delta^1_0 \rvB
 &
 }$$
@@ -343,13 +343,13 @@ $$
 \item {\bf un-increment nodes}
 $$
 \xymatrix{
-&\Delta^3_2\rvx_2 \ar[dl] 
+&\Delta^3_2\rvx_2 \ar[dl]
 &&\Delta^2_1 \rvx \ar[dlll]\ar[dl]
 &&\Delta \rvx^1_0 \ar[dlllll]\ar[dlll]\ar[dl]
 &
 \\
-\rvx_3 
-&& \rvx_2 
+\rvx_3
+&& \rvx_2
 && \rvx_1
 && \rvx_0
 \ar@/^1pc/[ll]
@@ -391,7 +391,7 @@ as follows.
 \begin{figure}
 $$
 \xymatrix{
-\rvB_3\ar@[red][dr] 
+\rvB_3\ar@[red][dr]
 && \rvB_2\ar@[red][dl]\ar@[red][dr]
 && \rvB_1\ar@[red][dl]\ar@[red][dr]
 && \rvB_0\ar@[red][dl]
@@ -401,13 +401,13 @@ $$
 &&\Delta^1_0 \rvB \ar[d]
 &
 \\
-&\Delta^3_2\rvx \ar@[green][dl] 
+&\Delta^3_2\rvx \ar@[green][dl]
 &&\Delta^2_1 \rvx \ar@[green][dlll]\ar@[green][dl]
 &&\Delta^1_0\rvx \ar@[green][dlllll]\ar@[green][dlll]\ar@[green][dl]
 &
 \\
-\rvx_3 
-&& \rvx_2 \ar[lu] 
+\rvx_3
+&& \rvx_2 \ar[lu]
 && \rvx_1 \ar[lu]
 && \rvx_0\ar[lu]
 \ar@[green]@[green]@/^1pc/[ll]
@@ -429,13 +429,13 @@ for the $\rvx_i$.}
 
 \beq
 \color{blue}
-\Delta_{2}^{3}\rvB = 
+\Delta_{2}^{3}\rvB =
 \rvB_3 -\rvB_2
 \eeq
 
 \beq
 \color{blue}
-\Delta_{2}^{3}\rvx = 
+\Delta_{2}^{3}\rvx =
 f(x_2, t)\Delta_2^3 t +
 L(x_2, t)\Delta_{2}^{3}\rvB
 \eeq
@@ -457,8 +457,8 @@ we discuss several simple properties
 of SDEs.
 
 \subsection{STD with Constant Coefficients (CC)}
-The most general system discussed in this 
-chapter obeys the following SDE 
+The most general system discussed in this
+chapter obeys the following SDE
 
 \beq
 dx_\mu =
@@ -467,14 +467,14 @@ f_\mu(x, t)dt + L_{\mu, \nu}(x,t)d\rvB_\nu(t)
 where $\mu, \nu\in [n]$.
 A system for which $f$ and $L$ are
 both constant (i.e., independent of the event $(x,t)$) is said to have CC {\bf Constant Coefficients}\footnote{Ref.\cite{sar-sol},
-on which most of this this chapter is
+on which most of this chapter is
 based, calls systems with CC, LTI (linear, time-invariant) systems.}
 
 
 \subsection {Transition Probability Matrices}
 
 Suppose  $t,s\geq 0$ and $x, y\in \RR^n$.
-We define 
+We define
 the {\bf event transition probability matrix (TPM)} as
 
 \beq
@@ -483,20 +483,20 @@ P(\XT{y}{t}|\XT{x}{s})
 
 If you are familiar with the Dirac bra-ket
 notation used in Quantum Mechanics,
-note that a TPM can be expressed in such notation as 
+note that a TPM can be expressed in such notation as
 
 \beq \av{y|P_{t,s}|x}\eeq
 where $\{\ket{x}: x\in\RR^n\}$ is a
 complete orthonormal basis:
 \beq
 \int dx\;\ket{x}\bra{x}
-=1,\quad 
+=1,\quad
 \av{y|x} = \delta(y-x)
 \eeq
 
 \subsection{Markov chain}
 
-Let $\rvx(t_k)=x_k$ for $k\in[N]$. The bnet 
+Let $\rvx(t_k)=x_k$ for $k\in[N]$. The bnet
 $$
 x_0\rarrow\rvx_1\rarrow \rvx_2\rarrow\cdots\rarrow\rvx_{N-1}$$
 is called a {\bf Markov chain}. It satisfies
@@ -508,7 +508,7 @@ P(x_{i+1}| x_i)
 For continuous instead of discrete time,
 the Markov chain definition is generalized
 as follows.
-For $s<t$, 
+For $s<t$,
 \beq
 P(x(t)| x([0, s]))=
 P(x(t)| x(s))
@@ -547,8 +547,8 @@ which satisfies
 
 \beq
 E[\;|\rvy(t_i)|\;] < \infty\quad \forall i\quad
-(\text{resp., }E[\;|\rvy(t)|\;] < \infty \quad \forall t\geq 0) 
-\eeq 
+(\text{resp., }E[\;|\rvy(t)|\;] < \infty \quad \forall t\geq 0)
+\eeq
 
 
 \beq
@@ -564,10 +564,10 @@ E[\rvB(t)| B(t_{[i\upto j]}] = B(t_j)
 
 
 It\^{o} integrals $\int L\XT{x}{t}d\rvB_t$ (discussed later)
-are martingales too, but Stratonovich integrals 
+are martingales too, but Stratonovich integrals
 $\int L\XT{x}{t}\circ d\rvB_t$
 (discussed later)
-aren't. 
+aren't.
 
 
 
@@ -595,13 +595,13 @@ For $t_0=0 < t_1 <\ldots <t_{N-1}$, $t_k^*\in [t_k, t_{k+1})$, define
 
 
 
-\beq 
-J_N = 
+\beq
+J_N =
 \sum_k L(\rvx, t_k^*)\Delta_{t_k}^{t_{k+1}}\rvB
 \eeq
 and
 
-\beq 
+\beq
 J = \lim_{N\rarrow \infty} J_N
 \eeq
 
@@ -619,7 +619,7 @@ but very jagged, so the value of $J$ does
 depend on the choice of $t^*_k$.
 
 Consider the special case that
-$L=\rvx=\rvB$, so 
+$L=\rvx=\rvB$, so
 
 \beq
 J_N=\sum_k \rvB(t_k^*) \Delta_{t_k}^{t_{k+1}}\rvB
@@ -631,14 +631,14 @@ choice of $t^*_k$.
 \begin{enumerate}
 
 \hrule
-\item $t_k^* = t_{k+1}$ 
+\item $t_k^* = t_{k+1}$
 \beqa
 E[J_N] &=&
-\sum_k E[\rvB(t_{k+1})\Delta_{t_k}^{t_{k+1}}\rvB] 
+\sum_k E[\rvB(t_{k+1})\Delta_{t_k}^{t_{k+1}}\rvB]
 \\
 &=&
 \sum_k
-E[(\Delta_{0}^{t_{k+1}}\rvB)\Delta_{t_k}^{t_{k+1}}\rvB] 
+E[(\Delta_{0}^{t_{k+1}}\rvB)\Delta_{t_k}^{t_{k+1}}\rvB]
 \\
 &=&
 \sum_k
@@ -656,16 +656,16 @@ Stratonovich integral
 
 
 \beqa
-E[J_N] &=&\sum_k E[\rvB(t_k)\Delta_{t_k}^{t_{k+1}}\rvB] 
+E[J_N] &=&\sum_k E[\rvB(t_k)\Delta_{t_k}^{t_{k+1}}\rvB]
 \\
 &=& \sum_k
-E[(\Delta_{0}^{t_k}\rvB)\Delta_{t_k}^{t_{k+1}}\rvB] 
+E[(\Delta_{0}^{t_k}\rvB)\Delta_{t_k}^{t_{k+1}}\rvB]
 \\
 &=&0
 \eeqa
 
 \beqa
-J_N &=& 
+J_N &=&
 \sum_k \rvB(t_k)\Delta_{t_k}^{t_{k+1}}\rvB
 \\
 &=&\sum_k B_k(B_{k+1}-B_k)
@@ -750,7 +750,7 @@ R_{\mu, \nu} = \frac{1}{2} L_{\mu,\alpha}Q_{\alpha,\beta}L^T_{\beta,\nu}
 \beq
 d\phi=
 \left[\pder{\phi}{t} +
- f_\mu\pder{\phi}{x_\mu} + 
+ f_\mu\pder{\phi}{x_\mu} +
  R_{\mu, \nu}
 \frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}\right]dt
 +
@@ -776,7 +776,7 @@ d\phi =
 \beq
 \pder{\phi}{x_\mu} d\rvx_\mu
 =
-\pder{\phi}{x_\mu} 
+\pder{\phi}{x_\mu}
 \left[
 f_\mu dt + L_{\mu, \nu}d\rvB_\nu
 \right]
@@ -819,7 +819,7 @@ f_\mu \pder{\phi}{x_\mu} + R_{\mu, \nu}
 
 \qed
 
-For example,  if $n=1$, $\rvx=\rvB$, 
+For example,  if $n=1$, $\rvx=\rvB$,
 $\phi = \rvB^K$
 and
 $L=Q=1$, $f=0$,
@@ -835,7 +835,7 @@ for the probability $P(x,t)$
 of single event $(x,t)$
 
 
-\begin{claim} 
+\begin{claim}
 (Forward FP equation)
 
 If
@@ -852,7 +852,7 @@ with
 \beq
 \calf_\rvx \bullet=
 -\;\pder{}{x_\mu}
-(\bullet f_\mu) + 
+(\bullet f_\mu) +
 \frac{\partial^2}{ \partial x_\mu\partial x_\nu}(\bullet R_{\mu, \nu})
 \eeq
 \end{claim}
@@ -867,7 +867,7 @@ with
 Integration by parts
 
 \beq
-udv = d(uv)-(du)v 
+udv = d(uv)-(du)v
 \eeq
 
 \beq
@@ -875,7 +875,7 @@ udv = d(uv)-(du)v
 \underbrace{uv|_{-\infty}^{+\infty}}_{0}
 \quad
 -
-\int_{-\infty}^{+\infty}(du)v 
+\int_{-\infty}^{+\infty}(du)v
 \eeq
 
 
@@ -894,7 +894,7 @@ udv = d(uv)-(du)v
 -\int dt dx^n\; \phi\frac{dP}{dt}=
 \int dt dx^n\;  \phi
 \left[-\;\pder{P}{t} -
-\pder{(Pf_\mu)}{x_\mu} + 
+\pder{(Pf_\mu)}{x_\mu} +
 \frac{\partial^2 }{\partial x_\mu\partial x_\nu}(PR_{\mu, \nu})\right]
 \eeq
 \qed
@@ -913,7 +913,7 @@ udv = d(uv)-(du)v
 Just use the Taylor expansion of an exponential function and analogize with the case when $\calf_\rvx$ is a constant.
 \qed
 
-Note that 
+Note that
 \beq
 \pder{P}{t} = -\pder{J_\mu}{x_\mu}
 \label{eq-cons-prob}
@@ -927,7 +927,7 @@ J_\mu = Pf_\mu - \pder{(PR_{\mu,\nu})}{x_\nu}
 Eq.(\ref{eq-cons-prob})
 is the {\bf equation for conservation of probability}\footnote{It implies conservation of probability because
 $$0=\pder{}{t}\int_V dV\;P=
-\int_V dV\;\nabla\cdot \vec{J}= 
+\int_V dV\;\nabla\cdot \vec{J}=
 \int \vec{J}\cdot d\vec{S}$$
 }. $J_\mu$ is called the {\bf probability
 flux}, $f_\mu$ is called the {\bf drift},
@@ -950,7 +950,7 @@ consider the
 {\bf Overdamped Langevin Equation}\footnote{
 This equation, also known as Brownian dynamics (see
 Ref.\cite{wiki-brownian-dyn}),  arises from
-Newton's equation $m\ddot{x}= -\lam\dot{x}  -U'(x)$ when the acceleration $\ddot{x}$ is negligible, so the drag force and potential force cancel each other.} 
+Newton's equation $m\ddot{x}= -\lam\dot{x}  -U'(x)$ when the acceleration $\ddot{x}$ is negligible, so the drag force and potential force cancel each other.}
 
 \beq
 dx_\mu = -\;\frac{1}{2}\pder{U}{x_\mu}dt + d\rvB
@@ -958,13 +958,13 @@ dx_\mu = -\;\frac{1}{2}\pder{U}{x_\mu}dt + d\rvB
 
 \begin{claim}
 For the overdamped Langevin equation,
-if $Q =\frac{1}{\lam}>0$, then the steady state 
+if $Q =\frac{1}{\lam}>0$, then the steady state
 solution is
 
 \beq
 P(x) = \frac{e^{-\lam U(x)}}{Z}
 \eeq
-where 
+where
 \beq
 Z = \int dx^n\;e^{-\lam U(x)}
  \eeq
@@ -994,7 +994,7 @@ If we now substitute the proposed value of $P$, we get $0=0$
 0=
 \pder{}{x_\mu}\left(\lam e^{-\lam U}\pder{U}{x_\mu}+
 \pder{e^{-\lam U}}{x_\mu}
-\right) 
+\right)
 \eeq
 
 \qed
@@ -1004,14 +1004,14 @@ Recall that
 \beq
 \calf_\rvx \bullet=
 -\;\pder{}{x_\mu}
-(\bullet f_\mu) + 
+(\bullet f_\mu) +
 \frac{\partial^2}{ \partial x_\nu\partial x_\mu}(\bullet R_{\mu, \nu})
 \eeq
 
 Define $\calb_\rvx$ to be the same as $\calf_\rvx$
 but with every derivative $A\pder{B}{x_\mu}$
 replaced by $-B\pder{A}{x_\mu}$. Hence\footnote{For those
-	who know Quantum Mechanics, our $\calf$ equals 
+	who know Quantum Mechanics, our $\calf$ equals
 	a Hamiltonian $H$ times $i$, $\calf =Hi$.
 }
 
@@ -1046,7 +1046,7 @@ equation Eq.(\ref{eq-forward-fp-tm})
 
 \beq
 \pder{\av{x|P_{t,s}|w}}{t}
-=\int 
+=\int
 \av{x|\calf_{t}|x'}dx'\av{x'|P_{t,s}|w}
 \eeq
 with
@@ -1082,7 +1082,7 @@ equation Eq.(\ref{eq-backward-fp-tm})
 
 \beq
 -\; \pder{\av{y|P_{u,t}|x}}{t}
-=\int 
+=\int
 \av{y|\calb_t|y'}dy'\av{y'|P_{u,t}|x}
 \eeq
 with
@@ -1094,14 +1094,14 @@ with
 \end{claim}
 
 The forward FP equation is the
-time reversed version of the 
-backward FP equation. Thus, they describe 
+time reversed version of the
+backward FP equation. Thus, they describe
 the same stochastic process,
 in opposite time directions.
 
 Note that if we view
-a transition matrix 
-$P(\XT{y}{u}|\XT{x}{t})$  as a matrix whose rows and columns are labeled by 
+a transition matrix
+$P(\XT{y}{u}|\XT{x}{t})$  as a matrix whose rows and columns are labeled by
 all possible events $(\XT{x}{t})$, then the forward FP equation (resp., backward FP equation)
 is a differential equation
 constraining all the rows $(\XT{y}{u})$ for a fixed column
@@ -1113,7 +1113,7 @@ but in 2 different ways.
 
 Figure \ref{fig-fokker-planck}
 shows the TPM arrows for the
-forward FP 
+forward FP
 in red and for the
 backward FP in blue.
 
@@ -1122,7 +1122,7 @@ backward FP in blue.
 \centering
 \includegraphics[width=2.5in]
 {stochastic-diff-eqns/fokker-planck.png}
-\caption{Red arrows refer to 
+\caption{Red arrows refer to
 $P((x,t)|(w,s))$
 and $P((x,t+dt)|(w,s))$
 for the forward FP equation.
@@ -1167,12 +1167,12 @@ V_{\mu, \nu}(t) = C_{\mu, \nu}(t,t)
 
 
 \beq
-dx_\mu = \left[a_\mu(t) + F_{\mu, \nu}(t)x_\nu \right] dt + 
+dx_\mu = \left[a_\mu(t) + F_{\mu, \nu}(t)x_\nu \right] dt +
 L_{\mu, \nu}(t)d\rvB_\nu
 \eeq
 
 \beq
-R_{\mu, \nu} = 
+R_{\mu, \nu} =
 \frac{1}{2}L_{\mu, \alp}Q_{\alp, \beta}L^T_{\beta, \nu} =\frac{1}{2} (LQL^T)_{\mu, \nu}
 \eeq
 
@@ -1208,20 +1208,20 @@ dx_\alp\partial_\alp\av{\rvx_\mu, \rvx_\nu}
 dx_\alp dx_\beta\frac{1}{2}\partial_\alp\partial_\beta\av{\rvx_\mu, \rvx_\nu}
 \\
 &=&
-\av{\rvx_\mu, 
+\av{\rvx_\mu,
 d\rvx_\nu}
 +
-\av{d\rvx_\mu, 
+\av{d\rvx_\mu,
 \rvx_\nu}
 + \av{d\rvx_\mu, d\rvx_\nu}
 \\
 &=&
-\av{\rvx_\mu, 
+\av{\rvx_\mu,
 F_{\nu,\alp}\rvx_\alp dt}
 +
-\av{F_{\mu,\alp}\rvx_\alp dt, 
+\av{F_{\mu,\alp}\rvx_\alp dt,
 \rvx_\nu}
-+ 
++
 2R_{\mu, \nu}dt
 \\
 &=&
@@ -1264,7 +1264,7 @@ V(t)=\av{\rvx(t), \rvx^T(t)}=\Psi(t, t_0)V(t_0)\Psi^T(t, t_0)
 
 
 \beq
-\av{\rvx(t), \rvx^T(s)} = 
+\av{\rvx(t), \rvx^T(s)} =
 \left\{
 \begin{array}{ll}
 V(t)\Psi^T(s,t) &\text{if } t<s
@@ -1312,11 +1312,11 @@ V(t|s)=\int_s^td\tau\;
 R(\tau)\Psi^T(t, \tau)
 \eeq
 
-This transition matrix $P(x(t)|x(s))$, when we discretize time and set $x(t_k)=x_k$, defines the 
+This transition matrix $P(x(t)|x(s))$, when we discretize time and set $x(t_k)=x_k$, defines the
 dynamic bnet of Fig.\ref{fig-1st-2nd-order-bnet}.
 Define
 
-\beq 
+\beq
 \Psi_k = \Psi(t_{k+1}, t_k)
 \eeq
 
@@ -1352,13 +1352,13 @@ $$
 & \ul{\eps}_1 \ar[d]
 & \ul{\eps}_0\ar[d]
 \\
-\rvx_3 
+\rvx_3
 & \rvx _2 \ar[l]
 & \rvx_1 \ar[l]
 & \rvx_0\ar[l]
 }
 $$
-\caption{Bnet that satisfies the general SDE, 
+\caption{Bnet that satisfies the general SDE,
 assuming $P(x,t=0)$ is a Gaussian.}
 \label{fig-1st-2nd-order-bnet}
 \end{figure}
@@ -1374,7 +1374,7 @@ When the SDE has CC,
 \eeq
 
 
-At time $t=\infty$, 
+At time $t=\infty$,
 a system with CC reaches
 a {\bf steady state} (i.e., zero time derivatives of expected values)
 with mean value $m_\infty$
@@ -1383,7 +1383,7 @@ and variance $V_\infty$ given by
 0=a + Fm_\infty
 \eeq
 \beq
-0=V_\infty F^T  + F v_\infty^T + 2R 
+0=V_\infty F^T  + F v_\infty^T + 2R
 \eeq
 
 
@@ -1392,7 +1392,7 @@ and variance $V_\infty$ given by
 In this section, we will apply Fourier
 analysis to the SDE with CC.
 
-We begin by recalling a few definitions from Fourier 
+We begin by recalling a few definitions from Fourier
 analysis.
 
 \newcommand{\Tintegral}[1]{
@@ -1423,7 +1423,7 @@ dt\;x(t) e^{-i\omega t}
 \eeq
 
 
-Define the 
+Define the
 {\bf power spectral density}
 of process $x(t)$ by
 \beq
@@ -1433,7 +1433,7 @@ val(\rvx)(\omega)= \lim_{T\rarrow 0}
 In case $\rvx=\rvW$= white noise,
 
 
-\beq 
+\beq
 S_{\rvW}(\omega) = Q
 \eeq
 
@@ -1448,7 +1448,7 @@ $\tau$ is called the {\bf time lag}.
 \begin{claim}
 
 
-\beq 
+\beq
 \Tintegral{2}dt
 \Tintegral{2}ds\;
 g(t-s)=
@@ -1458,9 +1458,9 @@ g(t-s)=
 \end{claim}
 \proof
 
-Let 
+Let
 
-\beq 
+\beq
 \tau=\frac{t-s}{\sqrt{2}},\quad
 \sigma=\frac{t+s}{\sqrt{2}}
 \eeq
@@ -1580,7 +1580,7 @@ Alternative proof:
 E[|\TIL{x}_T(\omega)|^2]
 &=&\frac{1}{T}
 \Tintegral{2}ds
-\Tintegral{2}dt\; 
+\Tintegral{2}dt\;
 E[x(t)x^T(s)]e^{-iw(t-s)}
 \\
 &=&\frac{1}{T}
@@ -1603,10 +1603,10 @@ Hence,  by the WK theorem,
 val(\rvx)(\omega)=Q
 \eeq
 
-Next, let us solve the 
-SDE with CC using Fourier transforms. 
+Next, let us solve the
+SDE with CC using Fourier transforms.
 Substituting Fourier transforms for $x(t)$
-into this equation 
+into this equation
 \beq
 \frac{d x}{dt}=Fx + L\rvW
 \eeq
@@ -1630,7 +1630,7 @@ _{2R}(F^T-i\omega)^{-1}
 \eeqa
 
 \beq
-AC_{\rvx}(\tau)= 
+AC_{\rvx}(\tau)=
 \int_{-\infty}^{\infty}d\omega\; e^{i\omega \tau}
 (F+i\omega)^{-1}(2R)
 (F^T-i\omega)^{-1}
@@ -1638,11 +1638,11 @@ AC_{\rvx}(\tau)=
 
 When steady state is reached,
 the expected values (averages) of functions of $\rvx(t)$ cease to vary with time. Thus, we only need to compare $\rvx(t)$
-to itself, not to $\rvx(t+\tau)$ with $\tau>0$. 
+to itself, not to $\rvx(t+\tau)$ with $\tau>0$.
 Hence, we only need to know $AC(\tau)$ at $\tau=0$.
 
 
-For steady state, by the Wiener Khinchin theorem, 
+For steady state, by the Wiener Khinchin theorem,
 \beq
 val(\rvx)(\omega)=AC_\rvx(0) 2\pi\delta(w)
 \eeq
@@ -1672,8 +1672,8 @@ dy_\mu = g_\mu(y,t)dt + d\rvB_\mu
 
 
 
-\begin{claim} For $n=1$, the function 
-$g(y,t)$ in Eq.(\ref{eq-g-def-grisa}) 
+\begin{claim} For $n=1$, the function
+$g(y,t)$ in Eq.(\ref{eq-g-def-grisa})
 is given by
 
 \beq
@@ -1735,7 +1735,7 @@ this section will
 deal only with  Kac PI.
 Furthermore, we will only
 consider the
-the one dimensional case $\rvx\in\RR$.
+one dimensional case $\rvx\in\RR$.
 The higher dimensional case
 is similar.
 
@@ -1748,7 +1748,7 @@ $$
 & \ul{\Delta B}_1 \ar[d]
 & \ul{\Delta B}_0\ar[d]
 \\
-\rvx_3 
+\rvx_3
 & \rvx _2 \ar[l]
 & \rvx_1 \ar[l]
 & \rvx_0\ar[l]
@@ -1761,7 +1761,7 @@ $$
 Let $x(t_k)=x_k$ and consider the bnet
 of Fig.\ref{fig-1dim-kac-pi}.
 The
-TPMs, printed in blue, 
+TPMs, printed in blue,
 for that bnet, are as follows
 
 \beq\color{blue}
@@ -1840,7 +1840,7 @@ Note that
 $(B_k, t_k)\in \RR^n\times [0, T]$
 for $k\in[0-N]$.
 Let
-$\cale\subset \RR^n\times [0, T]$. 
+$\cale\subset \RR^n\times [0, T]$.
 Fig.\ref{fig-possible-paths}
 shows a possible set $\cale$
 when $n=1$.
@@ -1865,7 +1865,7 @@ P(x_{N+1}|x_0=0)  =
 \centering
 \includegraphics[width=3.5in]
 {stochastic-diff-eqns/possible-paths.png}
-\caption{The pink area is a possible set 
+\caption{The pink area is a possible set
 $\cale\subset\RR\times [0,T]$
 such that  $(B_k, t_k)\in \cale$
 }
@@ -1889,7 +1889,7 @@ Let $\{\ket{t}
 Express $\rvx(t)$ in bra-ket notation
 \beq
 \rvx(t)=\av{t|\rvx},
-\quad 
+\quad
 \rvx^*(t)=\av{\rvx|t},
 \eeq
 
@@ -1903,7 +1903,7 @@ The matrix elements
 of $C$ are:
 
 \beq
-C(t, t')= \av{t|C|t'} 
+C(t, t')= \av{t|C|t'}
 =E[\rvx(t)\rvx^*(t')]-E[\rvx(t)]
 E[\rvx^*(t')]
 \eeq
@@ -1911,7 +1911,7 @@ Hence, $C(t,t')$ is the correlation matrix in the $\{\ket{t}:t\in [0,T]\}$ basis
 
 Suppose $C$ has eigenvalue,
 eigenvector pairs $(\lam_n, \ket{\phi_n})$ for
- $n=1,2,3,\ldots$. Hence 
+ $n=1,2,3,\ldots$. Hence
 \beq
 C\ket{\phi_n}=\lam_n\ket{\phi_n}
 \eeq
@@ -1956,7 +1956,7 @@ Note also that both
 E[\rvx_n\rvx^*_m]-
 E[\rvx_n]E[\rvx^*_m]
 \eeq
-and 
+and
 
 \beq
 \av{\phi_n|C|\phi_m}=\lam_n\delta(n,m)
@@ -2094,7 +2094,7 @@ d\rvbeta =
 \end{claim}
 \proof
 Just subtract
-Eq.(\ref{eq-girsa-f}) 
+Eq.(\ref{eq-girsa-f})
 from
 Eq.(\ref{eq-girsa-g}) .
 \qed
@@ -2146,7 +2146,7 @@ From Eq.(\ref{eq-px-div-pb})
 
 \begin{claim}(Girsanov theorem, part 3)
 
-If 
+If
 \beq
 Z=
 \frac{P(x_{[1\upto N]})}
@@ -2164,12 +2164,12 @@ E[Zh(y_{[1\upto N]})]
 E[h(\rvx_{[1\upto N]})]
 &=&
 \int \underbrace{dx_{[1\upto N]}}_
-{dy_{[1\upto N]}} P(x_{[1\upto N]}) 
+{dy_{[1\upto N]}} P(x_{[1\upto N]})
 \underbrace{h(x_{[1\upto N]})}_
 {h(y_{[1\upto N]})}
 \\
 &=&
-\int dy_{[1\upto N]} 
+\int dy_{[1\upto N]}
 Z
 P(y_{[1\upto N]})
 h(y_{[1\upto N]})
@@ -2179,7 +2179,7 @@ E[Zh(y_{[1\upto N]})]
 \eeqa
 
 \section{Doob's Transform}
-In this section, we explain {\bf Doob's transform}. 
+In this section, we explain {\bf Doob's transform}.
 
 We begin by assuming that a function
 $D(.|\XT{x}{t})$ \footnote{Sometimes, $D(.|\XT{x}{t})$ is denoted by the letter $h$, and this transform is called Doob's h-transform.}
@@ -2193,7 +2193,7 @@ D(.|\XT{x}{t})
 \int dy\; D(.|\XT{y}{t+s})P(\XT{y}{t+s} |\XT{x}{t})
 \label{eq-dooby}
 \eeq
-Next we define a function 
+Next we define a function
 $P^D(\XT{y}{t+s}|\XT{x}{t})$ by
 
 \beq
@@ -2204,7 +2204,7 @@ Note that $P^D(\XT{y}{t+s}|\XT{x}{t})$
 is a conditional probability as its symbol
 suggests.
 
-\beq 
+\beq
 \int dy\; P^D(\XT{y}{t+s}|\XT{x}{t})=1
 \eeq
 
@@ -2218,7 +2218,7 @@ Recall that
 \beq
 \calf_\rvx \bullet=
 -\;\pder{}{x_\mu}
-(\bullet f_\mu) + 
+(\bullet f_\mu) +
 \frac{\partial^2}{ \partial x_\mu\partial x_\nu}(\bullet R_{\mu, \nu})
 \eeq
 and
@@ -2240,19 +2240,19 @@ such that
 \beq
 dy_\mu = f_\mu(\XT{y}{s})ds + L_{\mu,\nu}(\XT{y}{s})d\rvB_\nu
 \eeq
-with 
+with
 
-\beq 
+\beq
 P(\XT{z}{t}|\XT{y}{s}) =\phi\XT{y}{s}
 \eeq
 
 
 \begin{claim} (Doob's Transform)
  \label{cl-doobs-transform}
- 
-Let $\calf_\rvy^D$ (resp.,   
-$\calb_\rvy^{D}$) be the 
-	same as $\calf_\rvy$ (resp., 
+
+Let $\calf_\rvy^D$ (resp.,
+$\calb_\rvy^{D}$) be the
+	same as $\calf_\rvy$ (resp.,
 	$\calb_\rvy$), but with $f_\mu(\XT{y}{t})$
 	replaced by $f^D_\mu(\XT{y}{t})$
 		given by
@@ -2267,7 +2267,7 @@ Suppose
 \eeq
 and
 \beq
-\left[\pder{}{s} + \calb_\rvy^D\right] 
+\left[\pder{}{s} + \calb_\rvy^D\right]
 P(\XT{y}{t+s}|\XT{x}{t})=0
 \eeq
 Then
@@ -2402,7 +2402,7 @@ D_s
 
 
 Let $A=(\XT{x}{t+s})$ , $B=(\XT{x}{T})$.
-Bayes Rule says 
+Bayes Rule says
 
 \beq
 P(A|B, \XT{x}{t})=\frac{P(B|A, \XT{x}{t})P(A|\XT{x}{t})}
@@ -2442,7 +2442,7 @@ d\rvx_\mu= f_\mu(\rvx, t)dt + L_{\mu, \nu}(\rvx, t)d\rvB_\nu(t)
 
 
 \beq
-\pder{P}{t}= 
+\pder{P}{t}=
 -\;\pder{Pf_\mu}{x_\mu}
  + \frac{\partial^2}
  { \partial x_\mu\partial x_\nu}
@@ -2469,7 +2469,7 @@ dx_\mu = -\;\frac{1}{2}\pder{U}{x_\mu}dt + d\rvB_\mu
 \item {\bf Ornstein–Uhlenbeck process (a.k.a. Langevin equation)} ($f_\mu=-\lam x_\mu$, $R_{\mu,\nu}=D\delta(\mu, \nu)$)
 
 This is the same as the Langevin equation, if identify $\rvx$ with
-the velocity of the 
+the velocity of the
 particle and $\lam$ with the drag coefficient.
 
 
@@ -2477,14 +2477,14 @@ particle and $\lam$ with the drag coefficient.
 d\rvx = -\lam \rvx dt + d\rvB
 \eeq
 
-\item 
+\item
 {\bf 1-dim ($n=1$) Black-Sholes} ($f=a x$, $R=(b\rvx)^2 q/2$)
 
 \beq
 d\rvx = a \rvx dt + b \rvx d\rvB
 \eeq
 
-\item {\bf 1-dim ($n=1$) SDE with 
+\item {\bf 1-dim ($n=1$) SDE with
 ($f=a x + c$, $R=(b\rvx + d)^2 q/2$)}
 
 
@@ -2516,19 +2516,19 @@ x(t_0)
 
 \end{itemize}
 
-\section{Appendix: Ornstein-Uhlenbeck 
+\section{Appendix: Ornstein-Uhlenbeck
 recurring example}
 
 \hrule
 SDE
-\beq  
+\beq
 dx = -\lam x dt + d\rvB
 \eeq
 \hrule
 \noindent$P(x_t)$, Mean and Variance
 
 \beq
-P(x_t)=\caln(x_t;\mu=\av{\rvx_t}, 
+P(x_t)=\caln(x_t;\mu=\av{\rvx_t},
 \s^2=\av{\rvx_t, \rvx_t} )
 \eeq
 
@@ -2585,7 +2585,7 @@ a(t)=e^{-\lam(T-t)}
 \beq
 \s^2(t) = \frac{q}{2\lam}[1-e^{-2\lam(T-t)}]
 \eeq
-$a(0)=e^{-\lam T}$, $a(T)=1$. $\s^2(T)=0$. 
+$a(0)=e^{-\lam T}$, $a(T)=1$. $\s^2(T)=0$.
 $D(\XT{x}{T}|\XT{x}{T})=
 \caln(x_T; \mu=x_T, \s^2=0)$
 

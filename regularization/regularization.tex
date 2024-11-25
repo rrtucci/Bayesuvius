@@ -5,7 +5,7 @@
  The topic
  of this chapter is Regularization of Loss functions (ROLF).
 
-ROLF is the practice of adding 
+ROLF is the practice of adding
 a convex function  $\calr:\RR^n\rarrow \RR$
 (called the {\bf regulator function}\footnote{This function is also commonly called a {\bf penalty function}.
 It can  also be thought  of, from a Bayesian perspective,
@@ -14,27 +14,27 @@ a convex function  $\call:\RR^n\rarrow \RR$
 (called the {\bf  loss function}\footnote{This function is also commonly
 called the {\bf cost or error function}.}), when one
 wishes to minimize the loss function. In Machine Learning,
-the variable being minimized over is often the weights 
+the variable being minimized over is often the weights
 of a Neural Net, so we will denote it by $w\in \RR^n$, and use $w^*\in \RR^n$
 to represent the
-minimum of $\call^+(w) =\call(w)+ \calr(w)$. 
+minimum of $\call^+(w) =\call(w)+ \calr(w)$.
 
 In some cases (like in $L^p$ norm ROLF,
 which we discuss below),
 the minimum of $\call^+(w)$
 and that of $\call(w)$
 are not the same but very close. In such cases,
-displacing the minimum of 
-$\call(w)$ 
+displacing the minimum of
+$\call(w)$
 might be done in order
 to avoid overfitting, or
 to spread out degenerate solutions, or to produce
-sparse solutions. 
+sparse solutions.
 
 In other cases (like in proximal ROLF, which we discuss below),
 the minimum of $\call^+(w)$
 and that of $\call(w)$
-are the  same. 
+are the  same.
 In such cases, ROLF might be done
 to improve the
 convergence properties
@@ -45,12 +45,12 @@ as $k
 \rarrow \infty$.
 
 There are many methods
-of biasing the 
+of biasing the
 minimum of a convex function that  don't
 involve adding a regulator
 function.
 For example, Early Stopping
-of training 
+of training
 and Cross Validation for Neural Nets,
 or adding Latent Variables
 to a Bayesian Network.
@@ -134,7 +134,7 @@ $L^1 + L_2$ norm ROLF (called Elastic Net)
 
 \subsection{$L^1$ norm ROLF can lead to sparsity}
 
-The obvious way to induce sparsity in 
+The obvious way to induce sparsity in
 the minimum $w^*$ is to use the $L^0$ norm of $w$ as regulator.
 However, calculating $\norm{w}_0$ is
 hard (NP-hard, in fact). In this section, we will
@@ -148,7 +148,7 @@ $L^0$ norm, but still significant.)
 \caption{Pictorial explanation of
 why $L^1$ norm ROLF can lead to sparsity
 and $L^2$ norm ROLF can help avert it. Sometimes
-you want sparsity and sometimes you don't. $c$ in this figure is some 
+you want sparsity and sometimes you don't. $c$ in this figure is some
 fixed constant.
 }
 \label{fig-sparsity}
@@ -156,7 +156,7 @@ fixed constant.
 
 Assume $\call(w)$ is linear in $w$.\footnote{What we say here about sparsity also applies in some cases when $\call(w)$ is not linear in $w$. For example, it applies sometimes when $\call(w)$
 is quadratic in $w$ as occurs in Least Squares.}
-For example, 
+For example,
 \beq
 \call(w)= Xw-y
 \eeq
@@ -179,8 +179,8 @@ we imagine that $\calr(w)=\norm{w}_1$
 and in Fig.\ref{fig-sparsity} $(b)$, that
 $\calr(w)=\norm{w}_2^2$.
 For points $w$ such that $\calr(w)$
-has a well defined gradient, 
-minimization of 
+has a well defined gradient,
+minimization of
 \beq
 \call^+(w) = \call(w) +\calr(w)
 \eeq
@@ -192,24 +192,24 @@ $\call$ and $\calr$ be equal in magnitude but opposite in direction.
 \eeq
 But when $\calr(w)$ is
 the $L^1$ norm,  $\nabla_w\calr$ is not defined along the $w_1$
-and $w_2$ axes. To avoid this, we can 
+and $w_2$ axes. To avoid this, we can
 approximate the diamond contour $\norm{w}_1=c$
 by rounding out its corners
-by an infinitesimal amount. If the green line had 
+by an infinitesimal amount. If the green line had
 slope of $-1$,
 there would be a diamond contour
- $\norm{w}_1=c$ that would coincide with the green line along the 
+ $\norm{w}_1=c$ that would coincide with the green line along the
  segment connecting points $(0,c)$
  and $(c,0)$. However, this is an exceptional case. Usually, the slope
  of the green line is not $\pm 1$.
- In that case, the only way for 
+ In that case, the only way for
  $\call$ and $\calr$ to have
- opposite gradients is if the diamond 
- contour and the green line 
+ opposite gradients is if the diamond
+ contour and the green line
  kiss at one of the (rounded)  corners
  of the diamond contour. Call that
  kissing point $w^*$. Note from
- Fig.\ref{fig-sparsity} $(a)$ that that kissing point $w^*=(0,c)$ would be
+ Fig.\ref{fig-sparsity} $(a)$ that kissing point $w^*=(0,c)$ would be
  sparse. In going from the Fig.\ref{fig-sparsity} $(a)$ to Fig.\ref{fig-sparsity} $(b)$,
  we have replaced the diamond contour
  $\norm{w}_1=c$ by
@@ -217,7 +217,7 @@ there would be a diamond contour
  but we have kept the same green line.
  Note that with the circular contour,
  the kissing point $w^*$ is no longer sparse; both of its components are non-zero.
- 
+
  The moral of Fig.\ref{fig-sparsity}
  is that $L^1$ norm ROLF can lead to sparsity and $L^2$ norm ROLF can help avert it.
  Sometimes we want the vector of weights $w$ to be sparse so as to give
@@ -273,19 +273,19 @@ w&=&
 (X^TX + \lam  nI)^{-1}X^Ty
 \\
 &=&
-\frac{1}{\lam n}(I + 
+\frac{1}{\lam n}(I +
 \frac{X^T X}{\lam n})^{-1}X^Ty
 \eeqa
 
 Note that for $\lam=0$, the minimum $w^*$ of $\call^+(w)$ is
 
 \beq
-w^*= (X^TX)^{-1}X^Ty 
+w^*= (X^TX)^{-1}X^Ty
 \;\;\text{(valid for $\lam=0$)}
 \eeq
 When $\lam>>1$,
 we can express $w^*$  as a Taylor expansion in
-$w$. 
+$w$.
 Recall that if $|\eps|<1$,
 \beq
 \frac{1}{1-\eps}=
@@ -317,7 +317,7 @@ a kind of regularization.
 
 For $v \in \RR^n$, $w\in \WW \subset \RR^n$
 and $\alp>0$, we define the
-{\bf proximal function} 
+{\bf proximal function}
 $w^{prox}:\RR^n \rarrow \WW$ by
 
 \beq
@@ -329,7 +329,7 @@ w^{prox}(v; \alp\call, \WW) = \argmin_{w\in \WW}
 \underbrace{ \frac{1}{2\alp}\norm{w-v}^2}_{\calr(w,v)}
 \right)}_{\call^+(w, v)}}
 \eeq
-$w^{prox}(v)$ can be viewed as a 
+$w^{prox}(v)$ can be viewed as a
 projection of $v\in\RR^n$
 onto $w$ in the subspace $\WW\subset \RR^n$.
 Henceforth we assume $\WW=\RR^n$,
@@ -338,7 +338,7 @@ its projection $w$ are in the same
 vector space $\RR^n$.
 
 See Fig.\ref{fig-proximal-example}
-for a numerical example of a 
+for a numerical example of a
 proximal function $w^{prox}:\RR\rarrow \RR$.
 
 
@@ -390,7 +390,7 @@ of the functions $sh_0(w; \alpha)$ and $sh_0^{-1}(w; \alpha)$.
 \end{figure}
 
 \begin{claim}
-For $\WW=\RR$ and $w, v\in\RR$, if 
+For $\WW=\RR$ and $w, v\in\RR$, if
 \beq
 \call(w)= |w|
 \;,
@@ -451,7 +451,7 @@ so
 
 \section{Proximal ROLF}
 
-Proximal functions can be 
+Proximal functions can be
 used to do ROLF as follows.
 For $w,v\in\RR^n$
 and $\alp>0$,  let
@@ -470,7 +470,7 @@ which a new regulator may be added.
 \call^+(w) = \call(w) + \calr(w, w^*)
 \;,
 \eeq
-where $w^*$ is the $w$-minimum 
+where $w^*$ is the $w$-minimum
 of both $\call(w)$ and $\calr(w, w^*)$:
 
 
@@ -499,7 +499,7 @@ w_{k+1}=
 \norm{w-w_k}^2_2\right)
 }_{w^{prox}(w_k)}
 \eeq
-If we differentiate 
+If we differentiate
 the argument of argmin()
 to find its minimum, we find
 
@@ -531,7 +531,7 @@ w_{k+1}  = w_{k} -\alp\nabla_w\call(w_{k})}
 \boxed{
 w_{k+1}=
 w^{prox}(w_k)}
-\eeq 
+\eeq
 
 
 \beq
@@ -542,14 +542,14 @@ w^{prox}(w_k-\alp \nabla_w\call(w_k))}
 \eeq
 \end{subequations}
 
-Eq.(\ref{eq-non-prox-steep-d}) is the familiar 
-recursion relation for 
+Eq.(\ref{eq-non-prox-steep-d}) is the familiar
+recursion relation for
 gradient
 descent (See Chapter \ref{ch-gradient-descent}).
 Eq.(\ref{eq-prox-steep-d})
 combines gradient descent
 and a proximal projection,
-so it is expected to 
+so it is expected to
 converge faster than
 simple gradient descent.
 
@@ -561,16 +561,15 @@ In this book, \hiddenNodes
 
 {\bf Unobserved nodes} (UN) represent what are called
  {\bf latent random variables} in Statistics.
- 
+
  UN make an appearance in many
  places throughout this book.
- For example, they are essential 
+ For example, they are essential
  to the methods of
  Kalman Filtering (see Chapter \ref{ch-kalman}) and
  Hidden Markov Model (see Chapter \ref{ch-hmm}).
- 
+
 This being a book about bnets and a chapter about ROLF,
-we would like to stress that UN 
+we would like to stress that UN
 can be viewed as a very natural and powerful way of
 doing (implicit) ROLF when using bnets.
-

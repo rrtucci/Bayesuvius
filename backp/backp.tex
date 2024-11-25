@@ -1,7 +1,7 @@
 \chapter{Back Propagation
  (Automatic Differentiation)}
  \label{ch-backp}
- 
+
 \section{Toy Example}
 This example
 comes from Ref.\cite{backp-toy}.
@@ -22,9 +22,9 @@ L=10-d
 \label{eq-backp-toy-eqs}
 \eeq
 
-To calculate $\nabla_w L$ where 
+To calculate $\nabla_w L$ where
  $w=(w_1, w_2, w_3, w_4)$, we can use the
-the chain rule for partial derivatives.
+chain rule for partial derivatives.
 This yields
 
 
@@ -50,12 +50,12 @@ This yields
 \eeq
 \end{subequations}
 
-Now note that the system of equations 
+Now note that the system of equations
 Eq.(\ref{eq-backp-toy-eqs}) can
 be represented graphically by the bnet (with
-deterministic nodes) of 
+deterministic nodes) of
 Fig.\ref{fig-toy-backp-bnet}.
-The calculation 
+The calculation
 of $\nabla_wL$ can also be represented
 graphically with the aid of the defining bnet
 Fig.\ref{fig-toy-backp-bnet}. This is done in Fig.\ref{fig-toy-backp-deriv-bnet}.
@@ -85,8 +85,8 @@ $$
 &\rvw_3\ar[u]
 }
 $$
-\caption{bnet 
-for which we want to calculate $\nabla_w L$ where 
+\caption{bnet
+for which we want to calculate $\nabla_w L$ where
  $w=(w_1, w_2, w_3, w_4)$}
 \label{fig-toy-backp-bnet}
 \end{figure}
@@ -133,7 +133,7 @@ $$
 }
 \end{array}
 $$
-\caption{bnet of 
+\caption{bnet of
 Fig. \ref{fig-toy-backp-bnet}
 with derivatives along each arrow.
 }
@@ -155,7 +155,7 @@ with derivatives along each arrow.
 
 Suppose
  $f:\RR^{nx}\rarrow \RR^{nf}$
-and 
+and
 
 \beq
 y=f(x)
@@ -163,7 +163,7 @@ y=f(x)
 \eeq
 Then the Jacobian $\pder{y}{x}$
 is defined as the matrix with entries\footnote{
-Mnemonic for remembering 
+Mnemonic for remembering
 order of indices: $i$ in numerator/$j$ in denominator
 becomes index $i/j$ of Jacobian matrix.}
 
@@ -194,13 +194,13 @@ then
 \;.
 \eeq
 Right hand side
-of last equation 
+of last equation
 is a product
 of two matrices
 so order of matrices is important.
 
 \subsection{Bnets for function
-composition, 
+composition,
 forward propagation and back propagation}
 
 
@@ -309,7 +309,7 @@ P(\pder{f^{\mu+1}}{x}\cond
  \pder{f^{\mu}}{x})=
 \indi(\pder{f^{\mu+1}}{x}=
 \pder{f^{\mu+1}}{f^{\mu}}
-\pder{f^{\mu}}{x} 
+\pder{f^{\mu}}{x}
 )\;
 \eeq
 for $\mu=1,2,3$.
@@ -349,14 +349,14 @@ with node TPMs
 \beq\color{blue}
 P(
 \pder{y}{f^{\mu}}
-\cond 
+\cond
 \pder{y}{f^{\mu+1}}
 )=
 \indi(
 \pder{y}{f^{\mu}}
 =
 \pder{y}{f^{\mu+1}}
-\pder{f^{\mu+1}}{f^{\mu}}) 
+\pder{f^{\mu+1}}{f^{\mu}})
 \;
 \eeq
 for $\mu=2,1,0$.
@@ -377,7 +377,7 @@ $$\xymatrix
 {
 \rvx\ar[r]\ar[rd]
 &\rvh^0_2\ar[r]\ar[rd]
-&\rvh^1_2\ar[r]\ar[rd] 
+&\rvh^1_2\ar[r]\ar[rd]
 & Y_2
 \\
 & \rvh^0_1 \ar[r]\ar[ru]
@@ -425,8 +425,8 @@ for $i=0, 1, \ldots, ny-1$.
 
 
 For each $\lam$, replace the matrix
- $w^\lam_{\cdot|\cdot}$ 
-by 
+ $w^\lam_{\cdot|\cdot}$
+by
 the augmented matrix
 $[b^\lam., w^\lam_{\cdot|\cdot}]$
 so that the new
@@ -439,13 +439,13 @@ w^{\lam}_{i|0}=b_i^{\lam}
 
 Let the nodes $\rvh_0^\lam$
 for all $\lam$ and $\rvY_0$ be
-root nodes (so no arrows 
+root nodes (so no arrows
 pointing into them).
-For each $\lam$, draw arrows from 
-$\rvh_0^\lam$ to all other nodes 
+For each $\lam$, draw arrows from
+$\rvh_0^\lam$ to all other nodes
 in that same layer.
-Draw arrows from 
-$\rvY_0$ to all other nodes 
+Draw arrows from
+$\rvY_0$ to all other nodes
 in that same layer.
 
 After performing the
@@ -490,7 +490,7 @@ h^{\Lambda-2}_j)\right)
 for $i=1, 2, \ldots, ny-1$.
 
 \subsection{Bnets for function
-composition, 
+composition,
 forward propagation and back propagation
 for NN}
 
@@ -569,7 +569,7 @@ output visible).}
 .\\
 From here on, we will rename $y$ above
 by $Y=\HAT{y}$ and
-consider samples $y[i]$ for 
+consider samples $y[i]$ for
 $i=0, 1, \ldots, nsam-1$.
 The Error (a.k.a. loss or cost function) is
 
@@ -626,12 +626,12 @@ h^{\lam-1}_j
 \;.
 \eeqa
 This suggest that
-we can calculate 
+we can calculate
 the derivatives of the error
 $\cale$
 with respect to the weights
-$w^\lam_{i|j}$ in two 
-stages, using an intermediate 
+$w^\lam_{i|j}$ in two
+stages, using an intermediate
 quantity $\delta^\lam_j$:
 
 \beq
@@ -644,10 +644,10 @@ quantity $\delta^\lam_j$:
 \right.
 \eeq
 
-To 
+To
 apply what we learned in the earlier
 General Theory
-section of this chapter, 
+section of this chapter,
 consider a NN with 4
 layers (3 hidden, and the
 output visible one). Define the
@@ -692,7 +692,7 @@ f^8_i=\cala_i^3(\calb_i^3)
 %\indi(\pder{\cala^{\lam+1}}{x}=
 %\pder{\cala^{\lam+1}}{\calb^{\lam+1}}
 %\pder{\calb^{\lam+1}}{\cala^{\lam}}
-%\pder{\cala^{\lam}}{x} 
+%\pder{\cala^{\lam}}{x}
 %)\;
 %\eeq
 
@@ -705,7 +705,7 @@ as follows:
 \beq\color{blue}
 P(
 \pder{Y}{\calb^{\lam}}
-\cond 
+\cond
 \pder{Y}{\calb^{\lam+1}}
 )=
 \indi(
@@ -713,7 +713,7 @@ P(
 =
 \pder{Y}{\calb^{\lam+1}}
 \pder{\calb^{\lam+1}}{\cala^{\lam}}
-\pder{\cala^{\lam}}{\calb^{\lam}}) 
+\pder{\cala^{\lam}}{\calb^{\lam}})
 \;.
 \label{eq-backp-nn-1}
 \eeq
@@ -725,7 +725,7 @@ One has
 D{\cala_i}^\lam(\calb_i^\lam)\delta(i,j)
 \eeq
 where $D{\cala}^\lam_i(z)$
-is the derivative of 
+is the derivative of
 $\cala^\lam_i(z)$.
 
 From Eq.(\ref{eq-calb})
@@ -747,7 +747,7 @@ implies
 \beq\color{blue}
 P(
 \pder{Y}{\calb^{\lam}_j}
-\cond 
+\cond
 \pder{Y}{\calb^{\lam+1}_j}
 )=
 \indi(
@@ -757,14 +757,14 @@ P(
 \pder{Y}{\calb_i^{\lam+1}}
 D{\cala}^\lam_j(\calb^\lam_j)
 w^{\lam+1}_{i|j}
-) 
+)
 \;,
 \eeq
 
 \beq\color{blue}
 P(
 \pder{\cale}{\calb^{\lam}_j}
-\cond 
+\cond
 \pder{\cale}{\calb^{\lam+1}_j}
 )=
 \indi(
@@ -774,7 +774,7 @@ P(
 \pder{\cale}{\calb_i^{\lam+1}}
 D{\cala}^\lam_j(\calb^\lam_j)
 w^{\lam+1}_{i|j}
-) 
+)
 \;,
 \eeq
 
@@ -782,7 +782,7 @@ w^{\lam+1}_{i|j}
 \boxed{
 P(
 \delta^{\lam}_j
-\cond 
+\cond
 \delta^{\lam+1}_j
 )=
 \indi(
@@ -797,7 +797,7 @@ w^{\lam+1}_{i|j}
 \;.
 \eeq
 
-First delta of iteration, belonging to output 
+First delta of iteration, belonging to output
 layer $\lam=\Lambda-1$:
 
 \beqa
@@ -817,7 +817,7 @@ D{\cala}^{\Lambda-1}_i(\calb^{\Lambda-1}_i)\delta(i,j)
 D{\cala}^{\Lambda-1}_j(\calb^{\Lambda-1}_j)
 \eeqa
 
-Cute expression for 
+Cute expression for
 derivative of sigmoid function:
 \beq
 D\smoid(x)=
@@ -830,7 +830,7 @@ induced by layered structure of NNs}
 \beq
 P(
 \delta_\rvx
-\cond 
+\cond
 (\delta_\rva)_{\rva\in ch(\rvx)}
 )=
 \indi(
@@ -852,7 +852,7 @@ of nodes of \qt{time reversed} bnet by
 \boxed{
 P(
 \delta_\rvx
-\cond 
+\cond
 (\delta_\rva)_{\rva\in pa(\rvx)}
 )=
 \indi(
@@ -866,4 +866,3 @@ w^T_{\rvx|\rva}
 }
 \;
 \eeq
-

@@ -5,11 +5,11 @@ This chapter
 is based on Ref.\cite{wiki-adaboost}.
 
 
-Adaptive Boosting (AdaBoost) is 
+Adaptive Boosting (AdaBoost) is
 a method of constructing
 a strong
 classifier function
-as a linear 
+as a linear
 combination
 of an ensemble
 of weak classifier
@@ -28,7 +28,7 @@ A
 {\bf tree stump}
 is a dtree  with only one
 parent and 2 children nodes.
-Usually the 
+Usually the
 w-classifier functions
 for AdaBoost
 come from tree stumps
@@ -37,7 +37,7 @@ are w-classifiers
 and simple to compute), but
 the core
 AdaBoost algorithm
-is oblivious to 
+is oblivious to
 where the w-classifier functions came from.
 
 Boosting
@@ -48,7 +48,7 @@ and bagging
 (see Chapter \ref{ch-rforest} on Random Forest)
 are two methods
 of building a classifier function
-from an ensemble 
+from an ensemble
 of classifier functions.
 These two methods are most commonly
 applied to dtrees: Boosting for an ensemble of
@@ -61,21 +61,21 @@ complicated than small dtrees).
 
 \section{AdaBoost for general ensemble
 of w-classifiers}
-In this 
-section 
+In this
+section
 we discuss the core AdaBoost
 algorithm,
 valid for a generic ensemble of w-classifiers.
 
 Let $L=[0,1,2, \ldots, nsam-1]$ be a list of
 individuals (samples) in a population.
-In this chapter, we will use the notation 
-$A^\s=A[\s]$ 
+In this chapter, we will use the notation
+$A^\s=A[\s]$
 and $\vec{A}=[A^\s:\s\in L]$
 for a  list (vector, 1-D  array) indexed by $L$.
-We will refer to $DS=(\vec{x}, \vec{y})$ 
+We will refer to $DS=(\vec{x}, \vec{y})$
 where $x^\s\in val(\rvx)$, $y^\s\in val(\rvy)$,
-as a dataset. 
+as a dataset.
 Let $T=\{0,1, \dots, nt-1\}$.
 Let
 $x^\s=(x^\s_0, x^\s_1, \ldots, x^\s_{nt-1})
@@ -99,10 +99,10 @@ ensemble of $nt$
 $Y_t:val(\rvx)\rarrow \{-1, 1\}$,
 where $t\in T$.
 Suppose we
- want to find  {\bf intermediate 
+ want to find  {\bf intermediate
 e-classifiers}
 $\caly_t:val(\rvx)\rarrow \RR$
-given by 
+given by
 
 \beq
 \caly_t(x^\s)=
@@ -111,15 +111,15 @@ given by
 \eeq
 for $t\in T$
 and a {\bf final e-classifier}
-given by 
+given by
 
 \beq
 \caly_{fin}(x^\s)=
 \sign(\caly_{nt-1}(x^\s))\in\{-1, 1\}
 \;.
 \eeq
-The AdaBoost algorithm 
-yields a set of 
+The AdaBoost algorithm
+yields a set of
 coefficients $\alp_t$
 for which the final e-classifier
 is much stronger (i.e., less error
@@ -143,13 +143,13 @@ $\caly_{-1}=0$. Hence
 e^{-\alp_t y^\s Y_t(x^\s)}
 \eeq
 where the {\bf weights}
-$w_t^\s$ and 
-and the {\bf
+$w_t^\s$ and
+the {\bf
 partition
 function} $Z_t$ are defined by
 
 \beq
-w^\s_{t+1} = 
+w^\s_{t+1} =
 \left\{
 \begin{array}{ll}
 1/nsam&\text{for $t=-1$}
@@ -167,22 +167,22 @@ e^{-y^\s \caly_t(x^\s)}
 \;.
 \eeq
 Note that the probability
-distribution 
+distribution
 $P(\s|t+1)=w^\s_{t+1}$
-of weights 
-at time $t+1$ emphasizes 
+of weights
+at time $t+1$ emphasizes
 (i.e., gives higher probability to)
-the errors (i.e., 
+the errors (i.e.,
 occurrences of $y^\s \caly_t(x^\s)=-1$
 for some population
 individual $\s$)
  of the previous (i.e., at time $t$)
-intermediate 
-e-classifier 
+intermediate
+e-classifier
 $\caly_t$.
 In other words,
 every new
-intermediate 
+intermediate
 e-classifier $\caly_{t+1}$
 concentrates
 on those individuals $\s$
@@ -193,14 +193,14 @@ Note also that
 the partition function $Z_t$ is
 a good measure
 of the {\bf classification error}
-(i.e., 
+(i.e.,
 occurrences of $y^\s \caly_t(x^\s)=-1$)
 of $\caly_t$. We will
 therefore use $Z_t$
 for that purpose,
 as an error measure.
 
-For $t>1$, we have 
+For $t>1$, we have
 \beqa
 Z_t
 &=&
@@ -208,7 +208,7 @@ Z_t
 e^{-y^\s \caly_t(x^\s)}
 \\
 &=&
-\sum_\s 
+\sum_\s
 \underbrace{e^{-y^\s \caly_{t-1}(x^\s)}}_
 {Z_{t-1}w^\s_t}
 e^{-\alp_t y^\s Y_t(x^\s)}
@@ -238,7 +238,7 @@ F_t&=&
 )]
 \;.
 \eeqa
-Note that 
+Note that
 
 \beq
 S_t+F_t=1
@@ -260,7 +260,7 @@ e^{+\alp_t}F_t)
 \caption{
 Plot of function $\alp_t=
 \frac{1}{2}\ln \frac{1-F_t}{F_t}$.
-} 
+}
 \label{fig-adaboost-curve}
 \end{figure}
 
@@ -304,8 +304,8 @@ e^{2\alp_t}
 \eeq
 $f(x)=2\sqrt{(1-x)x}$
 for $x\in[0,1]$
-is dome shaped 
-and its maximum 
+is dome shaped
+and its maximum
 is $1$,
 which is
 achieved iff $x=\frac{1}{2}$
@@ -376,12 +376,12 @@ $$
 5 w-classifiers,
  $nt=5$.
 All nodes labeled $(\vec{x},\vec{y})$
-are the same node. 
+are the same node.
 }
 \label{fig-aboost-bnet}
 \end{figure}
 
-The AdaBoost algo 
+The AdaBoost algo
 described
 in this chapter is summarized
 by
@@ -399,7 +399,7 @@ for all $\s$.
 P(\vec{w}_{t+1}|\vec{w}_{t},
 \alp_t, Y_t,    \vec{x}, \vec{y})=
 \prod_\s
-\indi(\;\;\; 
+\indi(\;\;\;
 w^\s_{t+1} =\frac{ w^\s_t e^{-\alp_t y^\s Y_t(x^\s)}}
 {\sum_\s numerator}
 \;\;\;)
@@ -412,7 +412,7 @@ P(\alp_t|\vec{w}_t, \vec{x}, \vec{y})=
 \indi(\;\;\; \alp_t=
 \frac{1}{2}
 \ln\frac{1-F_t}{F_t}
-\text{ where }F_t=F_t(\vec{w}_t, \vec{x},\vec{y})\;\;\;) 
+\text{ where }F_t=F_t(\vec{w}_t, \vec{x},\vec{y})\;\;\;)
 \eeq
 for $t\in T$.
 
@@ -430,9 +430,9 @@ Keep in mind that
 AdaBoost assumes
 $val(\rvy)=val(\rvx_t)=\{-1, 1\}$
 for all $t\in T=\{0,1, \ldots, nt-1\}$.
-In order to implement 
+In order to implement
 AdaBoost, we need to
-specify 
+specify
 $nt$
 w-classifiers $Y_t:\{-1, 1\}^{nt}
 \rarrow \{-1, 1\}$ for $t\in T$.
@@ -445,8 +445,8 @@ on-the-fly.
 \item {\bf
 w-classifiers specified a priori}
 
-Define a classifier 
-for each feature $x_t$ 
+Define a classifier
+for each feature $x_t$
 where $t\in T$ by:
 
 \beq
@@ -465,31 +465,31 @@ $(\vec{x},\vec{y})=
 is indexed by the  list
  $L=[0, 1, \ldots, nsam-1]$.
 If
-$L_j$ is a list (possibly with 
+$L_j$ is a list (possibly with
 duplicate items)
 such that $set(L_j)\subset set(L)$,
  then
 define
 $DS_j=(\vec{x}, \vec{y})_{L_j}=
-((x^\s)_{\s\in L_j}, 
+((x^\s)_{\s\in L_j},
 (y^\s)_{\s\in L_j})$.
 We will
 refer to $DS_j$
-as the {\bf restriction of 
+as the {\bf restriction of
 $(\vec{x}, \vec{y})$ to $L_j$.}
 
-The idea 
+The idea
 behind on-the-fly
-w-classifiers is to choose 
+w-classifiers is to choose
 $Y_t(x^\s)=x_t^\s$,
 where $x_t$
 is the feature with the lowest
 Gini in
 the current dataset
 $(\vec{x}, \vec{y})_{L_t}$.
-To build 
+To build
 $(\vec{x}, \vec{y})_{L_t}$,
-we select at random 
+we select at random
 from $L=[0, 1, \ldots, nsam-1]$,
 a list $L_t$
 of the same
@@ -501,21 +501,21 @@ By choosing
 $L_t$
 with
 probabilities $\vec{w}_{t-1}$,
-we emphasize 
+we emphasize
 individuals $\s$
 that are failing.
 Then
-we define 
+we define
 $(\vec{x},\vec{y})_{L_t}$
 as the restriction of
 $(\vec{x},\vec{y})$
 to $L_t$.
 
 Perhaps a causal diagram
-will make all these 
+will make all these
 new steps clearer
 to the reader.
-The bnet 
+The bnet
 Fig.\ref{fig-aboost-bnet-bags}
 is a modification of the
  bnet
@@ -523,7 +523,7 @@ Fig.\ref{fig-aboost-bnet}
 to include these new steps.
 The TPMs,
 printed in blue,
-for new or changed nodes, are as 
+for new or changed nodes, are as
 follows:
 
 
@@ -645,12 +645,10 @@ w^{\s'}_t
 \beq\color{blue}
 P((\vec{x}, \vec{y})_{L_t}|L_t,
 (\vec{x},\vec{y}))
-= 
+=
 \indi(\;\;\;
 (\vec{x}, \vec{y})_{L_t}=
 \text{  restriction of $(\vec{x},\vec{y})$ to $L_t$ }
 \;\;\;)
 \eeq
 \end{itemize}
-
-
