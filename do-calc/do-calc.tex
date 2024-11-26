@@ -466,7 +466,35 @@ do-operator conditions.}
 
 \item $\rulezeroP$
 \\
-$\rulezeropic$
+$$%rule 1
+\begin{array}{ccc}
+\xymatrix@C=.2pc{
+\ar[dr]
+&&\ar[dl]
+\\
+&\rva
+\ar[dr]
+\ar[dl]
+\\
+&&
+}
+&
+\xymatrix{\\
+\rightleftarrows
+}
+&
+\xymatrix@C=.2pc{
+\ar[dr]|0
+&&\ar[dl]|0
+\\
+&\rva
+\ar[dr]|0
+\ar[dl]|0
+\\
+&&
+}
+\end{array}
+$$
 \item $\rulezeroH$
 \end{itemize}
 
@@ -477,7 +505,7 @@ can be presented in the same
 format.
 
 
-\begin{itemize}
+\begin{itemize}[\;]
 \item {\bf Rule 1:
 Insertion or deletion of
 condition $\rva.=a.$, in the presence
@@ -488,7 +516,17 @@ of do-operator conditions.}
 
 \item $\ruleoneP$
 \\
-$\ruleonepic$
+$$%rule 1
+\begin{array}{ccc}
+\NodeZeroNone{\rva.}
+&
+\xymatrix{\\
+\rightleftarrows
+}
+&
+\NodeZeroAll{\rva.}
+\end{array}
+$$
 \item $\ruleoneH$
 \end{itemize}
 
@@ -501,16 +539,18 @@ conditions.}
 \begin{itemize}
 \item $\ruletwoP$
 \\
-$\ruletwopicA$
-\\
-$\ruletwopicB$
-\\
-In this rule, the node
-is split into a $\cald\rva.=a.$ node
-and a $a.$
-node. The original
-node keeps the arrows,
- and the new node is a root node.
+$$% rule 2
+\begin{array}{ccc}
+\NodeZeroNone{\rva.}
+&
+\xymatrix{\\
+\rightleftarrows
+}
+&
+\NodeZeroIn{\cald\rva.}
+\end{array}
+$$
+
 
 \item $\ruletwoH$
 \end{itemize}
@@ -524,7 +564,17 @@ node keeps the arrows,
 
 \item $\rulethreeP$
 \\
-$\rulethreepic$
+$$% rule 3
+\begin{array}{ccc}
+\NodeZeroIn{\cald \rva.}
+&
+\xymatrix{\\
+\rightleftarrows
+}
+&
+\NodeZeroAll{\cald\rva.}
+\end{array}
+$$
 \item $\rulethreeH$
 \end{itemize}
 
@@ -542,7 +592,7 @@ $$
 &&\Rect{``\cald\rva.=\rva."}\ar@/^1pc/[ll]^{\text{Rule 2}}
 }$$
 \caption{Finite State Machine describing the 3 rules 
-of Do-calculus. The arrows are commands to replace the string
+of Do  Calculus. The arrows are commands to replace the string
 at the source of the arrow by the string at the
 target of the arrow.}
 \label{fig-fsm-do-calc}
@@ -551,60 +601,59 @@ Fig.\ref{fig-fsm-do-calc} gives a finite state machine
 for the 3 rules of Do Calculus.\footnote{Finite
 State Machines are discussed in Chapter \ref{ch-finite-state}.}
 
-Note that Rules 1 and 3 describe 
-situations with zero information transmission
-between nodes $\rva$ and $\rvb$,
-whereas Rule 2 says two graphs have equal information
-transmission between nodes $\rva$ and $\rvb$.
+
 
 \begin{figure}[h!]
-\centering
-\includegraphics[width=5in]
-{do-calc/do-rules.png}
+
+$$\text{Rule 1: }\cald_{\rvr.}G: 
+\begin{array}{cccc}
+\NodeZeroNone{\rva.} 
+&
+\NodeZeroNone{\rvb.}
+&\NodeZeroIn{\cald\rvr.}
+&\NodeZeroNone{\rvs.}
+\end{array}
+$$
+
+$$\text{Rule 2: }\call_{\rva.}\cald_{\rvr.}G: 
+\begin{array}{cccc}
+\NodeZeroOut{\rva.} 
+&
+\NodeZeroNone{\rvb.}
+&\NodeZeroIn{\cald\rvr.}
+&\NodeZeroNone{\rvs.}
+\end{array}
+$$
+
+$$\text{Rule 3: }\cald_{\rva.-an(\rvs.)}\cald_{\rvr.}G:
+\begin{array}{ccccc}
+\xymatrix@C=.2pc{
+&&&&&&&
+an(\rvs.)\ar[dlllll]\ar[drr]
+&&&&&&&&
+\\
+&&\bullet&&&\bullet&&&&\bullet&&\bullet\ar@/_1pc/[llllll]&&&&
+\\
+&\rva.'\rva.''\ar@{<-}[ul]|{\color{red}0}\ar@{<-}[ur]\ar[dl]\ar[dr]
+&&&\rvb.\ar@{<-}[ul]\ar@{<-}[ur]\ar[dl]\ar[dr]
+&&&\cald\rvr.\ar@{<-}[ul]|{\color{red}0}\ar@{<-}[ur]|{\color{red}0}\ar[dl]\ar[dr]
+&&&\rvs.\ar@{<-}[ul]\ar@{<-}[ur]\ar[dl]\ar[dr]
+\\
+&&&&&&&&&&&&&&&}
+\end{array}
+$$
 \caption{Pictorial representation of the
- rules of Do Calculus. $an(\rvs.)$
-stands for the ancestors
-of $\rvs.$.
-In Rule 2, we zero the arrows
-leaving $\rva.$
-and ascertain that
-there is no flow of info
-between $\rva.$ and $\rvb.$
-under those circumstances.
-In Rule 3,
-as shown by
-the dotted arrows, conditioning
-on $\rvs.$
-is enough to block
-paths going from $\rvb.$
-into
-$\color{blue}\rva.-an(\rvs.)$,
-but it is not sufficient to block
-paths going from $\rvb.$
-into
-$\color{red}\rva.\cap an(\rvs.)$.
-In the example with red dotted
-arrows,
-conditioning
-on $\rvs.$
-opens a path
-between $\rva.$ and $\rvb.$
-in which $\rvs.$
-is a collider.
-That is the reason for
-zeroing arrows going into
-$\color{blue}\rva.-an(\rvs.)$,
-but not zeroing arrows
-going into
-$\color{red}\rva.\cap an(\rvs.)$.
+hypothesis graphs for the 3
+ rules of Do Calculus. 
 }
 \label{fig-do-rules}
 \end{figure}
 
 
 See Fig.\ref{fig-do-rules}
-for a pictorial representation of these
- rules.
+for a pictorial representation of the 
+hypothesis graphs for the 3 
+ rules of Do Calculus.
 
 These rules have been
 proven to be
@@ -1199,3 +1248,4 @@ P(z|\cald\rvx=x)=
 \delta[z, z(u_{!\rvx},x)]
 \;.
 \eeq
+
