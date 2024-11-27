@@ -471,33 +471,15 @@ do-operator conditions.}
 \rulezeroif\\
 $\rulezeroP$
 \\
-$$%rule 1
+$$%rule 0
 \begin{array}{ccc}
-\xymatrix@C=.2pc{
-\ar[dr]
-&&\ar[dl]
-\\
-&\rva
-\ar[dr]
-\ar[dl]
-\\
-&&
-}
+\NodeZeroNone{\rva.}
 &
 \xymatrix{\\
 \rightleftarrows
 }
 &
-\xymatrix@C=.2pc{
-\ar[dr]|0
-&&\ar[dl]|0
-\\
-&\rva
-\ar[dr]|0
-\ar[dl]|0
-\\
-&&
-}
+\NodeZeroAll{\rva.}
 \\
 G_e&&G_{e'}
 \end{array}
@@ -603,51 +585,70 @@ State Machines are discussed in Chapter \ref{ch-finite-state}.}
 \begin{figure}[h!]
 
 $\text{Rule 1: }G_h=\cald_{\rvr.}G: 
-\begin{array}{cccc}
-\NodeZeroNone{\rva.} 
-&
-\NodeZeroNone{\rvb.}
-&\NodeZeroInY{\cald\rvr.}
-&\NodeZeroNoneY{\rvs.}
+\begin{array}{ccccc}
+\xymatrix@C=.2pc{
+\\
+&&\bullet\ar@/^2pc/@[green][rrrrrrrrr]&&&\bullet&&&&\bullet\ar@/_1pc/@[green][llll]&&\bullet&&&&
+\\
+&\rva.\ar@{<-}[ul]\ar@{<-}@[green][ur]\ar[dl]\ar@[green][dr]
+&&&\rvb.\ar@{<-}[ul]\ar@{<-}@[green][ur]\ar[dl]\ar[dr]
+&&&*++[o][F*:yellow]{\cald\rvr.}\ar@{<-}[ul]|{\color{red}0}\ar@{<-}[ur]|{\color{red}0}\ar[dl]\ar[dr]
+&&&*++[o][F*:yellow]{\rvs.}\ar@{<-}@[green][ul]\ar@{<-}@[green][ur]\ar[dl]\ar[dr]
+\\
+&&\bullet\ar@[green][drrrrrrrrr]&&&&&&&&&&&&&
+\\
+&&&&&&&&&&&\bullet\ar@[green]@/_2pc/[uuu]&&&&
+}
 \end{array}
 $
 $\text{Rule 2: }G_h=\call_{\rva.}\cald_{\rvr.}G: 
-\begin{array}{cccc}
-\NodeZeroOut{\rva.} 
-&
-\NodeZeroNone{\rvb.}
-&\NodeZeroInY{\cald\rvr.}
-&\NodeZeroNoneY{\rvs.}
+\begin{array}{ccccc}
+\xymatrix@C=.2pc{
+\\
+&&\bullet\ar@/^2pc/@[green][rrrrrrrrr]&&&\bullet&&&&\bullet\ar@/_1pc/@[green][llll]&&\bullet&&&&
+\\
+&\rva.\ar@{<-}[ul]\ar@{<-}@[green][ur]\ar|{\color{red}0}[dl]\ar|{\color{red}0}[dr]
+&&&\rvb.\ar@{<-}[ul]\ar@{<-}@[green][ur]\ar[dl]\ar[dr]
+&&&*++[o][F*:yellow]{\cald\rvr.}\ar@{<-}[ul]|{\color{red}0}\ar@{<-}[ur]|{\color{red}0}\ar[dl]\ar[dr]
+&&&*++[o][F*:yellow]{\rvs.}\ar@{<-}@[green][ul]\ar@{<-}@[green][ur]\ar[dl]\ar[dr]
+\\
+&&&&&&&&&&&&&&&
+}
 \end{array}
 $
 $\text{Rule 3: }G_h=\cald_{\rva.-an(\rvs.)}\cald_{\rvr.}G:
 \begin{array}{ccccc}
 \xymatrix@C=.2pc{
-&&&&&&&
-an(\rvs.)\ar@[green][dlllll]\ar@[green][drr]
-&&&&&&&&
 \\
-&&\bullet&&&\bullet&&&&\bullet&&\bullet\ar@/_1pc/@[green][llllll]&&&&
+&&\bullet\ar@/^2pc/@[green][rrrrrrrrr]&&&\bullet&&&&\bullet\ar@/_1pc/@[green][llll]&&\bullet&&&&
 \\
-&\rva.', \rva.''\ar@{<-}[ul]|{\color{red}0}\ar@{<-}@[green][ur]\ar[dl]\ar[dr]
+&\Rect{\rva.'|\rva.''}\ar@{<-}[ul]|{\color{red}0}\ar@{<-}@[green][ur]\ar[dl]\ar@[green][dr]
 &&&\rvb.\ar@{<-}[ul]\ar@{<-}@[green][ur]\ar[dl]\ar[dr]
 &&&*++[o][F*:yellow]{\cald\rvr.}\ar@{<-}[ul]|{\color{red}0}\ar@{<-}[ur]|{\color{red}0}\ar[dl]\ar[dr]
 &&&*++[o][F*:yellow]{\rvs.}\ar@{<-}@[green][ul]\ar@{<-}@[green][ur]\ar[dl]\ar[dr]
 \\
-&&&&&&&&&&&&&&&}
+&&\bullet\ar@[green][drrrrrrrrr]&&&&&&&&&&&&&
+\\
+&&&&&&&&&&&\bullet\ar@[green]@/_2pc/[uuu]&&&&
+}
 \end{array}
 $
 \caption{Pictorial representation of some of the nodes in the
 hypothesis graphs ($G_h$) for the 3
  rules of Do Calculus. In this picture,
- yellow nodes are conditioned on, $\rva.'=\rva.-an(\rvs.)$
+ yellow nodes are conditioned on.
+ Furthermore $\rva.'=\rva.-an(\rvs.)$
  and $\rva.'' =\rva.\cap an(\rvs.)$.
  Note that 
  since we are conditioning on $\rvs.$,
- we get a non-blocked path 
- indicated in green, between $\rva.''$
- and $\rvb.$. The hypothesis
- of Rule 3 forbids paths of such nature.
+ we get multiple non-blocked paths,
+ indicated in green, between $\rva.''$ for Rule 3 (or 
+ $\rva.$ for Rules 1 and 2)
+ and $\rvb.$.
+ All these paths
+ pass through the conditioned collider $\rvs.$. The hypothesis
+ of Rules 1,2,3 are meant to
+ ban paths like those.
 }
 \label{fig-do-rules}
 \end{figure}
@@ -660,15 +661,10 @@ some of the nodes ($\rva., \rvb., \rvr., \rvs.$) of the
 hypothesis graphs for the 3 
  rules of Do Calculus.
 
-The 3 rules of DC\footnote{It seems to
-me that the 3 rules of DC are
-3 separate theorems that should
-be proven.
-However, Pearl doesn't seem to
-present a proof of them, but rather states them
-as axioms. I hope
-rigorous mathematicians someday come up with proofs of them.} have been
-proven to be
+The 3 rules of DC are
+3 separate theorems that have
+been proven, by Pearl and collaborators, to be correct,
+consistent, and 
 sufficient
 for removing
 all do operator conditions
