@@ -147,11 +147,11 @@ P(x)=\sum_a P(x|a)P(a)=
 \xymatrix{
 P(x)&=&
 \ar[r]_0
-&\sum a\ar[r]
+&\EE a\ar[r]
 &x
 &=&
 \ar[r]_0
-&\sum b\ar[r]
+&\EE b\ar[r]
 &x
 }
 \label{eq-diff-priors}
@@ -351,7 +351,7 @@ we get
 P(y|\cald\rvx=x)
 &=&
 \xymatrix{
-\sum z\ar[dr]
+\EE z\ar[dr]
 \\
 x\ar[r]
 &y
@@ -373,7 +373,7 @@ we get
 P(y|\cald \rvx =x)
 &=&
 \xymatrix{
-*++[F-o]{\sum z}\ar[rd]
+*++[F-o]{\EE z}\ar[rd]
 \\
 x\ar[r]
 &y
@@ -408,7 +408,7 @@ constraint 2 is satisfied.
 P(y|\cald\rvx=x)
 &=&
 \xymatrix{
-\sum z\ar[dr]
+\EE z\ar[dr]
 \\
 x\ar[r]
 &y
@@ -486,9 +486,21 @@ $
 {\bf * proof 1:}
 \\
 \beqa
+P(y|\cald\rvx=x,c)
+&=&
+\xymatrix{
+&*++[F-o]{c}\ar[rd]
+\\
+x\ar[r]
+&\sum m\ar[r]
+&y
+}
+\eeqa
+\beqa
 P(y|\cald\rvx=x)
 &=&
 \xymatrix{
+\EE x'\ar[r]
 &*++[F-o]{\sum c}\ar[rd]
 \\
 x\ar[r]
@@ -498,17 +510,7 @@ x\ar[r]
 \\
 &=&
 \xymatrix{
-\sum x'\ar[r]
-&*++[F-o]{\sum c}\ar[rd]
-\\
-x\ar[r]
-&\sum m\ar[r]
-&y
-}
-\\
-&=&
-\xymatrix{
-&\sum x'\ar[dr]
+&\EE x'\ar[dr]
 \\
 x\ar[r]&\sum m\ar[r]
 &y
@@ -663,9 +665,9 @@ $\xymatrix{
 \begin{align}
 P(y|\cald\rvx=x)&=
 \xymatrix{
-&*++[F-o]{\sum u_1}\ar[ddl]\ar[ddrr]
+&*++[F-o]{\EE u_1}\ar[ddl]\ar[ddrr]
 \\
-&*++[F-o]{\sum u_2}\ar[dl]
+&*++[F-o]{\EE u_2}\ar[dl]
 \\
 \sum w\ar[r]
 &\sum z
@@ -676,11 +678,11 @@ P(y|\cald\rvx=x)&=
 &=
 \xymatrix{
 &*++[F-o]{\sum u_1}\ar[ddl]\ar[ddrr]
-&&\sum z'\ar[ll]
+&&\EE z'\ar[ll]
 \\
 &*++[F-o]{\sum u_2}\ar[dl]
 &&
-\sum x'\ar[ll]
+\EE x'\ar[ll]
 \\
 \sum w\ar[r]
 &\sum z
@@ -690,9 +692,9 @@ P(y|\cald\rvx=x)&=
 \\
 &=
 \xymatrix{
-&{\sum z'}\ar[ddl]\ar[ddrr]
+&{\EE z'}\ar[ddl]\ar[ddrr]
 \\
-&{\sum x'}\ar[dl]
+&{\EE x'}\ar[dl]
 \\
 \sum w\ar[r]
 &\sum z
@@ -709,6 +711,19 @@ P(y|\cald\rvx=x)&=
 \end{claim}
 \proof
 \beqa
+P(y|\cald\rvz=z,x, u)
+&=&
+\xymatrix{
+x\ar[d]\ar[drr]
+\\
+\sum w
+&z\ar[r]
+&y
+\\
+*++[F-o]{u}\ar[u]\ar[urr]
+}
+\eeqa
+\beqa
 P(y|\cald\rvz=z,x)
 &=&
 \xymatrix{
@@ -719,6 +734,7 @@ x\ar[d]\ar[drr]
 &y
 \\
 *++[F-o]{\sum u}\ar[u]\ar[urr]
+&\EE w'\ar[l]
 }
 \\
 &=&
@@ -729,26 +745,14 @@ x\ar[d]\ar[drr]
 &z\ar[r]
 &y
 \\
-*++[F-o]{\sum u}\ar[u]\ar[urr]
-&\sum w'\ar[l]
-}
-\\
-&=&
-\xymatrix{
-x\ar[d]\ar[drr]
-\\
-\sum w
-&z\ar[r]
-&y
-\\
-{\sum w'}\ar[u]\ar[urr]
+{\EE w'}\ar[u]\ar[urr]
 }
 \\
 &=&
 \xymatrix{
 x\ar[drr]
 \\
-\sum w\ar@/_1pc/[rr]
+\EE w\ar@/_1pc/[rr]
 &z\ar[r]
 &y
 }
@@ -874,7 +878,7 @@ $P^*(y|\cald\rvx=x)=P^*(y|\cald\rvx=x)$
 \\
 \\
 \xymatrix{
-&*++[F-o]{\sum h}\ar[dr]
+&*++[F-o]{\EE h}\ar[dr]
 &\rvs=1\ar[d]
 \\
 \cald\rvx=x\ar[rr]
@@ -909,7 +913,7 @@ $P(y|\cald \rvx=x, \rvs=1)=
 \\
 \xymatrix{
 \rvs=1\ar@/^1.5pc/[rr]
-&*++[F-o]{\sum h}\ar[r]\ar[rd]
+&*++[F-o]{\EE h}\ar[r]\ar[rd]
 &\sum z
 \\
 \cald\rvx=x\ar[rr]
@@ -917,7 +921,7 @@ $P(y|\cald \rvx=x, \rvs=1)=
 }
 \xymatrix{\\=}
 \xymatrix{
-&*++[F-o]{\sum h}\ar[rd]
+&*++[F-o]{\EE h}\ar[rd]
 &
 \\
 \cald\rvx=x\ar[rr]
@@ -950,7 +954,7 @@ P(z|\cald\rvx=x, \rvs=1)$
 \\
 \xymatrix{
 \rvs=1\ar[rd]
-&*++[F-o]{\sum \rvh}\ar[dr]
+&*++[F-o]{\EE \rvh}\ar[dr]
 \\
 \cald\rvx=x\ar[r]
 &\sum z\ar[r]
@@ -1024,7 +1028,7 @@ P(y|d,m,\xi, u)P(m|d', \xi, u)
 \\
 \\
 \xymatrix{
-&&*++[F-o]{\sum u}\ar[ddr]
+&&*++[F-o]{\EE u}\ar[ddr]
 \ar[dl]\ar[d]
 \\
 \cali\rvd=d'\ar@/_1pc/[rr]
@@ -1044,7 +1048,7 @@ P(\xi)$
 \xymatrix{\\=}
 \xymatrix{
 \cali\rvd=d'\ar@/_1pc/[rr]
-&\sum\xi\ar[rrd]\ar[r]
+&\EE\xi\ar[rrd]\ar[r]
 &\sum m\ar[rd]
 \\
 \cald\rvd=d\ar[rrr]
@@ -1069,7 +1073,7 @@ $P(y|\cald\rvx^3=x^3)=
 \calq(y|x^3)$
 \\
 \xymatrix@C=.5pc{
-\sum z_0\ar[r]\ar@/^1pc/[rr]
+\EE z_0\ar[r]\ar@/^1pc/[rr]
 \ar[drrr]
 &\sum z_1\ar[r]
 \ar[drr]
@@ -1087,7 +1091,7 @@ $P(y|\cald\rvx^3=x^3)=
 }
 \xymatrix{\\=}
 \xymatrix@C=.9pc{
-\sum z_0\ar[r]\ar@/^1pc/[rr]
+\EE z_0\ar[r]\ar@/^1pc/[rr]
 \ar[drrr]
 &\sum z_1\ar[r]
 \ar[drr]
@@ -1174,7 +1178,7 @@ P(z)$
 \\
 \xymatrix{\\=}
 \xymatrix{
-&\sum z\ar[d]
+&\EE z\ar[d]
 &
 \\
 x\ar[r]
