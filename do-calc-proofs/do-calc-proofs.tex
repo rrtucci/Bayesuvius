@@ -47,9 +47,10 @@ with switch nodes
 in Chapter \ref{ch-transport}.
 \selectionGraphs
 
-Some identities
+Some {\bf node summation identities}
 that are used in this chapter:
 
+\hrule
 \begin{enumerate}
 \item
 \beq
@@ -78,17 +79,7 @@ x_2\ar[ru]\ar[rru]
 \label{eq-univ-bdoor}
 \;.
 \eeq
-One can describe
-this identity as
-\qt{giving $\rvy$
-a universal backdoor},
-because $\sum a$ is a backdoor
-(i.e., input) to $y$, and $\sum a$
-is universal in the sense that it
- is entered
-by every arrow that enters $y$
-except $\sum a$ itself.
-
+\hrule
 \item
 
 \beq
@@ -106,17 +97,13 @@ x_2\ar[ur]
 }
 \label{eq-collider-sum}
 \eeq
-One can describe this
-identity as \qt{summing over
-the values of a collider node
-which has no emerging
-arrows}\footnote{A zeroed
-arrow means the same as no arrow.}.
+A zeroed
+arrow means the same as no arrow.
 Eq.(\ref{eq-collider-sum})
 can be understood as an
 edge case (when $\rvy=\emptyset$)
 of Eq.(\ref{eq-univ-bdoor}).
-
+\hrule
 \item
 \beq
 \sum_a P(x_2|a)P(a|x_1)=P(x_2|x_1)
@@ -132,15 +119,11 @@ x_1\ar[r]
 &x_2}
 \label{eq-med-sum}
 \eeq
-One can describe this
-identity as
-\qt{summing over the
-values of a mediator node}.
+\hrule
 
 \item
 \beq
-P(x)=\sum_a P(x|a)P(a)=
-\sum_b P(x|b)P(b)
+P(x)=\sum_a P(x|a)P(a)
 \eeq
 
 \beq
@@ -149,23 +132,52 @@ P(x)&=&
 \ar[r]_0
 &\EE a\ar[r]
 &x
-&=&
-\ar[r]_0
-&\EE b\ar[r]
-&x
 }
 \label{eq-diff-priors}
 \eeq
-One can describe
-this identity
-as \qt{averaging
-over different
-priors}.
 Eq.(\ref{eq-diff-priors})
 can be understood as
 an edge case of Eq.(\ref{eq-med-sum}).
 
 \end{enumerate}
+\hrule
+
+An important caveat concerning the above
+summation identities is that 
+the instantiations that they produce depend on the
+original bnet whence they come from. 
+This caveat is illustrated in Fig.\ref{fig-dep-on-origing-bnet}.
+
+\begin{figure}[h!]
+$$
+\begin{array}{c|c}
+\sum_a P_{G}(x_2|a)P_{G}(a|x_1)=P_{G}(x_2|x_1)
+&
+\sum_a P_{G'}(x_2|a, x_1)P_{G'}(a|x_1)=P_{G'}(x_2|x_1)
+\\
+\xymatrix@C=1.5pc{
+x_1\ar[r]
+&\sum a\ar[r]
+&x_2
+&=&
+x_1\ar[r]
+&x_2}
+&
+\xymatrix@C=1.5pc{
+x_1\ar[r]\ar@/_1pc/[rr]
+&\sum a\ar[r]
+&x_2
+&=&
+x_1\ar[r]
+&x_2}
+\end{array}
+$$
+\caption{Note that there are cases when $P_G(x_2|x_1)
+\neq P_{G'}(x_2|x_1)$. Hence,
+ $P(x_2|x_1)$ depends on the bnet of origin.
+}
+\label{fig-dep-on-origing-bnet}
+\end{figure}
 
 A {\bf do-adjustment
 formula} expresses
@@ -663,18 +675,19 @@ $\xymatrix{
 \proof
 \\
 \begin{align}
-P(y|\cald\rvx=x)&=
+P(y|\cald\rvx=x, u_1, u_2)&=
 \xymatrix{
-&*++[F-o]{\EE u_1}\ar[ddl]\ar[ddrr]
+&*++[F-o]{u_1}\ar[ddl]\ar[ddrr]
 \\
-&*++[F-o]{\EE u_2}\ar[dl]
+&*++[F-o]{u_2}\ar[dl]
 \\
 \sum w\ar[r]
 &\sum z
 &x\ar[r]
-&\rvy
+&y
 }
 \\
+P(y|\cald\rvx=x)
 &=
 \xymatrix{
 &*++[F-o]{\sum u_1}\ar[ddl]\ar[ddrr]
@@ -687,7 +700,7 @@ P(y|\cald\rvx=x)&=
 \sum w\ar[r]
 &\sum z
 &x\ar[r]
-&\rvy
+&y
 }
 \\
 &=
@@ -699,8 +712,12 @@ P(y|\cald\rvx=x)&=
 \sum w\ar[r]
 &\sum z
 &x\ar[r]
-&\rvy
+&y
 }
+\\
+&=
+\xymatrix{
+x \ar[r]&  y}
 \end{align}
 \qed
 
