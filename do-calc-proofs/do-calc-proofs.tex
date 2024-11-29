@@ -179,17 +179,16 @@ $$
 \label{fig-dep-on-origing-bnet}
 \end{figure}
 
-A {\bf do-adjustment
-formula} expresses
-a {\bf do-query} (i.e.,
-a conditional probability
-with do operators
-in its condition) by
-an equivalent expression
-without do operators.
-The equivalent expression must
-satisfy 2 constraints
-to be discussed  below.
+
+
+
+
+
+We define a {\bf do-adjustment formula}
+for {\bf do-query}
+$P(y|\cald\rvx=x)$
+to be an algebraic expression  
+constructed from the TPMs for {\it observed} (i.e., not hidden) nodes of the original bnet $G$.
 If a do-adjustment formula
 exists for a
 particular do-query,
@@ -222,14 +221,64 @@ This chapter deals with both
 do-adjustment and do-transport
 formulae.
 
-See Fig.\ref{fig-iden-noniden}
-for some simple
-examples of
-bnets for which
-the do-query $P(y|\cald\rvx=x)$
-is
-DI
-and non-DI.
+Let $G$ be a graph before
+amputation
+of the arrows entering node $\rvx$,
+and let $G_x=\cald_{\rvx=x}G$
+be the same graph after amputation.
+Also let $P_G()=P()$ be
+the full probability distribution
+for graph $G$, and $P_{G_x}()$
+be that for $G_x$.
+In general, the
+following is always true,
+for bnets
+with or bnets without hidden nodes:\footnote{Note that $P_{G_x}(y|x)\neq P_G(y|x)=P(y|x)$.
+In fact,
+$P_{G_x}(y|x)= P(y|x)$
+iff there is no confounding,
+so $P_{G_x}(y|x)\neq P(y|x)$
+indicates confounding.
+}
+
+\beq
+P(y|\cald\rvx=x)=P_{G_x}(y|x)
+\;
+\eeq
+However, the right hand side of this equation is
+not a valid adjustment formula
+for this query
+because it's not expressed in terms
+of observed TPMs of $G$.
+
+The following two step heuristic technique often
+yields a valid adjustment formula.
+
+\begin{enumerate}
+\item 
+Write down a bnet instantiation
+that has a DAG structure identical
+to the DAG structure of $G$,
+except that arrows entering node
+$\rvx$ have been amputated.
+All nodes  of that instantiation, except
+nodes  $x$ and $y$,
+are summed over.
+Summation
+over nodes can be left explicit,
+to suggest how to compute
+the adjustment formula, or
+they can be removed for brevity (as long as we
+remember the original bnet whence they came from.)
+
+
+
+\item If $G$ has hidden nodes,
+these must be summed over
+and replaced by observed TPMs via the node 
+summation identities.
+\end{enumerate}
+
 
 \begin{figure}[h!]
 $$
@@ -247,7 +296,7 @@ $$
 }
 \\
 (a) \text{$P(y|\cald\rvx=x)$ is DI}
-&&(b) \text{$P(y|\cald\rvx=x)$ is non-DI}
+&&(b) \text{$P(y|\cald\rvx=x)$ is not-DI}
 \end{array}
 $$
 \caption{Examples of
@@ -255,106 +304,26 @@ bnets for which
 the do-query $P(y|\cald\rvx=x)$
 is
 DI
-and non-DI.
+and not-DI.
 }
 \label{fig-iden-noniden}
 \end{figure}
-
-Let $G$ be a graph before
-amputation
-of the arrows entering node $\rvx$,
-and let $G_x=\cald_{\rvx=x}G$
-be the same graph after amputation.
-Also let $P_G()=P()$ be
-the full probability distribution
-for graph $G$, and $P_{G_x}()$
-be that for $G_x$.
-In general, the
-following is always true,
-whether it applies to a bnet
-with or without hidden nodes:\footnote{Note that $P_{G_x}(y|x)\neq P_G(y|x)=P(y|x)$.
-In fact,
-$P_{G_x}(y|x)= P(y|x)$
-iff there is no confounding,
-so $P_{G_x}(y|x)\neq P(y|x)$
-indicates confounding.
-}
-
-\beq
-P(y|\cald\rvx=x)=P_{G_x}(y|x)
-\;
-\eeq
-However, the right hand side of this equation is
-not a valid adjustment formula
-for this query
-because it's not expressed in terms
-of $P()$.
-We define a valid adjustment formula
-for query
-$P(y|\cald\rvx=x)$
-to be a bnet instantiation diagram
-that satisfies the
-following 2 constraints:
-
-\begin{enumerate}
-\item {\bf(structural constraint)}
-
-The adjustment formula must be
-representable by a bnet instantiation
-that has a DAG structure identical
-to the DAG structure of $G$,
-except that arrows entering node
-$\rvx$ have been amputated.
-All nodes  of that instatiation, except
-nodes  $x$ and $y$,
-must be summed over.
-
-\item {\bf (probabilitistic constraint)}
-
-\begin{itemize}
-\item If $G$ has hidden nodes,
-these must be renamed and
-assigned a TPM that
-can be constructed
-from the {\it observable }
-TPMs of $G$.
-\item The observable
-nodes of $G$
-with hidden
-parents, must also be assigned a TPM that
-can be constructed
-from the {\it observable }
-TPMs of $G$.
-\item The observable
-nodes of $G$ with no hidden
-parents, must be assigned
-the same TPM as they have in $G$.
-\end{itemize}
-\end{enumerate}
-The reason for
-these 2 constraints
-is that we want
-an adjustment
-formula to show
-exactly how it is calculated from
-the full probability distribution
-$P()$.
-If we don't show exactly
-how it is calculated
-(i.e., whether with or without
-the amputated arrows),
-it is impossible to distinguish
-between marginals of $P()$ and $P_{G_x}()$
-such as $P(y|x)$ and $P_{G_x}(y|x)$.
-
-
-
-Based on these 2 constraints,
+See Fig.\ref{fig-iden-noniden}
+for some simple
+examples of
+bnets for which
+the do-query $P(y|\cald\rvx=x)$
+is
+DI
+and not-DI.
+Using our heuristic technique,
 we can easily see why the
 query $P(y|\cald\rvx=x)$
-is DI (resp., non-DI)
-for bnet $(a)$ (resp., bnet $(b)$)
+is DI
+for bnet $(a)$ 
+and not-DI for bnet $(b)$
 of Fig.\ref{fig-iden-noniden}.
+
 For bnet $(a)$, after amputating arrow
 $z\rarrow x$ and summing over node $z$,
 we get
@@ -374,7 +343,9 @@ The right hand
 side of Eq.(\ref{eq-simplest-identifiable})
 is a valid
 adjustment formula
-because it satisfies both constraints.
+because it's expressed in terms
+of observed TPMs of $G$.
+
 For bnet $(b)$,
 if we amputate arrow
 $z\rarrow x$
@@ -390,19 +361,17 @@ P(y|\cald \rvx =x)
 x\ar[r]
 &y
 }
-\label{eq-simplest-non-DI}
+\label{eq-simplest-not-DI}
 \eeqa
 The right hand
-side of Eq.(\ref{eq-simplest-non-DI})
+side of Eq.(\ref{eq-simplest-not-DI})
 is not a valid
 adjustment formula
-because it violates the
-second constraint. Furthermore,
+because, for this bnet, 
 try as we may,  there
 is no way to replace the sum over
-hidden  node $z$ by a sum over an observed node,
-such that
-constraint 2 is satisfied.
+hidden  node $z$ by an
+equivalent sum over an observed node.
 
 
 
