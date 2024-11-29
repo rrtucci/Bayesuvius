@@ -440,7 +440,7 @@ multinodes in a bnet $G$.
 I this section, we will state
 the 3 rules for Do Calculus. All 3 rules start with a hypothesis
 which declares a bnet that I like to call the {\bf hypothesis graph} (denoted by $G_h$). Then they propose how
-to transform a bnet $G_e$ to a bnet $G_e$. I like to call 
+to transform a bnet $G_e$ to a bnet $G_{e'}$. I like to call 
 $G_e$ and $G_{e'}$ the {\bf evolving graphs}. The first $G_e$ 
 results from transforming the {\bf original graph} $G$.
 
@@ -481,7 +481,7 @@ $$%rule 0
 &
 \DLFourNode{}{}{\rva.\nosignal{\rvb.}}{}{}
 \\
-G_e&&G_{e'}
+G_e&&G_{e}
 \end{array}
 $$
 
@@ -489,12 +489,12 @@ $$
 Zeroing an arrow is the same as deleting it.
 $\rva.\nosignal{\rvb.}$ is the promise that
 there are no unblocked paths
-from node $\rva.$ to $\rvb.$.
+from node $\rva.$ to node $\rvb.$.
 
 
 The 3 rules of Do Calculus
 can be presented in the same
-format.
+format as Rule 0.
 
 
 \begin{itemize}
@@ -516,8 +516,7 @@ $$%rule 1
 &
 \DLFourNode{}{}{\rva.\nosignal{\rvb.}}{}{}
 \\
-G_e&&G_{e'}
-\end{array}
+G_e&&G_{e'}\end{array}
 $$
 
 
@@ -559,7 +558,7 @@ $$% rule 3
 &
 \DLFourNode{0}{0}{\cald\rva.\nosignal{\rvb.}}{}{}
 \\
-G_e&& G_{e'}
+G_e&& G_{e}
 \end{array}
 $$
 
@@ -588,56 +587,65 @@ State Machines are discussed in Chapter \ref{ch-finite-state}.}
 
 
 \begin{figure}[h!]
-
-$\text{Rule 1: }G_h=\cald_{\rvr.}G: 
-\begin{array}{ccccc}
+$$
+\begin{array}{c}
+\begin{array}{cc}
+\xymatrix{\\\\
+\text{Rule 1: }G_h=\cald_{\rvr.}G:}
+& 
 \xymatrix@C=.2pc{
 \\
-&&\bullet\ar@/^2pc/@[green][rrrrrrrrr]&&&\bullet&&&&\bullet\ar@/_1pc/@[green][llll]&&\bullet&&&&
+&&\bullet\ar@/^2pc/@[red][rrrrrrrrr]&&&\bullet&&&&\bullet\ar@/_1pc/@[red][llll]&&\bullet&&&&
 \\
-&\rva.\ar@{<-}[ul]\ar@{<-}@[green][ur]\ar[dl]\ar@[green][dr]
-&&&\rvb.\ar@{<-}[ul]\ar@{<-}@[green][ur]\ar[dl]\ar[dr]
+&\rva.\ar@{<-}[ul]\ar@{<-}@[red][ur]\ar[dl]\ar@[red][dr]
+&&&\rvb.\ar@{<-}[ul]\ar@{<-}@[red][ur]\ar[dl]\ar[dr]
 &&&*++[o][F*:yellow]{\cald\rvr.}\ar@{<-}[ul]|{\color{red}0}\ar@{<-}[ur]|{\color{red}0}\ar[dl]\ar[dr]
-&&&*++[o][F*:yellow]{\rvs.}\ar@{<-}@[green][ul]\ar@{<-}@[green][ur]\ar[dl]\ar[dr]
+&&&*++[o][F*:yellow]{\rvs.}\ar@{<-}@[red][ul]\ar@{<-}@[red][ur]\ar[dl]\ar[dr]
 \\
-&&\bullet\ar@[green][drrrrrrrrr]&&&&&&&&&&&&&
+&&\bullet\ar@[red][drrrrrrrrr]&&&&&&&&&&&&&
 \\
-&&&&&&&&&&&\bullet\ar@[green]@/_2pc/[uuu]&&&&
+&&&&&&&&&&&\bullet\ar@[red]@/_2pc/[uuu]&&&&
 }
 \end{array}
-$
-$\text{Rule 2: }G_h=\call_{\rva.}\cald_{\rvr.}G: 
-\begin{array}{ccccc}
+\\
+\begin{array}{cc}
+\xymatrix
+{\\\\
+\text{Rule 2: }G_h=\call_{\rva.}\cald_{\rvr.}G:}
+& 
 \xymatrix@C=.2pc{
 \\
-&&\bullet\ar@/^2pc/@[green][rrrrrrrrr]&&&\bullet&&&&\bullet\ar@/_1pc/@[green][llll]&&\bullet&&&&
+&&\bullet\ar@/^2pc/@[red][rrrrrrrrr]&&&\bullet&&&&\bullet\ar@/_1pc/@[red][llll]&&\bullet&&&&
 \\
-&\rva.\ar@{<-}[ul]\ar@{<-}@[green][ur]\ar|{\color{red}0}[dl]\ar|{\color{red}0}[dr]
-&&&\rvb.\ar@{<-}[ul]\ar@{<-}@[green][ur]\ar[dl]\ar[dr]
+&\rva.\ar@{<-}[ul]\ar@{<-}@[red][ur]\ar|{\color{red}0}[dl]\ar|{\color{red}0}[dr]
+&&&\rvb.\ar@{<-}[ul]\ar@{<-}@[red][ur]\ar[dl]\ar[dr]
 &&&*++[o][F*:yellow]{\cald\rvr.}\ar@{<-}[ul]|{\color{red}0}\ar@{<-}[ur]|{\color{red}0}\ar[dl]\ar[dr]
-&&&*++[o][F*:yellow]{\rvs.}\ar@{<-}@[green][ul]\ar@{<-}@[green][ur]\ar[dl]\ar[dr]
+&&&*++[o][F*:yellow]{\rvs.}\ar@{<-}@[red][ul]\ar@{<-}@[red][ur]\ar[dl]\ar[dr]
 \\
 &&&&&&&&&&&&&&&
 }
 \end{array}
-$
-$\text{Rule 3: }G_h=\cald_{\rva.-an(\rvs.)}\cald_{\rvr.}G:
-\begin{array}{ccccc}
+\\
+\begin{array}{cc}
+\xymatrix{\\\\
+\text{Rule 3: }G_h=\cald_{\rva.-an(\rvs.)}\cald_{\rvr.}G:}
+&
 \xymatrix@C=.2pc{
 \\
-&&\bullet\ar@/^2pc/@[green][rrrrrrrrr]&&&\bullet&&&&\bullet\ar@/_1pc/@[green][llll]&&\bullet&&&&
+&&\bullet\ar@/^2pc/@[red][rrrrrrrrr]&&&\bullet&&&&\bullet\ar@/_1pc/@[red][llll]&&\bullet&&&&
 \\
-&\Rect{\rva.'|\rva.''}\ar@{<-}[ul]|{\color{red}0}\ar@{<-}@[green][ur]\ar[dl]\ar@[green][dr]
-&&&\rvb.\ar@{<-}[ul]\ar@{<-}@[green][ur]\ar[dl]\ar[dr]
+&\Rect{\rva.'|\rva.''}\ar@{<-}[ul]|{\color{red}0}\ar@{<-}@[red][ur]\ar[dl]\ar@[red][dr]
+&&&\rvb.\ar@{<-}[ul]\ar@{<-}@[red][ur]\ar[dl]\ar[dr]
 &&&*++[o][F*:yellow]{\cald\rvr.}\ar@{<-}[ul]|{\color{red}0}\ar@{<-}[ur]|{\color{red}0}\ar[dl]\ar[dr]
-&&&*++[o][F*:yellow]{\rvs.}\ar@{<-}@[green][ul]\ar@{<-}@[green][ur]\ar[dl]\ar[dr]
+&&&*++[o][F*:yellow]{\rvs.}\ar@{<-}@[red][ul]\ar@{<-}@[red][ur]\ar[dl]\ar[dr]
 \\
-&&\bullet\ar@[green][drrrrrrrrr]&&&&&&&&&&&&&
+&&\bullet\ar@[red][drrrrrrrrr]&&&&&&&&&&&&&
 \\
-&&&&&&&&&&&\bullet\ar@[green]@/_2pc/[uuu]&&&&
+&&&&&&&&&&&\bullet\ar@[red]@/_2pc/[uuu]&&&&
 }
 \end{array}
-$
+\end{array}
+$$
 \caption{Pictorial representation of some of the nodes in the
 hypothesis graphs ($G_h$) for the 3
  rules of Do Calculus. In this picture,
@@ -647,13 +655,13 @@ hypothesis graphs ($G_h$) for the 3
  Note that 
  since we are conditioning on $\rvs.$,
  we get multiple non-blocked paths,
- indicated in green, between $\rva.''$ for Rule 3 (or 
- $\rva.$ for Rules 1 and 2)
- and $\rvb.$.
+ indicated in red, between $\rvb.$ and
+ $\rva.''$ for Rule 3 (or 
+ $\rva.$ for Rules 1 and 2).
  All these paths
  pass through the conditioned collider $\rvs.$. The hypothesis
  of Rules 1,2,3 are meant to
- ban paths like those.
+ ban paths like those in red.
 }
 \label{fig-do-rules}
 \end{figure}
@@ -662,7 +670,7 @@ hypothesis graphs ($G_h$) for the 3
 
 Fig.\ref{fig-do-rules} shows
 a pictorial representation of 
-some of the nodes ($\rva., \rvb., \rvr., \rvs.$) of the 
+some of the nodes (i.e., $\rva., \rvb., \rvr., \rvs.$) of the 
 hypothesis graphs for the 3 
  rules of Do Calculus.
 
@@ -692,6 +700,17 @@ adjusts one multinode
 and the
 frontdoor formula adjusts two.
 
+For any two
+disjoint
+multinodes $\rvx.$
+and $\rvy.$,
+we define a {\bf backdoor path}  (resp., {\bf frontdoor path})
+from $\rvx.$ to $\rvy.$
+as a path from $\rvx.$
+and $\rvy.$ that
+starts with an arrow pointing into (resp., 
+pointing out of)
+$\rvx.$,
 
 
 \section{Parent Adjustment Formula}
@@ -773,40 +792,49 @@ backdoor adjustment formula.
 In this section,
 we shall mainly be
 concerned with
-proving this
+explaining this
 theorem
 using Do Calculus.
 
-For any two
-disjoint
-multinodes $\rvx.$
-and $\rvy.$,
-we define a {\bf backdoor path}
-from $\rvx.$ to $\rvy.$
-as a path from $\rvx.$
-and $\rvy.$ that
-starts with an arrow pointing into
-$\rvx.$,
 
 \bdoordef
 
+\begin{figure}[h!]
+$$
+\xymatrix@C=1pc{
+\ar[dr]
+&&\bullet\ar@[red][dl]\ar@[red][r]
+&\bullet\ar@[red][dr]
+&&\bullet\ar@[red][dl]
+&\bullet\ar@[red][dr]\ar@[red][l]
+&&\bullet\ar@[red][dl]
+\\
+&\rvx.
+\ar[dl]
+\ar@[red][dr]
+&&&\rvy.
+\ar[dl]
+\ar[dr]
+&&&{\rvz.}
+\ar[dl]
+\ar[dr]
+\\
+&&\bullet\ar@[red][drrrrrr]&&&&&&
+\\
+&&&&&&&&\bullet\ar@/_1pc/@[red][uuu]
+}
+$$
+\caption{The red arrows in this figure define paths 
+that violate the 2 backdoor adjustment conditions.
+ The reason for condition 2 is that
+ if we condition on node $\rvz.$
+ in accordance with condition 1, we open the
+ red  path from $\rvx.$ to $\rvy.$
+ via collider $\rvz.$.}
+ \label{fig-bdoor-red-paths}
+\end{figure}
 {\bf Motivation for BD criterion}:
-Part 1 rules out
-paths
-from $\rvx$
-to $\rvy$
-containing a fork node (confounder)
-which, if not blocked by conditioning on $\rvz.$,
- would introduce a
-non-causal correlation
-(confounder bias).
-Part 2 rules out
-a directed path
-from $\rvx$ to $\rvy$
-that has a mediator node
-blocked by conditioning on $\rvz.$
-or a collider node
-unblocked by conditioning on $\rvz.$.
+See Fig.\ref{fig-bdoor-red-paths}.
 
 
 
@@ -894,11 +922,42 @@ frontdoor adjustment formula.
 In this section,
 we shall mainly be
 concerned with
-proving this
+explaining this
 theorem
 using Do Calculus.
 
 \fdoordef
+
+\begin{figure}[h!]
+$$
+\xymatrix@C=1pc{
+\ar[dr]
+&&\bullet\ar@[red][dl]\ar@/^2pc/@[red][rrrr]\ar@[red][r]
+&\bullet\ar@[red][dr]
+&&\bullet\ar@[red][dl]\ar@[red][r]
+&\bullet\ar@[red][dr]
+&&\ar[dl]
+\\
+&\rvx.
+\ar[dl]
+\ar[dr]
+&&&\rvm.
+\ar[dl]
+\ar[dr]
+&&&{\rvy.}
+\ar[dl]
+\ar[dr]
+\\
+&&&&&&&&
+}
+$$
+\caption{The red arrows in this figure define paths 
+that violate the 3 frontdoor adjustment conditions.}
+ \label{fig-fdoor-red-paths}
+\end{figure}
+{\bf Motivation for FD criterion}:
+See Fig.\ref{fig-fdoor-red-paths}.
+
 
 \begin{claim} (Frontdoor Adjustment
 Formula)
