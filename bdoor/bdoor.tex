@@ -69,7 +69,7 @@ P(y|\cald \rvx=x)=
 &\sum z\ar[dr]
 \\
 x\ar[rr]\ar[ru]&&y
-}=P(y|x)
+}
 \eeq
 
 \hrule
@@ -95,7 +95,6 @@ P(y|\cald \rvx=x)=
 \\
 x\ar[rr]\ar[ru]&&y\ar[ul]
 }
-= P(y|x)
 \eeq
 
 \hrule\item
@@ -117,13 +116,12 @@ P(y|\cald\rvx=x)=
 \\
 x\ar[rr]&&y
 }
-= P(y|x)
 \eeq
 
 Note that 
 here the backdoor formula adjusts
 the parents  of $\rvx.$.
-More complicated examples might adjust for non-parents.
+More complicated examples might adjust for (i.e., average over) non-parents.
 
 
 
@@ -146,8 +144,6 @@ P(y|\cald\rvx=x)=
 \\
 x\ar[r]&\sum m\ar[r]&y
 }
-=
-P(y|x)
 \eeq
 
 \hrule\item
@@ -175,7 +171,7 @@ P(y|\cald \rvx=x)=
 \\
 x\ar[rr]
 &&y
-}= P(y|x)
+}
 \eeq
 
 \hrule\item
@@ -210,7 +206,6 @@ x\ar[rr]
 &&y
 }
 \xymatrix{\\
-=P(y|x)
 }
 \eeq
 
@@ -242,8 +237,16 @@ not satisfied if
 $\rvx.=\rvx, \rvy.=\rvy, \rvz. =\rvz$
 because $\rvz$ is hidden and can't be conditioned on.
 However, the frontdoor criterion can be
-satisfied. See Chapter
-\ref{ch-fdoor}.
+satisfied. In fact,
+\beq
+P(y|\cald \rvx = x)=
+\xymatrix{
+&\EE  x'\ar[dr]
+\\
+x\ar[r]&\sum m\ar[r]&y
+}
+\eeq
+
 
 \hrule\item
 \beq
@@ -262,7 +265,17 @@ all nodes besides $\rvx., \rvy., \rvz.$ be summed over.
 $\rvx.=\rvx, \rvy.=\rvy, \rvz.=\rvw$,
 because $\rvw$ is hidden and can't be 
 averaged over.
-This query is not identifiable.
+However,
+
+\beq
+P(y|\cald \rvx=x)=
+\xymatrix{
+\EE x'\ar[r]
+&\sum z\ar[d]
+\\
+x\ar[r]&y
+}
+\eeq
 
 \hrule\item
 \beq
@@ -318,7 +331,19 @@ This query is not identifiable.
 First sum over the $\rvz, \rva$ nodes. Now BD criterion not satisfied if
 $\rvx.=\rvx, \rvy.=\rvy, \rvz.=\rve$,
 because $\rve$ is hidden and can't be averaged over.
-This query is not identifiable.
+However,
+
+\beq
+P(y|\cald \rvx=x)=
+\xymatrix{
+\EE x'\ar[r]
+&\sum z\ar[dl]\ar[dr]
+&\EE a\ar[d]\ar[l]
+\\
+x\ar[rr]&&y
+}
+\eeq
+
 
 
 \hrule\item
@@ -329,14 +354,14 @@ This query is not identifiable.
 \rvw&\rvx\ar[r]\ar[l]&\rvy
 }
 \eeq
-BD criterion not satisfied. In fact,
+Sum over $\rvt$ and $\rvz$. BD criterion not satisfied because $\rvw\in de(\rvx)$. However,
 
 \beq
 \xymatrix{\\
 P(y|\cald \rvx=x)=
 }
 \xymatrix{
-\sum z\ar[d]&&\sum t\ar[ll]\ar[d]
+\sum z\ar[d]&&\EE t\ar[ll]\ar[d]
 \\
 \sum w&x\ar[r]\ar[l]&y
 }
@@ -362,49 +387,6 @@ P(y|\cald \rvx=x)=
 %some $\rvz.$ 
 %more than for others.
 %\end{itemize}
-
-\hrule
-\item
-(Taken from online course notes 
-Ref.\cite{ethz-causality})
-
-Consider the bnet
-
-\beq
-\xymatrix{
-\rvx_2\ar[d]\ar[r]
-&\rvx_3&
-\rvx_4\ar[d]\ar[l]
-\\
-\rvx\ar[d]\ar[r]
-&\rvx_6\ar[d]\ar[r]
-&\rvy\ar[d]
-&\rvx_7\ar[l]
-\\
-\rvx_8&\rvx_9&\rvx_{10}
-}
-\eeq
-Find all  {\bf conditioning node sets} that block all
-non-direct paths
- between $\rvx$ and $\rvy$.
-
-Ans:
-\begin{multicols}{4}
-\begin{itemize}
-\item $ \emptyset$
-\item $\rvx_2$
-\item $\rvx_4$
-\item $\rvx_2, \rvx_4$
-\item $\rvx_2,\rvx_3$
-\item $\rvx_3, \rvx_4$
-\item $\rvx_2, \rvx_3, \rvx_4$
-\end{itemize}
-\end{multicols}
-Add $\rvx_7$
-to each of the previous 7 possible
-$\rvz.$. This gives
- a total of 14 possible
- conditioning sets. 
 
 
 \end{enumerate}
