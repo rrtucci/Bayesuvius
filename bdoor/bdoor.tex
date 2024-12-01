@@ -42,7 +42,11 @@ are covered in Chapter \ref{ch-dsep}.
 See Chapter \ref{ch-do-calc}.
 \qed
 
+
+
 \section{Examples}
+
+\hrule
 \begin{enumerate}
 \item
 \beq
@@ -53,13 +57,19 @@ See Chapter \ref{ch-do-calc}.
 }
 \eeq
 
-BD criterion satisfied if
+If
 $\rvx.=\rvx, \rvy.=\rvy, 
-\rvz.=\emptyset$.
-No adjustment necessary. 
+\rvz.=\rvz$, BD criterion not satisfied because 
+$\rvz\in de(\rvx)$.
+However, 
 
 \beq
-P(y|\cald \rvx=x)=P(y|x)
+P(y|\cald \rvx=x)=
+\xymatrix{
+&\sum z\ar[dr]
+\\
+x\ar[rr]\ar[ru]&&y
+}=P(y|x)
 \eeq
 
 \hrule
@@ -72,13 +82,20 @@ P(y|\cald \rvx=x)=P(y|x)
 }
 \eeq
 
-BD criterion satisfied if
-$\rvx.=\rvx, \rvy.=\rvy,
- \rvz.=\emptyset$.
-No adjustment necessary. 
+If
+$\rvx.=\rvx, \rvy.=\rvy, 
+\rvz.=\rvz$, BD criterion not satisfied because 
+$\rvz\in de(\rvx)$.
+However, 
 
 \beq
-P(y|\cald \rvx=x)=P(y|x)
+P(y|\cald \rvx=x)=
+\xymatrix{
+&\sum z
+\\
+x\ar[rr]\ar[ru]&&y\ar[ul]
+}
+= P(y|x)
 \eeq
 
 \hrule\item
@@ -91,10 +108,24 @@ P(y|\cald \rvx=x)=P(y|x)
 \eeq
 BD criterion satisfied if
 $\rvx.=\rvx, \rvy.=\rvy, \rvz.=\rvz$.
+In fact,
+
+\beq
+P(y|\cald\rvx=x)=
+\xymatrix{
+&\EE z\ar[dr]
+\\
+x\ar[rr]&&y
+}
+= P(y|x)
+\eeq
 
 Note that 
 here the backdoor formula adjusts
 the parents  of $\rvx.$.
+More complicated examples might adjust for non-parents.
+
+
 
 \hrule\item
 \beq
@@ -106,6 +137,18 @@ the parents  of $\rvx.$.
 \eeq
 BD criterion satisfied if
 $\rvx.=\rvx, \rvy.=\rvy, \rvz.=\rvz$.
+In fact,
+
+\beq
+P(y|\cald\rvx=x)=
+\xymatrix{
+&\EE z\ar[dr]
+\\
+x\ar[r]&\sum m\ar[r]&y
+}
+=
+P(y|x)
+\eeq
 
 \hrule\item
 
@@ -121,6 +164,19 @@ $\rvx.=\rvx, \rvy.=\rvy, \rvz.=\rvz$.
 \eeq
 BD criterion satisfied if
 $\rvx.=\rvx, \rvy.=\rvy, \rvz.=(\rvz_1, \rvz_2)$.
+In fact,
+
+\beq
+P(y|\cald \rvx=x)=
+\xymatrix{
+&\EE z_1\ar[ddr]\ar[d]
+\\
+&\sum z_2\ar[dr]
+\\
+x\ar[rr]
+&&y
+}= P(y|x)
+\eeq
 
 \hrule\item
 \beq
@@ -137,21 +193,41 @@ $\rvx.=\rvx, \rvy.=\rvy, \rvz.=(\rvz_1, \rvz_2)$.
 
 BD criterion satisfied if
 $\rvx.=\rvx, \rvy.=\rvy$
-and  $\rvz.=$
-one of the following.
+and  $\rvz.=\rvz_1$.
+In fact,
+
+\beq
+\xymatrix
+{\\
+P(y|\cald \rvx=x)=}
+\xymatrix{
+\EE z_1\ar[rd]
+&&\sum z_3\ar[dd]\ar[dl]
+\\
+&\sum z_2
+\\
+x\ar[rr]
+&&y
+}
+\xymatrix{\\
+=P(y|x)
+}
+\eeq
 
 
-\begin{multicols}{4}
-\begin{itemize}
-\item $ \emptyset$
-\item $\rvz_1$
-\item $\rvz_3$
-\item $\rvz_1, \rvz_2$
-\item $\rvz_2,\rvz_3$
-\item $\rvz_1, \rvz_3$
-\item $\rvz_1, \rvz_2, \rvz_3$
-\end{itemize}
-\end{multicols}
+
+
+%\begin{multicols}{4}
+%\begin{itemize}
+%\item $ \emptyset$
+%\item $\rvz_1$
+%\item $\rvz_3$
+%\item $\rvz_1, \rvz_2$
+%\item $\rvz_2,\rvz_3$
+%\item $\rvz_1, \rvz_3$
+%\item $\rvz_1, \rvz_2, \rvz_3$
+%\end{itemize}
+%\end{multicols}
 
 \hrule\item
 \beq
@@ -161,9 +237,10 @@ one of the following.
 \rvx\ar[r]&\rvm\ar[r]&\rvy
 }
 \eeq
-BD criterion is
-impossible to satisfy if
-$\rvx.=\rvx, \rvy.=\rvy$.
+First sum over $\rvm$. BD criterion is
+not satisfied if 
+$\rvx.=\rvx, \rvy.=\rvy, \rvz. =\rvz$
+because $\rvz$ is hidden and can't be conditioned on.
 However, the frontdoor criterion can be
 satisfied. See Chapter
 \ref{ch-fdoor}.
@@ -178,12 +255,14 @@ satisfied. See Chapter
 }
 \eeq
 
-BD criterion satisfied if
-$\rvx.=\rvx, \rvy.=\rvy, \rvz.=\rvz$.
-We are able to 
-block the backdoor path 
-by conditioning on $\rvz$.
-
+First sum over $\rvz$ node. Now BD criterion not satisfied if\footnote{To be totally correct,
+the backdoor criterion should ask that
+all nodes besides $\rvx., \rvy., \rvz.$ be summed over.
+}
+$\rvx.=\rvx, \rvy.=\rvy, \rvz.=\rvw$,
+because $\rvw$ is hidden and can't be 
+averaged over.
+This query is not identifiable.
 
 \hrule\item
 \beq
@@ -196,45 +275,50 @@ by conditioning on $\rvz$.
 }
 \eeq
 
-Conditioning
-on $\rvz$
-blocks 
-backdoor path
-$\rvx-\rvz-\rvy$, 
-but 
-opens path $\rvx-\rve-\rvz-\rva-\rvy$
-because $\rvz$ is a collider
-for that path. That
-path is blocked
-if we also
-condition on $\rva$, 
-which is possible
-because $\rva$ is
-observed.
-In conclusion,
-the BD criterion is satisfied if
-$\rvx.=\rvx$, 
-$\rvy.=\rvy$
-and 
-$\rvz.=(\rvz, \rva)$.
+%Conditioning
+%on $\rvz$
+%blocks 
+%backdoor path
+%$\rvx-\rvz-\rvy$, 
+%but 
+%opens path $\rvx-\rve-\rvz-\rva-\rvy$
+%because $\rvz$ is a collider
+%for that path. That
+%path is blocked
+%if we also
+%condition on $\rva$, 
+%which is possible
+%because $\rva$ is
+%observed.
+%In conclusion,
+%the BD criterion is satisfied if
+%$\rvx.=\rvx$, 
+%$\rvy.=\rvy$
+%and 
+%$\rvz.=(\rvz, \rva)$.
+%
+%Conditioning on 
+%the parents of 
+%$\rvx.$
+%is often
+%enough
+%to block
+%all
+%backdoor paths.
+%However, sometimes
+%some of the 
+%parents are unobserved 
+%and one must 
+%condition on other
+%nodes that
+%are not parents of $\rvx.$
+%in order to satisfy
+%the BD criterion. 
 
-Conditioning on 
-the parents of 
-$\rvx.$
-is often
-enough
-to block
-all
-backdoor paths.
-However, sometimes
-some of the 
-parents are unobserved 
-and one must 
-condition on other
-nodes that
-are not parents of $\rvx.$
-in order to satisfy
-the BD criterion. 
+First sum over the $\rvz, \rva$ nodes. Now BD criterion not satisfied if
+$\rvx.=\rvx, \rvy.=\rvy, \rvz.=\rve$,
+because $\rve$ is hidden and can't be averaged over.
+This query is not identifiable.
 
 
 \hrule\item
@@ -245,64 +329,43 @@ the BD criterion.
 \rvw&\rvx\ar[r]\ar[l]&\rvy
 }
 \eeq
-
-No need to control
-anything 
-because only possible
-backdoor path is blocked by
-not conditioning on collider $\rvw$.
-Hence,
+BD criterion not satisfied. In fact,
 
 \beq
-P(y|\cald\rvx=x)=P(y|x)
-\;.
-\eeq
-
-However, 
-if for some reason 
-we want to control
-$\rvt$, we
-can do so. We  can't
-control
-$\rvw$ though, 
-because $\rvw\in de(\rvx)$.
-Thus, the
-BD criterion is
-satisfied if
- $\rvx.=\rvx$,
-$\rvy.=\rvy$ and 
-$\rvz.=\rvt$.
-Therefore, 
-
-\beq
+\xymatrix{\\
 P(y|\cald \rvx=x)=
-\sum_{t} P(y|x, t)P(t)
-\label{eq-bdoor-t-sum}
-\;.
+}
+\xymatrix{
+\sum z\ar[d]&&\sum t\ar[ll]\ar[d]
+\\
+\sum w&x\ar[r]\ar[l]&y
+}
 \eeq
 
 
-\hrule
-\item
-Discuss what to do if
-several sets $\rvz.$
-satisfy the BD criterion.
-\begin{itemize}
-\item
-Can evaluate $P(y.|\cald \rvx.=x.)$
-multiple ways and compare the results.
-This is a test that the causal bnet 
-is correct.
-\item
-It might 
-be easier or 
-less expensive to get data for
-some $\rvz.$ 
-more than for others.
-\end{itemize}
+
+%\hrule
+%\item
+%Discuss what to do if
+%several sets $\rvz.$
+%satisfy the BD criterion.
+%\begin{itemize}
+%\item
+%Can evaluate $P(y.|\cald \rvx.=x.)$
+%multiple ways and compare the results.
+%This is a test that the causal bnet 
+%is correct.
+%\item
+%It might 
+%be easier or 
+%less expensive to get data for
+%some $\rvz.$ 
+%more than for others.
+%\end{itemize}
 
 \hrule
-\item (Taken from online course notes 
+\item
+(Taken from online course notes 
 Ref.\cite{ethz-causality})
 
 Consider the bnet
@@ -313,19 +376,18 @@ Consider the bnet
 &\rvx_3&
 \rvx_4\ar[d]\ar[l]
 \\
-\rvx_1\ar[d]\ar[r]
+\rvx\ar[d]\ar[r]
 &\rvx_6\ar[d]\ar[r]
-&\rvx_5\ar[d]
+&\rvy\ar[d]
 &\rvx_7\ar[l]
 \\
 \rvx_8&\rvx_9&\rvx_{10}
 }
 \eeq
-If $\rvx.=\rvx_1$ and 
-$\rvy.=\rvx_5$, find
-all possible 
-adjustment multinodes $\rvz.$ that 
-satisfy the BD criterion.
+Find all  {\bf conditioning node sets} that block all
+non-direct paths
+ between $\rvx$ and $\rvy$.
+
 Ans:
 \begin{multicols}{4}
 \begin{itemize}
@@ -341,12 +403,8 @@ Ans:
 Add $\rvx_7$
 to each of the previous 7 possible
 $\rvz.$. This gives
- a total of 14 possible 
-adjustment multinodes $\rvz.$. 
-
-
-  
-
+ a total of 14 possible
+ conditioning sets. 
 
 
 \end{enumerate}

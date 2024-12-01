@@ -251,8 +251,25 @@ for this query
 because it's not expressed in terms
 of observed TPMs of $G$.
 
-The following two step heuristic technique often
-yields a valid adjustment formula.
+
+Note that
+it's always true that $P(y|\cald \rvx = x)=P(y|x)$.
+However, if the bnet contains more nodes than just $\rvx$ and $\rvy$, then the bnet is identifiable
+iff it can be stratified (i.e., 
+expressed as $P(y|x)=\sum_{z.}P(y|x, z.)P(z.)$
+for some observed multinode $\rvz.$).
+Thus, an alternative  name for identifiability is
+{\bf stratifiability}. Note also that there mightt be more than
+one adjustment formula, but they must all 
+be numerically equal to $P(y|x)$ for all $x$ and $y$.
+
+
+The following 3 step heuristic technique appears to be equivalent to Pearl's 3 rules of Do Calculus.\footnote{Three rules to match his three :)  This heuristic technique was invented solely by me. I haven't proven that it is equivalent to Pearl's 
+3 rules of Do Calculus. I believe it is,
+but it might not be. It 
+correctly produces the backdoor and frontdoor adjustment formulae.}
+
+\begin{mdframed}[hidealllines=true,backgroundcolor=blue!10]
 
 \begin{enumerate}
 \item 
@@ -263,21 +280,23 @@ except that arrows entering node
 $\rvx$ have been amputated.
 All nodes  of that instantiation, except
 nodes  $x$ and $y$,
-are summed over.
-Summation
-over nodes can be left explicit,
-to suggest how to compute
-the adjustment formula, or
-they can be removed for brevity (as long as we
-remember the original bnet whence they came from.)
+are summed (indicated by $\sum$) or averaged
+(indicated by $\EE$) over.
 
 
 
-\item If $G$ has hidden nodes,
-these must be summed over
-and replaced by observed TPMs via the node 
-summation identities.
+\item Remove all sums $\sum h$ over hidden nodes $\rvh$. This is justified by the node summation 
+identities.
+
+\item 
+Replace every average $\EE h$ over a
+hidden node $\rvh$ with an $\EE a$,
+where $\rva$ is any observed node. 
+This step does not always lead to a valid adjustment formula.
+If it doesn't,
+we declare the  query not-identifiable.
 \end{enumerate}
+\end{mdframed}
 
 
 \begin{figure}[h!]
@@ -325,7 +344,7 @@ and not-DI for bnet $(b)$
 of Fig.\ref{fig-iden-noniden}.
 
 For bnet $(a)$, after amputating arrow
-$z\rarrow x$ and summing over node $z$,
+$z\rarrow x$ and averaging over node $z$,
 we get
 
 \beqa
@@ -349,7 +368,7 @@ of observed TPMs of $G$.
 For bnet $(b)$,
 if we amputate arrow
 $z\rarrow x$
-and sum over node $z$,
+and average over node $z$,
 we get
 
 \beqa
@@ -367,11 +386,11 @@ The right hand
 side of Eq.(\ref{eq-simplest-not-DI})
 is not a valid
 adjustment formula
-because, for this bnet, 
-try as we may,  there
-is no way to replace the sum over
-hidden  node $z$ by an
-equivalent sum over an observed node.
+because
+if we replace $\EE z$ by $\EE x' $, we get 
+$\sum_{x'}P(y|x, x')P(x')$,
+and $P(y|x, x')$ is undefined.
+
 
 
 
@@ -385,16 +404,27 @@ equivalent sum over an observed node.
 \proof
 
 {\bf * proof 1:}
-\beqa
+%\beq
+%P(y|\cald\rvx=x, z)
+%=
+%\xymatrix{
+%z\ar[dr]
+%\\
+%x\ar[r]
+%&y
+%}
+%\eeq
+
+\beq
 P(y|\cald\rvx=x)
-&=&
+=
 \xymatrix{
 \EE z\ar[dr]
 \\
 x\ar[r]
 &y
 }
-\eeqa
+\eeq
 
 
 {\bf * proof 2:}
@@ -644,14 +674,14 @@ $\xymatrix{
 \proof
 \\
 \begin{align}
-P(y|\cald\rvx=x, u_1, u_2)&=
+P(y, z|\cald\rvx=x, u_1, u_2)&=
 \xymatrix{
 &*++[F-o]{u_1}\ar[ddl]\ar[ddrr]
 \\
 &*++[F-o]{u_2}\ar[dl]
 \\
 \sum w\ar[r]
-&\sum z
+&z
 &x\ar[r]
 &y
 }
@@ -686,6 +716,8 @@ P(y|\cald\rvx=x)
 \\
 &=
 \xymatrix{
+\EE z\ar[dr]
+\\
 x \ar[r]&  y}
 \end{align}
 \qed
@@ -697,16 +729,16 @@ x \ar[r]&  y}
 \end{claim}
 \proof
 \beqa
-P(y|\cald\rvz=z,x, u)
+P(y, w|\cald\rvz=z, x)
 &=&
 \xymatrix{
 x\ar[d]\ar[drr]
 \\
-\sum w
+ w
 &z\ar[r]
 &y
 \\
-*++[F-o]{u}\ar[u]\ar[urr]
+*++[F-o]{\EE u}\ar[u]\ar[urr]
 }
 \eeqa
 \beqa
