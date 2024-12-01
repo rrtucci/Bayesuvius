@@ -34,25 +34,25 @@ $\gamma$
 from $\rva$ to $\rvb$ (i.e., with
 end nodes $\rva, \rvb$)
 is {\bf blocked}
-by conditioning on a multinode $\rvZ.$
+by conditioning on a multinode $\rvz.$
 if one or more 
 of the following
 statements is true:
 
 \begin{enumerate}
 \item 
-There is a node $\rvx\in \rvZ.$
+There is a node $\rvz_0\in \rvz.$
 which is a mediator 
 or a fork of $\gamma$.
 \item
 $\gamma$ contains a collider
 node $\rvc$
 and 
-$(\rvc\cup de(\rvc))\cap\rvZ.=\emptyset$
+$(\rvc\cup de(\rvc))\cap\rvz.=\emptyset$
 (i.e., neither 
 $\rvc$ nor 
 any of the descendants of $\rvc$
-is contained in $\rvZ.$)
+is contained in $\rvz.$)
 \end{enumerate}
 
 This definition of a blocked 
@@ -75,7 +75,7 @@ carrying water.
 Think of
 the nodes 
 of $\gamma$ as junctions in the pipe.
-If $\rvZ.$
+If $\rvz.$
 intersects $\gamma$
 at either a mediator
 or a fork junction,
@@ -93,19 +93,19 @@ $\rvc$
 nor any of
 the descendants 
 of $\rvc$
-are in $\rvZ.$.
+are in $\rvz.$.
 If,
 on the 
 other hand,
-$\rvc\in\rvZ.$,
-or $\rvc'\in \rvZ.$
+$\rvc\in\rvz.$,
+or $\rvc'\in \rvz.$
 where $\rvc'\in de(\rvc)$,
 then the stone
 produces
 a complete
-(in the case of $\rvc\in\rvZ.$)
+(in the case of $\rvc\in\rvz.$)
 or a partial 
-(in the case of $\rvc'\in\rvZ.$)
+(in the case of $\rvc'\in\rvz.$)
 plug of the leak,
 preventing egress from the main flow.
 
@@ -113,7 +113,7 @@ See Fig.\ref{fig-blocked-paths}
 for some examples of
 paths that are blocked or not blocked
 by conditioning on
-a multinode $\rvZ.$.
+a multinode $\rvz.$.
 
 \begin{figure}[h!]
 \beqa
@@ -178,32 +178,32 @@ a multinode $\rvZ.$.
 \caption{Examples of 
 paths that are blocked
 or not blocked
-by conditioning on a multinode $\rvZ.$. Nodes
+by conditioning on a multinode $\rvz.$. Nodes
 belonging to 
-$\rvZ.$
+$\rvz.$
 are colored yellow.}
 \label{fig-blocked-paths}
 \end{figure}
 
 Given 3 
 disjoint multinodes 
-$\rvA., \rvB., \rvZ.$
+$\rva., \rvb., \rvz.$
 of a graph $G$,
 we write \qt{
-$\rvA.\perp_G \rvB.|\rvZ.$}
-or say \qt{ {\bf$\rvA.$ and
-$\rvB.$ are d-separated
-by $\rvZ.$ in $G$} }
+$\rva.\perp_G \rvb.|\rvz.$}
+or say \qt{ {\bf$\rva.$ and
+$\rvb.$ are d-separated
+by $\rvz.$ in $G$} }
 iff there exists 
 no path
 $\gamma$ from
-$\rva\in \rvA.$,
+$\rva_0\in \rva.$,
 to
-$\rvb\in\rvB.$
+$\rvb_0\in\rvb.$
 which is not 
 blocked by conditioning on
-$\rvZ.$.\footnote{
-$\rvZ.$ are the nodes
+$\rvz.$.\footnote{
+$\rvz.$ are the nodes
 we are \qt{conditioning on}.
 Unmeasured (i.e., hidden,  unobserved) 
 nodes cannot be
@@ -217,9 +217,9 @@ Markov blanket (see Chapter
 \ref{ch-mblanket})
 of a node $\rva$
 is the smallest 
-multinode $\rvZ.$
-such that $\rva\perp_G\rvb|\rvZ.$
-for all $\rvb\notin \rva\cup\rvZ.$.
+multinode $\rvz.$
+such that $\rva\perp_G\rvb|\rvz.$
+for all $\rvb\notin \rva\cup\rvz.$.
 
 We are finally ready
 to state the d-separation
@@ -251,43 +251,141 @@ obtain $P$ again.
 \begin{claim}(d-separation Theorem)
 
 Suppose
-$\rvA., \rvB., \rvZ.$
+$\rva., \rvb., \rvz.$
 are disjoint multinodes
 of a DAG  $G$.
 
 If 
-$\rvA.\perp_G \rvB.|\rvZ.$, then
-$P(B.|A., Z.)=P(B.|Z.)$
-for all $B.,A., Z.$,
+$\rva.\perp_G \rvb.|\rvz.$, then
+$P(b.|a., z.)=P(b.|z.)$
+for all $b.,a., z.$,
 for all $P$
 compatible with $G$.
 
 \end{claim}
-The full converse
+\proof
+\footnote{The full converse
 of the theorem can also be 
-proven, 
-but we won't be using it
-in this book.
+proven.}
+
+Motivation for D-separation Theorem
+
+\begin{itemize} 
+
+\item {\bf mediator $\rvz$ in path $\rva-\rvz-\rvb$}
+
+\beq\xymatrix{
+\rva\ar[r] 
+&{\rvz}\ar[r]
+&\rvb
+}
+\eeq
+
+\beq
+P(a, b, z)=P(b|z)P(z|a)P(a)
+\eeq
+
+\beq
+P(a|z)=\frac{P(z|a)P(a)}{P(z)}
+\eeq
+
+\beq
+P(a|z)P(b|z)=\frac{P(a,b,z)}{P(z)}=P(a,b|z)
+\eeq
+
+Hence, conditioning
+on $\rvz$ makes $\rva$ and $\rvb$ independent.
+
+\item {\bf fork $\rvz$ in path $\rva-\rvz-\rvb$}
+
+\beq
+\xymatrix{
+\rva
+&{\rvz}\ar[r]\ar[l]
+&\rvb
+}\eeq
+
+\beq
+P(a,b,z)=
+P(a|z)P(z)P(b|z)
+\eeq
+
+\beq
+P(a|z)P(b|z)=P(a,b|z)
+\eeq
+Hence, conditioning
+on $\rvz$ makes $\rva$ and $\rvb$ independent.
+
+\item {\bf collider $\rvz$ in path $\rva-\rvz-\rvb$}
+
+\beq
+\xymatrix{
+\rva\ar[r] 
+&{\rvz}
+&\rvb\ar[l]
+}\eeq
+
+\beq
+P(a,b,z)= P(z|a,b)P(a)P(b)
+\eeq
+
+\beq
+P(a, b)=  P(a)P(b)
+\eeq
+Hence, if instead of conditioning
+on $\rvz$, we sum over it,  
+$\rva$ and $\rvb$ become independent.
+
+
+\item {\bf collider $\rvz$ 
+with descendant $\rvxi$ in path $\rva-\rvz-\rvb$}
+\beq
+\xymatrix{
+\rva\ar[r] 
+&{\rvz}\ar[d]
+&\rvb\ar[l]
+\\
+&\rvxi
+}
+\eeq 
+
+\beq
+P(a,b, z, \xi)=
+P(\xi|z)P(z|a,b)P(a)P(b)
+\eeq
+
+\beq
+P(a, b, \xi)=
+\underbrace{\sum_z [P(\xi|z)P(z|a,b)]}_
+{P(\xi|a,b)}P(a)P(b)
+\eeq
+Hence, summing over the collider $\rvz$
+makes the collider descendant $\rvxi$
+look like it's the collider even though the  
+ real collider is $\rvz$.
+\qed
+
+\end{itemize}
 
 Often, the right hand side
 of this theorem is stated as 
-\qt{$\rvA.\perp_P \rvB.|\rvZ.$
+\qt{$\rva.\perp_P \rvb.|\rvz.$
 for all $P$}.
 Then the theorem is stated:
 \qt{If
-$\rvA.\perp_G \rvB.|\rvZ.$, then
-$\rvA.\perp_P \rvB.|\rvZ.$ for all $P$.}
+$\rva.\perp_G \rvb.|\rvz.$, then
+$\rva.\perp_P \rvb.|\rvz.$ for all $P$.}
 
 \hrule
 Note that 
 the following are equivalent:
 \begin{itemize}
 \item
-$P(B.|A., Z.)=P(B.|Z.)$ for all $B., A., Z.$.
+$P(b.|a., z.)=P(b.|z.)$ for all $b., a., z.$.
 \item
-$\rvA.\perp_P \rvB.|\rvZ.$
+$\rva.\perp_P \rvb.|\rvz.$
 \item
-$H(\rvA.:\rvB.|\rvZ.)=0$
+$H(\rva.:\rvb.|\rvz.)=0$
 (see Chapter \ref{ch-conventions}
 for definition of
  conditional mutual information (CMI))
@@ -312,10 +410,10 @@ Given a DAG $G$, define
 the following
 sets of d-separations:\footnote{
 Note that
-$(\rvA.\perp_G
-nde(\rvA.)\cond pa(\rvA.))$ and
-$(\rvA.\perp_G
-nde(\rvA.)-pa(\rvA.)\cond pa(\rvA.))$
+$(\rva.\perp_G
+nde(\rva.)\cond pa(\rva.))$ and
+$(\rva.\perp_G
+nde(\rva.)-pa(\rva.)\cond pa(\rva.))$
 are
 equivalent
 because
@@ -323,14 +421,14 @@ $H(\rva:\rvb, \rvc|\rvc)=
 H(\rva:\rvb|\rvc)$.
 }
 \beq
-DS(G)=\{(\rvA.\perp_G\rvB.\cond\rvZ.):
-\text{ $\rvA.,\rvB.,\rvZ.$ are multinodes of $G$\}}
+DS(G)=\{(\rva.\perp_G\rvb.\cond\rvz.):
+\text{ $\rva.,\rvb.,\rvz.$ are multinodes of $G$\}}
 \;.
 \eeq
 \beq
-DS_{min}(G)=\{(\rvA.\perp_G
-nde(\rvA.)\cond pa(\rvA.)):
-\text{ $\rvA.$ is a multinode of $G$\}}
+DS_{min}(G)=\{(\rva.\perp_G
+nde(\rva.)\cond pa(\rva.)):
+\text{ $\rva.$ is a multinode of $G$\}}
 \;.
 \eeq
 
@@ -349,8 +447,8 @@ define the following
 set of conditional independencies:
 
 \beq
-CI(P)=\{(\rvA.\perp_P\rvB.\cond \rvZ.):
-\text{ $\rvA.,\rvB.,\rvZ.$ are multinodes of $P$\}}
+CI(P)=\{(\rva.\perp_P\rvb.\cond \rvz.):
+\text{ $\rva.,\rvb.,\rvz.$ are multinodes of $P$\}}
 \;,
 \eeq
 
@@ -364,9 +462,9 @@ by
 \beqa
 \phi:DS_{min}(G) &\rarrow& CI(P)
 \\
-\phi: \rvA.\perp_G nde(\rvA.)\cond pa(\rvA.)
+\phi: \rva.\perp_G nde(\rva.)\cond pa(\rva.)
 &\mapsto&
-\rvA.\perp_P nde(\rvA.)\cond pa(\rvA.)
+\rva.\perp_P nde(\rva.)\cond pa(\rva.)
 \eeqa
 In general, this map
 is 1-1 but not onto.
