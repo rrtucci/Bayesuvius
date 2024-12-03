@@ -64,7 +64,7 @@ may or may not be present.}
 Let
 
 $\rvs\in\bool$
-be the {\bf switch node}.
+be the {\bf SB-switch}.
 $\rvs=1$ means there is
 SB
 in the parent nodes.
@@ -114,30 +114,25 @@ Obtained by merging $OD$ and $AD$.
 Gives empirical
 distribution $\color{red}{P(y|x, A, \rvs=1)}$.
 
-\section{Pre and Post Switch Nodes}
+\section{Root and Leaf Nodes}
 
-This book uses 2 types of switch nodes:
-pre-switch nodes and post-switch nodes.
+This chapter uses root and leaf nodes
+as SB selectors.
 
-{\bf Pre-switch nodes} are used
+A root node selects a different bnet 
+for each of its values.
+Root nodes are used
 in Chapter \ref{ch-transport}
 entitled \qt{Transportability
-of Causal Knowledge}.
-Pre-switch nodes
-are {\color{red}root} nodes. They
-are usually binary, and indicate
-whether the nodes pointed to
-belong to a set or not.
+of Causal Knowledge}
+as bnet switches (i.e., bnet selectors).
+
 
 Most of the DAG literature,
 including Ref.\cite{bare-sb-removal},
 on which this chapter is based,
-define SB using a {\bf post-switch node}.
-A post-switch node
-is a {\color {red}leaf} node
-of the graph. Like pre-switch nodes,
-post-switch nodes are usually
-binary.
+define SB using a leaf node.
+
 
 \begin{figure}[h!]
 \centering
@@ -153,13 +148,13 @@ Note
 that in Potential
 Outcomes (PO) theory
  (see Chapter \ref{ch-pot-out}),
-pre-switch nodes such
+roots such
 as $\rva$ in
 Fig.\ref{fig-common-cause-effect}
 are called {\bf common cause
  (confounder, fork) nodes
 for nodes $\rvd, \rvy$}.
-Furthermore, post-switch nodes such as
+Furthermore, leaves such as
 $\rvb$ in
 Fig.\ref{fig-common-cause-effect} are
 called
@@ -186,12 +181,12 @@ on a collider.
 
 
 
-It's possible to replace a pre-switch node
-by a post switch node, or vice versa, as
+It's possible to replace a root
+by a leaf, or vice versa, as
 follows.
 Suppose that we start with
 a bnet $G_0$ that is fully connected, and
-we add to it a switch node $\rvs$
+we add to it a node $\rvs$
 that is a root node that points
 to all nodes of $G_0$.
 Call the resulting bnet $\rvs\rarrow G_0$.
@@ -239,13 +234,13 @@ to right, depicting
 the cases where $\rvs$ has either 1,2 or 3 neighbors.
 The top graph
  $G_{post-sel}$, which has
-a post-switch node $\rvs$, is converted
+a leaf $\rvs$, is converted
 to a graph which is numerically
 equal to it, namely
 the bottom
 graph
  $G_{pre-sel}$, which has
-a pre-switch node $\rvs$.
+a root $\rvs$.
 The magenta arrows represent
 any number of arrows
 exiting (but none entering)
@@ -271,8 +266,8 @@ resulting graph $\rvs\rarrow X'$.
 \includegraphics[width=4in]
 {sb-removal/sel-nd-reversal.png}
 \caption{Switching
-from a post-switch node
-to a pre-switch node.}
+from a leaf
+to a root.}
 \label{fig-sel-nd-reversal}
 \end{figure}
 
@@ -291,7 +286,7 @@ that two bnets can be
 That is what is happening here.
 We are faced with
 the choice of
-making switch nodes
+using
 either
 leaf nodes or root nodes.
 Both
@@ -308,11 +303,11 @@ In this
 chapter,
 we will consider
 first a DAG $G_{post-sel}$
-with a post-switch node,
+with a leaf,
 then we will transform that
 DAG to a numerically equal
 DAG $G_{pre-sel}$
-with a pre-switch node.
+with a root.
 The latter DAG
 is more convenient
 for our needs. Why?
@@ -475,9 +470,9 @@ of the $\Leftarrow$ part, see
 
 For example,
 
-\begin{subequations}
-\label{eq-recoverable-with-A}
+
 \beq
+\label{eq-recoverable-with-A}
 \xymatrix{
 \rvs
 &{\rva}\ar[d]
@@ -496,12 +491,12 @@ For example,
 &\rvy
 }
 \eeq
-\end{subequations}
 
 
-The bnets on the left hand sides of
-Eqs.(\ref{eq-recoverable-with-A})
-satisfy
+
+The bnet on the left hand side of
+Eq.(\ref{eq-recoverable-with-A})
+satisfies
 $\rvy\perp\rvs|(\rvx,\rva)$
 and $\rva\perp\rvs|\rvx$.
 

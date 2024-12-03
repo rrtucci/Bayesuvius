@@ -42,7 +42,7 @@ In this chapter, we use the
 \hiddenNodes
 
 Selection diagrams
-with switch nodes
+with bnet-switches
  are discussed
 in Chapter \ref{ch-transport}.
 \selectionGraphs
@@ -52,34 +52,6 @@ that are used in this chapter:
 
 \hrule
 \begin{enumerate}
-\item
-\beq
-P(y|x_1, x_2)=
-\sum_a P(y|a, x_1, x_2)P(a|x_1, x_2)
-\;.
-\eeq
-
-\beq
-\xymatrix{
-x_1\ar[rrd]
-\\
-&&y
-\\
-x_2\ar[urr]
-}
-\xymatrix{\\=}
-\xymatrix{
-x_1\ar[rd]\ar[drr]
-\\
-&\sum a\ar[r]
-&y
-\\
-x_2\ar[ru]\ar[rru]
-}
-\label{eq-univ-bdoor}
-\;.
-\eeq
-\hrule
 \item
 
 \beq
@@ -91,62 +63,172 @@ P(a|x_1, x_2)=1
 \xymatrix@R=.3pc{
 x_1\ar[dr]
 \\
-&\sum a\ar[r]_0&&=1
+&\sum a&=1
 \\
 x_2\ar[ur]
 }
 \label{eq-collider-sum}
 \eeq
-A zeroed
-arrow means the same as no arrow.
-Eq.(\ref{eq-collider-sum})
-can be understood as an
-edge case (when $\rvy=\emptyset$)
-of Eq.(\ref{eq-univ-bdoor}).
 \hrule
 \item
 \beq
-\sum_a P(x_2|a)P(a|x_1)=P(x_2|x_1)
+\sum_a P(y|a, x_1, x_2)P(a|x_1, x_2)P(x_2|x_1)P(x_1)
+= P(y,x_1, x_2)
+\;.
+\eeq
+
+\beq
+\xymatrix{\\P(x_1)}
+\xymatrix{
+x_1\ar[rd]\ar[drr]\ar[dd]
+\\
+&\sum a\ar[r]
+&y
+\\
+x_2\ar[ru]\ar[rru]
+}
+\xymatrix
+{\\ =P(x_1)}
+\xymatrix{
+x_1\ar[rrd]\ar[dd]
+\\
+&&y
+\\
+x_2\ar[urr]
+}
+\label{eq-univ-bdoor}
+\;.
+\eeq
+This identity can be interpreted
+geometrically by noting that the 
+bnet on the left hand side (LHS) is fully connected 
+so one can reverse the direction of the 
+arrow from $\sum a \rarrow y$ without changing the numerical value of the LHS. The the sum over $a$
+yields 1 so the $\sum a$ vertex 
+with its 3 incoming arrows can be deleted.
+
+The following identity has a similar geometrical interpretation
+
+\beq
+\sum_a P(y|x_2, a, x_1)P(x_2|a, x_1)P(x_1|a)P(a)
+= P(y,x_1, x_2)
+\;.
 \eeq
 
 \beq
 \xymatrix{
-x_1\ar[r]
-&\sum a\ar[r]
-&x_2
-&=&
-x_1\ar[r]
-&x_2}
+x_1\ar[drr]\ar[dd]
+\\
+&\EE a\ar[r]\ar[ul]\ar[dl]
+&y
+\\
+x_2\ar[rru]
+}
+\xymatrix
+{\\ = P(x_1)}
+\xymatrix{
+x_1\ar[rrd]\ar[dd]
+\\
+&&y
+\\
+x_2\ar[urr]
+}
+\label{eq-univ-bdoor-ee}
+\;.
+\eeq
+
+
+\hrule
+\item
+\beq
+\sum_a P(y|a, x)P(a|x)P(x)=P(x,y)
+\eeq
+
+\beq
+\xymatrix@R=1pc{
+\\P(x)}
+\xymatrix@R=1pc{
+&\sum a\ar[rd]
+\\
+x\ar[ru]\ar[rr]
+&&y
+&=&P(x)\quad
+x\ar[r]
+&y}
 \label{eq-med-sum}
 \eeq
+Once again, the bnet on the LHS is fully
+connected so the arrow $\sum a\rarrow y$ can be reversed and then the sum over $a$ yields 1.
+
+The following identity has a similar geometrical interpretation
+
+\beq
+\sum_a P(y|x,a)P(x|a)P(a)=P(x,y)
+\eeq
+
+\beq
+\xymatrix@R=1pc{
+&\EE a\ar[rd]\ar[ld]
+\\
+x\ar[rr]
+&&y
+&=&P(x)\quad
+x\ar[r]
+&y}
+\label{eq-med-sum-ee}
+\eeq
+
 \hrule
 
 \item
 \beq
-P(x)=\sum_a P(x|a)P(a)
+\sum_a P(y|a)P(a)=P(y)
 \eeq
 
 \beq
 \xymatrix{
-P(x)&=&
-\ar[r]_0
-&\EE a\ar[r]
-&x
+\EE a\ar[r]
+&y
+&=&P(y)
 }
 \label{eq-diff-priors}
 \eeq
-Eq.(\ref{eq-diff-priors})
-can be understood as
-an edge case of Eq.(\ref{eq-med-sum}).
+Furthermore,
+
+\beq
+\sum_a P(a|y)P(y)=P(y)
+\eeq
+
+\beq
+\xymatrix{
+P(y)\quad
+\sum a
+&y\ar[l]
+&=&P(y)
+}
+\label{eq-diff-priors-ee}
+\eeq
 
 \end{enumerate}
 \hrule
+
+The moral of the above summation identities is that
+if one has a fully connected bnet, or a clique
+(i.e., fully connected subgraph) within a bnet,
+one can remove a sum vertex $\sum a$ or an average
+vertex $\EE a$ of the clique. Not only that! We can also 
+replace a sum vertex $\sum a$  of the clique by a different  sum vertex $\sum b$. Likewise, we can replace
+an average vertex $\EE a$  of the clique by a different  average vertex $\EE b$.
 
 An important caveat concerning the above
 summation identities is that 
 the instantiations that they produce depend on the
 original bnet whence they come from. 
 This caveat is illustrated in Fig.\ref{fig-dep-on-origing-bnet}.
+This caveat is especial relevant when dealing 
+with do operators. In that case, the unamputated
+graph and the amputated graph are different bnets, with
+different full probability distributions.
 
 \begin{figure}[h!]
 $$
