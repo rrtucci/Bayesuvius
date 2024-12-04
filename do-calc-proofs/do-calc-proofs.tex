@@ -306,44 +306,58 @@ formulae.
 Let $G$ be a graph before
 amputation
 of the arrows entering node $\rvx$,
-and let $G_x=\cald_{\rvx=x}G$
-be the same graph after amputation.
-Also let $P_G()=P()$ be
+and let $G_{amp(x)}=\cald_{\rvx=x}G$
+be the same graph after amputation
+at $\rvx$.
+Also let $P_G()$ be
 the full probability distribution
-for graph $G$, and $P_{G_x}()$
-be that for $G_x$.
+for graph $G$, and $P_{G_{amp(x)}}()$
+be that for $G_{amp(x)}$.
 In general, the
 following is always true,
 for bnets
-with or bnets without hidden nodes:\footnote{Note that $P_{G_x}(y|x)\neq P_G(y|x)=P(y|x)$.
+with or bnets without hidden nodes:\footnote{Note that $P_{G_{amp(x)}}(y|x)\neq P_G(y|x)=P(y|x)$.
 In fact,
-$P_{G_x}(y|x)= P(y|x)$
+$P_{G_{amp(x)}}(y|x)= P(y|x)$
 iff there is no confounding,
-so $P_{G_x}(y|x)\neq P(y|x)$
+so $P_{G_{amp(x)}}(y|x)\neq P(y|x)$
 indicates confounding.
 }
 
 \beq
-P(y|\cald\rvx=x)=P_{G_x}(y|x)
+P_{G_{amp(x)}}(y|\cald\rvx=x)=P_{G_{amp(x)}}(y|x)\neq P_G(y|x)
 \;
 \eeq
-However, the right hand side of this equation is
+However, $P_{G_{amp(x)}}(y|x)$ is
 not a valid adjustment formula
 for this query
 because it's not expressed in terms
 of observed TPMs of $G$.
 
+To make matters even more confusing, let $G|x$
+be the graph $G$ conditioned on $\rvx=x$. If $G$ has full distribution $P_G()$,
+then  $P_{G|x)}(\cdot) = P_G(\cdot|x)$. 
+Note that $G$, $G_{amp(x)}$ and $G|x$ have different
+full probability distributions so they should not
+be considered the same $P()$ function. 
 
-Note that
-it's always true that $P(y|\cald \rvx = x)=P(y|x)$.
-However, if the bnet contains more nodes than just $\rvx$ and $\rvy$, then the bnet is identifiable
-iff it can be stratified (i.e., 
-expressed as $P(y|x)=\sum_{z.}P(y|x, z.)P(z.)$
-for some observed multinode $\rvz.$).
-Thus, an alternative  name for identifiability is
-{\bf stratifiability}. Note also that there mightt be more than
-one adjustment formula, but they must all 
-be numerically equal to $P(y|x)$ for all $x$ and $y$.
+IMPORTANT: For any adjustment formula, we assume
+a hypothesis bnet $G_{hypo}$.
+Then for a query
+$P(y|\cald\rvx=x)$, we express the adjustment
+formula in terms of the full probability distribution $P()=P_{G_{hypo}|x}()=P_{G_{hypo}}(\cdot|x)$.
+
+
+%Note that
+%it's always true that $P(y|\cald \rvx = x)=P(y|x)$.
+%However, if the bnet contains more nodes than just $\rvx$ and $\rvy$, then the bnet is identifiable
+%iff it can be stratified (i.e., 
+%expressed as $P(y|x)=\sum_{z.}P(y|x, z.)P(z.)$
+%for some observed multinode $\rvz.$).
+%Thus, an alternative  name for identifiability is
+%{\bf stratifiability}. Note also that there mightt be more than
+%one adjustment formula, but they must all 
+%be numerically equal to $P(y|x)$ for all $x$ and $y$.
 
 
 The following 3 step heuristic technique appears to be equivalent to Pearl's 3 rules of Do Calculus.\footnote{Three rules to match his three :)  This heuristic technique was invented solely by me. I haven't proven that it is equivalent to Pearl's 
@@ -367,17 +381,18 @@ are summed (indicated by $\sum$) or averaged
 
 
 
-\item Remove all sums $\sum h$ over hidden nodes $\rvh$. This is justified by the node summation 
+\item Replace each sum $\sum h$ over a hidden variable $h$ by a sum over an observed variable. This is accomplished using the node summation 
 identities.
 
 \item 
-Replace every average $\EE h$ over a
-hidden node $\rvh$ with an $\EE a$,
-where $\rva$ is any observed node. 
-This step does not always lead to a valid adjustment formula.
-If it doesn't,
-we declare the  query not-identifiable.
+Replace each average $\EE h$ over a hidden variable $h$ by an average over an observed variable. This is accomplished using the node summation
+identities.
 \end{enumerate}
+It's not always possible to perform Steps 2 and 3 
+and obtain a valid adjustment formula.
+In such a case,
+we declare the  query not-identifiable.
+
 \end{mdframed}
 
 
@@ -577,39 +592,70 @@ $
 
 
 {\bf * proof 1:}
+
+\begin{longtable}{l}
+$P(y|\cald\rvx=x) =\sum_c\sum_m P(y|m,c)P(m|x)P(c)$
 \\
-\beqa
-P(y|\cald\rvx=x,c)
-&=&
+\hspace{2cm}
 \xymatrix{
-&*++[F-o]{c}\ar[rd]
+&\EE c\ar[dr]
 \\
-x\ar[r]
-&\sum m\ar[r]
-&y
-}
-\eeqa
-\beqa
-P(y|\cald\rvx=x)
-&=&
-\xymatrix{
-\EE x'\ar[r]
-&*++[F-o]{\sum c}\ar[rd]
-\\
-x\ar[r]
-&\sum m\ar[r]
+x\ar[r]&\sum m\ar[r]
 &y
 }
 \\
-&=&
+\quad$=\sum_m \left[\sum_c\frac{1}{P(m|c)} P(y|m,c)P(m|c)P(c)\right]P(m|x)$
+\\
+\hspace{2cm}
+\xymatrix{\\
+\sum_m\sum_c\frac{P(c)}{P(m|c)}
+}
+\xymatrix{
+&&c\ar[dr]\ar[d]
+\\
+x\ar[r]&m&m\ar[r]
+&y
+}
+\\
+\quad$=\sum_m \frac{1}{P(m)}\left[\sum_c P(y|m,c)P(m|c)P(c)\right]P(m|x)$ \\
+\hspace{2cm}(because $P(m|c)=P(m)$ by d-separation
+on $G_{hypo}|x$)
+\\
+\hspace{2cm}
+\xymatrix{\\
+\sum_m\frac{1}{P(m)}
+}
+\xymatrix{
+&&\EE c\ar[dr]\ar[d]
+\\
+x\ar[r]&m&m\ar[r]
+&y
+}
+\\
+\quad$=\sum_m P(y|m)P(m|x)$ 
+\\
+\hspace{2cm}
+(because square bracketed expression equals $P(y,m)$)
+\\
+\hspace{2cm}
+\xymatrix{
+x\ar[r]&\sum m \ar[r]& y
+}\quad (this simplifies frontdoor AF)
+\\
+\quad
+$=\sum_{x'}\sum_m P(y|m,x')P(m|x)P(x')$
+\\
+\hspace{2cm}
+(because can reverse steps that led to last expression)
+\\
+\hspace{2cm}
 \xymatrix{
 &\EE x'\ar[dr]
 \\
 x\ar[r]&\sum m\ar[r]
 &y
 }
-\eeqa
-
+\end{longtable}
 
 {\bf * proof 2:}
 \begin{longtable}{l}
@@ -756,27 +802,14 @@ $\xymatrix{
 \proof
 \\
 \begin{align}
-P(y, z|\cald\rvx=x, u_1, u_2)&=
-\xymatrix{
-&*++[F-o]{u_1}\ar[ddl]\ar[ddrr]
-\\
-&*++[F-o]{u_2}\ar[dl]
-\\
-\sum w\ar[r]
-&z
-&x\ar[r]
-&y
-}
-\\
 P(y|\cald\rvx=x)
 &=
 \xymatrix{
-&*++[F-o]{\sum u_1}\ar[ddl]\ar[ddrr]
-&&\EE z'\ar[ll]
-\\
-&*++[F-o]{\sum u_2}\ar[dl]
+&*++[F-o]{\EE u_1}\ar[ddl]\ar[ddrr]
 &&
-\EE x'\ar[ll]
+\\
+&*++[F-o]{\EE u_2}\ar[dl]
+&&
 \\
 \sum w\ar[r]
 &\sum z
@@ -786,21 +819,11 @@ P(y|\cald\rvx=x)
 \\
 &=
 \xymatrix{
-&{\EE z'}\ar[ddl]\ar[ddrr]
-\\
-&{\EE x'}\ar[dl]
-\\
-\sum w\ar[r]
-&\sum z
-&x\ar[r]
-&y
-}
-\\
-&=
-\xymatrix{
-\EE z\ar[dr]
+\EE u_1\ar[dr]
 \\
 x \ar[r]&  y}
+\\
+&\quad This last diagram is not identifiable. 
 \end{align}
 \qed
 

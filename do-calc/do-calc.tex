@@ -8,108 +8,30 @@ This chapter is
 based on Judea Pearl's
 books (see Chapter \ref{ch-nav-pearl}).
 
+The subject of DC is complicated
+so I've decided to break its presentation 
+into 4 chapters:
+\begin{enumerate}
+\item The current chapter, entitled \nameref{ch-do-calc}. This chapter is the take off point for our DC presentation.
+It gives an introduction  to Pearl's DC,
+without any proofs.
+\item Chapter \ref{ch-do-calc-proofs}, entitled: \nameref{ch-do-calc-proofs}, is an aggregation
+of proofs of all theorems in this book
+that require DC to prove them.
 
-When
-doing
-Do Calculus,
-it is
-convenient
-to separate
-the nodes
-of a bnet
-into
-2  types:
-{\bf observed},
-and {\bf hidden (i.e., unobserved, latent,
-unmeasured, non-visible)},
-depending
-on
-whether data
-describing
-the
-state
-of that
-node
-is available  (i.e., measured) or not.
-In this chapter, every
-hidden node will
-be indicated
-in a bnet
-diagram by
-either: (1)
-enclosing
-its random variable
-in a dashed circle or
-(2) making
-the arrows
-coming
-out of it
-dashed.
-Accordingly,
-the
-3 diagrams
-in
-Fig.\ref{fig-hidden-dashes}
-all mean the same thing.
+\item Chapter \ref{ch-bdoor}, entitled: \nameref{ch-bdoor}, gives examples of the application
+of the backdoor adjustment formula.
 
-A {\bf confounder node} $\rvc$
-for nodes $\rvx$ and $\rvy$
-is a root node
-with arrows
-pointing
-from it to
-both
-$\rvx$ and $\rvy$.
-Thus, $\rvc$ acts as a {\bf common cause}
-of $\rvx$ and $\rvy$.
-In general, confounders
-can be either observed
-or hidden nodes.
-The word \qt{confounder} itself
-just means that it confuses
-the analysis.
-It says nothing about
-whether it is hidden or not.
-The node
-$\rvc$
-in Fig.\ref{fig-hidden-dashes})
-is a {\bf hidden confounder}.
+\item Chapter \ref{ch-fdoor}, entitled: \nameref{ch-fdoor}, gives examples of the application
+of the frontdoor adjustment formula.
 
-\begin{figure}[h!]
-$$\xymatrix{
-&*++[F-o]{\rvc}\ar[dl]\ar[dr]
-\\
-\rvx\ar[rr]&&\rvy
-}
-\;\;\;
-\xymatrix{
-\rvx\ar@{-->}@{<-->}@/^2pc/[rr]
-\ar[rr]&&\rvy
-}
-\;\;\;
-\xymatrix{
-&\rvc\ar@{-->}[dl]\ar@{-->}[dr]
-\\
-\rvx\ar[rr]&&\rvy
-}$$
-\caption{
-These 3 diagrams
-are equivalent.
-They
-mean that node $\rvc$
-is hidden.
-Node $\rvc$
-is implicit
-in the
-middle diagram.}
-\label{fig-hidden-dashes}
-\end{figure}
+\end{enumerate}
 
 
 
 Let
 $\cald_\rvx$
-be an operator
+be an operator called the {\bf do-operator}
 that acts on a graph $G$
 with a node
 $\rvx$
@@ -321,8 +243,9 @@ Hence,
 P(y|\cald\rvx=x)=\sum_c P(y|x,c)P(c)
 \;.
 \eeq
-This is called {\bf adjusting the parents
-of $\rvx$}.
+This is called {\bf adjusting $\rvc$}.
+In general, adjust a variable means 
+averaging over it.
 
 For
 $\rvb.\subset \rvX.-\rva.$,
@@ -388,23 +311,6 @@ turning $\rvx$ into a root node.
 Hence, the do operator mimics an RCT.
 
 
-$P(b.|\cald \rva.=a., s.)$
-is said to be {\bf do-identifiable}
-(i.e., expressible without do())
-if it can be
-expressed in terms of
-probability distributions
-that only
-depend on observed
-variables, and that
-have no do operators
-in them.\footnote{In Statistics,
-one says a probability
-distribution $P(x;\theta)$
-of $x$ that depends on a parameter
-$\theta$ is {\bf identifiable}
-if  $P(x;\theta_1)=P(x;\theta_2)$
-implies $\theta_1=\theta_2$.}
 
 For $\rvx, \rvy\in \bool$,
  the {\bf average causal effect (ACE)}
@@ -426,23 +332,156 @@ P(y=1|\rvx=0)
 \;.
 \eeq
 
+\section{Observed and Hidden Nodes}
 
+When
+doing
+Do Calculus,
+it is
+convenient
+to separate
+the nodes
+of a bnet
+into
+2  types:
+{\bf observed},
+and {\bf hidden (i.e., unobserved, latent,
+unmeasured, non-visible)},
+depending
+on
+whether data
+describing
+the
+state
+of that
+node
+is available  (i.e., measured) or not.
+In this chapter, every
+hidden node will
+be indicated
+in a bnet
+diagram by
+either: (1)
+enclosing
+its random variable
+in a dashed circle or
+(2) making
+the arrows
+coming
+out of it
+dashed.
+Accordingly,
+the
+3 diagrams
+in
+Fig.\ref{fig-hidden-dashes}
+all mean the same thing.
+
+A {\bf confounder node} $\rvc$
+for nodes $\rvx$ and $\rvy$
+is a root node
+with arrows
+pointing
+from it to
+both
+$\rvx$ and $\rvy$.
+Thus, $\rvc$ acts as a {\bf common cause}
+of $\rvx$ and $\rvy$.
+In general, confounders
+can be either observed
+or hidden nodes.
+The word \qt{confounder} itself
+just means that it confuses
+the analysis.
+It says nothing about
+whether it is hidden or not.
+The node
+$\rvc$
+in Fig.\ref{fig-hidden-dashes})
+is a {\bf hidden confounder}.
+
+\begin{figure}[h!]
+$$\xymatrix{
+&*++[F-o]{\rvc}\ar[dl]\ar[dr]
+\\
+\rvx\ar[rr]&&\rvy
+}
+\;\;\;
+\xymatrix{
+\rvx\ar@{-->}@{<-->}@/^2pc/[rr]
+\ar[rr]&&\rvy
+}
+\;\;\;
+\xymatrix{
+&\rvc\ar@{-->}[dl]\ar@{-->}[dr]
+\\
+\rvx\ar[rr]&&\rvy
+}$$
+\caption{
+These 3 diagrams
+are equivalent.
+They
+mean that node $\rvc$
+is hidden.
+Node $\rvc$
+is implicit
+in the
+middle diagram.}
+\label{fig-hidden-dashes}
+\end{figure}
+
+A {\bf query} $P(b.|\cald \rva.=a., s.)$
+is said to be {\bf do-identifiable}
+(i.e., expressible without do())
+if it can be
+expressed in terms of
+probability distributions
+that only
+depend on observed
+variables, and that
+have no do operators
+in them.\footnote{In Statistics,
+one says a probability
+distribution $P(x;\theta)$
+of $x$ that depends on a parameter
+$\theta$ is {\bf identifiable}
+if  $P(x;\theta_1)=P(x;\theta_2)$
+implies $\theta_1=\theta_2$.}
+Note that all queries that refer to a bnet 
+with no hidden nodes, are do-identifiable.
 
 
 
 \section{3 Rules of Do Calculus}
+
+I this section, we will state, without proof,
+the 3 Rules of Do Calculus (DC). The bad news is that these rules 
+are very complicated and difficult
+to apply. The good news is that you only need them 
+when dealing with a do query on
+a bnet G that has hidden nodes. The 3 rules are totally 
+unnecessary if $G$ has no hidden nodes.
+Another good news is that in Chapter \ref{ch-do-calc-proofs}, we give 
+a technique that is
+an alternative to the 3 rules 
+of do DC. This technique yields the same
+results as  the 3 rules of DC, without
+the tears.
+
 Throughout
 this section, suppose
 $\rva., \rvb., \rvr.,
 \rvs.$ are disjoint
 multinodes in a bnet $G$.
 
-I this section, we will state
-the 3 rules for Do Calculus. All 3 rules start with a hypothesis
-which declares a bnet that I like to call the {\bf hypothesis graph} (denoted by $G_h$). Then they propose how
+
+All 3 rules of DC start with an
+{\bf original bnet} $G$ and a {\bf hypothesis bnet}
+$G_{amp}$ constructed by amputating
+some arrows from $G$. Then they propose how
 to transform a bnet $G_e$ to a bnet $G_{e'}$. I like to call 
 $G_e$ and $G_{e'}$ the {\bf evolving graphs}. The first $G_e$ 
-results from transforming the {\bf original graph} $G$.
+results from transforming the  original graph $G$.
 
 
 Recall
@@ -591,7 +630,7 @@ $$
 \begin{array}{c}
 \begin{array}{cc}
 \xymatrix{\\\\
-\text{Rule 1: }G_h=\cald_{\rvr.}G:}
+\text{Rule 1: }G_{amp}=\cald_{\rvr.}G:}
 & 
 \xymatrix@C=.2pc{
 \\
@@ -611,7 +650,7 @@ $$
 \begin{array}{cc}
 \xymatrix
 {\\\\
-\text{Rule 2: }G_h=\call_{\rva.}\cald_{\rvr.}G:}
+\text{Rule 2: }G_{amp}=\call_{\rva.}\cald_{\rvr.}G:}
 & 
 \xymatrix@C=.2pc{
 \\
@@ -628,7 +667,7 @@ $$
 \\
 \begin{array}{cc}
 \xymatrix{\\\\
-\text{Rule 3: }G_h=\cald_{\rva.-an(\rvs.)}\cald_{\rvr.}G:}
+\text{Rule 3: }G_{amp}=\cald_{\rva.-an(\rvs.)}\cald_{\rvr.}G:}
 &
 \xymatrix@C=.2pc{
 \\
@@ -647,7 +686,7 @@ $$
 \end{array}
 $$
 \caption{Pictorial representation of some of the nodes in the
-hypothesis graphs ($G_h$) for the 3
+hypothesis graphs ($G_{amp}$) for the 3
  rules of Do Calculus. In this picture,
  yellow nodes are conditioned on.
  Furthermore $\rva.'=\rva.-an(\rvs.)$
@@ -794,6 +833,11 @@ we shall mainly be
 concerned with
 explaining this
 theorem, not using it.
+
+The backdoor adjustment formula is a simple generalization
+of the parent adjustment formula to encompass 
+cases where the variables being adjusted are 
+not all patents of $\rvx$.
 
 
 \bdoordef
