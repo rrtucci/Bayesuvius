@@ -33,6 +33,12 @@ assuming only
 the d-separation theorem
 and the standard rules of
 probability theory.
+In this chapter, we present
+a technique that allows us to do just that: prove 
+adjustment formulae from first principles,
+without using the 
+3 Rules of Do Calculus.
+
 
 In this chapter, we use the
  following conventions for bnet diagrams.
@@ -316,11 +322,11 @@ be that for $G_{amp(x)}$.
 In general, the
 following is always true,
 for bnets
-with or bnets without hidden nodes:\footnote{Note that $P_{G_{amp(x)}}(y|x)\neq P_G(y|x)=P(y|x)$.
+with or bnets without hidden nodes:\footnote{Note that $P_{G_{amp(x)}}(y|x)\neq P_G(y|x)$.
 In fact,
-$P_{G_{amp(x)}}(y|x)= P(y|x)$
+$P_{G_{amp(x)}}(y|x)= P_G(y|x)$
 iff there is no confounding,
-so $P_{G_{amp(x)}}(y|x)\neq P(y|x)$
+so $P_{G_{amp(x)}}(y|x)\neq P_G(y|x)$
 indicates confounding.
 }
 
@@ -336,10 +342,10 @@ of observed TPMs of $G$.
 
 To make matters even more confusing, let $G|x$
 be the graph $G$ conditioned on $\rvx=x$. If $G$ has full distribution $P_G()$,
-then  $P_{G|x)}(\cdot) = P_G(\cdot|x)$. 
-Note that $G$, $G_{amp(x)}$ and $G|x$ have different
-full probability distributions so they should not
-be considered the same $P()$ function. 
+then  $P_{G|x)}(\cdot) = P_G(\cdot|x)$.
+ 
+Note that, in general,  $P_G$, $P_{G_{amp(x)}}$ and $P_{G|x}$ are
+different probability distributions. 
 
 IMPORTANT: For any adjustment formula, we assume
 a hypothesis bnet $G_{hypo}$.
@@ -819,12 +825,16 @@ P(y|\cald\rvx=x)
 \\
 &=
 \xymatrix{
-\EE u_1\ar[dr]
+*++[F-o]{\EE u_1}\ar[dr]
 \\
 x \ar[r]&  y}
-\\
-&\quad This last diagram is not identifiable. 
 \end{align}
+The last diagram is not identifiable.
+Therefore, the Napkin problem is not identifiable either.\footnote{Pearl claims, 
+in his Do Why book, that the Napkin problem
+is identifiable, but he doesn't give an adjustment formula for it there. I myself
+have vacillated throughout the writing of this book on whether 
+it is identifiable or not.}
 \qed
 
 
@@ -834,52 +844,48 @@ x \ar[r]&  y}
 \end{claim}
 \proof
 \beqa
-P(y, w|\cald\rvz=z, x)
+P(y|\cald\rvz=z, x)
 &=&
 \xymatrix{
 x\ar[d]\ar[drr]
 \\
- w
+ \sum w
 &z\ar[r]
 &y
 \\
 *++[F-o]{\EE u}\ar[u]\ar[urr]
-}
-\eeqa
-\beqa
-P(y|\cald\rvz=z,x)
-&=&
-\xymatrix{
-x\ar[d]\ar[drr]
-\\
-\sum w
-&z\ar[r]
-&y
-\\
-*++[F-o]{\sum u}\ar[u]\ar[urr]
-&\EE w'\ar[l]
-}
-\\
-&=&
-\xymatrix{
-x\ar[d]\ar[drr]
-\\
-\sum w
-&z\ar[r]
-&y
-\\
-{\EE w'}\ar[u]\ar[urr]
 }
 \\
 &=&
 \xymatrix{
 x\ar[drr]
 \\
-\EE w\ar@/_1pc/[rr]
 &z\ar[r]
 &y
+\\
+*++[F-o]{\EE u}\ar[urr]
 }
+\\
+&=&
+\xymatrix{
+x\ar[drr]
+\\
+\EE a\ar@/_1pc/[rr]
+&z\ar[r]
+&y}
 \eeqa
+The last line follows because 
+\beqa
+\sum_u P(y|u,x,z)P(u)&=&
+\sum_u P(y|u,x,z) P(u|x, z)
+\\
+&=&
+P(y|x,z)
+\\
+&=&
+\sum_a P(y|a,x,z) P(a|x, z)
+\eeqa
+where $a\in\{x,w,z\}$
 \qed
 
 \begin{claim}
