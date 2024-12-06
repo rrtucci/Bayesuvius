@@ -53,8 +53,39 @@ with bnet-switches
 in Chapter \ref{ch-transport}.
 \selectionGraphs
 
-Some {\bf node summation identities}
-that are used in this chapter:
+We often write
+
+\beq
+\begin{array}{c}
+P(a)\xymatrix {a\ar[r]&\sum b\ar[r]&c}
+\quad=\quad
+P(a) \xymatrix {a\ar[r]&c}
+\\
+\sum_b P(c|b)P(b|a)P(a)=P(c,a)
+\label{eq-promi-dep}
+\end{array}
+\eeq
+because  the left hand side summed over $a,c$ yields 1. However,
+this equation
+is only true if the $P(c,a)$
+on the right hand side
+assumes a particular promise, namely
+\beq
+P(c,b, a)=P(c|b)P(b|a)P(a)
+\eeq
+An alternative way of saying the same thing
+is to say that Eq.(\ref{eq-promi-dep})
+ assumes that $P()=P_G()$ where 
+$G$ is the bnet $\rva\rarrow\rvb\rarrow\rvc$.
+We say that Eq.(\ref{eq-promi-dep})
+is {\bf bnet promise dependent}.
+
+
+Next we will
+give some {\bf node summation identities}
+that are used in this chapter.
+Note that these identities are {\bf bnet promise independent}; i.e., they are true
+for any bnet promise. 
 
 \hrule
 \begin{enumerate}
@@ -219,55 +250,55 @@ P(y)\quad
 \hrule
 
 The moral of the above summation identities is that
-if one has a fully connected bnet, or a clique
-(i.e., fully connected subgraph) within a bnet,
+if one has a fully connected bnet, or a bnet clique
+(i.e., fully connected subgraph of a bnet),
 one can remove a sum vertex $\sum a$ or an average
 vertex $\EE a$ of the clique. Not only that! We can also 
 replace a sum vertex $\sum a$  of the clique by a different  sum vertex $\sum b$. Likewise, we can replace
 an average vertex $\EE a$  of the clique by a different  average vertex $\EE b$.
 
-An important caveat concerning the above
-summation identities is that 
-the instantiations that they produce depend on the
-original bnet whence they come from. 
-This caveat is illustrated in Fig.\ref{fig-dep-on-origing-bnet}.
-This caveat is especial relevant when dealing 
-with do operators. In that case, the unamputated
-graph and the amputated graph are different bnets, with
-different full probability distributions.
-
-\begin{figure}[h!]
-$$
-\begin{array}{c|c}
-\sum_a P_{G}(x_2|a)P_{G}(a|x_1)=P_{G}(x_2|x_1)
-&
-\sum_a P_{G'}(x_2|a, x_1)P_{G'}(a|x_1)=P_{G'}(x_2|x_1)
-\\
-\xymatrix@C=1.5pc{
-x_1\ar[r]
-&\sum a\ar[r]
-&x_2
-&=&
-x_1\ar[r]
-&x_2}
-&
-\xymatrix@C=1.5pc{
-x_1\ar[r]\ar@/_1pc/[rr]
-&\sum a\ar[r]
-&x_2
-&=&
-x_1\ar[r]
-&x_2}
-\end{array}
-$$
-\caption{Note that there are cases when $P_G(x_2|x_1)
-\neq P_{G'}(x_2|x_1)$. Hence,
- $P(x_2|x_1)$ depends on the bnet of origin.
-}
-\label{fig-dep-on-origing-bnet}
-\end{figure}
-
-
+%An important caveat concerning the above
+%summation identities is that 
+%the instantiations that they produce depend on the
+%original bnet whence they come from. 
+%This caveat is illustrated in Fig.\ref{fig-dep-on-origing-bnet}.
+%This caveat is especial relevant when dealing 
+%with do operators. In that case, the unamputated
+%graph and the amputated graph are different bnets, with
+%different promises.
+%
+%\begin{figure}[h!]
+%$$
+%\begin{array}{c|c}
+%\sum_a P_{G}(x_2|a)P_{G}(a|x_1)=P_{G}(x_2|x_1)
+%&
+%\sum_a P_{G'}(x_2|a, x_1)P_{G'}(a|x_1)=P_{G'}(x_2|x_1)
+%\\
+%\xymatrix@C=1.5pc{
+%x_1\ar[r]
+%&\sum a\ar[r]
+%&x_2
+%&=&
+%x_1\ar[r]
+%&x_2}
+%&
+%\xymatrix@C=1.5pc{
+%x_1\ar[r]\ar@/_1pc/[rr]
+%&\sum a\ar[r]
+%&x_2
+%&=&
+%x_1\ar[r]
+%&x_2}
+%\end{array}
+%$$
+%\caption{Note that there are cases when $P_G(x_2|x_1)
+%\neq P_{G'}(x_2|x_1)$. Hence,
+% $P(x_2|x_1)$ depends on the bnet of origin.
+%}
+%\label{fig-dep-on-origing-bnet}
+%\end{figure}
+%
+%
 
 
 
@@ -316,7 +347,7 @@ and let $G_{amp(x)}=\cald_{\rvx=x}G$
 be the same graph after amputation
 at $\rvx$.
 Also let $P_G()$ be
-the full probability distribution
+the promise
 for graph $G$, and $P_{G_{amp(x)}}()$
 be that for $G_{amp(x)}$.
 In general, the
@@ -341,7 +372,7 @@ because it's not expressed in terms
 of observed TPMs of $G$.
 
 To make matters even more confusing, let $G|x$
-be the graph $G$ conditioned on $\rvx=x$. If $G$ has full distribution $P_G()$,
+be the bnet $G$ conditioned on $\rvx=x$. If $G$ has promise $P_G()$,
 then  $P_{G|x)}(\cdot) = P_G(\cdot|x)$.
  
 Note that, in general,  $P_G$, $P_{G_{amp(x)}}$ and $P_{G|x}$ are
@@ -351,7 +382,7 @@ IMPORTANT: For any adjustment formula, we assume
 a hypothesis bnet $G_{hypo}$.
 Then for a query
 $P(y|\cald\rvx=x)$, we express the adjustment
-formula in terms of the full probability distribution $P()=P_{G_{hypo}|x}()=P_{G_{hypo}}(\cdot|x)$.
+formula in terms of the promise $P()=P_{G_{hypo}|x}()=P_{G_{hypo}}(\cdot|x)$.
 
 
 %Note that
@@ -390,7 +421,7 @@ are summed (indicated by $\sum$) or averaged
 \item Use the node summation identities to
 remove all sums and averages over hidden nodes.
 Each sum or average over a hidden node may be 
-vanished or replaced by a sum or average over an observed node. 
+eliminated or replaced by a sum or average over an observed node. 
 \end{enumerate}
 Perform these steps until you remove all sums and averages  over hidden variables 
 and obtain a valid adjustment formula.
@@ -828,10 +859,14 @@ P(y|\cald\rvx=x)
 x \ar[r]&  y}
 \end{align}
 The last diagram is not identifiable.
-Therefore, the Napkin problem is not identifiable either.\footnote{Pearl claims, 
+If we try to add  the arrow $P(x|u_1)$ 
+in order to eliminate vertex $\EE u_1$, 
+we run into problems,
+because $P(x|u_1)\neq P(x)$ by d-separation on $G_{hypo}|x$.
+Since the last diagram is not identifiable, the Napkin problem is not identifiable either.\footnote{Pearl claims, 
 in his Do Why book, that the Napkin problem
 is identifiable, but he doesn't give an adjustment formula for it there. I myself
-have vacillated throughout the writing of this book on whether 
+have vacillated during the writing of this book on whether 
 it is identifiable or not.}
 \qed
 
