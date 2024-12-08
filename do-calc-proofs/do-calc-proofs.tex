@@ -252,7 +252,7 @@ P(y)\quad
 The moral of the above summation identities is that
 if one has a fully connected bnet, or a bnet clique
 (i.e., fully connected subgraph of a bnet),
-one can remove a sum vertex $\sum a$ or an average
+one can remove completely (including its arrows) a sum vertex $\sum a$ or an average
 vertex $\EE a$ of the clique. Not only that! We can also 
 replace a sum vertex $\sum a$  of the clique by a different  sum vertex $\sum b$. Likewise, we can replace
 an average vertex $\EE a$  of the clique by a different  average vertex $\EE b$.
@@ -422,7 +422,7 @@ are summed (indicated by $\sum$) or averaged
 \item Use the node summation identities to
 remove all sums and averages over hidden nodes.
 Each sum or average over a hidden node may be 
-eliminated or replaced by a sum or average over an observed node. 
+removed completely or replaced by a sum or average over an observed node. 
 \end{enumerate}
 Perform these steps until you remove all sums and averages  over hidden variables 
 and obtain a valid adjustment formula.
@@ -927,29 +927,55 @@ where $a\in\{x,w,z\}$
 \decTransportTrivial
 \end{claim}
 \proof
-\begin{longtable}{l}
-\color{red}
-$P(y|\cald\rvx=x, z, \rvs=1)=
-P(y|x, z, \rvs=1)$
+\begin{align}
+P^*(y|\cald \rvx=x, z) &=
+P(y|\cald\rvx=x, z, \rvs=1)
 \\
-\xymatrix{
+&=
+\left[\frac{1}{\sum_{u_1}P(z|u_1)P(u_1)}\right]
+\xymatrix@R=.5pc{
+\EE u_1\ar@{-->}[r]
 &z\ar[rd]
-&\rvs=1\ar[d]
-\\
-\cald\rvx=x\ar[rr]
-&&y
-}
-\xymatrix{
-\\=
-}
-\xymatrix{
-&z\ar[rd]
-&\rvs=1\ar[d]
+&s=1\ar[d]
 \\
 x\ar[rr]
 &&y
+\\
+&\EE u_2\ar@{-->}[ul]\ar@{-->}[ur]
 }
-\end{longtable}
+\\
+& \text{(the factor in square brackets is necessary for normalization)}\nonumber
+\\
+&=
+\xymatrix@R=.5pc{
+&z\ar[rd]
+&s=1\ar[d]
+\\
+x\ar[rr]
+&&y
+\\
+&\EE u_2\ar@{-->}[ul]\ar@{-->}[ur]
+}
+\\
+&=
+\xymatrix{
+&z\ar[rd]
+&s=1\ar[d]
+\\
+x\ar[rr]
+&&y}
+\\
+&=
+P^*(y|x,z)
+\end{align}
+Let $\xi=(x,z,s)$. Above, we used 
+\begin{align}
+\sum_{u_2}P(y|u_2,\xi)P(u_2)&=
+\sum_{u_2}P(y|u_2,\xi)P(u_2|\xi)&=
+P(y|\xi)
+\;\text{(because $\rvu_2\perp \ul{\xi}$ in $G_{hypo}|x$)}
+\end{align}
+
 \qed
 
 \begin{claim}
@@ -957,45 +983,46 @@ x\ar[rr]
 \decTransportDirect
 \end{claim}
 \proof
-\begin{longtable}{l}
-\color{red}
-$P(y|\cald\rvx=x, z, \rvs=1)=
-P(y|\cald\rvx=x, z)$
+\begin{align}
+P^*(y|\cald x=x,z) &=
+P(y|\cald x=x,z, \rvs=1)
 \\
-\xymatrix{
-\rvs=1\ar[r]
-&z\ar[dr]
+&=
+\frac{1}{\sum_{u_1}P(z|s=1, u_1)P(u_1)}
+\xymatrix@R=.2pc{
+\EE u_1\ar@{-->}[dr]
+\\
+s=1\ar[r]
+&z\ar[rd]
 &
 \\
-\cald\rvx=x\ar[rr]
+x\ar[rr]
 &&y
-}
-\xymatrix{\\=}
-\xymatrix{
-&z\ar[dr]
+\\
+&\EE u_2\ar@{-->}[ur]\ar@{-->}[ul]
+}\\
+& \text{(the factor in square brackets is necessary for normalization)}\nonumber
+\\
+&=
+\xymatrix@R=.2pc{
+&z\ar[rd]
 &
 \\
-\cald\rvx=x\ar[rr]
+x\ar[rr]
 &&y
-}
-\begin{tabular}{l}
-Because $\rvs\perp\rvy|\rvz$
-\end{tabular}
-\end{longtable}
-Furthermore,
-\begin{longtable}{l}
-\color{red}
-$P(y|\cald \rvx=x, \rvs=1)
-=\sum_z P(y|\cald\rvx=x,z)P(z|\rvs=1)$
 \\
+&\EE u_2\ar@{-->}[ur]\ar@{-->}[ul]
+}
+\\
+&=
 \xymatrix{
-\rvs=1\ar[r]
-&\sum z\ar[rd]
+&z\ar[rd]
+&
 \\
-\cald\rvx=x\ar[rr]
+x\ar[rr]
 &&y
 }
-\end{longtable}
+\end{align}
 \qed
 
 \begin{claim}
@@ -1003,28 +1030,47 @@ $P(y|\cald \rvx=x, \rvs=1)
 \decTransportBox
 \end{claim}
 \proof
-\begin{longtable}{l}
-\color{red}$
-P(y|\cald\rvx=x, \rvs=1)
-=\sum_{a}
-P(y|\cald\rvx=x,a)P(a|\rvs=1)$
+\begin{align}
+P^*(y|\cald x=x, a) &=
+P(y|\cald x=x,a,\rvs=1)
 \\
-\xymatrix{
-\rvs=1\ar[r]
+&=
+\left[\frac {1}{P(a|z)P(z|s=1)P(z|u_1)P(u_1)}\right]
+\xymatrix@R=.5pc{
+\EE u_1\ar@{-->}[dr]
+\\
+s=1\ar[r]
 &*++[F-o]{\sum z}\ar[r]
-&\sum a\ar[d]
+&a \ar[d]
 \\
-&\cald \rvx=x\ar[r]
-&y
-}\xymatrix{\\=}
-\xymatrix{
-\rvs=1\ar[r]
-&\sum a\ar[d]
+x\ar[rr]
+&&y
 \\
-\cald \rvx=x\ar[r]
-&y
+&\EE u_2\ar@{-->}[ur]\ar@{-->}[ul]
 }
-\end{longtable}
+\\
+&=
+\xymatrix@R=.75pc{
+&&a\ar[d]
+&
+\\
+x\ar[rr]
+&&y
+\\
+&\EE u_2\ar@{-->}[ur]\ar@{-->}[ul]
+}
+\\
+&=
+\xymatrix{
+&&a\ar[d]
+&
+\\
+x\ar[rr]
+&&y
+}
+\end{align}
+Finally, multiply both sides times $P^*(a)$
+and sum over $a$.
 \qed
 
 %\decTransportOne merged
@@ -1035,71 +1081,49 @@ P(y|\cald\rvx=x,a)P(a|\rvs=1)$
 \decTransportNon
 \end{claim}
 \proof
-\begin{longtable}{l}
-\color{red}
-$P^*(y|\cald\rvx=x)=P^*(y|\cald\rvx=x)$
-\\
-\\
-\xymatrix{
-&*++[F-o]{\EE h}\ar[dr]
-&\rvs=1\ar[d]
-\\
-\cald\rvx=x\ar[rr]
-&&y
-}
-\xymatrix{\\=}
-\xymatrix{
-&&\rvs=1\ar[d]
-\\
-\cald\rvx=x\ar[rr]
-&&y
-}
-\end{longtable}
-Can't replace $\cald\rvx=x$
-by $x$ because
-$\rvy\not\perp \rvx$ in
-$\call_\rvx G$.
-Hence, Rule 2 not satisfied.
+
+Obvious
 \qed
 
 
-\begin{claim}
+\begin{claim}.
 \label{cl-decTransportTwo}
 \decTransportTwo
 \end{claim}
 \proof
-\begin{longtable}{l}
-\color{red}
-$P(y|\cald \rvx=x, \rvs=1)=
-\sum_h P(y|\cald\rvx=x, h)P(h)$
+\beqa
+P^*(y|\cald \rvx=x)
+&=&P(y|\cald \rvx=x, \rvs=1)
 \\
+&& \nonumber
 \\
-\xymatrix{
-\rvs=1\ar@/^1.5pc/[rr]
-&*++[F-o]{\EE h}\ar[r]\ar[rd]
+&=&
+\xymatrix@R=.5pc{
+s=1\ar@/^1.5pc/[rrr]
+&\EE u_1\ar@{-->}[r]
+&*++[F-o]{\sum h}\ar[dr]\ar[r]
 &\sum z
 \\
-\cald\rvx=x\ar[rr]
-&&y
-}
-\xymatrix{\\=}
-\xymatrix{
-&*++[F-o]{\EE h}\ar[rd]
+&x\ar[rr]
 &
-\\
-\cald\rvx=x\ar[rr]
-&&y
+&y\\\
+&&\EE u_2\ar@{-->}[ur]\ar@{-->}[ul]
 }
 \\
-\color{red}
-$=P(y|\cald\rvx=x)$
+&& \nonumber
 \\
-\xymatrix{=}
-\xymatrix{
-\cald\rvx=x\ar[rr]
-&&y
-}
-\end{longtable}
+&=&
+\xymatrix@R=.5pc{
+&\EE u_1\ar@{-->}[r]
+&*++[F-o]{\sum h}\ar[dr]
+\\
+&x\ar[rr]
+&
+&y\\\
+&&\EE u_2\ar@{-->}[ur]\ar@{-->}[ul]
+}\\
+&=& \text{independent of $s$}
+\eeqa
 \qed
 \begin{claim}
 \label{cl-decTransportThree}
@@ -1107,52 +1131,46 @@ $=P(y|\cald\rvx=x)$
 \end{claim}
 \proof
 
-\begin{longtable}{l}
-\color{red}
-$P(y|\cald\rvx=x, \rvs=1)=
-\sum_h
-\sum_z P(y|h, z)P(h)
-P(z|\cald\rvx=x, \rvs=1)$
+\beqa
+P^*(y|\cald \rvx=x)
+&=&P(y|\cald \rvx=x, \rvs=1)
 \\
+&=&
+\xymatrix@R=.5pc{
+s=1\ar[drr]
+&\EE u_1\ar@{-->}[r]
+&*++[F-o]{\su h}\ar[dr]
 \\
-\xymatrix{
-\rvs=1\ar[rd]
-&*++[F-o]{\EE \rvh}\ar[dr]
-\\
-\cald\rvx=x\ar[r]
+&x\ar[r]
 &\sum z\ar[r]
-&y
+&y\\
+&&\EE u_2\ar@{-->}[ur]\ar@{-->}[ul]
 }
 \\
-\\
-\color{red}
-$=\sum_h\sum_z P(y|h,z)P(h|\cald\rvx=x)
-P(z|x, \rvs=1)$
-\\
-\\
-\xymatrix{\\=}
+&=&
+\xymatrix
+{\\
+\sum_z}
 \xymatrix{
-\rvs=1\ar[rd]
-&*++[F-o]{\sum \rvh}\ar[dr]
-&\cald\rvx=x\ar[l]
+s=1\ar[dr]
 \\
 x\ar[r]
-&\sum z\ar[r]
-&y
+&z
+}
+\xymatrix@R=.5pc{
+\EE u_1\ar@{-->}[r]
+&*++[F-o]{\su h}\ar[dr]
+\\
+x
+&z\ar[r]
+&y\\
+&\EE u_2\ar@{-->}[ur]\ar@{-->}[ul]
 }
 \\
-\color{red}
-$=\sum_z P(y|\cald\rvx=x, z)P(z|x, \rvs=1)$
-\\
-$\xymatrix{\\=}\xymatrix{
-\rvs=1\ar[rd]
-&&\cald\rvx=x\ar[d]
-\\
-x\ar[r]
-&\sum z\ar[r]
-&y
-}$
-\end{longtable}
+&=&
+\sum_z
+P(y|\cald \rvx=x, \cald \rvz=z)P^*(z|x)
+\eeqa
 \qed
 
 \begin{claim}
