@@ -96,6 +96,158 @@ P^*(x|pa^-(x))
 \eeq
 }
 
+\newcommand{\bdoordef}[0]{
+Suppose that we have access to data
+that allows us to
+estimate a probability
+distribution
+ $P(x., y., z.)$.
+Then we say that the
+backdoor $\rvz.$
+satisfies the
+{\bf backdoor adjustment criterion}
+relative to $(\rvx., \rvy.)$
+if
+\begin{enumerate}
+\item
+All backdoor paths from $\rvx.$
+to $\rvy.$
+ are blocked by  conditioning on
+ $\rvz.$.
+\item
+$\rvz. \cap de(\rvx.)=\emptyset$.
+\end{enumerate}
+}
+
+\newcommand{\bdoorconclusion}[0]{
+\beqa
+P(y. | \cald \rvx.=x.)&=&
+\sum_{z.} P(y.|x., z.)P(z.)
+\\
+&=&
+\xymatrix{
+\EE z.\ar[dr]
+\\
+x.\ar[r]
+&y.
+}
+\eeqa
+}
+
+\newcommand{\bdoorclaim}[0]{
+If $\rvz.$ satisfies the
+backdoor criterion relative to
+ $(\rvx., \rvy.)$, then
+
+\bdoorconclusion
+
+}
+
+\newcommand{\fdoordef}[0]{
+Suppose that we have access to data
+that allows us to
+estimate a probability
+distribution
+ $P(x., m., y.)$.
+Hence, the variables
+$\rvx., \rvm., \rvy.$ are
+ALL observed (i.e, not hidden).
+Then we say that
+the frontdoor $\rvm.$
+satisfies the
+{\bf frontdoor adjustment criterion}
+relative to $(\rvx., \rvy.)$
+if
+\begin{enumerate}
+\item
+All directed paths from
+$\rvx.$ to $\rvy.$ are intercepted by
+(i.e., have a node in) $\rvm.$.
+\item
+All backdoor paths from $\rvx.$ to
+$\rvm.$ are blocked.
+\item
+All backdoor paths from
+on $\rvm.$ to $\rvy.$
+are blocked by conditioning
+on  $\rvx.$.
+\end{enumerate}
+}
+
+\newcommand{\fdoorconclusion}[0]{
+\beqa
+P(y. | \cald \rvx.=x.)&=&\sum_{m.}
+\left[\sum_{x'.}
+P(y.|m., x'.)P(x'.)\right]
+P(m.|x.)
+\\
+&=&
+\xymatrix{
+&\EE x'.\ar[dr]
+\\
+x.\ar[r]
+&\sum m.\ar[r]&y.
+}
+\eeqa
+}
+
+\newcommand{\fdoorclaim}[0]{
+If $\rvm.$ satisfies the
+frontdoor criterion
+relative to $(\rvx., \rvy.)$,
+and $P(x.,m.)>0$, then
+
+\fdoorconclusion
+}
+
+
+\newcommand{\SeqBdoorDef}[0]{
+Suppose that we have access to data
+that allows us to
+estimate a probability
+distribution
+ $P(x^n, y, z^n)$.
+Hence, the variables
+$\rvx^n, \rvy, \rvz^n$ are
+ALL observed (i.e, not hidden).
+Then we say that the
+ multinode
+of \enquote{covariates} $\rvz^n$
+satisfies the
+{\bf sequential backdoor (SBD) adjustment criterion}
+relative to $(\rvx^n, \rvy)$
+if for all $t\in\{0,1, \ldots, n-1\}$,
+
+\begin{enumerate}
+\item
+$\rvy\perp\rvx_t|
+\underbrace{(\rvx_0, \rvx_1, \ldots,\rvx_{t-1},
+\rvz_0, \rvz_1, \ldots, \rvz_t)}
+_{\text{Past of $\rvx_t$}}$
+in $\call_{\rvx_{t}}
+\cald_{\rvx_{t+1},\rvx_{t+2}
+,\ldots, \rvx_{n-1}}G$.
+\item
+$\rvz_t \cap de(\rvx_t)=\emptyset$.
+\end{enumerate}
+}
+
+
+\newcommand{\SeqBdoorClaim}[0]{
+If $\rvz^n$ satisfies the
+sequential backdoor criterion relative to
+ $(\rvx^n, \rvy)$, then
+
+\beq
+P(y | \cald \rvx^n=x^n)=
+\calq(y|x^n)
+\;,
+\eeq
+where $\calq(y|x^n)$
+is defined by
+Eq.(\ref{def-q-y-xn-seqbdoor}).
+}
+
 \newcommand{\decBackDoor}[0]{
  (Backdoor
 Adjustment Formula)
@@ -109,20 +261,7 @@ $
 }$
 then
 
-\beqa
-P(y|\cald \rvx = x)
-&=&
-\sum_z
-P(y|x,z)P(z)
-\\
-&=&
-\xymatrix{
-\EE z\ar[dr]
-\\
-x\ar[r]
-&y
-}
-\eeqa
+\bdoorconclusion
 }
 
 
@@ -138,21 +277,8 @@ $
 \rvx\ar[r]&\rvm\ar[r]&\rvy
 }$
 then
-\beqa
-P(y|\cald \rvx = x)&=&
-\sum_m
-\left[
-\sum_{x'}P(y|m, x')P(x')
-\right]P(m|x)
-\\
-&=&
-\xymatrix{
-&\EE x'\ar[dr]
-\\
-x\ar[r]
-&\sum m\ar[r]&y
-}
-\eeqa
+
+\fdoorconclusion
 Using the node summation identities, 
 the $\EE x'$ node may be removed from the final instantiation.
 }
@@ -561,6 +687,9 @@ d\ar[rrr]
 \eeq
 }
 
+\newcommand{\SeqBackDoorConclusion}[0]{
+
+}
 
 \newcommand{\decSeqBackDoor}[0]{(Sequential
 backdoor (SBD) adjustment formula,
@@ -618,6 +747,31 @@ shown here for $n=3$
 is true for any integer $n\geq 1$.
 }
 
+\newcommand{\decSBBackDoorConclusion}[0]{
+\beq
+P(y|\cald\rvx=x)
+=\sum_z P(y|x, z, \rvs=1)P(z)
+\eeq
+
+\beq
+\xymatrix{
+%\rvs=1
+%\ar[rd]
+\\
+\cald\rvx=x\ar[r]
+&y
+}
+\\
+\xymatrix{\\=}
+\xymatrix{
+\rvs=1\ar[dr]
+&\EE z\ar[d]
+\\
+x\ar[r]&y
+}
+\eeq
+}
+
 \newcommand{\decSBBackDoor}[0]{
  (Selection Bias (SB) Backdoor
 Adjustment Formula,
@@ -638,24 +792,5 @@ where $\rvs\in\bool$
 is a bnet-switch and
 $\rvz=(\rvz^-, \rvz^+)$,
 then
-\beq
-P^*(y|\cald\rvx=x)
-=P(y|x)
-\eeq
-
-\beq
-\xymatrix{
-\rvs=1
-\ar[rd]
-\\
-\cald\rvx=x\ar[r]
-&y
-}
-\\
-\xymatrix{\\=}
-\xymatrix{
-\\
-x\ar[r]&y
-}
-\eeq
+\decSBBackDoorConclusion
 }
