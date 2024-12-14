@@ -296,6 +296,8 @@ P^*(\beta|pa^-(\beta))&\text{if $s=1$}
 \end{array}
 \right.
 \eeq
+where $pa(\rvbeta)$ are all the parents of $\rvbeta$ 
+including $\rvs$, and $pa^-(\rvbeta)= pa(\rvbeta)-\rvs$.
 
 \section{SB-Recoverability}
 
@@ -308,7 +310,7 @@ $$
 \rvx\ar[r]\ar@{<->}[d]
 &\rvy\ar@{<->}[dl]
 \\
-\Rect{\rvA}&\rvs\ar[l]
+\Rect{\rvA}\ar[r]&\rvbeta&\rvs\ar[l]
 }
 $$
 \caption{Bnet considered for
@@ -319,6 +321,10 @@ either direction.}
 \end{figure}
 
 $\rvs\in \{0,1\}$ {\bf selector node}
+
+$\rvbeta=$ {\bf bias node}
+
+$\rvS=(\rvbeta, \rvs)$
 
 $\rvx=$ {\bf treatment node}.
 
@@ -338,11 +344,11 @@ $\Sigma=$ unbiased population of individuals $\s$
 $\Sigma_o=$ biased sub-population of individuals,
 $\Sigma_o\subset \Sigma$.
 
-$OD=\{({\s_o},\rvx^{\s_o},  \rvy^{\s_o},\rvs^{\s_o}=1):{\s_o}\in\Sigma_o\}=$
+$OD=\{({\s_o},\rvx^{\s_o},  \rvy^{\s_o},\rvbeta^{\s_o}, \rvs^{\s_o}=1):{\s_o}\in\Sigma_o\}=$
 {\bf Original Dataset}, dataset for $(\rvx,\rvy)$ features
 with $\rvs=1$.
 Gives empirical
-distribution $\color{red}{P(y|x, \rvs=1)}$.
+distribution $\color{red}{P(y|x,\beta, \rvs=1)}$.
 (Ref.\cite{bare-sb-removal}
 calls this dataset the {\bf biased study}.)
 
@@ -355,13 +361,14 @@ calls this dataset the
 {\bf population level study}.)
 
 
-$ED=\{({\s_o},\rvx^{\s_o}, \rvA^{\s_o}, \rvy^{\s_o},
+$ED=\{({\s_o},\rvx^{\s_o}, \rvA^{\s_o}, \rvy^{\s_o},\rvbeta^{\s_o},
 \rvs^{\s_o}=1):{\s_o}\in\Sigma_o\}=$
-{\bf Enhanced Dataset}, dataset for $(\rvx,\rvy, \rvA)$ features
+{\bf Enhanced Dataset}, dataset for $(\rvx,\rvy, \rvA, \rvbeta)$ features
 for $\rvs=1$.
 Obtained by merging $OD$ and $AD$.
 Gives empirical
-distribution $\color{red}{P(y|x, A, \rvs=1)}$.
+distribution $\color{red}{P(y|x, A,
+\beta, \rvs=1)}$.
 
 
 
@@ -369,37 +376,38 @@ distribution $\color{red}{P(y|x, A, \rvs=1)}$.
 \subsection{Removing SB from
 passive query}
 
-We will refer to $Q=P(y|x, a., \rvs=1)$ 
+We will refer to $Q=P(y|x, a.,\beta, \rvs=1)$ 
 for some multinode $\rva.$\footnote{$\rva.$ may be empty.}
 as a {\bf  passive query}.
 A {\bf passive query is
 SB-recoverable}
-via $\rva.$ if $\rvy\perp\rvs|(\rvx, \rva.)$ so
+via $\rva.$ if $\rvy\perp\rvS|(\rvx, \rva.)$ so
 
 \beq
-P(y|x, a. \rvs=1)=P(y|x, a.)
+P(y|x, a. , \beta,\rvs=1)=
+P(y|x, a. , \beta,\rvs=0)=
+P(y|x, a.)
 \;.
 \eeq
 
 \begin{claim}\label{cl-sb-recov}
 There exists $\rva\subset \rvA$
  such that
- $\rvy\perp\rvs|(\rvx,\rva)$
-and $\rva\perp\rvs|\rvx$
+ $\rvy\perp\rvS|(\rvx,\rva)$
+and $\rva\perp\rvS|\rvx$
 iff
 \beq
-P(y|x, \rvs=1)
+P(y|x,\beta, \rvs=1)
 =
 \sum_a
-\underbrace{P(y|x, a, \rvs=1)}_
+\underbrace{P(y|x, a, \beta, \rvs=1)}_
 {P(y|x,a)}
-\underbrace{P(a|x, \rvs=1)}_{P(a|x)}
-=P(y|x)
+\underbrace{P(a|x, \beta, \rvs=1)}_{P(a|x)}=P(y|x)
 \eeq
 
 \beq
 \xymatrix{
-\rvs=1\ar[rd]
+\beta, \rvs=1\ar[rd]
 \\
 x\ar[r]
 &y
@@ -431,15 +439,17 @@ of the $\Leftarrow$ part, see
 \subsection{Removing SB from
 active query}
 
-We will refer to $Q=P(y|\cald \rvx=x, a., \rvs=1)$ 
+We will refer to $Q=P(y|\cald \rvx=x, a., \beta, \rvs=1)$ 
 for some multinode $\rva.$
 as an {\bf  active query}.
 An {\bf active query is
 SB-recoverable}
-via $\rva.$ if 
+via $\rva.$ if $\rvy\perp\rvS|(\rvx, \rva.)$ so
 
 \beq
-P(y|\cald \rvx = x, a., \rvs=1)=P(y|\cald \rvx = x, a.)
+P(y|\cald \rvx = x, a.,\beta, \rvs=1)=
+P(y|\cald \rvx = x, a.,\beta, \rvs=0)=
+P(y|\cald \rvx = x, a.)
 \;.
 \eeq
                                       
@@ -465,7 +475,7 @@ P(y|\cald \rvx = x, a., \rvs=1)=P(y|\cald \rvx = x, a.)
 }\eeq
 
 
-\hrule\item SB of treatment.  $Q=P(y|x)$ recoverable
+\hrule\item SB of treatment.  $Q=P(y|x)$ recoverable. ($\rvy\perp\rvS|\rvx$)
 \beq\xymatrix{
 \rvx\ar[rr]\ar[dr]
 &&\rvy
@@ -473,7 +483,8 @@ P(y|\cald \rvx = x, a., \rvs=1)=P(y|\cald \rvx = x, a.)
 &\rvbeta&\rvs\ar[l]
 }\eeq
 
-\hrule\item SB of outcome. $Q=P(y|x)$ NOT recoverable
+\hrule\item SB of outcome. $Q=P(y|x)$ NOT recoverable($\rvy\not \perp\rvS|\rvx$)
+
 \beq\xymatrix{
 \rvx\ar[rr]
 &&\rvy\ar[dl]
@@ -482,7 +493,7 @@ P(y|\cald \rvx = x, a., \rvs=1)=P(y|\cald \rvx = x, a.)
 }\eeq
 
 
-\hrule\item $Q=P(y|x)$ recoverable
+\hrule\item $Q=P(y|x)$ recoverable. ($\rvy\perp\rvS|\rvx$)
 \beq\xymatrix{
 \rvx\ar[rr]\ar[dr]
 &&\rvy
@@ -491,7 +502,10 @@ P(y|\cald \rvx = x, a., \rvs=1)=P(y|\cald \rvx = x, a.)
 &\rvbeta&\rvs\ar[l]
 }\eeq
 
-\hrule\item $Q=P(y|x)$ NOT recoverable
+\hrule\item $Q=P(y|x)$ NOT recoverable.
+($\rvy\not \perp\rvS|\rvx$)
+
+
 \beq\xymatrix{
 &\rvw\ar[dl]\ar[dr]
 \\
@@ -502,7 +516,7 @@ P(y|\cald \rvx = x, a., \rvs=1)=P(y|\cald \rvx = x, a.)
 &\rvbeta&\rvs\ar[l]
 }\eeq
 
-\hrule\item $Q=P(y|\cald x=x)$ recoverable if condition on $\rvx, \rvw$
+\hrule\item $Q=P(y|\cald x=x)$ recoverable if condition on $\rvx, \rvw$. ($\rvy\perp\rvS|\rvx, \rvw$)
 \beq\xymatrix{
 \rvx\ar[dr]\ar[rr]
 &&\rvy\ar[dl]
@@ -512,7 +526,7 @@ P(y|\cald \rvx = x, a., \rvs=1)=P(y|\cald \rvx = x, a.)
 &\rvbeta&\rvs\ar[l]
 }\eeq
 
-\hrule\item $Q=P(y|\cald x=x)$ recoverable if condition on $\rvx, \rvw_2$
+\hrule\item $Q=P(y|\cald x=x)$ recoverable if condition on $\rvx, \rvw_2$. ($\rvy\perp\rvS|\rvx, \rvw_2$)
 \beq\xymatrix{
 \rvw_1\ar[rr]\ar[d]
 &&\rvw_2\ar[d]\ar[ddl]
@@ -523,7 +537,8 @@ P(y|\cald \rvx = x, a., \rvs=1)=P(y|\cald \rvx = x, a.)
 &\rvbeta&\rvs\ar[l]
 }\eeq
 
-\hrule\item $Q=P(y|\cald x=x)$ recoverable if condition on $\rvx$
+\hrule\item $Q=P(y|\cald x=x)$ recoverable if condition on $\rvx$.
+($\rvy\perp\rvS|\rvx$)
 \beq\xymatrix{
 &&*++[F-o]{\rvc}
 \ar[dl]\ar[dr]
