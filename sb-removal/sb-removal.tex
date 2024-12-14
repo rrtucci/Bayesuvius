@@ -43,6 +43,11 @@ when it is possible.
 
 \section{Root and Leaf Nodes}
 
+Root and Leaf (R-L) nodes play an important role in many facets of
+bnet theory. In this section, we will review what we know
+about them from previous chapters in this book, and then we will add a few new
+ideas like R-L conversion and R-L selectors.
+
 A root node selects a different bnet 
 for each of its values.
 Root nodes are used
@@ -52,10 +57,6 @@ of Causal Knowledge}
 as bnet switches (i.e., bnet selectors).
 
 
-Most of the DAG literature,
-including Ref.\cite{bare-sb-removal},
-on which this chapter is based,
-define SB using a leaf node.
 
 
 \begin{figure}[h!]
@@ -63,27 +64,28 @@ define SB using a leaf node.
 \includegraphics[width=1in]
 {sb-removal/common-cause-effect.png}
 \caption{Common Cause
-and Effect for
-nodes $\rvd,\rvy$.}
+and Common Effect for
+treatment node $\rvd$
+and outcome node $\rvy$.}
 \label{fig-common-cause-effect}
 \end{figure}
 
-Note
-that in Potential
+In Potential
 Outcomes (PO) theory
  (see Chapter \ref{ch-pot-out}),
-roots such
+root nodes such
 as $\rva$ in
 Fig.\ref{fig-common-cause-effect}
 are called {\bf common cause
- (confounder, fork) nodes
-for nodes $\rvd, \rvy$}.
-Furthermore, leaves such as
+ (a.k.a. confounder, fork) nodes}
+for the treatment node $\rvd$
+and outcome node $\rvy$.
+In PO theory, leaf nodes such as
 $\rvb$ in
 Fig.\ref{fig-common-cause-effect} are
 called
 {\bf common effect
-(selection bias (SB), collider) nodes
+(a.k.a. selection bias (SB), collider) nodes
 for nodes $\rvd, \rvy$}.
 Hence, in PO theory,
 SB is indicated
@@ -103,13 +105,13 @@ arises from an indirect effect
 caused by \ul{conditioning}
 on a collider.
 
-\subsection{ Switching between root nodes and leaf nodes}
+\subsection{R-L Conversion}
 
-It's possible to replace a root
-by a leaf, or vice versa, as
+It's possible to replace a root node
+by a leaf node, or vice versa, as
 follows.
 Suppose that we start with
-a bnet $G_0$ that is fully connected, and
+a bnet $G_0$ that is \ul{fully connected}, and
 we add to it a node $\rvbeta$
 that is a root node that points
 to all nodes of $G_0$.
@@ -128,18 +130,17 @@ or in the opposite direction,
 without having to change the
 directions of any of the arrows in $G_0$.
 If $G_0$ is not fully connected, then
-going from
-$\rvbeta\rarrow G_0$ to
-$\rvbeta\larrow G_0'$
+going from root-$\rvbeta$,
+$\rvbeta\rarrow G_0$, to leaf-$\rvbeta$,
+$\rvbeta\larrow G_0'$,
 will often require that $G_0'$
 have the same arrows in the same
 directions as $G_0$
 plus some extra arrows
 new to $G_0$.
 Likewise, going
-from
-$\rvbeta\larrow G_0$ to
-$\rvbeta\rarrow G_0''$
+from leaf-$\rvbeta$, $\rvbeta\larrow G_0$, to root-$\rvbeta$,
+$\rvbeta\rarrow G_0''$,
 may require that $G_0''$ have
 the same arrows as $G_0$ plus some new arrows.
 
@@ -169,16 +170,13 @@ The magenta arrows represent
 any number of arrows
 exiting (but none entering)
 a node.
+
 If we start
 with a graph $\rvbeta\larrow G_0$,
-we find the biggest fully connected subset $X$ of
-the nodes of $G_0$ such
+we find the biggest subgraph $X$ of
+$G_0$ such
 that $\rvbeta\larrow X$ only has nodes
 exiting it (i.e., only magenta nodes).
-I like to call the subgraph $X$ an 
-{\bf exploding clique} because it only has exiting arrows.
-
-
 Then we add enough
 arrows to $\rvbeta\larrow X$
 to make it a fully connected graph
@@ -188,25 +186,32 @@ arrows to $\rvbeta$ and make them
 all outgoing and call the
 resulting graph $\rvbeta\rarrow X'$.
 
+A fully connected subgraph of 
+a graph $G_0$ is called a 
+{\bf clique} of $G_0$.
+I like to call a subgraph $X$  of $G_0$ that only has exiting arrows, an 
+{\bf exploding subgraph}.
+
+
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=4in]
 {sb-removal/sel-nd-reversal.png}
-\caption{Switching
-from a leaf
-to a root.}
+\caption{Converting 
+a leaf node
+to a root node.}
 \label{fig-sel-nd-reversal}
 \end{figure}
 
 Recall that in Chapter \ref{ch-bnet-def},
 we made a distinction
-between a good CF bnet
+between a good Causal Fit (CF) bnet
 a bad CF bnet, and
 we pointed out
 that bad CF bnets are
 often useful as
-a numerical tool.
+numerical tools.
 Recall also from Chapter
 \ref{ch-obs-equi}
 that two bnets can be
@@ -227,7 +232,14 @@ and the other to a bad CF bnet.
 Both choices are numerically
 correct.
 
-\subsection{Root and leaf node selectors}
+\subsection{R-L selectors}
+R-L selectors are nodes 
+$\rvs\in \bool$ that allow us to merge 2 bnets into a single one. In this chapter they allow us 
+to consider two bnets, with and without SB, at the same time.
+In the case of transportability (see Chapter \ref{ch-transport}), they allow us to transport causal knowledge
+between experiments.
+
+
 \begin{figure}[h!]
 $$
 \begin{array}{ccc}
@@ -247,9 +259,16 @@ $$
 && (b)\text{ leaf node selector}
 \end{array}
 $$
-\caption{}
-\label{}
+\caption{$(a)$ (resp., $(b)$) shows a selector node $\rvs$ for a
+root node (resp., leaf node) $\rvbeta$.}
+\label{fig-rl-selectors}
 \end{figure}
+
+Fig.\ref{fig-rl-selectors}
+$(a)$ shows a selector node $\rvs$ for a
+root node  $\rvbeta$.  In this case,
+the TPM, printed in blue, of node $\rvbeta$ is                        
+
 
 \beq\color{blue}
 P(\rvbeta=\beta|s)=
@@ -261,6 +280,11 @@ P^*(\beta)&\text{if $s=1$}
 \end{array}
 \right.
 \eeq
+
+Fig.\ref{fig-rl-selectors}
+$(b)$ shows a selector node $\rvs$ for a
+leaf node  $\rvbeta$.  In this case,
+the TPM, printed in blue, of node $\rvbeta$ is   
 
 \beq\color{blue}
 P(\rvbeta=\beta|s, pa^-(\rvbeta))=
