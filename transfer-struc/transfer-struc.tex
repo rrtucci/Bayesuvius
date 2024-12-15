@@ -3,58 +3,147 @@
 
 This chapter is based on Ref.\cite{nic-transfer}.
 
-$G. = (G_1, G_2, \ldots, G_n)$
+Some preliminary notation.
 
+$|A|$
+is the {\bf number of elements (a.k.a. length, cardinality)} of set $A$.
+
+
+Given two set $A$ and $B$, their 
+{\bf symmetric difference} $A\Delta B$ is their union minus their overlap. $A\Delta B$ is empty iff $A=B$ so $|A\Delta B|$
+acts as a distance between sets $A$ and $B$.
+
+An {\bf empirical probability distribution} 
+$P^{emp}(\rvx =x)$ calculated from a population $\Sigma$ is given by
+
+\beq
+P^{emp}(\rvx =x)=\frac{1}{|\Sigma|}\sum_{\s\in \Sigma}
+\indi(x=x^\s)
+\eeq
+
+
+Let 
+
+$G_\gamma=$ structure (DAG)  of bnet $\gamma$
+
+$\theta_\gamma=$ TPMs of bnet $\gamma$
+
+$\calb_\gamma=(G_\gamma, \theta_\gamma)$ is the bnet $\gamma$
+
+$X_\gamma^\s\in val(\rvX_\gamma)$, $X_\gamma^\s=(X_{\gamma, i}^\s)_{i=1}^{ni}$
+is the vector of feature values 
+$X_{\gamma, i}^\s$ for population member $\s\in\Sigma_\gamma$ for bnet $\gamma$.
+
+
+
+$D_\gamma=\{X^\s_\gamma:\s\in \Sigma_\gamma\}$ is the dataset which is being fitted by bnet $\gamma$. 
+$G. = (G_1, G_2, \ldots, G_n)$, {\bf multigraph
+}
 $\theta. = (\theta_1, \theta_2, \ldots, \theta_n)$
 
 $D. = (D_1, D_2, \ldots, D_n)$
 
-\begin{figure}
+\begin{figure}[h!]
 $$\xymatrix
 {
-&\rvG.\ar[dl]\ar[d]\ar[dr]
+&(G_1, G_2, G_3)\ar[dl]\ar[d]\ar[dr]
+\ar[ddl]\ar[ddr]\ar@/_1pc/[dd]
+\\
+\rvtheta_1\ar[d]
+&\rvtheta_2\ar[d]
+&\rvtheta_3\ar[d]
 \\
 \rvD_1
 &\rvD_2
 &\rvD_3
 }$$
-\caption{}
-\label{}
+\caption{bnet used to  transfer structure knowledge of 2 structures $G_2, G_3$ to a third one $G_1$.}
+\label{fig-bnet-transfer-struc}
 \end{figure}
-
+Bayes rule says that
 \beq
 P(G.|D.)=\caln(!G.)P(D.|G.)P(G.)
 \eeq
+Assume (for computational convenience, without any justification)
 
 \beq
-P(D.|G.)=\prod_i P(D_i|G_i)
+P(D.|G.)=\prod_\gamma P(D_\gamma|G_\gamma)
 \eeq
+Then stratify $P(D_\gamma|G_\gamma)$ by $\theta_\gamma$
 
 \beq
-P(D_i|G_i)=
-\sum_{\theta_i}
-P(D_i|G_i, \theta_i)
-P(\theta_i|G_i)
+P(D_\gamma|G_\gamma)=
+\sum_{\theta_\gamma}
+P(D_\gamma|G_\gamma, \theta_\gamma)
+P(\theta_\gamma|G_\gamma)
 \eeq
+Fig.\ref{fig-bnet-transfer-struc} shows the bnet that we use to transfer the structure knowledge 
+of 2 structures to a third one.
 
+
+
+
+
+For two structures, define the
+{\bf multigraph prior probability} (MPP) by
 \beq
 P(G_1, G_2)=\caln(!G.)
-[P(G_1)P(G_2)]^{\frac{1}{1+a}}
-(1-a)^{|G_1\Delta G_2|}
+[P(G_1)P(G_2)]^{\frac{1}{1+\rho}}
+(1-\rho)^{|G_1\Delta G_2|}
+\label{eq-p-g1-g2}
 \eeq
-
-
-If $a=0$, 
+If $\rho=0$, then
 
 \beq
 P(G_1, G_2)=P(G_1)P(G_2)
 \eeq
-
-If $a=1$,
+and if $\rho=1$, then
 
 \beqa
 P(G_1, G_2)&=&
-\sqrt{P(G)P(G)}\;\delta(G_1, G_2)
+\sqrt{P(G_1)P(G_2)}\;\delta(G_1, G_2)
 \\
-&=&P(G)\;\delta(G_1, G_2)
+&=&P(G_1)\;\delta(G_1, G_2)
 \eeqa
+Thus, $\rho$ measures correlation. 
+The probability MPP acts as a score, giving higher score the more arrows the graphs $G_1$ and $G_2$ have in common. 
+
+The MMP Eq.(\ref{eq-p-g1-g2}) can be generalized to more than two graphs. 
+
+{\bf How to use Fig.\ref{fig-bnet-transfer-struc}}
+
+For each bnet $\gamma$, define the empirical 
+full probability distribution 
+
+\beq
+P^{emp}_\gamma(\rvX_\gamma = X_\gamma)=
+\prod_i P^{emp}_{\gamma}(X_{\gamma, i}|pa(X_{\gamma, i}))
+\eeq
+Now let
+\beq
+P(D_\gamma|G_\gamma)=
+\prod_{\s\in \Sigma}
+P^{emp}_\gamma(\rvX_\gamma = X_\gamma^\s)
+\eeq
+
+We use Fig.\ref{fig-bnet-transfer-struc}
+in a recursive manner. Bnets $\calb_2, \calb_3$
+are known a priori and do not change to begin the next iteration. Only bnet $\calb_1$ changes between iterations.
+Each interation of the bnet Fig.\ref{fig-bnet-transfer-struc}
+yields a new bnet $\calb_1$, and that is used to calculate everything in the next iteration.
+
+Quote from Ref.\cite{nic-transfer}:
+\begin{quote}
+\qt{Treating $P(G|D)$ as a score, one can search for a high
+scoring network using heuristic search. Greedy search,
+for example, starts from an initial structure, evaluates the
+score of all the neighbors of that structure and moves to
+the neighbor with the highest score. The search terminates
+when the current structure is better than all its neighbors.
+Because it is possible to get stuck in a local minima, this
+procedure usually is repeated a number of times starting
+from different initial structures. A common definition of
+the neighbors of a structure $G$ is the set of all the DAGs
+that can be obtained by removing or reversing an existing
+arc in $G$, or by adding an arc that is not present in $G$.}
+\end{quote}
