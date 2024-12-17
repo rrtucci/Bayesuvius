@@ -46,7 +46,7 @@ when it is possible.
 Root and Leaf (R-L) nodes play an important role in many facets of
 bnet theory. In this section, we will review what we know
 about them from previous chapters in this book, and then we will add a few new
-ideas like R-L conversion and R-L selectors.
+ideas like R-L conversion and R-L selector nodes.
 
 
 \begin{figure}[h!]
@@ -97,6 +97,15 @@ on a collider.
 
 \subsection{R-L Conversion}
 
+A fully connected subgraph of 
+a graph $G$ is called a 
+{\bf clique} of $G$.
+I like to call a subgraph $X$  of $G$ that only has exiting arrows, an 
+{\bf exploding subgraph}.
+This section deals with
+ {\bf exploding cliques}.
+
+
 It's possible to replace a root node
 by a leaf node, or vice versa, as
 follows.
@@ -122,26 +131,26 @@ directions of any of the arrows in $G_0$.
 If $G_0$ is not fully connected, then
 going from root-$\rvbeta$,
 $\rvbeta\rarrow G_0$, to leaf-$\rvbeta$,
-$\rvbeta\larrow G_0'$,
-will often require that $G_0'$
+$\rvbeta\larrow G_0^{source}$,
+will often require that $G_0^{source}$
 have the same arrows in the same
 directions as $G_0$
 plus some extra arrows
 new to $G_0$.
 Likewise, going
 from leaf-$\rvbeta$, $\rvbeta\larrow G_0$, to root-$\rvbeta$,
-$\rvbeta\rarrow G_0''$,
-may require that $G_0''$ have
+$\rvbeta\rarrow G_0^{target}$,
+may require that $G_0^{target}$ have
 the same arrows as $G_0$ plus some new arrows.
 
 So far, we have
 been intentionally
 vague in specifying the graphs
-$G_0'$ and $G_0''$.
+$G_0^{source}$ and $G_0^{target}$.
 In Fig.\ref{fig-sel-nd-reversal}
 we give a trick for determining
 possible candidates for
-graphs $G_0'$ and $G_0''$.
+graphs $G_0^{source}$ and $G_0^{target}$.
 In
 Fig.\ref{fig-sel-nd-reversal},
 we consider 3 panels going from left
@@ -159,28 +168,19 @@ a root $\rvbeta$.
 The magenta arrows represent
 any number of arrows
 exiting (but none entering)
-a node.
+a node of $G_0$.
 
-If we start
-with a graph $\rvbeta\larrow G_0$,
-we find the biggest subgraph $X$ of
-$G_0$ such
-that $\rvbeta\larrow X$ only has nodes
-exiting it (i.e., only magenta nodes).
+If we start with a graph $G$ that contains a leaf node $\beta$, 
+we find the biggest exploding subgraph $X$ of
+$G_0 =G  -\rvbeta$.
 Then we add enough
-arrows to $\rvbeta\larrow X$
-to make it a fully connected graph
-$\rvbeta\larrow X'$.
+arrows to $X\cup \rvbeta$
+to make it clique of $G$.
 Now we can reverse the incoming
 arrows to $\rvbeta$ and make them
 all outgoing and call the
-resulting graph $\rvbeta\rarrow X'$.
+resulting graph $\rvbeta\rarrow G_0^{target}$.
 
-A fully connected subgraph of 
-a graph $G_0$ is called a 
-{\bf clique} of $G_0$.
-I like to call a subgraph $X$  of $G_0$ that only has exiting arrows, an 
-{\bf exploding subgraph}.
 
 
 
@@ -208,7 +208,7 @@ that two bnets can be
 \qt{observationally equivalent}.
 That is what is happening here.
 We are faced with
-the choice of
+the dilemma of
 using
 either
 leaf nodes or root nodes.
@@ -222,7 +222,7 @@ and the other to a bad CF bnet.
 Both choices are numerically
 correct.
 
-\subsection{R-L selectors}
+\subsection{R-L selector nodes}
 {\bf R-L selector nodes} are \qt{switch} nodes
 $\rvs\in \bool$ that allow us to merge 2 bnets into a single one. In this chapter they allow us 
 to consider two bnets, with and without SB, at the same time.
@@ -247,8 +247,8 @@ $$
 &\rvbeta&\rvs\ar[l]
 }
 \\
-(a)\text{ root node selector} 
-&& (b)\text{ leaf node selector}
+(a)\text{ root selector node} 
+&& (b)\text{ leaf selector node}
 \end{array}
 $$
 \caption{$(a)$ (resp., $(b)$) shows a selector node $\rvs$ for a
@@ -302,7 +302,7 @@ $$
 \rvx\ar[r]\ar@{<->}[d]
 &\rvy\ar@{<->}[dl]
 \\
-\Rect{\rvA}\ar[r]&\rvbeta&\rvs\ar[l]
+\Rect{\rva.}\ar[r]&\rvbeta&\rvs\ar[l]
 }
 $$
 \caption{Bnet considered for
@@ -322,45 +322,34 @@ $\rvx=$ {\bf treatment node}.
 
 $\rvy=$ {\bf outcome node}.
 
-$\rvA=$ {\bf auxiliary features}.
+$\rva.=$ {\bf auxiliary features}.
 This is a set of nodes that
 may contain arrows entering
 or exiting it, as indicated by the double arrows.
 
-$\rvE=\{\rvy, \rvx\}\cup\rvA=$
+$\rvE=\{\rvy, \rvx\}\cup\rva.=$
 {\bf Enhanced feature set}.
 
 
-$\Sigma=$ unbiased population of individuals $\s$
+$\Sigma=$ population of individuals $\s$
 
-$\Sigma_o=$ biased sub-population of individuals,
-$\Sigma_o\subset \Sigma$.
 
-$OD=\{({\s_o},\rvx^{\s_o},  \rvy^{\s_o},\rvbeta^{\s_o}, \rvs^{\s_o}=1):{\s_o}\in\Sigma_o\}=$
-{\bf Original Dataset}, dataset for $(\rvx,\rvy)$ features
+$BD=\{({\s},\rvx^{\s},  \rvy^{\s},\rvbeta^{\s}):{\s}\in\Sigma\}=$
+{\bf Biased Dataset}, dataset for $(\rvx,\rvy, \rvbeta)$ features
 with $\rvs=1$.
 Gives empirical
 distribution $\color{red}{P(y|x,\beta, \rvs=1)}$.
-(Ref.\cite{bare-sb-removal}
-calls this dataset the {\bf biased study}.)
 
-$AD=\{(\s, \rvx^\s,\rvA^\s):\s\in\Sigma\}=$
-{\bf Auxiliary Dataset}, dataset for $(\rvx, \rvA)$ features.
+$AD=\{(\s, \rvx^\s,\rva.^\s):\s\in\Sigma\}=$
+{\bf Auxiliary Dataset}, dataset for $(\rvx, \rva.)$ features.
 Gives empirical
-distribution $\color{red}{P(A|x)}$.
-(Ref.\cite{bare-sb-removal}
-calls this dataset the
-{\bf population level study}.)
+distribution $\color{red}{P(a.|x)}$.
 
 
-$ED=\{({\s_o},\rvx^{\s_o}, \rvA^{\s_o}, \rvy^{\s_o},\rvbeta^{\s_o},
-\rvs^{\s_o}=1):{\s_o}\in\Sigma_o\}=$
-{\bf Enhanced Dataset}, dataset for $(\rvx,\rvy, \rvA, \rvbeta)$ features
-for $\rvs=1$.
-Obtained by merging $OD$ and $AD$.
+$ED=\{({\s},\rvx^{\s},  \rvy^{\s},\rva.^{\s}):{\s}\in\Sigma\}=$
+{\bf Enhanced Dataset}, dataset for $(\rvx,\rvy, \rva.)$ features.
 Gives empirical
-distribution $\color{red}{P(y|x, A,
-\beta, \rvs=1)}$.
+distribution $\color{red}{P(y|x, a.)}$.
 
 
 
@@ -368,87 +357,84 @@ distribution $\color{red}{P(y|x, A,
 \subsection{Removing SB from
 passive query}
 
-We will refer to $Q=P(y|x, a.,\beta, \rvs=1)$ 
-for some multinode $\rva.$\footnote{$\rva.$ may be empty.}
+We will refer to $Q=P(y|x, \beta, \rvs=1)$ 
 as a {\bf  passive query}.
 A {\bf passive query is
-SB-recoverable}
-via $\rva.$ if $\rvy\perp\rvS|(\rvx, \rva.)$ so
+(SB-) recoverable}
+via some (possibly empty) multinode $\rva.$ if $\rvy\perp\rvS|(\rvx, \rva.)$; i.e., if
 
 \beq
 P(y|x, a. , \beta,\rvs=1)=
-P(y|x, a. , \beta,\rvs=0)=
 P(y|x, a.)
 \;.
 \eeq
 
 \begin{claim}\label{cl-sb-recov}
-There exists $\rva\subset \rvA$
- such that
- $\rvy\perp\rvS|(\rvx,\rva)$
-and $\rva\perp\rvS|\rvx$
-iff
+If 
+ $\rvy\perp\rvS|(\rvx,\rva.)$, then
 \beq
-P(y|x,\beta, \rvs=1)
+P(y|x)
 =
-\sum_a
-\underbrace{P(y|x, a, \beta, \rvs=1)}_
-{P(y|x,a)}
-\underbrace{P(a|x, \beta, \rvs=1)}_{P(a|x)}=P(y|x)
+\sum_{a.}
+\underbrace{P(y|x, a.)}_
+{P(y|x,a., \beta, \rvs=1)}
+P(a.|x)
 \eeq
 
 \beq
 \xymatrix{
-\beta, \rvs=1\ar[rd]
 \\
 x\ar[r]
 &y
 }
 \xymatrix{\\=}
 \xymatrix{
-&\sum a\ar[d]
+\beta, \rvs=1\ar[dr]
+&\sum a.\ar[d]
 \\
 x\ar[r]\ar[ru]
 &y}
-\xymatrix{
-\\=}
-\xymatrix{\\
-x\ar[r]&y}
 \eeq
+\label{cl-sb-bdoor}
 \end{claim}
 \proof
-
-The $\Rightarrow$ part of this
-claim is obvious. For a proof
-of the $\Leftarrow$ part, see
- Ref.\cite{bare-sb-removal}.
+Obvious.
 \qed
-
-
-
-
 
 \subsection{Removing SB from
 active query}
 
-We will refer to $Q=P(y|\cald \rvx=x, a., \beta, \rvs=1)$ 
-for some multinode $\rva.$
+We will refer to $Q=P(y|\cald \rvx=x, \beta, \rvs=1)$ 
 as an {\bf  active query}.
 An {\bf active query is
-SB-recoverable}
-via $\rva.$ if $\rvy\perp\rvS|(\rvx, \rva.)$ so
+(SB-) recoverable}
+via some (possibly empty) multinode $\rva.$ if $\rvy\perp\rvS|(\rvx, \rva.)$; i.e., if
 
 \beq
 P(y|\cald \rvx = x, a.,\beta, \rvs=1)=
-P(y|\cald \rvx = x, a.,\beta, \rvs=0)=
 P(y|\cald \rvx = x, a.)
 \;.
 \eeq
+%If also $\rva.\perp \rvS|\rvx$, then
+%
+%\beq
+%P(a.|\cald \rvx=x, \beta, \rvs=1)=P(a.|\cald\rvx=x)
+%\eeq
+%and we will say that
+%the {\bf active query is  super-recoverable} via $\rva.$.\footnote{This definition super-recoverable active queries is my own, not in Ref.\cite{bare-sb-removal}}
+
+
+\begin{claim} Same as Claim \ref{cl-sb-bdoor}
+but conditioning on $\cald\rvx=x$ instead of $\rvx=x$.
+\end{claim}
+\proof
+Same as for Claim \ref{cl-sb-bdoor}.
+\qed
                                       
 \subsection{Examples}
 \hrule
 \begin{enumerate}
-\item Selection Bias (SB)
+\item PO Selection Bias (SB). $Q=P(y|x)$ NOT recoverable ($\rvy\not \perp\rvS|\rvx$)
 \beq\xymatrix{
 \rvx\ar[rr]\ar[dr]
 &&\rvy\ar[dl]
@@ -456,7 +442,7 @@ P(y|\cald \rvx = x, a.)
 &\rvbeta&\rvs\ar[l]
 }\eeq
 
-\hrule\item Confounding
+\hrule\item PO Confounding. $Q=P(y|x)$ NOT recoverable ($\rvy\not \perp\rvS|\rvx$)
 \beq\xymatrix{
 &*++[F-o]{\rvbeta}
 \ar[dl]\ar[dr]
@@ -475,7 +461,7 @@ P(y|\cald \rvx = x, a.)
 &\rvbeta&\rvs\ar[l]
 }\eeq
 
-\hrule\item SB of outcome. $Q=P(y|x)$ NOT recoverable($\rvy\not \perp\rvS|\rvx$)
+\hrule\item SB of outcome. $Q=P(y|x)$ NOT recoverable ($\rvy\not \perp\rvS|\rvx$)
 
 \beq\xymatrix{
 \rvx\ar[rr]
@@ -508,7 +494,7 @@ P(y|\cald \rvx = x, a.)
 &\rvbeta&\rvs\ar[l]
 }\eeq
 
-\hrule\item $Q=P(y|\cald x=x)$ recoverable if condition on $\rvx, \rvw$. ($\rvy\perp\rvS|\rvx, \rvw$)
+\hrule\item $Q=P(y|\cald x=x)$ is recoverable via $\rva.=\rvw$. ($\rvy\perp\rvS|\rvx, \rvw$)
 \beq\xymatrix{
 \rvx\ar[dr]\ar[rr]
 &&\rvy\ar[dl]
@@ -518,7 +504,8 @@ P(y|\cald \rvx = x, a.)
 &\rvbeta&\rvs\ar[l]
 }\eeq
 
-\hrule\item $Q=P(y|\cald x=x)$ recoverable if condition on $\rvx, \rvw_2$. ($\rvy\perp\rvS|\rvx, \rvw_2$)
+\hrule\item $Q=P(y|\cald x=x)$ is recoverable
+via $\rva.=\rvw_2$. ($\rvy\perp\rvS|\rvx, \rvw_2$)
 \beq\xymatrix{
 \rvw_1\ar[rr]\ar[d]
 &&\rvw_2\ar[d]\ar[ddl]
@@ -529,7 +516,7 @@ P(y|\cald \rvx = x, a.)
 &\rvbeta&\rvs\ar[l]
 }\eeq
 
-\hrule\item $Q=P(y|\cald x=x)$ recoverable if condition on $\rvx$.
+\hrule\item $Q=P(y|\cald x=x)$ is recoverable.
 ($\rvy\perp\rvS|\rvx$)
 \beq\xymatrix{
 &&*++[F-o]{\rvc}
@@ -542,4 +529,15 @@ P(y|\cald \rvx = x, a.)
 \\
 \rvbeta&\rvs\ar[l]
 }\eeq
+
+%\hrule\item $Q=P(y|x)$ super recoverable
+%via $\rva.=\rva$ ($\rvy\perp\rvS|(\rvx, \rva)$
+%and $\rva\perp\rvS|\rvx$)
+%\beq\xymatrix{
+%\rva\ar[r]
+%&\rvx\ar[rr]\ar[dr]
+%&&\rvy
+%\\
+%&&\rvbeta&\rvs\ar[l]
+%}\eeq
 \end{enumerate}
