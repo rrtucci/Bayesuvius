@@ -357,9 +357,9 @@ distribution $\color{red}{P(y|x, a.)}$.
 \subsection{Removing SB from
 passive query}
 
-We will refer to $Q=P(y|x, \beta, \rvs=1)$ 
-as a {\bf  passive query}.
-A {\bf passive query is
+We will refer to $Q=P(y|x)$ 
+as a {\bf  passive query}. A
+{\bf passive query is
 (SB-) recoverable}
 via some (possibly empty) multinode $\rva.$ if $\rvy\perp\rvS|(\rvx, \rva.)$; i.e., if
 
@@ -371,7 +371,7 @@ P(y|x, a.)
 
 \begin{claim}\label{cl-sb-recov}
 If 
- $\rvy\perp\rvS|(\rvx,\rva.)$, then
+$P(y|x)$ is recoverable via $\rva.$, then
 \beq
 P(y|x)
 =
@@ -404,10 +404,21 @@ Obvious.
 \subsection{Removing SB from
 active query}
 
-We will refer to $Q=P(y|\cald \rvx=x, \beta, \rvs=1)$ 
+It is formally true that
+
+\beq
+P(y|\cald \rvx=x)=
+\sum_{a.}P(y|\cald\rvx=x, a.)P(a.|\cald\rvx=x)
+\eeq
+However, in some cases, one or both of the do-queries on the right hand side might not be
+identifiable. If there are no hidden variables,
+they are always identifiable, but they might not be in the presence of hidden variables. If they
+are identifiable, we will say that the query $P(y|\cald\rvx=x)$ is adjustable via $\rva.$
+
+We will refer to $Q=P(y|\cald \rvx=x)$ 
 as an {\bf  active query}.
 An {\bf active query is
-(SB-) recoverable}
+(SB-) potentially recoverable}
 via some (possibly empty) multinode $\rva.$ if $\rvy\perp\rvS|(\rvx, \rva.)$; i.e., if
 
 \beq
@@ -424,7 +435,7 @@ P(y|\cald \rvx = x, a.)
 %the {\bf active query is  super-recoverable} via $\rva.$.\footnote{This definition super-recoverable active queries is my own, not in Ref.\cite{bare-sb-removal}}
 
 
-\begin{claim} Same as Claim \ref{cl-sb-bdoor}
+\begin{claim} If $P(y|\cald \rvx=x)$ is potentially recoverable and adjustible via $\rva.$, then the conclusion of Claim \ref{cl-sb-bdoor} holds
 but conditioning on $\cald\rvx=x$ instead of $\rvx=x$.
 \end{claim}
 \proof
@@ -494,7 +505,7 @@ Same as for Claim \ref{cl-sb-bdoor}.
 &\rvbeta&\rvs\ar[l]
 }\eeq
 
-\hrule\item $Q=P(y|\cald x=x)$ is recoverable via $\rva.=\rvw$. ($\rvy\perp\rvS|\rvx, \rvw$)
+\hrule\item $Q=P(y|\cald x=x)$ is potentially recoverable via $\rva.=\rvw$. ($\rvy\perp\rvS|\rvx, \rvw$)
 \beq\xymatrix{
 \rvx\ar[dr]\ar[rr]
 &&\rvy\ar[dl]
@@ -504,7 +515,7 @@ Same as for Claim \ref{cl-sb-bdoor}.
 &\rvbeta&\rvs\ar[l]
 }\eeq
 
-\hrule\item $Q=P(y|\cald x=x)$ is recoverable
+\hrule\item $Q=P(y|\cald x=x)$ is potentially recoverable
 via $\rva.=\rvw_2$. ($\rvy\perp\rvS|\rvx, \rvw_2$)
 \beq\xymatrix{
 \rvw_1\ar[rr]\ar[d]
@@ -516,7 +527,7 @@ via $\rva.=\rvw_2$. ($\rvy\perp\rvS|\rvx, \rvw_2$)
 &\rvbeta&\rvs\ar[l]
 }\eeq
 
-\hrule\item $Q=P(y|\cald x=x)$ is recoverable.
+\hrule\item $Q=P(y|\cald x=x)$ is potentially recoverable.
 ($\rvy\perp\rvS|\rvx$)
 \beq\xymatrix{
 &&*++[F-o]{\rvc}
