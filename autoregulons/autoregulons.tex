@@ -4,6 +4,7 @@
 Appendix \ref{ch-genomics-vocab}
 
 \section{Autoregulon net motif}
+a {\bf net motif} is just a subgraph of a bnet
 
 \begin{figure}[h!]
 $$
@@ -46,47 +47,125 @@ f(x)=\left\{
 \eeq
 where $\alp, \beta > 0$
 
+\hrule
+For $f$ lowpass
 \beq
-x= \underbrace{x_0 e^{-\alp t}}_{x_h} +
-\underbrace{f(x)
-\left[ \frac{1-e^{-\alp t}}{\alp}\right]}_{x_p}
+x= 
+\left\{
+\begin{array}{ll}
+x_0 e^{-\alp t} +
+\frac{\beta}{\alp}\left[1-e^{-\alp t}\right]
+&\text{ if } t<t_K
+\\
+x_K e^{-\alp (t-t_K)}
+&\text{ if } t>t_K
+\end{array}
+\right.
+\eeq
+where, to make $x(t)$ continuous at $t=t_K$ and $x(t_K)=x_K$,
+we must have
+
+\beq
+ x_0 e^{-\alp t_K} +
+\frac{\beta}{\alp}
+\left[1-e^{-\alp t_K}\right]
+=
+x_K
 \eeq
 
-Hmomogeneous ($x_h$) and particular ($x_p$)
-solution for the autoregulon
-first order  differential equation.
-The homogenoeus solution depends on the initial conditions $x_0$. The geneneral solution
-is a sum of $x_h$ and $x_p$.
+Note that if $\alp t<<1$, then\footnote{Use $e^x\approx 1 + x$ for $|x|<<1$.}, 
+
+\beqa
+x &\approx&
+x_0(1-\alp t) +\beta t
+\\ &=&
+x_0 + (\beta -\alp x_0)t
+\eeqa
+
+Assume $x_0=0$ for simplicity.
+In that case, if $K>\frac{\beta} {\alp}$, $t_K$ 
+doesn't exist and only the $t<t_K$
+branch of the $x$ solution above exists.
+On the other hand, if $K<\frac{\beta} {\alp}$, 
+then $t_K$ exists and $x_K=K$.
+For $t>t_K$,
+
+\beq
+x=
+K e^{-\alp(t-t_K)}
+\eeq
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4in]
+{autoregulons/autoreg-lowpass.png}
+\caption{Approximate $x$ for autoregulon with lowpass $f$
+and $x_0=0$}
+\label{fig-autoreg-lowpass}
+\end{figure}
+
+See Fig.\ref{fig-autoreg-lowpass}
+for approximate 
+$x$ for autoregulon with lowpass $f$
+and $x_0=0$.
+
+
+\hrule
+For $f$ highpass
+
+\beq
+x= 
+\left\{
+\begin{array}{ll}
+x_0 e^{-\alp t} &\text{ if } t<t_K  
+\\
+x_K e^{-\alp (t-t_K)} +
+\frac{\beta}{\alp}
+\left[ 1-e^{-\alp (t-t_K)}\right]
+&\text{ if } t>t_K
+\end{array}
+\right.
+\eeq
+where, to make $x(t)$ continuous at $t=t_K$ and $x(t_K)=x_K$,
+we must have
+
+\beq
+x_0 e^{-\alp t_K} = x_K
+\eeq
+
+Note that if $\alp t<<1$, then
+
+\beqa
+x &\approx&
+x_0(1 -\alp t)
+\eeqa
+Unlike when $f$ is lowpass, 
+in this case of $f$ highpass,
+we can't assume $x_0=0$ or else $x_K=K=0$ too. In fact, we must have $x_0 > x_K=K$. For $\alp (t-t_K) >>1$, 
+\beq
+x\approx \frac{\beta}{\alp}
+\eeq
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4in]
+{autoregulons/autoreg-highpass.png}
+\caption{Approximate $x$ for autoregulon with highpass $f$}
+\label{fig-autoreg-highpass}
+\end{figure}
+See Fig.\ref{fig-autoreg-highpass}
+for picture of 
+approximate $x$ for autoregulon with highpass $f$.
+
+\hrule
+
 
 Three $x$ values $\{x_0, K, \frac{\beta}{\alp}\}$, and
 two $f$ values $\{ \text{lowpass, highpass}\}$
 
-\begin{figure}[h!]
-\centering
-\includegraphics[width=3in]
-{gene_reg_net/autoreg-approxs.png}
-\caption{Approximations that we use to understand the
-gross behavior of the autoregulon.
- }
-\label{fig-autoreg-lowpass}
-\end{figure}
 
-\begin{figure}[h!]
-\centering
-\includegraphics[width=4in]
-{gene_reg_net/autoreg-lowpass.png}
-\caption{$x_h$ and $x_p$ of autoregulon for lowpass $f$}
-\label{fig-autoreg-lowpass}
-\end{figure}
 
-\begin{figure}[h!]
-\centering
-\includegraphics[width=4in]
-{gene_reg_net/autoreg-highpass.png}
-\caption{$x_h$ and $x_p$ of autoregulon  for highpass $f$}
-\label{fig-autoreg-lowpass}
-\label{fig-autoreg-highpass}
-\end{figure}
+
 
 
 \section{Multiple autoregulons}
