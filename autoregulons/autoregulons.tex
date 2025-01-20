@@ -45,7 +45,10 @@ f(x)=\left\{
 \end{array}
 \right.
 \eeq
-where $\alp, \beta > 0$
+where $\alp, \beta > 0$.
+
+Lowpass $f$ describes a {\bf repressor}.
+Highpass $f$ describes an activator.
 
 \hrule
 For $f$ lowpass
@@ -170,20 +173,14 @@ two $f$ values $\{ \text{lowpass, highpass}\}$
 
 \section{Multiple autoregulons}
 
-\beq
-\cala x = 0\;,\;\; \text{ where } \cala=
-\frac{d}{dt} + \alp - \frac{f(x)}{x}
-\eeq
-
-
 
 
 
 \begin{figure}[h!]
 $$
-\xymatrix@C=6pc{
-\rvx \ar@{=>}[dd]\ar[ddr]^<<<<{\gamma_{\rvy|\rvx}}
-& \rvy \ar@{=>}[dd]\ar[ddl]_<<<<{\gamma_{\rvx|\rvy}}
+\xymatrix@C=6pc@R=1pc{
+\rvx \ar@{=>}[dd]\ar[ddr]|<<<<{\gamma_{\rvy|\rvx}}
+& \rvy \ar@{=>}[dd]\ar[ddl]|<<<<{\gamma_{\rvx|\rvy}}
 \\
 &
 \\
@@ -205,12 +202,14 @@ $$
 \label{fig-2-autoregulons}
 \end{figure}
 
+
+
 \beq
 \left\{
 \begin{array}{l}
-\cala\rvx = \gamma_{\rvx|\rvy}\;\rvy
+\cald\rvx = f_\rvx(x) + \gamma_{\rvx|\rvy}\;y
 \\
-\cala\rvy = \gamma_{\rvy|\rvx}\;\rvx
+\cald\rvy = f_\rvy(y) +\gamma_{\rvy|\rvx}\;x
 \end{array}
 \right.
 \eeq
@@ -234,23 +233,24 @@ $\gamma_{\rvx|\rvy}$ coefficients are left implicit.}
 \end{figure}
 
 
+
 \beq
 \left\{
 \begin{array}{l}
-\cala\rvx =
-\gamma_{\rvx|\rvy}\;\rvy
+\cald\rvx = f_\rvx(x)+
+\gamma_{\rvx|\rvy}\;y
 +
-\gamma_{\rvx|\rvz}\;\rvz
+\gamma_{\rvx|\rvz}\;z
 \\
-\cala\rvy =
-\gamma_{\rvy|\rvx}\;\rvx
+\cald\rvy = f_\rvy(y)+
+\gamma_{\rvy|\rvx}\;x
 +
 \gamma_{\rvy|\rvz}\;\rvz
 \\
-\cala\rvz =
-\gamma_{\rvz|\rvx}\;\rvx
+\cald\rvz = f_\rvz(z) +
+\gamma_{\rvz|\rvx}\;x
 +
-\gamma_{\rvz|\rvy}\;\rvy
+\gamma_{\rvz|\rvy}\;y
 \end{array}
 \right.
 \eeq
@@ -302,6 +302,78 @@ $(b)$ shows a incoherent net of 3 autoregulons because $\sign(\gamma_{\rvz|\rvy}
 }
 \label{fig-3-coherent-autoregulons}
 \end{figure}
+
+
+\begin{figure}[h!]
+$$
+\xymatrix@C=6pc@R=2pc{
+\rvx \ar@{=>}[dd]\ar[ddrr]|<<<<{\gamma_{\rvy|\rvx}}
+\ar[r]
+&\bigotimes\ar[ddl]\ar[ddr]
+& \rvy \ar@{=>}[dd]\ar[ddll]|<<<<{\gamma_{\rvx|\rvy}}
+\ar[l]
+\\
+&
+\\
+\dot{\rvx}
+&
+&\dot{\rvy}
+}
+\xymatrix{\\
+\quad=\quad}
+\xymatrix@C=5pc{
+\\
+\Rect{\rvx}
+\wideautoar{r}
+{\gamma_{\rvy|\rvx}}
+{\gamma_{\rvx|\rvy}}
+\timesar{r}
+&
+\Rect{\rvy}}
+$$
+\caption{Two autoregulons connected to each other, including population product (pp) term.}
+\label{fig-2-autoregulons-pp}
+\end{figure}
+
+\beq
+\left\{
+\begin{array}{l}
+\cald x = f_\rvx(\rvx) + g_\rvx(x, y)+ \gamma_{\rvx|\rvy}\;y
+\\
+\cald y = f_\rvy(\rvy) + g_\rvy(x, y) + \gamma_{\rvy|\rvx}\;x
+\end{array}
+\right.
+\eeq
+
+
+\section{Coherent Type 1 Feed Forward Loop (C1-FFL)}
+
+
+\begin{figure}[h!]
+$$
+\xymatrix{
+\rvz\ar[d]_{-\alp_\rvz}
+&\rvx\ar[d] \ar[dr]
+& \rvy\ar[dl]\ar[d]^{-\alp_\rvy}
+\\
+\dot{z} 
+& \bigotimes \ar[l]
+& \dot{y}
+}
+$$
+\end{figure}
+
+\beq
+\left\{
+\begin{array}{l}
+\dot{y} = \beta_\rvy \indi(x>K_{\rvx\rvy}
+)-\alp_\rvy y
+\\
+\dot{z} =  \beta_\rvz \indi(x> K_{\rvx\rvy})
+\indi(y>K_{\rvy\rvz}) -\alp_\rvz z
+\end{array}
+\right.
+\eeq
 
 
 
