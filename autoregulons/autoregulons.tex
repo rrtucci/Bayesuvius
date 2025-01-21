@@ -348,9 +348,85 @@ $$
 \eeq
 
 
+
+\begin{figure}
+$$
+\begin{array}{ccccc}
+\xymatrix{
+&\Rect{\rvx}\ar[dl]
+\ar[dr]
+\\
+\Rect{\rvy}\ar[rr]
+&&\Rect{\rvz}
+}&
+&
+\xymatrix{
+&\Rect{\rvx}\ar[dl]|{\color{red}\;+\;}
+\ar[dr]|{\color{red}\;+\;}
+\\
+\Rect{\rvy}\ar[rr]|{\color{red}\;+\;}
+&&\Rect{\rvz}
+}
+&
+&
+\xymatrix{
+&\Rect{\rvx}\ar[dl]|{\color{red}\;+\;}
+\ar[dr]|{\color{red}\;+\;}
+\\
+\Rect{\rvy}\ar[rr]|{\color{red}\;-\;}
+&&\Rect{\rvz}
+}
+\\
+(a)
+&&(b)
+&&(c)
+\end{array}
+$$
+\caption{$(a)$ Forward Feed Loop (FFL) net.
+$(b)$ Coherent Type 1 FFL (C1-FFL).
+$(c)$ Incoherent Type 1 FFL (I1-FFL)}
+
+\end{figure}
+
+\begin{figure}[h!]
+$$
+\begin{array}{ccc}
+\xymatrix@C=3pc{
+&\Rect{\rvx}\ar[d]
+\ar[dl]|{\color{red}\;+\;}
+\\
+\Rect{\rvy}\ar[r]
+&
+\bigotimes\ar[r]|{\color{red}\;+\;}
+&\Rect{\rvz}
+}
+&
+&
+\xymatrix@C=3pc{
+&\Rect{\rvx}\ar[d]
+\ar[dl]|{\color{red}\;+\;}
+\\
+\Rect{\rvy}\ar[r]
+&\bigotimes\ar[r]|{\color{red}\;-\;}
+&\Rect{\rvz}
+}
+\\
+(a)
+&
+&(b)
+\end{array}
+$$
+\caption{
+$(a)$ C1-FFL with product node.
+$(b)$ I1-FFL with product node}
+\end{figure}
+
 \section{C1-FFL and I1-FFL net}
 
-Coherent/Incoherent Type 1 Feed Forward Loop (C1-FFL/I1-FFL)
+
+
+Coherent/Incoherent Type 1 Feed Forward Loop (C1-FFL/I1-FFL) if $\beta_\rvz>0/\beta_\rvz<0$.
+All other parameters (i.e., $\alp_\rvy, \alp_\rvz, \beta_\rvy$) are positive.
 
 \begin{figure}[h!]
 $$
@@ -366,9 +442,11 @@ $$
 \dot{z} 
 }
 $$
-\caption{C1-FFL bnet.}
+\caption{C1-FFL/I1-FFL bnet
+if $\beta_\rvz>0/\beta_\rvz<0$.}
 \label{fig-bnet-c1-ffl}
 \end{figure}
+
 
 \beq
 \left\{
@@ -391,7 +469,7 @@ $$
 {autoregulons/c1-ffl-down-green.png}
 \includegraphics[height=2in]
 {autoregulons/c1-ffl-up-down-green.png}
-\caption{$x(t)$, $y(t)$, $z(t)$ assuming 
+\caption{For C1-FFL, $x(t)$, $y(t)$, $z(t)$ assuming 
 that $x(t)$ is either a rising step function (in green),
 a dropping step function (in red),
 or a square function (in purple).}
@@ -400,7 +478,7 @@ or a square function (in purple).}
 
 
 
-\hrule
+\subsection{C1-FFL ($\beta_z >0$)}
 Below, the red equations 
 correspond to a different choice of $x(t)$.
 
@@ -467,9 +545,7 @@ y_{on} = -\;\frac{1}{\alp_\rvy}
 \centering
 \includegraphics[width=2.8in]
 {autoregulons/-log(1-x).png}
-\caption{View of Mount Vesuvius from
-  Pompeii.
-  Picture from Ref.\cite{alon-book}.}
+\caption{Plot of $y=-\ln(1-x)$.}
 \label{fig-minus-log-1-minus-x.png}
 \end{figure}
 
@@ -481,16 +557,34 @@ a step function falling to zero at $t=0$,
 or a square wave rising from 0 at time $t=0$
 and falling to 0 a while later.
 
-\hrule
+\subsection{I1-FFL ($\beta_z<0$)}
 \begin{figure}[h!]
 \centering
 \includegraphics[width=2.8in]
 {autoregulons/i1-ffl-green.png}
-\caption{View of Mount Vesuvius from
-  Pompeii.
-  Picture from Ref.\cite{alon-book}.}
+\caption{For I1-FFL, $x(t), y(t), z(t)$
+assuming $x(t)$ step function rising 
+from 0 at $t=0$.}
 \label{fig-i1-ffl}
 \end{figure}
+
+\beq
+z=\left\{
+\begin{array}{ll}
+\frac{-\beta_z}{\alp_\rvz}(1- e^{-\alp_\rvz t})
+& \text{ for } t<t_{max}
+\\
+y_{max}e^{-\alp_\rvz (t-t_{max})}
+& \text{ for } t> t_{max}
+\end{array}
+\right.
+\eeq
+where 
+
+\beq
+y_{max}= \frac{-\beta_\rvz}{\alp_\rvz}
+(1-e^{-\alp_\rvz t_{max}})
+\eeq
 
 \section{SIM net}
 Single Input Module (SIM) net
