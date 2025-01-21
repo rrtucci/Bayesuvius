@@ -376,18 +376,12 @@ $$
 \dot{y} = \beta_\rvy \indi(x>K_{\rvx\rvy}
 )-\alp_\rvy y
 \\
-\dot{z} =  \beta_\rvz \indi(x> K_{\rvx\rvy})
+\dot{z} =  \beta_\rvz \indi(x> K_{\rvx\rvz})
 \indi(y>K_{\rvy\rvz}) -\alp_\rvz z
 \end{array}
 \right.
+\label{eq-ffl-gen}
 \eeq
-
-Assume
-
-\beq
-x = \indi(t>0)
-\eeq
-
 
 \begin{figure}[h!]
 \centering
@@ -397,34 +391,70 @@ x = \indi(t>0)
 {autoregulons/c1-ffl-down-green.png}
 \includegraphics[height=2in]
 {autoregulons/c1-ffl-up-down-green.png}
-\caption{View of Mount Vesuvius from
-  Pompeii.
-  Pictures from Ref.\cite{alon-book}.}
+\caption{$x(t)$, $y(t)$, $z(t)$ assuming 
+that $x(t)$ is either a rising step function (in green),
+a dropping step function (in red),
+or a square function (in purple).}
 \label{fig-c1-ffl-triple}
 \end{figure}
 
 
-\begin{figure}[h!]
-\centering
-\includegraphics[width=2.8in]
-{autoregulons/i1-ffl-green.png}
-\caption{View of Mount Vesuvius from
-  Pompeii.
-  Picture from Ref.\cite{alon-book}.}
-\label{fig-i1-ffl}
-\end{figure}
 
-Let 
+\hrule
+Below, the red equations 
+correspond to a different choice of $x(t)$.
+
+Assume (see Fig.\ref{fig-c1-ffl-triple})
+\beq
+x = x_0\indi(t>0)
+\eeq
+\beq \nonumber
+\color{red}
+x = x_0\indi(t<0)
+\eeq
+where $x_0 > K_{\rvx\rvy}, K_{\rvx\rvz}$.
+Thus, Eq.(\ref{eq-ffl-gen}) reduces to
 
 \beq
-y(0) = 0\;,\;\; y_{ss} = \frac{\beta_\rvy}{\alp_{\rvy}}
-> K_{\rvy\rvz}
+\left\{
+\begin{array}{l}
+\dot{y} = \beta_\rvy
+-\alp_\rvy y
+\\
+\dot{z} =  \beta_\rvz
+\indi(y>K_{\rvy\rvz}) -\alp_\rvz z
+\end{array}
+\right.
+\label{eq-ffl-red}
 \eeq
-Then 
+Let $
+y(0) = 0, y_{ss} = \frac{\beta_\rvy}{\alp_{\rvy}}
+$.\
+Then (see Fig.\ref{fig-c1-ffl-triple})
 
 \beq
 y = y_{ss}(1-e^{-\alp_\rvy t})
 \eeq
+\beq \nonumber \color{red}
+y = y_0e^{-\alp_\rvy t}
+\eeq
+If $y_{ss}> K_{\rvy\rvz}$, then (see Fig.\ref{fig-c1-ffl-triple})
+
+
+\beq
+z = \frac{\beta_\rvz}{\alp_\rvz}(1- e^{-\alp_\rvz (t-t_{on})})
+\eeq
+\beq\nonumber
+\color{red}
+z = z_0 e^{-\alp_\rvz t}
+\eeq
+where $t_{on}$ is defined so that
+
+\beq
+y(t_{on}) = K_{\rvy\rvz}= y_{ss}(1-e^{-\alp_\rvy t})
+\eeq
+Solving the last equation for $t_{on}$ yields (see 
+Fig.\ref{fig-minus-log-1-minus-x.png})
 
 \beq
 y_{on} = -\;\frac{1}{\alp_\rvy}
@@ -441,6 +471,25 @@ y_{on} = -\;\frac{1}{\alp_\rvy}
   Pompeii.
   Picture from Ref.\cite{alon-book}.}
 \label{fig-minus-log-1-minus-x.png}
+\end{figure}
+
+Fig.\ref{fig-c1-ffl-triple}
+shows the waveforms for $x(t), y(t), z(t)$
+assuming $x(t)$ is either 
+a step function rising from 0 at $t=0$,
+a step function falling to zero at $t=0$,
+or a square wave rising from 0 at time $t=0$
+and falling to 0 a while later.
+
+\hrule
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2.8in]
+{autoregulons/i1-ffl-green.png}
+\caption{View of Mount Vesuvius from
+  Pompeii.
+  Picture from Ref.\cite{alon-book}.}
+\label{fig-i1-ffl}
 \end{figure}
 
 \section{SIM net}
