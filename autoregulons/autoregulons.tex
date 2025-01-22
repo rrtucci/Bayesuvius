@@ -33,14 +33,14 @@ networks of connected autoregulons. Assume $\alp >0$.}
 \end{figure}
 
 \beq
-\frac{dx}{dt}=f(x)-\alp x
+\frac{dx}{dt}=-\alp x + f(x)
 \eeq
 
 \beq
 f(x)=\left\{
 \begin{array}{ll}
 \beta\indi(x<K)
-&(f \text{ is lowpass})
+&(f \text{ is lowpass filter})
 \\
 \beta\indi(x>K)
 &(f \text{ is highpass})
@@ -53,7 +53,7 @@ Lowpass $f$ describes a {\bf repressor}.
 Highpass $f$ describes an activator.
 
 \hrule
-For $f$ lowpass
+For $f$ lowpass filter
 \beq
 x= 
 \left\{
@@ -181,8 +181,8 @@ two $f$ values $\{ \text{lowpass, highpass}\}$
 \begin{figure}[h!]
 $$
 \xymatrix@C=6pc@R=1pc{
-\rvx \ar@{=>}[dd]\ar[ddr]|<<<<{\gamma_{\rvy|\rvx}}
-& \rvy \ar@{=>}[dd]\ar[ddl]|<<<<{\gamma_{\rvx|\rvy}}
+\rvx \ar@{=>}[dd]\ar[ddr]|<<<<{\gamma_{\rvx\rarrow\rvy}}
+& \rvy \ar@{=>}[dd]\ar[ddl]|<<<<{\gamma_{\rvy\rarrow\rvx}}
 \\
 &
 \\
@@ -195,8 +195,8 @@ $$
 \\
 \Rect{\rvx}
 \autoar{r}
-{\gamma_{\rvy|\rvx}}
-{\gamma_{\rvx|\rvy}}
+{\gamma_{\rvx\rarrow\rvy}}
+{\gamma_{\rvy\rarrow\rvx}}
 &
 \Rect{\rvy}}
 $$
@@ -209,9 +209,9 @@ $$
 \beq
 \left\{
 \begin{array}{l}
-\cald\rvx = f_\rvx(x) + \gamma_{\rvx|\rvy}\;y
+\cald\rvx = f_\rvx(x) + \gamma_{\rvy\rarrow\rvx}\;y
 \\
-\cald\rvy = f_\rvy(y) +\gamma_{\rvy|\rvx}\;x
+\cald\rvy = f_\rvy(y) +\gamma_{\rvx\rarrow\rvy}\;x
 \end{array}
 \right.
 \eeq
@@ -230,7 +230,7 @@ $$
 }
 $$
 \caption{Three autoregulons connected to each other.
-$\gamma_{\rvx|\rvy}$ coefficients are left implicit.}
+$\gamma_{\rvy\rarrow\rvx}$ coefficients are left implicit.}
 \label{fig-3-autoregulons}
 \end{figure}
 
@@ -240,26 +240,30 @@ $\gamma_{\rvx|\rvy}$ coefficients are left implicit.}
 \left\{
 \begin{array}{l}
 \cald\rvx = f_\rvx(x)+
-\gamma_{\rvx|\rvy}\;y
+\gamma_{\rvy\rarrow\rvx}\;y
 +
-\gamma_{\rvx|\rvz}\;z
+\gamma_{\rvz\rarrow\rvx}\;z
 \\
 \cald\rvy = f_\rvy(y)+
-\gamma_{\rvy|\rvx}\;x
+\gamma_{\rvx\rarrow\rvy}\;x
 +
-\gamma_{\rvy|\rvz}\;\rvz
+\gamma_{\rvz\rarrow\rvy}\;\rvz
 \\
 \cald\rvz = f_\rvz(z) +
-\gamma_{\rvz|\rvx}\;x
+\gamma_{\rvx\rarrow\rvz}\;x
 +
-\gamma_{\rvz|\rvy}\;y
+\gamma_{\rvy\rarrow\rvz}\;y
 \end{array}
 \right.
 \eeq
 
-Use $\xymatrix{\rvx\ar[r]|{\color{red}\;+\;}&\rvy}$
+Use
+$\xymatrix{\rvx\ar[r]^\alp&\rvy}$ if $\rvy = \alp \rvx$.
+
+ $\xymatrix{\rvx\ar[r]|{\color{red}\;+\;}&\rvy}$
 to denote
-$\xymatrix{\rvx\ar[r]^\alp&\rvy}$
+$\xymatrix{\rvx\ar[r]^\alp&\rvy}
+$
 with $\alp>0$.
 
 Use $\xymatrix{\rvx\ar[r]|{\color{red}\;-\;}&\rvy}$
@@ -299,20 +303,20 @@ $$
 (a)&&(b)
 \end{array}
 $$
-\caption{$(a)$ shows a coherent net of 3 autoregulons because $\sign(\gamma_{\rvz|\rvy}\gamma_{\rvy|\rvx})=\sign(\gamma_{\rvz|\rvx})$.
-$(b)$ shows a incoherent net of 3 autoregulons because $\sign(\gamma_{\rvz|\rvy}\gamma_{\rvy|\rvx})\neq \sign(\gamma_{\rvz|\rvx})$.
+\caption{$(a)$ shows a coherent net of 3 autoregulons because $\sign(\gamma_{\rvy\rarrow\rvz}\gamma_{\rvx\rarrow\rvy})=\sign(\gamma_{\rvx\rarrow\rvz})$.
+$(b)$ shows a incoherent net of 3 autoregulons because $\sign(\gamma_{\rvy\rarrow\rvz}\gamma_{\rvx\rarrow\rvy})\neq \sign(\gamma_{\rvx\rarrow\rvz})$.
 }
 \label{fig-3-coherent-autoregulons}
 \end{figure}
 
-
+\section{AND (Multiplication) node }
 \begin{figure}[h!]
 $$
 \xymatrix@C=6pc@R=2pc{
-\rvx \ar@{=>}[dd]\ar[ddrr]|<<<<{\gamma_{\rvy|\rvx}}
+\rvx \ar@{=>}[dd]\ar[ddrr]|<<<<{\gamma_{\rvx\rarrow\rvy}}
 \ar[r]
 &\bigotimes\ar[ddl]\ar[ddr]
-& \rvy \ar@{=>}[dd]\ar[ddll]|<<<<{\gamma_{\rvx|\rvy}}
+& \rvy \ar@{=>}[dd]\ar[ddll]|<<<<{\gamma_{\rvy\rarrow\rvx}}
 \ar[l]
 \\
 &
@@ -327,8 +331,8 @@ $$
 \\
 \Rect{\rvx}
 \wideautoar{r}
-{\gamma_{\rvy|\rvx}}
-{\gamma_{\rvx|\rvy}}
+{\gamma_{\rvx\rarrow\rvy}}
+{\gamma_{\rvy\rarrow\rvx}}
 \timesar{r}
 &
 \Rect{\rvy}}
@@ -340,9 +344,9 @@ $$
 \beq
 \left\{
 \begin{array}{l}
-\cald x = f_\rvx(\rvx) + g_\rvx(x, y)+ \gamma_{\rvx|\rvy}\;y
+\cald x = f_\rvx(\rvx) + g_\rvx(x, y)+ \gamma_{\rvy\rarrow\rvx}\;y
 \\
-\cald y = f_\rvy(\rvy) + g_\rvy(x, y) + \gamma_{\rvy|\rvx}\;x
+\cald y = f_\rvy(\rvy) + g_\rvy(x, y) + \gamma_{\rvx\rarrow\rvy}\;x
 \end{array}
 \right.
 \eeq
@@ -361,19 +365,19 @@ $$
 }&
 &
 \xymatrix{
-&\Rect{\rvx}\ar[dl]|{\color{red}\;+\;}
-\ar[dr]|{\color{red}\;+\;}
+&\Rect{\rvx}\ar[dl]|\oplus
+\ar[dr]|\oplus
 \\
-\Rect{\rvy}\ar[rr]|{\color{red}\;+\;}
+\Rect{\rvy}\ar[rr]|\oplus
 &&\Rect{\rvz}
 }
 &
 &
 \xymatrix{
-&\Rect{\rvx}\ar[dl]|{\color{red}\;+\;}
-\ar[dr]|{\color{red}\;+\;}
+&\Rect{\rvx}\ar[dl]|\oplus
+\ar[dr]|\oplus
 \\
-\Rect{\rvy}\ar[rr]|{\color{red}\;-\;}
+\Rect{\rvy}\ar[rr]|\ominus
 &&\Rect{\rvz}
 }
 \\
@@ -388,52 +392,75 @@ $(c)$ Incoherent Type 1 FFL (I1-FFL)}
 
 \end{figure}
 
-\begin{figure}[h!]
-$$
-\begin{array}{ccc}
-\xymatrix@C=3pc{
-&\Rect{\rvx}\ar[d]
-\ar[dl]|{\color{red}\;+\;}
-\\
-\Rect{\rvy}\ar[r]
-&
-\bigotimes\ar[r]|{\color{red}\;+\;}
-&\Rect{\rvz}
-}
-&
-&
-\xymatrix@C=3pc{
-&\Rect{\rvx}\ar[d]
-\ar[dl]|{\color{red}\;+\;}
-\\
-\Rect{\rvy}\ar[r]
-&\bigotimes\ar[r]|{\color{red}\;-\;}
-&\Rect{\rvz}
-}
-\\
-(a)
-&
-&(b)
-\end{array}
-$$
-\caption{
-$(a)$ C1-FFL with product node.
-$(b)$ I1-FFL with product node}
-\end{figure}
+\section{Highpass and Lowpass filter node}
+xxx
+
+
+Use $\xymatrix{\rvx\ar[r]|\ominus
+&\rvy}$
+to denote
+$\rvy = \indi(\rvx< K)$
+(i.e., lowpass filter)
+for some $K>0$
+
+Use $\xymatrix{\rvx\ar[r]|\oplus&\rvy}$
+to denote
+$\rvy = \indi(\rvx> K)$
+(i.e., highpass filter)
+for some $K>0$.
+
+
+%\begin{figure}[h!]
+%$$
+%\begin{array}{ccc}
+%\xymatrix@C=3pc{
+%&\Rect{\rvx}\ar[d]
+%\ar[dl]|{\color{red}\;+\;}
+%\\
+%\Rect{\rvy}\ar[r]
+%&
+%\bigotimes\ar[r]|{\color{red}\;+\;}
+%&\Rect{\rvz}
+%}
+%&
+%&
+%\xymatrix@C=3pc{
+%&\Rect{\rvx}\ar[d]
+%\ar[dl]|{\color{red}\;+\;}
+%\\
+%\Rect{\rvy}\ar[r]
+%&\bigotimes\ar[r]|{\color{red}\;-\;}
+%&\Rect{\rvz}
+%}
+%\\
+%(a)
+%&
+%&(b)
+%\end{array}
+%$$
+%\caption{
+%$(a)$ C1-FFL with product node.
+%$(b)$ I1-FFL with product node}
+%\end{figure}
 
 \section{C1-FFL and I1-FFL net}
 
 
 
-Coherent/Incoherent Type 1 Feed Forward Loop (C1-FFL/I1-FFL) if $\beta_\rvz>0/\beta_\rvz<0$.
-All other parameters (i.e., $\alp_\rvy, \alp_\rvz, \beta_\rvy$) are positive.
+Feedforward Loop (FFL).
+
+Coherent/Incoherent Type 1 FFL (C1-FFL/I1-FFL) if $K_{\rvy\rarrow\rvz}$ is highpass/lowpass.
+where parameters (i.e., $\alp_\rvy, \alp_\rvz, \beta_\rvy, \beta_{\rvz}$) are positive.
 
 \begin{figure}[h!]
 $$
+\begin{array}{ccc}
 \xymatrix{
-\rvx \ar[drr]\ar[r]
-&\bigotimes\ar@/_3pc/[drr]
-& \rvy\ar[d]_{-\alp_\rvy}\ar[l]\ar[dr]
+\rvx \ar@/_1pc/[drr]|\oplus
+\ar[r]|\oplus
+&\bigotimes\ar@/_3pc/[drr]|{\beta_\rvz}
+& \rvy\ar[d]_{-\alp_\rvy}\ar[l]|
+\oplus
 &\rvz\ar[d]^{-\alp_\rvz}
 \\
 &
@@ -441,9 +468,30 @@ $$
 &
 \dot{z} 
 }
+&&
+\xymatrix{
+\rvx \ar@/_1pc/[drr]|\oplus\ar[r]|\oplus
+&\bigotimes\ar@/_3pc/[drr]|{\beta_\rvz}
+& \rvy\ar[d]_{-\alp_\rvy}\ar[l]|
+\ominus
+&\rvz\ar[d]^{-\alp_\rvz}
+\\
+&
+& \dot{y}
+&
+\dot{z} 
+}
+\\
+\\
+(a)&&(b)
+\end{array}
 $$
-\caption{C1-FFL/I1-FFL bnet
-if $\beta_\rvz>0/\beta_\rvz<0$.}
+\caption{$(a)$ C1-FFL bnet.
+Note that $\rvy\rarrow \otimes$
+is highpass filter.
+$(b)$ I1-FFL bnet. Note that $\rvy\rarrow \otimes$
+is lowpass filter.
+}
 \label{fig-bnet-c1-ffl}
 \end{figure}
 
@@ -451,15 +499,29 @@ if $\beta_\rvz>0/\beta_\rvz<0$.}
 \beq
 \left\{
 \begin{array}{l}
-\dot{y} = \beta_\rvy \indi(x>K_{\rvx\rvy}
-)-\alp_\rvy y
+\dot{y} =-\alp_\rvy y + \beta_\rvy \indi(x>K_{\rvx\rarrow\rvy}
+)
 \\
-\dot{z} =  \beta_\rvz \indi(x> K_{\rvx\rvz})
-\indi(y>K_{\rvy\rvz}) -\alp_\rvz z
+\dot{z} = -\alp_\rvz z + \beta_\rvz \indi(x> K_{\rvx\rarrow\rvz})
+\left[
+\begin{array}{ll}
+\indi(y>K_{\rvy\rarrow\rvz})
+&
+\text{ if }
+\rvy\rarrow\otimes\text{ is  highpass filter}
+\\
+\indi(y<K_{\rvy\rarrow\rvz})
+&
+\text{ if }
+\rvy\rarrow\otimes\text{ is lowpass filter}
+\end{array}
+\right]
 \end{array}
 \right.
 \label{eq-ffl-gen}
 \eeq
+where all the parameters (i.e., $\alp_\rvy, \alp_\rvz, \beta_\rvy, \beta_{\rvz}$) are positive.
+
 
 \begin{figure}[h!]
 \centering
@@ -478,7 +540,7 @@ or a square function (in purple).}
 
 
 
-\subsection{C1-FFL ($\beta_z >0$)}
+\subsection{C1-FFL}
 Below, the red equations 
 correspond to a different choice of $x(t)$.
 
@@ -490,7 +552,7 @@ x = x_0\indi(t>0)
 \color{red}
 x = x_0\indi(t<0)
 \eeq
-where $x_0 > K_{\rvx\rvy}, K_{\rvx\rvz}$.
+where $x_0 > K_{\rvx\rarrow\rvy}, K_{\rvx\rarrow\rvz}$.
 Thus, Eq.(\ref{eq-ffl-gen}) reduces to
 
 \beq
@@ -500,7 +562,7 @@ Thus, Eq.(\ref{eq-ffl-gen}) reduces to
 -\alp_\rvy y
 \\
 \dot{z} =  \beta_\rvz
-\indi(y>K_{\rvy\rvz}) -\alp_\rvz z
+\indi(y>K_{\rvy\rarrow\rvz}) -\alp_\rvz z
 \end{array}
 \right.
 \label{eq-ffl-red}
@@ -516,7 +578,8 @@ y = y_{ss}(1-e^{-\alp_\rvy t})
 \beq \nonumber \color{red}
 y = y_0e^{-\alp_\rvy t}
 \eeq
-If $y_{ss}> K_{\rvy\rvz}$, then (see Fig.\ref{fig-c1-ffl-triple})
+If $y_{ss}> K_{\rvy\rarrow\rvz}$
+( or ${\color{red} y_0 < K_{\rvy\rarrow\rvz}}$), then (see Fig.\ref{fig-c1-ffl-triple})
 
 
 \beq
@@ -529,7 +592,7 @@ z = z_0 e^{-\alp_\rvz t}
 where $t_{on}$ is defined so that
 
 \beq
-y(t_{on}) = K_{\rvy\rvz}= y_{ss}(1-e^{-\alp_\rvy t})
+y(t_{on}) = K_{\rvy\rarrow\rvz}= y_{ss}(1-e^{-\alp_\rvy t})
 \eeq
 Solving the last equation for $t_{on}$ yields (see 
 Fig.\ref{fig-minus-log-1-minus-x.png})
@@ -537,7 +600,7 @@ Fig.\ref{fig-minus-log-1-minus-x.png})
 \beq
 y_{on} = -\;\frac{1}{\alp_\rvy}
 \ln
-\left({1- \frac{K_{\rvy\rvz}}{y_{ss}}}
+\left({1- \frac{K_{\rvy\rarrow\rvz}}{y_{ss}}}
 \right)
 \eeq
 
@@ -557,7 +620,7 @@ a step function falling to zero at $t=0$,
 or a square wave rising from 0 at time $t=0$
 and falling to 0 a while later.
 
-\subsection{I1-FFL ($\beta_z<0$)}
+\subsection{I1-FFL}
 \begin{figure}[h!]
 \centering
 \includegraphics[width=2.8in]
@@ -571,7 +634,7 @@ from 0 at $t=0$.}
 \beq
 z=\left\{
 \begin{array}{ll}
-\frac{-\beta_z}{\alp_\rvz}(1- e^{-\alp_\rvz t})
+\frac{\beta_z}{\alp_\rvz}(1- e^{-\alp_\rvz t})
 & \text{ for } t<t_{max}
 \\
 y_{max}e^{-\alp_\rvz (t-t_{max})}
@@ -582,16 +645,50 @@ y_{max}e^{-\alp_\rvz (t-t_{max})}
 where 
 
 \beq
-y_{max}= \frac{-\beta_\rvz}{\alp_\rvz}
+y_{max}= \frac{\beta_\rvz}{\alp_\rvz}
 (1-e^{-\alp_\rvz t_{max}})
 \eeq
 
 \section{SIM net}
 Single Input Module (SIM) net
 
-\section{FFL net}
+\begin{figure}[h!]
+$$
+\xymatrix{
+&\Rect{\rvx}
+\ar[dl]|\oplus
+\ar[d]|\oplus
+\ar[dr]|\oplus
+\\
+\Rect{\rvz_1}
+&\Rect{\rvz_2}
+&\Rect{\rvz_3}
+}
+$$
+\caption{SIM net}
+\label{fig-sim-gene-net}
+\end{figure}
 
-Feedforward Loop (FFL) net
+
+\beq
+\left\{
+\begin{array}{ll}
+\cald \rvx =\beta\indi(x< K)
+\\
+\cald \rvz_i =\beta_i\indi(x>K_i)
+& \text{for $i=1,2,3$}
+\end{array}
+\right.
+\eeq
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2.8in]
+{autoregulons/sim-net.png}
+\caption{For SIM net, response  $z_1(t), z_2(t), z_3(t)$ to stimulus $x(t)$.}
+\label{fig-sim-net}
+\end{figure}
+
 
 \section{Bistable net}
 
