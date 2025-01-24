@@ -5,6 +5,37 @@ This chapter is based on Ref.\cite{alon-book}.
 
 Appendix \ref{ch-genomics-vocab}
 
+\section{Hill function}
+ \beqa
+ f_{hp}(x) &=&\beta\frac{\left(\frac{x}{K}\right)^n}{1 + \left(\frac{x}{K}\right)^n}
+ \\
+ &\rarrow& \beta\indi(x>K) \text{ as } n\rarrow\infty
+ \eeqa
+ 
+ \beqa
+  f_{lp}(x) &=&\beta\frac{1}{1 + \left(\frac{x}{K}\right)^n}
+  \\
+  &\rarrow& \beta\indi(x<K) \text{ as } n\rarrow\infty
+  \eeqa
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4.5in]
+{autoregulons/hill-2.png}
+\caption{Plot of $y= 1/(1+x^n)$
+and $y=x^n/(1+x^n)$ for $n=2$.}
+\label{fig-hill-2.png}
+\end{figure}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4.5in]
+{autoregulons/hill-10.png}
+\caption{Plot of $y= 1/(1+x^n)$
+and $y=x^n/(1+x^n)$ for $n=10$.}
+\label{fig-hill-10.png}
+\end{figure}
+
 \section{Autoregulon net motif}
 a {\bf net motif} is just a subgraph of a bnet
 
@@ -25,8 +56,11 @@ f(\rvx)\ar[dr]|{1}
 \\
 \dot{\rvx}
 }
+\xymatrix{\\=}
+\quad
+\xymatrix{\\\Rect{\rvx}}
 $$
-\caption{Autoregulon net motif and the symbol we will
+\caption{Autoregulon net motif and the 2 symbols that we will
 use to denote it when we consider
 networks of connected autoregulons. Assume $\alp >0$.}
 \label{fig-net-motif}
@@ -43,7 +77,7 @@ f(x)=\left\{
 &(f \text{ is lowpass filter})
 \\
 \beta\indi(x>K)
-&(f \text{ is highpass})
+&(f \text{ is highpass filter})
 \end{array}
 \right.
 \eeq
@@ -52,7 +86,7 @@ where $\alp, \beta > 0$.
 Lowpass $f$ describes a {\bf repressor}.
 Highpass $f$ describes an activator.
 
-\hrule
+\subsection{Lowpass $f$}
 For $f$ lowpass filter
 \beq
 x= 
@@ -115,7 +149,7 @@ $x$ for autoregulon with lowpass $f$
 and $x_0=0$.
 
 
-\hrule
+\subsection{Highpass $f$}
 For $f$ highpass
 
 \beq
@@ -175,8 +209,42 @@ two $f$ values $\{ \text{lowpass, highpass}\}$
 
 \section{Multiple autoregulons}
 
+Use
+$\xymatrix{\rvx\ar[r]^\alp&\rvy}$ if $\rvy = \alp \rvx$.
+
+ $\xymatrix{\rvx\ar[r]|{\color{red}\;+\;}&\rvy}$
+to denote
+$\xymatrix{\rvx\ar[r]^\alp&\rvy}
+$
+with $\alp>0$.
+
+Use $\xymatrix{\rvx\ar[r]|{\color{red}\;-\;}&\rvy}$
+to denote
+$\xymatrix{\rvx\ar[r]^\alp&\rvy}$
+with $\alp<0$
+
+Use $\xymatrix{\rvx\ar[r]|{\color{red}\;0\;}&\rvy}$
+to denote
+$\xymatrix{\rvx\ar[r]^\alp&\rvy}$
+with $\alp=0$.
+
+Use $\xymatrix{\rvx\ar[r]|\ominus^K
+&\rvy}$
+to denote
+$\rvy = \indi(\rvx< K)$
+(i.e., lowpass filter)
+for some $K>0$
+
+Use $\xymatrix{\rvx\ar[r]|\oplus^K
+&\rvy}$
+to denote
+$\rvy = \indi(\rvx> K)$
+(i.e., highpass filter)
+for some $K>0$.
 
 
+
+\subsection{Two autoregulons}
 
 \begin{figure}[h!]
 $$
@@ -204,8 +272,6 @@ $$
 \label{fig-2-autoregulons}
 \end{figure}
 
-
-
 \beq
 \left\{
 \begin{array}{l}
@@ -217,99 +283,11 @@ $$
 \eeq
 
 
-\begin{figure}[h!]
-$$
-\xymatrix@C=4pc@R=5pc{
-&\Rect{\rvx}
-\autoar{ld}{}{}
-\autoar{rd}{}{}
-\\
-\Rect{\rvy}\autoar{rr}{}{}
-&&
-\Rect{\rvz}
-}
-$$
-\caption{Three autoregulons connected to each other.
-$\gamma_{\rvy\rarrow\rvx}$ coefficients are left implicit.}
-\label{fig-3-autoregulons}
-\end{figure}
 
 
 
-\beq
-\left\{
-\begin{array}{l}
-\cald\rvx = f_\rvx(x)+
-\gamma_{\rvy\rarrow\rvx}\;y
-+
-\gamma_{\rvz\rarrow\rvx}\;z
-\\
-\cald\rvy = f_\rvy(y)+
-\gamma_{\rvx\rarrow\rvy}\;x
-+
-\gamma_{\rvz\rarrow\rvy}\;\rvz
-\\
-\cald\rvz = f_\rvz(z) +
-\gamma_{\rvx\rarrow\rvz}\;x
-+
-\gamma_{\rvy\rarrow\rvz}\;y
-\end{array}
-\right.
-\eeq
 
-Use
-$\xymatrix{\rvx\ar[r]^\alp&\rvy}$ if $\rvy = \alp \rvx$.
 
- $\xymatrix{\rvx\ar[r]|{\color{red}\;+\;}&\rvy}$
-to denote
-$\xymatrix{\rvx\ar[r]^\alp&\rvy}
-$
-with $\alp>0$.
-
-Use $\xymatrix{\rvx\ar[r]|{\color{red}\;-\;}&\rvy}$
-to denote
-$\xymatrix{\rvx\ar[r]^\alp&\rvy}$
-with $\alp<0$
-
-Use $\xymatrix{\rvx\ar[r]|{\color{red}\;0\;}&\rvy}$
-to denote
-$\xymatrix{\rvx\ar[r]^\alp&\rvy}$
-with $\alp=0$.
-
-\begin{figure}[h!]
-$$
-\begin{array}{ccc}
-\xymatrix@C=4pc@R=5pc{
-&\Rect{\rvx}
-\autoar{ld}{-}{0}
-\autoar{rd}{+}{0}
-\\
-\Rect{\rvy}\autoar{rr}{-}{0}
-&&
-\Rect{\rvz}
-}
-&&
-\xymatrix@C=4pc@R=5pc{
-&\Rect{\rvx}
-\autoar{ld}{-}{0}
-\autoar{rd}{+}{0}
-\\
-\Rect{\rvy}\autoar{rr}{+}{0}
-&&
-\Rect{\rvz}
-}
-\\
-\\
-(a)&&(b)
-\end{array}
-$$
-\caption{$(a)$ shows a coherent net of 3 autoregulons because $\sign(\gamma_{\rvy\rarrow\rvz}\gamma_{\rvx\rarrow\rvy})=\sign(\gamma_{\rvx\rarrow\rvz})$.
-$(b)$ shows a incoherent net of 3 autoregulons because $\sign(\gamma_{\rvy\rarrow\rvz}\gamma_{\rvx\rarrow\rvy})\neq \sign(\gamma_{\rvx\rarrow\rvz})$.
-}
-\label{fig-3-coherent-autoregulons}
-\end{figure}
-
-\section{AND (Multiplication) node }
 \begin{figure}[h!]
 $$
 \xymatrix@C=6pc@R=2pc{
@@ -351,7 +329,81 @@ $$
 \right.
 \eeq
 
+\subsection{More than 2 autoregulons}
 
+\begin{figure}[h!]
+$$
+\xymatrix@C=4pc@R=5pc{
+&\Rect{\rvx}
+\autoar{ld}{}{}
+\autoar{rd}{}{}
+\\
+\Rect{\rvy}\autoar{rr}{}{}
+&&
+\Rect{\rvz}
+}
+$$
+\caption{Three autoregulons connected to each other.
+$\gamma_{\rvy\rarrow\rvx}$ coefficients are left implicit.}
+\label{fig-3-autoregulons}
+\end{figure}
+
+\begin{figure}[h!]
+$$
+\begin{array}{ccc}
+\xymatrix@C=4pc@R=5pc{
+&\Rect{\rvx}
+\autoar{ld}{-}{0}
+\autoar{rd}{+}{0}
+\\
+\Rect{\rvy}\autoar{rr}{-}{0}
+&&
+\Rect{\rvz}
+}
+&&
+\xymatrix@C=4pc@R=5pc{
+&\Rect{\rvx}
+\autoar{ld}{-}{0}
+\autoar{rd}{+}{0}
+\\
+\Rect{\rvy}\autoar{rr}{+}{0}
+&&
+\Rect{\rvz}
+}
+\\
+\\
+(a)&&(b)
+\end{array}
+$$
+\caption{$(a)$ shows a coherent net of 3 autoregulons because $\sign(\gamma_{\rvy\rarrow\rvz}\gamma_{\rvx\rarrow\rvy})=\sign(\gamma_{\rvx\rarrow\rvz})$.
+$(b)$ shows a incoherent net of 3 autoregulons because $\sign(\gamma_{\rvy\rarrow\rvz}\gamma_{\rvx\rarrow\rvy})\neq \sign(\gamma_{\rvx\rarrow\rvz})$.
+}
+\label{fig-3-coherent-autoregulons}
+\end{figure}
+
+
+
+
+\beq
+\left\{
+\begin{array}{l}
+\cald\rvx = f_\rvx(x)+
+\gamma_{\rvy\rarrow\rvx}\;y
++
+\gamma_{\rvz\rarrow\rvx}\;z
+\\
+\cald\rvy = f_\rvy(y)+
+\gamma_{\rvx\rarrow\rvy}\;x
++
+\gamma_{\rvz\rarrow\rvy}\;\rvz
+\\
+\cald\rvz = f_\rvz(z) +
+\gamma_{\rvx\rarrow\rvz}\;x
++
+\gamma_{\rvy\rarrow\rvz}\;y
+\end{array}
+\right.
+\eeq
 
 \begin{figure}
 $$
@@ -392,22 +444,9 @@ $(c)$ Incoherent Type 1 FFL (I1-FFL)}
 
 \end{figure}
 
-\section{Highpass and Lowpass filter node}
-xxx
 
 
-Use $\xymatrix{\rvx\ar[r]|\ominus
-&\rvy}$
-to denote
-$\rvy = \indi(\rvx< K)$
-(i.e., lowpass filter)
-for some $K>0$
 
-Use $\xymatrix{\rvx\ar[r]|\oplus&\rvy}$
-to denote
-$\rvy = \indi(\rvx> K)$
-(i.e., highpass filter)
-for some $K>0$.
 
 
 %\begin{figure}[h!]
@@ -654,11 +693,11 @@ Single Input Module (SIM) net
 
 \begin{figure}[h!]
 $$
-\xymatrix{
+\xymatrix@R=4pc{
 &\Rect{\rvx}
-\ar[dl]|\oplus
-\ar[d]|\oplus
-\ar[dr]|\oplus
+\ar[dl]|\oplus_{K_1}
+\ar[d]|\oplus_{K_2}
+\ar[dr]|\oplus^{K_3}
 \\
 \Rect{\rvz_1}
 &\Rect{\rvz_2}
@@ -690,6 +729,39 @@ $$
 \end{figure}
 
 
+\newpage
+\section{Flagellum net}
+
+\begin{figure}[h!]
+$$
+\xymatrix@C=3pc{
+&\Rect{\rvx}\ar[d]
+\ar[ddl]|\oplus_{K_1}
+\ar[ddr]|\oplus^{K_2}
+\\
+&\Rect{\rvy}\ar[dl]|\oplus^{K'_1}
+\ar[dr]|\oplus_{K'_2}
+\\
+\Rect{\rvz_1}&
+&\Rect{\rvz_2}
+}
+$$
+\caption{Flagellum bnet. Assume $K_1<K_2$ and $K'_1 > K'_2$.}
+\label{fig-flagellum}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2.8in]
+{autoregulons/flagellum.png}
+\caption{For Flagellum net, response  $y(t), z_1(t), z_2(t)$ to stimulus $x(t)$.}
+\label{fig-flagellum-net}
+\end{figure}
+
+
+
+
 \section{Bistable net}
+
 
 \section{Biological clock net}
