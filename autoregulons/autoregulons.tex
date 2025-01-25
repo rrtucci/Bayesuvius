@@ -32,15 +32,25 @@ Highpass filter ({
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=4.5in]
+\includegraphics[width=4.3in]
+{autoregulons/hill-1.png}
+\caption{Plot of $y= 1/(1+x^n)$
+and $y=x^n/(1+x^n)$ for $n=1$.}
+\label{fig-hill-1.png}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4.3in]
 {autoregulons/hill-2.png}
 \caption{Plot of $y= 1/(1+x^n)$
 and $y=x^n/(1+x^n)$ for $n=2$.}
 \label{fig-hill-2.png}
 \end{figure}
+
 \begin{figure}[h!]
 \centering
-\includegraphics[width=4.5in]
+\includegraphics[width=4.3in]
 {autoregulons/hill-10.png}
 \caption{Plot of $y= 1/(1+x^n)$
 and $y=x^n/(1+x^n)$ for $n=10$.}
@@ -157,6 +167,8 @@ for approximate
 $x$ for autoregulon with lowpass $f$
 and $x_0=0$.
 
+Autoregulon with lowpass $f$ can be used for {\bf memory}.
+
 
 \subsection{Highpass $f$}
 For $f$ highpass
@@ -212,7 +224,33 @@ Three $x$ values $\{x_0, K, \frac{\beta}{\alp}\}$, and
 two $f$ values $\{ \text{lowpass, highpass}\}$
 
 
+\subsection{Acceleration, Deceleration}
 
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2.5in]
+{autoregulons/xdot-versus-x.png}
+\includegraphics[width=2.5in]
+{autoregulons/xdot-versus-x-neg.png}
+\caption{$(a)$ $|f(x)-\alp x|<|\beta-\alp x|$, $f(x)$ slowdown,
+$(b)$ $|f(x)-\alp x|>|\beta-\alp x|$, $f(x)$ speedup}
+\label{fig-xdot-versus-x}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2.5in]
+{autoregulons/fast-normal-slow.png}
+\caption{For single autoregulon, $\dot{x}(t)=-\alp x + f(x)$ with $f(x)=\beta\indi(x>K)$ is normal.
+Speedup and slowdown
+with respect to that is obtained by using more general $f(x)$. }
+\label{fig-fast-normal-slow}
+\end{figure}
+
+$f(x)$ positive slope, positive autoregulation, slowdown
+
+$f(x)$ negative slope, negative autoregulation, speedup
 
 
 
@@ -337,6 +375,9 @@ $$
 \end{array}
 \right.
 \eeq
+
+feedback
+
 
 \subsection{More than 2 autoregulons}
 
@@ -582,7 +623,7 @@ where all the parameters (i.e., $\alp_\rvy, \alp_\rvz, \beta_\rvy, \beta_{\rvz}$
 \caption{For C1-FFL, $x(t)$, $y(t)$, $z(t)$ assuming 
 that $x(t)$ is either a rising step function (in green),
 a dropping step function (in red),
-or a square function (in purple).}
+or a square impulse function (in purple).}
 \label{fig-c1-ffl-triple}
 \end{figure}
 
@@ -665,7 +706,7 @@ shows the waveforms for $x(t), y(t), z(t)$
 assuming $x(t)$ is either 
 a step function rising from 0 at $t=0$,
 a step function falling to zero at $t=0$,
-or a square wave rising from 0 at time $t=0$
+or a square impulse rising from 0 at time $t=0$
 and falling to 0 a while later.
 
 \subsection{I1-FFL}
@@ -769,43 +810,47 @@ $$
 
 
 
-
-\section{Bistable net}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=2.5in]
-{autoregulons/xdot-versus-x.png}
-\includegraphics[width=2.5in]
-{autoregulons/xdot-versus-x-neg.png}
-\caption{$(a)$ $|f(x)-\alp x|<|\beta-\alp x|$, $f(x)$ slowdown,
-$(b)$ $|f(x)-\alp x|>|\beta-\alp x|$, $f(x)$ speedup}
-\label{fig-xdot-versus-x}
-\end{figure}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=2.5in]
-{autoregulons/fast-normal-slow.png}
-\caption{$\dot{x}(t)=\beta-\alp x$ is normal.
-Speedup and slowdown
-with respect to that. }
-\label{fig-fast-normal-slow}
-\end{figure}
-
-$f(x)$ positive slope, positive autoregulation, slowdown
-
-$f(x)$ negative slope, negative autoregulation, speedup
+\section{Fixed Points}
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=2in]
 {autoregulons/source-sink-source.png}
-\caption{$(x, \dot{x})$ graphs and 
-corresponding $(x,t)$ graphs for the case of
-two repelling and one attracting (fixed point) points.}
+\caption{For single autoregulon $\dot{x}(t)=-\alp x + f(x)$, $(x, \dot{x})$ graphs and 
+corresponding $(x,t)$ graphs. This $f()$ has
+two repelling  points ($x_{r_1}, x_{r_2}$) 
+and one attracting  point ($x_a$).
+}
 \label{fig-source-sink-source}
 \end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=3in]
+{autoregulons/2dim-3fp.png}
+\caption{Flow map for two autoregulons satisfyig Eqs.(\ref{eq-2dim-3fp}).}
+\label{fig-2dim-3fp}
+\end{figure}
+
+\beq
+\left\{
+\begin{array}{l}
+\dot{x} = -\alp y + f(x)
+\\
+\dot{y} =-\alp x + f(y)
+\end{array}
+\right.
+\label{eq-2dim-3fp}
+\eeq
+Same $\alp$ and function $f()$ (shown in Fig.\ref{fig-source-sink-source}) for both differential
+equations.
+
+\section{Memory}
+
+\section{Cascades of multiple autoregulons}
+
+\section{Negative, Positive Feedback
+between 2 autoregulons}
 
 
 
