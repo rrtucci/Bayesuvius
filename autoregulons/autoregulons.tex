@@ -7,12 +7,20 @@ is an alternative name for NM.
 
 This chapter only covers the 
 causal aspects of NM. It does no justice to the cell biology and organic chemistry underpinning NM. For that, please go to  Ref.\cite{alon-book}. 
-
-
-If you are new to genomics, you might find Appendix \ref{ch-genomics-vocab} helpful.
+This chapter will discuss a  special 
+class of 
+S1ODE (system of first order ordinary differential equations)
+from a causal inference perspective. Ref.\cite{alon-book} describes the math 
+behind such S1ODEs and also the place where they occur in Nature and even experimental data which supports that they are 
+physically realized. The scope of this chapter is much more limited. We mostly confine ourselves
+to discussing only the math behind such S1ODEs.
+We do occasionally describe briefly some of the  genomics underpinings of the math.
+If you are new to genomics, and would like to follow that discussion, you might find Appendix \ref{ch-genomics-vocab} helpful.
 
 
 \section{Hill functions}
+
+Two kinds of Hill functions.
 
 Highpass filter ({
 \bf activator}) Hill function
@@ -90,19 +98,43 @@ networks of connected autoregulons. Assume $\alp >0$.}
 \beq
 \frac{dx}{dt}=-\alp x + f(x)
 \eeq
-
+Let $\alp, \beta >0$.
+In general, $f(x)$ is either the $hp$ or $lp$ Hill function.
+However, we often use the following approximations
 \beq
 f(x)=\left\{
 \begin{array}{ll}
 \beta\indi(x<K)
-&(f \text{ is lowpass filter})
+&(\text{lowpass filter})
 \\
 \beta\indi(x>K)
-&(f \text{ is highpass filter})
+&(\text{highpass filter})
+\\
+\beta x
+&(\text{positive feedback})
+\\
+-\beta x
+&(\text{negative feedback})
 \end{array}
 \right.
 \eeq
-where $\alp, \beta > 0$.
+
+Henceforth, we will use
+
+\begin{itemize}
+\item
+$\xymatrix{\Rect{\rvx^\redplus}}$ to denote a positive feedback 
+autoregulon $\rvx$
+
+\item  $\xymatrix{\Rect{\rvx^\redminus}}$
+to denote a negative feedback 
+autoregulon $\rvx$. \footnote{
+Ref.\cite{alon-book}
+denotes a negative feedback autoregulon by 
+$\xymatrix{\rvx\loopright{3}{@{-|}}}$
+} 
+
+\end{itemize}
 
 
 \subsection{Lowpass $f$}
@@ -224,6 +256,35 @@ Three $x$ values $\{x_0, K, \frac{\beta}{\alp}\}$, and
 two $f$ values $\{ \text{lowpass, highpass}\}$
 
 
+\subsection{Linear Expansion of $f$}
+
+Consider
+\beq
+\dot{x} = -\alp x + f(x) \quad\text{ with }f(x) \approx f_0 + f_0'x
+\eeq
+
+If
+\beq
+b=(f_0'-\alp)
+\eeq
+then 
+\beq
+\frac{dx}{f_0 + bx}=dt
+\eeq
+
+\beq\frac{1}{b}d\ln(f_0 +bx)=dt
+\eeq
+\beq
+f_0 + bx = e^{bt(t-t_0)}
+\eeq
+
+\beq x =\frac{-f_0 + e^{bt(t-t_0)}}{b} 
+\eeq
+
+Hence, $x(t)$ is a growing exponential (plus a constant) if $b>0$ and a decaying exponential otherwise. For 
+negative feedback (i.e., $f'_0=\beta < 0$), $x(t)$ is always a decaying exponential,
+whereas for \qt{big enough} (i.e., $-f'_0=\beta > \alp$), $x(t)$ is a growing exponential.
+
 \subsection{Acceleration, Deceleration}
 
 
@@ -256,39 +317,43 @@ $f(x)$ negative slope, negative autoregulation, speedup
 
 \section{Multiple autoregulons}
 
-Use
-$\xymatrix{\rvx\ar[r]^\alp&\rvy}$ if $\rvy = \alp \rvx$.
+We will use 
+\begin{itemize}
+\item $\xymatrix{\rvx\ar[r]^\alp&\rvy}$ if $\rvy = \alp \rvx$.
 
- $\xymatrix{\rvx\ar[r]|{\color{red}\;+\;}&\rvy}$
+ \item  $\xymatrix{\rvx\ar[r]|\redplus&\rvy}$
 to denote
 $\xymatrix{\rvx\ar[r]^\alp&\rvy}
 $
 with $\alp>0$.
 
-Use $\xymatrix{\rvx\ar[r]|{\color{red}\;-\;}&\rvy}$
+\item  $\xymatrix{\rvx\ar[r]|\redminus&\rvy}$
 to denote
 $\xymatrix{\rvx\ar[r]^\alp&\rvy}$
-with $\alp<0$
+with $\alp<0$\footnote{
+Ref.\cite{alon-book}
+represents $\xymatrix{\rvx\ar[r]|\redminus&\rvy}$ as $\xymatrix{\rvx\ar@{-|}[r]&\rvy}$
+}
 
-Use $\xymatrix{\rvx\ar[r]|{\color{red}\;0\;}&\rvy}$
+\item  $\xymatrix{\rvx\ar[r]|\redzero&\rvy}$
 to denote
 $\xymatrix{\rvx\ar[r]^\alp&\rvy}$
 with $\alp=0$.
 
-Use $\xymatrix{\rvx\ar[r]|\ominus^K
+\item  $\xymatrix{\rvx\ar[r]|\ominus^K
 &\rvy}$
 to denote
 $\rvy = \indi(\rvx< K)$
 (i.e., lowpass filter)
 for some $K>0$
 
-Use $\xymatrix{\rvx\ar[r]|\oplus^K
+\item  $\xymatrix{\rvx\ar[r]|\oplus^K
 &\rvy}$
 to denote
 $\rvy = \indi(\rvx> K)$
 (i.e., highpass filter)
 for some $K>0$.
-
+\end{itemize}
 
 
 \subsection{Two autoregulons}
@@ -504,21 +569,21 @@ $(c)$ Incoherent Type 1 FFL (I1-FFL)}
 %\begin{array}{ccc}
 %\xymatrix@C=3pc{
 %&\Rect{\rvx}\ar[d]
-%\ar[dl]|{\color{red}\;+\;}
+%\ar[dl]|\redplus
 %\\
 %\Rect{\rvy}\ar[r]
 %&
-%\bigotimes\ar[r]|{\color{red}\;+\;}
+%\bigotimes\ar[r]|\redplus
 %&\Rect{\rvz}
 %}
 %&
 %&
 %\xymatrix@C=3pc{
 %&\Rect{\rvx}\ar[d]
-%\ar[dl]|{\color{red}\;+\;}
+%\ar[dl]|\redplus
 %\\
 %\Rect{\rvy}\ar[r]
-%&\bigotimes\ar[r]|{\color{red}\;-\;}
+%&\bigotimes\ar[r]|\redminus
 %&\Rect{\rvz}
 %}
 %\\
