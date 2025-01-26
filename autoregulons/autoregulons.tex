@@ -65,7 +65,7 @@ and $y=x^n/(1+x^n)$ for $n=10$.}
 \label{fig-hill-10.png}
 \end{figure}
 
-\section{Autoregulon net motif}
+\section{One Autoregulon}
 a {\bf net motif} is just a subgraph of a bnet
 
 \begin{figure}[h!]
@@ -104,41 +104,67 @@ However, we often use the following approximations
 \beq
 f(x)=\left\{
 \begin{array}{ll}
-\beta\indi(x<K)
-&(\text{lowpass filter})
-\\
 \beta\indi(x>K)
 &(\text{highpass filter})
 \\
-\beta x
+\beta\indi(x<K)
+&(\text{lowpass filter})
+\\
+|f_1| x
 &(\text{positive feedback})
 \\
--\beta x
+-|f_1| x
 &(\text{negative feedback})
 \end{array}
 \right.
 \eeq
 
-Henceforth, we will use
 
+\subsection{Linear Expansion of $f$}
+
+Let 
+
+\beq
+\dot{x} = -\alp x + f(x) \quad\text{ with }
+f(x)\approx f_0 + f_1x
+\eeq
+If
+\beq
+x_0 = x(0)\;,\;\;
+\alp_1=\alp-f_1
+\eeq
+then the most general solution for $x(t)$ is
+\beq
+x(t)=\underbrace{x_0 e^{-\alp_1 t} }_{x_h}+
+\underbrace{\frac{f_0}{\alp_1}\left[1-e^{-\alp_1 t}\right]}_{x_p}
+\eeq
+as can be easily checked.
+$x_h$ is called the {\bf homogeneous solution}\footnote{
+$x_h$ satisfies the homogeneous ODE, i.e., the
+ODE with $f(x)=0$.
+}
+and $x_p$ is called the {\bf particular solution}.
+\footnote{
+If we integrate both sides of
+$\frac{dx}{f_0 -\alp_1 x}=dt$,
+we only get the particular solution.}
+Hence 
 \begin{itemize}
 \item
-$\xymatrix{\Rect{\rvx^\redplus}}$ to denote a positive feedback 
-autoregulon $\rvx$
+if $\alp-f_1=\alp_1<0$, then $x(t)$ 
+goes exponentially fast  from $x_0$ to $(x_0 -\frac{f_0}{\alp_1})e^{|\alp_1|t}$
+as $t\rarrow \infty$. 
+\item 
+if $\alp-f_1=\alp_1>0$, then $x(t)$ goes exponentially fast from
+$x_0$ to $\frac{f_0}{\alp_1}$ as $t\rarrow \infty$.
 
-\item  $\xymatrix{\Rect{\rvx^\redminus}}$
-to denote a negative feedback 
-autoregulon $\rvx$. \footnote{
-Ref.\cite{alon-book}
-denotes a negative feedback autoregulon by 
-$\xymatrix{\rvx\loopright{3}{@{-|}}}$
-} 
-
+\item if $f_1>0$ (positive feedback), then if it is strong
+enough (i.e., if $f_1 > \alp$), then $\alp_1<0$ 
+\item if $f_1<0$ (negative feedback), then $\alp_1>0$.
 \end{itemize}
 
-
 \subsection{Lowpass $f$}
-For $f$ lowpass filter
+If $f$ is a lowpass filter
 \beq
 x= 
 \left\{
@@ -203,7 +229,7 @@ Autoregulon with lowpass $f$ can be used for {\bf memory}.
 
 
 \subsection{Highpass $f$}
-For $f$ highpass
+For $f$ is a highpass filter
 
 \beq
 x= 
@@ -249,44 +275,16 @@ See Fig.\ref{fig-autoreg-highpass}
 for picture of 
 approximate $x$ for autoregulon with highpass $f$.
 
-\hrule
 
 
-Three $x$ values $\{x_0, K, \frac{\beta}{\alp}\}$, and
-two $f$ values $\{ \text{lowpass, highpass}\}$
 
+\subsection{Acceleration towards attracting point}
 
-\subsection{Linear Expansion of $f$}
+Assume 
 
-Consider
 \beq
-\dot{x} = -\alp x + f(x) \quad\text{ with }f(x) \approx f_0 + f_0'x
+f(x)\approx f_0^a + f_1^a (x-x_a)
 \eeq
-
-If
-\beq
-b=(f_0'-\alp)
-\eeq
-then 
-\beq
-\frac{dx}{f_0 + bx}=dt
-\eeq
-
-\beq\frac{1}{b}d\ln(f_0 +bx)=dt
-\eeq
-\beq
-f_0 + bx = e^{bt(t-t_0)}
-\eeq
-
-\beq x =\frac{-f_0 + e^{bt(t-t_0)}}{b} 
-\eeq
-
-Hence, $x(t)$ is a growing exponential (plus a constant) if $b>0$ and a decaying exponential otherwise. For 
-negative feedback (i.e., $f'_0=\beta < 0$), $x(t)$ is always a decaying exponential,
-whereas for \qt{big enough} (i.e., $-f'_0=\beta > \alp$), $x(t)$ is a growing exponential.
-
-\subsection{Acceleration, Deceleration}
-
 
 \begin{figure}[h!]
 \centering
@@ -294,31 +292,55 @@ whereas for \qt{big enough} (i.e., $-f'_0=\beta > \alp$), $x(t)$ is a growing ex
 {autoregulons/xdot-versus-x.png}
 \includegraphics[width=2.5in]
 {autoregulons/xdot-versus-x-neg.png}
-\caption{$(a)$ $|f(x)-\alp x|<|\beta-\alp x|$, $f(x)$ slowdown,
-$(b)$ $|f(x)-\alp x|>|\beta-\alp x|$, $f(x)$ speedup}
-\label{fig-xdot-versus-x}
-\end{figure}
-
-\begin{figure}[h!]
-\centering
 \includegraphics[width=2.5in]
 {autoregulons/fast-normal-slow.png}
-\caption{For single autoregulon, $\dot{x}(t)=-\alp x + f(x)$ with $f(x)=\beta\indi(x>K)$ is normal.
-Speedup and slowdown
-with respect to that is obtained by using more general $f(x)$. }
+\caption{For single autoregulon, $\dot{x}(t)=-\alp x + f(x)$ with $f(x)=f_0^a + f^a_1(x-x_a)$.
+Slowdown ($f_1^a>0$),
+Speedup ($f_1^a<0$),  Normal ($f_1^a=0$)
+ }
 \label{fig-fast-normal-slow}
 \end{figure}
 
-$f(x)$ positive slope, positive autoregulation, slowdown
-
-$f(x)$ negative slope, negative autoregulation, speedup
-
-
-
-\section{Multiple autoregulons}
-
-We will use 
+Define
 \begin{itemize}
+\item
+{\bf positive autoregulation (PAR)}: $f_1^a >0$, positive slope at $x=x_a$, , slowdown
+\item
+{\bf negative autoregulation (NAR)}: $f_1^a <0$, negative slope at $x=x_a$, speedup
+\item
+{\bf zero autoregulation (ZAR)}: $f_1^a =0$, zero slope at $x=x_a$,\qt{normal} speed
+\end{itemize}
+These definitions are illustrated in Fig.\ref{fig-fast-normal-slow}.
+
+\section{Autoregulon notation}
+Henceforth, we will use
+
+\begin{itemize}
+\item
+$\xymatrix{\Rect{\rvx}}$ to denote any 
+autoregulon $\rvx$
+
+\item
+$\xymatrix{\Rect{\rvx^\redoplus}}$ to denote a highpass 
+autoregulon $\rvx$
+
+\item
+$\xymatrix{\Rect{\rvx^\redominus}}$ to denote a lowpass 
+autoregulon $\rvx$
+
+\item
+$\xymatrix{\Rect{\rvx^\redplus}}$ to denote a positive feedback 
+autoregulon $\rvx$
+
+
+\item  $\xymatrix{\Rect{\rvx^\redminus}}$
+to denote a negative feedback 
+autoregulon $\rvx$. \footnote{
+Ref.\cite{alon-book}
+denotes a negative feedback autoregulon by 
+$\xymatrix{\rvx\loopright{3}{@{-|}}}$
+} 
+
 \item $\xymatrix{\rvx\ar[r]^\alp&\rvy}$ if $\rvy = \alp \rvx$.
 
  \item  $\xymatrix{\rvx\ar[r]|\redplus&\rvy}$
@@ -340,23 +362,58 @@ to denote
 $\xymatrix{\rvx\ar[r]^\alp&\rvy}$
 with $\alp=0$.
 
-\item  $\xymatrix{\rvx\ar[r]|\ominus^K
+\item  $\xymatrix{\rvx\ar[r]|\redominus^K
 &\rvy}$
 to denote
 $\rvy = \indi(\rvx< K)$
 (i.e., lowpass filter)
 for some $K>0$
 
-\item  $\xymatrix{\rvx\ar[r]|\oplus^K
+\item  $\xymatrix{\rvx\ar[r]|\redoplus^K
 &\rvy}$
 to denote
 $\rvy = \indi(\rvx> K)$
 (i.e., highpass filter)
 for some $K>0$.
+
 \end{itemize}
+\section{Fixed Points}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2in]
+{autoregulons/source-sink-source.png}
+\caption{For single autoregulon $\dot{x}(t)=-\alp x + f(x)$, $(x, \dot{x})$ graphs and 
+corresponding $(x,t)$ graphs. This $f()$ has
+two repelling  points ($x_{r_1}, x_{r_2}$) 
+and one attracting  point ($x_a$).
+}
+\label{fig-source-sink-source}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=3in]
+{autoregulons/2dim-3fp.png}
+\caption{Flow map for two autoregulons satisfyig Eqs.(\ref{eq-2dim-3fp}).}
+\label{fig-2dim-3fp}
+\end{figure}
+
+\beq
+\left\{
+\begin{array}{l}
+\dot{x} = -\alp y + f(x)
+\\
+\dot{y} =-\alp x + f(y)
+\end{array}
+\right.
+\label{eq-2dim-3fp}
+\eeq
+Same $\alp$ and function $f()$ (shown in Fig.\ref{fig-source-sink-source}) for both differential
+equations.
 
 
-\subsection{Two autoregulons}
+\section{Two autoregulons}
 
 \begin{figure}[h!]
 $$
@@ -443,8 +500,25 @@ $$
 
 feedback
 
+\subsection{Negative Feedback
+between 2 autoregulons}
 
-\subsection{More than 2 autoregulons}
+\begin{figure}
+$$
+\xymatrix@C=5pc
+{\Rect{\rvx}
+\autoar{r}{\redminus}{\redplus}
+&\Rect{\rvy}
+}
+$$
+\caption{Net for Negative Feedback
+between 2 autoregulons}
+\label{fig-neg-feed-2aregs}
+\end{figure}
+
+
+
+\section{More than 2 autoregulons}
 
 \begin{figure}[h!]
 $$
@@ -532,19 +606,19 @@ $$
 }&
 &
 \xymatrix{
-&\Rect{\rvx}\ar[dl]|\oplus
-\ar[dr]|\oplus
+&\Rect{\rvx}\ar[dl]|\redoplus
+\ar[dr]|\redoplus
 \\
-\Rect{\rvy}\ar[rr]|\oplus
+\Rect{\rvy}\ar[rr]|\redoplus
 &&\Rect{\rvz}
 }
 &
 &
 \xymatrix{
-&\Rect{\rvx}\ar[dl]|\oplus
-\ar[dr]|\oplus
+&\Rect{\rvx}\ar[dl]|\redoplus
+\ar[dr]|\redoplus
 \\
-\Rect{\rvy}\ar[rr]|\ominus
+\Rect{\rvy}\ar[rr]|\redominus
 &&\Rect{\rvz}
 }
 \\
@@ -597,7 +671,6 @@ $(c)$ Incoherent Type 1 FFL (I1-FFL)}
 %$(b)$ I1-FFL with product node}
 %\end{figure}
 
-\section{C1-FFL and I1-FFL net}
 
 
 
@@ -610,11 +683,11 @@ where parameters (i.e., $\alp_\rvy, \alp_\rvz, \beta_\rvy, \beta_{\rvz}$) are po
 $$
 \begin{array}{ccc}
 \xymatrix{
-\rvx \ar@/_1pc/[drr]|\oplus
-\ar[r]|\oplus
+\rvx \ar@/_1pc/[drr]|\redoplus
+\ar[r]|\redoplus
 &\bigotimes\ar@/_3pc/[drr]|{\beta_\rvz}
 & \rvy\ar[d]_{-\alp_\rvy}\ar[l]|
-\oplus
+\redoplus
 &\rvz\ar[d]^{-\alp_\rvz}
 \\
 &
@@ -624,10 +697,10 @@ $$
 }
 &&
 \xymatrix{
-\rvx \ar@/_1pc/[drr]|\oplus\ar[r]|\oplus
+\rvx \ar@/_1pc/[drr]|\redoplus\ar[r]|\redoplus
 &\bigotimes\ar@/_3pc/[drr]|{\beta_\rvz}
 & \rvy\ar[d]_{-\alp_\rvy}\ar[l]|
-\ominus
+\redominus
 &\rvz\ar[d]^{-\alp_\rvz}
 \\
 &
@@ -802,17 +875,31 @@ where
 y_{max}= \frac{\beta_\rvz}{\alp_\rvz}
 (1-e^{-\alp_\rvz t_{max}})
 \eeq
+\subsection{Repressilator}
 
-\section{SIM net}
+\begin{figure}
+$$
+\xymatrix{
+&\Rect{\rvx}\ar[dl]|\redminus
+\\
+\Rect{\rvy}\ar[rr]|\redminus
+&&\Rect{\rvz}\ar[ul]|\redminus
+}
+$$
+\caption{Repressilator net}
+\label{fig-repress-net}
+\end{figure}
+
+\subsection{SIM net}
 Single Input Module (SIM) net
 
 \begin{figure}[h!]
 $$
 \xymatrix@R=4pc{
 &\Rect{\rvx}
-\ar[dl]|\oplus_{K_1}
-\ar[d]|\oplus_{K_2}
-\ar[dr]|\oplus^{K_3}
+\ar[dl]|\redoplus_{K_1}
+\ar[d]|\redoplus_{K_2}
+\ar[dr]|\redoplus^{K_3}
 \\
 \Rect{\rvz_1}
 &\Rect{\rvz_2}
@@ -845,17 +932,17 @@ $$
 
 
 \newpage
-\section{Flagellum net}
+\subsection{Flagellum net}
 
 \begin{figure}[h!]
 $$
 \xymatrix@C=3pc{
 &\Rect{\rvx}\ar[d]
-\ar[ddl]|\oplus_{K_1}
-\ar[ddr]|\oplus^{K_2}
+\ar[ddl]|\redoplus_{K_1}
+\ar[ddr]|\redoplus^{K_2}
 \\
-&\Rect{\rvy}\ar[dl]|\oplus^{K'_1}
-\ar[dr]|\oplus_{K'_2}
+&\Rect{\rvy}\ar[dl]|\redoplus^{K'_1}
+\ar[dr]|\redoplus_{K'_2}
 \\
 \Rect{\rvz_1}&
 &\Rect{\rvz_2}
@@ -874,51 +961,56 @@ $$
 \end{figure}
 
 
-
-\section{Fixed Points}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=2in]
-{autoregulons/source-sink-source.png}
-\caption{For single autoregulon $\dot{x}(t)=-\alp x + f(x)$, $(x, \dot{x})$ graphs and 
-corresponding $(x,t)$ graphs. This $f()$ has
-two repelling  points ($x_{r_1}, x_{r_2}$) 
-and one attracting  point ($x_a$).
-}
-\label{fig-source-sink-source}
-\end{figure}
+\subsection{Bacillus Subtilis net}
 
 \begin{figure}[h!]
-\centering
-\includegraphics[width=3in]
-{autoregulons/2dim-3fp.png}
-\caption{Flow map for two autoregulons satisfyig Eqs.(\ref{eq-2dim-3fp}).}
-\label{fig-2dim-3fp}
-\end{figure}
-
-\beq
-\left\{
-\begin{array}{l}
-\dot{x} = -\alp y + f(x)
+$$
+\xymatrix{
+&\Rect{\rvx_1}\ar[ddl]|\redplus
+\ar[ddr]|\redplus
 \\
-\dot{y} =-\alp x + f(y)
-\end{array}
-\right.
-\label{eq-2dim-3fp}
-\eeq
-Same $\alp$ and function $f()$ (shown in Fig.\ref{fig-source-sink-source}) for both differential
-equations.
+&\Rect{\rvy_1}
+\ar[dl]|\redminus
+\ar[dr]|\redplus
+\\
+\bigotimes\ar[d]
+&&\bigotimes\ar[d]
+\\
+\Rect{\rvz_1}
+&&\Rect{\rvx_2}
+\ar[d]|\redplus
+\ar[ddl]|\redplus
+\ar[ddr]|\redplus
+\\
+&&\Rect{\rvy_2}\ar[dl]|\redminus
+\ar[dr]|\redplus
+\\
+&\bigotimes\ar[d]
+&&\bigotimes\ar[d]
+\\
+&\Rect{\rvz_2}
+&&\Rect{\rvz_3}
+}$$
+\end{figure}
 
-\section{Memory}
-
-\section{Cascades of multiple autoregulons}
-
-\section{Negative, Positive Feedback
-between 2 autoregulons}
 
 
 
+\subsection{Cascades of multiple autoregulons}
 
 
-\section{Biological clock net}
+\xymatrix@C =5pc{
+\Rect{\rvx}\ar[r]|\redplus
+&\Rect{\rvy}\ar[r]|\redplus
+&\Rect{\rvz}
+}
+
+\xymatrix@C=5pc{
+\Rect{\rvx}\ar[r]|\redminus
+&\Rect{\rvy}\ar[r]|\redminus
+&\Rect{\rvz}
+}
+
+
+
+\subsection{Frog Egg net}
