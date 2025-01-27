@@ -119,7 +119,6 @@ f(x)=\left\{
 \right.
 \eeq
 
-
 \subsection{Linear Expansion of $f$}
 
 Let 
@@ -377,6 +376,19 @@ $\rvy = \indi(\rvx> K)$
 for some $K>0$.
 
 \end{itemize}
+
+Note that a highpass filter,
+when smoothed out, has a steep section with positive slope, so a highpass filter
+is closely related to positive feedback, as their symbols
+$\redoplus$ and $\redplus$ suggest. 
+
+Likewise,
+a lowpass filter, when smooth out,
+has a steep section with negative
+slope, so a lowpass filter is closely related to negative feedback, as their 
+symbols $\redominus$
+and $\redminus$ suggest.
+
 \section{Fixed Points}
 
 \begin{figure}[h!]
@@ -500,10 +512,9 @@ $$
 
 feedback
 
-\subsection{Negative Feedback
-between 2 autoregulons}
+\subsection{Two Autoregulon Negative Feedback}
 
-\begin{figure}
+\begin{figure}[h!]
 $$
 \xymatrix@C=5pc
 {\Rect{\rvx}
@@ -511,12 +522,30 @@ $$
 &\Rect{\rvy}
 }
 $$
-\caption{Net for Negative Feedback
-between 2 autoregulons}
-\label{fig-neg-feed-2aregs}
+\caption{Net for Two Autoregulon Negative Feedback (2AR-NF)}
+\label{fig-2ar-nf}
 \end{figure}
 
+\subsection{Two autoregulon Positive Feedback}
 
+\begin{figure}[h!]
+$$
+\xymatrix@C=5pc
+{\Rect{\rvx}
+\autoar{r}{\redminus}
+{\redminus}
+&\Rect{\rvy}
+}\quad\quad
+\xymatrix@C=5pc
+{\Rect{\rvx}
+\autoar{r}{\redplus}
+{\redplus}
+&\Rect{\rvy}
+}
+$$
+\caption{Net for 2 Autoregulon Positive Feedback (2AR-PF)}
+\label{fig-2ar-pf}
+\end{figure}
 
 \section{More than 2 autoregulons}
 
@@ -875,6 +904,23 @@ where
 y_{max}= \frac{\beta_\rvz}{\alp_\rvz}
 (1-e^{-\alp_\rvz t_{max}})
 \eeq
+
+\subsection{Cascades of multiple autoregulons}
+
+
+\xymatrix@C =5pc{
+\Rect{\rvx}\ar[r]|\redplus
+&\Rect{\rvy}\ar[r]|\redplus
+&\Rect{\rvz}
+}
+
+\xymatrix@C=5pc{
+\Rect{\rvx}\ar[r]|\redminus
+&\Rect{\rvy}\ar[r]|\redminus
+&\Rect{\rvz}
+}
+
+
 \subsection{Repressilator}
 
 \begin{figure}
@@ -889,6 +935,25 @@ $$
 \caption{Repressilator net}
 \label{fig-repress-net}
 \end{figure}
+
+\subsection{Regulated feedback with 3 autoregulons}
+
+
+\begin{figure}[h!]
+$$
+\xymatrix
+{\Rect{\rvx}\ar[dr]
+\autoar{rr}{}{}
+&&\Rect{\rvy}\ar[dl]
+\\
+&\Rect{\rvz}
+}
+$$
+\caption{Net for Regulated Feedback with 3 autoregulons. All 4 arrows can be either
+$\redplus$ or $\redminus$.}
+\label{fig-rf-3ar}
+\end{figure}
+
 
 \subsection{SIM net}
 Single Input Module (SIM) net
@@ -996,21 +1061,7 @@ $$
 
 
 
-\subsection{Cascades of multiple autoregulons}
-
-
-\xymatrix@C =5pc{
-\Rect{\rvx}\ar[r]|\redplus
-&\Rect{\rvy}\ar[r]|\redplus
-&\Rect{\rvz}
-}
-
-\xymatrix@C=5pc{
-\Rect{\rvx}\ar[r]|\redminus
-&\Rect{\rvy}\ar[r]|\redminus
-&\Rect{\rvz}
-}
-
 
 
 \subsection{Frog Egg net}
+
