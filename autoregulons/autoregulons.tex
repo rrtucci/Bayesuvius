@@ -388,6 +388,8 @@ $\redplus$) by
 (lowpass,$\redominus$, 
 $\redminus$).
 
+If an arrow in a net has no sign, assume its sign is positive.
+
 
 
 \section{Fixed Points}
@@ -431,8 +433,8 @@ equations.
 \begin{figure}[h!]
 $$
 \xymatrix@C=6pc@R=1pc{
-\rvx \ar@{=>}[dd]\ar[ddr]|<<<<{\gamma_{\rvx\rarrow\rvy}}
-& \rvy \ar@{=>}[dd]\ar[ddl]|<<<<{\gamma_{\rvy\rarrow\rvx}}
+\rvx \ar@{=>}[dd]\ar[ddr]|<<<<{}
+& \rvy \ar@{=>}[dd]\ar[ddl]|<<<<{}
 \\
 &
 \\
@@ -445,8 +447,8 @@ $$
 \\
 \Rect{\rvx}
 \autoar{r}
-{\gamma_{\rvx\rarrow\rvy}}
-{\gamma_{\rvy\rarrow\rvx}}
+{}
+{}
 &
 \Rect{\rvy}}
 $$
@@ -473,10 +475,10 @@ $$
 \begin{figure}[h!]
 $$
 \xymatrix@C=6pc@R=2pc{
-\rvx \ar@{=>}[dd]\ar[ddrr]|<<<<{\gamma_{\rvx\rarrow\rvy}}
+\rvx \ar@{=>}[dd]\ar[ddrr]|<<<<{}
 \ar[r]
 &\bigotimes\ar[ddl]\ar[ddr]
-& \rvy \ar@{=>}[dd]\ar[ddll]|<<<<{\gamma_{\rvy\rarrow\rvx}}
+& \rvy \ar@{=>}[dd]\ar[ddll]|<<<<{}
 \ar[l]
 \\
 &
@@ -491,8 +493,8 @@ $$
 \\
 \Rect{\rvx}
 \wideautoar{r}
-{\gamma_{\rvx\rarrow\rvy}}
-{\gamma_{\rvy\rarrow\rvx}}
+{}
+{}
 \timesar{r}
 &
 \Rect{\rvy}}
@@ -715,10 +717,10 @@ $$
 \xymatrix{
 \rvx \ar@/_1pc/[drr]|\redoplus
 \ar[r]|\redoplus
-&\bigotimes\ar@/_3pc/[drr]|{\beta_\rvz}
-& \rvy\ar[d]_{-\alp_\rvy}\ar[l]|
+&\bigotimes\ar@/_3pc/[drr]|{\redplus}
+& \rvy\ar[d]|{\redminus}\ar[l]|
 \redoplus
-&\rvz\ar[d]^{-\alp_\rvz}
+&\rvz\ar[d]|{\redminus}
 \\
 &
 & \dot{y}
@@ -728,10 +730,10 @@ $$
 &&
 \xymatrix{
 \rvx \ar@/_1pc/[drr]|\redoplus\ar[r]|\redoplus
-&\bigotimes\ar@/_3pc/[drr]|{\beta_\rvz}
-& \rvy\ar[d]_{-\alp_\rvy}\ar[l]|
+&\bigotimes\ar@/_3pc/[drr]|{\redplus}
+& \rvy\ar[d]|{\redminus}\ar[l]|
 \redominus
-&\rvz\ar[d]^{-\alp_\rvz}
+&\rvz\ar[d]|{\redminus}
 \\
 &
 & \dot{y}
@@ -908,23 +910,45 @@ y_{max}= \frac{\beta_\rvz}{\alp_\rvz}
 
 \subsection{Cascades of multiple autoregulons}
 
-
-\xymatrix@C =5pc{
+\begin{figure}[h!]
+$$\begin{array}{ccc}
+\xymatrix@C =3.5pc{
 \Rect{\rvx}\ar[r]|\redplus
 &\Rect{\rvy}\ar[r]|\redplus
 &\Rect{\rvz}
 }
-
-\xymatrix@C=5pc{
+&&
+\xymatrix@C=3.5pc{
 \Rect{\rvx}\ar[r]|\redminus
 &\Rect{\rvy}\ar[r]|\redminus
 &\Rect{\rvz}
 }
+\\
+\\
+(a)&&(b)
+\end{array}
+$$
+\caption{Positive and Negative
+cascades of autoregulons.}
+\label{fig-cascade}
+\end{figure}
+
+\beq
+\left\{
+\begin{array}{l}
+\dot{x}= -\alp_1 x
+\\
+\dot{y}= -\alp_2 y \pm \gamma_2 x
+\\
+\dot{z}= -\alp_3 z \pm \gamma_3 y
+\end{array}
+\right.
+\eeq
 
 
 \subsection{Repressilator}
 
-\begin{figure}
+\begin{figure}[h!]
 $$
 \xymatrix{
 &\Rect{\rvx}\ar[dl]|\redminus
@@ -936,6 +960,18 @@ $$
 \caption{Repressilator net}
 \label{fig-repress-net}
 \end{figure}
+
+\beq
+\left\{
+\begin{array}{l}
+\dot{x}= -\alp_1 x - \gamma_1 z
+\\
+\dot{y}= -\alp_2 y - \gamma_2 x
+\\
+\dot{z}= -\alp_3 z - \gamma_3 y
+\end{array}
+\right.
+\eeq
 
 \subsection{Regulated feedback with 3 autoregulons}
 
@@ -980,9 +1016,9 @@ $$
 \beq
 \left\{
 \begin{array}{ll}
-\cald \rvx =\beta\indi(x< K)
+\dot{\rvx} =-\alp x +\beta\indi(x< K)
 \\
-\cald \rvz_i =\beta_i\indi(x>K_i)
+\dot {\rvz_i} =-\alp x_i + \beta_i\indi(x>K_i)
 & \text{for $i=1,2,3$}
 \end{array}
 \right.
