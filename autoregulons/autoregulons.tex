@@ -974,14 +974,30 @@ cascades of autoregulons.}
 
 
 \subsection{Repressilator}
+See Ref.\cite{liepe2013maximizing}
 
 \begin{figure}[h!]
 $$
 \xymatrix{
-&\Rect{\rvx}\ar[dl]|\redminus
+&\ar[r]&\rvm_1\ar[dr]|\redplus
+\ar[d]|\redminus
+&\rvp_1\ar[d]|\redminus
+\ar@/_1pc/[dddlll]|\redominus
 \\
-\Rect{\rvy}\ar[rr]|\redminus
-&&\Rect{\rvz}\ar[ul]|\redminus
+\ar[d]&&\dot{\rvm_1}
+&\dot{\rvp_1}&\ar[d]
+\\
+\rvm_2\ar[dr]|\redplus
+\ar[d]|\redminus
+&\rvp_2\ar[d]|\redminus
+\ar[drrr]|\redominus
+&&&\rvm_3\ar[dr]|\redplus
+\ar[d]|\redminus
+&\rvp_3\ar[d]|\redminus
+\ar[lllu]|\redominus
+\\
+\dot{\rvm_2}&\dot{\rvp_2}
+&&&\dot{\rvm_3}&\dot{\rvp_3}
 }
 $$
 \caption{Repressilator net}
@@ -991,14 +1007,55 @@ $$
 \beq
 \left\{
 \begin{array}{l}
-\dot{x}= -\alp_1 x - \gamma_1 z
+\dot{m_1} = -m_1 + \frac{\alp}{1+p_3^h}+\alp_0
 \\
-\dot{y}= -\alp_2 y - \gamma_2 x
+\dot{m_2} = -m_2 + \frac{\alp}{1+p_1^h}+\alp_0
 \\
-\dot{z}= -\alp_3 z - \gamma_3 y
+\dot{m_3} = -m_3 + \frac{\alp}{1+p_2^h}+\alp_0
+\\
+\dot{p_i} = \beta(m_i-p_i)\quad \text{ for } i=1,2,3
 \end{array}
 \right.
 \eeq
+
+\beq
+\dot{y}=-A y
+\eeq
+
+\beq
+A=
+\left[
+\begin{array}{ccc}
+\alp_1 & 0&\gamma_1
+\\
+\gamma_2&\alp_2&0
+\\
+0&-\gamma_3&\alp_3
+\end{array}
+\right]
+\eeq
+
+\beq
+y = y_0 e^{-\lam t}
+\implies (A-\lam)y=0
+\eeq
+
+\beq
+\det (A -\lam) = (\alp_1-\lam)(\alp_2-\lam)
+(\alp_3 -\lam) - \gamma_1 \gamma_2 \gamma_3
+\eeq
+For $\alp_1=\alp_2=\alp_3=0$,
+get 
+
+\beqa
+\lam &=& (-\gamma_1\gamma_2\gamma_3)^{\frac{1}{3}}
+\\
+&=&
+(\gamma_1\gamma_2\gamma_3)^{\frac{1}{3}}
+e^{i\frac{1}{3}(-\pi + 2\pi n)}
+\eeqa
+for $n=0,1,2$
+
 
 \subsection{Regulated feedback with 3 autoregulons}
 
