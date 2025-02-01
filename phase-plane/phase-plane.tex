@@ -3,10 +3,108 @@
 
 This chapter is based on Ref.\cite{wiki-phase-plane}.
 
+A {\bf dynamical system} is a system described by a system of 
+ODE (Ordinary Differential Equations). 
+
+A {\bf phase plane diagram}\footnote{
+Phase plane diagrams can be plotted using
+the Python function {\tt matplotlib.pyplot.quiver}.} 
+is a 2D plots of a {\bf vector field}, wherein a scaled vector  
+$\frac{dy}{dx}$ is plotted at each point $(x,y)$
+on a 2D mesh,
+where $x,y$ are any two state variables of a
+dynamical system. 
+
+Sometimes, instead of plotting a vector field as in phase plane diagrams, 
+multiple solutions $(x(t), y(t))$ (a.k.a. {\bf stream lines}
+, {\bf trajectories})
+for a dynamical system are drawn. In such a case, the resulting diagram is called a {\bf phase diagram}.\footnote{
+Phase diagrams can be drawn using the Python function {\tt matplotlib.pyplot.streamplot}}.
+
+Phase plane diagrams and phase portraits convey the same
+type of intuition about dynamical systems so we will henceforth 
+not distinguish between them and call both of them a PP.
+
+A very useful addendum to a PP is to draw in it the lines 
+which have either $\dot{x}=0$ or $\dot{y}=0$. These 2 lines are
+called the
+{\bf nullclines} of the PP.
+The points at which the two nullclines intersect
+are called {\bf fixed points}. 
+
+PP can of course be generalized to 3 or more dimensions.
+In the 3D case one has either a 3D vector  field or
+a bunch of 3D stream lines.
+
+Note that if a dynamical system is described by the 
+system of ODE:
+
+\beq 
+\left\{
+\begin{array}{c}
+\dot{x}= f(x,y)
+\\
+\dot{y} = g(x, y)
+\end{array}
+\right.
+\eeq
+then one can use the
+same software
+that we use to draw a PP for $(x,y)$ 
+ to draw a PP for
+$(x, \dot{x})$.
+$x, \dot{x}, y, \dot{y}$
+are all considered {\bf state variables}
+and any pair of them is amenable to a PP.
+To draw a PP for $(x, \dot{x})$,
+define
+
+\beq
+\left\{
+\begin{array}{l}
+\dot{x} = v
+\\
+\dot{v} = \pder{f}{x}
+\underbrace{\dot{x}}_{f} + \pder{f}{y}
+\underbrace{\dot{y}}_{g}
+\\
+\dot{y} = g
+\end{array}
+\right.
+\eeq
+We used the same trick that is used to 
+express a second order differential equation
+of the form
+
+\beq
+\ddot{x} = F(x, \dot{x})
+\label{eq-2nd-order-ode}
+\eeq
+as a system of 2 first order ODE.
+In that case, we recast Eq.(\ref{eq-2nd-order-ode})
+as
+
+\beq
+\left\{
+\begin{array}{l}
+\dot{x}=v
+\\
+\dot{v} = F(x, v)
+\end{array}
+\right.
+\eeq
+
+\section{Examples}
+As a supplement to this book, I've written Ref.\cite{OTO}.
+Ref.\cite{OTO} is a github repo that contains 
+ software that plots traces (i.e., $x(t)$ plots for
+any state variable $x$) and PPs. The repo contains a 
+jupyter notebook for each of many
+famous dynamical systems.
+
 
 \section{General 2D system of linear ODE}
 
-ODE = Ordinary Differential Equation
 
 Consider the bnet of Fig.\ref{fig-tau-delta-plane}
 
