@@ -1,39 +1,50 @@
-\chapter{Phase  Plane Diagrams: COMING SOON}
+\chapter{Phase  Plane Plots: COMING SOON}
 \label{ch-phase-plane}
 
 This chapter is based on Ref.\cite{wiki-phase-plane}.
 
 A {\bf dynamical system} is a system described by a system of 
 ODE (Ordinary Differential Equations). 
+An N dimensional system described by 
+coordinates $q_i$ for $i=1,2, \ldots, N$ 
+is said to occupy a point $(q_1, q_2, \ldots, q_N)\in\RR^{2N}$
+in  {\bf configuration space}
+and a point $(q_1,\dot{q_1}, q_2, \dot{q_2}\ldots, q_N, \dot{q_N})\in \RR^N$
+in {\bf phase space}.  The coordinates of phase 
+space are often called {\bf state variables}.
 
-A {\bf phase plane diagram}\footnote{
-Phase plane diagrams can be plotted using
+A {\bf phase plane plot} (PPP)\footnote{
+PPPs can be drawn using
 the Python function {\tt matplotlib.pyplot.quiver}.} 
-is a 2D plots of a {\bf vector field}, wherein a scaled vector  
-$\frac{dy}{dx}$ is plotted at each point $(x,y)$
+is a 2D plot of a {\bf velocity vector field}, wherein a scaled 
+velocity vector  
+$(\dot{x}, \dot{y})$ is plotted at each point $(x,y)$
 on a 2D mesh,
 where $x,y$ are any two state variables of a
 dynamical system. 
 
-Sometimes, instead of plotting a vector field as in phase plane diagrams, 
-multiple solutions $(x(t), y(t))$ (a.k.a. {\bf stream lines}
+Sometimes, instead of plotting a vector field as in PPPs, 
+multiple solutions $(x(t), y(t))$
+ (a.k.a. {\bf stream lines}
 , {\bf trajectories})
-for a dynamical system are drawn. In such a case, the resulting diagram is called a {\bf phase diagram}.\footnote{
-Phase diagrams can be drawn using the Python function {\tt matplotlib.pyplot.streamplot}}.
+for a dynamical system are drawn. In such a case, the resulting plot is called a {\bf phase portait} (PP).\footnote{
+PPs can be drawn using the Python function {\tt matplotlib.pyplot.streamplot}}.
 
-Phase plane diagrams and phase portraits convey the same
-type of intuition about dynamical systems so we will henceforth 
-not distinguish between them and call both of them a PP.
+PPPs and PPs convey the same
+type of intuition about dynamical systems.
+This chapter is about PPP,
+but most of we say about PPP applies to PPs too.
 
-A very useful addendum to a PP is to draw in it the lines 
+A very useful addendum to a PPP is to draw in it the lines 
 which have either $\dot{x}=0$ or $\dot{y}=0$. These 2 lines are
 called the
-{\bf nullclines} of the PP.
+{\bf nullclines} of the PPP.
 The points at which the two nullclines intersect
 are called {\bf fixed points}. 
 
-PP can of course be generalized to 3 or more dimensions.
-In the 3D case one has either a 3D vector  field or
+PPP and PPs can of course be generalized to 3 or more dimensions.
+In the 3D case, a PPP becomes a 3D velocity vector  field 
+and a PP becomes 
 a bunch of 3D stream lines.
 
 Note that if a dynamical system is described by the 
@@ -50,13 +61,13 @@ system of ODE:
 \eeq
 then one can use the
 same software
-that we use to draw a PP for $(x,y)$ 
- to draw a PP for
+that we use to draw a PPP for $(x,y)$ 
+ to draw a PPP for
 $(x, \dot{x})$.
 $x, \dot{x}, y, \dot{y}$
-are all considered {\bf state variables}
-and any pair of them is amenable to a PP.
-To draw a PP for $(x, \dot{x})$,
+are all considered state variables,
+and any pair of them is amenable to a PPP.
+To draw a PPP for $(x, \dot{x})$,
 define
 
 \beq
@@ -65,14 +76,17 @@ define
 \dot{x} = v
 \\
 \dot{v} = \pder{f}{x}
-\underbrace{\dot{x}}_{f} + \pder{f}{y}
-\underbrace{\dot{y}}_{g}
+\underbrace{\dot{x}}_{f(x,y)} + \pder{f}{y}
+\underbrace{\dot{y}}_{g(x,y)}
 \\
-\dot{y} = g
+\dot{y} = g(x, y)
 \end{array}
 \right.
+\label{eq-3d-sys}
 \eeq
-We used the same trick that is used to 
+
+Note that to arrive at Eq.(\ref{eq-3d-sys})
+we  used the same trick that is used to 
 express a second order differential equation
 of the form
 
@@ -81,7 +95,7 @@ of the form
 \label{eq-2nd-order-ode}
 \eeq
 as a system of 2 first order ODE.
-In that case, we recast Eq.(\ref{eq-2nd-order-ode})
+In that case, we express Eq.(\ref{eq-2nd-order-ode})
 as
 
 \beq
@@ -98,7 +112,7 @@ as
 As a supplement to this book, I've written Ref.\cite{OTO}.
 Ref.\cite{OTO} is a github repo that contains 
  software that plots traces (i.e., $x(t)$ plots for
-any state variable $x$) and PPs. The repo contains a 
+any state variable $x$) and PPPs. The repo contains a 
 jupyter notebook for each of many
 famous dynamical systems.
 
@@ -221,7 +235,7 @@ the points $\vec{x}$ which satisfy:
 0=\dot{\vec{x}}= A\vec{x}
 \eeq
 One can classify the types of fixed points by the behavior
-of the streamlines in their vicinity\
+of the streamlines in their vicinity.
 The results are 
 presented in Fig.\ref{fig-wiki-pp}.
 To prove that figure, consider the following cases:
