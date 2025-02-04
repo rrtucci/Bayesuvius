@@ -4,17 +4,41 @@
 This chapter is based on 
 Ref.\cite{dynamical-fuchs}
 
+
+\section{Potential Function}
 \beq
-\dot{x} = f(x, t)
+\underbrace{\frac{dx}{dt}}_{\dot{x}}
+= f(x, t)
 \eeq
 
 \beq
-f(t, x) = -\pder{V}{{x}}
+f(t, x) = -
+\underbrace{\pder{V}{{x}}}_{ \partial_xV}
 \eeq
 
 \beq
 V - V_0= -\int^x_{x_0} dx \; f(x, t)
 \eeq
+
+\beq
+\partial_x V = 0 \iff \dot{x}=0
+\eeq
+
+\beq
+\partial^2_x V>0  \iff \partial_x \dot{x} <0
+\eeq
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2in]
+{dynamical-sys/V-derivatives.png}
+\caption{Relationship between 
+concavity of $V$ and slope of $\dot{x}$
+in as a function of $x$.}
+\label{fig-V-derivatives}
+\end{figure}
+
+
 
 \section{Phase Plane Plots}
 This section is based on Ref.\cite{wiki-phase-plane}.
@@ -474,6 +498,12 @@ $x$ roots of
 \eeq
 
 \item {\bf Hopf bifurcation}
+$r$ roots of
+
+\beq
+0=\dot{r} = \mu_R r - r^3
+\eeq
+This is just a supercritical pitchfork with a change of notation.
 
 \end{enumerate}
 
@@ -491,7 +521,7 @@ $x$ roots of
  \beq
  V(x)= -v_0x -\frac{x^3}{3}
  \implies
- V''(x)= -2x
+ \partial^2_x V(x)= -2x
  \eeq
  
  \begin{figure}[h!]
@@ -515,7 +545,7 @@ $x$ roots of
 V(x) = -\lam\frac{x^2}{2}
 +\frac{x^3}{3}
 \implies
-V''=-\lam + 2x
+\partial^2_x V=-\lam + 2x
 \eeq
 
 \begin{figure}[h!]
@@ -540,7 +570,7 @@ Pitchfork Bifurcation}
 \beq
 V(x)=-\lam \frac{x^2}{2} 
 + \frac{x^4}{4}
-\implies V'' = -\lam + 3 x^2
+\implies \partial^2_x V = -\lam + 3 x^2
 \eeq
 
 \begin{figure}[h!]
@@ -565,7 +595,7 @@ Pitchfork Bifurcation}
 \beq
 V(x)=-\lam \frac{x^2}{2} 
 - \frac{x^3}{3}
-\implies V'' = -\lam - 2x
+\implies \partial^2_x V = -\lam - 2x
 \eeq
 
 \begin{figure}[h!]
@@ -578,3 +608,84 @@ V(x)=-\lam \frac{x^2}{2}
  \end{figure}
 
 \subsection{Hopf Bifurcation}
+
+\beq
+\dot{\vec{x}}=\left[A -|\vec{x}|^2\right]\vec{x}
+\label{eq-hopf-vector}
+\eeq
+where
+
+\beq 
+\vec{x}=
+\left[
+\begin{array}{c}
+x\\ y
+\end{array}
+\right]
+\;,\;\;
+A =
+\left[
+\begin{array}{cc}
+\mu_R
+& -\mu_I
+\\
+\mu_R & \mu_I
+\end{array}
+\right]
+\eeq
+and $x, y, \mu_R, \mu_I\in\RR$
+
+Let
+
+\beq 
+\calc(\vec{x}) = x+ iy
+\eeq
+for any $x,y\in\RR$. Let
+
+\beq 
+z = x + iy\;,\;\;
+\mu = \mu_R + i\mu_I
+\eeq
+
+Then
+
+\beqa
+\mu z&=&
+(\mu_R + i\mu_I)(x+iy)
+\\
+&=&
+(\mu_R x -\mu_I y)
++i(\mu_I x + \mu_R y)
+\\
+&=&
+(A\vec{x})_0 + i (A\vec{x})_1
+\\
+&=& \calc(A\vec{x})
+\eeqa
+Applying $\calc()$
+to both sides of Eq.(\ref{eq-hopf-vector}), we get
+
+\beq
+\dot{z} = (\mu - |z|^2) z
+\label{eq-hopf-complex}
+\eeq
+
+In polar coordinates, with $z= r^{i\theta}$,
+Eq.(\ref{eq-hopf-complex}) reduces to
+
+\beq
+(\dot{r} + i\dot{\theta}r)e^{i\theta}=
+(\mu - r^2)r e^{i\theta}
+\eeq
+Hence, 
+\beq
+\left\{
+\begin{array}{l}
+\dot{r}= (\mu_R - r^2)r
+\\
+\dot{\theta}=\mu_I
+\end{array}
+\right.
+\eeq
+
+
