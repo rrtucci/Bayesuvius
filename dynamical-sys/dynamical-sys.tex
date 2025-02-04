@@ -12,7 +12,7 @@ Ref.\cite{dynamical-fuchs}
 \eeq
 
 \beq
-f(t, x) = -
+f(x,t) = -
 \underbrace{\pder{V}{{x}}}_{ \partial_xV}
 \eeq
 
@@ -20,25 +20,81 @@ f(t, x) = -
 V - V_0= -\int^x_{x_0} dx \; f(x, t)
 \eeq
 
+Note that this is not the potential of Newtonian mechanics.\footnote{Let $V_N$ and $F_N=-\partial_x V_N$ be the potential and force
+Newtonian mechanics. Suppose $f=\lam x$. Then $\boxed{V=-\lam x^2/2}$ and
+$F_N= \ddot{x} = \dot{x}\partial_x f =
+\lam^2 x$. Hence $\boxed{V_N = -\lam^2 x^2/2}$.
+So $V_N$ is insensitive to the sign of $\lam$.
+}
+
+Note that
 \beq
 \partial_x V = 0 \iff \dot{x}=0
 \eeq
-
+and
 \beq
-\partial^2_x V>0  \iff \partial_x \dot{x} <0
+\partial^2_x V = -\frac{d\dot{x}}{dx}
 \eeq
+As shown in Fig.\ref{fig-V-derivatives},
+$V$ has positive second derivative
+(hold water concavity)
+on both sides of an {\bf attractive fixed  point},
+and it has negative second derivative
+(drop water concavity)
+on both sides of a {\bf repulsive fixed point}. Hence, we can think of
+$V$ as a potential in which a ball rolls towards an attractive fixed point
+and away from a repulsive fixed point.
+
+
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=2in]
+\includegraphics[width=4in]
 {dynamical-sys/V-derivatives.png}
-\caption{Relationship between 
-concavity of $V$ and slope of $\dot{x}$
-in as a function of $x$.}
+\caption{Illustration of
+$\frac{d\dot{x}}{dx}=-\partial^2_xV$}
 \label{fig-V-derivatives}
 \end{figure}
 
+In more than 1D, 
 
+\beq
+\dot{\vec{x}} = \vec{f}(\vec{x}, t)
+\eeq
+
+\beq
+\vec{f}(\vec{x}, t) = -\nabla V
+\eeq
+
+\beq
+\nabla V=0 \iff \dot{\vec{x}}=0
+\eeq
+
+\beq
+\nabla^2 V = -\nabla \cdot \dot{\vec{x}}
+\eeq
+
+But note that not all $\vec{f}$
+can be expressed as a gradient.
+In 2D, suppose $\vec{f}=(f_x, f_y)^T$.
+If
+
+\beq
+\left\{
+\begin{array}{{l}}
+f_x = \partial_x V
+\\
+f_y = \partial_y V
+\end{array}
+\right.
+\eeq
+then then we must have
+
+\beq
+\partial_y f_x =\partial_x f_y
+\eeq
+because $\partial_x\partial_y V=
+\partial_y\partial_x V$.
 
 \section{Phase Plane Plots}
 This section is based on Ref.\cite{wiki-phase-plane}.
@@ -65,8 +121,7 @@ dynamical system.
 
 Sometimes, instead of plotting a vector field as in PPPs, 
 multiple solutions $(x(t), y(t))$
- (a.k.a. {\bf stream lines}
-, {\bf trajectories})
+ (a.k.a. {\bf stream lines}, {\bf trajectories})
 for a dynamical system are drawn. In such a case, the resulting plot is called a {\bf phase portrait} (PP).\footnote{
 PPs can be drawn using the Python function {\tt matplotlib.pyplot.streamplot}}.
 
@@ -689,3 +744,12 @@ Hence,
 \eeq
 
 
+\section{Limit cycles}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=5in]
+{dynamical-sys/limit-cycles.png}
+\caption{Types of limit cycles}
+\label{fig-limit-cycles}
+\end{figure}
