@@ -4,12 +4,25 @@
 This chapter is based on 
 Ref.\cite{dynamical-fuchs}
 
-
-\section{Potential Function}
 \beq
 \underbrace{\frac{dx}{dt}}_{\dot{x}}
 = f(x, t)
 \eeq
+First order ODE (Ordinary differential equation).
+
+If $f(x,t)$
+depends explicitly on $t$ 
+the ODE is said
+to describe an {\bf autonomous
+system}.
+If it does depend on $t$,
+it is said to describe a
+{\bf on-autonomous or driven
+system}.
+
+
+\section{Potential Function}
+
 
 \beq
 f(x,t) = -
@@ -38,13 +51,27 @@ and
 As shown in Fig.\ref{fig-V-derivatives},
 $V$ has positive second derivative
 (hold water concavity)
-on both sides of an {\bf attractive fixed  point},
+on both sides of an {\bf stable, attractive fixed  point (attractor)},
 and it has negative second derivative
 (drop water concavity)
-on both sides of a {\bf repulsive fixed point}. Hence, we can think of
-$V$ as a potential in which a ball rolls towards an attractive fixed point
-and away from a repulsive fixed point.
+on both sides of a {\bf unstable, repulsive fixed point (repeller)}. Hence, we can think of
+$V$ as a potential in which a ball rolls towards an attractor
+and away from a repeller.
 
+Besides attractors and repellers, we ca have
+{\bf saddle points},
+which attract in some directions and repel in others. 
+
+A {\bf monostable/bistable/multistable}
+system has one/two/multiple
+attractors.
+
+Attractors are symbolized by a black filled circle (like a black hole). Repellers are 
+symbolized by a white (or yellow)  filled circle (like a sun).
+Saddle points are 
+symbolized by a circle that
+is filled half in black
+and half in white.
 
 
 \begin{figure}[h!]
@@ -447,15 +474,15 @@ A\vec{e}_\pm = \lam_{\pm}\vec{e}_\pm
 The most general solution 
 of $\dot{\vec{x}}=A x$ is
 \beq
-\vec{x} = {\rm Re}\left[
+\vec{x} = 
+\Re\left[
 \vec{e}_+ c_+ e^{\lam_+ t}
 +
 \vec{e}_- c_- e^{\lam_- t})
 \right]
 \label{eq-gen-sol-lode}
 \eeq
-where $c_\pm$ are complex constants and ${\rm Re}()$
-is the real part operator. It can be easily checked that
+where $c_\pm$ are complex constants. It can be easily checked that
 Eq.(\ref{eq-gen-sol-lode}) satisfies $\dot{\vec{x}} = A \vec{x}$.
 
 \subsection{Classification of fixed points}
@@ -583,8 +610,8 @@ This is just a supercritical pitchfork with a change of notation.
  \centering
  \includegraphics[width=5in]
  {dynamical-sys/bifur-saddle-point.png}
- \caption{Saddle point bifurcation.  This
- figure  comes from Ref.\cite{dynamical-fuchs}}.
+ \caption{Saddle point bifurcation. $0= \dot{x} = v_0 + x^2$. This
+ figure  comes from Ref.\cite{dynamical-fuchs}.}
  \label{fig-bifur-saddle-point}
  \end{figure}
  
@@ -607,7 +634,7 @@ V(x) = -\lam\frac{x^2}{2}
  \centering
  \includegraphics[width=5in]
  {dynamical-sys/bifur-trans.png}
- \caption{Transcritical bifurcation.  This
+ \caption{Transcritical bifurcation. $0=\dot{x}=\lam x - x^2$. This
  figure  comes from Ref.\cite{dynamical-fuchs}}.
  \label{fig-bifur-trans}
  \end{figure}
@@ -632,7 +659,8 @@ V(x)=-\lam \frac{x^2}{2}
  \centering
  \includegraphics[width=5in]
  {dynamical-sys/bifur-super.png}
- \caption{Supercritical pitchfork bifurcation.  This
+ \caption{Supercritical pitchfork bifurcation. 
+ $0=\dot{x}=\lam x  - x^3$. This
  figure  comes from Ref.\cite{dynamical-fuchs}}.
  \label{fig-bifur-super}
 \end{figure}
@@ -657,7 +685,7 @@ V(x)=-\lam \frac{x^2}{2}
  \centering
  \includegraphics[width=5in]
  {dynamical-sys/bifur-sub.png}
- \caption{Subcritical  bifurcation.  This
+ \caption{Subcritical  bifurcation. $0=\dot{x}=\lam x  + x^3$.  This
  figure  comes from Ref.\cite{dynamical-fuchs}}.
  \label{fig-bifur-sub}
  \end{figure}
@@ -684,11 +712,31 @@ A =
 \mu_R
 & -\mu_I
 \\
-\mu_R & \mu_I
+\mu_I & \mu_R
 \end{array}
 \right]
 \eeq
-and $x, y, \mu_R, \mu_I\in\RR$
+and $x, y, \mu_R, \mu_I\in\RR$.
+
+Let $\mu = \mu_R + i\mu_I$. Note that in the linear approximation which is valid for $|\vec{x}|<<1$, we have
+$\dot{\vec{x}}=A\vec{x}$.
+This is satisfied by $\vec{x}=\vec{x}_0 e^{At}$.
+The eigenvalues of $A$ are
+$\mu, \mu^*$  because
+
+\beqa
+\det(A-\lam)
+&=&(\mu_R-\lam
+)(\mu_R-\lam) + \mu_I^2
+\\
+&=&
+(\lam - \mu_R - i \mu_I)
+(\lam - \mu_R + i \mu_I)
+\\
+&=&
+(\lam -\mu)(\lam -\mu^*)
+\eeqa
+
 
 Let
 
@@ -743,6 +791,32 @@ Hence,
 \right.
 \eeq
 
+\beq
+\theta = \mu_I  t
+\eeq
+
+Supercritical pitchfork bifurcation Fig.\ref{fig-bifur-super}.
+$r=\pm \sqrt{\mu_R}$
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=5in]
+{dynamical-sys/hopf-evas.png}
+\caption{Eigenvalues of $A-|\vec{x}(t)|^2$ for Hopf
+Eq.(\ref{eq-hopf-vector}).}
+\label{fig-hopf}
+\end{figure}
+
+\section{Hysterisis}
+
+\begin{figure}[h!]
+ \centering
+ \includegraphics[width=5in]
+ {dynamical-sys/hysterisis-2-saddle-points.png}
+ \caption{Hysterisis arises from 2 saddle points. This
+ figure  comes from Ref.\cite{dynamical-fuchs}.}
+ \label{fig-hysterisis-2-saddle-point}
+ \end{figure}
 
 \section{Limit cycles}
 
