@@ -844,11 +844,12 @@ Eq.(\ref{eq-hopf-vector}).}
 
 \subsection{Linear (Harmonic) oscillator}
 \beq
-\ddot{x} + 2\gamma \dot{x} + \omega^2 x= F_0\sin(\omega t)
+\ddot{x} + 2\gamma \dot{x} + \omega^2_0 x= \frac{F_0}{m}\cos(\omega t)
+\label{eq-ho}
 \eeq
-where $\gamma, \omega\in\RR$. The right hand
-side term is called the {\bf forcing term}. We will
-set $F_0=0$ for this discussion.
+where $\gamma, \omega_0, \omega\in\RR$. $\omega_0$ 
+is called the natural frequency. The right hand
+side term is called the {\bf forcing term}.
 
 \beq
 \xymatrix@C=2pc{
@@ -857,37 +858,139 @@ set $F_0=0$ for this discussion.
 \ar@/_1pc/[dl]|\redplus
 \\
 \dot{\rvx}
-&\dot{\rvv}
+&\dot{\rvv}&\ar[l]
 }
 \quad\quad
 \left\{
 \begin{array}{l}
 \dot{x} = v
 \\
-\dot{v} = -2\gamma v -\omega^2 x
+\dot{v} = -2\gamma v -\omega^2_0 x - F_0 \cos(\omega t)
 \end{array}
 \right.
+\eeq 
+
+The most general solution of Eq.(\ref{eq-ho})
+is
+\beq
+x = x_h + x_p
 \eeq
+where
+$x_h$ is the {\bf homogeneous solution} 
+(when $F_0=0$) and $x_p$  is the {\bf particular solution}
+(when $F_0\neq 0$). Explicit expressions for each will
+be given next.
+
+\begin{claim}
+For the harmonic oscillator Eq.(\ref{eq-ho}), we have
+\beq
+\boxed{x_h =\Re(A_he^{-\gamma t +i(\tilde{\omega}_0 t +\delta)})}
+\eeq
+\end{claim}
+\proof
+We find the homogeneous solution by setting $F_0$ 
+to zero in Eq.(\ref{eq-ho}).
 
 \beq
-x = \Re\left(Ae^{i\delta}e^{\lam t}\right)
+x_h = \Re\left(A_he^{i\delta}e^{\lam t}\right)
 \eeq
-where $A, \delta\in \RR$ and $\lam\in \CC$
+where $A_h, \delta\in \RR$ and $\lam\in \CC$
 
 \beq
-A(\lam^2 + 2\gamma\lam +\omega^2) = 0
+A_h(\lam^2 + 2\gamma\lam +\omega_0^2) = 0
 \eeq
 
 \beqa
-\lam &=&\frac{1}{2}(-2\gamma \pm \sqrt{4\gamma^2-4\omega^2})
+\lam &=&\frac{1}{2}(-2\gamma \pm \sqrt{4\gamma^2-4\omega_0^2}
 \\
 &=&
--\gamma\pm\underbrace{\sqrt{\gamma^2-\omega^2}}_{\Omega}
+-\gamma\pm i \underbrace{\sqrt{\omega_0^2-\gamma^2}}_{i\tilde{\omega}_0}
 \eeqa
 
 \beq
-x =\Re(Ae^{-\gamma t +i(\Omega t +\delta)})
+x_h =\Re(A_he^{-\gamma t +i(\tilde{\omega}_0 t +\delta)})
 \eeq
+\qed
+
+\begin{claim}
+For the harmonic oscillator Eq.(\ref{eq-ho}), we have
+
+\beq
+\boxed{x_p =A\cos(\omega t-\delta)}
+\eeq
+where
+
+\beq
+\boxed{A = \frac{F_0}{m}\frac{1}{
+\sqrt{(\omega_0^2-\omega^2)^2 + (2\omega\gamma)^2}}}
+\eeq
+and
+
+\beq
+\boxed{\tan\delta
+=
+\frac
+{2\omega \gamma}
+{\omega^2_0 -\omega^2}}
+\eeq
+
+\end{claim}
+\proof
+If we substitute 
+\beqa
+x_p &=&A{\cos(\omega t-\delta)}
+\\
+&=&
+\frac{A}{2}(e^{i(\omega t -\delta)}+ e^{-i(\omega t -\delta)})
+\eeqa
+into Eq.(\ref{eq-ho}), we get\footnote{c.c. means complex conjugate. $z + c.c. = z  ^*$.
+This notation is especially useful when  $z$ is a long expression.}
+
+\beq 
+\frac{A}{2}e^{i(\omega t -\delta)}(
+-\omega^2  + i2\omega \gamma +\omega_0^2) + c.c.=
+\frac{F_0}{2m}(e^{i\omega t}) + c.c.
+\eeq
+Hence,
+
+\beq
+Ae^{-i\delta t}\underbrace{(
+-\omega^2  + i2\omega \gamma +\omega_0^2) }_{z}
+=\frac{F_0}{m}
+\eeq
+Therefore,
+
+\beqa
+A &=& \frac{F_0}{m}\frac{1}{
+|z|}
+\\
+&=& \frac{F_0}{m}\frac{1}{
+\sqrt{(\omega_0^2-\omega^2)^2 + (2\omega\gamma)^2}}
+\eeqa
+Furthermore
+
+\beqa
+e^{-i\delta t} \frac{z}{|z|}=1
+\eeqa
+so
+
+\beq
+\delta =\angle \left( \frac{z}{|z|}\right)
+\eeq
+which means
+
+\beqa
+\tan\delta
+&=& \frac{z_I}{z_R}
+\\
+&=&
+\frac
+{2\omega \gamma}
+{\omega^2_0 -\omega^2}
+\eeqa
+\qed
+
+
 
 $\gamma$ is called the {\bf damping coefficient}.
 $\gamma \neq 0$ {\bf damped  oscillation} 
@@ -895,6 +998,76 @@ $\gamma \neq 0$ {\bf damped  oscillation}
 $\gamma > 0$: sine wave with  amplitude that increases exponentially
 
 $\gamma < 0$: sine wave with amplitude that decreases exponentially
+
+The {\bf power spectrum} of $x(t)$ is defined as
+
+\beq
+S(\nu)=|\tilde{x}(\nu)|^2
+\eeq
+where 
+
+\beq
+\tilde{x}(\nu) =\calf[x(t)]
+=\int_{-\infty}^{\infty}dt\;
+\; e^{i\nu t}x(t)
+\eeq
+
+\begin{claim}
+The power spectrum for the harmonic oscillator Eq.(\ref{eq-ho})
+is as follows:
+
+\beq
+\boxed{S(\nu) = |\tilde x(\nu)|^2=
+\frac{A^2}{2}
+\left[
+\frac{1}{\gamma^2 + (\nu-\tilde{\omega}_0)^2}
++
+\frac{1}{\gamma^2 + (\nu+\tilde{\omega}_0)^2}
+\right]}
+\eeq
+\end{claim}
+\proof
+
+\beqa
+\tilde{x}(\nu)  &=& \calf[A e^{-\gamma t}\cos(\tilde{\omega}_0 t -\delta)]
+\\
+&=&\calf\left[
+\frac{A e^{-\gamma t}}{2}(e^{i(\tilde{\omega}_0 t -\delta)}
++ e^{-i(\tilde{\omega}_0 t +\delta)})
+\right]
+\\
+&=&
+\frac{A e^{-i\delta}}{2} \left( \frac{1}{-\gamma + i(\nu + \tilde{\omega}_0)} + \frac{1}{-\gamma + i(\nu - \tilde{\omega}_0)} \right)
+\eeqa
+Hence,
+
+\beqa
+S(\nu)&=&
+\frac{A^2}{4}
+\left|
+\frac{2 (-\gamma + i\nu)}
+{(-\gamma + i(\nu-\tilde{\omega}_0))(-\gamma + i(\nu+\tilde{\omega}_0))}
+\right|^2
+\\
+&=&
+A^2 
+\frac{\gamma^2 + \nu^2}
+{[\gamma^2+(\nu-\tilde{\omega}_0)^2][\gamma^2 +(\nu+\tilde{\omega}_0)^2]}
+\\
+&=&
+\underbrace{\left[\frac{\gamma^2 + \nu^2}
+{\gamma^2 + \nu^2 + (\tilde{\omega}_0)^2}\right]}_{C}
+\frac{A^2}{2}
+\left[
+\frac{1}{\gamma^2 + (\nu-\tilde{\omega}_0)^2}
++
+\frac{1}{\gamma^2 + (\nu+\tilde{\omega}_0)^2}
+\right]
+\eeqa
+The coefficient $C$ is often neglected.
+\qed
+
+
 
 \subsection{Nonlinear Oscillators}
 
@@ -912,19 +1085,27 @@ and leaves only two possible terms for $\calf_3$:
 
 \beq 
 \calf_3 = \underbrace{
-\underbrace{P x^2\dot{x}}_{\text{Van der Pol term}}
+\underbrace{V x^2\dot{x}}_{\text{Van der Pol term}}
 +
 \underbrace{R \dot{x}^3}_{\text{Raleigh term}}
-}_{\text{hybrid term (odd in $\dot{x}$)}}
-+ \underbrace{ a x(\dot{x})^2  + b x^3}_{\text{even in $\dot{x}$}}
+}_{\text{V-R hybrid term (odd in $\dot{x}$)}}
++ \underbrace{ a x(\dot{x})^2  + 
+\underbrace{b x^3}_{\text{Duffing term}}
+}_{\text{even in $\dot{x}$}}
 \eeq
 
-Hybrid model:
+V-R hybrid model:
 
 \beq
-\ddot{x} + \underbrace{(\gamma + P x^2 + R \dot{x}^2 )}_{\tilde{\gamma}}
+\ddot{x} + \underbrace{(\gamma + p x^2 + r \dot{x}^2 )}_{\tilde{\gamma}}
 \dot{x} +\omega^2 x=0
 \eeq
+
+Van der Pol equation is usually written as:
+\beq \ddot{x}  +\mu^2(1-x^2) + x=0\eeq
+ so $\gamma = \mu^2$, $p=-\mu^2$
+and $\omega^2=1$.
+
 
 \begin{figure}[h!]
 \centering
@@ -948,7 +1129,7 @@ Hybrid model:
 \centering
 \includegraphics[width=5in]
 {dynamical-sys/hybrid-term.png}
-\caption{Hybrid oscillator. This
+\caption{V-R hybrid oscillator. This
  figure  comes from Ref.\cite{dynamical-fuchs}.}
 \label{fig-hybrid-term}
 \end{figure}
@@ -959,7 +1140,7 @@ Hybrid model:
 \includegraphics[width=2.3in]
 {dynamical-sys/3-oscillator-spectra.png}
 \caption{Spectra for 3 types of oscillators: Van der Pol, 
-Raleigh and hybrid.}
+Raleigh and V-R hybrid.}
 \label{fig-3-oscillator-spectra}
 \end{figure}
 
