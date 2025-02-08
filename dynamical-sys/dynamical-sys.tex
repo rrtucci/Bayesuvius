@@ -596,7 +596,7 @@ This is just a supercritical pitchfork with a change of notation.
 
 \beq
 0= \dot{x} = v_0 + x^2 \implies
- \tilde{x}_{\pm}=\pm \sqrt{-v_0}
+ \TIL{x}_{\pm}=\pm \sqrt{-v_0}
  \eeq
  
  
@@ -619,8 +619,8 @@ This is just a supercritical pitchfork with a change of notation.
 
 \beq
 0=\dot{x}=\lam x - x^2
-\implies  \tilde{x}_1 =0\;\;\;
-\tilde{x}_2 =\lam
+\implies  \TIL{x}_1 =0\;\;\;
+\TIL{x}_2 =\lam
 \eeq
 
 \beq
@@ -644,9 +644,9 @@ Pitchfork Bifurcation}
 
 \beq
 0=\dot{x}=\lam x  - x^3
-\implies \tilde{x}_1 =0
+\implies \TIL{x}_1 =0
 \;,\;\;
-\tilde{x}_\pm = \pm \sqrt{\lam}
+\TIL{x}_\pm = \pm \sqrt{\lam}
 \eeq
 
 \beq
@@ -674,9 +674,9 @@ Pitchfork Bifurcation}
 
 \beq
 0=\dot{x}=\lam x  + x^3
-\implies \tilde{x}_1 =0
+\implies \TIL{x}_1 =0
 \;,\;\;
-\tilde{x}_\pm = \pm \sqrt{-\lam}
+\TIL{x}_\pm = \pm \sqrt{-\lam}
 \eeq
 
 \beq
@@ -848,7 +848,7 @@ Eq.(\ref{eq-hopf-vector}).}
 \label{eq-ho}
 \eeq
 where $\gamma, \omega_0, \omega\in\RR$. $\omega_0$ 
-is called the natural frequency. The right hand
+is called the {\bf natural frequency}. $\gamma$ is called the {\bf damping coefficient}. The right hand
 side term is called the {\bf forcing term}.
 
 \beq
@@ -865,7 +865,7 @@ side term is called the {\bf forcing term}.
 \begin{array}{l}
 \dot{x} = v
 \\
-\dot{v} = -2\gamma v -\omega^2_0 x - F_0 \cos(\omega t)
+\dot{v} = -2\gamma v -\omega^2_0 x - \frac{F_0}{m} \cos(\omega t)
 \end{array}
 \right.
 \eeq 
@@ -881,11 +881,46 @@ $x_h$ is the {\bf homogeneous solution}
 (when $F_0\neq 0$). Explicit expressions for each will
 be given next.
 
-\begin{claim}
+\begin{claim}\label{cl-ho-solutions}
 For the harmonic oscillator Eq.(\ref{eq-ho}), we have
+
+\begin{itemize}
+
+\item if $\gamma < \omega_0$ (underdamping)
+
 \beq
-\boxed{x_h =\Re(A_he^{-\gamma t +i(\tilde{\omega}_0 t +\delta)})}
+\boxed{x_h =\Re(A_he^{-\gamma t +i(\TIL{\omega}_0 t +\delta)})}
 \eeq
+where $\TIL{\omega}=\sqrt{\omega_0^2 -\gamma^2}$
+and $A_h, \delta\in\RR$
+
+\item if $\gamma = \omega_0$ (critical damping)
+
+\beq
+\boxed{x_h = A_h e^{-\gamma t}[1 +  bt]}
+\eeq
+for some $A_h, b\in\RR$.
+
+\item if  $\gamma > \omega_0$ (overdamping)
+
+\beq
+\boxed{x_h =A_h e^{-\gamma_+ t} + B_h e^{-\gamma_- t}}
+\eeq
+where $\gamma_\pm =\gamma \pm  \sqrt{\gamma^2 -\omega_0^2}$,
+and $A_h, B_h \in\RR$.
+
+
+\end{itemize}
+
+Claim \ref{cl-ho-solutions}
+assumes $\gamma\geq 0$. If $\gamma <0$, we get
+an oscillation with exponentially increasing amplitude.
+The most interesting case is often assumed; namely, 
+underdamping
+$0\leq \gamma< \omega_0$
+
+
+
 \end{claim}
 \proof
 We find the homogeneous solution by setting $F_0$ 
@@ -904,12 +939,28 @@ A_h(\lam^2 + 2\gamma\lam +\omega_0^2) = 0
 \lam &=&\frac{1}{2}(-2\gamma \pm \sqrt{4\gamma^2-4\omega_0^2}
 \\
 &=&
--\gamma\pm i \underbrace{\sqrt{\omega_0^2-\gamma^2}}_{i\tilde{\omega}_0}
+-\gamma\pm i \underbrace{\sqrt{\omega_0^2-\gamma^2}}_{\TIL{\omega}_0}
 \eeqa
 
 \beq
-x_h =\Re(A_he^{-\gamma t +i(\tilde{\omega}_0 t +\delta)})
+x_h =\Re(A_h e^{-\gamma t +i(\TIL{\omega}_0 t +\delta)})
 \eeq
+
+When $\omega_0^2 = \gamma^2 +\epsilon^2$
+where $0<\epsilon <<1$, this reduces  to
+
+\beqa
+x_h &=& A_h e^{-\gamma t}\cos(\epsilon t +\delta)
+\\
+&=&
+A_h e^{-\gamma t}[ \cos(\epsilon t)\cos(\delta)-
+\sin(\epsilon t)\sin(\delta)]
+\\
+&\approx &
+A_h'e^{-\gamma t}[1 +  \tan(\delta) \epsilon t]
+\eeqa
+
+
 \qed
 
 \begin{claim}
@@ -992,22 +1043,17 @@ which means
 
 
 
-$\gamma$ is called the {\bf damping coefficient}.
-$\gamma \neq 0$ {\bf damped  oscillation} 
 
-$\gamma > 0$: sine wave with  amplitude that increases exponentially
-
-$\gamma < 0$: sine wave with amplitude that decreases exponentially
 
 The {\bf power spectrum} of $x(t)$ is defined as
 
 \beq
-S(\nu)=|\tilde{x}(\nu)|^2
+S(\nu)=|\TIL{x}(\nu)|^2
 \eeq
 where 
 
 \beq
-\tilde{x}(\nu) =\calf[x(t)]
+\TIL{x}(\nu) =\calf[x(t)]
 =\int_{-\infty}^{\infty}dt\;
 \; e^{i\nu t}x(t)
 \eeq
@@ -1017,12 +1063,12 @@ The power spectrum for the harmonic oscillator Eq.(\ref{eq-ho})
 is as follows:
 
 \beq
-\boxed{S(\nu) = |\tilde x(\nu)|^2=
+\boxed{S(\nu) = |\TIL x(\nu)|^2=
 \frac{A^2}{2}
 \left[
-\frac{1}{\gamma^2 + (\nu-\tilde{\omega}_0)^2}
+\frac{1}{\gamma^2 + (\nu-\TIL{\omega}_0)^2}
 +
-\frac{1}{\gamma^2 + (\nu+\tilde{\omega}_0)^2}
+\frac{1}{\gamma^2 + (\nu+\TIL{\omega}_0)^2}
 \right]}
 \label{eq-spectrum-ho}
 \eeq
@@ -1030,15 +1076,15 @@ is as follows:
 \proof
 
 \beqa
-\tilde{x}(\nu)  &=& \calf[A e^{-\gamma t}\cos(\tilde{\omega}_0 t -\delta)]
+\TIL{x}(\nu)  &=& \calf[A e^{-\gamma t}\cos(\TIL{\omega}_0 t -\delta)]
 \\
 &=&\calf\left[
-\frac{A e^{-\gamma t}}{2}(e^{i(\tilde{\omega}_0 t -\delta)}
-+ e^{-i(\tilde{\omega}_0 t +\delta)})
+\frac{A e^{-\gamma t}}{2}(e^{i(\TIL{\omega}_0 t -\delta)}
++ e^{-i(\TIL{\omega}_0 t +\delta)})
 \right]
 \\
 &=&
-\frac{A e^{-i\delta}}{2} \left( \frac{1}{-\gamma + i(\nu + \tilde{\omega}_0)} + \frac{1}{-\gamma + i(\nu - \tilde{\omega}_0)} \right)
+\frac{A e^{-i\delta}}{2} \left( \frac{1}{-\gamma + i(\nu + \TIL{\omega}_0)} + \frac{1}{-\gamma + i(\nu - \TIL{\omega}_0)} \right)
 \eeqa
 Hence,
 
@@ -1047,22 +1093,22 @@ S(\nu)&=&
 \frac{A^2}{4}
 \left|
 \frac{2 (-\gamma + i\nu)}
-{(-\gamma + i(\nu-\tilde{\omega}_0))(-\gamma + i(\nu+\tilde{\omega}_0))}
+{(-\gamma + i(\nu-\TIL{\omega}_0))(-\gamma + i(\nu+\TIL{\omega}_0))}
 \right|^2
 \\
 &=&
 A^2 
 \frac{\gamma^2 + \nu^2}
-{[\gamma^2+(\nu-\tilde{\omega}_0)^2][\gamma^2 +(\nu+\tilde{\omega}_0)^2]}
+{[\gamma^2+(\nu-\TIL{\omega}_0)^2][\gamma^2 +(\nu+\TIL{\omega}_0)^2]}
 \\
 &=&
 \underbrace{\left[\frac{\gamma^2 + \nu^2}
-{\gamma^2 + \nu^2 + (\tilde{\omega}_0)^2}\right]}_{C}
+{\gamma^2 + \nu^2 + (\TIL{\omega}_0)^2}\right]}_{C}
 \frac{A^2}{2}
 \left[
-\frac{1}{\gamma^2 + (\nu-\tilde{\omega}_0)^2}
+\frac{1}{\gamma^2 + (\nu-\TIL{\omega}_0)^2}
 +
-\frac{1}{\gamma^2 + (\nu+\tilde{\omega}_0)^2}
+\frac{1}{\gamma^2 + (\nu+\TIL{\omega}_0)^2}
 \right]
 \eeqa
 The coefficient $C$ is often neglected.
@@ -1098,7 +1144,7 @@ and leaves only two possible terms for $\calf_3$:
 V-R hybrid model:
 
 \beq
-\ddot{x} + \underbrace{(2\gamma + V x^2 + R \dot{x}^2 )}_{2\tilde{\gamma}}
+\ddot{x} + \underbrace{(2\gamma + V x^2 + R \dot{x}^2 )}_{2\TIL{\gamma}}
 \dot{x} +\omega^2 x=0
 \eeq
 
@@ -1147,20 +1193,20 @@ Raleigh and V-R hybrid.}
 
 From Eq.(\ref{eq-spectrum-ho}), the
 spectrum of a harmonic oscillator at its peak 
-$\nu=\tilde{\omega}_0$ is approximately
+$\nu=\TIL{\omega}_0$ is approximately
 
 \beq
-S(\nu=\tilde{\omega}_0)\approx \frac{A^2}{2\gamma^2}
+S(\nu=\TIL{\omega}_0)\approx \frac{A^2}{2\gamma^2}
 \eeq
 Hence, 
 
 \beq
-|\tilde{x}(\nu)|=\sqrt{S(\nu=\tilde{\omega}_0)}
+|\TIL{x}(\nu)|=\sqrt{S(\nu=\TIL{\omega}_0)}
 \approx \frac{A}{\gamma\sqrt{2}}
 \eeq
 
 \beqa
-\av{2\tilde{\gamma}} &=&
+\av{2\TIL{\gamma}} &=&
 \av{2\gamma + V x^2 + R \dot{x}^2}
 \\
 &\approx& 
@@ -1168,7 +1214,7 @@ Hence,
 \eeqa
 
 \beq
-|\tilde{x}(\nu=\omega_0)|\approx
+|\TIL{x}(\nu=\omega_0)|\approx
 \frac{A}{[\gamma + \frac{A^2}{4}
 (V-\omega_0^2 R)]\sqrt{2}}
 \eeq
@@ -1180,19 +1226,19 @@ As $\omega_0\rarrow
 \item $V\neq 0, R=0$
 
 \beq
-|\tilde{x}|\propto \text{constant}
+|\TIL{x}|\propto \text{constant}
 \eeq
 
 \item $V= 0, R< 0$
 
 \beq
-|\tilde{x}|\propto \frac{1}{\omega_0^2}
+|\TIL{x}|\propto \frac{1}{\omega_0^2}
 \eeq
 
 \item $V\neq, R< 0$ (V-R hybrid)
 
 \beq
-|\tilde{x}|\propto \frac{1}{V + \omega_0^2 R}
+|\TIL{x}|\propto \frac{1}{V + \omega_0^2 R}
 \eeq
 
 
