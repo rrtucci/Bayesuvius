@@ -832,13 +832,45 @@ Eq.(\ref{eq-hopf-vector}).}
 
 \section{Limit cycles}
 
+A {\bf limit cycle} is a closed orbit with no saddle point fixed 
+points in it. There are four types of limit cycles, depending on whether their skin attracts or repels inside and outside.
+ These 4 types are portrayed  in Fig.\ref{fig-limit-cycles}. Of these 4 types, only one type, the one whose skin attracts both inside and outside (i.e., type $(A)A$), is truly stable.
+
 \begin{figure}[h!]
 \centering
-\includegraphics[width=5in]
+\includegraphics[width=4in]
 {dynamical-sys/limit-cycles.png}
-\caption{Types of limit cycles}
+\caption{The four types of limit cycles. If the 
+skin of the cycle attract inside and repels outside,
+we call it an $(A)R$. The names of the other types
+are defined likewise. }
 \label{fig-limit-cycles}
 \end{figure}
+
+\subsection{Homoclinic and Heteroclinic orbits}
+
+In limit cycles, the skin of a closed surface attracts
+or
+repels inside or outside, leading to spiraling behavior inside and outside. It's also possible for
+the skin to neither attract nor repel the flow but just follow it, either inside or outside or both.
+
+
+As illustrated by Fig.\ref{fig-homo-hetero-clinic}, 
+a {\bf homoclinic (or heteroclinic) orbit}  is a closed path whose skin  
+follows the flow, both inside and outside, which contains a one (or two) saddle points. 
+A trajectory can enter or exit the orbit through that any of the saddle points of the orbit.
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=6in]
+{dynamical-sys/homo-hetero-clinic.png}
+\caption{Homoclinic and Heteroclinic orbits.
+These two
+ figures  comes from Ref.\cite{dynamical-fuchs}.}
+\label{fig-homo-hetero-clinic}
+\end{figure}
+
 
 \section{Oscillators}
 
@@ -912,12 +944,6 @@ and $A_h, B_h \in\RR$.
 
 \end{itemize}
 
-Claim \ref{cl-ho-solutions}
-assumes $\gamma\geq 0$. If $\gamma <0$, we get
-an oscillation with exponentially increasing amplitude.
-The most interesting case is often assumed; namely, 
-underdamping
-$0\leq \gamma< \omega_0$
 
 
 
@@ -957,11 +983,26 @@ A_h e^{-\gamma t}[ \cos(\epsilon t)\cos(\delta)-
 \sin(\epsilon t)\sin(\delta)]
 \\
 &\approx &
-A_h'e^{-\gamma t}[1 +  \tan(\delta) \epsilon t]
+\underbrace{A_h\cos(\delta)}_{A'_h}e^{-\gamma t}[1 +  \tan(\delta) \epsilon t]
 \eeqa
-
-
 \qed
+
+The most interesting damped case is often assumed; namely, 
+underdamping
+$0\leq \gamma< \omega_0$
+
+Claim \ref{cl-ho-solutions}
+assumes $\gamma\geq 0$. If $\gamma <0$, we get
+an oscillation with exponentially increasing amplitude.
+This is no longer damping, although it is sometimes 
+referred to as {\bf negative damping}. Negatively damped 
+oscillators are also often called
+{\bf unstable}, {\bf anti-damped}, {\bf self-exciting},
+{\bf self-amplifying} or {\bf exponentially growing}
+oscillators. They arise frequently in Nature (in Biology, Chemistry, Physics) in systems with {\bf positive feedback}.
+Of course, the amplitude cannot grow exponentially 
+for very long because any system has finite resources
+and that will cap the growth.
 
 \begin{claim}
 For the harmonic oscillator Eq.(\ref{eq-ho}), we have
@@ -1252,35 +1293,6 @@ As $\omega_0\rarrow
 
 \section{Famous Models}
 
-\subsection{Van der Pol oscillator}
-This section is based on Ref.\cite{wiki-van-der-pol}
-
-\begin{figure}[h!]
-$$
-\xymatrix@C=3pc{
-\rvx\ar@/_1pc/[drrr]|\redminus 
-\ar[r]
-&(1-\rvx^2)\ar[r]
-&\bigotimes\ar[dll]|\redplus
-&\rvv\ar[dlll]|\redplus
-\ar[l]
-\\
-\dot{\rvx}
-&&&\dot{\rvv}
-&\ar[l]
-}$$
-\caption{Van der Pol oscillator. \OTO\cite{OTO}}
-\end{figure}
-
-\beq
-\left\{
-\begin{array}{l}
-\dot{x}=v
-\\
-\dot{v}= \mu (1-x^2)v - x + A \sin(\omega t)
-\end{array}
-\right.
-\eeq
 
 
 
@@ -1288,8 +1300,7 @@ $$
 \subsection{FitzHugh-Nagumo model}
 The {\bf FitzHugh-Nagumo model} is a reduced form of the Hodgkin-Huxley model for neuronal dynamics. It is given by
 
-\begin{figure}[h!]
-$$
+\beq
 \xymatrix@R=3pc@C=3pc{
 \rvx^3\ar[dr]|\redminus
 &\rvx\ar[d]|{\;\redplus}
@@ -1303,12 +1314,6 @@ $$
 &\dot{\rvy}
 &\ar[l]|\redplus
 }
-$$
-\caption{FitzHugh-Naguno model. \OTO\cite{OTO}}
-\label{fig-fitz}
-\end{figure}
-
-\beq
 \left\{
 \begin{array}{l}
 \dot{x} = x - \frac{x^3}{3} - y + R
@@ -1317,6 +1322,61 @@ $$
 \end{array}
 \right.
 \eeq
+\OTO\cite{OTO}
+
+\subsection{Heteroclinic Orbit Model}
+
+\beq
+\xymatrix{
+\rvx \ar@/_2pc/[ddrr]|\redminus
+&& \rvy\ar[dl]\ar[d]
+\ar@/^2pc/[ddll]|\redplus
+\ar[dl]
+\\
+&\rvy^3\ar@/_1pc/[dl]|\redminus
+&\rvy^2\ar[d]|\redminus
+\\
+\dot{\rvx}
+&&\dot{\rvy}
+}
+\left\{
+\begin{array}{l}
+\dot{x}= y - y^3
+\\
+\dot{y}=-x - y^2
+\end{array}
+\right.
+\eeq
+ \OTO\cite{OTO}
+
+
+
+\subsection{Homoclinic Orbit Model}
+
+\beq
+\xymatrix{
+\rvx\ar@/_2pc/[ddrr]|\redplus
+\ar[dr]
+&& \rvy\ar@/^2pc/[ddll]|\redplus
+\\
+&\rvx^3\ar@/^2pc/[dr]|\redminus
+\\
+\dot{\rvx}
+&&\dot{\rvy}
+}
+\left\{
+\begin{array}{l}
+\dot{x}=y
+\\
+\dot{y} = x - x^3
+\end{array}
+\right.
+\eeq
+\OTO\cite{OTO}
+
+
+
+
 
 \subsection{Lorenz system}
 
@@ -1324,8 +1384,7 @@ The  {\bf Lorenz system} arises in fluid mechanics and laser physics, and other 
 It is given by
 
 
-\begin{figure}[h!]
-$$
+\beq
 \xymatrix@R=3pc@C=3pc{
 \rvy\ar[d]|\redminus
 \ar[r]
@@ -1342,12 +1401,7 @@ $$
 \dot{\rvy}
 &&\dot{\rvx}
 &&\dot{\rvz}
-}$$
-\caption{Lorentz system. \OTO\cite{OTO}}
-\label{fig-lorenz-sys}
-\end{figure}
-
-\beq
+}
 \left\{
 \begin{array}{l}
 \dot{x} = \sigma (y - x)
@@ -1358,7 +1412,9 @@ $$
 \end{array}
 \right.
 \eeq
-where $\sigma > 0$, $\rho > 0$, and $\beta > 0$ are parameters.
+where $\sigma > 0$, $\rho > 0$, and $\beta > 0$ are parameters. \OTO\cite{OTO}
+
+
 
 %
 %For certain parameter values (e.g., $\sigma = 10, \beta = 8/3, \rho \in [24, 30]$), the Lorenz system exhibits bistability and hysteresis. In this regime, the system has two coexisting attractors (such as chaotic attractors or fixed points) and can jump between them depending on initial conditions and parameter sweeps. This transition can exhibit hysteresis as $\rho$ is increased or decreased.
@@ -1367,8 +1423,7 @@ where $\sigma > 0$, $\rho > 0$, and $\beta > 0$ are parameters.
 \subsection{Predator Prey Model}
 Ref.\cite{OTO}
 
-\begin{figure}[h!]
-$$
+\beq
 \xymatrix{
 \rvx \ar[d]|{\;\redplus}
 \ar[r]
@@ -1383,14 +1438,6 @@ $$
 &
 &\dot{\rvy}
 }
-$$
-\caption{Predator-prey model. \OTO\cite{OTO}}
-\label{fig-volt-2species}
-\end{figure}
-
-
-
-\beq
 \left\{
 \begin{array}{l}
 \dot{x} = \alp x -\beta xy
@@ -1399,3 +1446,30 @@ $$
 \end{array}
 \right.
 \eeq
+\OTO\cite{OTO}
+
+\subsection{Van der Pol oscillator}
+This section is based on Ref.\cite{wiki-van-der-pol}
+
+\beq
+\xymatrix@C=3pc{
+\rvx\ar@/_1pc/[drrr]|\redminus 
+\ar[r]
+&(1-\rvx^2)\ar[r]
+&\bigotimes\ar[dll]|\redplus
+&\rvv\ar[dlll]|\redplus
+\ar[l]
+\\
+\dot{\rvx}
+&&&\dot{\rvv}
+&\ar[l]
+}
+\left\{
+\begin{array}{l}
+\dot{x}=v
+\\
+\dot{v}= \mu (1-x^2)v - x + A \sin(\omega t)
+\end{array}
+\right.
+\eeq \OTO\cite{OTO}
+
