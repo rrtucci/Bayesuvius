@@ -1,44 +1,68 @@
 \chapter{Dynamical Systems: COMING SOON}
 \label{ch-dynamical-sys}
 
-This chapter is based on 
-Ref.\cite{dynamical-fuchs}
+This chapter is mainly based on 
+Refs.\cite{dynamical-fuchs} and \cite{wiki-phase-plane}.
 
+{\bf Dynamical Systems} (DS)
+is the study of systems of one or more
+coupled 1st order (i.e., no derivatives higher than 1st order allowed) {\bf Ordinary Differential Equations} (ODE).
+The constraint of allowing only 1st order
+derivatives does not result in any loss of generality,
+because, as we shall see below, higher order ODE
+can always be replaced by multiple 1st order ODEs.
+Hence, DS studies a vector equation
 \beq
-\underbrace{\frac{dx}{dt}}_{\dot{x}}
-= f(x, t)
+\underbrace{\frac{d\vec{x}}{dt}}_{\dot{\vec{x}}}
+= \vec{f}(\vec{x}, t)
 \eeq
-First order ODE (Ordinary differential equation).
-
-If $f(x,t)$
+where $\vec{x},  \vec{f}\in\RR^n$ for nD (i.e., n-dimensions)
+If $\vec{f}(\vec{x},t)$
 depends explicitly on $t$ 
 the ODE is said
 to describe an {\bf autonomous
 system}.
 If it does depend on $t$,
 it is said to describe a
-{\bf on-autonomous or driven
+{\bf non-autonomous or driven
 system}.
+
+One can draw a bnet for a DS wherein some
+of the nodes are the components of $\vec{x}$
+and other nodes are the components of $\dot{\vec{x}}$.
+The bnets of DS allow one to describe feedback and time
+varying processes in the continuous time limit.
+Other ways of describing time varying processes, albeit in the
+discrete time regime, are Dynamical Bnets (see chapter \ref{ch-dyn-bnets}),
+Time Series Analysis (see chapter \ref{ch-time-arma})
+and Petri Nets (see chapter \ref{ch-petri}).
 
 
 \section{Potential Function}
 
-
+In 1D, define the {\bf potential function} $V$ by
 \beq
 f(x,t) = -
 \underbrace{\pder{V}{{x}}}_{ \partial_xV}
 \eeq
+Hence,
 
 \beq
 V - V_0= -\int^x_{x_0} dx \; f(x, t)
 \eeq
 
-Note that this is not the potential of Newtonian mechanics.\footnote{Let $V_N$ and $F_N=-\partial_x V_N$ be the potential and force
-Newtonian mechanics. Suppose $f=\lam x$. Then $\boxed{V=-\lam x^2/2}$ and
-$F_N= \ddot{x} = \dot{x}\partial_x f =
+Note that this is not the potential of Newtonian mechanics.\footnote{Let $V_N$ and $F_N=\ddot{x}=-\partial_x V_N$ be the potential and force in
+Newtonian mechanics. Furthermore,
+assume the simple case $f=\lam x$. Then $\boxed{V=-\lam x^2/2}$. Also
+$F_N= \ddot{x} =\dot{f}=(\partial_x f )
+\dot{x}=
 \lam^2 x$. Hence $\boxed{V_N = -\lam^2 x^2/2}$.
-So $V_N$ is insensitive to the sign of $\lam$.
+So $V_N$,
+contrary to $V$, is insensitive to the sign of $\lam$.
 }
+
+A {\bf fixed point} is defined as a point
+at which $\dot{\vec{x}}=0$.
 
 Note that
 \beq
@@ -50,25 +74,25 @@ and
 \eeq
 As shown in Fig.\ref{fig-V-derivatives},
 $V$ has positive second derivative
-(hold water concavity)
-on both sides of an {\bf stable, attractive fixed  point (attractor)},
+(hold water convexity)
+on both sides of a {\bf stable, attractive fixed  point (attractor, sink)},
 and it has negative second derivative
-(drop water concavity)
-on both sides of a {\bf unstable, repulsive fixed point (repeller)}. Hence, we can think of
+(drop water convexity)
+on both sides of an {\bf unstable, repulsive fixed point (repeller, source)}. Hence, we can think of
 $V$ as a potential in which a ball rolls towards an attractor
 and away from a repeller.
 
-Besides attractors and repellers, we ca have
-{\bf saddle points},
-which attract in some directions and repel in others. 
+Besides being an attractor or a repeller, a fixed point can be a
+{\bf saddle point}. A saddle point
+attracts in some directions and repel in others. 
 
 A {\bf monostable/bistable/multistable}
 system has one/two/multiple
 attractors.
 
-Attractors are symbolized by a black filled circle (like a black hole). Repellers are 
+In this book, attractors will be symbolized by a black filled circle (like a black hole). Repellers will 
 symbolized by a white (or yellow)  filled circle (like a sun).
-Saddle points are 
+Saddle points will be
 symbolized by a circle that
 is filled half in black
 and half in white.
@@ -123,51 +147,64 @@ then then we must have
 because $\partial_x\partial_y V=
 \partial_y\partial_x V$.
 
-\section{Phase Plane Plots}
-This section is based on Ref.\cite{wiki-phase-plane}.
+In 3D, for 
 
-A {\bf dynamical system} is a system described by a system of 
-ODE (Ordinary Differential Equations). 
+\beq
+\vec{f}=\nabla V
+\eeq
+to be true, we must have
+
+\beq
+\nabla\times \vec{f}
+=0
+\eeq
+because $\nabla\times \nabla V=0$ (i.e., a gradient field has no curl)
+
+\section{Phase Plane Plots}
+
+
 An N dimensional system described by 
 coordinates $q_i$ for $i=1,2, \ldots, N$ 
-is said to occupy a point $(q_1, q_2, \ldots, q_N)\in\RR^{2N}$
+is said to occupy a point $(q_1, q_2, \ldots, q_N)\in\RR^{N}$
 in  {\bf configuration space}
-and a point $(q_1,\dot{q_1}, q_2, \dot{q_2}\ldots, q_N, \dot{q_N})\in \RR^N$
+and a point \\$(q_1,\dot{q_1}, q_2, \dot{q_2}\ldots, q_N, \dot{q_N})\in \RR^{2N}$
 in {\bf phase space}.  The coordinates of phase 
 space are often called {\bf state variables}.
 
-A {\bf phase plane plot} (PPP)\footnote{
-PPPs can be drawn using
-the Python function {\tt matplotlib.pyplot.quiver}.} 
-is a 2D plot of a {\bf velocity vector field}, wherein a scaled 
-velocity vector  
-$(\dot{x}, \dot{y})$ is plotted at each point $(x,y)$
-on a 2D mesh,
+
+A {\bf phase portrait} (PP)\footnote{
+PPs can be drawn using the Python function {\tt matplotlib.pyplot.streamplot}} is a plot of
+multiple solutions $(x(t), y(t))$
+ (a.k.a. {\bf stream lines}, {\bf trajectories})
+for a dynamical system,
 where $x,y$ are any two state variables of a
 dynamical system. 
 
-Sometimes, instead of plotting a vector field as in PPPs, 
-multiple solutions $(x(t), y(t))$
- (a.k.a. {\bf stream lines}, {\bf trajectories})
-for a dynamical system are drawn. In such a case, the resulting plot is called a {\bf phase portrait} (PP).\footnote{
-PPs can be drawn using the Python function {\tt matplotlib.pyplot.streamplot}}.
+A {\bf phase plane plot} (PPP)\footnote{
+PPPs can be drawn using the Python function {\tt
+matplotlib.pyplot.quiver}.
+}
+is a 2D plot of a {\bf velocity vector field}, wherein a scaled 
+velocity vector  
+$(\dot{x}, \dot{y})$ is plotted at each point $(x,y)$
+on a 2D mesh.
 
 PPPs and PPs convey the same
 type of intuition about dynamical systems.
-This chapter is about PPP,
-but most of we say about PPP applies to PPs too.
+In this chapter we use PPs,
+but most of we say about PPs applies to PPPs too.
 
-A very useful addendum to a PPP is to draw in it the lines 
+A very useful addendum to a PP is to draw in it the lines 
 which have either $\dot{x}=0$ or $\dot{y}=0$. These 2 lines are
 called the
-{\bf nullclines} of the PPP.
+{\bf nullclines} of the PP.
 The points at which the two nullclines intersect
 are called {\bf fixed points}. 
 
 PPP and PPs can of course be generalized to 3 or more dimensions.
-In the 3D case, a PPP becomes a 3D velocity vector  field 
-and a PP becomes 
-a bunch of 3D stream lines.
+In the 3D case, 
+a PP becomes 
+a bunch of 3D stream lines and a PPP becomes a 3D velocity vector  field.
 
 Note that if a dynamical system is described by the 
 system of ODE:
@@ -183,13 +220,13 @@ system of ODE:
 \eeq
 then one can use the
 same software
-that we use to draw a PPP for $(x,y)$ 
- to draw a PPP for
+that we use to draw a PP for $(x,y)$ 
+ to draw a PP for
 $(x, \dot{x})$.
 $x, \dot{x}, y, \dot{y}$
 are all considered state variables,
-and any pair of them is amenable to a PPP.
-To draw a PPP for $(x, \dot{x})$,
+and any pair of them is amenable to a PP.
+To draw a PP for $(x, \dot{x})$,
 define
 
 \beq
@@ -232,8 +269,8 @@ as
 
 As a supplement to this book, I've written Ref.\cite{OTO}.
 Ref.\cite{OTO} is a github repo that contains 
- software that plots traces (i.e., $x(t)$ plots for
-any state variable $x$) and PPPs. The repo contains a 
+ software that plots {\bf traces} (i.e., $x(t)$ plots for
+any state variable $x$) and PPs. The repo contains a 
 jupyter notebook for each of many
 famous dynamical systems.
 
@@ -243,25 +280,34 @@ famous dynamical systems.
 \section{Fixed Points in 1D Systems}
 \subsection{Linear System}
 
+Consider the system
+
 \beq
-\dot{x} = \lam x
-\quad 
 \xymatrix{
-&\rvx\ar[d]|{\;\redplus}
+&\rvx\ar[d]
 \\
 &\dot{\rvx}
 }
+\quad
+\left\{\dot{x} = \lam x
+\right.
 \eeq
+where $\lam\in\RR$.
 
+For this system,
 \beq
 V = -\;\frac{\lam}{2}x^2
 \eeq 
+
+Fig.\ref{fig-phase-V-linear}
+shows $(x, \dot{x})$ and $(x, V)$ plots for the linear
+system $\dot{x}=\lam x$.
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=4in]
 {dynamical-sys/phase-V-linear.png}
-\caption{$(x, \dot{x})$ and $(x, V)$ plots for linear
+\caption{$(x, \dot{x})$ and $(x, V)$ plots for the linear
 system $\dot{x}=\lam x$.}
 \label{fig-phase-V-linear}
 \end{figure}
@@ -269,79 +315,139 @@ system $\dot{x}=\lam x$.}
 
 \subsection{Quadratic System}
 
-\beq
-\dot{x} = \lam x - x^2
-\quad 
+Consider the system 
+\beq 
 \xymatrix@R=.5pc{
-&\rvx\ar[dd]|{\;\redplus}
+&\rvx\ar[dd]
 \ar[dl]
 \\
 \rvx^2\ar[dr]|\redminus
 \\
 &\dot{\rvx}
 }
+\quad
+\left\{
+\dot{x} = \lam x - x^2
+\right.
 \eeq
+where $\lam\in\RR$.
+
+For this system
 
 \beq
 V =-\; \frac{\lam}{2}x^2  + \frac{1}{3} x^3
 \eeq 
 
+Fig.\ref{fig-phase-V-quadratic} shows $(x, \dot{x})$ and $(x, V)$ plots for the quadratic
+system $\dot{x}=\lam x-x^2$.
+
 \begin{figure}[h!]
 \centering
 \includegraphics[width=4in]
 {dynamical-sys/phase-V-quadratic.png}
-\caption{$(x, \dot{x})$ and $(x, V)$ plots for quadratic
+\caption{$(x, \dot{x})$ and $(x, V)$ plots for the quadratic
 system $\dot{x}=\lam x-x^2$.}
 \label{fig-phase-V-quadratic}
 \end{figure}
 
 \subsection{Cubic System}
 
+Consider the system
 \beq
-\dot{x} = v_0 + \lam x - x^3
-\quad 
 \xymatrix@R=.5pc{
-&\rvx\ar[dd]|{\;\redplus}
+&\rvx\ar[dd]
 \ar[dl]
 \\
 \rvx^3\ar[dr]|\redminus
 \\
 &\dot{\rvx}&\ar[l]
 }
+\left\{
+\dot{x} = v_0 + \lam x - x^3
+\right.
 \eeq
+where $\lam, v_0\in\RR$. 
+
+For this system
+
 \beq
 V = -v_{0}x -\;\frac{\lam}{2}x^2  + \frac{1}{4} x^4
-\eeq 
+\eeq
 
-Assume $\lam =1$, $\dot{x}=0$.
+Assume $\lam =1$, $\dot{x}=0$. Then
+
 \beq
+v_0 + x = x^3
+\label{eq-fp-cubic}
+\eeq
+Fig.\ref{fig-geometrical-v-critical-v0} shows a plot of the line and cubic
+
+\beq 
 \left\{
 \begin{array}{l}
-y = v_0 + x
+y=v_0 + x
+\\
 y= x^3
 \end{array}
 \right.
 \eeq
-When this system of equations is satisfied,
+Eq.(\ref{eq-fp-cubic})
+is satisfied precisely
+when this line and
+cubic  intersect.
+For large $|x|$,
+these 2 curves intersect
+at a single point. For $x=0$,
+they intersect at 3 points.
+In between,
+ when the line kisses the 
+ cubic at one point, 
+ there are 2 intersections and
+ therefore 2 solutions to 
+ Eq.(\ref{eq-fp-cubic}).
+Call $(x_c, y_c)$
+and $(-x_c, -y_c)$
+with $x_c, y_c\geq 0$,
+the two 
+points at which
+the cubic and the 
+line kiss.
+A closed expression
+for $x_c$ and $y_c$ can
+be found,
+but it's complicated (it
+involves the solution of a cubic
+equation). Suffice it to say that we have proven the
+existence of
+$x_c, y_c$ and their values can be easily found numerically by computer.
+When $(x, \dot{x}) = (\pm x_c, \pm y_c)$, we say that the
+system is at a {\bf critical point}
+and we call $v_c=y_c$
+the {\bf critical velocity}.
 
-\beq
-v_0 + x = x^3
-\eeq
+Fig.\ref{fig-phase-V-cubic-zero-v0} shows plots of $(x, \dot{x})$ and $(x, V)$ for the cubic system
+$\dot{x}=v_0 + \lam x-x^3$ with $v_0=0$
+whereas Fig.\ref{fig-phase-V-cubic-with-v0} shows them when 
+$v_0\neq 0$ and $\lam=1$.
+When $v_0=0$ there is no critical point, whereas when $v_0\neq 0$ there is.
 
-$v_0=v_c$ when $x=x_c$. Hence
-
-\beq
-v_c = - x_c + x^3_c
-\eeq
+Fig.\ref{fig-rolling ball}
+presents an interpretation
+of the critical velocity 
+$v_c$ in terms
+of the potential $V$.
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=2.5in]
 {dynamical-sys/geometrical-v-critical.png}
-\caption{Geometric solution for the critcal value
-$x_c$ of variable $x$. $x=x_c$ when
-the cubic equation $0=v_0 + x -x_3$ has 2 real roots 
-instead 3 or no real roots.}
+\caption{$(\pm x_c, \pm y_c)$
+are the two points at which 
+the line
+$y=v_0 + x$ and the cubic
+$y=x^3$
+kiss.
+}
 \label{fig-geometrical-v-critical-v0}
 \end{figure}
 
@@ -350,7 +456,7 @@ instead 3 or no real roots.}
 \centering
 \includegraphics[width=4in]
 {dynamical-sys/phase-V-cubic-zero-v0.png}
-\caption{$(x, \dot{x})$ and $(x, V)$ plots for cubic system
+\caption{$(x, \dot{x})$ and $(x, V)$ plots for the cubic system
 $\dot{x}=v_0 + \lam x-x^3$ with $v_0=0$.}
 \label{fig-phase-V-cubic-zero-v0}
 \end{figure}
@@ -359,7 +465,7 @@ $\dot{x}=v_0 + \lam x-x^3$ with $v_0=0$.}
 \centering
 \includegraphics[width=4in]
 {dynamical-sys/phase-V-cubic-with-v0.png}
-\caption{$(x, \dot{x})$ and $(x, V)$ plots for cubic system
+\caption{$(x, \dot{x})$ and $(x, V)$ plots for the cubic system
 $\dot{x}=v_0 + \lam x-x^3$ with $v_0\neq 0$
 and $\lam=1$.}
 \label{fig-phase-V-cubic-with-v0}
@@ -378,11 +484,8 @@ in terms of potential $V$.}
 
 \section{Fixed Points in 2D Systems}
 
-
-Consider the bnet of Fig.\ref{fig-tau-delta-plane}
-
-\begin{figure}[h!]
-$$
+Consider the system
+\beq
 \xymatrix{
 \rvx \ar[d]\ar[dr]
 & \rvy\ar[d]\ar[dl]
@@ -390,14 +493,6 @@ $$
 \dot{\rvx} 
 & \dot{\rvy}
 }
-$$
-\caption{Bnet for general 2D system of linear ODE.}
-\label{fig-tau-delta-plane}
-\end{figure}
-
-whose structure equations are the following 2D system of linear ODE:
-
-\beq
 \left\{
 \begin{array}{l}
 \dot{x} = a x + b y
@@ -430,14 +525,16 @@ then
 \dot{\vec{x}} = A \vec{x}
 \eeq
 
+
+If we assume a solution of the form $\vec{x}=\vec{x_0}
+e^{\lam t}$, then
+
+
 \beq 
 \vec{x}= \vec{x}_0 e^{\lam t}
 \implies 
 (A-\lam) \vec{x} =0\implies \det(A-\lam)=0
 \eeq
-
-If we assume a solution of the form $\vec{x}=\vec{x_0}
-e^{\lam t}$, then
 
 \beq
  (a-\lam)(d-\lam)-bc = 0
@@ -476,13 +573,13 @@ of $\dot{\vec{x}}=A x$ is
 \beq
 \vec{x} = 
 \Re\left[
-\vec{e}_+ c_+ e^{\lam_+ t}
+\vec{e}_+ \alp_+ e^{\lam_+ t}
 +
-\vec{e}_- c_- e^{\lam_- t})
+\vec{e}_- \alp_- e^{\lam_- t})
 \right]
 \label{eq-gen-sol-lode}
 \eeq
-where $c_\pm$ are complex constants. It can be easily checked that
+where $\alp_\pm$ are complex constants. It can be easily checked that
 Eq.(\ref{eq-gen-sol-lode}) satisfies $\dot{\vec{x}} = A \vec{x}$.
 
 \subsection{Classification of fixed points}
@@ -511,46 +608,57 @@ figure  comes from Ref.\cite{wiki-phase-plane}}.
 \label{fig-wiki-pp}
 \end{figure}
 
-First note that there is a unique fixed point iff 
-$\det(A)=\delta\neq 0$.
-
 \begin{itemize}
-\item $\Delta < 0$
+\item $\Delta < 0$:
 complex eigenvalues,
 oscillations (perhaps damped)
 \begin{itemize}[\checkmark]
-\item $\tau>0$, exponential growth, spiral out
-\item $\tau=0$, {\bf limit cycle}
-\item $\tau<0$, exponential decay, spiral in
+\item $\tau>0$: exponential growth, spiral out
+\item $\tau=0$: {\bf limit cycle}
+\item $\tau<0$: exponential decay, spiral in
 \end{itemize}
 
 
-\item $\Delta = 0$
+\item $\Delta = 0$:
 real eigenvalues,
 no oscillations. $\tau^2 = 4\delta$
 \begin{itemize}[\checkmark]
-\item $\tau>0$, exponential growth, source
-\item $\tau=0$, $\lam=0$, $\vec{x}$ is constant in time.
-\item $\tau<0$, exponential decay, sink
+\item $\tau>0$: exponential growth, source
+\item $\tau=0$: $\lam=0$, $\vec{x}$ is constant in time.
+\item $\tau<0$: exponential decay, sink
 \end{itemize}
 
-\item $\Delta > 0$
+\item $\Delta > 0$:
 real eigenvalues,
 no oscillations 
 
 \begin{itemize}[\checkmark]
-\item both eigenvalues are negative, sink
-\item both eigenvalues are positive, source
+\item both eigenvalues are negative: sink
+\item both eigenvalues are positive: source
 \item one eigenvalues ($\lam_-$) is negative 
-and the other ($\lam_+$) is positive, saddle point. This 
+and the other ($\lam_+$) is positive: saddle point. This 
 includes case where $\tau=0$ so $\lam =\pm\frac{1}{2}\sqrt{\Delta}$.
 \end{itemize}
 \end{itemize}
 \section{Bifurcations}
 
-{\bf bifurcation diagram}
+A {\bf bifurcation diagram}
+(BD)
+is a plot of $(\lam, x)$
+where $\lam$ is
+a parameter of a
+system and $x$
+is the value of one
+of its  state
+variables, assuming 
+$\dot{x}=0$. Hence,
+a BD is a portrait 
+of the life of a particular fixed point
+when it splits into two fixed points
+(i.e., the
+fixed point \qt{bifurcates}).
 
-Will  discuss 5 types of bifurcations
+We will  discuss 5 types of bifurcations.
 
 \begin{enumerate}
 \item {\bf saddlepoint bifurcation}
@@ -580,12 +688,13 @@ $x$ roots of
 \eeq
 
 \item {\bf Hopf bifurcation}
+
 $r$ roots of
 
 \beq
 0=\dot{r} = \mu_R r - r^3
 \eeq
-This is just a supercritical pitchfork with a change of notation.
+Note that a Hopf bifur is just a supercritical pitchfork bifur with a change of notation.
 
 \end{enumerate}
 
@@ -594,11 +703,20 @@ This is just a supercritical pitchfork with a change of notation.
 
 \subsection{Saddlepoint Bifurcation}
 
+Fig.\ref{fig-bifur-saddle-point} gives plots of a saddle point
+bifurcation.
+
+The $(v_0, x)$ locus 
+of fixed points is given by
 \beq
 0= \dot{x} = v_0 + x^2 \implies
  \TIL{x}_{\pm}=\pm \sqrt{-v_0}
  \eeq
  
+ The type of
+ fixed point can be 
+ deduced from the second derivative
+ of $V$.
  
  \beq
  V(x)= -v_0x -\frac{x^3}{3}
@@ -617,12 +735,22 @@ This is just a supercritical pitchfork with a change of notation.
  
 \subsection{Transcritical Bifurcation}
 
+Fig.\ref{fig-bifur-trans} gives plots of a transcritical
+bifurcation.
+
+The $(\lam, x)$ locus 
+of fixed points is given by
+
 \beq
 0=\dot{x}=\lam x - x^2
 \implies  \TIL{x}_1 =0\;\;\;
 \TIL{x}_2 =\lam
 \eeq
 
+ The type of
+ fixed point can be 
+ deduced from the second derivative
+ of $V$.
 \beq
 V(x) = -\lam\frac{x^2}{2}
 +\frac{x^3}{3}
@@ -641,6 +769,11 @@ V(x) = -\lam\frac{x^2}{2}
  
 \subsection{Supercritical 
 Pitchfork Bifurcation}
+Fig.\ref{fig-bifur-super} gives plots of a supercritical
+bifurcation.
+
+The $(\lam, x)$ locus 
+of fixed points is given by
 
 \beq
 0=\dot{x}=\lam x  - x^3
@@ -649,6 +782,10 @@ Pitchfork Bifurcation}
 \TIL{x}_\pm = \pm \sqrt{\lam}
 \eeq
 
+ The type of
+ fixed point can be 
+ deduced from the second derivative
+ of $V$.
 \beq
 V(x)=-\lam \frac{x^2}{2} 
 + \frac{x^4}{4}
@@ -672,6 +809,13 @@ V(x)=-\lam \frac{x^2}{2}
 \subsection{Subcritical
 Pitchfork Bifurcation}
 
+Fig.\ref{fig-bifur-sub} gives plots of a subcritical
+bifurcation.
+
+The $(\lam, x)$ locus 
+of fixed points is given by
+
+
 \beq
 0=\dot{x}=\lam x  + x^3
 \implies \TIL{x}_1 =0
@@ -679,6 +823,11 @@ Pitchfork Bifurcation}
 \TIL{x}_\pm = \pm \sqrt{-\lam}
 \eeq
 
+ The type of
+ fixed point can be 
+ deduced from the second derivative
+ of $V$.
+ 
 \beq
 V(x)=-\lam \frac{x^2}{2} 
 - \frac{x^3}{3}
@@ -696,8 +845,21 @@ V(x)=-\lam \frac{x^2}{2}
 
 \subsection{Hopf Bifurcation}
 
+Consider the system
 \beq
+\xymatrix@R=.5pc{
+&\vec{\rvx}\ar[dd]
+\ar[dl]
+\\
+|\vec{\rvx}|^2\ar[dr]
+|\redminus
+\\
+&\dot{\vec{\rvx}}
+}
+\quad\quad
+\left\{
 \dot{\vec{x}}=\left[A -|\vec{x}|^2\right]\vec{x}
+\right.
 \label{eq-hopf-vector}
 \eeq
 where
@@ -747,14 +909,14 @@ Let
 \beq 
 \calc(\vec{x}) = x+ iy
 \eeq
-for any $x,y\in\RR$. Let
+for any $\vec{x}=
+(x,y)^T\in\RR^2$. 
 
-\beq 
-z = x + iy\;,\;\;
-\mu = \mu_R + i\mu_I
-\eeq
 
-Then
+If 
+$ = x + iy$ and 
+$\mu = \mu_R + i\mu_I$,
+then
 
 \beqa
 \mu z&=&
@@ -794,13 +956,34 @@ Hence,
 \end{array}
 \right.
 \eeq
+Note that in polar coordinates,
+the two ODE decouple and
+the second one is trivial to
+solve.
 
 \beq
 \theta = \mu_I  t
 \eeq
+Note also that the first ODE is the same ODE that we considered 
+for a
+supercritical pitchfork bifurcation Fig.\ref{fig-bifur-super}.
 
-Supercritical pitchfork bifurcation Fig.\ref{fig-bifur-super}.
-$r=\pm \sqrt{\mu_R}$
+In $(r, V)$ space,
+for $\mu_R<0$, 
+$V$ is a $U$ shaped potential
+ with a minimum at $r=0$.
+ For $\mu_R>0$, $V$ is a
+W shaped potential
+with two minima at $r=\pm \sqrt{\mu_R}$.
+
+In $((x,y), V)$ space, for $\mu_R<0$,
+$V$ is a
+\qt{bowl} shaped potential
+ with a minimum at $r=0$.
+For $\mu_R>0$, $V$ is a 
+\qt{Mexican hat}
+shaped potential whose minima
+form a circle of radius $r=\sqrt{\mu_R}$. 
 
 \begin{figure}[h!]
 \centering
@@ -859,6 +1042,9 @@ As illustrated by Fig.\ref{fig-homo-hetero-clinic},
 a {\bf homoclinic (or heteroclinic) orbit}  is a closed path whose skin  
 follows the flow, both inside and outside, which contains a one (or two) saddle points. 
 A trajectory can enter or exit the orbit through that any of the saddle points of the orbit.
+
+A homoclinic orbit happens when a trajectory leaves a saddle point and returns to it.
+A heteroclinic orbit happens when a trajectory connects two different saddle points.
 
 
 \begin{figure}[h!]
@@ -1295,7 +1481,18 @@ As $\omega_0\rarrow
 
 
 \subsection{Classical Mechanics}
-Newton's equation
+
+\beq
+T=\frac{m}{2}(\dot{q})^2\;, \;\;
+V= \frac{k}{2}q^2
+\eeq
+
+\beq
+p=m\dot{q}
+\eeq
+
+\begin{itemize}
+\item Newton's equation
 
 \beq
 \xymatrix{
@@ -1320,7 +1517,66 @@ v\ar[dl]
 \right.
 \eeq
 
-Hamilton's equations
+\beq
+F= -kx
+\eeq
+
+\beq
+\left\{
+\begin{array}{l}
+\dot{x} = v
+\\
+\dot{v} = \frac{1}{m} F(x, v, t)
+\end{array}
+\right.\left\{
+\begin{array}{l}
+\dot{x} = v
+\\
+\dot{v} = -\frac{k}{m}x
+\end{array}
+\right.
+\eeq
+
+
+\item Euler-Lagrange equation
+
+\beq
+\xymatrix{
+\rvq\ar[dr]
+\\
+\dot{q}\ar[r]
+&L\ar[r]\ar@/^1pc/[rr]
+&\partial_q L\ar[dr]|\redplus
+&\partial_{\dot{q}}L
+\\
+&&&\frac{d}{dt}\left(\partial_{\dot{q}}L\right)
+}
+\left\{
+\begin{array}{l}
+\frac{d}{dt}\left(\partial_{\dot{q}}L\right)= \partial_q L
+\end{array}
+\right.
+\eeq
+
+
+
+\beq
+L=T-V= 
+\frac{m}{2}(\dot{q})^2 -  \frac{k}{2}q^2
+\eeq
+
+\beq
+\partial_q L=-kq\;,\; \partial_{\dot{q}}L=m\dot{q}
+\eeq
+
+\beq
+\left\{
+m\ddot{q}=-kq
+\right.
+\eeq
+
+
+\item Hamilton's equations
 \beq
 \xymatrix{
 q\ar[dr]
@@ -1343,6 +1599,27 @@ p\ar[dl]
 \end{array}
 \right.
 \eeq
+
+\beq
+H= T+V = \frac{p^2}{2m} + \frac{k}{2}q^2
+\eeq
+
+\beq
+\partial_q H = kq\;,\;\;
+\partial_{p}H = \frac{p}{m}
+\eeq
+
+\beq
+\left\{
+\begin{array}{l}
+\dot{q}=
+\frac{p}{m}
+\\
+\dot{p}=-kq
+\end{array}
+\right.
+\eeq
+\end{itemize}
 
 
 \subsection{FitzHugh-Nagumo model}
@@ -1464,10 +1741,42 @@ where $\sigma > 0$, $\rho > 0$, and $\beta > 0$ are parameters. \OTO\cite{OTO}
 
 
 
-%
-%For certain parameter values (e.g., $\sigma = 10, \beta = 8/3, \rho \in [24, 30]$), the Lorenz system exhibits bistability and hysteresis. In this regime, the system has two coexisting attractors (such as chaotic attractors or fixed points) and can jump between them depending on initial conditions and parameter sweeps. This transition can exhibit hysteresis as $\rho$ is increased or decreased.
-%
-%
+
+\subsection{Maxwell's equations}
+
+\beq
+\xymatrix{
+\nabla\cdot\vec{E}\ar[d]|{\;\redplus}
+&\vec{E} \ar[d]\ar[l]
+& \vec{B}\ar[d]\ar[r]
+&\nabla\cdot \vec{B}\ar[d]
+\\
+\frac{\rho}{\epsilon_0}
+&\nabla\times\vec{E}\ar@/_1pc/[dr]|\redminus
+&\nabla\times\vec{B}\ar@/_1pc/[dl]|\redplus
+&0
+\\
+\frac{\vec{J}}{\epsilon_0}\ar[r]|\redminus
+&\partial_t\vec{E}
+&
+\partial_t\vec{B}
+}
+\left\{
+\begin{array}{l}
+\frac{\rho}{\epsilon_0} = \nabla\cdot  \vec{E}
+\\
+0 = \nabla\cdot \vec{B}
+\\
+\partial_t\vec{B} = -\nabla\times \vec{E}
+\\
+\partial_t\vec{E}= \frac{1}{\mu_0\epsilon_0}
+\left(\nabla\times \vec{B} -\mu_0 \vec{J}\right)
+\end{array}
+\right.
+\eeq
+
+
+
 \subsection{Predator Prey Model}
 
 \beq
