@@ -1,4 +1,4 @@
-\chapter{Dynamical Systems: COMING SOON}
+\chapter{Dynamical Systems}
 \label{ch-dynamical-sys}
 
 This chapter is mainly based on 
@@ -269,7 +269,7 @@ as
 
 As a supplement to this book, I've written Ref.\cite{OTO}.
 Ref.\cite{OTO} is a github repo that contains 
- software that plots {\bf traces} (i.e., $x(t)$ plots for
+ software that plots {\bf traces (waveforms)} (i.e., $x(t)$ plots for
 any state variable $x$) and PPs. The repo contains a 
 jupyter notebook for each of many
 famous dynamical systems.
@@ -985,14 +985,14 @@ For $\mu_R>0$, $V$ is a
 shaped potential whose minima
 form a circle of radius $r=\sqrt{\mu_R}$. 
 
-\begin{figure}[h!]
-\centering
-\includegraphics[width=5in]
-{dynamical-sys/hopf-evas.png}
-\caption{Eigenvalues of $A-|\vec{x}(t)|^2$ for Hopf
-Eq.(\ref{eq-hopf-vector}).}
-\label{fig-hopf}
-\end{figure}
+%\begin{figure}[h!]
+%\centering
+%\includegraphics[width=5in]
+%{dynamical-sys/hopf-evas.png}
+%\caption{Eigenvalues of $A-|\vec{x}(t)|^2$ for Hopf
+%Eq.(\ref{eq-hopf-vector}).}
+%\label{fig-hopf}
+%\end{figure}
 
 \section{Hysterisis}
 
@@ -1004,27 +1004,48 @@ Eq.(\ref{eq-hopf-vector}).}
  figure  comes from Ref.\cite{dynamical-fuchs}.}
  \label{fig-hysterisis-2-saddle-point}
  \end{figure}
+ 
+ As show in Fig.\ref{fig-hysterisis-2-saddle-point}, {\bf hysterisis}
+ arises in systems with 2 saddle points. In the $(\lam, x)$ plot,
+ as the parameter $\lam$ is 
+ cycled between $-\lam_c$ and $\lam_c$,
+ the system travels along a
+ line of increasingly weak attractors which turn into  saddle point 1, at which point the system jumps to a string of increasingly weak attractors
+ that turn into saddle  point 2.
 
  \begin{figure}[h!]
 \centering
 \includegraphics[width=5in]
 {dynamical-sys/hysterisis.png}
-\caption{Hysterisis. $x$ represents an input and $y$ an output. $t$ represents time.}
+\caption{In hysterisis,
+as we cycle 
+$\lam$ between $\lam_\ell$ aand $\lam_h$, the $x(t)$ trace is a
+train of pulses.}
 \label{fig-hysterisis}
 \end{figure}
 
+ As shown in Fig.\ref{fig-hysterisis},
+ if we cycle the parameter $\lam$
+ between $-\lam_c$ and 
+ $\lam_c$, the $x(t)$ trace is a
+ train of pulses
+ which can be used as a clock.
+ 
+
+
 \section{Limit cycles}
 
-A {\bf limit cycle} is a closed orbit with no saddle point fixed 
-points in it. There are four types of limit cycles, depending on whether their skin attracts or repels inside and outside.
- These 4 types are portrayed  in Fig.\ref{fig-limit-cycles}. Of these 4 types, only one type, the one whose skin attracts both inside and outside (i.e., type $(A)A$), is truly stable.
+A {\bf limit cycle} is a closed trajectory with no saddle points
+ in it. There are four types of limit cycles, depending on whether their skin attracts or repels inside and outside.
+ These 4 types are portrayed  in Fig.\ref{fig-limit-cycles}. Of these 4 types, only one type
+ is truly stable,  the one whose skin attracts both inside and outside (i.e., type $(A)A$).
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=4in]
 {dynamical-sys/limit-cycles.png}
 \caption{The four types of limit cycles. If the 
-skin of the cycle attract inside and repels outside,
+skin of the cycle attracts inside and repels outside,
 we call it an $(A)R$. The names of the other types
 are defined likewise. }
 \label{fig-limit-cycles}
@@ -1032,19 +1053,18 @@ are defined likewise. }
 
 \section{Homoclinic and Heteroclinic orbits}
 
-In limit cycles, the skin of a closed surface attracts
+In limit cycles, the skin of a closed trajectory attracts
 or
-repels inside or outside, leading to spiraling behavior inside and outside. It's also possible for
-the skin to neither attract nor repel the flow but just follow it, either inside or outside or both.
+repels inside or outside, leading to spiraling behavior inside or outside. It's also possible for
+the skin of a closed trajectory to neither attract nor repel the flow. The flow
+simply runs parallel to the skin, either inside or outside the skin, or both.
 
 
 As illustrated by Fig.\ref{fig-homo-hetero-clinic}, 
-a {\bf homoclinic (or heteroclinic) orbit}  is a closed path whose skin  
-follows the flow, both inside and outside, which contains a one (or two) saddle points. 
-A trajectory can enter or exit the orbit through that any of the saddle points of the orbit.
+a {\bf homoclinic (or heteroclinic) orbit}  is a closed trajectory which contains a one saddle point if homoclinic (or two if heteroclinic), and for which the flow runs
+parallel to the skin, both inside and outside. 
+A trajectory can enter or exit the orbit through any of the saddle points of the orbit.
 
-A homoclinic orbit happens when a trajectory leaves a saddle point and returns to it.
-A heteroclinic orbit happens when a trajectory connects two different saddle points.
 
 
 \begin{figure}[h!]
@@ -1060,14 +1080,23 @@ These two
 
 \section{Oscillators}
 
-\subsection{Linear (Harmonic) oscillator}
+\subsection{Linear oscillator}
+
+The position $x$ 
+at time $t$ of a particle of mass $m$ attached
+to a linear (a.k.a. harmonic)
+oscillator with {\bf natural frequency} $\omega_0$, 
+damped by a force $-2\gamma x$
+($\gamma$ is called the {\bf damping coefficient})
+and driven by a force $F_0cos(\omega t)$,
+satisfies Newton's equation given by
+
 \beq
 \ddot{x} + 2\gamma \dot{x} + \omega^2_0 x= \frac{F_0}{m}\cos(\omega t)
 \label{eq-ho}
-\eeq
-where $\gamma, \omega_0, \omega\in\RR$. $\omega_0$ 
-is called the {\bf natural frequency}. $\gamma$ is called the {\bf damping coefficient}. The right hand
-side term is called the {\bf forcing term}.
+\eeq 
+
+This equation can be transformed into two 1st order ODE
 
 \beq
 \xymatrix@C=2pc{
@@ -1095,12 +1124,13 @@ x = x_h + x_p
 \eeq
 where
 $x_h$ is the {\bf homogeneous solution} 
-(when $F_0=0$) and $x_p$  is the {\bf particular solution}
-(when $F_0\neq 0$). Explicit expressions for each will
+(independent of $F_0$) and $x_p$  is the {\bf particular solution}
+(dependent on $F_0$). Explicit expressions for each will
 be given next.
 
 \begin{claim}\label{cl-ho-solutions}
-For the harmonic oscillator Eq.(\ref{eq-ho}), we have
+For the harmonic oscillator Eq.(\ref{eq-ho}), the homogenous solution $x_h$
+is
 
 \begin{itemize}
 
@@ -1109,7 +1139,7 @@ For the harmonic oscillator Eq.(\ref{eq-ho}), we have
 \beq
 \boxed{x_h =\Re(A_he^{-\gamma t +i(\TIL{\omega}_0 t +\delta)})}
 \eeq
-where $\TIL{\omega}=\sqrt{\omega_0^2 -\gamma^2}$
+where $\TIL{\omega}_0=\sqrt{\omega_0^2 -\gamma^2}$
 and $A_h, \delta\in\RR$
 
 \item if $\gamma = \omega_0$ (critical damping)
@@ -1135,17 +1165,21 @@ and $A_h, B_h \in\RR$.
 
 \end{claim}
 \proof
+
 We find the homogeneous solution by setting $F_0$ 
 to zero in Eq.(\ref{eq-ho}).
+Assume 
 
 \beq
 x_h = \Re\left(A_he^{i\delta}e^{\lam t}\right)
+\label{eq-ho-homog}
 \eeq
-where $A_h, \delta\in \RR$ and $\lam\in \CC$
+where $A_h, \delta\in \RR$ and $\lam\in \CC$. Then
 
 \beq
 A_h(\lam^2 + 2\gamma\lam +\omega_0^2) = 0
 \eeq
+so
 
 \beqa
 \lam &=&\frac{1}{2}(-2\gamma \pm \sqrt{4\gamma^2-4\omega_0^2}
@@ -1153,6 +1187,10 @@ A_h(\lam^2 + 2\gamma\lam +\omega_0^2) = 0
 &=&
 -\gamma\pm i \underbrace{\sqrt{\omega_0^2-\gamma^2}}_{\TIL{\omega}_0}
 \eeqa
+Substituting this value
+of $\lam$ into 
+Eq.(\ref{eq-ho-homog}),
+we finally get
 
 \beq
 x_h =\Re(A_h e^{-\gamma t +i(\TIL{\omega}_0 t +\delta)})
@@ -1187,11 +1225,12 @@ oscillators are also often called
 {\bf self-amplifying} or {\bf exponentially growing}
 oscillators. They arise frequently in Nature (in Biology, Chemistry, Physics) in systems with {\bf positive feedback}.
 Of course, the amplitude cannot grow exponentially 
-for very long because any system has finite resources
+for very long time because any system has finite resources
 and that will cap the growth.
 
 \begin{claim}
-For the harmonic oscillator Eq.(\ref{eq-ho}), we have
+For the harmonic oscillator Eq.(\ref{eq-ho}), the particular
+solution $x_p$ is
 
 \beq
 \boxed{x_p =A\cos(\omega t-\delta)}
@@ -1214,6 +1253,7 @@ and
 
 \end{claim}
 \proof
+
 If we substitute 
 \beqa
 x_p &=&A{\cos(\omega t-\delta)}
@@ -1221,7 +1261,7 @@ x_p &=&A{\cos(\omega t-\delta)}
 &=&
 \frac{A}{2}(e^{i(\omega t -\delta)}+ e^{-i(\omega t -\delta)})
 \eeqa
-into Eq.(\ref{eq-ho}), we get\footnote{c.c. means complex conjugate. $z + c.c. = z  ^*$.
+into Eq.(\ref{eq-ho}), we get\footnote{c.c. means complex conjugate. $z + c.c. = z+z  ^*$.
 This notation is especially useful when  $z$ is a long expression.}
 
 \beq 
@@ -1291,7 +1331,7 @@ is as follows:
 
 \beq
 \boxed{S(\nu) = |\TIL x(\nu)|^2=
-\frac{A^2}{2}
+\frac{A^2}{4}
 \left[
 \frac{1}{\gamma^2 + (\nu-\TIL{\omega}_0)^2}
 +
@@ -1307,55 +1347,72 @@ is as follows:
 \\
 &=&\calf\left[
 \frac{A e^{-\gamma t}}{2}(e^{i(\TIL{\omega}_0 t -\delta)}
-+ e^{-i(\TIL{\omega}_0 t +\delta)})
++ e^{-i(\TIL{\omega}_0 t -\delta)})
 \right]
 \\
 &=&
-\frac{A e^{-i\delta}}{2} \left( \frac{1}{-\gamma + i(\nu + \TIL{\omega}_0)} + \frac{1}{-\gamma + i(\nu - \TIL{\omega}_0)} \right)
+\frac{A }{2} \left(
+\underbrace{\frac{e^{-i\delta}}{-\gamma + i(\nu + \TIL{\omega}_0)}}_{z_+}
+ + 
+ \underbrace{\frac{e^{+i\delta}}{-\gamma + i(\nu - \TIL{\omega}_0)}}_{z_-} \right)
 \eeqa
+Thus,
+
+\beq
+S(\nu)=\frac{A^2}{4}
+[|z_-|^2 + |z_+|^2
++ 2\Re(z_- z_+^*)]
+\eeq
+The cross term $2\Re(z_- z_+^*)$
+is usually neglected because
+it is overpowered by the two terms $|z_\pm|^2$
+in the regions of most interest,
+namely in the vicinity of the two peaks  at $\nu=\pm\TIL{\omega}_0$.
 Hence,
 
-\beqa
-S(\nu)&=&
+\beq
+S(\nu)\approx 
 \frac{A^2}{4}
-\left|
-\frac{2 (-\gamma + i\nu)}
-{(-\gamma + i(\nu-\TIL{\omega}_0))(-\gamma + i(\nu+\TIL{\omega}_0))}
-\right|^2
-\\
-&=&
-A^2 
-\frac{\gamma^2 + \nu^2}
-{[\gamma^2+(\nu-\TIL{\omega}_0)^2][\gamma^2 +(\nu+\TIL{\omega}_0)^2]}
-\\
-&=&
-\underbrace{\left[\frac{\gamma^2 + \nu^2}
-{\gamma^2 + \nu^2 + (\TIL{\omega}_0)^2}\right]}_{C}
-\frac{A^2}{2}
 \left[
 \frac{1}{\gamma^2 + (\nu-\TIL{\omega}_0)^2}
 +
 \frac{1}{\gamma^2 + (\nu+\TIL{\omega}_0)^2}
 \right]
-\eeqa
-The coefficient $C$ is often neglected.
+\eeq
 \qed
 
 
 
 \subsection{Nonlinear Oscillators}
-
+The linear harmonic oscillator
+Eq.(\ref{eq-ho})
+considered in the previous
+section can be
+generalized to
+ 
 \beq
-\ddot{x} + 2\gamma \dot{x} + \omega^2 x + \calf_2(x, \dot{x})  + \calf_3(x, \dot{x})=0
+\ddot{x} + 2\gamma \dot{x} + \omega_0^2 x + \calf_2(x, \dot{x})  + \calf_3(x, \dot{x})=0
 \eeq
-where $\calf_2$ and $\calf_3$ are terms that 
-products of $x$ and $\dot{x}$ that are second and third order in $x$ (including derivatives of $x$).
+where $\calf_2$ and $\calf_3$ are sums of terms  that are second and third order in $x$ ($x\dot{x}^2$ is
+considered to be a third order in $x$ term).
 
-
-{\bf reflection invariance} if ODE doesn't change if replace $x$ by $-x$ (including
-in time derivatives). in phase space necessary for stable limit cycles
+Notice that solutions $x(t)$
+of the linear oscillator
+Eq.(\ref{eq-ho})
+continue to be solutions if $x\rarrow -x$, except their initial conditions change because $-e^{i\omega t}= e^{i(\omega t +\pi)})$.
+This property is called {\bf
+reflection invariance} (RI)
+because it manifests itself in the property that the equation
+of motion Eq.(\ref{eq-ho})
+is invariant under the
+transformation $x\rarrow -x$.
+To reduce the number of possibilities for $\calf_2$ and
+$\calf_3$ terms, we
+consider only terms that 
+preserve RI by being odd under
+$x\rarrow -x$.
 This rules out all $\calf_2$ terms
-and leaves only two possible terms for $\calf_3$:
+and leaves only 4 possible terms for $\calf_3$:
 
 \beq 
 \calf_3 = \underbrace{
@@ -1363,22 +1420,25 @@ and leaves only two possible terms for $\calf_3$:
 +
 \underbrace{R \dot{x}^3}_{\text{Raleigh term}}
 }_{\text{V-R hybrid term (odd in $\dot{x}$)}}
-+ \underbrace{ a x(\dot{x})^2  + 
-\underbrace{b x^3}_{\text{Duffing term}}
++ \underbrace{ C x(\dot{x})^2  + 
+\underbrace{D x^3}_{\text{Duffing term}}
 }_{\text{even in $\dot{x}$}}
 \eeq
 
-V-R hybrid model:
+In particular,
+we wish to consider the {\bf V-R hybrid model}
+whose equation of motion is
 
 \beq
 \ddot{x} + \underbrace{(2\gamma + V x^2 + R \dot{x}^2 )}_{2\TIL{\gamma}}
-\dot{x} +\omega^2 x=0
+\dot{x} +\omega_0^2 x=0
 \eeq
+(Note that the Van der Pol equation is usually written as
+(see Ref.\cite{wiki-van-der-pol}):
 
-Van der Pol equation is usually written as:
-\beq \ddot{x}  +\mu^2(1-x^2) + x=0\eeq
- so $\gamma = \mu^2$, $V=-\mu^2$
-and $\omega^2=1$.
+\beq \ddot{x}  +\mu^2(1-x^2)\dot{x}+ x=0\eeq
+ so $2\gamma = \mu^2$, $V=-\mu^2$
+and $\omega^2_0=1$).
 
 
 \begin{figure}[h!]
@@ -1409,6 +1469,28 @@ and $\omega^2=1$.
 \end{figure}
 
 
+Figs.\ref{fig-van-der-pol-term},
+\ref{fig-raleigh-term}
+and \ref{fig-hybrid-term}
+show typical
+$x(t)$ traces, $(x, \dot{x})$
+PPs and spectra $S(\nu)$
+for Van der Pol ($V\neq 0,R=0$), Raleigh
+($V=0$, $R\neq 0$) and hybrid  ($V,R\neq 0$)
+oscillators.
+Note that the V and R oscillators have peaks at higher order 
+odd harmonics ($3\omega_0, 5\omega_0$, etc.)
+whereas those higher order harmonics can be
+suppressed in a hybrid oscillator with the right 
+ration of $V$ to $R$.
+Of course, the linear harmonic
+oscillator
+has that property too. 
+But the $\omega_0$ dependence of
+the peak value of the power spectrum of the V-R hybrid oscillator
+has a desirable property which the linear oscillator doesn't have. Indeed, note the following claim. 
+
+
 \begin{figure}[h!]
 \centering
 \includegraphics[width=2.3in]
@@ -1418,81 +1500,115 @@ Raleigh and V-R hybrid.}
 \label{fig-3-oscillator-spectra}
 \end{figure}
 
+\begin{claim}
+Fig.\ref{fig-3-oscillator-spectra}  is correct.
+\end{claim}
+\proof
+
 From Eq.(\ref{eq-spectrum-ho}), the
 spectrum of a harmonic oscillator at its peak 
 $\nu=\TIL{\omega}_0$ is approximately
 
 \beq
-S(\nu=\TIL{\omega}_0)\approx \frac{A^2}{2\gamma^2}
+S(\nu=\TIL{\omega}_0)\approx \frac{A^2}{4\gamma^2}
 \eeq
 Hence, 
 
 \beq
 |\TIL{x}(\nu)|=\sqrt{S(\nu=\TIL{\omega}_0)}
-\approx \frac{A}{\gamma\sqrt{2}}
+\approx \frac{A}{2\gamma}
 \eeq
+
+Averaging $\TIL{\gamma}$ over time
+using the fact that $\av{\cos^2(\omega t)}
+=\av{\sin^2(\omega t)}=\frac{1}{2}$, we get
+
 
 \beqa
 \av{2\TIL{\gamma}} &=&
 \av{2\gamma + V x^2 + R \dot{x}^2}
 \\
-&\approx& 
+&=& 
 2\gamma + \frac{A^2}{2}(V  - \omega_0^2 R)
 \eeqa
+so
 
 \beq
 |\TIL{x}(\nu=\omega_0)|\approx
-\frac{A}{[\gamma + \frac{A^2}{4}
-(V-\omega_0^2 R)]\sqrt{2}}
+\frac{A}{2[\gamma + \frac{A^2}{4}
+(V-\omega_0^2 R)]}
 \eeq
 
 As $\omega_0\rarrow
 \infty$
  
 \begin{itemize}
-\item $V\neq 0$, $R=0$
+\item if $V\neq 0$, $R=0$
 
 \beq
 |\TIL{x}|\propto \text{constant}
 \eeq
 
-\item $V= 0$, $R< 0$
+\item if $V= 0$, $R< 0$
 
 \beq
 |\TIL{x}|\propto \frac{1}{\omega_0^2}
 \eeq
 
-\item $V\neq 0$, $R< 0$ (V-R hybrid)
+\item if $V\neq 0$, $R< 0$ (V-R hybrid)
 
 \beq
 |\TIL{x}|\propto \frac{1}{V + \omega_0^2 R}
 \eeq
-
-
-
 \end{itemize}
+\qed
+
+We see from
+this claim,
+that $|\tilde{x}(\nu=\omega_0)|$
+is flat for a linear or V oscillator,
+but for a V-R hybrid oscillator, 
+ it is shaped like a low pass filter with a region which is a reasonable approximation to a  line
+ with negative slope.
+
 
 
 \section{Chaos}
 
-{\bf strange attractor}
+A {\bf strange attractor}
+is a set of attractor points that has fractal self-similarity 
+properties.
 
 \section{Famous Models}
 
 
 \subsection{Classical Mechanics}
 
+Below, we illustrate Newton's, Lagrange's and
+Hamilton's equations using a simple 1D harmonic
+oscillator as an example. 
+Its position 
+will be denoted by $x$, its mass by $m$ and its momentum by
 \beq
-T=\frac{m}{2}(\dot{q})^2\;, \;\;
-V= \frac{k}{2}q^2
+p=m\dot{x}
 \eeq
+The force applied to it is a spring force
 
 \beq
-p=m\dot{q}
+F=-kx
 \eeq
+Its kinetic energy $T$
+and potential energy $V$
+are
+
+\beq
+T=\frac{m}{2}(\dot{x})^2\;, \;\;
+V= \frac{k}{2}x^2
+\eeq
+
 
 \begin{itemize}
-\item Newton's equation
+\item {\bf Newton's equation}
 
 \beq
 \xymatrix{
@@ -1517,18 +1633,9 @@ v\ar[dl]
 \right.
 \eeq
 
-\beq
-F= -kx
-\eeq
-
+For a harmonic oscillator, this becomes
 \beq
 \left\{
-\begin{array}{l}
-\dot{x} = v
-\\
-\dot{v} = \frac{1}{m} F(x, v, t)
-\end{array}
-\right.\left\{
 \begin{array}{l}
 \dot{x} = v
 \\
@@ -1538,84 +1645,86 @@ F= -kx
 \eeq
 
 
-\item Euler-Lagrange equation
+\item {\bf Euler-Lagrange equation}
 
 \beq
 \xymatrix{
-\rvq\ar[dr]
+\rvx\ar[dr]
 \\
-\dot{q}\ar[r]
+\dot{x}\ar[r]
 &L\ar[r]\ar@/^1pc/[rr]
-&\partial_q L\ar[dr]|\redplus
-&\partial_{\dot{q}}L
+&\partial_x L\ar[dr]|\redplus
+&\partial_{\dot{x}}L
 \\
-&&&\frac{d}{dt}\left(\partial_{\dot{q}}L\right)
+&&&\frac{d}{dt}\left(\partial_{\dot{x}}L\right)
 }
 \left\{
 \begin{array}{l}
-\frac{d}{dt}\left(\partial_{\dot{q}}L\right)= \partial_q L
+\frac{d}{dt}\left(\partial_{\dot{x}}L\right)= \partial_x L
 \end{array}
 \right.
 \eeq
 
-
+For a harmonic oscillator, this becomes
 
 \beq
 L=T-V= 
-\frac{m}{2}(\dot{q})^2 -  \frac{k}{2}q^2
+\frac{m}{2}(\dot{x})^2 -  \frac{k}{2}x^2
 \eeq
 
 \beq
-\partial_q L=-kq\;,\; \partial_{\dot{q}}L=m\dot{q}
+\partial_x L=-kx\;,\; \partial_{\dot{x}}L=m\dot{x}
 \eeq
 
 \beq
 \left\{
-m\ddot{q}=-kq
+m\ddot{x}=-kx
 \right.
 \eeq
 
 
-\item Hamilton's equations
+\item {\bf Hamilton's equations}
 \beq
 \xymatrix{
-q\ar[dr]
+x\ar[dr]
 &&
 p\ar[dl]
 \\
 \partial_p H\ar[d]|{\;\redplus}
 &H\ar[l]\ar[r]
-&\partial_q H\ar[d]|\redminus
+&\partial_x H\ar[d]|\redminus
 \\
-\dot{q}
+\dot{x}
 &&
 \dot{p}
 }
 \left\{
 \begin{array}{l}
- \dot{q}=\partial_pH
+ \dot{x}=\partial_pH
 \\
-\dot{p} = -\partial_q H
+\dot{p} = -\partial_x H
 \end{array}
 \right.
 \eeq
 
+For a harmonic oscillator, this becomes
+
 \beq
-H= T+V = \frac{p^2}{2m} + \frac{k}{2}q^2
+H= T+V = \frac{p^2}{2m} + \frac{k}{2}x^2
 \eeq
 
 \beq
-\partial_q H = kq\;,\;\;
+\partial_x H = kx\;,\;\;
 \partial_{p}H = \frac{p}{m}
 \eeq
 
 \beq
 \left\{
 \begin{array}{l}
-\dot{q}=
+\dot{x}=
 \frac{p}{m}
 \\
-\dot{p}=-kq
+\dot{p}=-kx
 \end{array}
 \right.
 \eeq
@@ -1705,7 +1814,7 @@ The {\bf FitzHugh-Nagumo model} is a reduced form of the Hodgkin-Huxley model fo
 
 \subsection{Lorenz system}
 
-The  {\bf Lorenz system} arises in fluid mechanics and laser physics, and other fields.
+The  {\bf Lorenz system} arises in fluid mechanics, laser physics, and other fields.
 It is given by
 
 
@@ -1805,7 +1914,7 @@ where $\sigma > 0$, $\rho > 0$, and $\beta > 0$ are parameters. \OTO\cite{OTO}
 \OTO\cite{OTO}
 
 \subsection{Van der Pol oscillator}
-This section is based on Ref.\cite{wiki-van-der-pol}
+
 
 \beq
 \xymatrix@C=3pc{
