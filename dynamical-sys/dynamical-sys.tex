@@ -27,6 +27,9 @@ it is said to describe a
 {\bf non-autonomous or driven
 system}.
 
+A {\bf fixed point} is defined as a point
+at which $\dot{\vec{x}}=0$.
+
 One can draw a bnet for a DS wherein some
 of the nodes are the components of $\vec{x}$
 and other nodes are the components of $\dot{\vec{x}}$.
@@ -36,6 +39,9 @@ Other ways of describing time varying processes, albeit in the
 discrete time regime, are Dynamical Bnets (see chapter \ref{ch-dyn-bnets}),
 Time Series Analysis (see chapter \ref{ch-time-arma})
 and Petri Nets (see chapter \ref{ch-petri}).
+Control Theory (see chapter \ref{ch-control-th}) (CT)
+and DS deal with the same subjects, but CT is more
+engineering oriented whereas DS is more math oriented.
 
 
 \section{Potential Function}
@@ -61,8 +67,7 @@ So $V_N$,
 contrary to $V$, is insensitive to the sign of $\lam$.
 }
 
-A {\bf fixed point} is defined as a point
-at which $\dot{\vec{x}}=0$.
+
 
 Note that
 \beq
@@ -83,7 +88,7 @@ $V$ as a potential in which a ball rolls towards an attractor
 and away from a repeller.
 
 Besides being an attractor or a repeller, a fixed point can be a
-{\bf saddle point}. A saddle point
+{\bf saddlepoint}. A saddlepoint
 attracts in some directions and repel in others. 
 
 A {\bf monostable/bistable/multistable}
@@ -139,7 +144,7 @@ f_y = \partial_y V
 \end{array}
 \right.
 \eeq
-then then we must have
+then  we must have
 
 \beq
 \partial_y f_x =\partial_x f_y
@@ -160,7 +165,7 @@ to be true, we must have
 \eeq
 because $\nabla\times \nabla V=0$ (i.e., a gradient field has no curl)
 
-\section{Phase Plane Plots}
+\section{Phase Portraits}
 
 
 An N dimensional system described by 
@@ -171,28 +176,33 @@ and a point \\$(q_1,\dot{q_1}, q_2, \dot{q_2}\ldots, q_N, \dot{q_N})\in \RR^{2N}
 in {\bf phase space}.  The coordinates of phase 
 space are often called {\bf state variables}.
 
+The terms 
+{\bf phase portrait} (PP) and 
+{\bf phase plane plot} (PPP) are often used interchangeably
+although PPP is restricted by its name to be a 2D plot,
+whereas the name PP also allows for the possibility  of 3D plots.
+We will use the term PP henceforth.
 
-A {\bf phase portrait} (PP)\footnote{
-PPs can be drawn using the Python function {\tt matplotlib.pyplot.streamplot}} is a plot of
+A PP in 2D refers to one of 2 things
+\begin{enumerate}
+\item a 2D plot of
 multiple solutions $(x(t), y(t))$
  (a.k.a. {\bf stream lines}, {\bf trajectories})
 for a dynamical system,
-where $x,y$ are any two state variables of a
-dynamical system. 
+where $x,y$ are any two state 
+variables of the system.\footnote{
+Streamline plots can be drawn using the Python function {\tt matplotlib.pyplot.streamplot}}
 
-A {\bf phase plane plot} (PPP)\footnote{
-PPPs can be drawn using the Python function {\tt
-matplotlib.pyplot.quiver}.
-}
-is a 2D plot of a {\bf velocity vector field}, wherein a scaled 
+\item a 2D plot of a {\bf velocity vector field}, wherein a scaled 
 velocity vector  
 $(\dot{x}, \dot{y})$ is plotted at each point $(x,y)$
-on a 2D mesh.
-
-PPPs and PPs convey the same
+on a 2D mesh.\footnote{Vector field plots can be drawn using the Python function {\tt
+matplotlib.pyplot.quiver}}
+\end{enumerate}
+Items 1 and 2 convey the same
 type of intuition about dynamical systems.
-In this chapter we use PPs,
-but most of we say about PPs applies to PPPs too.
+In this chapter we use 1, 
+but most of what we say about 1 also applies to 2.
 
 A very useful addendum to a PP is to draw in it the lines 
 which have either $\dot{x}=0$ or $\dot{y}=0$. These 2 lines are
@@ -201,10 +211,10 @@ called the
 The points at which the two nullclines intersect
 are called {\bf fixed points}. 
 
-PPP and PPs can of course be generalized to 3 or more dimensions.
+PPs can of course be generalized to 3 or more dimensions.
 In the 3D case, 
-a PP becomes 
-a bunch of 3D stream lines and a PPP becomes a 3D velocity vector  field.
+a PP becomes either
+a bunch of 3D stream lines or a 3D velocity vector  field.
 
 Note that if a dynamical system is described by the 
 system of ODE:
@@ -267,12 +277,7 @@ as
 \right.
 \eeq
 
-As a supplement to this book, I've written Ref.\cite{OTO}.
-Ref.\cite{OTO} is a github repo that contains 
- software that plots {\bf traces (waveforms)} (i.e., $x(t)$ plots for
-any state variable $x$) and PPs. The repo contains a 
-jupyter notebook for each of many
-famous dynamical systems.
+\OtoAd
 
 
 
@@ -377,7 +382,7 @@ V = -v_{0}x -\;\frac{\lam}{2}x^2  + \frac{1}{4} x^4
 Assume $\lam =1$, $\dot{x}=0$. Then
 
 \beq
-v_0 + x = x^3
+x^3=v_0 + x
 \label{eq-fp-cubic}
 \eeq
 Fig.\ref{fig-geometrical-v-critical-v0} shows a plot of the line and cubic
@@ -636,7 +641,7 @@ no oscillations
 \item both eigenvalues are negative: sink
 \item both eigenvalues are positive: source
 \item one eigenvalues ($\lam_-$) is negative 
-and the other ($\lam_+$) is positive: saddle point. This 
+and the other ($\lam_+$) is positive: saddlepoint. This 
 includes case where $\tau=0$ so $\lam =\pm\frac{1}{2}\sqrt{\Delta}$.
 \end{itemize}
 \end{itemize}
@@ -646,17 +651,15 @@ A {\bf bifurcation diagram}
 (BD)
 is a plot of $(\lam, x)$
 where $\lam$ is
-a parameter of a
+a parameter of the
 system and $x$
 is the value of one
 of its  state
 variables, assuming 
-$\dot{x}=0$. Hence,
-a BD is a portrait 
-of the life of a particular fixed point
-when it splits into two fixed points
-(i.e., the
-fixed point \qt{bifurcates}).
+$\dot{x}=0$. A BD portrays
+how one or more fixed points evolve
+as $\lam$ changes, often 
+bifurcating (i.e, splitting) into two fixed points.
 
 We will  discuss 5 types of bifurcations.
 
@@ -674,13 +677,13 @@ $x$ roots of
 \beq
 0=\dot{x}= \lam x -x^2
 \eeq
-\item {\bf supercritical pitchfork bifurcation}
+\item {\bf supercritical pitchfork bifurcation} (\supercri)
 
 $x$  roots of
 \beq
 0=\dot{x}=\lam x - x^3
 \eeq
-\item {\bf subcritical pitchfork bifurcation}
+\item {\bf subcritical pitchfork bifurcation} (\subcri)
 
 $x$ roots of 
 \beq
@@ -694,7 +697,7 @@ $r$ roots of
 \beq
 0=\dot{r} = \mu_R r - r^3
 \eeq
-Note that a Hopf bifur is just a supercritical pitchfork bifur with a change of notation.
+Note that a Hopf bifurcation is just a \supercri bifurcation with a change of notation.
 
 \end{enumerate}
 
@@ -703,10 +706,10 @@ Note that a Hopf bifur is just a supercritical pitchfork bifur with a change of 
 
 \subsection{Saddlepoint Bifurcation}
 
-Fig.\ref{fig-bifur-saddle-point} gives plots of a saddle point
+Fig.\ref{fig-bifur-saddle-point} gives plots of a saddlepoint
 bifurcation.
 
-The $(v_0, x)$ locus 
+The coordinates $(v_0, x)$ of the locus 
 of fixed points is given by
 \beq
 0= \dot{x} = v_0 + x^2 \implies
@@ -738,7 +741,7 @@ of fixed points is given by
 Fig.\ref{fig-bifur-trans} gives plots of a transcritical
 bifurcation.
 
-The $(\lam, x)$ locus 
+The coordinates $(\lam, x)$ of the locus 
 of fixed points is given by
 
 \beq
@@ -769,10 +772,10 @@ V(x) = -\lam\frac{x^2}{2}
  
 \subsection{Supercritical 
 Pitchfork Bifurcation}
-Fig.\ref{fig-bifur-super} gives plots of a supercritical
+Fig.\ref{fig-bifur-super} gives plots of a \supercri
 bifurcation.
 
-The $(\lam, x)$ locus 
+The coordinates $(\lam, x)$ of the locus 
 of fixed points is given by
 
 \beq
@@ -796,7 +799,7 @@ V(x)=-\lam \frac{x^2}{2}
  \centering
  \includegraphics[width=5in]
  {dynamical-sys/bifur-super.png}
- \caption{Supercritical pitchfork bifurcation. 
+ \caption{\supercri bifurcation. 
  $0=\dot{x}=\lam x  - x^3$.
  The ball in this 
  figure exhibits
@@ -809,10 +812,10 @@ V(x)=-\lam \frac{x^2}{2}
 \subsection{Subcritical
 Pitchfork Bifurcation}
 
-Fig.\ref{fig-bifur-sub} gives plots of a subcritical
+Fig.\ref{fig-bifur-sub} gives plots of a \subcri
 bifurcation.
 
-The $(\lam, x)$ locus 
+The coordinates $(\lam, x)$ of the locus 
 of fixed points is given by
 
 
@@ -838,7 +841,7 @@ V(x)=-\lam \frac{x^2}{2}
  \centering
  \includegraphics[width=5in]
  {dynamical-sys/bifur-sub.png}
- \caption{Subcritical  bifurcation. $0=\dot{x}=\lam x  + x^3$.  This
+ \caption{\subcri  bifurcation. $0=\dot{x}=\lam x  + x^3$.  This
  figure  comes from Ref.\cite{dynamical-fuchs}}.
  \label{fig-bifur-sub}
  \end{figure}
@@ -914,7 +917,7 @@ for any $\vec{x}=
 
 
 If 
-$ = x + iy$ and 
+$ z= x + iy$ and 
 $\mu = \mu_R + i\mu_I$,
 then
 
@@ -966,7 +969,7 @@ solve.
 \eeq
 Note also that the first ODE is the same ODE that we considered 
 for a
-supercritical pitchfork bifurcation Fig.\ref{fig-bifur-super}.
+\supercri bifurcation Fig.\ref{fig-bifur-super}.
 
 In $(r, V)$ space,
 for $\mu_R<0$, 
@@ -1000,18 +1003,18 @@ form a circle of radius $r=\sqrt{\mu_R}$.
  \centering
  \includegraphics[width=5in]
  {dynamical-sys/hysterisis-2-saddle-points.png}
- \caption{Hysterisis arises from 2 saddle points. This
+ \caption{Hysterisis arises from 2 saddlepoints. This
  figure  comes from Ref.\cite{dynamical-fuchs}.}
  \label{fig-hysterisis-2-saddle-point}
  \end{figure}
  
  As show in Fig.\ref{fig-hysterisis-2-saddle-point}, {\bf hysterisis}
- arises in systems with 2 saddle points. In the $(\lam, x)$ plot,
+ arises in systems with 2 saddlepoints, S1, S2. In the $(\lam, x)$ plot,
  as the parameter $\lam$ is 
  cycled between $-\lam_c$ and $\lam_c$,
  the system travels along a
- line of increasingly weak attractors which turn into  saddle point 1, at which point the system jumps to a string of increasingly weak attractors
- that turn into saddle  point 2.
+ line of increasingly weak attractors which turn into  saddlepoint S1, at which point the system jumps to a string of increasingly weak attractors
+ that turn into saddlepoint S2.
 
  \begin{figure}[h!]
 \centering
@@ -1019,7 +1022,8 @@ form a circle of radius $r=\sqrt{\mu_R}$.
 {dynamical-sys/hysterisis.png}
 \caption{In hysterisis,
 as we cycle 
-$\lam$ between $\lam_\ell$ aand $\lam_h$, the $x(t)$ trace is a
+$\lam$ between $\lam_\ell$ aand $\lam_h$, the $x(t)$ 
+produced is a
 train of pulses.}
 \label{fig-hysterisis}
 \end{figure}
@@ -1027,7 +1031,7 @@ train of pulses.}
  As shown in Fig.\ref{fig-hysterisis},
  if we cycle the parameter $\lam$
  between $-\lam_c$ and 
- $\lam_c$, the $x(t)$ trace is a
+ $\lam_c$, the $x(t)$ produced is a
  train of pulses
  which can be used as a clock.
  
@@ -1035,35 +1039,35 @@ train of pulses.}
 
 \section{Limit cycles}
 
-A {\bf limit cycle} is a closed trajectory with no saddle points
- in it. There are four types of limit cycles, depending on whether their skin attracts or repels inside and outside.
+A {\bf limit cycle} is a closed trajectory with no saddlepoints
+ in it. There are four types of limit cycles, depending on whether their surface attracts or repels inside and outside.
  These 4 types are portrayed  in Fig.\ref{fig-limit-cycles}. Of these 4 types, only one type
- is truly stable,  the one whose skin attracts both inside and outside (i.e., type $(A)A$).
+ is truly stable,  the one whose surface attracts both inside and outside (i.e., type $(A)A$).
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=4in]
 {dynamical-sys/limit-cycles.png}
 \caption{The four types of limit cycles. If the 
-skin of the cycle attracts inside and repels outside,
+surface of the cycle attracts inside and repels outside,
 we call it an $(A)R$. The names of the other types
-are defined likewise. }
+are defined similarly. }
 \label{fig-limit-cycles}
 \end{figure}
 
 \section{Homoclinic and Heteroclinic orbits}
 
-In limit cycles, the skin of a closed trajectory attracts
+In limit cycles, the surface of a closed trajectory attracts
 or
 repels inside or outside, leading to spiraling behavior inside or outside. It's also possible for
-the skin of a closed trajectory to neither attract nor repel the flow. The flow
-simply runs parallel to the skin, either inside or outside the skin, or both.
+the surface of a closed trajectory to neither attract nor repel the flow. The flow
+simply runs parallel to the surface, either inside or outside the surface, or both.
 
 
 As illustrated by Fig.\ref{fig-homo-hetero-clinic}, 
-a {\bf homoclinic (or heteroclinic) orbit}  is a closed trajectory which contains a one saddle point if homoclinic (or two if heteroclinic), and for which the flow runs
-parallel to the skin, both inside and outside. 
-A trajectory can enter or exit the orbit through any of the saddle points of the orbit.
+a {\bf homoclinic (or heteroclinic) orbit}  is a closed trajectory which contains a one saddlepoint if homoclinic (or two if heteroclinic), and for which the flow runs
+parallel to the surface, both inside and outside. 
+A trajectory can enter or exit the orbit through any of the saddlepoints of the orbit.
 
 
 
@@ -1073,7 +1077,7 @@ A trajectory can enter or exit the orbit through any of the saddle points of the
 {dynamical-sys/homo-hetero-clinic.png}
 \caption{Homoclinic and Heteroclinic orbits.
 These two
- figures  comes from Ref.\cite{dynamical-fuchs}.}
+ figures  come from Ref.\cite{dynamical-fuchs}.}
 \label{fig-homo-hetero-clinic}
 \end{figure}
 
@@ -1101,7 +1105,7 @@ This equation can be transformed into two 1st order ODE
 \beq
 \xymatrix@C=2pc{
 \rvx \ar@/_1pc/[dr]|\redminus
-&\rvv\ar[d]
+&\rvv\ar[d]|\redminus
 \ar@/_1pc/[dl]|\redplus
 \\
 \dot{\rvx}
@@ -1207,7 +1211,7 @@ A_h e^{-\gamma t}[ \cos(\epsilon t)\cos(\delta)-
 \sin(\epsilon t)\sin(\delta)]
 \\
 &\approx &
-\underbrace{A_h\cos(\delta)}_{A'_h}e^{-\gamma t}[1 +  \tan(\delta) \epsilon t]
+\underbrace{A_h\cos(\delta)}_{A'_h}e^{-\gamma t}[1 -  \tan(\delta) \epsilon t]
 \eeqa
 \qed
 
@@ -1225,7 +1229,7 @@ oscillators are also often called
 {\bf self-amplifying} or {\bf exponentially growing}
 oscillators. They arise frequently in Nature (in Biology, Chemistry, Physics) in systems with {\bf positive feedback}.
 Of course, the amplitude cannot grow exponentially 
-for very long time because any system has finite resources
+for very long time because any real system has finite resources
 and that will cap the growth.
 
 \begin{claim}
@@ -1381,6 +1385,20 @@ S(\nu)\approx
 \eeq
 \qed
 
+The {\bf Q factor} (quality factor) of a damped harmonic oscillator is defined as
+
+\beq
+Q= \frac{\omega_0}{2\gamma}
+\eeq
+If $\norm{a(t)}=\max_t|a(t)|$, then
+
+\beq
+\frac{\norm{\omega_0^2 x(t)}}{\norm{ 2\gamma \dot{x}(t)}}
+\approx
+\frac{\omega_0^2 A \norm{\cos(\omega_0 t-\delta)}}{2\gamma \omega_0A \norm{-\sin(\omega_0 t-\delta)}}
+=
+Q
+\eeq
 
 
 \subsection{Nonlinear Oscillators}
@@ -1475,14 +1493,14 @@ and \ref{fig-hybrid-term}
 show typical
 $x(t)$ traces, $(x, \dot{x})$
 PPs and spectra $S(\nu)$
-for Van der Pol ($V\neq 0,R=0$), Raleigh
+for the Van der Pol ($V\neq 0,R=0$), Raleigh
 ($V=0$, $R\neq 0$) and hybrid  ($V,R\neq 0$)
 oscillators.
 Note that the V and R oscillators have peaks at higher order 
 odd harmonics ($3\omega_0, 5\omega_0$, etc.)
 whereas those higher order harmonics can be
 suppressed in a hybrid oscillator with the right 
-ration of $V$ to $R$.
+ratio of $V$ to $R$.
 Of course, the linear harmonic
 oscillator
 has that property too. 
@@ -1581,6 +1599,7 @@ properties.
 
 \section{Famous Models}
 
+\OtoAd
 
 \subsection{Classical Mechanics}
 
@@ -1654,7 +1673,7 @@ For a harmonic oscillator, this becomes
 \dot{x}\ar[r]
 &L\ar[r]\ar@/^1pc/[rr]
 &\partial_x L\ar[dr]|\redplus
-&\partial_{\dot{x}}L
+&\partial_{\dot{x}}L\ar[d]|{\;\redplus}
 \\
 &&&\frac{d}{dt}\left(\partial_{\dot{x}}L\right)
 }
@@ -1732,7 +1751,7 @@ H= T+V = \frac{p^2}{2m} + \frac{k}{2}x^2
 
 
 \subsection{FitzHugh-Nagumo model}
-The {\bf FitzHugh-Nagumo model} is a reduced form of the Hodgkin-Huxley model for neuronal dynamics. It is given by
+The  FitzHugh-Nagumo model is a reduced form of the Hodgkin-Huxley model for neuronal dynamics. It is given by
 
 \beq
 \xymatrix@R=3pc@C=3pc{
@@ -1814,7 +1833,7 @@ The {\bf FitzHugh-Nagumo model} is a reduced form of the Hodgkin-Huxley model fo
 
 \subsection{Lorenz system}
 
-The  {\bf Lorenz system} arises in fluid mechanics, laser physics, and other fields.
+The  Lorenz system arises in fluid mechanics, laser physics, and other fields.
 It is given by
 
 
@@ -1846,7 +1865,8 @@ It is given by
 \end{array}
 \right.
 \eeq
-where $\sigma > 0$, $\rho > 0$, and $\beta > 0$ are parameters. \OTO\cite{OTO}
+where $\sigma > 0$, $\rho > 0$, and $\beta > 0$ are parameters.
+ \OTO\cite{OTO}
 
 
 
