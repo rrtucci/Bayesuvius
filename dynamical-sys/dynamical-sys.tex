@@ -39,11 +39,17 @@ Other ways of describing time varying processes, albeit in the
 discrete time regime, are Dynamical Bnets (see chapter \ref{ch-dyn-bnets}),
 Time Series Analysis (see chapter \ref{ch-time-arma})
 and Petri Nets (see chapter \ref{ch-petri}).
+
+
+Often a DS can be in a parameter region
+in which it is highly sensitive to initial conditions. In such cases, random external noise 
+might become important. Those cases are 
+addressed by Stochastic Differential Equations (see chapter \ref{ch-stochastic-diff-eqns})
+ad Chaos Theory.
+
 Control Theory (see chapter \ref{ch-control-th}) (CT)
 and DS deal with the same subjects, but CT is more
 engineering oriented whereas DS is more math oriented.
-
-
 \section{Potential Function}
 
 In 1D, define the {\bf potential function} $V$ by
@@ -619,7 +625,7 @@ complex eigenvalues,
 oscillations (perhaps damped)
 \begin{itemize}[\checkmark]
 \item $\tau>0$: exponential growth, spiral out
-\item $\tau=0$: {\bf limit cycle}
+\item $\tau=0$: {\bf center cycle}
 \item $\tau<0$: exponential decay, spiral in
 \end{itemize}
 
@@ -731,7 +737,9 @@ of fixed points is given by
  \centering
  \includegraphics[width=5in]
  {dynamical-sys/bifur-saddle-point.png}
- \caption{Saddle point bifurcation. $0= \dot{x} = v_0 + x^2$. This
+ \caption{Saddle point bifurcation. $0= \dot{x} = v_0 + x^2$. 
+ A sink and source collide and annihilate.
+ This
  figure  comes from Ref.\cite{dynamical-fuchs}.}
  \label{fig-bifur-saddle-point}
  \end{figure}
@@ -765,7 +773,9 @@ V(x) = -\lam\frac{x^2}{2}
  \centering
  \includegraphics[width=5in]
  {dynamical-sys/bifur-trans.png}
- \caption{Transcritical bifurcation. $0=\dot{x}=\lam x - x^2$. This
+ \caption{Transcritical bifurcation. $0=\dot{x}=\lam x - x^2$. 
+ A sink and source collide and swap identities.
+ This
  figure  comes from Ref.\cite{dynamical-fuchs}}.
  \label{fig-bifur-trans}
  \end{figure}
@@ -801,6 +811,8 @@ V(x)=-\lam \frac{x^2}{2}
  {dynamical-sys/bifur-super.png}
  \caption{\supercri bifurcation. 
  $0=\dot{x}=\lam x  - x^3$.
+ A sink becomes a source and spawns two sinks
+ in the process.
  The ball in this 
  figure exhibits
  the phenomenon called 
@@ -841,7 +853,9 @@ V(x)=-\lam \frac{x^2}{2}
  \centering
  \includegraphics[width=5in]
  {dynamical-sys/bifur-sub.png}
- \caption{\subcri  bifurcation. $0=\dot{x}=\lam x  + x^3$.  This
+ \caption{\subcri  bifurcation. $0=\dot{x}=\lam x  + x^3$. 
+ A sink and two sources collide and spawn a source.
+  This
  figure  comes from Ref.\cite{dynamical-fuchs}}.
  \label{fig-bifur-sub}
  \end{figure}
@@ -997,18 +1011,20 @@ form a circle of radius $r=\sqrt{\mu_R}$.
 %\label{fig-hopf}
 %\end{figure}
 
-\section{Hysterisis}
+\section{Hysteresis}
 
 \begin{figure}[h!]
  \centering
  \includegraphics[width=5in]
- {dynamical-sys/hysterisis-2-saddle-points.png}
- \caption{Hysterisis arises from 2 saddlepoints. This
+ {dynamical-sys/hysteresis-2-saddle-points.png}
+ \caption{Hysteresis arises in systems with  2 saddlepoints from which the system \qt{escapes}. The red ball rolling downhill in the $(x,V)$
+ plots represents
+ the fast transitions (escapes) of hysteresis. This
  figure  comes from Ref.\cite{dynamical-fuchs}.}
- \label{fig-hysterisis-2-saddle-point}
+ \label{fig-hysteresis-2-saddle-point}
  \end{figure}
  
- As show in Fig.\ref{fig-hysterisis-2-saddle-point}, {\bf hysterisis}
+ As show in Fig.\ref{fig-hysteresis-2-saddle-point}, {\bf hysteresis}
  arises in systems with 2 saddlepoints, S1, S2. In the $(\lam, x)$ plot,
  as the parameter $\lam$ is 
  cycled between $-\lam_c$ and $\lam_c$,
@@ -1019,16 +1035,16 @@ form a circle of radius $r=\sqrt{\mu_R}$.
  \begin{figure}[h!]
 \centering
 \includegraphics[width=5in]
-{dynamical-sys/hysterisis.png}
-\caption{In hysterisis,
+{dynamical-sys/hysteresis.png}
+\caption{In hysteresis,
 as we cycle 
 $\lam$ between $\lam_\ell$ aand $\lam_h$, the $x(t)$ 
 produced is a
 train of pulses.}
-\label{fig-hysterisis}
+\label{fig-hysteresis}
 \end{figure}
 
- As shown in Fig.\ref{fig-hysterisis},
+ As shown in Fig.\ref{fig-hysteresis},
  if we cycle the parameter $\lam$
  between $-\lam_c$ and 
  $\lam_c$, the $x(t)$ produced is a
@@ -1039,10 +1055,24 @@ train of pulses.}
 
 \section{Limit cycles}
 
-A {\bf limit cycle} is a closed trajectory with no saddlepoints
+A {\bf limit cycle} is an \qt{isolated} closed trajectory with no saddlepoints
  in it. There are four types of limit cycles, depending on whether their surface attracts or repels inside and outside.
  These 4 types are portrayed  in Fig.\ref{fig-limit-cycles}. Of these 4 types, only one type
  is truly stable,  the one whose surface attracts both inside and outside (i.e., type $(A)A$).
+ 
+ Limit cycles are quite different from the {\bf center cycles} that we introduced under linear systems.
+ Limit cycles did not arise in our classification of fixed points for linear systems, so they are exclusively non-linear phenomena. Furthermore, 
+ the surface of a center cycle neither attracts
+ nor repels trajectories either inside
+ or outside. For any center cycle, 
+ there is another infinitesimally bigger
+ center cycle  running parallel to it.
+ This is not the case for limit cycles.
+ In fact, that is what we mean when we say  
+ that limit cycles are 
+ \qt{isolated}. The cycle produced 
+ by a Hopf bifurcation is a stable limit cycle, not a center cycle.
+ 
 
 \begin{figure}[h!]
 \centering
@@ -1057,19 +1087,13 @@ are defined similarly. }
 
 \section{Homoclinic and Heteroclinic orbits}
 
-In limit cycles, the surface of a closed trajectory attracts
-or
-repels inside or outside, leading to spiraling behavior inside or outside. It's also possible for
-the surface of a closed trajectory to neither attract nor repel the flow. The flow
-simply runs parallel to the surface, either inside or outside the surface, or both.
-
-
 As illustrated by Fig.\ref{fig-homo-hetero-clinic}, 
 a {\bf homoclinic (or heteroclinic) orbit}  is a closed trajectory which contains a one saddlepoint if homoclinic (or two if heteroclinic), and for which the flow runs
 parallel to the surface, both inside and outside. 
+Homoclinic and heteroclinic orbits have a parallel
+flow pattern inside and outside, just like center cycles, but,
+unlike center cycles,  they contain saddle points. 
 A trajectory can enter or exit the orbit through any of the saddlepoints of the orbit.
-
-
 
 \begin{figure}[h!]
 \centering
@@ -1451,12 +1475,41 @@ whose equation of motion is
 \ddot{x} + \underbrace{(2\gamma + V x^2 + R \dot{x}^2 )}_{2\TIL{\gamma}}
 \dot{x} +\omega_0^2 x=0
 \eeq
-(Note that the Van der Pol equation is usually written as
+
+Note that the Van der Pol equation is usually written as
 (see Ref.\cite{wiki-van-der-pol}):
 
-\beq \ddot{x}  +\mu^2(1-x^2)\dot{x}+ x=0\eeq
- so $2\gamma = \mu^2$, $V=-\mu^2$
-and $\omega^2_0=1$).
+\beq \ddot{x}  -\mu(1-x^2)\dot{x}+ x=0
+\quad (\text
+ {$2\gamma = -\mu$, $V=\mu$
+$\omega^2_0=1$})
+\eeq
+The reason for
+assuming this special case is because it leads to a 
+stable limit cycle for $\mu>0$. 
+
+\begin{claim}
+ $\gamma<0$ and $V>0$ are necessary to get a 
+ stable limit cycle
+ in the Van der Pol equation.
+ By the same argument, $\gamma<0$ and $R>0$ are necessary
+ for a stable limit cycle in the Raleigh oscillator.
+ \end{claim} 
+ \proof
+ 
+The effective damping is
+\beq
+2\TIL{\gamma}= 2\gamma + Vx^2
+\eeq
+\begin{itemize}
+\item
+To get $\TIL{\gamma}<0$   when $|x|\approx 0$ requires $\gamma<0$. 
+\item 
+To get $\TIL{\gamma}>0$ when $|x|\rarrow \infty$
+requires $V>0$
+\end{itemize}
+\qed
+
 
 
 \begin{figure}[h!]
@@ -1494,16 +1547,18 @@ show typical
 $x(t)$ traces, $(x, \dot{x})$
 PPs and spectra $S(\nu)$
 for the Van der Pol ($V\neq 0,R=0$), Raleigh
-($V=0$, $R\neq 0$) and hybrid  ($V,R\neq 0$)
+($V=0$, $R\neq 0$) and hybrid  ($V\neq 0,R\neq 0$)
 oscillators.
-Note that the V and R oscillators have peaks at higher order 
-odd harmonics ($3\omega_0, 5\omega_0$, etc.)
-whereas those higher order harmonics can be
-suppressed in a hybrid oscillator with the right 
-ratio of $V$ to $R$.
-Of course, the linear harmonic
-oscillator
-has that property too. 
+Note that all 3
+have a peak at 
+the {\bf fundamental frequency} $\omega_0$.
+The V and R oscillators also have peaks   
+at
+odd {\bf higher harmonics} ($3\omega_0, 5\omega_0$, etc.)
+whereas those higher harmonic peaks are
+suppressed in a hybrid oscillator.
+Of course, the linear harmonic oscillator
+ spectrum has no higher harmonic peaks either.
 But the $\omega_0$ dependence of
 the peak value of the power spectrum of the V-R hybrid oscillator
 has a desirable property which the linear oscillator doesn't have. Indeed, note the following claim. 
@@ -1588,6 +1643,10 @@ is flat for a linear or V oscillator,
 but for a V-R hybrid oscillator, 
  it is shaped like a low pass filter with a region which is a reasonable approximation to a  line
  with negative slope.
+ Ref.\cite{dynamical-fuchs} explains 
+ that experimental findings for human limb motion
+ are best modeled as V-R hybrid oscillations.
+ 
 
 
 
@@ -1932,6 +1991,29 @@ where $\sigma > 0$, $\rho > 0$, and $\beta > 0$ are parameters.
 \right.
 \eeq
 \OTO\cite{OTO}
+
+\subsection{Schr\"{o}dinger's  equation}
+
+Schr\"{o}dinger's equation for
+the wavefunction $\Psi(x,t)$ of a point particle
+of mass $m$ in a potential $V(x, t)$ in 1D is
+\beq
+\xymatrix@R=1pc{
+&\Psi\ar[dd]
+\ar[dl]
+\\
+\partial_x^2\Psi
+\ar[dr]|\redminus
+\\
+&i\hbar \partial_t \Psi
+}
+\quad
+\left\{
+i\hbar\partial_t \Psi =\left[
+- \frac{1}{2m}\partial_x^2 + V
+\right]\Psi
+\right.
+\eeq
 
 \subsection{Van der Pol oscillator}
 
