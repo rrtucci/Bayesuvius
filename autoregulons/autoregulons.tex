@@ -22,21 +22,56 @@ If you are new to genomics, and would like to follow that discussion, you might 
 
 Two kinds of Hill functions.
 
-Highpass filter ({
-\bf activator}) Hill function
- \beqa
- f_{hp}(x) &=&\beta\frac{\left(\frac{x}{K}\right)^n}{1 + \left(\frac{x}{K}\right)^n}
- \\
- &\rarrow& \beta\indi(x>K) \text{ as } n\rarrow\infty
- \eeqa
+{\bf Highpass filter, activator} Hill function
+ \beq
+ h_{\oplus}(x)
+ =\beta\frac{\left(\frac{x}{K}\right)^n}{1 + \left(\frac{x}{K}\right)^n}
+ \eeq
  
- Lowpass filter ({\bf repressor}) Hill fuction
- \beqa
-  f_{lp}(x) &=&\beta\frac{1}{1 + \left(\frac{x}{K}\right)^n}
-  \\
-  &\rarrow& \beta\indi(x<K) \text{ as } n\rarrow\infty
-  \eeqa
+ \beq
+ \begin{array}{ll}
+ h_\oplus(x)
+ \rarrow \beta\indi(x>K) 
+ &\text{as } n\rarrow\infty
+ \\
+ h_\oplus(x)
+ \approx
+ \frac{\beta}{2}
+ \left[
+ 1 + \frac{n}{2}\left(
+ \frac{x}{K}-1
+ \right)
+ \right]
+ &\text{for $x\approx K$}
+ \end{array}
+ \eeq
+ 
+ ({\bf Lowpass filter, repressor}) Hill function
+ \beq
+  h_{\ominus}(x)=\beta\frac{1}{1 + \left(\frac{x}{K}\right)^n}
+  \eeq
+  
+  \beq
+  \begin{array}{ll}
+  h_\ominus(x)
+  \rarrow\beta\indi(x<K) 
+  &\text{ as } n\rarrow\infty
+ \\
+  h_\ominus(x)\approx
+  \frac{\beta}{2}
+  \left[
+  1 -\frac{n}{2}\left(
+  \frac{x}{K}-1
+  \right)
+  \right]
+  &\text{for $x\approx K$}
+  \end{array}
+  \eeq
 
+
+\beq
+h_\oplus(x)+h_\ominus(x)=\beta
+\eeq
 
 \begin{figure}[h!]
 \centering
@@ -68,14 +103,13 @@ and $y=x^n/(1+x^n)$ for $n=10$.}
 \section{One Autoregulon}
 a {\bf net motif} is just a subgraph of a bnet
 
-\begin{figure}[h!]
-$$
+\beq
 \xymatrix{
 &\rvx\ar[dd]|{-\alp}\ar[dl]
 \\
-f(\rvx)\ar[dr]|{1}
+h(\rvx)\ar[dr]|{1}
 \\
-&\Circle{\frac{d\rvx}{dt}}
+&\dot{x}
 }\quad
 \xymatrix{\\=}
 \quad
@@ -88,21 +122,22 @@ f(\rvx)\ar[dr]|{1}
 \xymatrix{\\=}
 \quad
 \xymatrix{\\\Rect{\rvx}}
-$$
-\caption{Autoregulon net motif and the 2 symbols that we will
-use to denote it when we consider
-networks of connected autoregulons. Assume $\alp >0$.}
-\label{fig-net-motif}
-\end{figure}
-
-\beq
-\frac{dx}{dt}=-\alp x + f(x)
+\quad
+\left\{
+\dot{x}=\underbrace{-\alp x + h(x)}_{f(x)}
+\right.
 \eeq
+
+
+Autoregulon net motif and the 2 symbols that we will
+use to denote it when we consider
+networks of connected autoregulons. Assume $\alp >0$.
+
 Let $\alp, \beta >0$.
-In general, $f(x)$ is either the $hp$ or $lp$ Hill function.
+In general, $h(x)$ is either the $\oplus$ or $\ominus$ Hill function.
 However, we often use the following approximations
 \beq
-f(x)=\left\{
+h(x)=\left\{
 \begin{array}{ll}
 \beta\indi(x>K)
 &(\text{highpass filter})
@@ -110,60 +145,107 @@ f(x)=\left\{
 \beta\indi(x<K)
 &(\text{lowpass filter})
 \\
-|f_1| x
+h_0+|h_1| x
 &(\text{positive feedback})
 \\
--|f_1| x
+h_0 -|h_1| x
 &(\text{negative feedback})
 \end{array}
 \right.
 \eeq
 
-\subsection{Linear Expansion of $f$}
+\subsection{Linear Expansion of $h$}
 
 Let 
 
 \beq
-\dot{x} = -\alp x + f(x) \quad\text{ with }
-f(x)\approx f_0 + f_1x
+\dot{x} = \underbrace{-\alp x + h(x)}_{f(x)}
 \eeq
-If
+
 \beq
-x_0 = x(0)\;,\;\;
-\alp_1=\alp-f_1
+h(x)\approx h_0 + h_1x
 \eeq
+
+\beqa
+f(x)
+&\approx&h_0
+-\underbrace{(\alp-h_1)}_{\alp_1} x
+\\
+&=&
+-\alp_1(x-x_a)
+\eeqa
+where
+
+\beq
+x_a = \frac{h_0}{\alp_1}
+\eeq
+
+Recall from Chapter \ref{ch-dynamical-sys}
+that
+
+
+\beq
+V= -\int^x dx\; f(x)=\frac{\alp_1}{2}(x-x_a)^2
+\eeq
+
+If $x_0=x(0)$
 then the most general solution for $x(t)$ is
 \beq
 x(t)=\underbrace{x_0 e^{-\alp_1 t} }_{x_h}+
-\underbrace{\frac{f_0}{\alp_1}\left[1-e^{-\alp_1 t}\right]}_{x_p}
+\underbrace{x_a\left[1-e^{-\alp_1 t}\right]}_{x_p}
 \eeq
 as can be easily checked.
-$x_h$ is called the {\bf homogeneous solution}\footnote{
+$x_h$ is called the {\bf homogeneous solution}(independent of $h$)\footnote{
 $x_h$ satisfies the homogeneous ODE, i.e., the
-ODE with $f(x)=0$.
+ODE with $h(x)=0$.
 }
-and $x_p$ is called the {\bf particular solution}.
+and $x_p$ is called the {\bf particular solution}(dependent of $h$).
 \footnote{
 If we integrate both sides of
-$\frac{dx}{f_0 -\alp_1 x}=dt$,
+$\frac{dx}{h_0 -\alp_1 x}=dt$,
 we only get the particular solution.}
 Hence 
 \begin{itemize}
 \item
-if $\alp-f_1=\alp_1<0$, then $x(t)$ 
-goes exponentially fast  from $x_0$ to $(x_0 -\frac{f_0}{\alp_1})e^{|\alp_1|t}$
+if $\alp_1<0$, then $x(t)$ 
+goes exponentially fast  from $x_0$ to infinity,
+growing as  $(x_0 -x_a)e^{|\alp_1|t}$
 as $t\rarrow \infty$. 
 \item 
-if $\alp-f_1=\alp_1>0$, then $x(t)$ goes exponentially fast from
-$x_0$ to $\frac{f_0}{\alp_1}$ as $t\rarrow \infty$.
-
-\item if $f_1>0$ (positive feedback), then if it is strong
-enough (i.e., if $f_1 > \alp$), then $\alp_1<0$ 
-\item if $f_1<0$ (negative feedback), then $\alp_1>0$.
+if $\alp_1>0$, then $x(t)$ goes exponentially fast from
+$x_0$ to $x_a$ as $t\rarrow \infty$.
+As illustrated in Fig.\ref{fig-fast-normal-slow}, in
+this case,
+we can have a convergence rate (CR)
+ to $x_a$
+ that is either faster, the same or slower than $\alp$:
+\begin{itemize}[-]
+\item if $0<h_1<\alp$, $\alp_1<\alp$, 
+CR is slower than $\alp$, {\bf positive autoregulation (PAR)}
+\item $h_1=0$, $\alp_1=\alp$, CR is same as $\alp$,
+{\bf zero autoregulation (ZAR)}
+\item if $h_1<0$, $\alp_1>\alp$, CR is faster than $\alp$,
+{\bf negative autoregulation (NAR)}
+\end{itemize}
 \end{itemize}
 
-\subsection{Lowpass $f$}
-If $f$ is a lowpass filter
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2.5in]
+{autoregulons/fast-normal-slow.png}
+\caption{For single autoregulon
+with $\alp_1>0$, the convergence rate to $x_a$ can 
+be either faster, same or slower than $\alp$.
+ }
+\label{fig-fast-normal-slow}
+\end{figure}
+
+
+
+
+\subsection{Lowpass $h$}
+If $h$ is a lowpass filter
 \beq
 x= 
 \left\{
@@ -214,21 +296,21 @@ K e^{-\alp(t-t_K)}
 \centering
 \includegraphics[width=4in]
 {autoregulons/autoreg-lowpass.png}
-\caption{Approximate $x$ for autoregulon with lowpass $f$
+\caption{Approximate $x$ for autoregulon with lowpass $h$
 and $x_0=0$}
 \label{fig-autoreg-lowpass}
 \end{figure}
 
 See Fig.\ref{fig-autoreg-lowpass}
 for approximate 
-$x$ for autoregulon with lowpass $f$
+$x$ for autoregulon with lowpass $h$
 and $x_0=0$.
 
-Autoregulon with lowpass $f$ can be used for {\bf memory}.
+Autoregulon with lowpass $h$ can be used for {\bf memory}.
 
 
-\subsection{Highpass $f$}
-For $f$ is a highpass filter
+\subsection{Highpass $h$}
+For $h$ is a highpass filter
 
 \beq
 x= 
@@ -256,8 +338,8 @@ Note that if $\alp t<<1$, then
 x &\approx&
 x_0(1 -\alp t)
 \eeqa
-Unlike when $f$ is lowpass, 
-in this case of $f$ highpass,
+Unlike when $h$ is lowpass, 
+in this case of $h$ highpass,
 we can't assume $x_0=0$ or else $x_K=K=0$ too. In fact, we must have $x_0 > x_K=K$. For $\alp (t-t_K) >>1$, 
 \beq
 x\approx \frac{\beta}{\alp}
@@ -267,49 +349,16 @@ x\approx \frac{\beta}{\alp}
 \centering
 \includegraphics[width=4in]
 {autoregulons/autoreg-highpass.png}
-\caption{Approximate $x$ for autoregulon with highpass $f$}
+\caption{Approximate $x$ for autoregulon with highpass $h$}
 \label{fig-autoreg-highpass}
 \end{figure}
 See Fig.\ref{fig-autoreg-highpass}
 for picture of 
-approximate $x$ for autoregulon with highpass $f$.
+approximate $x$ for autoregulon with highpass $h$.
 
 
 
 
-\subsection{Acceleration towards attractive point}
-
-Assume 
-
-\beq
-f(x)\approx f_0^a + f_1^a (x-x_a)
-\eeq
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=2.5in]
-{autoregulons/xdot-versus-x.png}
-\includegraphics[width=2.5in]
-{autoregulons/xdot-versus-x-neg.png}
-\includegraphics[width=2.5in]
-{autoregulons/fast-normal-slow.png}
-\caption{For single autoregulon, $\dot{x}(t)=-\alp x + f(x)$ with $f(x)=f_0^a + f^a_1(x-x_a)$.
-Slowdown ($f_1^a>0$),
-Speedup ($f_1^a<0$),  Normal ($f_1^a=0$)
- }
-\label{fig-fast-normal-slow}
-\end{figure}
-
-Define
-\begin{itemize}
-\item
-{\bf positive autoregulation (PAR)}: $f_1^a >0$, positive slope at $x=x_a$, slowdown
-\item
-{\bf negative autoregulation (NAR)}: $f_1^a <0$, negative slope at $x=x_a$, speedup
-\item
-{\bf zero autoregulation (ZAR)}: $f_1^a =0$, zero slope at $x=x_a$,\qt{normal} speed
-\end{itemize}
-These definitions are illustrated in Fig.\ref{fig-fast-normal-slow}.
 
 \section{Autoregulon notation}
 Henceforth, we will use
@@ -398,8 +447,8 @@ If an arrow in a net has no sign, assume its sign is positive.
 \centering
 \includegraphics[width=2in]
 {autoregulons/source-sink-source.png}
-\caption{For single autoregulon $\dot{x}(t)=-\alp x + f(x)$, $(x, \dot{x})$ graphs and 
-corresponding $(x,t)$ graphs. This $f()$ has
+\caption{For single autoregulon $\dot{x}(t)=-\alp x + h(x)$, $(x, \dot{x})$ graphs and 
+corresponding $(x,t)$ graphs. This $h()$ has
 two repulsive  points ($x_{r_1}, x_{r_2}$) 
 and one attractive  point ($x_a$).
 }
@@ -417,14 +466,14 @@ and one attractive  point ($x_a$).
 \beq
 \left\{
 \begin{array}{l}
-\dot{x} = -\alp y + f(x)
+\dot{x} = -\alp y + h(x)
 \\
-\dot{y} =-\alp x + f(y)
+\dot{y} =-\alp x + h(y)
 \end{array}
 \right.
 \label{eq-2dim-3fp}
 \eeq
-Same $\alp$ and function $f()$ (shown in Fig.\ref{fig-source-sink-source}) for both differential
+Same $\alp$ and function $h()$ (shown in Fig.\ref{fig-source-sink-source}) for both differential
 equations.
 
 
@@ -459,9 +508,9 @@ $$
 \beq
 \left\{
 \begin{array}{l}
-\cald\rvx = f_\rvx(x) + \gamma_{\rvy\rarrow\rvx}\;y
+\cald\rvx = h_\rvx(x) + \gamma_{\rvy\rarrow\rvx}\;y
 \\
-\cald\rvy = f_\rvy(y) +\gamma_{\rvx\rarrow\rvy}\;x
+\cald\rvy = h_\rvy(y) +\gamma_{\rvx\rarrow\rvy}\;x
 \end{array}
 \right.
 \eeq
@@ -506,9 +555,9 @@ $$
 \beq
 \left\{
 \begin{array}{l}
-\cald x = f_\rvx(\rvx) + g_\rvx(x, y)+ \gamma_{\rvy\rarrow\rvx}\;y
+\cald x = h_\rvx(\rvx) + g_\rvx(x, y)+ \gamma_{\rvy\rarrow\rvx}\;y
 \\
-\cald y = f_\rvy(\rvy) + g_\rvy(x, y) + \gamma_{\rvx\rarrow\rvy}\;x
+\cald y = h_\rvy(\rvy) + g_\rvy(x, y) + \gamma_{\rvx\rarrow\rvy}\;x
 \end{array}
 \right.
 \eeq
@@ -517,19 +566,16 @@ feedback
 
 \subsection{Two Autoregulon Negative Feedback}
 
-\begin{figure}[h!]
-$$
+
+Net for Two Autoregulon Negative Feedback (2AR-NF)
+
+\beq
 \xymatrix@C=5pc
 {\Rect{\rvx}
 \autoar{r}{\redminus}{\redplus}
 &\Rect{\rvy}
 }
-$$
-\caption{Net for Two Autoregulon Negative Feedback (2AR-NF)}
-\label{fig-2ar-nf}
-\end{figure}
-
-\beq
+\quad
 \left\{
 \begin{array}{l}
 \dot{x}=-\alp_1 x - \gamma_1 y
@@ -541,48 +587,53 @@ $$
 
 \subsection{Two autoregulon Positive Feedback}
 
-
 \beq
-\left\{
-\begin{array}{l}
-\dot{x}=-\alp_1 x \pm \gamma_1 y
-\\
-\dot{y}= -\alp_2y \pm \gamma_2 y
-\end{array}
-\right.
-\eeq
-
-\begin{figure}[h!]
-$$
 \begin{array}{ccc}
-\xymatrix@C=5pc
+(a)
+&\xymatrix@C=5pc
 {\Rect{\rvx}
 \autoar{r}{\redminus}
 {\redminus}
 &\Rect{\rvy}
 }
-&&
+&
+\left\{
+\begin{array}{l}
+\dot{x}=-\alp_1 x - \gamma_1 y
+\\
+\dot{y}= -\alp_2y - \gamma_2 y
+\end{array}
+\right.
+\\
+\\
+(b)&
 \xymatrix@C=5pc
 {\Rect{\rvx}
 \autoar{r}{\redplus}
 {\redplus}
 &\Rect{\rvy}
 }
+&
+\left\{
+\begin{array}{l}
+\dot{x}=-\alp_1 x + \gamma_1 y
 \\
-\\
-(a) && (b)
+\dot{y}= -\alp_2y + \gamma_2 y
 \end{array}
-$$
-\caption{Net for 2 Autoregulon Positive Feedback (2AR-PF)}
-\label{fig-2ar-pf}
-\end{figure}
+\right.
+\end{array}
+\eeq
+
+Net for 2 Autoregulon Positive Feedback (2AR-PF)
 
 \subsection{Genetic Toggle Switch}
 A  {\bf genetic toggle switch}
 can be described by:
 
-\begin{figure}[h!]
-$$
+Genetic Toggle Switch. \OTO\cite{OTO}
+
+
+\beq
 \xymatrix@C=3pc@R=4pc{
 \rvx\ar[dr]|\redominus
 \ar[d]|\redminus
@@ -591,12 +642,7 @@ $$
 \\
 \dot{\rvx}
 &\dot{\rvy}
-}$$
-\caption{Genetic Toggle Switch. \OTO\cite{OTO}}
-\label{fig-gene-toggle}
-\end{figure}
-
-\beq
+}
 \left\{
 \begin{array}{l}
 \dot{x} = \frac{\alpha_1}{1 + \left(\frac{y}{K_1}\right)^{n_1}} - \gamma_1 x
@@ -667,17 +713,17 @@ $(b)$ shows an incoherent net of 3 autoregulons because $\sign(\gamma_{\rvy\rarr
 \beq
 \left\{
 \begin{array}{l}
-\cald\rvx = f_\rvx(x)+
+\cald\rvx = h_\rvx(x)+
 \gamma_{\rvy\rarrow\rvx}\;y
 +
 \gamma_{\rvz\rarrow\rvx}\;z
 \\
-\cald\rvy = f_\rvy(y)+
+\cald\rvy = h_\rvy(y)+
 \gamma_{\rvx\rarrow\rvy}\;x
 +
 \gamma_{\rvz\rarrow\rvy}\;\rvz
 \\
-\cald\rvz = f_\rvz(z) +
+\cald\rvz = h_\rvz(z) +
 \gamma_{\rvx\rarrow\rvz}\;x
 +
 \gamma_{\rvy\rarrow\rvz}\;y
@@ -969,47 +1015,53 @@ y_{max}= \frac{\beta_\rvz}{\alp_\rvz}
 
 \subsection{Cascades of multiple autoregulons}
 
-\begin{figure}[h!]
-$$\begin{array}{ccc}
+Positive and Negative
+cascades of autoregulons.
+
+\beq\begin{array}{ccc}
+(a)&
 \xymatrix@C =3.5pc{
 \Rect{\rvx}\ar[r]|\redplus
 &\Rect{\rvy}\ar[r]|\redplus
 &\Rect{\rvz}
 }
-&&
+&
+\left\{
+\begin{array}{l}
+\dot{x}= -\alp_1 x
+\\
+\dot{y}= -\alp_2 y + \gamma_2 x
+\\
+\dot{z}= -\alp_3 z + \gamma_3 y
+\end{array}
+\right.
+\\
+\\
+(b)&
 \xymatrix@C=3.5pc{
 \Rect{\rvx}\ar[r]|\redminus
 &\Rect{\rvy}\ar[r]|\redminus
 &\Rect{\rvz}
 }
-\\
-\\
-(a)&&(b)
-\end{array}
-$$
-\caption{Positive and Negative
-cascades of autoregulons.}
-\label{fig-cascade}
-\end{figure}
-
-\beq
-\left\{
+&\left\{
 \begin{array}{l}
 \dot{x}= -\alp_1 x
 \\
-\dot{y}= -\alp_2 y \pm \gamma_2 x
+\dot{y}= -\alp_2 y - \gamma_2 x
 \\
-\dot{z}= -\alp_3 z \pm \gamma_3 y
+\dot{z}= -\alp_3 z - \gamma_3 y
 \end{array}
 \right.
+\end{array}
 \eeq
 
 
 \subsection{Repressilator}
 See Ref.\cite{liepe2013maximizing}
 
-\begin{figure}[h!]
-$$
+Repressilator net
+
+\beq
 \xymatrix{
 &\ar[r]&\rvm_1\ar[dr]|\redplus
 \ar[d]|\redminus
@@ -1031,12 +1083,6 @@ $$
 \dot{\rvm_2}&\dot{\rvp_2}
 &&&\dot{\rvm_3}&\dot{\rvp_3}
 }
-$$
-\caption{Repressilator net}
-\label{fig-repress-net}
-\end{figure}
-
-\beq
 \left\{
 \begin{array}{l}
 \dot{m_1} = -m_1 + \frac{\alp}{1+p_3^h}+\alp_0
@@ -1092,8 +1138,10 @@ for $n=0,1,2$
 \subsection{Regulated feedback with 3 autoregulons}
 
 
-\begin{figure}[h!]
-$$
+Net for Regulated Feedback with 3 autoregulons. All 4 arrows can be either
+$\redplus$ or $\redminus$.
+
+\beq
 \xymatrix
 {\Rect{\rvx}\ar[dr]
 \autoar{rr}{}{}
@@ -1101,13 +1149,6 @@ $$
 \\
 &\Rect{\rvz}
 }
-$$
-\caption{Net for Regulated Feedback with 3 autoregulons. All 4 arrows can be either
-$\redplus$ or $\redminus$.}
-\label{fig-rf-3ar}
-\end{figure}
-
-\beq
 \left\{
 \begin{array}{l}
 \dot{x}= -\alp_1x +ry
@@ -1124,8 +1165,9 @@ $\redplus$ or $\redminus$.}
 \subsection{SIM net}
 Single Input Module (SIM) net
 
-\begin{figure}[h!]
-$$
+SIM net
+
+\beq
 \xymatrix@R=4pc{
 &\Rect{\rvx}
 \ar[dl]|\redoplus_{K_1}
@@ -1136,13 +1178,6 @@ $$
 &\Rect{\rvz_2}
 &\Rect{\rvz_3}
 }
-$$
-\caption{SIM net}
-\label{fig-sim-gene-net}
-\end{figure}
-
-
-\beq
 \left\{
 \begin{array}{ll}
 \dot{\rvx} =-\alp x +\beta\indi(x< K)
@@ -1194,8 +1229,7 @@ $$
 
 \subsection{Bacillus Subtilis Sporation net}
 
-\begin{figure}[h!]
-$$
+\beq
 \xymatrix{
 &\Rect{\rvx_1}\ar[ddl]|\redplus
 \ar[ddr]|\redplus
@@ -1221,15 +1255,18 @@ $$
 \\
 &\Rect{\rvz_2}
 &&\Rect{\rvz_3}
-}$$
-\caption{Bacillus Subtilis  Sporation net}
-\label{fig-bac-sub}
-\end{figure}
+}
+\eeq
+Bacillus Subtilis  Sporation net
 
 
 \subsection{Frog Egg Cell Cycle net}
 
-\begin{figure}[h!]$$
+
+
+Frog egg cell cycle net
+
+\beq
 \xymatrix@C=3pc
 {\rvx_{u} \ar[rd]\ar@{=>}[d]\ar[r]
 & \bigotimes\ar[dl]
@@ -1243,12 +1280,6 @@ $$
 &\bigotimes\ar[r]
 &\dot{\rvx_p}
 &\dot{\rvy}}
-$$
-\caption{Frog egg cell cycle net}
-\label{fig-frog-egg}
-\end{figure}
-
-\beq
 \left\{
 \begin{array}{l}
 \dot{x_{u}}= -\calp x_{u} + \calp x_{u} - \calp x_{u}x_p
