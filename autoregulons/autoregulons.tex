@@ -1,32 +1,45 @@
 \chapter{Autoregulon Networks: COMING SOON}
 \label{ch-autoregulons}
 
-This chapter is heavily based on Ref.\cite{alon-book},
-which I highly recommend. That book divides its chapters into 3 \qt{Parts}: Network Motifs, Robustness and Optimality. This chapter covers only the first part, Network Motifs (NM). Autoregulon networks
+I will assume
+the reader has read 
+ Chapter \ref{ch-dynamical-sys}
+on Dynamic Systems before reading this one.
+
+This chapter is mostly based on Ref.\cite{alon-book},
+
+a texbok by Uri Aron on
+on {\bf Systems Biology}. That book divides its chapters into 3 \qt{Parts}: Network Motifs, Robustness and Optimality. This chapter covers only the first part, {\bf Network Motifs} (NM). {\bf Autoregulon networks}
 is an alternative name for NM. 
 
-This chapter only covers the 
-causal aspects of NM. It does no justice to the cell biology and organic chemistry underpinning NM. For that, please go to  Ref.\cite{alon-book}. 
-This chapter will discuss a  special 
+In this chapter, we discuss,
+from a causal inference perspective, a  special 
 class of 
-S1ODE (system of first order ordinary differential equations)
-from a causal inference perspective. Ref.\cite{alon-book} describes the math 
-behind such S1ODEs and also the place where they occur in Nature and even experimental data which supports that they are 
-physically realized. The scope of this chapter is much more limited. We mostly confine ourselves
-to discussing only the math behind such S1ODEs.
-We do occasionally describe briefly some of the  genomics underpinings of the math.
+S1ODE (system of first order ordinary differential equations) that occurs in biology/genomics.
+ Ref.\cite{alon-book} by Alon
+ has much broader scope. Like this chapter, 
+Alon's book describes the mathematical aspects of the
+ S1ODEs. But it 
+also describes  in detail where they occur in biology/genomics and what experimental data exists in support
+of the assertion that they are 
+realized in Nature. We discuss briefly the biological
+underpinnings of the math, but 
+to a much lesser extent than Alon's book.
 If you are new to genomics, and would like to follow that discussion, you might find Appendix \ref{ch-genomics-vocab} helpful.
 
 
 \section{Hill functions}
 
-Two kinds of Hill functions.
-
-{\bf Highpass filter, activator} Hill function
+We  will use 2  kinds of {
+\bf Hill functions}.
+\begin{itemize}
+\item {\bf Activator Hill function} (highpass filter)
  \beq
- h_{\oplus}(x)
+ h_{\oplus}(x; \beta, K, n)
  =\beta\frac{\left(\frac{x}{K}\right)^n}{1 + \left(\frac{x}{K}\right)^n}
  \eeq
+ 
+ Note that
  
  \beq
  \begin{array}{ll}
@@ -46,14 +59,17 @@ Two kinds of Hill functions.
  \end{array}
  \eeq
  
- ({\bf Lowpass filter, repressor}) Hill function
+ \item {\bf Repressor  Hill function} (lowpass filter)
+ 
  \beq
-  h_{\ominus}(x)=\beta\frac{1}{1 + \left(\frac{x}{K}\right)^n}
+  h_{\ominus}(x; \beta, K, n)=\beta\frac{1}{1 + \left(\frac{x}{K}\right)^n}
   \eeq
+  
+  Note that
   
   \beq
   \begin{array}{ll}
-  h_\ominus(x)
+  h_\ominus(x; \beta, K)
   \rarrow\beta\indi(x<K) 
   &\text{ as } n\rarrow\infty
  \\
@@ -67,11 +83,24 @@ Two kinds of Hill functions.
   &\text{for $x\approx K$}
   \end{array}
   \eeq
+\end{itemize}
 
-
+Note that
 \beq
 h_\oplus(x)+h_\ominus(x)=\beta
 \eeq
+
+Figs.\ref{fig-hill-n-1}, 
+\ref{fig-hill-n-2} and \ref{fig-hill-n-10}
+are plots of $h_\oplus(x)$ and $h_\ominus(x)$
+for $n=1$, $n=2$ and $n=10$, respectively, assuming $\beta=K=1$.
+
+The Hill functions are not
+just some abstract concept
+unrelated to Nature. They are
+observed in Nature,
+and they
+can be derived using Chemistry.
 
 \begin{figure}[h!]
 \centering
@@ -79,7 +108,7 @@ h_\oplus(x)+h_\ominus(x)=\beta
 {autoregulons/hill-1.png}
 \caption{Plot of $y= 1/(1+x^n)$
 and $y=x^n/(1+x^n)$ for $n=1$.}
-\label{fig-hill-1.png}
+\label{fig-hill-n-1}
 \end{figure}
 
 \begin{figure}[h!]
@@ -88,7 +117,7 @@ and $y=x^n/(1+x^n)$ for $n=1$.}
 {autoregulons/hill-2.png}
 \caption{Plot of $y= 1/(1+x^n)$
 and $y=x^n/(1+x^n)$ for $n=2$.}
-\label{fig-hill-2.png}
+\label{fig-hill-n-2}
 \end{figure}
 
 \begin{figure}[h!]
@@ -97,11 +126,26 @@ and $y=x^n/(1+x^n)$ for $n=2$.}
 {autoregulons/hill-10.png}
 \caption{Plot of $y= 1/(1+x^n)$
 and $y=x^n/(1+x^n)$ for $n=10$.}
-\label{fig-hill-10.png}
+\label{fig-hill-n-10}
 \end{figure}
 
 \section{One Autoregulon}
-a {\bf net motif} is just a subgraph of a bnet
+
+The ODEs of this chapter can be represented by bnets
+in which variables like $x$ and 
+their velocities (i.e., time derivatives)
+like $\dot{x}$,
+are nodes.
+Subgraphs of such bnets, especially those
+subgraphs that recur frequently as building blocks, are called
+a {\bf network motifs}.  The most basic
+of the network motifs is the {\bf autoregulon},
+which we describe next.  All bnets
+in this chapter can be viewed as {\bf autoregulon
+networks}.
+
+
+This is the autoregulon net motif: 
 
 \beq
 \xymatrix{
@@ -126,12 +170,20 @@ h(\rvx)\ar[dr]|{1}
 \left\{
 \dot{x}=\underbrace{-\alp x + h(x)}_{f(x)}
 \right.
+\label{eq-1-autoreg}
 \eeq
+Eq.(ref{eq-1-autoreg}) also defines  the 2 symbols
+\begin{itemize}
+\item double arrow pointing from a variable and 
+to its time derivative,
+\item boxed random variable
+\end{itemize}
+that we will
+use to represent a single autoregulon when we 
+represent
+networks of autoregulons.
 
 
-Autoregulon net motif and the 2 symbols that we will
-use to denote it when we consider
-networks of connected autoregulons. Assume $\alp >0$.
 
 Let $\alp, \beta >0$.
 In general, $h(x)$ is either the $\oplus$ or $\ominus$ Hill function.
@@ -140,10 +192,10 @@ However, we often use the following approximations
 h(x)=\left\{
 \begin{array}{ll}
 \beta\indi(x>K)
-&(\text{highpass filter})
+&(\text{ideal highpass filter})
 \\
 \beta\indi(x<K)
-&(\text{lowpass filter})
+&(\text{ideal lowpass filter})
 \\
 h_0+|h_1| x
 &(\text{positive feedback})
@@ -154,6 +206,99 @@ h_0 -|h_1| x
 \right.
 \eeq
 
+\section{Autoregulon notation}
+Henceforth, we will use
+
+\begin{itemize}
+\item
+$\xymatrix{\Rect{\rvx}}$ to denote any 
+autoregulon $\rvx$
+
+\item
+$\xymatrix{\Rect{\rvx^\redoplus}}$ to denote a highpass 
+autoregulon $\rvx$
+
+\item
+$\xymatrix{\Rect{\rvx^\redominus}}$ to denote a lowpass 
+autoregulon $\rvx$
+
+\item
+$\xymatrix{\Rect{\rvx^\redplus}}$ to denote a positive feedback 
+autoregulon $\rvx$
+
+
+\item  $\xymatrix{\Rect{\rvx^\redminus}}$
+to denote a negative feedback 
+autoregulon $\rvx$. \footnote{
+Ref.\cite{alon-book}
+denotes a negative feedback autoregulon by 
+$\xymatrix{\rvx\loopright{3}{@{-|}}}$
+} 
+
+\item $\xymatrix{\rvx\ar[r]^\alp&\rvy}$ to denote $\rvy = \alp \rvx$.
+
+ \item  $\xymatrix{\rvx\ar[r]|\redplus&\rvy}$
+to denote
+$\xymatrix{\rvx\ar[r]^\alp&\rvy}
+$
+with $\alp>0$.
+
+\item  $\xymatrix{\rvx\ar[r]|\redminus&\rvy}$
+to denote
+$\xymatrix{\rvx\ar[r]^\alp&\rvy}$
+with $\alp<0$\footnote{
+Ref.\cite{alon-book}
+represents $\xymatrix{\rvx\ar[r]|\redminus&\rvy}$ as $\xymatrix{\rvx\ar@{-|}[r]&\rvy}$
+}
+
+\item  $\xymatrix{\rvx\ar[r]|\redzero&\rvy}$
+to denote
+$\xymatrix{\rvx\ar[r]^\alp&\rvy}$
+with $\alp=0$.
+
+\item  $\xymatrix{\rvx\ar[r]|\redominus^K
+&\rvy}$
+to denote
+$h_\ominus(x)$
+for some $K>0$
+
+\item  $\xymatrix{\rvx\ar[r]|\redoplus^K
+&\rvy}$
+to denote
+$h_\oplus(x)$
+for some $K>0$
+
+\end{itemize}
+
+Note that 
+near $x=K$, $h_{\oplus}$ is
+approximately linear
+with positive slope.
+Hence,  $h_{\oplus}$
+is closely related to positive feedback, as their symbols
+$\redoplus$ and $\redplus$ suggest. Think of $\redoplus$ as an extreme type of $\redplus$.
+
+The last paragraph is still true if we replace (positive, $\redoplus$, 
+$\redplus$) by 
+(negative, $\redominus$, 
+$\redminus$).
+
+If an arrow in a net has no sign, assume its sign 
+might be either plus or minus.
+
+Sometimes we want to write an expression
+such as $\alp x -\beta y$ for some $\alp, \beta>0$ but we don't want to specify
+the names of the coefficients $\alp, \beta$.
+In such cases, we will write $\PP x -\PP y$
+instead of $\alp x -\beta y$. In general,
+\begin{itemize}
+\item
+$\PP x$ means $\alp x$ for some $\alp>0$.
+\item
+$-\PP x$ means $\alp x$ for some $\alp<0$.
+\item
+$\RR x$ means $\alp x$ for some $\alp\in \RR$.
+\end{itemize}
 \subsection{Linear Expansion of $h$}
 
 Let 
@@ -221,11 +366,14 @@ we can have a convergence rate (CR)
  that is either faster, the same or slower than $\alp$:
 \begin{itemize}[-]
 \item if $0<h_1<\alp$, $\alp_1<\alp$, 
-CR is slower than $\alp$, {\bf positive autoregulation (PAR)}
+CR is slower than $\alp$, {\bf positive autoregulation (PAR)}, positive feedback
+
 \item $h_1=0$, $\alp_1=\alp$, CR is same as $\alp$,
 {\bf zero autoregulation (ZAR)}
+
 \item if $h_1<0$, $\alp_1>\alp$, CR is faster than $\alp$,
-{\bf negative autoregulation (NAR)}
+{\bf negative autoregulation (NAR)},
+negative feedback
 \end{itemize}
 \end{itemize}
 
@@ -360,84 +508,6 @@ approximate $x$ for autoregulon with highpass $h$.
 
 
 
-\section{Autoregulon notation}
-Henceforth, we will use
-
-\begin{itemize}
-\item
-$\xymatrix{\Rect{\rvx}}$ to denote any 
-autoregulon $\rvx$
-
-\item
-$\xymatrix{\Rect{\rvx^\redoplus}}$ to denote a highpass 
-autoregulon $\rvx$
-
-\item
-$\xymatrix{\Rect{\rvx^\redominus}}$ to denote a lowpass 
-autoregulon $\rvx$
-
-\item
-$\xymatrix{\Rect{\rvx^\redplus}}$ to denote a positive feedback 
-autoregulon $\rvx$
-
-
-\item  $\xymatrix{\Rect{\rvx^\redminus}}$
-to denote a negative feedback 
-autoregulon $\rvx$. \footnote{
-Ref.\cite{alon-book}
-denotes a negative feedback autoregulon by 
-$\xymatrix{\rvx\loopright{3}{@{-|}}}$
-} 
-
-\item $\xymatrix{\rvx\ar[r]^\alp&\rvy}$ if $\rvy = \alp \rvx$.
-
- \item  $\xymatrix{\rvx\ar[r]|\redplus&\rvy}$
-to denote
-$\xymatrix{\rvx\ar[r]^\alp&\rvy}
-$
-with $\alp>0$.
-
-\item  $\xymatrix{\rvx\ar[r]|\redminus&\rvy}$
-to denote
-$\xymatrix{\rvx\ar[r]^\alp&\rvy}$
-with $\alp<0$\footnote{
-Ref.\cite{alon-book}
-represents $\xymatrix{\rvx\ar[r]|\redminus&\rvy}$ as $\xymatrix{\rvx\ar@{-|}[r]&\rvy}$
-}
-
-\item  $\xymatrix{\rvx\ar[r]|\redzero&\rvy}$
-to denote
-$\xymatrix{\rvx\ar[r]^\alp&\rvy}$
-with $\alp=0$.
-
-\item  $\xymatrix{\rvx\ar[r]|\redominus^K
-&\rvy}$
-to denote
-$\rvy = \indi(\rvx< K)$
-(i.e., lowpass filter)
-for some $K>0$
-
-\item  $\xymatrix{\rvx\ar[r]|\redoplus^K
-&\rvy}$
-to denote
-$\rvy = \indi(\rvx> K)$
-(i.e., highpass filter)
-for some $K>0$.
-
-\end{itemize}
-
-Note that a highpass filter,
-when smooth out 
-to behave as its realization in Nature, has a steep section with positive slope, so a highpass filter
-is closely related to positive feedback, as their symbols
-$\redoplus$ and $\redplus$ suggest. Think of $\redoplus$ as an extreme sort of $\redplus$.
-
-The last paragraph is still true if we replace (highpass,$\redoplus$, 
-$\redplus$) by 
-(lowpass,$\redominus$, 
-$\redminus$).
-
-If an arrow in a net has no sign, assume its sign is positive.
 
 
 
@@ -479,8 +549,8 @@ equations.
 
 \section{Two autoregulons}
 
-\begin{figure}[h!]
-$$
+\beq
+\begin{array}{c}
 \xymatrix@C=6pc@R=1pc{
 \rvx \ar@{=>}[dd]\ar[ddr]|<<<<{}
 & \rvy \ar@{=>}[dd]\ar[ddl]|<<<<{}
@@ -495,35 +565,30 @@ $$
 \xymatrix@C=5pc{
 \\
 \Rect{\rvx}
-\autoar{r}
+\fbackar{r}
 {}
 {}
 &
 \Rect{\rvy}}
-$$
-\caption{Two autoregulons connected to each other.}
-\label{fig-2-autoregulons}
-\end{figure}
-
-\beq
+\\
 \left\{
 \begin{array}{l}
-\cald\rvx = h_\rvx(x) + \gamma_{\rvy\rarrow\rvx}\;y
+\dot{x}=
 \\
-\cald\rvy = h_\rvy(y) +\gamma_{\rvx\rarrow\rvy}\;x
+\dot{y}=
 \end{array}
 \right.
+\end{array}
 \eeq
 
+Two autoregulons connected to each other.
 
 
 
 
-
-
-\begin{figure}[h!]
-$$
-\xymatrix@C=6pc@R=2pc{
+\beq
+\begin{array}{c}
+\xymatrix@C=4pc@R=1pc{
 \rvx \ar@{=>}[dd]\ar[ddrr]|<<<<{}
 \ar[r]
 &\bigotimes\ar[ddl]\ar[ddr]
@@ -535,32 +600,31 @@ $$
 \dot{\rvx}
 &
 &\dot{\rvy}
-}
+}\quad
 \xymatrix{\\
 \quad=\quad}
-\xymatrix@C=5pc{
+\xymatrix@R=4pc@C=3pc{
+\Rect{\rvx}\widefbackar{rr}{}{}
+\fbackar{r}{}{}
+&\bigotimes\fbackar{r}{}{}
+&\Rect{\rvy}
+}
 \\
-\Rect{\rvx}
-\wideautoar{r}
-{}
-{}
-\timesar{r}
-&
-\Rect{\rvy}}
-$$
-\caption{Two autoregulons connected to each other, including population product (pp) term.}
-\label{fig-2-autoregulons-pp}
-\end{figure}
-
-\beq
 \left\{
 \begin{array}{l}
-\cald x = h_\rvx(\rvx) + g_\rvx(x, y)+ \gamma_{\rvy\rarrow\rvx}\;y
+\dot{x}=
 \\
-\cald y = h_\rvy(\rvy) + g_\rvy(x, y) + \gamma_{\rvx\rarrow\rvy}\;x
+\dot{y}=
 \end{array}
 \right.
+\end{array}
 \eeq
+
+
+
+
+Two autoregulons connected to each other, including population product (pp) term.
+
 
 feedback
 
@@ -572,7 +636,7 @@ Net for Two Autoregulon Negative Feedback (2AR-NF)
 \beq
 \xymatrix@C=5pc
 {\Rect{\rvx}
-\autoar{r}{\redminus}{\redplus}
+\fbackar{r}{\redminus}{\redplus}
 &\Rect{\rvy}
 }
 \quad
@@ -580,7 +644,7 @@ Net for Two Autoregulon Negative Feedback (2AR-NF)
 \begin{array}{l}
 \dot{x}=-\alp_1 x - \gamma_1 y
 \\
-\dot{y}= -\alp_2y + \gamma_2 y
+\dot{y}= -\alp_2y + \gamma_2 x
 \end{array}
 \right.
 \eeq
@@ -592,7 +656,7 @@ Net for Two Autoregulon Negative Feedback (2AR-NF)
 (a)
 &\xymatrix@C=5pc
 {\Rect{\rvx}
-\autoar{r}{\redminus}
+\fbackar{r}{\redminus}
 {\redminus}
 &\Rect{\rvy}
 }
@@ -601,7 +665,7 @@ Net for Two Autoregulon Negative Feedback (2AR-NF)
 \begin{array}{l}
 \dot{x}=-\alp_1 x - \gamma_1 y
 \\
-\dot{y}= -\alp_2y - \gamma_2 y
+\dot{y}= -\alp_2y - \gamma_2 x
 \end{array}
 \right.
 \\
@@ -609,7 +673,7 @@ Net for Two Autoregulon Negative Feedback (2AR-NF)
 (b)&
 \xymatrix@C=5pc
 {\Rect{\rvx}
-\autoar{r}{\redplus}
+\fbackar{r}{\redplus}
 {\redplus}
 &\Rect{\rvy}
 }
@@ -618,7 +682,7 @@ Net for Two Autoregulon Negative Feedback (2AR-NF)
 \begin{array}{l}
 \dot{x}=-\alp_1 x + \gamma_1 y
 \\
-\dot{y}= -\alp_2y + \gamma_2 y
+\dot{y}= -\alp_2y + \gamma_2 x
 \end{array}
 \right.
 \end{array}
@@ -657,48 +721,42 @@ where $x$, $y$, and $z$ represent concentrations of proteins, $\alpha_1, \alpha_
 
 \section{More than 2 autoregulons}
 
-\begin{figure}[h!]
-$$
-\xymatrix@C=4pc@R=5pc{
-&\Rect{\rvx}
-\autoar{ld}{}{}
-\autoar{rd}{}{}
-\\
-\Rect{\rvy}\autoar{rr}{}{}
-&&
-\Rect{\rvz}
-}
-$$
-\caption{Three autoregulons connected to each other.
-$\gamma_{\rvy\rarrow\rvx}$ coefficients are left implicit.}
-\label{fig-3-autoregulons}
-\end{figure}
 
 \begin{figure}[h!]
 $$
 \begin{array}{ccc}
-\xymatrix@C=4pc@R=5pc{
+\xymatrix@C=3pc@R=5pc{
 &\Rect{\rvx}
-\autoar{ld}{-}{0}
-\autoar{rd}{+}{0}
+\fbackar{ld}{}{}
+\fbackar{rd}{}{}
 \\
-\Rect{\rvy}\autoar{rr}{-}{0}
+\Rect{\rvy}\fbackar{rr}{}{}
 &&
 \Rect{\rvz}
 }
-&&
-\xymatrix@C=4pc@R=5pc{
+&
+\xymatrix@C=3pc@R=5pc{
 &\Rect{\rvx}
-\autoar{ld}{-}{0}
-\autoar{rd}{+}{0}
+\fbackar{ld}{-}{0}
+\fbackar{rd}{+}{0}
 \\
-\Rect{\rvy}\autoar{rr}{+}{0}
+\Rect{\rvy}\fbackar{rr}{-}{0}
+&&
+\Rect{\rvz}
+}
+&
+\xymatrix@C=3pc@R=5pc{
+&\Rect{\rvx}
+\fbackar{ld}{-}{0}
+\fbackar{rd}{+}{0}
+\\
+\Rect{\rvy}\fbackar{rr}{+}{0}
 &&
 \Rect{\rvz}
 }
 \\
 \\
-(a)&&(b)
+(a)&(b)&(c)
 \end{array}
 $$
 \caption{$(a)$ shows a coherent net of 3 autoregulons because $\sign(\gamma_{\rvy\rarrow\rvz}\gamma_{\rvx\rarrow\rvy})=\sign(\gamma_{\rvx\rarrow\rvz})$.
@@ -710,26 +768,6 @@ $(b)$ shows an incoherent net of 3 autoregulons because $\sign(\gamma_{\rvy\rarr
 
 
 
-\beq
-\left\{
-\begin{array}{l}
-\cald\rvx = h_\rvx(x)+
-\gamma_{\rvy\rarrow\rvx}\;y
-+
-\gamma_{\rvz\rarrow\rvx}\;z
-\\
-\cald\rvy = h_\rvy(y)+
-\gamma_{\rvx\rarrow\rvy}\;x
-+
-\gamma_{\rvz\rarrow\rvy}\;\rvz
-\\
-\cald\rvz = h_\rvz(z) +
-\gamma_{\rvx\rarrow\rvz}\;x
-+
-\gamma_{\rvy\rarrow\rvz}\;y
-\end{array}
-\right.
-\eeq
 
 \begin{figure}
 $$
@@ -767,48 +805,34 @@ $$
 \caption{$(a)$ Forward Feed Loop (FFL) net.
 $(b)$ Coherent Type 1 FFL (C1-FFL).
 $(c)$ Incoherent Type 1 FFL (I1-FFL)}
-
 \end{figure}
 
-
-
-
-
-
-%\begin{figure}[h!]
-%$$
-%\begin{array}{ccc}
-%\xymatrix@C=3pc{
-%&\Rect{\rvx}\ar[d]
-%\ar[dl]|\redplus
-%\\
-%\Rect{\rvy}\ar[r]
-%&
-%\bigotimes\ar[r]|\redplus
-%&\Rect{\rvz}
-%}
-%&
-%&
-%\xymatrix@C=3pc{
-%&\Rect{\rvx}\ar[d]
-%\ar[dl]|\redplus
-%\\
-%\Rect{\rvy}\ar[r]
-%&\bigotimes\ar[r]|\redminus
-%&\Rect{\rvz}
-%}
-%\\
-%(a)
-%&
-%&(b)
-%\end{array}
-%$$
-%\caption{
-%$(a)$ C1-FFL with product node.
-%$(b)$ I1-FFL with product node}
-%\end{figure}
-
-
+\beq
+\xymatrix{
+&&\Rect{\rvx}
+\fbackar{ddll}{\oplus}{0}
+\ar[dl]
+\\
+&\bigotimes
+\ar@/_1pc/[drr]|\redplus
+\\
+\Rect{\rvy}\ar[ur]|\redoplus
+&&&\Rect{\rvz}
+}
+\quad
+\left\{
+\begin{array}{l}
+\dot{x}=
+\\
+\dot{y} =-\alp_\rvy y + \beta_\rvy
+h_\oplus(x)
+)
+\\
+\dot{z} = -\alp_\rvz z + \beta_\rvz 
+h_\oplus(x)h_?(y)
+\end{array}
+\right.
+\eeq
 
 
 Feedforward Loop (FFL).
@@ -816,9 +840,12 @@ Feedforward Loop (FFL).
 Coherent/Incoherent Type 1 FFL (C1-FFL/I1-FFL) if $K_{\rvy\rarrow\rvz}$ is highpass/lowpass.
 where parameters (i.e., $\alp_\rvy, \alp_\rvz, \beta_\rvy, \beta_{\rvz}$) are positive.
 
-\begin{figure}[h!]
-$$
-\begin{array}{ccc}
+
+
+
+\subsection{C1-FFL}
+
+\beq
 \xymatrix{
 \rvx \ar@/_1pc/[drr]|\redoplus
 \ar[r]|\redoplus
@@ -832,60 +859,16 @@ $$
 &
 \dot{z} 
 }
-&&
-\xymatrix{
-\rvx \ar@/_1pc/[drr]|\redoplus\ar[r]|\redoplus
-&\bigotimes\ar@/_3pc/[drr]|{\redplus}
-& \rvy\ar[d]|{\redminus}\ar[l]|
-\redominus
-&\rvz\ar[d]|{\redminus}
-\\
-&
-& \dot{y}
-&
-\dot{z} 
-}
-\\
-\\
-(a)&&(b)
-\end{array}
-$$
-\caption{$(a)$ C1-FFL bnet.
-Note that $\rvy\rarrow \otimes$
-is highpass filter.
-$(b)$ I1-FFL bnet. Note that $\rvy\rarrow \otimes$
-is lowpass filter.
-}
-\label{fig-bnet-c1-ffl}
-\end{figure}
-
-
-\beq
 \left\{
 \begin{array}{l}
 \dot{y} =-\alp_\rvy y + \beta_\rvy \indi(x>K_{\rvx\rarrow\rvy}
 )
 \\
 \dot{z} = -\alp_\rvz z + \beta_\rvz \indi(x> K_{\rvx\rarrow\rvz})
-\left[
-\begin{array}{ll}
-\indi(y>K_{\rvy\rarrow\rvz})
-&
-\text{ if }
-\rvy\rarrow\otimes\text{ is  highpass filter}
-\\
-\indi(y<K_{\rvy\rarrow\rvz})
-&
-\text{ if }
-\rvy\rarrow\otimes\text{ is lowpass filter}
-\end{array}
-\right]
+{\color{red}\indi(y>K_{\rvy\rarrow\rvz})}
 \end{array}
 \right.
-\label{eq-ffl-gen}
 \eeq
-where all the parameters (i.e., $\alp_\rvy, \alp_\rvz, \beta_\rvy, \beta_{\rvz}$) are positive.
-
 
 \begin{figure}[h!]
 \centering
@@ -903,8 +886,6 @@ or a square impulse function (in purple).}
 \end{figure}
 
 
-
-\subsection{C1-FFL}
 Below, the red equations 
 correspond to a different choice of $x(t)$.
 
@@ -985,6 +966,32 @@ or a square impulse rising from 0 at time $t=0$
 and falling to 0 a while later.
 
 \subsection{I1-FFL}
+
+\beq
+\xymatrix{
+\rvx \ar@/_1pc/[drr]|\redoplus\ar[r]|\redoplus
+&\bigotimes\ar@/_3pc/[drr]|{\redplus}
+& \rvy\ar[d]|{\redminus}\ar[l]|
+\redominus
+&\rvz\ar[d]|{\redminus}
+\\
+&
+& \dot{y}
+&
+\dot{z} 
+}
+\left\{
+\begin{array}{l}
+\dot{y} =-\alp_\rvy y + \beta_\rvy \indi(x>K_{\rvx\rarrow\rvy}
+)
+\\
+\dot{z} = -\alp_\rvz z + \beta_\rvz \indi(x> K_{\rvx\rarrow\rvz})
+{\color{red}\indi(y<K_{\rvy\rarrow\rvz})}
+\end{array}
+\right.
+\eeq
+
+
 \begin{figure}[h!]
 \centering
 \includegraphics[width=2.8in]
@@ -1144,7 +1151,7 @@ $\redplus$ or $\redminus$.
 \beq
 \xymatrix
 {\Rect{\rvx}\ar[dr]
-\autoar{rr}{}{}
+\fbackar{rr}{}{}
 &&\Rect{\rvy}\ar[dl]
 \\
 &\Rect{\rvz}
@@ -1271,8 +1278,8 @@ Frog egg cell cycle net
 {\rvx_{u} \ar[rd]\ar@{=>}[d]\ar[r]
 & \bigotimes\ar[dl]
 & \rvx_p\ar[dr]
-\ar[dl]|\redplus
-\ar[l]|\redminus
+\ar[dl]
+\ar[l]
 \ar@{=>}[d]
 & \rvy\ar[dl]\ar@{=>}[d]
 \\
@@ -1282,12 +1289,12 @@ Frog egg cell cycle net
 &\dot{\rvy}}
 \left\{
 \begin{array}{l}
-\dot{x_{u}}= -\calp x_{u} + \calp x_{u} - \calp x_{u}x_p
+\dot{x_{u}}= -\PP x_{u} +\PP x_{u} -\PP x_{u}x_p
 \\
-\dot{x_p}= - \calp x_p  + \calp x_p +
-\calp y+ \calp x_{u}x_p
+\dot{x_p}= -\PP x_p  + \PP x_p +
+\PP y +\PP x_{u}x_p
 \\
-\dot{y}= -\calp y + \calp y + \calp x_p
+\dot{y}= -\PP y +\PP y +\PP x_p
 \end{array}
 \right.
 \eeq
