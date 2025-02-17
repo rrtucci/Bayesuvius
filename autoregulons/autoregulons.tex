@@ -328,8 +328,12 @@ that
 
 
 \beq
-V= -\int^x dx\; f(x)=\frac{\alp_1}{2}(x-x_a)^2
+V-V_0= -\int^x dx\; f(x)=\frac{\alp_1}{2}(x-x_a)^2
 \eeq
+
+$V_0$ is arbitrary, but note that $V(x)$ must be continuous
+because, since $\dot{x}=-\partial_xV(x)$, a jump in $V(x)$
+would produce a delta function in $\dot{x} $.
 
 \begin{itemize}
 \item $h(x)=\beta\indi(x>K)$
@@ -353,14 +357,16 @@ V=
 \frac{\alp}{2}x^2
 &\text{if $x<K$}
 \\
-\frac{\alp}{2}(x-x_\beta)^2
+\frac{\alp}{2}(x-x_\beta)^2 + V_0
 &\text{if $x>K$}
 \end{array}
 \right.
 \eeq
 where 
-$x_\beta =\frac{\beta}{\alp}$.
-$V$ has two branches: two
+$x_\beta =\frac{\beta}{\alp}$,
+and $V_0$ is defined so that $V(x)$ is the same for $x=K\pm\eps$
+for $0<\eps<<0$.
+When $V_0=0$, $V$ has two branches: two
 parabolas with the same second derivative but different vertices. 
 By symmetry, their intersection is
 at $x=\frac{x_\beta}{2}$,
@@ -385,7 +391,7 @@ h_1=0
 V=
 \left\{
 \begin{array}{ll}
-\frac{\alp}{2}(x-x_\beta)^2
+\frac{\alp}{2}(x-x_\beta)^2 + V_0
 &\text{if $x<K$}
 \\
 \frac{\alp}{2}x^2
@@ -393,8 +399,11 @@ V=
 \end{array}
 \right.
 \eeq
-where $x_\beta =\frac{\beta}{\alp}$.
-As in the highpass case, $V$ has two branches: two
+where 
+$x_\beta =\frac{\beta}{\alp}$,
+and $V_0$ is defined so that $V(x)$ is the same for $x=K\pm\eps$
+where $0<\eps<<0$.
+As in the highpass case, when $V_0=0$, $V$ has two branches: two
 parabolas with the same second derivative but different vertices. 
 By symmetry, their intersection is
 at $x=\frac{x_\beta}{2}$,
@@ -411,7 +420,25 @@ Filter zero outside green regions of $x$ axis.}
 \label{fig-v-low-high-pass}
 \end{figure}
 
+From Fig.\ref{fig-v-low-high-pass}
+we learn that if $h$ is lowpass, the potential has one minimum, 
+either at 
 
+\begin{itemize}[$\checkmark$]
+\item $x=K$ if $K<\frac{\beta}{\alp}$,
+
+\item $x=\frac{\beta}{\alp}$ if $K>\frac{\beta}{\alp}$.
+
+\end{itemize}
+
+If instead, $h$ is highpass, it has one or two minima, at
+
+\begin{itemize}[$\checkmark$]
+\item $x=0$ and $x=\frac{\beta}{\alp}$ if $K<\frac{\beta}{\alp}$,
+
+\item $x=0$ if $K>\frac{\beta}{\alp}$
+
+\end{itemize}
 
 \item $h(x)=h_0 + h_1x$ (linear $h$, positive feedback if $h_1>0$,
 negative feedback otherwise)
@@ -485,7 +512,7 @@ this case,
 we can have a convergence rate (CR)
  to $x_a$
  that is either faster, the same or slower than $\alp$:
-\begin{itemize}[-]
+\begin{itemize}[$\checkmark$]
 
 \item \ul{if $0<h_1<\alp$, then:} $\alp_1<\alp$, 
 CR is slower than $\alp$, {\bf positive autoregulation (PAR)}, positive feedback
@@ -535,14 +562,14 @@ x=
 \begin{array}{ll}
 x_0 e^{-\alp t} +
 \frac{\beta}{\alp}\left[1-e^{-\alp t}\right]
-&\text{ if } t<t_K
+&\text{ if } x<K
 \\
-x_K e^{-\alp (t-t_K)}
-&\text{ if } t>t_K
+K e^{-\alp (t-t_K)}
+&\text{ if } x>K
 \end{array}
 \right.
 \eeq
-To make $x(t)$ continuous at $t=t_K$ and have $x(t_K)=x_K$,
+To make $x(t)$ continuous at $t=t_K$ when $x=K$,
 we must have
 
 \beq
@@ -550,16 +577,24 @@ we must have
 \frac{\beta}{\alp}
 \left[1-e^{-\alp t_K}\right]
 =
-x_K
+K
 \eeq
 
 Note that if $\alp t<<1$, then\footnote{Use $e^x\approx 1 + x$ for $|x|<<1$.}, 
 
 \beqa
 x &\approx&
-x_0(1-\alp t) +\beta t
-\\ &=&
+\left\{
+\begin{array}{ll}
 x_0 + (\beta -\alp x_0)t
+&
+\text{if }x<K
+\\(1-\alp t)
+Ke^{\alp t_K}
+&
+\text{if }x>K
+\end{array}
+\right.
 \eeqa
 
 Assume $x_0=0$ for simplicity.
@@ -568,17 +603,14 @@ increases monotonically towards $\frac{\beta}{\alp}$.
 If $K>\frac{\beta}{\alp}$,
 then $x$ reaches $\frac{\beta}{\alp}$
 without ever passing through $K$.
-So $t_K$ 
-doesn't exist and only the $t<t_K$
-branch of the $x$ solution above exists.
+So $x(t)$ remains in the $x<K$ branch of the
+the solution throughout. 
 On the other hand, if $K<\frac{\beta} {\alp}$, 
-then $t_K$ exists and $x_K=K$.
-For $t>t_K$,
+when $x$ reaches $K$ and tries to
+switch branch, it can't do it because
+$\partial_x^2V(x)>0$ for $x=K\pm \eps$
+so $\dot{x}=0$ at $x=K$.
 
-\beq
-x=
-K e^{-\alp(t-t_K)}
-\eeq
 
 \begin{figure}[h!]
 \centering
@@ -616,37 +648,56 @@ where $\beta, \alp, K>0$. Then
 x= 
 \left\{
 \begin{array}{ll}
-x_0 e^{-\alp t} &\text{ if } t<t_K  
+K e^{-\alp (t-t_K)} &\text{ if } x<K 
 \\
-x_K e^{-\alp (t-t_K)} +
+x_0 e^{-\alp t} +
 \frac{\beta}{\alp}
-\left[ 1-e^{-\alp (t-t_K)}\right]
-&\text{ if } t>t_K
+\left[ 1-e^{-\alp t}\right]
+&\text{ if } x>K
 \end{array}
 \right.
 \eeq
-To make $x(t)$ continuous at $t=t_K$ and have $x(t_K)=x_K$,
+To make $x(t)$ continuous at $t=t_K$ when $x=K$,
 we must have
 
 \beq
-x_0 e^{-\alp t_K} = x_K
+K=x_0e^{-\alp t_K}+\frac{\beta}{\alp}
+\left[ 1-e^{-\alp t_K}\right]
+\label{eq-x0-K-prop}
 \eeq
-
-Note that if $\alp t<<1$, then
-
-\beqa
-x &\approx&
-x_0(1 -\alp t)
-\eeqa
 Unlike when $h$ is a lowpass
 filter, 
 in this case,
-we can't assume $x_0=0$. 
-Otherwise, $x_K=0$. Assume
-$x_0>K$ instead. Then $x_K=K$. For $\alp (t-t_K) >>1$, 
-\beq
-x\approx \frac{\beta}{\alp}
-\eeq
+assuming $x_0=0$ is boring, because $x(t)$
+remains at $x_0$. 
+Assume
+$x_0>K$ instead. 
+
+Note that if $\alp t<<1$, then\footnote{Use $e^x\approx 1 + x$ for $|x|<<1$.}, 
+
+\beqa
+x &\approx&
+\left\{
+\begin{array}{ll}
+(1-\alp t)
+Ke^{\alp t_K}
+&
+\text{if }x<K
+\\
+x_0 + (\beta -\alp x_0)t
+&
+\text{if }x>K
+\end{array}
+\right.
+\eeqa
+
+If $K<\frac{\beta}{\alp}$,
+$x(t)$ remains always in the $x>K$
+branch and plateaus at $x=\frac{\beta}{\alp}$.
+
+If $K> \frac{\beta}{\alp}$,
+$x(t)$ switches from the $x>K$ branch to
+the $x<K$ branch, and then decays to zeo.
 
 \begin{figure}[h!]
 \centering
