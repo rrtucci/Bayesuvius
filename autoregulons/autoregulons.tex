@@ -1,14 +1,9 @@
 \chapter{Autoregulon Networks: COMING SOON}
 \label{ch-autoregulons}
 
-I will assume
-the reader has read 
- Chapter \ref{ch-dynamical-sys}
-on Dynamic Systems before reading this one.
 
 This chapter is mostly based on Ref.\cite{alon-book},
-
-a texbok by Uri Aron on
+a textbook by Uri Aron 
 on {\bf Systems Biology}. That book divides its chapters into 3 \qt{Parts}: Network Motifs, Robustness and Optimality. This chapter covers only the first part, {\bf Network Motifs} (NM). {\bf Autoregulon networks}
 is an alternative name for NM. 
 
@@ -17,7 +12,7 @@ from a causal inference perspective, a  special
 class of 
 S1ODE (system of first order ordinary differential equations) that occurs in biology/genomics.
  Ref.\cite{alon-book} by Alon
- has much broader scope. Like this chapter, 
+ has a much broader scope. Like this chapter, 
 Alon's book describes the mathematical aspects of the
  S1ODEs. But it 
 also describes  in detail where they occur in biology/genomics and what experimental data exists in support
@@ -26,6 +21,12 @@ realized in Nature. We discuss briefly the biological
 underpinnings of the math, but 
 to a much lesser extent than Alon's book.
 If you are new to genomics, and would like to follow that discussion, you might find Appendix \ref{ch-genomics-vocab} helpful.
+
+I will assume
+the reader has read 
+ Chapter \ref{ch-dynamical-sys}
+on Dynamical Systems before reading this one.
+
 
 
 \section{Hill functions}
@@ -172,9 +173,9 @@ h(\rvx)\ar[dr]|{1}
 \right.
 \label{eq-1-autoreg}
 \eeq
-Eq.(ref{eq-1-autoreg}) also defines  the 2 symbols
+Eq.(\ref{eq-1-autoreg}) also defines  the 2 symbols
 \begin{itemize}
-\item double arrow pointing from a variable and 
+\item double arrow pointing from a random variable and 
 to its time derivative,
 \item boxed random variable
 \end{itemize}
@@ -206,7 +207,7 @@ h_0 -|h_1| x
 \right.
 \eeq
 
-\section{Autoregulon notation}
+\subsection{Autoregulon notation}
 Henceforth, we will use
 
 \begin{itemize}
@@ -276,9 +277,9 @@ approximately linear
 with positive slope.
 Hence,  $h_{\oplus}$
 is closely related to positive feedback, as their symbols
-$\redoplus$ and $\redplus$ suggest. Think of $\redoplus$ as an extreme type of $\redplus$.
+$\redoplus$ and $\redplus$ suggest. 
 
-The last paragraph is still true if we replace (positive, $\redoplus$, 
+The last paragraph is still true if we replace the terms (positive, $\redoplus$, 
 $\redplus$) by 
 (negative, $\redominus$, 
 $\redminus$).
@@ -299,31 +300,28 @@ $-\PP x$ means $\alp x$ for some $\alp<0$.
 \item
 $\RR x$ means $\alp x$ for some $\alp\in \RR$.
 \end{itemize}
-\subsection{Linear Expansion of $h$}
 
-Let 
+\subsection{Potential function}
 
 \beq
 \dot{x} = \underbrace{-\alp x + h(x)}_{f(x)}
 \eeq
 
 \beq
-h(x)\approx h_0 + h_1x
+h(x)= h_0 + h_1x
 \eeq
+Then
 
 \beqa
 f(x)
-&\approx&h_0
+&=&h_0
 -\underbrace{(\alp-h_1)}_{\alp_1} x
 \\
 &=&
 -\alp_1(x-x_a)
 \eeqa
 where
-
-\beq
-x_a = \frac{h_0}{\alp_1}
-\eeq
+$x_a = \frac{h_0}{\alp_1}$.
 
 Recall from Chapter \ref{ch-dynamical-sys}
 that
@@ -333,31 +331,154 @@ that
 V= -\int^x dx\; f(x)=\frac{\alp_1}{2}(x-x_a)^2
 \eeq
 
-If $x_0=x(0)$
-then the most general solution for $x(t)$ is
+\begin{itemize}
+\item $h(x)=\beta\indi(x>K)$
+(ideal highpass filter)
+
+\beq
+h_0 = \left\{
+\begin{array}{ll}
+0 &\text{if $x<K$}
+\\
+\beta & \text{if $x>K$}
+\end{array}
+\right\},\quad
+h_1=0
+\eeq
+
+\beq
+V=
+\left\{
+\begin{array}{ll}
+\frac{\alp}{2}x^2
+&\text{if $x<K$}
+\\
+\frac{\alp}{2}(x-x_\beta)^2
+&\text{if $x>K$}
+\end{array}
+\right.
+\eeq
+where 
+$x_\beta =\frac{\beta}{\alp}$.
+$V$ has two branches: two
+parabolas with the same second derivative but different vertices. 
+By symmetry, their intersection is
+at $x=\frac{x_\beta}{2}$,
+midway between the vertices.
+
+\item $h(x)=\beta\indi(x<K)$
+(ideal lowpass filter)
+
+\beq
+h_0 = \left\{
+\begin{array}{ll}
+\beta &\text{if $x<K$}
+\\
+0 & \text{if $x>K$}
+\end{array}
+\right\}
+,\quad
+h_1=0
+\eeq
+
+\beq
+V=
+\left\{
+\begin{array}{ll}
+\frac{\alp}{2}(x-x_\beta)^2
+&\text{if $x<K$}
+\\
+\frac{\alp}{2}x^2
+&\text{if $x>K$}
+\end{array}
+\right.
+\eeq
+where $x_\beta =\frac{\beta}{\alp}$.
+As in the highpass case, $V$ has two branches: two
+parabolas with the same second derivative but different vertices. 
+By symmetry, their intersection is
+at $x=\frac{x_\beta}{2}$,
+midway between the vertices.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4.7in]
+{autoregulons/v-low-high-pass.png}
+\caption{Highpass
+and lowpass $V$ (in red) versus $x$, for $K$ smaller
+and larger that $\frac{\beta}{2\alp}$.
+Filter zero outside green regions of $x$ axis.}
+\label{fig-v-low-high-pass}
+\end{figure}
+
+
+
+\item $h(x)=h_0 + h_1x$ (linear $h$, positive feedback if $h_1>0$,
+negative feedback otherwise)
+
+\beq
+V= \frac{\alp_1}{2}(x-x_a)^2
+\eeq
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2in]
+{autoregulons/v-faster-same-slower.png}
+\caption{$V$ versus $x$ for 
+$0<\alp_1<\alp$ (slower),
+$\alp_1=\alp$ (same) and
+$\alp_1>\alp$ (faster).
+Also $V$ for $\alp_1<0$.}
+\label{fig-v-low-high-pass}
+\end{figure}
+ 
+\end{itemize}
+
+\subsection{Linear Expansion of $h$}
+
+In this section, we will
+discuss the solution of
+the autoregulon equation
+when $h(x)$ is replaced by
+its linear approximation.
+
+Let 
+
+\beqa
+\dot{x} &=& -\alp x + h_0 + h_1x
+\\
+&=& -\alp_1(x-x_a)
+\eeqa
+Then 
+
 \beq
 x(t)=\underbrace{x_0 e^{-\alp_1 t} }_{x_h}+
 \underbrace{x_a\left[1-e^{-\alp_1 t}\right]}_{x_p}
 \eeq
 as can be easily checked.
-$x_h$ is called the {\bf homogeneous solution}(independent of $h$)\footnote{
+$x_h$ is called the {\bf homogeneous solution} (independent of $h$)\footnote{
 $x_h$ satisfies the homogeneous ODE, i.e., the
 ODE with $h(x)=0$.
 }
-and $x_p$ is called the {\bf particular solution}(dependent of $h$).
+and $x_p$ is called the {\bf particular solution} (dependent of $h$).
 \footnote{
 If we integrate both sides of
 $\frac{dx}{h_0 -\alp_1 x}=dt$,
 we only get the particular solution.}
 Hence 
+
 \begin{itemize}
 \item
-if $\alp_1<0$, then $x(t)$ 
-goes exponentially fast  from $x_0$ to infinity,
+\ul{if $\alp_1<0$, then:} $x(t)$ 
+goes exponentially fast  from $x_0$ to $\pm \infty$,
 growing as  $(x_0 -x_a)e^{|\alp_1|t}$
 as $t\rarrow \infty$. 
+
+\item \ul{if $\alp_1=0$, then:}
+$x(t)$ is constant. 
+
 \item 
-if $\alp_1>0$, then $x(t)$ goes exponentially fast from
+\ul{if $\alp_1>0$, then:} $x(t)$ goes exponentially fast from
 $x_0$ to $x_a$ as $t\rarrow \infty$.
 As illustrated in Fig.\ref{fig-fast-normal-slow}, in
 this case,
@@ -365,13 +486,14 @@ we can have a convergence rate (CR)
  to $x_a$
  that is either faster, the same or slower than $\alp$:
 \begin{itemize}[-]
-\item if $0<h_1<\alp$, $\alp_1<\alp$, 
+
+\item \ul{if $0<h_1<\alp$, then:} $\alp_1<\alp$, 
 CR is slower than $\alp$, {\bf positive autoregulation (PAR)}, positive feedback
 
-\item $h_1=0$, $\alp_1=\alp$, CR is same as $\alp$,
+\item \ul{if $h_1=0$, then:} $\alp_1=\alp$, CR is same as $\alp$,
 {\bf zero autoregulation (ZAR)}
 
-\item if $h_1<0$, $\alp_1>\alp$, CR is faster than $\alp$,
+\item \ul{if $h_1<0$, then:} $\alp_1>\alp$, CR is faster than $\alp$,
 {\bf negative autoregulation (NAR)},
 negative feedback
 \end{itemize}
@@ -393,7 +515,20 @@ be either faster, same or slower than $\alp$.
 
 
 \subsection{Lowpass $h$}
-If $h$ is a lowpass filter
+
+In this section, we will
+discuss the solution of
+the autoregulon equation
+when $h(x)$ is replaced by
+an ideal lowpass filter.
+
+Let 
+
+\beq
+\dot{x} = -\alp x + \beta\indi(x<K)
+\eeq
+where $\beta, \alp, K>0$. Then
+
 \beq
 x= 
 \left\{
@@ -407,7 +542,7 @@ x_K e^{-\alp (t-t_K)}
 \end{array}
 \right.
 \eeq
-where, to make $x(t)$ continuous at $t=t_K$ and $x(t_K)=x_K$,
+To make $x(t)$ continuous at $t=t_K$ and have $x(t_K)=x_K$,
 we must have
 
 \beq
@@ -428,7 +563,12 @@ x_0 + (\beta -\alp x_0)t
 \eeqa
 
 Assume $x_0=0$ for simplicity.
-In that case, if $K>\frac{\beta} {\alp}$, $t_K$ 
+In that case, $x$
+increases monotonically towards $\frac{\beta}{\alp}$. 
+If $K>\frac{\beta}{\alp}$,
+then $x$ reaches $\frac{\beta}{\alp}$
+without ever passing through $K$.
+So $t_K$ 
 doesn't exist and only the $t<t_K$
 branch of the $x$ solution above exists.
 On the other hand, if $K<\frac{\beta} {\alp}$, 
@@ -444,21 +584,33 @@ K e^{-\alp(t-t_K)}
 \centering
 \includegraphics[width=4in]
 {autoregulons/autoreg-lowpass.png}
-\caption{Approximate $x$ for autoregulon with lowpass $h$
+\caption{Approximate $x$ for an autoregulon with a lowpass $h$
 and $x_0=0$}
 \label{fig-autoreg-lowpass}
 \end{figure}
 
 See Fig.\ref{fig-autoreg-lowpass}
-for approximate 
-$x$ for autoregulon with lowpass $h$
+for a plot of the approximate 
+$x$ for an autoregulon with a lowpass $h$
 and $x_0=0$.
 
-Autoregulon with lowpass $h$ can be used for {\bf memory}.
+
 
 
 \subsection{Highpass $h$}
-For $h$ is a highpass filter
+
+In this section, we will
+discuss the solution of
+the autoregulon equation
+when $h(x)$ is replaced by
+an ideal highpass filter.
+
+Let 
+
+\beq
+\dot{x} = -\alp x + \beta\indi(x>K)
+\eeq
+where $\beta, \alp, K>0$. Then
 
 \beq
 x= 
@@ -473,7 +625,7 @@ x_K e^{-\alp (t-t_K)} +
 \end{array}
 \right.
 \eeq
-where, to make $x(t)$ continuous at $t=t_K$ and $x(t_K)=x_K$,
+To make $x(t)$ continuous at $t=t_K$ and have $x(t_K)=x_K$,
 we must have
 
 \beq
@@ -486,9 +638,12 @@ Note that if $\alp t<<1$, then
 x &\approx&
 x_0(1 -\alp t)
 \eeqa
-Unlike when $h$ is lowpass, 
-in this case of $h$ highpass,
-we can't assume $x_0=0$ or else $x_K=K=0$ too. In fact, we must have $x_0 > x_K=K$. For $\alp (t-t_K) >>1$, 
+Unlike when $h$ is a lowpass
+filter, 
+in this case,
+we can't assume $x_0=0$. 
+Otherwise, $x_K=0$. Assume
+$x_0>K$ instead. Then $x_K=K$. For $\alp (t-t_K) >>1$, 
 \beq
 x\approx \frac{\beta}{\alp}
 \eeq
@@ -497,12 +652,15 @@ x\approx \frac{\beta}{\alp}
 \centering
 \includegraphics[width=4in]
 {autoregulons/autoreg-highpass.png}
-\caption{Approximate $x$ for autoregulon with highpass $h$}
+\caption{Approximate $x$ for an autoregulon with a highpass $h$
+and $x_0>K$.}
 \label{fig-autoreg-highpass}
 \end{figure}
+
 See Fig.\ref{fig-autoreg-highpass}
-for picture of 
-approximate $x$ for autoregulon with highpass $h$.
+for a plot of the approximate 
+$x$ for an autoregulon with a highpass $h$
+and $x_0>K$.
 
 
 
@@ -511,7 +669,7 @@ approximate $x$ for autoregulon with highpass $h$.
 
 
 
-\section{Fixed Points}
+\subsection{Fixed Points}
 
 \begin{figure}[h!]
 \centering
@@ -520,7 +678,7 @@ approximate $x$ for autoregulon with highpass $h$.
 \caption{For single autoregulon $\dot{x}(t)=-\alp x + h(x)$, $(x, \dot{x})$ graphs and 
 corresponding $(x,t)$ graphs. This $h()$ has
 two repulsive  points ($x_{r_1}, x_{r_2}$) 
-and one attractive  point ($x_a$).
+and one attractive  point ($x_\beta$).
 }
 \label{fig-source-sink-source}
 \end{figure}
