@@ -303,6 +303,8 @@ $\RR x$ means $\alp x$ for some $\alp\in \RR$.
 
 \subsection{Potential function}
 
+Let
+
 \beq
 \dot{x} = \underbrace{-\alp x + h(x)}_{f(x)}
 \eeq
@@ -329,51 +331,44 @@ that
 
 \beq
 V-V_0= -\int^x dx\; f(x)=\frac{\alp_1}{2}(x-x_a)^2
+\label{eq-v-for-general-linear-h}
 \eeq
-
 $V_0$ is arbitrary, but note that $V(x)$ must be continuous
 because, since $\dot{x}=-\partial_xV(x)$, a jump in $V(x)$
-would produce a delta function in $\dot{x} $.
+would produce an infinity in $\dot{x}$.
 
-\begin{itemize}
-\item $h(x)=\beta\indi(x>K)$
-(ideal highpass filter)
-
-\beq
-h_0 = \left\{
-\begin{array}{ll}
-0 &\text{if $x<K$}
-\\
-\beta & \text{if $x>K$}
-\end{array}
-\right\},\quad
-h_1=0
-\eeq
-
-\beq
-V=
-\left\{
-\begin{array}{ll}
-\frac{\alp}{2}x^2
-&\text{if $x<K$}
-\\
-\frac{\alp}{2}(x-x_\beta)^2 + V_0
-&\text{if $x>K$}
-\end{array}
-\right.
-\eeq
-where 
-$x_\beta =\frac{\beta}{\alp}$,
-and $V_0$ is defined so that $V(x)$ is the same for $x=K\pm\eps$
-for $0<\eps<<0$.
-When $V_0=0$, $V$ has two branches: two
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4.7in]
+{autoregulons/v-low-high-pass.png}
+\caption{Highpass
+and lowpass $V(x)$ (in red), for various 
+ranges of $K$.
+$h(x)$ is zero outside green regions of $x$ axis.
+Note that when $V_0=0$, $V$ has two branches: two
 parabolas with the same second derivative but different vertices. 
 By symmetry, their intersection is
 at $x=\frac{x_\beta}{2}$,
-midway between the vertices.
+midway between the vertices.}
+\label{fig-v-low-high-pass}
+\end{figure}
 
-\item $h(x)=\beta\indi(x<K)$
-(ideal lowpass filter)
+Eq.(\ref{eq-v-for-general-linear-h})
+for linear $h$
+can be used to analyze the following
+3 cases
+in which $h$
+is piece-wise linear:
+
+\begin{enumerate}
+\item {\bf ideal lowpass filter}
+
+When 
+
+\beq
+h(x)=\beta\indi(x<K)
+\eeq
+we have
 
 \beq
 h_0 = \left\{
@@ -386,6 +381,7 @@ h_0 = \left\{
 ,\quad
 h_1=0
 \eeq
+Hence,
 
 \beq
 V=
@@ -403,55 +399,90 @@ where
 $x_\beta =\frac{\beta}{\alp}$,
 and $V_0$ is defined so that $V(x)$ is the same for $x=K\pm\eps$
 where $0<\eps<<0$.
-As in the highpass case, when $V_0=0$, $V$ has two branches: two
-parabolas with the same second derivative but different vertices. 
-By symmetry, their intersection is
-at $x=\frac{x_\beta}{2}$,
-midway between the vertices.
 
-\begin{figure}[h!]
-\centering
-\includegraphics[width=4.7in]
-{autoregulons/v-low-high-pass.png}
-\caption{Highpass
-and lowpass $V$ (in red) versus $x$, for $K$ smaller
-and larger that $\frac{\beta}{2\alp}$.
-Filter zero outside green regions of $x$ axis.}
-\label{fig-v-low-high-pass}
-\end{figure}
-
-From Fig.\ref{fig-v-low-high-pass}
-we learn that if $h$ is lowpass, the potential has one minimum, 
-either at 
+See Fig.\ref{fig-v-low-high-pass} for a plot of this $V$.
+From that figure,
+we learn that if $h$ is lowpass, the potential has one minimum:
 
 \begin{itemize}[$\checkmark$]
-\item $x=K$ if $K<\frac{\beta}{\alp}$,
+\item at $x=K$ if $K<\frac{\beta}{\alp}$,
 
-\item $x=\frac{\beta}{\alp}$ if $K>\frac{\beta}{\alp}$.
+\item at $x=\frac{\beta}{\alp}$ if $K>\frac{\beta}{\alp}$.
 
 \end{itemize}
 
-If instead, $h$ is highpass, it has one or two minima, at
+\item {\bf ideal highpass filter}
+
+If 
+
+\beq
+h(x)=\beta\indi(x>K)
+\eeq
+then
+
+\beq
+h_0 = \left\{
+\begin{array}{ll}
+0 &\text{if $x<K$}
+\\
+\beta & \text{if $x>K$}
+\end{array}
+\right\},\quad
+h_1=0
+\eeq
+Hence,
+
+\beq
+V=
+\left\{
+\begin{array}{ll}
+\frac{\alp}{2}x^2
+&\text{if $x<K$}
+\\
+\frac{\alp}{2}(x-x_\beta)^2 + V_0
+&\text{if $x>K$}
+\end{array}
+\right.
+\eeq
+where 
+$x_\beta =\frac{\beta}{\alp}$,
+and $V_0$ is defined so that $V(x)$ is the same for $x=K\pm\eps$
+for $0<\eps<<0$.
+
+See Fig.\ref{fig-v-low-high-pass} for a plot of this $V$.
+From that figure, we learn that if $h$ is highpass, it has one or two minima:
 
 \begin{itemize}[$\checkmark$]
-\item $x=0$ and $x=\frac{\beta}{\alp}$ if $K<\frac{\beta}{\alp}$,
+\item at $x=0$ and $x=\frac{\beta}{\alp}$ if $K<\frac{\beta}{\alp}$,
 
-\item $x=0$ if $K>\frac{\beta}{\alp}$
+\item at $x=0$ if $K>\frac{\beta}{\alp}$
 
 \end{itemize}
 
-\item $h(x)=h_0 + h_1x$ (linear $h$, positive feedback if $h_1>0$,
+
+\item {\bf linear $h$} (positive feedback if $h_1>0$,
 negative feedback otherwise)
+
+When
+
+\beq
+h(x)\approx h_0 + h_1x
+\eeq
+we have
 
 \beq
 V= \frac{\alp_1}{2}(x-x_a)^2
 \eeq
 
+See Fig.\ref{fig-v-low-high-pass}
+for a plot of this $V$ for various 
+choices of $\alp_1=\alp-h_1$.
+
 \begin{figure}[h!]
 \centering
 \includegraphics[width=2in]
 {autoregulons/v-faster-same-slower.png}
-\caption{$V$ versus $x$ for 
+\caption{$V(x)$ for 
 $0<\alp_1<\alp$ (slower),
 $\alp_1=\alp$ (same) and
 $\alp_1>\alp$ (faster).
@@ -459,13 +490,13 @@ Also $V$ for $\alp_1<0$.}
 \label{fig-v-low-high-pass}
 \end{figure}
  
-\end{itemize}
+\end{enumerate}
 
 \subsection{Linear Expansion of $h$}
 
 In this section, we will
 discuss the solution of
-the autoregulon equation
+the autoregulon ODE
 when $h(x)$ is replaced by
 its linear approximation.
 
@@ -476,13 +507,13 @@ Let
 \\
 &=& -\alp_1(x-x_a)
 \eeqa
-Then 
+The most general solution of this ODE is
 
 \beq
-x(t)=\underbrace{x_0 e^{-\alp_1 t} }_{x_h}+
+x(t)=\underbrace{\xi  e^{-\alp_1 t} }_{x_h}+
 \underbrace{x_a\left[1-e^{-\alp_1 t}\right]}_{x_p}
 \eeq
-as can be easily checked.
+for some $\xi\in\RR$, as can be easily checked.
 $x_h$ is called the {\bf homogeneous solution} (independent of $h$)\footnote{
 $x_h$ satisfies the homogeneous ODE, i.e., the
 ODE with $h(x)=0$.
@@ -492,13 +523,13 @@ and $x_p$ is called the {\bf particular solution} (dependent of $h$).
 If we integrate both sides of
 $\frac{dx}{h_0 -\alp_1 x}=dt$,
 we only get the particular solution.}
-Hence 
+From this general solution, we conclude that
 
 \begin{itemize}
 \item
 \ul{if $\alp_1<0$, then:} $x(t)$ 
-goes exponentially fast  from $x_0$ to $\pm \infty$,
-growing as  $(x_0 -x_a)e^{|\alp_1|t}$
+goes exponentially fast  from $\xi $ to $\pm \infty$,
+growing as  $(\xi  -x_a)e^{|\alp_1|t}$
 as $t\rarrow \infty$. 
 
 \item \ul{if $\alp_1=0$, then:}
@@ -506,7 +537,7 @@ $x(t)$ is constant.
 
 \item 
 \ul{if $\alp_1>0$, then:} $x(t)$ goes exponentially fast from
-$x_0$ to $x_a$ as $t\rarrow \infty$.
+$\xi $ to $x_a$ as $t\rarrow \infty$.
 As illustrated in Fig.\ref{fig-fast-normal-slow}, in
 this case,
 we can have a convergence rate (CR)
@@ -531,9 +562,9 @@ negative feedback
 \centering
 \includegraphics[width=2.5in]
 {autoregulons/fast-normal-slow.png}
-\caption{For single autoregulon
+\caption{For a single autoregulon
 with $\alp_1>0$, the convergence rate to $x_a$ can 
-be either faster, same or slower than $\alp$.
+be either faster, the same or slower than $\alp$.
  }
 \label{fig-fast-normal-slow}
 \end{figure}
@@ -545,8 +576,8 @@ be either faster, same or slower than $\alp$.
 
 In this section, we will
 discuss the solution of
-the autoregulon equation
-when $h(x)$ is replaced by
+the autoregulon ODE
+when $h(x)$ is
 an ideal lowpass filter.
 
 Let 
@@ -560,7 +591,7 @@ where $\beta, \alp, K>0$. Then
 x= 
 \left\{
 \begin{array}{ll}
-x_0 e^{-\alp t} +
+\xi  e^{-\alp t} +
 \frac{\beta}{\alp}\left[1-e^{-\alp t}\right]
 &\text{ if } x<K
 \\
@@ -569,16 +600,32 @@ K e^{-\alp (t-t_K)}
 \end{array}
 \right.
 \eeq
-To make $x(t)$ continuous at $t=t_K$ when $x=K$,
+for some $\xi\in\RR$. To make $x(t)$ continuous at $t=t_K$ when $x=K$,
 we must have
 
 \beq
- x_0 e^{-\alp t_K} +
+ \xi  e^{-\alp t_K} +
 \frac{\beta}{\alp}
 \left[1-e^{-\alp t_K}\right]
 =
 K
 \eeq
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4in]
+{autoregulons/autoreg-lowpass.png}
+\caption{Approximate $x(t)$
+for an autoregulon with a lowpass $h$
+and $x(0) =0$}
+\label{fig-autoreg-lowpass}
+\end{figure}
+
+See Fig.\ref{fig-autoreg-lowpass}
+for a plot of the approximate 
+$x(t)$ for an autoregulon with a lowpass $h$
+and $x(0) =0$.
 
 Note that if $\alp t<<1$, then\footnote{Use $e^x\approx 1 + x$ for $|x|<<1$.}, 
 
@@ -586,7 +633,7 @@ Note that if $\alp t<<1$, then\footnote{Use $e^x\approx 1 + x$ for $|x|<<1$.},
 x &\approx&
 \left\{
 \begin{array}{ll}
-x_0 + (\beta -\alp x_0)t
+\xi  + (\beta -\alp \xi )t
 &
 \text{if }x<K
 \\(1-\alp t)
@@ -597,7 +644,7 @@ Ke^{\alp t_K}
 \right.
 \eeqa
 
-Assume $x_0=0$ for simplicity.
+Assume $x(0)=\xi =0$ for simplicity.
 In that case, $x$
 increases monotonically towards $\frac{\beta}{\alp}$. 
 If $K>\frac{\beta}{\alp}$,
@@ -612,19 +659,6 @@ $\partial_x^2V(x)>0$ for $x=K\pm \eps$
 so $\dot{x}=0$ at $x=K$.
 
 
-\begin{figure}[h!]
-\centering
-\includegraphics[width=4in]
-{autoregulons/autoreg-lowpass.png}
-\caption{Approximate $x$ for an autoregulon with a lowpass $h$
-and $x_0=0$}
-\label{fig-autoreg-lowpass}
-\end{figure}
-
-See Fig.\ref{fig-autoreg-lowpass}
-for a plot of the approximate 
-$x$ for an autoregulon with a lowpass $h$
-and $x_0=0$.
 
 
 
@@ -633,8 +667,8 @@ and $x_0=0$.
 
 In this section, we will
 discuss the solution of
-the autoregulon equation
-when $h(x)$ is replaced by
+the autoregulon ODE
+when $h(x)$ is
 an ideal highpass filter.
 
 Let 
@@ -650,28 +684,35 @@ x=
 \begin{array}{ll}
 K e^{-\alp (t-t_K)} &\text{ if } x<K 
 \\
-x_0 e^{-\alp t} +
+\xi  e^{-\alp t} +
 \frac{\beta}{\alp}
 \left[ 1-e^{-\alp t}\right]
 &\text{ if } x>K
 \end{array}
 \right.
 \eeq
-To make $x(t)$ continuous at $t=t_K$ when $x=K$,
+for some $\xi\in\RR$. To make $x(t)$ continuous at $t=t_K$ when $x=K$,
 we must have
 
 \beq
-K=x_0e^{-\alp t_K}+\frac{\beta}{\alp}
+K=\xi e^{-\alp t_K}+\frac{\beta}{\alp}
 \left[ 1-e^{-\alp t_K}\right]
 \label{eq-x0-K-prop}
 \eeq
-Unlike when $h$ is a lowpass
-filter, 
-in this case,
-assuming $x_0=0$ is boring, because $x(t)$
-remains at $x_0$. 
-Assume
-$x_0>K$ instead. 
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4in]
+{autoregulons/autoreg-highpass.png}
+\caption{Approximate $x(t)$ for an autoregulon with a highpass $h$
+and $x(0)>K$.}
+\label{fig-autoreg-highpass}
+\end{figure}
+
+See Fig.\ref{fig-autoreg-highpass}
+for a plot of the approximate 
+$x(t)$ for an autoregulon with a highpass $h$
+and $x(0) >K$.
 
 Note that if $\alp t<<1$, then\footnote{Use $e^x\approx 1 + x$ for $|x|<<1$.}, 
 
@@ -684,12 +725,20 @@ Ke^{\alp t_K}
 &
 \text{if }x<K
 \\
-x_0 + (\beta -\alp x_0)t
+\xi  + (\beta -\alp \xi )t
 &
 \text{if }x>K
 \end{array}
 \right.
 \eeqa
+
+Unlike when $h$ is a lowpass
+filter, 
+in this case,
+assuming $x(0)=0$ is boring, because $x(t)$
+remains at $0$. 
+Assume
+$x(0) >K$ instead. 
 
 If $K<\frac{\beta}{\alp}$,
 $x(t)$ remains always in the $x>K$
@@ -697,21 +746,8 @@ branch and plateaus at $x=\frac{\beta}{\alp}$.
 
 If $K> \frac{\beta}{\alp}$,
 $x(t)$ switches from the $x>K$ branch to
-the $x<K$ branch, and then decays to zeo.
+the $x<K$ branch, and then decays to zero.
 
-\begin{figure}[h!]
-\centering
-\includegraphics[width=4in]
-{autoregulons/autoreg-highpass.png}
-\caption{Approximate $x$ for an autoregulon with a highpass $h$
-and $x_0>K$.}
-\label{fig-autoreg-highpass}
-\end{figure}
-
-See Fig.\ref{fig-autoreg-highpass}
-for a plot of the approximate 
-$x$ for an autoregulon with a highpass $h$
-and $x_0>K$.
 
 
 
@@ -722,41 +758,47 @@ and $x_0>K$.
 
 \subsection{Fixed Points}
 
+The fixed points of an autoregulon satisfy
+
+\beq
+0=\dot{x}=-\alp x + h(x)
+\eeq
+Thus, they occur whenever the curves
+$y=\alp x$ and $y=h(x)$ intersect. When $h(x)$ is 
+a straight line as in positive or negative
+feedback, there is just one intersection. But when
+$h(x)$ is a Hill function,
+$y=\alp x$ and $y=h(x)$ can intersect at 1, 2 or 3 points.
+Fig.\ref{fig-source-sink-source} shows 
+the case where there are 3 intersections, leading to 3 fixed points,
+one source and two sinks.
+
 \begin{figure}[h!]
 \centering
 \includegraphics[width=2in]
 {autoregulons/source-sink-source.png}
-\caption{For single autoregulon $\dot{x}(t)=-\alp x + h(x)$, $(x, \dot{x})$ graphs and 
-corresponding $(x,t)$ graphs. This $h()$ has
-two repulsive  points ($x_{r_1}, x_{r_2}$) 
-and one attractive  point ($x_\beta$).
+\caption{For single autoregulon $\dot{x}(t)=-\alp x + h(x)$, 
+the fixed points occur at the intersection of the
+curves $y=\alp x$ and $y=h(x)$. In this case,
+there are 3 intersections, leading to 3 fixed points.
 }
 \label{fig-source-sink-source}
 \end{figure}
+
+
+
+\section{Two autoregulons}
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=3in]
 {autoregulons/2dim-3fp.png}
-\caption{Flow map for two autoregulons satisfying Eqs.(\ref{eq-2dim-3fp}).}
+\caption{Phase portrait
+for two autoregulon with 3 fixed
+points.}
 \label{fig-2dim-3fp}
 \end{figure}
 
-\beq
-\left\{
-\begin{array}{l}
-\dot{x} = -\alp y + h(x)
-\\
-\dot{y} =-\alp x + h(y)
-\end{array}
-\right.
-\label{eq-2dim-3fp}
-\eeq
-Same $\alp$ and function $h()$ (shown in Fig.\ref{fig-source-sink-source}) for both differential
-equations.
-
-
-\section{Two autoregulons}
 
 \beq
 \begin{array}{c}
@@ -1100,13 +1142,13 @@ correspond to a different choice of $x(t)$.
 
 Assume (see Fig.\ref{fig-c1-ffl-triple})
 \beq
-x = x_0\indi(t>0)
+x = \xi \indi(t>0)
 \eeq
 \beq \nonumber
 \color{red}
-x = x_0\indi(t<0)
+x = \xi \indi(t<0)
 \eeq
-where $x_0 > K_{\rvx\rarrow\rvy}, K_{\rvx\rarrow\rvz}$.
+where $\xi  > K_{\rvx\rarrow\rvy}, K_{\rvx\rarrow\rvz}$.
 Thus, Eq.(\ref{eq-ffl-gen}) reduces to
 
 \beq
