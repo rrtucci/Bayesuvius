@@ -317,20 +317,20 @@ Then
 \beqa
 f(x)
 &=&h_0
--\underbrace{(\alp-h_1)}_{\alp_1} x
+-\underbrace{(\alp-h_1)}_{\alp'} x
 \\
 &=&
--\alp_1(x-x_a)
+-\alp'(x-x_a)
 \eeqa
 where
-$x_a = \frac{h_0}{\alp_1}$.
+$x_a = \frac{h_0}{\alp'}$.
 
 Recall from Chapter \ref{ch-dynamical-sys}
 that
 
 
 \beq
-V-V_0= -\int^x dx\; f(x)=\frac{\alp_1}{2}(x-x_a)^2
+V-V_0= -\int^x dx\; f(x)=\frac{\alp'}{2}(x-x_a)^2
 \label{eq-v-for-general-linear-h}
 \eeq
 $V_0$ is arbitrary, but note that $V(x)$ must be continuous
@@ -471,22 +471,22 @@ h(x)\approx h_0 + h_1x
 we have
 
 \beq
-V= \frac{\alp_1}{2}(x-x_a)^2
+V= \frac{\alp'}{2}(x-x_a)^2
 \eeq
 
 See Fig.\ref{fig-v-low-high-pass}
 for a plot of this $V$ for various 
-choices of $\alp_1=\alp-h_1$.
+choices of $\alp'=\alp-h_1$.
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=2in]
 {autoregulons/v-faster-same-slower.png}
 \caption{$V(x)$ for 
-$0<\alp_1<\alp$ (slower),
-$\alp_1=\alp$ (same) and
-$\alp_1>\alp$ (faster).
-Also $V$ for $\alp_1<0$.}
+$0<\alp'<\alp$ (slower),
+$\alp'=\alp$ (same) and
+$\alp'>\alp$ (faster).
+Also $V$ for $\alp'<0$.}
 \label{fig-v-low-high-pass}
 \end{figure}
  
@@ -505,13 +505,13 @@ Let
 \beqa
 \dot{x} &=& -\alp x + h_0 + h_1x
 \\
-&=& -\alp_1(x-x_a)
+&=& -\alp'(x-x_a)
 \eeqa
 The most general solution of this ODE is
 
 \beq
-x(t)=\underbrace{\xi  e^{-\alp_1 t} }_{x_h}+
-\underbrace{x_a\left[1-e^{-\alp_1 t}\right]}_{x_p}
+x(t)=\underbrace{\xi  e^{-\alp' t} }_{x_h}+
+\underbrace{x_a\left[1-e^{-\alp' t}\right]}_{x_p}
 \eeq
 for some $\xi\in\RR$, as can be easily checked.
 $x_h$ is called the {\bf homogeneous solution} (independent of $h$)\footnote{
@@ -521,22 +521,22 @@ ODE with $h(x)=0$.
 and $x_p$ is called the {\bf particular solution} (dependent of $h$).
 \footnote{
 If we integrate both sides of
-$\frac{dx}{h_0 -\alp_1 x}=dt$,
+$\frac{dx}{h_0 -\alp' x}=dt$,
 we only get the particular solution.}
 From this general solution, we conclude that
 
 \begin{itemize}
 \item
-\ul{if $\alp_1<0$, then:} $x(t)$ 
+\ul{if $\alp'<0$, then:} $x(t)$ 
 goes exponentially fast  from $\xi $ to $\pm \infty$,
-growing as  $(\xi  -x_a)e^{|\alp_1|t}$
+growing as  $(\xi  -x_a)e^{|\alp'|t}$
 as $t\rarrow \infty$. 
 
-\item \ul{if $\alp_1=0$, then:}
+\item \ul{if $\alp'=0$, then:}
 $x(t)$ is constant. 
 
 \item 
-\ul{if $\alp_1>0$, then:} $x(t)$ goes exponentially fast from
+\ul{if $\alp'>0$, then:} $x(t)$ goes exponentially fast from
 $\xi $ to $x_a$ as $t\rarrow \infty$.
 As illustrated in Fig.\ref{fig-fast-normal-slow}, in
 this case,
@@ -545,13 +545,13 @@ we can have a convergence rate (CR)
  that is either faster, the same or slower than $\alp$:
 \begin{itemize}[$\checkmark$]
 
-\item \ul{if $0<h_1<\alp$, then:} $\alp_1<\alp$, 
+\item \ul{if $0<h_1<\alp$, then:} $\alp'<\alp$, 
 CR is slower than $\alp$, {\bf positive autoregulation (PAR)}, positive feedback
 
-\item \ul{if $h_1=0$, then:} $\alp_1=\alp$, CR is same as $\alp$,
+\item \ul{if $h_1=0$, then:} $\alp'=\alp$, CR is same as $\alp$,
 {\bf zero autoregulation (ZAR)}
 
-\item \ul{if $h_1<0$, then:} $\alp_1>\alp$, CR is faster than $\alp$,
+\item \ul{if $h_1<0$, then:} $\alp'>\alp$, CR is faster than $\alp$,
 {\bf negative autoregulation (NAR)},
 negative feedback
 \end{itemize}
@@ -563,7 +563,7 @@ negative feedback
 \includegraphics[width=2.5in]
 {autoregulons/fast-normal-slow.png}
 \caption{For a single autoregulon
-with $\alp_1>0$, the convergence rate to $x_a$ can 
+with $\alp'>0$, the convergence rate to $x_a$ can 
 be either faster, the same or slower than $\alp$.
  }
 \label{fig-fast-normal-slow}
@@ -767,7 +767,10 @@ Thus, they occur whenever the curves
 $y=\alp x$ and $y=h(x)$ intersect. When $h(x)$ is 
 a straight line as in positive or negative
 feedback, there is just one intersection. But when
-$h(x)$ is a Hill function,
+$h(x)$ is a Hill function (
+also if $h(x)$ are lowpass or highpass
+filters, can be seen as limits of
+Hill functions),
 $y=\alp x$ and $y=h(x)$ can intersect at 1, 2 or 3 points.
 Fig.\ref{fig-source-sink-source} shows 
 the case where there are 3 intersections, leading to 3 fixed points,
@@ -789,15 +792,6 @@ there are 3 intersections, leading to 3 fixed points.
 
 \section{Two autoregulons}
 
-\begin{figure}[h!]
-\centering
-\includegraphics[width=3in]
-{autoregulons/2dim-3fp.png}
-\caption{Phase portrait
-for two autoregulon with 3 fixed
-points.}
-\label{fig-2dim-3fp}
-\end{figure}
 
 
 \beq
@@ -824,9 +818,9 @@ points.}
 \\
 \left\{
 \begin{array}{l}
-\dot{x}=
+\dot{x}= f_1(x) + \RR y
 \\
-\dot{y}=
+\dot{y} = f_2(x) + \RR x
 \end{array}
 \right.
 \end{array}
@@ -863,9 +857,9 @@ Two autoregulons connected to each other.
 \\
 \left\{
 \begin{array}{l}
-\dot{x}=
+\dot{x}= f_1(x) + \RR y +\RR xy
 \\
-\dot{y}=
+\dot{y}= f_2(y) + \RR x + \RR xy
 \end{array}
 \right.
 \end{array}
@@ -893,9 +887,9 @@ Net for Two Autoregulon Negative Feedback (2AR-NF)
 \quad
 \left\{
 \begin{array}{l}
-\dot{x}=-\alp_1 x - \gamma_1 y
+\dot{x}=-\alp_1 x + \gamma_1 y
 \\
-\dot{y}= -\alp_2y + \gamma_2 x
+\dot{y}= -\alp_2y - \gamma_2 x
 \end{array}
 \right.
 \eeq
@@ -969,13 +963,21 @@ Genetic Toggle Switch. \OTO\cite{OTO}
 
 where $x$, $y$, and $z$ represent concentrations of proteins, $\alpha_1, \alpha_2, \alpha_3 > 0$ are production rates, and $n, m, p > 1$ control the steepness of the repression.
 
+\begin{figure}[h!]
+\centering
+\includegraphics[width=3in]
+{autoregulons/2dim-3fp.png}
+\caption{Phase portrait
+for two autoregulon with 3 fixed
+points.}
+\label{fig-2dim-3fp}
+\end{figure}
+
+
 
 \section{More than 2 autoregulons}
 
-
-\begin{figure}[h!]
-$$
-\begin{array}{ccc}
+\beq
 \xymatrix@C=3pc@R=5pc{
 &\Rect{\rvx}
 \fbackar{ld}{}{}
@@ -985,7 +987,22 @@ $$
 &&
 \Rect{\rvz}
 }
-&
+\quad
+\left\{
+\begin{array}{l}
+\dot{x}= f_1(x) + \RR y + \RR z
+\\
+\dot{y} = f_2(y) + \RR x + \RR z
+\\
+\dot{z} = f_3(z) + \RR x + \RR y
+\end{array}
+\right.
+\eeq
+
+
+\begin{figure}[h!]
+$$
+\begin{array}{cc}
 \xymatrix@C=3pc@R=5pc{
 &\Rect{\rvx}
 \fbackar{ld}{-}{0}
@@ -1007,7 +1024,7 @@ $$
 }
 \\
 \\
-(a)&(b)&(c)
+(a)&(b)
 \end{array}
 $$
 \caption{$(a)$ shows a coherent net of 3 autoregulons because $\sign(\gamma_{\rvy\rarrow\rvz}\gamma_{\rvx\rarrow\rvy})=\sign(\gamma_{\rvx\rarrow\rvz})$.
@@ -1017,20 +1034,30 @@ $(b)$ shows an incoherent net of 3 autoregulons because $\sign(\gamma_{\rvy\rarr
 \end{figure}
 
 
-
-
-
-\begin{figure}
-$$
-\begin{array}{ccccc}
+\beq
 \xymatrix{
 &\Rect{\rvx}\ar[dl]
 \ar[dr]
 \\
 \Rect{\rvy}\ar[rr]
 &&\Rect{\rvz}
-}&
-&
+}
+\quad
+\left\{
+\begin{array}{l}
+\dot{x}= f_1(x)
+\\
+\dot{y} = f_2(y) + \RR x
+\\
+\dot{z} = f_3(z) + \RR x + \RR y
+\end{array}
+\right.
+\eeq
+
+
+\begin{figure}
+$$
+\begin{array}{cc}
 \xymatrix{
 &\Rect{\rvx}\ar[dl]|\redoplus
 \ar[dr]|\redoplus
@@ -1038,7 +1065,6 @@ $$
 \Rect{\rvy}\ar[rr]|\redoplus
 &&\Rect{\rvz}
 }
-&
 &
 \xymatrix{
 &\Rect{\rvx}\ar[dl]|\redoplus
@@ -1049,8 +1075,7 @@ $$
 }
 \\
 (a)
-&&(b)
-&&(c)
+&(b)
 \end{array}
 $$
 \caption{$(a)$ Forward Feed Loop (FFL) net.
@@ -1061,7 +1086,7 @@ $(c)$ Incoherent Type 1 FFL (I1-FFL)}
 \beq
 \xymatrix{
 &&\Rect{\rvx}
-\fbackar{ddll}{\oplus}{0}
+\ar@/_1pc/[ddll]|\redoplus
 \ar[dl]
 \\
 &\bigotimes
@@ -1073,13 +1098,12 @@ $(c)$ Incoherent Type 1 FFL (I1-FFL)}
 \quad
 \left\{
 \begin{array}{l}
-\dot{x}=
+\dot{x}= f_1(x)
 \\
-\dot{y} =-\alp_\rvy y + \beta_\rvy
+\dot{y} = f_2(y) + \beta_2
 h_\oplus(x)
-)
 \\
-\dot{z} = -\alp_\rvz z + \beta_\rvz 
+\dot{z} = f_3(z) + \beta_3 
 h_\oplus(x)h_?(y)
 \end{array}
 \right.
@@ -1089,7 +1113,7 @@ h_\oplus(x)h_?(y)
 Feedforward Loop (FFL).
 
 Coherent/Incoherent Type 1 FFL (C1-FFL/I1-FFL) if $K_{\rvy\rarrow\rvz}$ is highpass/lowpass.
-where parameters (i.e., $\alp_\rvy, \alp_\rvz, \beta_\rvy, \beta_{\rvz}$) are positive.
+where parameters (i.e., $\alp_2, \alp_3, \beta_2, \beta_{\rvz}$) are positive.
 
 
 
@@ -1098,6 +1122,8 @@ where parameters (i.e., $\alp_\rvy, \alp_\rvz, \beta_\rvy, \beta_{\rvz}$) are po
 
 \beq
 \xymatrix{
+\ar[r]
+&
 \rvx \ar@/_1pc/[drr]|\redoplus
 \ar[r]|\redoplus
 &\bigotimes\ar@/_3pc/[drr]|{\redplus}
@@ -1106,19 +1132,21 @@ where parameters (i.e., $\alp_\rvy, \alp_\rvz, \beta_\rvy, \beta_{\rvz}$) are po
 &\rvz\ar[d]|{\redminus}
 \\
 &
+&
 & \dot{y}
 &
 \dot{z} 
 }
 \left\{
 \begin{array}{l}
-\dot{y} =-\alp_\rvy y + \beta_\rvy \indi(x>K_{\rvx\rarrow\rvy}
-)
+\dot{y} = -\alp_2 y + \beta_2 
+\indi(x>K_{\rvx\rarrow\rvy})
 \\
-\dot{z} = -\alp_\rvz z + \beta_\rvz \indi(x> K_{\rvx\rarrow\rvz})
-{\color{red}\indi(y>K_{\rvy\rarrow\rvz})}
+\dot{z} = -\alp_3 z + \beta_3 \indi(x> K_{\rvx\rarrow\rvz})
+\indi(y>K_{\rvy\rarrow\rvz})
 \end{array}
 \right.
+\label{eq-c1-ffl-simp}
 \eeq
 
 \begin{figure}[h!]
@@ -1127,6 +1155,8 @@ where parameters (i.e., $\alp_\rvy, \alp_\rvz, \beta_\rvy, \beta_{\rvz}$) are po
 {autoregulons/c1-ffl-up-green.png}
 \includegraphics[height=2in]
 {autoregulons/c1-ffl-down-green.png}
+\includegraphics[height=2in]
+{autoregulons/two-paths-y-z-plane.png}
 \includegraphics[height=2in]
 {autoregulons/c1-ffl-up-down-green.png}
 \caption{For C1-FFL, $x(t)$, $y(t)$, $z(t)$ assuming 
@@ -1137,66 +1167,80 @@ or a square impulse function (in purple).}
 \end{figure}
 
 
-Below, the red equations 
-correspond to a different choice of $x(t)$.
-
-Assume (see Fig.\ref{fig-c1-ffl-triple})
 \beq
-x = \xi \indi(t>0)
+x = 
+\left\{
+\begin{array}{ll}
+\xi \indi(t>0)
+& \text{if $x$ step up}
+\\
+\xi \indi(t<0)
+& \text{if $x$ step down}
+\end{array}
+\right.
 \eeq
-\beq \nonumber
-\color{red}
-x = \xi \indi(t<0)
-\eeq
-where $\xi  > K_{\rvx\rarrow\rvy}, K_{\rvx\rarrow\rvz}$.
-Thus, Eq.(\ref{eq-ffl-gen}) reduces to
+where $\xi  >
+\max(K_{\rvx\rarrow\rvy}, K_{\rvx\rarrow\rvz})$.
+Thus, Eq.(\ref{eq-c1-ffl-simp}) reduces to
 
 \beq
 \left\{
 \begin{array}{l}
-\dot{y} = \beta_\rvy
--\alp_\rvy y
+\dot{y} = -\alp_2 y +\beta_2
 \\
-\dot{z} =  \beta_\rvz
-\indi(y>K_{\rvy\rarrow\rvz}) -\alp_\rvz z
+\dot{z} = -\alp_3 z+ \beta_3
+\indi(y>K_{\rvy\rarrow\rvz}) 
 \end{array}
 \right.
 \label{eq-ffl-red}
 \eeq
-Let $
-y(0) = 0, y_{ss} = \frac{\beta_\rvy}{\alp_{\rvy}}
+Let $\infty = \frac{\beta_2}{\alp_2}
 $.\
 Then (see Fig.\ref{fig-c1-ffl-triple})
 
 \beq
-y = y_{ss}(1-e^{-\alp_\rvy t})
+y =
+\left\{
+\begin{array} {ll}
+y_\infty(1-e^{-\alp_2 t})
+& \text{if $x$ step up, $y(0)=0$}
+\\
+y_0e^{-\alp_2 t}
+& \text{if $x$ step down, $y(0)=y_0$}
+\end{array}
+\right.
 \eeq
-\beq \nonumber \color{red}
-y = y_0e^{-\alp_\rvy t}
-\eeq
-If $y_{ss}> K_{\rvy\rarrow\rvz}$
-( or ${\color{red} y_0 < K_{\rvy\rarrow\rvz}}$), then (see Fig.\ref{fig-c1-ffl-triple})
+then (see Fig.\ref{fig-c1-ffl-triple})
 
 
 \beq
-z = \frac{\beta_\rvz}{\alp_\rvz}(1- e^{-\alp_\rvz (t-t_{on})})
+z=
+\left\{
+\begin{array}{ll}
+z_\infty(1- e^{-\alp_3 (t-t_{lag})})
+&
+\text{if $x$ step up,
+$y(0)=0$, $y_\infty> K_{\rvy\rarrow\rvz}$}
+\\
+z_0 e^{-\alp_3 t}
+& \text{if $x$ step down, $y(0)=y_0$, $y_\infty< K_{\rvy\rarrow\rvz}$
+}
+\end{array}
+\right.
 \eeq
-\beq\nonumber
-\color{red}
-z = z_0 e^{-\alp_\rvz t}
-\eeq
-where $t_{on}$ is defined so that
+where $z_\infty = \frac{\beta_3}{\alp_3}$
+and $t_{lag}$ is defined so that
 
 \beq
-y(t_{on}) = K_{\rvy\rarrow\rvz}= y_{ss}(1-e^{-\alp_\rvy t})
+y(t_{lag}) = K_{\rvy\rarrow\rvz}= y_\infty(1-e^{-\alp_2 t_{lag}})
 \eeq
-Solving the last equation for $t_{on}$ yields (see 
+Solving the last equation for $t_{lag}$ yields (see 
 Fig.\ref{fig-minus-log-1-minus-x.png})
 
 \beq
-y_{on} = -\;\frac{1}{\alp_\rvy}
+y_{lag} = -\;\frac{1}{\alp_2}
 \ln
-\left({1- \frac{K_{\rvy\rarrow\rvz}}{y_{ss}}}
+\left({1- \frac{K_{\rvy\rarrow\rvz}}{y_\infty}}
 \right)
 \eeq
 
@@ -1220,12 +1264,17 @@ and falling to 0 a while later.
 
 \beq
 \xymatrix{
+\ar[r]
+&
 \rvx \ar@/_1pc/[drr]|\redoplus\ar[r]|\redoplus
+\ar[d]
 &\bigotimes\ar@/_3pc/[drr]|{\redplus}
 & \rvy\ar[d]|{\redminus}\ar[l]|
 \redominus
 &\rvz\ar[d]|{\redminus}
 \\
+&
+\dot{x}
 &
 & \dot{y}
 &
@@ -1233,11 +1282,13 @@ and falling to 0 a while later.
 }
 \left\{
 \begin{array}{l}
-\dot{y} =-\alp_\rvy y + \beta_\rvy \indi(x>K_{\rvx\rarrow\rvy}
-)
+\dot{x} = -\alp_1 x
 \\
-\dot{z} = -\alp_\rvz z + \beta_\rvz \indi(x> K_{\rvx\rarrow\rvz})
-{\color{red}\indi(y<K_{\rvy\rarrow\rvz})}
+\dot{y} =-\alp_2 y + 
+\beta_2 \indi(x>K_{\rvx\rarrow\rvy})
+\\
+\dot{z} = -\alp_3 z + \beta_3 \indi(x> K_{\rvx\rarrow\rvz})
+\indi(y<K_{\rvy\rarrow\rvz})
 \end{array}
 \right.
 \eeq
@@ -1256,10 +1307,10 @@ from 0 at $t=0$.}
 \beq
 z=\left\{
 \begin{array}{ll}
-\frac{\beta_z}{\alp_\rvz}(1- e^{-\alp_\rvz t})
+\frac{\beta_z}{\alp_3}(1- e^{-\alp_3 t})
 & \text{ for } t<t_{max}
 \\
-y_{max}e^{-\alp_\rvz (t-t_{max})}
+y_{max}e^{-\alp_3 (t-t_{max})}
 & \text{ for } t> t_{max}
 \end{array}
 \right.
@@ -1267,8 +1318,8 @@ y_{max}e^{-\alp_\rvz (t-t_{max})}
 where 
 
 \beq
-y_{max}= \frac{\beta_\rvz}{\alp_\rvz}
-(1-e^{-\alp_\rvz t_{max}})
+y_{max}= \frac{\beta_3}{\alp_3}
+(1-e^{-\alp_3 t_{max}})
 \eeq
 
 \subsection{Cascades of multiple autoregulons}
@@ -1286,11 +1337,11 @@ cascades of autoregulons.
 &
 \left\{
 \begin{array}{l}
-\dot{x}= -\alp_1 x
+\dot{x}= f_1(x)
 \\
-\dot{y}= -\alp_2 y + \gamma_2 x
+\dot{y}= f_2(y) + \gamma_2 x
 \\
-\dot{z}= -\alp_3 z + \gamma_3 y
+\dot{z}= f_3(z) + \gamma_3 y
 \end{array}
 \right.
 \\
@@ -1303,11 +1354,11 @@ cascades of autoregulons.
 }
 &\left\{
 \begin{array}{l}
-\dot{x}= -\alp_1 x
+\dot{x}= f_1(x)
 \\
-\dot{y}= -\alp_2 y - \gamma_2 x
+\dot{y}= f_2(y) - \gamma_2 x
 \\
-\dot{z}= -\alp_3 z - \gamma_3 y
+\dot{z}= f_3(z) - \gamma_3 y
 \end{array}
 \right.
 \end{array}
@@ -1409,11 +1460,11 @@ $\redplus$ or $\redminus$.
 }
 \left\{
 \begin{array}{l}
-\dot{x}= -\alp_1x +ry
+\dot{x}= f_1(x) +ry
 \\
-\dot{y}= -\alp_2y +sx 
+\dot{y}= f_2(y) +sx 
 \\
-\dot{z}= -\alp_3z + \gamma_1x + 
+\dot{z}= f_3(z) + \gamma_1x + 
 \gamma_2 y 
 \end{array}
 \right.
@@ -1438,9 +1489,9 @@ SIM net
 }
 \left\{
 \begin{array}{ll}
-\dot{\rvx} =-\alp x +\beta\indi(x< K)
+\dot{\rvx} =f_\rvx(x)
 \\
-\dot {\rvz_i} =-\alp x_i + \beta_i\indi(x>K_i)
+\dot {\rvz_i} =f_i(x_i) + \beta_i\indi(x_i>K_i)
 & \text{for $i=1,2,3$}
 \end{array}
 \right.
