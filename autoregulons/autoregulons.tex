@@ -1112,7 +1112,7 @@ h_\oplus(x)h_?(y)
 
 Feedforward Loop (FFL).
 
-Coherent/Incoherent Type 1 FFL (C1-FFL/I1-FFL) if $K_{\rvy\rarrow\rvz}$ is highpass/lowpass.
+Coherent/Incoherent Type 1 FFL (C1-FFL/I1-FFL) if $K_{y\rarrow z}$ is highpass/lowpass.
 where parameters (i.e., $\alp_2, \alp_3, \beta_2, \beta_{\rvz}$) are positive.
 
 
@@ -1122,16 +1122,15 @@ where parameters (i.e., $\alp_2, \alp_3, \beta_2, \beta_{\rvz}$) are positive.
 
 \beq
 \xymatrix{
-\ar[r]
-&
 \rvx \ar@/_1pc/[drr]|\redoplus
 \ar[r]|\redoplus
 &\bigotimes\ar@/_3pc/[drr]|{\redplus}
 & \rvy\ar[d]|{\redminus}\ar[l]|
 \redoplus
 &\rvz\ar[d]|{\redminus}
+\ar@/_1pc/[d]|\redominus
 \\
-&
+\ar[u]
 &
 & \dot{y}
 &
@@ -1140,14 +1139,16 @@ where parameters (i.e., $\alp_2, \alp_3, \beta_2, \beta_{\rvz}$) are positive.
 \left\{
 \begin{array}{l}
 \dot{y} = -\alp_2 y + \beta_2 
-\indi(x>K_{\rvx\rarrow\rvy})
+\indi(x>K_{x\rarrow y})
 \\
-\dot{z} = -\alp_3 z + \beta_3 \indi(x> K_{\rvx\rarrow\rvz})
-\indi(y>K_{\rvy\rarrow\rvz})
+\dot{z} = -\alp_3 z + \beta_3\indi(z<K_3)+
+\beta_{12} \indi(x> K_{x\rarrow z})
+\indi(y>K_{y\rarrow z})
 \end{array}
 \right.
 \label{eq-c1-ffl-simp}
 \eeq
+
 
 \begin{figure}[h!]
 \centering
@@ -1162,10 +1163,11 @@ where parameters (i.e., $\alp_2, \alp_3, \beta_2, \beta_{\rvz}$) are positive.
 \caption{For C1-FFL, $x(t)$, $y(t)$, $z(t)$ assuming 
 that $x(t)$ is either a rising step function (in green),
 a dropping step function (in red),
-or a square impulse function (in purple).}
+or a square pulse function (in purple).}
 \label{fig-c1-ffl-triple}
 \end{figure}
 
+We will assume $z<K_3$ always so $\indi(z<K_3)=1$.
 
 \beq
 x = 
@@ -1180,7 +1182,7 @@ x =
 \right.
 \eeq
 where $\xi  >
-\max(K_{\rvx\rarrow\rvy}, K_{\rvx\rarrow\rvz})$.
+\max(K_{x\rarrow y}, K_{x\rarrow z})$.
 Thus, Eq.(\ref{eq-c1-ffl-simp}) reduces to
 
 \beq
@@ -1188,14 +1190,19 @@ Thus, Eq.(\ref{eq-c1-ffl-simp}) reduces to
 \begin{array}{l}
 \dot{y} = -\alp_2 y +\beta_2
 \\
-\dot{z} = -\alp_3 z+ \beta_3
-\indi(y>K_{\rvy\rarrow\rvz}) 
+\dot{z} = -\alp_3 z+ \beta_3 + \beta_{12}
+\indi(y>K_{y\rarrow z}) 
 \end{array}
 \right.
 \label{eq-ffl-red}
 \eeq
-Let $\infty = \frac{\beta_2}{\alp_2}
-$.\
+Let 
+
+\beq
+y_\infty = \frac{\beta_2}{\alp_2}\;,\;\;
+z_\infty = \frac{\beta_3}{\alp_3}\;,\;\;
+z_\infty' = \frac{\beta_3 + \beta_{12}}{\alp_3}
+\eeq
 Then (see Fig.\ref{fig-c1-ffl-triple})
 
 \beq
@@ -1210,37 +1217,36 @@ y_0e^{-\alp_2 t}
 \end{array}
 \right.
 \eeq
-then (see Fig.\ref{fig-c1-ffl-triple})
+and
 
 
 \beq
 z=
 \left\{
 \begin{array}{ll}
-z_\infty(1- e^{-\alp_3 (t-t_{lag})})
+z_\infty'(1- e^{-\alp_3 (t-t_{lag})})
 &
 \text{if $x$ step up,
-$y(0)=0$, $y_\infty> K_{\rvy\rarrow\rvz}$}
+$y(0)=0$, $y> K_{y\rarrow z}$}
 \\
 z_0 e^{-\alp_3 t}
-& \text{if $x$ step down, $y(0)=y_0$, $y_\infty< K_{\rvy\rarrow\rvz}$
+& \text{if $x$ step down, $y(0)=y_0$, $y< K_{y\rarrow z}$
 }
 \end{array}
 \right.
 \eeq
-where $z_\infty = \frac{\beta_3}{\alp_3}$
-and $t_{lag}$ is defined so that
+where $t_{lag}$ is defined so that
 
 \beq
-y(t_{lag}) = K_{\rvy\rarrow\rvz}= y_\infty(1-e^{-\alp_2 t_{lag}})
+y(t_{lag}) = K_{y\rarrow z}= y_\infty(1-e^{-\alp_2 t_{lag}})
 \eeq
 Solving the last equation for $t_{lag}$ yields (see 
 Fig.\ref{fig-minus-log-1-minus-x.png})
 
 \beq
-y_{lag} = -\;\frac{1}{\alp_2}
+y(t_{lag}) = -\;\frac{1}{\alp_2}
 \ln
-\left({1- \frac{K_{\rvy\rarrow\rvz}}{y_\infty}}
+\left({1- \frac{K_{y\rarrow z}}{y_\infty}}
 \right)
 \eeq
 
@@ -1257,24 +1263,21 @@ shows the waveforms for $x(t), y(t), z(t)$
 assuming $x(t)$ is either 
 a step function rising from 0 at $t=0$,
 a step function falling to zero at $t=0$,
-or a square impulse rising from 0 at time $t=0$
+or a square pulse rising from 0 at time $t=0$
 and falling to 0 a while later.
 
 \subsection{I1-FFL}
 
 \beq
 \xymatrix{
-\ar[r]
-&
 \rvx \ar@/_1pc/[drr]|\redoplus\ar[r]|\redoplus
-\ar[d]
 &\bigotimes\ar@/_3pc/[drr]|{\redplus}
 & \rvy\ar[d]|{\redminus}\ar[l]|
 \redominus
 &\rvz\ar[d]|{\redminus}
+\ar@/_1pc/[d]|\redominus
 \\
-&
-\dot{x}
+\ar[u]
 &
 & \dot{y}
 &
@@ -1282,20 +1285,21 @@ and falling to 0 a while later.
 }
 \left\{
 \begin{array}{l}
-\dot{x} = -\alp_1 x
-\\
 \dot{y} =-\alp_2 y + 
-\beta_2 \indi(x>K_{\rvx\rarrow\rvy})
+\beta_2 \indi(x>K_{x\rarrow y})
 \\
-\dot{z} = -\alp_3 z + \beta_3 \indi(x> K_{\rvx\rarrow\rvz})
-\indi(y<K_{\rvy\rarrow\rvz})
+\dot{z} = -\alp_3 z + \beta_3\indi(z< K_3)
++
+\beta_{12} \indi(x> K_{x\rarrow z})
+\indi(y<K_{y\rarrow z})
 \end{array}
 \right.
 \eeq
 
 
 \begin{figure}[h!]
-\centering
+\centering\includegraphics[width=2.8in]
+{autoregulons/i1-ffl-speedup.png}
 \includegraphics[width=2.8in]
 {autoregulons/i1-ffl-green.png}
 \caption{For I1-FFL, $x(t), y(t), z(t)$
@@ -1304,21 +1308,58 @@ from 0 at $t=0$.}
 \label{fig-i1-ffl}
 \end{figure}
 
+We will assume $z<K_3$ always so $\indi(z<K_3)=1$.
+
+\beq
+x=\xi \indi(x>0)
+\eeq
+If $x>\max(K_{x\rarrow y}, K_{x\rarrow z})$,
+
+
+\beq
+\left\{
+\begin{array}{l}
+\dot{y}=-\alp_2 y + \beta_2 
+\\
+\dot{z}=-\alp_3 z + \beta_3 +
+\beta_{12} \indi(y<K_{y\rarrow z})
+\end{array}
+\right.
+\eeq
+Let 
+
+\beq
+y_\infty = \frac{\beta_2}{\alp_2}\;,\quad
+z_\infty = \frac{\beta_3}{\alp_3}\;\quad
+z_\infty' = \frac{\beta_3+\beta_{12}}{\alp_3}
+\eeq
+
+Then (see Fig.\ref{fig-i1-ffl})
+
+\beq
+y = y_\infty(1-e^{-\alp_2 t})
+\eeq
+and
+
 \beq
 z=\left\{
 \begin{array}{ll}
-\frac{\beta_z}{\alp_3}(1- e^{-\alp_3 t})
-& \text{ for } t<t_{max}
+z_\infty'(1- e^{-\alp_3 t})
+& \text{ for } y<K_{y\rarrow z}
 \\
-y_{max}e^{-\alp_3 (t-t_{max})}
-& \text{ for } t> t_{max}
+z_{max} e^{-\alp_3 (t-t_{max})}+ z_\infty(1- e^{-\alp_3 (t-t_{max})})
+& \text{ for } y>K_{y\rarrow z}
 \end{array}
 \right.
 \eeq
 where 
 
 \beq
-y_{max}= \frac{\beta_3}{\alp_3}
+K_{y\rarrow z}=y_\infty(1- e^{-\alp_2 t_{max}})
+\eeq
+
+\beq
+z(t_{max})=z_{max}= z_\infty'
 (1-e^{-\alp_3 t_{max}})
 \eeq
 
