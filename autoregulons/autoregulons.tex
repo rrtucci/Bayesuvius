@@ -1,4 +1,4 @@
-\chapter{Autoregulon Networks: COMING SOON}
+\chapter{Autoregulon Networks (Network Motifs): COMING SOON}
 \label{ch-autoregulons}
 
 
@@ -219,9 +219,18 @@ autoregulon $\rvx$
 $\xymatrix{\Rect{\rvx^\redoplus}}$ to denote a highpass 
 autoregulon $\rvx$
 
+Ref.\cite{alon-book}
+denotes this by 
+$\xymatrix{\rvx\loopright{3}{}}$
+
 \item
 $\xymatrix{\Rect{\rvx^\redominus}}$ to denote a lowpass 
 autoregulon $\rvx$
+
+Ref.\cite{alon-book}
+denotes this by 
+$\xymatrix{\rvx\loopright{3}{@{-|}}}$
+
 
 \item
 $\xymatrix{\Rect{\rvx^\redplus}}$ to denote a positive feedback 
@@ -230,11 +239,9 @@ autoregulon $\rvx$
 
 \item  $\xymatrix{\Rect{\rvx^\redminus}}$
 to denote a negative feedback 
-autoregulon $\rvx$. \footnote{
-Ref.\cite{alon-book}
-denotes a negative feedback autoregulon by 
-$\xymatrix{\rvx\loopright{3}{@{-|}}}$
-} 
+autoregulon $\rvx$. 
+
+
 
 \item $\xymatrix{\rvx\ar[r]^\alp&\rvy}$ to denote $\rvy = \alp \rvx$.
 
@@ -247,10 +254,11 @@ with $\alp>0$.
 \item  $\xymatrix{\rvx\ar[r]|\redminus&\rvy}$
 to denote
 $\xymatrix{\rvx\ar[r]^\alp&\rvy}$
-with $\alp<0$\footnote{
+with $\alp<0$
+
 Ref.\cite{alon-book}
-represents $\xymatrix{\rvx\ar[r]|\redminus&\rvy}$ as $\xymatrix{\rvx\ar@{-|}[r]&\rvy}$
-}
+denotes this by $\xymatrix{\rvx\ar@{-|}[r]&\rvy}$
+
 
 \item  $\xymatrix{\rvx\ar[r]|\redzero&\rvy}$
 to denote
@@ -300,6 +308,39 @@ $-\PP x$ means $\alp x$ for some $\alp<0$.
 \item
 $\RR x$ means $\alp x$ for some $\alp\in \RR$.
 \end{itemize}
+
+
+We will be using truth functions
+of $x$ 
+as well as $t$. For example,
+up x-step
+$\indi(x>K)$ and 
+up t-step $\indi(t>t_1)$.
+
+For any two times $t_1, t_2$ such that $t_1<t_2$, we will 
+denote
+a {\bf unit t-pulse} by
+
+\beq
+\indi_{t_1}^{t_2}(t) = \indi(t_1 < t <t_2)
+\eeq
+Then we will call a function
+$g(x)\indi_{t_1}^{t_2}(t)$,
+the pulsed $g(x)$.
+For example,
+$h_\oplus(x)\indi_{t_1}^{t_2}(t)$
+is the pulsed $h_\oplus(x)$.
+
+Note that
+
+\beqa
+\indi_{t_1}^{t_2}(t)
+&=&\indi(t>t_1)\indi(t<t_2)
+\\
+&=& \indi(t>t_1)[1-\indi(t>t_2)]
+\\
+&=&\indi(t>t_1) -\indi(t>t_2)
+\eeqa
 
 \subsection{Potential function}
 
@@ -522,7 +563,11 @@ and $x_p$ is called the {\bf particular solution} (dependent of $h$).
 \footnote{
 If we integrate both sides of
 $\frac{dx}{h_0 -\alp' x}=dt$,
-we only get the particular solution.}
+we get the particular solution.
+To get the homogeneous 
+solution,
+we must integrate both sides
+of $dx$ = $dt$.}
 From this general solution, we conclude that
 
 \begin{itemize}
@@ -573,12 +618,26 @@ be either faster, the same or slower than $\alp$.
 
 
 \subsection{Lowpass $h$}
+\label{sec-lowpass-h}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4in]
+{autoregulons/autoreg-lowpass.png}
+\caption{Approximate $x(t)$
+for an autoregulon with a lowpass $h$
+and $x(0) =0$}
+\label{fig-autoreg-lowpass}
+\end{figure}
 
 In this section, we will
 discuss the solution of
 the autoregulon ODE
 when $h(x)$ is
 an ideal lowpass filter.
+See Fig.\ref{fig-autoreg-lowpass}
+for a pictorial
+representation of what we will prove.
 
 Let 
 
@@ -610,22 +669,6 @@ we must have
 =
 K
 \eeq
-
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=4in]
-{autoregulons/autoreg-lowpass.png}
-\caption{Approximate $x(t)$
-for an autoregulon with a lowpass $h$
-and $x(0) =0$}
-\label{fig-autoreg-lowpass}
-\end{figure}
-
-See Fig.\ref{fig-autoreg-lowpass}
-for a plot of the approximate 
-$x(t)$ for an autoregulon with a lowpass $h$
-and $x(0) =0$.
 
 Note that if $\alp t<<1$, then\footnote{Use $e^x\approx 1 + x$ for $|x|<<1$.}, 
 
@@ -664,12 +707,23 @@ so $\dot{x}=0$ at $x=K$.
 
 
 \subsection{Highpass $h$}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4in]
+{autoregulons/autoreg-highpass.png}
+\caption{Approximate $x(t)$ for an autoregulon with a highpass $h$
+and $x(0)>K$.}
+\label{fig-autoreg-highpass}
+\end{figure}
 
 In this section, we will
 discuss the solution of
 the autoregulon ODE
 when $h(x)$ is
 an ideal highpass filter.
+See Fig.\ref{fig-autoreg-highpass}
+for a pictorial
+representation of what we will prove.
 
 Let 
 
@@ -699,20 +753,6 @@ K=\xi e^{-\alp t_K}+\frac{\beta}{\alp}
 \left[ 1-e^{-\alp t_K}\right]
 \label{eq-x0-K-prop}
 \eeq
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=4in]
-{autoregulons/autoreg-highpass.png}
-\caption{Approximate $x(t)$ for an autoregulon with a highpass $h$
-and $x(0)>K$.}
-\label{fig-autoreg-highpass}
-\end{figure}
-
-See Fig.\ref{fig-autoreg-highpass}
-for a plot of the approximate 
-$x(t)$ for an autoregulon with a highpass $h$
-and $x(0) >K$.
 
 Note that if $\alp t<<1$, then\footnote{Use $e^x\approx 1 + x$ for $|x|<<1$.}, 
 
@@ -753,6 +793,51 @@ the $x<K$ branch, and then decays to zero.
 
 
 
+\subsection{Pulsed Lowpass $h$}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2in]
+{autoregulons/pulsed-lowpass.png}
+\caption{$h(t)$ and
+$x(t)$ for a pulsed lowpass $h$.
+}
+\label{fig-pulsed-lowpass}
+\end{figure}
+
+In this section, we will
+discuss the solution of
+the autoregulon ODE
+when $h(x)$ is
+a pulsed ideal lowpass filter.
+See Fig.\ref{fig-pulsed-lowpass}
+for a pictorial
+representation of what we will prove.
+
+Let 
+
+\beq
+\dot{x} = -\alp x + \beta\indi(x<K)\indi_{0}^{t_2}(t)
+\eeq
+where $\beta, \alp, K>0$. 
+
+As discussed in Section \ref{sec-lowpass-h},
+if we assume $x(0)=0$,
+$x$ reaches $K$ and plateaus there or tends asymptotically
+to $x_\infty =\frac{\beta}{\alpha}$.
+All this is assumed to happen before $t=t_2$.
+Then at $t=t_2$,
+the $V$ function becomes a
+parabola with $x=0$
+as vertex,
+so 
+
+\beq
+x= x(t_2)e^{-\alp (t-t_2)}
+\eeq
+ decays exponentially to 0.
+ 
+ 
 
 
 
@@ -894,6 +979,45 @@ Net for Two Autoregulon Negative Feedback (2AR-NF)
 \right.
 \eeq
 
+If $\vec{x}=(x, y)^T$ and $\dot{\vec{x}}=A \vec{x}$, then
+
+\beq
+A = \left[
+\begin{array}{cc}
+-\alp_1 & \gamma_1
+\\
+-\gamma_2& -\alp_2 
+\end{array}
+\right]
+\eeq
+so
+
+\beq
+\begin{array}{l}
+\delta = \det A = \alp_1 \alp_2+
+\gamma_1 \gamma_2 >0
+\\
+\tau =\tr A =-(\alp_1 +\alp_2) <0
+\end{array}
+\eeq
+
+\beqa
+\Delta &=&\tau^2-4\delta 
+\\
+&=&
+(\alp_1 +\alp_2)^2 - 4\alp_1\alp_2 -4\gamma_1\gamma_2
+\\
+&=&
+(\alp_1-\alp_2)^2 -4\gamma_1\gamma_2
+\eeqa
+
+See Chapter \ref{ch-dynamical-sys}
+and in particular Fig.\ref{fig-wiki-pp} for what that entails. These systems have a sink at $(x,y)=(0,0)$
+(because $\tau<0$)
+and may or may not have oscillations (depending
+on the sign of $\Delta$).
+
+
 \subsection{Two autoregulon Positive Feedback}
 
 \beq
@@ -934,6 +1058,72 @@ Net for Two Autoregulon Negative Feedback (2AR-NF)
 \eeq
 
 Net for 2 Autoregulon Positive Feedback (2AR-PF)
+
+If $\vec{x}=(x,y)^T$ and $\dot{\vec{x}}=A x$,
+then 
+\begin{itemize}
+\item for $(a)$
+\beq
+A = \left[
+\begin{array}{cc}
+-\alp_1 & -\gamma_1
+\\
+-\gamma_2 & -\alp_2
+\end{array}
+\right]
+\eeq
+so
+
+\beq
+\begin{array}{l}
+\tau =\tr A =-(\alp_1 +\alp_2) <0
+\\
+\delta = \det A = \alp_1 \alp_2
+-\gamma_1 \gamma_2
+\end{array}
+\eeq
+
+\item for $(b)$:
+\beq
+A = \left[
+\begin{array}{cc}
+-\alp_1 & \gamma_1
+\\
+\gamma_2 & -\alp_2
+\end{array}
+\right]
+\eeq
+so
+
+\beq
+\begin{array}{l}
+\tau =\tr A =-(\alp_1 +\alp_2) <0
+\\
+\delta = \det A = \alp_1 \alp_2
+-\gamma_1 \gamma_2
+\end{array}
+\eeq
+
+\end{itemize}
+
+Since both $(a)$ and $(b)$ have the same
+$(\tau, \delta)$,
+they have the same discriminant $\Delta$,
+given by
+
+\beqa
+\Delta &=&\tau^2-4\delta 
+\\
+&=&
+(\alp_1 +\alp_2)^2 - 4\alp_1\alp_2 +4\gamma_1\gamma_2
+\\
+&=&
+(\alp_1-\alp_2)^2+ 4\gamma_1\gamma_2>0
+\eeqa
+
+See Chapter \ref{ch-dynamical-sys}
+and in particular Fig.\ref{fig-wiki-pp} for what that entails. These systems have a sink at $(x,y)=(0,0)$ (because $\tau<0$) and no oscillations
+about it (because $\Delta>0$).
 
 \subsection{Genetic Toggle Switch}
 A  {\bf genetic toggle switch}
@@ -990,11 +1180,17 @@ points.}
 \quad
 \left\{
 \begin{array}{l}
-\dot{x}= f_1(x) + \RR y + \RR z
+\dot{x}= f_1(x) +
+\gamma_{y\rarrow x} y + 
+\gamma_{z\rarrow x} z
 \\
-\dot{y} = f_2(y) + \RR x + \RR z
+\dot{y} = f_2(y) + 
+\gamma_{x\rarrow y} x + 
+\gamma_{z\rarrow y} z
 \\
-\dot{z} = f_3(z) + \RR x + \RR y
+\dot{z} = f_3(z) + 
+\gamma_{x\rarrow z} x + 
+\gamma_{y\rarrow z} y
 \end{array}
 \right.
 \eeq
@@ -1033,7 +1229,7 @@ $(b)$ shows an incoherent net of 3 autoregulons because $\sign(\gamma_{\rvy\rarr
 \label{fig-3-coherent-autoregulons}
 \end{figure}
 
-
+Feed Foward Loop (FFL): 
 \beq
 \xymatrix{
 &\Rect{\rvx}\ar[dl]
@@ -1052,6 +1248,7 @@ $(b)$ shows an incoherent net of 3 autoregulons because $\sign(\gamma_{\rvy\rarr
 \dot{z} = f_3(z) + \RR x + \RR y
 \end{array}
 \right.
+\label{eq-ffl-or-gate}
 \eeq
 
 
@@ -1078,16 +1275,19 @@ $$
 &(b)
 \end{array}
 $$
-\caption{$(a)$ Forward Feed Loop (FFL) net.
-$(b)$ Coherent Type 1 FFL (C1-FFL).
-$(c)$ Incoherent Type 1 FFL (I1-FFL)}
+\caption{
+$(a)$ Coherent Type 1 FFL (C1-FFL).
+$(b)$ Incoherent Type 1 FFL (I1-FFL)}
 \end{figure}
 
+
+Feedforward Loop (FFL). If $h_? =h_\oplus$, coherent 1 (C1), if  $h_? =h_\ominus$, 
+incoherent 1 (I1):
 \beq
-\xymatrix{
+\xymatrix@R=1pc{
 &&\Rect{\rvx}
 \ar@/_1pc/[ddll]|\redoplus
-\ar[dl]
+\ar[dl]|?
 \\
 &\bigotimes
 \ar@/_1pc/[drr]|\redplus
@@ -1107,15 +1307,13 @@ h_\oplus(x)
 h_\oplus(x)h_?(y)
 \end{array}
 \right.
+\label{eq-ffl-and-gate}
 \eeq
 
-
-Feedforward Loop (FFL).
-
-Coherent/Incoherent Type 1 FFL (C1-FFL/I1-FFL) if $K_{y\rarrow z}$ is highpass/lowpass.
-where parameters (i.e., $\alp_2, \alp_3, \beta_2, \beta_{\rvz}$) are positive.
-
-
+Note that when the $\bigotimes$
+gate AND gate) becomes a sum (OR gate),
+Eq.(\ref{eq-ffl-and-gate}) becomes 
+Eq.(\ref{eq-ffl-or-gate}).
 
 
 \subsection{C1-FFL}
@@ -1143,11 +1341,19 @@ where parameters (i.e., $\alp_2, \alp_3, \beta_2, \beta_{\rvz}$) are positive.
 \\
 \dot{z} = -\alp_3 z + \beta_3\indi(z<K_3)+
 \beta_{12} \indi(x> K_{x\rarrow z})
-\indi(y>K_{y\rarrow z})
+\ul{\indi(y>K_{y\rarrow z})}
 \end{array}
 \right.
 \label{eq-c1-ffl-simp}
 \eeq
+The underlined term in 
+Eq.(\ref{eq-c1-ffl-simp})
+is the only
+difference between the
+ODEs for this
+C1-FFL, and 
+the ODEs Eq.(\ref{eq-inc1-ffl-simp})
+for an I1-FFL.
 
 
 \begin{figure}[h!]
@@ -1161,11 +1367,17 @@ where parameters (i.e., $\alp_2, \alp_3, \beta_2, \beta_{\rvz}$) are positive.
 \includegraphics[height=2in]
 {autoregulons/c1-ffl-up-down-green.png}
 \caption{For C1-FFL, $x(t)$, $y(t)$, $z(t)$ assuming 
-that $x(t)$ is either a rising step function (in green),
-a dropping step function (in red),
-or a square pulse function (in purple).}
+that $x(t)$ is either a rising
+ t-step function (in green),
+a dropping t-step function (in red),
+or a t-pulse  (in purple).}
 \label{fig-c1-ffl-triple}
 \end{figure}
+
+See Fig.\ref{fig-c1-ffl-triple}
+for a pictorial
+representation of
+what we will prove in this section.
 
 We will assume $z<K_3$ always so $\indi(z<K_3)=1$.
 
@@ -1174,14 +1386,27 @@ x =
 \left\{
 \begin{array}{ll}
 \xi \indi(t>0)
-& \text{if $x$ step up}
+& \text{if $x$ up t-step}
 \\
 \xi \indi(t<0)
-& \text{if $x$ step down}
+& \text{if $x$ down t-step}
 \end{array}
 \right.
 \eeq
-where $\xi  >
+From the
+solution for $z(t)$
+for these 2 cases of $x(t)$ 
+equal to a
+up and a down t-step, 
+we will infer the solution
+for $x(t)$ equal to a 
+a t-pulse:
+
+\beq
+x=\xi \indi_{t_1}^{t_2}(t)
+\eeq
+
+Let $\xi  >
 \max(K_{x\rarrow y}, K_{x\rarrow z})$.
 Thus, Eq.(\ref{eq-c1-ffl-simp}) reduces to
 
@@ -1203,17 +1428,17 @@ y_\infty = \frac{\beta_2}{\alp_2}\;,\;\;
 z_\infty = \frac{\beta_3}{\alp_3}\;,\;\;
 z_\infty' = \frac{\beta_3 + \beta_{12}}{\alp_3}
 \eeq
-Then (see Fig.\ref{fig-c1-ffl-triple})
+Then 
 
 \beq
 y =
 \left\{
 \begin{array} {ll}
 y_\infty(1-e^{-\alp_2 t})
-& \text{if $x$ step up, $y(0)=0$}
+& \text{if $x$ up step, $y(0)=0$}
 \\
 y_0e^{-\alp_2 t}
-& \text{if $x$ step down, $y(0)=y_0$}
+& \text{if $x$ down step, $y(0)=y_0$}
 \end{array}
 \right.
 \eeq
@@ -1226,11 +1451,11 @@ z=
 \begin{array}{ll}
 z_\infty'(1- e^{-\alp_3 (t-t_{lag})})
 &
-\text{if $x$ step up,
+\text{if $x$ up step,
 $y(0)=0$, $y> K_{y\rarrow z}$}
 \\
 z_0 e^{-\alp_3 t}
-& \text{if $x$ step down, $y(0)=y_0$, $y< K_{y\rarrow z}$
+& \text{if $x$ down step, $y(0)=y_0$, $y< K_{y\rarrow z}$
 }
 \end{array}
 \right.
@@ -1244,7 +1469,7 @@ Solving the last equation for $t_{lag}$ yields (see
 Fig.\ref{fig-minus-log-1-minus-x.png})
 
 \beq
-y(t_{lag}) = -\;\frac{1}{\alp_2}
+t_{lag} = -\;\frac{1}{\alp_2}
 \ln
 \left({1- \frac{K_{y\rarrow z}}{y_\infty}}
 \right)
@@ -1263,8 +1488,7 @@ shows the waveforms for $x(t), y(t), z(t)$
 assuming $x(t)$ is either 
 a step function rising from 0 at $t=0$,
 a step function falling to zero at $t=0$,
-or a square pulse rising from 0 at time $t=0$
-and falling to 0 a while later.
+or a unit pulse $\indi_0^{t_1}(t)$.
 
 \subsection{I1-FFL}
 
@@ -1291,10 +1515,19 @@ and falling to 0 a while later.
 \dot{z} = -\alp_3 z + \beta_3\indi(z< K_3)
 +
 \beta_{12} \indi(x> K_{x\rarrow z})
-\indi(y<K_{y\rarrow z})
+\ul{\indi(y<K_{y\rarrow z})}
 \end{array}
 \right.
+\label{eq-inc1-ffl-simp}
 \eeq
+The underlined term in 
+Eq.(\ref{eq-inc1-ffl-simp})
+is the only
+difference between the
+ODEs for this
+I1-FFL, and 
+the ODEs Eq.(\ref{eq-c1-ffl-simp})
+for an C1-FFL.
 
 
 \begin{figure}[h!]
@@ -1307,6 +1540,10 @@ assuming $x(t)$ step function rising
 from 0 at $t=0$.}
 \label{fig-i1-ffl}
 \end{figure}
+
+See Fig.\ref{fig-i1-ffl}
+for a pictorial
+representation of what we will prove in this section.
 
 We will assume $z<K_3$ always so $\indi(z<K_3)=1$.
 
@@ -1334,7 +1571,7 @@ z_\infty = \frac{\beta_3}{\alp_3}\;\quad
 z_\infty' = \frac{\beta_3+\beta_{12}}{\alp_3}
 \eeq
 
-Then (see Fig.\ref{fig-i1-ffl})
+If $y(0)=0$, then (see Fig.\ref{fig-i1-ffl})
 
 \beq
 y = y_\infty(1-e^{-\alp_2 t})
@@ -1413,13 +1650,16 @@ Repressilator net
 
 \beq
 \xymatrix{
-&\ar[r]&\rvm_1\ar[dr]|\redplus
+&\ar[dr]&\rvm_1\ar[dr]|\redplus
 \ar[d]|\redminus
 &\rvp_1\ar[d]|\redminus
 \ar@/_1pc/[dddlll]|\redominus
 \\
-\ar[d]&&\dot{\rvm_1}
-&\dot{\rvp_1}&\ar[d]
+\ar@/_1pc/[dd]
+&
+&\dot{\rvm_1}
+&\dot{\rvp_1}
+&\ar@/_1pc/[dd]
 \\
 \rvm_2\ar[dr]|\redplus
 \ar[d]|\redminus
@@ -1435,20 +1675,100 @@ Repressilator net
 }
 \left\{
 \begin{array}{l}
-\dot{m_1} = -m_1 + \frac{\alp}{1+p_3^h}+\alp_0
+\dot{m_1} = -m_1 + \frac{\alp}{1+p_3^n}+\alp_0
 \\
-\dot{m_2} = -m_2 + \frac{\alp}{1+p_1^h}+\alp_0
+\dot{m_2} = -m_2 + \frac{\alp}{1+p_1^n}+\alp_0
 \\
-\dot{m_3} = -m_3 + \frac{\alp}{1+p_2^h}+\alp_0
+\dot{m_3} = -m_3 + \frac{\alp}{1+p_2^n}+\alp_0
 \\
 \dot{p_i} = \beta(m_i-p_i)\quad \text{ for } i=1,2,3
+\end{array}
+\right.
+\label{eq-repress-bnet}
+\eeq
+For 
+ all $i$, 
+ assume $\dot{p}_i\approx 0$.
+Hence $p_i\approx m_i$.
+Assume also that $x_i=
+m_i-1\approx 0$.
+Then Eq.(\ref{eq-repress-bnet}) reduces to
+
+\beq
+\left\{
+\begin{array}{l}
+\dot{x}_1=
+-x_1
++\frac{\alp}{2}(
+1-\frac{n}{2}x_3)
++\alp_0 - 1
+\\
+\dot{x}_2=
+-x_2
++\frac{\alp}{2}(
+1-\frac{n}{2}x_1)
++\alp_0 -1
+\\
+\dot{x}_3=
+-x_3
++\frac{\alp}{2}(
+1-\frac{n}{2}x_2)
++\alp_0 -1
+\end{array}
+\right.
+\eeq
+Next let 
+$\gamma = \frac{\alp n}{4}$ and 
+$c=\alp_0 -1 + \frac{\alp}{2}$
+to get
+
+\beq
+\left\{
+\begin{array}{l}
+\dot{x}_1=
+-x_1
+-\gamma x_3
++c
+\\
+\dot{x}_2=
+-x_2
+-\gamma x_1
++c
+\\
+\dot{x}_3=
+-x_3
+-\gamma x_2
++c
+\end{array}
+\right.
+\eeq
+Finally, let $y_i = x_i-M$
+for all $i$,
+where $M=\frac{-c}{1+\gamma}$ to get
+
+\beq
+\left\{
+\begin{array}{l}
+\dot{y}_1=
+-y_1
+-\gamma y_3
+\\
+\dot{y}_2=
+-y_2
+-\gamma y_1
+\\
+\dot{y}_3=
+-y_3
+-\gamma y_2
 \end{array}
 \right.
 \eeq
 
 \beq
-\dot{y}=-A y
+\dot{\vec{y}}=-A \vec{y}
 \eeq
+with $\vec{y}=(y_1, y_2, y_3)^T$
+and
 
 \beq
 A=
@@ -1481,15 +1801,38 @@ get
 &=&
 (\gamma_1\gamma_2\gamma_3)^{\frac{1}{3}}
 e^{i\frac{1}{3}(-\pi + 2\pi n)}
+\label{eq-3-complex-solutions}
 \eeqa
-for $n=0,1,2$
+for $n=0,1,2$.
+If the $\alp_i$ are very small,
+then we approximate
 
+\beq
+\lam^3 -\underbrace{(\alp_1 +\alp_2+\alp_3)}_\tau \lam^2
+=-\gamma_1\gamma_2\gamma_3
+\eeq
+Let $\lam_c$ be one of the
+3 complex solutions given
+by Eq.(\ref{eq-3-complex-solutions}).
+Let $\tau = \tr A$. Then to first order in $\tau$,
+
+\beq
+\lam = \lam_c + \frac{\tau}{3}
+\eeq
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2.5in]
+{autoregulons/interlaced-3.png}
+\caption{The repressilator net
+produces 3 interlaced peak trains  $y_1(t), y_2(t), y_3(t)$..}
+\label{fig-interlaced-3}
+\end{figure}
 
 \subsection{Regulated feedback with 3 autoregulons}
 
 
-Net for Regulated Feedback with 3 autoregulons. All 4 arrows can be either
-$\redplus$ or $\redminus$.
+Net for Regulated Feedback with 3 autoregulons. 
 
 \beq
 \xymatrix
@@ -1501,12 +1844,12 @@ $\redplus$ or $\redminus$.
 }
 \left\{
 \begin{array}{l}
-\dot{x}= f_1(x) +ry
+\dot{x}= f_1(x) +\RR y
 \\
-\dot{y}= f_2(y) +sx 
+\dot{y}= f_2(y) +\RR x 
 \\
-\dot{z}= f_3(z) + \gamma_1x + 
-\gamma_2 y 
+\dot{z}= f_3(z) + \RR x + 
+\RR y 
 \end{array}
 \right.
 \eeq
@@ -1519,30 +1862,71 @@ SIM net
 
 \beq
 \xymatrix@R=4pc{
-&\Rect{\rvx}
+&\Rect{\rvx^\redominus}
 \ar[dl]|\redoplus_{K_1}
 \ar[d]|\redoplus_{K_2}
 \ar[dr]|\redoplus^{K_3}
 \\
-\Rect{\rvz_1}
-&\Rect{\rvz_2}
-&\Rect{\rvz_3}
+\Rect{\rvy_1}
+&\Rect{\rvy_2}
+&\Rect{\rvy_3}
 }
 \left\{
 \begin{array}{ll}
-\dot{\rvx} =f_\rvx(x)
+\dot{x} =-\alp x + \beta\theta(x<K)\indi_{0}^{t_2}(t)
 \\
-\dot {\rvz_i} =f_i(x_i) + \beta_i\indi(x_i>K_i)
+\dot {y_i} = -\alp_i y_i + \beta_i\indi(x>K_i)
 & \text{for $i=1,2,3$}
 \end{array}
 \right.
 \eeq
 
+Let 
+
+\beq
+x_\infty = \frac{\beta}{\alp}
+\;,\;\;
+y_{\infty,i} = \frac{\beta_i}{\alp_i}\quad
+\text{for $i=1,2,3$}
+\eeq
+If $x(0)=0$ and $x(t_2)<K$
+
+\beq
+x=
+\left\{
+\begin{array}{ll}
+x_\infty(1-e^{-\alp t})& \text{if $t<t_2$}
+\\
+x_{max}e^{-\alp t}
+& \text{if $t>t_2$}
+\end{array}
+\right.
+\eeq
+Assume $K_1, K_2, K_3< x_\infty
+$. Then
+
+\beq
+y_i=
+\left\{
+\begin{array}{ll}
+y_{\infty, i}(1-e^{-\alp_i (t-t_{lag,i})})
+&\text{if$x>K_i$}
+\\
+y_{max,i}e^{-\alp_i(t-t_{max,i})}
+&\text{if $x<K_i$ }
+\end{array}
+\right.
+\eeq
+
+
 \begin{figure}[h!]
 \centering
 \includegraphics[width=2.8in]
 {autoregulons/sim-net.png}
-\caption{For SIM net, response  $z_1(t), z_2(t), z_3(t)$ to stimulus $x(t)$.}
+\caption{For SIM net, response  $y_1(t), y_2(t), y_3(t)$ to stimulus $x(t)$.
+Blue is first and last out. FILO. In other words, SIM produces pulses
+such that pulse-rise-edges and pulse-drop-edges are in
+reverse  order.}
 \label{fig-sim-net}
 \end{figure}
 
