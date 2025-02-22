@@ -1613,41 +1613,45 @@ z(t_{max})=z_{max}= z_\infty'
 
 \subsection{Chain of autoregulons}
 
-Positive and Negative
-chains (cascades) of autoregulons.
+chains (cascades) of autoregulons
+connected by highpass and lowpass filters
 
 \beq\begin{array}{ccc}
 (a)&
 \xymatrix@C =3.5pc{
-\Rect{\rvx}\ar[r]|\redplus
-&\Rect{\rvy}\ar[r]|\redplus
+\Rect{\rvx^\redominus}\ar[r]|\redoplus
+&\Rect{\rvy}\ar[r]|\redoplus
 &\Rect{\rvz}
 }
 &
 \left\{
 \begin{array}{l}
-\dot{x}= f_1(x)
+\dot{x}= -\alp_x x +\beta_x\indi(x<K_x)
 \\
-\dot{y}= f_2(y) + \gamma_2 x
+\dot{y}= -\alp_y y + \beta_{x\rarrow y}
+\indi(K_{x\rarrow y}>x)
 \\
-\dot{z}= f_3(z) + \gamma_3 y
+\dot{z}= -\alp_z z + \beta_{y\rarrow z}
+\indi(K_{y\rarrow z}>y)
 \end{array}
 \right.
 \\
 \\
 (b)&
 \xymatrix@C=3.5pc{
-\Rect{\rvx}\ar[r]|\redminus
-&\Rect{\rvy}\ar[r]|\redminus
+\Rect{\rvx^\redominus}\ar[r]|\redominus
+&\Rect{\rvy}\ar[r]|\redominus
 &\Rect{\rvz}
 }
 &\left\{
 \begin{array}{l}
-\dot{x}= f_1(x)
+\dot{x}= -\alp_x x +\beta_x\indi(x<K_x)
 \\
-\dot{y}= f_2(y) - \gamma_2 x
+\dot{y}= -\alp_y y + \beta_{x\rarrow y}
+\indi(K_{x\rarrow y}<x)
 \\
-\dot{z}= f_3(z) - \gamma_3 y
+\dot{z}= -\alp_z z + \beta_{y\rarrow z}
+\indi(K_{y\rarrow z}<y)
 \end{array}
 \right.
 \end{array}
@@ -1662,6 +1666,71 @@ chains (cascades) of autoregulons.
 \label{fig-autoreg-cascade}
 \end{figure}
 
+\begin{enumerate}[(a)]
+\item {\bf highpass filter chain}
+
+Let 
+
+\beq
+x_\infty = \frac{\beta_x}{\alp_x}\;,\;\;
+y_\infty = \frac{\beta_{x\rarrow y}}{\alp_y}\;,\;\;
+z_\infty = \frac{\beta_{y\rarrow z}}{\alp_y}
+\eeq
+ 
+If $x(0)=0$, then
+\beq
+x=
+x_\infty(1-e^{-\alp_x t})
+\quad\text{for $t>0$}
+\eeq
+If $y=0$ for $t<t_{lag, y}$, then
+
+\beq
+y = y_\infty(1 - e^{-\alp_y(t-t_{lag, y})})
+\quad\text{for $t>t_{lag, y}$}
+\eeq
+where $x(t_{lag, y})= K_{x\rarrow y}$.
+
+If $z=0$ for $t<t_{lag, z}$, then
+
+\beq
+z = z_\infty(1 - e^{-\alp_z(t-t_{lag, z})})
+\quad\text{for $t>t_{lag, z}$}
+\eeq
+where $y(t_{lag, z})= K_{y\rarrow z}$.
+
+\item {\bf lowpass filter chain}
+
+Let 
+
+\beq
+x_\infty = \frac{\beta_x}{\alp_x}\;,\;\;
+y_\infty = \frac{\beta_{x\rarrow y}}{\alp_y}\;,\;\;
+z_\infty = \frac{\beta_{y\rarrow z}}{\alp_y}
+\eeq
+ 
+If $x(0)=0$, then
+\beq
+x=
+x_\infty(1-e^{-\alp_x t})
+\quad\text{for $t>0$}
+\eeq
+If $y=y_0$ for $t<t_{lag, y}$, then
+
+\beq
+y = y_0 e^{-\alp_y(t-t_{lag, y})}
+\quad\text{for $t>t_{lag, y}$}
+\eeq
+where $x(t_{lag, y})= K_{x\rarrow y}$.
+
+If $z=0$ for $t<t_{lag, z}$, then
+
+\beq
+z = z_\infty(1 - e^{-\alp_z(t-t_{lag, z})})
+\quad\text{for $t>t_{lag, z}$}
+\eeq
+where $y(t_{lag, z})= K_{y\rarrow z}$.
+\end{enumerate}
 
 
 \subsection{Repressilator}
