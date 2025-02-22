@@ -837,8 +837,19 @@ x= x(t_2)e^{-\alp (t-t_2)}
 \eeq
  decays exponentially to 0.
  
- 
+\subsection{$h$ depends on $t$ but not on $x$}
 
+\beq
+\dot{x} +\alp x = h(t)
+\eeq
+
+\beq
+x=
+c e^{-\alp t}
++e^{-\alp t}
+\int^t_0 dt\;
+e^{\alp t}h(t)
+\eeq
 
 
 \subsection{Fixed Points}
@@ -1600,10 +1611,10 @@ z(t_{max})=z_{max}= z_\infty'
 (1-e^{-\alp_3 t_{max}})
 \eeq
 
-\subsection{Cascades of multiple autoregulons}
+\subsection{Chain of autoregulons}
 
 Positive and Negative
-cascades of autoregulons.
+chains (cascades) of autoregulons.
 
 \beq\begin{array}{ccc}
 (a)&
@@ -1641,6 +1652,16 @@ cascades of autoregulons.
 \right.
 \end{array}
 \eeq
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4.7in]
+{autoregulons/autoreg-cascade.png}
+\caption{Chain of 3 autoregulons. 
+ }
+\label{fig-autoreg-cascade}
+\end{figure}
+
 
 
 \subsection{Repressilator}
@@ -1686,148 +1707,320 @@ Repressilator net
 \right.
 \label{eq-repress-bnet}
 \eeq
-For 
- all $i$, 
- assume $\dot{p}_i\approx 0$.
-Hence $p_i\approx m_i$.
-Assume also that $x_i=
-m_i-1\approx 0$.
-Then Eq.(\ref{eq-repress-bnet}) reduces to
-
-\beq
-\left\{
-\begin{array}{l}
-\dot{x}_1=
--x_1
-+\frac{\alp}{2}(
-1-\frac{n}{2}x_3)
-+\alp_0 - 1
-\\
-\dot{x}_2=
--x_2
-+\frac{\alp}{2}(
-1-\frac{n}{2}x_1)
-+\alp_0 -1
-\\
-\dot{x}_3=
--x_3
-+\frac{\alp}{2}(
-1-\frac{n}{2}x_2)
-+\alp_0 -1
-\end{array}
-\right.
-\eeq
-Next let 
-$\gamma = \frac{\alp n}{4}$ and 
-$c=\alp_0 -1 + \frac{\alp}{2}$
-to get
-
-\beq
-\left\{
-\begin{array}{l}
-\dot{x}_1=
--x_1
--\gamma x_3
-+c
-\\
-\dot{x}_2=
--x_2
--\gamma x_1
-+c
-\\
-\dot{x}_3=
--x_3
--\gamma x_2
-+c
-\end{array}
-\right.
-\eeq
-Finally, let $y_i = x_i-M$
-for all $i$,
-where $M=\frac{-c}{1+\gamma}$ to get
-
-\beq
-\left\{
-\begin{array}{l}
-\dot{y}_1=
--y_1
--\gamma y_3
-\\
-\dot{y}_2=
--y_2
--\gamma y_1
-\\
-\dot{y}_3=
--y_3
--\gamma y_2
-\end{array}
-\right.
-\eeq
-
-\beq
-\dot{\vec{y}}=-A \vec{y}
-\eeq
-with $\vec{y}=(y_1, y_2, y_3)^T$
-and
-
-\beq
-A=
-\left[
-\begin{array}{ccc}
-\alp_1 & 0&\gamma_1
-\\
-\gamma_2&\alp_2&0
-\\
-0&-\gamma_3&\alp_3
-\end{array}
-\right]
-\eeq
-
-\beq
-y = y_0 e^{-\lam t}
-\implies (A-\lam)y=0
-\eeq
-
-\beq
-\det (A -\lam) = (\alp_1-\lam)(\alp_2-\lam)
-(\alp_3 -\lam) - \gamma_1 \gamma_2 \gamma_3
-\eeq
-For $\alp_1=\alp_2=\alp_3=0$,
-get 
-
-\beqa
-\lam &=& (-\gamma_1\gamma_2\gamma_3)^{\frac{1}{3}}
-\\
-&=&
-(\gamma_1\gamma_2\gamma_3)^{\frac{1}{3}}
-e^{i\frac{1}{3}(-\pi + 2\pi n)}
-\label{eq-3-complex-solutions}
-\eeqa
-for $n=0,1,2$.
-If the $\alp_i$ are very small,
-then we approximate
-
-\beq
-\lam^3 -\underbrace{(\alp_1 +\alp_2+\alp_3)}_\tau \lam^2
-=-\gamma_1\gamma_2\gamma_3
-\eeq
-Let $\lam_c$ be one of the
-3 complex solutions given
-by Eq.(\ref{eq-3-complex-solutions}).
-Let $\tau = \tr A$. Then to first order in $\tau$,
-
-\beq
-\lam = \lam_c + \frac{\tau}{3}
-\eeq
-
 \begin{figure}[h!]
 \centering
 \includegraphics[width=2.5in]
 {autoregulons/interlaced-3.png}
 \caption{The repressilator net
-produces 3 interlaced peak trains  $y_1(t), y_2(t), y_3(t)$..}
+produces 3 interlaced peak trains  $y_1(t), y_2(t), y_3(t)$, where $y_i=m_i -1$. 
+ }
 \label{fig-interlaced-3}
 \end{figure}
+
+
+
+\beq
+\Gamma=
+\left[
+\begin{array}{ccc}
+0&0&1
+\\
+1&0&0
+\\
+0&1&0
+\end{array}
+\right]
+\eeq
+$\Gamma$ is permutation matrix so
+
+\beq
+\Gamma^2=1 
+\eeq
+Note this implies
+\beq
+0=1-\Gamma^2 =(1+\Gamma)(1-\Gamma)
+\eeq
+Define the projection operators
+
+\beq
+\pi_\pm = \frac{1\pm\Gamma}{2}
+\eeq
+It is easy to check that
+\beq
+\left\{
+\begin{array}{l}
+\pi_+\pi_-=\pi_-\pi_+ =0
+\\
+\pi_-^2=\pi_-\;,\;\;\pi_+^2=\pi_+
+\\
+\pi_+ +\pi_-=1
+\end{array}
+\right.
+\eeq
+
+
+Let 
+
+\beqa
+\frac{\alp}{1+p_i^n}
+&\approx& \frac{\alp}{2}(1-\frac{n}{2}
+(p_i-1))
+\\
+&=&-\gamma (p_i-1) + \frac{\alp}{2}
+\eeqa
+
+\beq
+\vec{x}=\vec{p}-1
+\;,\;\;
+\vec{y} = \vec{m}-1
+\eeq
+
+\beq
+\left\{
+\begin{array}{l}
+\dot{\vec{y}} = -\vec{y}
+-\gamma \Gamma\vec{x} + c
+\\
+\dot{\vec x} = \beta(\vec{y}-\vec{x})
+\end{array}
+\right.
+\eeq
+
+\beq 
+\call_1 = \partial_t + 1
+\;,\;\;
+\call_\beta = \partial_t +\beta
+\eeq
+
+\beq
+\left\{
+\begin{array}{l}
+\call_1\vec{y} =
+-\gamma \Gamma\vec{x} + c
+\\
+\call_\beta \vec x = \beta\vec{y}
+\end{array}
+\right.
+\eeq
+
+\beq
+\vec{x} = 
+\beta\call_\beta^{-1}\vec{y}
+\eeq
+
+\beq
+\call_1\vec{y}=
+-\gamma\beta \Gamma\call_\beta^{-1}\vec{y}
++c
+\eeq
+
+\beq
+\call_\beta\call_1\vec{y}=
+-\gamma\beta \underbrace{\Gamma}_{2\pi_+ -1}\vec{y}
++\beta c
+\eeq
+
+\beq
+\vec{y}_\pm =\pi_\pm \vec{y}
+\eeq
+
+\beq
+\left\{
+\begin{array}{l}
+(\call_\beta\call_1+2\gamma\beta) \vec{y}_+ = \beta c\pi_+
+\\
+(\call_\beta\call_1 -\gamma\beta)\vec{y}_-= \beta c\pi_-
+\end{array}
+\right.
+\eeq
+
+\beq
+\call_\beta\call_1 =
+\partial_t^2 + (1+\beta)\partial_t + \beta
+\eeq
+One can solve for $\vec{y}_+$
+and $\vec{y}_-$ separately.
+Each component of $\vec{y}_+$
+obeys a forced damped harmonic oscillator
+ODE with natural frequency $\sqrt{(1+2\gamma)\beta}$. 
+Each component of $\vec{y}_-$
+obeys a forced damped harmonic oscillator
+ODE with natural frequency  $\sqrt{(1-\gamma)\beta}$.
+
+
+%\beq
+%\xymatrix{
+%&\ar[dr]&\rvm_1\ar[dr]|\redplus
+%\ar[d]|\redminus
+%&\rvp_1\ar[d]|\redminus
+%\ar@/_1pc/[dddlll]|\redominus
+%\\
+%\ar@/_1pc/[dd]
+%&
+%&\dot{\rvm_1}
+%&\dot{\rvp_1}
+%&\ar@/_1pc/[dd]
+%\\
+%\rvm_2\ar[dr]|\redplus
+%\ar[d]|\redminus
+%&\rvp_2\ar[d]|\redminus
+%\ar[drrr]|\redominus
+%&&&\rvm_3\ar[dr]|\redplus
+%\ar[d]|\redminus
+%&\rvp_3\ar[d]|\redminus
+%\ar[lllu]|\redominus
+%\\
+%\dot{\rvm_2}&\dot{\rvp_2}
+%&&&\dot{\rvm_3}&\dot{\rvp_3}
+%}
+%\left\{
+%\begin{array}{l}
+%\dot{m_1} = -m_1 + \frac{\alp}{1+p_3^n}+\alp_0
+%\\
+%\dot{m_2} = -m_2 + \frac{\alp}{1+p_1^n}+\alp_0
+%\\
+%\dot{m_3} = -m_3 + \frac{\alp}{1+p_2^n}+\alp_0
+%\\
+%\dot{p_i} = \beta(m_i-p_i)\quad \text{ for } i=1,2,3
+%\end{array}
+%\right.
+%\label{eq-repress-bnet}
+%\eeq
+%For 
+% all $i$, 
+% assume $\dot{p}_i\approx 0$.
+%Hence $p_i\approx m_i$.
+%Assume also that $x_i=
+%m_i-1\approx 0$.
+%Then Eq.(\ref{eq-repress-bnet}) reduces to
+%
+%\beq
+%\left\{
+%\begin{array}{l}
+%\dot{x}_1=
+%-x_1
+%+\frac{\alp}{2}(
+%1-\frac{n}{2}x_3)
+%+\alp_0 - 1
+%\\
+%\dot{x}_2=
+%-x_2
+%+\frac{\alp}{2}(
+%1-\frac{n}{2}x_1)
+%+\alp_0 -1
+%\\
+%\dot{x}_3=
+%-x_3
+%+\frac{\alp}{2}(
+%1-\frac{n}{2}x_2)
+%+\alp_0 -1
+%\end{array}
+%\right.
+%\eeq
+%Next let 
+%$\gamma = \frac{\alp n}{4}$ and 
+%$c=\alp_0 -1 + \frac{\alp}{2}$
+%to get
+%
+%\beq
+%\left\{
+%\begin{array}{l}
+%\dot{x}_1=
+%-x_1
+%-\gamma x_3
+%+c
+%\\
+%\dot{x}_2=
+%-x_2
+%-\gamma x_1
+%+c
+%\\
+%\dot{x}_3=
+%-x_3
+%-\gamma x_2
+%+c
+%\end{array}
+%\right.
+%\eeq
+%Finally, let $y_i = x_i-M$
+%for all $i$,
+%where $M=\frac{-c}{1+\gamma}$ to get
+%
+%\beq
+%\left\{
+%\begin{array}{l}
+%\dot{y}_1=
+%-y_1
+%-\gamma y_3
+%\\
+%\dot{y}_2=
+%-y_2
+%-\gamma y_1
+%\\
+%\dot{y}_3=
+%-y_3
+%-\gamma y_2
+%\end{array}
+%\right.
+%\eeq
+%
+%\beq
+%\dot{\vec{y}}=-A \vec{y}
+%\eeq
+%with $\vec{y}=(y_1, y_2, y_3)^T$
+%and
+%
+%\beq
+%A=
+%\left[
+%\begin{array}{ccc}
+%\alp_1 & 0&\gamma_1
+%\\
+%\gamma_2&\alp_2&0
+%\\
+%0&-\gamma_3&\alp_3
+%\end{array}
+%\right]
+%\eeq
+%
+%\beq
+%y = y_0 e^{-\lam t}
+%\implies (A-\lam)y=0
+%\eeq
+%
+%\beq
+%\det (A -\lam) = (\alp_1-\lam)(\alp_2-\lam)
+%(\alp_3 -\lam) - \gamma_1 \gamma_2 \gamma_3
+%\eeq
+%For $\alp_1=\alp_2=\alp_3=0$,
+%get 
+%
+%\beqa
+%\lam &=& (-\gamma_1\gamma_2\gamma_3)^{\frac{1}{3}}
+%\\
+%&=&
+%(\gamma_1\gamma_2\gamma_3)^{\frac{1}{3}}
+%e^{i\frac{1}{3}(-\pi + 2\pi n)}
+%\label{eq-3-complex-solutions}
+%\eeqa
+%for $n=0,1,2$.
+%If the $\alp_i$ are very small,
+%then we approximate
+%
+%\beq
+%\lam^3 -\underbrace{(\alp_1 +\alp_2+\alp_3)}_\tau \lam^2
+%=-\gamma_1\gamma_2\gamma_3
+%\eeq
+%Let $\lam_c$ be one of the
+%3 complex solutions given
+%by Eq.(\ref{eq-3-complex-solutions}).
+%Let $\tau = \tr A$. Then to first order in $\tau$,
+%
+%\beq
+%\lam = \lam_c + \frac{\tau}{3}
+%\eeq
+
+
 
 \subsection{Regulated feedback with 3 autoregulons}
 
@@ -1881,6 +2074,17 @@ SIM net
 \right.
 \eeq
 
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2.8in]
+{autoregulons/sim-net.png}
+\caption{For SIM net, response  $y_1(t), y_2(t), y_3(t)$ to stimulus $x(t)$.
+Blue is first and last out. FILO. In other words, SIM produces pulses
+such that pulse-rise-edges and pulse-drop-edges are in
+reverse  order.}
+\label{fig-sim-net}
+\end{figure}
+
 Let 
 
 \beq
@@ -1919,46 +2123,102 @@ y_{max,i}e^{-\alp_i(t-t_{max,i})}
 \eeq
 
 
-\begin{figure}[h!]
-\centering
-\includegraphics[width=2.8in]
-{autoregulons/sim-net.png}
-\caption{For SIM net, response  $y_1(t), y_2(t), y_3(t)$ to stimulus $x(t)$.
-Blue is first and last out. FILO. In other words, SIM produces pulses
-such that pulse-rise-edges and pulse-drop-edges are in
-reverse  order.}
-\label{fig-sim-net}
-\end{figure}
 
 
-\newpage
+
 \subsection{Flagellum net}
 
-\begin{figure}[h!]
-$$
+\beq
 \xymatrix@C=3pc{
-&\Rect{\rvx}\ar[d]
-\ar[ddl]|\redoplus_{K_1}
-\ar[ddr]|\redoplus^{K_2}
+&\Rect{\rvx^\redominus}
+\ar[d]|\redoplus
+\ar[dl]|\redoplus_{K_1}
+\ar[dr]|\redoplus^{K_2}
 \\
-&\Rect{\rvy}\ar[dl]|\redoplus^{K'_1}
-\ar[dr]|\redoplus_{K'_2}
+\bigotimes\ar[d]
+&\Rect{\rvy}\ar[l]|\redoplus^{K'_1}
+\ar[r]|\redoplus_{K'_2}
+&\bigotimes\ar[d]
 \\
 \Rect{\rvz_1}&
 &\Rect{\rvz_2}
 }
-$$
-\caption{Flagellum bnet. Assume $K_1<K_2$ and $K'_1 > K'_2$.}
-\label{fig-flagellum}
-\end{figure}
+\left\{
+\begin{array}{l}
+\dot{x}= -\alp_x x + \beta_x (x<K_x)\indi_{0}^{t_2}(t)
+\\
+\dot {y} = -\alp_y y + \beta_y\indi (x>K_y)
+\\
+\dot{z}_1= -\alp_1 x + \beta_1\indi(x>K_1)\indi(y>K_1')
+\\
+\dot{z}_2= -\alp_2 y + \beta_2\indi(x>K_2)\indi(y>K_2')
+\end{array}
+\right.
+\eeq
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=2.8in]
 {autoregulons/flagellum.png}
-\caption{For Flagellum net, response  $y(t), z_1(t), z_2(t)$ to stimulus $x(t)$.}
+\caption{For Flagellum net, response  $y(t), z_1(t), z_2(t)$ to stimulus $x(t)$. Green is first and first out. FIFO. In other words, the Flagellum net produces pulses
+such that pulse-rise-edges and pulse-drop-edges are in
+the same order.}
 \label{fig-flagellum-net}
 \end{figure}
+
+Flagellum bnet. Assume $K_1<K_2$ and $K'_1 > K'_2$.
+
+\beq
+x_\infty= \frac{\beta_x}{\alp_x}\;,\;\;
+y_\infty= \frac{\beta_x}{\alp_x}\;,\;\;
+z_{\infty, 1}= \frac{\beta_x}{\alp_x}\;,\;\;
+z_{\infty, 2}= \frac{\beta_x}{\alp_x}
+\eeq
+
+If $x(0)=0$
+
+\beq
+x=
+\left\{
+\begin{array}{ll}
+x_\infty(1-e^{-\alp_x t})
+&\text{if }t<t_2
+\\
+x_{max}e^{-\alp_x (t-t_{max})}
+&\text{if }t>t_2
+\end{array}
+\right.
+\eeq
+
+If $y(t_{lag})=0$
+\beq
+y=
+\left\{
+\begin{array}{ll}
+y_\infty(1-e^{-\alp_y (t-t_{lag})})
+&\text{if }t_{lag}<t<t_2
+\\
+y_{max}e^{-\alp_y (t-t_{max})}
+&\text{if }t>t_2
+\end{array}
+\right.
+\eeq
+
+For $i=1,2$, if $z(t_{lag, i})=0$
+\beq
+z_i=
+\left\{
+\begin{array}{ll}
+z_{\infty, i}(1-e^{-\alp_i t_{lag, i}})
+&\text{if }x>K_i
+\\
+z_{max, i}e^{-\alp_i (t-t_{max, i})} 
+&
+\text{if }y<K_i'
+\end{array}
+\right.
+\eeq
+
 
 
 \subsection{Bacillus Subtilis Sporation net}
