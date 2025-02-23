@@ -207,6 +207,7 @@ h_0 -|h_1| x
 \right.
 \eeq
 
+
 \subsection{Autoregulon notation}
 Henceforth, we will use
 
@@ -838,6 +839,7 @@ x= x(t_2)e^{-\alp (t-t_2)}
  decays exponentially to 0.
  
 \subsection{$h$ depends on $t$ but not on $x$}
+Time dependent production $h(t)$
 
 \beq
 \dot{x} +\alp x = h(t)
@@ -845,11 +847,24 @@ x= x(t_2)e^{-\alp (t-t_2)}
 
 \beq
 x=
-c e^{-\alp t}
+x(0)e^{-\alp t}
 +e^{-\alp t}
 \int^t_0 dt\;
 e^{\alp t}h(t)
+\label{eq-h-t-gen-sol}
 \eeq
+Time dependent production $h(t)$ and decay $\alp(t)$.
+
+\beq
+\dot{x} +\alp(t) x = h(t)
+\eeq
+
+In Eq.(\ref{eq-h-t-gen-sol}), replace 
+
+\beq
+\alp t\rarrow \int_0^t dt'\; \alp(t')
+\eeq
+
 
 
 \subsection{Fixed Points}
@@ -879,9 +894,21 @@ one source and two sinks.
 \caption{For single autoregulon $\dot{x}(t)=-\alp x + h(x)$, 
 the fixed points occur at the intersection of the
 curves $y=\alp x$ and $y=h(x)$. In this case,
-there are 3 intersections, leading to 3 fixed points.
+there are 3 intersections, leading to 3 fixed points. This can be used as a switch, with $x_{a1}$=OFF=LOW, $x_{a2}$=ON=HIGH. (bistability)
 }
 \label{fig-source-sink-source}
+\end{figure}
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=3.5in]
+{autoregulons/x-y-memory.png}
+\caption{Memory single autoregulon.
+$x$ switched from 
+sink $A$ to sink $B$
+by a pulse in $y$.}
+\label{fig-x-y-memory}
 \end{figure}
 
 
@@ -1070,6 +1097,8 @@ on the sign of $\Delta$).
 
 Net for 2 Autoregulon Positive Feedback (2AR-PF)
 
+Double positive and double negative feedback loops
+
 If $\vec{x}=(x,y)^T$ and $\dot{\vec{x}}=A x$,
 then 
 \begin{itemize}
@@ -1137,6 +1166,10 @@ and in particular Fig.\ref{fig-wiki-pp} for what that entails. These systems hav
 about it (because $\Delta>0$).
 
 \subsection{Genetic Toggle Switch}
+
+In the linear approximation ($n=1$ Hill functions), the two autoregulon system has only 1 sink. Next consider nonlinear case with two sinks and one source. The two sinks can be used as
+ON, OFF states of a switch.
+
 A  {\bf genetic toggle switch}
 can be described by:
 
@@ -1155,9 +1188,9 @@ Genetic Toggle Switch. \OTO\cite{OTO}
 }
 \left\{
 \begin{array}{l}
-\dot{x} = \frac{\alpha_1}{1 + \left(\frac{y}{K_1}\right)^{n_1}} - \gamma_1 x
+\dot{x} = - \alp_1 x + \frac{\beta_1}{1 + \left(\frac{y}{K_1}\right)^{n_1}} 
 \\
- \dot{y} = \frac{\alpha_2}{1 + \left(\frac{x}{K_2}\right)^{n_2}} - \gamma_2 y
+ \dot{y} =  - \alp_2 y + \frac{\beta_2}{1 + \left(\frac{x}{K_2}\right)^{n_2}}
 \end{array}
 \right.
 \eeq
@@ -1169,11 +1202,68 @@ where $x$, $y$, and $z$ represent concentrations of proteins, $\alpha_1, \alpha_
 \includegraphics[width=3in]
 {autoregulons/2dim-3fp.png}
 \caption{Phase portrait
-for two autoregulon with 3 fixed
-points.}
+for genetic toggle switch.}
 \label{fig-2dim-3fp}
 \end{figure}
 
+We can say the system is in the (ON, ON) position
+when it's at sink $A$ and $x=x_A$, $y=y_A$.
+We can say the system is in the (OFF, OFF) position
+when it's at sink $B$ and $x=x_B$, $y=y_B$.
+That is why it's referred to as a toggle switch. Note
+that the Phase Portrait Fig.\ref{fig-2dim-3fp}
+does not describe the system during the transition
+from sink $A$ to $B$. During that transition,
+the potential function must become shallower (or shallowless) in one sink 
+than in the other to induce the system to flip sides.
+
+
+\beq
+\begin{array}{ccc}
+(a)
+&\xymatrix@C=5pc
+{\Rect{\rvx}
+\fbackar{r}{\redominus}
+{\redominus}
+&\Rect{\rvy}
+}
+&
+\left\{
+\begin{array}{l}
+\dot{x}=-\alp_1 x + \beta_1\indi(y<K_{y\rarrow x})
+\\
+\dot{y}= -\alp_2y + \beta_2\indi(x<K_{x\rarrow y})
+\end{array}
+\right.
+\\
+\\
+(b)&
+\xymatrix@C=5pc
+{\Rect{\rvx}
+\fbackar{r}{\redoplus}
+{\redoplus}
+&\Rect{\rvy}
+}
+&
+\left\{
+\begin{array}{l}
+\dot{x}=-\alp_1 x + \beta_1 \indi(y>K_{y\rarrow x})
+\\
+\dot{y}= -\alp_2y + \beta_2 \indi(x>K_{x\rarrow y})
+\end{array}
+\right.
+\end{array}
+\eeq
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4in]
+{autoregulons/double-plus-minus-tables.png}
+\caption{Steady state behavior tables for double-plus and double-minus feedback loop nets. 
+The red entries are untenable.}
+\label{fig-2dim-3fp}
+\end{figure}
 
 
 \section{More than 2 autoregulons}
@@ -2355,3 +2445,17 @@ Frog egg cell cycle net
 \right.
 \eeq
 
+\section{Biological basis for autoregulon networks}
+
+If you are new to genomics, and would like to delve more deeply into the biological
+basis of autoregulon networks, you might find
+Alon's book Ref.\cite{alon-book} and Appendix \ref{ch-genomics-vocab} helpful.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2in]
+{autoregulons/autoreg-bio.png}
+\caption{Biological justification
+for autoregulon math.}
+\label{fig-autoreg-bio}
+\end{figure}
