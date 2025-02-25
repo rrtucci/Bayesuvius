@@ -3,24 +3,24 @@
 
 
 This chapter is mostly based on Ref.\cite{alon-book},
-a textbook by Uri Aron 
-on {\bf Systems Biology}. That book divides its chapters into 3 \qt{Parts}: Network Motifs, Robustness and Optimality. This chapter covers only the first part, {\bf Network Motifs} (NM). {\bf Autoregulon networks}
+an excellent textbook by Uri Aron 
+on {\bf Systems Biology}. That book divides its chapters into 3 \qt{Parts}: Network Motifs, Robustness and Optimality. In this chapter, we cover only the first part, {\bf Network Motifs} (NM), as it is the part that is most relevant to bnets. {\bf Autoregulon networks}
 is an alternative name for NM. 
 
 In this chapter, we discuss,
 from a causal inference perspective, a  special 
 class of 
 S1ODE (system of first order ordinary differential equations) that occurs in biology/genomics.
- Ref.\cite{alon-book} by Alon
- has a much broader scope. Like this chapter, 
-Alon's book describes the mathematical aspects of the
+ Like this chapter, 
+Alon's book describes the mathematical aspects of
  S1ODEs. But it 
-also describes  in detail where they occur in biology/genomics and what experimental data exists in support
-of the assertion that they are 
+also describes  in detail where they occur in biology/genomics and what experimental data exists as evidence that they are 
 realized in Nature. We discuss briefly the biological
 underpinnings of the math, but 
 to a much lesser extent than Alon's book.
-If you are new to genomics, and would like to follow that discussion, you might find Appendix \ref{ch-genomics-vocab} helpful.
+If you are new to genomics (like me, a physicist), and would like start educating yourself about the subject
+of genomics, you might find Appendix \ref{ch-genomics-vocab} helpful.
+
 
 I will assume
 the reader has read 
@@ -70,7 +70,7 @@ We  will use 2  kinds of {
   
   \beq
   \begin{array}{ll}
-  h_\ominus(x; \beta, K)
+  h_\ominus(x)
   \rarrow\beta\indi(x<K) 
   &\text{ as } n\rarrow\infty
  \\
@@ -141,7 +141,7 @@ Subgraphs of such bnets, especially those
 subgraphs that recur frequently as building blocks, are called
 a {\bf network motifs}.  The most basic
 of the network motifs is the {\bf autoregulon},
-which we describe next.  All bnets
+which we discuss next.  All bnets
 in this chapter can be viewed as {\bf autoregulon
 networks}.
 
@@ -173,20 +173,20 @@ h(\rvx)\ar[dr]|{1}
 \right.
 \label{eq-1-autoreg}
 \eeq
+The $-\alp x$ term is called the {\bf removal rate}
+and the $h(t)$ term is called the {\bf production rate}.
 Eq.(\ref{eq-1-autoreg}) also defines  the 2 symbols
 \begin{itemize}
 \item double arrow pointing from a random variable and 
 to its time derivative,
 \item boxed random variable
 \end{itemize}
-that we will
-use to represent a single autoregulon when we 
+These 2 symbols  will be
+used to represent a single autoregulon when we 
 represent
 networks of autoregulons.
 
 
-
-Let $\alp, \beta >0$.
 In general, $h(x)$ is either the $\oplus$ or $\ominus$ Hill function.
 However, we often use the following approximations
 \beq
@@ -206,6 +206,7 @@ h_0 -|h_1| x
 \end{array}
 \right.
 \eeq
+where $\beta>0$.
 
 
 \subsection{Autoregulon notation}
@@ -345,11 +346,18 @@ Note that
 
 \subsection{Potential function}
 
+In this section, we will discuss the 
+potential function $V(x)$ for autoregulons.
+Recall from Chapter \ref{ch-dynamical-sys}
+that $f=-\partial_t V$  for a dynamical
+system $\dot{x}=f(x)$.
+
 Let
 
 \beq
 \dot{x} = \underbrace{-\alp x + h(x)}_{f(x)}
 \eeq
+and
 
 \beq
 h(x)= h_0 + h_1x
@@ -362,17 +370,16 @@ f(x)
 -\underbrace{(\alp-h_1)}_{\alp'} x
 \\
 &=&
--\alp'(x-x_a)
+-\alp'(x-x_h)
 \eeqa
 where
-$x_a = \frac{h_0}{\alp'}$.
+$x_h = \frac{h_0}{\alp'}$.
+Hence,
 
-Recall from Chapter \ref{ch-dynamical-sys}
-that
 
 
 \beq
-V-V_0= -\int^x dx\; f(x)=\frac{\alp'}{2}(x-x_a)^2
+V-V_0= -\int^x dx\; f(x)=\frac{\alp'}{2}(x-x_h)^2
 \label{eq-v-for-general-linear-h}
 \eeq
 $V_0$ is arbitrary, but note that $V(x)$ must be continuous
@@ -383,14 +390,15 @@ would produce an infinity in $\dot{x}$.
 \centering
 \includegraphics[width=4.7in]
 {autoregulons/v-low-high-pass.png}
-\caption{Highpass
-and lowpass $V(x)$ (in red), for various 
+\caption{ $V(x)$ (in solid, not dashed, red lines),
+for an autoregulon with highpass or lowpass $h$,
+and for various 
 ranges of $K$.
 $h(x)$ is zero outside green regions of $x$ axis.
 Note that when $V_0=0$, $V$ has two branches: two
-parabolas with the same second derivative but different vertices. 
+parabolas with the same second derivative but different vertices at $x=0$ and $x=\frac{\beta}{\alp}$. 
 By symmetry, their intersection is
-at $x=\frac{x_\beta}{2}$,
+at $x=\frac{\beta}{2\alp}$,
 midway between the vertices.}
 \label{fig-v-low-high-pass}
 \end{figure}
@@ -513,7 +521,7 @@ h(x)\approx h_0 + h_1x
 we have
 
 \beq
-V= \frac{\alp'}{2}(x-x_a)^2
+V= \frac{\alp'}{2}(x-x_h)^2
 \eeq
 
 See Fig.\ref{fig-v-low-high-pass}
@@ -524,11 +532,11 @@ choices of $\alp'=\alp-h_1$.
 \centering
 \includegraphics[width=2in]
 {autoregulons/v-faster-same-slower.png}
-\caption{$V(x)$ for 
+\caption{Plot of $V(x)$ for 
 $0<\alp'<\alp$ (slower),
 $\alp'=\alp$ (same) and
 $\alp'>\alp$ (faster).
-Also $V$ for $\alp'<0$.}
+Also, plot of $V(x)$ for $\alp'<0$.}
 \label{v-faster-same-slower}
 \end{figure}
  
@@ -547,23 +555,24 @@ Let
 \beqa
 \dot{x} &=& -\alp x + h_0 + h_1x
 \\
-&=& -\alp'(x-x_a)
+&=& -\alp'(x-x_h)
 \eeqa
-The most general solution of this ODE is
+As can be easily checked, the
+ most general solution of this ODE is
 
 \beq
 x(t)=\underbrace{\xi  e^{-\alp' t} }_{x_h}+
-\underbrace{x_a\left[1-e^{-\alp' t}\right]}_{x_p}
+\underbrace{x_h\left[1-e^{-\alp' t}\right]}_{x_p}
 \eeq
-for some $\xi\in\RR$, as can be easily checked.
+for some $\xi\in\RR$.
 $x_h$ is called the {\bf homogeneous solution} (independent of $h$)\footnote{
 $x_h$ satisfies the homogeneous ODE, i.e., the
 ODE with $h(x)=0$.
 }
-and $x_p$ is called the {\bf particular solution} (dependent of $h$).
+and $x_p$ is called the {\bf particular solution} (dependent on $h$).
 \footnote{
 If we integrate both sides of
-$\frac{dx}{h_0 -\alp' x}=dt$,
+$\frac{dx}{-\alp' (x-x_h)}=dt$,
 we get the particular solution.
 To get the homogeneous 
 solution,
@@ -575,7 +584,7 @@ From this general solution, we conclude that
 \item
 \ul{if $\alp'<0$, then:} $x(t)$ 
 goes exponentially fast  from $\xi $ to $\pm \infty$,
-growing as  $(\xi  -x_a)e^{|\alp'|t}$
+growing as  $(\xi  -x_h)e^{|\alp'|t}$
 as $t\rarrow \infty$. 
 
 \item \ul{if $\alp'=0$, then:}
@@ -583,11 +592,11 @@ $x(t)$ is constant.
 
 \item 
 \ul{if $\alp'>0$, then:} $x(t)$ goes exponentially fast from
-$\xi $ to $x_a$ as $t\rarrow \infty$.
+$\xi $ to $x_h$ as $t\rarrow \infty$.
 As illustrated in Fig.\ref{fig-fast-normal-slow}, in
 this case,
 we can have a convergence rate (CR)
- to $x_a$
+ to $x_h$
  that is either faster, the same or slower than $\alp$:
 \begin{itemize}[$\checkmark$]
 
@@ -609,7 +618,7 @@ negative feedback
 \includegraphics[width=2.5in]
 {autoregulons/fast-normal-slow.png}
 \caption{For a single autoregulon
-with $\alp'>0$, the convergence rate to $x_a$ can 
+with $\alp'>0$, the convergence rate to $x_h$ can 
 be either faster, the same or slower than $\alp$.
  }
 \label{fig-fast-normal-slow}
@@ -697,6 +706,7 @@ without ever passing through $K$.
 So $x(t)$ remains in the $x<K$ branch of the
 the solution throughout. 
 On the other hand, if $K<\frac{\beta} {\alp}$, 
+then,
 when $x$ reaches $K$ and tries to
 switch branch, it can't do it because
 $\partial_x^2V(x)>0$ for $x=K\pm \eps$
@@ -838,12 +848,15 @@ x= x(t_2)e^{-\alp (t-t_2)}
 \eeq
  decays exponentially to 0.
  
-\subsection{$h$ depends on $t$ but not on $x$}
-Time dependent production $h(t)$
+\subsection{Time dependent production $h(t)$}
 
+Suppose $h$ depends on $t$:
 \beq
 \dot{x} +\alp x = h(t)
 \eeq
+As can be easily checked,
+the most general solution to this ODE is
+
 
 \beq
 x=
@@ -853,13 +866,17 @@ x(0)e^{-\alp t}
 e^{\alp t}h(t)
 \label{eq-h-t-gen-sol}
 \eeq
-Time dependent production $h(t)$ and decay $\alp(t)$.
+
+If both $h$ and $\alp$ depend on $t$,
+as in
 
 \beq
 \dot{x} +\alp(t) x = h(t)
 \eeq
-
-In Eq.(\ref{eq-h-t-gen-sol}), replace 
+then the solution is still 
+given by Eq.(\ref{eq-h-t-gen-sol})
+if we replace
+ 
 
 \beq
 \alp t\rarrow \int_0^t dt'\; \alp(t')
@@ -874,14 +891,25 @@ The fixed points of an autoregulon satisfy
 \beq
 0=\dot{x}=-\alp x + h(x)
 \eeq
-Thus, they occur whenever the curves
+Thus, they occur whenever the removal and production curves
 $y=\alp x$ and $y=h(x)$ intersect. When $h(x)$ is 
+
+\begin{itemize}
+\item
 a straight line as in positive or negative
-feedback, there is just one intersection. But when
-$h(x)$ is a Hill function (
-also if $h(x)$ are lowpass or highpass
-filters, can be seen as limits of
-Hill functions),
+feedback
+\item an $\ominus$ Hill function or 
+its large $n $ limit, an ideal lowpass filter
+\end{itemize}
+then
+there is just one intersection. But when
+$h(x)$ is 
+
+\begin{itemize}
+\item an $\oplus$ Hill function or 
+its large $n $ limit, an ideal highpass filter
+\end{itemize}
+then
 $y=\alp x$ and $y=h(x)$ can intersect at 1, 2 or 3 points.
 Fig.\ref{fig-source-sink-source} shows 
 the case where there are 3 intersections, leading to 3 fixed points,
@@ -894,7 +922,7 @@ one source and two sinks.
 \caption{For single autoregulon $\dot{x}(t)=-\alp x + h(x)$, 
 the fixed points occur at the intersection of the
 curves $y=\alp x$ and $y=h(x)$. In this case,
-there are 3 intersections, leading to 3 fixed points. This can be used as a switch, with $x_{a1}$=OFF=LOW, $x_{a2}$=ON=HIGH. (bistability)
+there are 3 intersections, leading to 3 fixed points. This can be used as a switch, with $x_A$=OFF=LOW, $x_B$=ON=HIGH. (bistability)
 }
 \label{fig-source-sink-source}
 \end{figure}
@@ -904,18 +932,32 @@ there are 3 intersections, leading to 3 fixed points. This can be used as a swit
 \centering
 \includegraphics[width=3.5in]
 {autoregulons/x-y-memory.png}
-\caption{Memory single autoregulon.
-$x$ switched from 
+\caption{$x$ switched from 
 sink $A$ to sink $B$
 by a pulse in $y$.}
 \label{fig-x-y-memory}
 \end{figure}
 
+Fig.\ref{fig-x-y-memory}
+shows how an autoregulon
+$\rvx$ can 
+provide {\bf long term memory}.
+The process is described by the ODE
+
+\beq
+\dot{x}= -\alp x + h_\oplus(x) + \gamma\indi_{0}^{t_2}(y)
+\eeq
+Assuming the system is initially in sink $A$,
+the $y$ pulse jolts the system to sink $B$.
 
 
 \section{Two autoregulons}
 
-
+In this section, we consider bnets
+consisting of 2 autoregulons
+connected to each other; i.e.,
+we will consider
+special cases of bnets such as
 
 \beq
 \begin{array}{c}
@@ -948,11 +990,7 @@ by a pulse in $y$.}
 \right.
 \end{array}
 \eeq
-
-Two autoregulons connected to each other.
-
-
-
+and
 
 \beq
 \begin{array}{c}
@@ -987,19 +1025,14 @@ Two autoregulons connected to each other.
 \right.
 \end{array}
 \eeq
-
-
-
-
-Two autoregulons connected to each other, including population product (pp) term.
-
-
-feedback
+The   \qt{population product}  term $xy$
+is typical of predator-prey models (see Section \ref{sec-predator-prey}).
 
 \subsection{Linearized $(+)(-)$}
 
-
-Net for Two Autoregulon Negative Feedback (2AR-NF)
+In this section, we consider the
+following bnet, which we call
+the {\bf linearized $(+)(-)$}:
 
 \beq
 \xymatrix@C=5pc
@@ -1038,6 +1071,7 @@ so
 \tau =\tr A =-(\alp_1 +\alp_2) <0
 \end{array}
 \eeq
+and
 
 \beqa
 \Delta &=&\tau^2-4\delta 
@@ -1050,14 +1084,19 @@ so
 \eeqa
 
 See Chapter \ref{ch-dynamical-sys}
-and in particular Fig.\ref{fig-wiki-pp} for what that entails. These systems have a sink at $(x,y)=(0,0)$
+and in particular Fig.\ref{fig-wiki-pp} for what this entails. This system has a sink at $(x,y)=(0,0)$
 (because $\tau<0$)
-and may or may not have oscillations (depending
+and may or may not oscillate (depending
 on the sign of $\Delta$).
 
 
-\subsection{Linearized $(+)^2$, $(-)^2$}
+\subsection{Linearized $(-)^2$ or $(+)^2$}
 
+
+In this section we consider the following bnets,
+which we call 
+the {\bf linearized double positive and double negative (or
+$(-)^2$ and $(+)^2$, for short) feedback loops}
 
 \beq
 \begin{array}{ccc}
@@ -1096,9 +1135,6 @@ on the sign of $\Delta$).
 \end{array}
 \eeq
 
-Net for 2 Autoregulon Positive Feedback (2AR-PF)
-
-Double positive and double negative feedback loops
 
 If $\vec{x}=(x,y)^T$ and $\dot{\vec{x}}=A x$,
 then 
@@ -1163,18 +1199,16 @@ given by
 \eeqa
 
 See Chapter \ref{ch-dynamical-sys}
-and in particular Fig.\ref{fig-wiki-pp} for what that entails. These systems have a sink at $(x,y)=(0,0)$ (because $\tau<0$) and no oscillations
-about it (because $\Delta>0$).
+and in particular Fig.\ref{fig-wiki-pp} for what that entails. This system has a sink at $(x,y)=(0,0)$ (because $\tau<0$) and does not oscillate (because $\Delta>0$).
 
 \subsection{Genetic Toggle Switch}
 
-In the linear approximation ($n=1$ Hill functions), the two autoregulon system has only 1 sink. Next consider nonlinear case with two sinks and one source. The two sinks can be used as
+In the linear approximation (or the case of $n=1$ Hill functions), the two autoregulon system has only 1 sink. In this section, we consider the nonlinear case with two sinks and one source. The two sinks can be used as
 ON, OFF states of a switch.
 
-A  {\bf genetic toggle switch}
-can be described by:
-
-Genetic Toggle Switch. \OTO\cite{OTO}
+In this section we consider the following bnet,
+which we call a {\bf genetic toggle switch}
+(\OTO\cite{OTO})
 
 
 \beq
@@ -1194,9 +1228,9 @@ Genetic Toggle Switch. \OTO\cite{OTO}
  \dot{y} =  - \alp_2 y + \frac{\beta_2}{1 + \left(\frac{x}{K_2}\right)^{n_2}}
 \end{array}
 \right.
+\label{eq-genetic-toggle-hill}
 \eeq
-
-where $x$, $y$, and $z$ represent concentrations of proteins, $\alpha_1, \alpha_2, \alpha_3 > 0$ are production rates, and $n, m, p > 1$ control the steepness of the repression.
+where $x$, $y$, and $z$ represent concentrations of proteins, and $\alp_i, \beta_i, K_i, n_i>0$ for $i=1,2$.
 
 \begin{figure}[h!]
 \centering
@@ -1215,9 +1249,11 @@ That is why it's referred to as a toggle switch. Note
 that the Phase Portrait Fig.\ref{fig-2dim-3fp}
 does not describe the system during the transition
 from sink $A$ to $B$. During that transition,
-the potential function must become shallower (or shallowless) in one sink 
-than in the other to induce the system to flip sides.
+the potential function must become shallower in one sink 
+than in the other to induce the system to switch sinks.
 
+For simplicity let us consider the large $n_1$ and $n_2$ limit
+of the bnet Eq.(\ref{eq-genetic-toggle-hill})
 
 \beq
 \begin{array}{ccc}
@@ -1254,29 +1290,53 @@ than in the other to induce the system to flip sides.
 \end{array}
 \right.
 \end{array}
+\label{eq-genetic-toggle-steps}
 \eeq
+Define
 
 \beq
 x_\infty=\frac{\beta_1}{\alp_1}\;,\;\;
 y_\infty=\frac{\beta_2}{\alp_2}
 \eeq
-Define $x=x_\infty$ as ON, $x=0$ as OFF. Same for $y$ and $z$.
+Define $x=x_\infty$ as ON, and $x=0$ as OFF. Same for $y$.
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=4in]
 {autoregulons/double-plus-minus-tables.png}
 \caption{Steady state behavior tables for $(-)^2$ and $(+)^2$ feedback loop nets. 
-The red entries are untenable. Define $x=x_\infty$ as ON, $x=0$ as OFF. Same for $y$.}
+The red, crossed out entries are untenable.}
 \label{fig-double-plus-minus-tables}
 \end{figure}
+
+It's easy to conclude from our knowledge
+of the general solution to the autoregulon ODE, that the table
+Fig.\ref{fig-double-plus-minus-tables}
+correctly describes the steady state 
+(i.e., $t\rarrow \infty$ limit) of 
+the system Eq.(\ref{eq-genetic-toggle-steps}).
+
+
+
 
 
 \section{More than 2 autoregulons}
 
 \subsection{$(-)^2$ and $(+)^2$ Regulator nets}
- $(+)^2$ and $(-)^2$ regulator nets
-
+One can add an extra autoregulon to the
+ $(-)^2$ and $(+)^2$ bnets considered above.
+ When the autoregulon $\rvz$
+ acts as a common cause
+ of the two autoregulons 
+ $\rvx, \rvy$, we will call it 
+ a {\bf regulated $(-)^2$ or $(+)^2$}  bnet.
+ When $z$ acts instead as a common effect,
+ we will call it a {\bf $(-)^2$ or $(+)^2$ regulator}
+ bnet.
+ 
+ In this section, we consider the following
+ bnets, which we call the {\bf $(-)^2$ and $(+)^2$ regulator}
+  bnets:
 
 \beq
 \begin{array}{ccc}
@@ -1333,27 +1393,39 @@ The red entries are untenable. Define $x=x_\infty$ as ON, $x=0$ as OFF. Same for
 \end{array}
 \right.
 \end{array}
+\label{eq-z-regulator}
 \eeq
-
+Define
 \beq
 x_\infty=\frac{\beta_1}{\alp_1}\;,\;\;
 y_\infty=\frac{\beta_2}{\alp_2}\;,\;\;
 z_\infty=\frac{\beta_3}{\alp_3}
 \eeq
+ Define $x=x_\infty$ as ON,
+ and $x=0$ as OFF. Same for $y$ and $z$.
 
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=4in]
 {autoregulons/reg-double-plus-minus-tables.png}
-\caption{Steady state behavior tables for $(-)^2$ and $(+)^2$ regulator nets. Define $x=x_\infty$ as ON, $x=0$ as OFF. Same for $y$ and $z$.
+\caption{Steady state behavior tables for $(-)^2$ and $(+)^2$ regulator nets.
 This figure is based on Fig.\ref{fig-double-plus-minus-tables} }
 \label{fig-reg-double-plus-minus-tables}
 \end{figure}
+It's easy to conclude from our knowledge
+of the general solution to the autoregulon ODE, that the table
+Fig.\ref{fig-reg-double-plus-minus-tables}
+correctly describes the steady state 
+(i.e., $t\rarrow \infty$ limit) of 
+the system Eq.(\ref{eq-z-regulator}).
 
+\newpage
 \subsection{Regulated $(-)^2$ and $(+)^2$ nets}
 
-Regulated $(-)^2$ and $(+)^2$ nets
+In this section, we consider the following
+ bnets, which we call the {\bf regulated  $(-)^2$ and $(+)^2$}
+  bnets:
 
 \beq
 \begin{array}{ccc}
@@ -1408,6 +1480,7 @@ Regulated $(-)^2$ and $(+)^2$ nets
 \end{array}
 \right.
 \end{array}
+\label{eq-plots-regulated-double-sign}
 \eeq
 
 \begin{figure}[h!]
@@ -1417,8 +1490,18 @@ Regulated $(-)^2$ and $(+)^2$ nets
 \caption{$z(t), x(t), y(t)$ plots for regulated $(-)^2$ and $(+)^2$ nets.}
 \label{fig-confounded-plus-minus-plots.png}
 \end{figure}
+Fig.\ref{fig-confounded-plus-minus-plots.png}
+shows the response of system Eq.(\ref{eq-plots-regulated-double-sign}) to
+a pulse coming from the common cause $\rvz$.
+The pulse can jolt the 
+system from
+one sink to the other.
 
-\subsection{Feed Forward Nets}
+
+\subsection{Feed Forward Loops}
+
+
+The most general 3 autoregulon bnet is this
 
 \beq
 \xymatrix@C=3pc@R=5pc{
@@ -1447,12 +1530,27 @@ Regulated $(-)^2$ and $(+)^2$ nets
 \end{array}
 \right.
 \eeq
+We will call a {\bf feed forward loop} (FFL) 
+any 
+ 3 autoregulon
+net which has only one arrow 
+between each pair of nodes,
+and the 3 arrows form an acyclic net.
+FFLs can be classified into
+coherent and incoherent.
+A {\bf coherent FFL} is an FFL
+for which the product of
+the signs of its arrows is positive.
+For an {\bf incoherent FFL},
+that product is negative.
+See Fig.\ref{fig-3-coherent-autoregulons}
+for examples of coherent and incoherent FFL.
 
 
 \begin{figure}[h!]
 $$
-\begin{array}{cc}
-\xymatrix@C=3pc@R=5pc{
+\begin{array}{cccccc}
+\xymatrix@C=1.8pc@R=5pc{
 &\Rect{\rvx}
 \fbackar{ld}{-}{0}
 \fbackar{rd}{+}{0}
@@ -1460,50 +1558,50 @@ $$
 \Rect{\rvy}\fbackar{rr}{-}{0}
 &&
 \Rect{\rvz}
+}&=
+&
+\xymatrix@C=1pc{
+&\Rect{\rvx}
+\ar[ld]|\redminus
+\ar[rd]|\redplus
+\\
+\Rect{\rvy}\ar[rr]|\redminus
+&&
+\Rect{\rvz}
 }
 &
-\xymatrix@C=3pc@R=5pc{
+\xymatrix@C=1.8pc@R=5pc{
 &\Rect{\rvx}
 \fbackar{ld}{-}{0}
-\fbackar{rd}{+}{0}
+\fbackar{rd}{-}{0}
 \\
-\Rect{\rvy}\fbackar{rr}{+}{0}
+\Rect{\rvy}\fbackar{rr}{-}{0}
+&&
+\Rect{\rvz}
+}&=
+&
+\xymatrix@C=1pc{
+&\Rect{\rvx}
+\ar[ld]|\redminus
+\ar[rd]|\redminus
+\\
+\Rect{\rvy}\ar[rr]|\redminus
 &&
 \Rect{\rvz}
 }
 \\
 \\
-(a)&(b)
+&(a)&&&(b)
 \end{array}
 $$
-\caption{$(a)$ shows a coherent net of 3 autoregulons because $\sign(\gamma_{\rvy\rarrow\rvz}\gamma_{\rvx\rarrow\rvy})=\sign(\gamma_{\rvx\rarrow\rvz})$.
-$(b)$ shows an incoherent net of 3 autoregulons because $\sign(\gamma_{\rvy\rarrow\rvz}\gamma_{\rvx\rarrow\rvy})\neq \sign(\gamma_{\rvx\rarrow\rvz})$.
+\caption{$(a)$ is a coherent FFL 
+ because the product of the signs of its arrows is $+$.
+$(b)$ is an incoherent FFL because because the product of the signs of its arrows is $-$.
+The $+$'s can be changed to $\oplus$'s and
+the $-$'s to $\ominus$'s.
 }
 \label{fig-3-coherent-autoregulons}
 \end{figure}
-
-Feed Foward Loop (FFL): 
-\beq
-\xymatrix{
-&\Rect{\rvx}\ar[dl]
-\ar[dr]
-\\
-\Rect{\rvy}\ar[rr]
-&&\Rect{\rvz}
-}
-\quad
-\left\{
-\begin{array}{l}
-\dot{x}= f_1(x)
-\\
-\dot{y} = f_2(y) + \RR x
-\\
-\dot{z} = f_3(z) + \RR x + \RR y
-\end{array}
-\right.
-\label{eq-ffl-or-gate}
-\eeq
-
 
 \begin{figure}
 $$
@@ -1518,9 +1616,9 @@ $$
 &
 \xymatrix{
 &\Rect{\rvx}\ar[dl]|\redoplus
-\ar[dr]|\redoplus
+\ar[dr]|\redominus
 \\
-\Rect{\rvy}\ar[rr]|\redominus
+\Rect{\rvy}\ar[rr]|\redoplus
 &&\Rect{\rvz}
 }
 \\
@@ -1531,19 +1629,24 @@ $$
 \caption{
 $(a)$ Coherent Type 1 FFL (C1-FFL).
 $(b)$ Incoherent Type 1 FFL (I1-FFL)}
+\label{fig-c1-ffl-inco1-ffl}
 \end{figure}
 
 
-Feedforward Loop (FFL). If $h_? =h_\oplus$, coherent 1 (C1), if  $h_? =h_\ominus$, 
-incoherent 1 (I1):
+We will
+also refer to the following bnet
+as either a CI-FFL or an I1-FFL,
+depending on whether $h_? =h_\oplus$ (coherent)
+or   $h_? =h_\ominus$ (incoherent):
+
 \beq
 \xymatrix@R=1pc{
 &&\Rect{\rvx}
 \ar@/_1pc/[ddll]|\redoplus
-\ar[dl]|?
+\ar[dl]|{\color{red} ?}
 \\
 &\bigotimes
-\ar@/_1pc/[drr]|\redplus
+\ar@/_1pc/[drr]
 \\
 \Rect{\rvy}\ar[ur]|\redoplus
 &&&\Rect{\rvz}
@@ -1556,17 +1659,22 @@ incoherent 1 (I1):
 \dot{y} = f_2(y) + \beta_2
 h_\oplus(x)
 \\
-\dot{z} = f_3(z) + \beta_3 
+\dot{z} = f_3(z) + 
 h_\oplus(x)h_?(y)
 \end{array}
 \right.
 \label{eq-ffl-and-gate}
 \eeq
 
-Note that when the $\bigotimes$
-gate AND gate) becomes a sum (OR gate),
-Eq.(\ref{eq-ffl-and-gate}) becomes 
-Eq.(\ref{eq-ffl-or-gate}).
+Note that if
+in the net of Eq.(\ref{eq-ffl-and-gate}),
+the product $\bigotimes$
+gate (representing an AND gate) is
+replaced by a sum $\bigoplus$ gate (representing an OR gate),  then the
+net of Eq.(\ref{eq-ffl-and-gate}) becomes 
+Fig.\ref{fig-c1-ffl-inco1-ffl}.
+Both the bnets with $\bigotimes$ and
+$\bigoplus$ are referred to as FFL.
 
 
 \subsection{C1-FFL}
@@ -2554,31 +2662,83 @@ Bacillus Subtilis  Sporation net
 
 Frog egg cell cycle net
 
+
 \beq
-\xymatrix@C=3pc
-{\rvx_{u} \ar[rd]\ar@{=>}[d]\ar[r]
-& \bigotimes\ar[dl]
-& \rvx_p\ar[dr]
-\ar[dl]
-\ar[l]
-\ar@{=>}[d]
-& \rvy\ar[dl]\ar@{=>}[d]
+h_\oplus (x)\approx \beta
+\indi(x>K)\;,\;\;
+h_\ominus (x)\approx \beta
+\indi(x<K)
+\eeq
+
+\beqa
+h_{\square}(x;K_1, K_2) &=&
+h_\oplus(x; K_1)h_\ominus(x; K_2)
 \\
-\dot{\rvx_{u}}
-&\bigotimes\ar[r]
-&\dot{\rvx_p}
-&\dot{\rvy}}
+&\approx & \beta'\indi_{K'_1}^{K'_2}(x)
+\eeqa
+
+\beq
+\xymatrix{
+X_0 \ar@<.8ex>[rr] 
+&&X_p\ar@<.8ex>[ll]\ar@/_1pc/[l]\ar@/^1pc/@{-|}[l]
+}
+\eeq
+
+\beq
+\xymatrix{
+\Rect{\rvx^{\color{red}\square}}
+}=
+\xymatrix{
+\rvx
+\ar@/_1pc/[d]_{-\square}
+\ar@/^1pc/[d]^{\square}
+\\
+\dot{\rvx}
+}
+\quad
+\left\{
+\dot{x} = \underbrace{
+-h_{\square}(x;K_1', K_2')
+}_{\text{removal}} 
++ \underbrace{h_{\square}(x;K_1, K_2)}_{\text{production}}
+\right.
+\eeq
+
+\beq
+\xymatrix{
+\Rect{\rvx^{\redoplus}}}
+\quad
+\left\{
+\dot{x} = \underbrace{-\alp x}_{\text{removal}} 
++ \underbrace{h_\oplus(x)}_{\text{production}}
+\right.
+\eeq
+
+\beq
+\xymatrix@C=3pc{
+\Rect{\rvx^{\color{red}\square}}
+\fbackar{r}{\redoplus}{\redominus}
+&\Rect{\rvy}
+}
+\quad
 \left\{
 \begin{array}{l}
-\dot{x_{u}}= -\PP x_{u} +\PP x_{u} -\PP x_{u}x_p
+\dot{x}=
+-\gamma'_1\indi_{K_1'}^{K_2'}(x)
++\gamma_1\indi_{K_1}^{K_2}(x) +\beta_1\indi(y<K_{y\rarrow x})
 \\
-\dot{x_p}= -\PP x_p  + \PP x_p +
-\PP y +\PP x_{u}x_p
-\\
-\dot{y}= -\PP y +\PP y +\PP x_p
+\dot{y}= -\alp_2 y +\beta_2\indi(x>K_{x\rarrow y})
 \end{array}
 \right.
 \eeq
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4.7in]
+{autoregulons/pulse-removal-production.png}
+\caption{Removal and production under pulse.}
+\label{fig-pulse-removal-production}
+\end{figure}
 
 \section{Biological basis for autoregulon networks}
 
@@ -2591,6 +2751,16 @@ Alon's book Ref.\cite{alon-book} and Appendix \ref{ch-genomics-vocab} helpful.
 \includegraphics[width=2in]
 {autoregulons/autoreg-bio.png}
 \caption{Biological justification
-for autoregulon math.}
+for autoregulon math.  TF=transcription factor}
 \label{fig-autoreg-bio}
 \end{figure}
+
+\section{Summary of Network Motifs}
+Below, I include a very nice page from Ref.\cite{alon-book}.
+I was going to re-write it in my own words, but
+decided not to, so that the reader can get exposed to
+the diagrammatic  notation, different from mine, used by experts in this field.
+For this chapter, I've invented a diagrammatic
+notation of my own that is more bnet like.
+
+\includepdf[pages={1}]{autoregulons/alon-book-page-109.pdf}
