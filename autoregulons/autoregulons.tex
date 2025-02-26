@@ -1,4 +1,4 @@
-\chapter{Autoregulon Networks (Network Motifs): COMING SOON}
+\chapter{Autoregulon Networks (Network Motifs)}
 \label{ch-autoregulons}
 
 
@@ -1090,7 +1090,7 @@ and may or may not oscillate (depending
 on the sign of $\Delta$).
 
 
-\subsection{Linearized $(-)^2$ or $(+)^2$}
+\subsection{Linearized $(-)^2$ and $(+)^2$}
 
 
 In this section we consider the following bnets,
@@ -1668,9 +1668,9 @@ h_\oplus(x)h_?(y)
 
 Note that if
 in the net of Eq.(\ref{eq-ffl-and-gate}),
-the product $\bigotimes$
-gate (representing an AND gate) is
-replaced by a sum $\bigoplus$ gate (representing an OR gate),  then the
+the product 
+node $\bigotimes$ (representing an AND gate) is
+replaced by a sum node $\bigoplus$ (representing an OR gate),  then the
 net of Eq.(\ref{eq-ffl-and-gate}) becomes 
 Fig.\ref{fig-c1-ffl-inco1-ffl}.
 Both the bnets with $\bigotimes$ and
@@ -1678,6 +1678,12 @@ $\bigoplus$ are referred to as FFL.
 
 
 \subsection{C1-FFL}
+
+In this section,
+we consider the following bnet,
+which we call
+a C1-FFL (Coherent Type 1
+Feed Forward Loop).
 
 \beq
 \xymatrix{
@@ -1727,7 +1733,9 @@ for an I1-FFL.
 {autoregulons/two-paths-y-z-plane.png}
 \includegraphics[height=2in]
 {autoregulons/c1-ffl-up-down-green.png}
-\caption{For C1-FFL, $x(t)$, $y(t)$, $z(t)$ assuming 
+\caption{For C1-FFL
+specified by Eq.(\ref{eq-c1-ffl-simp}),
+the $x(t)$, $y(t)$, $z(t)$ traces assuming 
 that $x(t)$ is either a rising
  t-step function (in green),
 a dropping t-step function (in red),
@@ -1741,27 +1749,31 @@ representation of
 what we will prove in this section.
 
 We will assume $z<K_3$ always so $\indi(z<K_3)=1$.
+We will also assume one of two possible
+values for $x(t)$:
 
 \beq
 x = 
 \left\{
 \begin{array}{ll}
 \xi \indi(t>0)
-& \text{if $x$ up t-step}
+& \text{if $x$ is up t-step}
 \\
 \xi \indi(t<0)
-& \text{if $x$ down t-step}
+& \text{if $x$ is down t-step}
 \end{array}
 \right.
 \eeq
-From the
-solution for $z(t)$
-for these 2 cases of $x(t)$ 
-equal to a
-up and a down t-step, 
-we will infer the solution
-for $x(t)$ equal to a 
-a t-pulse:
+for some $\xi>0$.
+Next, we will state the
+solution $z(t)$ to the ODE Eq.(\ref{eq-c1-ffl-simp}) 
+when $x(t)$ is
+equal to either an
+up t-step or a down one.
+From those 2 solutions, 
+we will infer the solution $z(t)$
+when $x(t)$ equals a 
+a t-pulse, such as
 
 \beq
 x=\xi \indi_{t_1}^{t_2}(t)
@@ -1796,10 +1808,10 @@ y =
 \left\{
 \begin{array} {ll}
 y_\infty(1-e^{-\alp_2 t})
-& \text{if $x$ up step, $y(0)=0$}
+& \text{if $x$ up step, and $y(0)=0$}
 \\
 y_0e^{-\alp_2 t}
-& \text{if $x$ down step, $y(0)=y_0$}
+& \text{if $x$ down step, and $y(0)=y_0$}
 \end{array}
 \right.
 \eeq
@@ -1813,10 +1825,10 @@ z=
 z_\infty'(1- e^{-\alp_3 (t-t_{lag})})
 &
 \text{if $x$ up step,
-$y(0)=0$, $y> K_{y\rarrow z}$}
+$y(0)=0$, and $y> K_{y\rarrow z}$}
 \\
 z_0 e^{-\alp_3 t}
-& \text{if $x$ down step, $y(0)=y_0$, $y< K_{y\rarrow z}$
+& \text{if $x$ down step, $y(0)=y_0$, and $y< K_{y\rarrow z}$
 }
 \end{array}
 \right.
@@ -1853,6 +1865,12 @@ or a unit pulse $\indi_0^{t_1}(t)$.
 
 \subsection{I1-FFL}
 
+In this section,
+we consider the following bnet,
+which we call
+a I1-FFL (Incoherent Type 1
+Feed Forward Loop).
+
 \beq
 \xymatrix{
 \rvx \ar@/_1pc/[drr]|\redoplus\ar[r]|\redoplus
@@ -1881,6 +1899,8 @@ or a unit pulse $\indi_0^{t_1}(t)$.
 \right.
 \label{eq-inc1-ffl-simp}
 \eeq
+where all the alphas, betas and Ks
+are positive.
 The underlined term in 
 Eq.(\ref{eq-inc1-ffl-simp})
 is the only
@@ -1897,7 +1917,7 @@ for an C1-FFL.
 \includegraphics[width=2.8in]
 {autoregulons/i1-ffl-green.png}
 \caption{For I1-FFL, $x(t), y(t), z(t)$
-assuming $x(t)$ step function rising 
+assuming $x(t)$ is a t-step function rising 
 from 0 at $t=0$.}
 \label{fig-i1-ffl}
 \end{figure}
@@ -1906,11 +1926,12 @@ See Fig.\ref{fig-i1-ffl}
 for a pictorial
 representation of what we will prove in this section.
 
-We will assume $z<K_3$ always so $\indi(z<K_3)=1$.
+We will assume $z<K_3$ always so $\indi(z<K_3)=1$. We will also assume that
 
 \beq
 x=\xi \indi(x>0)
 \eeq
+for some $\xi>0$.
 If $x>\max(K_{x\rarrow y}, K_{x\rarrow z})$,
 
 
@@ -1963,8 +1984,11 @@ z(t_{max})=z_{max}= z_\infty'
 
 \subsection{Chain of autoregulons}
 
-chains (cascades) of autoregulons
-connected by highpass and lowpass filters
+In this section,
+we consider the following bnets,
+which we call
+{\bf chains (or cascades) of autoregulons}.
+
 
 \beq\begin{array}{ccc}
 (a)&
@@ -2011,10 +2035,18 @@ connected by highpass and lowpass filters
 \centering
 \includegraphics[width=4.7in]
 {autoregulons/autoreg-cascade.png}
-\caption{Chain of 3 autoregulons. 
+\caption{Chains of 3 autoregulons. 
  }
 \label{fig-autoreg-cascade}
 \end{figure}
+
+See Fig.\ref{fig-autoreg-cascade}
+for a pictorial
+representation of what we will prove in this section.
+
+Note that the arrows in the chain are
+either all $\oplus$ or all $\ominus$ Hill functions.
+We consider these 2 cases separately.
 
 \begin{enumerate}[(a)]
 \item {\bf highpass filter chain}
@@ -2084,9 +2116,15 @@ where $y(t_{lag, z})= K_{y\rarrow z}$.
 
 
 \subsection{Repressilator}
-See Ref.\cite{liepe2013maximizing}
 
-Repressilator net
+This section is based on
+ Alon's book (Ref.\cite{alon-book})
+and Ref.\cite{liepe2013maximizing}.
+
+In this section,
+we consider the following bnet,
+which we call the
+{\bf Repressilator net}:
 
 \beq
 \xymatrix{
@@ -2126,6 +2164,7 @@ Repressilator net
 \right.
 \label{eq-repress-bnet}
 \eeq
+
 \begin{figure}[h!]
 \centering
 \includegraphics[width=2.5in]
@@ -2136,8 +2175,11 @@ produces 3 interlaced peak trains  $y_1(t), y_2(t), y_3(t)$, where $y_i=m_i -1$.
 \label{fig-interlaced-3}
 \end{figure}
 
+See Fig.\ref{fig-interlaced-3}
+for a pictorial
+representation of what we will prove in this section.
 
-
+Define the matrix
 \beq
 \Gamma=
 \left[
@@ -2155,7 +2197,7 @@ $\Gamma$ is permutation matrix so
 \beq
 \Gamma^2=1 
 \eeq
-Note this implies
+Note that this implies
 \beq
 0=1-\Gamma^2 =(1+\Gamma)(1-\Gamma)
 \eeq
@@ -2176,17 +2218,17 @@ It is easy to check that
 \end{array}
 \right.
 \eeq
+Define the vector
 
 \beq
 \vec{u}= [1,1,1]^T
 \eeq
+Note that
 
 \beq
 \pi_- \vec{u}=0\;,\;\;\pi_+ \vec{u}=\vec{u}
 \eeq
-
-
-Let 
+We will approximate $|p_i-1|<<1$ so
 
 \beqa
 \frac{\alp}{1+p_i^n}
@@ -2195,12 +2237,15 @@ Let
 \\
 &=&-\gamma (p_i-1) + \frac{\alp}{2}
 \eeqa
+Define
 
 \beq
 \vec{x}=\vec{p}-1
 \;,\;\;
 \vec{y} = \vec{m}-1
 \eeq
+Then Eq.(\ref{eq-repress-bnet})
+reduces to
 
 \beq
 \left\{
@@ -2211,13 +2256,18 @@ Let
 \dot{\vec x} = \beta(\vec{y}-\vec{x})
 \end{array}
 \right.
+\label{eq-odes-sans-diff-ops}
 \eeq
+Next, define the linear operators
 
 \beq 
 \call_1 = \partial_t + 1
 \;,\;\;
 \call_\beta = \partial_t +\beta
 \eeq
+Using these operators, 
+Eq.(\ref{eq-odes-sans-diff-ops})
+becomes
 
 \beq
 \left\{
@@ -2229,28 +2279,37 @@ Let
 \end{array}
 \right.
 \eeq
+Solving  the second ODE for $\vec{x}$, 
+and substituting that $\vec{x}$
+value into the first ODE, we get
 
 \beq
 \vec{x} = 
 \beta\call_\beta^{-1}\vec{y}
 \eeq
+and
 
 \beq
 \call_1\vec{y}=
 -\gamma\beta \Gamma\call_\beta^{-1}\vec{y}
 +c\vec{u}
 \eeq
+Multiplying the last equation by $\call_\beta$
+then yields
 
 \beq
 \call_\beta\call_1\vec{y}=
 -\gamma\beta \underbrace{\Gamma}_{2\pi_+ -1}\vec{y}
 +\beta c\vec{u}
+\label{eq-lbeta-lone-ode}
 \eeq
+Now define the two projections of $\vec{y}$
 
 \beq
-\vec{y}_\pm =\pi_\pm \vec{y}\;,\;\; 
+\vec{y}_\pm =\pi_\pm \vec{y}
 \eeq
-
+Multiplying Eq.(\ref{eq-lbeta-lone-ode})
+by $\pi_+$ and $\pi_-$, we get
 
 \beq
 \left\{
@@ -2261,6 +2320,7 @@ Let
 \end{array}
 \right.
 \eeq
+where 
 
 \beq
 \call_\beta\call_1 =
@@ -2451,9 +2511,11 @@ ODE with natural frequency  $\sqrt{(1-\gamma)\beta}$.
 
 
 \subsection{SIM net}
-Single Input Module (SIM) net
-
-SIM net
+In this section,
+we consider the following bnet,
+which we call
+a
+{\bf Single Input Module (SIM) net}.
 
 \beq
 \xymatrix@R=4pc{
@@ -2481,11 +2543,14 @@ SIM net
 \includegraphics[width=2.8in]
 {autoregulons/sim-net.png}
 \caption{For SIM net, response  $y_1(t), y_2(t), y_3(t)$ to stimulus $x(t)$.
-Blue is first and last out. FILO. In other words, SIM produces pulses
+Blue is first in and last out (FILO). In other words, SIM produces pulses
 such that pulse-rise-edges and pulse-drop-edges are in
 reverse  order.}
 \label{fig-sim-net}
 \end{figure}
+See Fig.\ref{fig-sim-net}
+for a pictorial
+representation of what we will prove in this section.
 
 Let 
 
@@ -2530,6 +2595,11 @@ y_{max,i}e^{-\alp_i(t-t_{max,i})}
 
 \subsection{Flagellum net}
 
+In this section,
+we consider the following bnet,
+which we call
+the {\bf Flagellum net}.
+
 \beq
 \xymatrix@C=3pc{
 &\Rect{\rvx^\redominus}
@@ -2562,13 +2632,19 @@ y_{max,i}e^{-\alp_i(t-t_{max,i})}
 \centering
 \includegraphics[width=2.8in]
 {autoregulons/flagellum.png}
-\caption{For Flagellum net, response  $y(t), z_1(t), z_2(t)$ to stimulus $x(t)$. Green is first and first out. FIFO. In other words, the Flagellum net produces pulses
+\caption{For Flagellum net, response  $y(t), z_1(t), z_2(t)$ to stimulus $x(t)$. Green is first in and first out (FIFO). In other words, the Flagellum net produces pulses
 such that pulse-rise-edges and pulse-drop-edges are in
 the same order.}
 \label{fig-flagellum-net}
 \end{figure}
+See Fig.\ref{fig-flagellum-net}
+for a pictorial
+representation of what we will prove in this section.
 
-Flagellum bnet. Assume $K_1<K_2$ and $K'_1 > K'_2$.
+
+Assume $K_1<K_2$ and $K'_1 > K'_2$.
+
+Define
 
 \beq
 x_\infty= \frac{\beta_x}{\alp_x}\;,\;\;
@@ -2625,6 +2701,11 @@ z_{max, i}e^{-\alp_i (t-t_{max, i})}
 
 \subsection{Bacillus Subtilis Sporation net}
 
+In this section,
+we consider the following bnet,
+which we call the 
+{\bf BS Sporation net}. (BS = Bacillus Subtilis).
+
 \beq
 \xymatrix{
 &\Rect{\rvx_1}\ar[ddl]|\redplus
@@ -2658,61 +2739,9 @@ Bacillus Subtilis  Sporation net
 
 \subsection{Frog Egg Cell Cycle net}
 
-
-
-Frog egg cell cycle net
-
-
-\beq
-h_\oplus (x)\approx \beta
-\indi(x>K)\;,\;\;
-h_\ominus (x)\approx \beta
-\indi(x<K)
-\eeq
-
-\beqa
-h_{\square}(x;K_1, K_2) &=&
-h_\oplus(x; K_1)h_\ominus(x; K_2)
-\\
-&\approx & \beta'\indi_{K'_1}^{K'_2}(x)
-\eeqa
-
-\beq
-\xymatrix{
-X_0 \ar@<.8ex>[rr] 
-&&X_p\ar@<.8ex>[ll]\ar@/_1pc/[l]\ar@/^1pc/@{-|}[l]
-}
-\eeq
-
-\beq
-\xymatrix{
-\Rect{\rvx^{\color{red}\square}}
-}=
-\xymatrix{
-\rvx
-\ar@/_1pc/[d]_{-\square}
-\ar@/^1pc/[d]^{\square}
-\\
-\dot{\rvx}
-}
-\quad
-\left\{
-\dot{x} = \underbrace{
--h_{\square}(x;K_1', K_2')
-}_{\text{removal}} 
-+ \underbrace{h_{\square}(x;K_1, K_2)}_{\text{production}}
-\right.
-\eeq
-
-\beq
-\xymatrix{
-\Rect{\rvx^{\redoplus}}}
-\quad
-\left\{
-\dot{x} = \underbrace{-\alp x}_{\text{removal}} 
-+ \underbrace{h_\oplus(x)}_{\text{production}}
-\right.
-\eeq
+In this section we consider the following bnet,
+which we call the
+{\bf frog-egg cell-cycle net}:
 
 \beq
 \xymatrix@C=3pc{
@@ -2732,13 +2761,90 @@ X_0 \ar@<.8ex>[rr]
 \right.
 \eeq
 
+This bnet uses a {\bf pulse autoregulon} $\boxed{\rvx^{\color{red}\square}}$
+which we haven't defined yet. This autoregulon is represented by the 
+symbol
+
+\beq
+\xymatrix{
+X_0 \ar@<.8ex>[rr] 
+&&X_p\ar@<.8ex>[ll]\ar@/_1pc/[l]\ar@/^1pc/@{-|}[l]
+}
+\eeq
+in Alon's book  Ref.\cite{alon-book}. We define it as follows.
+Recall that
+
+\beq
+h_\oplus (x)\approx \beta
+\indi(x>K)\;,\;\;
+h_\ominus (x)\approx \beta
+\indi(x<K)
+\eeq
+Define the pulse Hill function $h_\square(x)$ by
+
+\beqa
+h_{\square}(x;K_1, K_2) &=&
+h_\oplus(x; K_1)h_\ominus(x; K_2)
+\\
+&\approx & \beta'\indi_{K_1}^{K_2}(x)
+\eeqa
+Now define the
+pulse autoregulon by
+
+\beq
+\xymatrix{
+\Rect{\rvx^{\color{red}\square}}
+}=
+\xymatrix{
+\rvx
+\ar@/_1pc/[d]_{-\square}
+\ar@/^1pc/[d]^{\square}
+\\
+\dot{\rvx}
+}
+\quad
+\left\{
+\dot{x} = \underbrace{
+-h_{\square}(x;K_1', K_2')
+}_{\text{removal}} 
++ \underbrace{h_{\square}(x;K_1, K_2)}_{\text{production}}
+\right.
+\label{eq-pulsed-autoreg}
+\eeq
+Compare the ODE Eq.(\ref{eq-pulsed-autoreg}) for
+a \qt{pulse} autoregulon  
+to the ODE for a  \qt{normal} 
+autoregulon defined by
+
+\beq
+\xymatrix{
+\Rect{\rvx^{\redoplus}}}
+\quad
+\left\{
+\dot{x} = \underbrace{-\alp x}_{\text{removal}} 
++ \underbrace{h_\oplus(x)}_{\text{production}}
+\right.
+\eeq
+
 \begin{figure}[h!]
 \centering
 \includegraphics[width=4.7in]
 {autoregulons/pulse-removal-production.png}
-\caption{Removal and production under pulse.}
+\caption{Removal and production rates for
+a normal and pulse autoregulon.}
 \label{fig-pulse-removal-production}
 \end{figure}
+Fig.\ref{fig-pulse-removal-production}
+is a plotof the removal and production rates for both
+a normal and a pulse autoregulon. Note
+that the pulse autoregulon
+achieves greater
+than normal separation
+between the 2 sinks, 
+and this leads to greater stability 
+when the system is sitting at a sink.
+
+
 
 \section{Biological basis for autoregulon networks}
 
@@ -2762,5 +2868,6 @@ decided not to, so that the reader can get exposed to
 the diagrammatic  notation, different from mine, used by experts in this field.
 For this chapter, I've invented a diagrammatic
 notation of my own that is more bnet like.
+\newpage
 
 \includepdf[pages={1}]{autoregulons/alon-book-page-109.pdf}
