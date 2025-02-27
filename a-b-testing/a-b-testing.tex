@@ -1,2 +1,204 @@
-\chapter{A/B testing: COMING SOON}
+\chapter{A/B testing}
 \label{ch-a-b-testing}
+
+{\bf A/B testing} in its simplest
+form is just frequentist {\bf hypothesis testing (HT)}.
+The formulae used for HT
+will not be  derived here. 
+ The reader can consult a statistics book  for that.
+In this chapter, we will merely state them,
+and draw a causal bnet describing them.
+
+
+\begin{figure}[h!]
+
+{\entrymodifiers={++[F-:<3pt>]}
+
+$$\xymatrix@R=15pt{
+\vv{CR}\ar[d]\ar@/_2pc/[dd]
+\ar[ddr]
+\ar[dr]
+\ar@/^1pc/[ddrr]
+&\vv{n}\ar[d]
+&(\alp, \beta)\ar[d]
+\ar@/^1pc/[ddr]
+&*{}
+&*{}
+\\
+  \TIL{CR}\ar[d]
+&\vv{SE}\ar[d]\ar[dr]
+&(Z_\alp, Z_\beta)\ar[dll]
+\ar[dl]
+&*{}
+&*{}
+\\
+n
+&CI
+&Z\ar[r]
+&p\ar[r]
+&\text{decision}
+}$$
+}
+\caption{Bnet for A/B testing (a.k.a. 
+hypothesis testing.)}
+\label{fig-bnet-hypo-test}
+\end{figure}
+
+Fig.\ref{fig-bnet-hypo-test}
+gives a bnet for HT. The node names 
+of the bnet are defined as follows
+
+Conversions: The number of successful actions (e.g., purchases, sign-ups). 
+
+$\xi\in\{A,B\}$: Variant. A is the control group, B is 
+the treated group.
+
+$CR_\xi$: Conversion rate, the proportion of users who converted (for variant $\xi$).
+
+$\vv{CR}=(CR_A, CR_B)$
+
+$n_\xi$: Sample size (number of visitors)
+(for variant $\xi$).
+   
+$\vv{n}=(n_A, n_B)$.
+
+$(\alp, \beta)$: significance levels. 1-significance level= confidence level.
+
+$  \TIL{CR}= (CR_A + CR_B)/2$: Estimated baseline conversion rate. 
+
+
+$SE_\xi$: Standard error, measuring the variability of the conversion rate
+(for variant $\xi$).
+    
+$\vv{SE}=(SE_A, SE_B)$
+
+$Z_\alp$: Z-score for confidence level
+ $\alp$ (e.g., 1.96 for 95\%).  
+
+$Z_\beta$: Z-score for power level $\beta$ (e.g., 0.84 for 80\%).  
+
+$n$: Minimum required sample size.
+We require $n_A, n_B\geq n$.
+
+$CI$: Confidence interval.  
+
+$Z$: Z-score, measuring how different the two conversion rates are in standard deviation units.
+
+$p$: p-value
+
+decision: whether the result is statistically significant or not.
+
+The structure equations of the nodes
+of the bnet are defined as follows:
+
+
+\begin{enumerate}
+
+\item {\bf Confidence Levels (CL)}
+
+\beq
+CL_\alp = 
+\left\{
+\begin{array}{ll}
+1-\frac{\alp}{2}
+& \text{if two tailed}
+\\
+1-\alp & \text{if one-tailed}
+\end{array}
+\right.
+\eeq
+
+\beq
+\alp = 
+\left\{
+\begin{array}{ll}
+2(1- CL_\alp)
+& \text{if two tailed}
+\\
+1- CL_\alp & \text{if one-tailed}
+\end{array}
+\right.
+\eeq
+Same with $\alp$ replaced by $\beta$.
+
+
+\item {\bf Conversion Rate (CR)}  
+
+\beq
+CR_\xi = \frac{\text{Conversions for $\xi$}}{\text{Total Visitors for $\xi$}}
+\eeq
+for $\xi=A,B$.
+
+\item {\bf Standard Error (SE)}  
+
+\beq
+SE_\xi = \sqrt{\frac{CR_\xi \times (1 - CR_\xi)}{n_\xi}}
+\eeq
+for $\xi=A,B$.
+
+
+\item {\bf Z-Score (for hypothesis testing)}  
+
+\beq
+Z = \frac{CR_A - CR_B}{\sqrt{SE_A^2 + SE_B^2}}
+\eeq
+
+\item {\bf P-Value}  
+
+\beq
+p=
+\left\{
+\begin{array}{ll}
+1 -\Phi(Z)
+&\text{if testing for increase}
+\\
+\Phi(Z)
+&\text{if testing for decrease}
+\\
+2[1 -\Phi(|Z|)]
+&\text{if two-tailed testing }
+\end{array}
+\right.
+\eeq
+
+Cummulative Distribution
+of Standard Normal Distribution
+\beq
+\Phi (x)=\frac{1}{\sqrt{2\pi}}
+\int_{-\infty}^x dt\; \exp
+\left(-\frac{t^2}{2}\right)
+\eeq
+
+\item {\bf Decision}
+
+Say $\alp=0.05$ (95\% confidence level)
+
+If $p< \alp$, reject null hypothesis,
+a statistically significant result
+
+If $p \geq \alp$, fail to reject null hypothesis, not a statistically significant result
+
+\item {\bf Statistical Significance (Confidence Interval for Difference in Conversion Rates)} 
+
+\beq
+a_\pm = (CR_A - CR_B) \pm Z_{\alpha} \times \sqrt{SE_A^2 + SE_B^2}
+\eeq
+
+\beq
+CI = [a_-, a_+]
+\eeq
+
+
+\item {\bf Sample Size 
+Formula}
+\beq
+n = \frac{(Z_{\alpha} + Z_{\beta})^2 \times [\TIL{CR}(1 - \TIL{CR})]}{(CR_A - CR_B)^2}
+\eeq
+We require $n_A, n_B\geq n$.
+
+
+
+
+
+
+\end{enumerate}
