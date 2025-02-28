@@ -15,26 +15,28 @@ and draw a causal bnet describing them.
 {\entrymodifiers={++[F-:<3pt>]}
 
 $$\xymatrix@R=15pt{
-\vv{CR}\ar[d]\ar@/_2pc/[dd]
+\vv{p}\ar[dd]
 \ar[ddr]
 \ar[dr]
-\ar@/^1pc/[ddrr]
+\ar[drr]
 &\vv{n}\ar[d]
+&*{}
 &(\alp, \beta)\ar[d]
-\ar@/^1pc/[ddr]
+\ar[ddr]
 &*{}
 &*{}
 \\
-  \TIL{CR}\ar[d]
-&\vv{SE}\ar[d]\ar[dr]
-&(Z_\alp, Z_\beta)\ar[dll]
-\ar[dl]
+*{}
+&\vv{SE}\ar[d]\ar[r]
+&Z\ar[dr]
+&(Z_{\alp/2}, Z_\beta)\ar[dlll]
+\ar[dll]
 &*{}
 &*{}
 \\
 n
 &CI
-&Z\ar[r]
+&*{}
 &p\ar[r]
 &\text{decision}
 }$$
@@ -48,32 +50,40 @@ Fig.\ref{fig-bnet-hypo-test}
 gives a bnet for HT. The node names 
 of the bnet are defined as follows
 
+$\Phi()$: Cummulative Distribution
+of Standard Normal Distribution
+\beq
+\Phi (x)=\frac{1}{\sqrt{2\pi}}
+\int_{-\infty}^x dt\; e^{
+-\frac{t^2}{2}}
+\eeq
+
 Conversions: The number of successful actions (e.g., purchases, sign-ups). 
 
 $\xi\in\{A,B\}$: Variant. A is the control group, B is 
 the treated group.
 
-$CR_\xi$: Conversion rate, the proportion of users who converted (for variant $\xi$).
+$p_\xi$: Conversion rate, the proportion of users who converted (for variant $\xi$).
 
-$\vv{CR}=(CR_A, CR_B)$
+$\vv{p}=(p_A, p_B)$
 
-$n_\xi$: Sample size (number of visitors)
+$n_\xi$: Sample size, number of visitors
 (for variant $\xi$).
    
 $\vv{n}=(n_A, n_B)$.
 
-$(\alp, \beta)$: significance levels. 1-significance level= confidence level.
-
-$  \TIL{CR}= (CR_A + CR_B)/2$: Estimated baseline conversion rate. 
+$(\alp, \beta)$: tail areas. One minus tail area = confidence level. $\alp=P(0|1)=$ probability of type 1 error. $\beta=P(1|0)=$
+probability of type 2 error
 
 
 $SE_\xi$: Standard error, measuring the variability of the conversion rate
 (for variant $\xi$).
+Called $\s_\xi/\sqrt{n_\xi}$ in Statistics.
     
 $\vv{SE}=(SE_A, SE_B)$
 
 $Z_\alp$: Z-score for confidence level
- $\alp$ (e.g., 1.96 for 95\%).  
+ $CL_\alp$ (e.g., 1.96 for 95\%).  
 
 $Z_\beta$: Z-score for power level $\beta$ (e.g., 0.84 for 80\%).  
 
@@ -122,17 +132,17 @@ CL_\alp =
 Same with $\alp$ replaced by $\beta$.
 
 
-\item {\bf Conversion Rate (CR)}  
+\item {\bf Conversion Rate (a.k.a., proportion)(p)}  
 
 \beq
-CR_\xi = \frac{\text{Conversions for $\xi$}}{\text{Total Visitors for $\xi$}}
+p_\xi = \frac{\text{Conversions for $\xi$}}{\text{Total Visitors for $\xi$}}
 \eeq
 for $\xi=A,B$.
 
 \item {\bf Standard Error (SE)}  
 
 \beq
-SE_\xi = \sqrt{\frac{CR_\xi \times (1 - CR_\xi)}{n_\xi}}
+SE_\xi = \sqrt{\frac{p_\xi  (1 - p_\xi)}{n_\xi}}
 \eeq
 for $\xi=A,B$.
 
@@ -140,7 +150,7 @@ for $\xi=A,B$.
 \item {\bf Z-Score (for hypothesis testing)}  
 
 \beq
-Z = \frac{CR_A - CR_B}{\sqrt{SE_A^2 + SE_B^2}}
+Z = \frac{p_A - p_B}{\sqrt{SE_A^2 + SE_B^2}}
 \eeq
 
 \item {\bf P-Value}  
@@ -149,11 +159,8 @@ Z = \frac{CR_A - CR_B}{\sqrt{SE_A^2 + SE_B^2}}
 p=
 \left\{
 \begin{array}{ll}
-1 -\Phi(Z)
-&\text{if testing for increase}
-\\
-\Phi(Z)
-&\text{if testing for decrease}
+1 -\Phi(|Z|)
+&\text{if one-tail testing}
 \\
 2[1 -\Phi(|Z|)]
 &\text{if two-tailed testing }
@@ -161,27 +168,30 @@ p=
 \right.
 \eeq
 
-Cummulative Distribution
-of Standard Normal Distribution
-\beq
-\Phi (x)=\frac{1}{\sqrt{2\pi}}
-\int_{-\infty}^x dt\; \exp
-\left(-\frac{t^2}{2}\right)
-\eeq
+
 
 \item {\bf Decision}
 
 Say $\alp=0.05$ (95\% confidence level)
 
-If $p< \alp$, reject null hypothesis,
+If $p< \alp$,  overlap between Gaussians is small, reject null hypothesis,
 a statistically significant result
 
-If $p \geq \alp$, fail to reject null hypothesis, not a statistically significant result
+If $p \geq \alp$, overlpa between Gaussians is large, fail to reject null hypothesis, not a statistically significant result
 
-\item {\bf Statistical Significance (Confidence Interval for Difference in Conversion Rates)} 
+\item {\bf $Z_\alp, Z_\beta$  scores}
 
 \beq
-a_\pm = (CR_A - CR_B) \pm Z_{\alpha} \times \sqrt{SE_A^2 + SE_B^2}
+Z_\alp=
+\Phi^{-1}(1 -\alp)
+\eeq
+Same with $\alp$ replaced by $\beta$.
+Use $Z_{\alp/2}$ for two-tailed testing, $Z_\alp$ for one-tailed testing
+
+\item {\bf Confidence Interval for Difference in Conversion Rates} 
+
+\beq
+a_\pm = (p_A - p_B) \pm Z_{\alpha/2} \sqrt{SE_A^2 + SE_B^2}
 \eeq
 
 \beq
@@ -189,16 +199,12 @@ CI = [a_-, a_+]
 \eeq
 
 
+
 \item {\bf Sample Size 
-Formula}
+(for Proportion Tests)}
 \beq
-n = \frac{(Z_{\alpha} + Z_{\beta})^2 \times [\TIL{CR}(1 - \TIL{CR})]}{(CR_A - CR_B)^2}
+n = \frac{(Z_{\alpha/2} + Z_{\beta})^2 [p_A(1-p_A) + p_B(1-p_B)]}{(p_A - p_B)^2}
 \eeq
 We require $n_A, n_B\geq n$.
-
-
-
-
-
 
 \end{enumerate}
