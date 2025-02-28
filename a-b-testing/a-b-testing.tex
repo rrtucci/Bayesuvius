@@ -5,7 +5,6 @@
 form is just frequentist {\bf hypothesis testing (HT)}.
 The formulae used for HT
 will not be  derived here. 
- The reader can consult a statistics book  for that.
 In this chapter, we will merely state them,
 and draw a causal bnet describing them.
 
@@ -50,7 +49,7 @@ Fig.\ref{fig-bnet-hypo-test}
 gives a bnet for HT. The node names 
 of the bnet are defined as follows
 
-$\Phi()$: Cummulative Distribution
+$\Phi()$: Cumulative Distribution
 of Standard Normal Distribution
 \beq
 \Phi (x)=\frac{1}{\sqrt{2\pi}}
@@ -60,9 +59,11 @@ of Standard Normal Distribution
 
 Conversions: The number of successful actions (e.g., purchases, sign-ups). 
 
-$\xi\in\{A,B\}$: Variant. A is the control group, B is 
-the treated group.
-
+$\xi\in\{A,B\}$: Variant. A is the control group
+and the null Hypothesis $H_0$, B is 
+the treated group
+and the alternative hypothesis $H_1$.
+ 
 $p_\xi$: Conversion rate, the proportion of users who converted (for variant $\xi$).
 
 $\vv{p}=(p_A, p_B)$
@@ -73,9 +74,22 @@ $n_\xi$: Sample size, number of visitors
 $\vv{n}=(n_A, n_B)$.
 
 $(\alp, \beta)$: tail areas. One minus tail area = confidence level. $\alp=P(0|1)=$ probability of type 1 error. $\beta=P(1|0)=$
-probability of type 2 error
+probability of type 2 error. See Table
+\ref{tab-ht-terms}.
 
-
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
+\begin{table}[h!]
+\begin{tabular}{|l|l|l|}
+\hline
+ & \cellcolor[HTML]{FFFFC7}0 actual & \cellcolor[HTML]{FFFFC7}1 actual \\ \hline
+\cellcolor[HTML]{FFFFC7}0 predicted & \begin{tabular}[c]{@{}l@{}}$P(0|0)$\\ True Negative\end{tabular} & \begin{tabular}[c]{@{}l@{}}$P(0|1)$\\ $\beta$\\ Type II error\\ False Negative\end{tabular} \\ \hline
+\cellcolor[HTML]{FFFFC7}1 predicted & \begin{tabular}[c]{@{}l@{}}$P(1|0)$\\ $\alp$\\ Type I error\\ False Positive\end{tabular} & \begin{tabular}[c]{@{}l@{}}$P(1|1)$\\ True Positive\end{tabular} \\ \hline
+\end{tabular}
+\caption{Terminology associated with hypothesis testing}
+\label{tab-ht-terms}
+\end{table}
 $SE_\xi$: Standard error, measuring the variability of the conversion rate
 (for variant $\xi$).
 Called $\s_\xi/\sqrt{n_\xi}$ in Statistics.
@@ -86,6 +100,9 @@ $Z_\alp$: Z-score for confidence level
  $CL_\alp$ (e.g., 1.96 for 95\%).  
 
 $Z_\beta$: Z-score for power level $\beta$ (e.g., 0.84 for 80\%).  
+
+
+
 
 $n$: Minimum required sample size.
 We require $n_A, n_B\geq n$.
@@ -107,29 +124,10 @@ of the bnet are defined as follows:
 \item {\bf Confidence Levels (CL)}
 
 \beq
-CL_\alp = 
-\left\{
-\begin{array}{ll}
-1-\frac{\alp}{2}
-& \text{if two tailed}
-\\
-1-\alp & \text{if one-tailed}
-\end{array}
-\right.
+CL_\alp = 1-\alp\;,\;\; CL_\beta = 1-\beta
 \eeq
 
-\beq
-\alp = 
-\left\{
-\begin{array}{ll}
-2(1- CL_\alp)
-& \text{if two tailed}
-\\
-1- CL_\alp & \text{if one-tailed}
-\end{array}
-\right.
-\eeq
-Same with $\alp$ replaced by $\beta$.
+This applies to both one-tailed and two-tailed testing.
 
 
 \item {\bf Conversion Rate (a.k.a., proportion)(p)}  
@@ -167,6 +165,16 @@ p=
 \end{array}
 \right.
 \eeq
+See Fig.\ref{fig-p-def-a-b}.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2.5in]
+{a-b-testing/p-def.png}
+\caption{How $Z$ is
+related to $p/2$.}
+\label{fig-p-def-a-b}
+\end{figure}
 
 
 
@@ -177,7 +185,7 @@ Say $\alp=0.05$ (95\% confidence level)
 If $p< \alp$,  overlap between Gaussians is small, reject null hypothesis,
 a statistically significant result
 
-If $p \geq \alp$, overlpa between Gaussians is large, fail to reject null hypothesis, not a statistically significant result
+If $p \geq \alp$, overlap between Gaussians is large, fail to reject null hypothesis, not a statistically significant result
 
 \item {\bf $Z_\alp, Z_\beta$  scores}
 
@@ -186,7 +194,16 @@ Z_\alp=
 \Phi^{-1}(1 -\alp)
 \eeq
 Same with $\alp$ replaced by $\beta$.
-Use $Z_{\alp/2}$ for two-tailed testing, $Z_\alp$ for one-tailed testing
+Use $Z_{\alp/2}$ for two-tailed testing, $Z_\alp$ for one-tailed testing. See Fig.\ref{fig-alp-beta-z}.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=3.5in]
+{a-b-testing/alp-beta-z.png}
+\caption{How $Z_{\alp/2}$ and $Z_\beta$ are
+related to $\alp/2$ and $\beta$.}
+\label{fig-alp-beta-z}
+\end{figure}
 
 \item {\bf Confidence Interval for Difference in Conversion Rates} 
 
@@ -203,8 +220,18 @@ CI = [a_-, a_+]
 \item {\bf Sample Size 
 (for Proportion Tests)}
 \beq
-n = \frac{(Z_{\alpha/2} + Z_{\beta})^2 [p_A(1-p_A) + p_B(1-p_B)]}{(p_A - p_B)^2}
+n = 
+\left[
+\frac{
+Z_{\alpha/2}
+\sqrt{2p_A(1-p_A)}
++Z_\beta 
+\sqrt{p_A(1-p_A) + p_B(1-p_B)}
+}{p_A - p_B}
+\right]^2
 \eeq
 We require $n_A, n_B\geq n$.
-
+At first $p_A$ is known but $p_B$ 
+must be
+estimated because it is unknown.
 \end{enumerate}
