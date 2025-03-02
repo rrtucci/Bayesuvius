@@ -258,26 +258,40 @@ to get
 
 \section{Damped Harmonic Oscillator Example}
 
-From Chapter \ref{ch-greens-fun}
+From Chapters \ref{ch-greens-fun}
+and \ref{ch-dynamical-sys}, a damped harmonic oscillator satisfies
 
 \beq
-\call= \partial_t^2 x + 2\gamma \partial_t + \omega^2_0
+\call x = f(t) 
 \eeq
+where
 
 \beq
-\call x = f(t)
-\eeq
-
-If 
-
-\beq
-x(t) = \int dt \chi(t, s)f(s)
+\call= \partial_t^2  + 2\gamma \partial_t + \omega^2_0
 \eeq
 
 
+
 \beq
-x(t) =\int_{-\infty}^{\infty}\frac{d\omega}{2\pi}
-e^{-i\omega t}x(\omega)
+f(t) = \frac{F_0}{m}\cos(\omega t +\delta)
+\eeq
+
+
+\beq
+x(t) = \int dt \chi(t -s)f(s)\;,\quad x(\omega)=
+\chi(\omega) f(\omega)
+\eeq
+
+The impulse response function $\chi(t-s)$
+(a.k.a. Green's function) satisfies
+
+\beq
+\call\chi(t-s)=\delta(t-s)
+\eeq
+
+\beq
+\chi(t) =\int_{-\infty}^{\infty}\frac{d\omega}{2\pi}
+e^{-i\omega t}\chi(\omega)
 \;,\quad
 \delta(t) =
 \int_{-\infty}^{\infty}\frac{d\omega}{2\pi}
@@ -285,7 +299,7 @@ e^{-i\omega t}
 \eeq
 
 \beq
-x(\omega)(-\omega^{2} -i2\gamma\omega  +\omega_0^2)= 1
+\chi(\omega)(-\omega^{2} -i2\gamma\omega  +\omega_0^2)= 1
 \eeq
 
 \beq
@@ -293,3 +307,98 @@ x(\omega)(-\omega^{2} -i2\gamma\omega  +\omega_0^2)= 1
 \frac{1}{\omega_0^2-\omega^2 - i 2\gamma \omega}
 \eeq
 
+\beq
+\chi_R(\omega)=
+\frac{\omega_0^2-\omega^2}{
+(\omega_0^2-\omega^2)^2 - (2\gamma \omega)^2
+}
+\quad \text{(even function of $\omega$)}
+\eeq
+
+\beq
+\chi_I(\omega)=
+\frac{2\gamma \omega}{
+(\omega_0^2-\omega^2)^2 - (2\gamma \omega)^2
+}
+\quad \text{(odd function of $\omega$, vanishes if $\gamma=0$)}
+\eeq
+
+\beq
+dW = -Fdx
+\eeq
+
+\beq
+P_{diss} = \frac{dW}{dt}  = F \dot{x}
+\eeq
+
+\beq
+\av{P_{diss}}=
+\frac{1}{T}\int_0^T dt\; F(t) \dot{x}(t)
+\eeq
+
+\begin{claim}
+For a damped harmonic oscillator driven by the force $F(t)=F_0\cos(\nu t)$, 
+
+\beq
+\av{P_{diss}}=
+\frac{F_0^2 \nu\chi_I(\nu)}{2m} 
+\eeq
+\end{claim}
+\proof
+\beq
+F(t) = F_0\cos(\nu t)=
+ F_0 \left(
+\frac{e^{i\nu t} + e^{-i\nu t}}{2}\right)\;,\;\;
+f(t) = F(t)/m
+\eeq
+
+\beq
+f(\omega)= 
+\frac{F_0}{m}2\pi \left(
+\frac{\delta(\omega-\nu) 
++ \delta(\omega +\nu)}{2}\right)
+\eeq
+
+\beq
+x(\omega)=\chi(\omega)\frac{F_0}{m}
+2\pi\left(\frac{\delta(\omega-\nu) + \delta(\omega + \nu)}{2}
+\right)
+\eeq
+
+\beqa
+x(t)&=&\int_{-\infty}^{\infty}
+\frac{d\omega}{2\pi}\; e^{-i\omega t}x(\omega)
+\\
+&=&
+\frac{F_0}{2m}\left(\chi(\nu)  e^{-i\nu t}
++ \underbrace{\chi(-\nu)}_{\chi^*(\nu)}  e^{i\nu t}\right)
+\\
+&=&
+ \chi(\nu) \frac{F_0}{2m} e^{-i\nu t} + c.c.
+\eeqa
+
+\beq
+\dot{x}(t)=
+(-i\nu)\chi(\nu) \frac{F_0}{2m} e^{-i\nu t}
++ c.c.
+\eeq
+
+\beqa
+\av{P_{diss}}&=&
+\frac{1}{T}\int_0^T dt\; 
+\left(\frac{F_0}{2}e^{i\nu t} + c.c.
+\right)
+\left(
+-i\nu\chi(\nu) \frac{F_0}{2m} e^{-i\nu t}
++ c.c.\right)
+\\
+&=&
+\left(\frac{F_0^2}{4m}
+\right) \nu\left[-i\chi(\nu)+c.c.
+\right]\quad\text{(other terms average out to 0)}
+\\
+&=&
+\left(\frac{F_0^2}{2m}
+\right) \nu \chi_I(\nu)
+\eeqa
+\qed
