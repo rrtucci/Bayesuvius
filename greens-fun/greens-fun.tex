@@ -1,0 +1,99 @@
+\chapter{Green's function: COMING SOON}
+\label{ch-greens-fun}
+
+
+A {\bf Green's function} (GF)
+(a.k.a. {\bf impulse response
+ function, propagator}) is a solution to an ODE 
+ with a Dirac delta function driving term and satisfying certain
+ initial conditions or boundary conditions. 
+ 
+GFs are very common in Physics and there is much
+to say about them. In this chapter, we will confine ourselves
+to explaining their connection to bnets  and causality.
+For much more info about GFs, see Ref.\cite{wiki-greens-fun}.
+
+\begin{figure}[h!]
+$$
+\xymatrix{
+f(s_1)\ar[d]|{G(t_1, s_1)}
+\ar[dr]\ar[drr]
+&f(s_2)\ar[dl]\ar[d]\ar[dr]
+&f(s_3)\ar[dll]\ar[dl]\ar[d]
+\\
+u(t_1)
+&u(t_2)
+&u(t_3)
+}$$
+\caption{bnet for 
+$u(t)=  \int ds\; G(t, s)f(s)$}
+\label{eq-bnet-greens-fun}
+\end{figure}
+
+For simplicity, assume that $t, s\in \RR$,
+although. As it will become clear,
+all of what we say
+about GF in this chapter,
+can be trivially 
+generalized to $t, s\in \RR^n$
+
+\beq
+\call G(t, s)= \delta(t-s)
+\eeq
+
+\beq
+\underbrace{\int ds\; f(s)\call G(t, s)}_{\call\int ds\; G(t, s)f(s)}= 
+\underbrace{\int ds\; f(s)\delta(t-s)}_{f(t)}
+\eeq
+
+\beq
+u(t)=  \int ds\; G(t, s)f(s)
+\eeq
+satisfies
+
+\beq 
+\call u(t) = f(t)
+\eeq
+
+\beq
+G(t, s) = G(t-s)
+\eeq
+
+\beq
+u(t)=  \int ds\; G(t-s)f(s)
+\implies u(\omega) = G(\omega) f(\omega)
+\eeq
+
+
+
+
+
+
+\begin{claim}
+For a damped harmonic oscillator,
+$\call$ is
+
+\beq
+\call=\partial_t^2 +2\gamma\partial_t + \omega^2_0
+\eeq
+and the GF is
+
+\beq
+G(\tau)=\indi(t>0)
+\left\{
+\begin{array}{ll}
+e^{-\gamma \tau} \, \frac{\sin(\omega \tau)}{\omega}
+\text{ where }\omega =\sqrt{\omega_0^2 -\gamma^2}
+& \text{if $\gamma < \omega_0$}
+\\
+e^{-\gamma \tau} t
+&\text{if $\gamma =\omega_0$}
+\\
+e^{-\gamma \tau} \, \frac{\sinh(\omega \tau)}{\omega}
+\text{ where }\omega =\sqrt{\gamma^2 -\omega_0^2}
+&\text{if $\gamma > \omega_0$}
+\end{array}
+\right.
+\eeq
+where $\tau = t-s$
+\end{claim}
