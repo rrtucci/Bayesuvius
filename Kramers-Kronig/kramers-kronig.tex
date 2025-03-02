@@ -1,28 +1,50 @@
-\chapter{Kramers-Kronig Relations: COMING SOON}
+\chapter{Kramers-Kronig Relations}
 \label{ch-kramers-kronig}
 
 This chapter is mostly based on Ref.\cite{wiki-KKR}.  
 
+Green's functions
+(a.k.a. an impulse response functions) are defined in Chapter \ref{ch-greens-fun}.
 The Kramers-Kronig  relations (KKR)
+connect the real and imaginary parts of 
+a Green's function.
 
-PP will stand for
+Let
+
+PP stand for
  principal part. 
 
-$\Re(z)=z_R$, $\Im(z)=z_I$ for any $z\in\CC$.
+$z_R=\Re(z)$, $z_I=\Im(z)$ for any $z\in\CC$.
+
+Consider a Green's function $\chi(t)$.
+
+Define the  Fourier transform  of $\chi(t)$ by
 
 \beq
-\chi(\omega)=
+\chi(\omega)= \calf[\chi(t)]=
 \int_{-\infty}^\infty dt\; e^{i\omega t}\chi(t)
 \eeq
+Define the inverse Fourier transform of $\chi(\omega)$
+by
 
 \beq
-\chi(t)=
+\chi(t)= \calf^{-1} [x(\omega)]=
 \int_{-\infty}^\infty \frac{d\omega}{2\pi}\; e^{-i\omega t}\chi(\omega)
 \eeq
+
+Recall that the Dirac delta function $\delta(t)$ satisfies
 
 \beq
 \delta(t) = \int_{-\infty}^\infty \frac{d\omega}{2\pi}e^{i\omega t}
 \eeq
+
+\begin{claim}
+
+\beq
+\calf\calf^{-1}[\chi(\omega)]= \chi(\omega)
+\eeq
+\end{claim}
+\proof
 
 \beqa
 \int_{-\infty}^\infty dt\; e^{i\omega t}
@@ -37,6 +59,7 @@ $\Re(z)=z_R$, $\Im(z)=z_I$ for any $z\in\CC$.
 &=&
 \chi(\omega)
 \eeqa
+\qed
 
 \begin{figure}[h!]
 $$
@@ -70,7 +93,7 @@ $$
 $$
 \caption{$(a)$ bnet for Fourier Transform
 , $(b)$ bnet for Inverse Fourier Transform.
-Both for discretized $\omega$ and $t$.}
+Both bnets assume discretized $\omega$ and $t$.}
 \label{fig-fourier-bnet}
 \end{figure}
 
@@ -78,12 +101,16 @@ Both for discretized $\omega$ and $t$.}
 
 \begin{claim}
 $\chi(t)=0$ for $t<0$ $\iff$ $\chi(\omega)$ is analytic 
-in upper half of the $\omega$ complex plane
+in upper half of the $\omega$ complex plane,
 and tends to zero there as $|\omega|\rarrow \infty$.
 \end{claim}
 \proof
 
 Motivation (not rigorous proof)
+
+Consider
+
+
 
 \beq
 \chi(\omega)=
@@ -130,7 +157,7 @@ When $\chi(t)$ is real,
 \begin{claim}(Kramers-Kronig relations)
 
 If $\chi(\omega)$ is analytic 
-in the upper half of the $\omega$ complex plane
+in the upper half of the $\omega$ complex plane,
 and tends to zero there as $|\omega|\rarrow \infty$, then:
 
 \beq
@@ -161,19 +188,31 @@ This immediately implies:
 \centering
 \includegraphics[width=2in]
 {kramers-kronig/closed-path.png}
-\caption{Integration contour in $\omega'$ complex
+\caption{Closed integration contour $\gamma$ in $\omega'$ complex
 plane. Used to prove Kramers-Kronig relations.}
 \label{fig-closed-path-kkr}
 \end{figure}
+
+If $\gamma$ is the closed integration contour presented in Fig.\ref{fig-closed-path-kkr},
+with the large semicircle having a radius $R\rarrow \infty$,
+and the small semicircle having  a radius $\rho\rarrow 0$,
+we must have
 
 \beq
 \int_{\gamma}d\omega'
  \frac{\chi(\omega')}{\omega'-\omega} =0
 \eeq
+The integral over the large semicircle 
+tends to zero as $r\rarrow \infty$. 
+As for the integral over the small 
+semicircle 
+$SC$, we 
+can evaluate it as follows. Let
 
 \beq
 \omega'-\omega = \rho e^{i\theta}
 \eeq
+Then
 
 \beqa
 \int_{SC}\frac{\chi(\omega')}{\omega'-\omega}
@@ -186,6 +225,10 @@ plane. Used to prove Kramers-Kronig relations.}
 &=&
 \chi(\omega)(-i\pi)
 \eeqa
+Combining our results
+for the integrals
+over the various pieces of $\gamma$, 
+we get
  
 \beq
 0=\int_{\gamma}d\omega'
@@ -200,8 +243,9 @@ plane. Used to prove Kramers-Kronig relations.}
 
 \begin{claim}(Kramers-Kronig relations assuming $\chi(t)$ is real)
 
-If $\chi(t)$ is real, then 
-KKG can be recast as follows, so that they only integrate over positive, not negative, frequencies.
+If $\chi(t)$ is real, then the
+KKG can be recast so that they only
+contain integrals over positive, not negative, frequencies.
 
 \beq
 \chi_R =\frac{2}{\pi}
@@ -275,25 +319,26 @@ where
 \beq
 \call= \partial_t^2  + 2\gamma \partial_t + \omega^2_0
 \eeq
-
+and
 
 
 \beq
 f(t) = \frac{F_0}{m}\cos(\omega t +\delta)
 \eeq
-
+We also know that
 
 \beq
 x(t) = \int dt \chi(t -s)f(s)\;,\quad x(\omega)=
 \chi(\omega) f(\omega)
 \eeq
 
-The impulse response function $\chi(t-s)$
-(a.k.a. Green's function) satisfies
+The Green's function $\chi(t-s)$
+satisfies
 
 \beq
 \call\chi(t-s)=\delta(t-s)
 \eeq
+Using
 
 \beq
 \chi(t) =\int_{-\infty}^{\infty}\frac{d\omega}{2\pi}
@@ -303,15 +348,18 @@ e^{-i\omega t}\chi(\omega)
 \int_{-\infty}^{\infty}\frac{d\omega}{2\pi}
 e^{-i\omega t}
 \eeq
+we get
 
 \beq
 \chi(\omega)(-\omega^{2} -i2\gamma\omega  +\omega_0^2)= 1
 \eeq
+so
 
 \beq
 \chi(\omega)=
 \frac{1}{\omega_0^2-\omega^2 - i 2\gamma \omega}
 \eeq
+Hence,
 
 \beq
 \chi_R(\omega)=
@@ -320,6 +368,7 @@ e^{-i\omega t}
 }
 \quad \text{(even function of $\omega$)}
 \eeq
+and
 
 \beq
 \chi_I(\omega)=
@@ -329,13 +378,22 @@ e^{-i\omega t}
 \quad \text{(odd function of $\omega$, vanishes if $\gamma=0$)}
 \eeq
 
+Recall from Physics
+that if $dW$ is an infinitesimal
+amount of work,
+$F$ is a force and $dx$ is
+an infinitesimal displacement, 
 \beq
 dW = -Fdx
 \eeq
+Therefore, the {\bf power dissipation} is
 
 \beq
 P_{diss} = \frac{dW}{dt}  = F \dot{x}
 \eeq
+and its average over a time
+interval $T$
+that covers on full cycle is
 
 \beq
 \av{P_{diss}}=
@@ -344,7 +402,7 @@ P_{diss} = \frac{dW}{dt}  = F \dot{x}
 
 \begin{claim}
 For a damped harmonic oscillator driven by the force $F(t)=F_0\cos(\nu t)$,
-the time averaged power dissipate is 
+the time averaged power dissipation is 
 
 \beq
 \av{P_{diss}}=
