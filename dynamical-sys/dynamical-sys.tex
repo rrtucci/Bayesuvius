@@ -16,9 +16,9 @@ Hence, DS studies a vector equation
 \underbrace{\frac{d\vec{x}}{dt}}_{\dot{\vec{x}}}
 = \vec{f}(\vec{x}, t)
 \eeq
-where $\vec{x},  \vec{f}\in\RR^n$ for nD (i.e., n-dimensions)
-If $\vec{f}(\vec{x},t)$
-depends explicitly on $t$ 
+where $\vec{x},  \vec{f}\in\RR^n$ for nD (i.e., n-dimensions).
+If $\vec{f}(\vec{x},t)$ does not
+depend explicitly on $t$, 
 the ODE is said
 to describe an {\bf autonomous
 system}.
@@ -46,7 +46,7 @@ in which it is highly sensitive to initial conditions. In such cases, random ext
 might become important. Those cases are 
 addressed by Stochastic Differential Equations (see Chapter
 \ref{ch-stochastic-diff-eqns})
-ad Chaos Theory.
+and Chaos Theory.
 
 Control Theory (see Chapter \ref{ch-control-th}) (CT)
 and DS deal with the same subjects, but CT is more
@@ -64,7 +64,7 @@ Hence,
 V - V_0= -\int^x_{x_0} dx \; f(x, t)
 \eeq
 
-Note that this is not the potential of Newtonian mechanics.\footnote{Let $V_N$ and $F_N=\ddot{x}=-\partial_x V_N$ be the potential and force in
+Note that this is not the potential of Newtonian mechanics.\footnote{Let $V_N$ and $F_N=m\ddot{x}=-\partial_x V_N$ be the potential and force in
 Newtonian mechanics. Furthermore,
 assume the simple case $f=\lam x$. Then $\boxed{V=-\lam x^2/2}$. Also
 $F_N=m \ddot{x} =m\dot{f}=
@@ -100,7 +100,7 @@ and away from a repeller.
 
 Besides being an attractor or a repeller, a fixed point can be a
 {\bf saddlepoint}. A saddlepoint
-attracts in some directions and repel in others. 
+attracts in some directions and repels in others. 
 
 A {\bf monostable/bistable/multistable}
 system has one/two/multiple
@@ -512,16 +512,16 @@ In this section, we classify the fixed points for
 \eeq
 where $\vec{x}\in\RR^2$
 and $A\in\RR^{2\times 2}$.
-But note
+Note
 that if $A$ is invertible
 (i.e., if $\det A \neq 0$),
-this classification of
+this classification
 also applies to
 
 \beq
 \dot{\vec{x}}=A\vec{x} + \vec{c}
 \eeq
-where $\vec{c}\in\RR^2$,
+where $\vec{c}\in\RR^2$.
  Indeed, 
  
 \beq
@@ -636,18 +636,18 @@ via an orthogonal matrix $Q$.
 \beq
 A = Q^TDQ
 \eeq
-From $Q^TQ=QQ^T=1$, we get
+The orthogonal matrices $Q$ satisfies $Q^TQ=QQ^T=1$, so
 
 \beq
-\ddot{\vec{x}}=A\vec{x}
+\dot{\vec{x}}=A\vec{x}
 \implies
-\underbrace{Q\ddot{\vec{x}}}_{\ddot{\vec{\xi}}}= D \underbrace{Q\vec{x}}_{\vec{\xi}}
+\underbrace{Q\dot{\vec{x}}}_{\dot{\vec{\xi}}}= D \underbrace{Q\vec{x}}_{\vec{\xi}}
 \eeq
 If $\vec{\xi} = (\xi_1, \xi_2)^T$,
 then
 
 \beq
-\ddot{\xi}_i = \lam_i\xi_i\quad \text{for $i=1,2$}
+\dot{\xi}_i = \lam_i\xi_i\quad \text{for $i=1,2$}
 \eeq
 If we define
 
@@ -661,12 +661,13 @@ then
 \eeq
 Note that
 
-\beq
+\beqa
 V=
--\frac{1}{2}\vec{\xi}^TD\vec{\xi}=
-=-\frac{1}{2}\vec{x}^TQ^TQ\vec{x}
-\eeq
-$\vec{x}^TQ^TQ\vec{x}$ is what is called a
+-\frac{1}{2}\vec{\xi}^TD\vec{\xi}
+=-\frac{1}{2}\vec{x}^TQ^T D Q\vec{x}
+= -\frac{1}{2}\vec{x}^TA\vec{x}
+\eeqa
+$\vec{x}^TA\vec{x}$ is what is called a
 {\bf quadratic form}.
 
 
@@ -1171,7 +1172,7 @@ are defined similarly. }
 \section{Homoclinic and Heteroclinic orbits}
 
 As illustrated by Fig.\ref{fig-homo-hetero-clinic}, 
-a {\bf homoclinic (or heteroclinic) orbit}  is a closed trajectory which contains a one saddlepoint if homoclinic (or two if heteroclinic), and for which the flow runs
+a {\bf homoclinic (or heteroclinic) orbit}  is a closed trajectory which contains one saddlepoint if homoclinic (or two if heteroclinic), and for which the flow runs
 parallel to the surface, both inside and outside. 
 Homoclinic and heteroclinic orbits have a parallel
 flow pattern inside and outside, just like center cycles, but,
@@ -1228,7 +1229,7 @@ then this equation can be transformed into two 1st order ODE
 \begin{array}{l}
 \dot{x} = v
 \\
-\dot{v} = -2\gamma v -\omega^2_0 x - \frac{F_0}{m} \cos(\omega t)
+\dot{v} = -2\gamma v -\omega^2_0 x + \frac{F_0}{m} \cos(\omega t)
 \end{array}
 \right.
 \eeq 
@@ -1245,7 +1246,7 @@ $x_h$ is the {\bf homogeneous solution}
 be given next.
 
 \begin{claim}\label{cl-ho-solutions}
-For the harmonic oscillator Eq.(\ref{eq-ho}), the homogeneous solution $x_h$
+For the damped harmonic oscillator Eq.(\ref{eq-ho}), the homogeneous solution $x_h$
 is
 
 \begin{itemize}
@@ -1327,12 +1328,12 @@ A_h e^{-\gamma t}[ \cos(\epsilon t)\cos(\delta)-
 \eeqa
 \qed
 
-The most interesting damped case is often assumed; namely, 
+The most interesting case 
+of Claim \ref{cl-ho-solutions} is often assumed; namely, 
 underdamping
 $0\leq \gamma< \omega_0$
 
-Claim \ref{cl-ho-solutions}
-assumes $\gamma\geq 0$. If $\gamma <0$, we get
+If $\gamma <0$, we get
 an oscillation with exponentially increasing amplitude.
 This is no longer damping, although it is sometimes 
 referred to as {\bf negative damping}. Negatively damped 
@@ -1345,7 +1346,7 @@ for very long time because any real system has finite resources
 and that will cap the growth.
 
 \begin{claim}
-For the harmonic oscillator Eq.(\ref{eq-ho}), the particular
+For the damped harmonic oscillator Eq.(\ref{eq-ho}), the particular
 solution $x_p$ is
 
 \beq
@@ -1404,12 +1405,12 @@ A &=& \frac{F_0}{m}\frac{1}{
 Furthermore
 
 \beqa
-e^{-i\delta t} \frac{z}{|z|}=1
+e^{-i\delta } \frac{z}{|z|}=1
 \eeqa
 so
 
 \beq
-\delta =\angle \left( \frac{z}{|z|}\right)
+\delta  =\angle \left( \frac{z}{|z|}\right)
 \eeq
 which means
 
@@ -1442,7 +1443,7 @@ where
 \eeq
 
 \begin{claim}
-The power spectrum for the harmonic oscillator Eq.(\ref{eq-ho})
+The power spectrum for the damped harmonic oscillator Eq.(\ref{eq-ho})
 is as follows:
 
 \beq
@@ -1657,7 +1658,8 @@ has a desirable property which the linear oscillator doesn't have. Indeed, note 
 \includegraphics[width=2.3in]
 {dynamical-sys/3-oscillator-spectra.png}
 \caption{Spectra for 3 types of oscillators: Van der Pol, 
-Raleigh and V-R hybrid.}
+Raleigh and V-R hybrid.
+$V>0, R>0$ for V-R hybrid.}
 \label{fig-3-oscillator-spectra}
 \end{figure}
 
@@ -1690,14 +1692,16 @@ using the fact that $\av{\cos^2(\omega t)}
 \av{2\gamma + V x^2 + R \dot{x}^2}
 \\
 &=& 
-2\gamma + \frac{A^2}{2}(V  - \omega_0^2 R)
+2\gamma + \frac{A^2}{2}(V  + \omega_0^2 R)
 \eeqa
 so
 
 \beq
 |\TIL{x}(\nu=\omega_0)|\approx
+\left|
 \frac{A}{2[\gamma + \frac{A^2}{4}
-(V-\omega_0^2 R)]}
+(V+\omega_0^2 R)]}
+\right|
 \eeq
 
 As $\omega_0\rarrow
@@ -1710,13 +1714,13 @@ As $\omega_0\rarrow
 |\TIL{x}|\propto \text{constant}
 \eeq
 
-\item if $V= 0$, $R< 0$
+\item if $V= 0$, $R> 0$
 
 \beq
 |\TIL{x}|\propto \frac{1}{\omega_0^2}
 \eeq
 
-\item if $V\neq 0$, $R< 0$ (V-R hybrid)
+\item if $V> 0$, $R> 0$ (V-R hybrid)
 
 \beq
 |\TIL{x}|\propto \frac{1}{V + \omega_0^2 R}
@@ -1731,7 +1735,8 @@ is flat for a linear or V oscillator,
 but for a V-R hybrid oscillator, 
  it is shaped like a low pass filter with a region which is a reasonable approximation to a  line
  with negative slope.
- Ref.\cite{dynamical-fuchs} explains 
+ Ref.\cite{dynamical-fuchs} 
+ points out 
  that experimental findings for human limb motion
  are best modeled as V-R hybrid oscillations.
  
@@ -1820,7 +1825,7 @@ For a harmonic oscillator, this becomes
 \dot{x}\ar[r]
 &L\ar[r]\ar@/^1pc/[rr]
 &\partial_x L\ar[dr]|\redplus
-&\partial_{\dot{x}}L\ar[d]|{\;\redplus}
+&\partial_{\dot{x}}L
 \\
 &&&\frac{d}{dt}\left(\partial_{\dot{x}}L\right)
 }
@@ -2147,7 +2152,7 @@ i\hbar\partial_t \Psi =\left[
 \rvx\ar@/_1pc/[drrr]|\redminus 
 \ar[r]
 &(1-\rvx^2)\ar[r]
-&\bigotimes\ar[dll]|\redplus
+&\bigotimes\ar[dr]|\redplus
 &\rvv\ar[dlll]|\redplus
 \ar[l]
 \\
