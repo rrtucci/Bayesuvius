@@ -6,19 +6,27 @@ This chapter is mostly based on Ref.\cite{alon-book},
 an excellent textbook by Uri Aron 
 on {\bf Systems Biology}. That book divides its chapters into 3 \qt{Parts}: Network Motifs, Robustness and Optimality. In this chapter, we cover only the first part, {\bf Network Motifs} (NM), as it is the part that is most relevant to bnets. {\bf Autoregulon networks}
 is an alternative name for NM. 
+Henceforth, we will use AR as 
+an abbreviation of either
+\qt{autoregulon}
+or \qt{autoregulation},
+depending on context.
 
 In this chapter, we discuss,
-from a causal inference perspective, a  special 
+from a mathematical and causal inference perspective, a  special 
 class of 
 S1ODE (system of first order ordinary differential equations) that occurs in biology/genomics.
+At the end of this chapter,
+we discuss briefly the biological
+underpinnings of the math, but 
+to a much lesser extent than Alon's book.
  Like this chapter, 
 Alon's book describes the mathematical aspects of
  S1ODEs. But it 
 also describes  in detail where they occur in biology/genomics and what experimental data exists as evidence that they are 
-realized in Nature. We discuss briefly the biological
-underpinnings of the math, but 
-to a much lesser extent than Alon's book.
-If you are new to genomics (like me, a physicist), and would like start educating yourself about the subject
+realized in Nature. 
+
+If you are new to genomics (like me, a physicist), and would like to start educating yourself about the subject
 of genomics, you might find Appendix \ref{ch-genomics-vocab} helpful.
 
 
@@ -139,7 +147,7 @@ like $\dot{x}$,
 are nodes.
 Subgraphs of such bnets, especially those
 subgraphs that recur frequently as building blocks, are called
-a {\bf network motifs}.  The most basic
+{\bf network motifs}.  The most basic
 of the network motifs is the {\bf autoregulon},
 which we discuss next.  All bnets
 in this chapter can be viewed as {\bf autoregulon
@@ -199,14 +207,14 @@ h(x)=\left\{
 &(\text{ideal lowpass filter})
 \\
 h_0+|h_1| x
-&(\text{positive feedback})
+&(\text{linear positive AR})
 \\
 h_0 -|h_1| x
-&(\text{negative feedback})
+&(\text{linear negative AR})
 \end{array}
 \right.
 \eeq
-where $\beta>0$.
+where $\beta, K>0$.
 
 
 \subsection{Autoregulon notation}
@@ -218,7 +226,7 @@ $\xymatrix{\Rect{\rvx}}$ to denote any
 autoregulon $\rvx$
 
 \item
-$\xymatrix{\Rect{\rvx^\redoplus}}$ to denote a highpass 
+$\xymatrix{\Rect{\rvx^\redoplus}}$ to denote an $h_\oplus$ or ideal highpass 
 autoregulon $\rvx$
 
 Ref.\cite{alon-book}
@@ -226,7 +234,7 @@ denotes this by
 $\xymatrix{\rvx\loopright{3}{}}$
 
 \item
-$\xymatrix{\Rect{\rvx^\redominus}}$ to denote a lowpass 
+$\xymatrix{\Rect{\rvx^\redominus}}$ to denote an $h_\ominus$ or ideal lowpass 
 autoregulon $\rvx$
 
 Ref.\cite{alon-book}
@@ -235,12 +243,12 @@ $\xymatrix{\rvx\loopright{3}{@{-|}}}$
 
 
 \item
-$\xymatrix{\Rect{\rvx^\redplus}}$ to denote a positive feedback 
+$\xymatrix{\Rect{\rvx^\redplus}}$ to denote a linear positive AR 
 autoregulon $\rvx$
 
 
 \item  $\xymatrix{\Rect{\rvx^\redminus}}$
-to denote a negative feedback 
+to denote a linear negative AR 
 autoregulon $\rvx$. 
 
 
@@ -286,7 +294,7 @@ near $x=K$, $h_{\oplus}$ is
 approximately linear
 with positive slope.
 Hence,  $h_{\oplus}$
-is closely related to positive feedback, as their symbols
+is closely related to linear positive AR, as their symbols
 $\redoplus$ and $\redplus$ suggest. 
 
 The last paragraph is still true if we replace the terms (positive, $\redoplus$, 
@@ -333,7 +341,7 @@ For example,
 $h_\oplus(x)\indi_{t_1}^{t_2}(t)$
 is the pulsed $h_\oplus(x)$.
 
-Note that
+Note that for $t_1<t_2$,
 
 \beqa
 \indi_{t_1}^{t_2}(t)
@@ -349,7 +357,7 @@ Note that
 In this section, we will discuss the 
 potential function $V(x)$ for autoregulons.
 Recall from Chapter \ref{ch-dynamical-sys}
-that $f=-\partial_t V$  for a dynamical
+that $f=-\partial_x V$  for a dynamical
 system $\dot{x}=f(x)$.
 
 Let
@@ -510,8 +518,8 @@ From that figure, we learn that if $h$ is highpass, it has one or two minima:
 \end{itemize}
 
 
-\item {\bf linear $h$} (positive feedback if $h_1>0$,
-negative feedback otherwise)
+\item {\bf linear $h$} (positive AR if $h_1>0$,
+negative AR otherwise)
 
 When
 
@@ -524,7 +532,7 @@ we have
 V= \frac{\alp'}{2}(x-x_h)^2
 \eeq
 
-See Fig.\ref{fig-v-low-high-pass}
+See Fig.\ref{v-faster-same-slower}
 for a plot of this $V$ for various 
 choices of $\alp'=\alp-h_1$.
 
@@ -561,15 +569,15 @@ As can be easily checked, the
  most general solution of this ODE is
 
 \beq
-x(t)=\underbrace{\xi  e^{-\alp' t} }_{x_h}+
-\underbrace{x_h\left[1-e^{-\alp' t}\right]}_{x_p}
+x(t)=\underbrace{\xi  e^{-\alp' t} }_{x_H}+
+\underbrace{x_h\left[1-e^{-\alp' t}\right]}_{x_P}
 \eeq
 for some $\xi\in\RR$.
-$x_h$ is called the {\bf homogeneous solution} (independent of $h$)\footnote{
-$x_h$ satisfies the homogeneous ODE, i.e., the
-ODE with $h(x)=0$.
-}
-and $x_p$ is called the {\bf particular solution} (dependent on $h$).
+$x_H$ is called the {\bf homogeneous solution}
+and $x_P$ is called the {\bf particular solution}.
+$x_H$ satisfies the homogeneous ODE, i.e., the
+ODE with $h_0=0$. $x_P$ satisfies the ODE for any 
+value of $h_0$.
 \footnote{
 If we integrate both sides of
 $\frac{dx}{-\alp' (x-x_h)}=dt$,
@@ -577,7 +585,7 @@ we get the particular solution.
 To get the homogeneous 
 solution,
 we must integrate both sides
-of $dx$ = $dt$.}
+of $\frac{dx}{-\alp' x}=dt$.}
 From this general solution, we conclude that
 
 \begin{itemize}
@@ -601,15 +609,23 @@ we can have a convergence rate (CR)
 \begin{itemize}[$\checkmark$]
 
 \item \ul{if $0<h_1<\alp$, then:} $\alp'<\alp$, 
-CR is slower than $\alp$, {\bf positive autoregulation (PAR)}, positive feedback
+CR is slower than $\alp$, {\bf positive autoregulation (PAR)}
 
 \item \ul{if $h_1=0$, then:} $\alp'=\alp$, CR is same as $\alp$,
 {\bf zero autoregulation (ZAR)}
 
 \item \ul{if $h_1<0$, then:} $\alp'>\alp$, CR is faster than $\alp$,
-{\bf negative autoregulation (NAR)},
-negative feedback
+{\bf negative autoregulation (NAR)}
 \end{itemize}
+Note that in all 3 cases, PAR, ZAR, NAR, we have 
+overall negative feedback
+(i.e., $\alp'>0$), so 
+the words \qt{autoregulation}
+and \qt{feedback} are not
+interchangeable. 
+\qt{positiive autoregulation}
+is more akin to \qt{positive slowdown}.
+
 \end{itemize}
 
 
@@ -635,7 +651,7 @@ be either faster, the same or slower than $\alp$.
 \includegraphics[width=4in]
 {autoregulons/autoreg-lowpass.png}
 \caption{Approximate $x(t)$
-for an autoregulon with a lowpass $h$
+for an autoregulon with an ideal lowpass $h$
 and $x(0) =0$}
 \label{fig-autoreg-lowpass}
 \end{figure}
@@ -722,7 +738,7 @@ so $\dot{x}=0$ at $x=K$.
 \centering
 \includegraphics[width=4in]
 {autoregulons/autoreg-highpass.png}
-\caption{Approximate $x(t)$ for an autoregulon with a highpass $h$
+\caption{Approximate $x(t)$ for an autoregulon with an ideal highpass $h$
 and $x(0)>K$.}
 \label{fig-autoreg-highpass}
 \end{figure}
@@ -896,8 +912,9 @@ $y=\alp x$ and $y=h(x)$ intersect. When $h(x)$ is
 
 \begin{itemize}
 \item
-a straight line as in positive or negative
-feedback
+a straight line as in 
+linear positive or negative
+AR
 \item an $\ominus$ Hill function or 
 its large $n $ limit, an ideal lowpass filter
 \end{itemize}
@@ -945,7 +962,7 @@ provide {\bf long term memory}.
 The process is described by the ODE
 
 \beq
-\dot{x}= -\alp x + h_\oplus(x) + \gamma\indi_{0}^{t_2}(y)
+\dot{x}= -\alp x + h_\oplus(x) + \gamma\indi_{t_1}^{t_2}(y)
 \eeq
 Assuming the system is initially in sink $A$,
 the $y$ pulse jolts the system to sink $B$.
@@ -1096,7 +1113,7 @@ on the sign of $\Delta$).
 In this section we consider the following bnets,
 which we call 
 the {\bf linearized double positive and double negative (or
-$(-)^2$ and $(+)^2$, for short) feedback loops}
+$(-)^2$ and $(+)^2$, for short) AR loops}
 
 \beq
 \begin{array}{ccc}
@@ -1206,7 +1223,7 @@ and in particular Fig.\ref{fig-wiki-pp} for what that entails. This system has a
 In the linear approximation (or the case of $n=1$ Hill functions), the two autoregulon system has only 1 sink. In this section, we consider the nonlinear case with two sinks and one source. The two sinks can be used as
 ON, OFF states of a switch.
 
-In this section we consider the following bnet,
+More specifically, in this section we consider the following bnet,
 which we call a {\bf genetic toggle switch}
 (\OTO\cite{OTO})
 
@@ -1241,6 +1258,10 @@ for genetic toggle switch.}
 \label{fig-2dim-3fp}
 \end{figure}
 
+Fig.\ref{fig-2dim-3fp}
+shows a Phase Portrait
+for the genetic 
+toggle switch.
 We can say the system is in the (ON, ON) position
 when it's at sink $A$ and $x=x_A$, $y=y_A$.
 We can say the system is in the (OFF, OFF) position
@@ -1304,13 +1325,13 @@ Define $x=x_\infty$ as ON, and $x=0$ as OFF. Same for $y$.
 \centering
 \includegraphics[width=4in]
 {autoregulons/double-plus-minus-tables.png}
-\caption{Steady state behavior tables for $(-)^2$ and $(+)^2$ feedback loop nets. 
+\caption{Steady state behavior tables for $(-)^2$ and $(+)^2$ AR loop nets. 
 The red, crossed out entries are untenable.}
 \label{fig-double-plus-minus-tables}
 \end{figure}
 
 It's easy to conclude from our knowledge
-of the general solution to the autoregulon ODE, that the table
+of the general solution to the autoregulon ODE, that table
 Fig.\ref{fig-double-plus-minus-tables}
 correctly describes the steady state 
 (i.e., $t\rarrow \infty$ limit) of 
@@ -1414,7 +1435,7 @@ This figure is based on Fig.\ref{fig-double-plus-minus-tables} }
 \label{fig-reg-double-plus-minus-tables}
 \end{figure}
 It's easy to conclude from our knowledge
-of the general solution to the autoregulon ODE, that the table
+of the general solution to the autoregulon ODE, that  table
 Fig.\ref{fig-reg-double-plus-minus-tables}
 correctly describes the steady state 
 (i.e., $t\rarrow \infty$ limit) of 
@@ -1596,7 +1617,7 @@ $$
 $$
 \caption{$(a)$ is a coherent FFL 
  because the product of the signs of its arrows is $+$.
-$(b)$ is an incoherent FFL because because the product of the signs of its arrows is $-$.
+$(b)$ is an incoherent FFL because the product of the signs of its arrows is $-$.
 The $+$'s can be changed to $\oplus$'s and
 the $-$'s to $\ominus$'s.
 }
@@ -1713,7 +1734,8 @@ Feed Forward Loop).
 \right.
 \label{eq-c1-ffl-simp}
 \eeq
-The underlined term in 
+where all the alphas, betas and Ks
+are positive. The underlined term in 
 Eq.(\ref{eq-c1-ffl-simp})
 is the only
 difference between the
@@ -1861,7 +1883,7 @@ shows the waveforms for $x(t), y(t), z(t)$
 assuming $x(t)$ is either 
 a step function rising from 0 at $t=0$,
 a step function falling to zero at $t=0$,
-or a unit pulse $\indi_0^{t_1}(t)$.
+or a unit pulse $\indi_{t_1}^{t_2}(t)$.
 
 \subsection{I1-FFL}
 
@@ -1971,7 +1993,8 @@ z_{max} e^{-\alp_3 (t-t_{max})}+ z_\infty(1- e^{-\alp_3 (t-t_{max})})
 \end{array}
 \right.
 \eeq
-where 
+where $t_{max}$ and $z_{max}$
+are defined by
 
 \beq
 K_{y\rarrow z}=y_\infty(1- e^{-\alp_2 t_{max}})
@@ -2071,7 +2094,11 @@ If $y=0$ for $t<t_{lag, y}$, then
 y = y_\infty(1 - e^{-\alp_y(t-t_{lag, y})})
 \quad\text{for $t>t_{lag, y}$}
 \eeq
-where $x(t_{lag, y})= K_{x\rarrow y}$.
+where $t_{lag,y}$ is defined by
+
+\beq
+x(t_{lag, y})= K_{x\rarrow y}
+\eeq
 
 If $z=0$ for $t<t_{lag, z}$, then
 
@@ -2079,7 +2106,11 @@ If $z=0$ for $t<t_{lag, z}$, then
 z = z_\infty(1 - e^{-\alp_z(t-t_{lag, z})})
 \quad\text{for $t>t_{lag, z}$}
 \eeq
-where $y(t_{lag, z})= K_{y\rarrow z}$.
+where $t_{lag, z}$ is defined by
+
+\beq
+y(t_{lag, z})= K_{y\rarrow z}
+\eeq
 
 \item {\bf lowpass filter chain}
 
@@ -2103,7 +2134,11 @@ If $y=y_0$ for $t<t_{lag, y}$, then
 y = y_0 e^{-\alp_y(t-t_{lag, y})}
 \quad\text{for $t>t_{lag, y}$}
 \eeq
-where $x(t_{lag, y})= K_{x\rarrow y}$.
+where $t_{lag, y}$ is defined by
+
+\beq
+x(t_{lag, y})= K_{x\rarrow y}
+\eeq
 
 If $z=0$ for $t<t_{lag, z}$, then
 
@@ -2111,7 +2146,11 @@ If $z=0$ for $t<t_{lag, z}$, then
 z = z_\infty(1 - e^{-\alp_z(t-t_{lag, z})})
 \quad\text{for $t>t_{lag, z}$}
 \eeq
-where $y(t_{lag, z})= K_{y\rarrow z}$.
+where $t_{lag, z}$
+is defined by
+\beq
+y(t_{lag, z})= K_{y\rarrow z}
+\eeq
 \end{enumerate}
 
 
@@ -2568,7 +2607,7 @@ x=
 \begin{array}{ll}
 x_\infty(1-e^{-\alp t})& \text{if $t<t_2$}
 \\
-x_{max}e^{-\alp t}
+x_{max}e^{-\alp (t-t_2)}
 & \text{if $t>t_2$}
 \end{array}
 \right.
@@ -2581,12 +2620,31 @@ y_i=
 \left\{
 \begin{array}{ll}
 y_{\infty, i}(1-e^{-\alp_i (t-t_{lag,i})})
-&\text{if$x>K_i$}
+&\text{if $x>K_i$}
 \\
 y_{max,i}e^{-\alp_i(t-t_{max,i})}
 &\text{if $x<K_i$ }
 \end{array}
 \right.
+\eeq
+where $t_{lag,i}$, $x_{max}$,
+$t_{max,i}$, $y_{max,i}$
+for $i=1,2,3$
+are defined by
+
+\beq
+\begin{array}{l}
+x_{\infty}(1-e^{-\alp t_{lag,i}})=K_i
+\\
+x_\infty(1-e^{-\alp t_2})=
+x_{max}
+\\
+x_{max}e^{-\alp t_{max,i}}=K_i
+\\
+y_{\infty, i}
+(1-e^{-\alp_i(t_{max,i}
+-t_{lag,i})})=y_{max,i}
+\end{array}
 \eeq
 
 
@@ -2648,9 +2706,9 @@ Define
 
 \beq
 x_\infty= \frac{\beta_x}{\alp_x}\;,\;\;
-y_\infty= \frac{\beta_x}{\alp_x}\;,\;\;
-z_{\infty, 1}= \frac{\beta_x}{\alp_x}\;,\;\;
-z_{\infty, 2}= \frac{\beta_x}{\alp_x}
+y_\infty= \frac{\beta_y}{\alp_x}\;,\;\;
+z_{\infty, 1}= \frac{\beta_1}{\alp_x}\;,\;\;
+z_{\infty, 2}= \frac{\beta_2}{\alp_x}
 \eeq
 
 If $x(0)=0$
@@ -2662,21 +2720,21 @@ x=
 x_\infty(1-e^{-\alp_x t})
 &\text{if }t<t_2
 \\
-x_{max}e^{-\alp_x (t-t_{max})}
+x_{max}e^{-\alp_x (t-t_2)}
 &\text{if }t>t_2
 \end{array}
 \right.
 \eeq
 
-If $y(t_{lag})=0$
+If $y(t_{lag, y})=0$
 \beq
 y=
 \left\{
 \begin{array}{ll}
 y_\infty(1-e^{-\alp_y (t-t_{lag})})
-&\text{if }t_{lag}<t<t_2
+&\text{if }t_{lag, y}<t<t_2
 \\
-y_{max}e^{-\alp_y (t-t_{max})}
+y_{max}e^{-\alp_y (t-t_2)}
 &\text{if }t>t_2
 \end{array}
 \right.
@@ -2687,7 +2745,7 @@ For $i=1,2$, if $z(t_{lag, i})=0$
 z_i=
 \left\{
 \begin{array}{ll}
-z_{\infty, i}(1-e^{-\alp_i t_{lag, i}})
+z_{\infty, i}(1-e^{-\alp_i (t-t_{lag, i})})
 &\text{if }x>K_i
 \\
 z_{max, i}e^{-\alp_i (t-t_{max, i})} 
@@ -2696,9 +2754,30 @@ z_{max, i}e^{-\alp_i (t-t_{max, i})}
 \end{array}
 \right.
 \eeq
+where $x_{max}$, $t_{lag,y}$, 
+$t_{lag, i}$, $y_{max}$,
+$t_{max, i}$ and $z_{max,i}$
+for $i=1,2$ 
+are defined by
 
-
-
+\beq
+\begin{array}{l}
+x_{\infty}(1-e^{-\alp_x t_2})=
+x_{max}
+\\
+x_{\infty}(1-e^{-\alp_x t_{lag, y}})=
+K_y
+\\
+x_{\infty}(1-e^{-\alp_x t_{lag, i}})=
+K_i
+\\
+y_\infty(1-e^{-\alp_y (t_2-t_{lag, y})}) = y_{max}
+\\
+y_{max}e^{-\alp_y (t_{max, i}-t_2)}= K_i'
+\\
+z_{\infty, i}(1-e^{-\alp_i (t_{max, i}-t_{lag, i})})=z_{max,i}
+\end{array}
+\eeq
 \subsection{Bacillus Subtilis Sporation net}
 
 In this section,
@@ -2734,7 +2813,6 @@ which we call the
 &&\Rect{\rvz_3}
 }
 \eeq
-Bacillus Subtilis  Sporation net
 
 
 \subsection{Frog Egg Cell Cycle net}
@@ -2811,9 +2889,7 @@ pulse autoregulon by
 \right.
 \label{eq-pulsed-autoreg}
 \eeq
-Compare the ODE Eq.(\ref{eq-pulsed-autoreg}) for
-a \qt{pulse} autoregulon  
-to the ODE for a  \qt{normal} 
+Compare the ODE for a  \qt{normal} 
 autoregulon defined by
 
 \beq
@@ -2825,6 +2901,8 @@ autoregulon defined by
 + \underbrace{h_\oplus(x)}_{\text{production}}
 \right.
 \eeq
+to the ODE Eq.(\ref{eq-pulsed-autoreg}) for
+a \qt{pulse} autoregulon.
 
 \begin{figure}[h!]
 \centering
