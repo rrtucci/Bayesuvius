@@ -1,0 +1,639 @@
+\documentclass[12pt]{report}
+\input{../bayesuvius.sty}
+\input{../bayesuvius-do-calc-proofs-decs.sty}
+\begin{document}
+
+\chapter{Uplift Modelling with Trees}
+\label{ch-uplift-tree}
+
+
+In this chapter,
+we will describe
+how to build UM decision trees (UM dtrees),
+and explain why they are needed
+for UM. This section is based
+mainly on Ref.\cite{jaros} (highly recommended).
+
+\section{ACE definition}
+Recall
+the following technical formulae
+that were proven in
+Chapter \ref{ch-pot-out}:
+
+\begin{itemize}
+
+\item
+Recall Eq.(\ref{eq-ace-propensity}):
+
+\beq
+ACE =\sum_x P(x)
+\underbrace{
+\sum_y y\left[
+P(y|d=1, x)
+-
+P(y|d=0, x)
+\right]
+}_{ACE_x}
+\eeq
+If $\rvy\in \bool$, then
+
+\beq
+ACE_x
+=
+\underbrace{
+P_{\rvy|\rvd, \rvx}(1|1, x)
+}_{\displaystyle Y^1_x}
+-
+\underbrace{
+P_{\rvy|\rvd, \rvx}(1|0, x)
+}_{\displaystyle Y^0_x}
+\;.
+\eeq
+
+\item
+Recall
+Eq.(\ref{eq-ace-esti-posi}):
+
+\beq
+\HAT{ACE_x}
+=
+\underbrace{
+\frac{1}{N_x}
+\sum_{\s \in A_x}
+\frac{d^\s y^\s}{g_{1|x^\s} }
+}_
+{\displaystyle Y_x^1}
+-
+\underbrace{
+\frac{1}{N_x}
+\sum_{\s \in A_x}
+\frac{(1-d^\s)y^\s}{g_{0|x^\s} }
+}_
+{\displaystyle Y_x^0}
+\label{eq-est-ace-uplift}
+\eeq
+\end{itemize}
+
+\section{UM Analysis}
+
+The input
+to UM is a PO
+dataset $DS= \{ (\s, d^\s, x^\s, y^\s):
+ \s\in\Sigma\}$.
+where $d^\s\in \bool$, $x^\s \in val(\rvx)$,
+$y^\s\in \RR$.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2in]
+{../uplift/uplift-bins.png}
+\caption{
+Pictorial
+representation
+of the sequence
+$\{(\calx_c, \Delta_c)\}_{c=0, 1, \ldots, nc-1}$.
+}
+\label{fig-uplift-bins}
+\end{figure}
+
+
+Starting with $DS$,
+UM performs the following steps.
+Fig.\ref{fig-uplift-bins}
+is a pictorial representation
+of the quantities
+that are calculated
+during these steps.
+
+\begin{enumerate}
+\item Find
+
+\beq
+A_x = \{\s: x^\s \approx x\}\eeq
+for each observed $x\in val(\rvx)$.
+Set $A_x=\emptyset$ for unobserved $x\in val(\rvx)$.
+
+\item Use Eq.(\ref{eq-est-ace-uplift})
+to calculate $\delta_x$
+for each $x\in val(\rvx)$.
+Set $\delta_x=0$ if $A_x=\emptyset$.
+
+\item Partition
+the set $\{\delta_x: x\in val(\rvx)\}$
+into disjoint bins. Call
+$\Delta_c$  the average $\delta_x$
+within bin $c$ for $c=0, 1, \ldots, nc-1$.
+The class labels
+$c$ should be assigned
+so that the sequence of
+$\Delta_c$
+is monotonic and non-increasing; i.e.,
+
+\beq
+\Delta_0 \geq \Delta_{1}\geq\cdots \geq \Delta_{nc-1}
+\;.
+\eeq
+Now calculate
+
+\beq
+\calx_c =\{ x: \delta_x \approx \Delta_c\}
+\eeq
+ for each $c$.
+By the end of this step,
+we will have calculated
+$\{(\calx_c, \Delta_c)\}_{c=0, 1, \ldots, nc-1}$
+from $\{(x, \delta_x)\}_{x\in val(\rvx)}$.
+We will refer to the $\calx_c$
+as {\bf stratum-bins}. Note that
+\beqa
+\Delta_c &=&\frac{1}{|\calx_c|}\sum_{x\in\calx_c}\delta_x
+\\
+&=&
+\underbrace{\frac{1}{|\calx_c|}\sum_{x\in\calx_c}Y^1_x}_
+{\displaystyle Y^1_c}
+-
+\underbrace{\frac{1}{|\calx_c|}\sum_{x\in\calx_c}Y^0_x}_
+{\displaystyle Y^0_c}
+\;.
+\label{eq-Delta-c}
+\eeqa
+\item
+For each $c$,
+calculate
+
+\beq
+A_{x,d}=\{\s\in A_x: d^\s = d\}
+\eeq
+
+\beq
+\Sigma_{d,c}=\cup_{x\in \calx_c}A_{x,d}
+\eeq
+for $d\in\bool$
+and
+
+\beq
+\Sigma_{c}=\Sigma_{0,c}
+\cup \Sigma_{1,j}
+\;.
+\eeq
+\end{enumerate}
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4in]
+{../uplift/qini-fake.png}
+
+\caption{
+Plot
+of UM results.
+}
+\label{fig-qini-fake}
+\end{figure}
+Fig.\ref{fig-qini-fake}
+is a  way of
+plotting
+the results
+of UM in an
+intuitive
+way.
+
+
+Another common plot of UM results is
+called a {\bf Qini
+curve}.
+A Qini curve is a plot
+of $(X_c,Y_c)$
+for all $c$, where
+
+\beq
+X_c= \sum_{c'=0}^{c}\sum_{x\in \calx_{c'}}|A_x|
+\eeq
+is the cumulative population (counting the
+samples in
+order of decreasing uplift) and
+
+\beq
+Y_c=\sum_{c'=0}^c \Delta_{c'}
+\eeq
+is the cumulative uplift.
+As $c$ increases, a Qini curve rises fast at first and then its slope decreases until
+at some value $c_0$, the slope is defined as too small to care. No marketing resources are
+directed towards
+participants $\s$ for whom  $c>c_0$.\footnote{
+Let
+$S_{\Delta} = \{\s:\delta^\s \geq \Delta\}$.
+A Qini curve can also be defined, without stratification,
+as a
+ plot of $(X_\Delta, Y_\Delta)$ for all $\Delta>0$,
+where $
+X_\Delta = |S_{\Delta}|$
+and
+$
+Y_\Delta= \sum_{\s\in S_{\Delta}}\delta^\s
+$. As $\Delta$ decreases, a Qini curve rises fast at first and then its slope decreases.
+}
+
+\section{Trees}
+
+Generic dtrees are
+described in Chapter \ref{ch-dtree}.
+In the discussion below, we will assume that the reader has read
+that chapter already.
+
+For our previous discussion,
+we assumed a dataset
+$DS= \{ (\s, d^\s, x^\s, y^\s):
+ \s\in\Sigma\}$ and
+ assumed we had a stratifying
+ method to obtain the stratum
+ $c^\s$ of each sample $\s$.
+In this section, we will assume
+from the onset an
+extended dataset
+$DS^+= \{ (\s, c^\s, d^\s, x^\s, y^\s):
+ \s\in\Sigma\}$
+that contains the stratum $c^\s$ for each sample $\s$.
+This extended dataset will be used
+to train a dtree to find the stratum of
+a sample. Thus, the dtree will
+do the job of the prior stratifying method.
+
+Next,
+let us describe how to
+modify the results
+of Chapter \ref{ch-dtree}
+on generic dtrees
+to the case of UM dtrees.
+The main difference,
+as we will
+explain in detail
+next,
+is that we use two dtrees ($d=0,1$) instead
+of one. Each dtree reduces to a LD bnet. The two
+bnets have the same structure but
+different branch probabilities.
+Furthermore, instead of the Information
+Gain metric
+used for generic dtrees,
+we use a different
+metric, one
+that connects the branch probabilities
+of the twin bnets.
+
+For UM, we consider two dtrees,
+labeled by the treatment dose $d=0,1$ (no dose, dose).
+For each $d$, let $N_j^d(c, x_j)$ be the number
+of individuals $\s$
+in the population that is exiting question node $j$,
+belonging to class $c$ and having $\rvx_j=x_j$.
+From $N_j^d(c, x_j)$, we can define
+an empirical
+probability distribution
+
+\beq
+P(c, d, x_j|j)
+=
+\frac{N_j^d(c, x_j)}{N_j}
+\;,\;\; \text{ where }
+N_j=\sum_{c, d, x_j}N_j^d(c, x_j)
+\eeq
+Once
+we have an empirical probability distribution
+$P(c, d, x_j| j)$ for each node $\rvx_j$ and
+class $c$,
+we can define various conditional
+probabilities, and from those
+conditional probabilities,
+we can define various metrics.
+
+
+
+In Chapter
+\ref{ch-dtree},
+we used Information
+Gain
+(a mutual information)
+as the SAM (Separation Ability Measure)
+in
+SL (Structure Learning)
+of dtrees (Decision Trees).
+Information Gain
+is a bad
+SAM for SL of UM dtrees,
+because it knows nothing about
+ $d=0,1$.
+For
+UM dtrees,
+we need a SAM specifically
+designed to separate $d=0,1$, and generate
+classes that are
+ uplift bins (i.e., uplift intervals).
+
+
+Ref.\cite{jaros}
+proposes and studies
+the following
+3 SAMs
+for doing SL of UM dtrees.
+
+
+\begin{enumerate}
+\item{\bf SAM\_DD} (DD=Delta Delta)
+
+For $d\in \bool$
+and $c, c'\in val(\rvc)$, define the increments
+
+\beq
+\partial_d f(d)=f(1)-f(0)
+\eeq
+and
+
+\beq
+\partial_{c',c} f(c)=f(c')-f(c)
+\;.
+\eeq
+Let
+
+\beqa
+\Delta_{c|j} &=& P(c|j,1)-P(c|j,0)
+\\
+&=& \partial_d P(c|j,d)
+\label{eq-delta-c-j}
+\eeqa
+
+\beqa
+SAM\_DD_j&=& \max_{c,c'}|\partial_{c',c}\partial_d P(c|j,d)|
+\\
+&=&
+\max_{c,c'}|\partial_{c',c}\Delta_{c|j}|
+\eeqa
+
+\item{\bf SAM\_KL} (KL=Kullback Leibler)
+\begin{align}
+SAM\_KL_j&=
+\left[
+\sum_{x_j\in val(\rvx_j)}
+P(x_j|j)
+D_{KL}(P_{\rvc|x_j,j,1}\parallel P_{\rvc|x_j,j,0})
+\right]
+-
+D_{KL}(P_{\rvc|j,1}\parallel P_{\rvc|j,0})
+\\
+&=\left\{\begin{array}{l}
+\left[
+\sum_{x_j\in val(\rvx_j)}
+P(x_j|j)
+ \sum_{c\in val(\rvc)}P(c|x_j,j,1)
+\ln \frac{P(c|x_j,j,1) }{ P(c|x_j,j,0) }
+\right]
+\\
+-
+\sum_{c\in val(\rvc)}
+P(c|j,1)
+\ln \frac{P(c|j,1) }{ P(c|j,0) }
+\end{array}
+\right.
+\label{eq-sam-kl}
+\end{align}
+
+{\bf $SAM\_KL_j$ can be negative.}
+
+\item {\bf SAM\_E} (E=Euclidean)
+
+$SAM\_E_j$ is defined the same way as $SAM\_KL_j$
+except with
+the KL divergence $D_{KL}(P\parallel Q)$
+in $SAM\_KL$ replaced
+by the Euclidean distance squared.
+
+
+\beq
+D(P,Q) =\sum_x (P(x)-Q(x))^2
+\eeq
+
+\end{enumerate}
+
+The intuitive reason for
+ using these quantities as
+SAMs is that they maximize the change in uplift
+between
+successive tree levels, so
+that the uplift increases as quickly as possible
+as we descend down the UM tree.
+In the case of generic dtrees
+for which we use Information Gain as SAM, we
+are maximizing the correlation
+between classes and nodes as we descend down the tree.
+These two goals are related.
+In fact, in the limit
+where the
+number of control individuals
+becomes zero,
+$SAM\_KL_j$ and $IG_j$
+become the same, as will be shown later.
+
+Next we show
+that $SAM\_KL_j$
+satisfies the following 3
+axioms\footnote{
+We won't show it
+here, but
+according to Ref.\cite{jaros},
+$SAM\_E_j$ also satisfies these
+3 axioms, but
+$SAM\_DD_j$
+satisfies only the first two.}
+
+\begin{claim}
+.\newline
+\begin{enumerate}
+\item \label{item-sam-min}
+$SAM\_KL_j$
+is minimum
+iff
+$P(c|x_j,j,0)=P(c|x_j, j,1)$
+for all $c$ and $x_j$.
+\item \label{item-sam-zero}
+If $P(c|j,d)=P(c|d)$
+for all $c,d$, then $SAM\_KL_j=0$.
+\item
+\label{item-no-control}
+Suppose $N(d=0)=0$ for all nodes $r\in J_0$
+ (i.e., no control population)
+and we use the Laplace Correction
+when warranted. Then
+
+\begin{align}
+SAM\_KL_j
+&=
+H(\rvc:\rvx_j|j,1)
+\\
+&=
+IG_j\;\;\; \text{ for treated population}
+\;.
+\end{align}
+\end{enumerate}
+\end{claim}
+\proof
+
+The proof of items
+\ref{item-sam-min}
+and \ref{item-sam-zero}
+follow by inspection of Eq.(\ref{eq-sam-kl}).
+Item \ref{item-no-control}
+is proven in Claim \ref{claim-no-control}
+below.
+\qed
+
+
+
+Let $N_\rvc=|val(\rvc)|$.
+Define the uniform probability
+distribution
+
+\beq
+U_\rvc(c)=\frac{1}{N_\rvc}
+\eeq
+for all $c\in val(\rvc)$.
+
+Empirical
+probabilities that are undefined
+when $N_j^d=0$ can be
+\qt{Laplace Corrected}
+as follows:
+
+\beq
+P(c|j,d)=
+\left\{
+\begin{array}{ll}
+\frac{N_j^d(c)}
+{N_j^d}&\text{ if } N_j^d>0
+\\
+U_\rvc(c) & \text{ if $N_j^d=0$ (Laplace Correction)}
+\end{array}
+\right.
+\eeq
+
+
+
+
+\begin{claim}
+\label{claim-no-control}
+Suppose $N_r(0)=0$ for all dtree nodes $r\in J_0$
+and we use the Laplace Correction
+when warranted. Then
+
+\beq
+SAM\_KL_j=H(\rvc:\rvx_j|j,1)
+\;.
+\eeq
+\end{claim}
+\proof
+
+For all nodes $r\in J_0$, we  must have
+
+\beq
+P_{\rvc|r,0}=U_\rvc
+\eeq
+so
+
+\beqa
+D_{KL}(P_{\rvc|r,1}\parallel P_{\rvc|r,0})
+&=&
+D_{KL}(P_{\rvc|r,1}\parallel U_\rvc)
+\\
+&=&
+\ln(N_\rvc) - H(\rvc|r,1)
+\;.
+\label{eq-kl-reduce}
+\eeqa
+For all $x_j\in val(\rvx_j)$, we must also have
+
+
+\beq
+N_j=N_j^1, \quad N_j(x_j)=N_j^1(x_j)
+\eeq
+so
+
+\beq
+P(x_j|j)=
+P(x_j|j,1)
+\;.
+\label{eq-p-kj-add-1}
+\eeq
+Now using Eqs.(\ref{eq-kl-reduce}) and
+ (\ref{eq-p-kj-add-1}), we get
+
+
+\beqa
+SAM\_KL_j&=&
+-\left[
+\sum_{x_j\in val(\rvx_j)}
+P(x_j|j)
+H(\rvc|x_j,j,1)
+\right]
++
+H(\rvc|j,1)
+\\
+&=&
+-\left[
+\sum_{x_j\in val(\rvx_j)}
+P(x_j|j,1)
+H(\rvc|x_j,j,1)
+\right]
++
+H(\rvc|j,1)
+\\
+&=&
+-H(\rvc|\rvx_j,j,1)+H(\rvc|j,1)
+\\
+&=&
+H(\rvc:\rvx_j|j,1)
+\eeqa
+\qed
+
+\hrule\noindent
+{\bf Connection between
+$\Delta_c$
+and $\Delta_{c|j}$}
+
+Recall Eq.(\ref{eq-Delta-c}):
+
+\beqa
+\Delta_c &=&
+\underbrace{\frac{1}{|\calx_c|}\sum_{x\in\calx_c}Y^1_x}_
+{\displaystyle Y^1_c}
+-
+\underbrace{\frac{1}{|\calx_c|}\sum_{x\in\calx_c}Y^0_x}_
+{\displaystyle Y^0_c}
+\\
+&=&
+\partial_d Y^d_c
+\;.
+\eeqa
+Compare that to Eq.(\ref{eq-delta-c-j}):
+\beqa
+\Delta_{c|j} &=& P(c|j,1)-P(c|j,0)
+\\
+&=& \partial_d P(c|j,d)
+\eeqa
+What is the connection
+between these 2 deltas, $\Delta_c$
+and $\Delta_{c|j}$? Are they equal?
+
+First off, notice that
+$\Delta_{c|j}$ is defined for all
+nodes $j$ of the dtree. Let
+$j(c)$ be the leaf node
+for which $\Delta_c\approx \Delta_{c|j(c)}$.
+Assume $y^\s\in\bool$. Then
+
+\beq
+P(c|j=j(c), d)=\frac{N^d_{j(c)}(c)}{N^d_{j(c)}}
+\approx Y^d_c
+\eeq
+So the two deltas are indeed approximately equal
+when $y^\s\in \bool$ and $j=j(c)$.
+
+\end{document}

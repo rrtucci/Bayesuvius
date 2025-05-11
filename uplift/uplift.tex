@@ -8,177 +8,121 @@ on
 many references,
 including Ref.\cite{uplift-2017, fei, wiki-uplift,jaros}.
 
-Uphill Modelling (UP)
-deals
-with  the application of
-Rubin's Theory of
-Potential Outcomes (PO)
-to advertisement and marketing.
+\begin{figure}[h!]
+$$\xymatrix{
+&\rvx\ar@[red][dl]\ar[dr]\ar@[red][ddl]
+\\
+\rvd\ar[rr]
+&&\rvy
+\\
+\rvy_0\ar[urr]
+}$$
+\caption{Bnet for Uplift Modelling (UM). 
+Note that the sub-bnet with nodes $\rvd, \rvy, \rvx$
+is the bnet for Rubin's theory of 
+Potential Outcomes (PO). We will assume an RCT so the red arrows $\rvx\rarrow \rvd$ 
+and $\rvx\rarrow \rvy_0$ must be amputated (i.e., removed).}
+\label{fig-up-bnet}
+\end{figure}
 
+
+
+{\bf Uphill Modelling} (UM) (a.k.a., {\bf Uplift Marketing})
+is an experiment that performs an
+RCT and other measurements. It 
+entails performing an
+RCT and 
+ calculating  the ACE for that  RCT.
+ Besides that, UM entails performing 
+a  measurement of uplift for each 
+individual, and separating 
+individuals according to their \qt{UM-type}
+(to be defined later). 
+
+As seen
+in Fig.\ref{fig-up-bnet},
+UM can be described by a bnet
+which contains as a sub-bnet,
+the bnet with nodes $\rvx, \rvd, \rvy$ that
+is commonly used to analyze
+Rubin's Theory of
+Potential Outcomes (PO).\footnote{
 PO, which is
 discussed in Chapter \ref{ch-pot-out},
  is a subset
 of Pearl's Causal Inference.
-Besides UP, other  applications of PO theory
+Besides UM, other  applications of PO theory
 that are discussed in this book 
 are: Regression Discontinuity (Chapter \ref{ch-reg-dis}),
 Difference-in-Differences (Chapter \ref{ch-did})
-and Synthetic Controls (Chapter \ref{ch-syn-con}).
+and Synthetic Controls (Chapter \ref{ch-syn-con}).}
 
-In UP,
-each {\bf participant person} (i.e., {\bf sample} $\s$,
-where $$\s\in \Sigma=\{0,1,2, \ldots, nsam-1\}$$)
-is interrogated at two well
-anticipated, fairly closely spaced times
-$t_0$ and $t_1$ (as opposed to 
-Difference-in-Differences  (DID), where
-$t_0$ and $t_1$ might
-be years apart, and
-long before the DID analysis is 
-attempted.).
-In between those two times,
-a treatment which
-we will refer to as the
-{\bf UP diagnostic test} is applied.
-For example,
-at times $t_0$ and $t_1$,
-every participant
-might be asked
-how important he/she rates climate 
-change on a scale of 1 to 10.
-In between times
-$t_0$ and $t_1$,
-every participant might
-be sent a brochure on climate change.
 
-In UP, as in all 
-other PO applications, 
-each participant
-$\s$
-is in the 
-treated or control
-groups, but not both.
-The participants
-are aware  of which
-of those groups they are in,
-so they are not \qt{treatment blind}.
+We will assume an RCT so the red arrows $\rvx\rarrow \rvd$ 
+and $\rvx\rarrow \rvy_0$ must be amputated (i.e., removed).
+This is equivalent to assuming that $P(d|x)=P(d)$ and
+$P(y_0|x)=P(y_0)$.
 
-\section{UP types}
+The node variables of bnet Fig.\ref{fig-up-bnet}
+are defined as follows:
 
-\begin{figure}[h!]
-\centering
-\includegraphics[width=6in]
-{uplift/uplift-y-t.png}
-\caption{UP diagnostic test
-can be used to classify
-all participants of the
-population into 4 UP-types.
-This figure 
-assumes $y\in \bool$.
-More generally, $y\in \RR$.
-$t$ represents time. $t=t_0$
-corresponds to $d=0=untreated$,
-and $t=t_1$ corresponds to $d=1=treated$.} 
-\label{fig-uplift-y-t}
-\end{figure}
-
-Let $y^\s_t\in \RR$ for $t=t_0, t_1$
-be the treatment response at time $t$
-for participant (i.e., sample) $\s$. (We are using here
-the same notation as in Chapter \ref{ch-pot-out}).
-Call 
-
-\beq
-\delta^\s=
-y^\s_{t_1}-y^\s_{t_0}\eeq
-
-the {\bf participant uplift}
-for participant $\s$.
-As shown
-in Fig.\ref{fig-uplift-y-t},
-UP classifies participants
-into 4 {\bf UP-types}: Persuadables, SureThings, LostCauses,
-and SleepyDogs.
-The UP-type
-of a participant
-depends on the changes 
-that are induced on that participant
-by an {\bf UP-diagnostic-test}.
-\begin{itemize}
-\item
-For a {\bf Persuadable} participant,
-$\delta^\s>0$.
-\item
-For a {\bf SleepyDogs}
-participant, $\delta^\s< 0$.
-\item
-For a {\bf SureThings} participant,
- $\delta^\s\approx 0$
-and $y^\s_{t_0}$ is high.
-\item
-For a {\bf LostCauses} participant,
-$\delta^\s\approx 0$
-and $y^\s_{t_0}$ is low.
-\end{itemize}
-
-In general,
 $x=(x_0, x_1,\dots, x_{n-1})$ is an $n$ dimensional 
-vector of features $x_i$.
-If any of the $x_i$
+vector of features $x_i$. If any of the $x_i$
 is a priori continuous, we will
 assume it has  been binned into
 a finite number of bins.
 Let $val(\rvx)$ be the finite set of  all feature vectors.
 
+$\rvd\in\bool$ equals 1 iff voter receives
+a brochure (which
+we will call the intervention) trying to convince him/her to vote 
+for the target  candidate. The cohort with $\rvd=0$ is called the control group. The one with $\rvd=1$ is called the treated group.
+The intervention occurs between times $t_0$ and $t_1$
+where $t_0<t_1$.
 
-Let $A_x = \{\s: x^\s \approx x\}$ for  $x\in val(\rvx)$.
-The set $A_x$ of all samples with
-a feature vector $x^\s$ close to $x$ 
-is called the $x$ {\bf stratum}.
+$\rvy_0=\rvy_{t_0}\in \bool$. Whether a voter would
+vote for a candidate at time $t_0$.
 
-
-
-The {\bf stratum-uplift} is
- $\delta_x=ACE_x$.
-Strata can also be
-classified into
-the 4 UP-types,
-depending on the sign and size  
-of their $\delta_x$.
-A participant 
-may not be typical for
-his stratum
-and may
-have different
-{\bf participant and stratum UP-types}.
-For example, he may have positive 
-participant uplift $\delta^\s$
-and therefore have a Persuadable participant UP-type,
-but his stratum-uplift  $\delta_x$
-might be negative, so
-he has
-the SleepyDogs stratum UP-type.
-
-Advertisers are very interested in finding
-the Persuadable strata in a population
-so as to focus their resources on them.
-For example, UP was used very
-successfully during the 
-Obama presidential campaigns. 
-Team Obama conducted UP-diagnostic
-tests much like
-the climate change one described earlier.
-This allowed them to
-identify voters who might be sitting on the fence
-on whether to vote for Obama or not.
-Then Team Obama spent
-the lion share
-of  resources  on those
-fence-sitters.
+$\rvy=\rvy_{t_1}\in \bool$. Whether a voter would
+vote for a candidate at time $t_1$. This is also
+the treatment response.
 
 
-\section{Some Relevant
- Technical Formulas from Chapter \ref{ch-pot-out}}
+\beq
+P(y, d,x, y_0)
+=
+P(y|d,x, y_0)P(x)P(d)P(y_0)
+\eeq
+where
+
+\beq
+P(d)= \frac{1}{2}
+\eeq
+
+\beqa
+P(y|d,x) &=&
+\frac{\sum_{y_0} P(y|d,x, y_0)P(x)P(d)P(y_0)}
+{\sum_{y, y_0} P(y|d,x, y_0)P(x)P(d)P(y_0)}
+\\
+&=&
+\sum_{y_0}P(y|d,x, y_0)P(y_0)
+\eeqa
+$P(y|d,x)$ will be used to define $ACE_x$ later on.
+
+Likewise,
+
+\beqa
+P(y, y_0|x) &=& 
+\frac{\sum_{d}P(y|d,x, y_0)P(x)P(d)P(y_0)}
+{\sum_{y, y_0, d}P(y|d,x, y_0)P(x)P(d)P(y_0)}
+\\
+&=&P(y_0)\sum_{d}P(y|d,x, y_0)P(d)
+\eeqa
+$P(y, y_0|x)$
+will be used to define the
+uplift $\delta_x$ layer on.
+ 
+\section{ACE definition}
 Recall
 the following technical formulae
 that were proven in 
@@ -202,7 +146,7 @@ P(y|d=0, x)
 If $\rvy\in \bool$, then
 
 \beq
-\underbrace{ACE_x}_{\displaystyle \delta_x}
+ACE_x
 =
 \underbrace{
 P_{\rvy|\rvd, \rvx}(1|1, x)
@@ -219,7 +163,7 @@ Recall
 Eq.(\ref{eq-ace-esti-posi}):
 
 \beq
-\underbrace{\HAT{ACE_x}}_{\displaystyle\delta_x}
+\HAT{ACE_x}
 =
 \underbrace{
 \frac{1}{N_x}
@@ -243,20 +187,153 @@ Eq.(\ref{eq-ace-esti-posi}):
 \end{itemize}
 
 
-\section{UP Analysis}
-\label{sec-up-analysis}
 
-The input
-to UP is a PO
-dataset $DS= \{ (\s, d^\s, x^\s, y^\s):
- \s\in\Sigma\}$.
-where $d^\s\in \bool$, $x^\s \in val(\rvx)$,
-$y^\s\in \RR$.
+\section{Uplift definition}
 
 \begin{figure}[h!]
 \centering
+\includegraphics[width=6in]
+{uplift/uplift-y-t-up.png}
+\caption{UM-intervention
+can be used to classify
+all customers of the
+population into 4 UM-types.
+This figure 
+assumes $y\in \bool$.
+More generally, $y\in \RR$.
+$t$ represents time. $t=t_0$
+corresponds to $d=0=untreated$,
+and $t=t_1$ corresponds to $d=1=treated$.} 
+\label{fig-uplift-y-t}
+\end{figure}
+
+Let us denote each {\bf customer} (i.e., {\bf participant},  {\bf sample}) 
+by $\s$,
+where 
+\beq\s\in \Sigma=\{0,1,2, \ldots, nsam-1\}
+\eeq
+
+Let $y^\s_t\in \RR$ for $t=t_0, t_1$
+be whether 
+ customer (i.e., sample) $\s$
+ will vote for a candidate at time $t$. 
+Let $\rvy_{t_1}^\s=\rvy^\s$.
+We will call 
+
+\beq
+\delta^\s=
+y^\s_{t_1}-y^\s_{t_0} = y^\s-y^\s_0
+\eeq
+the {\bf uplift
+for customer $\s$}.
+Also, we will call
+
+\beqa
+\delta_x &=& \sum_{y, y_0}(y - y_0)P(y, y_0|x)
+\\
+&=& 
+\underbrace{\sum_{y}yP(y|x)}_{\av{\rvy}_x}
+- 
+\underbrace{\sum_{y_0}y_0P(y_0|x)}_{\av{\rvy_0}_x}
+\eeqa
+the {\bf uplift for stratum $x$}.
+Note that $P(y_0|x)= P(y_0)$ by assumption so
+
+\beq
+\av{\rvy_0}_x = \av{\rvy_0}
+\eeq
+Note also that if $y, y_0\in \bool$,
+
+\beq
+\delta_x = P(\rvy=1|x) - P(\rvy_0=1|x)
+\eeq
+
+Note also that even when $y, y_0\in\bool$,
+their averages  might be a non-integer.
+
+\section{UM customer and stratum types}
+\label{sec-up-types}
+As shown
+in Fig.\ref{fig-uplift-y-t},
+UM classifies customers
+into 4 {\bf UM-types}: Persuadables, SureThings, LostCauses,
+and SleepyDogs.
+The UM-type
+of a customer
+depends on the changes 
+that are induced on that customer
+by an {\bf UM-intervention}.
+\begin{itemize}
+\item
+For a {\bf Persuadable} customer,
+$\delta^\s>0$.
+\item
+For a {\bf SleepyDogs}
+customer, $\delta^\s< 0$.
+\item
+For a {\bf SureThings} customer,
+ $\delta^\s\approx 0$
+and $y^\s_{t_0}$ is high.
+\item
+For a {\bf LostCauses} customer,
+$\delta^\s\approx 0$
+and $y^\s_{t_0}$ is low.
+\end{itemize}
+
+Let $A_x = \{\s: x^\s \approx x\}$ for  $x\in val(\rvx)$.
+The set $A_x$ of all samples with
+a feature vector $x^\s$ close to $x$ 
+is called the $x$ {\bf stratum}.
+
+Strata can also be
+classified into
+the 4 UM-types. To do
+so, replace $\delta^\s$ by $\delta_x$
+and $y^\s_{t_0}$ by $\av{\rvy_0}$
+in the definitions given above for the 4 UM-types.
+A customer 
+may not be typical for
+his stratum
+and may
+have different
+{\bf customer and stratum UM-types}.
+For example, he may have positive 
+customer uplift $\delta^\s$
+and therefore have a Persuadable customer UM-type,
+but his stratum-uplift  $\delta_x$
+might be negative, so
+he has
+the SleepyDogs stratum UM-type.
+
+Advertisers are very interested in finding
+the Persuadable stratum in a population
+so as to focus their resources on them.
+For example, UM was used very
+successfully during the 
+Obama presidential campaigns. 
+Team Obama conducted UM-interventions.
+This allowed them to
+identify voters who might be sitting on the fence
+on whether to vote for Obama.
+Then Team Obama spent
+the lion share
+of  resources  on those
+fence-sitters.
+
+
+
+\section{Stratum ranking}
+\label{sec-up-ranking}
+
+The input
+to UM is a PO
+dataset $DS= \{ (\s, d^\s, x^\s, y^\s_0, y):
+ \s\in\Sigma\}$.
+ 
+\begin{figure}[h!]
+\centering
 \includegraphics[width=2in]
-{uplift/uplift-bins.png}
+{uplift/uplift-bins-up.png}
 \caption{
 Pictorial
 representation
@@ -268,7 +345,7 @@ $\{(\calx_c, \Delta_c)\}_{c=0, 1, \ldots, nc-1}$.
 
 
 Starting with $DS$,
-UP performs the following steps.
+UM performs the following steps.
 Fig.\ref{fig-uplift-bins}
 is a pictorial representation
 of the quantities
@@ -314,15 +391,15 @@ we will have calculated
 $\{(\calx_c, \Delta_c)\}_{c=0, 1, \ldots, nc-1}$
 from $\{(x, \delta_x)\}_{x\in val(\rvx)}$.
 We will refer to the $\calx_c$
-as {\bf strata-bins}. Note that
+as {\bf stratum-bins}. Note that
 \beqa
 \Delta_c &=&\frac{1}{|\calx_c|}\sum_{x\in\calx_c}\delta_x
 \\
 &=&
-\underbrace{\frac{1}{|\calx_c|}\sum_{x\in\calx_c}Y^1_x}_
+\underbrace{\frac{1}{|\calx_c|}\sum_{x\in\calx_c}\av{\rvy}_x}_
 {\displaystyle Y^1_c}
 - 
-\underbrace{\frac{1}{|\calx_c|}\sum_{x\in\calx_c}Y^0_x}_
+\underbrace{\frac{1}{|\calx_c|}\sum_{x\in\calx_c}\av{\rvy_0}_x}_
 {\displaystyle Y^0_c}
 \;.
 \label{eq-Delta-c}
@@ -332,13 +409,13 @@ For each $c$,
 calculate 
 
 \beq
-A_{d,x}=\{\s\in A_x: d^\s = d\}
+A_{x,y_0}=\{\s\in A_x: y_0^\s = y_0\}
 \eeq
 
 \beq
-\Sigma_{d,c}=\cup_{x\in \calx_c}A_{d,x}
+\Sigma_{y_0,c}=\cup_{x\in \calx_c}A_{x,y_0}
 \eeq
-for $d\in\bool$
+for $y_0\in\bool$
 and 
 
 \beq
@@ -352,11 +429,11 @@ and
 \begin{figure}[h!]
 \centering
 \includegraphics[width=4in]
-{uplift/qini-fake.png}
+{uplift/qini-fake-up.png}
 
 \caption{
 Plot
-of UP results.
+of UM results.
 } 
 \label{fig-qini-fake}
 \end{figure}
@@ -364,12 +441,12 @@ Fig.\ref{fig-qini-fake}
 is a  way of
 plotting
 the results 
-of UP in an
+of UM in an
 intuitive
 way.
 
 
-Another common plot of UP results is
+Another common plot of UM results is
 called a {\bf Qini
 curve}.
 A Qini curve is a plot 
@@ -390,7 +467,7 @@ is the cumulative uplift.
 As $c$ increases, a Qini curve rises fast at first and then its slope decreases until
 at some value $c_0$, the slope is defined as too small to care. No marketing resources are
 directed towards
-participants $\s$ for whom  $c>c_0$.\footnote{
+customers $\s$ for whom  $c>c_0$.\footnote{
 Let 
 $S_{\Delta} = \{\s:\delta^\s \geq \Delta\}$.
 A Qini curve can also be defined, without stratification,
@@ -404,416 +481,32 @@ Y_\Delta= \sum_{\s\in S_{\Delta}}\delta^\s
 $. As $\Delta$ decreases, a Qini curve rises fast at first and then its slope decreases.
 }
 
+\section{Replacing Uplift by ATE}
 
-
-
-\section{UP Decision Trees}
-
-In this section,
-we will describe
-how to build UP decision trees (UP dtrees),
-and explain why they are needed
-for UP. This section is based 
-mainly on Ref.\cite{jaros} (highly recommended).
-
-Generic dtrees are 
-described in Chapter \ref{ch-dtree}.
-In the discussion below, we will assume that the reader has read
-that chapter already.
-
-For our previous discussion,
-we assumed a dataset 
-$DS= \{ (\s, d^\s, x^\s, y^\s):
- \s\in\Sigma\}$ and 
- assumed we had a stratifying
- method to obtain the strata
- $c^\s$ of each sample $\s$.
-In this section, we will assume 
-from the onset an
-extended dataset
-$DS^+= \{ (\s, c^\s, d^\s, x^\s, y^\s):
- \s\in\Sigma\}$
-that contains the strata $c^\s$ for each sample $\s$.
-This extended dataset will be used
-to train a dtree to find the strata of
-a sample. Thus, the dtree will
-do the job of the prior stratifying method.
-
-Next,
-let us describe how to
-modify the results
-of Chapter \ref{ch-dtree}
-on generic dtrees
-to the case of UP dtrees.
-The main difference,
-as we will
-explain in detail
-next,
-is that we use two dtrees ($d=0,1$) instead 
-of one. Each dtree reduces to a LD bnet. The two
-bnets have the same structure but
-different branch probabilities.
-Furthermore, instead of the Information
-Gain metric
-used for generic dtrees,
-we use a different
-metric, one 
-that connects the branch probabilities
-of the twin bnets.
-
-For UP, we consider two dtrees,
-labeled by the treatment dose $d=0,1$ (no dose, dose). 
-For each $d$, let $N_j^d(c, x_j)$ be the number
-of individuals $\s$
-in the population that is exiting question node $j$,
-belonging to class $c$ and having $\rvx_j=x_j$.
-From $N_j^d(c, x_j)$, we can define 
-an empirical
-probability distribution 
+In section \ref{sec-up-types} (entitled \qt{\nameref{sec-up-types}})
+and section \ref{sec-up-ranking} (entitled 
+\qt{\nameref{sec-up-ranking}}),
+we can replace Uplift by ACE, if we replace:
 
 \beq
-P(c, d, x_j|j)
-=
-\frac{N_j^d(c, x_j)}{N_j}
-\;,\;\; \text{ where }
-N_j=\sum_{c, d, x_j}N_j^d(c, x_j)
+\delta_x\rarrow ACE_x,\quad \av{\rvy}_x\rarrow Y_x^1,\quad
+\av{\rvy_0}_x\rarrow Y_x^0, \quad y_0\rarrow d
 \eeq
-Once
-we have an empirical probability distribution
-$P(c, d, x_j| j)$ for each node $\rvx_j$ and
-class $c$,
-we can define various conditional 
-probabilities, and from those
-conditional probabilities,
-we can define various metrics.
+in all the formulae and figures.
 
+This means that we can rank strata by their $ACE_x$ instead of
+their $\delta_x$. Note, however, that individual customers
+have an individual uplift $\delta^\s$, but they don't have an
+individual $ACE^\s$. 
 
+Note that a positive $ACE_x$ means that 
+the treatment is effective (i.e., the brochure caused the 
+customers in stratum $x$ to change their minds). On the other hand,
+a positive uplift $\delta_x$ means that the customers
+in that stratum are persuadable.
 
-In Chapter
-\ref{ch-dtree},
-we used Information 
-Gain
-(a mutual information)
-as the SAM (Separation Ability Measure)
-in
-SL (Structure Learning) 
-of dtrees (Decision Trees).
-Information Gain
-is a bad
-SAM for SL of UP dtrees,
-because it knows nothing about
- $d=0,1$.
-For
-UP dtrees,
-we need a SAM specifically
-designed to separate $d=0,1$, and generate 
-classes that are
- uplift bins (i.e., uplift intervals).
+Uplift typing is individualistic ($y^\s$ and
+$y^\s_0$ are both available), whereas ACE typing isn't
+($y^s$ is not available for both $d^\s=0,1$).
 
-
-Ref.\cite{jaros}
-proposes and studies 
-the following
-3 SAMs 
-for doing SL of UP dtrees.
-
-
-\begin{enumerate}
-\item{\bf SAM\_DD} (DD=Delta Delta)
-
-For $d\in \bool$
-and $c, c'\in val(\rvc)$, define the increments
-
-\beq
-\partial_d f(d)=f(1)-f(0)
-\eeq
-and
-
-\beq
-\partial_{c',c} f(c)=f(c')-f(c)
-\;.
-\eeq
-Let
-
-\beqa
-\Delta_{c|j} &=& P(c|j,1)-P(c|j,0)
-\\
-&=& \partial_d P(c|j,d)
-\label{eq-delta-c-j}
-\eeqa
-
-\beqa
-SAM\_DD_j&=& \max_{c,c'}|\partial_{c',c}\partial_d P(c|j,d)|
-\\
-&=&
-\max_{c,c'}|\partial_{c',c}\Delta_{c|j}|
-\eeqa
-
-\item{\bf SAM\_KL} (KL=Kullback Leibler)
-\begin{align}
-SAM\_KL_j&=
-\left[
-\sum_{x_j\in val(\rvx_j)}
-P(x_j|j)
-D_{KL}(P_{\rvc|x_j,j,1}\parallel P_{\rvc|x_j,j,0})
-\right]
--
-D_{KL}(P_{\rvc|j,1}\parallel P_{\rvc|j,0})
-\\
-&=\left\{\begin{array}{l}
-\left[
-\sum_{x_j\in val(\rvx_j)}
-P(x_j|j)
- \sum_{c\in val(\rvc)}P(c|x_j,j,1)
-\ln \frac{P(c|x_j,j,1) }{ P(c|x_j,j,0) }
-\right]
-\\
--
-\sum_{c\in val(\rvc)}
-P(c|j,1) 
-\ln \frac{P(c|j,1) }{ P(c|j,0) }
-\end{array}
-\right.
-\label{eq-sam-kl}
-\end{align}
-
-{\bf $SAM\_KL_j$ can be negative.}
-
-\item {\bf SAM\_E} (E=Euclidean)
-
-$SAM\_E_j$ is defined the same way as $SAM\_KL_j$
-except with 
-the KL divergence $D_{KL}(P\parallel Q)$ 
-in $SAM\_KL$ replaced 
-by the Euclidean distance squared. 
-
-
-\beq
-D(P,Q) =\sum_x (P(x)-Q(x))^2
-\eeq
-
-\end{enumerate}
-
-The intuitive reason for
- using these quantities as
-SAMs is that they maximize the change in uplift 
-between 
-successive tree levels, so 
-that the uplift increases as quickly as possible
-as we descend down the UP tree.
-In the case of generic dtrees
-for which we use Information Gain as SAM, we 
-are maximizing the correlation
-between classes and nodes as we descend down the tree. 
-These two goals are related.
-In fact, in the limit
-where the
-number of control individuals
-becomes zero,
-$SAM\_KL_j$ and $IG_j$
-become the same, as will be shown later.
-
-Next we show
-that $SAM\_KL_j$
-satisfies the following 3
-axioms\footnote{
-We won't show it
-here, but 
-according to Ref.\cite{jaros},
-$SAM\_E_j$ also satisfies these
-3 axioms, but
-$SAM\_DD_j$
-satisfies only the first two.}
-
-\begin{claim}
-.\newline
-\begin{enumerate}
-\item \label{item-sam-min}
-$SAM\_KL_j$ 
-is minimum
-iff 
-$P(c|x_j,j,0)=P(c|x_j, j,1)$ 
-for all $c$ and $x_j$.
-\item \label{item-sam-zero}
-If $P(c|j,d)=P(c|d)$
-for all $c,d$, then $SAM\_KL_j=0$.
-\item
-\label{item-no-control}
-Suppose $N(d=0)=0$ for all nodes $r\in J_0$
- (i.e., no control population)
-and we use the Laplace Correction
-when warranted. Then
-
-\begin{align}
-SAM\_KL_j
-&=
-H(\rvc:\rvx_j|j,1)
-\\
-&=
-IG_j\;\;\; \text{ for treated population}
-\;.
-\end{align}
-\end{enumerate}
-\end{claim}
-\proof
-
-The proof of items
-\ref{item-sam-min}
-and \ref{item-sam-zero}
-follow by inspection of Eq.(\ref{eq-sam-kl}).
-Item \ref{item-no-control}
-is proven in Claim \ref{claim-no-control}
-below.
-\qed
-
-
-
-Let $N_\rvc=|val(\rvc)|$.
-Define the uniform probability 
-distribution 
-
-\beq
-U_\rvc(c)=\frac{1}{N_\rvc}
-\eeq
-for all $c\in val(\rvc)$.
-
-Empirical 
-probabilities that are undefined
-when $N_j^d=0$ can be
-\qt{Laplace Corrected}
-as follows:
-
-\beq
-P(c|j,d)=
-\left\{
-\begin{array}{ll}
-\frac{N_j^d(c)}
-{N_j^d}&\text{ if } N_j^d>0
-\\
-U_\rvc(c) & \text{ if $N_j^d=0$ (Laplace Correction)}
-\end{array}
-\right.
-\eeq
-
-
-
-
-\begin{claim}
-\label{claim-no-control}
-Suppose $N_r(0)=0$ for all dtree nodes $r\in J_0$
-and we use the Laplace Correction
-when warranted. Then
-
-\beq
-SAM\_KL_j=H(\rvc:\rvx_j|j,1)
-\;.
-\eeq
-\end{claim}
-\proof
-
-For all nodes $r\in J_0$, we  must have
-
-\beq
-P_{\rvc|r,0}=U_\rvc
-\eeq
-so
-
-\beqa
-D_{KL}(P_{\rvc|r,1}\parallel P_{\rvc|r,0})
-&=&
-D_{KL}(P_{\rvc|r,1}\parallel U_\rvc)
-\\
-&=&
-\ln(N_\rvc) - H(\rvc|r,1)
-\;.
-\label{eq-kl-reduce}
-\eeqa
-For all $x_j\in val(\rvx_j)$, we must also have
-
-
-\beq
-N_j=N_j^1, \quad N_j(x_j)=N_j^1(x_j)
-\eeq
-so
-
-\beq
-P(x_j|j)=
-P(x_j|j,1)
-\;.
-\label{eq-p-kj-add-1}
-\eeq
-Now using Eqs.(\ref{eq-kl-reduce}) and
- (\ref{eq-p-kj-add-1}), we get
-
-
-\beqa
-SAM\_KL_j&=&
--\left[
-\sum_{x_j\in val(\rvx_j)}
-P(x_j|j)
-H(\rvc|x_j,j,1)
-\right]
-+
-H(\rvc|j,1)
-\\
-&=&
--\left[
-\sum_{x_j\in val(\rvx_j)}
-P(x_j|j,1)
-H(\rvc|x_j,j,1)
-\right]
-+
-H(\rvc|j,1)
-\\
-&=&
--H(\rvc|\rvx_j,j,1)+H(\rvc|j,1)
-\\
-&=&
-H(\rvc:\rvx_j|j,1)
-\eeqa
-\qed
-
-
-\subsection{Appendix, 
-connection between
-$\Delta_c$
-and $\Delta_{c|j}$}
-
-Recall Eq.(\ref{eq-Delta-c}):
-
-\beqa
-\Delta_c &=& 
-\underbrace{\frac{1}{|\calx_c|}\sum_{x\in\calx_c}Y^1_x}_
-{\displaystyle Y^1_c}
-- 
-\underbrace{\frac{1}{|\calx_c|}\sum_{x\in\calx_c}Y^0_x}_
-{\displaystyle Y^0_c}
-\\
-&=&
-\partial_d Y^d_c
-\;.
-\eeqa
-Compare that to Eq.(\ref{eq-delta-c-j}):
-\beqa
-\Delta_{c|j} &=& P(c|j,1)-P(c|j,0)
-\\
-&=& \partial_d P(c|j,d)
-\eeqa
-What is the connection
-between these 2 deltas, $\Delta_c$
-and $\Delta_{c|j}$? Are they equal?
-
-First off, notice that 
-$\Delta_{c|j}$ is defined for all 
-nodes $j$ of the dtree. Let 
-$j(c)$ be the leaf node 
-for which $\Delta_c\approx \Delta_{c|j(c)}$. 
-Assume $y^\s\in\bool$. Then
-
-\beq
-P(c|j=j(c), d)=\frac{N^d_{j(c)}(c)}{N^d_{j(c)}}
-\approx Y^d_c
-\eeq
-So the two deltas are indeed approximately equal
-when $y^\s\in \bool$ and $j=j(c)$.
 
