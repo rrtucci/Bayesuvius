@@ -9,19 +9,30 @@ many references,
 including Ref.\cite{uplift-2017, fei, wiki-uplift,jaros}.
 
 \begin{figure}[h!]
-$$\xymatrix{
-&\rvx\ar@[red][dl]\ar[dr]\ar@[red][ddl]
+$$\begin{array}{ccc}
+\xymatrix{
+&\rvx\ar[dr]
 \\
 \rvd\ar[rr]
 &&\rvy
+}
+&\quad&
+\xymatrix{
+&\rvx\ar[dr]
 \\
-\rvy_0\ar[urr]
-}$$
-\caption{Bnet for Uplift Modelling (UM). 
-Note that the sub-bnet with nodes $\rvd, \rvy, \rvx$
-is the bnet for Rubin's theory of 
-Potential Outcomes (PO). We will assume an RCT so the red arrows $\rvx\rarrow \rvd$ 
-and $\rvx\rarrow \rvy_0$ must be amputated (i.e., removed).}
+\rvy_0\ar[rr]
+&&\rvy
+}
+\\
+(a) &\quad & (b)
+\end{array}
+$$
+\caption{Bnets for Uplift Modelling (UM). 
+Bnet $(a)$ is for a RCT experiment measuring ATE and Bnet $(b)$ is for one measuring Uplift. 
+ Since we assume an RCT, the arrows $\rvx\rarrow \rvd$ 
+and $\rvx\rarrow \rvy_0$ have been amputated (i.e., removed). This is equivalent to assuming that $P(d|x)=P(d)$ and
+$P(y_0|x)=P(y_0)$.
+}
 \label{fig-up-bnet}
 \end{figure}
 
@@ -32,21 +43,17 @@ is an experiment that performs an
 RCT and other measurements. It 
 entails performing an
 RCT and 
- calculating  the ACE for that  RCT.
- Besides that, UM entails performing 
-a  measurement of uplift for each 
-individual, and separating 
-individuals according to their \qt{UM-type}
-(to be defined later). 
+ calculating  the ATE or Uplift for that  RCT.
+ Besides that, UM entails 
+separating 
+individuals or strata of individuals according to their \qt{UM-type}\footnote{ACE, Uplift and UM-type to be defined later.}
 
-As seen
-in Fig.\ref{fig-up-bnet},
-UM can be described by a bnet
-which contains as a sub-bnet,
-the bnet with nodes $\rvx, \rvd, \rvy$ that
-is commonly used to analyze
-Rubin's Theory of
-Potential Outcomes (PO).\footnote{
+
+
+Fig.\ref{fig-up-bnet} shows bnets for 2 experiments. Bnet $(a)$\footnote{
+Note that bnet \ref{fig-up-bnet}$(a)$ 
+is the bnet for Rubin's theory of 
+Potential Outcomes (PO).
 PO, which is
 discussed in Chapter \ref{ch-pot-out},
  is a subset
@@ -55,15 +62,8 @@ Besides UM, other  applications of PO theory
 that are discussed in this book 
 are: Regression Discontinuity (Chapter \ref{ch-reg-dis}),
 Difference-in-Differences (Chapter \ref{ch-did})
-and Synthetic Controls (Chapter \ref{ch-syn-con}).}
-
-
-We will assume an RCT so the red arrows $\rvx\rarrow \rvd$ 
-and $\rvx\rarrow \rvy_0$ must be amputated (i.e., removed).
-This is equivalent to assuming that $P(d|x)=P(d)$ and
-$P(y_0|x)=P(y_0)$.
-
-The node variables of bnet Fig.\ref{fig-up-bnet}
+and Synthetic Controls (Chapter \ref{ch-syn-con}).} is for a RCT experiment measuring ATE and Bnet $(b)$ is for one measuring Uplift. 
+The node variables of bnets $(a)$ and $(b)$ of Fig.\ref{fig-up-bnet}
 are defined as follows:
 
 $x=(x_0, x_1,\dots, x_{n-1})$ is an $n$ dimensional 
@@ -87,108 +87,39 @@ $\rvy=\rvy_{t_1}\in \bool$. Whether a voter would
 vote for a candidate at time $t_1$. This is also
 the treatment response.
 
+Although we are referring to bnets $(a)$
+and $(b)$ as 2 different experiments, they can be done
+simultaneously. Enacting
+bnet $(a)$ requires splitting the initial 
+randomized population into two equal parts;
+the control cohort and the treated one.
+The control cohort is not treated (its members do
+not receive the persuasive brochure or treatment). On the other hand, enacting bnet $(b)$ requires
+sending all its customers a brochure/treatment,
+and sending a questionnaire to all 
+customers before and after treatment.
+Hence, one can use the treated cohort of
+bnet $(a)$ as the full cohort of bnet $(b)$.
 
+For bnet $(a)$, 
 \beq
-P(y, d,x, y_0)
-=
-P(y|d,x, y_0)P(x)P(d)P(y_0)
+P(y, d, x) = P(y|d,x)P(d)P(x)
 \eeq
-where
-
+and for bnet $(b)$,
 \beq
-P(d)= \frac{1}{2}
-\eeq
-
-\beqa
-P(y|d,x) &=&
-\frac{\sum_{y_0} P(y|d,x, y_0)P(x)P(d)P(y_0)}
-{\sum_{y, y_0} P(y|d,x, y_0)P(x)P(d)P(y_0)}
-\\
-&=&
-\sum_{y_0}P(y|d,x, y_0)P(y_0)
-\eeqa
-$P(y|d,x)$ will be used to define $ACE_x$ later on.
-
-Likewise,
-
-\beqa
-P(y, y_0|x) &=& 
-\frac{\sum_{d}P(y|d,x, y_0)P(x)P(d)P(y_0)}
-{\sum_{y, y_0, d}P(y|d,x, y_0)P(x)P(d)P(y_0)}
-\\
-&=&P(y_0)\sum_{d}P(y|d,x, y_0)P(d)
-\eeqa
-$P(y, y_0|x)$
-will be used to define the
-uplift $\delta_x$ layer on.
- 
-\section{ACE definition}
-Recall
-the following technical formulae
-that were proven in 
-Chapter \ref{ch-pot-out}:
-
-\begin{itemize}
-
-\item
-Recall Eq.(\ref{eq-ace-propensity}):
-
-\beq
-ACE =\sum_x P(x)
-\underbrace{
-\sum_y y\left[
-P(y|d=1, x)
--
-P(y|d=0, x) 
-\right]
-}_{ACE_x}
-\eeq
-If $\rvy\in \bool$, then
-
-\beq
-ACE_x
-=
-\underbrace{
-P_{\rvy|\rvd, \rvx}(1|1, x)
-}_{\displaystyle Y^1_x}
--
-\underbrace{
-P_{\rvy|\rvd, \rvx}(1|0, x)
-}_{\displaystyle Y^0_x}
-\;.
+P(y, y_0, x) = P(y|y_0,x)P(y_0)P(x)
 \eeq
 
-\item
-Recall 
-Eq.(\ref{eq-ace-esti-posi}):
-
-\beq
-\HAT{ACE_x}
-=
-\underbrace{
-\frac{1}{N_x}
-\sum_{\s \in A_x}
-\frac{d^\s y^\s}{g_{1|x^\s} }
-}_
-{\displaystyle Y_x^1}
--
-\underbrace{
-\frac{1}{N_x}
-\sum_{\s \in A_x}
-\frac{(1-d^\s)y^\s}{g_{0|x^\s} }
-}_
-{\displaystyle Y_x^0}
-\label{eq-est-ace-uplift}
-\eeq
+Usually, $P(d) = \frac{1}{2}$.
 
 
+\section{Uplift experiment}
+In this section, we will consider an UM 
+uplift experiment of type $(b)$.
+in the next section, we will
+consider an UM ATE experiment of type $(b)$.
 
-
-\end{itemize}
-
-
-
-\section{Uplift definition}
+\subsection{Uplift definition}
 
 \begin{figure}[h!]
 \centering
@@ -251,7 +182,7 @@ Note also that if $y, y_0\in \bool$,
 Note also that even when $y, y_0\in\bool$,
 their averages  might be a non-integer.
 
-\section{UM customer and stratum types}
+\subsection{UM customer and stratum types}
 \label{sec-up-types}
 As shown
 in Fig.\ref{fig-uplift-y-t},
@@ -322,12 +253,12 @@ fence-sitters.
 
 
 
-\section{Stratum ranking}
+\subsection{Stratum ranking}
 \label{sec-up-ranking}
 
 The input
-to UM is a PO
-dataset $DS= \{ (\s, d^\s, x^\s, y^\s_0, y):
+to an uplift experiment $(b)$ is a PO
+dataset $DS= \{ (\s, d^\s, x^\s,  y):
  \s\in\Sigma\}$.
  
 \begin{figure}[h!]
@@ -481,32 +412,97 @@ Y_\Delta= \sum_{\s\in S_{\Delta}}\delta^\s
 $. As $\Delta$ decreases, a Qini curve rises fast at first and then its slope decreases.
 }
 
-\section{Replacing Uplift by ATE}
+\section{ATE experiment}
+\subsection{ATE definition}
 
+$ATE=$ Average Treatment Efect
+
+$ACE =$ Average Causal Effect
+
+$ATE=ACE$
+
+Recall
+the following technical formulae
+that were proven in 
+Chapter \ref{ch-pot-out}:
+
+
+
+\begin{itemize}
+
+\item
+Recall Eq.(\ref{eq-ace-propensity}):
+
+\beq
+ATE =\sum_x P(x)
+\underbrace{
+\sum_y y\left[
+P(y|d=1, x)
+-
+P(y|d=0, x) 
+\right]
+}_{ATE_x}
+\eeq
+If $\rvy\in \bool$, then
+
+\beq
+ATE_x
+=
+\underbrace{
+P_{\rvy|\rvd, \rvx}(1|1, x)
+}_{\displaystyle Y^1_x}
+-
+\underbrace{
+P_{\rvy|\rvd, \rvx}(1|0, x)
+}_{\displaystyle Y^0_x}
+\;.
+\eeq
+
+\item
+Recall 
+Eq.(\ref{eq-ace-esti-posi}):
+
+\beq
+\HAT{ATE_x}
+=
+\underbrace{
+\frac{1}{N_x}
+\sum_{\s \in A_x}
+\frac{d^\s y^\s}{g_{1|x^\s} }
+}_
+{\displaystyle Y_x^1}
+-
+\underbrace{
+\frac{1}{N_x}
+\sum_{\s \in A_x}
+\frac{(1-d^\s)y^\s}{g_{0|x^\s} }
+}_
+{\displaystyle Y_x^0}
+\label{eq-est-ace-uplift}
+\eeq
+
+\end{itemize}
+
+\subsection{Replacing Uplift by ATE}
 In section \ref{sec-up-types} (entitled \qt{\nameref{sec-up-types}})
 and section \ref{sec-up-ranking} (entitled 
 \qt{\nameref{sec-up-ranking}}),
-we can replace Uplift by ACE, if we replace:
+we can replace Uplift by ATE, if we replace:
 
 \beq
-\delta_x\rarrow ACE_x,\quad \av{\rvy}_x\rarrow Y_x^1,\quad
+\delta_x\rarrow ATE_x,\quad \av{\rvy}_x\rarrow Y_x^1,\quad
 \av{\rvy_0}_x\rarrow Y_x^0, \quad y_0\rarrow d
 \eeq
 in all the formulae and figures.
 
-This means that we can rank strata by their $ACE_x$ instead of
+This means that we can rank strata by their $ATE_x$ instead of
 their $\delta_x$. Note, however, that individual customers
 have an individual uplift $\delta^\s$, but they don't have an
-individual $ACE^\s$. 
-
-Note that a positive $ACE_x$ means that 
-the treatment is effective (i.e., the brochure caused the 
-customers in stratum $x$ to change their minds). On the other hand,
-a positive uplift $\delta_x$ means that the customers
-in that stratum are persuadable.
-
-Uplift typing is individualistic ($y^\s$ and
-$y^\s_0$ are both available), whereas ACE typing isn't
+individual $ATE^\s$.
+Uplift types
+can be defined at an individual level
+($y^\s$ and
+$y^\s_0$ are both available), whereas ATE typing can't
 ($y^s$ is not available for both $d^\s=0,1$).
 
 
