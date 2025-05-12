@@ -28,7 +28,7 @@ $$\begin{array}{ccc}
 \end{array}
 $$
 \caption{Bnets for Uplift Modelling (UM). 
-Bnet $(a)$ is for a RCT experiment measuring ATE and Bnet $(b)$ is for one measuring Uplift. 
+Bnet $(a)$ is for an RCT experiment measuring ATE and Bnet $(b)$ is for one measuring Uplift. 
  Since we assume an RCT, the arrows $\rvx\rarrow \rvd$ 
 and $\rvx\rarrow \rvy_0$ have been amputated (i.e., removed). This is equivalent to assuming that $P(d|x)=P(d)$ and
 $P(y_0|x)=P(y_0)$.
@@ -40,14 +40,18 @@ $P(y_0|x)=P(y_0)$.
 
 {\bf Uphill Modelling} (UM) (a.k.a., {\bf Uplift Marketing})
 is an experiment that performs an
-RCT and other measurements. It 
+RCT (Randomized Controlled Trial) and additional steps. It 
 entails performing an
-RCT and 
- calculating  the ATE or Uplift for that  RCT.
+RCT  and 
+ calculating  the \qt{ATE} or \qt{Uplift} for that  RCT.
  Besides that, UM entails 
 separating 
 individuals or strata of individuals according to their \qt{UM-type}\footnote{ACE, Uplift and UM-type to be defined later.}
 
+UM is typically used to identify which 
+customers are more likely to be persuaded to buy a
+product, or to identify which voters are more
+likely to be persuaded to vote for a target political candidate.
 
 
 Fig.\ref{fig-up-bnet} shows bnets for 2 experiments. Bnet $(a)$\footnote{
@@ -62,8 +66,9 @@ Besides UM, other  applications of PO theory
 that are discussed in this book 
 are: Regression Discontinuity (Chapter \ref{ch-reg-dis}),
 Difference-in-Differences (Chapter \ref{ch-did})
-and Synthetic Controls (Chapter \ref{ch-syn-con}).} is for a RCT experiment measuring ATE and Bnet $(b)$ is for one measuring Uplift. 
-The node variables of bnets $(a)$ and $(b)$ of Fig.\ref{fig-up-bnet}
+and Synthetic Controls (Chapter \ref{ch-syn-con}).} is for an RCT experiment measuring ATE and Bnet $(b)$ is for one measuring Uplift. 
+The node variables of bnets Fig.\ref{fig-up-bnet}
+$(a)$ and $(b)$
 are defined as follows:
 
 $x=(x_0, x_1,\dots, x_{n-1})$ is an $n$ dimensional 
@@ -75,8 +80,9 @@ Let $val(\rvx)$ be the finite set of  all feature vectors.
 
 $\rvd\in\bool$ equals 1 iff voter receives
 a brochure (which
-we will call the intervention) trying to convince him/her to vote 
-for the target  candidate. The cohort with $\rvd=0$ is called the control group. The one with $\rvd=1$ is called the treated group.
+we will call the {\bf intervention}
+or {\bf treatment}) trying to convince him/her to vote 
+for the target  candidate. The cohort with $\rvd=0$ is called the {\bf control group}. The one with $\rvd=1$ is called the {\bf treated group}.
 The intervention occurs between times $t_0$ and $t_1$
 where $t_0<t_1$.
 
@@ -91,17 +97,16 @@ Although we are referring to bnets $(a)$
 and $(b)$ as 2 different experiments, they can be done
 simultaneously. Enacting
 bnet $(a)$ requires splitting the initial 
-randomized population into two equal parts;
-the control cohort and the treated one.
-The control cohort is not treated (its members do
+randomized population into two equal parts:
+the control group and the treated group.
+The control group is not treated (its members do
 not receive the persuasive brochure or treatment). On the other hand, enacting bnet $(b)$ requires
-sending all its customers a brochure/treatment,
-and sending a questionnaire to all 
-customers before and after treatment.
-Hence, one can use the treated cohort of
+sending all customers, before and after treatment, both (1) a brochure/treatment,
+and  (2) a questionnaire/survey asking them who they are voting for.
+Hence, one can use the treated group of
 bnet $(a)$ as the full cohort of bnet $(b)$.
 
-For bnet $(a)$, 
+Note that bnet $(a)$, 
 \beq
 P(y, d, x) = P(y|d,x)P(d)P(x)
 \eeq
@@ -114,10 +119,10 @@ Usually, $P(d) = \frac{1}{2}$.
 
 
 \section{Uplift experiment}
-In this section, we will consider an UM 
+In this section, we will consider an
 uplift experiment of type $(b)$.
-in the next section, we will
-consider an UM ATE experiment of type $(b)$.
+In the next section, we will
+consider an ATE experiment of type $(a)$.
 
 \subsection{Uplift definition}
 
@@ -132,23 +137,16 @@ population into 4 UM-types.
 This figure 
 assumes $y\in \bool$.
 More generally, $y\in \RR$.
-$t$ represents time. $t=t_0$
-corresponds to $d=0=untreated$,
-and $t=t_1$ corresponds to $d=1=treated$.} 
+$t$ represents time. $t_0< t_1$.} 
 \label{fig-uplift-y-t}
 \end{figure}
 
-Let us denote each {\bf customer} (i.e., {\bf participant},  {\bf sample}) 
+Let us denote each {\bf customer} (i.e., {\bf voter}, {\bf participant},  {\bf sample}) 
 by $\s$,
 where 
 \beq\s\in \Sigma=\{0,1,2, \ldots, nsam-1\}
 \eeq
 
-Let $y^\s_t\in \RR$ for $t=t_0, t_1$
-be whether 
- customer (i.e., sample) $\s$
- will vote for a candidate at time $t$. 
-Let $\rvy_{t_1}^\s=\rvy^\s$.
 We will call 
 
 \beq
@@ -166,6 +164,7 @@ Also, we will call
 \underbrace{\sum_{y}yP(y|x)}_{\av{\rvy}_x}
 - 
 \underbrace{\sum_{y_0}y_0P(y_0|x)}_{\av{\rvy_0}_x}
+\label{eq-delta-x-def}
 \eeqa
 the {\bf uplift for stratum $x$}.
 Note that $P(y_0|x)= P(y_0)$ by assumption so
@@ -178,7 +177,6 @@ Note also that if $y, y_0\in \bool$,
 \beq
 \delta_x = P(\rvy=1|x) - P(\rvy_0=1|x)
 \eeq
-
 Note also that even when $y, y_0\in\bool$,
 their averages  might be a non-integer.
 
@@ -220,7 +218,7 @@ Strata can also be
 classified into
 the 4 UM-types. To do
 so, replace $\delta^\s$ by $\delta_x$
-and $y^\s_{t_0}$ by $\av{\rvy_0}$
+and $y^\s_0$ by $\av{\rvy_0}$
 in the definitions given above for the 4 UM-types.
 A customer 
 may not be typical for
@@ -233,7 +231,7 @@ customer uplift $\delta^\s$
 and therefore have a Persuadable customer UM-type,
 but his stratum-uplift  $\delta_x$
 might be negative, so
-he has
+therefore have
 the SleepyDogs stratum UM-type.
 
 Advertisers are very interested in finding
@@ -257,7 +255,7 @@ fence-sitters.
 \label{sec-up-ranking}
 
 The input
-to an uplift experiment $(b)$ is a PO
+to an uplift experiment $(b)$ is a
 dataset $DS= \{ (\s, d^\s, x^\s,  y):
  \s\in\Sigma\}$.
  
@@ -275,7 +273,7 @@ $\{(\calx_c, \Delta_c)\}_{c=0, 1, \ldots, nc-1}$.
 \end{figure}
 
 
-Starting with $DS$,
+Starting with such a $DS$,
 UM performs the following steps.
 Fig.\ref{fig-uplift-bins}
 is a pictorial representation
@@ -291,7 +289,7 @@ A_x = \{\s: x^\s \approx x\}\eeq
 for each observed $x\in val(\rvx)$.
 Set $A_x=\emptyset$ for unobserved $x\in val(\rvx)$.
  
-\item Use Eq.(\ref{eq-est-ace-uplift})
+\item Use Eq.(\ref{eq-delta-x-def})
 to calculate $\delta_x$
 for each $x\in val(\rvx)$.
 Set $\delta_x=0$ if $A_x=\emptyset$.
@@ -340,13 +338,20 @@ For each $c$,
 calculate 
 
 \beq
-A_{x,y_0}=\{\s\in A_x: y_0^\s = y_0\}
+\begin{array}{l}
+A_{x,0}=\{\s\in A_x: y^\s = 0\}
+\\
+A_{x,1}=\{\s\in A_x: y^\s = 1\}
+\end{array}
 \eeq
 
 \beq
-\Sigma_{y_0,c}=\cup_{x\in \calx_c}A_{x,y_0}
+\begin{array}{l}
+\Sigma_{0,c}=\cup_{x\in \calx_c}A_{x,0}
+\\
+\Sigma_{1,c}=\cup_{x\in \calx_c}A_{x,1}
+\end{array}
 \eeq
-for $y_0\in\bool$
 and 
 
 \beq
@@ -415,11 +420,7 @@ $. As $\Delta$ decreases, a Qini curve rises fast at first and then its slope de
 \section{ATE experiment}
 \subsection{ATE definition}
 
-$ATE=$ Average Treatment Efect
-
-$ACE =$ Average Causal Effect
-
-$ATE=ACE$
+$ATE=$ Average Treatment Effect, $ACE =$ Average Causal Effect, $ATE=ACE$
 
 Recall
 the following technical formulae
@@ -501,8 +502,8 @@ have an individual uplift $\delta^\s$, but they don't have an
 individual $ATE^\s$.
 Uplift types
 can be defined at an individual level
-($y^\s$ and
-$y^\s_0$ are both available), whereas ATE typing can't
-($y^s$ is not available for both $d^\s=0,1$).
+($y^\s$ is available for
+$y^\s_0=0, 1$), whereas ATE types can't be
+($y^\s$ is not available for both $d^\s=0,1$).
 
 
