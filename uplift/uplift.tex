@@ -6,9 +6,9 @@ This chapter is based mainly on Ref.\cite{scikit-uplift}.
 Ref.\cite{scikit-uplift} is the github repo for
 the excellent open source Python package {\tt scikit-uplift}.
 As its name implies, this package is
-integrated with the Python libraries {\tt scikit}, in especially
+integrated with the Python libraries {\tt scikit}. In particular, it is integrated with
 the AI package {\tt scikit-learn} .
- {\tt scikit-uplift} contains a great tutorial 
+ {\tt scikit-uplift} contains a nice tutorial 
  on uplift modelling
  done with its software. It also contains about half a dozen
 jupyter notebooks illustrating the usage
@@ -55,7 +55,7 @@ RCT (Randomized Controlled Trial) and additional steps. It
 entails performing an
 RCT  and 
  calculating  the \qt{Uplift} or \qt{Uplift2} for that  RCT.
- \footnote{Uplift and Uplift2 to be defined later.}
+ \footnote{Uplift and Uplift2 will be defined later.}
 From that, UM builds a classifier that opines whether individuals are
 persuadable or not. UM also plots something called a Qini curve that predicts
 what fraction of the population is persuadable. 
@@ -73,16 +73,13 @@ a scarce resource.
 Fig.\ref{fig-up-bnet} shows bnets for 2 experiments. Bnet $(a)$\footnote{
 Note that bnet \ref{fig-up-bnet}$(a)$ 
 is the bnet for Rubin's theory of 
-Potential Outcomes (PO).
+Potential Outcomes (PO)
+with arrow $\rvx\rarrow \rvd$ amputated.
 PO, which is
 discussed in Chapter \ref{ch-pot-out},
  is a subset
 of Pearl's Causal Inference.
-Besides UM, other  applications of PO theory
-that are discussed in this book 
-are: Regression Discontinuity (Chapter \ref{ch-reg-dis}),
-Difference-in-Differences (Chapter \ref{ch-did})
-and Synthetic Controls (Chapter \ref{ch-syn-con}).} is for an RCT experiment measuring 
+} is for an RCT experiment measuring 
 Uplift and Bnet $(b)$ is for one measuring Uplift2. 
 The node variables of bnets Fig.\ref{fig-up-bnet}
 $(a)$ and $(b)$
@@ -119,12 +116,16 @@ randomized population into two equal parts:
 the control group and the treated group.
 The control group is not treated (its members do
 not receive the persuasive brochure or treatment). On the other hand, enacting bnet $(b)$ requires
-sending all customers, before and after treatment, both (1) a brochure/treatment,
-and  (2) a questionnaire/survey asking them who they are voting for.
+treating all customers, plus, in addition,
+sending to 
+all customers, before
+and after the treatment/intervention, a questionnaire/survey  
+asking them if they are going to
+vote for the target candidate.
 Hence, one can use the treated group of
 bnet $(a)$ as the full cohort of bnet $(b)$.
 
-Note that bnet $(a)$, 
+Note that for bnet $(a)$, 
 \beq
 P(y, d, x) = P(y|d,x)P(d)P(x)
 \eeq
@@ -152,10 +153,11 @@ P(\rvy=1|\rvd=1, \rvx=x) -
 P(\rvy=1|\rvd=0, \rvx=x)
 \eeq
 the {\bf uplift for stratum $x$}.
-If $x=x^\s$, we can call it the {\bf uplift
+If $x=x^\s$, we will call it the {\bf uplift
 for individual $\s$}.
-Note that this identical to what 
-we referred to in the chapter on PO theory (Chapter \ref{ch-po-out}) as: ATE (Average Treatment Effect) or
+Note that this
+expression is identical to what 
+we referred to in the chapter on PO theory (Chapter \ref{ch-pot-out}) as: ATE (Average Treatment Effect) or
 ACE (Average Causal Effect). ATE=ACE.\footnote{More precisely, this is
 CATE (conditional ATE) or CACE (Conditional ACE),
 $CATE= ATE_x$ and $ATE=\sum_x P(x)ATE_x$.} However, 
@@ -252,8 +254,11 @@ Uplift).
 \end{itemize}
 
 \section{UM classifiers}
-Chapter \ref{ch-meta-learners} on \qt{Meta-learners}
-
+In this section, we will use the
+notation of Chapter \ref{ch-meta-learners} on \qt{Meta-learners}
+to represent an ML-fit (machine learning fit).
+The boxed variable is the variable being fitted. $\Sigma$
+represents the population of samples.
 \begin{itemize}
 \item {\bf S (Single)-learner}
 
@@ -282,14 +287,60 @@ Chapter \ref{ch-meta-learners} on \qt{Meta-learners}
 \delta(x)= P(\rvy=1|\rvd=1, x)
 - P(\rvy=1|\rvd=0, x)
 \eeq
+
+\item {\bf Class transformation}
+
+\begin{claim}
+Let 
+
+\beq
+z = dy + (1-d)(1-y)
+\eeq
+and
+\beq 
+P(d|x)=\frac{1}{2}
+\eeq
+for $d, y\in \bool$.
+Then
+
+\beq
+Uplift = 2P(\rvz=1|x) - 1
+\eeq
+
+\end{claim}
+\proof
+
+\beqa
+2P(\rvz=1|x) &=& 2P(\rvy=1, \rvd=1|x) +  2P(\rvy=0, \rvd=0|x) 
+\\
+&=&P(\rvy=1| \rvd=1, x) +  
+\underbrace{P(\rvy=0| \rvd=0, x)}_{1- P(\rvy=1| \rvd=0, x)}
+\\
+&=&
+1 + \underbrace{P(\rvy=1| \rvd=1, x)-P(\rvy=1| \rvd=0, x)}_{Uplift}
+\eeqa
+\qed
+
+
+\beq
+\{(\s, x^\s,\boxed{z^\s} ):\s\in \Sigma\}
+\mlarr \HAT{z}(x), P(\rvz=1|x)
+\eeq
+
+
 \end{itemize}
+
 
 \section{UM metrics and plots}
 This section refers to Uplift.
-All it results are valid for 
+All its results are valid for 
 Uplift2 if we replace $d$ by $y_0$.
 
+Throughout this section, assume the population is ordered in decreasing 
+order of Uplift. Hence,
 
+\beq \delta(x^1)\geq \delta(x^2)\geq \delta(x^3)\geq \cdots
+\eeq
 
 
 
@@ -319,45 +370,49 @@ $d \backslash y$ & \cellcolor[HTML]{FFFFC7}0 & \cellcolor[HTML]{FFFFC7}1 \\ \hli
 \item {\bf Uplift by percentile (i.e., by bin) plot}
 
 \begin{itemize}[\checkmark]
-\item Assume the population is ordered in decreasing 
-order of Uplift. Hence,
-
-\beq \delta(x^1)\geq \delta(x^2)\geq \delta(x^3)\geq \cdots
-\eeq
-\item Bin this sequence of uplifts into bins with $n_C$ individuals
+\item Bin the sequence of uplifts into bins with $n_C$ individuals
 for the control group bins 
-and $n_T$ for the treated group bins.
+and $n_T$ individuals for the treated group bins.
 \item Plot bin label versus average uplift in bin.
-Alternatively, plot bin label versus average of response
-in treated group minus average of response in control group.
-Plot can be a bar graph or a continuous curve
+Alternatively, plot bin label versus average in that bin of response
+in treated group minus average in that bin of response in control group.
+Plot can be a continuous curve as in Fig. \ref{fig-line-up-bin}
+or 
+a bar graph, as in Fig.\ref{fig-bar-up-bin}
 
 \end{itemize}
 
-\item {\bf percentile bin vs bin av. uplift plot}
+\item {\bf Uplift plot}
+
+Plot \beq (\s,\delta(x^\s))\eeq for $\s=1,2,3, \ldots$.
+
 \item {\bf Qini curve}
 
-Assume the population is ordered in decreasing 
-order of Uplift. Hence,
-
-\beq \delta(x^1)\geq \delta(x^2)\geq \delta(x^3)\geq\cdots\eeq
-Let 
-
-\beq S_{\Delta} = \{\s:\delta(x^\s) \geq \Delta\}\eeq
-A Qini curve is a
- plot of $(X_\Delta, Y_\Delta)$ for all $\Delta>0$,
-where
-
-\beq
-X_\Delta = |S_{\Delta}|, \quad
-Y_\Delta= \sum_{\s\in S_{\Delta}}\delta(x^\s)
-\eeq
- As $\Delta$ decreases, a Qini curve rises fast at first, and then its slope decreases,
- until
-at some threshold slope value $c_0$, the slope is 
-considered as too small to care. No marketing resources are
+A Qini curve (a.k.a. cummulative uplift curve) is a
+ plot of 
+ \beq (\s, \sum_{\s'\leq \s}\delta(x^{\s'}))\eeq
+ for $\s=1,2,3, \dots$ 
+ As $\s$ increases, a Qini curve rises fast at first, and then it typically reaches a maximum and starts decreasing.
+ This happens because the $\delta(x^\s)$ for $\s=1,2,3,\ldots$ are positive
+ at first but eventually become negative.
+ No marketing resources are
 directed towards
-customers with slope beyond that point.
+customers with $\s$ 
+to the right of the maximum.
+
+See Fig.\ref{fig-qini} for an example of a Qini curve.
+
+
+ Let AUC = area under curve, $A_c$ = Area under curve $c
+ \in \{ideal, random, real\}$. Define the {\bf Qini AUC coefficient} by
+ 
+\beq 
+\phi= \frac{A_{real}-A_{random}}
+ {A_{ideal}-A_{random}}
+ \eeq
+Note $0\leq \phi \leq 1$
+
+
 
 \end{itemize}
 
@@ -366,7 +421,7 @@ customers with slope beyond that point.
 \centering
 \includegraphics[width=5in]
 {uplift/line-uplift-binned.png}
-\caption{Mount Vesuvius and Bay of Naples 
+\caption{Example of Uplift by percentile.
 (from Ref.\cite{scikit-uplift})}
 \label{fig-line-up-bin}
 \end{figure}
@@ -375,7 +430,10 @@ customers with slope beyond that point.
 \centering
 \includegraphics[width=5in]
 {uplift/bar-uplift-binned.png}
-\caption{Mount Vesuvius and Bay of Naples 
+\caption{Example of Uplift by percentile. 
+Same data as in Fig. \ref{fig-line-up-bin},
+but conveyed as a bar plot
+instead of as a line plot.
 (from Ref.\cite{scikit-uplift})}
 \label{fig-bar-up-bin}
 \end{figure}
@@ -384,7 +442,7 @@ customers with slope beyond that point.
 \centering
 \includegraphics[width=5in]
 {uplift/qini.png}
-\caption{Mount Vesuvius and Bay of Naples 
+\caption{Example of Qini curve.
 (from Ref.\cite{scikit-uplift})}
 \label{fig-qini}
 \end{figure}
