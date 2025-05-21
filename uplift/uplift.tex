@@ -9,8 +9,7 @@ As its name implies, this package is
 integrated with the Python libraries {\tt scikit}. In particular, it is integrated with
 the AI package {\tt scikit-learn} .
  {\tt scikit-uplift} contains a nice tutorial 
- on uplift modelling
- done with its software. It also contains about half a dozen
+ on uplift modelling. It also contains about half a dozen
 jupyter notebooks illustrating the usage
 of its software for various datasets which it includes. I've also created
 my own repo called {\tt uplift\_rocket}
@@ -40,7 +39,7 @@ $$\begin{array}{ccc}
 \end{array}
 $$
 \caption{Bnets for Uplift Modelling (UM). 
-Bnet $(a)$ is for an RCT experiment measuring Uplift and Bnet $(b)$ is for one measuring Uplift2. 
+Bnet $(a)$ is for an RCT experiment measuring Uplift, and Bnet $(b)$ is for one measuring Uplift2. 
  Since we assume an RCT, the arrows $\rvx\rarrow \rvd$ 
 and $\rvx\rarrow \rvy_0$ have been amputated (i.e., removed). This is equivalent to assuming that $P(d|x)=P(d)$ and
 $P(y_0|x)=P(y_0)$.
@@ -54,7 +53,8 @@ is an experiment that performs an
 RCT (Randomized Controlled Trial) and additional steps. It 
 entails performing an
 RCT  and 
- calculating  the \qt{Uplift} or \qt{Uplift2} for that  RCT.
+ calculating  the \qt{Uplift} or \qt{Uplift2} for that  RCT
+ for each individual.
  \footnote{Uplift and Uplift2 will be defined later.}
 From that, UM builds a classifier that opines whether individuals are
 persuadable or not. UM also plots something called a Qini curve that predicts
@@ -80,7 +80,7 @@ discussed in Chapter \ref{ch-pot-out},
  is a subset
 of Pearl's Causal Inference.
 } is for an RCT experiment measuring 
-Uplift and Bnet $(b)$ is for one measuring Uplift2. 
+Uplift, and Bnet $(b)$ is for one measuring Uplift2. 
 The node variables of bnets Fig.\ref{fig-up-bnet}
 $(a)$ and $(b)$
 are defined as follows:
@@ -139,7 +139,7 @@ Usually, $P(d) = \frac{1}{2}$.
 Let us denote each {\bf customer} (i.e., {\bf voter}, {\bf participant},  {\bf sample}) 
 by $\s$,
 where 
-\beq\s\in \Sigma=\{0,1,2, \ldots, nsam-1\}
+\beq\s\in \Sigma=\{1,2, \ldots, nsam\}
 \eeq
 
 \subsection{Uplift definition}
@@ -163,6 +163,7 @@ CATE (conditional ATE) or CACE (Conditional ACE),
 $CATE= ATE_x$ and $ATE=\sum_x P(x)ATE_x$.} However, 
 here we are applying it to 
 the specialized scenario of an RCT. 
+
 
 
 \subsection{Uplift2 definition}
@@ -205,6 +206,12 @@ the Uplift2 for customer $\s$.
 \subsection{UM customer types}
 \label{sec-up-types}
 
+Note that for both Uplift and Uplift2,
+
+\beq
+-1\leq \delta(x) \leq 1
+\eeq
+
 \begin{figure}[h!]
 \centering
 \includegraphics[width=6in]
@@ -213,12 +220,12 @@ the Uplift2 for customer $\s$.
 can be used to classify
 all customers of the
 population into 4 UM-types.
-This figure 
-assumes $y\in \bool$.
-More generally, $y\in \RR$.
 $t$ represents time. $t_0< t_1$.
 This figure is for Uplift2. 
-For Uplift replace $y_{t_0}$ by $d$.} 
+For Uplift, the left figure
+is invalid,
+but the right one is valid
+if we replace $y_{t_0}$ by $d$.} 
 \label{fig-uplift-y-t}
 \end{figure}
 
@@ -402,15 +409,31 @@ to the right of the maximum.
 
 See Fig.\ref{fig-qini} for an example of a Qini curve.
 
+The {\bf real Qini curve} is situated between the random one and
+the perfect one. The {\bf perfect Qini curve} has 
++1 slope at the beginning, then zero slope,
+and finally -1 slope at the end.
+The {\bf random Qini curve} is a straight line
+between the 2 endpoints of the perfect Qini curve.
+Both the perfect and random Qini curves are 
+portrayed in Fig.\ref{fig-perfect-and-random}.
+In that figure, 
+
+\beq
+N_+= \sum_{\s} \indi(\delta(x^\s) >0),
+\quad 
+N_-= \sum_{\s} \indi(\delta(x^\s) <0)
+\eeq
+and $N$ is the size of the total population.
 
  Let AUC = area under curve, $A_c$ = Area under curve $c
- \in \{ideal, random, real\}$. Define the {\bf Qini AUC coefficient} by
+ \in \{perfect, random, real\}$. Define the {\bf Qini AUC coefficient} by
  
 \beq 
 \phi= \frac{A_{real}-A_{random}}
- {A_{ideal}-A_{random}}
+ {A_{perfect}-A_{random}}
  \eeq
-Note $0\leq \phi \leq 1$
+Note that $0\leq \phi \leq 1$
 
 
 
@@ -445,6 +468,14 @@ instead of as a line plot.
 \caption{Example of Qini curve.
 (from Ref.\cite{scikit-uplift})}
 \label{fig-qini}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4in]
+{uplift/perfect-and-random.png}
+\caption{Perfect and random Qini curves.}
+\label{fig-perfect-and-random}
 \end{figure}
 
 
