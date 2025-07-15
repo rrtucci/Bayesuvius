@@ -1,9 +1,9 @@
 # Welcome to Bayesuvius
 
-This is a free, open source book about Bayesian Networks
+This is a free, open source book about Bayesian Networks (bnets)
 and Causal Inference. 
 
-A different Bayesian network topic is discussed in each chapter.
+A different bnet topic is discussed in each chapter.
 Chapter titles are in alphabetical order.
 
 THIS BOOK IS CONTINUOUSLY BEING IMPROVED AND EXPANDED. MAKE SURE YOU HAVE 
