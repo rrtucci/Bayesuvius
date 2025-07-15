@@ -3,8 +3,7 @@
 This is a book about Bayesian Networks
 and Causal Inference. 
 
-A different Bayesian network is discussed in each chapter. 
-Each chapter title is the name of a B net. 
+A different Bayesian network topic is discussed in each chapter.
 Chapter titles are in alphabetical order.
 
 THIS BOOK IS CONTINUOUSLY BEING IMPROVED AND EXPANDED. MAKE SURE YOU HAVE 
