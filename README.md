@@ -1,6 +1,6 @@
-# Bayesuvius
+# Welcome to Bayesuvius
 
-This is a book about Bayesian Networks
+This is a free, open source book about Bayesian Networks
 and Causal Inference. 
 
 A different Bayesian network topic is discussed in each chapter.
