@@ -1,6 +1,6 @@
 \chapter{Renormalization Group for Bayesian Networks}
 \label{ch-renorm-group-bnets}
-\section{information Theory review}
+\section{Information Theory Conventions}
 \beq
 H(\rvx)=-\sum_{x\in val(\rvx)} P(x)\ln P(x)
 \eeq
@@ -47,7 +47,44 @@ Likewise, when $\rvy$ becomes determinstic,
 $H(
 \rvx: \rvy)= H(\rvy)$
 \qed
-\section{Ising Model bnet}
+
+\section{Scaling a General Bnet}
+
+Let
+
+$I_R=$ set of indices of roots. In Fig.\ref{fig-fishnet},
+$I_R=\{1,2,3,4,5 \}$
+
+$I_{NR}=$ set of non-root indices. In Fig.\ref{fig-fishnet},
+$I_{NR}=\{6,7,8, \ldots 25\}$
+
+$|I_R| + |I_{NR}|=n=$ total number of nodes
+
+
+\beq
+P(x^{:n}) = \left[ \prod_{i\in I_{NR}}P(x_i\mid pa(\rvx_i))\right]\prod_{i\in I_R}P(x_i)
+\eeq
+
+$1<b<\infty$
+\beq
+P(x_i\mid pa(\rvx_i); b)=
+\frac{P(x_i\mid pa(\rvx_i))^b}
+{Z_i}
+\eeq
+
+\beq
+Z_i=\sum_{x_i\in val(x_i)}P(x_i\mid pa(\rvx_i))^b
+\eeq
+
+As $b\rarrow \infty$,
+
+\beq
+P(x_i\mid pa(\rvx_i); b)\rarrow \delta[1, \max_i P(x_i\mid pa(\rvx_i);b=1)]
+\eeq
+
+
+
+\section{Scaling Ising Model Bnet}
 
 $Bool=\bool$
 
@@ -57,17 +94,17 @@ $S_i, S_a, S_b\in \{1, -1\} =2 Bool-1=\ZZ_\pm$
 
 
 \beq
-H_i = \frac{1}{2}g S_i (S_a + S_b) + h S_i,\quad H=\sum_i H_i
+\calh_i = \frac{1}{2}g S_i (S_a + S_b) + h S_i,\quad \calh=\sum_i \calh_i
 \eeq
 
 \beq
-b_e = \beta = 1/T
+b = \beta = 1/T
 \eeq
 
 
 
 \beq
-Z_i = \sum_{S_i\in \ZZ_{\pm}}e^{-\beta H_i}
+Z_i = \sum_{S_i\in \ZZ_{\pm}}e^{-\beta \calh_i}
 \eeq
 
 \beq
@@ -80,7 +117,7 @@ Z_i = \sum_{S_i\in \ZZ_{\pm}}e^{-\beta H_i}
 }
 \end{array}
 \quad
-P(S_i|S_a, S_b; \beta)=  \frac{e^{-\beta H_i}}{Z_i}
+P(S_i|S_a, S_b; \beta)=  \frac{e^{-\beta \calh_i}}{Z_i}
 \eeq
 
 \begin{figure}[h!]
@@ -125,27 +162,20 @@ P(S_i|S_a, S_b; \beta)=  \frac{e^{-\beta H_i}}{Z_i}
 
 \beq
 \begin{array}{l}
-P(S_6\mid S_1, S_2;\beta)=\frac{e^{-\beta H_6}}{Z_6}
+P(S_6\mid S_1, S_2;\beta)=\frac{e^{-\beta \calh_6}}{Z_6}
 \\
-H_6 = \frac{1}{2}g S_6 (S_1 + S_2) + h S_6
+\calh_6 = \frac{1}{2}g S_6 (S_1 + S_2) + h S_6
 \end{array}
 \eeq
 
 \beq
 \begin{array}{l}
-P(S_{10}\mid S_5;\beta)=\frac{e^{-\beta H_{10}}}{Z_{10}}
+P(S_{10}\mid S_5;\beta)=\frac{e^{-\beta \calh_{10}}}{Z_{10}}
 \\
-H_{10} = g S_{10} S_5 + h S_{10}
+\calh_{10} = g S_{10} S_5 + h S_{10}
 \end{array}
 \eeq
 
-$I_R=$ set of indices of roots. In Fig.\ref{fig-fishnet},
-$I_R=\{1,2,3,4,5 \}$
-
-$I_{NR}=$ set of non-root indices. In Fig.\ref{fig-fishnet},
-$I_{NR}=\{6,7,8, \ldots 25\}$
-
-$|I_R| + |I_{NR}|=n=$ total number of nodes
 
 
 \beq
