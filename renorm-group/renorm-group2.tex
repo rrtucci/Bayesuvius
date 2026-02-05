@@ -1,7 +1,9 @@
 $Bool=\bool$
 
  
-$S_i, S_a, S_b\in \{1, -1\} =2 Bool-1$
+$S_i, S_a, S_b\in \{1, -1\} =2 Bool-1=\ZZ_\pm$
+
+
 
 \beq
 H_i = \frac{1}{2}g S_i (S_a + S_b) + h S_i,\quad H=\sum_i H_i
@@ -12,55 +14,67 @@ b_e = \beta = 1/T
 \eeq
 
 
-\beq
-P(S_i|S_a, S_b)=  \frac{e^{-\beta H_i}}{Z_i}
-\eeq
 
 \beq
-Z_i = \sum_{S_i=\pm 1}e^{-\beta H_i}
-\eeq
-
-\beq
-\xymatrix@R=.8pc@C=.8pc{
-\ul{S}_1\ar[dr] 
-&& \ul{S}_2 \ar[dl]\ar[dr]
-&& \ul{S}_3 \ar[dl]\ar[dr]
-&& \ul{S}_4\ar[dl]\ar[dr]
-&& \ul{S}_5\ar[dl]\ar[dr]
-\\
-& 
-\ul{S}_{6}\ar[dr] 
-&& \ul{S}_{7} \ar[dl]\ar[dr]
-&& \ul{S}_{8} \ar[dl]\ar[dr]
-&& \ul{S}_{9}\ar[dl]\ar[dr]
-&& \ul{S}_{10}\ar[dl]\ar[dr]
-\\
-&&
-\ul{S}_{11}\ar[dr] 
-&& \ul{S}_{12} \ar[dl]\ar[dr]
-&& \ul{S}_{13}\ar[dl]\ar[dr]
-&& \ul{S}_{14}\ar[dl]\ar[dr]
-&& \ul{S}_{15}\ar[dl]\ar[dr]
-\\
-&&&
-\ul{S}_{16}\ar[dr] 
-&& \ul{S}_{17} \ar[dl]\ar[dr]
-&& \ul{S}_{18} \ar[dl]\ar[dr]
-&& \ul{S}_{19}\ar[dl]\ar[dr]
-&& \ul{S}_{20}\ar[dl]\ar[dr]
-\\
-&&&&
-\ul{S}_{21} 
-&& \ul{S}_{22} 
-&& \ul{S}_{23} 
-&& \ul{S}_{24}
-&& \ul{S}_{25}
-}
+Z_i = \sum_{S_i\in \ZZ_{\pm}}e^{-\beta H_i}
 \eeq
 
 \beq
 \begin{array}{l}
-P(S_6\mid S_1, S_2)=\frac{e^{-\beta H_6}}{Z_6}
+\xymatrix@C=1pc@R=1pc{
+\rvS_a\ar[dr]
+&&\rvS_b\ar[dl]
+\\
+&\rvS_i
+}
+\end{array}
+\quad
+P(S_i|S_a, S_b; \beta)=  \frac{e^{-\beta H_i}}{Z_i}
+\eeq
+
+\begin{figure}[h!]
+\xymatrix@R=.8pc@C=.8pc{
+\rvS_1\ar[dr] 
+&& \rvS_2 \ar[dl]\ar[dr]
+&& \rvS_3 \ar[dl]\ar[dr]
+&& \rvS_4\ar[dl]\ar[dr]
+&& \rvS_5\ar[dl]\ar[dr]
+\\
+& 
+\rvS_{6}\ar[dr] 
+&& \rvS_{7} \ar[dl]\ar[dr]
+&& \rvS_{8} \ar[dl]\ar[dr]
+&& \rvS_{9}\ar[dl]\ar[dr]
+&& \rvS_{10}\ar[dl]\ar[dr]
+\\
+&&
+\rvS_{11}\ar[dr] 
+&& \rvS_{12} \ar[dl]\ar[dr]
+&& \rvS_{13}\ar[dl]\ar[dr]
+&& \rvS_{14}\ar[dl]\ar[dr]
+&& \rvS_{15}\ar[dl]\ar[dr]
+\\
+&&&
+\rvS_{16}\ar[dr] 
+&& \rvS_{17} \ar[dl]\ar[dr]
+&& \rvS_{18} \ar[dl]\ar[dr]
+&& \rvS_{19}\ar[dl]\ar[dr]
+&& \rvS_{20}\ar[dl]\ar[dr]
+\\
+&&&&
+\rvS_{21} 
+&& \rvS_{22} 
+&& \rvS_{23} 
+&& \rvS_{24}
+&& \rvS_{25}
+}
+\caption{Fishnet bnet used for Ising model simulation}
+\label{fig-fishnet}
+\end{figure}
+
+\beq
+\begin{array}{l}
+P(S_6\mid S_1, S_2;\beta)=\frac{e^{-\beta H_6}}{Z_6}
 \\
 H_6 = \frac{1}{2}g S_6 (S_1 + S_2) + h S_6
 \end{array}
@@ -68,8 +82,65 @@ H_6 = \frac{1}{2}g S_6 (S_1 + S_2) + h S_6
 
 \beq
 \begin{array}{l}
-P(S_{10}\mid S_5)=\frac{e^{-\beta H_{10}}}{Z_{10}}
+P(S_{10}\mid S_5;\beta)=\frac{e^{-\beta H_{10}}}{Z_{10}}
 \\
 H_{10} = g S_{10} S_5 + h S_{10}
 \end{array}
 \eeq
+
+$I_R=$ set of indices of roots. In Fig.\ref{fig-fishnet},
+$I_R=\{1,2,3,4,5 \}$
+
+$I_{NR}=$ set of non-root indices. In Fig.\ref{fig-fishnet},
+$I_{NR}=\{6,7,8, \ldots 25\}$
+
+$|I_R| + |I_{NR}|=n=$ total number of nodes
+
+
+\beq
+P(S^{:n})=\left[\prod_{i\in I_{NR}}  P(S_i\mid pa(\rvS_i))\right]
+\prod_{j\in I_R} P(S_j)
+\eeq
+
+
+\beq
+H(\rvS_i : pa(\rvS_i))=
+\sum_{S_i\in \ZZ_\pm}\sum_{pa(\rvS_i)\in \ZZ^2_{\pm}}P(S_i, pa(\rvS_i))
+\ln \frac{P(S_i\mid pa(\rvS_i))}{P(S_i)}
+\eeq
+
+\beq
+H(\rvS_i)=-\sum_{S_i\in \ZZ_\pm}P(S_i)\ln P(S_i)
+\eeq
+
+\beq
+H(\rvS^{:n})=-\sum_{S^{:n}\in \ZZ^n_\pm}P(S^{:n})\ln P(S^{:n})
+\eeq
+
+\begin{claim}
+
+\beq
+\sum_{i=1}^n H(\rvS_i)-H(\rvS^{:n})=
+\sum_{i\in I_{NR}} H(\rvS_i : pa(\rvS_i))
+\eeq
+Note that both sides equal zero
+when all the nodes are uncorrelated.
+\end{claim}
+\proof
+
+
+\beq
+\frac{P(S^{:n})}{\prod_{i=1}^n
+P(S_i)}=\prod_{i\in I_{NR}}  \frac{P(S_i\mid pa(\rvS_i))}{P(S_i)}
+\eeq
+
+
+\beq
+\sum_{S^{:n}\in \ZZ_{\pm}^n}P(S^{:n})\ln \frac{P(S^{:n})}{\prod_{i=1}^n P(S_i)}=
+\sum_{i\in I_{NR}}H(\rvS_i : pa(\rvS_i))
+\eeq
+
+
+
+\qed
+
