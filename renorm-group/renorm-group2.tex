@@ -1,3 +1,54 @@
+\chapter{Renormalization Group for Bayesian Networks}
+\label{ch-renorm-group-bnets}
+\section{information Theory review}
+\beq
+H(\rvx)=-\sum_{x\in val(\rvx)} P(x)\ln P(x)
+\eeq
+
+\beq
+H(\rvy\mid \rvx) =-
+\sum_{x\in val(\rvx)}
+\sum_{y\in val(\rvy)}
+P(x,y)\ln P(y|x)
+\eeq
+
+\beqa
+H(\rvx:\rvy)&=&\sum_{x\in val(\rvx)}
+\sum_{y\in val(\rvy)}
+P(x,y)\ln \frac{P(x,y)}{P(x)P(y)}
+\\
+&=& H(\rvy)-H(\rvy|\rvx)=H(\rvx)-H(\rvx|\rvy)
+\eeqa
+
+
+\begin{claim}
+\beq
+0\leq H(\rvx)\leq \ln|val(\rvx)|
+\eeq
+\beq
+0\leq H(\rvx: \rvy)\leq \min(H(\rvx), H(\rvy))
+\eeq
+\end{claim}
+\proof
+
+The minimum occurs when $P(x,y)=P(x)P(y)$
+(i.e., $\rvx$ and $\rvy$ are uncorrelated).
+
+The maximum occurs when $\rvx$ becomes
+deterministic 
+or $\rvy$ becomes deterministic. 
+When $\rvx$ becomes deterministic,
+
+\beq
+H(\rvx|\rvy)=0\implies 
+ H(\rvx: \rvy)= H(\rvx)
+\eeq
+Likewise, when $\rvy$ becomes determinstic, 
+$H(
+\rvx: \rvy)= H(\rvy)$
+\qed
+\section{Ising Model bnet}
+
 $Bool=\bool$
 
  
@@ -103,6 +154,19 @@ P(S^{:n})=\left[\prod_{i\in I_{NR}}  P(S_i\mid pa(\rvS_i))\right]
 \eeq
 
 
+
+\begin{claim}
+
+\beq
+\sum_{i=1}^n H(\rvS_i)-H(\rvS^{:n})=
+\sum_{i\in I_{NR}} H(\rvS_i : pa(\rvS_i))
+\leq \sum_{i\in I_{NR}}H(\rvS_i)
+\eeq
+Note that both sides equal zero
+when all the nodes are uncorrelated.
+\end{claim}
+\proof
+
 \beq
 H(\rvS_i : pa(\rvS_i))=
 \sum_{S_i\in \ZZ_\pm}\sum_{pa(\rvS_i)\in \ZZ^2_{\pm}}P(S_i, pa(\rvS_i))
@@ -116,18 +180,6 @@ H(\rvS_i)=-\sum_{S_i\in \ZZ_\pm}P(S_i)\ln P(S_i)
 \beq
 H(\rvS^{:n})=-\sum_{S^{:n}\in \ZZ^n_\pm}P(S^{:n})\ln P(S^{:n})
 \eeq
-
-\begin{claim}
-
-\beq
-\sum_{i=1}^n H(\rvS_i)-H(\rvS^{:n})=
-\sum_{i\in I_{NR}} H(\rvS_i : pa(\rvS_i))
-\eeq
-Note that both sides equal zero
-when all the nodes are uncorrelated.
-\end{claim}
-\proof
-
 
 \beq
 \frac{P(S^{:n})}{\prod_{i=1}^n
