@@ -48,7 +48,7 @@ $H(
 \rvx: \rvy)= H(\rvy)$
 \qed
 
-\begin{claim}
+\begin{claim}\label{cl-mutual-info-bd}
 
 \beq
 \sum_{i=1}^n H(\rvx_i)-H(\rvx^{:n})=
@@ -130,6 +130,13 @@ $$
 \bcen
 \xymatrix{
 \rvS_i\ar@{-}[r]&\rvS_j
+}
+\ecen
+=
+\bcen
+\xymatrix{
+\rvS_i\ar@/_1pc/[r]
+&\rvS_j\ar@/_1pc/[l]
 }
 \ecen
 =
@@ -330,7 +337,48 @@ P(D^{:n})=
 \prod_{i=1}^n P(S_i^X)
 \eeq
 
+For a 2-dim Ising bnet,
+Claim \ref{cl-mutual-info-bd}
+can be specialized as follows.
+Note that as 
+$S_i^X\rarrow S_i^Y$,
+$D_i=(S_i^X,S_i^Y)\rarrow (S_i^X, S_i^X)=
+(S_i^Y, S_i^Y)$
+
+\beq
+\sum_{i=1}^n
+ H(\rvx_i)-H(\rvx^{:n})=
+\sum_{i\in I_{NR}} H(\rvx_i : pa(\rvx_i))
+\leq \sum_{i\in I_{NR}}H(\rvx_i)
+\eeq
 
 
+\beq
+\sum_{i=1}^nH(\rvx_i)=
+\sum_{i=1}^n H(\rvS_i^X)
+\eeq
+
+\beq
+H(\rvx^{:n})=H(\rvD^{:n})
+\eeq
+
+\beq
+\sum_{i\in I_{NR}} H(\rvx_i : pa(\rvx_i))
+=
+\sum_{i=1}^n H(\rvS_i^Y:pa(\rvS_i^Y))
+\eeq
+
+\beq
+\sum_{i\in I_{NR}}H(\rvx_i)=
+\sum_{i=1}^n H(\rvS^X_i)
+\eeq
 
 
+\beq
+\sum_{i=1}^n H(\rvS_i^X)
+-H(\rvD^{:n})
+=
+\sum_{i=1}^n H(\rvS_i^Y:pa(\rvS_i^Y))
+\leq
+\sum_{i=1}^n H(\rvS^X_i)
+\eeq
