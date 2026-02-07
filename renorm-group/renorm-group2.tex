@@ -52,17 +52,17 @@ $H(
 
 Let
 
-$I_R=$ set of indices of roots. In Fig.\ref{fig-fishnet},
-$I_R=\{1,2,3,4,5 \}$
+$\calr=$ set of root nodes. 
 
-$I_{NR}=$ set of non-root indices. In Fig.\ref{fig-fishnet},
-$I_{NR}=\{6,7,8, \ldots 25\}$
+$\calr^c=$ set of non-root indices.
 
-$|I_R| + |I_{NR}|=n=$ total number of nodes
+$n=$ total number of nodes
+
+$x^{:n}= (x_1, x_2, \ldots, x^n)$
 
 
 \beq
-P(x^{:n}) = \left[ \prod_{i\in I_{NR}}P(x_i\mid pa(\rvx_i))\right]\prod_{i\in I_R}P(x_i)
+P(x^{:n}) = \left[ \prod_{\rvx_i\in \calr^c}P(x_i\mid pa(\rvx_i))\right]\prod_{\rvx_i\in\calr}P(x_i)
 \eeq
 
 $1<b<\infty$
@@ -154,6 +154,7 @@ $$
 
 
 \begin{figure}[h!]
+$$
 \xymatrix@R=.8pc@C=.8pc{
 \rvS_1\ar@{<->}[dr] 
 && \rvS_2 \ar@{<->}[dl]\ar@{<->}[dr]
@@ -161,34 +162,30 @@ $$
 && \rvS_4\ar@{<->}[dl]\ar@{<->}[dr]
 && \rvS_5\ar@{<->}[dl]\ar@{<->}[dr]
 \\
-& 
-\rvS_{6}\ar@{<->}[dr] 
+&\rvS_{6}\ar@{<->}[dl]\ar@{<->}[dr] 
 && \rvS_{7} \ar@{<->}[dl]\ar@{<->}[dr]
 && \rvS_{8} \ar@{<->}[dl]\ar@{<->}[dr]
 && \rvS_{9}\ar@{<->}[dl]\ar@{<->}[dr]
-&& \rvS_{10}\ar@{<->}[dl]\ar@{<->}[dr]
+&& \rvS_{10}\ar@{<->}[dl]
 \\
-&&
 \rvS_{11}\ar@{<->}[dr] 
 && \rvS_{12} \ar@{<->}[dl]\ar@{<->}[dr]
 && \rvS_{13}\ar@{<->}[dl]\ar@{<->}[dr]
 && \rvS_{14}\ar@{<->}[dl]\ar@{<->}[dr]
 && \rvS_{15}\ar@{<->}[dl]\ar@{<->}[dr]
 \\
-&&&
-\rvS_{16}\ar@{<->}[dr] 
+&\rvS_{16}\ar@{<->}[dl]\ar@{<->}[dr] 
 && \rvS_{17} \ar@{<->}[dl]\ar@{<->}[dr]
 && \rvS_{18} \ar@{<->}[dl]\ar@{<->}[dr]
 && \rvS_{19}\ar@{<->}[dl]\ar@{<->}[dr]
-&& \rvS_{20}\ar@{<->}[dl]\ar@{<->}[dr]
+&& \rvS_{20}\ar@{<->}[dl]
 \\
-&&&&
 \rvS_{21} 
 && \rvS_{22} 
 && \rvS_{23} 
 && \rvS_{24}
 && \rvS_{25}
-}
+}$$
 \caption{Bnet used for 2D cubic Ising model simulation}
 \label{fig-fishnet}
 \end{figure}
@@ -196,17 +193,60 @@ $$
 $Bool=\bool$
 
  
-$S_i, S_a, S_b\in \{1, -1\} =2 Bool-1=\ZZ_\pm$
+$S_i, S_i^X, S_i^Y\in \{1, -1\} =2 Bool-1=\ZZ_\pm$
 
+$D_i=(S_i^X, S_i^Y)$
 
-
-\beq
-\calh_i = \frac{1}{2}g S_i (S_a + S_b) + h S_i,\quad \calh=\sum_i \calh_i
-\eeq
-
-\beq
+$
 b = \beta = 1/T
+$
+
+$\calb=$ border nodes
+
+$\calb^c=$ non-border, internal nodes
+
+
+Note that $\rvS_i^X\in \calb^c$ 
+are all
+root nodes.
+\beq \color{blue}
+P(S_i^X)=\quad \text{given for  $\rvS_i^X\in \calb^c$}
 \eeq
+
+We will assume that $\rvS_a^X\in \calb$ 
+are all
+root nodes too.
+
+\beq \color{blue}
+P(S_a^X|S_i^X)=P(S_a^X)=\quad \text{given for  $\rvS_a^X\in \calb$ and $\rvS_i^X\in \calb^c$}
+\eeq
+
+\beq \color{blue}
+P(S_i^Y\mid S_i^X)=\delta(S_i^Y, S_i^X)\quad
+\text{for $\rvS_i^X\in \calb$}
+\eeq
+
+\beq \color{blue}
+P(S_i^Y\mid S_i^X,  S_a^Y, S_b^Y, S_c^Y, S_d^Y;\beta)=
+  \frac{e^{-\beta \calh_i}}{Z_i}\quad 
+\text{for $\rvS_i^Y\in \calb^c$}
+\eeq
+
+
+
+\beq
+\left\{
+\begin{array}{l}
+\calh_i = \frac{1}{2}J S_i^Y (S_a^Y + S_b^Y+
+S_c^Y + S_d^Y) + h S_i^Y +\lam_i (S_i^X - S_i^Y)
+\\
+\calh=\sum_i \calh_i
+\end{array}
+\right.
+\eeq
+$\lam_i\rarrow \infty$
+
+
 
 
 
@@ -214,34 +254,12 @@ b = \beta = 1/T
 Z_i = \sum_{S_i\in \ZZ_{\pm}}e^{-\beta \calh_i}
 \eeq
 
-
-
-
 \beq
-P(S_i|S_a, S_b; \beta)=  \frac{e^{-\beta \calh_i}}{Z_i}
-\eeq
-
-\beq
-\begin{array}{l}
-P(S_6\mid S_1, S_2;\beta)=\frac{e^{-\beta \calh_6}}{Z_6}
-\\
-\calh_6 = \frac{1}{2}g S_6 (S_1 + S_2) + h S_6
-\end{array}
-\eeq
-
-\beq
-\begin{array}{l}
-P(S_{10}\mid S_5;\beta)=\frac{e^{-\beta \calh_{10}}}{Z_{10}}
-\\
-\calh_{10} = g S_{10} S_5 + h S_{10}
-\end{array}
-\eeq
-
-
-
-\beq
-P(S^{:n})=\left[\prod_{i\in I_{NR}}  P(S_i\mid pa(\rvS_i))\right]
-\prod_{j\in I_R} P(S_j)
+P(D^{:n})=\left[
+\prod_{\rvS_i^X \in \calb}\delta(S_i^X, S_i^Y)
+\right]
+\left[\prod_{\rvS_i^Y\in \calb^c}  P(S_i\mid pa(\rvS_i))\right]
+\prod_{\rvS^X_i\in \calb^c} P(S_i^X)
 \eeq
 
 
