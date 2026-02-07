@@ -84,7 +84,114 @@ P(x_i\mid pa(\rvx_i); b)\rarrow \delta[1, \max_i P(x_i\mid pa(\rvx_i);b=1)]
 
 
 
-\section{Scaling Ising Model Bnet}
+\section{Scaling the Bnet for a 2-dim cubic Ising Model}
+
+\begin{figure}[h!]
+$$
+\bcen
+\xymatrix{
+\rvS_i\ar@{<->}[r]&\rvS_j
+}
+\ecen
+=
+\bcen
+\xymatrix@R=1pc@C=3pc{
+\rvS_i^X\ar[d]\ar@/^1pc/[r]
+&\rvS_j^X\ar[d]
+\\
+\rvS_i^Y
+&\rvS_j^Y\ar\ar@/^1pc/[l]
+}
+\ecen
+$$
+\caption{DAG definition of bidirectional arrow.}
+\label{fig-def-bi-ar-dag}
+\end{figure}
+
+
+\begin{figure}[h!]
+$$
+\bcen
+\xymatrix@C=1pc@R=1pc{
+\rvS_a\ar@{<->}[dr]
+&&\rvS_b\ar@{<->}[dl]
+\\
+&\rvS_i
+\\
+\rvS_c\ar@{<->}[ur]
+&&\rvS_d\ar@{<->}[ul]
+}
+\ecen
+=
+\bcen
+\xymatrix@C=2pc@R=1pc{
+\rvS_a^X\ar[d]
+&&\rvS_b^X\ar[d]
+\\
+\rvS_a^Y\ar[ddr]
+&&\rvS_b^Y\ar[ddl]
+\\
+&\rvS_i^X
+\ar[d]
+\ar[luu]\ar[ruu]
+\ar[ddl]\ar[ddr]
+\\
+&\rvS_i^Y
+\\
+\rvS_c^X\ar[d]
+&&\rvS_d^X\ar[d]
+\\
+\rvS_c^Y\ar[uur]
+&&\rvS_d^Y\ar[uul]
+}
+\ecen
+$$
+\caption{DAG definition of a 
+4-point bidirectional interaction.}
+\label{fig-4pt-bi}
+\end{figure}
+
+
+
+\begin{figure}[h!]
+\xymatrix@R=.8pc@C=.8pc{
+\rvS_1\ar@{<->}[dr] 
+&& \rvS_2 \ar@{<->}[dl]\ar@{<->}[dr]
+&& \rvS_3 \ar@{<->}[dl]\ar@{<->}[dr]
+&& \rvS_4\ar@{<->}[dl]\ar@{<->}[dr]
+&& \rvS_5\ar@{<->}[dl]\ar@{<->}[dr]
+\\
+& 
+\rvS_{6}\ar@{<->}[dr] 
+&& \rvS_{7} \ar@{<->}[dl]\ar@{<->}[dr]
+&& \rvS_{8} \ar@{<->}[dl]\ar@{<->}[dr]
+&& \rvS_{9}\ar@{<->}[dl]\ar@{<->}[dr]
+&& \rvS_{10}\ar@{<->}[dl]\ar@{<->}[dr]
+\\
+&&
+\rvS_{11}\ar@{<->}[dr] 
+&& \rvS_{12} \ar@{<->}[dl]\ar@{<->}[dr]
+&& \rvS_{13}\ar@{<->}[dl]\ar@{<->}[dr]
+&& \rvS_{14}\ar@{<->}[dl]\ar@{<->}[dr]
+&& \rvS_{15}\ar@{<->}[dl]\ar@{<->}[dr]
+\\
+&&&
+\rvS_{16}\ar@{<->}[dr] 
+&& \rvS_{17} \ar@{<->}[dl]\ar@{<->}[dr]
+&& \rvS_{18} \ar@{<->}[dl]\ar@{<->}[dr]
+&& \rvS_{19}\ar@{<->}[dl]\ar@{<->}[dr]
+&& \rvS_{20}\ar@{<->}[dl]\ar@{<->}[dr]
+\\
+&&&&
+\rvS_{21} 
+&& \rvS_{22} 
+&& \rvS_{23} 
+&& \rvS_{24}
+&& \rvS_{25}
+}
+\caption{Bnet used for 2D cubic Ising model simulation}
+\label{fig-fishnet}
+\end{figure}
 
 $Bool=\bool$
 
@@ -107,58 +214,12 @@ b = \beta = 1/T
 Z_i = \sum_{S_i\in \ZZ_{\pm}}e^{-\beta \calh_i}
 \eeq
 
+
+
+
 \beq
-\begin{array}{l}
-\xymatrix@C=1pc@R=1pc{
-\rvS_a\ar[dr]
-&&\rvS_b\ar[dl]
-\\
-&\rvS_i
-}
-\end{array}
-\quad
 P(S_i|S_a, S_b; \beta)=  \frac{e^{-\beta \calh_i}}{Z_i}
 \eeq
-
-\begin{figure}[h!]
-\xymatrix@R=.8pc@C=.8pc{
-\rvS_1\ar[dr] 
-&& \rvS_2 \ar[dl]\ar[dr]
-&& \rvS_3 \ar[dl]\ar[dr]
-&& \rvS_4\ar[dl]\ar[dr]
-&& \rvS_5\ar[dl]\ar[dr]
-\\
-& 
-\rvS_{6}\ar[dr] 
-&& \rvS_{7} \ar[dl]\ar[dr]
-&& \rvS_{8} \ar[dl]\ar[dr]
-&& \rvS_{9}\ar[dl]\ar[dr]
-&& \rvS_{10}\ar[dl]\ar[dr]
-\\
-&&
-\rvS_{11}\ar[dr] 
-&& \rvS_{12} \ar[dl]\ar[dr]
-&& \rvS_{13}\ar[dl]\ar[dr]
-&& \rvS_{14}\ar[dl]\ar[dr]
-&& \rvS_{15}\ar[dl]\ar[dr]
-\\
-&&&
-\rvS_{16}\ar[dr] 
-&& \rvS_{17} \ar[dl]\ar[dr]
-&& \rvS_{18} \ar[dl]\ar[dr]
-&& \rvS_{19}\ar[dl]\ar[dr]
-&& \rvS_{20}\ar[dl]\ar[dr]
-\\
-&&&&
-\rvS_{21} 
-&& \rvS_{22} 
-&& \rvS_{23} 
-&& \rvS_{24}
-&& \rvS_{25}
-}
-\caption{Fishnet bnet used for Ising model simulation}
-\label{fig-fishnet}
-\end{figure}
 
 \beq
 \begin{array}{l}
