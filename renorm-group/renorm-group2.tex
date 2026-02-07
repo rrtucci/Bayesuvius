@@ -48,6 +48,45 @@ $H(
 \rvx: \rvy)= H(\rvy)$
 \qed
 
+\begin{claim}
+
+\beq
+\sum_{i=1}^n H(\rvx_i)-H(\rvx^{:n})=
+\sum_{i\in I_{NR}} H(\rvx_i : pa(\rvx_i))
+\leq \sum_{i\in I_{NR}}H(\rvx_i)
+\eeq
+Note that both sides equal zero
+when all the nodes are uncorrelated.
+\end{claim}
+\proof
+
+\beq
+H(\rvx_i : pa(\rvx_i))=
+\sum_{x_i\in \ZZ_\pm}\sum_{pa(\rvx_i)\in \ZZ^2_{\pm}}P(x_i, pa(\rvx_i))
+\ln \frac{P(x_i\mid pa(\rvx_i))}{P(x_i)}
+\eeq
+
+\beq
+H(\rvx_i)=-\sum_{x_i\in \ZZ_\pm}P(x_i)\ln P(x_i)
+\eeq
+
+\beq
+H(\rvx^{:n})=-\sum_{x^{:n}\in \ZZ^n_\pm}P(x^{:n})\ln P(x^{:n})
+\eeq
+
+\beq
+\frac{P(x^{:n})}{\prod_{i=1}^n
+P(x_i)}=\prod_{i\in I_{NR}}  \frac{P(x_i\mid pa(\rvx_i))}{P(x_i)}
+\eeq
+
+
+\beq
+\sum_{x^{:n}\in \ZZ_{\pm}^n}P(x^{:n})\ln \frac{P(x^{:n})}{\prod_{i=1}^n P(x_i)}=
+\sum_{i\in I_{NR}}H(\rvx_i : pa(\rvx_i))
+\eeq
+
+\qed
+
 \section{Scaling a General Bnet}
 
 Let
@@ -84,224 +123,214 @@ P(x_i\mid pa(\rvx_i); b)\rarrow \delta[1, \max_i P(x_i\mid pa(\rvx_i);b=1)]
 
 
 
-\section{Scaling the Bnet for a 2-dim cubic Ising Model}
+\section{Scaling the Bnet for a cubic Ising Model}
 
 \begin{figure}[h!]
 $$
 \bcen
 \xymatrix{
-\rvS_i\ar@{<->}[r]&\rvS_j
+\rvS_i\ar@{-}[r]&\rvS_j
 }
 \ecen
 =
 \bcen
 \xymatrix@R=1pc@C=3pc{
-\rvS_i^X\ar[d]\ar@/^1pc/[r]
-&\rvS_j^X\ar[d]
+\rvS_i^X\ar[dr]\ar[d]
+&\rvS_j^X\ar[dl]\ar[d]
 \\
 \rvS_i^Y
-&\rvS_j^Y\ar\ar@/^1pc/[l]
+&\rvS_j^Y
 }
 \ecen
 $$
-\caption{DAG definition of bidirectional arrow.}
-\label{fig-def-bi-ar-dag}
+\caption{DAG definition of undirected arrow.}
+\label{fig-def-undir-ar-dag}
 \end{figure}
 
-
-\begin{figure}[h!]
-$$
-\bcen
-\xymatrix@C=1pc@R=1pc{
-\rvS_a\ar@{<->}[dr]
-&&\rvS_b\ar@{<->}[dl]
-\\
-&\rvS_i
-\\
-\rvS_c\ar@{<->}[ur]
-&&\rvS_d\ar@{<->}[ul]
-}
-\ecen
-=
-\bcen
-\xymatrix@C=2pc@R=1pc{
-\rvS_a^X\ar[d]
-&&\rvS_b^X\ar[d]
-\\
-\rvS_a^Y\ar[ddr]
-&&\rvS_b^Y\ar[ddl]
-\\
-&\rvS_i^X
-\ar[d]
-\ar[luu]\ar[ruu]
-\ar[ddl]\ar[ddr]
-\\
-&\rvS_i^Y
-\\
-\rvS_c^X\ar[d]
-&&\rvS_d^X\ar[d]
-\\
-\rvS_c^Y\ar[uur]
-&&\rvS_d^Y\ar[uul]
-}
-\ecen
-$$
-\caption{DAG definition of a 
-4-point bidirectional interaction.}
-\label{fig-4pt-bi}
-\end{figure}
-
-
-
-\begin{figure}[h!]
-$$
-\xymatrix@R=.8pc@C=.8pc{
-\rvS_1\ar@{<->}[dr] 
-&& \rvS_2 \ar@{<->}[dl]\ar@{<->}[dr]
-&& \rvS_3 \ar@{<->}[dl]\ar@{<->}[dr]
-&& \rvS_4\ar@{<->}[dl]\ar@{<->}[dr]
-&& \rvS_5\ar@{<->}[dl]\ar@{<->}[dr]
-\\
-&\rvS_{6}\ar@{<->}[dl]\ar@{<->}[dr] 
-&& \rvS_{7} \ar@{<->}[dl]\ar@{<->}[dr]
-&& \rvS_{8} \ar@{<->}[dl]\ar@{<->}[dr]
-&& \rvS_{9}\ar@{<->}[dl]\ar@{<->}[dr]
-&& \rvS_{10}\ar@{<->}[dl]
-\\
-\rvS_{11}\ar@{<->}[dr] 
-&& \rvS_{12} \ar@{<->}[dl]\ar@{<->}[dr]
-&& \rvS_{13}\ar@{<->}[dl]\ar@{<->}[dr]
-&& \rvS_{14}\ar@{<->}[dl]\ar@{<->}[dr]
-&& \rvS_{15}\ar@{<->}[dl]\ar@{<->}[dr]
-\\
-&\rvS_{16}\ar@{<->}[dl]\ar@{<->}[dr] 
-&& \rvS_{17} \ar@{<->}[dl]\ar@{<->}[dr]
-&& \rvS_{18} \ar@{<->}[dl]\ar@{<->}[dr]
-&& \rvS_{19}\ar@{<->}[dl]\ar@{<->}[dr]
-&& \rvS_{20}\ar@{<->}[dl]
-\\
-\rvS_{21} 
-&& \rvS_{22} 
-&& \rvS_{23} 
-&& \rvS_{24}
-&& \rvS_{25}
-}$$
-\caption{Bnet used for 2D cubic Ising model simulation}
-\label{fig-fishnet}
-\end{figure}
+\subsection{1-dim Ising Model}
 
 $Bool=\bool$
 
  
 $S_i, S_i^X, S_i^Y\in \{1, -1\} =2 Bool-1=\ZZ_\pm$
 
-$D_i=(S_i^X, S_i^Y)$
+$D_i=(S_i^X, S_i^Y)$ (\qt{dipole node})
 
 $
 b = \beta = 1/T
 $
 
-$\calb=$ border nodes
+\begin{figure}[h!]
+$$
+\bcen
+\xymatrix{
+\rvS_1\ar@{-}[r]
+&\rvS_2\ar@{-}[r]
+&\rvS_3
+}
+\ecen
+=
+\bcen
+\xymatrix@R=1pc@C=3pc{
+\rvS_1^X\ar[dr]\ar[d]
+&\rvS_2^X\ar[dl]\ar[dr]\ar[d]
+&\rvS_3^X\ar[dl]\ar[d]
+\\
+\rvS_1^Y
+&\rvS_2^Y
+&\rvS_3^Y
+}
+\ecen
+$$
+\caption{DAG definition of 1-dim Ising Model}
+\label{fig-def-1dim-ising}
+\end{figure}
 
-$\calb^c=$ non-border, internal nodes
-
-
-Note that $\rvS_i^X\in \calb^c$ 
-are all
-root nodes.
-\beq \color{blue}
-P(S_i^X)=\quad \text{given for  $\rvS_i^X\in \calb^c$}
+For $i=1,2,3$
+\beq\color{blue}
+P(S_i^X)=\quad\text{given}
 \eeq
-
-We will assume that $\rvS_a^X\in \calb$ 
-are all
-root nodes too.
-
-\beq \color{blue}
-P(S_a^X|S_i^X)=P(S_a^X)=\quad \text{given for  $\rvS_a^X\in \calb$ and $\rvS_i^X\in \calb^c$}
-\eeq
-
-\beq \color{blue}
-P(S_i^Y\mid S_i^X)=\delta(S_i^Y, S_i^X)\quad
-\text{for $\rvS_i^X\in \calb$}
-\eeq
-
-\beq \color{blue}
-P(S_i^Y\mid S_i^X,  S_a^Y, S_b^Y, S_c^Y, S_d^Y;\beta)=
-  \frac{e^{-\beta \calh_i}}{Z_i}\quad 
-\text{for $\rvS_i^Y\in \calb^c$}
-\eeq
-
-
 
 \beq
 \left\{
 \begin{array}{l}
-\calh_i = \frac{1}{2}J S_i^Y (S_a^Y + S_b^Y+
-S_c^Y + S_d^Y) + h S_i^Y +\lam_i (S_i^X - S_i^Y)
+\color{blue}
+P(S_2^Y\mid S_2^X, S_1^X, S_3^X)
+=\frac{e^{-\beta\calh_2}}{Z_2}
 \\
-\calh=\sum_i \calh_i
+\calh_2 = g S_2^Y(S_1^X + S_3^X) + h S_2^Y -\lam_2(S_2^Y-S_2^X),\quad
+\lam_2\rarrow \infty
+\\
+Z_2 = \sum_{S^Y_2\in \ZZ_{\pm}}e^{-\beta\calh_2}
 \end{array}
 \right.
 \eeq
-$\lam_i\rarrow \infty$
 
-
-
-
-
+For $i=1,3$
 \beq
-Z_i = \sum_{S_i\in \ZZ_{\pm}}e^{-\beta \calh_i}
-\eeq
-
-\beq
-P(D^{:n})=\left[
-\prod_{\rvS_i^X \in \calb}\delta(S_i^X, S_i^Y)
-\right]
-\left[\prod_{\rvS_i^Y\in \calb^c}  P(S_i\mid pa(\rvS_i))\right]
-\prod_{\rvS^X_i\in \calb^c} P(S_i^X)
-\eeq
-
-
-
-\begin{claim}
-
-\beq
-\sum_{i=1}^n H(\rvS_i)-H(\rvS^{:n})=
-\sum_{i\in I_{NR}} H(\rvS_i : pa(\rvS_i))
-\leq \sum_{i\in I_{NR}}H(\rvS_i)
-\eeq
-Note that both sides equal zero
-when all the nodes are uncorrelated.
-\end{claim}
-\proof
-
-\beq
-H(\rvS_i : pa(\rvS_i))=
-\sum_{S_i\in \ZZ_\pm}\sum_{pa(\rvS_i)\in \ZZ^2_{\pm}}P(S_i, pa(\rvS_i))
-\ln \frac{P(S_i\mid pa(\rvS_i))}{P(S_i)}
-\eeq
-
-\beq
-H(\rvS_i)=-\sum_{S_i\in \ZZ_\pm}P(S_i)\ln P(S_i)
-\eeq
-
-\beq
-H(\rvS^{:n})=-\sum_{S^{:n}\in \ZZ^n_\pm}P(S^{:n})\ln P(S^{:n})
-\eeq
-
-\beq
-\frac{P(S^{:n})}{\prod_{i=1}^n
-P(S_i)}=\prod_{i\in I_{NR}}  \frac{P(S_i\mid pa(\rvS_i))}{P(S_i)}
-\eeq
-
-
-\beq
-\sum_{S^{:n}\in \ZZ_{\pm}^n}P(S^{:n})\ln \frac{P(S^{:n})}{\prod_{i=1}^n P(S_i)}=
-\sum_{i\in I_{NR}}H(\rvS_i : pa(\rvS_i))
+\left\{
+\begin{array}{l}
+\color{blue}
+P(S_i^Y\mid S_i^X, S_2^X)
+=\frac{e^{-\beta\calh_1}}{Z_i}
+\\
+\calh_i = g S_i^Y(S_2^X) + h S_i^Y -\lam_i(S_i^Y-S_i^X),\quad
+\lam_i\rarrow \infty
+\\
+Z_i = \sum_{S^Y_i\in \ZZ_{\pm}}e^{-\beta\calh_i}
+\end{array}
+\right.
 \eeq
 
 
 
-\qed
+\subsection{2-dim Ising Model}
+
+$\calb=$ border nodes of undirected graph
+
+$\calb^c=$ non-border, internal 
+nodes of undirected graph
+
+$n=$ number of nodes
+of undirected graph
+
+\begin{figure}[h!]
+$$
+\bcen
+\xymatrix{
+\rvS_1\ar@{-}[r]\ar@{-}[d]
+&\rvS_2\ar@{-}[r]\ar@{-}[d]
+&\rvS_3\ar@{-}[d]
+\\
+\rvS_4\ar@{-}[r]\ar@{-}[d]
+&\rvS_5\ar@{-}[r]\ar@{-}[d]
+&\rvS_6\ar@{-}[d]
+\\
+\rvS_7\ar@{-}[r]
+&\rvS_8\ar@{-}[r]
+&\rvS_9
+}
+\ecen
+=
+\bcen
+\xymatrix@R=1pc@C=3pc{
+\rvS_1^X\ar[dr]\ar[d]
+\ar@[red]@/_1pc/[ddd]
+&\rvS_2^X\ar[dl]\ar[dr]\ar[d]
+\ar@[red]@/_1pc/[ddd]
+&\rvS_3^X\ar[dl]\ar[d]
+\ar@[red]@/_1pc/[ddd]
+\\
+\rvS_1^Y
+&\rvS_2^Y
+&\rvS_3^Y
+\\
+\rvS_4^X\ar[dr]\ar[d]
+\ar@[red]@/_1pc/[u]
+\ar@[red]@/^1pc/[ddd]
+&\rvS_5^X\ar[dl]\ar[dr]\ar[d]
+\ar@[red]@/_1pc/[u]
+\ar@[red]@/^1pc/[ddd]
+&\rvS_6^X\ar[dl]\ar[d]
+\ar@[red]@/_1pc/[u]
+\ar@[red]@/^1pc/[ddd]
+\\
+\rvS_4^Y
+&\rvS_5^Y
+&\rvS_6^Y
+\\
+\rvS_7^X\ar[dr]\ar[d]
+\ar@[red]@/^1pc/[u]
+&\rvS_8^X\ar[dl]\ar[dr]\ar[d]
+\ar@[red]@/^1pc/[u]
+&\rvS_9^X\ar[dl]\ar[d]
+\ar@[red]@/^1pc/[u]
+\\
+\rvS_7^Y
+&\rvS_8^Y
+&\rvS_9^Y
+}
+\ecen
+$$
+\caption{DAG definition of 2-dim Ising Model}
+\label{fig-def-2dim-ising}
+\end{figure}
+
+For $i=1,2, \ldots, n$
+\beq\color{blue}
+P(S_i^X)=\quad\text{given}
+\eeq
+
+For $\rvS_i\in \calb^c$, if 
+$\rvS_a, \rvS_b, \rvS_c, \rvS_d$ are the nearest
+neighbors (nn) of $\rvS_i$,
+\beq
+\left\{
+\begin{array}{l}
+\color{blue}
+P(S_i^Y\mid S_i^X, S_a^X, S_b^X, S_c^X, S_d^X)
+=\frac{e^{-\beta\calh_i}}{Z_i}
+\\
+\calh_i = g S_i^Y(S_i^X+S_a^X+ S_b^X, S_c^X+ S_d^X) + h S_i^Y -\lam_i(S_i^Y-S_i^X),\quad
+\lam_i\rarrow \infty
+\\
+Z_i = \sum_{S^Y_i\in \ZZ_{\pm}}e^{-\beta\calh_i}
+\end{array}
+\right.
+\label{eq-ising-tpm-non-border}
+\eeq
+
+For $\rvS_i\in \calb$, the corner nodes have 2 nn and the non-corner ones have 3 nn. Eq.(\ref{eq-ising-tpm-non-border}) is valid for $\rvS_i\in \calb$ if we set $\rvS_c=\rvS_d=0$ in case
+of 2 nn and $\rvS_d=0$ in case of 3 nn.
+
+
+\beq
+P(D^{:n})=
+\left[\prod_{i=1}^n  P(S_i^Y\mid pa(\rvS_i^Y))\right]
+\prod_{i=1}^n P(S_i^X)
+\eeq
+
+
+
+
 
