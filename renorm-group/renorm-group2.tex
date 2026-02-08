@@ -1,6 +1,6 @@
 \chapter{Renormalization Group for Bayesian Networks}
 \label{ch-renorm-group-bnets}
-\section{Information Theory Conventions}
+\section{Information Theory Preliminaries}
 \beq
 H(\rvx)=-\sum_{x\in val(\rvx)} P(x)\ln P(x)
 \eeq
@@ -48,12 +48,12 @@ $H(
 \rvx: \rvy)= H(\rvy)$
 \qed
 
+
 \begin{claim}\label{cl-mutual-info-bd}
 
 \beq
 \sum_{i=1}^n H(\rvx_i)-H(\rvx^{:n})=
 \sum_{i\in I_{NR}} H(\rvx_i : pa(\rvx_i))
-\leq \sum_{i\in I_{NR}}H(\rvx_i)
 \eeq
 Note that both sides equal zero
 when all the nodes are uncorrelated.
@@ -86,6 +86,64 @@ P(x_i)}=\prod_{i\in I_{NR}}  \frac{P(x_i\mid pa(\rvx_i))}{P(x_i)}
 \eeq
 
 \qed
+This last claim mean that the \qt{bound entropy} (i.e., the
+entropy between when $n$ random variables 
+are independent and correlated) equals the
+sum of the mutual information for 
+the non-root nodes.
+
+
+
+\begin{claim}
+\beq
+\max_i H(\rvy: \rvx_i) \leq H(\rvy:\rvx_1, \rvx_2, \ldots, \rvx_n)
+\leq \sum_{i=1}^n H(\rvy: \rvx_i)
+\label{eq-mi-right bd}
+\eeq
+
+\end{claim}
+\proof
+
+We will prove it for $n=3$ and leave 
+the general case to the reader.
+
+Both sides of the inequality  Eq.(\ref{eq-mi-right bd})
+follow from the information theory
+version of the conditional
+probability chain rule. Indeed,
+\beq
+H(\rvy: \rvx_1, \rvx_2, \rvx_3)=
+\underbrace{
+\underbrace{H(\rvy: \rvx_1 |\rvx_2, \rvx_3)}_{\leq H(\rvy: \rvx_1)}
++ \underbrace{H(\rvy:\rvx_2|\rvx_3)}_
+{\leq H(\rvy:\rvx_2)}
++ H(\rvy:\rvx_3)}_{\geq H(\rvy:\rvx_3)}
+\eeq
+\qed
+
+
+{\bf normalized mutual info} $H_\rvy$
+\beq
+H_\rvy(\rvy: \rvx)=
+\frac{H(\rvy: \rvx)}{H(\rvy)}
+\eeq
+From $H(\rvy:\rvx)\leq H(\rvy)$ we get
+
+\beq
+H_\rvy(\rvy: \rvx)\leq  1
+\eeq
+In particular,
+
+\beq
+H_\rvy(\rvy:\rvx_1, \rvx_2, \ldots,\rvx_n)
+\leq 1
+\eeq
+
+Dividing Eq.(\ref{eq-mi-right bd}) by $H(\rvy)$ we get
+\beq
+\max_i H_\rvy(\rvy: \rvx_i) \leq H_\rvy(\rvy:\rvx_1, \rvx_2, \ldots, \rvx_n)
+\leq \sum_{i=1}^n H_\rvy(\rvy:\rvx_i)
+\eeq
 
 \section{Scaling a General Bnet}
 
@@ -123,7 +181,7 @@ P(x_i\mid pa(\rvx_i); b)\rarrow \delta[1, \max_i P(x_i\mid pa(\rvx_i);b=1)]
 
 
 
-\section{Scaling the Bnet for a cubic Ising Model}
+\section{Scaling the Bnet for an Ising Model}
 
 \begin{figure}[h!]
 $$
@@ -195,7 +253,7 @@ $$
 
 For $i=1,2,3$
 \beq\color{blue}
-P(S_i^X)=\quad\text{given}
+P(S_i^X)=\frac{1}{2}
 \eeq
 
 \beq
@@ -305,7 +363,7 @@ $$
 
 For $i=1,2, \ldots, n$
 \beq\color{blue}
-P(S_i^X)=\quad\text{given}
+P(S_i^X)=\frac{1}{2}
 \eeq
 
 For $\rvS_i\in \calb^c$, if 
