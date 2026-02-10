@@ -1,6 +1,7 @@
 \chapter{Renormalization Group for Bayesian Networks}
 \label{ch-renorm-group-bnets}
-\section{Information Theory Preliminaries}
+
+\subsection{Information Theory Preliminaries}
 \beq
 H(\rvx)=-\sum_{x\in val(\rvx)} P(x)\ln P(x)
 \eeq
@@ -17,7 +18,7 @@ H(\rvx:\rvy)&=&\sum_{x\in val(\rvx)}
 \sum_{y\in val(\rvy)}
 P(x,y)\ln \frac{P(x,y)}{P(x)P(y)}
 \\
-&=& H(\rvy)-H(\rvy|\rvx)=H(\rvx)-H(\rvx|\rvy)
+&=& H(\rvy)-H(\rvy\mid\rvx)=H(\rvx)-H(\rvx\mid\rvy)
 \eeqa
 
 
@@ -40,7 +41,7 @@ or $\rvy$ becomes deterministic.
 When $\rvx$ becomes deterministic,
 
 \beq
-H(\rvx|\rvy)=0\implies 
+H(\rvx\mid\rvy)=0\implies 
  H(\rvx: \rvy)= H(\rvx)
 \eeq
 Likewise, when $\rvy$ becomes determinstic, 
@@ -114,36 +115,161 @@ probability chain rule. Indeed,
 \beq
 H(\rvy: \rvx_1, \rvx_2, \rvx_3)=
 \underbrace{
-\underbrace{H(\rvy: \rvx_1 |\rvx_2, \rvx_3)}_{\leq H(\rvy: \rvx_1)}
-+ \underbrace{H(\rvy:\rvx_2|\rvx_3)}_
+\underbrace{H(\rvy: \rvx_1 \mid\rvx_2, \rvx_3)}_{\leq H(\rvy: \rvx_1)}
++ \underbrace{H(\rvy:\rvx_2\mid\rvx_3)}_
 {\leq H(\rvy:\rvx_2)}
 + H(\rvy:\rvx_3)}_{\geq H(\rvy:\rvx_3)}
 \eeq
 \qed
 
 
-{\bf normalized mutual info} $H_\rvy$
+{\bf MI Efficiency} $\eps(\rvy\mid\rvx)$
 \beq
-H_\rvy(\rvy: \rvx)=
+\eps(\rvy\mid\rvx)=
 \frac{H(\rvy: \rvx)}{H(\rvy)}
 \eeq
 From $H(\rvy:\rvx)\leq H(\rvy)$ we get
 
 \beq
-H_\rvy(\rvy: \rvx)\leq  1
+\eps(\rvy\mid\rvx)\leq  1
 \eeq
 In particular,
 
 \beq
-H_\rvy(\rvy:\rvx_1, \rvx_2, \ldots,\rvx_n)
+\eps(\rvy\mid\rvx_1, \rvx_2, \ldots,\rvx_n)
 \leq 1
 \eeq
 
 Dividing Eq.(\ref{eq-mi-right bd}) by $H(\rvy)$ we get
 \beq
-\max_i H_\rvy(\rvy: \rvx_i) \leq H_\rvy(\rvy:\rvx_1, \rvx_2, \ldots, \rvx_n)
-\leq \sum_{i=1}^n H_\rvy(\rvy:\rvx_i)
+\max_i \eps(\rvy| \rvx_i) \leq \eps(\rvy\mid\rvx_1, \rvx_2, \ldots, \rvx_n)
+\leq \sum_{i=1}^n \eps(\rvy\mid\rvx_i)
 \eeq
+
+\subsection{Ising Model Preliminaries}
+
+\begin{figure}[h!]
+$$
+\bcen
+\xymatrix{
+\rvS_1\ar@{-}[r]
+&\rvS_2\ar@{-}[r]
+&\rvS_3\ar@{-}[r]
+&\rvS_4
+}
+\ecen
+\bcen
+\xymatrix{
+\rvS_1\ar@{-}[r]\ar@{-}[d]
+&\rvS_2\ar@{-}[r]\ar@{-}[d]
+&\rvS_3\ar@{-}[d]
+\\
+\rvS_4\ar@{-}[r]\ar@{-}[d]
+&\rvS_5\ar@{-}[r]\ar@{-}[d]
+&\rvS_6\ar@{-}[d]
+\\
+\rvS_7\ar@{-}[r]
+&\rvS_8\ar@{-}[r]
+&\rvS_9
+}
+\ecen
+$$
+\caption{Cubic Lattice for 1-dim (with 4 spins) and 2-dim (with 9 spins) Ising model.}
+\label{fig-ising-1-2}
+\end{figure}
+
+
+$Bool=\bool$
+
+ 
+$S_i\in \{1, -1\} =2 Bool-1=\ZZ_\pm$
+
+$
+\beta = 1/T
+$
+
+$NN(i)=$ indices of nearest neighbors 
+to $S_i$ 
+
+{\bf n-dim Ising Model}
+
+For $i=1, 2,3, \ldots, n$
+\beq
+\calh_i = J S_{i}
+\sum_{j\in NN(i)}S_j + h S_{i},
+\quad
+\calh=\sum_{i=1}^n\calh_i
+\eeq
+
+
+Partition function
+\beq
+Z=\left[\prod_{i=1}^n\sum_{S_i\in\ZZ_\pm}
+\right]
+e^{-\beta \calh}
+\eeq
+
+
+\begin{itemize}
+\item 1-dim Ising Model
+
+It has no critical point. It's 
+coherence length is always finite.
+
+
+* Critical temperature:
+  $T_c = 0$
+* For all (T>0):
+
+  * No spontaneous magnetization
+  * Free energy is analytic
+  * Correlation length is finite
+
+
+
+
+* A domain wall (spin flip boundary) costs **finite energy** (2J).
+* At any (T>0), entropy favors creating arbitrarily many domain walls.
+* Long-range order is destroyed immediately.
+
+
+For zero external field (h=0),
+\beq
+\langle m \rangle = 0 \quad \text{for all } T>0
+\eeq
+
+and the correlation length
+\beq
+\xi \sim e^{2J/kT}
+\eeq
+is finite for all (T>0), diverging only as $T \to 0$.
+
+ This can be shown exactly via the **transfer matrix**.
+
+\item 2-dim Ising model
+
+Critical temperature (square lattice, $h=0$):
+  \beq
+  kT_c = \frac{2J}{\ln(1+\sqrt{2})}
+  \eeq
+
+$T < T_c$: spontaneous magnetization
+
+$T > T_c$: disordered phase
+
+
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
 
 \section{Scaling a General Bnet}
 
@@ -263,7 +389,7 @@ P(S_i^X)=\frac{1}{2}
 P(S_2^Y\mid S_2^X, S_1^X, S_3^X)
 =\frac{e^{-\beta\calh_2}}{Z_2}
 \\
-\calh_2 = g S_2^Y(S_1^X + S_3^X) + h S_2^Y -\lam_2(S_2^Y-S_2^X),\quad
+\calh_2 = J S_2^Y(S_1^X + S_3^X) + h S_2^Y -\lam_2(S_2^Y-S_2^X),\quad
 \lam_2\rarrow \infty
 \\
 Z_2 = \sum_{S^Y_2\in \ZZ_{\pm}}e^{-\beta\calh_2}
@@ -279,7 +405,7 @@ For $i=1,3$
 P(S_i^Y\mid S_i^X, S_2^X)
 =\frac{e^{-\beta\calh_1}}{Z_i}
 \\
-\calh_i = g S_i^Y(S_2^X) + h S_i^Y -\lam_i(S_i^Y-S_i^X),\quad
+\calh_i = J S_i^Y(S_2^X) + h S_i^Y -\lam_i(S_i^Y-S_i^X),\quad
 \lam_i\rarrow \infty
 \\
 Z_i = \sum_{S^Y_i\in \ZZ_{\pm}}e^{-\beta\calh_i}
@@ -376,7 +502,7 @@ neighbors (nn) of $\rvS_i$,
 P(S_i^Y\mid S_i^X, S_a^X, S_b^X, S_c^X, S_d^X)
 =\frac{e^{-\beta\calh_i}}{Z_i}
 \\
-\calh_i = g S_i^Y(S_i^X+S_a^X+ S_b^X, S_c^X+ S_d^X) + h S_i^Y -\lam_i(S_i^Y-S_i^X),\quad
+\calh_i = J S_i^Y(S_i^X+S_a^X+ S_b^X, S_c^X+ S_d^X) + h S_i^Y -\lam_i(S_i^Y-S_i^X),\quad
 \lam_i\rarrow \infty
 \\
 Z_i = \sum_{S^Y_i\in \ZZ_{\pm}}e^{-\beta\calh_i}
@@ -387,6 +513,21 @@ Z_i = \sum_{S^Y_i\in \ZZ_{\pm}}e^{-\beta\calh_i}
 
 For $\rvS_i\in \calb$, the corner nodes have 2 nn and the non-corner ones have 3 nn. Eq.(\ref{eq-ising-tpm-non-border}) is valid for $\rvS_i\in \calb$ if we set $\rvS_c=\rvS_d=0$ in case
 of 2 nn and $\rvS_d=0$ in case of 3 nn.
+
+Instead of taking the $\lam_i\rarrow \infty$,
+\beq
+\left\{
+\begin{array}{l}
+\color{blue}
+P(S_i^Y\mid S_i^X, S_a^X, S_b^X, S_c^X, S_d^X)
+=\frac{e^{-\beta\calh_i}\delta(S^Y_i, S^X_i)}{Z_i}
+\\
+\calh_i = J S_i^Y(S_i^X+S_a^X+ S_b^X, S_c^X+ S_d^X) + h S_i^Y
+\\
+Z_i = \sum_{S^Y_i\in \ZZ_{\pm}}e^{-\beta\calh_i}\delta(S^Y_i, S^X_i)
+\end{array}
+\right.
+\eeq
 
 
 \beq
