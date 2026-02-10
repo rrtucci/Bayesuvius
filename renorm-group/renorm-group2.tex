@@ -174,7 +174,7 @@ $$
 }
 \ecen
 $$
-\caption{Cubic Lattice for 1-dim (with 4 spins) and 2-dim (with 9 spins) Ising model.}
+\caption{Cubic Lattice for $D=1$ (with 4 spins) and $D=2$ (with 9 spins) Ising model.}
 \label{fig-ising-1-2}
 \end{figure}
 
@@ -182,21 +182,29 @@ $$
 $Bool=\bool$
 
  
-$S_i\in \{1, -1\} =2 Bool-1=\ZZ_\pm$
+$S_i\in \{-1, +1\} =2 Bool-1=\ZZ_\pm$
 
 $
-\beta = 1/T
-$
+\beta = 1/(k_B T)
+$, will set Boltzmann constant $k_B$  to 1.
+
+$D=$ dimension of lattice. We refer to $D=1$ as 1-dim, and to $D=2$ as 2-dim.
 
 $NN(i)=$ indices of nearest neighbors 
-to $S_i$ 
+to $S_i$.
 
-{\bf n-dim Ising Model}
+$z=2D$= {\bf coordination number},
+number of nearest neighbors
+internally on the lattice, away from the boundary. For spins on the boundary, number of NN
+is less than $z$.
+$z=2$ in $D=1$ and $z=4$ in $D=2$.
+
+{\bf D-dim Ising Model}
 
 For $i=1, 2,3, \ldots, n$
 \beq
-\calh_i = J S_{i}
-\sum_{j\in NN(i)}S_j + h S_{i},
+\calh_i = J S_{i}\left
+[\sum_{j\in NN(i)}S_j \right]+ h S_{i},
 \quad
 \calh=\sum_{i=1}^n\calh_i
 \eeq
@@ -209,53 +217,45 @@ Z=\left[\prod_{i=1}^n\sum_{S_i\in\ZZ_\pm}
 e^{-\beta \calh}
 \eeq
 
+$\xi=$ correlation length. $\av{\rvS_i, \rvS_{i+r}}\sim e^{-r/\xi}$
+
+$T_c= 1/\beta_c=$ Curie Temperature (a.k.a. critical temperature). Magnetization $\av{\rvS_i}$ is non zero for $T< T_c$ (spontaneous magnetization) ])and zero for $T>T_c$ (disordered phase).
+
+For $h\neq 0$, there are no critical 
+points, just phase transitions. $\xi$ is always finite except at $T=0$.
+There is no $T_c$
+
+
+Ising Model can only be solved
+exactly for $D=1, 2$. 
+For those cases, have exact formulae 
+for $\xi$ and $T_c$.
+For other $D$, must solve numerically.
 
 \begin{itemize}
-\item 1-dim Ising Model
+\item 1-dim Ising model with $h=0$
 
-It has no critical point. It's 
-coherence length is always finite.
+No $T_c$ (except at $T=0$).
+Correlation
+length $\xi\sim e^{2J/T}$ is always finite
 
+\item 2-dim Ising model with $h=0$
 
-* Critical temperature:
-  $T_c = 0$
-* For all (T>0):
-
-  * No spontaneous magnetization
-  * Free energy is analytic
-  * Correlation length is finite
-
-
-
-
-* A domain wall (spin flip boundary) costs **finite energy** (2J).
-* At any (T>0), entropy favors creating arbitrarily many domain walls.
-* Long-range order is destroyed immediately.
-
-
-For zero external field (h=0),
-\beq
-\langle m \rangle = 0 \quad \text{for all } T>0
-\eeq
-
-and the correlation length
-\beq
-\xi \sim e^{2J/kT}
-\eeq
-is finite for all (T>0), diverging only as $T \to 0$.
-
- This can be shown exactly via the **transfer matrix**.
-
-\item 2-dim Ising model
-
-Critical temperature (square lattice, $h=0$):
+Curie temperature (square lattice, $h=0$):
   \beq
-  kT_c = \frac{2J}{\ln(1+\sqrt{2})}
+  T_c = \frac{2J}{\ln(1+\sqrt{2})}
   \eeq
 
-$T < T_c$: spontaneous magnetization
+\beq
+\beta_c J = \frac{1}{2}\ln(1 +\sqrt{2})
+\approx 0.4407
+\eeq
 
-$T > T_c$: disordered phase
+correlation length
+
+\beq
+\xi \sim |T-T_c|^{-\nu},\quad \nu=1
+\eeq
 
 
 \end{itemize}
