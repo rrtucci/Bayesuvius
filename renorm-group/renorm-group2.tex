@@ -174,7 +174,7 @@ $$
 }
 \ecen
 $$
-\caption{Cubic Lattice for $D=1$ (with 4 spins) and $D=2$ (with 9 spins) Ising model.}
+\caption{Cubic Lattice for $D=1$ (with 4 spins) and $D=2$ (with 9 spins) for Ising model.}
 \label{fig-ising-1-2}
 \end{figure}
 
@@ -203,12 +203,12 @@ $z=2$ in $D=1$ and $z=4$ in $D=2$.
 
 For $i=1, 2,3, \ldots, n$
 \beq
-\calh_i = J S_{i}\left
-[\sum_{j\in NN(i)}S_j \right]+ h S_{i},
+\calh_i = -J S_{i}\left
+[\sum_{j\in NN(i)}S_j \right]- h S_{i},
 \quad
 \calh=\sum_{i=1}^n\calh_i
 \eeq
-
+for $J, h\geq 0$
 
 Partition function
 \beq
@@ -219,9 +219,11 @@ e^{-\beta \calh}
 
 $\xi=$ correlation length. $\av{\rvS_i, \rvS_{i+r}}\sim e^{-r/\xi}$
 
-$T_c= 1/\beta_c=$ Curie Temperature (a.k.a. critical temperature). Magnetization $\av{\rvS_i}$ is non zero for $T< T_c$ (spontaneous magnetization) ])and zero for $T>T_c$ (disordered phase).
+$\av{m}=\av{\sum_{i=1}^n\rvS_i}/n=$ magnetization
 
-For $h\neq 0$, there are no critical 
+$T_c= 1/\beta_c=$ Curie Temperature (a.k.a. critical temperature). Magnetization is non zero for $T< T_c$ (spontaneous magnetization) and zero for $T>T_c$ (disordered phase).
+
+For $h\neq 0$: there are no critical 
 points, just phase transitions. $\xi$ is always finite except at $T=0$.
 There is no $T_c$
 
@@ -307,7 +309,7 @@ P(x_i\mid pa(\rvx_i); b)\rarrow \delta[1, \max_i P(x_i\mid pa(\rvx_i);b=1)]
 
 
 
-\section{Scaling the Bnet for an Ising Model}
+\section{Scaling the Bnet for an Ising-like Model}
 
 \begin{figure}[h!]
 $$
@@ -338,7 +340,7 @@ $$
 \label{fig-def-undir-ar-dag}
 \end{figure}
 
-\subsection{1-dim Ising Model}
+\subsection{1-dim Ising-like Model}
 
 $Bool=\bool$
 
@@ -389,13 +391,13 @@ P(S_i^X)=\frac{1}{2}
 P(S_2^Y\mid S_2^X, S_1^X, S_3^X)
 =\frac{e^{-\beta\calh_2}}{Z_2}
 \\
-\calh_2 = J S_2^Y(S_1^X + S_3^X) + h S_2^Y -\lam_2(S_2^Y-S_2^X),\quad
-\lam_2\rarrow \infty
+\calh_2 = -J S_2^Y(S_1^X + S_3^X) - h S_2^Y -\lam(S_2^Y-S_2^X)^2
 \\
 Z_2 = \sum_{S^Y_2\in \ZZ_{\pm}}e^{-\beta\calh_2}
 \end{array}
 \right.
 \eeq
+for $\lam\geq 0$.
 
 For $i=1,3$
 \beq
@@ -405,17 +407,17 @@ For $i=1,3$
 P(S_i^Y\mid S_i^X, S_2^X)
 =\frac{e^{-\beta\calh_1}}{Z_i}
 \\
-\calh_i = J S_i^Y(S_2^X) + h S_i^Y -\lam_i(S_i^Y-S_i^X),\quad
-\lam_i\rarrow \infty
+\calh_i = -J S_i^Y(S_2^X) - h S_i^Y -\lam(S_i^Y-S_i^X)^2
 \\
 Z_i = \sum_{S^Y_i\in \ZZ_{\pm}}e^{-\beta\calh_i}
 \end{array}
 \right.
 \eeq
+for $\lam\geq 0$
 
 
 
-\subsection{2-dim Ising Model}
+\subsection{2-dim Ising-like Model}
 
 $\calb=$ border nodes of undirected graph
 
@@ -502,14 +504,14 @@ neighbors (nn) of $\rvS_i$,
 P(S_i^Y\mid S_i^X, S_a^X, S_b^X, S_c^X, S_d^X)
 =\frac{e^{-\beta\calh_i}}{Z_i}
 \\
-\calh_i = J S_i^Y(S_i^X+S_a^X+ S_b^X, S_c^X+ S_d^X) + h S_i^Y -\lam_i(S_i^Y-S_i^X),\quad
-\lam_i\rarrow \infty
+\calh_i = -J S_i^Y(S_i^X+S_a^X+ S_b^X, S_c^X+ S_d^X) - h S_i^Y -\lam_i(S_i^Y-S_i^X)^2
 \\
 Z_i = \sum_{S^Y_i\in \ZZ_{\pm}}e^{-\beta\calh_i}
 \end{array}
 \right.
 \label{eq-ising-tpm-non-border}
 \eeq
+for $\lam\geq 0$
 
 For $\rvS_i\in \calb$, the corner nodes have 2 nn and the non-corner ones have 3 nn. Eq.(\ref{eq-ising-tpm-non-border}) is valid for $\rvS_i\in \calb$ if we set $\rvS_c=\rvS_d=0$ in case
 of 2 nn and $\rvS_d=0$ in case of 3 nn.
