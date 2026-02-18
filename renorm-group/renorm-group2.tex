@@ -2,17 +2,29 @@
 \label{ch-renorm-group-bnets}
 
 \subsection{Information Theory Preliminaries}
+
+entropy 
 \beq
 H(\rvx)=-\sum_{x\in val(\rvx)} P(x)\ln P(x)
 \eeq
 
+joint information
+\beq
+H(\rvx, \rvy) =-
+\sum_{x\in val(\rvx)}
+\sum_{y\in val(\rvy)}
+P(x,y)\ln P(x, y)
+\eeq
+
+conditional information
 \beq
 H(\rvy\mid \rvx) =-
 \sum_{x\in val(\rvx)}
 \sum_{y\in val(\rvy)}
-P(x,y)\ln P(y|x)
+P(x,y)\ln P(y\mid x)
 \eeq
 
+mutual information (MI)
 \beqa
 H(\rvx:\rvy)&=&\sum_{x\in val(\rvx)}
 \sum_{y\in val(\rvy)}
@@ -26,125 +38,73 @@ P(x,y)\ln \frac{P(x,y)}{P(x)P(y)}
 \beq
 0\leq H(\rvx)\leq \ln|val(\rvx)|
 \eeq
+
+\beq
+0\leq H(\rvy\mid \rvx)
+\eeq
+
 \beq
 0\leq H(\rvx: \rvy)\leq \min(H(\rvx), H(\rvy))
+\label{eq-MI-bounds-rg}
 \eeq
 \end{claim}
 \proof
+\qed
 
-The minimum occurs when $P(x,y)=P(x)P(y)$
+We will use MI to
+measure the correlation
+between random variables $\rvx$ and $\rvy$.
+
+Note that MI achieves its zero
+lower bound
+when $P(x,y)=P(x)P(y)$
 (i.e., $\rvx$ and $\rvy$ are uncorrelated).
 
-The maximum occurs when $\rvx$ becomes
-deterministic 
-or $\rvy$ becomes deterministic. 
-When $\rvx$ becomes deterministic,
+Furthermore, MI achieves its 
+upper bound given by Eq.(\ref{eq-MI-bounds-rg})
+if either 
+
+\begin{itemize}
+\item
+$\rvy$
+is a deterministic
+function of $\rvx$ (i.e., $\rvy=f(\rvx)$). In that case,
+$\ln P(y|x)$ is either $0\ln(0)$
+or $\ln(1)$ so 
+
+\beq
+H(\rvy\mid\rvx)=0\implies 
+ H(\rvx: \rvy)= H(\rvy)
+\eeq
+
+\item $\rvx$ 
+is a deterministic function of $\rvy$ 
+(i.e., $\rvx = g(\rvy)$).
+In that case,
+$\ln P(x|y)$ is either $0\ln(0)$
+or $\ln(1)$ so
 
 \beq
 H(\rvx\mid\rvy)=0\implies 
  H(\rvx: \rvy)= H(\rvx)
 \eeq
-Likewise, when $\rvy$ becomes determinstic, 
-$H(
-\rvx: \rvy)= H(\rvy)$
-\qed
+\end{itemize}
 
 
-\begin{claim}\label{cl-mutual-info-bd}
-
-\beq
-\sum_{i=1}^n H(\rvx_i)-H(\rvx^{:n})=
-\sum_{i\in I_{NR}} H(\rvx_i : pa(\rvx_i))
-\eeq
-Note that both sides equal zero
-when all the nodes are uncorrelated.
-\end{claim}
-\proof
-
-\beq
-H(\rvx_i : pa(\rvx_i))=
-\sum_{x_i\in \ZZ_\pm}\sum_{pa(\rvx_i)\in \ZZ^2_{\pm}}P(x_i, pa(\rvx_i))
-\ln \frac{P(x_i\mid pa(\rvx_i))}{P(x_i)}
-\eeq
-
-\beq
-H(\rvx_i)=-\sum_{x_i\in \ZZ_\pm}P(x_i)\ln P(x_i)
-\eeq
-
-\beq
-H(\rvx^{:n})=-\sum_{x^{:n}\in \ZZ^n_\pm}P(x^{:n})\ln P(x^{:n})
-\eeq
-
-\beq
-\frac{P(x^{:n})}{\prod_{i=1}^n
-P(x_i)}=\prod_{i\in I_{NR}}  \frac{P(x_i\mid pa(\rvx_i))}{P(x_i)}
-\eeq
-
-
-\beq
-\sum_{x^{:n}\in \ZZ_{\pm}^n}P(x^{:n})\ln \frac{P(x^{:n})}{\prod_{i=1}^n P(x_i)}=
-\sum_{i\in I_{NR}}H(\rvx_i : pa(\rvx_i))
-\eeq
-
-\qed
-This last claim mean that the \qt{bound entropy} (i.e., the
-entropy between when $n$ random variables 
-are independent and correlated) equals the
-sum of the mutual information for 
-the non-root nodes.
-
-
-
-\begin{claim}
-\beq
-\max_i H(\rvy: \rvx_i) \leq H(\rvy:\rvx_1, \rvx_2, \ldots, \rvx_n)
-\leq \sum_{i=1}^n H(\rvy: \rvx_i)
-\label{eq-mi-right bd}
-\eeq
-
-\end{claim}
-\proof
-
-We will prove it for $n=3$ and leave 
-the general case to the reader.
-
-Both sides of the inequality  Eq.(\ref{eq-mi-right bd})
-follow from the information theory
-version of the conditional
-probability chain rule. Indeed,
-\beq
-H(\rvy: \rvx_1, \rvx_2, \rvx_3)=
-\underbrace{
-\underbrace{H(\rvy: \rvx_1 \mid\rvx_2, \rvx_3)}_{\leq H(\rvy: \rvx_1)}
-+ \underbrace{H(\rvy:\rvx_2\mid\rvx_3)}_
-{\leq H(\rvy:\rvx_2)}
-+ H(\rvy:\rvx_3)}_{\geq H(\rvy:\rvx_3)}
-\eeq
-\qed
 
 
 {\bf MI Efficiency} $\eps(\rvy\mid\rvx)$
 \beq
 \eps(\rvy\mid\rvx)=
 \frac{H(\rvy: \rvx)}{H(\rvy)}
+= 1 - \frac{H(\rvy\mid \rvx)}{H(\rvy)}
 \eeq
-From $H(\rvy:\rvx)\leq H(\rvy)$ we get
+From $0\leq H(\rvy:\rvx)\leq H(\rvy)$ we get
 
 \beq
-\eps(\rvy\mid\rvx)\leq  1
-\eeq
-In particular,
-
-\beq
-\eps(\rvy\mid\rvx_1, \rvx_2, \ldots,\rvx_n)
-\leq 1
+0\leq \eps(\rvy\mid\rvx)\leq  1
 \eeq
 
-Dividing Eq.(\ref{eq-mi-right bd}) by $H(\rvy)$ we get
-\beq
-\max_i \eps(\rvy| \rvx_i) \leq \eps(\rvy\mid\rvx_1, \rvx_2, \ldots, \rvx_n)
-\leq \sum_{i=1}^n \eps(\rvy\mid\rvx_i)
-\eeq
 
 
 \begin{figure}[h!]
@@ -332,6 +292,103 @@ P(x_i\mid pa(\rvx_i); b)\rarrow \delta[1, \max_i P(x_i\mid pa(\rvx_i);b=1)]
 \eeq
 
 
+\begin{claim}\label{cl-mutual-info-bd}
+
+\beq
+\sum_{i=1}^n H(\rvx_i)-H(\rvx^{:n})=
+\sum_{i\in I_{NR}} H(\rvx_i : pa(\rvx_i))
+\eeq
+Note that both sides equal zero
+when all the nodes are uncorrelated.
+\end{claim}
+\proof
+
+\beq
+H(\rvx_i : pa(\rvx_i))=
+\sum_{x_i\in \ZZ_\pm}\sum_{pa(\rvx_i)\in \ZZ^2_{\pm}}P(x_i, pa(\rvx_i))
+\ln \frac{P(x_i\mid pa(\rvx_i))}{P(x_i)}
+\eeq
+
+\beq
+H(\rvx_i)=-\sum_{x_i\in \ZZ_\pm}P(x_i)\ln P(x_i)
+\eeq
+
+\beq
+H(\rvx^{:n})=-\sum_{x^{:n}\in \ZZ^n_\pm}P(x^{:n})\ln P(x^{:n})
+\eeq
+
+\beq
+\frac{P(x^{:n})}{\prod_{i=1}^n
+P(x_i)}=\prod_{i\in I_{NR}}  \frac{P(x_i\mid pa(\rvx_i))}{P(x_i)}
+\eeq
+
+
+\beq
+\sum_{x^{:n}\in \ZZ_{\pm}^n}P(x^{:n})\ln \frac{P(x^{:n})}{\prod_{i=1}^n P(x_i)}=
+\sum_{i\in I_{NR}}H(\rvx_i : pa(\rvx_i))
+\eeq
+
+\qed
+This last claim mean that the \qt{bound entropy} (i.e., the
+entropy between when $n$ random variables 
+are independent and correlated) equals the
+sum of the mutual information for 
+the non-root nodes.
+
+\begin{claim}
+\beq
+\max_i H(\rvx: \rva_i) \leq H(\rvx:\rva_1, \rva_2, \ldots, \rva_m)
+\leq \sum_{i=1}^m H(\rvx: \rva_i)
+\label{eq-mi-right-bd}
+\eeq
+
+\end{claim}
+\proof
+
+We will prove it for $m=3$ and leave 
+the general case to the reader.
+
+Recall the chain rule for conditional
+probabilities
+
+\beq
+P(x, a_1, a_2|a_3)=
+P(x\mid a_1, a_2, a_3)
+P(a_1\mid a_2, a_3)P(a_2\mid a_3)
+\eeq
+and its Information Theory version
+
+\beq
+H(\rvx: \rva_1, \rva_2, \rva_3)=
+H(\rvx: \rva_1 \mid\rva_2, \rva_3)
++ H(\rvx:\rva_2\mid\rva_3)
++ H(\rvx:\rva_3)
+\label{eq-chain-rule-x-a123}
+\eeq
+Both sides of the inequality  Eq.(\ref{eq-mi-right bd})
+follow from Eq.(\ref{eq-chain-rule-x-a123}). Indeed,
+\beq
+H(\rvx: \rva_1, \rva_2, \rva_3)=
+\underbrace{
+\underbrace{H(\rvx: \rva_1 \mid\rva_2, \rva_3)}_{\leq H(\rvx: \rva_1)}
++ \underbrace{H(\rvx:\rva_2\mid\rva_3)}_
+{\leq H(\rvx:\rva_2)}
++ H(\rvx:\rva_3)}_{\geq H(\rvx:\rva_3)}
+\eeq
+\qed
+
+In particular,
+
+\beq
+\eps(\rvy\mid\rvx_1, \rvx_2, \ldots,\rvx_n)
+\leq 1
+\eeq
+
+Dividing Eq.(\ref{eq-mi-right-bd}) by $H(\rvy)$ we get
+\beq
+\max_i \eps(\rvy| \rvx_i) \leq \eps(\rvy\mid\rvx_1, \rvx_2, \ldots, \rvx_n)
+\leq \sum_{i=1}^n \eps(\rvy\mid\rvx_i)
+\eeq
 
 \section{Scaling the Bnet for an Ising-like Model}
 
