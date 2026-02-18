@@ -1,14 +1,15 @@
 \chapter{Renormalization Group for Bayesian Networks}
 \label{ch-renorm-group-bnets}
 
-\subsection{Information Theory Preliminaries}
+\section{Preliminaries}
+\subsection{Information Theory}
 
 entropy 
 \beq
 H(\rvx)=-\sum_{x\in val(\rvx)} P(x)\ln P(x)
 \eeq
 
-joint information
+joint entropy
 \beq
 H(\rvx, \rvy) =-
 \sum_{x\in val(\rvx)}
@@ -71,21 +72,36 @@ if either
 \item
 $\rvy$
 is a deterministic
-function of $\rvx$ (i.e., $\rvy=f(\rvx)$). In that case,
-$\ln P(y|x)$ is either $0\ln(0)$
+function of $\rvx$; i.e., 
+
+\beq P(y\mid x)=\indi(\rvy=f(\rvx))\eeq
+In that case,
+$\ln P(y\mid x)$ is either $0\ln(0)$
 or $\ln(1)$ so 
 
+\beq
+H(\rvy\mid\rvx)=0
+\eeq
+Furthermore,
 \beq
 H(\rvy\mid\rvx)=0\implies 
  H(\rvx: \rvy)= H(\rvy)
 \eeq
 
 \item $\rvx$ 
-is a deterministic function of $\rvy$ 
-(i.e., $\rvx = g(\rvy)$).
+is a deterministic function of $\rvy$; i.e.,  
+ 
+\beq
+P(x\mid y)=\indi(\rvx = g(\rvy))
+\eeq
 In that case,
-$\ln P(x|y)$ is either $0\ln(0)$
+$\ln P(x\mid y)$ is either $0\ln(0)$
 or $\ln(1)$ so
+
+\beq
+H(\rvx\mid\rvy)=0
+\eeq
+Furthermore
 
 \beq
 H(\rvx\mid\rvy)=0\implies 
@@ -117,7 +133,7 @@ From $0\leq H(\rvy:\rvx)\leq H(\rvy)$ we get
 \caption{
 Efficiency = $\eps = \frac{H(\rvy:\rvx)}{H(\rvy)}=1 - \frac{H(\rvy\mid \rvx)}{H(\rvy)}$
 Efficiency singularity when 
-$H(\rvy\mid\rvx)=H(\rvy)$.}
+both $H(\rvy\mid\rvx)$ and $H(\rvy)$ are zero.}
 \label{fig-eps-sing}
 \end{figure}
 
@@ -133,7 +149,7 @@ and the prior probabilities $P(x)$.
 
 
 
-\subsection{Ising Model Preliminaries}
+\subsection{Ising Model}
 
 \begin{figure}[h!]
 $$
@@ -161,7 +177,7 @@ $$
 }
 \ecen
 $$
-\caption{Cubic Lattice for $D=1$ (with 4 spins) and $D=2$ (with 9 spins) for Ising model.}
+\caption{Ising Model cubic lattice for $D=1$ (with 4 spins) and $D=2$ (with 9 spins) for Ising model.}
 \label{fig-ising-1-2}
 \end{figure}
 
@@ -171,31 +187,37 @@ $Bool=\bool$
  
 $S_i\in \{-1, +1\} =2 Bool-1=\ZZ_\pm$
 
+$T=$ temperature
+
 $
 \beta = 1/(k_B T)
-$, will set Boltzmann constant $k_B$  to 1.
+$. We will set Boltzmann constant $k_B$  to 1.
 
 $D=$ dimension of lattice. We refer to $D=1$ as 1-dim, and to $D=2$ as 2-dim.
 
-$NN(i)=$ indices of nearest neighbors 
+$NN(i)=$ set of indices of nearest neighbors 
 to $S_i$.
 
 $z=2D$= {\bf coordination number},
 number of nearest neighbors
-internally on the lattice, away from the boundary. For spins on the boundary, number of NN
-is less than $z$.
+internally in the lattice, away from the boundary. 
 $z=2$ in $D=1$ and $z=4$ in $D=2$.
+For spins on the boundary, number of NN
+is less than $z$. For example, as you 
+can see in Fig.\ref{fig-ising-1-2}, for a rectangular lattice 
+in 2-dim, the corner sites have 2 NN, and the non-corner
+boundary sites have 3 NN. Only the internal sites have 4 NN.
 
 {\bf D-dim Ising Model}
 
-For $i=1, 2,3, \ldots, n$
+For $i=1, 2,3, \ldots, n$, {\bf energies}
 \beq
-\cale_i = -J S_{i}\left
-[\sum_{j\in NN(i)}S_j \right]- h S_{i},
+\cale_i = \left
+[-J S_{i}\sum_{j\in NN(i)}S_j \right]- h S_{i},
 \quad
 \cale=\sum_{i=1}^n\cale_i
 \eeq
-for $J, h\geq 0$
+for coupling constants $J, h\geq 0$
 
 Partition function
 \beq
@@ -204,33 +226,29 @@ Z=\left[\prod_{i=1}^n\sum_{S_i\in\ZZ_\pm}
 e^{-\beta \cale}
 \eeq
 
-$\xi=$ correlation length. $\av{\rvS_i, \rvS_{i+r}}\sim e^{-r/\xi}$
+$\xi=$ {\bf correlation length}. $\av{\rvS_i, \rvS_{i+r}}\sim e^{-r/\xi}$. $\xi\rarrow \infty$ at critical points
 
-$\av{m}=\av{\sum_{i=1}^n\rvS_i}/n=$ magnetization
+$\av{m}=\frac{1}{n}\sum_{i=1}^n\rvS_i=$ {\bf magnetization}
 
-$T_c= 1/\beta_c=$ Curie Temperature (a.k.a. critical temperature). Magnetization is non zero for $T< T_c$ (spontaneous magnetization) and zero for $T>T_c$ (disordered phase).
+$T_c= 1/\beta_c=$ {\bf Curie Temperature} (a.k.a. critical temperature). Magnetization is non zero for $T< T_c$ (spontaneous magnetization) and zero for $T>T_c$ (disordered phase).
 
-For $h\neq 0$: there are no critical 
-points, just phase transitions. $\xi$ is always finite except at $T=0$.
-There is no $T_c$
+The 2-dim Ising model with $h=0$ has a critical
+point at $T=T_c$.
+If either $D=1$ or $h\neq 0$,
+ there are no critical 
+points at any finite temperature, just phase transitions.
+
 
 
 Ising Model can only be solved
 exactly for $D=1, 2$. 
-For those cases, have exact formulae 
-for $\xi$ and $T_c$.
 For other $D$, must solve numerically.
 
+for 2-dim Ising model with $h=0$
+
 \begin{itemize}
-\item 1-dim Ising model with $h=0$
+\item Curie Temperature
 
-No $T_c$ (except at $T=0$).
-Correlation
-length $\xi\sim e^{2J/T}$ is always finite
-
-\item 2-dim Ising model with $h=0$
-
-Curie temperature (square lattice, $h=0$):
   \beq
   T_c = \frac{2J}{\ln(1+\sqrt{2})}
   \eeq
@@ -240,7 +258,7 @@ Curie temperature (square lattice, $h=0$):
 \approx 0.4407
 \eeq
 
-correlation length
+\item correlation length
 
 \beq
 \xi \sim |T-T_c|^{-\nu},\quad \nu=1
@@ -266,7 +284,7 @@ Let
 
 $\calr=$ set of root nodes. 
 
-$\calr^c=$ set of non-root indices.
+$\calr^c=$ set of non-root nodes.
 
 $n=$ total number of nodes
 
@@ -279,27 +297,52 @@ P(x^{:n}) = \left[ \prod_{\rvx_i\in \calr^c}P(x_i\mid pa(\rvx_i))\right]\prod_{\
 
 $1<b<\infty$
 \beq
-P(x_i\mid pa(\rvx_i); b)=
+P_b(x_i\mid pa(\rvx_i))=
 \frac{P(x_i\mid pa(\rvx_i))^b}
-{Z_i}
+{Z_i(b)}=\pi_i(b)
 \eeq
 
 \beq
-Z_i=\sum_{x_i\in val(x_i)}P(x_i\mid pa(\rvx_i))^b
+Z_i(b)=\sum_{x_i\in val(x_i)}
+P(x_i\mid pa(\rvx_i))^b
 \eeq
 
+\begin{mdframed}[hidealllines=true,backgroundcolor=blue!10]
 As $b\rarrow \infty$,
 
+ $(\pi_1, \pi_2, \ldots, \pi_n)$ tends to a one hot vector; i.e., all its components tend to zero except one component, the one that was largest at $b=1$, which tends to 1:
+
 \beq
-P(x_i\mid pa(\rvx_i); b)\rarrow \delta[1, \max_i P(x_i\mid pa(\rvx_i);b=1)]
+\pi_i(b)\rarrow \delta(i, i_0),\quad \text{ where } i_0=\argmax_i \pi_i(b=1)
+\eeq
+Therefore, $H(\rvx_i\mid pa(\rvx_i))$
+(for $P_b$)
+tends to a sum of terms of the form $0\ln(0)$
+or $\ln(1)$. Thus
+
+\beq
+H(\rvx_i\mid pa(\rvx_i))\rarrow 0
+\eeq
+Thus
+
+\beq
+H(\rvx_i:pa(\rvx_i))\rarrow
+H(\rvx_i)
 \eeq
 
+If $H(\rvx_i)$ remains finite as $b\rarrow \infty$, then
+$\eps(\rvx_i \mid pa(\rvx_i))\rarrow 1$,
+but if $H(\rvx_i)$ tends to zero, then 
+$\eps(\rvx_i \mid pa(\rvx_i))$ tends
+to its singularity at $H(\rvy\mid \rvx)
+= H(\rvy)=0$
+\end{mdframed}
 
 \begin{claim}\label{cl-mutual-info-bd}
 
 \beq
 \sum_{i=1}^n H(\rvx_i)-H(\rvx^{:n})=
-\sum_{i\in I_{NR}} H(\rvx_i : pa(\rvx_i))
+\sum_{\rvx_i \in \calr^c} H(\rvx_i : pa(\rvx_i))
 \eeq
 Note that both sides equal zero
 when all the nodes are uncorrelated.
@@ -322,13 +365,13 @@ H(\rvx^{:n})=-\sum_{x^{:n}\in \ZZ^n_\pm}P(x^{:n})\ln P(x^{:n})
 
 \beq
 \frac{P(x^{:n})}{\prod_{i=1}^n
-P(x_i)}=\prod_{i\in I_{NR}}  \frac{P(x_i\mid pa(\rvx_i))}{P(x_i)}
+P(x_i)}=\prod_{\rvx_i \in \calr^c}  \frac{P(x_i\mid pa(\rvx_i))}{P(x_i)}
 \eeq
 
 
 \beq
 \sum_{x^{:n}\in \ZZ_{\pm}^n}P(x^{:n})\ln \frac{P(x^{:n})}{\prod_{i=1}^n P(x_i)}=
-\sum_{i\in I_{NR}}H(\rvx_i : pa(\rvx_i))
+\sum_{\rvx_i \in \calr^c}H(\rvx_i : pa(\rvx_i))
 \eeq
 
 \qed
@@ -352,13 +395,13 @@ the non-root nodes.
 We will prove it for $m=3$ and leave 
 the general case to the reader.
 
-Averaging the following chain rule for conditional
+Averaging the logarithm of the following chain rule for conditional
 probabilities
 
 \beq
 \frac{P(x, a_1, a_2, a_3)}{P(x)P(a_1, a_2, a_3)}=
-\frac{P(x, a_1\mid a_2, a_3)}{P(x\mid a_2, a_3)P(a_1\mid a_2, a_3)}
-\frac{P(x, a_2\mid a_3)}{P(x\mid a_3)P(a_2\mid a_3)}
+\left[\frac{P(x, a_1\mid a_2, a_3)}{P(x\mid a_2, a_3)P(a_1\mid a_2, a_3)}\right]
+\left[\frac{P(x, a_2\mid a_3)}{P(x\mid a_3)P(a_2\mid a_3)}\right]
 \frac{P(x, a_3)}{P(x)P(a_3)}
 \eeq
 we get
@@ -631,8 +674,8 @@ $D_i=(S_i^X,S_i^Y)\rarrow (S_i^X, S_i^X)=
 \beq
 \sum_{i=1}^n
  H(\rvx_i)-H(\rvx^{:n})=
-\sum_{i\in I_{NR}} H(\rvx_i : pa(\rvx_i))
-\leq \sum_{i\in I_{NR}}H(\rvx_i)
+\sum_{\rvx_i \in \calr^c} H(\rvx_i : pa(\rvx_i))
+\leq \sum_{\rvx_i \in \calr^c}H(\rvx_i)
 \eeq
 
 
@@ -646,13 +689,13 @@ H(\rvx^{:n})=H(\rvD^{:n})
 \eeq
 
 \beq
-\sum_{i\in I_{NR}} H(\rvx_i : pa(\rvx_i))
+\sum_{\rvx_i \in \calr^c} H(\rvx_i : pa(\rvx_i))
 =
 \sum_{i=1}^n H(\rvS_i^Y:pa(\rvS_i^Y))
 \eeq
 
 \beq
-\sum_{i\in I_{NR}}H(\rvx_i)=
+\sum_{\rvx_i \in \calr^c}H(\rvx_i)=
 \sum_{i=1}^n H(\rvS^X_i)
 \eeq
 
@@ -666,3 +709,4 @@ H(\rvx^{:n})=H(\rvD^{:n})
 \sum_{i=1}^n H(\rvS^X_i)
 \eeq
 
+\section{Software}
