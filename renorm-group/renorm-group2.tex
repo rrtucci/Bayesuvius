@@ -17,12 +17,15 @@ P(x,y)\ln P(x, y)
 \eeq
 
 conditional information
-\beq
-H(\rvy\mid \rvx) =-
+\beqa
+H(\rvy\mid \rvx) &=&-
 \sum_{x\in val(\rvx)}
 \sum_{y\in val(\rvy)}
 P(x,y)\ln P(y\mid x)
-\eeq
+\\
+&=&
+H(\rvx, \rvy)-H(\rvx)
+\eeqa
 
 mutual information (MI)
 \beqa
@@ -40,7 +43,7 @@ P(x,y)\ln \frac{P(x,y)}{P(x)P(y)}
 \eeq
 
 \beq
-0\leq H(\rvy\mid \rvx)
+0\leq H(\rvy\mid \rvx)\leq H(\rvx, \rvy)
 \eeq
 
 \beq
@@ -329,6 +332,7 @@ P(x_i)}=\prod_{i\in I_{NR}}  \frac{P(x_i\mid pa(\rvx_i))}{P(x_i)}
 \eeq
 
 \qed
+
 This last claim mean that the \qt{bound entropy} (i.e., the
 entropy between when $n$ random variables 
 are independent and correlated) equals the
@@ -348,15 +352,16 @@ the non-root nodes.
 We will prove it for $m=3$ and leave 
 the general case to the reader.
 
-Recall the chain rule for conditional
+Averaging the following chain rule for conditional
 probabilities
 
 \beq
-P(x, a_1, a_2|a_3)=
-P(x\mid a_1, a_2, a_3)
-P(a_1\mid a_2, a_3)P(a_2\mid a_3)
+\frac{P(x, a_1, a_2, a_3)}{P(x)P(a_1, a_2, a_3)}=
+\frac{P(x, a_1\mid a_2, a_3)}{P(x\mid a_2, a_3)P(a_1\mid a_2, a_3)}
+\frac{P(x, a_2\mid a_3)}{P(x\mid a_3)P(a_2\mid a_3)}
+\frac{P(x, a_3)}{P(x)P(a_3)}
 \eeq
-and its Information Theory version
+we get
 
 \beq
 H(\rvx: \rva_1, \rva_2, \rva_3)=
@@ -365,7 +370,7 @@ H(\rvx: \rva_1 \mid\rva_2, \rva_3)
 + H(\rvx:\rva_3)
 \label{eq-chain-rule-x-a123}
 \eeq
-Both sides of the inequality  Eq.(\ref{eq-mi-right bd})
+Both sides of the inequality  Eq.(\ref{eq-mi-right-bd})
 follow from Eq.(\ref{eq-chain-rule-x-a123}). Indeed,
 \beq
 H(\rvx: \rva_1, \rva_2, \rva_3)=
@@ -377,17 +382,13 @@ H(\rvx: \rva_1, \rva_2, \rva_3)=
 \eeq
 \qed
 
-In particular,
 
+Dividing Eq.(\ref{eq-mi-right-bd}) by $H(\rvx)$ 
+and identifying the $\rva_i$ nodes with the parents $pa(\rvx)$
+of $\rvx$ , we get
 \beq
-\eps(\rvy\mid\rvx_1, \rvx_2, \ldots,\rvx_n)
-\leq 1
-\eeq
-
-Dividing Eq.(\ref{eq-mi-right-bd}) by $H(\rvy)$ we get
-\beq
-\max_i \eps(\rvy| \rvx_i) \leq \eps(\rvy\mid\rvx_1, \rvx_2, \ldots, \rvx_n)
-\leq \sum_{i=1}^n \eps(\rvy\mid\rvx_i)
+\max_{\rva\in pa(\rvx)}\eps(\rvx| \rva) \leq \eps(\rvx\mid pa(\rvx))
+\leq \sum_{\rva\in pa(\rvx)} \eps(\rvx\mid \rva)
 \eeq
 
 \section{Scaling the Bnet for an Ising-like Model}
