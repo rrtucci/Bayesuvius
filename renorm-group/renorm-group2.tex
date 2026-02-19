@@ -726,3 +726,103 @@ P(S_i^X(t+1)\mid S_i^Y(t))=\quad
 
 
 \section{Software}
+
+The ideas in this paper
+are implemented as free
+open source Python software
+at the github repo {\tt bnet\_rg}
+(see Ref. \cite{bnetrg})
+
+Let
+
+$\hat{\beta} =\beta/\beta_c$, where $\beta_c= 1/T_c$. 
+$\hat{\beta}=1$ at the Curie temperature $T_c$
+for a 2-dim Ising model.
+
+In all our Jupyter notebooks, we take $J=1$ and $h = \lam = 0$
+
+We consider a lattice that is $5 \times 5$. At each lattice site $i=1,2, \ldots, 25$, there 
+two nodes $S_i^X$ and $S_i^Y$. 
+
+All the $S_i^X$ nodes are root nodes of time slice $t$. The $S_a^X, S_b^X, S_c^X, S_d^X$ nodes of the nearest neighbors of site $i$ point to $S_i^Y$
+
+Iteration carries us from time slice $t$ to time slice $t+1$. At the beginning of iteration $ t+1$, we set
+$S_i^X(t+1)$ equal to $S_i^Y(t)$ for all $i$.
+
+p0 is the initial $(t=1)$ probability $P(S_i^X(t=1)=-1)$ for all $i$. A separate
+Jupyter notebook is provided for p0=0.3, 0.5, 0.7, p0=None, etc. (p0=None means each node is assigned a different p0 sampled from the 
+uniform([0,1]) probability distribution.
+
+We present 3 types of plots
+
+\begin{enumerate}
+\item {\bf lattice plots} (see Fig.\ref{fig-lattice-plot})
+
+These show a $5\times 5$ lattice with a color bar for efficiency ranging from 0 to 1.
+
+Each of the 25 lattice sites has 2 arrows connecting it to each of its nearest neighbors.
+
+The arrows are each labelled with the value of the efficiency for that arrow.
+
+
+Sometimes the efficiency of an arrow is undefined. In that case, the arrow is dashed. 
+
+We use the probabilities $P(S_i^Y=\pm 1)$ to sample each node. If the sample turns out to be $-1$ (resp., +1), the node appears black (resp. white).
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=5in]
+{renorm-group/lattice-plot}
+\caption{
+Example of lattice plot.}
+\label{fig-lattice-plot}
+\end{figure}
+
+\item {\bf parametric plots}
+(see Fig.\ref{fig-parametric-plot})
+
+These show a parametric curve in the $(x, y)$ plane, where
+
+
+$x=\text{average entropy} = \frac{1}{n}\sum_{i=1}^{n} H(S_i^Y)$
+
+$y= \text{average conditional information}=\frac{1}{n}\sum_{i=1}^{n} H(S_i^Y \mid S_a^X, S_b^X, S_c^X, S_d^X)$
+
+$n=25$
+
+The parameter of the curves is $\hat{\beta}$.
+
+The first and last point of the parametric curve are labelled by the value of the parameter $\hat{\beta}$.
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4in]
+{renorm-group/parametric-plot}
+\caption{
+Example of parametric plot.}
+\label{fig-parametric-plot}
+\end{figure}
+
+\item {\bf Magnetization plots}(see Fig.\ref{fig-mag-plot})
+   
+These show the magnetization mag=$\frac{1}{n}\sum_{i=1}^{n} S_i^Y$ as a function of beta\_hat=$\hat{\beta}$
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4in]
+{renorm-group/mag-plot}
+\caption{
+Example of magnetization  plot.}
+\label{fig-mag-plot}
+\end{figure}
+
+\end{enumerate}
+\hrule
+Conclusions
+
+1. Our 2-dim dynamical Ising-like model exhibits a discontinuity in the magnetization at the same Curie temperature as the plain vanilla 2-dim Ising model.
+
+2. For $p0\neq .5$, the parametric curves flow smoothly as $\beta\rightarrow \infty$, towards $(H(y), H(y\mid x))=(0,0)$, where the efficiency is discontinuous.
+
+4. For $p0=.5$, the parametric curves flow smoothly as $\beta\rightarrow \infty$, vertically down.
