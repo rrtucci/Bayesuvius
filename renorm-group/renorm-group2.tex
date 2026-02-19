@@ -208,16 +208,19 @@ can see in Fig.\ref{fig-ising-1-2}, for a rectangular lattice
 in 2-dim, the corner sites have 2 NN, and the non-corner
 boundary sites have 3 NN. Only the internal sites have 4 NN.
 
-{\bf D-dim Ising Model}
+Assume coupling constants $J, h\geq 0$.
 
-For $i=1, 2,3, \ldots, n$, {\bf energies}
+The {\bf D-dim Ising Model} is defined as follows.
+
+For $i=1, 2,3, \ldots, n$, 
+define {\bf energies} $\cale_i$ and $\cale$ by
 \beq
 \cale_i = \left
 [-J S_{i}\sum_{j\in NN(i)}S_j \right]- h S_{i},
 \quad
 \cale=\sum_{i=1}^n\cale_i
 \eeq
-for coupling constants $J, h\geq 0$
+
 
 Partition function
 \beq
@@ -293,6 +296,7 @@ $x^{:n}= (x_1, x_2, \ldots, x^n)$
 
 \beq
 P(x^{:n}) = \left[ \prod_{\rvx_i\in \calr^c}P(x_i\mid pa(\rvx_i))\right]\prod_{\rvx_i\in\calr}P(x_i)
+\label{eq-rg-full-bnet-distr}
 \eeq
 
 $1<b<\infty$
@@ -351,18 +355,19 @@ when all the nodes are uncorrelated.
 
 \beq
 H(\rvx_i : pa(\rvx_i))=
-\sum_{x_i\in \ZZ_\pm}\sum_{pa(\rvx_i)\in \ZZ^2_{\pm}}P(x_i, pa(\rvx_i))
+\sum_{x_i}\sum_{pa(\rvx_i)}P(x_i, pa(\rvx_i))
 \ln \frac{P(x_i\mid pa(\rvx_i))}{P(x_i)}
 \eeq
 
 \beq
-H(\rvx_i)=-\sum_{x_i\in \ZZ_\pm}P(x_i)\ln P(x_i)
+H(\rvx_i)=-\sum_{x_i}P(x_i)\ln P(x_i)
 \eeq
 
 \beq
-H(\rvx^{:n})=-\sum_{x^{:n}\in \ZZ^n_\pm}P(x^{:n})\ln P(x^{:n})
+H(\rvx^{:n})=-\sum_{x^{:n}}P(x^{:n})\ln P(x^{:n})
 \eeq
 
+From Eq.(\ref{eq-rg-full-bnet-distr}), we get
 \beq
 \frac{P(x^{:n})}{\prod_{i=1}^n
 P(x_i)}=\prod_{\rvx_i \in \calr^c}  \frac{P(x_i\mid pa(\rvx_i))}{P(x_i)}
@@ -370,16 +375,16 @@ P(x_i)}=\prod_{\rvx_i \in \calr^c}  \frac{P(x_i\mid pa(\rvx_i))}{P(x_i)}
 
 
 \beq
-\sum_{x^{:n}\in \ZZ_{\pm}^n}P(x^{:n})\ln \frac{P(x^{:n})}{\prod_{i=1}^n P(x_i)}=
+\sum_{x^{:n}}P(x^{:n})\ln \frac{P(x^{:n})}{\prod_{i=1}^n P(x_i)}=
 \sum_{\rvx_i \in \calr^c}H(\rvx_i : pa(\rvx_i))
 \eeq
 
 \qed
 
-This last claim mean that the \qt{bound entropy} (i.e., the
+This last claim says that the \qt{bound entropy} (i.e., the
 entropy between when $n$ random variables 
-are independent and correlated) equals the
-sum of the mutual information for 
+are independent and when they are correlated) equals the
+sum of the mutual informations for 
 the non-root nodes.
 
 \begin{claim}
@@ -392,7 +397,7 @@ the non-root nodes.
 \end{claim}
 \proof
 
-We will prove it for $m=3$ and leave 
+We will prove this for $m=3$ and leave 
 the general case to the reader.
 
 Averaging the logarithm of the following chain rule for conditional
@@ -465,14 +470,16 @@ $$
 \label{fig-def-undir-ar-dag}
 \end{figure}
 
-\subsection{1-dim Ising-like Model}
 
 $Bool=\bool$
 
  
 $S_i, S_i^X, S_i^Y\in \{1, -1\} =2 Bool-1=\ZZ_\pm$
 
-$D_i=(S_i^X, S_i^Y)$ (\qt{dipole node})
+$D_i=(S_i^X, S_i^Y)$= \qt{dipole node} (dnode)
+or \qt{lattice site}
+
+$T=$ temperature
 
 $
 b = \beta = 1/T
@@ -500,11 +507,27 @@ $$
 }
 \ecen
 $$
-\caption{DAG definition of 1-dim Ising Model}
+\caption{DAG definition of 1-dim Ising Model
+with 3 dnodes.}
 \label{fig-def-1dim-ising}
 \end{figure}
 
-For $i=1,2,3$
+Assume coupling constants $J, h, \lam\geq 0$.
+Actually, in our software {\tt bnet\_rg}
+described later on, we only consider
+the case $h=\lam=0$.
+
+\subsection{1-dim Ising-like Model}
+
+The 1-dim Ising model with 3 dnodes  is defined 
+as follows (generalization to $n$ dnodes is obvious).
+
+Consider the bnet of 
+Fig.\ref{fig-def-1dim-ising}
+with node Transition Probability
+Matrices (TPM)  given below, written in blue.
+
+For $i=1,2,3$, 
 \beq\color{blue}
 P(S_i^X)=\frac{1}{2}
 \eeq
@@ -522,7 +545,6 @@ Z_2 = \sum_{S^Y_2\in \ZZ_{\pm}}e^{-\beta\cale_2}
 \end{array}
 \right.
 \eeq
-for $\lam\geq 0$.
 
 For $i=1,3$
 \beq
@@ -538,19 +560,23 @@ Z_i = \sum_{S^Y_i\in \ZZ_{\pm}}e^{-\beta\cale_i}
 \end{array}
 \right.
 \eeq
-for $\lam\geq 0$
 
 
 
 \subsection{2-dim Ising-like Model}
 
-$\calb=$ border nodes of undirected graph
+$\calb=$ border dnodes of undirected graph
 
 $\calb^c=$ non-border, internal 
-nodes of undirected graph
+dnodes of undirected graph
 
 $n=$ number of nodes
 of undirected graph
+
+The 2-dim Ising model with 9 dnodes  is defined 
+as follows (generalization to $n$ dnodes is obvious).
+
+
 
 \begin{figure}[h!]
 $$
@@ -610,9 +636,16 @@ $$
 }
 \ecen
 $$
-\caption{DAG definition of 2-dim Ising Model}
+\caption{DAG definition of 2-dim Ising Model
+with 9 dnodes on a $3\times 3$ lattice.}
 \label{fig-def-2dim-ising}
 \end{figure}
+
+Consider the bnet of 
+Fig.\ref{fig-def-2dim-ising}
+with node Transition Probability
+Matrices (TPM)  given below, written in blue.
+
 
 For $i=1,2, \ldots, n$
 \beq\color{blue}
@@ -636,25 +669,11 @@ Z_i = \sum_{S^Y_i\in \ZZ_{\pm}}e^{-\beta\cale_i}
 \right.
 \label{eq-ising-tpm-non-border}
 \eeq
-for $\lam\geq 0$
-
 For $\rvS_i\in \calb$, the corner nodes have 2 nn and the non-corner ones have 3 nn. Eq.(\ref{eq-ising-tpm-non-border}) is valid for $\rvS_i\in \calb$ if we set $\rvS_c=\rvS_d=0$ in case
 of 2 nn and $\rvS_d=0$ in case of 3 nn.
 
-Instead of taking the $\lam\rarrow \infty$,
-\beq
-\left\{
-\begin{array}{l}
-\color{blue}
-P(S_i^Y\mid S_i^X, S_a^X, S_b^X, S_c^X, S_d^X)
-=\frac{e^{-\beta\cale_i}\delta(S^Y_i, S^X_i)}{Z_i}
-\\
-\cale_i = J S_i^Y(S_i^X+S_a^X+ S_b^X, S_c^X+ S_d^X) + h S_i^Y
-\\
-Z_i = \sum_{S^Y_i\in \ZZ_{\pm}}e^{-\beta\cale_i}\delta(S^Y_i, S^X_i)
-\end{array}
-\right.
-\eeq
+
+For the full bnet,
 
 
 \beq
@@ -666,47 +685,44 @@ P(D^{:n})=
 For a 2-dim Ising bnet,
 Claim \ref{cl-mutual-info-bd}
 can be specialized as follows.
-Note that as 
-$S_i^X\rarrow S_i^Y$,
-$D_i=(S_i^X,S_i^Y)\rarrow (S_i^X, S_i^X)=
-(S_i^Y, S_i^Y)$
+using
+$D_i=(S_i^X,S_i^Y)$ and the fact 
+that the $S_i^X$ nodes are all root nodes.
 
 \beq
-\sum_{i=1}^n
- H(\rvx_i)-H(\rvx^{:n})=
-\sum_{\rvx_i \in \calr^c} H(\rvx_i : pa(\rvx_i))
-\leq \sum_{\rvx_i \in \calr^c}H(\rvx_i)
-\eeq
-
-
-\beq
-\sum_{i=1}^nH(\rvx_i)=
-\sum_{i=1}^n H(\rvS_i^X)
-\eeq
-
-\beq
-H(\rvx^{:n})=H(\rvD^{:n})
-\eeq
-
-\beq
-\sum_{\rvx_i \in \calr^c} H(\rvx_i : pa(\rvx_i))
+\underbrace
+{\underbrace{\sum_{i=1}^n
+H(\rvx_i)}_
+{\sum_{i=1}^n H(\rvD_i)}
+-
+\underbrace{H(\rvx^{:n})}_
+{H(\rvD^{:n})}}_
+{\sum_{i=1}^n
+H(\rvS_i^Y)-H(\rvS^{Y:n})
+}
 =
-\sum_{i=1}^n H(\rvS_i^Y:pa(\rvS_i^Y))
+\underbrace{\sum_{\rvx_i \in \calr^c} 
+H(\rvx_i : pa(\rvx_i))}_
+{\sum_{i=1}^n H(\rvS_i^Y:pa(\rvS_i^Y))}
 \eeq
 
-\beq
-\sum_{\rvx_i \in \calr^c}H(\rvx_i)=
-\sum_{i=1}^n H(\rvS^X_i)
+\subsection{Converting 1-time bnet to a dynamical one}
+
+The 1-time bnet presented so far does not
+equilibrate. To build a bnet that does
+equilibrate, we can make many copies 
+(\qt{times-slices}) of the above 1-time bnet
+and connect them to make a dynamic bnet.
+
+Add a functional dependance $(t)$ to all the random variables $\rvD_i$ in the 1-time bnet presented above. Do the same with $(t+1)$. Now we have two subsequent time slices.
+
+To connect them, set $S_i^X(t+1)$ equal to $S_i^Y(t)$ for all $i$. In other words,
+we need to add the following TPM
+
+\beq\color{blue}
+P(S_i^X(t+1)\mid S_i^Y(t))=\quad
+\indi(S_i^X(t+1)=S_i^Y(t))
 \eeq
 
-
-\beq
-\sum_{i=1}^n H(\rvS_i^X)
--H(\rvD^{:n})
-=
-\sum_{i=1}^n H(\rvS_i^Y:pa(\rvS_i^Y))
-\leq
-\sum_{i=1}^n H(\rvS^X_i)
-\eeq
 
 \section{Software}
