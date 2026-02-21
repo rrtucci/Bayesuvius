@@ -3,21 +3,44 @@
 
 In the previous chapter (Ch. \ref{ch-renorm-group1}), we discussed
 the Renormalization Group (RG) in general.
-In the next chapter
+In the this chapter,
 we discuss how to
 apply the RG to bnets.
 
-dynamical Bayesian network (dbnet)
+As an
+example, we  apply 
+the RG techniques for bnets to a dynamical Bayesian network (dbnet) (see Ch. \ref{ch-dyn-bnets})
+of our own devising,
+that is designed so as to incorporate
+all the physics of the 
+standard Ising model (the latter is 
+an undirected DAG (Markov model)
+instead of a DAG (bnet)).
+We have implemented our Ising-dbnet in the open source software {\tt bnet\_rg} (see Ref.\cite{bnetrg}).
+
+This chapter and the software 
+{\tt bnet\_rg} are original research, first published here.
 
 \section{Preliminaries}
+In this section 
+we remind the reader 
+of some theory 
+(on 1. Information theory 2. Standard Ising Model) 
+that will be used to discuss
+the main topic of this chapter.
+
+
 \subsection{Information Theory}
 
-entropy 
+Recall that in Shannon Information theory (see Ch. \ref{ch-shannon-info}), we define
+for random variables $\rvx, \rvy$
+
+the {\bf entropy}
 \beq
 H(\rvx)=-\sum_{x\in val(\rvx)} P(x)\ln P(x)
 \eeq
 
-joint entropy
+the {\bf joint entropy}
 \beq
 H(\rvx, \rvy) =-
 \sum_{x\in val(\rvx)}
@@ -25,7 +48,7 @@ H(\rvx, \rvy) =-
 P(x,y)\ln P(x, y)
 \eeq
 
-conditional information
+the {\bf conditional information}
 \beqa
 H(\rvy\mid \rvx) &=&-
 \sum_{x\in val(\rvx)}
@@ -36,7 +59,7 @@ P(x,y)\ln P(y\mid x)
 H(\rvx, \rvy)-H(\rvx)
 \eeqa
 
-mutual information (MI)
+the {\bf mutual information (MI)}
 \beqa
 H(\rvx:\rvy)&=&\sum_{x\in val(\rvx)}
 \sum_{y\in val(\rvy)}
@@ -45,7 +68,8 @@ P(x,y)\ln \frac{P(x,y)}{P(x)P(y)}
 &=& H(\rvy)-H(\rvy\mid\rvx)=H(\rvx)-H(\rvx\mid\rvy)
 \eeqa
 
-
+Here are some standard inequalities
+that we will find useful in the rest of this chapter.
 \begin{claim}
 \beq
 0\leq H(\rvx)\leq \ln|val(\rvx)|
@@ -61,6 +85,7 @@ P(x,y)\ln \frac{P(x,y)}{P(x)P(y)}
 \eeq
 \end{claim}
 \proof
+Left to the reader.
 \qed
 
 We will use MI to
@@ -120,7 +145,7 @@ H(\rvx\mid\rvy)=0\implies
 
 
 
-{\bf MI Efficiency} $\eps(\rvy\mid\rvx)$
+Define the {\bf MI Efficiency} $\eps(\rvy\mid\rvx)$ by
 \beq
 \eps(\rvy\mid\rvx)=
 \frac{H(\rvy: \rvx)}{H(\rvy)}
@@ -132,15 +157,50 @@ From $0\leq H(\rvy:\rvx)\leq H(\rvy)$ we get
 0\leq \eps(\rvy\mid\rvx)\leq  1
 \eeq
 
+From its definition, we see that the MI efficiency has a 
+singularity of the type 0/0
+when $H(\rvy\mid \rvx)= H(\rvy)=0$.
 
+We will henceforth
+refer to the
+$(H(\rvy), H(\rvy\mid\rvx))$ plane
+as the {\bf entropy versus conditional info (E-CI) plane}
+
+
+It is instructive (see Fig.\ref{fig-eps-sing})
+to plot in the E-CI plane, the loci
+on which the efficiency
+equals certain values.
+
+
+Another thing
+that I find instructive
+is to calculate  the
+ values of
+the efficiency
+in the case that $\rvx$
+and $\rvy$ are simple
+binary random variables
+$\rvx, \rvy\in \bool$.
+In that case,
+we represent $P(y|x)$ by a $2\times 2$
+matrix, with $\rvy\in \bool$
+labelling
+the rows and $\rvx\in \bool$
+labelling the columns.  
+Fig.\ref{fig-eps-sing-for simp-case})
+gives
+the values of the efficiency
+for various $P(y|x)$ and $P(x)$
+possibilities.
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=3in]
 {renorm-group2/eps-sing}
 \caption{
-Efficiency = $\eps = \frac{H(\rvy:\rvx)}{H(\rvy)}=1 - \frac{H(\rvy\mid \rvx)}{H(\rvy)}$
-Efficiency singularity when 
+Efficiency = $\eps = \frac{H(\rvy:\rvx)}{H(\rvy)}=1 - \frac{H(\rvy\mid \rvx)}{H(\rvy)}$.
+Efficiency has a singularity when 
 both $H(\rvy\mid\rvx)$ and $H(\rvy)$ are zero.}
 \label{fig-eps-sing}
 \end{figure}
@@ -148,7 +208,7 @@ both $H(\rvy\mid\rvx)$ and $H(\rvy)$ are zero.}
 \begin{figure}[h!]
 \centering
 \includegraphics[width=3in]{renorm-group2/eps-sing-for-simp-case}
-\caption{Points in entropy versus conditional info plane for various values of
+\caption{Efficiency for various values of
 the transition matrix $P(y\mid x)$
 and the prior probabilities $P(x)$.
 }
@@ -157,7 +217,7 @@ and the prior probabilities $P(x)$.
 
 
 
-\subsection{Ising Model}
+\subsection{Standard  Ising Model}
 
 \begin{figure}[h!]
 $$
@@ -185,9 +245,15 @@ $$
 }
 \ecen
 $$
-\caption{Ising Model cubic lattice for $D=1$ (with 4 spins) and $D=2$ (with 9 spins) for Ising model.}
+\caption{Ising Model cubic lattice for $D=1$ (with 4 spins) and $D=2$ (with 9 spins).}
 \label{fig-ising-1-2}
 \end{figure}
+
+The standard Ising model
+is defined on a cubic lattice,
+as shown in Fig.\ref{fig-ising-1-2}.
+
+Let
 
 
 $Bool=\bool$
@@ -210,7 +276,7 @@ $z=2D$= {\bf coordination number},
 number of nearest neighbors
 internally in the lattice, away from the boundary. 
 $z=2$ in $D=1$ and $z=4$ in $D=2$.
-For spins on the boundary, number of NN
+For spins on the boundary, the number of NN
 is less than $z$. For example, as you 
 can see in Fig.\ref{fig-ising-1-2}, for a rectangular lattice 
 in 2-dim, the corner sites have 2 NN, and the non-corner
@@ -229,13 +295,14 @@ define {\bf energies} $\cale_i$ and $\cale$ by
 \cale=\sum_{i=1}^n\cale_i
 \eeq
 
-
-Partition function
+and a 
+Partition Function $Z$ by
 \beq
 Z=\left[\prod_{i=1}^n\sum_{S_i\in\ZZ_\pm}
 \right]
 e^{-\beta \cale}
 \eeq
+Let
 
 $\xi=$ {\bf correlation length}. $\av{\rvS_i, \rvS_{i+r}}\sim e^{-r/\xi}$. $\xi\rarrow \infty$ at critical points
 
@@ -255,7 +322,7 @@ Ising Model can only be solved
 exactly for $D=1, 2$. 
 For other $D$, must solve numerically.
 
-for 2-dim Ising model with $h=0$
+For the 2-dim Ising model with $h=0$:
 
 \begin{itemize}
 \item Curie Temperature
@@ -291,28 +358,30 @@ for 2-dim Ising model with $h=0$
 
 \section{Scaling a General Bnet}
 
-Let
+Consider a general
+bnet with nodes $\rvx_i$
+for $i=1,2, \ldots, n$. Let
 
 $\calr=$ set of root nodes. 
 
 $\calr^c=$ set of non-root nodes.
 
-$n=$ total number of nodes
-
 $x^{:n}= (x_1, x_2, \ldots, x^n)$
 
+Then
 
 \beq
 P(x^{:n}) = \left[ \prod_{\rvx_i\in \calr^c}P(x_i\mid pa(\rvx_i))\right]\prod_{\rvx_i\in\calr}P(x_i)
 \label{eq-rg-full-bnet-distr}
 \eeq
 
-$1<b<\infty$
+For $1<b<\infty$, let
 \beq
 P_b(x_i\mid pa(\rvx_i))=
 \frac{P(x_i\mid pa(\rvx_i))^b}
 {Z_i(b)}=\pi_i(b)
 \eeq
+where
 
 \beq
 Z_i(b)=\sum_{x_i\in val(x_i)}
@@ -320,9 +389,9 @@ P(x_i\mid pa(\rvx_i))^b
 \eeq
 
 \begin{mdframed}[hidealllines=true,backgroundcolor=blue!10]
-As $b\rarrow \infty$,
+{\bf  As $b\rarrow \infty$,}
 
- $(\pi_1, \pi_2, \ldots, \pi_n)$ tends to a one hot vector; i.e., all its components tend to zero except one component, the one that was largest at $b=1$, which tends to 1:
+ $(\pi_1, \pi_2, \ldots, \pi_n)$ tends to a one hot vector; i.e., all its components tend to zero except for one component, the one that was largest at $b=1$, which tends to 1:
 
 \beq
 \pi_i(b)\rarrow \delta(i, i_0),\quad \text{ where } i_0=\argmax_i \pi_i(b=1)
@@ -346,7 +415,7 @@ If $H(\rvx_i)$ remains finite as $b\rarrow \infty$, then
 $\eps(\rvx_i \mid pa(\rvx_i))\rarrow 1$,
 but if $H(\rvx_i)$ tends to zero, then 
 $\eps(\rvx_i \mid pa(\rvx_i))$ tends
-to its singularity at $H(\rvy\mid \rvx)
+to a 0/0 singularity at $H(\rvy\mid \rvx)
 = H(\rvy)=0$
 \end{mdframed}
 
@@ -380,7 +449,7 @@ From Eq.(\ref{eq-rg-full-bnet-distr}), we get
 \frac{P(x^{:n})}{\prod_{i=1}^n
 P(x_i)}=\prod_{\rvx_i \in \calr^c}  \frac{P(x_i\mid pa(\rvx_i))}{P(x_i)}
 \eeq
-
+Hence
 
 \beq
 \sum_{x^{:n}}P(x^{:n})\ln \frac{P(x^{:n})}{\prod_{i=1}^n P(x_i)}=
@@ -448,6 +517,16 @@ of $\rvx$ , we get
 \eeq
 
 \section{Scaling our Ising-dbnet Model}
+So far,
+we have described
+a method of scaling any bnet. 
+In this section,
+we define an Ising-dbnet
+and apply our scaling method to it.
+Our Ising-dbnet is designed
+to incorporate
+all the physics of the 
+standard Ising model.
 
 \begin{figure}[h!]
 $$
@@ -478,6 +557,7 @@ $$
 \label{fig-def-undir-ar-dag}
 \end{figure}
 
+Let
 
 $Bool=\bool$
 
@@ -525,9 +605,9 @@ Actually, in our software {\tt bnet\_rg}
 described later on, we only consider
 the case $h=\lam=0$.
 
-\subsection{1-dim Ising-dbnet Model}
+\subsection{1-dim Ising bnet Model}
 
-The 1-dim Ising model with 3 dnodes  is defined 
+Our 1-dim Ising bnet model with 3 dnodes  is defined 
 as follows (generalization to $n$ dnodes is obvious).
 
 Consider the bnet of 
@@ -540,6 +620,7 @@ For $i=1,2,3$,
 P(S_i^X)=\frac{1}{2}
 \eeq
 
+For $i=2$,
 \beq
 \left\{
 \begin{array}{l}
@@ -560,7 +641,7 @@ For $i=1,3$
 \begin{array}{l}
 \color{blue}
 P(S_i^Y\mid S_i^X, S_2^X)
-=\frac{e^{-\beta\cale_1}}{Z_i}
+=\frac{e^{-\beta\cale_i}}{Z_i}
 \\
 \cale_i = -J S_i^Y(S_2^X) - h S_i^Y -\lam S_i^YS_i^X
 \\
@@ -571,7 +652,9 @@ Z_i = \sum_{S^Y_i\in \ZZ_{\pm}}e^{-\beta\cale_i}
 
 
 
-\subsection{2-dim Ising-dbnet Model}
+\subsection{2-dim Ising bnet Model}
+
+Let
 
 $\calb=$ border dnodes of undirected graph
 
@@ -581,7 +664,7 @@ dnodes of undirected graph
 $n=$ number of nodes
 of undirected graph
 
-The 2-dim Ising model with 9 dnodes  is defined 
+Our 2-dim Ising bnet model with 9 dnodes  is defined 
 as follows (generalization to $n$ dnodes is obvious).
 
 
@@ -644,7 +727,7 @@ $$
 }
 \ecen
 $$
-\caption{DAG definition of 2-dim Ising Model
+\caption{DAG definition of 2-dim Ising bnet
 with 9 dnodes on a $3\times 3$ lattice.}
 \label{fig-def-2dim-ising}
 \end{figure}
@@ -662,7 +745,7 @@ P(S_i^X)=\frac{1}{2}
 
 For $\rvS_i\in \calb^c$, if 
 $\rvS_a, \rvS_b, \rvS_c, \rvS_d$ are the nearest
-neighbors (nn) of $\rvS_i$,
+neighbors (NN) of $\rvS_i$,
 \beq
 \left\{
 \begin{array}{l}
@@ -677,8 +760,8 @@ Z_i = \sum_{S^Y_i\in \ZZ_{\pm}}e^{-\beta\cale_i}
 \right.
 \label{eq-ising-tpm-non-border}
 \eeq
-For $\rvS_i\in \calb$, the corner nodes have 2 nn and the non-corner ones have 3 nn. Eq.(\ref{eq-ising-tpm-non-border}) is valid for $\rvS_i\in \calb$ if we set $\rvS_c=\rvS_d=0$ in case
-of 2 nn and $\rvS_d=0$ in case of 3 nn.
+For $\rvS_i\in \calb$, the corner nodes have 2 NN and the non-corner ones have 3 NN. Eq.(\ref{eq-ising-tpm-non-border}) is sill valid for $\rvS_i\in \calb$ if we set $\rvS_c=\rvS_d=0$ in case
+of 2 NN and $\rvS_d=0$ in case of 3 NN.
 
 
 For the full bnet,
@@ -693,7 +776,7 @@ P(D^{:n})=
 For a 2-dim Ising bnet,
 Claim \ref{cl-mutual-info-bd}
 can be specialized as follows.
-using
+Using
 $D_i=(S_i^X,S_i^Y)$ and the fact 
 that the $S_i^X$ nodes are all root nodes.
 
