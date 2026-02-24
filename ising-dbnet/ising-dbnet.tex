@@ -349,7 +349,7 @@ For the 2-dim Ising model with $h=0$:
 
 
 
-\section{Probability Scaling a General Bnet}
+\section{Energy Scaling a General Bnet}
 
 Consider a general
 bnet with nodes $\rvx_i$
@@ -382,22 +382,23 @@ P(x_i\mid pa(\rvx_i))^v
 \eeq
 
 $v$  can be positive or negative.
-When $v>0$, we will call it $r$.
-When, $v<0$, we will call it $-\beta$.
-The $v<0$ case
-occurs in thermodynamics, where 
-$\beta=1/T$.
+When $v>0$, we will call it $\beta$.
+When, $v<0$, we will call it $-\alpha$.
+The $v>0$ case
+occurs in Thermodynamics, where 
+$\beta=1/T$, and probabilities are of the form $ e^{-\cale}\leq 1$
+for some energy $\cale\geq 0$.
 \begin{mdframed}[hidealllines=true,backgroundcolor=blue!10]
-{\bf  As $\beta \rarrow \infty$ (resp., $r\rarrow\infty$),}
+{\bf  As $\beta \rarrow \infty$ (resp., $\alpha\rarrow\infty$),}
 
- $(\pi_1, \pi_2, \ldots, \pi_n)$ tends to a one hot vector; i.e., all its components tend to zero except for one component, the one that is smallest (resp., largest) at $\beta=1$ (resp., $r=1$), which tends to 1:
+ $(\pi_1, \pi_2, \ldots, \pi_n)$ tends to a one hot vector; i.e., all its components tend to zero except for one component, the one that is largest (resp., smallest) at $\beta=1$ (resp., $\alpha=1$), which tends to 1:
 
 \beq
-\pi_i(\beta)\rarrow \delta(i, i_0),\quad \text{ where } i_0=\argmin_i \pi_i(\beta=1)
+\pi_i(\beta)\rarrow \delta(i, i_0),\quad \text{ where } i_0=\argmax_i \pi_i(\beta=1)
 \eeq
 
 \beq
-\pi_i(r)\rarrow \delta(i, i_0),\quad \text{ where } i_0=\argmax_i \pi_i(r=1)
+\pi_i(\alpha)\rarrow \delta(i, i_0),\quad \text{ where } i_0=\argmin_i \pi_i(r=1)
 \eeq
 Therefore, $H(\rvx_i\mid pa(\rvx_i))$
 tends to a sum of terms of the form $0\ln(0)$
@@ -512,13 +513,13 @@ of $\rvx$ , we get
 \leq \sum_{\rva\in pa(\rvx)} \eps(\rvx\mid \rva)
 \eeq
 
-\section{Probability Scaling our Ising-dbnet Model}
+\section{Energy Scaling our Ising-dbnet Model}
 So far,
 we have described
-a method of probability scaling any bnet. 
+a method of energy scaling any bnet. 
 In this section,
 we define an Ising-dbnet
-and apply our scaling method to it.
+and apply our energy scaling method to it.
 Our Ising-dbnet is designed
 to incorporate
 all the physics of the 
@@ -811,7 +812,6 @@ equilibrate, we can make many copies
 and connect them to make a dynamic bnet.
 
 Add a functional dependance $(t)$ to all the random variables $\rvD_i$ in the 1-time bnet presented above. Do the same with $(t+1)$. Now we have two subsequent time slices.
-
 To connect them, set $S_i^X(t+1)$ equal to $S_i^Y(t)$ for all $i$. In other words,
 we need to add the following TPM
 
