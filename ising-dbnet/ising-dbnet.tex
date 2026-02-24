@@ -7,7 +7,7 @@ all the physics of the
 standard Ising model (the latter is 
 an undirected graph (Markov field)
 instead of a DAG (bnet)).
-We have implemented our Ising-dbnet in the open source software {\tt ising-dbnet} (see Ref.\cite{isingdbnet}).
+I have implemented my Ising-dbnet in the open source software {\tt ising-dbnet} (see Ref.\cite{isingdbnet}).
 
 This chapter and the software 
 {\tt ising-dbnet} are original research, first published here.
@@ -23,7 +23,7 @@ the main topic of this chapter.
 
 \subsection{Information Theory}
 
-Recall that in Shannon Information theory (see Ch. \ref{ch-shannon-info}), we define
+Recall that in Shannon Information Theory (see Ch. \ref{ch-shannon-info}), we define
 for random variables $\rvx, \rvy$
 \begin{itemize}
 
@@ -203,7 +203,7 @@ both $H(\rvy\mid\rvx)$ and $H(\rvy)$ are zero.}
 \includegraphics[width=3in]{ising-dbnet/eps-sing-for-simp-case}
 \caption{Efficiency for various values of
 the transition matrix $P(y\mid x)$
-and the prior probabilities $P(x)$.
+and the prior probabilities $P(x)$ for $x,y\in\bool$.
 }
 \label{fig-eps-sing-for simp-case}
 \end{figure}
@@ -311,9 +311,9 @@ points at any finite temperature, just phase transitions.
 
 
 
-Ising Model can only be solved
+The Ising Model can only be solved
 exactly for $D=1, 2$. 
-For other $D$, must solve numerically.
+For other $D$, it must be solved numerically.
 
 For the 2-dim Ising model with $h=0$:
 
@@ -349,7 +349,7 @@ For the 2-dim Ising model with $h=0$:
 
 
 
-\section{Scaling a General Bnet}
+\section{Probability Scaling a General Bnet}
 
 Consider a general
 bnet with nodes $\rvx_i$
@@ -368,29 +368,38 @@ P(x^{:n}) = \left[ \prod_{\rvx_i\in \calr^c}P(x_i\mid pa(\rvx_i))\right]\prod_{\
 \label{eq-rg-full-bnet-distr}
 \eeq
 
-For $1<b<\infty$, let
+For $-\infty<v<\infty$, let
 \beq
-P_b(x_i\mid pa(\rvx_i))=
-\frac{P(x_i\mid pa(\rvx_i))^b}
-{Z_i(b)}=\pi_i(b)
+P_v(x_i\mid pa(\rvx_i))=
+\frac{P(x_i\mid pa(\rvx_i))^v}
+{Z_i(v)}=\pi_i(v)
 \eeq
 where
 
 \beq
-Z_i(b)=\sum_{x_i\in val(x_i)}
-P(x_i\mid pa(\rvx_i))^b
+Z_i(v)=\sum_{x_i\in val(x_i)}
+P(x_i\mid pa(\rvx_i))^v
 \eeq
 
+$v$  can be positive or negative.
+When $v>0$, we will call it $r$.
+When, $v<0$, we will call it $-\beta$.
+The $v<0$ case
+occurs in thermodynamics, where 
+$\beta=1/T$.
 \begin{mdframed}[hidealllines=true,backgroundcolor=blue!10]
-{\bf  As $b\rarrow \infty$,}
+{\bf  As $\beta \rarrow \infty$ (resp., $r\rarrow\infty$),}
 
- $(\pi_1, \pi_2, \ldots, \pi_n)$ tends to a one hot vector; i.e., all its components tend to zero except for one component, the one that is smallest at $b=1$, which tends to 1:
+ $(\pi_1, \pi_2, \ldots, \pi_n)$ tends to a one hot vector; i.e., all its components tend to zero except for one component, the one that is smallest (resp., largest) at $\beta=1$ (resp., $r=1$), which tends to 1:
 
 \beq
-\pi_i(b)\rarrow \delta(i, i_0),\quad \text{ where } i_0=\argmin_i \pi_i(b=1)
+\pi_i(\beta)\rarrow \delta(i, i_0),\quad \text{ where } i_0=\argmin_i \pi_i(\beta=1)
+\eeq
+
+\beq
+\pi_i(r)\rarrow \delta(i, i_0),\quad \text{ where } i_0=\argmax_i \pi_i(r=1)
 \eeq
 Therefore, $H(\rvx_i\mid pa(\rvx_i))$
-(for $P_b$)
 tends to a sum of terms of the form $0\ln(0)$
 or $\ln(1)$. Thus
 
@@ -404,12 +413,12 @@ H(\rvx_i:pa(\rvx_i))\rarrow
 H(\rvx_i)
 \eeq
 
-If $H(\rvx_i)$ remains finite as $b\rarrow \infty$, then
+If $H(\rvx_i)$ remains finite as $\beta\rarrow \infty$ (resp., $r\rarrow \infty$), then
 $\eps(\rvx_i \mid pa(\rvx_i))\rarrow 1$,
 but if $H(\rvx_i)$ tends to zero, then 
 $\eps(\rvx_i \mid pa(\rvx_i))$ tends
-to a 0/0 singularity at $H(\rvy\mid \rvx)
-= H(\rvy)=0$
+to a 0/0 singularity at the 
+origin of the E-CI plane.
 \end{mdframed}
 
 \begin{claim}\label{cl-mutual-info-bd}
@@ -423,19 +432,6 @@ when all the nodes are uncorrelated.
 \end{claim}
 \proof
 
-\beq
-H(\rvx_i : pa(\rvx_i))=
-\sum_{x_i}\sum_{pa(\rvx_i)}P(x_i, pa(\rvx_i))
-\ln \frac{P(x_i\mid pa(\rvx_i))}{P(x_i)}
-\eeq
-
-\beq
-H(\rvx_i)=-\sum_{x_i}P(x_i)\ln P(x_i)
-\eeq
-
-\beq
-H(\rvx^{:n})=-\sum_{x^{:n}}P(x^{:n})\ln P(x^{:n})
-\eeq
 
 From Eq.(\ref{eq-rg-full-bnet-distr}), we get
 \beq
@@ -444,10 +440,17 @@ P(x_i)}=\prod_{\rvx_i \in \calr^c}  \frac{P(x_i\mid pa(\rvx_i))}{P(x_i)}
 \eeq
 Hence
 
-\beq
-\sum_{x^{:n}}P(x^{:n})\ln \frac{P(x^{:n})}{\prod_{i=1}^n P(x_i)}=
+\beqa
+\sum_{i=1}^n H(\rvx_i)-H(\rvx^{:n})&=&
+\sum_{x^{:n}}P(x^{:n})\ln \frac{P(x^{:n})}{\prod_{i=1}^n P(x_i)}
+\\
+&=&
+\sum_{x_i}\sum_{pa(\rvx_i)}P(x_i, pa(\rvx_i))
+\ln \frac{P(x_i\mid pa(\rvx_i))}{P(x_i)}
+\\
+&=&
 \sum_{\rvx_i \in \calr^c}H(\rvx_i : pa(\rvx_i))
-\eeq
+\eeqa
 
 \qed
 
@@ -509,10 +512,10 @@ of $\rvx$ , we get
 \leq \sum_{\rva\in pa(\rvx)} \eps(\rvx\mid \rva)
 \eeq
 
-\section{Scaling our Ising-dbnet Model}
+\section{Probability Scaling our Ising-dbnet Model}
 So far,
 we have described
-a method of scaling any bnet. 
+a method of probability scaling any bnet. 
 In this section,
 we define an Ising-dbnet
 and apply our scaling method to it.
@@ -563,7 +566,7 @@ or \qt{lattice site}
 $T=$ temperature
 
 $
-b = \beta = 1/T
+\beta = 1/T
 $
 
 \begin{figure}[h!]
@@ -597,6 +600,15 @@ Assume coupling constants $J, h, \lam\geq 0$.
 Actually, in our software {\tt ising-dbnet}
 described later on, we only consider
 the case $h=\lam=0$.
+
+We will first describe
+a 1-dim and 2-dim 1-time
+bnet. Then we will
+describe
+how to create a dbnet
+in which
+each time slice is 
+the 1-time bnet.
 
 \subsection{1-dim Ising bnet Model}
 
@@ -746,7 +758,7 @@ neighbors (NN) of $\rvS_i$,
 P(S_i^Y\mid S_i^X, S_a^X, S_b^X, S_c^X, S_d^X)
 =\frac{e^{-\beta\cale_i}}{Z_i}
 \\
-\cale_i = -J S_i^Y(S_i^X+S_a^X+ S_b^X, S_c^X+ S_d^X) - h S_i^Y -\lam S_i^YS_i^X
+\cale_i = -J S_i^Y(S_i^X+S_a^X+ S_b^X +S_c^X+ S_d^X) - h S_i^Y -\lam S_i^YS_i^X
 \\
 Z_i = \sum_{S^Y_i\in \ZZ_{\pm}}e^{-\beta\cale_i}
 \end{array}
