@@ -399,6 +399,155 @@ in high energy physics) or
 non-relativistic (as considered
 in condensed matter physics).
 
+\section{Example: 1-dim Ising Model}
+
+Let
+
+$Bool=\bool$
+
+$S_i\in \{-1, 1\}= 2Bool-1=\ZZ_\pm$
+
+$S^{:N} =(S_1, S_2, \ldots, S_N)$
+
+
+
+Assume $J>0$. The partition function
+for a 1-dim Ising model is
+
+\beq
+Z = \sum_{S^{:N}\in\ZZ_\pm^N}
+e^{-\beta\cale}
+\text{ with }
+\cale = -J(S_1 S_2 + S_2 S_3 +
+S_3 S_4 + \ldots S_{N-1}S_N)
+\eeq
+Note
+that the energy $\cale$ is minimum
+iff all spins point
+in the same direction.
+
+Let $K=\beta J$.
+Then we can rewrite the partition function as
+\beq
+Z=
+\sum_{S^{:N}\in\ZZ_\pm^N}
+e^{K(S_1 S_2 +S_2 S_3)}
+e^{K(S_3 S_4 +S_4 S_5)}\ldots
+\eeq
+
+Let $N'= N/2$. If we sum
+the right hand side
+of the last equation 
+over spins with even indices,
+we get
+
+\beq 
+Z=
+\sum_{S^{:N'}\in\ZZ_\pm^{N'}}
+2 \cosh[K(S_1 + S_3)]
+2 \cosh[K(S_3 + S_5)]
+\ldots
+\label{eq-sum-cosh-prod}
+\eeq
+
+Next we make the following anzatz
+and prove the anzatz is valid
+by solving for $f(K)$ and $K'(K)$
+
+\beq
+2 \cosh[K(S_1 + S_3)] = f(K) e^{K'(K) S_1 S_3}
+\label{eq-1-dim-ising-anzatz}
+\eeq
+
+
+\begin{claim}
+
+\beq
+f(K)= 2 \sqrt{\cosh(2K)}
+\eeq
+ \beq
+K'=\frac{1}{2}\ln[\cosh(2K)]
+\eeq
+
+
+
+\end{claim}
+\proof
+
+From the anzatz Eq.(\ref{eq-1-dim-ising-anzatz}),
+we get
+\beq
+f(K)=
+e^{-K' S_1 S_3}\left
+[e^{K(S_1+S_3)}
++
+e^{-K(S_1+S_3)}
+\right]
+\eeq
+
+\begin{subequations}\label{eq-1-dim-ising-2eqs}
+When $S_1$ and $S_3$ point in the
+same direction,
+
+\beq
+f(K)=e^{-K'}\left[e^{2K}+ e^{-2K}\right]
+\eeq
+When $S_1$ and $S_3$ point in opposite
+directions,
+
+\beq \label{eq-1-dim-ising-easy}
+f(K)=e^{K'}2
+\eeq
+\end{subequations}
+
+Dividing the 2 equations Eqs.(\ref{eq-1-dim-ising-2eqs}) yields
+
+\beq
+e^{2K'}=\cosh(2K)
+\eeq
+Now that we know $K'(K)$,
+we can find $f(K)$
+from Eq.(\ref{eq-1-dim-ising-easy}).
+\qed
+
+Combining Eq.(\ref{eq-sum-cosh-prod}) and
+the anzatz Eq.(\ref{eq-1-dim-ising-anzatz}),
+we get
+\beq
+\underbrace{Z}_{Z(N, K)}=f^{N'}(K)\underbrace{\sum_{S^{:N'}\in \ZZ_\pm} 
+e^{K'S_1 S_3}e^{K'S_3 S_5}\ldots}_{
+Z(N', K')
+}
+\label{eq-z-prior-use-extensive}
+\eeq
+
+For large $N$,
+\beq
+\ln Z \approx \sum_{S^{:N}\in\ZZ_\pm^N}
+ \ln e^{-N\beta \cale_1}=N\zeta(K)
+\eeq
+so $\ln Z$ behaves as an extensive variable.
+By virtue of this extensive property,
+Eq.(\ref{eq-z-prior-use-extensive}) 
+becomes
+
+\beq
+N\zeta(K)= N'\ln f(K) + N'\zeta(K')
+\eeq
+so
+
+\beq
+\zeta(K') = 2\zeta(K)- \ln f(K)
+\eeq
+where 
+
+\beq
+\ln f(K)=\frac{1}{2}\ln \cosh(2K) + \ln 2
+\eeq
+
+
+\section{Example: $\phi^4$ theory}
+
 \section{Naive versus fractal
 \qt{scaling} dimensions}
 
