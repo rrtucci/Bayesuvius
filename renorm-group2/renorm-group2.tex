@@ -1,0 +1,112 @@
+\documentclass[12pt]{report}
+\input{../bayesuvius.sty}
+%\input{../bayesuvius-do-calc-proofs-decs.sty}
+
+\begin{document}
+
+\beq
+P(x^{:6}) =
+\left\{
+\begin{array}{l}
+P(x_6\mid x_5, x_4, x_3, x_2, x_1)
+\\
+P(x_5\mid x_4, x_3, x_2, x_1)
+\\
+P(x_4\mid x_3, x_2, x_1)
+\\
+P(x_3\mid x_2, x_1)
+\\
+P(x_2\mid x_1)P(x_1)
+\end{array}
+\right.
+\eeq
+
+\begin{enumerate}
+
+\item Sum over $x_5, x_3, x_1$
+\beq
+P(x_6, x_4,  x_2)=
+\left\{
+\begin{array}{l}
+P(x_6\mid x_4,x_2)
+\\
+P(x_4\mid x_2)
+\\
+P(x_2)
+\end{array}
+\right.
+\eeq
+
+\beq
+\left\{
+\begin{array}{l}
+P(x_2|x'_2)=\delta(x_2, x_2')
+\\
+P(\rvx_2'=x_2')= P(\rvx_2=x_2')
+\end{array}
+\right.
+\eeq
+
+\beq
+P(x_6, x_4,  x_2, x_2')=
+\left\{
+\begin{array}{l}
+P(x_6\mid x_4,x_2)
+\\
+P(x_4\mid x_2)
+\\
+P(x_2\mid x_2')
+\\
+P(x_2')
+\end{array}
+\right.
+\eeq
+
+\item Sum over $x_4$ and $x_2'$
+
+\beq
+P(x_6, x_2)=
+\left\{
+\begin{array}{l}
+P(x_6\mid x_2)
+\\
+P(x_2)
+\end{array}
+\right.
+\eeq
+
+\item Sum over $x_2$ and get $P(x_6)$
+\end{enumerate}
+
+
+\beq
+50\rarrow (25+1)\rarrow (13 +1)\rarrow (7+1)\rarrow 4\rarrow 2 \rarrow 1
+\eeq
+
+
+\beq
+P(x\mid a^{:m}, b^{:n})\rarrow
+Q(x\mid a^{:m})=
+\sum_{b^{:n}}
+P(x\mid a^{:m}, b^{:n})\prod_{i=1}^n P(b_i)
+\eeq
+
+Recall
+\beq
+\eps(\rvx || \rva)
+=\frac{H(\rvx: \rva)}{H(\rvx)}=
+1 -\frac{H(\rvx\mid \rva)}{H(\rvx)}
+\eeq
+
+\beq
+\eps(\rvx || \rvb_j)< 1   -\delta
+\eeq
+for all $j$
+and 
+\beq
+1   -\delta <\eps(\rvx || \rva_i)
+\eeq
+for all $i$
+
+
+\end{document}
