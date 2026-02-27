@@ -86,9 +86,10 @@ P(x_2)
 
 \beq
 P(x\mid a^{:m}, b^{:n})\rarrow
-Q(x\mid a^{:m})=
+P(x\mid a^{:m})=
 \sum_{b^{:n}}
-P(x\mid a^{:m}, b^{:n})\prod_{i=1}^n P(b_i)
+P(x\mid a^{:m}, b^{:n})
+\underbrace{P(b^{:n}\mid a^{:m})}_{\approx \prod_{i=1}^n P(b_i)}
 \eeq
 
 Recall
@@ -99,14 +100,245 @@ Recall
 \eeq
 
 \beq
-\eps(\rvx || \rvb_j)< 1   -\delta
+0\leq \eps(\rvx || \rvb_j)< 1   -\delta
 \eeq
 for all $j$
 and 
 \beq
-1   -\delta <\eps(\rvx || \rva_i)
+1   -\delta <\eps(\rvx || \rva_i)\leq 1
 \eeq
-for all $i$
+for all $i$.
+
+\begin{figure}[h!]
+$$
+\bcen
+\xymatrix{
+\rvS_1\ar@{-}[r]\ar@{-}[d]
+&\rvS_2\ar@{-}[r]\ar@{-}[d]
+&\rvS_3\ar@{-}[d]
+\\
+\rvS_4\ar@{-}[r]\ar@{-}[d]
+&\rvS_5\ar@{-}[r]\ar@{-}[d]
+&\rvS_6\ar@{-}[d]
+\\
+\rvS_7\ar@{-}[r]
+&\rvS_8\ar@{-}[r]
+&\rvS_9
+}
+\ecen
+=
+\bcen
+\xymatrix@R=1pc@C=3pc{
+\rvS_1^X\ar[dr]\ar[d]
+\ar@[red]@/_1pc/[ddd]
+&\rvS_2^X\ar[dl]\ar[dr]\ar[d]
+\ar@[red]@/_1pc/[ddd]
+&\rvS_3^X\ar[dl]\ar[d]
+\ar@[red]@/_1pc/[ddd]
+\\
+\rvS_1^Y
+&\rvS_2^Y
+&\rvS_3^Y
+\\
+\rvS_4^X\ar[dr]\ar[d]
+\ar@[red]@/_1pc/[u]
+\ar@[red]@/^1pc/[ddd]
+&\rvS_5^X\ar[dl]\ar[dr]\ar[d]
+\ar@[red]@/_1pc/[u]
+\ar@[red]@/^1pc/[ddd]
+&\rvS_6^X\ar[dl]\ar[d]
+\ar@[red]@/_1pc/[u]
+\ar@[red]@/^1pc/[ddd]
+\\
+\rvS_4^Y
+&\rvS_5^Y
+&\rvS_6^Y
+\\
+\rvS_7^X\ar[dr]\ar[d]
+\ar@[red]@/^1pc/[u]
+&\rvS_8^X\ar[dl]\ar[dr]\ar[d]
+\ar@[red]@/^1pc/[u]
+&\rvS_9^X\ar[dl]\ar[d]
+\ar@[red]@/^1pc/[u]
+\\
+\rvS_7^Y
+&\rvS_8^Y
+&\rvS_9^Y
+}
+\ecen
+$$
+\caption{DAG definition of 2-dim Ising bnet
+with 9 dnodes on a $3\times 3$ lattice.}
+\label{fig-def-2dim-ising-reused}
+\end{figure}
+
+\begin{figure}[h!]
+$$
+\bcen
+\text{Fig.\ref{fig-def-2dim-ising-reused}}
+\xymatrix{\ar[r]^{\sum_{S^X_5,S_5^Y}}&
+}
+\ecen
+\bcen
+\xymatrix@R=1pc@C=3pc{
+\rvS_1^X\ar[dr]\ar[d]
+\ar@[red]@/_1pc/[ddd]
+&\rvS_2^X\ar[dl]\ar[dr]\ar[d]
+&\rvS_3^X\ar[dl]\ar[d]
+\ar@[red]@/_1pc/[ddd]
+\\
+\rvS_1^Y
+&\rvS_2^Y
+&\rvS_3^Y
+\\
+\rvS_4^X\ar[d]
+\ar@[red]@/_1pc/[u]
+\ar@[red]@/^1pc/[ddd]
+&\sum \rvS_5^X 
+\ar[dl]\ar[dr]\ar@[red]@/^1pc/[ddd]
+\ar@[red]@/_1pc/[u]
+&\rvS_6^X\ar[d]
+\ar@[red]@/_1pc/[u]
+\ar@[red]@/^1pc/[ddd]
+\\
+\rvS_4^Y
+&
+&\rvS_6^Y
+\\
+\rvS_7^X\ar[dr]\ar[d]
+\ar@[red]@/^1pc/[u]
+&\rvS_8^X\ar[dl]\ar[dr]\ar[d]
+&\rvS_9^X\ar[dl]\ar[d]
+\ar@[red]@/^1pc/[u]
+\\
+\rvS_7^Y
+&\rvS_8^Y
+&\rvS_9^Y
+}
+\ecen
+\approx\quad
+\bcen
+\xymatrix@R=1pc@C=3pc{
+\rvS_1^X\ar[d]\ar[dr]
+\ar@[red]@/_1pc/[ddd]
+&\rvS_2^X\ar@[red]@/^1pc/[ddddd]\ar[d]
+&\rvS_3^X\ar[d]\ar[dl]
+\ar@[red]@/_1pc/[ddd]
+\\
+\rvS_1^Y\ar[ur]
+&\rvS_2^Y
+&\rvS_3^Y\ar[ul]
+\\
+\rvS_4^X\ar[d]\ar[drr]
+\ar@[red]@/_1pc/[u]
+\ar@[red]@/^1pc/[ddd]
+&
+&\rvS_6^X\ar[d]\ar[dll]
+\ar@[red]@/_1pc/[u]
+\ar@[red]@/^1pc/[ddd]
+\\
+\rvS_4^Y
+&
+&\rvS_6^Y
+\\
+\rvS_7^X\ar[d]\ar[dr]\ar[d]
+\ar@[red]@/^1pc/[u]
+&\rvS_8^X\ar@[red]@/^1pc/[uuu]\ar[d]
+&\rvS_9^X\ar[d]\ar[dl]
+\ar@[red]@/^1pc/[u]
+\\
+\rvS_7^Y\ar[ur]
+&\rvS_8^Y
+&\rvS_9^Y\ar[ul]
+}
+\ecen
+$$
+\caption{After summing over $S_5^X$ and $S_5^Y$, the bnet in Fig.\ref{fig-def-2dim-ising-reused} 
+becomes the bnet on the left side. Then that is approximated by the
+bnet on the right side.}
+\label{fig-2-dim-ising-sum-s5}
+\end{figure}
+
+$K= \beta J$
+
+\beq\sum_{S_5^X}P_K(S_5^X)
+\left\{\begin{array}{l}
+P_K(S_4^Y\mid S_5^X, S_1^X, S_7^X)
+\\
+P_K(S_6^Y\mid S_5^X, S_9^X, S_3^X)
+\\
+P_K(S_2^Y\mid S_5^X , S_3^X, S_1^X)
+\\
+P_K(S_8^Y\mid S_5^X, S_9^X, S_7^X)
+\end{array}
+\right\}
+\approx 
+\left\{\begin{array}{l}
+P_{K'}(S_4^Y\mid  S_1^X, S_7^X)
+\\
+P_{K'}(S_6^Y\mid  S_9^X, S_3^X)
+\\
+P_{K'}(S_2^Y\mid  S_3^X, S_1^X)
+\\
+P_{K'}( S_8^Y\mid S_9^X, S_7^X)
+\end{array}
+\right\}
+\eeq
+
+\beq
+P(S_4^Y\mid S_5^X, S_1^X, S_7^X)
+\approx
+\frac{e^{K S_4^Y(S_5^X + S_1^X + S_7^X)}}
+{\sum_{S_4^Y}num}
+=
+\frac{e^{K S_4^Y S_5^X}}
+{2\cosh(KS_5^X)}
+=
+\frac{e^{K S_4^Y S_5^X}}
+{2\cosh(K)}
+\eeq
+
+\beq
+P_{K'}(S_4^Y\mid  S_1^X, S_7^X)\approx
+\frac{e^{K' S_4^Y(S_1^X +S_1^X)}}
+{\sum_{S_4^Y}num}
+=
+\frac{e^{K' S_4^Y(S_1^X +S_7^X)}}
+{\cosh(K'(S_1^X + S_7^X))}
+\eeq
+
+\beq
+LHS=
+\sum_{S_5^X}P(S_5^X)
+\frac{e^{KS_5^X(
+S_2^X + S_4^X + S_6^X + S_8^X)}}
+{\left[2\cosh(K)
+\right]^4}
+\eeq
+
+
+\begin{subequations}
+\label{eq-ising-2-dim-2-constraints}
+\beq
+2\cosh{4K}=f(K)e^{4K'}
+\eeq
+
+\beq
+2=f(K)e^{-4K'}
+\label{eq-ising-2dim-constraint2}
+\eeq
+\end{subequations}
+
+Divide the two equations Eqs.(\ref{eq-ising-2-dim-2-constraints})
+
+\beq
+e^{8K'}=\cosh(4K)\implies K' =\frac{1}{8} \ln\left[\cosh(4K)\right]
+\eeq
+Now we can find $f(K)$ from Eq.(\ref{eq-ising-2dim-constraint2}).
+
+\beq
+f(K)= 2 e^{4K'}=2 \ln(\sqrt{\cosh(4K)})
+\eeq
 
 
 \end{document}
