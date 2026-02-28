@@ -265,38 +265,36 @@ $K= \beta J$
 \left\{\begin{array}{l}
 P_K(S_4^Y\mid S_5^X, S_1^X, S_7^X)
 \\
-P_K(S_6^Y\mid S_5^X, S_9^X, S_3^X)
+P_K(S_6^Y\mid S_5^X, S_3^X, S_9^X)
 \\
-P_K(S_2^Y\mid S_5^X , S_3^X, S_1^X)
+P_K(S_2^Y\mid S_5^X , S_1^X, S_3^X)
 \\
-P_K(S_8^Y\mid S_5^X, S_9^X, S_7^X)
+P_K(S_8^Y\mid S_5^X, S_7^X, S_9^X)
 \end{array}
 \right\}
 \approx 
 \left\{\begin{array}{l}
 P_{K'}(S_4^Y\mid  S_1^X, S_7^X)
 \\
-P_{K'}(S_6^Y\mid  S_9^X, S_3^X)
+P_{K'}(S_6^Y\mid  S_3^X, S_9^X)
 \\
-P_{K'}(S_2^Y\mid  S_3^X, S_1^X)
+P_{K'}(S_2^Y\mid  S_1^X, S_3^X)
 \\
-P_{K'}( S_8^Y\mid S_9^X, S_7^X)
+P_{K'}( S_8^Y\mid S_7^X, S_9^X)
 \end{array}
 \right\}
 \eeq
 
-\beq
+\beqa
 P(S_4^Y\mid S_5^X, S_1^X, S_7^X)
-\approx
+&\approx&
 \frac{e^{K S_4^Y(S_5^X + S_1^X + S_7^X)}}
 {\sum_{S_4^Y}num}
-=
-\frac{e^{K S_4^Y S_5^X}}
-{2\cosh(KS_5^X)}
-=
-\frac{e^{K S_4^Y S_5^X}}
-{2\cosh(K)}
-\eeq
+\\
+&=&
+\frac{e^{K S_4^Y (S_5^X + S_1^X + S_7^X)}}
+{2\cosh[K(S_5^X + S_1^X + S_7^X)]}
+\eeqa
 
 \beq
 P_{K'}(S_4^Y\mid  S_1^X, S_7^X)\approx
@@ -304,41 +302,68 @@ P_{K'}(S_4^Y\mid  S_1^X, S_7^X)\approx
 {\sum_{S_4^Y}num}
 =
 \frac{e^{K' S_4^Y(S_1^X +S_7^X)}}
-{\cosh(K'(S_1^X + S_7^X))}
+{2\cosh[K'(S_1^X + S_7^X)]}
 \eeq
 
 \beq
-LHS=
-\sum_{S_5^X}P(S_5^X)
-\frac{e^{KS_5^X(
-S_2^X + S_4^X + S_6^X + S_8^X)}}
-{\left[2\cosh(K)
-\right]^4}
+A_K=
+\left\{
+\begin{array}{l}
+e^{KS_4^X(S_1^X + S_7^X)}
+\\
+e^{KS_6^X(S_3^X + S_9^X)}
+\\
+e^{KS_2^X(S_1^X + S_3^X)}
+\\
+e^{KS_8^X(S_7^X + S_9^X)}
+\end{array}
+\right.
 \eeq
-
-
-\begin{subequations}
-\label{eq-ising-2-dim-2-constraints}
-\beq
-2\cosh{4K}=f(K)e^{4K'}
-\eeq
-
-\beq
-2=f(K)e^{-4K'}
-\label{eq-ising-2dim-constraint2}
-\eeq
-\end{subequations}
-
-Divide the two equations Eqs.(\ref{eq-ising-2-dim-2-constraints})
 
 \beq
-e^{8K'}=\cosh(4K)\implies K' =\frac{1}{8} \ln\left[\cosh(4K)\right]
+B_K(S_5^X)=
+\left\{
+\begin{array}{l}
+\cosh[K(S_5^X + S_1^X + S_7^X)]
+\\
+\cosh[K(S_5^X + S_3^X + S_9^X)]
+\\
+\cosh[K(S_5^X + S_1^X + S_3^X)]
+\\
+\cosh[K(S_5^X + S_7^X + S_9^X)]
+\end{array}
+\right.
 \eeq
-Now we can find $f(K)$ from Eq.(\ref{eq-ising-2dim-constraint2}).
 
 \beq
-f(K)= 2 e^{4K'}=2 \ln(\sqrt{\cosh(4K)})
+\eta = 
+S_2^X + S_4^X + S_6^X + S_8^X
 \eeq
 
+
+\beq
+A_K
+\sum_{S_5^X}
+\frac{P(S_5^X)}{B_K(S_5^X)}
+e^{\eta KS_5^X}
+=
+\frac{A_{K'}}{B_{K'}(S_5^X=0)}
+\eeq
+
+
+$A_K\approx A_{K'}$, $P(S_5^X=\pm 1)=1/2$
+\beq
+\frac{e^{\eta K}}{B_K(1)}
++
+\frac{e^{-\eta K}}{B_K(-1)}
+=
+\frac{2}{B_{K'}(0)}
+\eeq
+
+$S_1^X=S_3^X=S_7^X=S_9^X$
+
+\beq
+B(S_5^X)=\cosh^4[K(S_5^X + 3S_1^X)]
+\eeq
 
 \end{document}
