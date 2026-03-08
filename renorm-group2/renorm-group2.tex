@@ -1,8 +1,55 @@
-\documentclass[12pt]{report}
-\input{../bayesuvius.sty}
-%\input{../bayesuvius-do-calc-proofs-decs.sty}
 
-\begin{document}
+\chapter{Renormalization Group for
+Bayesian Networks}
+\label{ch-renorm-group2}
+
+In Chapter \ref{ch-renorm-group1},
+we give a general introduction to the
+Renormalization Group (RG).
+In Chapter \ref{ch-ising-dbnet},
+we define an Ising-dbnet (dbnet= Dynamical
+Bayesian Network).
+In this chapter,
+we propose an RG method
+applicable to
+any bnet.
+As an example,
+we will
+apply our RG method
+to the Ising-dbnet.
+
+This chapter and its accompanying software 
+{\tt rg4bnet} (see Ref.\cite{rg4bnets}) are original research, first published here.
+
+
+Our RG method for bnets is analogous
+to the real space RG that  is
+standard in Condensed Matter Physics. In real space RG,
+the RG transformation
+takes a cubic lattice
+to another cubic lattice
+with half as many lattice sites.
+What we propose as an RG transformation
+for a bnet $\calg$
+is to order the nodes $\rvx_1, \rvx_2, \ldots,\rvx_n$
+of $\calg$ in topological order, and 
+then to sum over the nodes $\rvx_i$
+with even $i$.
+In conventional real space
+RG, each RG transformation
+decreases the resolution length scale by 1/2.
+bnets have no length scale
+in general
+so how can the two methods be akin 
+to each other?
+The answer is that real space
+RG and bnet RG
+both have in common that
+their RG transformation
+halves the number of nodes (or
+lattice sites).
+
+\section{General bnet RG Method}
 
 \beq
 P(x^{:6}) =
@@ -259,6 +306,9 @@ bnet on the right side.}
 \label{fig-2-dim-ising-sum-s5}
 \end{figure}
 
+\section{Application of bnet RG 
+Method to Ising-dbnet}
+
 $K= \beta J$
 
 \beq\sum_{S_5^X}P_K(S_5^X)
@@ -345,148 +395,98 @@ S_2^X + S_4^X + S_6^X + S_8^X
 e^{Ka}
 \sum_{S_5^X}
 \frac{P(S_5^X)}{B_K(S_5^X)}
-e^{\eta KS_5^X}
+e^{K\eta S_5^X}
 =
 \frac{e^{K'a}}{B_{K'}(S_5^X=0)}
 \eeq
 
-$B_{K'}(0)- B_K(0)= \calo(K^2-(K')^2)$
-
-
 \beq
-e^{\eta K \av{S_5^X}}
- \frac {B_K(0)
-}{B_K(\av{S_5^X})}
-=e^{(K'-K)a}
+a \approx 4\;\underbrace{(2\av{S_1})}_\lam \eta=4\lam \eta
 \eeq
 
-
 \beq
-K'= K + \frac{1}{a}
-\left[
-\eta K \av{S_5^X}
-+ \ln\left[
-\frac
-{B_K(0)}{B_K(\av{S_5^X})}
-\right]
-\right]
+P(S_5^X=\pm 1)=P_\pm
 \eeq
 
-All 8 spins surrounding $S_5^X$ are $+1$: $\eta=4$, $a=8$, $B_K(X)=2^4\cosh^4[K(X+2)]$
-
-
 \beq
-K' = K\left(1 + \frac{1}{2}\av{S_5^X}\right)
+\frac{P_+ e^{K \eta (1+4\lam)}}
+{2^4 \cosh^4(K(+1+\lam))}
 +
-\frac{1}{2}\ln \left[
-\frac
-{\cosh(2K)}{\cosh[K(\av{S_5^X}+2)]}
-\right]
-\eeq
-
-All 8 spins surrounding $S_5^X$ are $-1$: $\eta=-4$, $a=8$, $B_K(X)=2^4\cosh^4[K(X-2)]$
-
-\beq
-K' = K\left(1 - \frac{1}{2}\av{S_5^X}\right)
-+
-\frac{1}{2}\ln \left[
-\frac
-{\cosh(2K)}{\cosh[K(\av{S_5^X}-2)]}
-\right]
-\eeq
-
-half spins up, half down: $\eta=0$, $\av{S_5^X}=0$
-
-\beq
-K' = K
-\eeq
-
-If we take the average between all 8 neighbors up and down, we get
-
-\beq
-K' = K + \frac{1}{4}\ln \left[
-\frac{\cosh^2(2K)}
-{\cosh[K(\av{S_5^X}-2)]
-\cosh[K(\av{S_5^X}+2)]}
-\right]
-\eeq
-
-$P(S_5^X=\pm 1)= P_\pm$
-\beq
-P_+ \frac{e^{\eta K}B_K(0)}{B_K(+1)}
-+ P_- \frac{e^{-\eta K}B_K(0)}{B_K(-1)}
+\frac{P_- e^{K \eta (-1+4\lam)}}
+{2^4 \cosh^4(K(-1+\lam))}
 =
-e^{(K'-K)a}
+\frac{e^{K'4\lam\eta}}
+{2^4 \cosh^4(K'\lam)}
+\label{eq-eta1-div-eta0}
 \eeq
+Divide Eq.(\ref{eq-eta1-div-eta0})
+by itself with with $\eta=0$.
+Get
 
 \beq
-K' = K + \frac{1}{a}
-\ln\left[
-P_+ \frac{e^{\eta K}B_K(0)}{B_K(+1)}
-+ [1-P_+] \frac{e^{-\eta K}B_K(0)}{B_K(-1)}
+\frac{1}{\caln}
+\left[
+\frac{P_+ e^{K\eta(1+4\lam)}}
+{\cosh^4(K(+1+\lam))}
++
+\frac{P_- e^{K\eta(-1+4\lam)}}
+{\cosh^4(K(-1+\lam))}
 \right]
+=
+e^{K'4\lam\eta}
 \eeq
+where 
 
-All 8 spins surrounding $S_5^X$ are $+1$: $\eta=4$, $a=8$, $B_K(X)=2^4\cosh^4[K(X+2)]$
 
 \beq
-K' = K + \frac{1}{8}
-\ln\left[
-P_+ \frac{e^{4 K}\cosh^4(2K)}{\cosh^4(3K)}
-+ [1-P_+] \frac{e^{-4 K}\cosh^4(2K)}{\cosh^4(K)}
-\right]
+\caln = 
+\frac{P_+}
+{\cosh^4(K(+1+\lam))}
++
+\frac{P_-}
+{\cosh^4(K(-1+\lam))}
 \eeq
 
-All 8 spins surrounding $S_5^X$ are $-1$: $\eta=-4$, $a=8$, $B_K(X)=2^4\cosh^4[K(X-2)]$
+as $K\rarrow 0$
+\beq
+K' \rarrow K+
+K\frac{P_+ - P_-}{4\lam
+} + K^2\frac{\eta P_+ P_-}{2\lam}
+\eeq
+
+With $\eta=4$, $P_-=3/4$, $\lam = 1/8$
 
 \beq
-K' = K + \frac{1}{8}
-\ln\left[
-P_+ \frac{e^{-4K}\cosh^4(2K)}{\cosh^4(K)}
-+ [1-P_+] \frac{e^{4K}\cosh^4(2K)}{\cosh^4(3K)}
-\right]
+\left\{
+\begin{array}{ll}
+\text{As $K\rarrow 0$:} & K' \rarrow 3 K^2
+\\
+\text{As $K\rarrow \infty$}
+& K'\rarrow \frac{5}{2}K -\frac{1}{2}\ln(3)
+\end{array}
+\right.
 \eeq
+
 
 \beq
-f(K')=\frac{e^{K'a}}{B_{K'}(0)}
+K'(K)= 
+\frac{3}{8}
+\ln \left[
+\cosh(4K)\right]
+\left\{
+\begin{array}{ll}
+\text{As $K\rarrow 0$:}
+& K'\rarrow 3K^2 
+\\
+\text{As $K\rarrow \infty$:}
+&
+K' \rarrow \frac{3}{2} K
+-\frac{3}{8}\ln 2
+\end{array}
+\right.
 \eeq
 
-\beq
-K' = f^{-1}\left[
-P_+ \frac{e^{(a+\eta) K}}{B_K(+1)}
-+ [1-P_+] \frac{e^{(a-\eta) K}}{B_K(-1)}
-\right]
-\eeq
-
-\hrule
-
-All 8 spins surrounding $S_5^X$ are $+1$: $\eta=4$, $a=8$, $B_K(X)=2^4\cosh^4[K(X+2)]$
-
-\beq
-f(K')=\frac{e^{8K'}}{2^4\cosh^4(2K')}
-\eeq
-
-\beq
-K' = f^{-1}\left[
-P_+ \frac{e^{12 K}}{2^4\cosh^4(3K)}
-+ [1-P_+] \frac{e^{4 K}}{2^4\cosh^4(K)}
-\right]
-\eeq
-\hrule
-All 8 spins surrounding $S_5^X$ are $-1$: $\eta=-4$, $a=8$, $B_K(X)=2^4\cosh^4[K(X-2)]$
-
-\beq
-f(K')=\frac{e^{8K'}}{2^4\cosh^4(2K')}
-\eeq
-
-\beq
-K' = f^{-1} \left[
-P_+ \frac{e^{4 K}}{2^4\cosh^4(K)}
-+ [1-P_+] \frac{e^{12 K}}{2^4\cosh^4(3K)}
-\right]
-\eeq
-\hrule
 
 
-\end{document}
+
 
