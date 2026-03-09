@@ -317,15 +317,17 @@ we can use the
 MI efficiency measure
 introduced in Chapter
 \ref{ch-ising-dbnet}.
-
-Recall that the MI efficiency
-$\eps(\rvx||\rvb)\in [0,1]$
-between a DS node $\rvx$
-and an incoming 
-arrow
-from node $\rvc$ is defined by
+Suppose $\rvx$ is a DS
+node and we 
+want to decide whether
+to neglect or keep 
+arrow $\rvc\rarrow \rvx$.
+Recall from Chapter \ref{ch-ising-dbnet}
+ that the MI efficiency
+$\eps(\rvx\larrow \rvc)\in [0,1]$
+is defined by
 \beq
-\eps(\rvx || \rvc)
+\eps(\rvx\larrow \rvc)
 =\frac{H(\rvx: \rvc)}{H(\rvx)}=
 1 -\frac{H(\rvx\mid \rvc)}{H(\rvx)}
 \eeq
@@ -334,20 +336,25 @@ one might
 follow is to
 specify a 
 threshold $\delta\in[0, 1]$
-and neglect
-arrows from $\rvb^{:n}$ with low efficiency
+and define the
+arrows $\rvb_j\rarrow \rvx$, 
+for all $j$, that we neglect, to 
+be the ones with low efficiency
 
 \beq
-0\leq \eps(\rvx || \rvb_j)< 1   -\delta
+0\leq \eps(\rvx \larrow \rvb_j)< 1   -\delta
 \eeq
-for all $j$
-but admit
-arrows from $\rva^{:m}$
-with high efficiency
+and define the
+arrows $\rva_i\rarrow\rvx$,
+for all $i$, that we keep,
+to be the ones with  high efficiency
 \beq
-1   -\delta <\eps(\rvx || \rva_i)\leq 1
+1   -\delta <\eps(\rvx\larrow  \rva_i)\leq 1
 \eeq
-for all $i$.
+
+\section{Application of bnet RG 
+Method to Ising-dbnet}
+
 
 \begin{figure}[h!]
 $$
@@ -499,8 +506,6 @@ bnet on the right side.}
 \label{fig-2-dim-ising-sum-s5}
 \end{figure}
 
-\section{Application of bnet RG 
-Method to Ising-dbnet}
 
 $K= \beta J$
 
