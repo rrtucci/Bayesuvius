@@ -30,19 +30,18 @@ takes a cubic lattice
 to another cubic lattice
 with half as many lattice sites.
 What we propose as an RG transformation
-for a bnet $\calg$
+for a general bnet $\calg$
 is to order the nodes $\rvx_1, \rvx_2, \ldots,\rvx_n$
 of $\calg$ in topological order, and 
 then to sum over the nodes $\rvx_i$
 with even $i$.
 In conventional real space
 RG, each RG transformation
-decreases the resolution length scale by 1/2.
+increases the lattice length
+by 2. General
 bnets have no length scale
-in general
-so how can the two methods be akin 
-to each other?
-The answer is that real space
+so at first blush, one might think the two methods have little in common.
+However, note that real space
 RG and bnet RG
 both have in common that
 their RG transformation
@@ -51,7 +50,62 @@ lattice sites).
 
 \section{General bnet RG Method}
 
+What we propose as an RG transformation
+for a general bnet $\calg$
+is to order the nodes $\rvx_1, \rvx_2, \ldots,\rvx_n$
+of $\calg$ in topological order, and 
+then to sum over the nodes $\rvx_i$
+with even $i$.
+We will refer to each
+halving of nodes as a 
+{\bf  decimation step}.
+The RG transformation
+describes how the coupling
+constant $K$ changes to $K'$
+during a decimation step.
+
+
+To test our bnet RG method, let us apply it to
+a bnet $\calg$
+with six nodes. 
+Suppose bnet $\calg$
+has six nodes $\rvx^{:6}=
+(\rvx_1, \rvx_2, \ldots, \rvx_6)$,
+listed in topological
+order. Then, the chain
+rule for probabilities 
+states that\footnote{
+Of course, {eq-fully-connected-6-nodes} is
+the
+fully connected case.
+Often, 
+many of these arrows 
+in Eq.(\ref{eq-fully-connected-6-nodes})
+will be missing.}
+
+
+
+
+
 \beq
+\begin{array}{l}
+\\
+\\
+\xymatrix{
+\rvx_6
+&\rvx_5\ar[l]
+&\rvx_4\ar[l]\ar@/_1pc/[ll]
+&\rvx_3\ar[l]\ar@/_1pc/[ll]\ar@/_2pc/[lll]
+&\rvx_2\ar[l]
+\ar@/_1pc/[ll]\ar@/_2pc/[lll]
+\ar@/_3pc/[llll]
+&\rvx_1
+\ar[l]
+\ar@/_1pc/[ll]\ar@/_2pc/[lll]
+\ar@/_3pc/[llll]
+\ar@/_4pc/[lllll]
+}
+\\
 P(x^{:6}) =
 \left\{
 \begin{array}{l}
@@ -66,11 +120,19 @@ P(x_3\mid x_2, x_1)
 P(x_2\mid x_1)P(x_1)
 \end{array}
 \right.
+\end{array}
+\label{eq-fully-connected-6-nodes}
 \eeq
+
+
+Next, we perform the 
+following decimation steps
 
 \begin{enumerate}
 
-\item Sum over $x_5, x_3, x_1$
+\item Sum over $x_5, x_3, x_1$.
+
+This leads to
 \beq
 P(x_6, x_4,  x_2)=
 \left\{
@@ -83,6 +145,15 @@ P(x_2)
 \end{array}
 \right.
 \eeq
+Now we have an odd number
+of nodes. But we need to have
+an even number of nodes
+to perform the next decimation step. 
+So we add
+ a dummy node $\rvx_2'$
+at the beginning of
+the topological order.
+If 
 
 \beq
 \left\{
@@ -93,6 +164,7 @@ P(\rvx_2'=x_2')= P(\rvx_2=x_2')
 \end{array}
 \right.
 \eeq
+then
 
 \beq
 P(x_6, x_4,  x_2, x_2')=
@@ -109,7 +181,9 @@ P(x_2')
 \right.
 \eeq
 
-\item Sum over $x_4$ and $x_2'$
+\item Sum over $x_4$ and $x_2'$.
+
+This leads to
 
 \beq
 P(x_6, x_2)=
@@ -122,13 +196,105 @@ P(x_2)
 \right.
 \eeq
 
-\item Sum over $x_2$ and get $P(x_6)$
+\item Sum over $x_2$ and get $P(x_6)$.
 \end{enumerate}
 
+This chain of decimation steps is
+easily generalized to
+the case where
+we start with an arbitrary
+number of nodes.
+For example, if
+we start with
+50 nodes, the
+number of nodes
+at each decimation 
+step would be
 
 \beq
 50\rarrow (25+1)\rarrow (13 +1)\rarrow (7+1)\rarrow 4\rarrow 2 \rarrow 1
 \eeq
+
+
+In the real space
+RG of the 2-dim Ising model
+on a cubic  lattice, the RG transformation
+$K'(K)$
+is always approximate,
+because each decimation
+generates interactions
+of each {\bf decimation-surviving (DS)} spin $S_{surv}$
+with spins that are farther 
+away from $S_{surv}$ 
+than its 
+4 nearest neighbors. 
+The RG transformation 
+assumes that at the 
+beginning and at the end
+of the transformation,
+there are exactly 4 interactions of  $S_{surv}$
+with its 4 nearest neighbors,
+so one must
+neglect interactions generated
+by the RG transformation
+with next to nearest neighbor spins.
+
+So far, our bnet RG
+method is exact.
+However, in practice,
+we will usually want to
+make approximations akin 
+to those done in real space RG.
+
+The chain rule for 
+probabilities used
+above
+describes 
+a fully connected 
+network wherein
+the TPM of node
+$i$
+depends on all $i-1$
+previous nodes. However,
+usually
+we don't start 
+with a fully connected 
+bnet,
+and node $i$
+has arrows coming into it
+from fewer that 
+$i-1$ nodes.
+In that case, when
+we decimate,
+some of the DS nodes
+may gain incoming arrows.
+
+During each decimation,
+the TPM of one or more of the DS
+nodes might end up 
+with far too many incoming arrows\footnote{The complexity
+of the problem increases
+exponentially
+with the maximum number of incoming arrows}.
+In such cases, we 
+can approximate
+the TPM
+of such nodes
+with a TPM with
+fewer incoming arrows.
+Suppose that a DS
+node $\rvx$ has 
+incoming arrows
+from
+nodes $\rva^{:m}$ and  $\rvb^{:n}$,
+but the 
+interactions 
+with $\rvb^{:n}$
+are weak and we
+would like to neglect
+them. In such a case
+one can use this
+approximation:
 
 
 \beq
@@ -139,18 +305,45 @@ P(x\mid a^{:m}, b^{:n})
 \underbrace{P(b^{:n}\mid a^{:m})}_{\approx \prod_{i=1}^n P(b_i)}
 \eeq
 
-Recall
+To decide
+which
+incoming arrows
+are weak and can
+be neglected
+without
+introducing 
+too much error,
+we can use the
+MI efficiency measure
+introduced in Chapter
+\ref{ch-ising-dbnet}.
+
+Recall that the MI efficiency
+$\eps(\rvx||\rvb)\in [0,1]$
+between a DS node $\rvx$
+and an incoming 
+arrow
+from node $\rvc$ is defined by
 \beq
-\eps(\rvx || \rva)
-=\frac{H(\rvx: \rva)}{H(\rvx)}=
-1 -\frac{H(\rvx\mid \rva)}{H(\rvx)}
+\eps(\rvx || \rvc)
+=\frac{H(\rvx: \rvc)}{H(\rvx)}=
+1 -\frac{H(\rvx\mid \rvc)}{H(\rvx)}
 \eeq
+One strategy
+one might 
+follow is to
+specify a 
+threshold $\delta\in[0, 1]$
+and neglect
+arrows from $\rvb^{:n}$ with low efficiency
 
 \beq
 0\leq \eps(\rvx || \rvb_j)< 1   -\delta
 \eeq
 for all $j$
-and 
+but admit
+arrows from $\rva^{:m}$
+with high efficiency
 \beq
 1   -\delta <\eps(\rvx || \rva_i)\leq 1
 \eeq
