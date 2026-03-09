@@ -275,7 +275,7 @@ nodes might end up
 with far too many incoming arrows\footnote{The complexity
 of the problem increases
 exponentially
-with the maximum number of incoming arrows}.
+with the maximum, over all nodes, of the number of incoming arrows}.
 In such cases, we 
 can approximate
 the TPM
@@ -355,7 +355,16 @@ to be the ones with  high efficiency
 \section{Application of bnet RG 
 Method to Ising-dbnet}
 
-
+In this section, we will 
+derive an approximate 
+RG transformation $K'(K)$
+for the Ising-dbnet model 
+defined in Chapter \ref{ch-ising-dbnet}.
+As usual, $K= \beta J$, 
+where $\beta=1/T$ is the inverse
+temperature and $J$ is the
+positive  
+spin-spin coupling constant.
 \begin{figure}[h!]
 $$
 \bcen
@@ -421,11 +430,13 @@ with 9 dnodes on a $3\times 3$ lattice.}
 
 \begin{figure}[h!]
 $$
+\begin{array}{ccc}
 \bcen
 \text{Fig.\ref{fig-def-2dim-ising-reused}}
 \xymatrix{\ar[r]^{\sum_{S^X_5,S_5^Y}}&
 }
 \ecen
+&
 \bcen
 \xymatrix@R=1pc@C=3pc{
 \rvS_1^X\ar[dr]\ar[d]
@@ -463,7 +474,8 @@ $$
 &\rvS_9^Y
 }
 \ecen
-\approx\quad
+\approx
+&
 \bcen
 \xymatrix@R=1pc@C=3pc{
 \rvS_1^X\ar[d]\ar[dr]
@@ -499,15 +511,47 @@ $$
 &\rvS_9^Y\ar[ul]
 }
 \ecen
+\\
+\\
+&(a)&(b)
+\end{array}
 $$
 \caption{After summing over $S_5^X$ and $S_5^Y$, the bnet in Fig.\ref{fig-def-2dim-ising-reused} 
-becomes the bnet on the left side. Then that is approximated by the
-bnet on the right side.}
+becomes the bnet $(a)$. Then that is approximated by the
+bnet $(b)$.}
 \label{fig-2-dim-ising-sum-s5}
 \end{figure}
 
+Consider the bnet of Fig.\ref{fig-def-2dim-ising-reused}.
+Assume that this is the last time slice of an Ising-dbnet.
+Assume that said Ising-dbnet
+has gone through 
+enough time slices to \qt{equilibrate}, so that
+we may safely assume that
+by the last time slice,
 
-$K= \beta J$
+
+\beq
+S_i^X\approx S_i^Y
+\label{eq-X-Y-spins}
+\eeq
+for all $i$.
+
+Next sum Fig.\ref{fig-def-2dim-ising-reused} over 
+$S_5^X$ and $S_5^Y$,
+yielding
+Fig.\ref{fig-2-dim-ising-sum-s5}
+$(a)$. We want
+to approximate the bnet
+Fig.\ref{fig-2-dim-ising-sum-s5}
+$(a)$ by the bnet
+Fig.\ref{fig-2-dim-ising-sum-s5}
+$(b)$, or, equivalently,
+we want to approximate
+the left hand side
+of Eq.(\ref{eq-approx-dbnet-analytical})
+by its right hand side.
+
 
 \beq\sum_{S_5^X}P_K(S_5^X)
 \left\{\begin{array}{l}
@@ -531,8 +575,23 @@ P_{K'}(S_2^Y\mid  S_1^X, S_3^X)
 P_{K'}( S_8^Y\mid S_7^X, S_9^X)
 \end{array}
 \right\}
+\label{eq-approx-dbnet-analytical}
 \eeq
 
+The conditional
+probabilities in 
+Eq.(\ref{eq-approx-dbnet-analytical})
+can be expressed
+explicitly in terms
+of exponentials of $\beta$
+times the energy of 
+various spin-spin interactions.
+For example,\footnote{ $\frac{A_i}{\sum_i num}$
+is shorthand for
+$\frac{A_i}{\sum_i A_i}$. $num$
+stands for \qt{numerator} }
+
+\begin{subequations}\label{eq-explicit-dbnet-tpm}
 \beqa
 P(S_4^Y\mid S_5^X, S_1^X, S_7^X)
 &\approx&
@@ -543,6 +602,7 @@ P(S_4^Y\mid S_5^X, S_1^X, S_7^X)
 \frac{e^{K S_4^Y (S_5^X + S_1^X + S_7^X)}}
 {2\cosh[K(S_5^X + S_1^X + S_7^X)]}
 \eeqa
+and
 
 \beq
 P_{K'}(S_4^Y\mid  S_1^X, S_7^X)\approx
@@ -552,59 +612,86 @@ P_{K'}(S_4^Y\mid  S_1^X, S_7^X)\approx
 \frac{e^{K' S_4^Y(S_1^X +S_7^X)}}
 {2\cosh[K'(S_1^X + S_7^X)]}
 \eeq
+\end{subequations}
+The other 
+conditional
+probabilities in Eq.(\ref{eq-approx-dbnet-analytical})
+have 
+explicit expressions
+analogous to Eqs.(\ref{eq-explicit-dbnet-tpm}).
+
+Henceforth, we will
+drop the $X$ or $Y$
+superscripts from the 
+spins variables. This 
+is justified because of 
+Eq.(\ref{eq-X-Y-spins}).
+
+Next, let's define
+the following
+shorthand notation:
 
 \beq
 e^{Ka}=
 \left\{
 \begin{array}{l}
-e^{KS_4^X(S_1^X + S_7^X)}
+e^{KS_4(S_1 + S_7)}
 \\
-e^{KS_6^X(S_3^X + S_9^X)}
+e^{KS_6(S_3 + S_9)}
 \\
-e^{KS_2^X(S_1^X + S_3^X)}
+e^{KS_2(S_1 + S_3)}
 \\
-e^{KS_8^X(S_7^X + S_9^X)}
+e^{KS_8(S_7 + S_9)}
 \end{array}
 \right\} 
 \eeq
 
+
+
 \beq
-B_K(S_5^X)=
+B_K(S_5)=
 \left\{
 \begin{array}{l}
-2\cosh[K(S_5^X + S_1^X + S_7^X)]
+2\cosh[K(S_5 + S_1 + S_7)]
 \\
-2\cosh[K(S_5^X + S_3^X + S_9^X)]
+2\cosh[K(S_5 + S_3 + S_9)]
 \\
-2\cosh[K(S_5^X + S_1^X + S_3^X)]
+2\cosh[K(S_5 + S_1 + S_3)]
 \\
-2\cosh[K(S_5^X + S_7^X + S_9^X)]
+2\cosh[K(S_5 + S_7 + S_9)]
 \end{array}
 \right.
 \eeq
+and
 
 \beq
 \eta = 
-S_2^X + S_4^X + S_6^X + S_8^X
+S_2 + S_4 + S_6 + S_8
 \eeq
+In terms of this shorthand
+notation, Eq.(\ref{eq-approx-dbnet-analytical}) becomes
 
 
 \beq
 e^{Ka}
-\sum_{S_5^X}
-\frac{P(S_5^X)}{B_K(S_5^X)}
-e^{K\eta S_5^X}
+\sum_{S_5}
+\frac{P(S_5)}{B_K(S_5)}
+e^{K\eta S_5}
 =
-\frac{e^{K'a}}{B_{K'}(S_5^X=0)}
+\frac{e^{K'a}}{B_{K'}(S_5=0)}
+\label{eq-abridged-approx}
 \eeq
+If we set
 
 \beq
 a \approx 4\;\underbrace{(2\av{S_1})}_\lam \eta=4\lam \eta
 \eeq
+and 
 
 \beq
-P(S_5^X=\pm 1)=P_\pm
+P(S_5=\pm 1)=P_\pm
 \eeq
+then Eq.(\ref{eq-abridged-approx}) becomes
 
 \beq
 \frac{P_+ e^{K \eta (1+4\lam)}}
@@ -617,10 +704,12 @@ P(S_5^X=\pm 1)=P_\pm
 {2^4 \cosh^4(K'\lam)}
 \label{eq-eta1-div-eta0}
 \eeq
-Divide Eq.(\ref{eq-eta1-div-eta0})
-by itself with with $\eta=0$.
-Get
+If we divide Eq.(\ref{eq-eta1-div-eta0})
+by itself with with $\eta=0$,
+we get
 
+\begin{subequations}
+\label{eq-RG-trans-dbnet}
 \beq
 \frac{1}{\caln}
 \left[
@@ -644,15 +733,36 @@ where
 \frac{P_-}
 {\cosh^4(K(-1+\lam))}
 \eeq
+\end{subequations}
 
-as $K\rarrow 0$
+From Eqs.(\ref{eq-RG-trans-dbnet}),
+one finds\footnote{So as to prevent algebraic errors, all Taylor
+expansions and asymptotic limits
+quoted herein 
+were obtained
+with the symbolic manipulation software {\tt SciPy}.} that as $K\rarrow 0$,
 \beq
 K' \rarrow K+
 K\frac{P_+ - P_-}{4\lam
 } + K^2\frac{\eta P_+ P_-}{2\lam}
++\calo(K^3)
 \eeq
+With $\eta=4$, $P_-=3/4$, $\lam = 1/8$,
+this 
+becomes
 
-With $\eta=4$, $P_-=3/4$, $\lam = 1/8$
+\beq
+K'\rarrow 3K^2
+\eeq
+For those
+same values of $\eta, P_-$ 
+and $\lam$, we can 
+also calculate the
+asymptotic 
+behavior of 
+$K'$ as $K\rarrow \infty$.
+We finally obtain,
+from Eqs.(\ref{eq-RG-trans-dbnet}), that
 
 \beq
 \left\{
@@ -665,12 +775,20 @@ With $\eta=4$, $P_-=3/4$, $\lam = 1/8$
 \right.
 \eeq
 
-
+One can compare 
+our results for a 2-dim Ising-dbnet to the
+following ones
+for the standard 2-dim Ising model. The latter were 
+obtained by
+real-space renormalization group (RSRG) using a block-spin decimation approximation (BSDA).
 \beq
+\label{eq-rg-trans-standard}
+\begin{array}{l}
 K'(K)= 
 \frac{3}{8}
 \ln \left[
 \cosh(4K)\right]
+\\
 \left\{
 \begin{array}{ll}
 \text{As $K\rarrow 0$:}
@@ -682,9 +800,29 @@ K' \rarrow \frac{3}{2} K
 -\frac{3}{8}\ln 2
 \end{array}
 \right.
+\end{array}
 \eeq
 
+\begin{figure}[h!]
+\centering
+\includegraphics[width=5in]
+{renorm-group2/dbnet-rg-trans-plot.png}
+\caption{Plot of RG
+transformations $K'(K)$
+for the standard Ising model
+in the block-spin decimation approximation,
+and for the Ising-dbnet model.
+According to the exact
+Onsager result, the Curie critical point
+should be at
+$K_c=\beta_c J=J/T_c \approx 0.44$.
+}
+\label{fig-dbnet-rg-trans-plot}
+\end{figure}
 
-
-
+See Fig.\ref{fig-dbnet-rg-trans-plot} for a plot of RG transformations:
+Eqs.(\ref{eq-RG-trans-dbnet})
+for the Ising-dbnet
+and Eq.(\ref{eq-rg-trans-standard})
+for the standard Ising model.
 
