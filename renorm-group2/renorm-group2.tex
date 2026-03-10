@@ -4,27 +4,27 @@ Bayesian Networks}
 \label{ch-renorm-group2}
 
 In Chapter \ref{ch-renorm-group1},
-we give a general introduction to the
+we gave a general introduction to the
 Renormalization Group (RG).
 In Chapter \ref{ch-ising-dbnet},
-we define an Ising-dbnet (dbnet= Dynamical
+we defined and explored an Ising-dbnet (dbnet= Dynamical
 Bayesian Network).
 In this chapter,
-we propose an RG method
+we propose a bnet RG method
 applicable to
 any bnet.
 As an example,
 we will
-apply our RG method
+apply our bnet RG method
 to the Ising-dbnet.
 
 This chapter and its accompanying software 
 {\tt rg4bnet} (see Ref.\cite{rg4bnets}) are original research, first published here.
 
 
-Our RG method for bnets is analogous
-to the real space RG that  is
-standard in Condensed Matter Physics. In real space RG,
+Our {\bf bnet RG} method  is analogous
+to the {\bf real space RG} that  is
+used in Condensed Matter Physics. In real space RG,
 the RG transformation
 takes a cubic lattice
 to another cubic lattice
@@ -34,7 +34,8 @@ for a general bnet $\calg$
 is to order the nodes $\rvx_1, \rvx_2, \ldots,\rvx_n$
 of $\calg$ in topological order, and 
 then to sum over the nodes $\rvx_i$
-with even $i$.
+with odd
+indices  $i$.
 In conventional real space
 RG, each RG transformation
 increases the lattice length
@@ -55,11 +56,11 @@ for a general bnet $\calg$
 is to order the nodes $\rvx_1, \rvx_2, \ldots,\rvx_n$
 of $\calg$ in topological order, and 
 then to sum over the nodes $\rvx_i$
-with even $i$.
+with odd indices $i$.
 We will refer to each
 halving of nodes as a 
 {\bf  decimation step}.
-The RG transformation
+The {\bf RG transformation}
 describes how the coupling
 constant $K$ changes to $K'$
 during a decimation step.
@@ -75,11 +76,11 @@ listed in topological
 order. Then, the chain
 rule for probabilities 
 states that\footnote{
-Of course, {eq-fully-connected-6-nodes} is
-the
-fully connected case.
-Often, 
-many of these arrows 
+Of course, Eq.(\ref{eq-fully-connected-6-nodes}) is for
+a
+fully connected DAG.
+For a not fully connected DAG, 
+many of the arrows 
 in Eq.(\ref{eq-fully-connected-6-nodes})
 will be missing.}
 
@@ -227,17 +228,18 @@ of each {\bf decimation-surviving (DS)} spin $S_{surv}$
 with spins that are farther 
 away from $S_{surv}$ 
 than its 
-4 nearest neighbors. 
+4 nearest-neighbors (NNs). 
 The RG transformation 
 assumes that at the 
 beginning and at the end
 of the transformation,
 there are exactly 4 interactions of  $S_{surv}$
-with its 4 nearest neighbors,
-so one must
+with its 4 NNs. 
+Hence, one must
 neglect interactions generated
 by the RG transformation
-with next to nearest neighbor spins.
+of $S_{surv}$
+with its next to NN spins.
 
 So far, our bnet RG
 method is exact.
@@ -269,10 +271,10 @@ we decimate,
 some of the DS nodes
 may gain incoming arrows.
 
-During each decimation,
+After each decimation step,
 the TPM of one or more of the DS
 nodes might end up 
-with far too many incoming arrows\footnote{The complexity
+with inconveniently many incoming arrows\footnote{The complexity
 of the problem increases
 exponentially
 with the maximum, over all nodes, of the number of incoming arrows}.
@@ -336,18 +338,16 @@ one might
 follow is to
 specify a 
 threshold $\delta\in[0, 1]$
-and define the
+and neglect 
 arrows $\rvb_j\rarrow \rvx$, 
-for all $j$, that we neglect, to 
-be the ones with low efficiency
+for all $j$, that have low efficiency
 
 \beq
 0\leq \eps(\rvx \larrow \rvb_j)< 1   -\delta
 \eeq
-and define the
+and keep
 arrows $\rva_i\rarrow\rvx$,
-for all $i$, that we keep,
-to be the ones with  high efficiency
+for all $i$, that have  high efficiency
 \beq
 1   -\delta <\eps(\rvx\larrow  \rva_i)\leq 1
 \eeq
@@ -753,6 +753,7 @@ becomes
 
 \beq
 K'\rarrow 3K^2
++ \calo(K^3)
 \eeq
 For those
 same values of $\eta, P_-$ 
@@ -778,8 +779,8 @@ from Eqs.(\ref{eq-RG-trans-dbnet}), that
 One can compare 
 our results for a 2-dim Ising-dbnet to the
 following ones
-for the standard 2-dim Ising model. The latter were 
-obtained by
+for the standard 2-dim Ising model. These standard results were 
+obtained via
 real-space renormalization group (RSRG) using a block-spin decimation approximation (BSDA).
 \beq
 \label{eq-rg-trans-standard}
@@ -809,11 +810,11 @@ K' \rarrow \frac{3}{2} K
 {renorm-group2/dbnet-rg-trans-plot.png}
 \caption{Plot of RG
 transformations $K'(K)$
-for the standard Ising model
+for the standard 2-dim Ising model
 in the block-spin decimation approximation,
-and for the Ising-dbnet model.
+and for the 2-dim Ising-dbnet model.
 According to the exact
-Onsager result, the Curie critical point
+Onsager solution, the Curie critical point
 should be at
 $K_c=\beta_c J=J/T_c \approx 0.44$.
 }
@@ -827,7 +828,7 @@ and Eq.(\ref{eq-rg-trans-standard})
 for the standard Ising model.
 In both cases, one observes
 a repulsive fixed point
-located close but 
-not exactly at the 
+located close to, but 
+not exactly at, the 
 position predicted
-by the exact Onsager result.
+by the exact Onsager solution.
