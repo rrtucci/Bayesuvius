@@ -15,7 +15,8 @@ Here is but a whiff of Thermodynamics.
 The \textbf{partition function} $Z$ is defined by
 
 \beq
-Z = {\rm tr}(e^{-\beta H})
+Z = {\rm tr}(e^{-\beta H})=\sum_j\av{E_j|
+e^{-\beta H}|E_j}
 =\sum_j e^{-\beta E_j}
 \;,
 \eeq
@@ -47,11 +48,12 @@ lowest (i.e., ground state)
 energy of the system.
 All the thermodynamic observables
 can be expressed in terms of
-$F$ and it's derivatives with
+$F$ and its derivatives with
 respect to $\beta$.
-McComb calls Eq.(\ref{eq-bridge})
+Eq.(\ref{eq-bridge})
+is sometimes called
 the \qt{bridge equation},
-because it bridges the microscopic physics
+because it bridges the microscopic world
 with the macroscopic one.
  
 
@@ -128,7 +130,7 @@ K'=\frac{1}{2}\ln[\cosh(2K)]
 \quad\text{(plotted in Fig.\ref{fig-kprime-versus-k})}
 \label{eq-1dim-ising-kprime-k}
 \eeq
-Hence for a 1-dim Ising model,
+Eq.(\ref{eq-1dim-ising-kprime-k}) satisfies
 
 \beq
 \left\{
@@ -160,23 +162,25 @@ same direction,
 
 \beq
 f(K)=e^{-K'}\left[e^{2K}+ e^{-2K}\right]
+\label{eq-1-dim-ising-a}
 \eeq
 When $S_1$ and $S_3$ point in opposite
 directions,
 
-\beq \label{eq-1-dim-ising-easy}
+\beq \label{eq-1-dim-ising-b}
 f(K)=e^{K'}2
 \eeq
 \end{subequations}
 
-Dividing the 2 equations Eqs.(\ref{eq-1-dim-ising-2eqs}) yields
+Dividing the Eq.(\ref{eq-1-dim-ising-a}) by Eq.(\ref{eq-1-dim-ising-b})
+yields
 
 \beq
 e^{2K'}=\cosh(2K)
 \eeq
 Now that we know $K'(K)$,
 we can find $f(K)$
-from Eq.(\ref{eq-1-dim-ising-easy}).
+from Eq.(\ref{eq-1-dim-ising-b}).
 \qed
 
 Combining Eq.(\ref{eq-sum-cosh-prod}) and
@@ -192,39 +196,58 @@ Z(N', K')
 
 For large $N$,
 \beq
-\ln Z \approx \sum_{S^{:N}\in\ZZ_\pm^N}
- \ln e^{-N\beta \cale_1}=N\zeta(K)
+\ln Z =\ln\left[\sum_i e^{-\beta E_i}
+\right]
+\approx
+\sum_i \ln \left[ e^{-\beta E_i}\right]
+= -N\beta \frac{1}{N}\sum_i E_i
 \eeq
 so $\ln Z$ behaves as an extensive variable.
-By virtue of this extensive property,
+If we define
+
+\beq
+\zeta(K) =\frac{\ln Z(K)}{N}
+\eeq
+then, 
+by virtue of this extensive property,
 Eq.(\ref{eq-z-prior-use-extensive}) 
 becomes
 
 \beq
 N\zeta(K)= N'\ln f(K) + N'\zeta(K')
 \eeq
-so
+which yields the recursion equation
 
 \beq
 \zeta(K') = 2\zeta(K)- \ln f(K)
+\label{eq-zeta-1-dim-ising}
 \eeq
 where 
 
 \beq
 \ln f(K)=\frac{1}{2}\ln \cosh(2K) + \ln 2
 \eeq
+Note that 
+$ Z(K=0)= 2^N$ 
+implies that $ \zeta(K=0)=\ln 2$,
+which provides a boundary
+condition for the recursion
+relation Eq.(\ref{eq-zeta-1-dim-ising}).
 
 
 Instead of Eq.(\ref{eq-1dim-ising-kprime-k}), 
-for a 2-dim Ising model, it
-has been shown that
+it can be shown that
+for a 2-dim Ising model\footnote{
+Eq.(\ref{eq-2-dim-block-spin-kprime})
+is obtained via real-space renormalization group (RSRG) using a block-spin decimation approximation
+(BSDA)}
 
 \beq
 K'\approx \frac{3}{8}\ln[\cosh(4K)]
 \quad\text{(plotted in Fig.\ref{fig-kprime-versus-k})}
+\label{eq-2-dim-block-spin-kprime}
 \eeq
-
-Hence, for a 2-dim Ising model
+Eq.(\ref{eq-2-dim-block-spin-kprime}) satisfies
 
 \beq
 \left\{
@@ -240,9 +263,18 @@ Hence, for a 2-dim Ising model
 \centering
 \includegraphics[width=5in]
 {renorm-group-ising/ising-rg-trans-1-2.png}
-\caption{Plots of $K'(K)$ (in blue) 
+\caption{Plots of $K'(K)$  
 for 1-dim and 2-dim Ising model.
-Line $K'=K$ in red.}
+The 1-dim  result is exact
+but the 2-dim one is approximate.
+Line $K'=K$ in red.
+According to the exact Onsager solution
+for the 2-dim case, the Curie critical point should be at $K_c =
+\beta_c J = J/T_c \approx 0.44$.
+For the 2-dim case, one observes 
+that the approximate $K'(K)$ curve has a
+repulsive fixed point located close to, but not exactly at, the position predicted by
+the exact Onsager solution.}
 \label{fig-kprime-versus-k}
 \end{figure}
 
@@ -260,9 +292,14 @@ recursively
 \label{fig-repeller-rg}
 \end{figure}
 
-As can be seen from Figs.\ref{fig-kprime-versus-k} and
-\ref{fig-repeller-rg},
+As can be seen from Fig.\ref{fig-kprime-versus-k},
 the 1-dim Ising model has no fixed
-point except at $K=0$, but the 2-dim Ising model has a repulsive fixed point 
-(i.e., critical point) at $K=K^*$.
+point except at $K=0$, but the 2-dim Ising model has a fixed point 
+(Curie critical point) at $K=K_c\approx .44$.
+
+Fig.\ref{fig-repeller-rg}
+shows that the Curie point is
+a repulsive fixed point. All critical points are repulsive
+along the
+relevant directions.
 
