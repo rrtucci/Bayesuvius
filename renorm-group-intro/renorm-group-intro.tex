@@ -14,108 +14,53 @@ entitled \qt{Honey, I shrunk the theory} that I wrote for some friends in 2011.
 
 \section{Introduction}
  Renormalization Group (RG)
- describes how
-correlation functions
-scale.
-Physicists
-like to study how a
-theory transforms under a family of operations.
-Such families of operations
-usually constitute a mathematical group.
-The operations might be discrete, as with
-PTC (P=parity, T=time reversal, C=charge conjugation)
-or continuous (continuous transformations
-are a type of generalized rotation). In
-the case of the renormalization
-group, physicists consider
-how a theory transforms under
-an operation that \qt{scales}
- the unit of length.
+ describes how parameters scale
+near a critical point.
 
-It's useful (at least to me) to think
-of such scaling as a type of
-lossy data-compression or
-smoothing.
-Accordingly,
-RG theory can be viewed
-as a meta-theory
-that describes how theories change under
-lossy data-compression. Hence, a
-more precise
-but less catchy title for this RG introduction
-would have been \qt{Honey,
-I applied lossy data-compression to
- the theory (and the kids).}
-
-There is a huge amount of
-literature on RG theory,
-and I'm only familiar with
-a tiny amount of it,
-so don't trust too much my advice
-in this section.
-
-
-My favorite beginner's book on
-RG theory is
-Ref.\cite{Mc} by McComb.
-I like this book a lot,
-although I think many aspects of it
-could be improved (including
-fixing all the typos). This book assumes
-very little prior knowledge,
-and is very intuitive.
-
-Another book
-that I consult occasionally
-is Ref.\cite{Go} by Goldenfeld. It's
- a little more advanced
-than the book by McComb
-and covers some topics not
-covered by McComb.
-
-Last but not least,
-I recommend Ref.\cite{Sr}
-by Srednicki,
-a good, very comprehensive
- book about
-quantum field theory from
-a high energy
-physics perspective.
-This book discusses many topics
-besides the RG, but it
-includes a nice
-explanation of
-Feynman diagrams,
-renormalization and RG,
-all from a high energy
-physics point of view.
-
-
-Taste in physics books is very subjective so
-I advise you to inspect the books
-I've recommend
-and many others besides. Then
-form your own opinions.
-
-Besides books, I 
-found the following 
-Wikipedia articles interesting
-
+The subject of renormalization
+methods includes the following topics:
 \begin{itemize}
+\item {\bf regularization:}
+defining a divergent integral as the
+limit of a finite integral.
+The parameter than one takes
+the limit of is called the
+regulator of the integral.
+Divergent integrals arise 
+in field theories because such
+theories describe an infinite number
+of harmonic oscillators, each with
+a finite zero point (ground state)  energy.
+\item {\bf renormalization:}
+a process of possibly
+adding a finite number
+of new interactions to a field theory
+and dividing certain parameters
+of the field theory
+by normalization constants called $Z_g$
+for various  subscripts $g$,
+so as to make the
+field theory finite. These
+normalization constants
+are parameterized by a
+regulator and diverge as
+that regulator tends to a
+certain value.
+\item {\bf scaling:} a meta-theory
+about how a field theory transforms
+under scale transformations.
+The scaling in RG
+is associated with
+ the phenomenon of screening,
+whereby a charged particle polarizes
+its surrounding medium so that
+the charge perceived by
+an observer (called
+the effective charge)
+decreases as
+the observer moves
+away from the particle.
 
-\item {\bf Renormalization Group},
-Ref.\cite{wiki-rg}
-
-
-
-\item {\bf Dimensional Analysis},
-Ref.\cite{wiki-da}
-
-\item {\bf Landau Pole},
-Ref.\cite{wiki-landau-pole}
-
-\item {\bf Scale Invariance},
-Ref.\cite{wiki-scale-inv}
 
 
 \end{itemize}
@@ -148,177 +93,214 @@ probability and statistics
 \item
 quantum field theory,
 both relativistic (used
-in high energy physics) and
-non-relativistic (used in condensed matter
-physics)
+in High Energy Physics) and
+non-relativistic (used in Condensed Matter
+Physics)
 \item Bayesian Networks, Neural Networks and AI
 \end{itemize}
 
-\section{What is renormalization?}
 
-The subject of renormalization
-methods includes the following topics:
+There is a huge amount of
+literature on RG theory,
+and I'm only familiar with
+a tiny amount of it.
+
+My favorite beginner's book on
+RG theory is
+Ref.\cite{Mc} by McComb.
+I greatly enjoyed this book,
+although I think some aspects of it
+could be improved (including
+fixing all the typos). This book assumes
+very little prior knowledge,
+and is very intuitive.
+
+Another book
+that I consult occasionally
+is Ref.\cite{Go} by Goldenfeld. It's
+ a little more advanced
+than the book by McComb
+and covers some topics not
+covered by McComb.
+
+Finally, I recommend Ref.\cite{Sr}
+by Srednicki. It's
+a good, comprehensive
+ book about
+quantum field theory from
+a High Energy Physics perspective.
+It discusses many topics
+besides the RG, but it
+includes a nice
+explanation of
+Feynman diagrams,
+renormalization and RG,
+all from a High Energy Physics point of view.
+
+
+Taste in Physics books is very subjective so
+I advise you to inspect the books
+I've recommend
+and many others besides. Then
+form your own opinions.
+
+Besides books, I 
+found the following 
+Wikipedia articles interesting
+
 \begin{itemize}
-\item regularization:
-defining a divergent integral as the
-limit of a finite integral.
-The parameter than one takes
-the limit of is called the
-regulator of the integral.
-\item renormalization:
-a process of possibly
-adding a finite number
-of new interactions to a field theory
-and dividing certain parameters
-of the field theory
-by normalization constants
-so as to make the
-field theory finite. These
-normalization constants
-are parameterized by a
-regulator and diverge as
-that regulator tends to a
-certain value.
-\item RG theory: a meta-theory
-about how a field theory transforms
-under scale transformations.
-\item perturbation expansion of a field
-theory
+
+\item {\bf Renormalization Group},
+Ref.\cite{wiki-rg}
+
+
+
+\item {\bf Dimensional Analysis},
+Ref.\cite{wiki-da}
+
+\item {\bf Landau Pole},
+Ref.\cite{wiki-landau-pole}
+
+\item {\bf Scale Invariance},
+Ref.\cite{wiki-scale-inv}
+
+
 \end{itemize}
-This article will concentrate
-on the topic of RG theory,
-but all these topics are closely
-related.
 
-Let {\bf dofs} stand for
-degrees of freedom.
-
-Note that the word
-\qt{scaling} is used in a very
-special way
-in RG theory.
-\emph{Scaling in RG theory =
-lossy data-compression
-that
-reduces the number of dofs of a field theory.}
-Some synonyms for \qt{scaling}
-in RG theory:
-data-compressing,
-screening,
-dressing a bare coupling constant,
-pruning,
-decimating,
-averaging,
-coarse graining,
-smoothing,
-forgetting initial conditions,
-integrating out ultraviolet dofs,
-zooming out,
-shrinking. Some antonyms:
-zooming in,
-magnifying,
-expanding,
-dilating.
-
-Lossy data-compression
-is associated with
- the phenomenon of screening,
-whereby a charged particle polarizes
-its surrounding medium so that
-the charge perceived by
-an observer (called
-the effective charge)
-decreases as
-the observer moves
-away from the particle.
+I've also found asking questions to AI's such as ChatGPT very helpful
+as learning tools.
 
 
 
 
+\section{Scaling and dimensions}
 
 
 
+We will use units 
+used in High Energy
+Physics in which $\hbar$ (Plank's constant divided by $2\pi$) and $c$ (speed of light) are set to 1 
+temporarily, and then restored when one needs actual values in MKS units. In such units,
+everything has dimensions of $L^D$, where $L$
+stands for length, and $D$ is some rational number. The dimensions of length and time are $L$ and those of energy, mass and
+momentum are $L^{-1}$
 
+Let 
 
-\section{Naive versus fractal
-\qt{scaling} dimensions}
+pixel = distance between two adjacent lattice sites in 1-dim,
+4 adjacent lattice sites in 2-dim, etc.
 
+$x, \ell=$ length in cm (or in any unit of length), a
+fixed number of pixels is
+contained in one cm
 
+$a=$ lattice spacing, distance between two adjacent pixels.
+$\frac{xa}{x_0 a_0}$ remains constant. So 
+if $a$ goes from $1$ to $2$, 
+$x$ is reduced by half.
 
-Let the real number $b\geq 1$
-denote the {\bf spatial
-compression (i.e., spatial scaling) factor}.
-Upon compression, the distance $\delta x$
-between
-any two spatial positions shrinks
-to $\delta x'= \frac{\delta x}{b}$.
+$b\in[1, \infty]$, length scaling factor, equal to $\ell_i/\ell_f$
+where $\ell_i$ (resp. $\ell_f$)
+is the length in cm of an initial (resp., final) piece
+of the physical system.
+(see Chapter \ref{ch-fractal-dim})
 
-In
-high energy physics, it
-is customary to use an
-{\bf energy scaling factor}
-$\calp = 1/b$. It is
-useful to be fluent in both
-$b$ and $\calp$ languages.
-Since $1\leq b < \infty$,
-it follows that
-$0<\calp\leq 1$. As
-$b$ goes from 1 to $\infty$,
-$\calp$ goes from 1 to 0.
-$b$ and $\calp$  are both 1 at the same time.
-They both start at 1, but one goes up
-and the other down.
-The point $b=\calp=1$
-corresponds to a microscopic,
-high energy (ultraviolet) picture, whereas
-the point $b=\infty$, $\calp=0$
-corresponds to a macroscopic,
-low energy (infrared)
- picture.\footnote{Hence, it is convenient to think of $b$ as akin to $\beta$
-in thermodynamics. I think
-that is the reason that this
-compression factor
-is commonly called $b$ in the literature.}
-Note also that
-$\ln \calp = -\ln b$
-so that as $\ln b$ goes
-from 0 to $\infty$,
-$\ln \calp$
-goes from 0 to $-\infty$.
+$\mu=$ renormalization mass scale, in units
+of mass or energy
 
+$\Lam=$ momentum cutoff, in units of momentum
 
-
-If one uses Planck units in which
-$\hbar = c = 1$, then time and length
-have dimensions of $L$,
-whereas energy, mass, and momentum
-have dimensions of $1/L$. For
-a length $x$ and
-an energy $E$,
-one has (see Fig.\ref{fig-rg-scaling})
-
+Consider\footnote{An alternative
+notation that is very common is to
+use a prime for the output
+instead of a 0 subscript 
+for the input. For example, to say
+$a'=ba$ instead of $a=ba_0$. 
+Alternatively, one could write $a_{i+1}=ba_i$, for
+the steps in an iteration.
+At the beginning 
+of each iteration,
+$a_0$ is set equal to $a$,
+or $a'$ is set equal to $a$.
+}
 \beq
-\delta x' = \frac{\delta x}{b}=\calp \delta x
-\;,
+a(b)= ba_0
+\eeq\beq
+ x(b)= \frac{x_0}{b}
+\eeq\beq
+ \Lam(b) = \frac{\Lam_0}{b}
+\eeq
+\beq
+ \mu(b)=b\mu_0
 \eeq
 
+
 \beq
-\delta E'=b \delta E=\frac{\delta E}{\calp}
-\;.
+\ln \mu 
+=
+\ln \mu_0 +\ln b
+\implies \quad d\ln \mu = d\ln b
 \eeq
 
 \begin{figure}[h!]
 \centering
-\includegraphics[height=1.8in]
-{renorm-group-intro/rg-scaling.png}
-\caption{RG scaling of length interval $\delta x$
-and energy interval $\delta E$ for $b>1$.}
-\label{fig-rg-scaling}
+\includegraphics[width=3in]
+{renorm-group-intro/b-funs.png}
+\caption{Various functions of $b$}
+\label{fig-b-funs}
 \end{figure}
 
 
+
+
+
+
+
+High Energy Physicists define the {\bf beta
+function} for a coupling 
+constant $g$ by
+\beq
+\frac{d g}{d \ln \mu} = \beta(g)
+\eeq
+Condensed Matter
+Physicists define
+the {\bf anomalous dimension}\footnote{For a full
+chapter on fractal dimension, see
+Chapter \ref{ch-fractal-dim}.
+The fractal dimension $D_f$,
+the anomalous dimension $y$
+and the engineering
+dimension $D_e$ are related
+by $y=-D_e=-D_f$} $y_q$ of a quantity $q$
+by the following equation, valid near a critical point:
+\beq
+q(b)=b^{y_q}q_0
+\label{eq-t-scales-as}
+\eeq
+For example, 
+consider the 2-dim Ising model 
+and let $t = \frac{T-T_c}{T_c}$.
+Near the  critical point,
+Eq.(\ref{eq-t-scales-as})
+is satisfied with $q$ replaced by $t$ and $y_t=1$.
+Hence, for the 2-dim Ising model, the  temperature deviation grows linearly under coarse-graining.
+Thus, the temperature is a relevant operator near the critical point.
+
+Note that
+
+\beq
+\ln q =y_q \ln b + \ln q_0
+\implies
+\frac{d\ln q}{d\ln b} = y_q,\quad\frac{1}{q}\frac{dq}{d\ln \mu}=y_q
+\eeq
+Hence, 
+
+\beq
+gy_g \approx \beta(g)
+\eeq
+
 A physical quantity $q$
-can be assigned both a \textbf{naive dimension} $D_q$
+can be assigned both an \textbf{engineering dimension} $D_q$
 given by dimensional analysis,
 and an \textbf{anomalous or fractal dimension}
  $y_q$.
@@ -328,13 +310,7 @@ This is expressed with the following notation:
 [q]=L^{D_q}
 \;,
 \eeq
-and\footnote{Our
-definition Eq.(\ref{eq-def-fractal})
-of fractal dimension $y_q$ is the standard
-definition of fractal dimension, namely
-log of number of self similar
-pieces $\ln(q'/q)$ divided by log of magnification $\ln(b)$ . See
-Ref.\cite{wiki-fractal}}
+and
 
 \beq
 q'= b^{y_q} q
@@ -358,22 +334,23 @@ and
 \eeq
 
 Note that a length $x$ has
-$D_x=1$ and $y_x=-1$.
+$D_x=1$ and $y_x=-1$\footnote{The fact that $D_x$ nd $y_x$
+have opposite signs
+instead of the same sign,
+is a matter of conventions. 
+We follow here the standard
+convention}.
 In some cases, it makes sense
 to set $y_q=-D_q$ for all quantities $q$.
 However, in other
-cases, one cannot set $D_q=-y_q$
-for all quantities $q$. The cases where one
-can (resp., cannot) set $D_q=-y_q$
-for all $q$ are associated with lossless (resp., lossy)
-data-compression. We try to explain
-why this is so in Section \ref{sec-corr}.
+cases, as in the proximity
+of a critical point, one cannot set $D_q=-y_q$
+for all quantities $q$. 
 
-\section{Real and momentum space RG}
 Let $\phi_x\in \RR$
 be the value of a field
 at position $x\in \RR^d$. For
-each $x$, $\phi_x$ is a dof of the
+each $x$, $\phi_x$ is a dof (degree of freedom) of the
 theory. One can also consider
 a conjugate dof $\phi_p$
 which is the Fourier transform of $\phi_x$.
@@ -391,31 +368,20 @@ momentum}.
 In {\bf real space RG}
 applied to a cubic lattice with
 lattice constant $a$,
-we map
-a $d$-dimensional block with sides of length $b a$
-into a  block with sides of length $a$.
-In so doing, we are
-data-compressing the information
-assigned to $(b a)^d$ lattice points
-into the information assigned to a
-single lattice point.
-(The information assigned
-to a lattice point is the value
-of $\phi_x$ or other field
-attached to that lattice point.)
+we reduce (lossy data compression) the info in
+a $d$-dimensional block with sides of length $x_0$
+into the info in a  block with sides of length $x_0/b$.
 
 
 In {\bf momentum space RG},
-we data-compress by mapping the
-information in $\{\phi_p: |p|<\Lambda\}$
-into the information in
-$\{\phi_p: |p|<\Lambda/b\}$.
-This process is often described
-by saying that we are
-integrating the ultraviolet dofs of the theory.
+integrate over the high frequency
+dofs in $\{\phi_p:
+\Lambda_0/b <|p|<\Lambda_0\}$.
+Thus, we reduce the
+info in $\{\phi_p: |p|<\Lambda_0\}$
+into the info in
+$\{\phi_p: |p|<\Lambda_0/b\}$.
 
-So what do real and momentum space RG
-have in common?
 In both real and momentum space RG,
 we reduce the number of dofs
  of the theory being considered
@@ -425,6 +391,17 @@ from $N_{dofs}$ to $N'_{dofs}$, where
 b = \frac{N_{dofs}}{N'_{dofs}}
 \;.
 \eeq
+
+
+\begin{tabular}{|
+>{\columncolor[HTML]{FFCCC9}}l ||
+>{\columncolor[HTML]{CBCEFB}}l |}
+\hline
+Condensed Matter Physicists: & High Energy Physicists \\ \hline
+$b$ & $\mu$ \\ \hline
+real space renormalization & momentum space renormalization \\ \hline
+coarse graining & integrate over high freq. modes \\ \hline
+\end{tabular}
 
 
 \section{Correlations}
@@ -451,15 +428,13 @@ $\xi$.
 The intuition
 for this fact is that a field with
 $\xi=0$ is composed of
-probabilistically independent dofs $\phi_x$,
-and therefore pruning those
-dofs causes no loss of information.
+probabilistically independent dofs $\phi_x$.
 
 
 As mentioned before, in the
 case of lossless (resp., lossy)
 data-compression, one can (resp., cannot)
-set the naive and fractal dimensions
+set the engineering and fractal dimensions
  equal (up to a sign) for every
 physical quantity (i.e.,
 $y_q=-D_q$ for all $q$).
@@ -484,9 +459,8 @@ models describe this lossless regime.
 \section{Renormalization (semi-)group}
 Let $b, b_1,b_2,b_3\geq 1$.
 If $R_b$ denotes
- data-compression
-with compression factor $b$
-of a  theory, then clearly
+a {\bf renormalizaton transformation (iteration) 
+with scaling factor $b$}, then clearly
 
 \beq
 R_{b_1 b_2} = R_{b_1}R_{b_2}
@@ -627,7 +601,7 @@ very interesting. Since they
 have $\xi^*=0$, they can be understood
 in terms of
 lossless data-compression and
-naive dimensions for the c.c.'s.
+engineering dimensions for the c.c.'s.
 
 \textbf{Critical points}
 are much more interesting.
@@ -949,7 +923,7 @@ y_j
 \;.
 \label{eq-dif-yj}
 \eeq
-In high energy physics, it
+In High Energy Physics, it
 is common to
 use, instead of $y_j$, a so called
 \textbf{beta function} $\beta_j$
@@ -989,7 +963,7 @@ This is why. The value of $a_{j1}$ (i.e., the order($g_j^1$)
 coefficient in the expansion
 of the beta function
 in powers of $g_j$)
-must equal the naive dimension of
+must equal the engineering dimension of
 $g_j$. As explained in Section
 \ref{sec-regulator}, one usually introduces
 a renormalization-point mass
@@ -1112,7 +1086,7 @@ quantities must
 be independent of the regulator.
 The two most popular
 regulators in the high
-energy physics literature
+energy Physics literature
 are
 \begin{enumerate}
 \item
@@ -1225,7 +1199,7 @@ quantities RG pi-groups.
 \label{eq-callan}
 \eeq
 The Callan-Symanzik equation
-used in high energy physics is
+used in High Energy Physics is
 just a special case of Eq.(\ref{eq-callan}).
 
 

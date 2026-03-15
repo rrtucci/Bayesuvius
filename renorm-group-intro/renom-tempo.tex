@@ -3,51 +3,63 @@
 \begin{document}
 
 We will use units 
-used in high energy
-physics in which $\hbar$ (Plank's constant divided by $2\pi$) and $c$ (speed of light) are set to 1 
-temporarily, and then restored when one needs actual values in MKS units. in such units,
-everything has dimensions of $L^y$, where $L$
-stands for length, and $y$ is some rational number. The dimensions of length and time are $L$ and those of energy, mass and
+used in High Energy
+Physics in which $\hbar$ (Plank's constant divided by $2\pi$) and $c$ (speed of light) are set to 1 
+temporarily, and then restored when one needs actual values in MKS units. In such units,
+everything has dimensions of $L^D$, where $L$
+stands for length, and $D$ is some rational number. The dimensions of length and time are $L$ and those of energy, mass and
 momentum are $L^{-1}$
 
-Let
+Let 
 
-$x=$ length scale,
-pixel density, number of pixels per inch (or any unit of length)
+pixel = distance between two adjacent lattice sites in 1-dim,
+4 adjacent lattice sites in 2-dim, etc.
 
-$a=$ lattice spacing in inches (or any unit of length),
-distance between two adjacent pixels, resolution length
+$x, \ell=$ length in cm (or in any unit of length), 
+fixed number of pixels
+contained in one cm
 
-$b\in[1, \infty]$, magnification
+$a=$ lattice spacing (unit-less pure number, an integer), equals one
+between two adjacent pixels.
+$xa$ remains constant. So 
+if $a$ goes from $1$ to $2$, 
+$x$ is reduced by half.
+
+$b\in[1, \infty]$, length scaling factor, equal to $\ell_i/\ell_f$
+where $\ell_i$ (resp. $\ell_f$)
+is the length in cm of an initial (resp., final) piece
+of the physical system.
+(see Chapter \ref{ch-fractal-dim})
 
 $\mu=$ renormalization mass scale, in units
 of mass or energy
 
 $\Lam=$ momentum cutoff, in units of momentum
 
-Consider\footnote{It is common to
+Consider\footnote{An alternative
+notation that is very common is to
 use a prime for the output
 instead of a 0 subscript 
 for the input. For example, to say
-$a'=ba$ instead of $a=ba_0$. But I think this
-form makes the functional
-dependence of all quantities more clear.
+$a'=ba$ instead of $a=ba_0$. But I prefer this
+notation because it makes the $b$
+dependence of all quantities clearer.
 }
 \beq
 a(b)= ba_0
 \eeq\beq
  x(b)= \frac{x_0}{b}
 \eeq\beq
- \mu(b)=\frac{\mu_0}{b}
+ \mu(b)=b\mu_0
 \eeq\beq
- \Lam(b) = \frac{\Lam_0}{b}
+ \Lam(b) = b\Lam_0
 \eeq
 
 \beq
 \ln \mu 
 =
-\ln \mu_0 -\ln b
-\implies \quad d\ln \mu = - d\ln b
+\ln \mu_0 +\ln b
+\implies \quad d\ln \mu = d\ln b
 \eeq
 
 \begin{figure}[h!]
@@ -58,62 +70,111 @@ a(b)= ba_0
 \label{fig-b-funs}
 \end{figure}
 
+
+
+
+
+\begin{tabular}{|
+>{\columncolor[HTML]{FFCCC9}}l ||
+>{\columncolor[HTML]{CBCEFB}}l |}
+\hline
+Condensed Matter Physicists: & High Energy Physicists \\ \hline
+$b$ & $\mu$ \\ \hline
+real space renormalization & momentum space renormalization \\ \hline
+coarse graining & integrate over high freq. modes \\ \hline
+\end{tabular}
+
+High Energy Physicists define the {\bf beta
+function} for a coupling 
+constant $g$ by
 \beq
 \frac{d g}{d \ln \mu} = \beta(g)
 \eeq
-
-High energy physics uses $\mu$ 
-and momentum space renormalization
-and integrating out high frequency modes.
-Condensed Matter uses real space renormalization and coarse graining.
-
-near a critical point,
+Condensed Matter
+Physicists define
+the {\bf anomalous dimension}\footnote{For a full
+chapter on fractal dimension, see
+Chapter \ref{ch-fractal-dim}.
+The fractal dimension $D_f$,
+the anomalous dimension $y$
+and the engineering
+dimension $D_e$ are related
+by $y=-D_e=-D_f$} $y_q$ of a quantity $q$
+by the following equation, valid near a critical point:
 \beq
-t(b)=b^{y_t}t_0
+q(b)=b^{y_q}q_0
 \label{eq-t-scales-as}
 \eeq
+For example, 
 consider the 2-dim Ising model 
 and let $t = \frac{T-T_c}{T_c}$.
 Near the  critical point,
 Eq.(\ref{eq-t-scales-as})
-is satisfied with $y_t=1$.
-So temperature deviation grows linearly under coarse-graining.
-Hence, the temperature is a relevant operator near the critical pointpoint.
+is satisfied with $q$ replaced by $t$ and $y_t=1$.
+Hence, for the 2-dim Ising model, the  temperature deviation grows linearly under coarse-graining.
+Thus, the temperature is a relevant operator near the critical point.
+
+Note that
 
 \beq
-\ln t =y_t \ln b + \ln t_0
+\ln q =y_q \ln b + \ln q_0
 \implies
-\frac{d\ln t}{d\ln b} = y_t,\quad-\;\frac{1}{t}\frac{dt}{d\ln \mu}=y_t
+\frac{d\ln q}{d\ln b} = y_q,\quad\frac{1}{q}\frac{dq}{d\ln \mu}=y_q
 \eeq
+Hence, 
 
 \beq
--gy_g \approx \beta(g)
+gy_g \approx \beta(g)
 \eeq
 
-\section{Fractal Dimension}
-Let
-
-$N=$  number of branches
-that each branch splits into, number of pieces that each piece breaks into.
-
-$b=$ length (not area or volume) of initial piece
-divided by length of final piece
-
-$D=$ fractal dimension, $D>0$ can be less than or greater than one.
+A physical quantity $q$
+can be assigned both an \textbf{engineering dimension} $D_q$
+given by dimensional analysis,
+and an \textbf{anomalous or fractal dimension}
+ $y_q$.
+This is expressed with the following notation:
 
 \beq
-b^D = N, \quad D = \frac{\ln N}{\ln b}
+[q]=L^{D_q}
+\;,
+\eeq
+and
+
+\beq
+q'= b^{y_q} q
+\;.
+\label{eq-def-fractal}
+\eeq
+For example,
+given 3 quantities $q_j$ for $j=1,2,3$, then
+
+\beq
+\left[\frac{q_1}{q_2 q_3}\right]=
+L^{D_1-D_2-D_3}
+\;,
+\eeq
+and
+
+\beq
+\frac{q'_1}{q'_2 q'_3}
+= b^{y_1-y_2-y_3}\frac{q_1}{q_2 q_3}
+\;.
 \eeq
 
-examples:
-\begin{itemize}
-\item line segment
+Note that a length $x$ has
+$D_x=1$ and $y_x=-1$\footnote{The fact that $D_x$ nd $y_x$
+have opposite signs
+instead of the same sign,
+is a matter of conventions. 
+We follow here the standard
+convention}.
+In some cases, it makes sense
+to set $y_q=-D_q$ for all quantities $q$.
+However, in other
+cases, as in the proximity
+of a critical point, one cannot set $D_q=-y_q$
+for all quantities $q$. 
 
-\item square
-
-\item Cantor set
-
-\end{itemize}
 
 
 \end{document}
