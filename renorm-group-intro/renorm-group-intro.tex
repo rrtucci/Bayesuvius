@@ -105,37 +105,18 @@ literature on RG theory,
 and I'm only familiar with
 a tiny amount of it.
 
-My favorite beginner's book on
-RG theory is
-Ref.\cite{Mc} by McComb.
-I greatly enjoyed this book,
-although I think some aspects of it
-could be improved (including
-fixing all the typos). This book assumes
-very little prior knowledge,
-and is very intuitive.
+Two fine books 
+by Condensed Matter Physicists on
+the sole topic of
+RG theory 
+  are
+Ref.\cite{Mc} by McComb and Ref.\cite{Go} by Goldenfeld.
 
-Another book
-that I consult occasionally
-is Ref.\cite{Go} by Goldenfeld. It's
- a little more advanced
-than the book by McComb
-and covers some topics not
-covered by McComb.
-
-Finally, I recommend Ref.\cite{Sr}
-by Srednicki. It's
-a good, comprehensive
- book about
-quantum field theory from
-a High Energy Physics perspective.
-It discusses many topics
-besides the RG, but it
-includes a nice
-explanation of
-Feynman diagrams,
-renormalization and RG,
-all from a High Energy Physics point of view.
+A fine book by a High Energy Physicist on RG theory is Ref.\cite{Sr}
+by Srednicki. Ref.\cite{Sr}
+covers much more than RG theory.
+It's a comprehensive  
+book on  Quantum Field Theory.
 
 
 Taste in Physics books is very subjective so
@@ -307,7 +288,7 @@ gy_g \approx \beta(g)
 A physical quantity $q$
 can be assigned both an \textbf{engineering dimension} $D_q$
 given by dimensional analysis,
-and an \textbf{anomalous or fractal dimension}
+and an \textbf{anomalous  dimension}
  $y_q$.
 This is expressed with the following notation:
 
@@ -408,21 +389,98 @@ real space renormalization & momentum space renormalization \\ \hline
 coarse graining & integrate over high freq. modes \\ \hline
 \end{tabular}
 
+Let $b, b_1,b_2,b_3\geq 1$.
+If $R_b$ denotes
+a {\bf renormalization transformation (one iteration) 
+with scaling factor $b$}, then clearly
+
+\beq
+R_{b_1 b_2} = R_{b_1}R_{b_2}
+\;.
+\eeq
+Note that
+$R_1 R_b = R_b$
+(identity property),
+and  $R_{b_1}(R_{b_2}R_{b_3})=
+(R_{b_1}R_{b_2})R_{b_3}$
+(associative property).
+However, one cannot
+set $R_{1/b}R_{b}=R_1$ (inverse property)
+because $1/b$ is not greater than 1.
+Physically,
+the reason RG operations
+don't have inverses is
+that they represent lossy data-compression,
+and therefore are irreversible.
+So the set of transformation
+$\{R_b: b\geq 1\}$
+is not a true mathematical
+group. In truth, it only
+satisfies the properties of
+a weaker algebraic
+structure called a {\bf semi-group}.\footnote{However,
+if the theory is scale invariant
+as happens when it sits at a critical point,
+then
+one can consider all $b> 0$,
+not just $b\geq 1$,
+and the set $\{R_b: b>0\}$
+is a true group.}.
+Physicists, however, call it a group
+anyway.
+
+
+
+
+
+
 
 \section{Correlations}
 \label{sec-corr}
 
-As before, let
+Let
  $\phi_x\in \RR$
 be the value of a field
 at position $x\in \RR^d$.
  $\phi_x$
 is taken to be a random variable.
-How the average $\av{\phi_{x_1},\phi_{x_2}}$
-decays with distance $r=|x_1-x_2|$
-is characterized by a decay length $\xi$
-called the \textbf{correlation length}
- of $\phi_x$.
+Let
+$\av{Q}$
+denote the average of a
+quantity $Q$. We will use the
+following shorthand notations
+
+\beq
+r= |x_1-x_2|,\;\;
+\Delta\phi_x = \phi_x - \av{\phi_x}
+\eeq
+We define the {\bf Greens's function} $G(r)$
+by
+
+\beq
+G(r) = \av{\phi_{x_1}\phi_{x_2}}
+\;,
+\eeq
+and the \textbf{connected Greens's function}
+ $G_c(r)$ by
+
+\beq
+G_c(r)=
+\av{\Delta\phi_{x_1}\;\;\Delta\phi_{x_2}}
+=
+\av{\phi_{x_1}\phi_{x_2}}
+-\av{\phi_{x_1}}\av{\phi_{x_2}}=
+ \av{\phi_{x_1},\phi_{x_2}}
+\\
+\;.
+\eeq
+The behavior of $G_c(r)$ near but not precisely
+at a critical point is of an
+exponential form, with decay
+constant given by the {\bf correlation length} $\xi$.
+\beq
+G_c(r)\sim \exp(-r/\xi)
+\eeq
 
 
 
@@ -458,52 +516,6 @@ and
 set $y_q=-D_q$ for all $q$.
 The Landau and mean field
 models describe this lossless regime.
-
-
-
-\section{Renormalization (semi-)group}
-Let $b, b_1,b_2,b_3\geq 1$.
-If $R_b$ denotes
-a {\bf renormalization transformation (one iteration) 
-with scaling factor $b$}, then clearly
-
-\beq
-R_{b_1 b_2} = R_{b_1}R_{b_2}
-\;.
-\eeq
-Note that
-$R_1 R_b = R_b$
-(identity property),
-and  $R_{b_1}(R_{b_2}R_{b_3})=
-(R_{b_1}R_{b_2})R_{b_3}$
-(associative property).
-However, one cannot
-set $R_{1/b}R_{b}=R_1$ (inverse property)
-because $1/b$ is not greater than 1.
-Physically,
-the reason RG operations
-don't have inverses is
-that they represent lossy data-compression,
-and therefore are irreversible.
-So the set of transformation
-$\{R_b: b\geq 1\}$
-is not a true mathematical
-group. In truth, it only
-satisfies the properties of
-a weaker algebraic
-structure called a semi-group.\footnote{However,
-if the theory is scale invariant
-as happens when it sits at a critical point,
-then
-one can consider all $b> 0$,
-not just $b\geq 1$,
-and the set $\{R_b: b>0\}$
-is a true group.}.
-Physicists, however, call it a group
-anyway.
-
-
-
 
 
 
@@ -661,7 +673,7 @@ A critical point and a 2PT are the same thing.
 
 
 In phase diagram of water in Fig.\ref{fig-pd-water}, 
-the critical point/2PT 
+the 2PT 
 (the highest temperature at which liquid and gas phases of water coexist) is the endpoint of a 1PT line.
 The triple point of water (a point where
 all 3 phases of water coexist)
@@ -700,39 +712,12 @@ $\nu$ and $\eta$.
 
 $\nu$ and $\eta$
 can both be inferred
-from the behavior of Greens's functions.
-Let $\phi_x$ be the value of
-a field at point $x$. Let
-$\av{Q}$
-denote the average of a
-quantity $Q$. We will use the
-following shorthand notations
+from the behavior of the connected Greens's functions $G_c(r)$
+defined earlier. Let
 
 \beq
-r= |x_1-x_2|,\;\;
-\Delta\phi_x = \phi_x - \av{\phi_x},\;\;
-\theta_c = \frac{\Delta T}{T_c}=
+\theta = \frac{\Delta T}{T_c}=
 \frac{T-T_c}{T_c}
-\;.
-\eeq
-We define the {\bf Greens's function} $G(r)$
-by
-
-\beq
-G(r) = \av{\phi_{x_1}\phi_{x_2}}
-\;,
-\eeq
-and the \textbf{connected Greens's function}
- $G_c(r)$ by
-
-\beq
-G_c(r)=
-\av{\Delta\phi_{x_1}\;\;\Delta\phi_{x_2}}
-=
-\av{\phi_{x_1}\phi_{x_2}}
--\av{\phi_{x_1}}\av{\phi_{x_2}}=
- \av{\phi_{x_1},\phi_{x_2}}
-\\
 \;.
 \eeq
 The behavior of $G_c(r)$ near but not precisely
@@ -745,7 +730,7 @@ determines the critical exponent $\nu$:
 \beq
 G_c(r)\sim \exp(-r/\xi),
 \;\;
-\xi = |\theta_c|^{-\nu}
+\xi = |\theta|^{-\nu}
 \;.
 \eeq
 (Note that for $\nu>0$,
@@ -760,11 +745,11 @@ determines the critical exponent $\eta$:
 G_c(r)\sim 1/r^{pow},\;\;pow = d-2+\eta
 \;.
 \eeq
-(Let $d=4$. If $\eta=0$, this gives
+Let $d=4$. If $\eta=0$, this gives
 an inverse square law. If $\eta>0$,
 $G_c(r)$ decays faster than
 when $\eta=0$,
-as one expects if there is screening.)
+as one expects if there is screening.
 
 For all
 field theories, all critical points
@@ -807,9 +792,10 @@ have the critical point as their origin
 (i.e., $\vec{g^*}=0$).
 
 The set of all points that flow into
- the critical point (i.e., the \qt{basin
-of attraction} of the critical point)
-is called the \textbf{critical surface}.
+ the critical point 
+is called the \textbf{critical surface or stable manifold
+or basin of attraction}.
+The set of points that are repelled by the critical point is called the {\bf unstable manifold}.
 As a consequence
 of Eq.(\ref{eq-xi-zero-to-n}),
 all points in the critical surface
@@ -848,6 +834,21 @@ If an  interaction term in the
 Hamiltonian is multiplied by a relevant c.c.,
 we call that interaction term a relevant
 operator, and likewise for irrelevant and marginal.
+For example,
+in the 2-dim Ising model (see Chapter \ref{ch-renorm-group-ising}) whose 
+Hamiltonian is
+\beq
+H =
+-J\sum_{(i,j)\in\;nn}S_i S_j -
+h\sum_{i} S_i
+\;,
+\eeq
+the spin-spin
+interaction proportional to 
+$J$ is a relevant operator, and the magnetic field 
+interaction proportional to $h$ 
+is an irrelevant one.
+
 
 \begin{figure}[h!]
 \centering
@@ -855,7 +856,13 @@ operator, and likewise for irrelevant and marginal.
 {renorm-group-intro/renorm-group-critical-point.png}
 \caption{RG streamlines in
     the vicinity of a critical point
-    for a theory with 2 coupling constants.}
+    for a theory with 2 coupling constants.
+If one adds a $b$ axis pointing
+out of the page, then this
+flow diagram 
+implies a a 2-dim surface
+with a saddle point at $C$.
+For a 2-dim Ising model, $g_1$ is $h$ and $g_2$ is $J$.}
 \label{fig-rg-critical-point}
 \end{figure}
 
@@ -871,9 +878,9 @@ c.c.'s and the $g_1, g_2$
 axes are for the natural c.c.'s.
 The arrows on the streamlines point
 in the direction of
-increasing $b$ (i.e., decreasing $\calp$).
+increasing $b$.
 In the case of Fig.\ref{fig-rg-critical-point},
-the critical surface
+the {\bf critical surface}
 is a
 one dimensional curve, the one that contains
 points
@@ -909,7 +916,7 @@ theory
 is in the vicinity of point $P$,
 where the irrelevant c.c. $g_1$
 is negligible, and the relevant c.c $g_2$
-is much smaller than 1, but still non-zero.
+is smaller than 1, but still non-zero.
 
 
 \section{Self-similar coupling constants and beta functions}
@@ -1208,7 +1215,17 @@ used in High Energy Physics is
 just a special case of Eq.(\ref{eq-callan}).
 
 
+\section{Examples of use of RG theory}
 
+This book describes how to 
+apply RG theory to 3 systems:
 
+\begin{enumerate}
+\item RG for Ising Model, Chapter \ref{ch-renorm-group-ising}
+
+\item RG for $\phi^4$ theory, Chapter \ref{ch-renorm-group-phi-four}
+
+\item RG for Bayesian Networks, Chapter \ref{ch-renorm-group-bnets}
+\end{enumerate}
 
 
