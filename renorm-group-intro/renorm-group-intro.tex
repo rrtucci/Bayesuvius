@@ -195,9 +195,6 @@ fixed number of pixels is
 contained in one cm
 
 $a=$ lattice spacing, distance between two adjacent pixels.
-$\frac{xa}{x_0 a_0}$ remains constant. So 
-if $a$ goes from $1$ to $2$, 
-$x$ is reduced by half.
 
 $b\in[1, \infty]$, length scaling factor, equal to $\ell_i/\ell_f$
 where $\ell_i$ (resp. $\ell_f$)
@@ -210,31 +207,24 @@ of mass or energy
 
 $\Lam=$ momentum cutoff, in units of momentum
 
-Consider\footnote{An alternative
-notation that is very common is to
-use a prime for the output
-instead of a 0 subscript 
-for the input. For example, to say
-$a'=ba$ instead of $a=ba_0$. 
-Alternatively, one could write $a_{i+1}=ba_i$, for
-the steps in an iteration.
-At the beginning 
-of each iteration,
-$a_0$ is set equal to $a$,
-or $a'$ is set equal to $a$.
-}
+Define (see Fig.\ref{fig-b-funs})
 \beq
-a(b)= ba_0
-\eeq\beq
+a(b)= ba_0, \quad
  x(b)= \frac{x_0}{b}
-\eeq\beq
- \Lam(b) = \frac{\Lam_0}{b}
 \eeq
 \beq
+ \Lam(b) = \frac{\Lam_0}{b},
+\quad
  \mu(b)=b\mu_0
 \eeq
 
 
+Note that $xa$ does not change when
+one iterates ($x_0a_0\rarrow xa$). So 
+if $a$ goes from $1$ to $2$, 
+$x$ is reduced by half.
+
+Note also that
 \beq
 \ln \mu 
 =
@@ -249,6 +239,21 @@ a(b)= ba_0
 \caption{Various functions of $b$}
 \label{fig-b-funs}
 \end{figure}
+
+An alternative
+notation that is very common is to
+use a prime for the output
+and to omit the 0 subscript 
+for the input. For example, to say
+$a'=ba$
+and $x'=x/b$ instead of $a=ba_0$
+and $x=x_0/b$. 
+Alternatively, one could write $a_{i+1}=ba_i$, $x_{i+1}=x_i/b$, etc. for
+the steps in an iteration.
+At the beginning 
+of each iteration (programming loop),
+$a_0$ is set equal to $a$,
+or $a'$ is set equal to $a$.
 
 
 
@@ -337,9 +342,9 @@ Note that a length $x$ has
 $D_x=1$ and $y_x=-1$\footnote{The fact that $D_x$ nd $y_x$
 have opposite signs
 instead of the same sign,
-is a matter of conventions. 
+is a matter of convention. 
 We follow here the standard
-convention}.
+convention.}.
 In some cases, it makes sense
 to set $y_q=-D_q$ for all quantities $q$.
 However, in other
@@ -373,7 +378,7 @@ a $d$-dimensional block with sides of length $x_0$
 into the info in a  block with sides of length $x_0/b$.
 
 
-In {\bf momentum space RG},
+In {\bf momentum space RG}, we
 integrate over the high frequency
 dofs in $\{\phi_p:
 \Lambda_0/b <|p|<\Lambda_0\}$.
@@ -413,7 +418,7 @@ be the value of a field
 at position $x\in \RR^d$.
  $\phi_x$
 is taken to be a random variable.
-How the average $\av{\phi_{x_1}\phi_{x_2}}$
+How the average $\av{\phi_{x_1},\phi_{x_2}}$
 decays with distance $r=|x_1-x_2|$
 is characterized by a decay length $\xi$
 called the \textbf{correlation length}
@@ -434,7 +439,7 @@ probabilistically independent dofs $\phi_x$.
 As mentioned before, in the
 case of lossless (resp., lossy)
 data-compression, one can (resp., cannot)
-set the engineering and fractal dimensions
+set the engineering and anomalous dimensions
  equal (up to a sign) for every
 physical quantity (i.e.,
 $y_q=-D_q$ for all $q$).
@@ -459,7 +464,7 @@ models describe this lossless regime.
 \section{Renormalization (semi-)group}
 Let $b, b_1,b_2,b_3\geq 1$.
 If $R_b$ denotes
-a {\bf renormalizaton transformation (iteration) 
+a {\bf renormalization transformation (one iteration) 
 with scaling factor $b$}, then clearly
 
 \beq
@@ -503,7 +508,7 @@ anyway.
 
 
 
-\section{RG streamlines}
+\section{RG flows}
 A theory is described by a Hamiltonian
 $H$. Each interaction term
 in the Hamiltonian is
@@ -512,8 +517,9 @@ by a different \textbf{generalized c.c. (coupling
 constant)} $K_j$
 which measures
 the strength of that
-interaction term. Let
-$\vec{K} = (K_1, K_2, \ldots K_{N_{c.c.}})$.
+interaction term. 
+$\vec{K} = (K_1, K_2, \ldots K_{N_{c.c.}})$
+is a point in {\bf c.c. space}.
 Applying $R_b$ once
 gives
 
@@ -540,14 +546,13 @@ for $n=0,1,2, \ldots$. The
 sequence $\vec{K}^{(0)},
 \vec{K}^{(1)}, \vec{K}^{(2)}, \ldots$
 describes a one-dimensional curve
-(a streamline, a flow)
+(a streamline, a flow,
+a parametric curve)
 in c.c. space. A different curve
 is traced for
 each initial condition
 $\vec{K}^{(0)}$. The streamlines
-flow from $b=1$ to $b=\infty$ (or,
-in $\calp$ language,
-from $\calp=1$ to $\calp=0$).
+flow from $b=1$ to $b=\infty$.
 
 \section{Fixed points of the trivial
 and critical kind}
