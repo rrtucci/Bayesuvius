@@ -4,9 +4,8 @@
 In this chapter, we discuss
 the Renormalization Group (RG)
 techniques in general.
-In the following chapter,
-we discuss how to
-apply them to bnets.
+Other chapters of this book 
+on the topic of RG are listed in Section \ref{sec-rg-examples}.
 
 This chapter is based on 
 an introduction to RG 
@@ -14,17 +13,21 @@ entitled \qt{Honey, I shrunk the theory} that I wrote for some friends in 2011.
 
 \section{Introduction}
  Renormalization Group (RG)
- describes how parameters scale
+theory
+ describes how the observables of
+a physical system scale
 near a critical point.
 
-The subject of renormalization
-methods includes the following topics:
+The subject of RG theory
+includes the following topics:
 \begin{itemize}
 \item {\bf regularization:}
-defining a divergent integral as the
-limit of a finite integral.
-The parameter than one takes
-the limit of is called the
+defining a finite integral
+from a  divergent integral.
+The parameter in the finite integral
+than one takes
+the limit of to get the divergent
+integral is called the
 regulator of the integral.
 Divergent integrals arise 
 in field theories because such
@@ -70,33 +73,38 @@ away from the particle.
 RG theory is
 truly a big tent.
 It has been applied in
-a wide variety of scientific areas.
+a wide variety of scientific disciplines.
 Here is a partial list of some of
 those areas. 
 
 \begin{itemize}
-\item classical Shannon information theory
-\item quantum information science, quantum
-Shannon information theory,
-study of quantum entanglement.
-Density Matrix Renormalization Group (DMRG).
-\item
-fluid mechanics (turbulence)
-\item
-chaos and fractal theory
-\item
-differential equations
-\item
-statistical mechanics (phase transitions)
-\item
-probability and statistics
 \item
 quantum field theory,
 both relativistic (used
 in High Energy Physics) and
 non-relativistic (used in Condensed Matter
 Physics)
+
+\item
+statistical mechanics (phase transitions,
+Density Matrix Renormalization Group (DMRG))
+
+\item
+fluid mechanics (turbulence)
+\item
+chaos and fractal theory
+\item
+differential equations
+
+\item
+probability and statistics
+
 \item Bayesian Networks, Neural Networks and AI
+
+\item classical Shannon information theory
+\item quantum information science, quantum
+Shannon information theory,
+study of quantum entanglement.
 \end{itemize}
 
 
@@ -112,7 +120,8 @@ RG theory
   are
 Ref.\cite{Mc} by McComb and Ref.\cite{Go} by Goldenfeld.
 
-A fine book by a High Energy Physicist on RG theory is Ref.\cite{Sr}
+A fine book by a High Energy Physicist 
+that covers RG theory is Ref.\cite{Sr}
 by Srednicki. Ref.\cite{Sr}
 covers much more than RG theory.
 It's a comprehensive  
@@ -122,7 +131,7 @@ book on  Quantum Field Theory.
 Taste in Physics books is very subjective so
 I advise you to inspect the books
 I've recommend
-and many others besides. Then
+and many others too. Then
 form your own opinions.
 
 Besides books, I 
@@ -149,7 +158,7 @@ Ref.\cite{wiki-scale-inv}
 \end{itemize}
 
 I've also found asking questions to AI's such as ChatGPT very helpful
-as learning tools.
+as a learning tool.
 
 
 
@@ -158,7 +167,7 @@ as learning tools.
 
 
 
-We will use units 
+We will use the units 
 used in High Energy
 Physics in which $\hbar$ (Plank's constant divided by $2\pi$) and $c$ (speed of light) are set to 1 
 temporarily, and then restored when one needs actual values in MKS units. In such units,
@@ -168,7 +177,7 @@ momentum are $L^{-1}$
 
 Let 
 
-pixel = distance between two adjacent lattice sites in 1-dim,
+pixel = region between two adjacent lattice sites in 1-dim,
 4 adjacent lattice sites in 2-dim, etc.
 
 $x, \ell=$ length in cm (or in any unit of length), a
@@ -198,7 +207,20 @@ a(b)= ba_0, \quad
 \quad
  \mu(b)=b\mu_0
 \eeq
-
+An alternative
+notation that is very common is to
+use a prime for the output
+and to omit the 0 subscript 
+for the input. For example, to say
+$a'=ba$
+and $x'=x/b$ instead of $a=ba_0$
+and $x=x_0/b$. 
+Alternatively, one could write $a_{i+1}=ba_i$, $x_{i+1}=x_i/b$, etc. for
+the steps in an iteration.
+At the beginning 
+of each iteration (programming loop),
+$a_0$ is set equal to $a$,
+or $a'$ is set equal to $a$.
 
 Note that $xa$ does not change when
 one iterates ($x_0a_0\rarrow xa$). So 
@@ -221,20 +243,6 @@ Note also that
 \label{fig-b-funs}
 \end{figure}
 
-An alternative
-notation that is very common is to
-use a prime for the output
-and to omit the 0 subscript 
-for the input. For example, to say
-$a'=ba$
-and $x'=x/b$ instead of $a=ba_0$
-and $x=x_0/b$. 
-Alternatively, one could write $a_{i+1}=ba_i$, $x_{i+1}=x_i/b$, etc. for
-the steps in an iteration.
-At the beginning 
-of each iteration (programming loop),
-$a_0$ is set equal to $a$,
-or $a'$ is set equal to $a$.
 
 
 
@@ -250,7 +258,8 @@ constant $g$ by
 \eeq
 Condensed Matter
 Physicists define
-the {\bf anomalous dimension}\footnote{For a full
+the {\bf anomalous dimension
+or negative fractal dimension}\footnote{For a full
 chapter on fractal dimension, see
 Chapter \ref{ch-fractal-dim}.
 The fractal dimension $D_f$,
@@ -290,7 +299,7 @@ can be assigned both an \textbf{engineering dimension} $D_q$
 given by dimensional analysis,
 and an \textbf{anomalous  dimension}
  $y_q$.
-This is expressed with the following notation:
+This is expressed by the following 2 equations:
 
 \beq
 [q]=L^{D_q}
@@ -557,25 +566,23 @@ H^{(n)}= R_b^n H^{(0)},
 for $n=0,1,2, \ldots$. The
 sequence $\vec{K}^{(0)},
 \vec{K}^{(1)}, \vec{K}^{(2)}, \ldots$
-describes a one-dimensional curve
-(a streamline, a flow,
-a parametric curve)
-in c.c. space. A different curve
+specifies 
+ a one-dimensional parametric curve in c.c. space
+called an {\bf RG streamline or flow}. A different curve
 is traced for
 each initial condition
 $\vec{K}^{(0)}$. The streamlines
 flow from $b=1$ to $b=\infty$.
 
-\section{Fixed points of the trivial
-and critical kind}
+\section{Fixed points}
 
-If, as $n$ tends to infinity,
+If, as $n\rarrow \infty$,
 \beq
 \vec{K}^{(n)}\rightarrow \vec{K}^*
 \;,
 \eeq
 we say $\vec{K}^*$ is a
-\textbf{fixed point in the c.c.'s}.
+\textbf{fixed point} in the c.c. space.
 Other functions of $\vec{K}$
 like the Hamiltonian $H(\vec{K})$
 and the correlation length $\xi(\vec{K})$
@@ -628,6 +635,11 @@ in terms of
 lossy data-compression
 and fractal dimensions for the c.c.'s.
 
+The temperature at which
+a critical point occurs
+is called its {\bf critical temperature}
+and is
+denoted by $T_c$.
 \begin{figure}[h!]
 \centering
 \includegraphics[height=2.5in]
@@ -643,21 +655,18 @@ occur in Nature are
 \begin{itemize}
 \item the Curie temperature of
 an Ising system (the temperature
-at which the magnetization of the
-system goes, at zero
-externally applied magnetic field, from
-zero to growing, spontaneously).
+$T_c$ at which the magnetization of a
+system at zero
+externally applied magnetic field, 
+switches between
+zero ($T>T_c$) and growing spontaneously ($T<T_c$)).
 \item
 the critical point of water (a
 unique point in the PVT phase diagram
 of water, a point at which gaseous and liquid
 water coexist). See Fig.\ref{fig-pd-water}.
 \end{itemize}
-The temperature at which
-a critical point occurs
-is called its {\bf critical temperature}
-and is
-denoted by $T_c$.
+
 
 
 A {\bf first order phase transition (1PT)}
@@ -685,7 +694,7 @@ three 1PT lines meet at it.
 
 
 
-\section{Relevant, marginal and irrelevant operators}
+\section{Relevant operators}
 
 It is interesting
 to analyze the behavior
@@ -710,10 +719,10 @@ The set of all points that flow into
  the critical point 
 is called the \textbf{critical surface or stable manifold
 or basin of attraction}.
-The set of points that are repelled by the critical point is called the {\bf unstable manifold}.
+The set of points that flow away from the critical point is called the {\bf unstable manifold}.
 The critical surface is important because it describes all microscopic systems that become critical after coarse-graining.
 The unstable manifold describes less 
-interesting systems that flee from criticality.
+interesting systems that flee from the critical point.
 
 As a consequence
 of Eq.(\ref{eq-xi-zero-to-n}),
@@ -809,12 +818,12 @@ critical surface. For all $b$, the streamlines stay
 either above or below the critical surface.
 
 If the initial conditions
-are such that the theory starts
+are such that the system starts
 somewhere on the critical surface,
 then for $b$ large enough,
-the theory ends at point $C$ where
+the system ends at point $C$ where
 $g_1=g_2=0$. On the
-other hand, if the theory
+other hand, if the system
 starts at a point such as $A$
 which is close
 to the critical surface but not on it,
@@ -823,7 +832,7 @@ relevant c.c. $g_2$)
 shrinks (resp., grows)
 monotonically
 as $b$ grows.
-By the time the theory reaches, say,
+By the time the system reaches, say,
 point $B$,
 $g_1$ is negligible,
 and
@@ -847,7 +856,7 @@ by a slew of
 It is common to define
 6 critical exponents $\alpha, \beta,
 \gamma, \delta,\nu ,\eta$ (all defined
-so as to be non-negative)
+so as to be non-negative). These are
 defined on page 150 of McComb.
 One
 can use very general
@@ -855,8 +864,8 @@ thermodynamic arguments to prove
 that these 6 exponents must satisfy
 4 simple relationships
 between them. Thus,
-one need only calculate 2 of
-6. The 2 that are usually calculated
+one need only measure 2 of
+6. The 2 that are usually measured
 are
 $\nu$ and $\eta$.
 
@@ -911,8 +920,8 @@ For example, the $\phi^4$ theory
 has a single trivial fixed point for $d\geq 4$,
 but for $1<d< 4$,
 it has a single critical fixed
-point, called the Wilson-Fisher point,
-which has the same critical exponents
+point, called the Wilson-Fisher (WF) point. The WF fixed point
+ has the same critical exponents
 as the critical point
 of the Ising model in $d$ dimensions.
 
@@ -938,7 +947,7 @@ describes infinitely many
 harmonic
 oscillators, and each of
 those harmonic oscillators  has a
-finite zero-point energy of $\hbar\omega/2$.
+finite zero-point (ground state) energy of $\hbar\omega/2$.
 One regulates the infinities
 of a quantum field theory
 by introducing a \textbf{regulator}
@@ -1000,7 +1009,7 @@ Hence, $p=d(1-\frac{n}{2}) + n$.
 For example, in the $\phi^3$
 theory in 6 dimensions considered
 in Srednicki's book Ref.\cite{Sr},
-one gets, using $d = 6-\epsilon$, that
+one gets, using $n=3$ and $d = 6-\epsilon$, that
 $p= -(6-\epsilon)\frac{1}{2} + 3
 = \frac{\epsilon}{2}$.}
 In both cases (1) and (2), we need to
@@ -1037,7 +1046,8 @@ are used to represent them)
 is a product
 of quantities that is dimensionless:
 \beq
-[\mbox{dim-analysis pi-group}]=L^0
+\text{
+engineering dim of pi-group}=L^0
 \;.
 \eeq
 Analogously, in RG theory, one
@@ -1060,16 +1070,18 @@ just a special case of Eq.(\ref{eq-callan}).
 
 
 \section{Examples of use of RG theory}
+\label{sec-rg-examples}
 
 This book describes how to 
-apply RG theory to 3 systems:
+apply RG theory to 3 physical systems:
 
 \begin{enumerate}
 \item RG for Ising Model, Chapter \ref{ch-renorm-group-ising}
 
 \item RG for $\phi^4$ theory, Chapter \ref{ch-renorm-group-phi-four}
 
-\item RG for Bayesian Networks, Chapter \ref{ch-renorm-group-bnets}
+\item RG for Bayesian Networks, Chapters \ref{ch-ising-dbnet}
+and \ref{ch-renorm-group-bnets}
 \end{enumerate}
 
 
