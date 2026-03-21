@@ -36,18 +36,9 @@ $\phi^4$ theory in $d$ dimensions is
 \frac{\lambda_0}{4!}\phi_0^4
 \eeq
 
-Dressed Lagrangian density:
-\beq
-\call =
-\frac12\sum_{j=1}^d (\partial_{x_j} \phi)^2
-+
-\frac12 m^2 \phi^2
-+
-\frac{\lambda}{4!}\phi^4
-\eeq
 
 \beq
-\engdim{\int d^d x \call}
+\engdim{\int d^d x \call_0}
 =L^0
 \eeq
 
@@ -74,7 +65,8 @@ m_0^2 = Z_m m^2(\mu)
 
 \begin{claim}
 \beq
-\engdim{\phi}= L^{\frac{2-d}{2}}
+\engdim{\phi_0}=\engdim{\phi}= L^{\frac{2-d}{2}},\quad
+\engdim{m^2_0}=\engdim{m^2}=L^{-2}
 \eeq
 \end{claim}
 \proof
@@ -140,25 +132,46 @@ p= \frac{\epsilon}{2}
 
 
 
-\beqa
-\call_0&=&
-Z_\phi\left[
-\frac12
-(\partial_\mu \phi)^2
-+
-Z_m m^2 \phi^2
-+
-Z_\lam Z_\phi
-\frac{\lambda}{4!}\phi^4
-\right]
-\\
-&=&
-Z_\phi \call 
-\quad (\text{Assume $Z_\phi= 1/Z_\lam$})
-\eeqa
+%\beqa
+%\call_0&=&
+%Z_\phi\left[
+%\frac12
+%(\partial_\mu \phi)^2
+%+
+%Z_m m^2 \phi^2
+%+
+%\mu^\eps Z_\lam Z_\phi
+%\frac{\lambda}{4!}\phi^4
+%\right]
+%\\
+%&=&
+%\call + \Delta \call
+%\eeqa
+%Counterterms $\Delta\call$
+%
+%\beq
+%\Delta \call=
+%=\left\{
+%\begin{array}{l}
+%(Z_\phi-1)
+%\frac12
+%(\partial_\mu \phi)^2
+%\\
+%+
+%(Z_mZ_\phi -1)m^2 \phi^2
+%\\
+%+
+%(\mu^\eps Z_\lam Z_\phi^2-1)
+%\frac{\lambda}{4!}\phi^4
+%\end{array}
+%\right.
+%\eeq
 
 \begin{subequations}
 \label{eqs-micro-no-change}
+\beq
+\frac{d}{d\mu} \phi_0 =0
+\eeq
 \beq
 \frac{d}{d\mu} m_0^2 =0
 \eeq
@@ -178,12 +191,13 @@ Because the bare parameters are $\mu$-independent, the renormalized ones must \q
 
 Define
 
- beta function
-
+field anomlous dimension
 \beq
-\beta =
- \frac{d\lambda}{d\ln \mu}
+\gamma_\phi =
+-\;\frac{d \ln \phi}{d\ln \mu}
 \eeq
+
+ 
 
  mass anomalous dimension
 
@@ -192,21 +206,129 @@ Define
 -\;\frac{d \ln m^2}{d\ln \mu}
 \eeq
 
+beta function
 
-
-\begin{claim} (one loop results)
 \beq
-\beta=
--\epsilon \lambda
-+
-\frac{3}{16\pi^2}\lambda^2
+\beta =
+ \frac{d\lambda}{d\ln \mu}
+\eeq
+\begin{claim}(no wavefunction renormalization at 1-loop)
+\beq
+Z_\phi = 1 + O(\lambda^2)\eeq
+\end{claim}
+\proof
+\qed
+
+\begin{claim}
+\beq
+\lam_0 =
+\mu^\eps \tilde{Z}_\lam\tilde{\lam}
+\eeq
+where
+
+\beq
+\tilde{Z}_\lam = 1 + \lam a\left(
+\frac{1}{\eps}-b\right) +\calo(\lam^2)
 \eeq
 
 \beq
-\gamma_m=\frac{\lambda}{16\pi^2}
+\tilde{\lam}=
+\lam[1 + c\lam + \calo(\lam^2)]
+\eeq
+with
+
+\beq
+a= \frac{3}{(4\pi)^2}
+\eeq
+
+\beq
+\left\{
+\begin{array}{ll}
+b=0 &
+\text{if Minimal Subtraction  (MS)}
+\\
+b = -\gamma_E + \ln(4\pi) &
+ \text{if Modified Minimal Subtraction  (MMS)}
+\end{array}
+\right.
+\eeq
+\beq 
+c=ab
 \eeq
 \end{claim}
 \proof
+\qed
+
+\begin{claim} 
+
+\beq
+\boxed{\beta(\lam)=
+-\epsilon \lambda
++a\lam^2
+\quad
+\text{ where }
+a= \frac{3}{(4\pi)^2}}
+\eeq
+
+
+\end{claim}
+\proof
+
+
+\beq
+\lam_0=
+\mu^\eps \lam
+\left[1+
+\lam a\left(
+\frac{1}{\eps}-b\right)
++ c\lam + \calo(\lam^2)
+\right]
+\eeq
+If $ab=c$, then
+
+\beq
+\lam_0=
+\mu^\eps \lam
+\left[1+\frac{\lam a}{\eps} +\calo(\lam^2)
+\right]
+\eeq
+
+\beqa
+0&=&\mu\frac{d\lam_0}{d\mu}
+\\
+&=&
+\mu\frac{d}{d\mu}
+\left(\mu^\eps
+\left[\lam+\frac{\lam^2 a}{\eps}
++\calo(\lam^3) 
+\right]\right)
+\\
+&=&
+\eps\mu^\eps
+\left[\lam+\frac{\lam^2 a}{\eps}
+\right]
++
+\mu^\eps \beta(\lam)
+\left[1+\frac{2\lam a}{\eps}
+\right]
++
+\calo(\lam^3)
+\eeqa
+
+\beqa
+\beta(\lam)
+&=&
+-\eps\lam
+\frac{1+\frac{\lam a}{\eps}}
+{1+\frac{2\lam a}{\eps}} +\calo(\lam^3)
+\\
+&=&
+-\eps\lam\left(
+1-\frac{\lam a}{\eps} 
+\right)+\calo(\lam^3)
+\\
+&=& -\eps\lam +a \lam^2
+\eeqa
 \qed
 
 
@@ -230,36 +352,7 @@ so the fixed point is Gaussian.
 For $d<4$ a non-trivial fixed point appears.
 This fixed point describes the {\bf Ising universality class}.
 
-\beq
-\frac{d\lam}{d\ln\mu}=a\lam^n
-\eeq
 
-For $n>1$
-\beq
-\frac{1}{\lam^{n-1}(\mu)}
--
-\frac{1}{\lam^{n-1}(\mu_0)}
-=
--(n-1)a\ln\left(\frac{\mu}{\mu_0}\right)
-\eeq
-
-\beq
-K(\mu)=\frac{1}{(n-1)a \lam^{n-1}(\mu)} +\ln \mu
-\eeq
-
-\beq
-K(\mu)=K(\mu_0)
-\eeq
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=5.9in]
-{running-coupling.png}
-\caption{Running Coupling constant $\lam(\mu)$
-for $\beta=a\lam^n$ for
-cases $n=1$ and $n>1$.}
-\label{fig-running-coupling}
-\end{figure}
 
 The critical point of the $\phi^4$ theory and that of the Ising model
 are
@@ -289,7 +382,619 @@ where
 y_t = -\gamma_m=\frac{1}{\nu}
 \eeq
 
- 
+
+
+
+\beqa
+\Gamma^{(4)}&=&
+\underbrace
+{\bcen
+\xymatrix{
+\ar@{-}[dr]
+&
+&
+\\
+& \ar@{-}[ur]\ar@{-}[dr]\lam
+&
+\\
+\ar@{-}[ur]
+&
+&
+}
+\ecen}_{\lam}
++
+\underbrace{\bcen
+\xymatrix{
+\ar@{-}[dr]
+&
+&
+&
+\\
+&\ar@{-}@/_1pc/[r]\ar@{-}@/^1pc/[r]
+\lam
+& \ar@{-}[ur]\ar@{-}[dr]\lam
+&
+\\
+\ar@{-}[ur]
+&
+&
+&
+}
+\ecen}_{\Gamma^{(4)}_{\text{1-loop}}}
++\calo(\lam^3)
+\eeqa
+
+\beq
+\Gamma^{(4)}_{\text{1-loop}}=
+\frac{3\lam^2}{2}
+\underbrace{
+\int
+\frac{d^d k}{(2\pi)^d}
+\frac{1}{(k^2+m^2)^2}}_{\cali}
+\eeq
+
+
+
+
+Define
+
+\beq
+\cali = \int
+\frac{d^d k}{(2\pi)^d}
+\frac{1}{(k^2+m^2)^2}
+\eeq
+\begin{claim}
+
+\beq
+\cali=
+\frac{1}{8\pi^2}
+\left(
+\frac{1}{\eps}  
+-\ln\left(\frac{m}{\mu_E}\right)
+\right) + \calo(\eps)
+\eeq
+\beq
+\mu_E = 2\sqrt{e^{-\gamma_E}\pi}
+\eeq
+
+\end{claim}
+\proof
+\beqa
+\cali&=&
+\frac{1}{(4\pi)^{d/2}}
+\Gamma\left(2-\frac{d}{2}\right)
+(m^2)^{\frac{d}{2}-2}
+\\
+&=&
+\frac{1}{(4\pi)^{2-\eps/2}}
+\Gamma\left(\frac{\eps}{2}\right)
+(m^2)^{-\frac{\eps}{2}}
+\eeqa
+
+
+
+\beq
+\Gamma\left(\frac{\eps}{2}\right)
+\approx
+\frac{2}{\eps}-\gamma_E  + \calo(\eps)
+\eeq
+$\gamma_E \approx 0.58$ Euler constant
+
+\beq
+\left(\frac{m^2}{4\pi}\right)^{-\frac{\eps}{2}}
+= 1 -\frac{\eps}{2}\ln\left(\frac{m^2}{4\pi}\right)+\calo(\eps^2)
+\eeq
+
+\beq
+\cali=
+\frac{1}{(4\pi)^2}
+\left(
+\frac{2}{\eps} -\gamma_E 
+-\ln\left(\frac{m^2}{4\pi}\right)
+\right)
+\eeq
+
+\qed
+
+\section{Coupling behavior near fixed points}
+
+
+
+\beq
+\int_{\lam_0}^\lam\frac{d\lam}{\beta(\lam)}=\int_{\mu_0}^\mu d\ln(\mu)
+\eeq
+
+\beqa
+\beta(\lam) &=& -\eps\lam + a\lam^2 +\calo(\lam^3)
+\\
+&=&
+a\lam(\lam-\lam^*)
+\eeqa
+
+\beq
+\beta(\lam)= a(\lam-\lam^*_1)(\lam-\lam^*_2)\ldots(\lam-\lam^*_n)
+\eeq
+
+\beq
+\beta(\lam)\approx (\lam-\lam^*_1)
+\underbrace{a(\lam^*_1-\lam^*_2)\ldots(\lam^*_1-\lam^*_n)}_R
+\eeq
+
+\beq
+\ln\frac{|\lam-\lam^*|}
+{|\lam_0-\lam^*|}
+=R
+\ln\frac{\mu}{\mu_0}
+\eeq
+
+
+%
+%\beq
+%\frac{d\lam}{d\ln\mu}=a\lam^n
+%\eeq
+%
+%For $n=1$,
+%
+%\beq
+%\frac{1}{a}\ln\left(\frac{\lam(\mu)}{\lam(\mu_0)}\right)=
+%\ln\left(\frac{\mu}{\mu_0}\right)
+%\eeq
+%Define
+%\beq
+%K(\lam, \mu)= \frac{1}{a}\ln\left(\frac{1}{\lam(\mu)}\right) +\ln\mu
+%\eeq
+%
+%For $n>1$
+%\beq
+%\frac{1}{\lam^{n-1}(\mu)}
+%-
+%\frac{1}{\lam^{n-1}(\mu_0)}
+%=
+%-(n-1)a\ln\left(\frac{\mu}{\mu_0}\right)
+%\eeq
+%Define
+%\beq
+%K(\mu, \lam)=\frac{1}{(n-1)a \lam^{n-1}(\mu)} +\ln \mu
+%\eeq
+%
+%\beq
+%K(\lam,\mu)=K(\lam_0, \mu_0)
+%\eeq
+%
+%\begin{figure}[h!]
+%\centering
+%\includegraphics[width=5.9in]
+%{running-coupling.png}
+%\caption{Running Coupling constant $\lam(\mu)$
+%for $\beta=a\lam^n$ for
+%cases $n=1$ and $n>1$.}
+%\label{fig-running-coupling}
+%\end{figure}
+
+\section{Beta function from a potential}
+
+Newton's equation says 
+\beq
+m\ddot{x}= F
+\eeq
+where $m=$mass, $x=$ position, and $F=$ force. But
+you could  have, once the acceleration dies down,
+an equilibrium between a drag force and a propulsion force. Let
+
+$\gamma \dot{x}=$ drag,  a velocity dependent force with $\gamma>0$
+
+$F=-\partial_x V=$ propulsion, a conservative force with potential function $V$
+
+Then, at equilibrium,
+
+\beq \gamma\dot{x}=F = -\partial_x V
+\label{eq-phi-four-drag-prop}
+\eeq
+
+Note that
+
+\beq
+\gamma\partial_x\dot{x}=F = -\partial_x^2 V
+\eeq
+
+
+As shown in Fig.\ref{fig-V-derivatives-phi-four},
+$V$ has positive second derivative
+(hold water convexity)
+on both sides of a {\bf stable, attractive fixed  point (attractor, sink)},
+and it has negative second derivative
+(drop water convexity)
+on both sides of an {\bf unstable, repulsive fixed point (repeller, source)}. Hence, we can think of
+$V$ as a potential in which a ball rolls towards an attractor
+and away from a repeller.
+
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4in]
+{../dynamical-sys/V-derivatives.png}
+\caption{Illustration of
+$\frac{d\dot{x}}{dx}=-\partial^2_xV$. Arrows
+in vector field are 
+proportional to $\dot{x}$. }
+\label{fig-V-derivatives-phi-four}
+\end{figure} 
+
+Now 
+set
+position =$x\rarrow \lam$, time=$t\rarrow \ln \mu$,
+and $\gamma=1$
+in Eq.(\ref{eq-phi-four-drag-prop})
+
+\beq
+\frac{d \lam}{dt}= \beta(\lam) = -\partial_\lam V
+\eeq
+
+\beq
+V(\lam)-V(\lam_0)
+=
+-\int_{\lam_0}^\lam
+d\lam\; \beta(\lam)
+\eeq
+
+\beq
+\beta(\lam)= -\eps \lam + a\lam^2
+\implies V(\lam)= \frac{\eps}{2}\lam^2-
+\frac{a}{3}\lam^3 + \text{constant}
+\eeq
+
+Minimum at $\lam=0$ and maximum at
+
+\beq
+0=\partial_\lam V(\lam^*)=-\beta(\lam_*)
+\eeq
+
+\beq 
+\lam^*=\frac{3\eps}{2a}
+\eeq
+Wilson-Fisher fixed point (Curie point)
+
+
+\section{tempo}
+
+
+ 2. The diagram: 1-loop 4-point function
+
+There are **3 identical “fish” diagrams** (s, t, u channels).
+
+Each gives:
+$$
+\sim \lambda^2 \mu^{2\epsilon} I(p)
+$$
+
+We compute one and multiply by 3.
+
+---
+
+ 3. The loop integral
+
+Take the s-channel:
+
+\begin{claim}
+If
+\beq
+\calj = \int \frac{d^d k}{(2\pi)^d}
+\frac{1}{(k^2 + m^2)((k+p)^2 + m^2)}
+\eeq
+then
+\beq
+\calj =
+\frac{2}{(4\pi)^2}
+\left[
+\frac{1}{\eps} 
+-\ln\left(\frac{\mu}{M\sqrt{4\pi}}
+\right)
+\right]
+\eeq
+with
+\beq
+M^2 = \exp\left(\int_0^1dx\; \ln\Delta\right)
+\eeq
+\beq\Delta = m^2 + x(1-x)p^2
+\eeq
+\end{claim}
+\proof
+\qed
+
+Use Feynman parameters:
+$$
+\frac{1}{AB} = \int_0^1 dx \frac{1}{[xA + (1-x)B]^2}
+$$
+
+So:
+$$
+I(s) = \int_0^1 dx \int \frac{d^d k}{(2\pi)^d}
+\frac{1}{\left[(k + xp)^2 + \Delta\right]^2}
+$$
+
+
+
+Shift $k \to k - xp$:
+
+$$
+I(s) = \int_0^1 dx \int \frac{d^d k}{(2\pi)^d}
+\frac{1}{(k^2 + \Delta)^2}
+$$
+
+---
+
+ 4. Dimensional regularization integral
+
+Standard formula:
+$$
+\int \frac{d^d k}{(2\pi)^d}
+\frac{1}{(k^2 + \Delta)^2}
+=
+\frac{1}{(4\pi)^{d/2}}
+\frac{\Gamma(2 - d/2)}{\Gamma(2)}
+\Delta^{d/2 - 2}
+$$
+
+Set $d = 4 - \epsilon$:
+
+* $d/2 = 2 - \epsilon/2$
+* $2 - d/2 = \epsilon/2$
+
+So:
+$$
+I(s) =
+\int_0^1 dx,
+\frac{1}{(4\pi)^{2 - \epsilon/2}}
+\Gamma(\epsilon/2)
+\Delta^{-\epsilon/2}
+$$
+
+---
+
+ 5. Expand everything
+
+We now expand all pieces:
+
+ Gamma function:
+
+$$
+\Gamma(\epsilon/2)
+= \frac{2}{\epsilon}
+$$
+* $4\gamma$
+
+$- O(\epsilon)
+  $
+
+ Power:
+
+$$
+\Delta^{-\epsilon/2}
+= e^{-(\epsilon/2)\ln \Delta}
+= 1 - \frac{\epsilon}{2}\ln \Delta + O(\epsilon^2)
+$$
+
+ Prefactor:
+
+$$
+(4\pi)^{-2 + \epsilon/2}
+= \frac{1}{(4\pi)^2}
+\left(1 + \frac{\epsilon}{2}\ln 4\pi \right)
+$$
+
+---
+
+ 6. Multiply pieces
+
+Putting it all together:
+
+$$
+I(s) =
+\int_0^1 dx,
+\frac{1}{(4\pi)^2}
+\left[
+\frac{2}{\epsilon}
+\gamma- \ln 4\pi
+ \ln \Delta
+- O(\epsilon)
+  \right]
+  $$
+
+So:
+$$
+I(s) =
+\frac{1}{(4\pi)^2}
+\left[
+\frac{2}{\epsilon}
+\gamma
+- \ln 4\pi
+\int_0^1 dx \ln \Delta
+  \right]
+  $$
+
+---
+
+ 7. Insert $\mu^\epsilon$
+
+Each vertex contributes $\mu^\epsilon$, so diagram has $\mu^{2\epsilon}$.
+
+Expand:
+$$
+\mu^{2\epsilon}
+= 1 + 2\epsilon \ln \mu + O(\epsilon^2)
+$$
+
+Multiply with $2/\epsilon$:
+
+$$
+\mu^{2\epsilon} \cdot \frac{2}{\epsilon}
+=\frac{2}{\epsilon} + 4\ln \mu
+$$
+
+So the full divergent + log structure becomes:
+
+$$
+\frac{2}{\epsilon}
+\gamma
+- \ln 4\pi
+- 2\ln \mu^2
+\ln \Delta
+  $$
+
+Combine logs:
+$$
+\ln \left(\frac{\mu^2}{\Delta}\right)
+$$
+
+---
+
+ 8. Final 1-loop correction
+
+Including combinatorics (3 channels):
+
+$$
+\mathcal{M}^{(1)} =
+\frac{3\lambda^2}{2}
+\cdot \frac{1}{(4\pi)^2}
+\left[
+\frac{2}{\epsilon}
+\gamma + \ln 4\pi
+- \ln\left(\frac{\mu^2}{\text{scale}}\right)
+  \right]
+  $$
+
+(The exact finite log depends on kinematics.)
+
+---
+
+ 9. Renormalization: $\overline{\text{MS}}$
+
+In $\overline{\text{MS}}$, subtract:
+$$
+\frac{2}{\epsilon} - \gamma + \ln 4\pi
+$$
+
+So we choose:
+$$
+Z_\lambda = 1 + \frac{3\lambda}{(4\pi)^2}\frac{1}{\epsilon}
+$$
+
+(Only pole part matters!)
+
+---
+
+ 10. Compute $\beta$-function
+
+Key relation:
+$$
+\lambda_0 = \mu^\epsilon Z_\lambda \lambda
+$$
+
+Bare coupling is $\mu$-independent:
+$$
+\mu \frac{d}{d\mu} \lambda_0 = 0
+$$
+
+Differentiate:
+$$
+0 =
+\mu^\epsilon
+\left[
+\epsilon \lambda
+\beta(\lambda)
+  \right]
+  Z_\lambda
+\mu^\epsilon \lambda \mu \frac{d Z_\lambda}{d\mu}
+  $$
+
+---
+
+ 11. Use chain rule
+
+$$
+\mu \frac{d Z_\lambda}{d\mu}
+=
+\beta(\lambda)\frac{d Z_\lambda}{d\lambda}
+$$
+
+So:
+$$
+0 =
+\epsilon \lambda
+\beta
+ \lambda \beta \frac{d \ln Z_\lambda}{d\lambda}
+  $$
+
+---
+
+ 12. Expand $Z_\lambda$
+
+$$
+Z_\lambda = 1 + \frac{3\lambda}{(4\pi)^2}\frac{1}{\epsilon}
+$$
+
+So:
+$$
+\ln Z_\lambda =
+\frac{3\lambda}{(4\pi)^2}\frac{1}{\epsilon}
+$$
+
+Then:
+$$
+\frac{d \ln Z_\lambda}{d\lambda}
+=\frac{3}{(4\pi)^2}\frac{1}{\epsilon}
+$$
+
+---
+
+ 13. Solve for $\beta$
+
+Plug in:
+$$
+0 = \epsilon \lambda + \beta + \lambda \beta \frac{3}{(4\pi)^2}\frac{1}{\epsilon}
+$$
+
+Now expand $\beta$ as:
+$$
+\beta = -\epsilon \lambda + A \lambda^2 + O(\lambda^3)
+$$
+
+Plug in and match order $\lambda^2$:
+
+You get:
+$$
+A = \frac{3}{(4\pi)^2}
+$$
+
+---
+
+ 14. Final result
+
+$$
+\boxed{
+\beta(\lambda)
+=
+-\epsilon \lambda
+\frac{3}{(4\pi)^2}\lambda^2
+O(\lambda^3)
+  }
+  $$
+
+---
+
+ 15. Key conceptual takeaway
+
+* The **$\ln \mu$** came from expanding $\mu^\epsilon$
+* In $\overline{\text{MS}}$, you **throw away everything except the pole**
+* The $\beta$-function is determined **entirely by the $1/\epsilon$ coefficient**
+
+---
+
+If you want, next step I can:
+
+* derive the **mass anomalous dimension** the same way, or
+* show how this directly produces the **Wilson–Fisher fixed point**.
 
 
 
