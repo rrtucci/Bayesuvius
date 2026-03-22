@@ -232,7 +232,7 @@ Z_\phi^2\left[
 }
 \ecen
 +
-3
+\frac{3}{2}
 \bcen
 \xymatrix{
 \ar@{-}[dr]
@@ -256,54 +256,76 @@ Z_\phi^2\left[
 \\
 &=&
 Z_\phi^2\left[
-\lam_0+  \lam_0^2 3\cali
+\lam_0+  \lam_0^2 \frac{3}{2}\cali
 \right]
 \eeqa
-
 3 equal one-loop integrals $\cali$, one for each channel (s, t, u)
 
 \beq
+\bcen
+\xymatrix@C=3pc{
+\ar[dr]|{p_1}
+&
+&
+&
+\\
+&\ar@/_1pc/[r]|{k+p}\ar@/^1pc/@{<-}[r]|{k}
+\lam_0
+& \ar[ur]\ar[dr]\lam_0
+&
+\\
+\ar[ur]|{p-p_1}
+&
+&
+&
+}
+\ecen
 \cali = \int \frac{d^d k}{(2\pi)^d}
 \frac{1}{(k^2 + m^2)((k+p)^2 + m^2)}
 \eeq
+
 \begin{mdframed}[hidealllines=true,backgroundcolor=blue!10]
 \begin{claim}
 \beq
 \cali=
 \frac{2}{(4\pi)^2}
 \left(
-\frac{1}{\eps}
--\frac{1}{2}\int_0^1 dx\;\ln\left(\frac{\Delta}{4\pi e^{-\gamma_E}}\right)
+\frac{1}{\eps}-b_0
+-\ln M(p)
 \right)
 +\calo(\eps)
+\eeq
+
+\beq
+\ln M(p)= \frac{1}{2}\int_0^1 dx\;\ln\left(\Delta\right)
+\eeq
+
+\beq
+b_0=\frac{1}{2}[\gamma_E -\ln(4\pi)]
 \eeq
 
 \beq
 \Delta = m^2 + x(1-x)p^2
 \eeq
 \end{claim}
-\proof
+\noindent \proof
 
 Use Feynman parameters:
 \beq
 \frac{1}{AB} = \int_0^1 dx \frac{1}{[xA + (1-x)B]^2}
 \eeq
-
 So:
+
 \beq
 \cali = \int_0^1 dx \int \frac{d^d k}{(2\pi)^d}
 \frac{1}{\left[(k + xp)^2 + \Delta\right]^2}
 \eeq
-
-
-
 Shift $k \to k - xp$:
 
 \beq
 \cali = \int_0^1 dx \int \frac{d^d k}{(2\pi)^d}
 \frac{1}{(k^2 + \Delta)^2}
 \eeq
-
 Dimensional regularization integral
 Standard formula:
 
@@ -315,7 +337,6 @@ Standard formula:
 \Gamma\left(2-\frac{d}{2}\right)
 \Delta^{\frac{d}{2} - 2}
 \eeq
-
 Set $d = 4 - \epsilon$:
 
 
@@ -326,7 +347,6 @@ Set $d = 4 - \epsilon$:
 \int_0^1 dx\;
 \Delta^{-\frac{\eps}{2}}
 \eeq
-
 Expand everything
 
 \beq
@@ -353,8 +373,8 @@ Multiply pieces
 &=&
 \frac{2}{(4\pi)^2}
 \left(
-\frac{1}{\eps}
--\frac{1}{2}\int_0^1 dx\;\ln\left(\frac{\Delta}{4\pi e^{-\gamma_E}}\right)
+\frac{1}{\eps}-b_0
+-\frac{1}{2}\int_0^1 dx\;\ln\left(\Delta\right)
 \right)
 \eeqa
 
@@ -379,12 +399,13 @@ a= \frac{3}{(4\pi)^2}\approx 0.0190,
 \eeq
 
 \beq
+b=
 \left\{
 \begin{array}{ll}
-b=0 &
+0 &
 \text{if Minimal Subtraction  (MS)}
 \\
-b = \gamma_E - \ln(4\pi) &
+b_0&
  \text{if Modified Minimal Subtraction  (MMS)}
 \end{array}
 \right.
@@ -392,6 +413,55 @@ b = \gamma_E - \ln(4\pi) &
 
 \end{claim}
 \proof
+
+\beq
+\underbrace{\mu^\eps}_{1+\eps \ln\mu}\cali=
+\frac{2}{(4\pi)^2}
+\left(
+\frac{1}{\eps}
++\ln \left(\frac{\mu}{M(p)}\right)
+\right)
++\calo(\eps)
+\eeq
+
+\beqa
+\Gamma^{(4)}
+&=& Z_\phi^2\left[
+\lam_0+  \lam_0^2 \frac{3}{2}\cali
+\right]
+\\
+&=&[1+\calo(\lam^2)]
+[
+\mu^\eps \underbrace{Z_\lam}_{1+\delta Z_\lam} \lam
++
+\mu^{ 2\eps} \underbrace{Z^2_\lam}
+_{1+\calo(\lam)} \lam^2
+\frac{3}{2}\cali
+]
+\eeqa
+
+\beq
+\mu^\eps \cali=
+\frac{2}{(4\pi)^2}\left(
+\frac{1}{\eps}-b +\ln\left[\frac{\mu}{M(p)}\right]
+\right)
+\eeq
+
+
+\beq
+\delta Z_\lam
+=\lam\frac{3}{2}
+(\mu^{\eps}\cali)_{div}
+=\lam\frac{3}{2}
+\frac{2}{(4\pi)^2}\left(
+\frac{1}{\eps}-b
+\right)
+=a\lam\left(
+\frac{1}{\eps}-b
+\right)
+\eeq
+
+
 \qed
 
 
@@ -753,193 +823,30 @@ Minimum at $\lam=0$ and maximum at
 \beq
 0=\partial_\lam V(\lam^*)=-\beta(\lam^*)
 \implies \quad
-\lam^*=\frac{\eps}{a}
+\lam^*=\frac{\eps}{a},
+\quad V(\lam^*)=\frac{\eps^3}{6a^2}
 \eeq
-Wilson-Fisher fixed point (Curie point)
+Wilson-Fisher fixed point (Curie point).
+
+Recall
+
+\beq
+\ln b = \ln \mu =\ln\left(\frac{1}{\Lam}\right) 
+\eeq
+
+larger $b$ (coarser grid) $\implies$ smaller $\Lam$ (UV energies)
+
+smaller $b$ (finer grid) $\implies$ larger $\Lam$ (Infrared energies)
 
 
-\section{tempo}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=3in]
+{beta-potential.png}
+\caption{Beta  Potential curve $V(\lam)$}
+\label{fig-beta-potential}
+\end{figure}
 
- 7. Insert $\mu^\epsilon$
-
-Each vertex contributes $\mu^\epsilon$, so diagram has $\mu^{2\epsilon}$.
-
-Expand:
-$$
-\mu^{2\epsilon}
-= 1 + 2\epsilon \ln \mu + O(\epsilon^2)
-$$
-
-Multiply with $2/\epsilon$:
-
-$$
-\mu^{2\epsilon} \cdot \frac{2}{\epsilon}
-=\frac{2}{\epsilon} + 4\ln \mu
-$$
-
-So the full divergent + log structure becomes:
-
-$$
-\frac{2}{\epsilon}
-\gamma
-- \ln 4\pi
-- 2\ln \mu^2
-\ln \Delta
-  $$
-
-Combine logs:
-$$
-\ln \left(\frac{\mu^2}{\Delta}\right)
-$$
-
----
-
- 8. Final 1-loop correction
-
-Including combinatorics (3 channels):
-
-$$
-\mathcal{M}^{(1)} =
-\frac{3\lambda^2}{2}
-\cdot \frac{1}{(4\pi)^2}
-\left[
-\frac{2}{\epsilon}
-\gamma_E + \ln 4\pi
-- \ln\left(\frac{\mu^2}{\text{scale}}\right)
-  \right]
-  $$
-
-(The exact finite log depends on kinematics.)
-
----
-
- 9. Renormalization: $\overline{\text{MS}}$
-
-In $\overline{\text{MS}}$, subtract:
-$$
-\frac{2}{\epsilon} - \gamma_E + \ln 4\pi
-$$
-
-So we choose:
-$$
-Z_\lambda = 1 + \frac{3\lambda}{(4\pi)^2}\frac{1}{\epsilon}
-$$
-
-(Only pole part matters!)
-
----
-
- 10. Compute $\beta$-function
-
-Key relation:
-$$
-\lambda_0 = \mu^\epsilon Z_\lambda \lambda
-$$
-
-Bare coupling is $\mu$-independent:
-$$
-\mu \frac{d}{d\mu} \lambda_0 = 0
-$$
-
-Differentiate:
-$$
-0 =
-\mu^\epsilon
-\left[
-\epsilon \lambda
-\beta(\lambda)
-  \right]
-  Z_\lambda
-\mu^\epsilon \lambda \mu \frac{d Z_\lambda}{d\mu}
-  $$
-
----
-
- 11. Use chain rule
-
-$$
-\mu \frac{d Z_\lambda}{d\mu}
-=
-\beta(\lambda)\frac{d Z_\lambda}{d\lambda}
-$$
-
-So:
-$$
-0 =
-\epsilon \lambda
-\beta
- \lambda \beta \frac{d \ln Z_\lambda}{d\lambda}
-  $$
-
----
-
- 12. Expand $Z_\lambda$
-
-$$
-Z_\lambda = 1 + \frac{3\lambda}{(4\pi)^2}\frac{1}{\epsilon}
-$$
-
-So:
-$$
-\ln Z_\lambda =
-\frac{3\lambda}{(4\pi)^2}\frac{1}{\epsilon}
-$$
-
-Then:
-$$
-\frac{d \ln Z_\lambda}{d\lambda}
-=\frac{3}{(4\pi)^2}\frac{1}{\epsilon}
-$$
-
----
-
- 13. Solve for $\beta$
-
-Plug in:
-$$
-0 = \epsilon \lambda + \beta + \lambda \beta \frac{3}{(4\pi)^2}\frac{1}{\epsilon}
-$$
-
-Now expand $\beta$ as:
-$$
-\beta = -\epsilon \lambda + A \lambda^2 + O(\lambda^3)
-$$
-
-Plug in and match order $\lambda^2$:
-
-You get:
-$$
-A = \frac{3}{(4\pi)^2}
-$$
-
----
-
- 14. Final result
-
-$$
-\boxed{
-\beta(\lambda)
-=
--\epsilon \lambda
-\frac{3}{(4\pi)^2}\lambda^2
-O(\lambda^3)
-  }
-  $$
-
----
-
- 15. Key conceptual takeaway
-
-* The **$\ln \mu$** came from expanding $\mu^\epsilon$
-* In $\overline{\text{MS}}$, you **throw away everything except the pole**
-* The $\beta$-function is determined **entirely by the $1/\epsilon$ coefficient**
-
----
-
-If you want, next step I can:
-
-* derive the **mass anomalous dimension** the same way, or
-* show how this directly produces the **Wilson–Fisher fixed point**.
 
 
 
