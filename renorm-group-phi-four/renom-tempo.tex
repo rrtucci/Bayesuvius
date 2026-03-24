@@ -213,6 +213,13 @@ beta function
  \frac{d\lambda}{d\ln \mu}
 \eeq
 
+\begin{claim}(no wavefunction renormalization at 1-loop)
+\beq
+Z_\phi = 1 + \calo(\lambda^2)\eeq
+\end{claim}
+\proof
+\qed
+
 \section{$\beta(\lam)$ calculation}
 \beqa
 \Gamma^{(4)}&=&
@@ -380,12 +387,7 @@ Multiply pieces
 
 \qed
 \end{mdframed}
-\begin{claim}(no wavefunction renormalization at 1-loop)
-\beq
-Z_\phi = 1 + O(\lambda^2)\eeq
-\end{claim}
-\proof
-\qed
+
 
 \begin{claim}
 \beq
@@ -416,12 +418,9 @@ b_0&
 
 \beq
 \underbrace{\mu^\eps}_{1+\eps \ln\mu}\cali=
-\frac{2}{(4\pi)^2}
-\left(
-\frac{1}{\eps}
-+\ln \left(\frac{\mu}{M(p)}\right)
-\right)
-+\calo(\eps)
+\frac{2}{(4\pi)^2}\left(
+\frac{1}{\eps}-b_0 +\ln\left[\frac{\mu}{M(p)}\right]
+\right) + \calo(\eps)
 \eeq
 
 \beqa
@@ -440,12 +439,7 @@ _{1+\calo(\lam)} \lam^2
 ]
 \eeqa
 
-\beq
-\mu^\eps \cali=
-\frac{2}{(4\pi)^2}\left(
-\frac{1}{\eps}-b +\ln\left[\frac{\mu}{M(p)}\right]
-\right)
-\eeq
+
 
 
 \beq
@@ -637,6 +631,253 @@ This fixed point describes the {\bf Ising universality class}
 
 \section{$\gamma_m$ calculation}
 
+
+
+
+ One-loop correction to 
+2-point function, self-energy (tadpole diagram)
+
+\beqa
+\Gamma^{(2)}&=&
+Z_\phi
+\left[
+\bcen
+\xymatrix{
+\ar@{-}[r]
+&\ar@{-}[r]m_0^2
+&
+}
+\ecen
++
+\frac12
+\bcen
+\xymatrix{
+&
+&
+\\
+\ar@{-}[r]
+&\ar@{-}[r]
+{\lam_0}\loopup{6}{@{-}}
+&
+}
+\ecen
+\right]
+\\
+&=&
+Z_\phi \left[
+Z_m m^2 + \underbrace{\frac12 \lam \mu^\eps Z_\lam \calt}
+_{\Sigma}
+\right]
+\eeqa
+
+\beq
+\bcen
+\xymatrix{
+&
+&
+\\
+\ar@{-}[r]
+&\ar@{-}[r]
+{\lam_0}\loopup{6}{|k}
+&
+}
+\ecen
+\quad
+\calt = 
+\int \frac{d^d k}{(2\pi)^d}\;
+\frac{1}{k^2 + m^2}
+\eeq
+
+\begin{mdframed}[hidealllines=true,backgroundcolor=blue!10]
+\begin{claim}
+\beq
+\calt =
+\frac{m^2}{(4\pi)^2}
+\left[
+-\frac{1}{\epsilon}
+-b'_0 
++ \frac12\ln m^2
+  \right]+ \calo(\epsilon)
+\eeq
+
+\beq
+b_0= 1+\frac12 \ln(4\pi)
+\eeq
+\end{claim}
+\noindent \proof
+
+\beq
+\calt=
+\frac{1}{(4\pi)^{d/2}}
+\Gamma\left(1 - \frac{d}{2}\right)
+(m^2)^{\frac{d}{2} - 1}
+\eeq
+Set $d = 4 - \epsilon$
+
+\beq
+\calt=
+\frac{1}{(4\pi)^{2-\eps/2}}
+\Gamma\left({\color{red}-1}+\frac{\eps}{2}\right)
+(m^2)^{{\color{red}1}-\frac{\eps}{2}}
+\eeq
+\beq
+\Gamma\left(-1 + \frac{\eps}{2}\right)
+= -\frac{1}{\epsilon} - 1 + \calo(\epsilon)
+\eeq
+
+Also:
+\beq
+(m^2)^{1 - \frac{\epsilon}{2}}
+= m^2 \left(1 - \frac{\epsilon}{2}\ln m^2\right)
+\eeq
+
+And:
+\beq
+(4\pi)^{-2 + \frac{\epsilon}{2}}
+= \frac{1}{(4\pi)^2}\left(1 + \frac{\epsilon}{2}\ln(4\pi)\right)
+\eeq
+
+Putting it all together:
+
+
+
+\beq
+\calt =
+\frac{m^2}{(4\pi)^2}
+\left[
+-\frac{1}{\epsilon}-1
+-\frac12\ln(4\pi)
++ \frac12\ln m^2
+  \right]+ \calo(\epsilon)
+\eeq
+
+\qed
+\end{mdframed}
+
+\begin{claim}
+\beq
+Z_m =
+1 + a'\lam
+\left(\frac{1}{\epsilon}+b'\right)
+\eeq
+\beq
+a'=\frac{1}{2(4\pi)^2}
+\eeq
+
+\beq
+b'=
+\left\{
+\begin{array}{ll}
+0 &
+\text{if Minimal Subtraction  (MS)}
+\\
+b'_0&
+ \text{if Modified Minimal Subtraction  (MMS)}
+\end{array}
+\right.
+\eeq
+\end{claim}
+\proof
+
+\beqa
+\underbrace{\mu^\eps}_{1+\eps \ln\mu}\calt
+&=&
+\frac{m^2}{(4\pi)^2}
+\left(
+-\frac{1}{\eps}-b'_0 
++\frac12 \ln m^2\right)
++\calo(\eps)
+\\
+&=&
+\frac{m^2}{(4\pi)^2}
+\left(
+-\frac{1}{\eps}-b'_0 
++\ln \frac{m}{\mu}\right)
++\calo(\eps)
+\eeqa
+
+\beqa
+\Gamma^{(2)}
+&=&
+Z_\phi \left(
+Z_m m^2 + \frac12 \lam \mu^\eps Z_\lam \calt
+\right)
+\\
+&=&
+\left(1 +\calo(\lam^2)\right)
+\left(
+\underbrace{Z_m}_{1 +\delta Z_m}
+ m^2 + \frac12 \lam \mu^\eps 
+\underbrace{Z_\lam} _{1 +\calo(\lam)}
+\calt
+\right)
+\eeqa
+
+\beq
+m^2\delta Z_m=
+-\;\frac12(\lam\mu^\eps \calt)_{div}
+=
+\frac{m^2}{2(4\pi)^2}\lam
+\left(
+\frac{1}{\eps}+ b'\right)
+\eeq
+
+\qed
+
+
+\begin{claim}
+\beq
+\boxed{
+\gamma_m(\lambda)
+=
+a'\lam
++\calo(\lambda^2)}
+\eeq
+\end{claim}
+\proof
+
+\beq
+0= \frac{d}{d\ln\mu} m_0^2 = \frac{d}{d\ln\mu}(Z_m  m^2)
+\eeq
+
+\beq
+0 =
+m^2 \frac{d Z_m }{d\ln \mu}
++ Z_m  \frac{d m^2}{d\ln \mu}
+\eeq
+
+\beq
+\gamma_m=
+- \frac{d \ln Z_m }{d\ln\mu}
+\eeq
+
+\beqa
+\gamma_m &=&- \beta(\lam)\frac{d}{d\lam}
+\underbrace{\ln Z_m}_{a'\lam
+\left(\frac{1}{\epsilon}+b'\right)}
+\\
+&=&
+-(-\epsilon \lambda
++a\lam^2)\frac{a'}{\eps}
+\\
+&=&
+a'\lam +\calo(\lam^2)
+\eeqa
+
+\qed
+
+
+
+Important consistency checks
+
+
+$\gamma_m$ is dimensionless
+
+
+Positive → mass grows in IR  
+
+Scheme independence (1-loop)
+Same in MS and MMS
 
 
 
