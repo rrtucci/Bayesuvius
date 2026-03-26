@@ -29,7 +29,7 @@ $\phi^4$ theory in $d$ dimensions is
 
 \beq
 \call_0 =
-\frac12 \sum_{j=1}^d(\partial_{x_j} \phi_0)^2
+\frac12 \sum_{\mu=1}^d(\partial_\mu \phi_0)^2
 +
 \frac12 m_0^2 \phi_0^2
 +
@@ -71,7 +71,7 @@ m_0^2 = Z_m m^2(\mu)
 \end{claim}
 \proof
 \beq
-L^0=\engdim{(d^dx) (\partial_{x_i} \phi)^2}
+L^0=\engdim{(d^dx) (\partial_\mu \phi)^2}
 =
 L^d L^{-2} \engdim{\phi}^2
 \eeq
@@ -1064,7 +1064,400 @@ smaller $b$ (finer grid) $\implies$ larger $\Lam$ (Infrared energies)
 
 
 
-\section{$\phi^4$ to Ising}
+\section{$\phi^4$-Ising connection}
+
+Start with the Ising model partition function (set $H=0$ for now):
+
+\beq
+Z = \sum_{{S_i=\pm1}} \exp\left(\beta J \sum_{(i, j)\in NN} S_i S_j
++\beta H\sum_i S_i
+\right)
+\eeq
+
+\begin{claim}(Ginzburg-Landau model)
+\beq
+Z= \int \cald\phi\; e^{-\cala}
+\eeq
+where
+the action $\cala$ is given by
+
+\beq
+\cala[\phi] \approx \int d^2 x \left[\sum_{\mu=1}^2
+\frac{1}{2}(\partial_\mu \phi)^2 + \frac{m^2}{2}\phi^2 + \frac{\lam}{4!}\phi^4
+\right]
+\eeq
+
+\end{claim}
+\proof
+
+
+set $H=0$ to begin with.
+
+
+Rewrite the interaction in matrix form:
+
+\beq
+\beta J\sum_{(i,j)\in NN} S_i S_j = \frac12 \sum_{i, j} S_i K_{ij} S_j =\frac12 S^T K S
+\eeq
+
+\beq
+\begin{array}{ccc}
+\bcen
+\xymatrix@R=1pc@C=1pc{
+S_1
+&S_2
+&S_3
+\\
+S_4
+&S_5
+\ar@{-}[r]
+\ar@{-}[l]
+\ar@{-}[u]
+\ar@{-}[d]
+&S_6
+\\
+S_7
+&S_8
+&S_9
+}
+\ecen
+&\rarrow
+&
+\bcen
+\xymatrix@R=1pc@C=.1pc{
+&\scriptstyle(1+a\partial_y+ \frac{a^2}{2}\partial^2_y)S_5
+&
+\\
+\scriptstyle(1-a\partial_x+ \frac{a^2}{2}\partial^2_x)S_5
+&S_5
+\ar@{-}[r]
+\ar@{-}[l]
+\ar@{-}[u]
+\ar@{-}[d]
+&\scriptstyle (1+a\partial_x+ \frac{a^2}{2}\partial^2_x)S_5
+\\
+&\scriptstyle(1-a\partial_y+ \frac{a^2}{2}\partial^2_y)S_5
+&
+}
+\ecen
+\\
+\\
+\beta J S_5(S_4 +  S_6 
++ S_8 + S_2)
+&\approx
+&
+\beta J S_5 \left[
+4 +a^2(\partial_x^2 + \partial_y^2)
+\right]S_5
+\end{array}
+\eeq
+
+
+\beq
+\frac{K}{2}= 4\beta J (1 +\frac{a^2}{4}\sum_\mu \partial_\mu^2 )
+\implies K^{-1}=\frac{1}{8\beta J}
+\frac{1}{1 +\frac{a^2}{4}\sum_\mu \partial_\mu^2 }\approx
+\frac{1}{8\beta J}\left(
+1 -\frac{a^2}{4}\sum_\mu \partial_\mu^2\right)
+\eeq
+
+\beq
+\int_{-\infty}^\infty
+dx\;e^{-a x^2 + bx}=\sqrt{\frac{\pi}{a}}
+e^{\frac{b^2}{4a}}
+\eeq
+
+
+
+\beq
+\int \underbrace{\cald\phi}_{\prod_i d\phi_i} \;
+\exp\left(-\;\frac{1}{2}\phi^T K^{-1}\phi + \phi^T S\right)\propto
+e^{\frac{1}{2} S^T K S} 
+\eeq
+
+\beq
+Z = \int \cald \phi \;
+e^{-\frac12\phi^T K^{-1}\phi}
+\prod_i \sum_{S_i=\pm1} e^{\phi_i S_i}
+\eeq
+
+\beq
+\sum_{S_i=\pm1} e^{\phi_i S_i} = 2\cosh(\phi_i)
+\eeq
+
+\beq
+Z = \int \cald\phi \;
+\exp\left[
+-\;\frac{1}{2}\phi^T K^{-1}\phi + \sum_i \ln(2\cosh \phi_i)
+\right] 
+\eeq
+
+Near criticality, $ \phi $ is small, so expand:
+
+\beq
+\ln (2\cosh \phi) =
+\ln(2) +\frac{\phi_i^2}{2} - \frac{\phi_i^4}{12} + \calo(\phi_i^6)
+\eeq
+
+\beq
+Z= \int \cald\phi\; e^{-\cala}
+\eeq
+
+\beq
+\cala [\phi] = 
+\frac{1}{2}\sum_{i,j}\phi_i (K^{-1})_{i,j}\phi_j -
+  \sum_i \left(
+  \frac{\phi_i^2}{2} - \frac{\phi_i^4}{4!} + \cdots
+  \right)
+\eeq
+
+
+Now take continuum limit:
+
+\beq
+\sum_i \rarrow \int \frac{d^2x}{a^2}
+\eeq
+
+
+
+
+
+\beqa
+\cala[\phi] &=& \int \frac{d^2 x}{a^2} \left[\frac{\phi}{16\beta J}\left(
+1 -\frac{a^2}{4}\sum_\mu \partial_\mu^2\right)\phi-\frac{1}{2}\phi^2 + \frac{1}{4!}\phi^4 
+\right]
+\\
+&=&
+\int d^2 x \left[-\;\frac{\phi}{8^2\beta J}\left(
+\sum_\mu \partial_\mu^2\right)\phi
++\left(\frac{1}{a^2 8\beta J}
+-\frac{1}{a^2}\right)\frac{\phi^2}{2} + 
+\left(\frac{1}{a^2}\right)\frac{\phi^4}{4!} 
+\right]
+\eeqa
+Integrate by parts first term
+and set
+\beq
+\lam = \frac{4}{a^2}\eeq
+
+\beq
+m^2 = 
+\frac{4}{a^2}
+\left(
+\frac{1-8\beta J}{8\beta J}
+\right)
+\eeq
+
+
+\beqa
+\cala[\phi]
+&=&
+\frac{1}{4}
+\int d^2x\;
+\left[
+\frac{1}{(8\beta  J)2}
+\sum_\mu\left(\partial_\mu\phi\right)^2 + m^2 \frac{\phi^2}{2}
++ \lam \frac{\phi^4}{4!}
+\right]
+\eeqa 
+
+\beq
+T_c = 8J,\quad 8\beta J = T_c/T
+\eeq
+Set $8\beta J\approx 1$ in first term.
+Rescale $\phi \rarrow 2\phi$, $\lam\rarrow \lam/4$
+
+\beq
+\lam = \frac{1}{a^2}
+\eeq
+
+\beq
+m^2 = \frac{4}{a^2}
+\left(
+\frac{T-T_c}{T_c}
+\right)
+\eeq
+
+\beq
+\cala[\phi]=
+\int d^2x\;
+\left[
+\frac12 \sum_\mu(\partial_\mu  \phi)^2
++\frac{m^2}{2}\phi^2
++\frac{\lam}{4!}\phi^4
+\right]
+\eeq
+\qed
+
+If you include  $H$ term in $Z$,
+\beq
+\ln[2\cosh \phi_i]
+\rarrow \ln[2\cosh(\phi_i + \beta H)]
+\eeq
+
+\beqa
+\ln[2\cosh(\phi_i + \beta H)]
+&\approx& \ln(2) + \frac12 (\phi_i + \beta H)^2
+\\
+&\approx&\ln(2) +  \frac{\phi^2_i + (\beta H)^2}{2} + \beta H  \phi_i
+\\
+&\approx&\ln(2) +  \beta H \phi_i
+\eeqa
+
+
+\beqa
+\sum_i \ln[2\cosh(\phi_i + \beta H)]
+&\rarrow&\int \frac{d^2 x} {a^2}\;\beta H \phi
+\\
+&\rarrow&\int \frac{d^2 x} {a^2}2\beta H \phi\quad \text{(from $\phi\rarrow 2\phi$ rescaling)}
+\\
+&=&
+\int d^2x\; h \phi
+\eeqa
+
+\beq
+\frac{2\beta H}{a^2}= h
+\eeq
+
+ $$
+S_i \to -S_i \Rightarrow \phi \to -\phi
+ $$
+
+
+  $ \phi^4 $ is   relevant/marginal
+  higher powers are   irrelevant  
+
+
+
+Even though Ising has no explicit $ S^4 $ term because
+ $
+s_i^4 = 1
+ $
+coarse-graining produces   nontrivial -fluctuations  , and those produce a genuine $ \phi^4 $ interaction.
+ 3 Why $d=4 $ in $ \phi^4 $ vs $d=2 $ Ising
+
+This is the subtle but crucial part.
+
+ Short answer
+
+  Ising model exists in any dimension 2D, 3D,
+  $ \phi^4 $ has a   special dimension $d=4 $  :
+
+  > the   upper critical dimension  
+
+---
+
+ Do the dimensional analysis
+
+In:
+ $$
+S = \int d^d x \left[
+\frac{1}{2}(\nabla\phi)^2 + \frac{u}{4!}\phi^4
+\right]
+ $$
+
+Demand action dimensionless.
+
+From kinetic term:
+ $$
+[\phi] = \frac{d-2}{2}
+ $$
+
+Now quartic term:
+ $$
+[u] = 4 - d
+ $$
+
+---
+
+ Interpretation
+
+  $ d < 4 $:
+  $ u $ has   positive dimension   to   relevant
+  $ d = 4 $:
+  $ u $ is   dimensionless   to   marginal
+  $ d > 4 $:
+  $ u $ is   irrelevant
+
+---
+
+ Physical meaning
+
+    Below 4D  :
+  fluctuations matter to nontrivial critical behavior
+    Above 4D  :
+  fluctuations die to mean-field theory works
+
+---
+
+ So why 2D Ising works with $ \phi^4 $?
+
+Because:
+
+  2D < 4 implies quartic interaction is   strongly relevant  
+  RG flows to a   nontrivial interacting fixed point  
+
+So:
+
+> $ \phi^4 $ in $ d=2 $ flows to the   2D Ising CFT
+
+---
+
+ Big picture
+
+  $ d=4 $ is   not the dimension of Ising
+  it is the dimension where $ \phi^4 $ becomes marginal
+
+You can study:
+
+  Ising in 2D iff $ \phi^4 $ in 2D
+  Ising in 3D iff $ \phi^4 $ in 3D
+
+But:
+
+  calculations are easiest near $ d=4 $ to $ \epsilon = 4-d $
+
+---
+
+ Why people expand around $d=4 $
+
+Because:
+
+  theory is weakly coupled near $ d=4 $
+  allows perturbation theory
+
+Then extrapolate to:
+
+  $ d=3 $ (good)
+  $ d=2 $ (qualitatively OK, quantitatively rough)
+
+---
+
+ 4 Clean dictionary (final)
+
+| Ising                     | $ \phi^4 $               |
+| ------------------------- | ------------------------ |
+| $ \beta J - (\beta J)_c $ | $ r $                    |
+| $ \beta H $               | $ h $                    |
+| magnetization $ m $       | $ \langle \phi \rangle $ |
+| spin symmetry             | $ \phi \to -\phi $       |
+| dimension $ d $           | same $ d $               |
+
+---
+
+ 5 One-line intuition
+
+  Ising =   microscopic lattice spins  
+  $ \phi^4 $ =   coarse-grained continuum field
+  $ d=4 $ =   where fluctuations start to matter
+
+---
+
+If you want, I can next:
+
+  explicitly compute how $ r \sim T - T_c $ emerges from HS
+  or show the 1-loop RG flow of $ u $ and how the Wilson–Fisher fixed point appears (this ties directly to your anomalous-dimension work)
+
 
 The critical point of the $\phi^4$ theory and that of the Ising model
 are
