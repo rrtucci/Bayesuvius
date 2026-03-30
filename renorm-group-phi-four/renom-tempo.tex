@@ -2,6 +2,8 @@
 \input{../bayesuvius.sty}
 \begin{document}
 
+\section{Sweeping Infinities into $Z$ factors}
+
 We will use the units 
 used in High Energy
 Physics in which $\hbar$ (Plank's constant divided by $2\pi$) and $c$ (speed of light) are set to 1 
@@ -235,7 +237,683 @@ Z_\phi = 1 + \calo(\lambda^2)\eeq
 \proof
 \qed
 
-\section{$\beta(\lam)$ calculation}
+\section{Beta Potential}
+
+Newton's equation says 
+\beq
+m\ddot{x}= F
+\eeq
+where $m=$mass, $x=$ position, and $F=$ force. But
+you could  have, once the acceleration dies down,
+an equilibrium between a drag force and a propulsion force. Let
+
+$\gamma \dot{x}=$ drag,  a velocity dependent force with $\gamma>0$
+
+$F=-\partial_x V=$ propulsion, a conservative force with potential function $V$
+
+Then, at equilibrium,
+
+\beq \gamma\dot{x}=F = -\partial_x V
+\label{eq-phi-four-drag-prop}
+\eeq
+
+Note that
+
+\beq
+\gamma\partial_x\dot{x}=F = -\partial_x^2 V
+\eeq
+
+
+As shown in Fig.\ref{fig-V-derivatives-phi-four},
+$V$ has positive second derivative
+(hold water convexity)
+on both sides of a {\bf stable, attractive fixed  point (attractor, sink)},
+and it has negative second derivative
+(drop water convexity)
+on both sides of an {\bf unstable, repulsive fixed point (repeller, source)}. Hence, we can think of
+$V$ as a potential in which a ball rolls towards an attractor
+and away from a repeller.
+
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4in]
+{../dynamical-sys/V-derivatives.png}
+\caption{Illustration of
+$\frac{d\dot{x}}{dx}=-\partial^2_xV$. Arrows
+in vector field are 
+proportional to $\dot{x}$. }
+\label{fig-V-derivatives-phi-four}
+\end{figure} 
+
+Now 
+set
+position =$x\rarrow \lam$, time=$t\rarrow \ln \mu$,
+and $\gamma=1$
+in Eq.(\ref{eq-phi-four-drag-prop})
+
+\beq
+\frac{d \lam}{dt}= \beta(\lam) = -\partial_\lam V
+\eeq
+
+\beq
+V(\lam)-V(\lam_0)
+=
+-\int_{\lam_0}^\lam
+d\lam\; \beta(\lam)
+\eeq
+
+\beq
+\beta(\lam)= -\eps \lam + a\lam^2
+\implies V(\lam)= \frac{\eps}{2}\lam^2-
+\frac{a}{3}\lam^3 + \text{constant}
+\eeq
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=3in]
+{beta-potential.png}
+\caption{Beta  potential curve $V(\lam)$.
+$time=\ln b= \ln(1/\Lam$). As  $b$ or $\Lam$ increases, a ball rolls downward in this potential.}
+\label{fig-beta-potential}
+\end{figure}
+
+Minimum at $\lam=0$ and maximum at
+
+\beq
+0=\partial_\lam V(\lam^*)=-\beta(\lam^*)
+\implies \quad
+\lam^*=\frac{\eps}{a},
+\quad V(\lam^*)=\frac{\eps^3}{6a^2}
+\eeq
+Wilson-Fisher fixed point (Curie point).
+
+Recall
+
+\beq
+\ln b = \ln \mu =\ln\left(\frac{1}{\Lam}\right) 
+\eeq
+
+larger $b$ (coarser grid) $\implies$ smaller $\Lam$ (UV energies)
+
+smaller $b$ (finer grid) $\implies$ larger $\Lam$ (Infrared energies)
+
+
+ QED (Quantum Electrodynamics)
+has $\beta>0$ which gives it
+an infrared fixed point,
+whereas QCD (Quantum Chromodynamics)
+has $\beta<0$ which gives it an ultraviolet
+fixed point.
+
+\section{Landau Pole}
+
+
+
+\beq
+\int_{\lam_0}^\lam\frac{d\lam}{\beta(\lam)}=\int_{\mu_0}^\mu d\ln(\mu)
+\eeq
+
+\beqa
+\beta(\lam) &=& -\eps\lam + a\lam^2 +\calo(\lam^3)
+\\
+&=&
+a\lam(\lam-\lam^*)
+\quad \text{with } \lam^*=\frac{\eps}{a}
+\eeqa
+
+\beq
+\beta(\lam)= a(\lam-\lam^*_1)(\lam-\lam^*_2)\ldots(\lam-\lam^*_n)
+\eeq
+
+\beq
+\beta(\lam)\approx (\lam-\lam^*_1)
+\underbrace{a(\lam^*_1-\lam^*_2)\ldots(\lam^*_1-\lam^*_n)}_R
+\eeq
+
+\beq
+\ln\frac{\lam-\lam_1^*}
+{\lam_0-\lam_1^*}
+=R
+\ln\frac{\mu}{\mu_0}
+\eeq
+
+
+
+%https://en.wikipedia.org/wiki/Landau_pole
+
+For both QED and QCD,\footnote{The Wikipedia article on Landau Poles asserts that Landau in 1954 assumed
+$\beta(g)= \beta_2 g^2 +\calo(g^3)$. This is historically correct but not the modern usage. Landau used $g=\frac{e^2}{4\pi}$ where $e$ is the charge of the electron. We are using $g=e$ instead.}\footnote{Note that we are using the convention $d\ln b$ = -$d\ln \Lam$} 
+\beq
+\frac{dg}{d\ln \Lam}=\beta(g)= \beta_3 g^3 +\calo(g^4)
+\eeq
+
+\beq
+\int^g_{g_0}\frac{dg}{\beta_3 g^3}= \int_{\Lam_0}^\Lam d\ln \Lam
+\eeq
+
+\beq
+-\;\frac{1}{ 2g^2}+\frac{1}{ 2g^2_0}=\beta_3\ln \frac{\Lam}{\Lam_0}
+\eeq
+
+\beqa
+g^2 &=& \frac{1}{\frac{1}{g^2_0} -2\beta_3\ln\frac{\Lam}{\Lam_0}}
+\\
+&=&
+\frac{g^2_0}{1 - 2\beta_3g^2_0\ln\frac{\Lam}{\Lam_0}}
+\label{eq-g-landau-pole}
+\eeqa
+
+A fixed point $g^*$ satisfies
+$\beta(g^*)=0$. Hence
+both QED and QCD have a 
+unique fixed point (as far
+as we can tell from
+perturbation theory
+in powers of $g$,  at $g=0$).
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=5in]
+{landau-pole.png}
+\caption{Plots of
+$g(\Lam/\Lam_0)$ defined by Eq.(\ref{eq-g-landau-pole})
+for $\beta_2=\pm 2.3$ and $g_0=1$.}
+\label{fig-landau-pole}
+\end{figure}
+
+A Landau Pole (LP) is an finite energy
+$\Lam_{LP}$ at which the coupling constant 
+$g(\Lam)$ becomes infinite.
+\beq
+\frac{\Lam_{LP}}{\Lam_0}=
+\exp\left(\frac{1}{2\beta_3g^2_0}\right )
+\eeq
+
+$\Lam=\Lam_{LP}$ marks a scale,
+not the position
+of a fixed point as does $\Lam=0$.
+
+LP only arises for
+QED, not for QCD. Asymptotic
+freedom of QCD (i.e., $g\downarrow$ as
+ $\Lam\uparrow$
+is incompatible with the prediction of a LP.
+
+For QED, one takes $\Lam_0 = m_0$, the bare mass of the electron and $g_0$ equal to
+the bare coupling.
+
+For QCD, if the LP 
+rationale were valid,
+one would take $m_0=$ bare mass of a quark. But if we assume $m_0\rarrow 0$, and $\beta_3<0$,
+then, $\Lam_{LP}\rarrow 0$.
+
+
+For QED, perturbation in powers of $g$
+works only for low $\Lam$.
+For QCD, perturbation in powers of $g$
+works only for high $\Lam$.
+
+LP is a finite scale at which a
+theory's coupling constant $g$
+becomes infinite.
+
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=5in]
+{qcd-qed-g.png}
+\caption{Plots of
+$g(\Lam/\Lam_0)$ 
+for QCD ($\beta_2<0$)
+and QED ($\beta_2>0$).
+For QCD, perturbation theory breaks down
+for $0\leq\Lam/\Lam_0<<1$
+so this figure is incorrect but suggestive. In reality, $\Lam_{pole}/\Lam\rarrow 0$.}
+\label{fig-qcd-qed-g}
+\end{figure}
+
+
+
+%
+%\beq
+%\frac{d\lam}{d\ln\mu}=a\lam^n
+%\eeq
+%
+%For $n=1$,
+%
+%\beq
+%\frac{1}{a}\ln\left(\frac{\lam(\mu)}{\lam(\mu_0)}\right)=
+%\ln\left(\frac{\mu}{\mu_0}\right)
+%\eeq
+%Define
+%\beq
+%K(\lam, \mu)= \frac{1}{a}\ln\left(\frac{1}{\lam(\mu)}\right) +\ln\mu
+%\eeq
+%
+%For $n>1$
+%\beq
+%\frac{1}{\lam^{n-1}(\mu)}
+%-
+%\frac{1}{\lam^{n-1}(\mu_0)}
+%=
+%-(n-1)a\ln\left(\frac{\mu}{\mu_0}\right)
+%\eeq
+%Define
+%\beq
+%K(\mu, \lam)=\frac{1}{(n-1)a \lam^{n-1}(\mu)} +\ln \mu
+%\eeq
+%
+%\beq
+%K(\lam,\mu)=K(\lam_0, \mu_0)
+%\eeq
+%
+%\begin{figure}[h!]
+%\centering
+%\includegraphics[width=5.9in]
+%{running-coupling.png}
+%\caption{Running Coupling constant $\lam(\mu)$
+%for $\beta=a\lam^n$ for
+%cases $n=1$ and $n>1$.}
+%\label{fig-running-coupling}
+%\end{figure}
+
+
+
+
+
+
+\section{$\phi^4$-Ising connection}
+
+Start with the Ising model partition function (set $H=0$ for now):
+
+\beq
+Z = \sum_{{S_i=\pm1}} \exp\left(\beta J \sum_{(i, j)\in NN} S_i S_j
++\beta H\sum_i S_i
+\right)
+\eeq
+
+\begin{claim}(Ginzburg-Landau model)
+\beq
+Z= \int \cald\phi\; e^{-\cala}
+\eeq
+where
+the action $\cala$ is given by
+
+\beq
+\cala[\phi] \approx \int d^2 x \left[\frac12 \sum_{\mu=1}^2
+(\partial_\mu \phi)^2 + \frac{m^2}{2}\phi^2 + \frac{\lam}{4!}\phi^4
++ h\phi\right]
+\eeq
+
+\end{claim}
+\proof
+
+
+set $H=0$ to begin with.
+
+
+Rewrite the interaction in matrix form:
+
+\beq
+\beta J\sum_{(i,j)\in NN} S_i S_j = \frac12 \sum_{i, j} S_i K_{ij} S_j =\frac12 S^T K S
+\eeq
+
+\beq
+\begin{array}{ccc}
+\bcen
+\xymatrix@R=1pc@C=1pc{
+S_1
+&S_2
+&S_3
+\\
+S_4
+&S_5
+\ar@{-}[r]
+\ar@{-}[l]
+\ar@{-}[u]
+\ar@{-}[d]
+&S_6
+\\
+S_7
+&S_8
+&S_9
+}
+\ecen
+&\rarrow
+&
+\bcen
+\xymatrix@R=1pc@C=.1pc{
+&\scriptstyle(1+a\partial_y+ \frac{a^2}{2}\partial^2_y)S_5
+&
+\\
+\scriptstyle(1-a\partial_x+ \frac{a^2}{2}\partial^2_x)S_5
+&S_5
+\ar@{-}[r]
+\ar@{-}[l]
+\ar@{-}[u]
+\ar@{-}[d]
+&\scriptstyle (1+a\partial_x+ \frac{a^2}{2}\partial^2_x)S_5
+\\
+&\scriptstyle(1-a\partial_y+ \frac{a^2}{2}\partial^2_y)S_5
+&
+}
+\ecen
+\\
+\\
+\beta J S_5(S_4 +  S_6 
++ S_8 + S_2)
+&\approx
+&
+\beta J S_5 \left[
+4 +a^2(\partial_x^2 + \partial_y^2)
+\right]S_5
+\end{array}
+\eeq
+
+
+\beq
+\frac{K}{2}= 4\beta J (1 +\frac{a^2}{4}\sum_\mu \partial_\mu^2 )
+\implies K^{-1}=\frac{1}{8\beta J}
+\frac{1}{1 +\frac{a^2}{4}\sum_\mu \partial_\mu^2 }\approx
+\frac{1}{8\beta J}\left(
+1 -\frac{a^2}{4}\sum_\mu \partial_\mu^2\right)
+\eeq
+
+\beq
+\int_{-\infty}^\infty
+dx\;e^{-a x^2 + bx}=\sqrt{\frac{\pi}{a}}
+e^{\frac{b^2}{4a}}
+\eeq
+
+
+
+\beq
+\int \underbrace{\cald\phi}_{\prod_i d\phi_i} \;
+\exp\left(-\;\frac{1}{2}\phi^T K^{-1}\phi + \phi^T S\right)\propto
+e^{\frac{1}{2} S^T K S} 
+\eeq
+
+\beq
+Z = \int \cald \phi \;
+e^{-\frac12\phi^T K^{-1}\phi}
+\prod_i \sum_{S_i=\pm1} e^{\phi_i S_i}
+\eeq
+
+\beq
+\sum_{S_i=\pm1} e^{\phi_i S_i} = 2\cosh(\phi_i)
+\eeq
+
+\beq
+Z = \int \cald\phi \;
+\exp\left[
+-\;\frac{1}{2}\phi^T K^{-1}\phi + \sum_i \ln(2\cosh \phi_i)
+\right] 
+\eeq
+
+Near criticality, $ \phi $ is small, so expand:
+
+\beq
+\ln (2\cosh \phi_i) =
+\ln(2) +\frac{\phi_i^2}{2} - \frac{\phi_i^4}{12} + \calo(\phi_i^6)
+\eeq
+
+\beq
+Z= \int \cald\phi\; e^{-\cala}
+\eeq
+
+\beq
+\cala [\phi] = 
+\frac{1}{2}\sum_{i,j}\phi_i (K^{-1})_{i,j}\phi_j -
+  \sum_i \left(
+  \frac{\phi_i^2}{2} - \frac{\phi_i^4}{4(3)} + \cdots
+  \right)
+\eeq
+
+
+Now take continuum limit:
+
+\beq
+\sum_i \rarrow \int \frac{d^2x}{a^2}
+\eeq
+
+
+
+
+
+\beqa
+\cala[\phi] &=& \int \frac{d^2 x}{a^2} \left[\frac{\phi}{16\beta J}\left(
+1 -\frac{a^2}{4}\sum_\mu \partial_\mu^2\right)\phi-\frac{1}{2}\phi^2 + \frac{1}{4(3)}\phi^4 
+\right]
+\\
+&=&
+\int d^2 x \left[-\;\frac{\phi}{8^2\beta J}\left(
+\sum_\mu \partial_\mu^2\right)\phi
++\left(\frac{1}{a^2 8\beta J}
+-\frac{1}{a^2}\right)\frac{\phi^2}{2} + 
+\left(\frac{2}{a^2}\right)\frac{\phi^4}{4!} 
+\right]
+\eeqa
+ Integrate by parts first term
+to replace $\phi\partial^2_\mu\phi$ by $-(\partial_\mu \phi)^2$.
+Then set
+\beq
+\lam = \frac{8}{a^2}\eeq
+
+\beq
+m^2 = 
+\frac{4}{a^2}
+\left(
+\frac{1-8\beta J}{8\beta J}
+\right)
+\eeq
+
+
+\beqa
+\cala[\phi]
+&=&
+\frac{1}{4}
+\int d^2x\;
+\left[
+\frac{1}{(8\beta  J)2}
+\sum_\mu\left(\partial_\mu\phi\right)^2 + m^2 \frac{\phi^2}{2}
++ \lam \frac{\phi^4}{4!}
+\right]
+\eeqa 
+
+\beq
+T_c = 8J,\quad 8\beta J = T_c/T
+\eeq
+Set $8\beta J\approx 1$ in first term.
+Rescale $\phi = 2\phi'$, $\lam= \lam'/4$
+
+\beq
+\boxed{
+\lam' = \frac{32}{a^2}}
+\eeq
+
+\beq
+\boxed{m^2 = \frac{4}{a^2}
+\left(
+\frac{T-T_c}{T_c}
+\right)}
+\eeq
+
+\beq
+\cala[\phi']=
+\int d^2x\;
+\left[
+\frac12 \sum_\mu(\partial_\mu  \phi')^2
++\frac{m^2}{2}(\phi')^2
++\frac{\lam'}{4!}(\phi')^4
+\right]
+\eeq
+
+
+If you include  $H$ term in $Z$,
+\beq
+\ln[2\cosh \phi_i]
+\rarrow \ln[2\cosh(\phi_i + \beta H)]
+\eeq
+
+\beqa
+\ln[2\cosh(\phi_i + \beta H)]
+&\approx& \ln(2) + \frac12 (\phi_i + \beta H)^2
+\\
+&\approx&\ln(2) +  \frac{\phi^2_i + (\beta H)^2}{2} + \beta H  \phi_i
+\\
+&\approx&\ln(2) +  \beta H \phi_i
+\eeqa
+
+
+\beqa
+\sum_i \ln[2\cosh(\phi_i + \beta H)]
+&\rarrow&\int \frac{d^2 x} {a^2}\;\beta H \phi
+\\
+&\rarrow&\int \frac{d^2 x} {a^2}2\beta H \phi\quad \text{(from $\phi\rarrow 2\phi$ rescaling)}
+\\
+&=&
+\int d^2x\; h \phi
+\eeqa
+
+\beq
+\boxed{h=\frac{2\beta H}{a^2}}
+\eeq
+\qed
+
+ $$
+S_i \to -S_i \Rightarrow \phi \to -\phi
+ $$
+
+
+  $ \phi^4 $ is   term is r-unstable and marginal,
+  higher powers are   i-stable.
+
+
+
+Even though Ising has no explicit $ S^4 $ term because
+ $
+s_i^4 = 1
+ $
+coarse-graining produces   nontrivial fluctuations, and those produce a genuine $ \phi^4 $ interaction.
+
+  Ising and $\phi^4$ model exists in any $d$. dimension $d=4$
+  special for $\phi^4$:
+ the   upper critical dimension 
+
+
+
+From Claim \ref{cl-dim-lam},
+$\engdim{\lam}=L^{4-d}$
+
+\begin{itemize}
+ \item $ d < 4 $:
+  $ \lam $ has   positive dimension   so $\phi^4$ term is  r-unstable.
+  $\lam^p$
+  times integral
+implies integral $\sim L^{p(d-4)}$
+so converges.   fluctuations matter, nontrivial critical behavior
+
+\item  $ d = 4 $:
+  $ \lam $ is   dimensionless  so $\phi^4$ term is marginal. $\lam^p$ times integral
+usually converges
+
+\item  $ d > 4 $:
+  $ \lam $ has negative dimension  so $\phi^4$ term is i-stable.
+$\lam^p$ times integral 
+diverges. 
+  fluctuations die, mean-field theory works
+\end{itemize}
+
+
+
+
+
+ So why 2-dim Ising model works 2-dim $ \phi^4 $?
+
+
+d-dim Ising model coarsening of d-dim $ \phi^4 $. we expand around $d=4$ because
+  theory is weakly coupled near $ d=4 $ and allows
+  allows perturbation theory
+
+Then extrapolate to:
+
+  $ d=3 $ (good)
+  $ d=2 $ (qualitatively OK, quantitatively rough)
+
+
+
+\section{Spontaneous Symmetry Breaking}
+
+Let
+
+$r=m^2=\propto T-T_c$
+
+$u=\lam$
+
+variables are named this way 
+because Curie-Fisher-Wilson point at $r=r^*$ and $u=0$
+is attractive (i.e., i-stable)
+in the $u$ direction and repulsive (i.e., r-unstable) in the $r$ direction.
+
+
+The Ginzburg–Landau free energy (= Euclidean Action  $\cala$)
+
+\beq
+F[\phi] = \int d^d x \left[ \frac{1}{2}\sum_\mu(\partial_\mu \phi)^2 + \frac{r}{2}\phi^2 + \frac{u}{4!}\phi^4 \right]
+\eeq
+
+\beq
+V(\phi)= \frac{r}{2}\phi^2 + \frac{u}{4!}\phi^4
+\eeq
+
+
+\beq
+V'(\phi)=0\implies\quad \phi=0 \text{ or } \phi=\phi^*=\sqrt{\frac{-6r}{u}}
+\eeq
+
+Some people define $u=\lam/6$ in which case $\phi^* =\sqrt{\frac{-r^*}{u}}$.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2.3in]
+{phi-potential.png}
+\caption{$\phi$  potential curve $V(\phi)$.}
+\label{fig-phi-potential}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4.5in]
+{r-u-phases.png}
+\caption{$(r,u)$ plane exhibiting Curie-Fisher-Wilson fixed point (saddle-point) at $(r,u)=(0, u^*)$, and a trivial fixed point (maximum) at $(r,u)=(0,0)$.
+Top-right quadrant harbors the disordered phase, and  top-left quadrant harbors 2 possible spontaneous phases (all spins up or all spins down). $r=m^2\propto (T-T_c)$ is a temperature-like c.c. so r-unstable, repulsive}
+\label{fig-r-u-phases}
+\end{figure}
+
+ In the $(r,u)$ plane:
+ The region $r>0, u>0$ corresponds to the disordered phase
+ and the region $r<0, u>0$ corresponds to the ordered phase with a Mexican hat potential.
+ The Wilson–Fisher fixed point lies at $r=0, u=u^*$.
+ The separation between minima $\Delta \phi \sim \sqrt{|r|/u}$ is constant along lines $u = a r$ with $a<0$.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=5in]
+{qcd-qed-r-u-plane.png}
+\caption{$(r, u)$ plane 
+for QCD ($\beta_2<0$)
+and QED ($\beta_2>0$).
+The Landau pole $(0, u_{LP})$ is a pure repeller for for both QED and QCD.}
+\label{fig-qcd-qed-r-u-plane}
+\end{figure}
+
+For QCD and QED, $r=m^2_f$, fermion mass (mass of electron for QED and mass of quark for QCD). 
+
+\section{Appendix A: $\beta(\lam)$ calculation}\label{sec:betalam-calculation}
 \beqa
 \Gamma^{(4)}&=&
 Z_\phi^2\left[
@@ -644,7 +1322,7 @@ so the fixed point is Gaussian.
 For $d<4$ a non-trivial fixed point appears.
 This fixed point describes the {\bf Ising universality class}
 
-\section{$\gamma_m$ calculation}
+\section{Appendix B: $\gamma_m$ calculation}
 
 
 
@@ -888,8 +1566,7 @@ Positive → mass grows in IR
 Scheme independence (1-loop)
 Same in MS and MMS
 
-
-\section{Critical Exponents}
+\section{Appendix C: Critical Exponents}
 
 The critical point of the $\phi^4$ theory and that of the Ising model
 are
@@ -1008,675 +1685,7 @@ Now use
 \qed
 
 
-\section{Coupling Constant behavior near fixed points}
 
 
-
-\beq
-\int_{\lam_0}^\lam\frac{d\lam}{\beta(\lam)}=\int_{\mu_0}^\mu d\ln(\mu)
-\eeq
-
-\beqa
-\beta(\lam) &=& -\eps\lam + a\lam^2 +\calo(\lam^3)
-\\
-&=&
-a\lam(\lam-\lam^*)
-\quad \text{with } \lam^*=\frac{\eps}{a}
-\eeqa
-
-\beq
-\beta(\lam)= a(\lam-\lam^*_1)(\lam-\lam^*_2)\ldots(\lam-\lam^*_n)
-\eeq
-
-\beq
-\beta(\lam)\approx (\lam-\lam^*_1)
-\underbrace{a(\lam^*_1-\lam^*_2)\ldots(\lam^*_1-\lam^*_n)}_R
-\eeq
-
-\beq
-\ln\frac{\lam-\lam_1^*}
-{\lam_0-\lam_1^*}
-=R
-\ln\frac{\mu}{\mu_0}
-\eeq
-
-
-
-%https://en.wikipedia.org/wiki/Landau_pole
-
-For both QED and QCD,\footnote{The Wikipedia article on Landau Poles asserts that Landau in 1954 assumed
-$\beta(g)= \beta_2 g^2 +\calo(g^3)$. This is historically correct but not the modern usage. Landau used $g=\frac{e^2}{4\pi}$ where $e$ is the charge of the electron. We are using $g=e$ instead.}\footnote{Note that we are using the convention $d\ln b$ = -$d\ln \Lam$} 
-\beq
-\frac{dg}{d\ln \Lam}=\beta(g)= \beta_3 g^3 +\calo(g^4)
-\eeq
-
-\beq
-\int^g_{g_0}\frac{dg}{\beta_3 g^3}= \int_{\Lam_0}^\Lam d\ln \Lam
-\eeq
-
-\beq
--\;\frac{1}{ 2g^2}+\frac{1}{ 2g^2_0}=\beta_3\ln \frac{\Lam}{\Lam_0}
-\eeq
-
-\beqa
-g^2 &=& \frac{1}{\frac{1}{g^2_0} -2\beta_3\ln\frac{\Lam}{\Lam_0}}
-\\
-&=&
-\frac{g^2_0}{1 - 2\beta_3g^2_0\ln\frac{\Lam}{\Lam_0}}
-\label{eq-g-landau-pole}
-\eeqa
-
-A fixed point $g^*$ satisfies
-$\beta(g^*)=0$. Hence
-both QED and QCD have a 
-unique fixed point (as far
-as we can tell from
-perturbation theory
-in powers of $g$,  at $g=0$).
-
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=5in]
-{landau-pole.png}
-\caption{Plots of
-$g(\Lam/\Lam_0)$ defined by Eq.(\ref{eq-g-landau-pole})
-for $\beta_2=\pm 2.3$ and $g_0=1$.}
-\label{fig-landau-pole}
-\end{figure}
-
-A Landau Pole (LP) is an finite energy
-$\Lam_{LP}$ at which the coupling constant 
-$g(\Lam)$ becomes infinite.
-\beq
-\frac{\Lam_{LP}}{\Lam_0}=
-\exp\left(\frac{1}{2\beta_3g^2_0}\right )
-\eeq
-
-$\Lam=\Lam_{LP}$ marks a scale,
-not the position
-of a fixed point as does $\Lam=0$.
-
-LP only arises for
-QED, not for QCD. Asymptotic
-freedom of QCD (i.e., $g\downarrow$ as
- $\Lam\uparrow$
-is incompatible with the prediction of a LP.
-
-For QED, one takes $\Lam_0 = m_0$, the bare mass of the electron and $g_0$ equal to
-the bare coupling.
-
-For QCD, if the LP 
-rationale were valid,
-one would take $m_0=$ bare mass of a quark. But if we assume $m_0\rarrow 0$, and $\beta_3<0$,
-then, $\Lam_{LP}\rarrow 0$.
-
-
-For QED, perturbation in powers of $g$
-works only for low $\Lam$.
-For QCD, perturbation in powers of $g$
-works only for high $\Lam$.
-
-LP is a finite scale at which a
-theory's coupling constant $g$
-becomes infinite.
-
-
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=5in]
-{qcd-qed-g.png}
-\caption{Plots of
-$g(\Lam/\Lam_0)$ 
-for QCD ($\beta_2<0$)
-and QED ($\beta_2>0$).
-For QCD, perturbation theory breaks down
-for $0\leq\Lam/\Lam_0<<1$
-so this figure is incorrect but suggestive. In reality, $\Lam_{pole}/\Lam\rarrow 0$.}
-\label{fig-qcd-qed-g}
-\end{figure}
-
-
-
-%
-%\beq
-%\frac{d\lam}{d\ln\mu}=a\lam^n
-%\eeq
-%
-%For $n=1$,
-%
-%\beq
-%\frac{1}{a}\ln\left(\frac{\lam(\mu)}{\lam(\mu_0)}\right)=
-%\ln\left(\frac{\mu}{\mu_0}\right)
-%\eeq
-%Define
-%\beq
-%K(\lam, \mu)= \frac{1}{a}\ln\left(\frac{1}{\lam(\mu)}\right) +\ln\mu
-%\eeq
-%
-%For $n>1$
-%\beq
-%\frac{1}{\lam^{n-1}(\mu)}
-%-
-%\frac{1}{\lam^{n-1}(\mu_0)}
-%=
-%-(n-1)a\ln\left(\frac{\mu}{\mu_0}\right)
-%\eeq
-%Define
-%\beq
-%K(\mu, \lam)=\frac{1}{(n-1)a \lam^{n-1}(\mu)} +\ln \mu
-%\eeq
-%
-%\beq
-%K(\lam,\mu)=K(\lam_0, \mu_0)
-%\eeq
-%
-%\begin{figure}[h!]
-%\centering
-%\includegraphics[width=5.9in]
-%{running-coupling.png}
-%\caption{Running Coupling constant $\lam(\mu)$
-%for $\beta=a\lam^n$ for
-%cases $n=1$ and $n>1$.}
-%\label{fig-running-coupling}
-%\end{figure}
-
-\section{Beta Potential}
-
-Newton's equation says 
-\beq
-m\ddot{x}= F
-\eeq
-where $m=$mass, $x=$ position, and $F=$ force. But
-you could  have, once the acceleration dies down,
-an equilibrium between a drag force and a propulsion force. Let
-
-$\gamma \dot{x}=$ drag,  a velocity dependent force with $\gamma>0$
-
-$F=-\partial_x V=$ propulsion, a conservative force with potential function $V$
-
-Then, at equilibrium,
-
-\beq \gamma\dot{x}=F = -\partial_x V
-\label{eq-phi-four-drag-prop}
-\eeq
-
-Note that
-
-\beq
-\gamma\partial_x\dot{x}=F = -\partial_x^2 V
-\eeq
-
-
-As shown in Fig.\ref{fig-V-derivatives-phi-four},
-$V$ has positive second derivative
-(hold water convexity)
-on both sides of a {\bf stable, attractive fixed  point (attractor, sink)},
-and it has negative second derivative
-(drop water convexity)
-on both sides of an {\bf unstable, repulsive fixed point (repeller, source)}. Hence, we can think of
-$V$ as a potential in which a ball rolls towards an attractor
-and away from a repeller.
-
-
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=4in]
-{../dynamical-sys/V-derivatives.png}
-\caption{Illustration of
-$\frac{d\dot{x}}{dx}=-\partial^2_xV$. Arrows
-in vector field are 
-proportional to $\dot{x}$. }
-\label{fig-V-derivatives-phi-four}
-\end{figure} 
-
-Now 
-set
-position =$x\rarrow \lam$, time=$t\rarrow \ln \mu$,
-and $\gamma=1$
-in Eq.(\ref{eq-phi-four-drag-prop})
-
-\beq
-\frac{d \lam}{dt}= \beta(\lam) = -\partial_\lam V
-\eeq
-
-\beq
-V(\lam)-V(\lam_0)
-=
--\int_{\lam_0}^\lam
-d\lam\; \beta(\lam)
-\eeq
-
-\beq
-\beta(\lam)= -\eps \lam + a\lam^2
-\implies V(\lam)= \frac{\eps}{2}\lam^2-
-\frac{a}{3}\lam^3 + \text{constant}
-\eeq
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=3in]
-{beta-potential.png}
-\caption{Beta  potential curve $V(\lam)$.
-$time=\ln b= \ln(1/\Lam$). As  $b$ or $\Lam$ increases, a ball rolls downward in this potential.}
-\label{fig-beta-potential}
-\end{figure}
-
-Minimum at $\lam=0$ and maximum at
-
-\beq
-0=\partial_\lam V(\lam^*)=-\beta(\lam^*)
-\implies \quad
-\lam^*=\frac{\eps}{a},
-\quad V(\lam^*)=\frac{\eps^3}{6a^2}
-\eeq
-Wilson-Fisher fixed point (Curie point).
-
-Recall
-
-\beq
-\ln b = \ln \mu =\ln\left(\frac{1}{\Lam}\right) 
-\eeq
-
-larger $b$ (coarser grid) $\implies$ smaller $\Lam$ (UV energies)
-
-smaller $b$ (finer grid) $\implies$ larger $\Lam$ (Infrared energies)
-
-
- QED (Quantum Electrodynamics)
-has $\beta>0$ which gives it
-an infrared fixed point,
-whereas QCD (Quantum Chromodynamics)
-has $\beta<0$ which gives it an ultraviolet
-fixed point.
-
-\section{$\phi^4$-Ising connection}
-
-Start with the Ising model partition function (set $H=0$ for now):
-
-\beq
-Z = \sum_{{S_i=\pm1}} \exp\left(\beta J \sum_{(i, j)\in NN} S_i S_j
-+\beta H\sum_i S_i
-\right)
-\eeq
-
-\begin{claim}(Ginzburg-Landau model)
-\beq
-Z= \int \cald\phi\; e^{-\cala}
-\eeq
-where
-the action $\cala$ is given by
-
-\beq
-\cala[\phi] \approx \int d^2 x \left[\frac12 \sum_{\mu=1}^2
-(\partial_\mu \phi)^2 + \frac{m^2}{2}\phi^2 + \frac{\lam}{4!}\phi^4
-+ h\phi\right]
-\eeq
-
-\end{claim}
-\proof
-
-
-set $H=0$ to begin with.
-
-
-Rewrite the interaction in matrix form:
-
-\beq
-\beta J\sum_{(i,j)\in NN} S_i S_j = \frac12 \sum_{i, j} S_i K_{ij} S_j =\frac12 S^T K S
-\eeq
-
-\beq
-\begin{array}{ccc}
-\bcen
-\xymatrix@R=1pc@C=1pc{
-S_1
-&S_2
-&S_3
-\\
-S_4
-&S_5
-\ar@{-}[r]
-\ar@{-}[l]
-\ar@{-}[u]
-\ar@{-}[d]
-&S_6
-\\
-S_7
-&S_8
-&S_9
-}
-\ecen
-&\rarrow
-&
-\bcen
-\xymatrix@R=1pc@C=.1pc{
-&\scriptstyle(1+a\partial_y+ \frac{a^2}{2}\partial^2_y)S_5
-&
-\\
-\scriptstyle(1-a\partial_x+ \frac{a^2}{2}\partial^2_x)S_5
-&S_5
-\ar@{-}[r]
-\ar@{-}[l]
-\ar@{-}[u]
-\ar@{-}[d]
-&\scriptstyle (1+a\partial_x+ \frac{a^2}{2}\partial^2_x)S_5
-\\
-&\scriptstyle(1-a\partial_y+ \frac{a^2}{2}\partial^2_y)S_5
-&
-}
-\ecen
-\\
-\\
-\beta J S_5(S_4 +  S_6 
-+ S_8 + S_2)
-&\approx
-&
-\beta J S_5 \left[
-4 +a^2(\partial_x^2 + \partial_y^2)
-\right]S_5
-\end{array}
-\eeq
-
-
-\beq
-\frac{K}{2}= 4\beta J (1 +\frac{a^2}{4}\sum_\mu \partial_\mu^2 )
-\implies K^{-1}=\frac{1}{8\beta J}
-\frac{1}{1 +\frac{a^2}{4}\sum_\mu \partial_\mu^2 }\approx
-\frac{1}{8\beta J}\left(
-1 -\frac{a^2}{4}\sum_\mu \partial_\mu^2\right)
-\eeq
-
-\beq
-\int_{-\infty}^\infty
-dx\;e^{-a x^2 + bx}=\sqrt{\frac{\pi}{a}}
-e^{\frac{b^2}{4a}}
-\eeq
-
-
-
-\beq
-\int \underbrace{\cald\phi}_{\prod_i d\phi_i} \;
-\exp\left(-\;\frac{1}{2}\phi^T K^{-1}\phi + \phi^T S\right)\propto
-e^{\frac{1}{2} S^T K S} 
-\eeq
-
-\beq
-Z = \int \cald \phi \;
-e^{-\frac12\phi^T K^{-1}\phi}
-\prod_i \sum_{S_i=\pm1} e^{\phi_i S_i}
-\eeq
-
-\beq
-\sum_{S_i=\pm1} e^{\phi_i S_i} = 2\cosh(\phi_i)
-\eeq
-
-\beq
-Z = \int \cald\phi \;
-\exp\left[
--\;\frac{1}{2}\phi^T K^{-1}\phi + \sum_i \ln(2\cosh \phi_i)
-\right] 
-\eeq
-
-Near criticality, $ \phi $ is small, so expand:
-
-\beq
-\ln (2\cosh \phi_i) =
-\ln(2) +\frac{\phi_i^2}{2} - \frac{\phi_i^4}{12} + \calo(\phi_i^6)
-\eeq
-
-\beq
-Z= \int \cald\phi\; e^{-\cala}
-\eeq
-
-\beq
-\cala [\phi] = 
-\frac{1}{2}\sum_{i,j}\phi_i (K^{-1})_{i,j}\phi_j -
-  \sum_i \left(
-  \frac{\phi_i^2}{2} - \frac{\phi_i^4}{4(3)} + \cdots
-  \right)
-\eeq
-
-
-Now take continuum limit:
-
-\beq
-\sum_i \rarrow \int \frac{d^2x}{a^2}
-\eeq
-
-
-
-
-
-\beqa
-\cala[\phi] &=& \int \frac{d^2 x}{a^2} \left[\frac{\phi}{16\beta J}\left(
-1 -\frac{a^2}{4}\sum_\mu \partial_\mu^2\right)\phi-\frac{1}{2}\phi^2 + \frac{1}{4(3)}\phi^4 
-\right]
-\\
-&=&
-\int d^2 x \left[-\;\frac{\phi}{8^2\beta J}\left(
-\sum_\mu \partial_\mu^2\right)\phi
-+\left(\frac{1}{a^2 8\beta J}
--\frac{1}{a^2}\right)\frac{\phi^2}{2} + 
-\left(\frac{2}{a^2}\right)\frac{\phi^4}{4!} 
-\right]
-\eeqa
- Integrate by parts first term
-to replace $\phi\partial^2_\mu\phi$ by $-(\partial_\mu \phi)^2$.
-Then set
-\beq
-\lam = \frac{8}{a^2}\eeq
-
-\beq
-m^2 = 
-\frac{4}{a^2}
-\left(
-\frac{1-8\beta J}{8\beta J}
-\right)
-\eeq
-
-
-\beqa
-\cala[\phi]
-&=&
-\frac{1}{4}
-\int d^2x\;
-\left[
-\frac{1}{(8\beta  J)2}
-\sum_\mu\left(\partial_\mu\phi\right)^2 + m^2 \frac{\phi^2}{2}
-+ \lam \frac{\phi^4}{4!}
-\right]
-\eeqa 
-
-\beq
-T_c = 8J,\quad 8\beta J = T_c/T
-\eeq
-Set $8\beta J\approx 1$ in first term.
-Rescale $\phi = 2\phi'$, $\lam= \lam'/4$
-
-\beq
-\boxed{
-\lam' = \frac{32}{a^2}}
-\eeq
-
-\beq
-\boxed{m^2 = \frac{4}{a^2}
-\left(
-\frac{T-T_c}{T_c}
-\right)}
-\eeq
-
-\beq
-\cala[\phi']=
-\int d^2x\;
-\left[
-\frac12 \sum_\mu(\partial_\mu  \phi')^2
-+\frac{m^2}{2}(\phi')^2
-+\frac{\lam'}{4!}(\phi')^4
-\right]
-\eeq
-
-
-If you include  $H$ term in $Z$,
-\beq
-\ln[2\cosh \phi_i]
-\rarrow \ln[2\cosh(\phi_i + \beta H)]
-\eeq
-
-\beqa
-\ln[2\cosh(\phi_i + \beta H)]
-&\approx& \ln(2) + \frac12 (\phi_i + \beta H)^2
-\\
-&\approx&\ln(2) +  \frac{\phi^2_i + (\beta H)^2}{2} + \beta H  \phi_i
-\\
-&\approx&\ln(2) +  \beta H \phi_i
-\eeqa
-
-
-\beqa
-\sum_i \ln[2\cosh(\phi_i + \beta H)]
-&\rarrow&\int \frac{d^2 x} {a^2}\;\beta H \phi
-\\
-&\rarrow&\int \frac{d^2 x} {a^2}2\beta H \phi\quad \text{(from $\phi\rarrow 2\phi$ rescaling)}
-\\
-&=&
-\int d^2x\; h \phi
-\eeqa
-
-\beq
-\boxed{h=\frac{2\beta H}{a^2}}
-\eeq
-\qed
-
- $$
-S_i \to -S_i \Rightarrow \phi \to -\phi
- $$
-
-
-  $ \phi^4 $ is   term is r-unstable and marginal,
-  higher powers are   i-stable.
-
-
-
-Even though Ising has no explicit $ S^4 $ term because
- $
-s_i^4 = 1
- $
-coarse-graining produces   nontrivial fluctuations, and those produce a genuine $ \phi^4 $ interaction.
-
-  Ising and $\phi^4$ model exists in any $d$. dimension $d=4$
-  special for $\phi^4$:
- the   upper critical dimension 
-
-
-
-From Claim \ref{cl-dim-lam},
-$\engdim{\lam}=L^{4-d}$
-
-\begin{itemize}
- \item $ d < 4 $:
-  $ \lam $ has   positive dimension   so $\phi^4$ term is  r-unstable.
-  $\lam^p$
-  times integral
-implies integral $\sim L^{p(d-4)}$
-so converges.   fluctuations matter, nontrivial critical behavior
-
-\item  $ d = 4 $:
-  $ \lam $ is   dimensionless  so $\phi^4$ term is marginal. $\lam^p$ times integral
-usually converges
-
-\item  $ d > 4 $:
-  $ \lam $ has negative dimension  so $\phi^4$ term is i-stable.
-$\lam^p$ times integral 
-diverges. 
-  fluctuations die, mean-field theory works
-\end{itemize}
-
-
-
-
-
- So why 2-dim Ising model works 2-dim $ \phi^4 $?
-
-
-d-dim Ising model coarsening of d-dim $ \phi^4 $. we expand around $d=4$ because
-  theory is weakly coupled near $ d=4 $ and allows
-  allows perturbation theory
-
-Then extrapolate to:
-
-  $ d=3 $ (good)
-  $ d=2 $ (qualitatively OK, quantitatively rough)
-
-
-
-\section{Spontaneous Symmetry Breaking}
-
-Let
-
-$r=m^2=\propto T-T_c$
-
-$u=\lam$
-
-variables are named this way 
-because Curie-Fisher-Wilson point at $r=r^*$ and $u=0$
-is attractive (i.e., i-stable)
-in the $u$ direction and repulsive (i.e., r-unstable) in the $r$ direction.
-
-
-The Ginzburg–Landau free energy (= Euclidean Action  $\cala$)
-
-\beq
-F[\phi] = \int d^d x \left[ \frac{1}{2}\sum_\mu(\partial_\mu \phi)^2 + \frac{r}{2}\phi^2 + \frac{u}{4!}\phi^4 \right]
-\eeq
-
-\beq
-V(\phi)= \frac{r}{2}\phi^2 + \frac{u}{4!}\phi^4
-\eeq
-
-
-\beq
-V'(\phi)=0\implies\quad \phi=0 \text{ or } \phi=\phi^*=\sqrt{\frac{-6r}{u}}
-\eeq
-
-Some people define $u=\lam/6$ in which case $\phi^* =\sqrt{\frac{-r^*}{u}}$.
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=2.3in]
-{phi-potential.png}
-\caption{$\phi$  potential curve $V(\phi)$.}
-\label{fig-phi-potential}
-\end{figure}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=4.5in]
-{r-u-phases.png}
-\caption{$(r,u)$ plane exhibiting Curie-Fisher-Wilson fixed point (saddle-point) at $(r,u)=(0, u^*)$, and a trivial fixed point (maximum) at $(r,u)=(0,0)$.
-Top-right quadrant harbors the disordered phase, and  top-left quadrant harbors 2 possible spontaneous phases (all spins up or all spins down). $r=m^2\propto (T-T_c)$ is a temperature-like c.c. so r-unstable, repulsive}
-\label{fig-r-u-phases}
-\end{figure}
-
- In the $(r,u)$ plane:
- The region $r>0, u>0$ corresponds to the disordered phase
- and the region $r<0, u>0$ corresponds to the ordered phase with a Mexican hat potential.
- The Wilson–Fisher fixed point lies at $r=0, u=u^*$.
- The separation between minima $\Delta \phi \sim \sqrt{|r|/u}$ is constant along lines $u = a r$ with $a<0$.
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=5in]
-{qcd-qed-r-u-plane.png}
-\caption{$(r, u)$ plane 
-for QCD ($\beta_2<0$)
-and QED ($\beta_2>0$).
-The Landau pole $(0, u_{LP})$ is a pure repeller for for both QED and QCD.}
-\label{fig-qcd-qed-r-u-plane}
-\end{figure}
-
-For QCD and QED, $r=m^2_f$, fermion mass (mass of electron for QED and mass of quark for QCD). 
 
 \end{document}
