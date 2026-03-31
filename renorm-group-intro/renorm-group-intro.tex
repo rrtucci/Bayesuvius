@@ -3,7 +3,7 @@
 
 In this chapter, we discuss
 the Renormalization Group (RG)
-techniques in general.
+method in general.
 Other chapters of this book 
 on the topic of RG are listed in Section \ref{sec-rg-examples}.
 
@@ -163,17 +163,10 @@ as a learning tool.
 
 
 
-\section{Scaling and dimensions}
+\section{Scaling}
 
+\subsection{Scaling as coarsening}
 
-
-We will use the units 
-used in High Energy
-Physics in which $\hbar$ (Plank's constant divided by $2\pi$) and $c$ (speed of light) are set to 1 
-temporarily, and then restored when one needs actual values in MKS units. In such units,
-everything has dimensions of $L^D$, where $L$
-stands for length, and $D$ is some rational number. The dimensions of length and time are $L$ and those of energy, mass and
-momentum are $L^{-1}$.
 
 Let 
 
@@ -243,12 +236,160 @@ Note also that
 \label{fig-b-funs}
 \end{figure}
 
+\subsection{RG transformation}
+Let $b, b_1,b_2,b_3\geq 1$.
+If $R_b$ denotes
+a {\bf renormalization transformation (one iteration) 
+with scaling factor $b$}, then clearly
+
+\beq
+R_{b_1 b_2} = R_{b_1}R_{b_2}
+\;.
+\eeq
+Note that
+$R_1 R_b = R_b$
+(identity property),
+and  $R_{b_1}(R_{b_2}R_{b_3})=
+(R_{b_1}R_{b_2})R_{b_3}$
+(associative property).
+However, one cannot
+set $R_{1/b}R_{b}=R_1$ (inverse property)
+because $1/b$ is not greater than 1.
+Physically,
+the reason RG operations
+don't have inverses is
+that they represent lossy data-compression,
+and therefore are irreversible.
+So the set of transformation
+$\{R_b: b\geq 1\}$
+is not a true mathematical
+group. In truth, it only
+satisfies the properties of
+a weaker algebraic
+structure called a {\bf semi-group}.\footnote{However,
+if the theory is scale invariant (i.e., conformal)
+as happens when it sits at a critical point,
+then
+one can consider all $b> 0$,
+not just $b\geq 1$,
+and the set $\{R_b: b>0\}$
+is a true group.}.
+Physicists, however, call it a group
+anyway.
 
 
 
 
+\subsection{Scaling at fixed points}
+
+We will use the units 
+used in High Energy
+Physics in which $\hbar$ (Plank's constant divided by $2\pi$) and $c$ (speed of light) are set to 1 
+temporarily, and then restored when one needs actual values in MKS units. In such units,
+everything has dimensions of $L^D$, where $L$
+stands for length, and $D$ is some rational number. The dimensions of length and time are $L$ and those of energy, mass and
+momentum are $L^{-1}$.
 
 
+Connection of $b$-scaling and 
+dimensional analysis
+
+Suppose $b\in[1, \infty]$ is dimensionless, $x$ is a length or time and $p$
+is a mass or momentum or energy.
+Define 
+
+\beq \label{eq-dual-b}
+\begin{array}{ll}
+x= x_0/b, &x_0 = bx
+\\
+p = b p_0,& p_0 = p/b
+\end{array}
+\eeq
+ 
+Let $L$ have dimensions of length and $M=1/L$ 
+dimensions of mass.
+
+Define {\bf dimensional analysis $L$-scaling} of $F(x, p)$ by
+\beq
+F(x_0, p_0)= L^{D_F} F(x_0/L, Lp_0)
+\label{eq-L-scaling}
+\eeq
+For example, $x_0 = L\frac{x_0}{L}$ so $D_x=1$
+Define {\bf RG $b$-scaling of $F$} by
+\beq
+F(x, p)= b^{-y_F}F(x/b, bp),
+\quad
+D_F=-y_F
+\label{eq-b-scaling}
+\eeq
+For example, $x = b\frac{x}{b}$ so $y_x=-1$.
+Even though $b$ is dimensionless,
+it satisfies the same 
+scaling equation Eq.(\ref{eq-L-scaling}) with
+$b=L$ and
+ $y_f=-D_F$.
+Eqs.(\ref{eq-dual-b})
+ are also correct dimensionally if we 
+set $x_0=p_0=1$ and $b=L$.
+
+Eqs.(\ref{eq-L-scaling})
+and (\ref{eq-b-scaling}) for
+$M$ and $b$ scaling 
+are not always possible.
+For example, if $F(x, p) = \sin(x)$. RG theory assumes that \ul{at a fixed point,
+$b$-scaling is possible}. 
+Functions for which $b$-scaling
+is possible are said to be {\bf self-similar (in a continuous sense)}.
+Note that
+
+\beq
+\ln F(x, p) =
+-y_F \ln b + \ln F(bx, p/b)
+\eeq
+so
+\beq
+\frac{d \ln F(x/b, p/b)}
+{d\ln b}= y_F
+\eeq
+so such functions do indeed 
+possess a continuous fractal dimension (see Chapter \ref{ch-fractal-dim}) and are self-similar in a continuous rather that discrete sense.
+
+The fact that fixed points are hypothesized to be self similar in a continuous sense might not surprising because the RG transformation $R_b$ acting on an observable $q$ satisfies
+
+\beq
+q^{(n+1)}=R_b(q^{(n)})
+\eeq
+can be generalized to infinitesimal 
+$\ln b$ increments. a fixed point is defined as a point $q^*$ such that
+
+\beq
+q^* = R_b(q*)
+\eeq
+If 
+\beq
+R_b(q^*)\approx A b^{y}
+\eeq
+then
+\beq
+\frac{d\ln R_b(q^*)}{d\ln b}\approx y
+\eeq
+
+As an example,
+consider the connected Green function $G_c(x) = \av{\phi(x), \phi(0)}$.
+At  a fixed point
+
+\beq
+G_c(x)= b^{-y_G}G_c(x/b)
+\eeq
+This equation is solved by
+\beq
+G_c(x)= \frac{1}{|x|^{y_G}}
+\eeq
+
+
+
+
+\subsection{Beta function}
 
 High Energy Physicists define the {\bf beta
 function} for a coupling 
@@ -337,6 +478,7 @@ cases, as in the proximity
 of a critical point, one cannot set $D_q=-y_q$
 for all quantities $q$. 
 
+\subsection{Real Space and Momentum Space RG}
 Let $\phi_x\in \RR$
 be the value of a field
 at position $x\in \RR^d$. For
@@ -393,53 +535,13 @@ real space renormalization & momentum space renormalization \\ \hline
 coarse graining & integrate over high freq. modes \\ \hline
 \end{tabular}
 
-Let $b, b_1,b_2,b_3\geq 1$.
-If $R_b$ denotes
-a {\bf renormalization transformation (one iteration) 
-with scaling factor $b$}, then clearly
-
-\beq
-R_{b_1 b_2} = R_{b_1}R_{b_2}
-\;.
-\eeq
-Note that
-$R_1 R_b = R_b$
-(identity property),
-and  $R_{b_1}(R_{b_2}R_{b_3})=
-(R_{b_1}R_{b_2})R_{b_3}$
-(associative property).
-However, one cannot
-set $R_{1/b}R_{b}=R_1$ (inverse property)
-because $1/b$ is not greater than 1.
-Physically,
-the reason RG operations
-don't have inverses is
-that they represent lossy data-compression,
-and therefore are irreversible.
-So the set of transformation
-$\{R_b: b\geq 1\}$
-is not a true mathematical
-group. In truth, it only
-satisfies the properties of
-a weaker algebraic
-structure called a {\bf semi-group}.\footnote{However,
-if the theory is scale invariant (i.e., conformal)
-as happens when it sits at a critical point,
-then
-one can consider all $b> 0$,
-not just $b\geq 1$,
-and the set $\{R_b: b>0\}$
-is a true group.}.
-Physicists, however, call it a group
-anyway.
 
 
 
 
 
 
-
-\section{Correlations}
+\subsection{Correlations}
 \label{sec-corr}
 
 Let
@@ -521,7 +623,7 @@ set $y_q=-D_q$ for all $q$.
 The Landau and mean field
 models describe this lossless regime.
 
-\section{Critical exponents}
+\subsection{Critical exponents}
 How various thermodynamic
 quantities behave near and precisely
 at a critical point is described
@@ -1033,41 +1135,6 @@ becomes the regulator and
 $\mu$ the fiducial mass scale.
 
 
-\section{RG theory pi-groups.
-Callan-Symanzik Type Equations}
-
-In doing dimensional
-analysis (Ref.\cite{wiki-da})
-for a given problem, one
-usually begins by finding the
- pi-groups relevant to the
-problem. A pi-group (so called
-because the symbols $\pi_1, \pi_2, \ldots$
-are used to represent them)
-is a product
-of quantities that is dimensionless:
-\beq
-\text{
-engineering dim of pi-group}=L^0
-\;.
-\eeq
-Analogously, in RG theory, one
-can often identify certain compound
-quantities which must be scale
-invariant (i.e., independent
-of $\mu$).
-I like to call such
-quantities RG pi-groups.
-
-\beq
-\frac{d}{d\ln \mu}
-\{\mbox{\rm RG pi-group}\}=0
-\;.
-\label{eq-callan}
-\eeq
-The Callan-Symanzik equation
-used in High Energy Physics is
-just a special case of Eq.(\ref{eq-callan}).
 
 
 \section{Examples of use of RG theory}
