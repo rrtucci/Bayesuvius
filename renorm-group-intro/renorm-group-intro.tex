@@ -3,12 +3,12 @@
 
 In this chapter, we discuss
 the Renormalization Group (RG)
-method in general.
+theory in general.
 Other chapters of this book 
-on the topic of RG are listed in Section \ref{sec-rg-examples}.
+on the topic of RG theory are listed in Section \ref{sec-rg-examples}.
 
 This chapter is based on 
-an introduction to RG 
+an introduction to RG theory 
 entitled \qt{Honey, I shrunk the theory} that I wrote for some friends in 2011.
 
 \section{Introduction}
@@ -25,9 +25,8 @@ includes the following topics:
 defining a finite integral
 from a  divergent integral.
 The parameter in the finite integral
-than one takes
-the limit of to get the divergent
-integral is called the
+whose  limit makes the
+integral infinite is called the
 regulator of the integral.
 Divergent integrals arise 
 in field theories because such
@@ -35,24 +34,23 @@ theories describe an infinite number
 of harmonic oscillators, each with
 a finite zero point (ground state)  energy.
 \item {\bf renormalization:}
-a process of possibly
-adding a finite number
-of new interactions to a field theory
-and dividing certain parameters
-of the field theory
-by normalization constants called $Z_g$
-for various  subscripts $g$,
-so as to make the
-field theory finite. These
-normalization constants
+a process of defining $q =Z_q q_0$,
+for $q=$ a particle mass, a coupling constant
+or a field.
+$q_0$ is the bare value and $q$ is the dressed value.
+The infinite terms 
+are swept into the $Z_q$
+factors rug
+so as to make the rest of the
+field theory finite. These $Z_q$
+constants
 are parameterized by a
 regulator and diverge as
 that regulator tends to a
 certain value.
-\item {\bf scaling:} a meta-theory
-about how a field theory transforms
+\item {\bf scaling:} how a field theory transforms
 under scale transformations.
-The scaling in RG
+Scaling in RG
 is associated with
  the phenomenon of screening,
 whereby a charged particle polarizes
@@ -72,7 +70,7 @@ away from the particle.
 
 RG theory is
 truly a big tent.
-It has been applied in
+It has been applied to
 a wide variety of scientific disciplines.
 Here is a partial list of some of
 those areas. 
@@ -232,7 +230,7 @@ Note also that
 \centering
 \includegraphics[width=3in]
 {renorm-group-intro/b-funs.png}
-\caption{Various functions of $b$}
+\caption{$b$ dependence of $a$ and $\Lam$}
 \label{fig-b-funs}
 \end{figure}
 
@@ -254,13 +252,13 @@ and  $R_{b_1}(R_{b_2}R_{b_3})=
 (associative property).
 However, one cannot
 set $R_{1/b}R_{b}=R_1$ (inverse property)
-because $1/b$ is not greater than 1.
+because $1/b\leq 1$.
 Physically,
 the reason RG operations
 don't have inverses is
 that they represent lossy data-compression,
 and therefore are irreversible.
-So the set of transformation
+Thus, the set of RG transformations
 $\{R_b: b\geq 1\}$
 is not a true mathematical
 group. In truth, it only
@@ -284,15 +282,15 @@ anyway.
 
 We will use the units 
 used in High Energy
-Physics in which $\hbar$ (Plank's constant divided by $2\pi$) and $c$ (speed of light) are set to 1 
+Physics in which $\hbar$ (Plank's constant $h$ divided by $2\pi$) and $c$ (speed of light) are set to 1 
 temporarily, and then restored when one needs actual values in MKS units. In such units,
 everything has dimensions of $L^D$, where $L$
 stands for length, and $D$ is some rational number. The dimensions of length and time are $L$ and those of energy, mass and
 momentum are $L^{-1}$.
 
 
-Connection of $b$-scaling and 
-dimensional analysis
+RG $b$-scaling and 
+dimensional analysis (power counting)  in powers of $L$ have much in common.
 
 Suppose $b\in[1, \infty]$ is dimensionless, $x$ is a length or time and $p$
 is a mass or momentum or energy.
@@ -309,17 +307,17 @@ p = b p_0,& p_0 = p/b
 Let $L$ have dimensions of length and $M=1/L$ 
 dimensions of mass.
 
-Define {\bf dimensional analysis $L$-scaling} of $F(x, p)$ by
+Define {\bf dimensional analysis $L$-scaling} of 
+a function $F(x, p)$ by
 \beq
 F(x_0, p_0)= L^{D_F} F(x_0/L, Lp_0)
 \label{eq-L-scaling}
 \eeq
 For example, $x_0 = L\frac{x_0}{L}$ so $D_x=1$
-Define {\bf RG $b$-scaling of $F$} by
+
+Define {\bf RG $b$-scaling} of a function $F(x, p)$ by
 \beq
-F(x, p)= b^{-y_F}F(x/b, bp),
-\quad
-D_F=-y_F
+F(x, p)= b^{-y_F}F(x/b, bp)
 \label{eq-b-scaling}
 \eeq
 For example, $x = b\frac{x}{b}$ so $y_x=-1$.
@@ -327,51 +325,54 @@ Even though $b$ is dimensionless,
 it satisfies the same 
 scaling equation Eq.(\ref{eq-L-scaling}) with
 $b=L$ and
- $y_f=-D_F$.
+ $y_F=-D_F$.
 Eqs.(\ref{eq-dual-b})
  are also correct dimensionally if we 
-set $x_0=p_0=1$ and $b=L$.
+set $x=p=1$ and $b=L$.
 
 Eqs.(\ref{eq-L-scaling})
 and (\ref{eq-b-scaling}) for
-$M$ and $b$ scaling 
+$L$ and $b$ scaling 
 are not always possible.
-For example, if $F(x, p) = \sin(x)$. RG theory assumes that \ul{at a fixed point,
-$b$-scaling is possible}. 
+For example, they
+are untenable if $F(x, p) = \sin(x)$. RG theory assumes that \ul{at a fixed point,
+$b$-scaling of all observables $F(x, p)$ is possible}. 
 Functions for which $b$-scaling
-is possible are said to be {\bf self-similar (in a continuous sense)}.
+is possible are said to be {\bf $b$-scaling or self-similar (in a continuous sense)}.
 Note that
 
 \beq
 \ln F(x, p) =
--y_F \ln b + \ln F(bx, p/b)
+-y_F \ln b + \ln F(x/b, bp)
 \eeq
 so
 \beq
-\frac{d \ln F(x/b, p/b)}
+\frac{d \ln F(x/b, bp)}
 {d\ln b}= y_F
 \eeq
-so such functions do indeed 
-possess a continuous fractal dimension (see Chapter \ref{ch-fractal-dim}) and are self-similar in a continuous rather that discrete sense.
+so $b$ scaling functions do indeed 
+possess a continuous fractal dimension\footnote{See Chapter \ref{ch-fractal-dim} for the definition of discrete fractal dimension and self similarity.} and are self-similar in a continuous rather that discrete sense.
 
-The fact that fixed points are hypothesized to be self similar in a continuous sense might not surprising because the RG transformation $R_b$ acting on an observable $q$ satisfies
+The fact that all 
+observables $F(x, p)$ are hypothesized
+to be self-similar at a fixed point, comes from the fact that the RG transformation $R_b$ acting on $F$ satisfies
 
 \beq
-q^{(n+1)}=R_b(q^{(n)})
+F^{(n+1)}=R_b(F^{(n)})
 \eeq
-can be generalized to infinitesimal 
-$\ln b$ increments. a fixed point is defined as a point $q^*$ such that
+This transformation can be generalized to infinitesimal 
+$\ln b$ increments. A fixed point is defined as a point $F^*$ such that
 
 \beq
-q^* = R_b(q*)
+F^* = R_b(F^*)
 \eeq
 If 
 \beq
-R_b(q^*)\approx A b^{y}
+R_b(F^*)\approx A b^{y}
 \eeq
 then
 \beq
-\frac{d\ln R_b(q^*)}{d\ln b}\approx y
+\frac{d\ln R_b(F^*)}{d\ln b}\approx y
 \eeq
 
 As an example,
@@ -659,7 +660,7 @@ The behavior of $G_c(r)$ near but not precisely
 at a critical point is of an
 exponential form, with decay
 constant given by the correlation length $\xi$.
-The dependance of the correlation length $\xi$ on temperature
+The dependence of the correlation length $\xi$ on temperature
 determines the critical exponent $\nu$:
 
 \beq
