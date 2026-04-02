@@ -19,7 +19,7 @@ static system that has achieved steady state,
 and its time dependence has
 gone away. The latter scenario
 is the one pertinent to the 
-Ising model and its coarse-grained
+Ising model and its continuum
 approximation, the $\phi^4$ theory.
 
 Let
@@ -31,10 +31,10 @@ $m$ = mass of particle
 $\lambda$ = coupling constant
 
 
-Bare Lagrangian density
-in Euclidean metric for
-$\phi^4$ theory in $d$ dimensions is
-(bare quantities have zero subscript)
+The bare Lagrangian density,
+in the Euclidean metric, for
+the $\phi^4$ theory in $d$ dimensions is
+(bare quantities have a zero subscript)
 
 
 \beq
@@ -46,7 +46,9 @@ $\phi^4$ theory in $d$ dimensions is
 \frac{\lambda_0}{4!}\phi_0^4
 \eeq
 
-
+$\call_0$ is a density in $d$ dimensions. Its integral, over
+the $d$ dimensional
+volume element $d^dx$, is dimensionless: 
 \beq
 \engdim{\int d^d x \call_0}
 =L^0
@@ -100,14 +102,15 @@ coupling constant dimensionful.
 \end{claim}
 \proof
 
-Assume $\phi^n$
-interaction and $\engdim{\lam_0}=L^{-p}$
+Assume a $\phi^n$
+interaction and $\engdim{\lam_0}=L^{-p}$. Then
 
 \beq
 L^0=
 \engdim{(d^dx)\lam_0 \phi^n_0}=
 L^d L^{-p}L^{\frac{n(2-d)}{2}}
 \eeq
+Hence
 
 \beq
 0=d-p+ \frac{n(2-d)}{2}
@@ -118,7 +121,7 @@ p= d + n -\frac{nd}{2}
 If $n=4$,
 
 \beq
-p=4-d
+p=4-d=\eps
 \eeq
 If we now set
 $\eps= 4-d$,
@@ -177,31 +180,30 @@ p= \frac{\epsilon}{2}
 %\right.
 %\eeq
 
+The following 3 equations must be true:
+
 \begin{subequations}
 \label{eqs-micro-no-change}
 \beq
 \frac{d}{d\mu} \phi_0 =0
 \eeq
-\beq
-\frac{d}{d\mu} m_0^2 =0
-\eeq
+
 \beq
 \frac{d}{d\mu} \lambda_0 =0
 \eeq
+\beq
+\frac{d}{d\mu} m_0^2 =0
+\eeq
 \end{subequations}
-The physical reason 
+As pointed out  by Ken Wilson, the physical reason 
 for Eqs.(\ref{eqs-micro-no-change})
-is, in the words of
- Ken Wilson: \qt{The microscopic theory is fixed while the effective couplings change as we change the scale.}
-
-
-The bare theory does not depend on the arbitrary renormalization scale
-$\mu$.
-Because the bare parameters are $\mu$-independent, the renormalized ones must \qt{run}.
+is this: the microscopic theory is fixed while the effective couplings change as we change the scale. Since the bare parameters are independent of the arbitrary renormalization scale
+$\mu$, the renormalized ones must \qt{run} with $\mu$.
 
 Define
-
-field anomlous dimension
+\begin{itemize}
+\item
+the {\bf field anomalous dimension}
 \beq
 \gamma_\phi =
 \;\frac{d \ln \phi}{d\ln \mu}
@@ -209,14 +211,11 @@ field anomlous dimension
 
  
 
- mass anomalous dimension
+ 
 
-\beq
-\gamma_m =
-\;\frac{d \ln m^2}{d\ln \mu}
-\eeq
 
-beta function\footnote{It's conventional
+\item
+the {\bf beta function}\footnote{It's conventional
 to define $\beta_q = \frac{dq}{d\ln \mu}$
 and $\gamma_q = \frac{d\ln q}{d\ln \mu}$
 for any parameter $q$.}
@@ -226,12 +225,108 @@ for any parameter $q$.}
  \frac{d\lambda}{d\ln \mu}
 \eeq
 
-\begin{claim}(no wavefunction renormalization at 1-loop)
+\item the {\bf mass anomalous dimension}
+
 \beq
-Z_\phi = 1 + \calo(\lambda^2)\eeq
+\gamma_m =
+\;\frac{d \ln m^2}{d\ln \mu}
+\eeq
+\end{itemize}
+
+\begin{claim}($Z_\phi$ and $\gamma_\phi$ to 1-loop)
+\beq
+Z_\phi = 1 + \calo(\lambda^2),
+\eeq
+\beq
+\gamma_\phi = 0 +\calo(\lam^2)
+\eeq
 \end{claim}
 \proof
+
+The lowest order diagram that contributes is 
+\beq
+\bcen
+\xymatrix{
+\ar@{-}[r]
+&\ar@{-}[r]\lam_0
+\ar@{-}@/_1.5pc/[r]
+\ar@{-}@/^1.5pc/[r]
+&\ar@{-}[r]\lam_0
+&
+}
+\ecen
+\eeq
+which is of order $\lam^2$
+and has 2 loops.
 \qed
+
+\begin{claim}($Z_\lam$ and $\beta$ to 1-loop)
+\beq
+Z_\lam = 1 + \lam a\left(
+\frac{1}{\eps}-b\right) +\calo(\lam^2)
+\eeq
+where
+\beq
+a= \frac{3}{(4\pi)^2}
+\eeq
+
+\beq
+b=
+\left\{
+\begin{array}{ll}
+0 &
+\text{if Minimal Subtraction  (MS)}
+\\
+b_0= 1+\frac12 \ln(4\pi)&
+ \text{if Modified Minimal Subtraction  (MMS)}
+\end{array}
+\right.
+\eeq
+
+\beq
+\beta(\lam)=
+-\epsilon \lambda
++a\lam^2 + \calo(\lam^3)
+\eeq
+\end{claim}
+\proof
+See Section \ref{sec-p4-beta-calc}.
+\qed
+
+\begin{claim}($Z_m$ and $\gamma_m$ to 1-loop)
+\beq
+Z_m =
+1 + a'\lam
+\left(\frac{1}{\epsilon}+b'\right)
+\eeq
+\beq
+a'=\frac{1}{2(4\pi)^2}
+\eeq
+
+\beq
+b'=
+\left\{
+\begin{array}{ll}
+0 &
+\text{if Minimal Subtraction  (MS)}
+\\
+b'_0=1+\frac12 \ln(4\pi)&
+ \text{if Modified Minimal Subtraction  (MMS)}
+\end{array}
+\right.
+\eeq
+
+\beq
+\gamma_m(\lambda)
+=
+a'\lam
++\calo(\lambda^2)
+\eeq
+\end{claim}
+\proof
+See Section \ref{sec-p4-gamma-m-calc}.
+\qed
+
 
 \section{Beta Potential}
 
@@ -252,11 +347,10 @@ Then, at equilibrium,
 \beq \gamma\dot{x}=F = -\partial_x V
 \label{eq-phi-four-drag-prop}
 \eeq
-
-Note that
+and
 
 \beq
-\gamma\partial_x\dot{x}=F = -\partial_x^2 V
+\gamma\partial_x\dot{x} = -\partial_x^2 V
 \eeq
 
 
@@ -299,23 +393,26 @@ V(\lam)-V(\lam_0)
 -\int_{\lam_0}^\lam
 d\lam\; \beta(\lam)
 \eeq
-
+We will refer to the function $V(\lam)$
+as the {\bf beta potential}.
+For the $\phi^4$ model,
 \beq
 \beta(\lam)= -\eps \lam + a\lam^2
 \implies V(\lam)= \frac{\eps}{2}\lam^2-
 \frac{a}{3}\lam^3 + \text{constant}
+\label{eq-pot-p4}
 \eeq
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=3in]
 {renorm-group-phi-four/beta-potential.png}
-\caption{Beta  potential curve $V(\lam)$.
-$time=\ln b= \ln(1/\Lam$). As  $b$ or $\Lam$ increases, a ball rolls downward in this potential.}
+\caption{Beta  potential $V(\lam)$ for $\phi^4$ model.
+$time=\ln b$. As  $b$ increases, a ball rolls downward in this potential curve.}
 \label{fig-beta-potential}
 \end{figure}
-
-Minimum at $\lam=0$ and maximum at
+The potential given by Eq.(\ref{eq-pot-p4}) is plotted in Fig.\ref{fig-beta-potential}.
+It has a minimum at $\lam=0$ and a maximum at
 
 \beq
 0=\partial_\lam V(\lam^*)=-\beta(\lam^*)
@@ -323,201 +420,20 @@ Minimum at $\lam=0$ and maximum at
 \lam^*=\frac{\eps}{a},
 \quad V(\lam^*)=\frac{\eps^3}{6a^2}
 \eeq
-Wilson-Fisher fixed point (Curie point).
+This maximum is called the Wilson-Fisher fixed point
+and corresponds to
+the Curie point in the Ising model.
 
-Recall
+Recall that
 
 \beq
 \ln b = \ln \mu =\ln\left(\frac{1}{\Lam}\right) 
 \eeq
+Hence
 
-larger $b$ (coarser grid) $\implies$ smaller $\Lam$ (UV energies)
+$b\uparrow$ (coarser grid) $\implies$ $\Lam\downarrow$ ($\rarrow$ UV energies)
 
-smaller $b$ (finer grid) $\implies$ larger $\Lam$ (Infrared energies)
-
-
- QED (Quantum Electrodynamics)
-has $\beta>0$ which gives it
-an infrared fixed point,
-whereas QCD (Quantum Chromodynamics)
-has $\beta<0$ which gives it an ultraviolet
-fixed point.
-
-\section{Landau Pole}
-
-
-
-\beq
-\int_{\lam_0}^\lam\frac{d\lam}{\beta(\lam)}=\int_{\mu_0}^\mu d\ln(\mu)
-\eeq
-
-\beqa
-\beta(\lam) &=& -\eps\lam + a\lam^2 +\calo(\lam^3)
-\\
-&=&
-a\lam(\lam-\lam^*)
-\quad \text{with } \lam^*=\frac{\eps}{a}
-\eeqa
-
-\beq
-\beta(\lam)= a(\lam-\lam^*_1)(\lam-\lam^*_2)\ldots(\lam-\lam^*_n)
-\eeq
-
-\beq
-\beta(\lam)\approx (\lam-\lam^*_1)
-\underbrace{a(\lam^*_1-\lam^*_2)\ldots(\lam^*_1-\lam^*_n)}_R
-\eeq
-
-\beq
-\ln\frac{\lam-\lam_1^*}
-{\lam_0-\lam_1^*}
-=R
-\ln\frac{\mu}{\mu_0}
-\eeq
-
-
-
-%https://en.wikipedia.org/wiki/Landau_pole
-
-For both QED and QCD,\footnote{The Wikipedia article on Landau Poles asserts that Landau in 1954 assumed
-$\beta(g)= \beta_2 g^2 +\calo(g^3)$. This is historically correct but not the modern usage. Landau used $g=\frac{e^2}{4\pi}$ where $e$ is the charge of the electron. We are using $g=e$ instead.}\footnote{Note that we are using the convention $d\ln b$ = -$d\ln \Lam$} 
-\beq
-\frac{dg}{d\ln \Lam}=\beta(g)= \beta_3 g^3 +\calo(g^4)
-\eeq
-
-\beq
-\int^g_{g_0}\frac{dg}{\beta_3 g^3}= \int_{\Lam_0}^\Lam d\ln \Lam
-\eeq
-
-\beq
--\;\frac{1}{ 2g^2}+\frac{1}{ 2g^2_0}=\beta_3\ln \frac{\Lam}{\Lam_0}
-\eeq
-
-\beqa
-g^2 &=& \frac{1}{\frac{1}{g^2_0} -2\beta_3\ln\frac{\Lam}{\Lam_0}}
-\\
-&=&
-\frac{g^2_0}{1 - 2\beta_3g^2_0\ln\frac{\Lam}{\Lam_0}}
-\label{eq-g-landau-pole}
-\eeqa
-
-A fixed point $g^*$ satisfies
-$\beta(g^*)=0$. Hence
-both QED and QCD have a 
-unique fixed point (as far
-as we can tell from
-perturbation theory
-in powers of $g$,  at $g=0$).
-
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=5in]
-{renorm-group-phi-four/landau-pole.png}
-\caption{Plots of
-$g(\Lam/\Lam_0)$ defined by Eq.(\ref{eq-g-landau-pole})
-for $\beta_2=\pm 2.3$ and $g_0=1$.}
-\label{fig-landau-pole}
-\end{figure}
-
-A Landau Pole (LP) is an finite energy
-$\Lam_{LP}$ at which the coupling constant 
-$g(\Lam)$ becomes infinite.
-\beq
-\frac{\Lam_{LP}}{\Lam_0}=
-\exp\left(\frac{1}{2\beta_3g^2_0}\right )
-\eeq
-
-$\Lam=\Lam_{LP}$ marks a scale,
-not the position
-of a fixed point as does $\Lam=0$.
-
-LP only arises for
-QED, not for QCD. Asymptotic
-freedom of QCD (i.e., $g\downarrow$ as
- $\Lam\uparrow$
-is incompatible with the prediction of a LP.
-
-For QED, one takes $\Lam_0 = m_0$, the bare mass of the electron and $g_0$ equal to
-the bare coupling.
-
-For QCD, if the LP 
-rationale were valid,
-one would take $m_0=$ bare mass of a quark. But if we assume $m_0\rarrow 0$, and $\beta_3<0$,
-then, $\Lam_{LP}\rarrow 0$.
-
-
-For QED, perturbation in powers of $g$
-works only for low $\Lam$.
-For QCD, perturbation in powers of $g$
-works only for high $\Lam$.
-
-LP is a finite scale at which a
-theory's coupling constant $g$
-becomes infinite.
-
-
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=5in]
-{renorm-group-phi-four/qcd-qed-g.png}
-\caption{Plots of
-$g(\Lam/\Lam_0)$ 
-for QCD ($\beta_2<0$)
-and QED ($\beta_2>0$).
-For QCD, perturbation theory breaks down
-for $0\leq\Lam/\Lam_0<<1$
-so this figure is incorrect but suggestive. In reality, $\Lam_{pole}/\Lam\rarrow 0$.}
-\label{fig-qcd-qed-g}
-\end{figure}
-
-
-
-%
-%\beq
-%\frac{d\lam}{d\ln\mu}=a\lam^n
-%\eeq
-%
-%For $n=1$,
-%
-%\beq
-%\frac{1}{a}\ln\left(\frac{\lam(\mu)}{\lam(\mu_0)}\right)=
-%\ln\left(\frac{\mu}{\mu_0}\right)
-%\eeq
-%Define
-%\beq
-%K(\lam, \mu)= \frac{1}{a}\ln\left(\frac{1}{\lam(\mu)}\right) +\ln\mu
-%\eeq
-%
-%For $n>1$
-%\beq
-%\frac{1}{\lam^{n-1}(\mu)}
-%-
-%\frac{1}{\lam^{n-1}(\mu_0)}
-%=
-%-(n-1)a\ln\left(\frac{\mu}{\mu_0}\right)
-%\eeq
-%Define
-%\beq
-%K(\mu, \lam)=\frac{1}{(n-1)a \lam^{n-1}(\mu)} +\ln \mu
-%\eeq
-%
-%\beq
-%K(\lam,\mu)=K(\lam_0, \mu_0)
-%\eeq
-%
-%\begin{figure}[h!]
-%\centering
-%\includegraphics[width=5.9in]
-%{running-coupling.png}
-%\caption{Running Coupling constant $\lam(\mu)$
-%for $\beta=a\lam^n$ for
-%cases $n=1$ and $n>1$.}
-%\label{fig-running-coupling}
-%\end{figure}
-
-
+ $b\downarrow$ (finer grid) $\implies$ larger $\Lam\uparrow$ ($\rarrow$ Infrared energies)
 
 
 
@@ -909,7 +825,7 @@ The Landau pole $(0, u_{LP})$ is a pure repeller for for both QED and QCD.}
 
 For QCD and QED, $r=m^2_f$, fermion mass (mass of electron for QED and mass of quark for QCD). 
 
-\section{Appendix A: $\beta(\lam)$ calculation}\label{sec:betalam-calculation}
+\section{Appendix A: $Z_\lam$ and $\beta(\lam)$ calculation}\label{sec-p4-beta-calc}
 \beqa
 \Gamma^{(4)}&=&
 Z_\phi^2\left[
@@ -1085,8 +1001,7 @@ Z_\lam = 1 + \lam a\left(
 \eeq
 where
 \beq
-a= \frac{3}{(4\pi)^2}\approx 0.0190,
-\quad 1/a\approx 52.6
+a= \frac{3}{(4\pi)^2}
 \eeq
 
 \beq
@@ -1318,7 +1233,8 @@ so the fixed point is Gaussian.
 For $d<4$ a non-trivial fixed point appears.
 This fixed point describes the {\bf Ising universality class}
 
-\section{Appendix B: $\gamma_m$ calculation}
+\section{Appendix B: $Z_m$ and $\gamma_m$ calculation}
+\label{sec-p4-gamma-m-calc}
 
 
 
@@ -1390,7 +1306,7 @@ _{\Sigma}
 \eeq
 
 \beq
-b_0= 1+\frac12 \ln(4\pi)
+b'_0= 1+\frac12 \ln(4\pi)
 \eeq
 \end{claim}
 \noindent \proof
