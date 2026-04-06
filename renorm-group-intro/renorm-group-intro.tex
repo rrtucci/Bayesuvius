@@ -192,6 +192,7 @@ Define (see Fig.\ref{fig-b-funs})
 \beq
 a(b)= ba_0, \quad
  x(b)= \frac{x_0}{b}
+\label{eq-a-a0-b}
 \eeq
 \beq
  \Lam(b) = \frac{\Lam_0}{b},
@@ -199,25 +200,39 @@ a(b)= ba_0, \quad
  \mu(b)=b\mu_0
 \label{eq-mu-Lam-b}
 \eeq
-An alternative
-notation that is very common is to
-use a prime for the output
-and to omit the 0 subscript 
-for the input. For example, to say
-$a'=ba$
-and $x'=x/b$ instead of $a=ba_0$
-and $x=x_0/b$. 
-Alternatively, one could write $a_{i+1}=ba_i$, $x_{i+1}=x_i/b$, etc. for
-the steps in an iteration.
+Note that $xa$ does not change when
+one iterates ($x_0a_0\rarrow xa$). So 
+if $a$ goes from $1$ to $2$, 
+$x$ is reduced by half.
+The following are alternative notations
+used by workers in the field 
+to convey the
+same idea as Eq.(\ref{eq-a-a0-b}).
+
+\beq
+a'=ba, \quad x'=\frac{x}{b}
+\eeq
+\beq
+a\rarrow a'=ba, \quad x\rarrow x'=\frac{x}{b}
+\eeq
+
+\beq
+a\sim b, \quad x\sim \frac{1}{b}
+\eeq
+
+\beq
+a\propto b,\quad x\propto \frac{1}{b}
+\eeq
+ 
+\beq
+a_{i+1}=ba_i, \quad x_{i+1}=\frac{x_i}{b}
+\eeq 
+All these expressions refer to one step in an iteration.
 At the beginning 
 of each iteration (programming loop),
 $a_0$ is set equal to $a$,
 or $a'$ is set equal to $a$.
 
-Note that $xa$ does not change when
-one iterates ($x_0a_0\rarrow xa$). So 
-if $a$ goes from $1$ to $2$, 
-$x$ is reduced by half.
 
 Note also that
 \beq
@@ -355,29 +370,39 @@ Define
 
 \beq \label{eq-dual-b}
 \begin{array}{ll}
-x= x_0/b
+x'= x/b
 \\
-p = b p_0
+p' = b p
 \end{array}
 \eeq
  
 Let $L$ have dimensions of length and $M=1/L$ 
 dimensions of mass.
 
+Normal dimensional analysis of a function $F(x,p)$ just rewrites it as
+
+\beq
+F(x, p) = F(L\hat{x}, \hat{p}/L)
+\eeq
+where $\hat{x}=x/L$ and $\hat{p}=Lp$.
+
 Define {\bf dimensional analysis $L$-scaling} of 
 a function $F(x, p)$ by
 \beq
-F(x_0, p_0)= L^{D_F} F(x_0/L, Lp_0)
+F(x, p)= {L^{D_F} F(x/L, Lp)}
 \label{eq-L-scaling}
 \eeq
-For example, $x_0 = L\frac{x_0}{L}$ so $D_x=1$
+For example, $x = L\frac{x}{L}$ so $D_x=1$
 
-Define {\bf RG $b$-scaling} of a function $F(x, p)$ by
+Define {\bf RG $b$-scaling} of a function $F(x, p)$ by\footnote{
+Normally, one would write
+$F(x,p)\rarrow F(x', b')$ but
+self similarity is a much stronger assertion.}
 \beq
-F(x_0, p_0)= b^{-y_F}F(x_0/b, bp_0)
+F(x, p)= b^{-y_F}F(x', p')=b^{-y_F}F(x/b, bp)
 \label{eq-b-scaling}
 \eeq
-For example, $x_0 = b\frac{x_0}{b}$ so $y_x=-1$.
+For example, $x = b\frac{x}{b}$ so $y_x=-1$.
 Even though $b$ is dimensionless,
 it satisfies the same 
 scaling equation Eq.(\ref{eq-L-scaling}) with
@@ -426,11 +451,11 @@ F^* = R_b(F^*)
 \eeq
 If 
 \beq
-R_b(F^*)\approx A b^{y}
+R_b(F)\approx A b^{y}
 \eeq
 then
 \beq
-\frac{d\ln R_b(F^*)}{d\ln b}\approx y
+\frac{d\ln R_b(F)}{d\ln b}\approx y
 \eeq
 
 As an example,
@@ -1254,7 +1279,7 @@ with the same critical exponents
  are
 said to be in the same
 \textbf{universality class}.
-For example, for $1<d< 4$, the $\phi^4$ theory
+For example, for $1<d< 4$, the $\phi^4$ model
 has a critical, non-trivial fixed point called the Wilson-Fisher (WF) point. The WF fixed point
  has the same critical exponents
 as the critical point
@@ -1327,7 +1352,7 @@ to $d\in\RR_{>0}$ dimensions.
 In this case, in order to make
 the c.c.'s dimensionless,
 one needs to introduce a
-\qt{fiducial mass scale}.
+\qt{fiducial mass scale}. 
 This fiducial mass scale,
 called
 the \textbf{renormalization-point},
@@ -1372,15 +1397,17 @@ $\mu$ the fiducial mass scale.
 \label{sec-rg-examples}
 
 This book describes how to 
-apply RG theory to 3 physical systems:
+apply RG theory to various systems:
 
 \begin{enumerate}
-\item RG for Ising Model, Chapter \ref{ch-renorm-group-ising}
+\item RG for Ising model, Chapter \ref{ch-renorm-group-ising}
 
-\item RG for $\phi^4$ theory, Chapter \ref{ch-renorm-group-phi-four}
+\item RG for $\phi^4$ model, Chapter \ref{ch-renorm-group-phi-four}
 
 \item RG for Bayesian Networks, Chapters \ref{ch-ising-dbnet}
 and \ref{ch-renorm-group-bnets}
+
+\item RG for Partial Differential Equations (PDE), Chapter \ref{ch-renorm-group-pde}
 \end{enumerate}
 
 

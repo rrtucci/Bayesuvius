@@ -1,9 +1,359 @@
-\chapter{Renormalization Group for $\phi^4$ theory}
+\chapter{Renormalization Group for $\phi^4$ model}
 \label{ch-renorm-group-phi-four}
 
 
 This chapter assumes
 that you have read Chapter \ref{ch-renorm-group-intro}.
+
+\section{$\phi^4$-Ising connection}
+
+The {\bf Ising model} partition function is
+
+\beq
+Z = \prod_i\left(\sum_{{S_i=\pm 1}}\right) \exp\left(\beta J \sum_{(i, j)\in NN} S_i S_j
++\beta H\sum_i S_i
+\right)
+\label{eq-ising-part-fun-z}
+\eeq
+
+\begin{claim}($\phi^4$-Ising connection)
+\label{cl-p4-ising-connection}
+
+The Ising model partition function $Z$
+given by Eq.(\ref{eq-ising-part-fun-z})
+can be approximated by
+\beq
+Z= \int \cald\phi\; e^{-\cala}
+\eeq
+where
+the action $\cala$  is given by
+
+\beq
+\cala[\phi] \approx \int d^2 x \left[\frac12 \sum_{\mu=1}^2
+(\partial_\mu \phi)^2 + \frac{m^2}{2}\phi^2 + \frac{ g}{4!}\phi^4
++ h\phi\right]
+\label{eq-ginz-landau-act}
+\eeq
+Eq.(\ref{eq-ginz-landau-act}) defines the {\bf Landau-Ginzburg model}.
+\end{claim}
+\proof
+
+
+Assume $H=0$ to begin with.
+
+
+Rewrite the spin-spin interaction in matrix form:
+
+\beq
+\beta J\sum_{(i,j)\in NN} S_i S_j = \frac12 \sum_{i, j} S_i K_{ij} S_j =\frac12 S^T K S
+\eeq
+Assume that the spins $S_i$
+are continuous functions of 
+the Cartesian coordinates $(x,y)$
+and that the lattice spacing is $a$
+both in the $x$ and $y$ directions.
+Then
+
+\beq
+\begin{array}{ccc}
+\bcen
+\xymatrix@R=1pc@C=1pc{
+S_1
+&S_2
+&S_3
+\\
+S_4
+&S_5
+\ar@{-}[r]
+\ar@{-}[l]
+\ar@{-}[u]
+\ar@{-}[d]
+&S_6
+\\
+S_7
+&S_8
+&S_9
+}
+\ecen
+&\rarrow
+&
+\bcen
+\xymatrix@R=1pc@C=.1pc{
+&\scriptstyle(1+a\partial_y+ \frac{a^2}{2}\partial^2_y)S_5
+&
+\\
+\scriptstyle(1-a\partial_x+ \frac{a^2}{2}\partial^2_x)S_5
+&S_5
+\ar@{-}[r]
+\ar@{-}[l]
+\ar@{-}[u]
+\ar@{-}[d]
+&\scriptstyle (1+a\partial_x+ \frac{a^2}{2}\partial^2_x)S_5
+\\
+&\scriptstyle(1-a\partial_y+ \frac{a^2}{2}\partial^2_y)S_5
+&
+}
+\ecen
+\\
+\\
+\beta J S_5(S_4 +  S_6 
++ S_8 + S_2)
+&\approx
+&
+\beta J S_5 \left[
+4 +a^2(\partial_x^2 + \partial_y^2)
+\right]S_5
+\end{array}
+\eeq
+
+
+\beq
+\frac{K}{2}= 4\beta J (1 +\frac{a^2}{4}\sum_\mu \partial_\mu^2 )
+\implies K^{-1}=\frac{1}{8\beta J}
+\frac{1}{1 +\frac{a^2}{4}\sum_\mu \partial_\mu^2 }\approx
+\frac{1}{8\beta J}\left(
+1 -\frac{a^2}{4}\sum_\mu \partial_\mu^2\right)
+\eeq
+The Gaussian integral formula
+over one degree of freedom (dof) $x\in \RR$
+
+\beq
+\int_{-\infty}^\infty
+dx\;e^{-a x^2 + bx}=\sqrt{\frac{\pi}{a}}
+e^{\frac{b^2}{4a}}
+\eeq
+generalizes to 
+the following
+formula when integrating
+over $N$ dofs $\phi(x_i)=\phi_i\in \RR$
+for $i=1,2, \ldots, N$.
+
+\beq
+\int \underbrace{\cald\phi}_{\prod_i d\phi_i} \;
+\exp\left(-\;\frac{1}{2}\phi^T K^{-1}\phi + \phi^T S\right)\propto
+e^{\frac{1}{2} S^T K S} 
+\eeq
+Applying this generalized Gaussian integral formula
+to the partition function $Z$
+for the Ising model, we get
+(up to an insignificant factor)
+
+
+\beq
+Z = \int \cald \phi \;
+e^{-\frac12\phi^T K^{-1}\phi}
+\prod_i \left(\sum_{S_i=\pm1} e^{\phi_i S_i}\right)
+\eeq
+Since
+
+\beq
+\sum_{S_i=\pm1} e^{\phi_i S_i} = 2\cosh(\phi_i)
+\eeq
+we  get
+
+\beq
+Z = \int \cald\phi \;
+\exp\left[
+-\;\frac{1}{2}\phi^T K^{-1}\phi + \sum_i \ln(2\cosh \phi_i)
+\right] 
+\eeq
+Near criticality, $ \phi-i $ 
+for all $i$ is small, so 
+we can expand in powers of $\phi_i$
+
+\beq
+\ln (2\cosh \phi_i) =
+\ln(2) +\frac{\phi_i^2}{2} - \frac{\phi_i^4}{12} + \calo(\phi_i^6)
+\eeq
+Hence
+
+\beq
+Z= \int \cald\phi\; e^{-\cala}
+\label{eq-z-feynman-path-first-mention}
+\eeq
+where
+
+\beq
+\cala [\phi] = 
+\frac{1}{2}\sum_{i,j}\phi_i (K^{-1})_{i,j}\phi_j -
+  \sum_i \left(
+  \frac{\phi_i^2}{2} - \frac{\phi_i^4}{4(3)} + \cdots
+  \right)
+\label{eq-cala-matrix}
+\eeq
+In the the continuum limit,
+sums over matrix indices become integrals
+
+\beq
+\sum_i \rarrow \int \frac{d^2x}{a^2}
+\eeq
+Taking the continuum 
+limit 
+of the matrix expression 
+Eq.(\ref{eq-cala-matrix}) for the 
+action $\cala$, we get
+
+
+
+\beqa
+\cala[\phi] &=& \int \frac{d^2 x}{a^2} \left[\frac{\phi}{16\beta J}\left(
+1 -\frac{a^2}{4}\sum_\mu \partial_\mu^2\right)\phi-\frac{1}{2}\phi^2 + \frac{1}{4(3)}\phi^4 
+\right]
+\\
+&=&
+\int d^2 x \left[-\;\frac{\phi}{8^2\beta J}\left(
+\sum_\mu \partial_\mu^2\right)\phi
++\left(\frac{1}{a^2 8\beta J}
+-\frac{1}{a^2}\right)\frac{\phi^2}{2} + 
+\left(\frac{2}{a^2}\right)\frac{\phi^4}{4!} 
+\right]
+\label{eq-cala-beta-j-a}
+\eeqa
+Define $ g$ and $m^2$ by 
+\beq
+ g = \frac{8}{a^2}\eeq
+and
+
+\beq
+m^2 = 
+\frac{4}{a^2}
+\left(
+\frac{1-8\beta J}{8\beta J}
+\right)
+\eeq
+If we integrate by parts the first term
+of Eq.(\ref{eq-cala-beta-j-a}) to replace $\phi\partial^2_\mu\phi$ by $-(\partial_\mu \phi)^2$,
+then we get
+
+
+\beqa
+\cala[\phi]
+&=&
+\frac{1}{4}
+\int d^2x\;
+\left[
+\frac{1}{(8\beta  J)2}
+\sum_\mu\left(\partial_\mu\phi\right)^2 + m^2 \frac{\phi^2}{2}
++  g \frac{\phi^4}{4!}
+\right]
+\label{eq-cala-pre-rescaling}
+\eeqa 
+Define
+
+\beq
+T_c = 8J,\quad 8\beta J = T_c/T
+\eeq
+If  we set $8\beta J\approx 1$ in the first term of Eq.(\ref{eq-cala-pre-rescaling}) and
+we re-scale $\phi$ and $ g$ according to
+
+\beq
+\phi = 2\phi',\quad   g=  g'/4
+\eeq
+then we get
+
+\beq
+\boxed{
+ g' = \frac{32}{a^2}}
+\eeq
+
+\beq
+\boxed{m^2 = \frac{4}{a^2}
+\left(
+\frac{T-T_c}{T_c}
+\right)}
+\eeq
+
+\beq
+\cala[\phi']=
+\int d^2x\;
+\left[
+\frac12 \sum_\mu(\partial_\mu  \phi')^2
++\frac{m^2}{2}(\phi')^2
++\frac{ g'}{4!}(\phi')^4
+\right]
+\eeq
+
+
+To  include  $H$ term in $Z$,
+note that
+\beq
+\ln[2\cosh \phi_i]
+\rarrow \ln[2\cosh(\phi_i + \beta H)]
+\eeq
+and
+
+\beqa
+\ln[2\cosh(\phi_i + \beta H)]
+&\approx& \ln(2) + \frac12 (\phi_i + \beta H)^2
+\\
+&\approx&\ln(2) +  \frac{\phi^2_i + (\beta H)^2}{2} + \beta H  \phi_i
+\\
+&\approx&\ln(2) +  \beta H \phi_i
+\eeqa
+Hence
+
+\beqa
+\sum_i \ln[2\cosh(\phi_i + \beta H)]
+&\rarrow&\int \frac{d^2 x} {a^2}\;\beta H \phi
+\\
+&\rarrow&\int \frac{d^2 x} {a^2}2\beta H \phi'\quad \text{(from $\phi= 2\phi'$ rescaling)}
+\\
+&=&
+\int d^2x\; h \phi'
+\eeqa
+where
+
+\beq
+\boxed{h=\frac{2\beta H}{a^2}}
+\eeq
+
+
+Note that the invariace of the Ising model under $S_i\rarrow -S_i$ gets
+transferred to the $\phi^4$  model  as invariance under $\phi \rarrow -\phi$.
+
+Even though the Ising model has no explicit $ S_i^4 $ term because
+ $
+S_i^4 = 1
+ $, the continuum limit
+ produces an important $ \phi^4 $ interaction. The $ \phi^4 $   term is r-unstable and marginal,
+  higher powers of $\phi$ are   i-stable.
+
+Parallel Ising and $\phi^4$ models exist in any dimension $d$. But the dimension $d=4$ is
+  special; it's 
+ the   upper critical dimension.
+We expand the $\phi^4$ model around $d=4$ because
+it  is weakly coupled and thus amenable to
+perturbation theory there.
+Then we can extrapolate to:
+$ d=3 $ (good),
+  $ d=2 $ (qualitatively OK, quantitatively inaccurate).
+
+ 
+
+
+\section{Perturbation Theory}
+
+ In claim $\ref{cl-p4-ising-connection}$, we expressed the  partition function $Z$ as a {\bf Feynman path integral}
+\beq
+Z= \int \cald\phi\; e^{-\cala}
+\label{eq-essence-perturbation-theory}
+\eeq
+where $\cala$ is 
+Ginzburg-Landau action. 
+This Feynman path integral
+is the essence
+of what is called {\bf perturbation
+theory with Feynman diagrams}.
+If we remove the $\phi^4$ term
+from the action, then Eq.(\ref{eq-essence-perturbation-theory}) is just an integral over a  gigantic Gaussian function (GGF), where the GGF lives in an $N$ dimensional space $\{\phi_i\}_{i=1}^N$.
+Gaussian integrals are easy to do. The interaction term $\delta \cala=\int d^dx\;g\phi^4/4!$ spoils this Gaussian-ness of the integral, so we expand $\exp(\delta \cala)$ in powers of $\delta \cala$ (=powers of the coupling constant $g$)
+and evaluate the moments of a GGF. We don't have time
+to delve in detail into 
+perturbation theory with Feynman diagrams
+in this chapter, 
+but suffice it to say that this path integral is the zenith of the whole field.
+Everything after that is just coasting  downhill, working out the implications of this realization.
+
 
 \section{Sweeping Infinities under $Z$ factors rug}
 
@@ -20,7 +370,7 @@ and its time dependence has
 gone away. The latter scenario
 is the one pertinent to the 
 Ising model and its continuum
-approximation, the $\phi^4$ theory.
+approximation, the $\phi^4$ model.
 
 Let
 
@@ -33,7 +383,7 @@ $ g$ = coupling constant
 
 The bare Lagrangian density,
 in the Euclidean metric, for
-the $\phi^4$ theory in $d$ dimensions is
+the $\phi^4$ model in $d$ dimensions is
 (bare quantities have a zero subscript)
 
 
@@ -89,6 +439,7 @@ L^d L^{-2} \engdim{\phi}^2
 \eeq
 \qed
 
+
 \begin{claim}\label{cl-dim-lam}
 The factor $\mu^\epsilon$ 
 in Eq.(\ref{eq-lam-bare-mu-eps}) 
@@ -142,6 +493,31 @@ If we now set $\eps =6-d$, we get
 p= \frac{\epsilon}{2}
 \eeq
 \qed
+
+From Claim \ref{cl-dim-lam},
+$\engdim{ g^p_0}=L^{p(4-d)}$.
+If multiply $ g^p_0$
+  times an integral $\cali$, and assume the
+product is dimensionless, then 
+ $\cali\sim L^{p(d-4)}$.
+
+\begin{itemize}
+ \item $ d < 4 $:
+  $  g_0 $ has   positive dimension   so $\phi^4$ term is  r-unstable.
+  $\cali$
+  converges. Fluctuations
+important especially near critical points.
+\item  $ d = 4 $:
+  $  g_0 $ is   dimensionless  so $\phi^4$ term is marginal. $\cali$
+diverges but can be renormalized.
+
+\item  $ d > 4 $:
+  $  g_0 $ has negative dimension  so $\phi^4$ term is i-stable.
+$\cali$ 
+diverges. 
+ Fluctuations die, mean-field theory works.
+\end{itemize}
+
 
 
 
@@ -438,352 +814,6 @@ $b\uparrow$ (coarser grid) $\implies$ $\Lam\downarrow$ ($\rarrow$ UV energies)
 
 
 
-\section{$\phi^4$-Ising connection}
-
-The {\bf Ising model} partition function is
-
-\beq
-Z = \prod_i\left(\sum_{{S_i=\pm 1}}\right) \exp\left(\beta J \sum_{(i, j)\in NN} S_i S_j
-+\beta H\sum_i S_i
-\right)
-\label{eq-ising-part-fun-z}
-\eeq
-
-\begin{claim}($\phi^4$-Ising connection)
-
-The Ising model partition function $Z$
-given by Eq.(\ref{eq-ising-part-fun-z})
-can be approximated by
-\beq
-Z= \int \cald\phi\; e^{-\cala}
-\eeq
-where
-the action $\cala$  is given by
-
-\beq
-\cala[\phi] \approx \int d^2 x \left[\frac12 \sum_{\mu=1}^2
-(\partial_\mu \phi)^2 + \frac{m^2}{2}\phi^2 + \frac{ g}{4!}\phi^4
-+ h\phi\right]
-\label{eq-ginz-landau-act}
-\eeq
-Eq.(\ref{eq-ginz-landau-act}) defines the {\bf Landau-Ginzburg model}.
-\end{claim}
-\proof
-
-
-Assume $H=0$ to begin with.
-
-
-Rewrite the spin-spin interaction in matrix form:
-
-\beq
-\beta J\sum_{(i,j)\in NN} S_i S_j = \frac12 \sum_{i, j} S_i K_{ij} S_j =\frac12 S^T K S
-\eeq
-Assume that the spins $S_i$
-are continuous functions of 
-the Cartesian coordinates $(x,y)$
-and that the lattice spacing is $a$
-both in the $x$ and $y$ directions.
-Then
-
-\beq
-\begin{array}{ccc}
-\bcen
-\xymatrix@R=1pc@C=1pc{
-S_1
-&S_2
-&S_3
-\\
-S_4
-&S_5
-\ar@{-}[r]
-\ar@{-}[l]
-\ar@{-}[u]
-\ar@{-}[d]
-&S_6
-\\
-S_7
-&S_8
-&S_9
-}
-\ecen
-&\rarrow
-&
-\bcen
-\xymatrix@R=1pc@C=.1pc{
-&\scriptstyle(1+a\partial_y+ \frac{a^2}{2}\partial^2_y)S_5
-&
-\\
-\scriptstyle(1-a\partial_x+ \frac{a^2}{2}\partial^2_x)S_5
-&S_5
-\ar@{-}[r]
-\ar@{-}[l]
-\ar@{-}[u]
-\ar@{-}[d]
-&\scriptstyle (1+a\partial_x+ \frac{a^2}{2}\partial^2_x)S_5
-\\
-&\scriptstyle(1-a\partial_y+ \frac{a^2}{2}\partial^2_y)S_5
-&
-}
-\ecen
-\\
-\\
-\beta J S_5(S_4 +  S_6 
-+ S_8 + S_2)
-&\approx
-&
-\beta J S_5 \left[
-4 +a^2(\partial_x^2 + \partial_y^2)
-\right]S_5
-\end{array}
-\eeq
-
-
-\beq
-\frac{K}{2}= 4\beta J (1 +\frac{a^2}{4}\sum_\mu \partial_\mu^2 )
-\implies K^{-1}=\frac{1}{8\beta J}
-\frac{1}{1 +\frac{a^2}{4}\sum_\mu \partial_\mu^2 }\approx
-\frac{1}{8\beta J}\left(
-1 -\frac{a^2}{4}\sum_\mu \partial_\mu^2\right)
-\eeq
-The Gaussian integral formula
-over one degree of freedom (dof) $x\in \RR$
-
-\beq
-\int_{-\infty}^\infty
-dx\;e^{-a x^2 + bx}=\sqrt{\frac{\pi}{a}}
-e^{\frac{b^2}{4a}}
-\eeq
-generalizes to 
-the following
-formula when integrating
-over $N$ dofs $\phi(x_i)=\phi_i\in \RR$
-for $i=1,2, \ldots, N$.
-
-\beq
-\int \underbrace{\cald\phi}_{\prod_i d\phi_i} \;
-\exp\left(-\;\frac{1}{2}\phi^T K^{-1}\phi + \phi^T S\right)\propto
-e^{\frac{1}{2} S^T K S} 
-\eeq
-Applying this generalized Gaussian integral formula
-to the partition function $Z$
-for the Ising model, we get
-(up to an insignificant factor)
-
-
-\beq
-Z = \int \cald \phi \;
-e^{-\frac12\phi^T K^{-1}\phi}
-\prod_i \left(\sum_{S_i=\pm1} e^{\phi_i S_i}\right)
-\eeq
-Since
-
-\beq
-\sum_{S_i=\pm1} e^{\phi_i S_i} = 2\cosh(\phi_i)
-\eeq
-we  get
-
-\beq
-Z = \int \cald\phi \;
-\exp\left[
--\;\frac{1}{2}\phi^T K^{-1}\phi + \sum_i \ln(2\cosh \phi_i)
-\right] 
-\eeq
-Near criticality, $ \phi-i $ 
-for all $i$ is small, so 
-we can expand in powers of $\phi_i$
-
-\beq
-\ln (2\cosh \phi_i) =
-\ln(2) +\frac{\phi_i^2}{2} - \frac{\phi_i^4}{12} + \calo(\phi_i^6)
-\eeq
-Hence
-
-\beq
-Z= \int \cald\phi\; e^{-\cala}
-\eeq
-where
-
-\beq
-\cala [\phi] = 
-\frac{1}{2}\sum_{i,j}\phi_i (K^{-1})_{i,j}\phi_j -
-  \sum_i \left(
-  \frac{\phi_i^2}{2} - \frac{\phi_i^4}{4(3)} + \cdots
-  \right)
-\label{eq-cala-matrix}
-\eeq
-In the the continuum limit,
-sums over matrix indices become integrals
-
-\beq
-\sum_i \rarrow \int \frac{d^2x}{a^2}
-\eeq
-Taking the continuum 
-limit 
-of the matrix expression 
-Eq.(\ref{eq-cala-matrix}) for the 
-action $\cala$, we get
-
-
-
-\beqa
-\cala[\phi] &=& \int \frac{d^2 x}{a^2} \left[\frac{\phi}{16\beta J}\left(
-1 -\frac{a^2}{4}\sum_\mu \partial_\mu^2\right)\phi-\frac{1}{2}\phi^2 + \frac{1}{4(3)}\phi^4 
-\right]
-\\
-&=&
-\int d^2 x \left[-\;\frac{\phi}{8^2\beta J}\left(
-\sum_\mu \partial_\mu^2\right)\phi
-+\left(\frac{1}{a^2 8\beta J}
--\frac{1}{a^2}\right)\frac{\phi^2}{2} + 
-\left(\frac{2}{a^2}\right)\frac{\phi^4}{4!} 
-\right]
-\label{eq-cala-beta-j-a}
-\eeqa
-Define $ g$ and $m^2$ by 
-\beq
- g = \frac{8}{a^2}\eeq
-and
-
-\beq
-m^2 = 
-\frac{4}{a^2}
-\left(
-\frac{1-8\beta J}{8\beta J}
-\right)
-\eeq
-If we integrate by parts the first term
-of Eq.(\ref{eq-cala-beta-j-a}) to replace $\phi\partial^2_\mu\phi$ by $-(\partial_\mu \phi)^2$,
-then we get
-
-
-\beqa
-\cala[\phi]
-&=&
-\frac{1}{4}
-\int d^2x\;
-\left[
-\frac{1}{(8\beta  J)2}
-\sum_\mu\left(\partial_\mu\phi\right)^2 + m^2 \frac{\phi^2}{2}
-+  g \frac{\phi^4}{4!}
-\right]
-\label{eq-cala-pre-rescaling}
-\eeqa 
-Define
-
-\beq
-T_c = 8J,\quad 8\beta J = T_c/T
-\eeq
-If  we set $8\beta J\approx 1$ in the first term of Eq.(\ref{eq-cala-pre-rescaling}) and
-we re-scale $\phi$ and $ g$ according to
-
-\beq
-\phi = 2\phi',\quad   g=  g'/4
-\eeq
-then we get
-
-\beq
-\boxed{
- g' = \frac{32}{a^2}}
-\eeq
-
-\beq
-\boxed{m^2 = \frac{4}{a^2}
-\left(
-\frac{T-T_c}{T_c}
-\right)}
-\eeq
-
-\beq
-\cala[\phi']=
-\int d^2x\;
-\left[
-\frac12 \sum_\mu(\partial_\mu  \phi')^2
-+\frac{m^2}{2}(\phi')^2
-+\frac{ g'}{4!}(\phi')^4
-\right]
-\eeq
-
-
-To  include  $H$ term in $Z$,
-note that
-\beq
-\ln[2\cosh \phi_i]
-\rarrow \ln[2\cosh(\phi_i + \beta H)]
-\eeq
-and
-
-\beqa
-\ln[2\cosh(\phi_i + \beta H)]
-&\approx& \ln(2) + \frac12 (\phi_i + \beta H)^2
-\\
-&\approx&\ln(2) +  \frac{\phi^2_i + (\beta H)^2}{2} + \beta H  \phi_i
-\\
-&\approx&\ln(2) +  \beta H \phi_i
-\eeqa
-Hence
-
-\beqa
-\sum_i \ln[2\cosh(\phi_i + \beta H)]
-&\rarrow&\int \frac{d^2 x} {a^2}\;\beta H \phi
-\\
-&\rarrow&\int \frac{d^2 x} {a^2}2\beta H \phi'\quad \text{(from $\phi= 2\phi'$ rescaling)}
-\\
-&=&
-\int d^2x\; h \phi'
-\eeqa
-where
-
-\beq
-\boxed{h=\frac{2\beta H}{a^2}}
-\eeq
-
-
-Note that the invariace of the Ising model under $S_i\rarrow -S_i$ gets
-transferred to the $\phi^4$  model  as invariance under $\phi \rarrow -\phi$.
-
-Even though the Ising model has no explicit $ S_i^4 $ term because
- $
-S_i^4 = 1
- $, the continuum limit
- produces an important $ \phi^4 $ interaction. The $ \phi^4 $   term is r-unstable and marginal,
-  higher powers of $\phi$ are   i-stable.
-
-Parallel Ising and $\phi^4$ models exist in any dimension $d$. But the dimension $d=4$ is
-  special; it's 
- the   upper critical dimension.
-We expand the $\phi^4$ model around $d=4$ because
-it  is weakly coupled and thus amenable to
-perturbation theory there.
-Then we can extrapolate to:
-$ d=3 $ (good),
-  $ d=2 $ (qualitatively OK, quantitatively inaccurate).
-
- 
-
-
-
-From Claim \ref{cl-dim-lam},
-$\engdim{ g^p}=L^{p(4-d)}$
-
-\begin{itemize}
- \item $ d < 4 $:
-  $  g $ has   positive dimension   so $\phi^4$ term is  r-unstable.
-  $ g^p$
-  times an integral
- $\sim L^{p(d-4)}$
-so converges. Fluctuations
-important especially near critical points.
-\item  $ d = 4 $:
-  $  g $ is   dimensionless  so $\phi^4$ term is marginal. $ g^p$ times integral
-diverges but can be renormalized.
-
-\item  $ d > 4 $:
-  $  g $ has negative dimension  so $\phi^4$ term is i-stable.
-$ g^p$ times integral 
-diverges. 
- Fluctuations die, mean-field theory works.
-\end{itemize}
 
 
 \section{Spontaneous Symmetry Breaking}
@@ -838,7 +868,7 @@ $\Delta \phi$ apart.
 \centering
 \includegraphics[width=4.5in]
 {renorm-group-phi-four/r-u-phases.png}
-\caption{$(r,u)$ plane behavior of $\phi^4$ theory. }
+\caption{$(r,u)$ plane behavior of $\phi^4$ model. }
 \label{fig-r-u-phases}
 \end{figure}
 
@@ -1602,7 +1632,7 @@ Same in MS and MMS
 
 \section{Appendix C: Critical Exponents}
 
-The critical point of the $\phi^4$ theory and that of the Ising model
+The critical point of the $\phi^4$ model and that of the Ising model
 are
 in the same universality class.
 
@@ -1673,7 +1703,12 @@ so
 \hat{m}^2_0=\mu^{-2} Z_m r
 \eeq
 If we assume  $\hat{m}_0^2$
-instead of $m_0^2$ is independent of $\mu$, then
+instead of $m_0^2$ is independent of $\mu$, then\footnote{Previously  we assumed $g_0$ and $m_0^2$ 
+had non-zero dimensions because
+we wanted to obtain only the anomalous contribution when we applied $\frac{d}{d\ln \mu}$ to them. To get both the
+engineering and anomalous contributions,
+one must divide $g_0$ and $m_0^2$ by $\mu^p$ for some $p$ so as
+to make them dimensionless before applying $\frac{d}{d\ln \mu}$ to them.}
 
 \beq
 0=\frac{d\ln \hat{m}^2_0}{d\ln \mu}= -2+
@@ -1726,7 +1761,7 @@ Hence
 \proof
 
 At the critical point, the connected Green function $G_c$ scales\footnote{When I say $q$ scales as $b^{y_q}$
-or write $q\sim b^{y_q}$, I mean $q(b) = b^{y_q}q_0$} as
+or write $q\sim b^{y_q}$, I mean $q' = b^{y_q}q$} as
 
 \beq
 G_c\propto \frac{1}{r^{d-2+\eta}}\sim b^{d-2+\eta}
