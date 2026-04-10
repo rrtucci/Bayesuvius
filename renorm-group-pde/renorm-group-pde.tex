@@ -13,7 +13,7 @@ $\vec{r}=(x,y,z)$
 
 $X=(t, \vec{r})$
 
-$\nabla = (\partial_{x}, \partial_{y}, \partial_{z})$ and $\nabla^2 = \nabla\cdot\nabla$.
+$\nabla = (\partial_{x}, \partial_{y}, \partial_{z})$ and $\nabla^2 = \nabla\cdot\nabla=\partial^2_x + \partial^2_y + \partial^2_z$.
 
 $\eta=$ concentration,
 number of particles per $d$-dim volume
@@ -30,6 +30,7 @@ Continuity equation
 \beq
 \partial_t \eta = -\nabla\cdot \vec{J}
 \eeq
+Diffusion Equation
 
 \beq
 \partial_t \eta = \nabla 
@@ -46,12 +47,25 @@ If $D$ is constant
 \beq
 \call= \partial_t -D \nabla^2
 \eeq
-1 space dimension from here on.
+Henceforth, 1 space dimension.
 $\nabla^2 =\partial_x^2$
 
-Solve
+
+
+
+\section{Solving Diffusion Equation via Green Functions}
+
 \beq
-\call \eta (t,x) = f(t,x)
+\partial_t\eta = D\partial_x^2 \eta
+\eeq
+
+\begin{claim}
+The solution to the Diffusion equation
+\beq
+\call \eta (t,x) = f(t,x)\quad
+\text{where $
+\call = \partial_t - D \partial^2_x
+$}
 \eeq
 for $x>0$ and $t>0$
 with initial condition
@@ -63,44 +77,50 @@ and Dirichlet boundary conditions:
 \beq
 \eta(t, 0) = \eta_\rvt(t)
 \eeq
-
-Find $G(X;X_0)$ for free space 
-(any $x\in\RR$) and $t>0$ such that
-
-\beq
-\call G(t-\tau, x-\chi)=
-\delta(x-\chi)\delta(t-\tau)
-\eeq
+is
 
 \beqa
 \eta(t, x)&=&
-\left\{
-\begin{array}{l}
 \int_0^{t+} d\tau\;
-\int_0^{x+} d\chi\;
-G(X;X_0)
-f(X_0)
+\int_0^\infty d\chi\;
+G(x,t;\chi,\tau)
+f(\chi,\tau)
 \\
-+
+&&+
+\int_0^{\infty} d\chi\;
+G(x,t;\chi, 0)
+ \eta_{\rvx}(\chi)
+\\
+&&-D
 \int_0^{t+} d\tau\;
-G(X;\tau, 0)
- \eta_{\rvt}(\tau)
-\\
-+
-\int_0^{x+} d\chi\;
-G(X;0, \chi)
- \eta_\rvx(\chi)
-\end{array}
-\right\}
+[\partial_\chi G(x,t;\chi,\tau)]_{\chi=0}
+ \eta_\rvt(\tau)
 \eeqa
+where $G(x,t;\chi,\tau)$ satisfies 
+the following equations for $x>0$ and $t>0$
+
 
 \beq
-\call\eta(t, x)= f(t, x) + \delta(x)\eta_\rvt(t)
-+ \delta(t)\eta_\rvx(t)
+\call G(x,t;\chi, \tau)=\delta(x-\chi)\delta(t-\tau)
+\eeq
+and
+
+\beq
+G(x=0,t;\chi,\tau)=0
+\eeq
+\end{claim}
+\proof
+
+
+\beq
+\call= \partial_t -D \partial_x^2,\quad
+\call G(x,t;\chi, \tau)=\delta(x-\chi)\delta(t-\tau)
 \eeq
 
+
 \beq
-\eta(0,x)= \int_0^{x+}d\chi\;G(0, x; 0, \chi)\eta_\rvx(\chi)
+\call^\dagger= -\partial_t -D \partial_x^2,
+\quad \call^\dagger G'(x,t;\chi, \tau)=\delta(x-\chi)\delta(t-\tau)
 \eeq
 
 
@@ -109,12 +129,9 @@ G(X;0, \chi)
 P_\rvx = \int_0^\infty d\chi\; \ket{\rvx=\chi}\bra{\rvx=\chi}
 \eeq
 
-\beq
-P_{\rvx=0}= \ket{\rvx=0}\bra{\rvx=0}
-\eeq
 
 \beq
-P_\rvt = \int_0^t d\tau\; \ket{\tau}\bra{\tau}
+P_\rvt = \int_0^t d\tau\; \ket{\rvt=\tau}\bra{\rvt=\tau}
 \eeq
 
 \newcommand{\kett}[2]{\left|\begin{array}{c}#1\\#2\end{array}\right\rangle}
@@ -132,13 +149,28 @@ P_\rvt = \int_0^t d\tau\; \ket{\tau}\bra{\tau}
 \eeq
 
 \beq
-\brat{x}{t}\ket{\eta}=
+\partial_{\rvt} = 
+\int_0^\infty dt\; \ket{\rvt=\tau}\partial_\tau\bra{\rvt=\tau}
+\eeq
+
+\beq
+\rv{\call}= \partial_\rvt-D\partial^2_\rvx
+\eeq
+
+$f(x)\cev{\partial_x} a(x)= a(x) \partial_x f(x)$
+
+$\stackt{A}{B}= A\otimes B$
+
+$\kett{x}{t}=\ket{x}\otimes\ket{t}$
+
+\beq
+\boxed{\brat{x}{t}\ket{\eta}=
 \brat{x}{t}G
 \stackt{P_\rvx}{P_\rvt}\ket{S}
 +
 \brat{x}{t}G\stackt{P_\rvx}{P_0}\kett{\eta_\rvx}{0}
 -D
-\brat{x}{t}G\stackt{\cev{\partial}_{\rvx}}{P_\rvt}\kett{0}{\eta_\rvt}
+\brat{x}{t}G\stackt{\cev{\partial}_{\rvx}}{P_\rvt}\kett{0}{\eta_\rvt}}
 \eeq
 
 \beq
@@ -211,11 +243,6 @@ G'\kett{x}{t}
 +\ket{\tau}\cev{\partial}_\tau\bra{\tau}
 \eeq
 
-$f(x)\cev{\partial_x} a(x)= a(x) \partial_x f(x)$
-
-$\stackt{A}{B}= A\otimes B$
-
-$\kett{x}{t}=\ket{x}\otimes\ket{t}$
 
 \beqa
 I_\rvt &=&
@@ -236,7 +263,7 @@ d\tau\;\partial_\tau (\ket{\tau}\bra{\tau})
 \beq
 \boxed{I_\rvt =
 \brat{x}{t}G
-\stackt{1}{\ket{t}\bra{t}-\ket{0}\bra{0}}
+\stackt{P_\rvx}{\ket{t}\bra{t}-\ket{0}\bra{0}}
 \ket{\eta}}
 \eeq
 
@@ -296,9 +323,35 @@ I_\rvx=
 \beq
 \boxed{I_\rvx=\brat{x}{t}G
 \stackt{[
-\ket{\chi}\cev{\partial}_\chi\bra{\chi}]_{\chi=0}}{1}
+\ket{\chi}\cev{\partial}_\chi\bra{\chi}]_{\chi=0}}{P_\rvt}
 \ket{\eta}}
 \eeq
+\qed
+
+
+\beq
+G^\pm(x,t;\chi,\tau)
+=
+\frac{1}{\sqrt{4\pi D(t-\tau)}}
+\exp\left[-\;\frac{(x\pm\chi)^2}{4D(t-\tau)}\right]
+\eeq
+
+\beq
+G = G^+ - G^-
+\eeq
+At the boundary
+\beq
+\left.
+\partial_\chi G
+(x,t;\chi,\tau)
+\right|_{\chi=0}
+=
+\frac{x}{\sqrt{4\pi D (t-\tau)^3}}
+\exp\left(
+-\frac{x^2}{4D(t-\tau)}
+\right)
+\eeq
+
 
 
 \end{document}
