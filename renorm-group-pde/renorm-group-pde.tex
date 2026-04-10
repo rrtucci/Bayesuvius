@@ -1,10 +1,304 @@
-\chapter{Renormalization Group for PDE}
-\label{ch-renorm-group-pde}
+\documentclass[12pt]{report}
+\input{../bayesuvius.sty}
+\begin{document}
 
+%\chapter{Renormalization Group for PDEs}
+%\label{ch-renorm-group-pde}
+%
 secular define
 not bound by time but extends forever
 not bound by religious canon
 
+$\vec{r}=(x,y,z)$
 
-$\ll$
+$X=(t, \vec{r})$
 
+$\nabla = (\partial_{x}, \partial_{y}, \partial_{z})$ and $\nabla^2 = \nabla\cdot\nabla$.
+
+$\eta=$ concentration,
+number of particles per $d$-dim volume
+
+
+
+Fick's law
+
+\beq
+\vec{J}= -D\nabla \eta
+\eeq
+Continuity equation
+
+\beq
+\partial_t \eta = -\nabla\cdot \vec{J}
+\eeq
+
+\beq
+\partial_t \eta = \nabla 
+\left(
+D\nabla \eta
+\right)
+\eeq
+
+If $D$ is constant
+\beq
+\partial_t\eta=D\nabla^2 \eta
+\eeq
+
+\beq
+\call= \partial_t -D \nabla^2
+\eeq
+1 space dimension from here on.
+$\nabla^2 =\partial_x^2$
+
+Solve
+\beq
+\call \eta (t,x) = f(t,x)
+\eeq
+for $x>0$ and $t>0$
+with initial condition
+\beq
+\eta(0, x)= \eta_\rvx(x)
+\eeq
+and Dirichlet boundary conditions:
+
+\beq
+\eta(t, 0) = \eta_\rvt(t)
+\eeq
+
+Find $G(X;X_0)$ for free space 
+(any $x\in\RR$) and $t>0$ such that
+
+\beq
+\call G(t-\tau, x-\chi)=
+\delta(x-\chi)\delta(t-\tau)
+\eeq
+
+\beqa
+\eta(t, x)&=&
+\left\{
+\begin{array}{l}
+\int_0^{t+} d\tau\;
+\int_0^{x+} d\chi\;
+G(X;X_0)
+f(X_0)
+\\
++
+\int_0^{t+} d\tau\;
+G(X;\tau, 0)
+ \eta_{\rvt}(\tau)
+\\
++
+\int_0^{x+} d\chi\;
+G(X;0, \chi)
+ \eta_\rvx(\chi)
+\end{array}
+\right\}
+\eeqa
+
+\beq
+\call\eta(t, x)= f(t, x) + \delta(x)\eta_\rvt(t)
++ \delta(t)\eta_\rvx(t)
+\eeq
+
+\beq
+\eta(0,x)= \int_0^{x+}d\chi\;G(0, x; 0, \chi)\eta_\rvx(\chi)
+\eeq
+
+
+
+\beq
+P_\rvx = \int_0^\infty d\chi\; \ket{\rvx=\chi}\bra{\rvx=\chi}
+\eeq
+
+\beq
+P_{\rvx=0}= \ket{\rvx=0}\bra{\rvx=0}
+\eeq
+
+\beq
+P_\rvt = \int_0^t d\tau\; \ket{\tau}\bra{\tau}
+\eeq
+
+\newcommand{\kett}[2]{\left|\begin{array}{c}#1\\#2\end{array}\right\rangle}
+
+\newcommand{\brat}[2]{\left\langle\begin{array}{c}#1\\#2\end{array}\right|}
+
+\newcommand{\stackt}[2]{
+\left\{\begin{array}{c}#1\\#2\end{array}\right\}}
+
+\newcommand{\cev}[1]{\reflectbox{\ensuremath{\vec{\reflectbox{\ensuremath{#1}}}}}}
+
+\beq
+\partial_{\rvx} = 
+\int_0^\infty d\chi\; \ket{\rvx=\chi}\partial_\chi\bra{\rvx=\chi}
+\eeq
+
+\beq
+\brat{x}{t}\ket{\eta}=
+\brat{x}{t}G
+\stackt{P_\rvx}{P_\rvt}\ket{S}
++
+\brat{x}{t}G\stackt{P_\rvx}{P_0}\kett{\eta_\rvx}{0}
+-D
+\brat{x}{t}G\stackt{\cev{\partial}_{\rvx}}{P_\rvt}\kett{0}{\eta_\rvt}
+\eeq
+
+\beq
+I = \brat{x}{t}G\rv{\call}
+\ket{\eta}-
+\bra{\eta}\rv{\call^\dagger}
+G'\kett{x}{t}
+\eeq
+
+\beq
+I_\rvt = 
+\brat{x}{t}G
+\stackt{1}{\partial_\rvt}
+\ket{\eta}-
+\bra{\eta}
+\stackt{1}{(-\partial_\rvt)}
+G'\kett{x}{t}
+\eeq
+
+\beq
+I_\rvx = 
+\brat{x}{t}G\partial_\rvx^2
+\ket{\eta}-
+\bra{\eta}\partial_\rvx^2
+G'\kett{x}{t}
+\eeq
+
+\beq
+\boxed
+{I = I_\rvt -D I_\rvx}
+\eeq
+
+\beq
+\call^\dagger \brat{x}{t}G\kett{\chi}{\tau
+}=\brat{x}{t}\rv{\call}^\dagger G'\kett{\chi}{\tau}=
+\stackt{\delta(x-\chi)}{\delta(t-\tau)}
+\implies\quad
+\rv{\call}^\dagger G' =1
+\eeq
+
+
+
+\beq
+\rv{\call}\ket{\eta}=\ket{S}
+\eeq
+
+\beq
+I = \brat{x}{t}G\ket{S}-\bra{\eta}\kett{x}{t}
+\eeq
+
+\beqa
+I_\rvt &=&
+\int_0^t d\tau
+\brat{x}{t}G
+\stackt{1}{\ket{\tau}\partial_\tau\bra{\tau}}
+\ket{\eta}
++
+\bra{\eta}
+\stackt{1}{\ket{\tau}\partial_\tau\bra{\tau}}
+G'\kett{x}{t}
+\eeqa
+
+\beq
+\bra{t}G\ket{\tau}= \bra{\tau}G'\ket{t}
+\eeq
+
+\beq
+\partial_\tau (\ket{\tau}\bra{\tau})=
+\ket{\tau}\partial_\tau\bra{\tau}
++\ket{\tau}\cev{\partial}_\tau\bra{\tau}
+\eeq
+
+$f(x)\cev{\partial_x} a(x)= a(x) \partial_x f(x)$
+
+$\stackt{A}{B}= A\otimes B$
+
+$\kett{x}{t}=\ket{x}\otimes\ket{t}$
+
+\beqa
+I_\rvt &=&
+\int_0^t d\tau
+\brat{x}{t}G
+\stackt{1}{\partial_\tau (\ket{\tau}\bra{\tau})}
+\ket{\eta}
+\eeqa
+
+\beq
+\int_0^t
+d\tau\;\partial_\tau (\ket{\tau}\bra{\tau})
+=
+\ket{t}\bra{t}-\ket{0}\bra{0}
+\eeq
+
+
+\beq
+\boxed{I_\rvt =
+\brat{x}{t}G
+\stackt{1}{\ket{t}\bra{t}-\ket{0}\bra{0}}
+\ket{\eta}}
+\eeq
+
+\beqa
+I_\rvx &=& 
+\int_0^\infty d\chi
+\brat{x}{t}G
+\stackt{\ket{\chi}\partial_\chi^2\bra{\chi}}{1}
+\ket{\eta}
+-
+\bra{\eta}
+\stackt{\ket{\chi}\partial_\chi^2\bra{\chi}}{1}
+G'\kett{x}{t}
+\eeqa
+
+\beq
+\ket{\chi}\partial_\chi^2\bra{\chi}
+-\ket{\chi}\cev{\partial}_\chi^2\bra{\chi}=
+\partial_\chi(\ket{\chi}\partial_\chi\bra{\chi})
+-(\ket{\chi}\cev{\partial}_\chi\bra{\chi})\cev{\partial}_\chi
+\eeq
+
+\beq
+I_\rvx=
+\int_0^\infty d\chi
+\brat{x}{t}G
+\stackt{\partial_\chi(\ket{\chi}\partial_\chi\bra{\chi})
+-(\ket{\chi}\cev{\partial}_\chi\bra{\chi})\cev{\partial}_\chi}{1}
+\ket{\eta}
+\eeq
+
+\beqa
+\int_0^\infty d\chi
+\partial_\chi(\ket{\chi}\partial_\chi\bra{\chi})
+-(\ket{\chi}\cev{\partial}_\chi\bra{\chi})\cev{\partial}_\chi
+&=&
+[\ket{\chi}\partial_\chi\bra{\chi}
+-
+\ket{\chi}\cev{\partial}_\chi\bra{\chi}]_0^\infty
+\\
+&=&
+-[\ket{\chi}\partial_\chi\bra{\chi}
+-
+\ket{\chi}\cev{\partial}_\chi\bra{\chi}]_{\chi=0}
+\eeqa
+
+\beq
+I_\rvx=
+\brat{x}{t}G
+\stackt{[-\ket{\chi}\partial_\chi\bra{\chi}
++
+\ket{\chi}\cev{\partial}_\chi\bra{\chi}]_{\chi=0}}{1}
+\ket{\eta}
+\eeq
+
+
+\beq
+\boxed{I_\rvx=\brat{x}{t}G
+\stackt{[
+\ket{\chi}\cev{\partial}_\chi\bra{\chi}]_{\chi=0}}{1}
+\ket{\eta}}
+\eeq
+
+
+\end{document}
