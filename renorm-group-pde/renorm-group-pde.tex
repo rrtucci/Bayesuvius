@@ -43,32 +43,553 @@ If $D$ is constant
 \beq
 \partial_t\eta=D\nabla^2 \eta
 \eeq
-
-\beq
-\call= \partial_t -D \nabla^2
-\eeq
 Henceforth, 1 space dimension.
 $\nabla^2 =\partial_x^2$
 
+$
+\kappa  = 2D
+$
+
+\section{DE without long term memory}
+
+\beq
+P(x; \s^2)=\frac{1}{\sqrt{2\pi \s}}
+\exp\left(\frac{-x^2}{2\s^2}\right)
+\eeq
+
+Solve 
+
+\beq
+\partial_t \eta = \frac{\kappa}{2}\partial_x^2 \eta
+\eeq
+for free space (no boundaries, $x\in \RR$)
+with initial condition
+
+\beq
+\eta(x, 0)=\eta_\rvx(x)=
+NP(x; \ell^2)
+\eeq
+
+\beq
+\eta_\rvx(x)\rarrow N\delta(x)\quad \text{as $\ell\rarrow 0$}
+\eeq
+
+\beq 
+N(t)=\int_{-\infty}^{\infty}dx\; \eta(x, t)
+\eeq
+
+\beq
+\partial_t N(t) = \frac{\kappa}{2}\int_{-\infty}^\infty \partial_x^2\eta(x, t)=\frac{\kappa}{2} [\partial_x\eta(x,t)]_{x=-\infty}^{x=\infty}=0
+\eeq
+$N$ is area under $\eta$ curve, it doesn't change with time.
+
+\beq
+\eta(x,t)=
+NP(x;\kappa t + \ell^2)
+\eeq
+for $t\gg \ell^2/\kappa$ (i.e., 
+either after a long time or for short Gaussian widths $\ell$),
+
+\beq
+\eta(x,t)\sim
+NP(x; \kappa t)\quad
+\text{as $t\rarrow \infty$ or $\ell\rarrow 0$}
+\eeq
+We call this an {\bf intermediate times}
+approximation, because for truly infinite times, $\eta(x,t)\rarrow \infty$
+
+\beq
+\engdim{x}=L, \quad 
+\engdim{t}=T, \quad 
+\engdim{\eta}= 1/L,\quad 
+\engdim{D}= L^2/T,\quad 
+\eeq
 
 
+\beq
+\Pi =\eta \sqrt{Dt} ,\quad
+\Pi_1 = \frac{x}{\sqrt{D t}}
+\eeq
+
+\beq
+\Pi = f(\Pi_1)\implies \eta = \frac{1}{\sqrt{Dt}}f\left(\frac{x}{\sqrt{Dt}}\right)
+\eeq
+
+
+
+\beq
+x \to x/b,\quad t \to b^{y_t} t,\quad \eta \to b^{y_\eta} \eta
+\eeq
+
+\beq
+b^{y_\eta -y_t}\partial_t \eta =
+b^{y_\eta+2}\partial^2_x\eta
+\eeq
+
+\beq
+y_t=-2
+\eeq
+
+\beq
+\eta(x, t)= b^{-y_\eta}\eta\left(\frac{x}{b}, \frac{t}{b^2}\right)
+\eeq
+choose  $b=\sqrt{t}$
+\beq
+\eta(x, t)=b^{-y_\eta}\eta\left(\frac{x}{\sqrt{t}}\right)
+\eeq
+
+
+
+
+\section{DE with discontinuous diffusion coefficient}
+
+
+\beq
+\partial_t \eta=
+\partial_x\left(D(x)\partial_x \eta\right)
+\eeq
+
+\beq
+D(x)
+= 
+\left\{
+\begin{array}{ll}
+\frac{\kappa}{2}(1+g) & \text{if $x>0$} 
+\\
+\frac{\kappa}{2} & \text{if $x<0$}
+\end{array}
+\right\} = \frac{\kappa}{2}(1 + g\indi_{x>0})
+\eeq
+
+
+\beq
+\eta=\eta_0+g \eta_1+ g^2 \eta_2\cdots
+\eeq
+
+Zeroth order:
+
+\beq
+(\partial_t-\frac{\kappa}{2}\partial_x^2)\eta_0=0
+\eeq
+
+
+
+\beq
+\eta_0(x,t)
+=NP(x; \kappa t)
+\eeq
+
+
+First order equation:
+
+\beq
+(\partial_t-\frac{\kappa}{2}\partial_x^2)\eta_1
+=
+\frac{\kappa}{2}
+\partial_x\left(
+\indi_{x>0}\partial_x \eta_0
+\right)
+\eeq
+
+\beq
+\partial_x\left(
+\indi_{x>0}\partial_x \eta_0
+\right)
+=
+\indi_{x>0}\partial_x^2 \eta_0
++
+\delta(x)\partial_x \eta_0(0^+,t)
+\eeq
+
+
+Compute:
+
+\beq
+\partial_x \eta_0(x,t)
+=
+-\;\frac{x}{\kappa t}N P(x; \kappa t)
+\eeq
+
+Take small $x>0$:
+
+\beq
+\partial_x \eta_0(x,t)
+\sim
+-\;\frac{x}{\kappa t}
+\frac{1}{\sqrt{2\pi\kappa t}}
+\eeq
+
+So:
+
+\beq
+\partial_x \eta_0(0^+,t)=0
+\eeq
+
+
+
+The derivative itself vanishes.
+
+**But the boundary term still matters** 
+because when integrated against the Green's
+ function, the spatial derivative shifts onto the kernel.
+
+
+\beq
+\eta_1(x,t)
+=
+\int_0^t d\tau
+\int_0^\infty d\chi\;
+G(x-\chi,t-\tau)
+\partial_{\chi}\left[
+\indi_{\chi>0}
+\partial_{\chi}\eta_0(\chi,\tau)
+\right]
+\eeq
+
+Now integrate by parts in $\chi$:
+
+\beq
+\eta_1
+=
+\int_0^t d\tau
+\int_0^\infty d\chi,
+(\partial_{\chi}G)
+\partial_{\chi}\eta_0(\chi, \tau)
+\eeq
+
+Boundary term vanishes at infinity.
+
+This is the correct working form.
+
+---
+
+ Step 5 — Insert explicit derivatives
+
+We need:
+
+\beq
+\partial_{\chi}\eta_0(\chi,\tau)
+=
+-\frac{\chi}{\kappa\tau}
+\frac{1}{\sqrt{2\pi\kappa \tau}}
+\exp\left(\frac{-\chi^2}{2\kappa \tau}\right)
+\eeq
+
+\beq
+G(x, t)= P(x; \s^2=\kappa t)
+\eeq
+
+\beq
+\partial_{\chi}G(x-\chi,t-\tau)
+=
+-\frac{(x-\chi)}{\kappa(t-\tau)}
+\frac{1}{\sqrt{2\pi\kappa (t-\tau)}}
+\exp\left(\frac{-(x-\chi)^2}{2\kappa (t-\tau)}\right)
+\eeq
+
+So:
+
+\beq
+\eta_1
+=
+\int_0^t d\tau
+\int_0^\infty d\chi,
+\frac{\chi(x-\chi)}
+{\kappa^2 \tau(t-\tau)}
+\frac{
+\exp\left(\frac{-\chi^2}{2\kappa \tau}\right)
+\exp\left(\frac{-(x-\chi)^2}{2\kappa(t-\tau)}\right)
+}{
+2\pi \kappa\sqrt{\tau(t-\tau)}
+}
+\eeq
+
+---
+
+ Step 6 — Extract large-t behavior
+
+Now comes the key RG-style step:
+
+We don't need the exact function—only the **long-time scaling**.
+
+Introduce scaling variables:
+
+\beq
+x=\sqrt{\kappa t}\hat{x}
+\eeq
+
+\beq
+\chi=\sqrt{\kappa \tau}y
+\eeq
+
+Then exponentials become:
+
+\beq
+\exp\left(\frac{-y^2}{2}\right)
+\eeq
+
+and:
+
+\beq
+\exp\left(\frac{-(\sqrt{t}\hat{x}-\sqrt{\tau}y)^2}{2(t-\tau)}\right)
+\eeq
+
+Now consider the **region**
+
+\beq
+\tau\ll t
+\eeq
+
+This region dominates the logarithm.
+
+In that region:
+
+\beq
+t-\tau\approx t
+\eeq
+
+So:
+
+\beq
+\partial_{\chi}G
+\sim
+-\frac{x}{2t}
+\frac{1}{\sqrt{2\pi\kappa t}}
+\exp\left(\frac{-x^2}{2\kappa t}\right)
+\eeq
+
+That factor becomes independent of $\tau$.
+
+So the integrand simplifies dramatically.
+
+---
+
+ Step 7 — Reduce integral structure
+
+Then:
+
+\beq
+\eta_1(x,t)
+\sim
+G(x,t)
+\int_0^t
+d\tau
+\int_0^\infty
+d\chi\;
+\frac{\chi}{\tau}
+\exp\left(\frac{-\chi^2}{2\kappa \tau}\right)
+\eeq
+
+Focus on spatial integral first.
+
+---
+
+ Step 8 — Evaluate spatial integral
+
+Let:
+
+\beq
+\chi=\sqrt{\tau}y
+\eeq
+
+Then:
+
+\beq
+d\chi=\sqrt{\tau}dy
+\eeq
+
+So:
+
+\beq
+\int_0^\infty
+d\chi
+\frac{\chi}{\tau}
+\exp\left(\frac{-\chi^2}{2\kappa \tau}\right)
+=
+\int_0^\infty
+dy\;
+y
+\exp\left(\frac{-y^2}{4}\right)
+\eeq
+
+That integral is finite:
+
+ \beq
+2
+\eeq
+
+So now:
+
+\beq
+\eta_1
+\sim
+G(x,t)
+\int_0^t
+\frac{d\tau}{\tau}
+\eeq
+
+---
+
+ Step 9 — The logarithm appears
+
+Now:
+
+\beq
+\int_0^t
+\frac{d\tau}{\tau}
+=
+\log t
+\eeq
+
+(Strictly $\log(t/t_0)$, with $t_0$ a short-time cutoff.)
+
+So:
+
+\beq
+\eta_1(x,t)
+\sim
+2,G(x,t)\log t
+\eeq
+
+This is the precise origin of the **secular logarithm**.
+
+---
+
+ Step 10 — Identify coefficient $a_1$
+
+So the full solution behaves:
+
+\beq
+\eta(x,t)
+=
+G(x,t)
+\left[
+1
++
+g C\log t
+\right]
+\eeq
+
+Tracking constants properly gives:
+
+\beq
+C=\frac{1}{2}
+\eeq
+
+So:
+
+\beq
+a_1=\frac12
+\eeq
+
+---
+
+ Step 11 — RG improvement
+
+Write:
+
+\beq
+\log t
+=
+\log(t/\tau)+\log\tau
+\eeq
+
+Absorb:
+
+\beq
+g a_1\log\tau
+\eeq
+
+into amplitude.
+
+RG condition:
+
+\beq
+\tau\frac{dA}{d\tau}
+=
+g a_1 A
+\eeq
+
+Solution:
+
+\beq
+A(t)=t^{g/2}
+\eeq
+
+Final long-time scaling:
+
+\beq
+\eta(x,t)
+\sim
+t^{-1/2+g/2}
+f!\left(\frac{x}{\sqrt{t}}\right)
+\eeq
+
+---
+
+ The real conceptual punchline
+
+The logarithm came from:
+
+\beq
+\int_0^t \frac{d\tau}{\tau}
+\eeq
+
+and that, in turn, came from:
+
+\beq
+\frac{\chi}{\tau}
+\exp\left(\frac{-\chi^2}{2\kappa \tau}\right)
+\eeq
+
+after rescaling.
+
+So the deep mechanism is:
+
+**diffusive spreading + interface discontinuity → 
+scale-free $1/\tau$ memory → logarithm**
+
+That is the RG seed.
+
+---
+
+ Why this mirrors QFT exactly
+
+This integral:
+
+\beq
+\int_0^t \frac{d\tau}{\tau}
+\eeq
+
+is the time analogue of:
+
+\beq
+\int \frac{dq}{q}
+\eeq
+
+in momentum-space RG.
+
+That parallel is not accidental—it is the real
+ reason RG works here.
 
 \section{Solving Diffusion Equation via Green Functions}
 
+
 \beq
-\partial_t\eta = D\partial_x^2 \eta
+\call = \partial_t - D \partial^2_x
+\eeq
+
+\beq
+\call \eta(x,t) = S(x,t)
 \eeq
 
 \begin{claim}
-The solution to the Diffusion equation
+The solution to the equation
 \beq
-\call \eta (t,x) = f(t,x)\quad
-\text{where $
-\call = \partial_t - D \partial^2_x
-$}
+\call \eta (t,x) = S(t,x)\quad
 \eeq
 for $x>0$ and $t>0$
-with initial condition
+with initial conditions
 \beq
 \eta(0, x)= \eta_\rvx(x)
 \eeq
@@ -134,14 +655,14 @@ P_\rvx = \int_0^\infty d\chi\; \ket{\rvx=\chi}\bra{\rvx=\chi}
 P_\rvt = \int_0^t d\tau\; \ket{\rvt=\tau}\bra{\rvt=\tau}
 \eeq
 
-\newcommand{\kett}[2]{\left|\begin{array}{c}#1\\#2\end{array}\right\rangle}
+\newcommand{\kett}[2]{\left|\begin{array}{c}1\\2\end{array}\right\rangle}
 
-\newcommand{\brat}[2]{\left\langle\begin{array}{c}#1\\#2\end{array}\right|}
+\newcommand{\brat}[2]{\left\langle\begin{array}{c}1\\2\end{array}\right|}
 
 \newcommand{\stackt}[2]{
-\left\{\begin{array}{c}#1\\#2\end{array}\right\}}
+\left\{\begin{array}{c}1\\2\end{array}\right\}}
 
-\newcommand{\cev}[1]{\reflectbox{\ensuremath{\vec{\reflectbox{\ensuremath{#1}}}}}}
+\newcommand{\cev}[1]{\reflectbox{\ensuremath{\vec{\reflectbox{\ensuremath{1}}}}}}
 
 \beq
 \partial_{\rvx} = 
