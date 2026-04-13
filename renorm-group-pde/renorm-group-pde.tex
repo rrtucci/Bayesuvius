@@ -407,6 +407,385 @@ in momentum-space RG.
 That parallel is not accidental—it is the real
  reason RG works here.
 
+\section{finding self-similar function}
+Good—this is a very nice place where you can
+ **see the interface explicitly** in the
+  scaling function, and verify that:
+
+* $\eta(x,t)$ is continuous at $x=0$
+* $\partial_x \eta$ has a kink at $x=0$
+* flux $D,\partial_x \eta$ is continuous
+
+We'll build the scaling solution and 
+derive the matching condition.
+
+---
+
+ 1. Look for a similarity solution
+
+For long times, diffusion problems tend 
+toward **self-similar form**, so try:
+
+\beq
+\eta(x,t)
+=
+t^{-\alpha}
+f(\xi),
+\quad
+\xi=\frac{x}{\sqrt{t}}
+\eeq
+
+From dimensional reasoning (or normalization conservation):
+
+\beq
+\alpha=\frac12
+\eeq
+
+So:
+
+\beq
+\eta(x,t)
+=
+\frac{1}{\sqrt{t}}
+f(\xi)
+\eeq
+
+---
+
+ 2. Plug into the diffusion equation
+
+We have:
+
+\beq
+\partial_t \eta
+=
+\partial_x!\left(D(x)\partial_x \eta\right)
+\eeq
+
+Compute derivatives.
+
+First:
+
+\beq
+\partial_x \eta
+=
+\frac{1}{t}
+f'(\xi)
+\eeq
+
+Then:
+
+\beq
+\partial_x^2 \eta
+=
+\frac{1}{t^{3/2}}
+f''(\xi)
+\eeq
+
+Time derivative:
+
+\beq
+\partial_t \eta
+=
+-\frac{1}{2t^{3/2}}
+\left[
+f + \xi f'
+\right]
+\eeq
+
+So the PDE becomes:
+
+\beq
+-\frac12(f+\xi f')
+=
+D(\xi),f''
+\eeq
+
+where:
+
+\beq
+D(\xi)=
+\begin{cases}
+D_1,& \xi>0\\
+D_2,& \xi<0
+\end{cases}
+\eeq
+
+---
+
+ 3. ODE on each side
+
+So we solve:
+
+For $\xi>0$:
+
+\beq
+D_1 f''+\frac12(f+\xi f')=0
+\eeq
+
+For $\xi<0$:
+
+\beq
+D_2 f''+\frac12(f+\xi f')=0
+\eeq
+
+---
+
+ 4. Solve the ODE
+
+These equations are solved by Gaussians.
+
+General solution:
+
+For $\xi>0$:
+
+\beq
+f_+(\xi)
+=
+A_+
+\exp!\left(-\frac{\xi^2}{4D_1}\right)
+\eeq
+
+For $\xi<0$:
+
+\beq
+f_-(\xi)
+=
+A_-
+\exp!\left(-\frac{\xi^2}{4D_2}\right)
+\eeq
+
+So the two halves have **different widths**.
+
+---
+
+ 5. Continuity condition at $\xi=0$
+
+We must have:
+
+\beq
+f_+(0)=f_-(0)
+\eeq
+
+So:
+
+\beq
+A_+=A_- \equiv A
+\eeq
+
+Thus:
+
+\beq
+f(0)=A
+\eeq
+
+So the function is continuous.
+
+---
+
+ 6. Flux continuity condition
+
+Recall:
+
+\beq
+D_1\partial_x \eta(0^+)
+=
+D_2\partial_x \eta(0^-)
+\eeq
+
+Compute derivatives.
+
+Since:
+
+\beq
+\partial_x \eta
+=
+\frac{1}{t}
+f'(\xi)
+\eeq
+
+we get:
+
+\beq
+D_1 f'_+(0)
+=
+D_2 f'_-(0)
+\eeq
+
+---
+
+ 7. Compute derivatives
+
+Differentiate:
+
+\beq
+f'_+(\xi)
+=
+-\frac{\xi}{2D_1}
+A
+e^{-\xi^2/4D_1}
+\eeq
+
+So:
+
+\beq
+f'_+(0)=0
+\eeq
+
+Similarly:
+
+\beq
+f'_-(0)=0
+\eeq
+
+So leading-order Gaussian gives **zero slope on both sides**.
+
+That means:
+
+Flux continuity is automatically satisfied at leading order.
+
+But:
+
+ the **next-order correction** generates the kink.
+
+That's where the discontinuity truly appears.
+
+---
+
+ 8. Include next-order correction
+
+Because diffusivities differ, the full solution is:
+
+\beq
+f(\xi)
+=
+A
+e^{-\xi^2/4D_i}
+\left[
+1+\epsilon g(\xi)
+\right]
+\eeq
+
+Now:
+
+\beq
+f'(0^+)\neq f'(0^-)
+\eeq
+
+while:
+
+\beq
+D_1 f'(0^+)=D_2 f'(0^-)
+\eeq
+
+This produces the **kink**.
+
+---
+
+ 9. What the kink looks like
+
+Graphically:
+
+
+
+Key features:
+
+* Continuous at $\xi=0$
+* Different curvature left/right
+* Slope changes abruptly
+
+That slope change encodes:
+
+\beq
+D_1\neq D_2
+\eeq
+
+---
+
+ 10. Physical interpretation
+
+If:
+
+\beq
+D_1>D_2
+\eeq
+
+then:
+
+* right side diffuses faster
+* distribution spreads wider to the right
+* gradient adjusts to keep flux continuous
+
+So:
+
+* profile is skewed
+* center remains continuous
+
+---
+
+ 11. Where RG modifies this
+
+The RG calculation earlier changes:
+
+\beq
+\eta(x,t)
+=
+t^{-1/2}
+\to
+t^{-1/2+\epsilon/2}
+\eeq
+
+So the final similarity solution becomes:
+
+\beq
+\eta(x,t)
+=
+t^{-1/2+\epsilon/2}
+f(\xi)
+\eeq
+
+That exponent shift is the 
+**anomalous scaling** produced by the interface.
+
+---
+
+ The big conceptual takeaway
+
+The discontinuity in diffusion coefficient shows up as:
+
+* **continuity of the solution**
+* **kink in derivative**
+* **logarithmic corrections**
+* **RG-modified decay exponent**
+
+All four are different faces of the same underlying structure.
+
+---
+
+ A very nice optional next step
+
+If you're interested, the most revealing thing
+ to compute next would be:
+
+**the exact ratio**
+
+\beq
+\frac{f'(0^+)}{f'(0^-)}
+=
+\frac{D_2}{D_1}
+\eeq
+
+including first-order corrections.
+
+That calculation directly links:
+
+* interface physics
+* RG logarithms
+* matching conditions
+
+into one unified picture.
+
+
 \section{Solving Diffusion Equation via Green Functions}
 
 
