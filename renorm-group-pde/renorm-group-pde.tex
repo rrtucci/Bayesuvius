@@ -161,6 +161,46 @@ D(x)
 \right\} = \frac{\kappa}{2}(1 + g\indi_{x>0})
 \eeq
 
+transmission (interface) continuity conditions
+
+concentration continuity
+\beq
+\eta(0-, t)=\eta(0+, t)
+\eeq
+
+flux continuity
+\beq
+D_{-}\partial_x \eta(0-, t) = D_{+}\eta(0+, t)
+\eeq
+
+Note, this is not
+a boundary value problem in the usual sense.
+There is no boundary at $x=0$. if there were
+\begin{itemize}
+\item Dirichlet
+
+\beq \eta(0, t)= \eta_\rvt(x)
+\eeq
+
+\item
+von Neumann
+\beq
+\partial_x\eta(x,t)= f(x,t)
+\eeq
+For example, if there were an impermeable wall at $x=0$,
+
+\beq
+\partial_x\eta(x,t)=0
+\eeq
+
+
+\item Robin
+
+\beq
+[a \partial_x\eta + b \eta](x, t)=g(x,t)
+\eeq
+\end{itemize}
+
 
 \beq
 \eta=\eta_0+g \eta_1+ g^2 \eta_2\cdots
@@ -184,7 +224,7 @@ First order equation:
 
 \beq
 (\partial_t-\frac{\kappa}{2}\partial_x^2)\eta_1
-=
+=g
 \frac{\kappa}{2}
 \partial_x\left(
 \indi_{x>0}\partial_x \eta_0
@@ -192,297 +232,92 @@ First order equation:
 \eeq
 
 \beq
-\partial_x\left(
-\indi_{x>0}\partial_x \eta_0
-\right)
-=
-\indi_{x>0}\partial_x^2 \eta_0
-+
-\delta(x)\partial_x \eta_0(0^+,t)
-\eeq
-
-
-Compute:
-
-\beq
-\partial_x \eta_0(x,t)
-=
--\;\frac{x}{\kappa t}N P(x; \kappa t)
-\eeq
-
-Take small $x>0$:
-
-\beq
-\partial_x \eta_0(x,t)
-\sim
--\;\frac{x}{\kappa t}
-\frac{1}{\sqrt{2\pi\kappa t}}
-\eeq
-
-So:
-
-\beq
-\partial_x \eta_0(0^+,t)=0
-\eeq
-
-
-
-The derivative itself vanishes.
-
-**But the boundary term still matters** 
-because when integrated against the Green's
- function, the spatial derivative shifts onto the kernel.
-
-
-\beq
 \eta_1(x,t)
-=
+=\frac{\kappa}{2}
 \int_0^t d\tau
-\int_0^\infty d\chi\;
+\int_{-\infty}^\infty d\chi\;
 G(x-\chi,t-\tau)
 \partial_{\chi}\left[
 \indi_{\chi>0}
 \partial_{\chi}\eta_0(\chi,\tau)
 \right]
 \eeq
-
-Now integrate by parts in $\chi$:
+Integrate by parts, assume $\chi=\pm \infty$  terms vanish
 
 \beq
-\eta_1
-=
+\eta_1(x,t)
+=\frac{\kappa}{2}
 \int_0^t d\tau
-\int_0^\infty d\chi,
-(\partial_{\chi}G)
-\partial_{\chi}\eta_0(\chi, \tau)
-\eeq
-
-Boundary term vanishes at infinity.
-
-This is the correct working form.
-
----
-
- Step 5 — Insert explicit derivatives
-
-We need:
-
-\beq
+\int_{0}^\infty d\chi\;
+[-\partial_\chi  G(x-\chi,t-\tau)
+]
 \partial_{\chi}\eta_0(\chi,\tau)
+\eeq
+
+\beq
+G(x-\chi, t-\tau)= P(x-\chi; \kappa(t-\tau))
+\eeq
+
+
+%\beq
+%\partial_\chi\left(
+%\indi_{\chi>0}\partial_\chi \eta_0
+%\right)
+%=
+%\indi_{\chi>0}\partial_\chi^2 \eta_0
+%+
+%\delta(\chi)\partial_\chi \eta_0(0^+,\tau)
+%\eeq
+
+
+\beq
+-\partial_\chi G(x-\chi, t-\tau)=\frac{(x-\chi)}{\kappa(t-\tau)}
+P(x-\chi; \kappa(t-\tau))
+\eeq
+
+\beq
+\partial_\chi \eta_0(\chi,\tau)
 =
--\frac{\chi}{\kappa\tau}
-\frac{1}{\sqrt{2\pi\kappa \tau}}
-\exp\left(\frac{-\chi^2}{2\kappa \tau}\right)
+-\;\frac{\chi}{\kappa \tau}N P(\chi; \kappa \tau)
+\eeq
+
+Assume $t\gg \tau$  and  $x\gg \chi$ in $P()$ only so 
+
+\beqa
+\eta_1(x,t)&=& -\;\frac{\kappa}{2}N
+P(x; \kappa t) \int_0^t d\tau
+\int_0^\infty d\chi\;\frac{\chi (x-\chi)}{\kappa^2 \tau (t-\tau)}P(\chi;\kappa \tau)
+\eeqa
+
+\beq
+\hat{\chi}= \chi/\sqrt{\kappa \tau},\quad \hat{x}= x/\sqrt{\kappa \tau}
 \eeq
 
 \beq
-G(x, t)= P(x; \s^2=\kappa t)
+I(\tau)= \frac{1}{\sqrt{2\pi\kappa \tau}}\int_0^\infty d\hat{\chi}\; \hat{\chi}(\hat{x}-\hat{\chi})\exp(-\hat{\chi}^2/2)
+\eeq
+\beq
+\int_0^\infty dy \; y\exp(-y^2/2)=1,\quad
+\int_0^\infty dy \; y^2 \exp(-y^2/2)=\sqrt{2}\;\Gamma(3/2)=\sqrt{\frac{\pi}{2}}
 \eeq
 
 \beq
-\partial_{\chi}G(x-\chi,t-\tau)
-=
--\frac{(x-\chi)}{\kappa(t-\tau)}
-\frac{1}{\sqrt{2\pi\kappa (t-\tau)}}
-\exp\left(\frac{-(x-\chi)^2}{2\kappa (t-\tau)}\right)
+I(\tau)= \frac{1}{\sqrt{2\pi \kappa \tau}}\left[\hat{x}-\sqrt{\frac{\pi}{2}}\right]
 \eeq
 
-So:
 
-\beq
-\eta_1
-=
-\int_0^t d\tau
-\int_0^\infty d\chi,
-\frac{\chi(x-\chi)}
-{\kappa^2 \tau(t-\tau)}
-\frac{
-\exp\left(\frac{-\chi^2}{2\kappa \tau}\right)
-\exp\left(\frac{-(x-\chi)^2}{2\kappa(t-\tau)}\right)
-}{
-2\pi \kappa\sqrt{\tau(t-\tau)}
-}
-\eeq
+\beqa
+\eta_1(x,t)&=& -\frac{1}{2}
+NP(x; \kappa t) \int_0^t d\tau \frac{\sqrt{\kappa\tau}}{t-\tau}I(\tau)
+\\
+&\approx&
+\eta_0(x,t)
+\frac{1}{4}
+\ln (t)
+\eeqa
 
----
 
- Step 6 — Extract large-t behavior
 
-Now comes the key RG-style step:
-
-We don't need the exact function—only the **long-time scaling**.
-
-Introduce scaling variables:
-
-\beq
-x=\sqrt{\kappa t}\hat{x}
-\eeq
-
-\beq
-\chi=\sqrt{\kappa \tau}y
-\eeq
-
-Then exponentials become:
-
-\beq
-\exp\left(\frac{-y^2}{2}\right)
-\eeq
-
-and:
-
-\beq
-\exp\left(\frac{-(\sqrt{t}\hat{x}-\sqrt{\tau}y)^2}{2(t-\tau)}\right)
-\eeq
-
-Now consider the **region**
-
-\beq
-\tau\ll t
-\eeq
-
-This region dominates the logarithm.
-
-In that region:
-
-\beq
-t-\tau\approx t
-\eeq
-
-So:
-
-\beq
-\partial_{\chi}G
-\sim
--\frac{x}{2t}
-\frac{1}{\sqrt{2\pi\kappa t}}
-\exp\left(\frac{-x^2}{2\kappa t}\right)
-\eeq
-
-That factor becomes independent of $\tau$.
-
-So the integrand simplifies dramatically.
-
----
-
- Step 7 — Reduce integral structure
-
-Then:
-
-\beq
-\eta_1(x,t)
-\sim
-G(x,t)
-\int_0^t
-d\tau
-\int_0^\infty
-d\chi\;
-\frac{\chi}{\tau}
-\exp\left(\frac{-\chi^2}{2\kappa \tau}\right)
-\eeq
-
-Focus on spatial integral first.
-
----
-
- Step 8 — Evaluate spatial integral
-
-Let:
-
-\beq
-\chi=\sqrt{\tau}y
-\eeq
-
-Then:
-
-\beq
-d\chi=\sqrt{\tau}dy
-\eeq
-
-So:
-
-\beq
-\int_0^\infty
-d\chi
-\frac{\chi}{\tau}
-\exp\left(\frac{-\chi^2}{2\kappa \tau}\right)
-=
-\int_0^\infty
-dy\;
-y
-\exp\left(\frac{-y^2}{4}\right)
-\eeq
-
-That integral is finite:
-
- \beq
-2
-\eeq
-
-So now:
-
-\beq
-\eta_1
-\sim
-G(x,t)
-\int_0^t
-\frac{d\tau}{\tau}
-\eeq
-
----
-
- Step 9 — The logarithm appears
-
-Now:
-
-\beq
-\int_0^t
-\frac{d\tau}{\tau}
-=
-\log t
-\eeq
-
-(Strictly $\log(t/t_0)$, with $t_0$ a short-time cutoff.)
-
-So:
-
-\beq
-\eta_1(x,t)
-\sim
-2,G(x,t)\log t
-\eeq
-
-This is the precise origin of the **secular logarithm**.
-
----
-
- Step 10 — Identify coefficient $a_1$
-
-So the full solution behaves:
-
-\beq
-\eta(x,t)
-=
-G(x,t)
-\left[
-1
-+
-g C\log t
-\right]
-\eeq
-
-Tracking constants properly gives:
-
-\beq
-C=\frac{1}{2}
-\eeq
-
-So:
-
-\beq
-a_1=\frac12
-\eeq
-
----
 
  Step 11 — RG improvement
 
