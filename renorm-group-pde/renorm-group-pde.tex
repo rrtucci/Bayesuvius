@@ -5,18 +5,16 @@
 %\chapter{Renormalization Group for PDEs}
 %\label{ch-renorm-group-pde}
 %
-secular define
-not bound by time but extends forever
-not bound by religious canon
 
 $\vec{r}=(x,y,z)$
 
-$X=(t, \vec{r})$
 
 $\nabla = (\partial_{x}, \partial_{y}, \partial_{z})$ and $\nabla^2 = \nabla\cdot\nabla=\partial^2_x + \partial^2_y + \partial^2_z$.
 
 $\eta=$ concentration,
 number of particles per $d$-dim volume
+
+$D=$ diffusion coefficient
 
 
 
@@ -47,13 +45,15 @@ Henceforth, 1 space dimension.
 $\nabla^2 =\partial_x^2$
 
 $
-\kappa  = 2D
+D=\frac{\kappa}{2}
 $
 
-\section{DE without long term memory}
+$\xi=\frac{x}{\sqrt{\kappa t}}$
+
+\section{DE with continuous diffusion coefficient}
 
 \beq
-P(x; \s^2)=\frac{1}{\sqrt{2\pi \s}}
+P(x; \s^2)=\frac{1}{\sqrt{2\pi \s^2}}
 \exp\left(\frac{-x^2}{2\s^2}\right)
 \eeq
 
@@ -102,17 +102,17 @@ approximation, because for truly infinite times, $\eta(x,t)\rarrow \infty$
 \engdim{x}=L, \quad 
 \engdim{t}=T, \quad 
 \engdim{\eta}= 1/L,\quad 
-\engdim{D}= L^2/T,\quad 
+\engdim{\kappa }= L^2/T,\quad 
 \eeq
 
 
 \beq
-\Pi =\eta \sqrt{Dt} ,\quad
-\Pi_1 = \frac{x}{\sqrt{D t}}
+\Pi =\eta \sqrt{\kappa t} ,\quad
+\Pi_1 = \frac{x}{\sqrt{\kappa  t}}
 \eeq
 
 \beq
-\Pi = f(\Pi_1)\implies \eta = \frac{1}{\sqrt{Dt}}f\left(\frac{x}{\sqrt{Dt}}\right)
+\Pi = f(\Pi_1)\implies \eta = \frac{1}{\sqrt{\kappa t}}f\left(\frac{x}{\sqrt{\kappa t}}\right)
 \eeq
 
 
@@ -133,15 +133,62 @@ y_t=-2
 \beq
 \eta(x, t)= b^{-y_\eta}\eta\left(\frac{x}{b}, \frac{t}{b^2}\right)
 \eeq
-choose  $b=\sqrt{t}$
+choose  $b=\sqrt{\kappa t}$
 \beq
-\eta(x, t)=b^{-y_\eta}\eta\left(\frac{x}{\sqrt{t}}\right)
+\eta(x, t)=b^{-y_\eta}\eta\left(\frac{x}{\sqrt{\kappa t}}\right)
+\eeq
+
+\beq
+\eta(x,t)
+=
+\frac{1}{\sqrt{\kappa t}}
+f(\xi), \quad\xi = \frac{x}{\sqrt{\kappa t}}.\,
+\eeq
+
+\beq
+\partial_x = \frac{1}{\sqrt{\kappa t}}\partial_\xi
+\eeq
+
+\beq
+\partial_x \eta
+=
+\frac{1}{\kappa t}
+f'(\xi),\quad
+\partial_x^2 \eta
+=
+\frac{1}{(\kappa t)^{3/2}}
+f''(\xi)
 \eeq
 
 
+\beq
+\frac{1}{\kappa}\partial_t \eta
+=
+-\frac{1}{2(\kappa t)^{3/2}}
+\left[
+f + \xi f'
+\right]
+\eeq
+
+\beq
+-(f+\xi f')
+=
+f''
+\eeq
+
+
+\beq
+f(\xi)= A\exp\left(
+\frac{-\xi^2}{2}
+\right)= A\exp\left(
+\frac{-x^2}{2\kappa t}
+\right)
+\eeq
 
 
 \section{DE with discontinuous diffusion coefficient}
+
+
 
 
 \beq
@@ -161,47 +208,13 @@ D(x)
 \right\} = \frac{\kappa}{2}(1 + g\indi_{x>0})
 \eeq
 
-transmission (interface) continuity conditions
-
-concentration continuity
 \beq
-\eta(0-, t)=\eta(0+, t)
-\eeq
-
-flux continuity
-\beq
-D_{-}\partial_x \eta(0-, t) = D_{+}\eta(0+, t)
-\eeq
-
-Note, this is not
-a boundary value problem in the usual sense.
-There is no boundary at $x=0$. if there were
-\begin{itemize}
-\item Dirichlet
-
-\beq \eta(0, t)= \eta_\rvt(x)
-\eeq
-
-\item
-von Neumann
-\beq
-\partial_x\eta(x,t)= f(x,t)
-\eeq
-For example, if there were an impermeable wall at $x=0$,
-
-\beq
-\partial_x\eta(x,t)=0
+\eta(x, t)= \left(\frac{t}{T}\right)^{-\frac12+\alp(g)}f(\xi; g)
 \eeq
 
 
-\item Robin
 
-\beq
-[a \partial_x\eta + b \eta](x, t)=g(x,t)
-\eeq
-\end{itemize}
-
-
+\subsection{Approximating anomalous dimension $\alpha(g)$}
 \beq
 \eta=\eta_0+g \eta_1+ g^2 \eta_2\cdots
 \eeq
@@ -290,11 +303,11 @@ P(x; \kappa t) \int_0^t d\tau
 \eeqa
 
 \beq
-\hat{\chi}= \chi/\sqrt{\kappa \tau},\quad \hat{x}= x/\sqrt{\kappa \tau}
+\HAT{\chi}= \chi/\sqrt{\kappa \tau},\quad \HAT{x}= x/\sqrt{\kappa \tau}
 \eeq
 
 \beq
-I(\tau)= \frac{1}{\sqrt{2\pi\kappa \tau}}\int_0^\infty d\hat{\chi}\; \hat{\chi}(\hat{x}-\hat{\chi})\exp(-\hat{\chi}^2/2)
+I(\tau)= \frac{1}{\sqrt{2\pi\kappa \tau}}\int_0^\infty d\HAT{\chi}\; \HAT{\chi}(\HAT{x}-\HAT{\chi})\exp(-\HAT{\chi}^2/2)
 \eeq
 \beq
 \int_0^\infty dy \; y\exp(-y^2/2)=1,\quad
@@ -302,7 +315,7 @@ I(\tau)= \frac{1}{\sqrt{2\pi\kappa \tau}}\int_0^\infty d\hat{\chi}\; \hat{\chi}(
 \eeq
 
 \beq
-I(\tau)= \frac{1}{\sqrt{2\pi \kappa \tau}}\left[\hat{x}-\sqrt{\frac{\pi}{2}}\right]
+I(\tau)= \frac{1}{\sqrt{2\pi \kappa \tau}}\left[\HAT{x}-\sqrt{\frac{\pi}{2}}\right]
 \eeq
 
 
@@ -313,78 +326,80 @@ NP(x; \kappa t) \int_0^t d\tau \frac{\sqrt{\kappa\tau}}{t-\tau}I(\tau)
 &\approx&
 \eta_0(x,t)
 \frac{1}{4}
-\ln (t)
+\ln t
+\\
+&=& \eta_0(x,t) a\ln t \quad \text{(Define $a =1/4$)}
+\eeqa
+
+\beq
+\eta(x, t) 
+= NP(x; \kappa t)[1 + g a\ln t+\calo(g^2)]
+\eeq
+
+Formally correct but terrible approximation because 
+$g\ln t$ is the product of the perturbation parameter
+$g$ times a logarithm of time which will, for large $t$,
+ruin the perturbation series. Such time logarithms 
+are called secular contributions\footnote{secular define
+not bound by time but extends forever
+not bound by religious canon
+} To fix that,
+we introduce a time scale $T$. 
+\beq
+\ln t
+=
+\ln\left(\frac{t}{T}\right)+\ln T
+\eeq
+$T$ might be memory of a parameter from the initial
+conditions. For example, $\sqrt{\kappa T} = \ell$, the
+initial width of a Gaussian, or it might
+be just a convenient operating point, close 
+to the time we are interested in. Basically,
+without $T$, we are expanding about $t=0$,
+but with $T$, we are expanding $\ln t$ at $t=T$.
+
+
+
+\beqa
+\eta(x, t) 
+&=& NP(x; \kappa t)[1 + g a\ln t+\calo(g^2)]
+\\
+&\approx &
+NP(x; \kappa t) T^{ag} \left(\frac{t}{T}\right)^{ag}
+\\
+&=&
+\frac{N}{\sqrt{2\pi \kappa}}\exp\left(\frac{-x^2}{2\kappa t}\right)
+T^{-\frac12+ag} \left(\frac{t}{T}\right)^{-\frac12+ag}
+\\
+&=&\left(\frac{t}{T}\right)^{-\frac12 +\alpha(g)}f(\xi; g)
 \eeqa
 
 
-
-
- Step 11 — RG improvement
-
-Write:
-
-\beq
-\log t
-=
-\log(t/\tau)+\log\tau
-\eeq
-
-Absorb:
+\beqa
+f(\xi;g)&=&\frac{N}{\sqrt{2\pi \kappa}}\exp\left(\frac{-x^2}{2\kappa t}\right)T^{-\frac12+ag} + \calo(g)
+\\
+&=& A(g) \exp\left(\frac{-x^2}{2\kappa t}\right)
+\eeqa
 
 \beq
-g a_1\log\tau
+\alp(g)= a g + \calo(g^2)
 \eeq
 
-into amplitude.
 
-RG condition:
 
 \beq
-\tau\frac{dA}{d\tau}
-=
-g a_1 A
+\frac{dA}{d\ln T}
+=-\;\frac12+ \alp(g)
 \eeq
 
-Solution:
 
-\beq
-A(t)=t^{g/2}
-\eeq
-
-Final long-time scaling:
-
-\beq
-\eta(x,t)
-\sim
-t^{-1/2+g/2}
-f!\left(\frac{x}{\sqrt{t}}\right)
-\eeq
-
----
-
- The real conceptual punchline
 
 The logarithm came from:
 
 \beq
-\int_0^t \frac{d\tau}{\tau}
+\int_0^t \frac{d\tau}{t-\tau}
 \eeq
 
-and that, in turn, came from:
-
-\beq
-\frac{\chi}{\tau}
-\exp\left(\frac{-\chi^2}{2\kappa \tau}\right)
-\eeq
-
-after rescaling.
-
-So the deep mechanism is:
-
-**diffusive spreading + interface discontinuity → 
-scale-free $1/\tau$ memory → logarithm**
-
-That is the RG seed.
 
 ---
 
@@ -407,135 +422,57 @@ in momentum-space RG.
 That parallel is not accidental—it is the real
  reason RG works here.
 
-\section{finding self-similar function}
-Good—this is a very nice place where you can
- **see the interface explicitly** in the
-  scaling function, and verify that:
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
+\begin{table}[]
+\begin{tabular}{|l|l|l|}
+\hline
+ & \cellcolor[HTML]{CBCEFB}Quantum Field Theory & \cellcolor[HTML]{CBCEFB}DE with discontinuous $D$ \\ \hline
+\cellcolor[HTML]{FFFFC7}{\color[HTML]{000000} regulator} & $\eps=4-d$ & no analogous parameter \\ \hline
+\cellcolor[HTML]{FFFFC7}{\color[HTML]{000000} renormalization point} & $\mu$ & $T$ \\ \hline
+\cellcolor[HTML]{FFFFC7}secular parameter & momentum $q$ in loop integrals & time $t$ \\ \hline
+\end{tabular}
+\caption{comparison}
+\label{tab-qft-de-comparison}
+\end{table}
 
-* $\eta(x,t)$ is continuous at $x=0$
-* $\partial_x \eta$ has a kink at $x=0$
-* flux $D,\partial_x \eta$ is continuous
+\subsection{Approximating self-similar function $f(\xi; g)$}
+transmission (interface) continuity conditions
 
-We'll build the scaling solution and 
-derive the matching condition.
-
----
-
- 1. Look for a similarity solution
-
-For long times, diffusion problems tend 
-toward **self-similar form**, so try:
-
+concentration continuity
 \beq
-\eta(x,t)
-=
-t^{-\alpha}
-f(\xi),
-\quad
-\xi=\frac{x}{\sqrt{t}}
+\eta(0-, t)=\eta(0+, t)
 \eeq
 
-From dimensional reasoning (or normalization conservation):
-
+flux continuity
 \beq
-\alpha=\frac12
+D_{-}\partial_x \eta(0-, t) = D_{+}\eta(0+, t)
 \eeq
 
-So:
-
-\beq
-\eta(x,t)
-=
-\frac{1}{\sqrt{t}}
-f(\xi)
-\eeq
-
----
-
- 2. Plug into the diffusion equation
-
-We have:
-
-\beq
-\partial_t \eta
-=
-\partial_x!\left(D(x)\partial_x \eta\right)
-\eeq
-
-Compute derivatives.
-
-First:
-
-\beq
-\partial_x \eta
-=
-\frac{1}{t}
-f'(\xi)
-\eeq
-
-Then:
-
-\beq
-\partial_x^2 \eta
-=
-\frac{1}{t^{3/2}}
-f''(\xi)
-\eeq
-
-Time derivative:
-
-\beq
-\partial_t \eta
-=
--\frac{1}{2t^{3/2}}
-\left[
-f + \xi f'
-\right]
-\eeq
-
-So the PDE becomes:
+Note, this is not
+a boundary value problem in the usual sense.
+There is no boundary at $x=0$. Boundary
+value problems normally
+have either Dirichlet, von Neumann or mixed boundary 
+conditions (see Sec.\ref{sec-solving-de-green-fun})
 
 \beq
 -\frac12(f+\xi f')
 =
-D(\xi),f''
+D(\xi)f''
 \eeq
 
-where:
 
 \beq
 D(\xi)=
 \begin{cases}
-D_1,& \xi>0\\
-D_2,& \xi<0
+D_+,& \xi>0\\
+D_-,& \xi<0
 \end{cases}
 \eeq
 
----
 
- 3. ODE on each side
-
-So we solve:
-
-For $\xi>0$:
-
-\beq
-D_1 f''+\frac12(f+\xi f')=0
-\eeq
-
-For $\xi<0$:
-
-\beq
-D_2 f''+\frac12(f+\xi f')=0
-\eeq
-
----
-
- 4. Solve the ODE
-
-These equations are solved by Gaussians.
-
-General solution:
 
 For $\xi>0$:
 
@@ -543,7 +480,7 @@ For $\xi>0$:
 f_+(\xi)
 =
 A_+
-\exp!\left(-\frac{\xi^2}{4D_1}\right)
+\exp \left(-\frac{\xi^2}{4D_+}\right)
 \eeq
 
 For $\xi<0$:
@@ -552,14 +489,12 @@ For $\xi<0$:
 f_-(\xi)
 =
 A_-
-\exp!\left(-\frac{\xi^2}{4D_2}\right)
+\exp \left(-\frac{\xi^2}{4D_-}\right)
 \eeq
 
 So the two halves have **different widths**.
 
----
-
- 5. Continuity condition at $\xi=0$
+Continuity condition at $\xi=0$
 
 We must have:
 
@@ -573,29 +508,25 @@ So:
 A_+=A_- \equiv A
 \eeq
 
-Thus:
-
 \beq
-f(0)=A
-\eeq
-
-So the function is continuous.
-
----
-
- 6. Flux continuity condition
-
-Recall:
-
-\beq
-D_1\partial_x \eta(0^+)
+\boxed{f(\xi;g)
 =
-D_2\partial_x \eta(0^-)
+A
+\exp \left(-\frac{\xi^2}{4D(\xi)}\right)+\calo(g^2)}
 \eeq
 
-Compute derivatives.
 
-Since:
+
+  Flux continuity condition
+
+
+\beq
+D_+\partial_x \eta(0^+)
+=
+D_-\partial_x \eta(0^-)
+\eeq
+
+
 
 \beq
 \partial_x \eta
@@ -607,62 +538,33 @@ f'(\xi)
 we get:
 
 \beq
-D_1 f'_+(0)
+D_+ f'_+(0)
 =
-D_2 f'_-(0)
+D_- f'_-(0)
 \eeq
 
----
 
- 7. Compute derivatives
-
-Differentiate:
 
 \beq
-f'_+(\xi)
+f'_\pm(\xi)
 =
--\frac{\xi}{2D_1}
+-\frac{\xi}{2D_\pm}
 A
-e^{-\xi^2/4D_1}
+\exp \left(-\frac{\xi^2}{4D_\pm}\right)
 \eeq
 
-So:
+So flux continuity is just says $0=0$ satisfied automatically 
 
-\beq
-f'_+(0)=0
-\eeq
 
-Similarly:
-
-\beq
-f'_-(0)=0
-\eeq
-
-So leading-order Gaussian gives **zero slope on both sides**.
-
-That means:
-
-Flux continuity is automatically satisfied at leading order.
-
-But:
-
- the **next-order correction** generates the kink.
-
-That's where the discontinuity truly appears.
-
----
-
- 8. Include next-order correction
-
-Because diffusivities differ, the full solution is:
+ the **next-order correction** has kink.
 
 \beq
 f(\xi)
 =
 A
-e^{-\xi^2/4D_i}
+\exp \left(-\frac{\xi^2}{4D(\xi)}\right)
 \left[
-1+\epsilon g(\xi)
+1+g F(\xi)
 \right]
 \eeq
 
@@ -672,121 +574,41 @@ Now:
 f'(0^+)\neq f'(0^-)
 \eeq
 
-while:
+but still
 
 \beq
-D_1 f'(0^+)=D_2 f'(0^-)
+D_+ f'(0^+)=D_- f'(0^-)
 \eeq
 
-This produces the **kink**.
 
----
+\section{Appendix: Solving DE via Green Functions}
+\label{sec-solving-de-green-fun}
 
- 9. What the kink looks like
+\begin{itemize}
+\item Dirichlet
 
-Graphically:
+\beq \eta(0, t)= \eta_\rvt(x)
+\eeq
 
-
-
-Key features:
-
-* Continuous at $\xi=0$
-* Different curvature left/right
-* Slope changes abruptly
-
-That slope change encodes:
+\item
+von Neumann
+\beq
+\partial_x\eta(x,t)= f(x,t)
+\eeq
+For example, if there were an impermeable wall at $x=0$,
 
 \beq
-D_1\neq D_2
+\partial_x\eta(x,t)=0
 \eeq
 
----
-
- 10. Physical interpretation
-
-If:
+\item mixed
 
 \beq
-D_1>D_2
+[a \partial_x\eta + b \eta](x, t)=g(x,t)
 \eeq
-
-then:
-
-* right side diffuses faster
-* distribution spreads wider to the right
-* gradient adjusts to keep flux continuous
-
-So:
-
-* profile is skewed
-* center remains continuous
-
----
-
- 11. Where RG modifies this
-
-The RG calculation earlier changes:
-
-\beq
-\eta(x,t)
-=
-t^{-1/2}
-\to
-t^{-1/2+\epsilon/2}
-\eeq
-
-So the final similarity solution becomes:
-
-\beq
-\eta(x,t)
-=
-t^{-1/2+\epsilon/2}
-f(\xi)
-\eeq
-
-That exponent shift is the 
-**anomalous scaling** produced by the interface.
-
----
-
- The big conceptual takeaway
-
-The discontinuity in diffusion coefficient shows up as:
-
-* **continuity of the solution**
-* **kink in derivative**
-* **logarithmic corrections**
-* **RG-modified decay exponent**
-
-All four are different faces of the same underlying structure.
-
----
-
- A very nice optional next step
-
-If you're interested, the most revealing thing
- to compute next would be:
-
-**the exact ratio**
-
-\beq
-\frac{f'(0^+)}{f'(0^-)}
-=
-\frac{D_2}{D_1}
-\eeq
-
-including first-order corrections.
-
-That calculation directly links:
-
-* interface physics
-* RG logarithms
-* matching conditions
-
-into one unified picture.
+\end{itemize}
 
 
-\section{Solving Diffusion Equation via Green Functions}
 
 
 \beq
@@ -800,22 +622,22 @@ into one unified picture.
 \begin{claim}
 The solution to the equation
 \beq
-\call \eta (t,x) = S(t,x)\quad
+\call \eta (x,t) = S(x,t)\quad
 \eeq
 for $x>0$ and $t>0$
 with initial conditions
 \beq
-\eta(0, x)= \eta_\rvx(x)
+\eta(x,0)= \eta_\rvx(x)
 \eeq
 and Dirichlet boundary conditions:
 
 \beq
-\eta(t, 0) = \eta_\rvt(t)
+\eta(0,t) = \eta_\rvt(t)
 \eeq
 is
 
 \beqa
-\eta(t, x)&=&
+\eta(x,t)&=&
 \int_0^{t+} d\tau\;
 \int_0^\infty d\chi\;
 G(x,t;\chi,\tau)
