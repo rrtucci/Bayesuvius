@@ -265,6 +265,7 @@ following ordinary differential equation (ODE)
 -(f+\xi f')
 =
 f''
+\label{eq-basic-ode-gaussian}
 \eeq
 It's
 easy to check that this ODE
@@ -308,7 +309,7 @@ be obtained by assuming that it is of the form
 \eeq
 The parameters $A$ and $T>0$ are arbitrary.
 The functions $\alp(g)$ and $f(\xi;g)$
-will be calculated separately.
+will be calculated separately below.
 
 First, we will calculate $\alp(g)$ to first order in $g$
 by solving the DE PDE using the method of Green functions.\footnote{
@@ -318,32 +319,36 @@ for an introduction to Green functions.}
 Second, we will calculate $f(\xi;g)$ to first
 order in $g$ by using RG scaling to eliminate 
 one dof (degree of freedom) from the DE PDE, thus 
-reducing it to an ODE. (We did this already when discussing the DE with constant diffusion coefficient $D$)
+reducing it to an ODE. (We did something similar 
+ when discussing the DE with constant diffusion coefficient $D$.)
 
 
 
 
 
 \subsection{Approximating anomalous dimension $\alpha(g)$}
+
+Suppose we expand  $\eta(x, t)$ in powers of $g$
 \beq
 \eta=\eta_0+g \eta_1+ g^2 \eta_2\cdots
 \eeq
+Plugging this expansion into the DE
+gives a PDE for each power of $g$.
 
-Zeroth order:
+For $g^0$ (zeroth order), we get:
 
 \beq
 (\partial_t-\frac{\kappa}{2}\partial_x^2)\eta_0=0
 \eeq
-
+which is solved by
 
 
 \beq
 \eta_0(x,t)
 =NP(x; \kappa t)
 \eeq
-
-
-First order equation:
+For $g^1$ 
+(first order) we get:
 
 \beq
 (\partial_t-\frac{\kappa}{2}\partial_x^2)\eta_1
@@ -353,85 +358,101 @@ First order equation:
 \indi_{x>0}\partial_x \eta_0
 \right)
 \eeq
+which is solved via Green functions by
 
 \beq
 \eta_1(x,t)
 =\frac{\kappa}{2}
-\int_0^t d\tau
-\int_{-\infty}^\infty d\chi\;
-G(x-\chi,t-\tau)
-\partial_{\chi}\left[
-\indi_{\chi>0}
-\partial_{\chi}\eta_0(\chi,\tau)
+\int_0^t dt'
+\int_{-\infty}^\infty dx'\;
+G(x-x',t-t')
+\partial_{x'}\left[
+\indi_{x'>0}
+\partial_{x'}\eta_0(x',t')
 \right]
 \eeq
-Integrate by parts, assume $\chi=\pm \infty$  terms vanish
+If we integrate the last equation by parts over $x'$,
+and assume the integrand vanishes at $x'=\pm \infty$,
+we get
 
 \beq
 \eta_1(x,t)
 =\frac{\kappa}{2}
-\int_0^t d\tau
-\int_{0}^\infty d\chi\;
-[-\partial_\chi  G(x-\chi,t-\tau)
+\int_0^t dt'
+\int_{0}^\infty dx'\;
+[-\partial_{x'}  G(x-x',t-t')
 ]
-\partial_{\chi}\eta_0(\chi,\tau)
+\partial_{x'}\eta_0(x',t')
 \eeq
+We are solving a DE with a source $S(x,t)$ for free space (no boundaries),
+so the appropriate Green function (see
+Appendix \ref{sec-solving-de-green-fun})  is a normal
+distribution
 
 \beq
-G(x-\chi, t-\tau)= P(x-\chi; \kappa(t-\tau))
+G(x-x', t-t')= P(x-x'; \kappa(t-t'))
 \eeq
-
-
-%\beq
-%\partial_\chi\left(
-%\indi_{\chi>0}\partial_\chi \eta_0
-%\right)
-%=
-%\indi_{\chi>0}\partial_\chi^2 \eta_0
-%+
-%\delta(\chi)\partial_\chi \eta_0(0^+,\tau)
-%\eeq
-
+Hence
 
 \beq
--\partial_\chi G(x-\chi, t-\tau)=\frac{(x-\chi)}{\kappa(t-\tau)}
-P(x-\chi; \kappa(t-\tau))
+-\partial_{x'} G(x-x', t-t')=\frac{(x-x')}{\kappa(t-t')}
+P(x-x'; \kappa(t-t'))
 \eeq
+and 
 
 \beq
-\partial_\chi \eta_0(\chi,\tau)
+\partial_{x'} \eta_0(x',t')
 =
--\;\frac{\chi}{\kappa \tau}N P(\chi; \kappa \tau)
+-\;\frac{x'}{\kappa t'}N P(x'; \kappa t')
 \eeq
 
-Assume $t\gg \tau$  and  $x\gg \chi$ in $P()$ only so 
-
-\beqa
-\eta_1(x,t)&=& -\;\frac{\kappa}{2}N
-P(x; \kappa t) \int_0^t d\tau
-\int_0^\infty d\chi\;\frac{\chi (x-\chi)}{\kappa^2 \tau (t-\tau)}P(\chi;\kappa \tau)
-\eeqa
+Assume most of the contribution to the integral
+comes from $(\xi, t')\approx (x,t)$ so approximate
 
 \beq
-\HAT{\chi}= \chi/\sqrt{\kappa \tau},\quad \HAT{x}= x/\sqrt{\kappa \tau}
+P(x',; \kappa t)\approx P(x; \kappa t)
 \eeq
+in the integrand. Hence
 
+\begin{align}
+\eta_1(x,t)&= -\;\frac{\kappa}{2}N
+P(x; \kappa t) \int_0^t dt'
+\int_0^\infty dx'\;\frac{x' (x-x')}{\kappa^2 t' (t-t')}P(x-x';\kappa (t-t'))
+\\
+&=
+-\;\frac{1}{2}N
+P(x; \kappa t) \int_0^t \frac{dt'}{t'}
+\frac{1}{\sqrt{2\pi}}
+\int_{0}^\infty d x'\;\frac{x'(x-x')}{[\kappa(t-t')]^\frac32}
+\exp\left(-\;\frac{(x-x')^2}{2\kappa(t-t')}\right)
+\\
+&=
+-\;\frac{1}{2}N
+P(x; \kappa t) \int_0^t \frac{dt'}{t'}
+\frac{1}{\sqrt{2\pi}}
+\underbrace{\int_{0}^\infty d y'\;y'(y-y')
+\exp\left(-\;\frac{(y')^2}{2}\right)}_{I(y)}
+\label{eq-eta-1-double-int}
+\end{align}
+where 
 \beq
-I(\tau)= \frac{1}{\sqrt{2\pi\kappa \tau}}\int_0^\infty d\HAT{\chi}\; \HAT{\chi}(\HAT{x}-\HAT{\chi})\exp(-\HAT{\chi}^2/2)
+y=\frac{x}{\sqrt{\kappa(t-t')}}
 \eeq
+If we  use the following Gaussian integrals
+to evaluate $I(y)$
 \beq
 \int_0^\infty dy \; y\exp(-y^2/2)=1,\quad
 \int_0^\infty dy \; y^2 \exp(-y^2/2)=\sqrt{2}\;\Gamma(3/2)=\sqrt{\frac{\pi}{2}}
 \eeq
-
+we get
 \beq
-I(\tau)= \frac{1}{\sqrt{2\pi \kappa \tau}}\left[\HAT{x}-\sqrt{\frac{\pi}{2}}\right]
+I(y)= y-\sqrt{\frac{\pi}{2}}
 \eeq
-
-
+Hence
 \beqa
 \eta_1(x,t)&=& -\frac{1}{2}
-NP(x; \kappa t) \int_0^t d\tau \frac{\sqrt{\kappa\tau}}{t-\tau}I(\tau)
+NP(x; \kappa t) \int_0^t \frac{dt'}{t'}
+ \left[ \frac{y}{\sqrt{2\pi}}-\frac{1}{2}\right]
 \\
 &\approx&
 \eta_0(x,t)
@@ -440,36 +461,40 @@ NP(x; \kappa t) \int_0^t d\tau \frac{\sqrt{\kappa\tau}}{t-\tau}I(\tau)
 \\
 &=& \eta_0(x,t) a\ln t \quad \text{(Define $a =1/4$)}
 \eeqa
+Hence
 
 \beq
 \eta(x, t) 
 = NP(x; \kappa t)[1 + g a\ln t+\calo(g^2)]
+\label{eq-eta-secular-terms}
 \eeq
 
-Formally correct but terrible approximation because 
+Eq.(\ref{eq-eta-secular-terms})
+is formally correct but a poor perturbation approach
+ because 
 $g\ln t$ is the product of the perturbation parameter
 $g$ times a logarithm of time which will, for large $t$,
 ruin the perturbation series. Such time logarithms 
-are called secular terms\footnote{A {\bf secular term} in physics (and applied mathematics) is a term in a perturbative expansion or approximate solution that grows without bound over time. Secular in non-technical literature means non-religious.
+are called secular terms\footnote{A {\bf secular term} in Physics (and Applied Mathematics) is a term in a perturbative expansion or approximate solution that grows without bound over time. Secular in non-technical contexts means non-religious.
 Both meanings are connected if you define the adjective \qt{secular} as 
-not bounded by time or religious canon, extending forever.
-The word comes from the Latin \qt{saeculum} meaning "age" or "long period of time."
-} To fix that,
-we introduce a time scale $T$. 
+not bounded by time or by religious canon, extending forever.
+The word \qt{secular} comes from the Latin \qt{saeculum} meaning "age" or "long period of time."
+} To get rid of the secular terms,
+we introduce a time scale $T$, and use
 \beq
 \ln t
 =
 \ln\left(\frac{t}{T}\right)+\ln T
 \eeq
-$T$ might be memory of a parameter from the initial
-conditions. For example, $\sqrt{\kappa T} = \ell=$ the
-initial width of a Gaussian, or it might
-be just a convenient operating point, close 
+$T$ might be memory of a parameter in the initial
+conditions (for example, $\sqrt{\kappa T} = \ell=$ the
+initial width of a Gaussian), or it might
+be simply a convenient operating point, close 
 to the time we are interested in. Basically,
-without $T$, we are expanding about $t=0$,
+without $T$, we are expanding $\ln t$ about $t=0$,
 but with $T$, we are expanding $\ln t$ at $t=T$.
 
-
+Note that
 
 \beqa
 \eta(x, t) 
@@ -484,59 +509,45 @@ T^{-\frac12+ag} \left(\frac{t}{T}\right)^{-\frac12+ag}
 \\
 &=&\left(\frac{t}{T}\right)^{-\frac12 +\alpha(g)}f(\xi; g)
 \eeqa
-
+where
 
 \beqa
 f(\xi;g)&=&\frac{N}{\sqrt{2\pi \kappa}}\exp\left(\frac{-x^2}{2\kappa t}\right)T^{-\frac12+ag} + \calo(g)
 \\
 &=& A(g) \exp\left(\frac{-x^2}{2\kappa t}\right)
 \eeqa
+and
 
 \beq
 \alp(g)= a g + \calo(g^2)
 \eeq
-
+Note also that
 
 
 \beq
 \frac{dA}{d\ln T}
-=-\;\frac12+ \alp(g)
+=-\;\frac12 + ag+ \calo(g^2)
 \eeq
 
-
-
-The logarithm came from:
-
-\beq
-\int_0^t \frac{d\tau}{t-\tau}
-\eeq
-
-
----
-
- Why this mirrors QFT exactly
-
-This integral:
-
-\beq
-\int_0^t \frac{d\tau}{\tau}
-\eeq
-
-is the time analogue of:
-
-\beq
+Note that the secular term $\ln t$
+came from $
+\int_0^t \frac{dt'}{t'}
+$. This mirrors the
+loop integrals over momentum $
 \int \frac{dq}{q}
-\eeq
+$
+that we encounter 
+when applying RG to Quantum Field Theory (QFT).
+The analogy between RG for QFT and for
+DE with discontinuous diffusion coefficient $D$,
+goes much further. See Table \ref{tab-qft-de-comparison}
+for a list of analogous parameters between the two.
 
-in momentum-space RG.
-
-That parallel is not accidental—it is the real
- reason RG works here.
 
 % Please add the following required packages to your document preamble:
 % \usepackage[table,xcdraw]{xcolor}
 % Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
-\begin{table}[]
+\begin{table}[h!]
 \begin{tabular}{|l|l|l|}
 \hline
  & \cellcolor[HTML]{9AFF99}Quantum Field Theory & \cellcolor[HTML]{9AFF99}DE with discontinuous $D$ \\ \hline
@@ -545,23 +556,43 @@ That parallel is not accidental—it is the real
 \cellcolor[HTML]{FFFC9E}secular parameter & momentum $q$ in loop integrals & time $t$ \\ \hline
 \cellcolor[HTML]{FFFC9E}perturbation parameter & coupling constant $g$ & diffusion coefficient jump $g$ \\ \hline
 \end{tabular}
-\caption{comparison}
+\caption{Comparison between RG for QFT and for
+DE with discontinuous diffusion coefficient $D$}
 \label{tab-qft-de-comparison}
 \end{table}
 
 \subsection{Approximating self-similar function $f(\xi; g)$}
-transmission (interface) continuity conditions
+In the previous section we found $\alp(g)$ to first order in $g$ and $f(\xi)$ to zeroth order in $g$. In this section,
+we find a better approximation for $f(\xi)$.
 
-concentration continuity
+We are solving the DE subject to the following
+{\bf  transmission (i.e., interface) continuity conditions}:
+\begin{itemize}
+\item concentration continuity
 \beq
 \eta(0-, t)=\eta(0+, t)
 \eeq
+This can be re-expressed in terms of $f(\xi)$ as
+\beq
+f(0-)=f(0+)
+\eeq
 
-flux continuity
+\item flux continuity
 \beq
 D_{-}\partial_x \eta(0-, t) = D_{+}\eta(0+, t)
 \eeq
-
+Since 
+\beq
+\partial_x \eta
+=
+\frac{1}{\kappa t}
+f'(\xi)
+\eeq
+this can be re-expressed in terms of $f(\xi)$ as
+\beq
+D_-f'(0-)=D_+f'(0+)
+\eeq
+\end{itemize}
 Note, this is not
 a boundary value problem in the usual sense.
 There is no boundary at $x=0$. Boundary
@@ -625,72 +656,22 @@ A_+=A_- \equiv A
 =
 A
 \exp \left(-\frac{\xi^2}{4D(\xi)}\right)+\calo(g^2)}
+\label{eq-best-f-xi}
 \eeq
 
 
-
-  Flux continuity condition
-
+Since
 
 \beq
-D_+\partial_x \eta(0^+)
-=
-D_-\partial_x \eta(0^-)
-\eeq
-
-
-
-\beq
-\partial_x \eta
-=
-\frac{1}{t}
 f'(\xi)
-\eeq
-
-we get:
-
-\beq
-D_+ f'_+(0)
 =
-D_- f'_-(0)
-\eeq
-
-
-
-\beq
-f'_\pm(\xi)
-=
--\frac{\xi}{2D_\pm}
-A
-\exp \left(-\frac{\xi^2}{4D_\pm}\right)
-\eeq
-
-So flux continuity is just says $0=0$ satisfied automatically 
-
-
- the **next-order correction** has kink.
-
-\beq
-f(\xi)
-=
+-\frac{\xi}{2D(\xi)}
 A
 \exp \left(-\frac{\xi^2}{4D(\xi)}\right)
-\left[
-1+g F(\xi)
-\right]
 \eeq
+the flux continuity 
+is satisfied automatically. It reduces to just  $0=0$. 
 
-Now:
-
-\beq
-f'(0^+)\neq f'(0^-)
-\eeq
-
-but still
-
-\beq
-D_+ f'(0^+)=D_- f'(0^-)
-\eeq
 
 
 \section{Appendix: Solving DE via Green Functions}
@@ -750,32 +731,32 @@ is
 
 \beqa
 \eta(x,t)&=&
-\int_0^{t+} d\tau\;
-\int_0^\infty d\chi\;
-G(x,t;\chi,\tau)
-f(\chi,\tau)
+\int_0^{t+} dt'\;
+\int_0^\infty dx'\;
+G(x,t;x',t')
+f(x',t')
 \\
 &&+
-\int_0^{\infty} d\chi\;
-G(x,t;\chi, 0)
- \eta_{\rvx}(\chi)
+\int_0^{\infty} dx'\;
+G(x,t;x', 0)
+ \eta_{\rvx}(x')
 \\
 &&-D
-\int_0^{t+} d\tau\;
-[\partial_\chi G(x,t;\chi,\tau)]_{\chi=0}
- \eta_\rvt(\tau)
+\int_0^{t+} dt'\;
+[\partial_{x'} G(x,t;x',t')]_{x'=0}
+ \eta_\rvt(t')
 \eeqa
-where $G(x,t;\chi,\tau)$ satisfies 
+where $G(x,t;x',t')$ satisfies 
 the following equations for $x>0$ and $t>0$
 
 
 \beq
-\call G(x,t;\chi, \tau)=\delta(x-\chi)\delta(t-\tau)
+\call G(x,t;x', t')=\delta(x-x')\delta(t-t')
 \eeq
 and
 
 \beq
-G(x=0,t;\chi,\tau)=0
+G(x=0,t;x',t')=0
 \eeq
 \end{claim}
 \proof
@@ -783,24 +764,24 @@ G(x=0,t;\chi,\tau)=0
 
 \beq
 \call= \partial_t -D \partial_x^2,\quad
-\call G(x,t;\chi, \tau)=\delta(x-\chi)\delta(t-\tau)
+\call G(x,t;x', t')=\delta(x-x')\delta(t-t')
 \eeq
 
 
 \beq
 \call^\dagger= -\partial_t -D \partial_x^2,
-\quad \call^\dagger G'(x,t;\chi, \tau)=\delta(x-\chi)\delta(t-\tau)
+\quad \call^\dagger G'(x,t;x', t')=\delta(x-x')\delta(t-t')
 \eeq
 
 
 
 \beq
-P_\rvx = \int_0^\infty d\chi\; \ket{\rvx=\chi}\bra{\rvx=\chi}
+P_\rvx = \int_0^\infty dx'\; \ket{\rvx=x'}\bra{\rvx=x'}
 \eeq
 
 
 \beq
-P_\rvt = \int_0^t d\tau\; \ket{\rvt=\tau}\bra{\rvt=\tau}
+P_\rvt = \int_0^t dt'\; \ket{\rvt=t'}\bra{\rvt=t'}
 \eeq
 
 \newcommand{\kett}[2]{\left|\begin{array}{c}1\\2\end{array}\right\rangle}
@@ -814,12 +795,12 @@ P_\rvt = \int_0^t d\tau\; \ket{\rvt=\tau}\bra{\rvt=\tau}
 
 \beq
 \partial_{\rvx} = 
-\int_0^\infty d\chi\; \ket{\rvx=\chi}\partial_\chi\bra{\rvx=\chi}
+\int_0^\infty dx'\; \ket{\rvx=x'}\partial_{x'}\bra{\rvx=x'}
 \eeq
 
 \beq
 \partial_{\rvt} = 
-\int_0^\infty dt\; \ket{\rvt=\tau}\partial_\tau\bra{\rvt=\tau}
+\int_0^\infty dt\; \ket{\rvt=t'}\partial_{t'}\bra{\rvt=t'}
 \eeq
 
 \beq
@@ -873,9 +854,9 @@ G'\kett{x}{t}
 \eeq
 
 \beq
-\call^\dagger \brat{x}{t}G\kett{\chi}{\tau
-}=\brat{x}{t}\rv{\call}^\dagger G'\kett{\chi}{\tau}=
-\stackt{\delta(x-\chi)}{\delta(t-\tau)}
+\call^\dagger \brat{x}{t}G\kett{x'}{t'
+}=\brat{x}{t}\rv{\call}^\dagger G'\kett{x'}{t'}=
+\stackt{\delta(x-x')}{\delta(t-t')}
 \implies\quad
 \rv{\call}^\dagger G' =1
 \eeq
@@ -892,38 +873,38 @@ I = \brat{x}{t}G\ket{S}-\bra{\eta}\kett{x}{t}
 
 \beqa
 I_\rvt &=&
-\int_0^t d\tau
+\int_0^t dt'
 \brat{x}{t}G
-\stackt{1}{\ket{\tau}\partial_\tau\bra{\tau}}
+\stackt{1}{\ket{t'}\partial_{t'}\bra{t'}}
 \ket{\eta}
 +
 \bra{\eta}
-\stackt{1}{\ket{\tau}\partial_\tau\bra{\tau}}
+\stackt{1}{\ket{t'}\partial_{t'}\bra{t'}}
 G'\kett{x}{t}
 \eeqa
 
 \beq
-\bra{t}G\ket{\tau}= \bra{\tau}G'\ket{t}
+\bra{t}G\ket{t'}= \bra{t'}G'\ket{t}
 \eeq
 
 \beq
-\partial_\tau (\ket{\tau}\bra{\tau})=
-\ket{\tau}\partial_\tau\bra{\tau}
-+\ket{\tau}\cev{\partial}_\tau\bra{\tau}
+\partial_{t'} (\ket{t'}\bra{t'})=
+\ket{t'}\partial_{t'}\bra{t'}
++\ket{t'}\cev{\partial}_{t'}\bra{t'}
 \eeq
 
 
 \beqa
 I_\rvt &=&
-\int_0^t d\tau
+\int_0^t dt'
 \brat{x}{t}G
-\stackt{1}{\partial_\tau (\ket{\tau}\bra{\tau})}
+\stackt{1}{\partial_{t'} (\ket{t'}\bra{t'})}
 \ket{\eta}
 \eeqa
 
 \beq
 \int_0^t
-d\tau\;\partial_\tau (\ket{\tau}\bra{\tau})
+dt'\;\partial_{t'} (\ket{t'}\bra{t'})
 =
 \ket{t}\bra{t}-\ket{0}\bra{0}
 \eeq
@@ -938,53 +919,53 @@ d\tau\;\partial_\tau (\ket{\tau}\bra{\tau})
 
 \beqa
 I_\rvx &=& 
-\int_0^\infty d\chi
+\int_0^\infty dx'
 \brat{x}{t}G
-\stackt{\ket{\chi}\partial_\chi^2\bra{\chi}}{1}
+\stackt{\ket{x'}\partial_{x'}^2\bra{x'}}{1}
 \ket{\eta}
 -
 \bra{\eta}
-\stackt{\ket{\chi}\partial_\chi^2\bra{\chi}}{1}
+\stackt{\ket{x'}\partial_{x'}^2\bra{x'}}{1}
 G'\kett{x}{t}
 \eeqa
 
 \beq
-\ket{\chi}\partial_\chi^2\bra{\chi}
--\ket{\chi}\cev{\partial}_\chi^2\bra{\chi}=
-\partial_\chi(\ket{\chi}\partial_\chi\bra{\chi})
--(\ket{\chi}\cev{\partial}_\chi\bra{\chi})\cev{\partial}_\chi
+\ket{x'}\partial_{x'}^2\bra{x'}
+-\ket{x'}\cev{\partial}_{x'}^2\bra{x'}=
+\partial_{x'}(\ket{x'}\partial_{x'}\bra{x'})
+-(\ket{x'}\cev{\partial}_{x'}\bra{x'})\cev{\partial}_{x'}
 \eeq
 
 \beq
 I_\rvx=
-\int_0^\infty d\chi
+\int_0^\infty dx'
 \brat{x}{t}G
-\stackt{\partial_\chi(\ket{\chi}\partial_\chi\bra{\chi})
--(\ket{\chi}\cev{\partial}_\chi\bra{\chi})\cev{\partial}_\chi}{1}
+\stackt{\partial_{x'}(\ket{x'}\partial_{x'}\bra{x'})
+-(\ket{x'}\cev{\partial}_{x'}\bra{x'})\cev{\partial}_{x'}}{1}
 \ket{\eta}
 \eeq
 
 \beqa
-\int_0^\infty d\chi
-\partial_\chi(\ket{\chi}\partial_\chi\bra{\chi})
--(\ket{\chi}\cev{\partial}_\chi\bra{\chi})\cev{\partial}_\chi
+\int_0^\infty dx'
+\partial_{x'}(\ket{x'}\partial_{x'}\bra{x'})
+-(\ket{x'}\cev{\partial}_{x'}\bra{x'})\cev{\partial}_{x'}
 &=&
-[\ket{\chi}\partial_\chi\bra{\chi}
+[\ket{x'}\partial_{x'}\bra{x'}
 -
-\ket{\chi}\cev{\partial}_\chi\bra{\chi}]_0^\infty
+\ket{x'}\cev{\partial}_{x'}\bra{x'}]_0^\infty
 \\
 &=&
--[\ket{\chi}\partial_\chi\bra{\chi}
+-[\ket{x'}\partial_{x'}\bra{x'}
 -
-\ket{\chi}\cev{\partial}_\chi\bra{\chi}]_{\chi=0}
+\ket{x'}\cev{\partial}_{x'}\bra{x'}]_{x'=0}
 \eeqa
 
 \beq
 I_\rvx=
 \brat{x}{t}G
-\stackt{[-\ket{\chi}\partial_\chi\bra{\chi}
+\stackt{[-\ket{x'}\partial_{x'}\bra{x'}
 +
-\ket{\chi}\cev{\partial}_\chi\bra{\chi}]_{\chi=0}}{1}
+\ket{x'}\cev{\partial}_{x'}\bra{x'}]_{x'=0}}{1}
 \ket{\eta}
 \eeq
 
@@ -992,17 +973,17 @@ I_\rvx=
 \beq
 \boxed{I_\rvx=\brat{x}{t}G
 \stackt{[
-\ket{\chi}\cev{\partial}_\chi\bra{\chi}]_{\chi=0}}{P_\rvt}
+\ket{x'}\cev{\partial}_{x'}\bra{x'}]_{x'=0}}{P_\rvt}
 \ket{\eta}}
 \eeq
 \qed
 
 
 \beq
-G^\pm(x,t;\chi,\tau)
+G^\pm(x,t;x',t')
 =
-\frac{1}{\sqrt{4\pi D(t-\tau)}}
-\exp\left[-\;\frac{(x\pm\chi)^2}{4D(t-\tau)}\right]
+\frac{1}{\sqrt{4\pi D(t-t')}}
+\exp\left[-\;\frac{(x\pm x')^2}{4D(t-t')}\right]
 \eeq
 
 \beq
@@ -1011,13 +992,13 @@ G = G^+ - G^-
 At the boundary
 \beq
 \left.
-\partial_\chi G
-(x,t;\chi,\tau)
-\right|_{\chi=0}
+\partial_{x'} G
+(x,t;x',t')
+\right|_{x'=0}
 =
-\frac{x}{\sqrt{4\pi D (t-\tau)^3}}
+\frac{x}{\sqrt{4\pi D (t-t')^3}}
 \exp\left(
--\frac{x^2}{4D(t-\tau)}
+-\frac{x^2}{4D(t-t')}
 \right)
 \eeq
 
