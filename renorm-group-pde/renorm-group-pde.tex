@@ -6,29 +6,43 @@
 %\label{ch-renorm-group-pde}
 %
 
+In this chapter, we will
+apply the renormalization group (RG)
+theory\footnote{See Chapter \ref{ch-renorm-group-intro}
+for an introduction into RG theory.} to solving partial differential equations (PDEs).
+In particular, we will analyze the Diffusion Equation (DE) PDE
+in one space dimension $x$, with a small discontinuity at $x=0$ 
+in the diffusion coefficient $D$.
+
+Let
+
 $\vec{r}=(x,y,z)$
 
 
 $\nabla = (\partial_{x}, \partial_{y}, \partial_{z})$ and $\nabla^2 = \nabla\cdot\nabla=\partial^2_x + \partial^2_y + \partial^2_z$.
 
 $\eta=$ concentration,
-number of particles per $d$-dim volume
+number of particles per unit volume (in real life, the volume 
+is 3 dimensional, but for most of this chapter, it will be
+assumed 1 dimensional for simplicity.)
 
-$D=$ diffusion coefficient
+$D=\frac{\kappa}{2}=$ diffusion coefficient
 
-
-
-Fick's law
+Recall the following Physics:
+\begin{itemize}
+\item {\bf Fick's law} (Flux $\vec{J}$ points from high to low concentrations)
 
 \beq
 \vec{J}= -D\nabla \eta
 \eeq
-Continuity equation
+\item {\bf Continuity equation} (number of particles in control volume $V$  deceases if flux across surface $\partial V$ of control volume is positive)
 
 \beq
-\partial_t \eta = -\nabla\cdot \vec{J}
+\partial_t \eta = -\nabla\cdot \vec{J}, \quad \partial_t\int_V dV\; \eta =-\int_{\partial V} d\vec{A}\cdot \vec{J}
 \eeq
-Diffusion Equation
+
+\item
+{\bf Diffusion Equation }(DE) (Fick's law + continuity equation)
 
 \beq
 \partial_t \eta = \nabla 
@@ -36,59 +50,87 @@ Diffusion Equation
 D\nabla \eta
 \right)
 \eeq
+\end{itemize}
 
 If $D$ is constant
 \beq
 \partial_t\eta=D\nabla^2 \eta
 \eeq
-Henceforth, 1 space dimension.
-$\nabla^2 =\partial_x^2$
 
-$
-D=\frac{\kappa}{2}
-$
+For the rest of this chapter, we will assume 1 space dimension so spacetime events will be points $(x,t)\in\RR^2$,
+$\nabla^2$ will be replaced by $\partial_x^2$, and $\eta$
+will stand for particles per unit length. 
+Furthermore, we will use the dimensionless quantity
 
-$\xi=\frac{x}{\sqrt{\kappa t}}$
+\beq
+\xi=\frac{x}{\sqrt{\kappa t}}
+\eeq
 
-\section{DE with continuous diffusion coefficient}
+\section{DE with constant diffusion coefficient}
 
+In this section, we will solve the DE with 
+constant diffusion coefficient $D$. RG theory
+is  not useful in this case, but
+we present a treatment of this case for comparison with
+the case of discontinuous $D$, in which RG theory 
+does prove useful.  
+
+Let $P(x; \s^2)$ denote the standard normal distribution
 \beq
 P(x; \s^2)=\frac{1}{\sqrt{2\pi \s^2}}
 \exp\left(\frac{-x^2}{2\s^2}\right)
 \eeq
 
-Solve 
+
+\begin{claim}
+The solution to the DE
 
 \beq
 \partial_t \eta = \frac{\kappa}{2}\partial_x^2 \eta
+\label{eq}
 \eeq
-for free space (no boundaries, $x\in \RR$)
-with initial condition
+ assuming $\kappa$ is constant and no boundaries (i.e. free space, $x\in \RR$), subject to the
+initial conditions 
 
 \beq
 \eta(x, 0)=\eta_\rvx(x)=
 NP(x; \ell^2)
 \eeq
+is 
+\beq
+\eta(x,t)=
+NP(x;\kappa t + \ell^2)
+\label{eq-gen-dol-de-gaussian}\eeq
+where $N$ is the total number of particles.
+\end{claim}
+\proof
+
+You can prove this by showing that the 
+alleged solution does satisfy the DE and the initial conditions.
+
+ Note that
 
 \beq
 \eta_\rvx(x)\rarrow N\delta(x)\quad \text{as $\ell\rarrow 0$}
 \eeq
+Also note that if we define
 
 \beq 
 N(t)=\int_{-\infty}^{\infty}dx\; \eta(x, t)
 \eeq
+then
 
 \beq
 \partial_t N(t) = \frac{\kappa}{2}\int_{-\infty}^\infty \partial_x^2\eta(x, t)=\frac{\kappa}{2} [\partial_x\eta(x,t)]_{x=-\infty}^{x=\infty}=0
 \eeq
-$N$ is area under $\eta$ curve, it doesn't change with time.
+so the total number of particles (=
+the area under $\eta(x, t)$ curve
+for any $t$) doesn't change with time.
+\qed
 
-\beq
-\eta(x,t)=
-NP(x;\kappa t + \ell^2)
-\eeq
-for $t\gg \ell^2/\kappa$ (i.e., 
+Note that for $t\gg \ell^2/\kappa$ (i.e., 
 either after a long time or for short Gaussian widths $\ell$),
+Eq.(\ref{eq-gen-dol-de-gaussian}) implies
 
 \beq
 \eta(x,t)\sim
@@ -96,55 +138,100 @@ NP(x; \kappa t)\quad
 \text{as $t\rarrow \infty$ or $\ell\rarrow 0$}
 \eeq
 We call this an {\bf intermediate times}
-approximation, because for truly infinite times, $\eta(x,t)\rarrow \infty$
+approximation, because for truly infinite times, $\eta(x,t)\rarrow \infty$. hence, after intermediate
+times, the system forgets about the value
+of the initial width $\ell$. As we shall see,
+when the diffusion coefficient is discontinuous,
+the solution of the DE remembers $\ell$ at intermediate times.
 
+Next, let us see what standard engineering dimensional
+analysis has to say about this problem. The dimensions
+for quantities associated with this problem are
 \beq
-\engdim{x}=L, \quad 
+\engdim{x}=\engdim{\ell}=L, \quad 
 \engdim{t}=T, \quad 
 \engdim{\eta}= 1/L,\quad 
 \engdim{\kappa }= L^2/T,\quad 
 \eeq
-
+From this information,
+we can define the following 3 {\bf pi groups}\footnote{
+A pi group is a
+dimensionless quantity obtain by multiplying 
+or dividing by variables or constants
+that do have dimensions).}
 
 \beq
 \Pi =\eta \sqrt{\kappa t} ,\quad
-\Pi_1 = \frac{x}{\sqrt{\kappa  t}}
+\Pi_1 = \frac{x}{\sqrt{\kappa  t}},\quad
+\Pi_2= \frac{\ell}{\sqrt{\kappa  t}}
 \eeq
+Hence, we expect, if standard  engineering dimensional
+analysis is correct (it not  always is. For example,
+for a DE with discontinuous diffusion constant $D$, it isn't.)
 
 \beq
-\Pi = f(\Pi_1)\implies \eta = \frac{1}{\sqrt{\kappa t}}f\left(\frac{x}{\sqrt{\kappa t}}\right)
+\Pi = f(\Pi_1, \Pi_2)\implies \eta = \frac{1}{\sqrt{\kappa t}}f\left(\frac{x}{\sqrt{\kappa t}}, \frac{\ell}{\sqrt{\kappa t}}\right)
 \eeq
+The general solution Eq.(\ref{eq-gen-dol-de-gaussian})
+can indeed be put in this form.
 
-
+Next, let us consider what RG scaling has to say about this problem. Suppose
 
 \beq
-x \to x/b,\quad t \to b^{y_t} t,\quad \eta \to b^{y_\eta} \eta
+x \to x/b, \quad \ell\rarrow \ell/b,\quad t \to b^{y_t} t,\quad \eta \to b^{y_\eta} \eta,
 \eeq
+Then
 
 \beq
 b^{y_\eta -y_t}\partial_t \eta =
 b^{y_\eta+2}\partial^2_x\eta
 \eeq
+so
 
 \beq
 y_t=-2
 \eeq
+Hence, RG scaling predicts
 
 \beq
-\eta(x, t)= b^{-y_\eta}\eta\left(\frac{x}{b}, \frac{t}{b^2}\right)
+\eta(x, t;\ell)= b^{-y_\eta}\eta\left(\frac{x}{b}, \frac{t}{b^2};\frac{\ell}{b}\right)
 \eeq
-choose  $b=\sqrt{\kappa t}$
+If we choose  $b=\sqrt{\kappa t}$, then
 \beq
-\eta(x, t)=b^{-y_\eta}\eta\left(\frac{x}{\sqrt{\kappa t}}\right)
+\eta(x, t; \ell)=(\sqrt{\kappa t})^{-y_\eta}\eta\left(\frac{x}{\sqrt{\kappa t}}, 1;
+\frac{\ell}{\sqrt{\kappa t}}
+\right)
 \eeq
+For long but intermediate times, if we assume that memory of 
+$\ell$ goes away, then
 
+\beq
+\eta(x, t; 0)=(\sqrt{\kappa t})^{-y_\eta}\eta\left(\frac{x}{\sqrt{\kappa t}}, 1;0
+\right)
+\eeq
+Recall that $\engdim{\eta}=1/L$. If we assume there
+is no anomalous  contribution to $y_\eta$, then $y_\eta=1$ so
 \beq
 \eta(x,t)
 =
 \frac{1}{\sqrt{\kappa t}}
-f(\xi), \quad\xi = \frac{x}{\sqrt{\kappa t}}.\,
+f(\xi), \quad\text{where }\xi = \frac{x}{\sqrt{\kappa t}}
+\label{eq-eta-kt-fxi-simple}
 \eeq
 
+
+\begin{claim}
+The DE implies that the function $f(\xi)$ 
+in Eq.(\ref{eq-eta-kt-fxi-simple}) equals
+\beq
+f(\xi)= A\exp\left(
+\frac{-\xi^2}{2}
+\right)= A\exp\left(
+\frac{-x^2}{2\kappa t}
+\right)
+\eeq
+\end{claim}
+\proof
 \beq
 \partial_x = \frac{1}{\sqrt{\kappa t}}\partial_\xi
 \eeq
@@ -169,21 +256,23 @@ f''(\xi)
 f + \xi f'
 \right]
 \eeq
+Plugging these derivatives
+into the DE partial differential 
+equation (PDE) gives the
+following ordinary differential equation (ODE)
 
 \beq
 -(f+\xi f')
 =
 f''
 \eeq
+It's
+easy to check that this ODE
+is satisfies by a Gaussian centered at $\xi$ 
+with $\s^2=1$.
+\qed
 
 
-\beq
-f(\xi)= A\exp\left(
-\frac{-\xi^2}{2}
-\right)= A\exp\left(
-\frac{-x^2}{2\kappa t}
-\right)
-\eeq
 
 
 \section{DE with discontinuous diffusion coefficient}
@@ -340,9 +429,10 @@ Formally correct but terrible approximation because
 $g\ln t$ is the product of the perturbation parameter
 $g$ times a logarithm of time which will, for large $t$,
 ruin the perturbation series. Such time logarithms 
-are called secular contributions\footnote{secular define
-not bound by time but extends forever
-not bound by religious canon
+are called secular terms\footnote{A {\bf secular term} in physics (and applied mathematics) is a term in a perturbative expansion or approximate solution that grows without bound over time. Secular in non-technical literature means non-religious.
+Both meanings are connected if you define the adjective \qt{secular} as 
+not bounded by time or religious canon, extending forever.
+The word comes from the Latin \qt{saeculum} meaning "age" or "long period of time."
 } To fix that,
 we introduce a time scale $T$. 
 \beq
@@ -428,10 +518,11 @@ That parallel is not accidental—it is the real
 \begin{table}[]
 \begin{tabular}{|l|l|l|}
 \hline
- & \cellcolor[HTML]{CBCEFB}Quantum Field Theory & \cellcolor[HTML]{CBCEFB}DE with discontinuous $D$ \\ \hline
-\cellcolor[HTML]{FFFFC7}{\color[HTML]{000000} regulator} & $\eps=4-d$ & no analogous parameter \\ \hline
-\cellcolor[HTML]{FFFFC7}{\color[HTML]{000000} renormalization point} & $\mu$ & $T$ \\ \hline
-\cellcolor[HTML]{FFFFC7}secular parameter & momentum $q$ in loop integrals & time $t$ \\ \hline
+ & \cellcolor[HTML]{9AFF99}Quantum Field Theory & \cellcolor[HTML]{9AFF99}DE with discontinuous $D$ \\ \hline
+\cellcolor[HTML]{FFFC9E}{\color[HTML]{000000} regulator} & $\eps=4-d$ & no analogous parameter \\ \hline
+\cellcolor[HTML]{FFFC9E}{\color[HTML]{000000} renormalization point} & $\mu$ & $T$ \\ \hline
+\cellcolor[HTML]{FFFC9E}secular parameter & momentum $q$ in loop integrals & time $t$ \\ \hline
+\cellcolor[HTML]{FFFC9E}perturbation parameter & coupling constant $g$ & diffusion coefficient jump $g$ \\ \hline
 \end{tabular}
 \caption{comparison}
 \label{tab-qft-de-comparison}
