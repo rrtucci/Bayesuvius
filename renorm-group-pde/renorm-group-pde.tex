@@ -154,8 +154,8 @@ for quantities associated with this problem are
 \engdim{\kappa }= L^2/T,\quad 
 \eeq
 From this information,
-we can define the following 3 {\bf pi groups}\footnote{
-A pi group is a
+we can define the following 3 {\bf pi-groups}\footnote{
+A pi-group is a
 dimensionless quantity obtain by multiplying 
 or dividing by fractional powers of multiple variables or constants
 that do have dimensions).}
@@ -291,14 +291,16 @@ jumping at the $x=0$ interface
 
 \beq
 D(x)
-= 
-\left\{
-\begin{array}{ll}
-\frac{\kappa}{2}(1+g) & \text{if $x>0$} 
+= D_0\cald(x)
+\eeq
+where 
+\beq D_0=\frac{\kappa}{2},\quad
+\cald(x)=1 + g\indi_{x>0}=
+\begin{cases}
+1&\text{if }x<0
 \\
-\frac{\kappa}{2} & \text{if $x<0$}
-\end{array}
-\right\} = \frac{\kappa}{2}(1 + g\indi_{x>0})
+1+g&\text{if }x<0
+\end{cases}
 \eeq
 
 The RG solution to this DE will
@@ -306,6 +308,7 @@ be obtained by assuming that it is of the form
 
 \beq \boxed{
 \eta(x, t)= \left(\frac{t}{T}\right)^{-\frac12+\alp(g)}f(\xi; g)}
+\label{eq-eta-rg-most-general}
 \eeq
 The parameters $A$ and $T>0$ are arbitrary.
 The functions $\alp(g)$ and $f(\xi;g)$
@@ -322,23 +325,39 @@ one dof (degree of freedom) from the DE PDE, thus
 reducing it to an ODE. (We did something similar 
  when discussing the DE with constant diffusion coefficient $D$.)
 
-
+Note that Eq.(\ref{eq-eta-rg-most-general})
+can be expressed in terms of pi-groups
+so it doesn't violate naive EDA
+(engineering dimensional analysis). However, 
+Eq.(\ref{eq-eta-rg-most-general}) is  a 
+far stronger statement
+than what naive EDA would suggest.
 
 
 
 \subsection{Approximating anomalous dimension $\alpha(g)$}
 
+
+\beq
+\partial_t\eta- \partial_x (D(x)\partial_x\eta)=0
+\eeq
+so
+\beq
+\left(\partial_t- D_0\partial_x^2\right)\eta=
+\partial_x
+\left(gD_0\indi_{x>0}\partial_x \eta\right)
+\eeq
 Suppose we expand  $\eta(x, t)$ in powers of $g$
 \beq
 \eta=\eta_0+g \eta_1+ g^2 \eta_2\cdots
 \eeq
-Plugging this expansion into the DE
-gives a PDE for each power of $g$.
 
-For $g^0$ (zeroth order), we get:
+
+
+For the zeroth order in $g$, we get:
 
 \beq
-(\partial_t-\frac{\kappa}{2}\partial_x^2)\eta_0=0
+(\partial_t-D_0\partial_x^2)\eta_0=0
 \eeq
 which is solved by
 
@@ -347,13 +366,13 @@ which is solved by
 \eta_0(x,t)
 =NP(x; \kappa t)
 \eeq
-For $g^1$ 
-(first order) we get:
+For the  
+first order in $g$, we get:
 
 \beq
-(\partial_t-\frac{\kappa}{2}\partial_x^2)\eta_1
-=g
-\frac{\kappa}{2}
+(\partial_t-D_0\partial_x^2)\eta_1
+=
+D_0
 \partial_x\left(
 \indi_{x>0}\partial_x \eta_0
 \right)
@@ -362,7 +381,7 @@ which is solved via Green functions by
 
 \beq
 \eta_1(x,t)
-=\frac{\kappa}{2}
+=D_0
 \int_0^t dt'
 \int_{-\infty}^\infty dx'\;
 G(x-x',t-t')
@@ -377,7 +396,7 @@ we get
 
 \beq
 \eta_1(x,t)
-=\frac{\kappa}{2}
+=D_0
 \int_0^t dt'
 \int_{0}^\infty dx'\;
 [-\partial_{x'}  G(x-x',t-t')
@@ -410,12 +429,12 @@ Assume most of the contribution to the integral
 comes from $(\xi, t')\approx (x,t)$ so approximate
 
 \beq
-P(x',; \kappa t)\approx P(x; \kappa t)
+P(x',; \kappa t')\approx P(x; \kappa t)
 \eeq
 in the integrand. Hence
 
 \begin{align}
-\eta_1(x,t)&= -\;\frac{\kappa}{2}N
+\eta_1(x,t)&= -\;D_0N
 P(x; \kappa t) \int_0^t dt'
 \int_0^\infty dx'\;\frac{x' (x-x')}{\kappa^2 t' (t-t')}P(x-x';\kappa (t-t'))
 \\
@@ -436,13 +455,14 @@ P(x; \kappa t) \int_0^t \frac{dt'}{t'}
 \end{align}
 where 
 \beq
-y=\frac{x}{\sqrt{\kappa(t-t')}}
+y=\frac{x}{\sqrt{\kappa(t-t')}},\quad
+y'=\frac{x'}{\sqrt{\kappa(t-t')}}
 \eeq
 If we  use the following Gaussian integrals
 to evaluate $I(y)$
 \beq
-\int_0^\infty dy \; y\exp(-y^2/2)=1,\quad
-\int_0^\infty dy \; y^2 \exp(-y^2/2)=\sqrt{2}\;\Gamma(3/2)=\sqrt{\frac{\pi}{2}}
+\int_0^\infty dy' \; y'\exp\left(-\;\frac{(y')^2}{2}\right)=1,\quad
+\int_0^\infty dy' \; (y')^2 \exp\left(-\;\frac{(y')^2}{2}\right)=\sqrt{2}\;\Gamma(3/2)=\sqrt{\frac{\pi}{2}}
 \eeq
 we get
 \beq
@@ -565,7 +585,7 @@ DE with discontinuous diffusion coefficient $D$}
 In the previous section we found $\alp(g)$ to first order in $g$ and $f(\xi)$ to zeroth order in $g$. In this section,
 we find a better approximation for $f(\xi)$.
 
-We are solving the DE subject to the following
+We are solving the DE PDE subject to the following
 {\bf  transmission (i.e., interface) continuity conditions}:
 \begin{itemize}
 \item concentration continuity
@@ -585,106 +605,130 @@ Since
 \beq
 \partial_x \eta
 =
-\frac{1}{\kappa t}
+\frac{1}{\sqrt{\kappa t}}
 f'(\xi)
 \eeq
 this can be re-expressed in terms of $f(\xi)$ as
 \beq
-D_-f'(0-)=D_+f'(0+)
+\cald_-f'(0-)=\cald_+f'(0+)
 \eeq
+where
+
+
+\beq
+\cald(\xi)=
+\begin{cases}
+\cald_-=1& \text{if }\xi<0\\
+\cald_+=1+g& \text{if  }\xi>0
+\end{cases}
+\eeq
+
 \end{itemize}
 Note, this is not
 a boundary value problem in the usual sense.
 There is no boundary at $x=0$. Boundary
 value problems normally
 have either Dirichlet, von Neumann or mixed boundary 
-conditions (see Sec.\ref{sec-solving-de-green-fun})
+conditions (see Sec.\ref{sec-solving-de-green-fun}).
+
+If we  rewrite the DE PDE in terms of $f(\xi)$
+instead of $\eta(x,t)$ as we
+did for the DE with a constant diffusion
+coefficient, then we get
+the following ODE analogous 
+to Eq.(\ref{eq-basic-ode-gaussian})
+
+
 
 \beq
--\frac12(f+\xi f')
+-\cald(\xi)(f+\xi f')
 =
-D(\xi)f''
+f''
 \eeq
-
+As in the case of the DE 
+with a constant diffusion coefficient,
+this ODE is satisfied by a Gaussian centered at $\xi=0$
+and with $\s^2=D(\xi)$. We must have:
 
 \beq
-D(\xi)=
+f(\xi)
+=
 \begin{cases}
-D_+,& \xi>0\\
-D_-,& \xi<0
+A_-
+\exp \left(-\frac{\xi^2}{2\cald_-}\right)
+&\text{if }\xi<0
+\\
+A_+
+\exp \left(-\frac{\xi^2}{2\cald_+}\right)
+&\text{if }\xi>0
 \end{cases}
 \eeq
-
-
-
-For $\xi>0$:
+We must also have:
 
 \beq
-f_+(\xi)
-=
-A_+
-\exp \left(-\frac{\xi^2}{4D_+}\right)
+f(0-)=f(0+)
 \eeq
-
-For $\xi<0$:
+Hence
 
 \beq
-f_-(\xi)
-=
-A_-
-\exp \left(-\frac{\xi^2}{4D_-}\right)
+A_+=A_- \eqdef A
 \eeq
-
-So the two halves have **different widths**.
-
-Continuity condition at $\xi=0$
-
-We must have:
-
-\beq
-f_+(0)=f_-(0)
-\eeq
-
-So:
-
-\beq
-A_+=A_- \equiv A
-\eeq
+and
 
 \beq
 \boxed{f(\xi;g)
 =
 A
-\exp \left(-\frac{\xi^2}{4D(\xi)}\right)+\calo(g^2)}
+\exp \left(-\frac{\xi^2}{2\cald(\xi)}\right)+\calo(g^2)}
 \label{eq-best-f-xi}
 \eeq
-
 
 Since
 
 \beq
 f'(\xi)
 =
--\frac{\xi}{2D(\xi)}
+-\frac{\xi}{2\cald(\xi)}
 A
-\exp \left(-\frac{\xi^2}{4D(\xi)}\right)
+\exp \left(-\frac{\xi^2}{2\cald(\xi)}\right)
 \eeq
 the flux continuity 
 is satisfied automatically. It reduces to just  $0=0$. 
+
+We conclude that $f(\xi)$ is just two half Gaussians
+joined at their maximum. The left one has width $\cald_-$ and 
+the right one has width $\cald_+$.
+
 
 
 
 \section{Appendix: Solving DE via Green Functions}
 \label{sec-solving-de-green-fun}
 
+Let
+\beq
+\call = \partial_t - D \partial^2_x
+\eeq
+The Diffusion Equation (DE) in one space dimension $x$,
+ with a source $S(x,t)$, is 
+\beq
+\call \eta(x,t) = S(x,t)
+\eeq
+We will illustrate the use of Green
+functions by solving this PDE 
+for all $x>0$ and $t>0$, with boundary conditions (BC) 
+at $x=0$.
+
+Common types of BCs:
+
 \begin{itemize}
-\item Dirichlet
+\item {\bf Dirichlet BC}
 
 \beq \eta(0, t)= \eta_\rvt(x)
 \eeq
 
 \item
-von Neumann
+{\bf von Neumann BC}
 \beq
 \partial_x\eta(x,t)= f(x,t)
 \eeq
@@ -694,7 +738,7 @@ For example, if there were an impermeable wall at $x=0$,
 \partial_x\eta(x,t)=0
 \eeq
 
-\item mixed
+\item {\bf mixed BC}
 
 \beq
 [a \partial_x\eta + b \eta](x, t)=g(x,t)
@@ -704,15 +748,8 @@ For example, if there were an impermeable wall at $x=0$,
 
 
 
-\beq
-\call = \partial_t - D \partial^2_x
-\eeq
 
-\beq
-\call \eta(x,t) = S(x,t)
-\eeq
-
-\begin{claim}
+\begin{claim}\label{cl-de-diriclet-green}
 The solution to the equation
 \beq
 \call \eta (x,t) = S(x,t)\quad
@@ -761,7 +798,7 @@ G(x=0,t;x',t')=0
 \end{claim}
 \proof
 
-
+Define
 \beq
 \call= \partial_t -D \partial_x^2,\quad
 \call G(x,t;x', t')=\delta(x-x')\delta(t-t')
@@ -784,15 +821,6 @@ P_\rvx = \int_0^\infty dx'\; \ket{\rvx=x'}\bra{\rvx=x'}
 P_\rvt = \int_0^t dt'\; \ket{\rvt=t'}\bra{\rvt=t'}
 \eeq
 
-\newcommand{\kett}[2]{\left|\begin{array}{c}1\\2\end{array}\right\rangle}
-
-\newcommand{\brat}[2]{\left\langle\begin{array}{c}1\\2\end{array}\right|}
-
-\newcommand{\stackt}[2]{
-\left\{\begin{array}{c}1\\2\end{array}\right\}}
-
-\newcommand{\cev}[1]{\reflectbox{\ensuremath{\vec{\reflectbox{\ensuremath{1}}}}}}
-
 \beq
 \partial_{\rvx} = 
 \int_0^\infty dx'\; \ket{\rvx=x'}\partial_{x'}\bra{\rvx=x'}
@@ -807,12 +835,18 @@ P_\rvt = \int_0^t dt'\; \ket{\rvt=t'}\bra{\rvt=t'}
 \rv{\call}= \partial_\rvt-D\partial^2_\rvx
 \eeq
 
-$f(x)\cev{\partial_x} a(x)= a(x) \partial_x f(x)$
+\beq
+f(x)\cev{\partial_x} a(x)= a(x) \partial_x f(x)
+\eeq
+We will use the following suggestive notation
+for dual tensor product spaces
 
-$\stackt{A}{B}= A\otimes B$
 
-$\kett{x}{t}=\ket{x}\otimes\ket{t}$
 
+\beq \stackt{A}{B}= A\otimes B\eeq
+
+\beq \kett{x}{t}=\ket{x}\otimes\ket{t}\eeq
+Written using this notation,  what we want to prove is this
 \beq
 \boxed{\brat{x}{t}\ket{\eta}=
 \brat{x}{t}G
@@ -823,6 +857,7 @@ $\kett{x}{t}=\ket{x}\otimes\ket{t}$
 \brat{x}{t}G\stackt{\cev{\partial}_{\rvx}}{P_\rvt}\kett{0}{\eta_\rvt}}
 \eeq
 
+Define $I$, $I_\rvx$ and $I_\rvt$  by
 \beq
 I = \brat{x}{t}G\rv{\call}
 \ket{\eta}-
@@ -847,11 +882,14 @@ I_\rvx =
 \bra{\eta}\partial_\rvx^2
 G'\kett{x}{t}
 \eeq
-
+Hence 
 \beq
 \boxed
 {I = I_\rvt -D I_\rvx}
 \eeq
+\hrule
+Note that we can simplify the
+expression for $I$ as follows:
 
 \beq
 \call^\dagger \brat{x}{t}G\kett{x'}{t'
@@ -868,8 +906,13 @@ G'\kett{x}{t}
 \eeq
 
 \beq
-I = \brat{x}{t}G\ket{S}-\bra{\eta}\kett{x}{t}
+\boxed
+{I = \brat{x}{t}G\ket{S}-\bra{\eta}\kett{x}{t}}
 \eeq
+\hrule
+Note that we can simplify the
+expression for $I_\rvt$ as follows:
+
 
 \beqa
 I_\rvt &=&
@@ -916,6 +959,9 @@ dt'\;\partial_{t'} (\ket{t'}\bra{t'})
 \stackt{P_\rvx}{\ket{t}\bra{t}-\ket{0}\bra{0}}
 \ket{\eta}}
 \eeq
+\hrule
+Note that we can simplify the
+expression for $I_\rvx$ as follows:
 
 \beqa
 I_\rvx &=& 
@@ -945,20 +991,20 @@ I_\rvx=
 \ket{\eta}
 \eeq
 
-\beqa
+\begin{align}
 \int_0^\infty dx'
 \partial_{x'}(\ket{x'}\partial_{x'}\bra{x'})
 -(\ket{x'}\cev{\partial}_{x'}\bra{x'})\cev{\partial}_{x'}
-&=&
+&=
 [\ket{x'}\partial_{x'}\bra{x'}
 -
 \ket{x'}\cev{\partial}_{x'}\bra{x'}]_0^\infty
 \\
-&=&
+&=
 -[\ket{x'}\partial_{x'}\bra{x'}
 -
 \ket{x'}\cev{\partial}_{x'}\bra{x'}]_{x'=0}
-\eeqa
+\end{align}
 
 \beq
 I_\rvx=
@@ -978,6 +1024,17 @@ I_\rvx=
 \eeq
 \qed
 
+Claim \ref{cl-de-diriclet-green} uses a Green function
+$G(x,t;x',t')$ with specific properties,
+but it does give an explicit expression for $G$
+or even prove that such a $G$ exists.
+It is easy to check that 
+the following $G$ has the desired properties
+
+\beq
+G = G^+ - G^-
+\eeq
+where
 
 \beq
 G^\pm(x,t;x',t')
@@ -986,9 +1043,6 @@ G^\pm(x,t;x',t')
 \exp\left[-\;\frac{(x\pm x')^2}{4D(t-t')}\right]
 \eeq
 
-\beq
-G = G^+ - G^-
-\eeq
 At the boundary
 \beq
 \left.
@@ -1001,6 +1055,10 @@ At the boundary
 -\frac{x^2}{4D(t-t')}
 \right)
 \eeq
+This $G$ was found by the method of images: two
+free space solutions $G_\pm$ to $\ul{\call}G_\pm=1$
+were superposed so as  to satisfy
+$G=0$ at the boundary $x=0$. 
 
 
 
