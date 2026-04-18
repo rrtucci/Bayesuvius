@@ -1,7 +1,7 @@
 \chapter{Green Functions for PDE}
 \label{ch-green-fun-pde}
 
-
+\section{Introduction}
 Let
 \beq
 \call = \partial_t - D \partial^2_x
@@ -21,24 +21,24 @@ Common types of BCs:
 \begin{itemize}
 \item {\bf Dirichlet BC}
 
-\beq \eta(0, t)= \eta_\rvt(x)
+\beq \eta(0, t)= D_\rvt(t)
 \eeq
 
 \item
 {\bf von Neumann BC}
 \beq
-\partial_x\eta(x,t)= f(x,t)
+\partial_x\eta(0,t)= N_\rvt(t)
 \eeq
 For example, if there were an impermeable wall at $x=0$,
 
 \beq
-\partial_x\eta(x,t)=0
+\partial_x\eta(0,t)=0
 \eeq
 
 \item {\bf Mixed (Robin) BC}
 
 \beq
-[a \partial_x\eta + b \eta](x, t)=g(x,t)
+[a \partial_x\eta + b \eta](0, t)=R_\rvt(0,t)
 \eeq
 \end{itemize}
 
@@ -46,57 +46,19 @@ For example, if there were an impermeable wall at $x=0$,
 
 
 
-\begin{claim}\label{cl-de-diriclet-green}
-The solution to the equation
+
+\section{Notation}
+Function $f()$ of one event $(x,t)$
 \beq
-\call \eta (x,t) = S(x,t)\quad
+f(x,t) =f\oneevent{x}{t}
 \eeq
-for $x>0$ and $t>0$
-with initial conditions
-\beq
-\eta(x,0)= \eta_\rvx(x)
-\eeq
-and Dirichlet boundary conditions:
+Function $G()$ of two events $(x,t)$ and $(x',t')$
 
 \beq
-\eta(0,t) = \eta_\rvt(t)
+G(x,t;x',t')=G\twoevent{x}{t}{x'}{t'}
 \eeq
-is
-
-\beqa
-\eta(x,t)&=&
-\int_0^{t} dt'\;
-\int_0^\infty dx'\;
-G(x,t;x',t')
-S(x',t')
-\\
-&&+
-\int_0^{\infty} dx'\;
-G(x,t;x', 0)
- \eta_{\rvx}(x')
-\\
-&&-D
-\int_0^{t} dt'\;
-[\partial_{x'} G(x,t;x',t')]_{x'=0}
- \eta_\rvt(t')
-\eeqa
-where $G(x,t;x',t')$ satisfies
-the following equations for $x>0$ and $t>0$
 
 
-\beq
-\call G(x,t;x', t')=\delta(x-x')\delta(t-t')
-\eeq
-and
-
-\beq
-G(x=0,t;x',t')=0
-\eeq
-\end{claim}
-\proof
-\qed
-
-Define
 \beq
 \call_{x,t}= \partial_t -D \partial_x^2,\quad
 \call G\twoevent{x}{t}{x'}{t'}=\stackt{\delta(x-x')}{\delta(t-t')}
@@ -148,13 +110,24 @@ for dual tensor product spaces
 
 \beq \stackt{A}{B}= A\otimes B\eeq
 
-\beq \kett{x}{t}=\ket{x}\otimes\ket{t}\eeq
+\beq \kett{x}{t}=\ket{x}\otimes\ket{t},
+\quad 
+\brat{x}{t}=\bra{x}\otimes\bra{t}
+\eeq
 
+\section{Master Equation}
 \begin{claim}
 If $\eta(x,t)$ satisfies
 \beq
 \call_{x,t}\eta(x,t)=S(x,t)
 \eeq
+for all $x>0$ and $t>0$,
+the initial conditions
+\beq
+\eta(x,0)=\eta_\rvx(x)
+\eeq
+ 
+and has bound
 
 \beq
 \ket{\eta}=
@@ -165,7 +138,7 @@ G
 G\stackt{\left[-\ket{x'}\partial_{x'}\bra{x'}
 +
 \ket{x'}\cev{\partial}_{x'}\bra{x'}\right]_{x'=0}}{P_\rvt}
-\kett{0}{\eta_\rvt}
+\kett{0}{D_\rvt}
 \eeq
 \end{claim}
 \proof
@@ -330,6 +303,59 @@ I_\rvx=
 \eeq
 
 \qed
+\section{Dirichlet BC}
+
+\begin{claim}\label{cl-de-diriclet-green}
+The solution to the equation
+\beq
+\call \eta (x,t) = S(x,t)\quad
+\eeq
+for $x>0$ and $t>0$
+with initial conditions
+\beq
+\eta(x,0)= \eta_\rvx(x)
+\eeq
+and Dirichlet boundary conditions:
+
+\beq
+\eta(0,t) = D_\rvt(t)
+\eeq
+is
+
+\beqa
+\eta(x,t)&=&
+\int_0^{t} dt'\;
+\int_0^\infty dx'\;
+G(x,t;x',t')
+S(x',t')
+\\
+&&+
+\int_0^{\infty} dx'\;
+G(x,t;x', 0)
+ \eta_{\rvx}(x')
+\\
+&&-D
+\int_0^{t} dt'\;
+[\partial_{x'} G(x,t;x',t')]_{x'=0}
+ D_\rvt(t')
+\eeqa
+where $G(x,t;x',t')$ satisfies
+the following equations for $x>0$ and $t>0$
+
+
+\beq
+\call G(x,t;x', t')=\delta(x-x')\delta(t-t')
+\eeq
+and
+
+\beq
+G(x=0,t;x',t')=0
+\eeq
+\end{claim}
+\proof
+\qed
+
+
 
 Claim \ref{cl-de-diriclet-green} uses a Green function
 $G(x,t;x',t')$ with specific properties,
@@ -455,256 +481,8 @@ of a delta function equals the difference of
 2 delta functions. We integrate over half of
 one of the two delta functions.
 
-$$
-G\left(
-\begin{array}{c|c}
-x & x'
-\\
-t&t'
-\end{array}
-\right)
-$$
 
+\section{von Neumann BC}
 
-$G\twoevent{x}{t}{x'}{t'}$
-
-$\eta\oneevent{x}{t}$
-
-\section{redoing claim}
-
-\begin{claim}\label{cl-de-diriclet-green}
-The solution to the equation
-\beq
-\call \eta \oneevent{x}{t} = S\oneevent{x}{t}\quad
-\eeq
-for $x>0$ and $t>0$
-with initial conditions
-\beq
-\eta\oneevent{x}{0}= \eta_\rvx(x)
-\eeq
-and Dirichlet boundary conditions:
-
-\beq
-\eta\oneevent{0}{t} = \eta_\rvt(t)
-\eeq
-is
-
-\beqa
-\eta\oneevent{x}{t}&=&
-\int_0^{t} dt'\;
-\int_0^\infty dx'\;
-G\twoevent{x}{t}{x'}{t'}
-S\oneevent{x'}{t'}
-\\
-&&+
-\int_0^{\infty} dx'\;
-G\twoevent{x}{t}{x'}{0}
- \eta_{\rvx}(x')
-\\
-&&-D
-\int_0^{t} dt'\;
-\left[ G\twoevent{x}{t}{x'}{t'}\cev{\partial}_{x'}\right]_{x'=0}
- \eta_\rvt(t')
-\eeqa
-where $G\twoevent{x}{t}{x'}{t'}$ satisfies
-the following equations for $x>0$ and $t>0$
-
-
-\beq
-\call G\twoevent{x}{t}{x'}{t'}=\stackt{\delta(x-x')}{\delta(t-t')}
-\eeq
-and
-
-\beq
-G\twoevent{0}{t}{x'}{t'}=0
-\eeq
-\end{claim}
-\proof
-
-Define
-\beq
-f(x)\cev{\partial_x} a(x)= a(x) \partial_x f(x)
-\eeq
-
-\beq
-\call_{x,t}= \partial_t -D \partial_x^2,\quad
-\call G\twoevent{x}{t}{x'}{t'}=\stackt{\delta(x-x')}{\delta(t-t')}
-\eeq
-
-
-\beq
-\call^\dagger_{x,t}= -\cev{\partial}_t -D \cev{\partial}_x^2,
-\quad G^\dagger\twoevent{x'}{t'}{x}{t}\call^\dagger_{x,t}=\stackt{\delta(x-x')}{\delta(t-t')}
-\eeq
-
-
-
-
-
-Define $I$, $I_\rvx$ and $I_\rvt$  by
-\beq
-I = G\twoevent{x}{t}{x'}{t'}\call_{x',t'}\eta\oneevent{x'}{t'}
--
-\eta\oneevent{x'}{t'}\call^\dagger_{x',t'}
-G^\dagger\twoevent{x'}{t'}{x}{t}
-\eeq
-
-\beq
-I_\rvt =
-G\twoevent{x}{t}{x'}{t'}
-\partial_{t'}
-\eta\oneevent{x'}{t'}-
-\bra{\eta}
-\stackt{1}{(-\partial_\rvt)}
-G^\dagger\twoevent{x'}{t'}{x}{t}
-\eeq
-
-\beq
-I_\rvx =
-\brat{x}{t}G\partial_\rvx^2
-\ket{\eta}-
-\bra{\eta}\partial_\rvx^2
-G^\dagger\kett{x}{t}
-\eeq
-Hence
-\beq
-\boxed
-{I = I_\rvt -D I_\rvx}
-\eeq
-\hrule
-Note that we can simplify the
-expression for $I$ as follows:
-
-\beq
-\call^\dagger \brat{x}{t}G\kett{x'}{t'
-}=\brat{x}{t}\rv{\call}^\dagger G^\dagger\kett{x'}{t'}=
-\stackt{\delta(x-x')}{\delta(t-t')}
-\implies\quad
-\rv{\call}^\dagger G^\dagger =1
-\eeq
-
-
-
-\beq
-\rv{\call}\ket{\eta}=\ket{S}
-\eeq
-
-\beq
-\boxed
-{I = \brat{x}{t}G\ket{S}-\bra{\eta}\kett{x}{t}}
-\eeq
-\hrule
-Note that we can simplify the
-expression for $I_\rvt$ as follows:
-
-
-\beqa
-I_\rvt &=&
-\int_0^t dt'
-\brat{x}{t}G
-\stackt{1}{\ket{t'}\partial_{t'}\bra{t'}}
-\ket{\eta}
-+
-\bra{\eta}
-\stackt{1}{\ket{t'}\partial_{t'}\bra{t'}}
-G^\dagger\kett{x}{t}
-\eeqa
-
-\beq
-\bra{t}G\ket{t'}= \bra{t'}G^\dagger\ket{t}
-\eeq
-
-\beq
-\partial_{t'} (\ket{t'}\bra{t'})=
-\ket{t'}\partial_{t'}\bra{t'}
-+\ket{t'}\cev{\partial}_{t'}\bra{t'}
-\eeq
-
-
-\beqa
-I_\rvt &=&
-\int_0^t dt'
-\brat{x}{t}G
-\stackt{1}{\partial_{t'} (\ket{t'}\bra{t'})}
-\ket{\eta}
-\eeqa
-
-\beq
-\int_0^t
-dt'\;\partial_{t'} (\ket{t'}\bra{t'})
-=
-\ket{t}\bra{t}-\ket{0}\bra{0}
-\eeq
-
-
-\beq
-\boxed{I_\rvt =
-\brat{x}{t}G
-\stackt{P_\rvx}{\ket{t}\bra{t}-\ket{0}\bra{0}}
-\ket{\eta}}
-\eeq
-\hrule
-Note that we can simplify the
-expression for $I_\rvx$ as follows:
-
-\beqa
-I_\rvx &=&
-\int_0^\infty dx'
-\brat{x}{t}G
-\stackt{\ket{x'}\partial_{x'}^2\bra{x'}}{1}
-\ket{\eta}
--
-\bra{\eta}
-\stackt{\ket{x'}\partial_{x'}^2\bra{x'}}{1}
-G^\dagger\kett{x}{t}
-\eeqa
-
-\beq
-\ket{x'}\partial_{x'}^2\bra{x'}
--\ket{x'}\cev{\partial}_{x'}^2\bra{x'}=
-\partial_{x'}(\ket{x'}\partial_{x'}\bra{x'})
--(\ket{x'}\cev{\partial}_{x'}\bra{x'})\cev{\partial}_{x'}
-\eeq
-
-\beq
-I_\rvx=
-\int_0^\infty dx'
-\brat{x}{t}G
-\stackt{\partial_{x'}(\ket{x'}\partial_{x'}\bra{x'})
--(\ket{x'}\cev{\partial}_{x'}\bra{x'})\cev{\partial}_{x'}}{1}
-\ket{\eta}
-\eeq
-
-\begin{align}
-\int_0^\infty dx'
-\partial_{x'}(\ket{x'}\partial_{x'}\bra{x'})
--(\ket{x'}\cev{\partial}_{x'}\bra{x'})\cev{\partial}_{x'}
-&=
-[\ket{x'}\partial_{x'}\bra{x'}
--
-\ket{x'}\cev{\partial}_{x'}\bra{x'}]_0^\infty
-\\
-&=
--[\ket{x'}\partial_{x'}\bra{x'}
--
-\ket{x'}\cev{\partial}_{x'}\bra{x'}]_{x'=0}
-\end{align}
-
-\beq
-I_\rvx=
-\brat{x}{t}G
-\stackt{[-\ket{x'}\partial_{x'}\bra{x'}
-+
-\ket{x'}\cev{\partial}_{x'}\bra{x'}]_{x'=0}}{1}
-\ket{\eta}
-\eeq
-
-
-\beq
-\boxed{I_\rvx=\brat{x}{t}G
-\stackt{[
-\ket{x'}\cev{\partial}_{x'}\bra{x'}]_{x'=0}}{P_\rvt}
-\ket{\eta}}
-\eeq
-\qed
+\section{Mixed (Robin) BC}
 
