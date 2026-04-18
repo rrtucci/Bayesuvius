@@ -16,7 +16,8 @@ functions by solving this PDE
 for all $x>0$ and $t>0$, with boundary conditions (BC)
 at $x=0$.
 
-Common types of BCs:
+\section{Boundary Condition Types}
+Types of boundary conditions (BC) that we will consider:
 
 \begin{itemize}
 \item {\bf Dirichlet BC}
@@ -38,7 +39,7 @@ For example, if there were an impermeable wall at $x=0$,
 \item {\bf Mixed (Robin) BC}
 
 \beq
-[a \partial_x\eta + b \eta](0, t)=R_\rvt(0,t)
+[a \partial_x\eta + b \eta](0, t)=R_\rvt(t)
 \eeq
 \end{itemize}
 
@@ -48,26 +49,46 @@ For example, if there were an impermeable wall at $x=0$,
 
 
 \section{Notation}
-Function $f()$ of one event $(x,t)$
+In this chapter,
+I will often use specialized Dirac style 
+bra-ket
+notation to
+express with more clarity 
+the basic Green's functions equations and their
+derivations. This section
+will describe such notation.
+
+An event
+ will be presented 
+either as a row vector or a column vector:
 \beq
-f(x,t) =f\oneevent{x}{t}
+(x,t)\leftrightarrow \oneevent{x}{t}
 \eeq
-Function $G()$ of two events $(x,t)$ and $(x',t')$
-
+Functions $f()$ of one event, and functions $G()$
+of two events
+will be expressed with their events either as row or column vectors
 \beq
-G(x,t;x',t')=G\twoevent{x}{t}{x'}{t'}
+f(x,t) \leftrightarrow f\oneevent{x}{t}
+\eeq
+\beq
+G(x,t;x',t')\leftrightarrow G\twoevent{x}{t}{x'}{t'}
 \eeq
 
+A third notation that we will use for 
+expressing functions of one or two
+events, is Dirac bra-ket notation.
+We describe that notation next.
 
+Define
 \beq
 \call_{x,t}= \partial_t -D \partial_x^2,\quad
-\call G\twoevent{x}{t}{x'}{t'}=\stackt{\delta(x-x')}{\delta(t-t')}
+\call_{x,t} G\twoevent{x}{t}{x'}{t'}=\stackt{\delta(x-x')}{\delta(t-t')}
 \eeq
 
 
 \beq
 \call^\dagger_{x,t}= -{\partial}_t -D {\partial}_x^2,
-\quad G^\dagger\twoevent{x'}{t'}{x}{t}\call^\dagger_{x,t}=\stackt{\delta(x-x')}{\delta(t-t')}
+\quad \call^\dagger_{x,t}G^\dagger\twoevent{x'}{t'}{x}{t}=\stackt{\delta(x-x')}{\delta(t-t')}
 \eeq
 
 
@@ -103,7 +124,7 @@ P_0 = \ket{0}\bra{0}
 \beq
 f(x)\cev{\partial_x} a(x)= a(x) \partial_x f(x)
 \eeq
-We will use the following suggestive notation
+We will also use the following suggestive notation
 for dual tensor product spaces
 
 
@@ -117,29 +138,31 @@ for dual tensor product spaces
 
 \section{Master Equation}
 \begin{claim}
-If $\eta(x,t)$ satisfies
+The solution to the equation
 \beq
-\call_{x,t}\eta(x,t)=S(x,t)
+\call \eta (x,t) = S(x,t)\quad
 \eeq
-for all $x>0$ and $t>0$,
-the initial conditions
+for $x>0$ and $t>0$
+with initial conditions
 \beq
-\eta(x,0)=\eta_\rvx(x)
+\eta(x,0)= \eta_\rvx(x)
 \eeq
- 
-and has bound
+and Dirichlet, von Neumann or Robin boundary conditions satisfies the {\bf master equation}:
 
-\beq
-\ket{\eta}=
-G
-\stackt{P_\rvx}{P_\rvt}\ket{S}
-+G\stackt{P_\rvx}{P_0}\kett{\eta_\rvx}{0}
--D
+\beqa
+\ket{\eta}
+&=&
+\underbrace{G\stackt{P_\rvx}{P_\rvt}\ket{S}}_{\text{Source Term}}
+\\
+&&\underbrace{+G\stackt{P_\rvx}{P_0}\kett{\eta_\rvx}{0}}_{\text
+{Initial Conditions (IC) term}}
+\\
+&&\underbrace{-D
 G\stackt{\left[-\ket{x'}\partial_{x'}\bra{x'}
 +
 \ket{x'}\cev{\partial}_{x'}\bra{x'}\right]_{x'=0}}{P_\rvt}
-\kett{0}{D_\rvt}
-\eeq
+\kett{0}{D_\rvt}}_{\text{Boundary Conditions (BC) term}}
+\eeqa
 \end{claim}
 \proof
 
