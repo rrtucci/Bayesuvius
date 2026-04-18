@@ -11,9 +11,13 @@ The Diffusion Equation (DE) in one space dimension $x$,
 \beq
 \call \eta(x,t) = S(x,t)
 \eeq
-We will illustrate the use of Green
-functions by solving this PDE
-for all $x>0$ and $t>0$, with boundary conditions (BC)
+In this chapter will illustrate the use of Green
+functions by solving the DE partial
+differential equation (PDE)
+for all $x>0$ and $t>0$, with  
+given initial
+conditions at $t=0$
+and given boundary conditions (BC) of 3 possible types
 at $x=0$.
 
 \section{Boundary Condition Types}
@@ -42,17 +46,18 @@ For example, if there were an impermeable wall at $x=0$,
 [a \partial_x\eta + b \eta](0, t)=R_\rvt(t)
 \eeq
 \end{itemize}
+If the boundary condition depends on $\eta(x,t)$
+only, then it is called a {\bf homogeneous BC} (i.e., $D_\rvt=N_\rvt=R_\rvt==0$)  .
+Otherwise, it is said to be an {\bf inhomogeneous BC}
 
 
 
 
 
 
-\section{Notation}
-In this chapter,
-I will often use specialized Dirac style 
-bra-ket
-notation to
+\section{Notation},
+I will often use specialized 
+notation in this chapter to
 express with more clarity 
 the basic Green's functions equations and their
 derivations. This section
@@ -74,7 +79,7 @@ f(x,t) \leftrightarrow f\oneevent{x}{t}
 G(x,t;x',t')\leftrightarrow G\twoevent{x}{t}{x'}{t'}
 \eeq
 
-A third notation that we will use for 
+Another notation that we will often use for 
 expressing functions of one or two
 events, is Dirac bra-ket notation.
 We describe that notation next.
@@ -136,6 +141,7 @@ for dual tensor product spaces
 \brat{x}{t}=\bra{x}\otimes\bra{t}
 \eeq
 
+
 \section{Master Equation}
 \begin{claim}
 The solution to the equation
@@ -161,7 +167,7 @@ and Dirichlet, von Neumann or Robin boundary conditions satisfies the {\bf maste
 G\stackt{\left[-\ket{x'}\partial_{x'}\bra{x'}
 +
 \ket{x'}\cev{\partial}_{x'}\bra{x'}\right]_{x'=0}}{P_\rvt}
-\kett{0}{D_\rvt}}_{\text{Boundary Conditions (BC) term}}
+\ket{\eta}}_{\text{Boundary Conditions (BC) term}}
 \eeqa
 \end{claim}
 \proof
@@ -321,100 +327,142 @@ I_\rvx=
 \brat{x}{t}G
 \stackt{\left[-\ket{x'}\partial_{x'}\bra{x'}
 +
-\ket{x'}\cev{\partial}_{x'}\bra{x'}\right]_{x'=0}}{1}
+\ket{x'}\cev{\partial}_{x'}\bra{x'}\right]_{x'=0}}{P_\rvt}
 \ket{\eta}}
 \eeq
+or, in non-Dirac notation,
+
+\beq
+I_\rvx =
+\int_0^tdt'\;G\twoevent{x}{t}{0}{t'} \left[-\partial_{x'}
++ \cev{\partial}_{x'}
+\right]\eta\oneevent{0}{t'}
+\eeq
 
 \qed
-\section{Dirichlet BC}
 
-\begin{claim}\label{cl-de-diriclet-green}
-The solution to the equation
-\beq
-\call \eta (x,t) = S(x,t)\quad
-\eeq
-for $x>0$ and $t>0$
-with initial conditions
-\beq
-\eta(x,0)= \eta_\rvx(x)
-\eeq
-and Dirichlet boundary conditions:
+The BC term 
+of the Master Equation 
+must be specialized for
+each of the 3 possible
+types of BC. We show how to do  that below.
+
+All Green's functions must satisfy
+the DE with delta function sources
 
 \beq
-\eta(0,t) = D_\rvt(t)
+\call_{x,t} G\twoevent{x}{t}{x'}{t'}=\delta(x-x')\delta(t-t')
 \eeq
-is
+In addition, they must satisfy BC
+that match the BC satisfied by the
+solution $\eta(x,t)$.
+Below, we specify what BC the Green's function must satisfy.
+
+Let $P(x;\s^2)$
+represent the Normal distribution:
+\beq
+P(x;\s^2)=\frac{1}{\sqrt{2\pi\s^2}}
+\exp\left(\frac{-x^2}{2\s^2}\right)
+\eeq
+
+The $G^\pm$  Green's function
+will be used as a building blocks
+to construct the Green's functions
+appropriate to the various BC.
 
 \beqa
-\eta(x,t)&=&
-\int_0^{t} dt'\;
-\int_0^\infty dx'\;
-G(x,t;x',t')
-S(x',t')
-\\
-&&+
-\int_0^{\infty} dx'\;
-G(x,t;x', 0)
- \eta_{\rvx}(x')
-\\
-&&-D
-\int_0^{t} dt'\;
-[\partial_{x'} G(x,t;x',t')]_{x'=0}
- D_\rvt(t')
-\eeqa
-where $G(x,t;x',t')$ satisfies
-the following equations for $x>0$ and $t>0$
-
-
-\beq
-\call G(x,t;x', t')=\delta(x-x')\delta(t-t')
-\eeq
-and
-
-\beq
-G(x=0,t;x',t')=0
-\eeq
-\end{claim}
-\proof
-\qed
-
-
-
-Claim \ref{cl-de-diriclet-green} uses a Green's function
-$G(x,t;x',t')$ with specific properties,
-but it does give an explicit expression for $G$
-or even prove that such a $G$ exists.
-It is easy to check that
-the following $G$ has the desired properties
-
-\beq
-G = G^- - G^+
-\eeq
-where
-
-\beq
-G^\pm(x,t;x',t')
-=
+G^\pm\twoevent{x}{t}{x'}{t'}
+&=&
 \frac{1}{\sqrt{4\pi D(t-t')}}
 \exp\left[-\;\frac{(x\pm x')^2}{4D(t-t')}\right]
+\\
+&=& P(x\pm x'; \kappa(t-t'))
+\label{eq-def-green-pm}
+\eeqa
+where $\kappa =2D$.
+
+$G^\pm$ are not  delta functions, but in 
+the limit $\kappa \rarrow 0$, and $t\approx t'$,
+they can be replaced by delta functions
+\beq
+G^\pm\twoevent{x}{t}{x'}{t'}\rarrow \delta(x'-x)
 \eeq
+
+A consequence of the Master Equation is that
+
+\beq
+G\twoevent{0}{t}{0}{t'}=0\implies\quad  G\twoevent{0}{t}{0}{t'}\cev{\partial}_{x'} 
+\propto \delta(t-t')
+\eeq
+and 
+\beq
+G\twoevent{0}{t}{0}{t'}\cev{\partial}_{x'}=0
+\implies\quad
+G\twoevent{0}{t}{0}{t'} \propto \delta(t-t')
+\eeq
+This Green's function duality,
+together the final form for 
+the BC term of the Master Equation, implies that
+the Green's Function
+must satisfy the homogeneous
+version of the inhomogeneous BC
+satisfied by $\eta(x,t)$
+
+
+\section{Dirichlet BC}
+
+\beq
+\eta(0, t)= D_\rvt(t)
+\eeq
+
+Choose Green's function $G_D$ so that
+it satisfies the DE with delta function source and obeys
+the same BC, but homogeneous
+\beq
+G_D\twoevent{0}{t}{x'}{t'}=0
+\eeq
+
+\beqa
+\text{BC term}&=&
+-D\brat{x}{t}G_D
+\stackt{\left[
+\ket{x'}\cev{\partial}_{x'}\bra{x'}\right]_{x'=0}}{P_\rvt}
+\ket{\eta}
+\\
+&=&
+-D\int_0^t dt'\;
+G_D\twoevent{x}{t}{0}{t'}\cev{\partial}_{x'}
+D_\rvt(t')
+\eeqa
+
+The $G^\pm$ Green's functions
+are defined  by Eq.(\ref{eq-def-green-pm}).
+The Green's  function 
+for the Dirichlet BC is
+
+\beq
+G_D= G^+ - G^-
+\eeq
+
+
+
 
 At the boundary
 \beq
 \left.
-\partial_{x'} G
+\partial_{x'} G_D
 (x,t;x',t')
 \right|_{x'=0}
 =
-\frac{x}{\sqrt{4\pi D (t-t')^3}}
+\frac{x}{\sqrt{2\kappa (t-t')^3}}
 \exp\left(
--\frac{x^2}{4D(t-t')}
+\frac{-x^2}{2\kappa(t-t')}
 \right)
 \eeq
-This $G$ was found by the method of images: two
-free space solutions $G_\pm$ to $\ul{\call}G_\pm=1$
+This $G_D$ was found by the method of images: two
+free space solutions $G^\pm$ to $\ul{\call}G^\pm=1$
 were superposed so as  to satisfy
-$G=0$ at the boundary $x=0$.
+$G_D=0$ at the boundary $x=0$.
 \hrule
 At first glance, this result appears to imply
 that
@@ -422,11 +470,11 @@ that
 \beq
 \lim_{x\rarrow 0}(-D)
 \int_0^{t} dt'\;
-[\partial_{x'} G(x,t;x',t')]_{x'=0}
+[\partial_{x'} G_D(x,t;x',t')]_{x'=0}
 =\delta(t-t')
 \eeq
 This is indeed the case. Let's prove
-explicitly for the Green's function $G=G^--G^+$
+explicitly for the Green's function $G_D=G^--G^+$
 
 Suppose
 
@@ -506,6 +554,44 @@ one of the two delta functions.
 
 
 \section{von Neumann BC}
+\beq
+\partial_x\eta(0, t)= N_\rvt(t)
+\eeq
+
+Choose Green's function $G_N$ so that
+it satisfies the DE with delta function source and obeys
+the same BC, but homogeneous
+\beq
+G_N\twoevent{x}{t}{0}{t'}\cev{\partial}_{x'}=0
+\eeq
+
+\beqa
+\text{BC term}&=&
+D\brat{x}{t}G_N
+\stackt{\left[\ket{x'}\partial_{x'}\bra{x'}
+\right]_{x'=0}}{P_\rvt}
+\ket{\eta}
+\\
+&=&
+D\int_0^t dt'\;
+G_N\twoevent{x}{t}{0}{t'}
+N_\rvt(t')
+\eeqa
+
+The $G^\pm$ Green's functions
+are defined  by Eq.(\ref{eq-def-green-pm}).
+The Green's  function 
+for the von Neumann BC is
+
+\beq
+G_N= G^+ + G^-
+\eeq
+Note that for the Dirichlet BC problem, $G^+$ and $G^-$
+are subtracted instead if added.
+
+
+
+
 
 \section{Mixed (Robin) BC}
 
