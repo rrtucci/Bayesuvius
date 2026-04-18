@@ -232,7 +232,8 @@ f(\xi)= A\exp\left(
 \end{claim}
 \proof
 \beq
-\partial_x = \frac{1}{\sqrt{\kappa t}}\partial_\xi
+\partial_x \xi= \frac{1}{\sqrt{\kappa t}},\quad 
+\frac{1}{\kappa}\partial_t\xi =\frac{-\xi}{2\kappa t}
 \eeq
 
 \beq
@@ -261,15 +262,17 @@ equation (PDE) gives the
 following ordinary differential equation (ODE)
 
 \beq
--(f+\xi f')
+\underbrace{f+\xi f'}_{(\xi f)'}
 =
-f''
+-f''
 \label{eq-basic-ode-gaussian}
 \eeq
-It's
-easy to check that this ODE
-is satisfied by a Gaussian centered at $\xi$ 
-with $\s^2=1$.
+Hence
+\beq
+\xi f =- f'\implies [\ln f]'=-\xi\implies \ln f= -\;\frac{\xi^2}{2}
+\eeq
+
+
 \qed
 
 
@@ -315,7 +318,7 @@ will be calculated separately below.
 
 First, we will calculate $\alp(g)$ to first order in $g$
 by solving the DE PDE using the method of Green functions.\footnote{
-See Appendix \ref{sec-solving-de-green-fun} 
+See Chapter \ref{ch-green-fun-pde} 
 for an introduction to Green functions.}
 
 Second, we will calculate $f(\xi;g)$ to first
@@ -404,7 +407,7 @@ we get
 \eeq
 We are solving a DE with a source $S(x,t)$ for free space (no boundaries),
 so the appropriate Green function (see
-Appendix \ref{sec-solving-de-green-fun})  is a normal
+Chapter \ref{ch-green-fun-pde})  is a normal
 distribution
 
 \beq
@@ -628,7 +631,7 @@ a boundary value problem in the usual sense.
 There is no boundary at $x=0$. Boundary
 value problems normally
 have either Dirichlet, von Neumann or mixed boundary 
-conditions (see Sec.\ref{sec-solving-de-green-fun}).
+conditions (see Chapter\ref{ch-green-fun-pde}).
 
 If we  rewrite the DE PDE in terms of $f(\xi)$
 instead of $\eta(x,t)$ as we
@@ -640,9 +643,9 @@ to Eq.(\ref{eq-basic-ode-gaussian})
 
 
 \beq
--\cald(\xi)(f+\xi f')
+-(\xi f)'
 =
-f''
+\cald(\xi)f''
 \eeq
 As in the case of the DE 
 with a constant diffusion coefficient,
@@ -699,365 +702,6 @@ joined at their maximum. The left one has width $\cald_-$ and
 the right one has width $\cald_+$.
 
 
-
-
-\section{Appendix: Solving DE via Green Functions}
-\label{sec-solving-de-green-fun}
-
-Let
-\beq
-\call = \partial_t - D \partial^2_x
-\eeq
-The Diffusion Equation (DE) in one space dimension $x$,
- with a source $S(x,t)$, is 
-\beq
-\call \eta(x,t) = S(x,t)
-\eeq
-We will illustrate the use of Green
-functions by solving this PDE 
-for all $x>0$ and $t>0$, with boundary conditions (BC) 
-at $x=0$.
-
-Common types of BCs:
-
-\begin{itemize}
-\item {\bf Dirichlet BC}
-
-\beq \eta(0, t)= \eta_\rvt(x)
-\eeq
-
-\item
-{\bf von Neumann BC}
-\beq
-\partial_x\eta(x,t)= f(x,t)
-\eeq
-For example, if there were an impermeable wall at $x=0$,
-
-\beq
-\partial_x\eta(x,t)=0
-\eeq
-
-\item {\bf Mixed (Robin) BC}
-
-\beq
-[a \partial_x\eta + b \eta](x, t)=g(x,t)
-\eeq
-\end{itemize}
-
-
-
-
-
-\begin{claim}\label{cl-de-diriclet-green}
-The solution to the equation
-\beq
-\call \eta (x,t) = S(x,t)\quad
-\eeq
-for $x>0$ and $t>0$
-with initial conditions
-\beq
-\eta(x,0)= \eta_\rvx(x)
-\eeq
-and Dirichlet boundary conditions:
-
-\beq
-\eta(0,t) = \eta_\rvt(t)
-\eeq
-is
-
-\beqa
-\eta(x,t)&=&
-\int_0^{t+} dt'\;
-\int_0^\infty dx'\;
-G(x,t;x',t')
-f(x',t')
-\\
-&&+
-\int_0^{\infty} dx'\;
-G(x,t;x', 0)
- \eta_{\rvx}(x')
-\\
-&&-D
-\int_0^{t+} dt'\;
-[\partial_{x'} G(x,t;x',t')]_{x'=0}
- \eta_\rvt(t')
-\eeqa
-where $G(x,t;x',t')$ satisfies 
-the following equations for $x>0$ and $t>0$
-
-
-\beq
-\call G(x,t;x', t')=\delta(x-x')\delta(t-t')
-\eeq
-and
-
-\beq
-G(x=0,t;x',t')=0
-\eeq
-\end{claim}
-\proof
-
-Define
-\beq
-\call= \partial_t -D \partial_x^2,\quad
-\call G(x,t;x', t')=\delta(x-x')\delta(t-t')
-\eeq
-
-
-\beq
-\call^\dagger= -\partial_t -D \partial_x^2,
-\quad \call^\dagger G'(x,t;x', t')=\delta(x-x')\delta(t-t')
-\eeq
-
-
-
-\beq
-P_\rvx = \int_0^\infty dx'\; \ket{\rvx=x'}\bra{\rvx=x'}
-\eeq
-
-
-\beq
-P_\rvt = \int_0^t dt'\; \ket{\rvt=t'}\bra{\rvt=t'}
-\eeq
-
-\beq
-\partial_{\rvx} = 
-\int_0^\infty dx'\; \ket{\rvx=x'}\partial_{x'}\bra{\rvx=x'}
-\eeq
-
-\beq
-\partial_{\rvt} = 
-\int_0^\infty dt\; \ket{\rvt=t'}\partial_{t'}\bra{\rvt=t'}
-\eeq
-
-\beq
-\rv{\call}= \partial_\rvt-D\partial^2_\rvx
-\eeq
-
-\beq
-f(x)\cev{\partial_x} a(x)= a(x) \partial_x f(x)
-\eeq
-We will use the following suggestive notation
-for dual tensor product spaces
-
-
-
-\beq \stackt{A}{B}= A\otimes B\eeq
-
-\beq \kett{x}{t}=\ket{x}\otimes\ket{t}\eeq
-Written using this notation,  what we want to prove is this
-\beq
-\boxed{\brat{x}{t}\ket{\eta}=
-\brat{x}{t}G
-\stackt{P_\rvx}{P_\rvt}\ket{S}
-+
-\brat{x}{t}G\stackt{P_\rvx}{P_0}\kett{\eta_\rvx}{0}
--D
-\brat{x}{t}G\stackt{\cev{\partial}_{\rvx}}{P_\rvt}\kett{0}{\eta_\rvt}}
-\eeq
-
-Define $I$, $I_\rvx$ and $I_\rvt$  by
-\beq
-I = \brat{x}{t}G\rv{\call}
-\ket{\eta}-
-\bra{\eta}\rv{\call^\dagger}
-G'\kett{x}{t}
-\eeq
-
-\beq
-I_\rvt = 
-\brat{x}{t}G
-\stackt{1}{\partial_\rvt}
-\ket{\eta}-
-\bra{\eta}
-\stackt{1}{(-\partial_\rvt)}
-G'\kett{x}{t}
-\eeq
-
-\beq
-I_\rvx = 
-\brat{x}{t}G\partial_\rvx^2
-\ket{\eta}-
-\bra{\eta}\partial_\rvx^2
-G'\kett{x}{t}
-\eeq
-Hence 
-\beq
-\boxed
-{I = I_\rvt -D I_\rvx}
-\eeq
-\hrule
-Note that we can simplify the
-expression for $I$ as follows:
-
-\beq
-\call^\dagger \brat{x}{t}G\kett{x'}{t'
-}=\brat{x}{t}\rv{\call}^\dagger G'\kett{x'}{t'}=
-\stackt{\delta(x-x')}{\delta(t-t')}
-\implies\quad
-\rv{\call}^\dagger G' =1
-\eeq
-
-
-
-\beq
-\rv{\call}\ket{\eta}=\ket{S}
-\eeq
-
-\beq
-\boxed
-{I = \brat{x}{t}G\ket{S}-\bra{\eta}\kett{x}{t}}
-\eeq
-\hrule
-Note that we can simplify the
-expression for $I_\rvt$ as follows:
-
-
-\beqa
-I_\rvt &=&
-\int_0^t dt'
-\brat{x}{t}G
-\stackt{1}{\ket{t'}\partial_{t'}\bra{t'}}
-\ket{\eta}
-+
-\bra{\eta}
-\stackt{1}{\ket{t'}\partial_{t'}\bra{t'}}
-G'\kett{x}{t}
-\eeqa
-
-\beq
-\bra{t}G\ket{t'}= \bra{t'}G'\ket{t}
-\eeq
-
-\beq
-\partial_{t'} (\ket{t'}\bra{t'})=
-\ket{t'}\partial_{t'}\bra{t'}
-+\ket{t'}\cev{\partial}_{t'}\bra{t'}
-\eeq
-
-
-\beqa
-I_\rvt &=&
-\int_0^t dt'
-\brat{x}{t}G
-\stackt{1}{\partial_{t'} (\ket{t'}\bra{t'})}
-\ket{\eta}
-\eeqa
-
-\beq
-\int_0^t
-dt'\;\partial_{t'} (\ket{t'}\bra{t'})
-=
-\ket{t}\bra{t}-\ket{0}\bra{0}
-\eeq
-
-
-\beq
-\boxed{I_\rvt =
-\brat{x}{t}G
-\stackt{P_\rvx}{\ket{t}\bra{t}-\ket{0}\bra{0}}
-\ket{\eta}}
-\eeq
-\hrule
-Note that we can simplify the
-expression for $I_\rvx$ as follows:
-
-\beqa
-I_\rvx &=& 
-\int_0^\infty dx'
-\brat{x}{t}G
-\stackt{\ket{x'}\partial_{x'}^2\bra{x'}}{1}
-\ket{\eta}
--
-\bra{\eta}
-\stackt{\ket{x'}\partial_{x'}^2\bra{x'}}{1}
-G'\kett{x}{t}
-\eeqa
-
-\beq
-\ket{x'}\partial_{x'}^2\bra{x'}
--\ket{x'}\cev{\partial}_{x'}^2\bra{x'}=
-\partial_{x'}(\ket{x'}\partial_{x'}\bra{x'})
--(\ket{x'}\cev{\partial}_{x'}\bra{x'})\cev{\partial}_{x'}
-\eeq
-
-\beq
-I_\rvx=
-\int_0^\infty dx'
-\brat{x}{t}G
-\stackt{\partial_{x'}(\ket{x'}\partial_{x'}\bra{x'})
--(\ket{x'}\cev{\partial}_{x'}\bra{x'})\cev{\partial}_{x'}}{1}
-\ket{\eta}
-\eeq
-
-\begin{align}
-\int_0^\infty dx'
-\partial_{x'}(\ket{x'}\partial_{x'}\bra{x'})
--(\ket{x'}\cev{\partial}_{x'}\bra{x'})\cev{\partial}_{x'}
-&=
-[\ket{x'}\partial_{x'}\bra{x'}
--
-\ket{x'}\cev{\partial}_{x'}\bra{x'}]_0^\infty
-\\
-&=
--[\ket{x'}\partial_{x'}\bra{x'}
--
-\ket{x'}\cev{\partial}_{x'}\bra{x'}]_{x'=0}
-\end{align}
-
-\beq
-I_\rvx=
-\brat{x}{t}G
-\stackt{[-\ket{x'}\partial_{x'}\bra{x'}
-+
-\ket{x'}\cev{\partial}_{x'}\bra{x'}]_{x'=0}}{1}
-\ket{\eta}
-\eeq
-
-
-\beq
-\boxed{I_\rvx=\brat{x}{t}G
-\stackt{[
-\ket{x'}\cev{\partial}_{x'}\bra{x'}]_{x'=0}}{P_\rvt}
-\ket{\eta}}
-\eeq
-\qed
-
-Claim \ref{cl-de-diriclet-green} uses a Green function
-$G(x,t;x',t')$ with specific properties,
-but it does give an explicit expression for $G$
-or even prove that such a $G$ exists.
-It is easy to check that 
-the following $G$ has the desired properties
-
-\beq
-G = G^+ - G^-
-\eeq
-where
-
-\beq
-G^\pm(x,t;x',t')
-=
-\frac{1}{\sqrt{4\pi D(t-t')}}
-\exp\left[-\;\frac{(x\pm x')^2}{4D(t-t')}\right]
-\eeq
-
-At the boundary
-\beq
-\left.
-\partial_{x'} G
-(x,t;x',t')
-\right|_{x'=0}
-=
-\frac{x}{\sqrt{4\pi D (t-t')^3}}
-\exp\left(
--\frac{x^2}{4D(t-t')}
-\right)
-\eeq
-This $G$ was found by the method of images: two
-free space solutions $G_\pm$ to $\ul{\call}G_\pm=1$
-were superposed so as  to satisfy
-$G=0$ at the boundary $x=0$. 
 
 
 %\end{document}

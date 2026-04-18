@@ -1,0 +1,710 @@
+\chapter{Green Functions for PDE}
+\label{ch-green-fun-pde}
+
+
+Let
+\beq
+\call = \partial_t - D \partial^2_x
+\eeq
+The Diffusion Equation (DE) in one space dimension $x$,
+ with a source $S(x,t)$, is
+\beq
+\call \eta(x,t) = S(x,t)
+\eeq
+We will illustrate the use of Green
+functions by solving this PDE
+for all $x>0$ and $t>0$, with boundary conditions (BC)
+at $x=0$.
+
+Common types of BCs:
+
+\begin{itemize}
+\item {\bf Dirichlet BC}
+
+\beq \eta(0, t)= \eta_\rvt(x)
+\eeq
+
+\item
+{\bf von Neumann BC}
+\beq
+\partial_x\eta(x,t)= f(x,t)
+\eeq
+For example, if there were an impermeable wall at $x=0$,
+
+\beq
+\partial_x\eta(x,t)=0
+\eeq
+
+\item {\bf Mixed (Robin) BC}
+
+\beq
+[a \partial_x\eta + b \eta](x, t)=g(x,t)
+\eeq
+\end{itemize}
+
+
+
+
+
+\begin{claim}\label{cl-de-diriclet-green}
+The solution to the equation
+\beq
+\call \eta (x,t) = S(x,t)\quad
+\eeq
+for $x>0$ and $t>0$
+with initial conditions
+\beq
+\eta(x,0)= \eta_\rvx(x)
+\eeq
+and Dirichlet boundary conditions:
+
+\beq
+\eta(0,t) = \eta_\rvt(t)
+\eeq
+is
+
+\beqa
+\eta(x,t)&=&
+\int_0^{t} dt'\;
+\int_0^\infty dx'\;
+G(x,t;x',t')
+S(x',t')
+\\
+&&+
+\int_0^{\infty} dx'\;
+G(x,t;x', 0)
+ \eta_{\rvx}(x')
+\\
+&&-D
+\int_0^{t} dt'\;
+[\partial_{x'} G(x,t;x',t')]_{x'=0}
+ \eta_\rvt(t')
+\eeqa
+where $G(x,t;x',t')$ satisfies
+the following equations for $x>0$ and $t>0$
+
+
+\beq
+\call G(x,t;x', t')=\delta(x-x')\delta(t-t')
+\eeq
+and
+
+\beq
+G(x=0,t;x',t')=0
+\eeq
+\end{claim}
+\proof
+\qed
+
+Define
+\beq
+\call_{x,t}= \partial_t -D \partial_x^2,\quad
+\call G\twoevent{x}{t}{x'}{t'}=\stackt{\delta(x-x')}{\delta(t-t')}
+\eeq
+
+
+\beq
+\call^\dagger_{x,t}= -{\partial}_t -D {\partial}_x^2,
+\quad G^\dagger\twoevent{x'}{t'}{x}{t}\call^\dagger_{x,t}=\stackt{\delta(x-x')}{\delta(t-t')}
+\eeq
+
+
+
+
+\beq
+P_\rvx = \int_0^\infty dx'\; \ket{\rvx=x'}\bra{\rvx=x'}
+\eeq
+
+
+\beq
+P_\rvt = \int_0^t dt'\; \ket{\rvt=t'}\bra{\rvt=t'}
+\eeq
+
+\beq
+P_0 = \ket{0}\bra{0}
+\eeq
+
+\beq
+\partial_{\rvx} =
+\int_0^\infty dx'\; \ket{\rvx=x'}\partial_{x'}\bra{\rvx=x'}
+\eeq
+
+\beq
+\partial_{\rvt} =
+\int_0^\infty dt\; \ket{\rvt=t'}\partial_{t'}\bra{\rvt=t'}
+\eeq
+
+\beq
+\rv{\call}= \partial_\rvt-D\partial^2_\rvx
+\eeq
+
+\beq
+f(x)\cev{\partial_x} a(x)= a(x) \partial_x f(x)
+\eeq
+We will use the following suggestive notation
+for dual tensor product spaces
+
+
+
+\beq \stackt{A}{B}= A\otimes B\eeq
+
+\beq \kett{x}{t}=\ket{x}\otimes\ket{t}\eeq
+
+\begin{claim}
+If $\eta(x,t)$ satisfies
+\beq
+\call_{x,t}\eta(x,t)=S(x,t)
+\eeq
+
+\beq
+\ket{\eta}=
+G
+\stackt{P_\rvx}{P_\rvt}\ket{S}
++G\stackt{P_\rvx}{P_0}\kett{\eta_\rvx}{0}
+-D
+G\stackt{\left[-\ket{x'}\partial_{x'}\bra{x'}
++
+\ket{x'}\cev{\partial}_{x'}\bra{x'}\right]_{x'=0}}{P_\rvt}
+\kett{0}{\eta_\rvt}
+\eeq
+\end{claim}
+\proof
+
+Define $I$, $I_\rvx$ and $I_\rvt$  by
+\beq
+I = \brat{x}{t}G\rv{\call}
+\ket{\eta}-
+\brat{x}{t}\rv{\call^\dagger}G^\dagger
+\ket{\eta}
+\eeq
+
+\beq
+I_\rvt =
+\brat{x}{t}G
+\partial_\rvt
+\ket{\eta}-
+\brat{x}{t}
+(-{\partial}_\rvt)G^\dagger
+\ket{\eta}
+\eeq
+
+\beq
+I_\rvx =
+\brat{x}{t}G\partial_\rvx^2
+\ket{\eta}-
+\brat{x}{t}
+\partial_\rvx^2G^\dagger
+\ket{\eta}
+\eeq
+Hence
+\beq
+\boxed
+{I = I_\rvt -D I_\rvx}
+\eeq
+\hrule
+Note that we can simplify the
+expression for $I$ as follows:
+
+
+
+\beq
+\rv{\call}\ket{\eta}=\ket{S},
+\quad
+\rv{\call^\dagger}G^\dagger=1
+\eeq
+
+\beq
+\boxed
+{I = \brat{x}{t}G\ket{S}-\brat{x}{t}\ket{\eta}
+}
+\eeq
+\hrule
+Note that we can simplify the
+expression for $I_\rvt$ as follows:
+
+
+\beqa
+I_\rvt &=&
+\int_0^t dt'
+\brat{x}{t}G
+\stackt{1}{\ket{t'}\partial_{t'}\bra{t'}}
+\ket{\eta}
++
+\brat{x}{t}G
+\stackt{1}{\ket{t'}\cev{\partial}_{t'}\bra{t'}}
+\ket{\eta}
+\eeqa
+where we used
+
+\beq
+ \bra{t'}G^\dagger\ket{t}=\bra{t}G\ket{t'}
+\implies
+\partial_{t'} \bra{t'}G^\dagger\ket{t}
+=
+\bra{t}G\ket{t'}\cev{\partial}_{t'}
+\eeq
+
+\beq
+\partial_{t'} (\ket{t'}\bra{t'})=
+\ket{t'}\partial_{t'}\bra{t'}
++\ket{t'}\cev{\partial}_{t'}\bra{t'}
+\eeq
+
+
+\beqa
+I_\rvt &=&
+\int_0^t dt'
+\brat{x}{t}G
+\stackt{1}{\partial_{t'} (\ket{t'}\bra{t'})}
+\ket{\eta}
+\eeqa
+
+\beq
+\int_0^t
+dt'\;\partial_{t'} (\ket{t'}\bra{t'})
+=
+\ket{t}\bra{t}-\ket{0}\bra{0}
+\eeq
+
+
+\beq
+\boxed{I_\rvt =
+\brat{x}{t}G
+\stackt{P_\rvx}{\ket{t}\bra{t}-\ket{0}\bra{0}}
+\ket{\eta}}
+\eeq
+\hrule
+Note that we can simplify the
+expression for $I_\rvx$ as follows:
+
+\beq
+I_\rvx =
+\int_0^\infty dx'
+\brat{x}{t}G
+\stackt{\ket{x'}\partial_{x'}^2\bra{x'}}{1}
+\ket{\eta}
+-
+\brat{x}{t}
+G\stackt{\ket{x'}\cev{\partial}_{x'}^2\bra{x'}}{1}
+\ket{\eta}
+\eeq
+
+\beq
+\ket{x'}\partial_{x'}^2\bra{x'}
+-\ket{x'}\cev{\partial}_{x'}^2\bra{x'}=
+\partial_{x'}\left(\ket{x'}\partial_{x'}\bra{x'}\right)
+-\left(\ket{x'}\cev{\partial}_{x'}\bra{x'}\right)\cev{\partial}_{x'}
+\eeq
+
+\beq
+I_\rvx=
+\int_0^\infty dx'
+\brat{x}{t}G
+\stackt{\partial_{x'}(\ket{x'}\partial_{x'}\bra{x'})
+-\left(\ket{x'}\cev{\partial}_{x'}\bra{x'}\right)\cev{\partial}_{x'}}{1}
+\ket{\eta}
+\eeq
+
+\begin{align}
+\int_0^\infty dx'\left[
+\partial_{x'}(\ket{x'}\partial_{x'}\bra{x'})
+-\left(\ket{x'}\cev{\partial}_{x'}\bra{x'}\right)\cev{\partial}_{x'}\right]
+&=
+\left[\ket{x'}\partial_{x'}\bra{x'}
+-
+\ket{x'}\cev{\partial}_{x'}\bra{x'}\right]_0^\infty
+\\
+&=
+-\left[\ket{x'}\partial_{x'}\bra{x'}
+-
+\ket{x'}\cev{\partial}_{x'}\bra{x'}\right]_{x'=0}
+\end{align}
+
+\beq
+\boxed{I_\rvx=
+\brat{x}{t}G
+\stackt{\left[-\ket{x'}\partial_{x'}\bra{x'}
++
+\ket{x'}\cev{\partial}_{x'}\bra{x'}\right]_{x'=0}}{1}
+\ket{\eta}}
+\eeq
+
+\qed
+
+Claim \ref{cl-de-diriclet-green} uses a Green function
+$G(x,t;x',t')$ with specific properties,
+but it does give an explicit expression for $G$
+or even prove that such a $G$ exists.
+It is easy to check that
+the following $G$ has the desired properties
+
+\beq
+G = G^- - G^+
+\eeq
+where
+
+\beq
+G^\pm(x,t;x',t')
+=
+\frac{1}{\sqrt{4\pi D(t-t')}}
+\exp\left[-\;\frac{(x\pm x')^2}{4D(t-t')}\right]
+\eeq
+
+At the boundary
+\beq
+\left.
+\partial_{x'} G
+(x,t;x',t')
+\right|_{x'=0}
+=
+\frac{x}{\sqrt{4\pi D (t-t')^3}}
+\exp\left(
+-\frac{x^2}{4D(t-t')}
+\right)
+\eeq
+This $G$ was found by the method of images: two
+free space solutions $G_\pm$ to $\ul{\call}G_\pm=1$
+were superposed so as  to satisfy
+$G=0$ at the boundary $x=0$.
+\hrule
+At first glance, this result appears to imply
+that
+
+\beq
+\lim_{x\rarrow 0}(-D)
+\int_0^{t} dt'\;
+[\partial_{x'} G(x,t;x',t')]_{x'=0}
+=\delta(t-t')
+\eeq
+This is indeed the case. Let's prove
+explicitly for the Green function $G=G^--G^+$
+
+Suppose
+
+\beq
+G^-(x,t;x',t')= P(x-x'; \kappa (t-t'))
+\eeq
+where $D=\kappa/2$.
+Define
+
+\beq
+y=\frac{x}{\sqrt{\kappa(t-t')}}=\frac{x}{\ell}
+\eeq
+Then
+\beqa
+-D[\partial_{x'} G^-(x,t;x',t')]_{x'=0}&=&
+\left(\frac{-\kappa}{2}\right)
+\left(\frac{-x}{\ell^2}\right)\frac{1}{\ell\sqrt{2\pi}}\exp\left(
+\frac{-x^2}{2\ell^2}\right)
+\\
+&=&
+\frac{x}{2(t-t')}\frac{1}{\ell\sqrt{2\pi}}\exp\left(
+\frac{-y^2}{2}\right)
+\eeqa
+
+\beq
+\ln y = -\frac{1}{2}\ln (t-t')+\cdots\implies \frac{dy}{y}=
+-\;\frac{d(t-t')}{2(t-t')}=
+\;\frac{dt'}{2(t-t')}
+\eeq
+Thus,
+
+\beq
+dt'\;\frac{x}{2(t-t')}= dy\;\frac{x}{y}=
+dy\sqrt{\kappa(t-t')}=dy\ell
+\eeq
+Hence
+\beq
+-D\int_0^t dt'[\partial_{x'} G^-(x,t;x',t')]_{x'=0}=
+\int_{\frac{x}{\sqrt{\kappa t}}}^\infty
+dy \frac{1}{\sqrt{2\pi}}\exp\left(
+\frac{-y^2}{2}\right)=\frac{1}{2}
+\eeq
+
+
+It's illuminating to prove this with delta
+functions and their derivatives. To do so, assume
+\beq
+ G^-(x,t;x',t') =\frac{1}{\ell} \delta\left(\frac{x-x'}{\ell}\right),
+\eeq
+Then
+
+\begin{align}
+-D\int_0^t dt'[\partial_{x'} G^-(x,t;x',t')]_{x'=0}
+&=
+-D\int_0^t \frac{dt'}{\ell^2} \delta'\left(\frac{x}{\ell}\right)
+\\
+&=
+-D\int_0^t\frac{dt'}{\ell^2}\frac{1}{\eps}\left[
+\delta\left(\frac{x}{\ell}+\frac{\eps}{2}\right)-
+\delta\left(\frac{x}{\ell}-\frac{\eps}{2}\right)
+\right]
+\\
+&=
+-
+\int_{\frac{x}{\sqrt{\kappa t}}}^\infty \frac{dy}{y}\frac{1}{\eps}\left[
+\delta\left(y+\frac{\eps}{2}\right)-
+\delta\left(y-\frac{\eps}{2}\right)
+\right]
+\\
+&= \int_{0}^\infty
+dy\;\delta\left(y\right)= \frac{1}{2}
+\end{align}
+Hence, the derivative
+of a delta function equals the difference of
+2 delta functions. We integrate over half of
+one of the two delta functions.
+
+$$
+G\left(
+\begin{array}{c|c}
+x & x'
+\\
+t&t'
+\end{array}
+\right)
+$$
+
+
+$G\twoevent{x}{t}{x'}{t'}$
+
+$\eta\oneevent{x}{t}$
+
+\section{redoing claim}
+
+\begin{claim}\label{cl-de-diriclet-green}
+The solution to the equation
+\beq
+\call \eta \oneevent{x}{t} = S\oneevent{x}{t}\quad
+\eeq
+for $x>0$ and $t>0$
+with initial conditions
+\beq
+\eta\oneevent{x}{0}= \eta_\rvx(x)
+\eeq
+and Dirichlet boundary conditions:
+
+\beq
+\eta\oneevent{0}{t} = \eta_\rvt(t)
+\eeq
+is
+
+\beqa
+\eta\oneevent{x}{t}&=&
+\int_0^{t} dt'\;
+\int_0^\infty dx'\;
+G\twoevent{x}{t}{x'}{t'}
+S\oneevent{x'}{t'}
+\\
+&&+
+\int_0^{\infty} dx'\;
+G\twoevent{x}{t}{x'}{0}
+ \eta_{\rvx}(x')
+\\
+&&-D
+\int_0^{t} dt'\;
+\left[ G\twoevent{x}{t}{x'}{t'}\cev{\partial}_{x'}\right]_{x'=0}
+ \eta_\rvt(t')
+\eeqa
+where $G\twoevent{x}{t}{x'}{t'}$ satisfies
+the following equations for $x>0$ and $t>0$
+
+
+\beq
+\call G\twoevent{x}{t}{x'}{t'}=\stackt{\delta(x-x')}{\delta(t-t')}
+\eeq
+and
+
+\beq
+G\twoevent{0}{t}{x'}{t'}=0
+\eeq
+\end{claim}
+\proof
+
+Define
+\beq
+f(x)\cev{\partial_x} a(x)= a(x) \partial_x f(x)
+\eeq
+
+\beq
+\call_{x,t}= \partial_t -D \partial_x^2,\quad
+\call G\twoevent{x}{t}{x'}{t'}=\stackt{\delta(x-x')}{\delta(t-t')}
+\eeq
+
+
+\beq
+\call^\dagger_{x,t}= -\cev{\partial}_t -D \cev{\partial}_x^2,
+\quad G^\dagger\twoevent{x'}{t'}{x}{t}\call^\dagger_{x,t}=\stackt{\delta(x-x')}{\delta(t-t')}
+\eeq
+
+
+
+
+
+Define $I$, $I_\rvx$ and $I_\rvt$  by
+\beq
+I = G\twoevent{x}{t}{x'}{t'}\call_{x',t'}\eta\oneevent{x'}{t'}
+-
+\eta\oneevent{x'}{t'}\call^\dagger_{x',t'}
+G^\dagger\twoevent{x'}{t'}{x}{t}
+\eeq
+
+\beq
+I_\rvt =
+G\twoevent{x}{t}{x'}{t'}
+\partial_{t'}
+\eta\oneevent{x'}{t'}-
+\bra{\eta}
+\stackt{1}{(-\partial_\rvt)}
+G^\dagger\twoevent{x'}{t'}{x}{t}
+\eeq
+
+\beq
+I_\rvx =
+\brat{x}{t}G\partial_\rvx^2
+\ket{\eta}-
+\bra{\eta}\partial_\rvx^2
+G^\dagger\kett{x}{t}
+\eeq
+Hence
+\beq
+\boxed
+{I = I_\rvt -D I_\rvx}
+\eeq
+\hrule
+Note that we can simplify the
+expression for $I$ as follows:
+
+\beq
+\call^\dagger \brat{x}{t}G\kett{x'}{t'
+}=\brat{x}{t}\rv{\call}^\dagger G^\dagger\kett{x'}{t'}=
+\stackt{\delta(x-x')}{\delta(t-t')}
+\implies\quad
+\rv{\call}^\dagger G^\dagger =1
+\eeq
+
+
+
+\beq
+\rv{\call}\ket{\eta}=\ket{S}
+\eeq
+
+\beq
+\boxed
+{I = \brat{x}{t}G\ket{S}-\bra{\eta}\kett{x}{t}}
+\eeq
+\hrule
+Note that we can simplify the
+expression for $I_\rvt$ as follows:
+
+
+\beqa
+I_\rvt &=&
+\int_0^t dt'
+\brat{x}{t}G
+\stackt{1}{\ket{t'}\partial_{t'}\bra{t'}}
+\ket{\eta}
++
+\bra{\eta}
+\stackt{1}{\ket{t'}\partial_{t'}\bra{t'}}
+G^\dagger\kett{x}{t}
+\eeqa
+
+\beq
+\bra{t}G\ket{t'}= \bra{t'}G^\dagger\ket{t}
+\eeq
+
+\beq
+\partial_{t'} (\ket{t'}\bra{t'})=
+\ket{t'}\partial_{t'}\bra{t'}
++\ket{t'}\cev{\partial}_{t'}\bra{t'}
+\eeq
+
+
+\beqa
+I_\rvt &=&
+\int_0^t dt'
+\brat{x}{t}G
+\stackt{1}{\partial_{t'} (\ket{t'}\bra{t'})}
+\ket{\eta}
+\eeqa
+
+\beq
+\int_0^t
+dt'\;\partial_{t'} (\ket{t'}\bra{t'})
+=
+\ket{t}\bra{t}-\ket{0}\bra{0}
+\eeq
+
+
+\beq
+\boxed{I_\rvt =
+\brat{x}{t}G
+\stackt{P_\rvx}{\ket{t}\bra{t}-\ket{0}\bra{0}}
+\ket{\eta}}
+\eeq
+\hrule
+Note that we can simplify the
+expression for $I_\rvx$ as follows:
+
+\beqa
+I_\rvx &=&
+\int_0^\infty dx'
+\brat{x}{t}G
+\stackt{\ket{x'}\partial_{x'}^2\bra{x'}}{1}
+\ket{\eta}
+-
+\bra{\eta}
+\stackt{\ket{x'}\partial_{x'}^2\bra{x'}}{1}
+G^\dagger\kett{x}{t}
+\eeqa
+
+\beq
+\ket{x'}\partial_{x'}^2\bra{x'}
+-\ket{x'}\cev{\partial}_{x'}^2\bra{x'}=
+\partial_{x'}(\ket{x'}\partial_{x'}\bra{x'})
+-(\ket{x'}\cev{\partial}_{x'}\bra{x'})\cev{\partial}_{x'}
+\eeq
+
+\beq
+I_\rvx=
+\int_0^\infty dx'
+\brat{x}{t}G
+\stackt{\partial_{x'}(\ket{x'}\partial_{x'}\bra{x'})
+-(\ket{x'}\cev{\partial}_{x'}\bra{x'})\cev{\partial}_{x'}}{1}
+\ket{\eta}
+\eeq
+
+\begin{align}
+\int_0^\infty dx'
+\partial_{x'}(\ket{x'}\partial_{x'}\bra{x'})
+-(\ket{x'}\cev{\partial}_{x'}\bra{x'})\cev{\partial}_{x'}
+&=
+[\ket{x'}\partial_{x'}\bra{x'}
+-
+\ket{x'}\cev{\partial}_{x'}\bra{x'}]_0^\infty
+\\
+&=
+-[\ket{x'}\partial_{x'}\bra{x'}
+-
+\ket{x'}\cev{\partial}_{x'}\bra{x'}]_{x'=0}
+\end{align}
+
+\beq
+I_\rvx=
+\brat{x}{t}G
+\stackt{[-\ket{x'}\partial_{x'}\bra{x'}
++
+\ket{x'}\cev{\partial}_{x'}\bra{x'}]_{x'=0}}{1}
+\ket{\eta}
+\eeq
+
+
+\beq
+\boxed{I_\rvx=\brat{x}{t}G
+\stackt{[
+\ket{x'}\cev{\partial}_{x'}\bra{x'}]_{x'=0}}{P_\rvt}
+\ket{\eta}}
+\eeq
+\qed
+
