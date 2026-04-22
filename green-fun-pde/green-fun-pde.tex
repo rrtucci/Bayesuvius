@@ -24,13 +24,13 @@ at $x=0$.
 Types of boundary conditions (BC) that we will consider:
 
 \begin{itemize}
-\item {\bf Dirichlet BC}
+\item {\bf Dirichlet BC} (absorbing wall)
 
 \beq \eta(0, t)= D_\rvt(t)
 \eeq
 
 \item
-{\bf von Neumann BC}
+{\bf von Neumann BC} (reflecting wall)
 \beq
 \partial_x\eta(0,t)= N_\rvt(t)
 \eeq
@@ -43,12 +43,33 @@ For example, if there were an impermeable wall at $x=0$,
 \item {\bf Mixed (Robin) BC}
 
 \beq
-[a \partial_x\eta + b \eta](0, t)=R_\rvt(t)
+[a_0 \eta + a_1\partial_x\eta  ](0, t)=R_\rvt(t)
 \eeq
 \end{itemize}
 If the boundary condition depends on $\eta(x,t)$
-only, then it is called a {\bf homogeneous BC} (i.e., $D_\rvt=N_\rvt=R_\rvt==0$)  .
-Otherwise, it is said to be an {\bf inhomogeneous BC}
+only, then it is called a {\bf homogeneous BC} (i.e., $D_\rvt=N_\rvt=R_\rvt=0$)  .
+Otherwise, it is said to be an {\bf inhomogeneous BC}.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2in]
+{green-fun-pde/fixed-in.jpg}
+\includegraphics[width=2in]
+{green-fun-pde/fixed-out.jpg}
+\caption{Dirichlet BC  for wave equation $\partial_t^2\eta = c^2\partial_x^2\eta$}
+\label{fig-fixed-in-out}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2in]
+{green-fun-pde/ring-in.jpg}
+\includegraphics[width=2in]
+{green-fun-pde/ring-out.jpg}
+\caption{von Neumann BC  for wave equation $\partial_t^2\eta = c^2\partial_x^2\eta$}
+\label{fig-ring-in-out}
+\end{figure}
+
 
 
 
@@ -141,12 +162,16 @@ for dual tensor product spaces
 \brat{x}{t}=\bra{x}\otimes\bra{t}
 \eeq
 
-
 \section{Master Equation}
 \begin{claim}
+Suppose
+\beq
+\call_{x,t}= \partial_t -D \partial_x^2,\quad
+\call_{x,t} G\twoevent{x}{t}{x'}{t'}=\stackt{\delta(x-x')}{\delta(t-t')}
+\eeq
 The solution to the equation
 \beq
-\call \eta (x,t) = S(x,t)\quad
+\call_{x,t} \eta (x,t) = S(x,t)\quad
 \eeq
 for $x>0$ and $t>0$
 with initial conditions
@@ -158,16 +183,32 @@ and Dirichlet, von Neumann or Robin boundary conditions satisfies the {\bf maste
 \beqa
 \ket{\eta}
 &=&
-\underbrace{G\stackt{P_\rvx}{P_\rvt}\ket{S}}_{\text{Source Term}}
+\underbrace{G\stackt{P_\rvx}{P_\rvt}\ket{S}}_{\text{Source Term $\cala_S$}}
 \\
-&&\underbrace{+G\stackt{P_\rvx}{P_0}\kett{\eta_\rvx}{0}}_{\text
-{Initial Conditions (IC) term}}
+&&+\underbrace{G\stackt{P_\rvx}{P_0}\kett{\eta_\rvx}{0}}_{\text
+{Initial Conditions (IC) term  $\cala_{BC}$}}
 \\
-&&\underbrace{-D
+&&+\underbrace{D
 G\stackt{\left[-\ket{x'}\partial_{x'}\bra{x'}
 +
 \ket{x'}\cev{\partial}_{x'}\bra{x'}\right]_{x'=0}}{P_\rvt}
-\ket{\eta}}_{\text{Boundary Conditions (BC) term}}
+\ket{\eta}}_{\text{Boundary Conditions (BC) term $\cala_{BC}$}}
+\eeqa
+or, in non-Dirac notation,
+
+\beqa
+\eta\oneevent{x}{t}
+&=&
+\int_0^tdt'
+\int_0^\infty dx'\;G\twoevent{x}{t}{x'}{t'}S\oneevent{x'}{t'}
+\\
+&&+\int_0^\infty dx'\;
+G\twoevent{x}{t}{x'}{0}\eta_\rvx(x')
+\\
+&&+D
+\int_0^tdt'\;G\twoevent{x}{t}{0}{t'} \left[-\partial_{x'}
++ \cev{\partial}_{x'}
+\right]\eta\oneevent{0}{t'}
 \eeqa
 \end{claim}
 \proof
@@ -261,18 +302,24 @@ I_\rvt &=&
 \ket{\eta}
 \eeqa
 
+
+
 \beq
 \int_0^t
 dt'\;\partial_{t'} (\ket{t'}\bra{t'})
 =
 \ket{t}\bra{t}-\ket{0}\bra{0}
 \eeq
+\beq
+G\twoevent{x}{t}{x'}{t}= 0 \quad \text{if $x\neq x'$} \text{(no instant propagation)}
+\eeq
+ so
 
 
 \beq
 \boxed{I_\rvt =
-\brat{x}{t}G
-\stackt{P_\rvx}{\ket{t}\bra{t}-\ket{0}\bra{0}}
+-\brat{x}{t}G
+\stackt{P_\rvx}{\ket{0}\bra{0}}
 \ket{\eta}}
 \eeq
 \hrule
@@ -330,14 +377,7 @@ I_\rvx=
 \ket{x'}\cev{\partial}_{x'}\bra{x'}\right]_{x'=0}}{P_\rvt}
 \ket{\eta}}
 \eeq
-or, in non-Dirac notation,
 
-\beq
-I_\rvx =
-\int_0^tdt'\;G\twoevent{x}{t}{0}{t'} \left[-\partial_{x'}
-+ \cev{\partial}_{x'}
-\right]\eta\oneevent{0}{t'}
-\eeq
 
 \qed
 
@@ -347,25 +387,162 @@ must be specialized for
 each of the 3 possible
 types of BC. We show how to do  that below.
 
-A consequence of the Master Equation is that
+Careful: Note that
+\beq
+\partial_t G\twoevent{x}{t}{x'}{t'}=-\partial_{t'}G\twoevent{x}{t}{x'}{t'}
+\eeq
+and
+\beq
+\partial_x G\twoevent{x}{t}{x'}{t'}=-\partial_{x'}G\twoevent{x}{t}{x'}{t'}
+\eeq
+
+\begin{claim}(space-like propagation for $t=t'=0$)
 
 \beq
-G\twoevent{0}{t}{0}{t'}=0\implies\quad  G\twoevent{0}{t}{0}{t'}\cev{\partial}_{x'} 
-\propto \delta(t-t')
+G\twoevent{x}{0}{x'}{0}= \delta(x-x')
 \eeq
-and 
+\end{claim}
+\proof
 \beq
-G\twoevent{0}{t}{0}{t'}\cev{\partial}_{x'}=0
-\implies\quad
-G\twoevent{0}{t}{0}{t'} \propto \delta(t-t')
+\int_{0}^{t}dt'\;
+G\twoevent{x}{t}{x'}{t'}[\underbrace{\cev{\partial}_{t}}_{-\cev{\partial}_{t'}} -D\cev{\partial}_{x'}^2]
+=\int_{0}^{t}dt'\;
+\delta(x-x')\delta(t-t')
 \eeq
-This Green's function duality,
-together the final form for 
-the BC term of the Master Equation, implies that
+so integrating the time derivative term
+
+\beq
+-G\twoevent{x}{t}{x'}{t}
++G\twoevent{x}{t}{x'}{0}
+-D\int_0^t dt'\;
+G\twoevent{x}{t}{x'}{t'}\cev{\partial}^2_{x'}=\delta(x-x')
+\eeq
+For for an infinitesimal $t=\eps$,
+only one term survives 
+on the left hand side. Hence
+\beq
+G\twoevent{x}{\eps}{x'}{0}=\delta(x-x')
+\eeq
+
+\qed
+
+Consider the
+the master equation and its IC term in particular:
+\beq
+\eta(x,t)= \cala_S(x,t) + \cala_{IC}(x,t) + \cala_{BC}(x,t)
+\eeq
+
+\beq
+\cala_{IC}(x,t)=\int_0^\infty dx'\;
+G\twoevent{x}{t}{x'}{0}\eta_\rvx(x')
+\eeq
+When $t=0$,
+
+\beqa
+\cala_{IC}(x,0)=\int_0^\infty dx'\;
+\underbrace{G\twoevent{x}{0}{x'}{0}}_{\delta(x-x')}
+\eta_\rvx(x')
+\\
+&=& \eta_\rvx(x)
+\eeqa
+
+
+\begin{claim} (time-like propagation for $x=x'=0$)
+\label{cl-time-like-prop}
+
+\beq
+D \partial_{x'}G\twoevent{0}{t}{0}{t'} 
+=
+-D\partial_x G\twoevent{0}{t}{0}{t'}=
+ \delta(t-t')
+\eeq 
+\end{claim}
+\proof
+
+
+
+Note that
+
+\beq
+\int_{0}^{\infty}dx'\;
+G\twoevent{x}{t}{x'}{t'}[\underbrace{\cev{\partial}_{t}}_{-\cev{\partial}_{t'}} -D\cev{\partial}_{x'}^2]
+=\int_{0}^{\infty}dx'\;
+\delta(x-x')\delta(t-t')
+\eeq
+so integrating the second derivative
+
+\beq
+-\int_{0}^{\infty}dx'\;G\twoevent{0}{t}{x'}{t'}\cev{\partial}_{t'}+
+DG\twoevent{0}{t}{0}{t'}\cev{\partial}_{x'}=\delta(t-t')
+\eeq
+$G$ peaks when $x=x'$ so when $x=0$,
+we need only integrate over $[0,\eps]$
+for infinitesimal $\eps$.
+
+\beq
+-\int_{0}^{\eps}dx'\;G\twoevent{0}{t}{x'}{t'}\cev{\partial}_{t'}+
+DG\twoevent{0}{t}{0}{t'}\cev{\partial}_{x'}=\delta(t-t')
+\eeq
+A consequence of this is that
+As long as $t\neq t'$, $G\twoevent{0}{t}{x'}{t'}$
+is a finite function of $x'$ so
+the integral over $x'$ is proportional  to
+$\eps$ and may be assumed to vanish. 
+\qed
+
+Consider the
+the master equation and its BC term in particular:
+\beq
+\eta(x,t)= \cala_S(x,t) + \cala_{IC}(x,t) + \cala_{BC}(x,t)
+\eeq
+\beq
+\cala_{BC}=
+D
+\int_0^tdt'\;G\twoevent{x}{t}{0}{t'} \left[-\partial_{x'}
++ \cev{\partial}_{x'}
+\right]\eta\oneevent{0}{t'}
+\eeq
+The form of $\cala_{BC}$ and Claim
+\ref{cl-time-like-prop} imply that
 the Green's Function
 must satisfy the homogeneous
 version of the inhomogeneous BC
-satisfied by $\eta(x,t)$
+satisfied by $\eta(x,t)$.
+
+Indeed, if Dirichlet BC
+are satisfied
+
+\beq
+\eta(0,t)=D_\rvt(t),\quad G\twoevent{0}{t}{x'}{t'}=0
+\eeq
+then $\cala_{BC}(0, t)$ reduces to
+\beqa
+\cala_{BC}(0,t)&=&
+\int_0^tdt'\;\underbrace{DG\twoevent{0} {t}{0}{t'}[\cev{\partial}_{x'}]}_{\delta(t-t')}
+\eta\oneevent{0}{t'}
+\\
+&=&
+D_\rvt(t)
+\eeqa
+
+Likewise, if von Neumann BC
+are satisfied
+
+\beq
+\partial_x\eta(0,t)=N_\rvt(t),\quad \partial_x G\twoevent{0}{t}{x'}{t'}=0
+\eeq
+then $\partial_x\cala_{BC}(0, t)$ reduces to
+\beqa
+\partial_x\cala_{BC}(0, t)&=&
+\int_0^tdt'\;\underbrace{D\partial_x G\twoevent{0}{t}{0}{t'}}_{-\delta(t-t')} \left[-\partial_{x'}
+\right]\eta\oneevent{0}{t'}
+\\
+&=&
+N_\rvt(t)
+\eeqa
+
+
+
 
 
 \section{Point sources and their images}
@@ -375,6 +552,7 @@ the DE with delta function sources
 
 \beq
 \call_{x,t} G\twoevent{x}{t}{x'}{t'}=\delta(x-x')\delta(t-t')
+\quad \text{for all $x>0$ and $t>0$}
 \label{eq-LG-deltas}
 \eeq
 In addition, they must satisfy BC
@@ -383,7 +561,7 @@ solution $\eta(x,t)$.
 Below, we specify what BC the Green's function must satisfy.
 
 Let $P(x;\s^2)$
-represent the Normal distribution
+represent the Normal Distribution
 with mean zero and standard deviation $\s$:
 \beq
 P(x;\s^2)=\frac{1}{\sqrt{2\pi\s^2}}
@@ -400,7 +578,7 @@ G^\pm\twoevent{x}{t}{x'}{t'}
 \label{eq-def-green-pm}
 \eeqa
 where $\kappa =2D$. $G^\pm$ is centered at $x=\pm x'$
-The $G^\pm$  Green's function
+The $G^\pm$.  Green's functions
 will be used as a building blocks
 to construct the Green's functions
 appropriate to the various BC.
@@ -415,8 +593,11 @@ appropriate to the various BC.
 \end{figure}
 Fig.\ref{fig-g-plus-contour-plot} shows 
 countour plots for $G^+$. Note that 
-$G^+$ has a pole at $(x,t)=(x',t')$ and vanishes 
-for $x-x'<0$. The pole is the reason why 
+$G^+$ is zero along the line $t-t'=0$
+except at the point $(x-x', t-t')=(0,0)$ 
+where it \qt{spikes} and becomes infinite. Note also that we define
+$G=0$
+for all $x-x'<0$. The spike at the origin is the reason why 
 $\call_{x,t}G^+$ gives a delta function. 
 
 
@@ -424,38 +605,33 @@ $\call_{x,t}G^+$ gives a delta function.
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=3in]
+\includegraphics[width=4in]
 {green-fun-pde/de-integration-region.png}
 \caption{Integration region
-for Master Equation and poles of $G^\pm$.}
+for Master Equation and constant $G^\pm$ contours.}
 \label{fig-de-integration-region}
 \end{figure}
 
-Below, we will demonstrate
-that the Green's function $G_D$ for the Dirichlet
-BC and the Green's function $G_N$
-for the von Neumann BC satisfy 
+Below, we will claim
+that the Green's function $G^D$ for the Dirichlet
+BC and the Green's function $G^N$
+for the von Neumann BC, are  equal to
 
 \beq
-G_D =G^+-G^-, \quad  G_N=G^++ G^-
+G^D =G^+-G^-, \quad  G^N=G^++ G^-
 \eeq
+Note that the $G^-$ spike
+occurs at $x=-x'<0$ so
+\beq
+\call_{x,t}G^+= \delta(x-x')\delta(t-t'),\quad \call_{x,t}G^-= 0, \quad \text{for all $x>0$ and $t>0$}
+\eeq
+Hence, both $G^D$ and $G^N$ satisfy
+Eq.(\ref{eq-LG-deltas}) 
+in the region of interest (i.e., $x>0$ and $t>0$).
+
 Fig.\ref{fig-de-integration-region}
 shows the integration region
-for the Master Equation and the poles of $G^\pm$.
-We see that 
-the $G^-$ pole  is far removed from the region 
-of interest so even though
-\beq
-\call_{x,t}G^\pm= \delta(x\pm x')\delta(t-t')
-\eeq
-we may assume
-\beq
-\call_{x,t}(G^+\pm G^-)=\call_{x,t}G^+=
-\delta(x- x')\delta(t-t')
-\eeq
-Hence, both $G_D$ and $G_N$ satisfy
-Eq.(\ref{eq-LG-deltas}) as required.
-
+for the Master Equation and the spikes of $G^\pm$.
 
 
 
@@ -465,33 +641,16 @@ Eq.(\ref{eq-LG-deltas}) as required.
 \eta(0, t)= D_\rvt(t)
 \eeq
 
-Choose Green's function $G_D$ so that
+Choose Green's function $G^D$ so that
 it satisfies the DE with delta function source and obeys
 the same BC, but homogeneous
 \beq
-G_D\twoevent{0}{t}{x'}{t'}=0
+G^D\twoevent{0}{t}{x'}{t'}=0
 \eeq
-
-\beqa
-\text{BC term}&=&
--D\brat{x}{t}G_D
-\stackt{\left[
-\ket{x'}\cev{\partial}_{x'}\bra{x'}\right]_{x'=0}}{P_\rvt}
-\ket{\eta}
-\\
-&=&
--D\int_0^t dt'\;
-G_D\twoevent{x}{t}{0}{t'}\cev{\partial}_{x'}
-D_\rvt(t')
-\eeqa
-
-The $G^\pm$ Green's functions
-are defined  by Eq.(\ref{eq-def-green-pm}).
-The Green's  function 
-for the Dirichlet BC is
+The solution is
 
 \beq
-G_D= G^+ - G^-
+G^D= G^+ - G^-
 \eeq
 
 
@@ -500,7 +659,7 @@ G_D= G^+ - G^-
 At the boundary
 \beq
 \left.
-\partial_{x'} G_D
+\partial_{x'} G^D
 (x,t;x',t')
 \right|_{x'=0}
 =
@@ -509,27 +668,27 @@ At the boundary
 \frac{-x^2}{2\kappa(t-t')}
 \right)
 \eeq
-This $G_D$ was found by the method of images: two
+This $G^D$ was found by the method of images: two
 free space solutions $G^\pm$ to $\ul{\call}G^\pm=1$
 were superposed so as  to satisfy
-$G_D=0$ at the boundary $x=0$.
-\hrule
-At first glance, this result appears to imply
-that
+$G^D=0$ at the boundary $x=0$.
 
+\begin{claim}
+Prove that
 \beq
-\lim_{x\rarrow 0}(-D)
+\lim_{x\rarrow 0}D
 \int_0^{t} dt'\;
-[\partial_{x'} G_D(x,t;x',t')]_{x'=0}
+[\partial_{x'} G^D(x,t;x',t')]_{x'=0}
 =\delta(t-t')
 \eeq
-This is indeed the case. Let's prove
-explicitly for the Green's function $G_D=G^--G^+$
+using the explicit form of $G^D= G^+-G^-$.
+\end{claim}
+\proof
 
 Suppose
 
 \beq
-G^-(x,t;x',t')= P(x-x'; \kappa (t-t'))
+G^+(x,t;x',t')= P(x-x'; \kappa (t-t'))
 \eeq
 where $D=\kappa/2$.
 Define
@@ -539,9 +698,9 @@ y=\frac{x}{\sqrt{\kappa(t-t')}}=\frac{x}{\ell}
 \eeq
 Then
 \beqa
--D[\partial_{x'} G^-(x,t;x',t')]_{x'=0}&=&
-\left(\frac{-\kappa}{2}\right)
-\left(\frac{-x}{\ell^2}\right)\frac{1}{\ell\sqrt{2\pi}}\exp\left(
+D[\partial_{x'} G^+(x,t;x',t')]_{x'=0}&=&
+\left(\frac{\kappa}{2}\right)
+\left(\frac{(-1)^2 x}{\ell^2}\right)\frac{1}{\ell\sqrt{2\pi}}\exp\left(
 \frac{-x^2}{2\ell^2}\right)
 \\
 &=&
@@ -562,86 +721,63 @@ dy\sqrt{\kappa(t-t')}=dy\ell
 \eeq
 Hence
 \beq
--D\int_0^t dt'[\partial_{x'} G^-(x,t;x',t')]_{x'=0}=
+D\int_0^t dt'[\partial_{x'} G^+(x,t;x',t')]_{x'=0}=
 \int_{\frac{x}{\sqrt{\kappa t}}}^\infty
 dy \frac{1}{\sqrt{2\pi}}\exp\left(
 \frac{-y^2}{2}\right)=\frac{1}{2}
 \eeq
-
-
-It's illuminating to prove this with delta
-functions and their derivatives. To do so, assume
-\beq
- G^-(x,t;x',t') =\frac{1}{\ell} \delta\left(\frac{x-x'}{\ell}\right),
-\eeq
-Then
-
-\begin{align}
--D\int_0^t dt'[\partial_{x'} G^-(x,t;x',t')]_{x'=0}
-&=
--D\int_0^t \frac{dt'}{\ell^2} \delta'\left(\frac{x}{\ell}\right)
-\\
-&=
--D\int_0^t\frac{dt'}{\ell^2}\frac{1}{\eps}\left[
-\delta\left(\frac{x}{\ell}+\frac{\eps}{2}\right)-
-\delta\left(\frac{x}{\ell}-\frac{\eps}{2}\right)
-\right]
-\\
-&=
--
-\int_{\frac{x}{\sqrt{\kappa t}}}^\infty \frac{dy}{y}\frac{1}{\eps}\left[
-\delta\left(y+\frac{\eps}{2}\right)-
-\delta\left(y-\frac{\eps}{2}\right)
-\right]
-\\
-&= \int_{0}^\infty
-dy\;\delta\left(y\right)= \frac{1}{2}
-\end{align}
-Hence, the derivative
-of a delta function equals the difference of
-2 delta functions. We integrate over half of
-one of the two delta functions.
-
-
 \section{von Neumann BC}
 \beq
 \partial_x\eta(0, t)= N_\rvt(t)
 \eeq
 
-Choose Green's function $G_N$ so that
+Choose Green's function $G^N$ so that
 it satisfies the DE with delta function source and obeys
 the same BC, but homogeneous
 \beq
-G_N\twoevent{x}{t}{0}{t'}\cev{\partial}_{x'}=0
+G^N\twoevent{x}{t}{0}{t'}\cev{\partial}_{x'}=0
 \eeq
-
-\beqa
-\text{BC term}&=&
-D\brat{x}{t}G_N
-\stackt{\left[\ket{x'}\partial_{x'}\bra{x'}
-\right]_{x'=0}}{P_\rvt}
-\ket{\eta}
-\\
-&=&
-D\int_0^t dt'\;
-G_N\twoevent{x}{t}{0}{t'}
-N_\rvt(t')
-\eeqa
-
-The $G^\pm$ Green's functions
-are defined  by Eq.(\ref{eq-def-green-pm}).
-The Green's  function 
-for the von Neumann BC is
+The solution is
 
 \beq
-G_N= G^+ + G^-
+G^N= G^+ + G^-
 \eeq
-Note that for the Dirichlet BC problem, $G^+$ and $G^-$
+Note that for the Dirichlet BC problem, $G^+$ and $G^+$
 are subtracted instead if added.
 
 
-
-
-
 \section{Mixed (Robin) BC}
+\beq
+a_0\eta(0, t) + a_1\partial_x \eta(0, t)= R_\rvt(t)
+\eeq
 
+Choose Green's function $G^R$ so that
+it satisfies the DE with delta function source and obeys
+the same BC, but homogeneous
+\beq
+[a_0 +  a_1 \partial_x]G^R\twoevent{0}{t}{x'}{t'}=0
+\eeq
+The solution is
+
+\beq
+G^R= G^+ + G^-
+-2k\int_0^\infty 
+dX\;e^{-k X} G^+\twoevent{x}{t}{x'+X}{t'}
+\eeq
+where $k= \frac{a_0}{a_1}$.
+
+Dirichlet limit, $k\rarrow \infty$:
+
+\beq
+k e^{-kX}\rarrow \delta(X)
+\eeq
+
+\beq
+G^R\rarrow G^+ + G^- -2G^+= G^+-G^- = G^D
+\eeq
+
+von Neumann limit, $k=0$:
+
+\beq
+G^R=G^++G^-= G^N
+\eeq
