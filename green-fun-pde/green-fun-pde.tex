@@ -862,7 +862,7 @@ G^R=G^++G^-= G^N
 
 Define
 \beq
-\call_{x,t}= \partial^2_t -D \partial_x^2,\quad
+\call_{x,t}= \partial^2_t -c^2 \partial_x^2,\quad
 \call_{x,t} G\twoevent{x}{t}{x'}{t'}=\stackt{\delta(x-x')}{\delta(t-t')}
 \eeq
 
@@ -896,30 +896,32 @@ momentum are $L^{-1}$.
 In High Energy Physics units, $c$ and the Green's function $G$ for the Wave Equation
 are dimensionless. 
 
-\newcommand{\xp}[0]{{x_{+}}}
-\newcommand{\xm}[0]{{x_{-}}}
+\newcommand{\tp}[0]{{t_{+}}}
+\newcommand{\tm}[0]{{t_{-}}}
+\newcommand{\tpp}[0]{{t'_{+}}}
+\newcommand{\tmp}[0]{{t'_{-}}}
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=2in]
 {green-fun-pde/light-cone-coords.png}
-\caption{$(x,t)$ and $(\xp, \xm)$  axes.}
+\caption{$(x,t)$ and $(\tp, \tm)$  axes.}
 \label{fig-light-cone-coords}
 \end{figure}
-Light cone coordinates
+{\bf Light cone coordinates}
 \beq
-x_\pm = \frac{x\pm t}{\sqrt{2}}
+t_\pm = \frac{t\pm x}{\sqrt{2}}
 \eeq
 
 \beq
 \begin{pmatrix}
-\xp \\ \xm
+\tp \\ \tm
 \end{pmatrix}
 =
 \underbrace{\frac{1}{\sqrt{2}}
 \begin{pmatrix}
 1 &1\\
-1&-1
+-1&1
 \end{pmatrix}}_{M}
 \begin{pmatrix}
 x\\t
@@ -927,7 +929,7 @@ x\\t
 \eeq
 
 \beq
-M^{-1} = M
+M^{-1} = M^T
 \eeq
 
 \beq
@@ -936,29 +938,29 @@ x\\t
 \end{pmatrix}=
 M
 \begin{pmatrix}
-\xp\\\xm
+\tp\\\tm
 \end{pmatrix}
 \eeq
 
 
-\beq
+\beqa
 \begin{pmatrix}
 (\partial_x)_t
 \\
 (\partial_t)_x
 \end{pmatrix}f(x,t)
-=
-\begin{pmatrix}
-\partial_x \xp & \partial_t  \xp
+&=&
+\underbrace{\begin{pmatrix}
+\partial_x \tp & \partial_t  \tp
 \\
-\partial_x \xm & \partial_t  \xm
-\end{pmatrix}
+\partial_x \tm & \partial_t  \tm
+\end{pmatrix}}_M
 \begin{pmatrix}
-(\partial_\xp)_\xm
+(\partial_\tp)_\tm
 \\
-(\partial_\xm)_\xp
-\end{pmatrix}F(\xp, \xm)
-\eeq
+(\partial_\tm)_\tp
+\end{pmatrix}F(\tp, \tm)
+\eeqa
 
 \beq
 \begin{pmatrix}
@@ -966,13 +968,13 @@ M
 \end{pmatrix}=
 M
 \begin{pmatrix}
-\partial_\xp \\ \partial_\xm
+\partial_\tp \\ \partial_\tm
 \end{pmatrix}
 \eeq
 
 \beq
 \begin{pmatrix}
-\partial_\xp \\ \partial_\xm
+\partial_\tp \\ \partial_\tm
 \end{pmatrix}
 = M
 \begin{pmatrix}
@@ -982,7 +984,7 @@ M
 
 \beq
 dx\;dt = \frac{\partial(x, t)}
-{\partial(\xp, \xm)}d\xp\;d\xm = \underbrace{\det M}_1 d\xp\;d\xm
+{\partial(\tp, \tm)}d\tp\;d\tm = \underbrace{\det M}_1 d\tp\;d\tm
 \eeq
 
 \beq
@@ -991,10 +993,10 @@ dx\;dt = \frac{\partial(x, t)}
 \delta(x-x')
 \delta(t-t')
 =
-\int_{-\infty}^\infty d\xp
-\int_{-\infty}^\infty d\xm\;
-\delta(\xp-\xp')
-\delta(\xm-\xm')
+\int_{-\infty}^\infty d\tp
+\int_{-\infty}^\infty d\tm\;
+\delta(\tp-\tpp)
+\delta(\tm-\tmp)
 =1
 \eeq
 
@@ -1002,19 +1004,34 @@ dx\;dt = \frac{\partial(x, t)}
 \delta(x-x')
 \delta(t-t')
 =
-\delta(\xp-\xp')
-\delta(\xm-\xm')
+\delta(\tp-\tpp)
+\delta(\tm-\tmp)
 \eeq
 
 \beq
 \partial^2_t-\partial^2_x=
--(\partial_x + \partial_t)
-(\partial_x - \partial_t)= -2\partial_\xp\partial_\xm
+(\partial_t + \partial_x)
+(\partial_t - \partial_x)= 2\partial_\tp\partial_\tm
 \eeq 
 
 \beq
-\indi(t>|x|) = \indi(t>x)\indi(t>-x)=\indi(\xp>0)\indi(\xm>0)
+\indi(t>|x|) = \indi(t>x)\indi(t>-x)=\indi(\tm>0)\indi(\tp>0)
 \eeq
+
+\begin{align}
+[\partial^2_t-\partial^2_x]
+\indi(t-t'>|x-x'|)&=
+2\partial_\tp\partial_\tm
+\indi(\tm-\tmp>0)\indi(\tp-\tpp>0)
+\\
+&=\delta(\tp-\tpp)\delta(\tm-\tmp)
+\\
+&=
+\delta(x-x')\delta(t-t')
+\end{align}
+
+
+
 
 
 \subsection{Master Solution}
