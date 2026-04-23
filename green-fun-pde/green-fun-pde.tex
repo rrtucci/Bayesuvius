@@ -883,12 +883,146 @@ Define
 \engdim{G}=T/L =\engdim{c^{-1}}
 \eeq
 
+Henceforth, we will use the units 
+used in High Energy
+Physics in which $\hbar$ (Plank's constant $h$ divided by $2\pi$) and $c$ (speed of light) are set to 1 
+temporarily, and then restored when one needs actual values in MKS units. In such units,\footnote{The usual engineering dimensional analysis
+uses $M$=mass, $L$=length and $T$= time. If we remove two degrees of freedom (dofs) by setting $\hbar=c=1$,
+then only one dof, which we choose to be $L$, is left. }
+everything has dimensions of $L^D$, where $L$
+stands for length, and $D$ is some rational number. The dimensions of length and time are $L$ and those of energy, mass and
+momentum are $L^{-1}$.
+
+In High Energy Physics units, $c$ and the Green's function $G$ for the Wave Equation
+are dimensionless. 
+
+\newcommand{\xp}[0]{{x_{+}}}
+\newcommand{\xm}[0]{{x_{-}}}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2in]
+{green-fun-pde/light-cone-coords.png}
+\caption{$(x,t)$ and $(\xp, \xm)$  axes.}
+\label{fig-light-cone-coords}
+\end{figure}
+Light cone coordinates
+\beq
+x_\pm = \frac{x\pm t}{\sqrt{2}}
+\eeq
+
+\beq
+\begin{pmatrix}
+\xp \\ \xm
+\end{pmatrix}
+=
+\underbrace{\frac{1}{\sqrt{2}}
+\begin{pmatrix}
+1 &1\\
+1&-1
+\end{pmatrix}}_{M}
+\begin{pmatrix}
+x\\t
+\end{pmatrix}
+\eeq
+
+\beq
+M^{-1} = M
+\eeq
+
+\beq
+\begin{pmatrix}
+x\\t
+\end{pmatrix}=
+M
+\begin{pmatrix}
+\xp\\\xm
+\end{pmatrix}
+\eeq
+
+
+\beq
+\begin{pmatrix}
+(\partial_x)_t
+\\
+(\partial_t)_x
+\end{pmatrix}f(x,t)
+=
+\begin{pmatrix}
+\partial_x \xp & \partial_t  \xp
+\\
+\partial_x \xm & \partial_t  \xm
+\end{pmatrix}
+\begin{pmatrix}
+(\partial_\xp)_\xm
+\\
+(\partial_\xm)_\xp
+\end{pmatrix}F(\xp, \xm)
+\eeq
+
+\beq
+\begin{pmatrix}
+\partial_x \\\partial_t
+\end{pmatrix}=
+M
+\begin{pmatrix}
+\partial_\xp \\ \partial_\xm
+\end{pmatrix}
+\eeq
+
+\beq
+\begin{pmatrix}
+\partial_\xp \\ \partial_\xm
+\end{pmatrix}
+= M
+\begin{pmatrix}
+\partial_x \\\partial_t
+\end{pmatrix}
+\eeq
+
+\beq
+dx\;dt = \frac{\partial(x, t)}
+{\partial(\xp, \xm)}d\xp\;d\xm = \underbrace{\det M}_1 d\xp\;d\xm
+\eeq
+
+\beq
+\int_{-\infty}^\infty dx
+\int_{-\infty}^\infty dt\;
+\delta(x-x')
+\delta(t-t')
+=
+\int_{-\infty}^\infty d\xp
+\int_{-\infty}^\infty d\xm\;
+\delta(\xp-\xp')
+\delta(\xm-\xm')
+=1
+\eeq
+
+\beq
+\delta(x-x')
+\delta(t-t')
+=
+\delta(\xp-\xp')
+\delta(\xm-\xm')
+\eeq
+
+\beq
+\partial^2_t-\partial^2_x=
+-(\partial_x + \partial_t)
+(\partial_x - \partial_t)= -2\partial_\xp\partial_\xm
+\eeq 
+
+\beq
+\indi(t>|x|) = \indi(t>x)\indi(t>-x)=\indi(\xp>0)\indi(\xm>0)
+\eeq
+
+
 \subsection{Master Solution}
 
 \begin{claim}
 Suppose
 \beq
-\call_{x,t}= \partial^2_t -c^2 \partial_x^2,\quad
+\call_{x,t}= \partial^2_t - \partial_x^2,\quad
 \call_{x,t} G\twoevent{x}{t}{x'}{t'}=\stackt{\delta(x-x')}{\delta(t-t')}
 \eeq
 The solution to the equation
@@ -914,7 +1048,7 @@ and Dirichlet, Neumann or Robin boundary conditions satisfies the {\bf master so
 \ket{t'}\cev{\partial}_{t'}\bra{t'}\right]_{t'=0}}}_
 {\text{Initial Conditions (IC) term  $\cala_{IC}$}}
 \\
-&&+\underbrace{c^2
+&&+\underbrace{
 G\stackt{\left[-\ket{x'}\partial_{x'}\bra{x'}
 +
 \ket{x'}\cev{\partial}_{x'}\bra{x'}\right]_{x'=0}}{P_\rvt}
@@ -934,7 +1068,7 @@ G\twoevent{x}{t}{x'}{0}
 - \cev{\partial}_{t'}
 \right]\eta_\rvx\oneevent{x'}{0}
 \\
-&&+c^2
+&&+
 \int_0^tdt'\;G\twoevent{x}{t}{0}{t'} \left[-\partial_{x'}
 + \cev{\partial}_{x'}
 \right]\eta\oneevent{0}{t'}
@@ -980,9 +1114,9 @@ satisfies the IC.
 \label{cl-time-like-prop}
 
 \beq
-c^2 \partial_{x'}G\twoevent{0}{t}{0}{t'} 
+\partial_{x'}G\twoevent{0}{t}{0}{t'} 
 =
--c^2\partial_x G\twoevent{0}{t}{0}{t'}=
+-\partial_x G\twoevent{0}{t}{0}{t'}=
  \delta(t-t')
 \eeq 
 As a consequence of this,
