@@ -1,4 +1,4 @@
-\chapter{Green Functions for PDE}
+\chapter{Green's Functions for PDE}
 \label{ch-green-fun-pde}
 
 \section{Introduction}
@@ -104,12 +104,33 @@ Fig.\ref{fig-dir-s1-s2} shows the solution to the diffusion equation at two diff
 Fig.\ref{fig-neu-s1-s2} shows the solution to the diffusion equation at two different times for Neumann BC.
 
 
+\section{Initial Condition Types}
+Initial Conditions (IC)
 
-\section{Diffusion Equation}
+\begin{itemize}
+\item No IC for {\bf Elliptic PDEs}  like Laplace Equation  $\partial_x^2\eta
++\partial_y^2\eta=0$
+ that have no time derivatives.
+
+\item {\bf First order IC} for {\bf Hyperbolic PDEs}  like Diffusion Equation  $\partial_t\eta=D\partial_x^2\eta$
+ that are first order
+in time derivative
+\beq \eta(x,0)= \eta_\rvx(x)
+\eeq
+
+\item {\bf Cauchy IC} for {\bf Parabolic PDEs} like Wave Equation  $\partial^2_t\eta=c^2\partial_x^2\eta$ that are second order in time derivative 
+
+\beq \eta(x,0)= \eta_\rvx(x),\quad
+\partial_t(x,0) = C_\rvx(x)
+\eeq
+
+\end{itemize}
+
+\section{Diffusion Equation (Hyperbolic)}
 
 
 
-\subsection{Notation},
+\subsection{Notation and Conventions},
 I will often use specialized 
 notation in this chapter to
 express with more clarity 
@@ -150,7 +171,18 @@ Define
 \quad \call^\dagger_{x,t}G^\dagger\twoevent{x'}{t'}{x}{t}=\stackt{\delta(x-x')}{\delta(t-t')}
 \eeq
 
+\beq
+\engdim{D}\engdim{\partial_x^2} = 
+\engdim{\partial_t}\implies 
+\engdim{D} = L^2/T
+\eeq
 
+\beq
+\engdim{\partial_t}\engdim{G}=
+\engdim{\delta(x)}\engdim{\delta(t)}
+\implies 
+\engdim{G}=1/L
+\eeq
 
 
 \beq
@@ -195,7 +227,7 @@ for dual tensor product spaces
 \brat{x}{t}=\bra{x}\otimes\bra{t}
 \eeq
 
-\subsection{Master Equation}
+\subsection{Master Solution}
 \begin{claim}
 Suppose
 \beq
@@ -211,7 +243,7 @@ with initial conditions
 \beq
 \eta(x,0)= \eta_\rvx(x)
 \eeq
-and Dirichlet, Neumann or Robin boundary conditions satisfies the {\bf master equation}:
+and Dirichlet, Neumann or Robin boundary conditions satisfies the {\bf master solution}:
 
 \beqa
 \ket{\eta}
@@ -219,7 +251,7 @@ and Dirichlet, Neumann or Robin boundary conditions satisfies the {\bf master eq
 \underbrace{G\stackt{P_\rvx}{P_\rvt}\ket{S}}_{\text{Source Term $\cala_S$}}
 \\
 &&+\underbrace{G\stackt{P_\rvx}{P_0}\kett{\eta_\rvx}{0}}_{\text
-{Initial Conditions (IC) term  $\cala_{BC}$}}
+{Initial Conditions (IC) term  $\cala_{IC}$}}
 \\
 &&+\underbrace{D
 G\stackt{\left[-\ket{x'}\partial_{x'}\bra{x'}
@@ -415,7 +447,7 @@ I_\rvx=
 \qed
 
 The BC term 
-of the Master Equation 
+of the Master Solution 
 must be specialized for
 each of the 3 possible
 types of BC. We show how to do  that below.
@@ -434,6 +466,8 @@ and
 \beq
 G\twoevent{x}{0}{x'}{0}= \delta(x-x')
 \eeq
+As a consequence of this, the Master Solution
+satisfies the IC.
 \end{claim}
 \proof
 \beq
@@ -457,10 +491,10 @@ on the left hand side. Hence
 G\twoevent{x}{\eps}{x'}{0}=\delta(x-x')
 \eeq
 
-\qed
+
 
 Consider the
-the master equation and its IC term in particular:
+the master solution and its IC term in particular:
 \beq
 \eta(x,t)= \cala_S(x,t) + \cala_{IC}(x,t) + \cala_{BC}(x,t)
 \eeq
@@ -472,13 +506,13 @@ G\twoevent{x}{t}{x'}{0}\eta_\rvx(x')
 When $t=0$,
 
 \beqa
-\cala_{IC}(x,0)=\int_0^\infty dx'\;
+\cala_{IC}(x,0)&=&\int_0^\infty dx'\;
 \underbrace{G\twoevent{x}{0}{x'}{0}}_{\delta(x-x')}
 \eta_\rvx(x')
 \\
 &=& \eta_\rvx(x)
 \eeqa
-
+\qed
 
 \begin{claim} (time-like propagation for $x=x'=0$)
 \label{cl-time-like-prop}
@@ -489,6 +523,13 @@ D \partial_{x'}G\twoevent{0}{t}{0}{t'}
 -D\partial_x G\twoevent{0}{t}{0}{t'}=
  \delta(t-t')
 \eeq 
+As a consequence of this,
+the Master solution satisfies the BC.
+Furthermore, 
+the Green's Function
+must satisfy the homogeneous
+version of the inhomogeneous BC
+satisfied by $\eta(x,t)$.
 \end{claim}
 \proof
 
@@ -521,10 +562,9 @@ As long as $t\neq t'$, $G\twoevent{0}{t}{x'}{t'}$
 is a finite function of $x'$ so
 the integral over $x'$ is proportional  to
 $\eps$ and may be assumed to vanish. 
-\qed
 
 Consider the
-the master equation and its BC term in particular:
+the master solution and its BC term in particular:
 \beq
 \eta(x,t)= \cala_S(x,t) + \cala_{IC}(x,t) + \cala_{BC}(x,t)
 \eeq
@@ -573,6 +613,7 @@ then $\partial_x\cala_{BC}(0, t)$ reduces to
 &=&
 N_\rvt(t)
 \eeqa
+\qed
 
 
 
@@ -641,7 +682,7 @@ $\call_{x,t}G^+$ gives a delta function.
 \includegraphics[width=4in]
 {green-fun-pde/de-integration-region.png}
 \caption{Integration region
-for Master Equation and constant $G^\pm$ contours.}
+for Master Solution and constant $G^\pm$ contours.}
 \label{fig-de-integration-region}
 \end{figure}
 
@@ -664,7 +705,7 @@ in the region of interest (i.e., $x>0$ and $t>0$).
 
 Fig.\ref{fig-de-integration-region}
 shows the integration region
-for the Master Equation and the spikes of $G^\pm$.
+for the Master Solution and the spikes of $G^\pm$.
 
 
 
@@ -815,11 +856,145 @@ Neumann limit, $k=0$:
 G^R=G^++G^-= G^N
 \eeq
 
-\section{Wave Equation}
+\section{Wave Equation (Parabolic)}
 
-\subsection{Notation}
+\subsection{Notation and Conventions}
 
-\subsection{Master Equation}
+Define
+\beq
+\call_{x,t}= \partial^2_t -D \partial_x^2,\quad
+\call_{x,t} G\twoevent{x}{t}{x'}{t'}=\stackt{\delta(x-x')}{\delta(t-t')}
+\eeq
+
+\beq 
+\call^\dagger = \call, \quad G^\dagger = G
+\eeq
+
+\beq
+\engdim{c^2}\engdim{\partial_x^2} = 
+\engdim{\partial^2_t}\implies 
+\engdim{c} = L/T
+\eeq
+
+\beq
+\engdim{\partial^2_t}\engdim{G}=
+\engdim{\delta(x)}\engdim{\delta(t)}
+\implies 
+\engdim{G}=T/L =\engdim{c^{-1}}
+\eeq
+
+\subsection{Master Solution}
+
+\begin{claim}
+Suppose
+\beq
+\call_{x,t}= \partial^2_t -c^2 \partial_x^2,\quad
+\call_{x,t} G\twoevent{x}{t}{x'}{t'}=\stackt{\delta(x-x')}{\delta(t-t')}
+\eeq
+The solution to the equation
+\beq
+\call_{x,t} \eta (x,t) = S(x,t)\quad
+\eeq
+for $x>0$ and $t>0$
+with Cauchy initial conditions
+\beq
+\eta(x,0)= \eta_\rvx(x),
+\quad \partial_x\eta(x,0)=C_\rvx(x)
+\eeq
+and Dirichlet, Neumann or Robin boundary conditions satisfies the {\bf master solution}:
+
+\beqa
+\ket{\eta}
+&=&
+\underbrace{G\stackt{P_\rvx}{P_\rvt}\ket{S}}_{\text{Source Term $\cala_S$}}
+\\
+&&+\underbrace{G
+\stackt{P_\rvx}{\left[\ket{t'}\partial_{t'}\bra{t'}
+-
+\ket{t'}\cev{\partial}_{t'}\bra{t'}\right]_{t'=0}}}_
+{\text{Initial Conditions (IC) term  $\cala_{IC}$}}
+\\
+&&+\underbrace{c^2
+G\stackt{\left[-\ket{x'}\partial_{x'}\bra{x'}
++
+\ket{x'}\cev{\partial}_{x'}\bra{x'}\right]_{x'=0}}{P_\rvt}
+\ket{\eta}}_{\text{Boundary Conditions (BC) term $\cala_{BC}$}}
+\eeqa
+or, in non-Dirac notation,
+
+\beqa
+\eta\oneevent{x}{t}
+&=&
+\int_0^tdt'
+\int_0^\infty dx'\;G\twoevent{x}{t}{x'}{t'}S\oneevent{x'}{t'}
+\\
+&&+\int_0^\infty dx'\;
+G\twoevent{x}{t}{x'}{0}
+\left[\partial_{t'}
+- \cev{\partial}_{t'}
+\right]\eta_\rvx\oneevent{x'}{0}
+\\
+&&+c^2
+\int_0^tdt'\;G\twoevent{x}{t}{0}{t'} \left[-\partial_{x'}
++ \cev{\partial}_{x'}
+\right]\eta\oneevent{0}{t'}
+\eeqa
+\end{claim}
+\proof
+\qed
+
+The BC term 
+of the Master Solution 
+must be specialized for
+each of the 3 possible
+types of BC. We show how to do  that below.
+
+Careful: Note that
+\beq
+\partial_t G\twoevent{x}{t}{x'}{t'}=-\partial_{t'}G\twoevent{x}{t}{x'}{t'}
+\eeq
+and
+\beq
+\partial_x G\twoevent{x}{t}{x'}{t'}=-\partial_{x'}G\twoevent{x}{t}{x'}{t'}
+\eeq
+
+\begin{claim}(space-like propagation for $t=t'=0$)
+
+\beq
+G\twoevent{x}{0}{x'}{0}=\delta(x-x')
+\eeq
+
+\beq
+ -\partial_{t'}G\twoevent{x}{0}{x'}{0} 
+=
+\partial_t G\twoevent{x}{0}{x'}{0}=
+ \delta(x-x')
+\eeq 
+As a consequence of this, the Master Solution
+satisfies the IC.
+\end{claim}
+\proof
+\qed
+
+\begin{claim} (time-like propagation for $x=x'=0$)
+\label{cl-time-like-prop}
+
+\beq
+c^2 \partial_{x'}G\twoevent{0}{t}{0}{t'} 
+=
+-c^2\partial_x G\twoevent{0}{t}{0}{t'}=
+ \delta(t-t')
+\eeq 
+As a consequence of this,
+the Master solution satisfies the BC.
+Furthermore, 
+the Green's Function
+must satisfy the homogeneous
+version of the inhomogeneous BC
+satisfied by $\eta(x,t)$.
+\end{claim}
+\proof
+\qed
 
 \subsection{Point Sources and their Images}
 
@@ -828,3 +1003,5 @@ G^R=G^++G^-= G^N
 \subsection{Neumann BC}
 
 \subsection{Mixed (Robin) BC}
+
+\section{Laplace Equation (Hyperbolic)}
