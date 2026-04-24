@@ -643,12 +643,12 @@ with mean zero and standard deviation $\s$:
 \eeq
 Let 
 \beqa
-G^\pm\twoevent{x}{t}{x'}{t'}
+G^\pm\twoevent{x}{t}{x'}{t'}\indi(t>t')
 &=&
 \frac{1}{\sqrt{4\pi D(t-t')}}
 \exp\left[-\;\frac{(x\mp x')^2}{4D(t-t')}\right]
 \\
-&=& \caln(x\mp x'; \kappa(t-t'))
+&=& \caln(x\mp x'; \kappa(t-t'))\indi(t>t')
 \label{eq-def-green-pm}
 \eeqa
 where $\kappa =2D$. $G^\pm$ is centered at $x=\pm x'$
@@ -657,16 +657,34 @@ will be used as a building blocks
 to construct the Green's functions
 appropriate to the various BC.
 
+Note that the functions $G^\pm$
+satisfy Eq.(\ref{eq-LG-deltas}) so they are bona fide Green's functions. Indeed,
+
+\beq
+\call_{x,t}\underbrace{\caln(x\mp x'; \kappa(t-t'))}_{\caln_\mp}=0\quad \text{for $x>0$ 
+and $t>0$}
+\eeq
+Therefore, 
+
+\beqa
+\call_{x,t}\left[\caln_\mp \indi(t-t'>0)\right]&=& \caln_\mp\partial_t\indi(t-t'>0)
+\\
+&=&
+\caln_\mp \delta(t-t')
+\\
+&=& \delta(x\mp x')\delta(t-t')
+\eeqa
+
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=6in]
 {green-fun-pde/g-plus-contour-plot.png}
-\caption{Contour plots of the function $G^+\twoevent{x}{t}{x'}{t'} = \caln(x-x';\kappa(t-t'))$}
+\caption{Contour plots of the function $G^+\twoevent{x}{t}{x'}{t'} = \caln(x-x';\kappa(t-t'))\indi(t>t')$}
 \label{fig-g-plus-contour-plot}
 \end{figure}
 Fig.\ref{fig-g-plus-contour-plot} shows 
-countour plots for $G^+$. Note that 
+contour plots for $G^+$. Note that 
 $G^+$ is zero along the line $t-t'=0$
 except at the point $(x-x', t-t')=(0,0)$ 
 where it \qt{spikes} and becomes infinite. Note also that we define
@@ -905,7 +923,8 @@ are dimensionless.
 \centering
 \includegraphics[width=2in]
 {green-fun-pde/light-cone-coords.png}
-\caption{$(x,t)$ and $(\tp, \tm)$  axes.}
+\caption{$(x,t)$ and $(\tp, \tm)$  axes.
+Shaded area (extended towards $t=\infty$) is future or forward light cone.}
 \label{fig-light-cone-coords}
 \end{figure}
 {\bf Light cone coordinates}
@@ -1015,13 +1034,12 @@ dx\;dt = \frac{\partial(x, t)}
 \eeq 
 
 \beq
-\call_{\tp,\tm}= 2\partial_\tp\partial_\tm,\quad
-\call_{\tp, \tm} G\twoevent{\tp}{\tm}{\tpp}{\tmp}=\stackt{\delta(\tp-\tpp)}{\delta(\tm-\tmp)}
-\eeq
-
-\beq
 \indi(t>|x|) = \indi(t>x)\indi(t>-x)=\indi(\tm>0)\indi(\tp>0)
 \eeq
+
+
+
+
 
 \begin{align}
 [\partial^2_t-\partial^2_x]
@@ -1029,12 +1047,11 @@ dx\;dt = \frac{\partial(x, t)}
 2\partial_\tp\partial_\tm
 \indi(\tm-\tmp>0)\indi(\tp-\tpp>0)
 \\
-&=\delta(\tp-\tpp)\delta(\tm-\tmp)
+&=2\delta(\tp-\tpp)\delta(\tm-\tmp)
 \\
 &=
-\delta(x-x')\delta(t-t')
+2\delta(x-x')\delta(t-t')
 \end{align}
-
 
 
 
@@ -1153,26 +1170,59 @@ satisfied by $\eta(x,t)$.
 \qed
 
 \subsection{Point Sources and their Images}
+
+
 \beq
 \call_{x,t} G\twoevent{x}{t}{x'}{t'}=\delta(x-x')\delta(t-t')
 \quad \text{for all $x>0$ and $t>0$}
+\label{eq-LG-deltas-wave}
 \eeq
 
 
-\beq
-\call_{\tp,\tm} G\twoevent{\tp}{\tm}{\tpp}{\tmp}=
-\delta(\tp-\tpp)\delta(\tm-\tmp)
-\quad \text{for all $x>0$ and $t>0$}
-\eeq
 
 \beq
 G_0\twoevent{x}{t}{x'}{t'}
 =\frac{1}{2}\indi(t-t'> |x-x'|)
 \eeq
 \beq
-G_0\twoevent{\tp}{\tm}{\tpp}{\tmp}=
+G_0\twoevent{\tp}{\tm}{\tpp}{\tmp}
 =\frac{1}{2}\indi(\tp>\tpp)\indi(\tm>\tmp)
 \eeq
+
+Note that the function $G_0$
+satisfies Eq.(\ref{eq-LG-deltas-wave}) so it is a  bona fide Green's function. Indeed, as using
+identities previously  proven  for
+light cone coordinates, we get
+
+If
+\beq
+\call_{x,t}=\partial_t^2-\partial_x^2,\quad
+\call_{\tp,\tm}= 2\partial_\tp\partial_\tm
+\eeq
+then
+
+\beq
+\call_{x,t}G_0\twoevent{x}{t}{x'}{t'}=
+\call_{\tp, \tm} G_0\twoevent{\tp}{\tm}{\tpp}{\tmp}=\stackt{\delta(\tp-\tpp)}{\delta(\tm-\tmp)}
+=
+\stackt{\delta(x-x')}{\delta(t-t')}
+\eeq
+
+$G_0$ is a unit step advancing at speed $c=1$ 
+towards $x-x'=\infty$ for $x-x'>0$
+and towards $x-x'=-\infty$ for $x-x'<0$.
+The side of the step closest to $x-x'=0$
+has $G_0=1$, and the other side has $G_0=0$.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2in]
+{green-fun-pde/g0-support.png}
+\caption{$G_0\twoevent{x}{t}{x'}{t'}$ support is shaded area  (extended towards $t-t'=\infty$). $G_0=1$ over support and
+$G_0=0$ elsewhere.}
+\label{fig-g0-support}
+\end{figure}
+
 
 \subsection{Dirichlet BC}
 
