@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 def green_plus_green_minus_plots(s):
     """
-    If N(x;s^2) is normal distribution with mean and
+    If N(x;s^2) is normal distribution with mean zero and
     standard deviation s, plot
     N(x-1;s^2)
     N(x+1;s^2)
@@ -62,7 +62,7 @@ def green_plus_green_minus_plots(s):
 
 def green_pm_s1_s2_plots(s1, s2, sign):
     """
-    If N(x;s^2) is normal distribution with mean and
+    If N(x;s^2) is normal distribution with mean zero and
     standard deviation s, plot
     N(x-1;s1^2) + sign* N(x+1;s1^2)
     N(x-1;s2^2) + sign* N(x+1;s2^2)

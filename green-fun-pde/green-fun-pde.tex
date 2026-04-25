@@ -227,7 +227,7 @@ for dual tensor product spaces
 \brat{x}{t}=\bra{x}\otimes\bra{t}
 \eeq
 
-\subsection{Master Solution}
+\subsection{General Solution}
 \begin{claim}
 Suppose
 \beq
@@ -243,7 +243,7 @@ with initial conditions
 \beq
 \eta(x,0)= \eta_\rvx(x)
 \eeq
-and Dirichlet, Neumann or Robin boundary conditions satisfies the {\bf master solution}:
+and Dirichlet, Neumann or Robin boundary conditions satisfies the {\bf general solution}:
 
 \beqa
 \ket{\eta}
@@ -447,7 +447,7 @@ I_\rvx=
 \qed
 
 The BC term 
-of the Master Solution 
+of the General Solution 
 must be specialized for
 each of the 3 possible
 types of BC. We show how to do  that below.
@@ -466,7 +466,7 @@ and
 \beq
 G\twoevent{x}{0}{x'}{0}= \delta(x-x')
 \eeq
-As a consequence of this, the Master Solution
+As a consequence of this, the General Solution
 satisfies the IC.
 \end{claim}
 \proof
@@ -524,7 +524,7 @@ D \partial_{x'}G\twoevent{0}{t}{0}{t'}
  \delta(t-t')
 \eeq 
 As a consequence of this,
-the Master solution satisfies the BC.
+the General solution satisfies the BC.
 Furthermore, 
 the Green's Function
 must satisfy the homogeneous
@@ -641,24 +641,33 @@ with mean zero and standard deviation $\s$:
 \caln(x;\s^2)=\frac{1}{\sqrt{2\pi\s^2}}
 \exp\left(\frac{-x^2}{2\s^2}\right)
 \eeq
+
+
 Let 
 \beqa
-G^\pm\twoevent{x}{t}{x'}{t'}\indi(t>t')
-&=&
-\frac{1}{\sqrt{4\pi D(t-t')}}
-\exp\left[-\;\frac{(x\mp x')^2}{4D(t-t')}\right]
-\\
-&=& \caln(x\mp x'; \kappa(t-t'))\indi(t>t')
+G^\pm\twoevent{x}{t}{x'}{t'}
+&=& \caln(x\mp x'; \kappa(t-t'))\indi(t>t') = g_0(x-x', t-t')
 \label{eq-def-green-pm}
 \eeqa
 where $\kappa =2D$. $G^\pm$ is centered at $x=\pm x'$
-The $G^\pm$.  Green's functions
+The $G^\pm$  Green's functions
 will be used as a building blocks
 to construct the Green's functions
 appropriate to the various BC.
+$G^+$ is  called the {\bf free space (no BC) Green's function}.
+$G^-$ is the image of $G^+$
+with respect to the $x=0$ plane.
+
+\beq
+G^-\twoevent{x}{t}{x'}{t'}=
+G^+ \twoevent{x}{t}{-x'}{t'}
+\eeq
+
+
 
 Note that the functions $G^\pm$
-satisfy Eq.(\ref{eq-LG-deltas}) so they are bona fide Green's functions. Indeed,
+satisfy Eq.(\ref{eq-LG-deltas})
+(with $x'\rarrow -x'$ for $G^-$) so they are bona fide Green's functions. Indeed,
 
 \beq
 \call_{x,t}\underbrace{\caln(x\mp x'; \kappa(t-t'))}_{\caln_\mp}=0\quad \text{for $x>0$ 
@@ -700,7 +709,7 @@ $\call_{x,t}G^+$ gives a delta function.
 \includegraphics[width=4in]
 {green-fun-pde/de-integration-region.png}
 \caption{Integration region
-for Master Solution and constant $G^\pm$ contours.}
+for General Solution and constant $G^\pm$ contours.}
 \label{fig-de-integration-region}
 \end{figure}
 
@@ -723,7 +732,7 @@ in the region of interest (i.e., $x>0$ and $t>0$).
 
 Fig.\ref{fig-de-integration-region}
 shows the integration region
-for the Master Solution and the spikes of $G^\pm$.
+for the General Solution and the spikes of $G^\pm$.
 
 
 
@@ -1056,7 +1065,7 @@ dx\;dt = \frac{\partial(x, t)}
 
 
 
-\subsection{Master Solution}
+\subsection{General Solution}
 
 \begin{claim}
 Suppose
@@ -1117,7 +1126,7 @@ G\twoevent{x}{t}{x'}{0}
 \qed
 
 The BC term 
-of the Master Solution 
+of the General Solution 
 must be specialized for
 each of the 3 possible
 types of BC. We show how to do  that below.
@@ -1143,7 +1152,7 @@ G\twoevent{x}{0}{x'}{0}=\delta(x-x')
 \partial_t G\twoevent{x}{0}{x'}{0}=
  \delta(x-x')
 \eeq 
-As a consequence of this, the Master Solution
+As a consequence of this, the General Solution
 satisfies the IC.
 \end{claim}
 \proof
@@ -1159,7 +1168,7 @@ satisfies the IC.
  \delta(t-t')
 \eeq 
 As a consequence of this,
-the Master solution satisfies the BC.
+the General solution satisfies the BC.
 Furthermore, 
 the Green's Function
 must satisfy the homogeneous
@@ -1181,51 +1190,46 @@ satisfied by $\eta(x,t)$.
 
 
 \beq
-G_0\twoevent{x}{t}{x'}{t'}
+G^+\twoevent{x}{t}{x'}{t'}
 =\frac{1}{2}\indi(t-t'> |x-x'|)
 \eeq
 \beq
-G_0\twoevent{\tp}{\tm}{\tpp}{\tmp}
+G^+\twoevent{\tp}{\tm}{\tpp}{\tmp}
 =\frac{1}{2}\indi(\tp>\tpp)\indi(\tm>\tmp)
 \eeq
 
 \beq
 g_0\oneevent{x-x'}{t-t'}=
-G_0\twoevent{x}{t}{x'}{t'}
+G^+\twoevent{x}{t}{x'}{t'}
 \eeq
 
 
-Note that the function $G_0$
+Note that the function $G^+$
 satisfies Eq.(\ref{eq-LG-deltas-wave}) so it is a  bona fide Green's function. Indeed, as using
 identities previously  proven  for
 light cone coordinates, we get
 
-If
-\beq
-\call_{x,t}=\partial_t^2-\partial_x^2,\quad
-\call_{\tp,\tm}= 2\partial_\tp\partial_\tm
-\eeq
-then
 
 \beq
-\call_{x,t}G_0\twoevent{x-x'}{t}{0}{0}=
-\call_{\tp, \tm} G_0\twoevent{\tp}{\tm}{\tpp}{\tmp}=\stackt{\delta(\tp-\tpp)}{\delta(\tm-\tmp)}
+\underbrace{\call_{x,t}}_{\partial_t^2-\partial_x^2}
+G^+\twoevent{x-x'}{t}{0}{0}=
+\underbrace{\call_{\tp, \tm}}_{2\partial_\tp\partial_\tm} G^+\twoevent{\tp}{\tm}{\tpp}{\tmp}=\stackt{\delta(\tp-\tpp)}{\delta(\tm-\tmp)}
 =
 \stackt{\delta(x-x')}{\delta(t-t')}
 \eeq
 
-$G_0$ is a unit step advancing at speed $c=1$ 
+$G^+$ is a unit step advancing at speed $c=1$ 
 towards $x-x'=\infty$ for $x-x'>0$
 and towards $x-x'=-\infty$ for $x-x'<0$.
 The side of the step closest to $x-x'=0$
-has $G_0=1$, and the other side has $G_0=0$.
+has $G^+=1$, and the other side has $G^+=0$.
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=5in]
 {green-fun-pde/g0-support.png}
-\caption{$G_0\twoevent{x}{t}{x'}{t'}$ support is shaded area  (extended towards $t-t'=\infty$). $G_0=1$ over support and
-$G_0=0$ elsewhere.}
+\caption{$G^+\twoevent{x}{t}{x'}{t'}$ support is shaded area  (extended towards $t-t'=\infty$). $G^+=1$ over support and
+$G^+=0$ elsewhere.}
 \label{fig-g0-support}
 \end{figure}
 
@@ -1233,7 +1237,7 @@ $G_0=0$ elsewhere.}
 \centering
 \includegraphics[width=4.6in]{green-fun-pde/wave-integration-region.png}
 \caption{Integration region
-for Master Solution and 
+for General Solution and 
 support regions for $g_0(x\pm x', t-t')$.}
 \label{fig-wave-integration-region}
 \end{figure}
@@ -1272,4 +1276,191 @@ R=1,\quad G\twoevent{x}{t}{x'}{t'} = g_0\oneevent{x-x'}{t-t'}
 
 \subsection{Mixed (Robin) BC}
 
+\beq
+a_0\eta(0, t) + a_1\partial_x \eta(0, t)= R_\rvt(t)
+\eeq
+
+Choose Green's function $G^R$ so that
+it satisfies the DE with delta function source and obeys
+the same BC, but homogeneous
+\beq
+[a_0 +  a_1 \partial_x]G^R\twoevent{0}{t}{x'}{t'}=0
+\eeq
+The solution is
+
+\beq
+G^R= g_0\oneevent{x-x'}{t-t'} + g_0\oneevent{x+x'}{t-t'}
+-2k\int_0^\infty 
+dX\;e^{-k X} g_0\oneevent{x-x'+X}{t-t'}
+\eeq
+where $k= \frac{a_0}{a_1}$.
+
+Dirichlet limit, $k\rarrow \infty$:
+
+\beq
+k e^{-kX}\rarrow \delta(X)
+\eeq
+
+\beqa
+G^R&\rarrow & g_0\oneevent{x-x'}{t-t'} + g_0\oneevent{x+x'}{t-t'} -2g_0\oneevent{x-x'}{t-t'}
+\\
+&=& g_0\oneevent{x-x'}{t-t'}-g_0\oneevent{x+x'}{t-t'}
+\\ &=& G^D
+\eeqa
+
+Neumann limit, $k=0$:
+
+\beq
+G^R=g_0\oneevent{x-x'}{t-t'}+g_0\oneevent{x+x'}{t-t'}= G^N
+\eeq
+
 \section{Laplace Equation (Hyperbolic)}
+
+\subsection{Notation}
+
+1-dim
+
+$\max(x, x')=$ ramp with height $x$ when plotted as a
+function of $x'$.
+
+\beq
+\partial_x\min(x,x')=
+\left\{
+\begin{array}{ll}
+\partial_x x & \text{if $x<x'$}
+\\
+\partial_x x' & \text{if $x>x'$}
+\end{array}
+\right\}
+=\indi(x<x')
+\eeq
+
+\beq
+1=\int_{-\infty}^\infty dx\;\partial_x\indi(x<x')=\int_{-\infty}^\infty dx\; \delta(x-x')
+\eeq
+so
+\beq
+ \partial_x\indi(x<x')=\delta(x-x')
+\eeq
+
+Define
+\beq
+\call_{x}= - \partial_x^2,\quad
+\call_{x} G(x,x')=\delta(x-x')
+\eeq
+
+
+
+
+
+2-dim
+
+$\vec{r}=(x,y)=x\hat{x} + y\hat{y}$, \quad $\nabla =(\partial_x, \partial_y)$,
+ $\nabla^2=\partial_x^2 + \partial_y^2$
+
+\beq
+\engdim{\partial_x^2}\engdim{G}=
+\engdim{\delta(x)}^d
+\implies 
+\engdim{G}=L^{2-d}
+\eeq
+
+$r=|\vec{x}-\vec{x'}|$
+\begin{itemize}
+
+\item $d=1$: $G\sim r$, grows with $r$
+\item $d=2$: $G\sim \ln(r)$
+\item $d=3$: $G\sim 1/r$, decreases with $r$
+
+
+\end{itemize}
+
+\subsection{General Solution}
+
+
+\begin{claim}
+Suppose
+\beq
+\call_{x}= -\partial_x^2,\quad
+\call_{x} G(x, x')=\delta(x-x')
+\eeq
+The solution to the equation
+\beq
+\call_{x} \eta (x) = S(x)\quad
+\eeq
+for $x>0$
+with  Dirichlet, Neumann or Robin boundary conditions satisfies the {\bf general solution}:
+
+\beqa
+\ket{\eta}
+&=&
+\underbrace{G{P_\rvx}\ket{S}}_{\text{Source Term $\cala_S$}}
+\\
+&&+\underbrace{
+G\left[-\ket{x'}\partial_{x'}\bra{x'}
++
+\ket{x'}\cev{\partial}_{x'}\bra{x'}\right]_{x'=0}
+\ket{\eta}}_{\text{Boundary Conditions (BC) term $\cala_{BC}$}}
+\eeqa
+or, in non-Dirac notation,
+
+\beqa
+\eta(x)
+&=&
+\int_0^\infty dx'\;G(x,x')S(x')
+\\
+&&+
+G(x,0) \left[-\partial_{x'}
++ \cev{\partial}_{x'}
+\right]\eta(0)
+\eeqa
+\end{claim}
+\proof
+\qed
+
+
+\subsection{Point Sources and their images}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=5in]
+{green-fun-pde/distance-funs.png}
+\caption{Plots of various Green's functions for the Laplace Equation
+in 1 dim.
+ }
+\label{fig-distance-funs}
+\end{figure}
+
+Free space Geeen's function
+
+1-dim
+\beq
+G_0(x, x')= \frac{1}{2}|x-x'| = g_0(x-x')
+\eeq
+
+2-dim
+\beq
+G_0(\vec{r},\vec{r}\;')= \frac{1}{2}\ln |\vec{r}
+-\vec{r}\;'| = g_0(\vec{r}-\vec{r}\;')
+\eeq
+
+\beq
+G^\pm(x, x') = g_0(x\pm x')
+\eeq
+
+
+
+
+\subsection{Dirichlet BC}
+
+\beq
+G^D(x, x')= g_0(x-x')-g_0(x+x')=\min(x, x')\eeq
+
+
+\subsection{Neumann BC}
+\beq
+G^N(x, x')=g_0(x-x')+  g(x+x')=-\max(x, x')
+\eeq
+\subsection{Mixed (Robin)}
+
+
