@@ -645,22 +645,23 @@ with mean zero and standard deviation $\s$:
 
 Let 
 \beqa
-G^\pm\twoevent{x}{t}{x'}{t'}
-&=& \caln(x\mp x'; \kappa(t-t'))\indi(t>t') = g_0(x-x', t-t')
+G^+\twoevent{x}{t}{x'}{t'}
+&=& \caln(x- x'; \kappa(t-t'))\indi(t>t') = g_0(x-x', t-t')
 \label{eq-def-green-pm}
 \eeqa
-where $\kappa =2D$. $G^\pm$ is centered at $x=\pm x'$
-The $G^\pm$  Green's functions
-will be used as a building blocks
+where $\kappa =2D$.  
+$G^+$, called the {\bf free space (no BC) Green's function}, 
+will be used as a building block
 to construct the Green's functions
 appropriate to the various BC.
-$G^+$ is  called the {\bf free space (no BC) Green's function}.
-$G^-$ is the image of $G^+$
+
+$G^+$ is centered at $x= x'$.
+$G^-$, centered at $x'=-x$, is the image of $G^+$
 with respect to the $x=0$ plane.
 
 \beq
 G^-\twoevent{x}{t}{x'}{t'}=
-G^+ \twoevent{x}{t}{-x'}{t'}
+G^+ \twoevent{-x}{t}{x'}{t'}
 \eeq
 
 
@@ -863,7 +864,7 @@ The solution is
 \beq
 G^R= G^+ + G^-
 -2k\int_0^\infty 
-dX\;e^{-k X} G^+\twoevent{x}{t}{x'+X}{t'}
+dX\;e^{-k X} g_0\oneevent{x+x'+X}{t-t'}
 \eeq
 where $k= \frac{a_0}{a_1}$.
 
@@ -874,7 +875,7 @@ k e^{-kX}\rarrow \delta(X)
 \eeq
 
 \beq
-G^R\rarrow G^+ + G^- -2G^+= G^+-G^- = G^D
+G^R\rarrow G^+ + G^- -2g_0\oneevent{x+x'}{t-t'}= G^+-G^- = G^D
 \eeq
 
 Neumann limit, $k=0$:
@@ -1192,15 +1193,18 @@ satisfied by $\eta(x,t)$.
 \beq
 G^+\twoevent{x}{t}{x'}{t'}
 =\frac{1}{2}\indi(t-t'> |x-x'|)
+=
+g_0(x-x', t-t')
 \eeq
 \beq
+G^+\twoevent{x}{t}{x'}{t'}=
 G^+\twoevent{\tp}{\tm}{\tpp}{\tmp}
 =\frac{1}{2}\indi(\tp>\tpp)\indi(\tm>\tmp)
 \eeq
 
 \beq
-g_0\oneevent{x-x'}{t-t'}=
-G^+\twoevent{x}{t}{x'}{t'}
+G^-\twoevent{ x}{t}{x'}{t'}=
+G^+\twoevent{- x}{t}{x'}{t'}
 \eeq
 
 
@@ -1244,8 +1248,8 @@ support regions for $g_0(x\pm x', t-t')$.}
 
 
 \beq
-G\twoevent{x}{t}{x'}{t'} = g_0\oneevent{x-x'}{t-t'} + 
-R g_0\oneevent{x+x'}{t-t'}
+G = G^+ + 
+R G^-
 \eeq
 
 $R$= {\bf reflection coefficient}
@@ -1257,8 +1261,8 @@ G\twoevent{0}{t}{x'}{t'} =0
 \eeq
 
 \beq
-R=-1,\quad G\twoevent{x}{t}{x'}{t'} = g_0\oneevent{x-x'}{t-t'} 
--g_0\oneevent{x+x'}{t-t'}
+R=-1,\quad G = G^+ 
+-G^-
 \eeq
 
 
@@ -1270,8 +1274,8 @@ R=-1,\quad G\twoevent{x}{t}{x'}{t'} = g_0\oneevent{x-x'}{t-t'}
 
 
 \beq
-R=1,\quad G\twoevent{x}{t}{x'}{t'} = g_0\oneevent{x-x'}{t-t'} 
-+g_0\oneevent{x+x'}{t-t'}
+R=1,\quad G = G^+
++G^-
 \eeq
 
 \subsection{Mixed (Robin) BC}
@@ -1289,9 +1293,9 @@ the same BC, but homogeneous
 The solution is
 
 \beq
-G^R= g_0\oneevent{x-x'}{t-t'} + g_0\oneevent{x+x'}{t-t'}
+G^R= G^+ + G^-
 -2k\int_0^\infty 
-dX\;e^{-k X} g_0\oneevent{x-x'+X}{t-t'}
+dX\;e^{-k X} g_0\oneevent{x+x'+X}{t-t'}
 \eeq
 where $k= \frac{a_0}{a_1}$.
 
@@ -1302,18 +1306,17 @@ k e^{-kX}\rarrow \delta(X)
 \eeq
 
 \beqa
-G^R&\rarrow & g_0\oneevent{x-x'}{t-t'} + g_0\oneevent{x+x'}{t-t'} -2g_0\oneevent{x-x'}{t-t'}
-\\
-&=& g_0\oneevent{x-x'}{t-t'}-g_0\oneevent{x+x'}{t-t'}
+G^R&\rarrow & g_0\oneevent{x-x'}{t-t'} + g_0\oneevent{x+x'}{t-t'} -2g_0\oneevent{x+x'}{t-t'}
 \\ &=& G^D
 \eeqa
 
 Neumann limit, $k=0$:
 
 \beq
-G^R=g_0\oneevent{x-x'}{t-t'}+g_0\oneevent{x+x'}{t-t'}= G^N
+G^R=G^++G^-= G^N
 \eeq
 
+\section{Laplace Equation (Hyperbolic)}
 \section{Laplace Equation (Hyperbolic)}
 
 \subsection{Notation}
@@ -1371,9 +1374,77 @@ $r=|\vec{x}-\vec{x'}|$
 \item $d=1$: $G\sim r$, grows with $r$
 \item $d=2$: $G\sim \ln(r)$
 \item $d=3$: $G\sim 1/r$, decreases with $r$
-
-
 \end{itemize}
+
+\begin{figure}[h!]
+\centering
+%\includegraphics[width=5in]
+%{green-fun-pde/distance-funs.png}
+\caption{Plots of various Green's functions for the Laplace Equation
+in 1 dim.
+ }
+\label{fig-distance-funs}
+\end{figure}
+
+assume $x>0$
+\beq
+|x-x'|=
+\left\{
+\begin{array}{ll}
+-(x-x')&\text{if $x'>x$}
+\\
+x-x'&\text{if $-x<x'<x$}
+\\
+x-x'&\text{if $x'<-x$}
+\end{array}
+\right\},\quad
+|x+x'|=
+\left\{
+\begin{array}{ll}
+x+x'&\text{if $x'>x$}
+\\
+x'+x&\text{if $-x<x'<x$}
+\\
+-(x+x')&\text{if $x'<-x$}
+\end{array}
+\right\}
+\eeq
+
+\beq
+\frac{1}{2}|x-x'|
++\frac{1}{2}|x+x'|
+=
+\underbrace{\left\{
+\begin{array}{ll}
+x'&\text{if $x'>x$}
+\\
+x&\text{if $-x<x'<x$}
+\\
+-x'&\text{if $x'<-x$}
+\end{array}
+\right\}}_{
+=\max(x,x') \text{ if $x'>0$}}
+\eeq
+
+\beq
+\frac{1}{2}|x-x'|
+-\frac{1}{2}|x+x'|
+=
+\underbrace{\left\{
+\begin{array}{ll}
+-x&\text{if $x'>x$}
+\\
+-x'&\text{if $-x<x'<x$}
+\\
+x&\text{if $x'<-x$}
+\end{array}
+\right\}}_{
+=-\min(x,x') \text{ if $x'>0$}}
+\eeq
+
+
+
+ 
 
 \subsection{General Solution}
 
@@ -1421,32 +1492,30 @@ G(x,0) \left[-\partial_{x'}
 
 \subsection{Point Sources and their images}
 
-\begin{figure}[h!]
-\centering
-\includegraphics[width=5in]
-{green-fun-pde/distance-funs.png}
-\caption{Plots of various Green's functions for the Laplace Equation
-in 1 dim.
- }
-\label{fig-distance-funs}
-\end{figure}
 
 Free space Geeen's function
 
 1-dim
 \beq
-G_0(x, x')= \frac{1}{2}|x-x'| = g_0(x-x')
+G^+(x, x')= -\;\frac{1}{2}|x-x'| = g_0(x-x')
 \eeq
-
 2-dim
 \beq
-G_0(\vec{r},\vec{r}\;')= \frac{1}{2}\ln |\vec{r}
+G^+(\vec{r},\vec{r}\;')= -\;\frac{1}{2\pi}\ln |\vec{r}
 -\vec{r}\;'| = g_0(\vec{r}-\vec{r}\;')
 \eeq
+3-dim
+\beq
+G^+(\vec{r},\vec{r}\;')= -\;\frac{1}{4\pi |\vec{r}
+-\vec{r}\;'|} = g_0(\vec{r}-\vec{r}\;')
+\eeq
+
 
 \beq
-G^\pm(x, x') = g_0(x\pm x')
+G^-(x, x')=G(-x, x')
 \eeq
+
+
 
 
 
@@ -1454,13 +1523,185 @@ G^\pm(x, x') = g_0(x\pm x')
 \subsection{Dirichlet BC}
 
 \beq
-G^D(x, x')= g_0(x-x')-g_0(x+x')=\min(x, x')\eeq
+G^D(x, x')= G^+ -G^-
+=\min(x, x')
+\eeq
+
+$\min(x,x')$ has slope$+1$  for $x'\in [-x, x]$
+and is constant for $x'<-x$ and $x'>x$.
+This kink at $x'=\pm x$
+leads to a jump in the first derivative $\partial_{x'}G$ and to a delta in the 
+second derivative $\partial_{x'}^2G$.
+Hence $\call G=\delta(x-x') + \delta(x+x')$
+Since we are working in the $x'>0$ quadrant,
+the mirror image delta function $\delta(x+x')$ can be 
+ignored.
 
 
 \subsection{Neumann BC}
 \beq
-G^N(x, x')=g_0(x-x')+  g(x+x')=-\max(x, x')
+G^N(x, x')=G^++G^- =
+-\max(x, x')
 \eeq
+
+$\max(x,x')$ is constant  for $x'\in [-x, x]$
+and has slope $\pm 1$ for $x'<-x$ and $x'>x$.
+This kink at $x'=\pm x$
+leads to a jump in the first derivative $\partial_{x'}G$ and to a delta in the 
+second derivative $\partial_{x'}^2G$.
+Hence $\call G=\delta(x-x') + \delta(x+x')$
+Since we are working in the $x'>0$ quadrant,
+the mirror image delta function $\delta(x+x')$ can be 
+ignored.
+
+
 \subsection{Mixed (Robin)}
 
+\beq
+G^R= G^+ - G^- +
+\underbrace{2k\int_0^\infty 
+dX\;e^{-k X} g_0(x+x'+X)}_{J}
+\label{eq-robin-superposition-X}
+\eeq
+where $k= \frac{a_1}{a_0}$.
+
+
+\begin{claim}
+According to  Eq.(\ref{eq-robin-superposition-X}),
+
+\beq 
+G^D= G^+ - G^- = \min (x,x')
+\eeq
+\beq
+G^N=-\max(x, x') + \frac{1}{k}
+\eeq
+\end{claim}
+\proof
+
+
+\beq
+\int dx\;xe^{ax}
+=
+\frac{e^{ax}}{a}\left(x-\frac{1}{a}\right)
+\eeq
+
+ $X_1=x+x'>0$
+
+\begin{align}
+J&=
+-k\int_0^\infty 
+dX\;e^{-k X}
+|X+X_1|
+\\
+&=
+-k\int_{X_1}^{\infty}
+dX\;e^{-k (X-X_1)}X
+\\
+&=
+-e^{k X_1}e^{-k X_1}\left(X_1+\frac{1}{k}\right)
+\\
+&=-\left(X_1+\frac{1}{k}\right)
+\end{align}
+
+\qed
+
+
+
+
+
+
+
+
+
+
+Free space Green's function
+\beq
+G_0\twoevent{x}{t}{x'}{t'}=
+g_0(x-x', t-t)
+\eeq
+
+\beq
+G_\mu\twoevent{x}{t}{x'}{t'}=
+g_\mu(x, x'; t-t) \quad\text{for $\mu = D, N, R$}
+\eeq
+
+
+$\tau=t-t'>0$
+\beq
+\call[g_0(x-x', \cdot)](s)=
+\tilde{g}_0(x-x',s)]=\int_0^\infty d\tau\; e^{-s\tau}g_0(x-x', \tau)
+\eeq
+
+\beq
+\call[g_\mu(x,x'; \cdot)](s)=
+\tilde{g}_\mu(x, x';s)]=\int_0^\infty d\tau\; e^{-s\tau}g_\mu(x-x'; \tau)
+\quad\text{for $\mu = D, N, R$}
+\eeq
+
+Diffusion
+\beq
+K= \sqrt{\frac{s}{D}}
+\eeq
+wave
+\beq
+K=s 
+\eeq
+
+\beq 
+K_0= \frac{a_0}{a_1}
+\eeq
+
+robin
+\beq
+[a_0 + a_1\partial_x]\eta(x,t)=0
+\eeq
+
+
+
+\beq
+\tilde{g}_R(x, x';s)=
+\tilde{g}_0(x-x', s)
++\tilde{R}(s)\tilde{g}_0(x+x', s)
+\eeq
+
+\beq
+\tilde{g}_0(x-x', s)=
+\frac{1}{2DK}
+e^{-K|x-x'|}
+\eeq
+
+\beq
+\tilde{R}(s)=
+\frac{K-K_0}{K+K_0}
+\eeq
+
+$R(\tau)=$ boundary response kernel
+
+\beq
+G^R= g_0(x-x', \tau)
++
+\int_0^{\tau}
+d\tau'\; R(\tau')
+g_0(x+x', \tau -\tau')
+\eeq
+
+Neumann, $K_0=0$
+$\tilde{R}(s)=1$ so 
+$R(\tau)=\delta(\tau)$
+
+\beq G^R\rarrow 
+g_0(x-x', \tau)
++
+g_0(x+x', \tau -\tau')
+=G^N
+\eeq
+
+Dirichlet, $K\rarrow \infty$, $\tilde{R}\to -1$
+
+\beq G^R\rarrow 
+g_0(x-x', \tau)
+-
+g_0(x+x', \tau -\tau')
+=G^D
+\eeq
 
