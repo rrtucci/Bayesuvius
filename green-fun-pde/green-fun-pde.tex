@@ -46,9 +46,7 @@ Types of boundary conditions (BC) that we will consider:
 \item
 {\bf Neumann BC} (slippery, reflecting wall)
 
-\beq
-L_{x,t} \eta(x,t) = S(x,t)
-\eeq wall)
+
 \beq
 \partial_x\eta(0,t)= N_\rvt(t)
 \eeq
@@ -68,25 +66,6 @@ If the boundary condition depends on $\eta(x,t)$
 only, then it is called a {\bf homogeneous BC} (i.e., $D_\rvt=N_\rvt=R_\rvt=0$)  .
 Otherwise, it is said to be an {\bf inhomogeneous BC}.
 
-\begin{figure}[h!]
-\centering
-\includegraphics[width=2in]
-{green-fun-pde/fixed-in.jpg}
-\includegraphics[width=2in]
-{green-fun-pde/fixed-out.jpg}
-\caption{Solution to wave equation $\partial_t^2\eta = c^2\partial_x^2\eta$ for Dirichlet BC}
-\label{fig-fixed-in-out}
-\end{figure}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=2in]
-{green-fun-pde/ring-in.jpg}
-\includegraphics[width=2in]
-{green-fun-pde/ring-out.jpg}
-\caption{Solution to wave equation $\partial_t^2\eta = c^2\partial_x^2\eta$ for Neumann BC}
-\label{fig-ring-in-out}
-\end{figure}
 
 \begin{figure}[h!]
 \centering
@@ -110,16 +89,43 @@ and $s_2=\sqrt{4Dt_2}$ for Neumann BC.
 \label{fig-neu-s1-s2}
 \end{figure}
 
-Fig.\ref{fig-ring-in-out} shows the
-solution to the wave equation for Dirichlet BC.
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2in]
+{green-fun-pde/fixed-in.jpg}
+\includegraphics[width=2in]
+{green-fun-pde/fixed-out.jpg}
+\caption{Solution to wave equation $\partial_t^2\eta = c^2\partial_x^2\eta$ for Dirichlet BC}
+\label{fig-fixed-in-out}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2in]
+{green-fun-pde/ring-in.jpg}
+\includegraphics[width=2in]
+{green-fun-pde/ring-out.jpg}
+\caption{Solution to wave equation $\partial_t^2\eta = c^2\partial_x^2\eta$ for Neumann BC}
+\label{fig-ring-in-out}
+\end{figure}
 
 
-Fig.\ref{fig-ring-in-out} shows the
-solution to the wave equation for Neumann BC.
-
-Fig.\ref{fig-dir-s1-s2} shows the solution to the diffusion equation at two different times for Dirichlet BC.
-
-Fig.\ref{fig-neu-s1-s2} shows the solution to the diffusion equation at two different times for Neumann BC.
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
+\begin{table}[]
+\begin{tabular}{|l|l|l|}
+\hline
+\rowcolor[HTML]{96FFFB} 
+Figure & PDE & BC \\ \hline
+Fig.\ref{fig-dir-s1-s2} & Diffusion & Dirichlet\\ \hline
+Fig.\ref{fig-neu-s1-s2} & Diffusion & Neumann \\ \hline
+Fig.\ref{fig-fixed-in-out} & Wave & Dirichlet \\ \hline
+Fig.\ref{fig-ring-in-out} & Wave & Neumann \\ \hline
+\end{tabular}
+\caption{Plots of PDE solution $\eta(x,t)$ as a function of $x$ at two different times.}
+\label{tab-bc-pics}
+\end{table}
 
 
 \section{Initial Condition Types}
@@ -139,7 +145,7 @@ in time derivative
 \item {\bf Cauchy IC} for {\bf Parabolic PDEs} like Wave Equation  $\partial^2_t\eta=c^2\partial_x^2\eta$ that are second order in time derivative 
 
 \beq \eta(x,0)= \eta_\rvx(x),\quad
-\partial_t(x,0) = C_\rvx(x)
+\partial_t\eta(x,0) = C_\rvx(x)
 \eeq
 
 \end{itemize}
@@ -186,7 +192,7 @@ L_{x,t} G\twoevent{x}{t}{x'}{t'}=\stackt{\delta(x-x')}{\delta(t-t')}
 
 \beq
 L^\dagger_{x,t}= -{\partial}_t -D {\partial}_x^2,
-\quad L^\dagger_{x,t}G^\dagger\twoevent{x'}{t'}{x}{t}=\stackt{\delta(x-x')}{\delta(t-t')}
+\quad L^\dagger_{x,t}G^\dagger\twoevent{x'}{t'}{x}{t}=\stackt{\delta(x-x')}{\delta(t+t')}
 \eeq
 
 \beq
@@ -252,7 +258,7 @@ Suppose
 L_{x,t}= \partial_t -D \partial_x^2,\quad
 L_{x,t} G\twoevent{x}{t}{x'}{t'}=\stackt{\delta(x-x')}{\delta(t-t')}
 \eeq
-The solution to the equation
+The {\bf general solution} to the equation
 \beq
 L_{x,t} \eta (x,t) = S(x,t)\quad
 \eeq
@@ -261,7 +267,8 @@ with initial conditions
 \beq
 \eta(x,0)= \eta_\rvx(x)
 \eeq
-and Dirichlet, Neumann or Robin boundary conditions satisfies the {\bf general solution}:
+and Dirichlet, Neumann or Robin boundary conditions,
+is:
 
 \beqa
 \ket{\eta}
