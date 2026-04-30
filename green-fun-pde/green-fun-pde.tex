@@ -1,6 +1,12 @@
 \chapter{Green's Functions for PDE}
 \label{ch-green-fun-pde}
 
+\newcommand{\vecrp}[0]{\vec{r}\;'}
+\newcommand{\tp}[0]{{t_{+}}}
+\newcommand{\tm}[0]{{t_{-}}}
+\newcommand{\tpp}[0]{{t'_{+}}}
+\newcommand{\tmp}[0]{{t'_{-}}}
+
 \section{Introduction}
 Suppose
 
@@ -95,7 +101,7 @@ and $s_2=\sqrt{4Dt_2}$ for Neumann BC.
 {green-fun-pde/fixed-in.jpg}
 \includegraphics[width=2in]
 {green-fun-pde/fixed-out.jpg}
-\caption{Solution to wave equation $\partial_t^2\eta = c^2\partial_x^2\eta$ for Dirichlet BC}
+\caption{Solution to wave equation $\partial_t^2\eta = c^2\partial_x^2\eta$ at two different times for Dirichlet BC}
 \label{fig-fixed-in-out}
 \end{figure}
 
@@ -105,7 +111,8 @@ and $s_2=\sqrt{4Dt_2}$ for Neumann BC.
 {green-fun-pde/ring-in.jpg}
 \includegraphics[width=2in]
 {green-fun-pde/ring-out.jpg}
-\caption{Solution to wave equation $\partial_t^2\eta = c^2\partial_x^2\eta$ for Neumann BC}
+\caption{Solution to wave equation $\partial_t^2\eta = c^2\partial_x^2\eta$
+at two different times for Neumann BC}
 \label{fig-ring-in-out}
 \end{figure}
 
@@ -150,7 +157,7 @@ in time derivative
 
 \end{itemize}
 
-\section{Diffusion Equation (Hyperbolic)}
+\section{Diffusion (Hyperbolic) and Wave (Parabolic) Equations}
 
 
 
@@ -175,7 +182,7 @@ will be expressed with their events either as row or column vectors
 f(x,t) \leftrightarrow f\oneevent{x}{t}
 \eeq
 \beq
-G(x,t;x',t')\leftrightarrow G\twoevent{x}{t}{x'}{t'}
+G\twoevent{x}{t}{x'}{t'}\leftrightarrow G\twoevent{x}{t}{x'}{t'}
 \eeq
 
 Another notation that we will often use for 
@@ -251,6 +258,182 @@ for dual tensor product spaces
 \brat{x}{t}=\bra{x}\otimes\bra{t}
 \eeq
 
+{\color{blue}
+Define
+\beq
+L_{x,t}= \partial^2_t -c^2 \partial_x^2,\quad
+L_{x,t} G\twoevent{x}{t}{x'}{t'}=\stackt{\delta(x-x')}{\delta(t-t')}
+\eeq
+
+\beq 
+L^\dagger = L, \quad G^\dagger = G
+\eeq
+
+\beq
+\engdim{c^2}\engdim{\partial_x^2} = 
+\engdim{\partial^2_t}\implies 
+\engdim{c} = L/T
+\eeq
+
+\beq
+\engdim{\partial^2_t}\engdim{G}=
+\engdim{\delta(x)}\engdim{\delta(t)}
+\implies 
+\engdim{G}=T/L =\engdim{c^{-1}}
+\eeq
+
+Henceforth, we will use the units 
+used in High Energy
+Physics in which $\hbar$ (Plank's constant $h$ divided by $2\pi$) and $c$ (speed of light) are set to 1 
+temporarily, and then restored when one needs actual values in MKS units. In such units,\footnote{The usual engineering dimensional analysis
+uses $M$=mass, $L$=length and $T$= time. If we remove two degrees of freedom (dofs) by setting $\hbar=c=1$,
+then only one dof, which we choose to be $L$, is left. }
+everything has dimensions of $L^D$, where $L$
+stands for length, and $D$ is some rational number. The dimensions of length and time are $L$ and those of energy, mass and
+momentum are $L^{-1}$.
+
+In High Energy Physics units, $c$ and the Green's function $G$ for the Wave Equation
+are dimensionless. 
+
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2in]
+{green-fun-pde/light-cone-coords.png}
+\caption{$(x,t)$ and $(\tp, \tm)$  axes.
+Shaded area (extended towards $t=\infty$) is future or forward light cone.}
+\label{fig-light-cone-coords}
+\end{figure}
+{\bf Light cone coordinates}
+\beq
+t_\pm = \frac{t\pm x}{\sqrt{2}}
+\eeq
+
+\beq
+\begin{pmatrix}
+\tp \\ \tm
+\end{pmatrix}
+=
+\underbrace{\frac{1}{\sqrt{2}}
+\begin{pmatrix}
+1 &1\\
+-1&1
+\end{pmatrix}}_{M}
+\begin{pmatrix}
+x\\t
+\end{pmatrix}
+\eeq
+
+\beq
+M^{-1} = M^T
+\eeq
+
+\beq
+\begin{pmatrix}
+x\\t
+\end{pmatrix}=
+M^T
+\begin{pmatrix}
+\tp\\\tm
+\end{pmatrix}
+\eeq
+
+
+\beqa
+\begin{pmatrix}
+(\partial_x)_t
+\\
+(\partial_t)_x
+\end{pmatrix}f(x,t)
+&=&
+\underbrace{\begin{pmatrix}
+\partial_x \tp & \partial_t  \tp
+\\
+\partial_x \tm & \partial_t  \tm
+\end{pmatrix}}_M
+\begin{pmatrix}
+(\partial_\tp)_\tm
+\\
+(\partial_\tm)_\tp
+\end{pmatrix}F(\tp, \tm)
+\eeqa
+
+\beq
+\begin{pmatrix}
+\partial_x \\\partial_t
+\end{pmatrix}=
+M
+\begin{pmatrix}
+\partial_\tp \\ \partial_\tm
+\end{pmatrix}
+\eeq
+
+\beq
+\begin{pmatrix}
+\partial_\tp \\ \partial_\tm
+\end{pmatrix}
+= M
+\begin{pmatrix}
+\partial_x \\\partial_t
+\end{pmatrix}
+\eeq
+
+\beq
+dx\;dt = \frac{\partial(x, t)}
+{\partial(\tp, \tm)}d\tp\;d\tm = \underbrace{\det M}_1 d\tp\;d\tm
+\eeq
+
+\beq
+\int_{-\infty}^\infty dx
+\int_{-\infty}^\infty dt\;
+\delta(x-x')
+\delta(t-t')
+=
+\int_{-\infty}^\infty d\tp
+\int_{-\infty}^\infty d\tm\;
+\delta(\tp-\tpp)
+\delta(\tm-\tmp)
+=1
+\eeq
+
+\beq
+\delta(x-x')
+\delta(t-t')
+=
+\delta(\tp-\tpp)
+\delta(\tm-\tmp)
+\eeq
+
+\beq
+\partial^2_t-\partial^2_x=
+(\partial_t + \partial_x)
+(\partial_t - \partial_x)= 2\partial_\tp\partial_\tm
+\eeq 
+
+\beq
+\indi(t>|x|) = \indi(t>x)\indi(t>-x)=\indi(\tm>0)\indi(\tp>0)
+\eeq
+
+
+
+
+
+\begin{align}
+[\partial^2_t-\partial^2_x]
+\indi(t-t'>|x-x'|)&=
+2\partial_\tp\partial_\tm
+\indi(\tm-\tmp>0)\indi(\tp-\tpp>0)
+\\
+&=2\delta(\tp-\tpp)\delta(\tm-\tmp)
+\\
+&=
+2\delta(x-x')\delta(t-t')
+\end{align}
+}
+
+
+
 \subsection{General Solution}
 \begin{claim}
 Suppose
@@ -258,7 +441,7 @@ Suppose
 L_{x,t}= \partial_t -D \partial_x^2,\quad
 L_{x,t} G\twoevent{x}{t}{x'}{t'}=\stackt{\delta(x-x')}{\delta(t-t')}
 \eeq
-The {\bf general solution} to the equation
+The {\bf General Solution} to the equation
 \beq
 L_{x,t} \eta (x,t) = S(x,t)\quad
 \eeq
@@ -497,7 +680,7 @@ satisfies the IC.
 \proof
 \beq
 \int_{0}^{t}dt'\;
-G\twoevent{x}{t}{x'}{t'}[\underbrace{\cev{\partial}_{t}}_{-\cev{\partial}_{t'}} -D\cev{\partial}_{x'}^2]
+G\twoevent{x}{t}{x'}{t'}[\underbrace{\cev{\partial}_{t}}_{-\cev{\partial}_{t'}} -D\underbrace{\cev{\partial}_{x}^2}_{\cev{\partial}_{x'}^2}]
 =\int_{0}^{t}dt'\;
 \delta(x-x')\delta(t-t')
 \eeq
@@ -549,7 +732,7 @@ D \partial_{x'}G\twoevent{0}{t}{0}{t'}
  \delta(t-t')
 \eeq 
 As a consequence of this,
-the General solution satisfies the BC.
+the General Solution satisfies the BC.
 Furthermore, 
 the Green's Function
 must satisfy the homogeneous
@@ -564,7 +747,7 @@ Note that
 
 \beq
 \int_{0}^{\infty}dx'\;
-G\twoevent{x}{t}{x'}{t'}[\underbrace{\cev{\partial}_{t}}_{-\cev{\partial}_{t'}} -D\cev{\partial}_{x'}^2]
+G\twoevent{x}{t}{x'}{t'}[\underbrace{\cev{\partial}_{t}}_{-\cev{\partial}_{t'}} -D\underbrace{\cev{\partial}_{x}^2}_{\cev{\partial}_{x'}^2}]
 =\int_{0}^{\infty}dx'\;
 \delta(x-x')\delta(t-t')
 \eeq
@@ -579,7 +762,8 @@ we need only integrate over $[0,\eps]$
 for infinitesimal $\eps$.
 
 \beq
--\int_{0}^{\eps}dx'\;G\twoevent{0}{t}{x'}{t'}\cev{\partial}_{t'}+
+\underbrace{-\int_{0}^{\eps}dx'\;G\twoevent{0}{t}{x'}{t'}\cev{\partial}_{t'}}_{0}
++
 DG\twoevent{0}{t}{0}{t'}\cev{\partial}_{x'}=\delta(t-t')
 \eeq
 A consequence of this is that
@@ -643,6 +827,118 @@ N_\rvt(t)
 
 
 
+{\color{blue}
+\begin{claim}
+Suppose
+\beq
+L_{x,t}= \partial^2_t - \partial_x^2,\quad
+L_{x,t} G\twoevent{x}{t}{x'}{t'}=\stackt{\delta(x-x')}{\delta(t-t')}
+\eeq
+The solution to the equation
+\beq
+L_{x,t} \eta (x,t) = S(x,t)\quad
+\eeq
+for $x>0$ and $t>0$
+with Cauchy initial conditions
+\beq
+\eta(x,0)= \eta_\rvx(x),
+\quad \partial_x\eta(x,0)=C_\rvx(x)
+\eeq
+and Dirichlet, Neumann or Robin boundary conditions satisfies the {\bf master solution}:
+
+\beqa
+\ket{\eta}
+&=&
+\underbrace{G\stackt{P_\rvx}{P_\rvt}\ket{S}}_{\text{Source Term $\cala_S$}}
+\\
+&&+\underbrace{G
+\stackt{P_\rvx}{\left[\ket{t'}\partial_{t'}\bra{t'}
+-
+\ket{t'}\cev{\partial}_{t'}\bra{t'}\right]_{t'=0}}}_
+{\text{Initial Conditions (IC) term  $\cala_{IC}$}}
+\\
+&&+\underbrace{
+G\stackt{\left[-\ket{x'}\partial_{x'}\bra{x'}
++
+\ket{x'}\cev{\partial}_{x'}\bra{x'}\right]_{x'=0}}{P_\rvt}
+\ket{\eta}}_{\text{Boundary Conditions (BC) term $\cala_{BC}$}}
+\eeqa
+or, in non-Dirac notation,
+
+\beqa
+\eta\oneevent{x}{t}
+&=&
+\int_0^tdt'
+\int_0^\infty dx'\;G\twoevent{x}{t}{x'}{t'}S\oneevent{x'}{t'}
+\\
+&&+\int_0^\infty dx'\;
+G\twoevent{x}{t}{x'}{0}
+\left[\partial_{t'}
+- \cev{\partial}_{t'}
+\right]\eta_\rvx\oneevent{x'}{0}
+\\
+&&+
+\int_0^tdt'\;G\twoevent{x}{t}{0}{t'} \left[-\partial_{x'}
++ \cev{\partial}_{x'}
+\right]\eta\oneevent{0}{t'}
+\eeqa
+\end{claim}
+\proof
+\qed
+
+The BC term 
+of the General Solution 
+must be specialized for
+each of the 3 possible
+types of BC. We show how to do  that below.
+
+Careful: Note that
+\beq
+\partial_t G\twoevent{x}{t}{x'}{t'}=-\partial_{t'}G\twoevent{x}{t}{x'}{t'}
+\eeq
+and
+\beq
+\partial_x G\twoevent{x}{t}{x'}{t'}=-\partial_{x'}G\twoevent{x}{t}{x'}{t'}
+\eeq
+
+\begin{claim}(space-like propagation for $t=t'=0$)
+
+\beq
+G\twoevent{x}{0}{x'}{0}=\delta(x-x')
+\eeq
+
+\beq
+ -\partial_{t'}G\twoevent{x}{0}{x'}{0} 
+=
+\partial_t G\twoevent{x}{0}{x'}{0}=
+ \delta(x-x')
+\eeq 
+As a consequence of this, the General Solution
+satisfies the IC.
+\end{claim}
+\proof
+\qed
+
+\begin{claim} (time-like propagation for $x=x'=0$)
+\label{cl-time-like-prop-wave}
+
+\beq
+\partial_{x'}G\twoevent{0}{t}{0}{t'} 
+=
+-\partial_x G\twoevent{0}{t}{0}{t'}=
+ \delta(t-t')
+\eeq 
+As a consequence of this,
+the General Solution satisfies the BC.
+Furthermore, 
+the Green's Function
+must satisfy the homogeneous
+version of the inhomogeneous BC
+satisfied by $\eta(x,t)$.
+\end{claim}
+\proof
+\qed
+}
 
 \subsection{Point sources and their images}
 
@@ -670,8 +966,8 @@ with mean zero and standard deviation $\s$:
 
 Let 
 \beqa
-G^+\twoevent{x}{t}{x'}{t'}
-&=& \caln(x- x'; \kappa(t-t'))\indi(t>t') = g_0(x-x', t-t')
+\underbrace{G^+\twoevent{x}{t}{x'}{t'}}_{g_0(x-x', t-t')}
+&=& \caln(x- x'; \kappa(t-t'))\indi(t>t')
 \label{eq-def-green-pm}
 \eeqa
 where $\kappa =2D$.  
@@ -760,6 +1056,79 @@ Fig.\ref{fig-de-integration-region}
 shows the integration region
 for the General Solution and the spikes of $G^\pm$.
 
+{\color{blue}
+\beq
+L_{x,t} G\twoevent{x}{t}{x'}{t'}=\delta(x-x')\delta(t-t')
+\quad \text{for all $x>0$ and $t>0$}
+\label{eq-LG-deltas-wave}
+\eeq
+
+
+
+\beq
+G^+\twoevent{x}{t}{x'}{t'}
+=\frac{1}{2}\indi(t-t'> |x-x'|)
+=
+g_0(x-x', t-t')
+\eeq
+\beq
+G^+\twoevent{x}{t}{x'}{t'}=
+G^+\twoevent{\tp}{\tm}{\tpp}{\tmp}
+=\frac{1}{2}\indi(\tp>\tpp)\indi(\tm>\tmp)
+\eeq
+
+\beq
+G^-\twoevent{ x}{t}{x'}{t'}=
+G^+\twoevent{- x}{t}{x'}{t'}
+\eeq
+
+
+Note that the function $G^+$
+satisfies Eq.(\ref{eq-LG-deltas-wave}) so it is a  bona fide Green's function. Indeed, as using
+identities previously  proven  for
+light cone coordinates, we get
+
+
+\beq
+\underbrace{L_{x,t}}_{\partial_t^2-\partial_x^2}
+G^+\twoevent{x-x'}{t}{0}{0}=
+\underbrace{L_{\tp, \tm}}_{2\partial_\tp\partial_\tm} G^+\twoevent{\tp}{\tm}{\tpp}{\tmp}=\stackt{\delta(\tp-\tpp)}{\delta(\tm-\tmp)}
+=
+\stackt{\delta(x-x')}{\delta(t-t')}
+\eeq
+
+$G^+$ is a unit step advancing at speed $c=1$ 
+towards $x-x'=\infty$ for $x-x'>0$
+and towards $x-x'=-\infty$ for $x-x'<0$.
+The side of the step closest to $x-x'=0$
+has $G^+=1$, and the other side has $G^+=0$.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=5in]
+{green-fun-pde/g0-support.png}
+\caption{$G^+\twoevent{x}{t}{x'}{t'}$ support is shaded area  (extended towards $t-t'=\infty$). $G^+=1$ over support and
+$G^+=0$ elsewhere.}
+\label{fig-g0-support}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4.6in]{green-fun-pde/wave-integration-region.png}
+\caption{Integration region
+for General Solution and 
+support regions for $g_0(x\pm x', t-t')$.}
+\label{fig-wave-integration-region}
+\end{figure}
+
+
+\beq
+G = G^+ + 
+R G^-
+\eeq
+
+$R$= {\bf reflection coefficient}
+}
 
 \subsection{Boundary Conditions}
 \subsubsection{Dirichlet BC}
@@ -787,8 +1156,8 @@ At the boundary
 \beq
 \left.
 \partial_{x'} G_D
-(x,t;x',t')
-\right|_{x'=0}
+\twoevent{x}{t}{x'}
+{t'}\right|_{x'=0}
 =
 \frac{x}{\sqrt{2\kappa (t-t')^3}}
 \exp\left(
@@ -800,12 +1169,24 @@ free space solutions $G^\pm$ to $\ul{L}G^\pm=1$
 were superposed so as  to satisfy
 $G_D=0$ at the boundary $x=0$.
 
+{\color{blue}
+\beq
+G\twoevent{0}{t}{x'}{t'} =0
+\eeq
+
+\beq
+R=-1,\quad G = G^+ 
+-G^-
+\eeq
+}
+
 \begin{claim}
 Prove that
 \beq
-\lim_{x\rarrow 0}D
+D
 \int_0^{t} dt'\;
-[\partial_{x'} G_D(x,t;x',t')]_{x'=0}
+\partial_{x'} G_D\twoevent{0}{t}{0}
+{t'}
 =\delta(t-t')
 \eeq
 using the explicit form of $G_D= G^+-G^-$.
@@ -815,7 +1196,7 @@ using the explicit form of $G_D= G^+-G^-$.
 Suppose
 
 \beq
-G^+(x,t;x',t')= \caln(x-x'; \kappa (t-t'))
+G^+\twoevent{x}{t}{x'}{t'}= \caln(x-x'; \kappa (t-t'))
 \eeq
 where $D=\kappa/2$.
 Define
@@ -825,7 +1206,8 @@ y=\frac{x}{\sqrt{\kappa(t-t')}}=\frac{x}{\ell}
 \eeq
 Then
 \beqa
-D[\partial_{x'} G^+(x,t;x',t')]_{x'=0}&=&
+D\left[\partial_{x'} G^+\twoevent{x}{t}{x'}{t'}
+\right]_{x'=0}&=&
 \left(\frac{\kappa}{2}\right)
 \left(\frac{(-1)^2 x}{\ell^2}\right)\frac{1}{\ell\sqrt{2\pi}}\exp\left(
 \frac{-x^2}{2\ell^2}\right)
@@ -848,7 +1230,8 @@ dy\sqrt{\kappa(t-t')}=dy\ell
 \eeq
 Hence
 \beq
-D\int_0^t dt'[\partial_{x'} G^+(x,t;x',t')]_{x'=0}=
+D\int_0^t dt'\left[\partial_{x'} G^+\twoevent{x}{t}{x'}{t'}
+\right]_{x'=0}=
 \int_{\frac{x}{\sqrt{\kappa t}}}^\infty
 dy \frac{1}{\sqrt{2\pi}}\exp\left(
 \frac{-y^2}{2}\right)=\frac{1}{2}
@@ -881,6 +1264,17 @@ defined only  up to a constant. This
 ambiguity  in $G_N$
 is referred to as a zero-mode.
  
+{\color{blue}
+\beq
+\partial_x G\twoevent{0}{t}{x'}{t'} =0
+\eeq
+
+
+\beq
+R=1,\quad G = G^+
++G^-
+\eeq
+}
 
 \subsubsection{Mixed (Robin) BC}
 \beq
@@ -919,46 +1313,56 @@ $\tau=t-t'>0$
 
 Diffusion
 \beq
-K= \sqrt{\frac{s}{D}}
+K= \sqrt{\frac{s}{D}},\quad
+L_{x,t}=\partial_t -\partial_x^2
 \eeq
 wave
 \beq
-K=\frac{s}{c}=s
+K=\frac{s}{c}=s,\quad
+L_{x,t}=\partial_t^2 -\partial_x^2
 \eeq
 
-\beq 
+
+
+
+
+\beq
 K_0= \frac{a_0}{a_1}
 \eeq
 
-robin
-\beq
-[a_0 + a_1\partial_x]\eta(x,t)=0
-\eeq
-
-
-
 
 \begin{claim}\label{cl-lp-robin-de}
+If
+$g_0$ satisfies
+
+\beq
+L_{x,t}g_0(x-x';\tau)=0
+\eeq
+and 
+\beq
+[a_0 + a_1\partial_x]g_0(x-x';\tau)=0,
+\eeq
+then
+
 \beq
 \tilde{g}_R(x, x';s)=
 \tilde{g}_0(x-x', s)
 +\tilde{R}(s)\tilde{g}_0(x+x', s)
 \eeq
+where
 
 \beq
 \tilde{g}_0(x-x', s)=
 \frac{1}{2DK}
 e^{-K|x-x'|}
 \eeq
-
+and
 
 
 \beq
 \tilde{R}(s)=
 \frac{K+K_0}{K-K_0}
 \eeq
-
-$R(\tau)=$ boundary response kernel
 Hence, in the time domain, 
 \beq
 G_R= g_0(x-x', \tau)
@@ -967,6 +1371,7 @@ G_R= g_0(x-x', \tau)
 d\tau'\; R(\tau')
 g_0(x+x', \tau-\tau')}_{\text{time convolution}}
 \eeq
+$R(\tau)$ is called the {\bf boundary response kernel}.
 \end{claim}
 \proof
 
@@ -979,9 +1384,9 @@ to both sides and integrate time derivatives by parts
 
 
 \beq
-(\partial_x^2-K^2)
+(K^2-\partial_x^2)
 \tilde{g}(x, x';s)=
--\;\frac{1}{D}
+\frac{1}{D}
 \delta(x-x')
 \eeq
 where $K=\sqrt{s/D}$
@@ -1026,8 +1431,10 @@ K_0 \tilde{g}|_{x=0}+ \tilde{g}'|_{x=0}=0
 \hrule
 
 Let $E=e^{Kx'}$, $\ol{E}=e^{-Kx'}$
-Behavior at $x=x'$.
-To produce $\delta(x-x')$,
+Behavior at $x=x'$ in
+order
+to produce $\delta(x-x')$
+when differentiated twice.
 \begin{enumerate}
 \item $\tilde{g}$ must be 
 continuous at $x=x'$
@@ -1173,7 +1580,7 @@ g_0(x+x', \tau -\tau')
 \eeq
 
 
-
+Diffusion
 \beq
 \call^{-1}_s\left[\frac{1}{s}\exp(-as)\right](t)=
 \indi(t>a)
@@ -1189,7 +1596,7 @@ g_0(x+x', \tau -\tau')
 =
 \frac{1}{2}\indi(\tau>b)
 \eeq
-
+wave 
 \beq
 \call^{-1}_s\left[
 \frac{1}{\sqrt{s}}\exp\left(
@@ -1248,409 +1655,18 @@ G_R= G_N
 d\tau'\; e^{K_0 \tau'}
 g_0(x+x', \tau-\tau')
 \eeq
+As $K_0\to 0$,
 
-As $K_0\to -\infty$, 
+\beq
+G_R\to G_D
+\eeq
+$-K_0 e^{K_0\tau}\to \delta(\tau)$ as $K_0\to -\infty$. Hence, as $K_0\to -\infty$,
+
 \beq
 G_R \to G_N -2G^- = G_D
 \eeq
 
-\section{Wave Equation (Parabolic)}
-
-\subsection{Notation and Conventions}
-
-Define
-\beq
-L_{x,t}= \partial^2_t -c^2 \partial_x^2,\quad
-L_{x,t} G\twoevent{x}{t}{x'}{t'}=\stackt{\delta(x-x')}{\delta(t-t')}
-\eeq
-
-\beq 
-L^\dagger = L, \quad G^\dagger = G
-\eeq
-
-\beq
-\engdim{c^2}\engdim{\partial_x^2} = 
-\engdim{\partial^2_t}\implies 
-\engdim{c} = L/T
-\eeq
-
-\beq
-\engdim{\partial^2_t}\engdim{G}=
-\engdim{\delta(x)}\engdim{\delta(t)}
-\implies 
-\engdim{G}=T/L =\engdim{c^{-1}}
-\eeq
-
-Henceforth, we will use the units 
-used in High Energy
-Physics in which $\hbar$ (Plank's constant $h$ divided by $2\pi$) and $c$ (speed of light) are set to 1 
-temporarily, and then restored when one needs actual values in MKS units. In such units,\footnote{The usual engineering dimensional analysis
-uses $M$=mass, $L$=length and $T$= time. If we remove two degrees of freedom (dofs) by setting $\hbar=c=1$,
-then only one dof, which we choose to be $L$, is left. }
-everything has dimensions of $L^D$, where $L$
-stands for length, and $D$ is some rational number. The dimensions of length and time are $L$ and those of energy, mass and
-momentum are $L^{-1}$.
-
-In High Energy Physics units, $c$ and the Green's function $G$ for the Wave Equation
-are dimensionless. 
-
-\newcommand{\tp}[0]{{t_{+}}}
-\newcommand{\tm}[0]{{t_{-}}}
-\newcommand{\tpp}[0]{{t'_{+}}}
-\newcommand{\tmp}[0]{{t'_{-}}}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=2in]
-{green-fun-pde/light-cone-coords.png}
-\caption{$(x,t)$ and $(\tp, \tm)$  axes.
-Shaded area (extended towards $t=\infty$) is future or forward light cone.}
-\label{fig-light-cone-coords}
-\end{figure}
-{\bf Light cone coordinates}
-\beq
-t_\pm = \frac{t\pm x}{\sqrt{2}}
-\eeq
-
-\beq
-\begin{pmatrix}
-\tp \\ \tm
-\end{pmatrix}
-=
-\underbrace{\frac{1}{\sqrt{2}}
-\begin{pmatrix}
-1 &1\\
--1&1
-\end{pmatrix}}_{M}
-\begin{pmatrix}
-x\\t
-\end{pmatrix}
-\eeq
-
-\beq
-M^{-1} = M^T
-\eeq
-
-\beq
-\begin{pmatrix}
-x\\t
-\end{pmatrix}=
-M^T
-\begin{pmatrix}
-\tp\\\tm
-\end{pmatrix}
-\eeq
-
-
-\beqa
-\begin{pmatrix}
-(\partial_x)_t
-\\
-(\partial_t)_x
-\end{pmatrix}f(x,t)
-&=&
-\underbrace{\begin{pmatrix}
-\partial_x \tp & \partial_t  \tp
-\\
-\partial_x \tm & \partial_t  \tm
-\end{pmatrix}}_M
-\begin{pmatrix}
-(\partial_\tp)_\tm
-\\
-(\partial_\tm)_\tp
-\end{pmatrix}F(\tp, \tm)
-\eeqa
-
-\beq
-\begin{pmatrix}
-\partial_x \\\partial_t
-\end{pmatrix}=
-M
-\begin{pmatrix}
-\partial_\tp \\ \partial_\tm
-\end{pmatrix}
-\eeq
-
-\beq
-\begin{pmatrix}
-\partial_\tp \\ \partial_\tm
-\end{pmatrix}
-= M
-\begin{pmatrix}
-\partial_x \\\partial_t
-\end{pmatrix}
-\eeq
-
-\beq
-dx\;dt = \frac{\partial(x, t)}
-{\partial(\tp, \tm)}d\tp\;d\tm = \underbrace{\det M}_1 d\tp\;d\tm
-\eeq
-
-\beq
-\int_{-\infty}^\infty dx
-\int_{-\infty}^\infty dt\;
-\delta(x-x')
-\delta(t-t')
-=
-\int_{-\infty}^\infty d\tp
-\int_{-\infty}^\infty d\tm\;
-\delta(\tp-\tpp)
-\delta(\tm-\tmp)
-=1
-\eeq
-
-\beq
-\delta(x-x')
-\delta(t-t')
-=
-\delta(\tp-\tpp)
-\delta(\tm-\tmp)
-\eeq
-
-\beq
-\partial^2_t-\partial^2_x=
-(\partial_t + \partial_x)
-(\partial_t - \partial_x)= 2\partial_\tp\partial_\tm
-\eeq 
-
-\beq
-\indi(t>|x|) = \indi(t>x)\indi(t>-x)=\indi(\tm>0)\indi(\tp>0)
-\eeq
-
-
-
-
-
-\begin{align}
-[\partial^2_t-\partial^2_x]
-\indi(t-t'>|x-x'|)&=
-2\partial_\tp\partial_\tm
-\indi(\tm-\tmp>0)\indi(\tp-\tpp>0)
-\\
-&=2\delta(\tp-\tpp)\delta(\tm-\tmp)
-\\
-&=
-2\delta(x-x')\delta(t-t')
-\end{align}
-
-
-
-
-\subsection{General Solution}
-
-\begin{claim}
-Suppose
-\beq
-L_{x,t}= \partial^2_t - \partial_x^2,\quad
-L_{x,t} G\twoevent{x}{t}{x'}{t'}=\stackt{\delta(x-x')}{\delta(t-t')}
-\eeq
-The solution to the equation
-\beq
-L_{x,t} \eta (x,t) = S(x,t)\quad
-\eeq
-for $x>0$ and $t>0$
-with Cauchy initial conditions
-\beq
-\eta(x,0)= \eta_\rvx(x),
-\quad \partial_x\eta(x,0)=C_\rvx(x)
-\eeq
-and Dirichlet, Neumann or Robin boundary conditions satisfies the {\bf master solution}:
-
-\beqa
-\ket{\eta}
-&=&
-\underbrace{G\stackt{P_\rvx}{P_\rvt}\ket{S}}_{\text{Source Term $\cala_S$}}
-\\
-&&+\underbrace{G
-\stackt{P_\rvx}{\left[\ket{t'}\partial_{t'}\bra{t'}
--
-\ket{t'}\cev{\partial}_{t'}\bra{t'}\right]_{t'=0}}}_
-{\text{Initial Conditions (IC) term  $\cala_{IC}$}}
-\\
-&&+\underbrace{
-G\stackt{\left[-\ket{x'}\partial_{x'}\bra{x'}
-+
-\ket{x'}\cev{\partial}_{x'}\bra{x'}\right]_{x'=0}}{P_\rvt}
-\ket{\eta}}_{\text{Boundary Conditions (BC) term $\cala_{BC}$}}
-\eeqa
-or, in non-Dirac notation,
-
-\beqa
-\eta\oneevent{x}{t}
-&=&
-\int_0^tdt'
-\int_0^\infty dx'\;G\twoevent{x}{t}{x'}{t'}S\oneevent{x'}{t'}
-\\
-&&+\int_0^\infty dx'\;
-G\twoevent{x}{t}{x'}{0}
-\left[\partial_{t'}
-- \cev{\partial}_{t'}
-\right]\eta_\rvx\oneevent{x'}{0}
-\\
-&&+
-\int_0^tdt'\;G\twoevent{x}{t}{0}{t'} \left[-\partial_{x'}
-+ \cev{\partial}_{x'}
-\right]\eta\oneevent{0}{t'}
-\eeqa
-\end{claim}
-\proof
-\qed
-
-The BC term 
-of the General Solution 
-must be specialized for
-each of the 3 possible
-types of BC. We show how to do  that below.
-
-Careful: Note that
-\beq
-\partial_t G\twoevent{x}{t}{x'}{t'}=-\partial_{t'}G\twoevent{x}{t}{x'}{t'}
-\eeq
-and
-\beq
-\partial_x G\twoevent{x}{t}{x'}{t'}=-\partial_{x'}G\twoevent{x}{t}{x'}{t'}
-\eeq
-
-\begin{claim}(space-like propagation for $t=t'=0$)
-
-\beq
-G\twoevent{x}{0}{x'}{0}=\delta(x-x')
-\eeq
-
-\beq
- -\partial_{t'}G\twoevent{x}{0}{x'}{0} 
-=
-\partial_t G\twoevent{x}{0}{x'}{0}=
- \delta(x-x')
-\eeq 
-As a consequence of this, the General Solution
-satisfies the IC.
-\end{claim}
-\proof
-\qed
-
-\begin{claim} (time-like propagation for $x=x'=0$)
-\label{cl-time-like-prop-wave}
-
-\beq
-\partial_{x'}G\twoevent{0}{t}{0}{t'} 
-=
--\partial_x G\twoevent{0}{t}{0}{t'}=
- \delta(t-t')
-\eeq 
-As a consequence of this,
-the General solution satisfies the BC.
-Furthermore, 
-the Green's Function
-must satisfy the homogeneous
-version of the inhomogeneous BC
-satisfied by $\eta(x,t)$.
-\end{claim}
-\proof
-\qed
-
-\subsection{Point Sources and their Images}
-
-
-\beq
-L_{x,t} G\twoevent{x}{t}{x'}{t'}=\delta(x-x')\delta(t-t')
-\quad \text{for all $x>0$ and $t>0$}
-\label{eq-LG-deltas-wave}
-\eeq
-
-
-
-\beq
-G^+\twoevent{x}{t}{x'}{t'}
-=\frac{1}{2}\indi(t-t'> |x-x'|)
-=
-g_0(x-x', t-t')
-\eeq
-\beq
-G^+\twoevent{x}{t}{x'}{t'}=
-G^+\twoevent{\tp}{\tm}{\tpp}{\tmp}
-=\frac{1}{2}\indi(\tp>\tpp)\indi(\tm>\tmp)
-\eeq
-
-\beq
-G^-\twoevent{ x}{t}{x'}{t'}=
-G^+\twoevent{- x}{t}{x'}{t'}
-\eeq
-
-
-Note that the function $G^+$
-satisfies Eq.(\ref{eq-LG-deltas-wave}) so it is a  bona fide Green's function. Indeed, as using
-identities previously  proven  for
-light cone coordinates, we get
-
-
-\beq
-\underbrace{L_{x,t}}_{\partial_t^2-\partial_x^2}
-G^+\twoevent{x-x'}{t}{0}{0}=
-\underbrace{L_{\tp, \tm}}_{2\partial_\tp\partial_\tm} G^+\twoevent{\tp}{\tm}{\tpp}{\tmp}=\stackt{\delta(\tp-\tpp)}{\delta(\tm-\tmp)}
-=
-\stackt{\delta(x-x')}{\delta(t-t')}
-\eeq
-
-$G^+$ is a unit step advancing at speed $c=1$ 
-towards $x-x'=\infty$ for $x-x'>0$
-and towards $x-x'=-\infty$ for $x-x'<0$.
-The side of the step closest to $x-x'=0$
-has $G^+=1$, and the other side has $G^+=0$.
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=5in]
-{green-fun-pde/g0-support.png}
-\caption{$G^+\twoevent{x}{t}{x'}{t'}$ support is shaded area  (extended towards $t-t'=\infty$). $G^+=1$ over support and
-$G^+=0$ elsewhere.}
-\label{fig-g0-support}
-\end{figure}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=4.6in]{green-fun-pde/wave-integration-region.png}
-\caption{Integration region
-for General Solution and 
-support regions for $g_0(x\pm x', t-t')$.}
-\label{fig-wave-integration-region}
-\end{figure}
-
-
-\beq
-G = G^+ + 
-R G^-
-\eeq
-
-$R$= {\bf reflection coefficient}
-
-\subsection{Boundary Conditions}
-\subsubsection{Dirichlet BC}
-
-\beq
-G\twoevent{0}{t}{x'}{t'} =0
-\eeq
-
-\beq
-R=-1,\quad G = G^+ 
--G^-
-\eeq
-
-
-
-\subsubsection{Neumann BC}
-\beq
-\partial_x G\twoevent{0}{t}{x'}{t'} =0
-\eeq
-
-
-\beq
-R=1,\quad G = G^+
-+G^-
-\eeq
-
-\subsubsection{Mixed (Robin) BC}
-
+{\color{blue}
 \beq
 a_0\eta(0, t) + a_1\partial_x \eta(0, t)= R_\rvt(t)
 \eeq
@@ -1800,6 +1816,39 @@ g_0(x+x', \tau -\tau')
 \frac{-b^2}{4D\tau}
 \right)
 \eeq
+}
+
+
+\section{Wave Equation (Parabolic)}
+
+\subsection{Notation and Conventions}
+
+
+
+\subsection{General Solution}
+
+
+
+\subsection{Point Sources and their Images}
+
+
+
+\subsection{Boundary Conditions}
+\subsubsection{Dirichlet BC}
+
+
+
+
+
+
+\subsubsection{Neumann BC}
+
+
+
+\subsubsection{Mixed (Robin) BC}
+
+
+
 
 \section{Laplace Equation
 in 1-dim (Elliptic)}
@@ -1943,7 +1992,7 @@ The solution to the equation
 L_{x} \eta (x) = S(x)\quad
 \eeq
 for $x>0$
-with  Dirichlet, Neumann or Robin boundary conditions satisfies the {\bf general solution}:
+with  Dirichlet, Neumann or Robin boundary conditions satisfies the {\bf General Solution}:
 
 \beqa
 \ket{\eta}
@@ -2089,13 +2138,15 @@ B= \frac{a_1}{a_0 x' +a_1}
 \section{Laplace Equation in 2-dim (Elliptic)}
 
 
-\newcommand{\vecrp}[0]{\vec{r}\;'}
+
 Free space Geeen's function
 
 \beq
--\nabla^dG(\vecr, \vecrp)=
-\delta^d(\vecr, \vecrp)
+\underbrace{-\sum_{i=1}^d \partial^2_{x_i}G}_{-\nabla^2G(\vecr, \vecrp)}=
+\underbrace{\prod_{1=1}^d\delta(x_i-x_i')}_{\delta^d(\vecr, \vecrp)}
 \eeq
+
+$\engdim{G}=L^{2-d}$
 
 1-dim
 \beq
