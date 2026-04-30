@@ -2,15 +2,29 @@
 \label{ch-green-fun-pde}
 
 \section{Introduction}
-Let
+Suppose
+
 \beq
-L = \partial_t - D \partial^2_x
+L_{x,t} \eta(x,t) = S(x,t)
 \eeq
+where
+
+$L_{x, t}=\partial_t -\partial_x^2\quad$ for {\bf Diffusion Equation (DE)}
+
+
+$L_{x, t}=\partial_t^2 -\partial_x^2\quad$ for {\bf Wave Equation (WE)}
+
+$L_{x, t}=\quad -\partial_x^2\quad$   for {\bf 1-dim Laplace Equation}\footnote{Many workers call $\nabla^2 \eta=0$ Laplace's equation and $\nabla^2 \eta=S$ Poisson's Equation. I will
+refer to both as Laplace's Equation.}
+
+
+
+
+
+
 The Diffusion Equation (DE) in one space dimension $x$,
  with a source $S(x,t)$, is
-\beq
-L \eta(x,t) = S(x,t)
-\eeq
+
 In this chapter will illustrate the use of Green
 functions by solving the DE partial
 differential equation (PDE)
@@ -24,13 +38,17 @@ at $x=0$.
 Types of boundary conditions (BC) that we will consider:
 
 \begin{itemize}
-\item {\bf Dirichlet BC} (absorbing wall)
+\item {\bf Dirichlet BC} (sticky, inverted reflection wall)
 
 \beq \eta(0, t)= D_\rvt(t)
 \eeq
 
 \item
-{\bf Neumann BC} (reflecting wall)
+{\bf Neumann BC} (slippery, reflecting wall)
+
+\beq
+L_{x,t} \eta(x,t) = S(x,t)
+\eeq wall)
 \beq
 \partial_x\eta(0,t)= N_\rvt(t)
 \eeq
@@ -736,8 +754,8 @@ shows the integration region
 for the General Solution and the spikes of $G^\pm$.
 
 
-
-\subsection{Dirichlet BC}
+\subsection{Boundary Conditions}
+\subsubsection{Dirichlet BC}
 
 \beq
 \eta(0, t)= D_\rvt(t)
@@ -828,7 +846,7 @@ D\int_0^t dt'[\partial_{x'} G^+(x,t;x',t')]_{x'=0}=
 dy \frac{1}{\sqrt{2\pi}}\exp\left(
 \frac{-y^2}{2}\right)=\frac{1}{2}
 \eeq
-\subsection{Neumann BC}
+\subsubsection{Neumann BC}
 \beq
 \partial_x\eta(0, t)= N_\rvt(t)
 \eeq
@@ -857,7 +875,7 @@ ambiguity  in $G_N$
 is referred to as a zero-mode.
  
 
-\subsection{Mixed (Robin) BC}
+\subsubsection{Mixed (Robin) BC}
 \beq
 a_0\eta(0, t) + a_1\partial_x \eta(0, t)= R_\rvt(t)
 \eeq
@@ -1599,7 +1617,8 @@ R G^-
 
 $R$= {\bf reflection coefficient}
 
-\subsection{Dirichlet BC}
+\subsection{Boundary Conditions}
+\subsubsection{Dirichlet BC}
 
 \beq
 G\twoevent{0}{t}{x'}{t'} =0
@@ -1612,7 +1631,7 @@ R=-1,\quad G = G^+
 
 
 
-\subsection{Neumann BC}
+\subsubsection{Neumann BC}
 \beq
 \partial_x G\twoevent{0}{t}{x'}{t'} =0
 \eeq
@@ -1623,7 +1642,7 @@ R=1,\quad G = G^+
 +G^-
 \eeq
 
-\subsection{Mixed (Robin) BC}
+\subsubsection{Mixed (Robin) BC}
 
 \beq
 a_0\eta(0, t) + a_1\partial_x \eta(0, t)= R_\rvt(t)
@@ -1775,7 +1794,8 @@ g_0(x+x', \tau -\tau')
 \right)
 \eeq
 
-\section{1-dim Laplace Equation (Hyperbolic)}
+\section{Laplace Equation
+in 1-dim (Elliptic)}
 
 \subsection{Notation}
 
@@ -1964,8 +1984,8 @@ G^-(x, x')=G(-x, x')
 
 
 
-
-\subsection{Dirichlet BC}
+\subsection{Boundary Conditions}
+\subsubsection{Dirichlet BC}
 
 
 \beq
@@ -1984,7 +2004,7 @@ the mirror image delta function $\delta(x+x')$ can be
 ignored.
 
 
-\subsection{Neumann BC}
+\subsubsection{Neumann BC}
 
 \beq
 G_N(x, x')=G^++G^- =
@@ -2002,7 +2022,7 @@ the mirror image delta function $\delta(x+x')$ can be
 ignored.
 
 
-\subsection{Mixed (Robin)}
+\subsubsection{Mixed (Robin)}
 
 \begin{claim}
 
@@ -2033,7 +2053,9 @@ satisfies those 2 constraints too.
 \beq
 -\Omega\max(x=0, x') =0, \quad -L_x \max(x, x')=\delta(x-x')
 \eeq
-Assume
+Assume\footnote{Note that
+the constraint $G\to 0$ as $x\to \infty$ is NOT being used. Neither $G_D=\min(x, x')$
+nor $G_N=-\max(x,x')$ satisfy it. Physically, it must be true, but would require modification of the PDE model to exhibit it.}
 
 \beq
 G_R = A \min(x, x') - B\max(x,x')  
@@ -2057,3 +2079,40 @@ A= \frac{a_0 x'}{a_0 x'+ a_1},\quad
 B= \frac{a_1}{a_0 x' +a_1}
 \eeq
 \qed
+\section{Laplace Equation in 2-dim (Elliptic)}
+
+
+\newcommand{\vecrp}[0]{\vec{r}\;'}
+Free space Geeen's function
+
+\beq
+\nabla^2G(\vecr, \vecrp)=
+\delta(\vecr, \vecrp)
+\eeq
+
+1-dim
+\beq
+G^+(x, x')= -\;\frac{1}{2}|x-x'| = g_0(x-x')
+\eeq
+2-dim
+\beq
+G^+(\vecr,\vecrp)= +\;\frac{1}{2\pi}\ln |\vecr
+-\vecrp| = g_0(\vecr-\vecrp)
+\eeq
+3-dim
+\beq
+G^+(\vecr,\vecrp)= -\;\frac{1}{4\pi |\vecr
+-\vecrp|} = g_0(\vecr-\vecrp)
+\eeq
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=3in]
+{green-fun-pde/green-fun-123dim.png}
+\caption{Green's functions $G$ as a function of $R=|\vecr-\vecrp|$
+in 1, 2 and 3 dimensions.
+ }
+\label{fig-green-fun-123dim}
+\end{figure}
+
+
