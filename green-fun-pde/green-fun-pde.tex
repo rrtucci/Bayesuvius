@@ -258,7 +258,8 @@ for dual tensor product spaces
 \brat{x}{t}=\bra{x}\otimes\bra{t}
 \eeq
 
-{\color{blue}
+{\color{blue} For the Wave Equation, one must make the following modifications. 
+
 Define
 \beq
 L_{x,t}= \partial^2_t -c^2 \partial_x^2,\quad
@@ -827,7 +828,7 @@ N_\rvt(t)
 
 
 
-{\color{blue}
+{\color{blue} For the Wave Equation, one must make the following modifications. 
 \begin{claim}
 Suppose
 \beq
@@ -844,7 +845,7 @@ with Cauchy initial conditions
 \eta(x,0)= \eta_\rvx(x),
 \quad \partial_x\eta(x,0)=C_\rvx(x)
 \eeq
-and Dirichlet, Neumann or Robin boundary conditions satisfies the {\bf master solution}:
+and Dirichlet, Neumann or Robin boundary conditions satisfies the {\bf Gaster Solution}:
 
 \beqa
 \ket{\eta}
@@ -946,7 +947,7 @@ All Green's functions must satisfy
 the DE with delta function sources
 
 \beq
-L_{x,t} G\twoevent{x}{t}{x'}{t'}=\delta(x-x')\delta(t-t')
+\underbrace{(\partial_t-D\partial_x^2)}_{L_{x,t}} G\twoevent{x}{t}{x'}{t'}=\delta(x-x')\delta(t-t')
 \quad \text{for all $x>0$ and $t>0$}
 \label{eq-LG-deltas}
 \eeq
@@ -1056,9 +1057,9 @@ Fig.\ref{fig-de-integration-region}
 shows the integration region
 for the General Solution and the spikes of $G^\pm$.
 
-{\color{blue}
+{\color{blue} For the Wave Equation, one must make the following modifications. 
 \beq
-L_{x,t} G\twoevent{x}{t}{x'}{t'}=\delta(x-x')\delta(t-t')
+\underbrace{(\partial_t^2-\partial_x^2)}_{L_{x,t}} G\twoevent{x}{t}{x'}{t'}=\delta(x-x')\delta(t-t')
 \quad \text{for all $x>0$ and $t>0$}
 \label{eq-LG-deltas-wave}
 \eeq
@@ -1066,10 +1067,10 @@ L_{x,t} G\twoevent{x}{t}{x'}{t'}=\delta(x-x')\delta(t-t')
 
 
 \beq
-G^+\twoevent{x}{t}{x'}{t'}
+\underbrace
+{G^+\twoevent{x}{t}{x'}{t'}}
+_{g_0(x-x', t-t')}
 =\frac{1}{2}\indi(t-t'> |x-x'|)
-=
-g_0(x-x', t-t')
 \eeq
 \beq
 G^+\twoevent{x}{t}{x'}{t'}=
@@ -1169,7 +1170,7 @@ free space solutions $G^\pm$ to $\ul{L}G^\pm=1$
 were superposed so as  to satisfy
 $G_D=0$ at the boundary $x=0$.
 
-{\color{blue}
+{\color{blue} For the Wave Equation, one must make the following modifications. For the Wave Equation, one
 \beq
 G\twoevent{0}{t}{x'}{t'} =0
 \eeq
@@ -1264,7 +1265,7 @@ defined only  up to a constant. This
 ambiguity  in $G_N$
 is referred to as a zero-mode.
  
-{\color{blue}
+{\color{blue} For the Wave Equation, one must make the following modifications.
 \beq
 \partial_x G\twoevent{0}{t}{x'}{t'} =0
 \eeq
@@ -1311,15 +1312,10 @@ $\tau=t-t'>0$
 \quad\text{for $\mu = D, N, R$}
 \eeq
 
-Diffusion
+for Diffusion
 \beq
 K= \sqrt{\frac{s}{D}},\quad
 L_{x,t}=\partial_t -\partial_x^2
-\eeq
-wave
-\beq
-K=\frac{s}{c}=s,\quad
-L_{x,t}=\partial_t^2 -\partial_x^2
 \eeq
 
 
@@ -1580,23 +1576,7 @@ g_0(x+x', \tau -\tau')
 \eeq
 
 
-Diffusion
-\beq
-\call^{-1}_s\left[\frac{1}{s}\exp(-as)\right](t)=
-\indi(t>a)
-\eeq
 
-\beq
-\underbrace{\call^{-1}_s[\tilde{g}_0(a,s)](\tau)}_{g_0(a,\tau)}
-=
-\call^{-1}_s\left[\left.
-\frac{1}{2K}e^{-Kb}
-\right|_{K=s}
-\right](\tau)
-=
-\frac{1}{2}\indi(\tau>b)
-\eeq
-wave 
 \beq
 \call^{-1}_s\left[
 \frac{1}{\sqrt{s}}\exp\left(
@@ -1641,6 +1621,32 @@ R= \frac{-(K-K_0)+2K}{K-K_0}=
 Neumann BC solution has 2 identical images
 at $x'=\pm x$, interfering constructively plus a boundary term that vanishes when $K_0=a_0=0$
 
+
+
+{\color{blue} For the Wave Equation, one must make the following modifications.
+
+wave
+\beq
+K=\frac{s}{c}=s,\quad
+L_{x,t}=\partial_t^2 -\partial_x^2
+\eeq
+
+\beq
+\call^{-1}_s\left[\frac{1}{s}\exp(-as)\right](t)=
+\indi(t>a)
+\eeq
+
+\beq
+\underbrace{\call^{-1}_s[\tilde{g}_0(a,s)](\tau)}_{g_0(a,\tau)}
+=
+\call^{-1}_s\left[\left.
+\frac{1}{2K}e^{-Kb}
+\right|_{K=s}
+\right](\tau)
+=
+\frac{1}{2}\indi(\tau>b)
+\eeq
+
 For Wave Equation, $K=s$
 \beq
 \call_s^{-1}\left[\frac{1}{s-a}\right]=
@@ -1665,193 +1671,10 @@ $-K_0 e^{K_0\tau}\to \delta(\tau)$ as $K_0\to -\infty$. Hence, as $K_0\to -\inft
 \beq
 G_R \to G_N -2G^- = G_D
 \eeq
-
-{\color{blue}
-\beq
-a_0\eta(0, t) + a_1\partial_x \eta(0, t)= R_\rvt(t)
-\eeq
-
-Choose Green's function $G_R$ so that
-it satisfies the DE with delta function source and obeys
-the same BC, but homogeneous
-\beq
-[a_0 +  a_1 \partial_x]G_R\twoevent{0}{t}{x'}{t'}=0
-\eeq
-Free space Green's function
-\beq
-G_0\twoevent{x}{t}{x'}{t'}=
-g_0(x-x', t-t)
-\eeq
-
-\beq
-G_\mu\twoevent{x}{t}{x'}{t'}=
-g_\mu(x, x'; t-t) \quad\text{for $\mu = D, N, R$}
-\eeq
-
-
-$\tau=t-t'>0$
-\beq
-\underbrace{\call[g_0(x-x', \cdot)](s)}_
-{\tilde{g}_0(x-x',s)}=\int_0^\infty d\tau\; e^{-s\tau}g_0(x-x', \tau)
-\eeq
-
-\beq
-\underbrace{\call[g_\mu(x,x'; \cdot)](s)}_
-{\tilde{g}_\mu(x, x';s)}=\int_0^\infty d\tau\; e^{-s\tau}g_\mu(x-x'; \tau)
-\quad\text{for $\mu = D, N, R$}
-\eeq
-
-Diffusion
-\beq
-K= \sqrt{\frac{s}{D}}
-\eeq
-wave
-\beq
-K=\frac{s}{c}=s
-\eeq
-
-\beq 
-K_0= \frac{a_0}{a_1}
-\eeq
-
-robin
-\beq
-[a_0 + a_1\partial_x]\eta(x,t)=0
-\eeq
-
-
-
-
-\begin{claim}
-\beq
-\tilde{g}_R(x, x';s)=
-\tilde{g}_0(x-x', s)
-+\tilde{R}(s)\tilde{g}_0(x+x', s)
-\eeq
-
-\beq
-\tilde{g}_0(x-x', s)=
-\frac{1}{2DK}
-e^{-K|x-x'|}
-\eeq
-
-
-
-\beq
-\tilde{R}(s)=
-\frac{K+K_0}{K-K_0}
-\eeq
-
-$R(\tau)=$ boundary response kernel
-Hence, in the time domain, 
-\beq
-G_R= g_0(x-x', \tau)
-+
-\underbrace{\int_0^{\tau}
-d\tau'\; R(\tau')
-g_0(x+x', \tau-\tau')}_{\text{time convolution}}
-\eeq
-\end{claim}
-\proof
-This is the a repeat of Claim \ref{cl-lp-robin-de}, so the proof is the same. However, 
-for the Diffusion Equation,  $K=\sqrt{s/D}$,
-whereas now, for the Wave Equation, $K=s/c=s$.
-\qed
-
-Neumann, $K_0=0$
-$\tilde{R}(s)=1$ so 
-$R(\tau)=\delta(\tau)$
-
-\beq G_R\rarrow 
-g_0(x-x', \tau)
-+
-g_0(x+x', \tau )
-=G_N
-\eeq
-
-Dirichlet, $K_0\rarrow \infty$, $\tilde{R}(s)\to -1$ so $R(\tau)=-\delta(\tau)$
-
-\beq G_R\rarrow 
-g_0(x-x', \tau)
--
-g_0(x+x', \tau -\tau')
-=G_D
-\eeq
-
-
-
-\beq
-\call^{-1}_s\left[\frac{1}{s}\exp(-as)\right](t)=
-\indi(t>a)
-\eeq
-
-\beq
-\underbrace{\call^{-1}_s[\tilde{g}_0(a,s)](\tau)}_{g_0(a,\tau)}
-=
-\call^{-1}_s\left[\left.
-\frac{1}{2K}e^{-Kb}
-\right|_{K=s}
-\right](\tau)
-=
-\frac{1}{2}\indi(\tau>b)
-\eeq
-
-\beq
-\call^{-1}_s\left[
-\frac{1}{\sqrt{s}}\exp\left(
--a\sqrt{s}\right)\right](t)=
-\frac{1}{\sqrt{\pi t}}\exp\left(\frac{-a^2}{4t}\right)
-\eeq
-
-\beq
-\underbrace{\call^{-1}_s[\tilde{g}_0(b,s)](\tau)}_{g_0(b,\tau)}
-=
-\call^{-1}_s\left[
-\left.
-\frac{1}{2DK}e^{-bK}
-\right|_{K=\sqrt{s/D}}
-\right](\tau)
-=
-\frac{1}{\sqrt{4\pi D\tau}}\exp\left(
-\frac{-b^2}{4D\tau}
-\right)
-\eeq
 }
 
-
-\section{Wave Equation (Parabolic)}
-
-\subsection{Notation and Conventions}
-
-
-
-\subsection{General Solution}
-
-
-
-\subsection{Point Sources and their Images}
-
-
-
-\subsection{Boundary Conditions}
-\subsubsection{Dirichlet BC}
-
-
-
-
-
-
-\subsubsection{Neumann BC}
-
-
-
-\subsubsection{Mixed (Robin) BC}
-
-
-
-
-\section{Laplace Equation
-in 1-dim (Elliptic)}
+\section{1-dim Laplace Equation
+(Elliptic)}
 
 \subsection{Notation}
 
@@ -2135,7 +1958,9 @@ A= \frac{a_0 x'}{a_0 x'+ a_1},\quad
 B= \frac{a_1}{a_0 x' +a_1}
 \eeq
 \qed
-\section{Laplace Equation in 2-dim (Elliptic)}
+
+
+\section{2-dim Laplace Equation (Elliptic)}
 
 
 
