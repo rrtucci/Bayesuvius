@@ -1,3 +1,10 @@
+%\usepackage{luatex85}
+\usepackage{iftex}
+\ifLuaTeX
+  \input{luatex85.sty}   % or just the line below
+  \def\pdftexversion{140}
+\fi
+
 \usepackage{graphicx}     %Note graphics<graphicx<epsfig
 \usepackage[table,xcdraw, dvipsnames]{xcolor}
 \usepackage{hyperref} %written by Sebastian Rahtz
@@ -57,6 +64,31 @@
 %highlighting
 \usepackage{mdframed}
 
+%more robust than mdframed
+\usepackage[most,breakable,skins]{tcolorbox}
+
+\newtcolorbox{mybluearea}{
+  breakable,
+  enhanced,                   % better page breaking behavior
+  colback=blue!10,
+  colframe=white,
+  boxrule=0pt,
+  leftrule=0pt,
+  rightrule=0pt,
+  toprule=0pt,
+  bottomrule=0pt,
+  arc=0pt,
+  sharp corners,
+  % === Correct padding options ===
+  boxsep=8pt,          % overall inner padding (like mdframed)
+  left=8pt,
+  right=8pt,
+  top=10pt,
+  bottom=10pt,
+  % Spacing before/after the box
+  before skip=10pt,
+  after skip=10pt,
+}
 \usepackage[makeroom]{cancel}
 
 \usepackage{pdfpages}
@@ -308,6 +340,13 @@
 \newcommand{\vecy}[0]{{\vec{y}}}
 \newcommand{\vechy}[0]{{\vec{\haty}}}
 \newcommand{\vtheta}[0]{{\vec{\theta}}}
+
+\newcommand{\vecrp}[0]{\vec{r}\;'}
+\newcommand{\tp}[0]{{t_{+}}}
+\newcommand{\tm}[0]{{t_{-}}}
+\newcommand{\tpp}[0]{{t'_{+}}}
+\newcommand{\tmp}[0]{{t'_{-}}}
+
 
 \newcommand{\haty}[0]{{\widehat{y}}}
 \newcommand{\hatx}[0]{{\widehat{x}}}

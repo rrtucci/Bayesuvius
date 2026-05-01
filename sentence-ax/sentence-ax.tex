@@ -148,13 +148,13 @@ so it uses the PyTorch convention.
 \item {\bf Linear}
 
 Some pseudocode
-\begin{mdframed}[hidealllines=true,backgroundcolor=blue!10]
+\begin{mybluearea}
 {\tt
 lin = nn.Linear(b, a)
 
 $y^{[n], [b]}$ = lin($x^{[n],[a]}$)
 }
-\end{mdframed}
+\end{mybluearea}
 In the L2R (left to right) convention followed by PyTorch
 \beq
 x^{\nu, [a]}\rarrow y^{\nu, [b]}=x^{\nu, [a]}W^{[a], [b]}
@@ -174,13 +174,13 @@ The weights matrix $W^{[b], [a]}$ is learned by training.
 \item {\bf Dropout}
 
 Some pseudocode
-\begin{mdframed}[hidealllines=true,backgroundcolor=blue!10]
+\begin{mybluearea}
 {\tt
 dropo = nn.Dropout($p_{drop}$)
 
 $y^{[n], [a]}$ = dropo($x^{[n],[a]}$)
 }
-\end{mdframed}
+\end{mybluearea}
 
 
 \beq
@@ -211,7 +211,7 @@ The final matrix after all these operations  is denoted by $\HAT{W}_L$ (resp., $
 \item {\bf Embedding}
 
 Some pseudocode
-\begin{mdframed}[hidealllines=true,backgroundcolor=blue!10]
+\begin{mybluearea}
 {\tt
 
 emb = nn.Embedding(num\_embeddings=$L$, embedding\_dim=$d$)
@@ -219,7 +219,7 @@ emb = nn.Embedding(num\_embeddings=$L$, embedding\_dim=$d$)
 $Y^{[n_1], [n_2], [d]}$ =
 emb($\lam^{[n_1], [n_2]}$)
 }
-\end{mdframed}
+\end{mybluearea}
 
 In Sax, we use $L=100$ and $d=768$ (for BERT base).
 The $d$ is the \qt{hidden dimension} of BERT.
@@ -313,14 +313,14 @@ Y^{[n_1], [n_2], [d]}={\tt emb}(
 \item{\bf Cross Entropy Loss}
 
 Some pseudocode
-\begin{mdframed}[hidealllines=true,backgroundcolor=blue!10]
+\begin{mybluearea}
 {\tt
 
 loss = nn.CrossEntropyLoss()
 
 output = loss(input=$x^{[n_\rvc], [n_\rvs]}$, target=$t^{[n_\rvs]}$)
 }
-\end{mdframed}
+\end{mybluearea}
 
 
 {\bf Cross Entropy}
@@ -406,14 +406,14 @@ P_{tar}(1|\s)\ln P_{in}(1|\s)
 \item {\bf unsqueeze-repeat-gather}
 
 Some pseudocode
-\begin{mdframed}[hidealllines=true,backgroundcolor=blue!10]
+\begin{mybluearea}
 \begin{verbatim}
 lll_loc = ll_loc0.unsqueeze(2).\
     repeat(1, 1, lll_state.shape[2])
 lll_out = torch.gather(
     input=lll_state, dim=1, index=lll_loc)
 \end{verbatim}
-\end{mdframed}
+\end{mybluearea}
 Sax uses the trio of operations unsqueeze-repeat-gather
 in the manner of the above pseudocode. We have already
 discussed in Section \ref{sec-numpy-tensors}
