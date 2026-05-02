@@ -57,6 +57,13 @@ For example, if there were an impermeable wall at $x=0$,
 \partial_x\eta(0,t)=0
 \eeq
 
+$L\eta=S$ and Neumann BC
+only constrain derivatives of $\eta$.
+Hence, $\eta+c$ and
+$\eta$ for some constant $c$, both 
+satisfy those constraints; i.e., $\eta$ is 
+defined only  up to a constant.
+
 \item {\bf Mixed (Robin) BC}
 
 \beq
@@ -64,7 +71,7 @@ For example, if there were an impermeable wall at $x=0$,
 \eeq
 \end{itemize}
 If the boundary condition depends on $\eta(x,t)$
-only, then it is called a {\bf homogeneous BC} (i.e., $D_\rvt=N_\rvt=R_\rvt=0$)  .
+only (i.e., if $D_\rvt=N_\rvt=R_\rvt=0$), then it is called a {\bf homogeneous BC}.
 Otherwise, it is said to be an {\bf inhomogeneous BC}.
 
 
@@ -72,9 +79,9 @@ Otherwise, it is said to be an {\bf inhomogeneous BC}.
 \centering
 \includegraphics[width=5in]
 {green-fun-pde/dir-.5-1.png}
-\caption{Solution to diffusion equation
+\caption{Solution for Dirichlet BC to diffusion equation
  $\partial_t\eta = D\partial_x^2\eta$ at two different times $t_1, t_2$ where $s_1=\sqrt{4Dt_1}$
-and $s_2=\sqrt{4Dt_2}$ for Dirichlet BC.
+and $s_2=\sqrt{4Dt_2}$.
  }
 \label{fig-dir-s1-s2}
 \end{figure}
@@ -83,9 +90,9 @@ and $s_2=\sqrt{4Dt_2}$ for Dirichlet BC.
 \centering
 \includegraphics[width=5in]
 {green-fun-pde/neu-.5-1.png}
-\caption{Solution to diffusion equation
+\caption{Solution for Neumann BC to diffusion equation
  $\partial_t\eta = D\partial_x^2\eta$ at two different times $t_1, t_2$ where $s_1=\sqrt{4Dt_1}$
-and $s_2=\sqrt{4Dt_2}$ for Neumann BC.
+and $s_2=\sqrt{4Dt_2}$.
  }
 \label{fig-neu-s1-s2}
 \end{figure}
@@ -96,7 +103,7 @@ and $s_2=\sqrt{4Dt_2}$ for Neumann BC.
 {green-fun-pde/fixed-in.jpg}
 \includegraphics[width=2in]
 {green-fun-pde/fixed-out.jpg}
-\caption{Solution to wave equation $\partial_t^2\eta = c^2\partial_x^2\eta$ at two different times for Dirichlet BC}
+\caption{Solution for Dirichlet BC to wave equation $\partial_t^2\eta = c^2\partial_x^2\eta$ at two different times.}
 \label{fig-fixed-in-out}
 \end{figure}
 
@@ -106,8 +113,8 @@ and $s_2=\sqrt{4Dt_2}$ for Neumann BC.
 {green-fun-pde/ring-in.jpg}
 \includegraphics[width=2in]
 {green-fun-pde/ring-out.jpg}
-\caption{Solution to wave equation $\partial_t^2\eta = c^2\partial_x^2\eta$
-at two different times for Neumann BC}
+\caption{Solution for Neumann BC to wave equation $\partial_t^2\eta = c^2\partial_x^2\eta$
+at two different times.}
 \label{fig-ring-in-out}
 \end{figure}
 
@@ -134,7 +141,7 @@ Fig.\ref{fig-ring-in-out} & Wave & Neumann \\ \hline
 Initial Conditions (IC)
 
 \begin{itemize}
-\item No IC for {\bf Elliptic PDEs}  like Laplace Equation  $\partial_x^2\eta
+\item {\bf No IC} for {\bf Elliptic PDEs}  like Laplace Equation  $\partial_x^2\eta
 +\partial_y^2\eta=0$
  that have no time derivatives.
 
@@ -154,6 +161,21 @@ in time derivative
 
 \section{Diffusion (Hyperbolic) and Wave (Parabolic) Equations}
 
+In this section,
+we will
+discuss both
+the Diffusion Equation (DE)
+and the Wave Equation (WE).
+Much of the theory
+for these 2 PDEs 
+applies to both PDEs.
+For this
+reason, I will
+discuss first the DE, and then indicate
+in blue shaded areas 
+how to modify the DE
+treatment so that
+it applies to the WE.
 
 
 \subsection{Notation and Conventions},
@@ -258,7 +280,9 @@ for dual tensor product spaces
 \includegraphics[width=2in]
 {green-fun-pde/light-cone-coords.png}
 \caption{$(x,t)$ and $(\tp, \tm)$  axes.
-Shaded area (extended towards $t=\infty$) is future or forward light cone.}
+Shaded area (extended towards $t=\infty$) is
+called the future or forward light cone.
+}
 \label{fig-light-cone-coords}
 \end{figure}
 
@@ -373,7 +397,7 @@ M
 \begin{pmatrix}
 \partial_\tp \\ \partial_\tm
 \end{pmatrix}
-= M
+= M^T
 \begin{pmatrix}
 \partial_x \\\partial_t
 \end{pmatrix}
@@ -693,7 +717,7 @@ so integrating the time derivative term
 -D\int_0^t dt'\;
 G\twoevent{x}{t}{x'}{t'}\cev{\partial}^2_{x'}=\delta(x-x')
 \eeq
-For for an infinitesimal $t=\eps$,
+For  an infinitesimal $t=\eps$,
 only one term survives 
 on the left hand side. Hence
 \beq
@@ -752,7 +776,7 @@ G\twoevent{x}{t}{x'}{t'}[\underbrace{\cev{\partial}_{t}}_{-\cev{\partial}_{t'}} 
 =\int_{0}^{\infty}dx'\;
 \delta(x-x')\delta(t-t')
 \eeq
-so integrating the second derivative
+so integrating the second derivative and setting $x=0$
 
 \beq
 -\int_{0}^{\infty}dx'\;G\twoevent{0}{t}{x'}{t'}\cev{\partial}_{t'}+
@@ -767,11 +791,7 @@ for infinitesimal $\eps$.
 +
 DG\twoevent{0}{t}{0}{t'}\cev{\partial}_{x'}=\delta(t-t')
 \eeq
-A consequence of this is that
-As long as $t\neq t'$, $G\twoevent{0}{t}{x'}{t'}$
-is a finite function of $x'$ so
-the integral over $x'$ is proportional  to
-$\eps$ and may be assumed to vanish. 
+
 
 Consider the
 the master solution and its BC term in particular:
@@ -834,20 +854,22 @@ N_\rvt(t)
 \begin{claim}
 Suppose
 \beq
-L_{x,t}= \partial^2_t - \partial_x^2,\quad
+L_{x,t}= \partial_t^2 - \partial_x^2,\quad
 L_{x,t} G\twoevent{x}{t}{x'}{t'}=\stackt{\delta(x-x')}{\delta(t-t')}
 \eeq
-The solution to the equation
+The {\bf General Solution} to the equation
 \beq
 L_{x,t} \eta (x,t) = S(x,t)\quad
 \eeq
 for $x>0$ and $t>0$
-with Cauchy initial conditions
-\beq
+with \beq
 \eta(x,0)= \eta_\rvx(x),
 \quad \partial_x\eta(x,0)=C_\rvx(x)
 \eeq
-and Dirichlet, Neumann or Robin boundary conditions satisfies the {\bf Gaster Solution}:
+and Dirichlet, Neumann or Robin boundary conditions,
+is:
+
+
 
 \beqa
 \ket{\eta}
@@ -953,10 +975,10 @@ the DE with delta function sources
 \quad \text{for all $x>0$ and $t>0$}
 \label{eq-LG-deltas}
 \eeq
-In addition, they must satisfy BC
-that match the BC satisfied by the
+In addition, they must satisfy the homogeneous BC
+that match the 
+inhomogeneous BC satisfied by the
 solution $\eta(x,t)$.
-Below, we specify what BC the Green's function must satisfy.
 
 Let $\caln(x;\s^2)$
 represent the Normal Distribution
@@ -974,7 +996,7 @@ Let
 \label{eq-def-green-pm}
 \eeqa
 where $\kappa =2D$.  
-$G^+$, called the {\bf free space (no BC) Green's function}, 
+$G^+=G_0$ is called the {\bf free space (no BC) Green's function}. It 
 will be used as a building block
 to construct the Green's functions
 appropriate to the various BC.
@@ -997,6 +1019,11 @@ satisfy Eq.(\ref{eq-LG-deltas})
 \beq
 L_{x,t}\underbrace{\caln(x\mp x'; \kappa(t-t'))}_{\caln_\mp}=0\quad \text{for $x>0$ 
 and $t>0$}
+\eeq
+and
+
+\beq
+\caln_\mp\rarrow \delta(x\mp x') \text{ as $t\to t'$}
 \eeq
 Therefore, 
 
@@ -1025,9 +1052,6 @@ where it \qt{spikes} and becomes infinite. Note also that we define
 $G=0$
 for all $x-x'<0$. The spike at the origin is the reason why 
 $L_{x,t}G^+$ gives a delta function. 
-
-
-
 
 \begin{figure}[h!]
 \centering
@@ -1073,7 +1097,7 @@ $G^+=0$ elsewhere.}
 \includegraphics[width=4.6in]{green-fun-pde/wave-integration-region.png}
 \caption{Integration region
 for General Solution and 
-support regions for $g_0(x\pm x', t-t')$.}
+support regions for $G^\pm$.}
 \label{fig-wave-integration-region}
 \end{figure}
 
@@ -1108,7 +1132,7 @@ G^+\twoevent{- x}{t}{x'}{t'}
 
 
 Note that the function $G^+$
-satisfies Eq.(\ref{eq-LG-deltas-wave}) so it is a  bona fide Green's function. Indeed, as using
+satisfies Eq.(\ref{eq-LG-deltas-wave}) so it is a  bona fide Green's function. Indeed, using the
 identities previously  proven  for
 light cone coordinates, we get
 
@@ -1121,74 +1145,52 @@ G^+\twoevent{x-x'}{t}{0}{0}=
 \stackt{\delta(x-x')}{\delta(t-t')}
 \eeq
 
+Fig.\ref{fig-g0-support} shows the support 
+of $G^+$: it's just
+the forward light cone  region.
 $G^+$ is a unit step advancing at speed $c=1$ 
 towards $x-x'=\infty$ for $x-x'>0$
 and towards $x-x'=-\infty$ for $x-x'<0$.
 The side of the step closest to $x-x'=0$
 has $G^+=1$, and the other side has $G^+=0$.
 
+Fig.\ref{fig-wave-integration-region}
+shows the integration region
+for the General Solution and the
+support regions for $G^\pm$.
 
 
-\beq
-G = G^+ + 
-R G^-
-\eeq
-
-$R$= {\bf reflection coefficient}
 
 \end{mybluearea}
 
 \subsection{Boundary Conditions}
 \subsubsection{Dirichlet BC}
-
+For the Dirichlet BC, $\eta$
+must satisfy
 \beq
 \eta(0, t)= D_\rvt(t)
 \eeq
-
-Choose Green's function $G_D$ so that
-it satisfies the DE with delta function source and obeys
-the same BC, but homogeneous
+and the Green's function $G_D$ must satisfy
 \beq
 G_D\twoevent{0}{t}{x'}{t'}=0
 \eeq
-The solution is
+A possible solution is
 
 \beq
 G_D= G^+ - G^-
 \eeq
 
 
-
-
-At the boundary
-\beq
-\left.
-\partial_{x'} G_D
-\twoevent{x}{t}{x'}
-{t'}\right|_{x'=0}
-=
-\frac{x}{\sqrt{2\kappa (t-t')^3}}
-\exp\left(
-\frac{-x^2}{2\kappa(t-t')}
-\right)
-\eeq
 This $G_D$ was found by the method of images: two
-free space solutions $G^\pm$ to $\ul{L}G^\pm=1$
+free space solutions,
+$G^+$ and its image
+$G^-$
+with respect to the boundary $x=x'$,
 were superposed so as  to satisfy
 $G_D=0$ at the boundary $x=0$.
 
-\begin{mybluearea}
 
-For the Wave Equation, one must make the following modifications. For the Wave Equation, one
-\beq
-G\twoevent{0}{t}{x'}{t'} =0
-\eeq
 
-\beq
-R=-1,\quad G = G^+ 
--G^-
-\eeq
-\end{mybluearea}
 
 \begin{claim}
 Prove that
@@ -1247,71 +1249,60 @@ dy \frac{1}{\sqrt{2\pi}}\exp\left(
 \frac{-y^2}{2}\right)=\frac{1}{2}
 \eeq
 \subsubsection{Neumann BC}
+For the Neumann BC, $\eta$ must satisfy
 \beq
 \partial_x\eta(0, t)= N_\rvt(t)
 \eeq
-
-Choose Green's function $G_N$ so that
-it satisfies the DE with delta function source and obeys
-the same BC, but homogeneous
+and the Green's function $G_N$ must satisfy
 \beq
 G_N\twoevent{x}{t}{0}{t'}\cev{\partial}_{x'}=0
 \eeq
-The solution is
+A possible solution is
 
 \beq
 G_N= G^+ + G^-
 \eeq
 Note that for the Dirichlet BC problem, $G^+$ and $G^+$
-are subtracted instead if added.
+are subtracted 
+whereas here they are added.
 
-$LG=\delta$ and Neumann BC
+$LG=\delta$ and the Neumann BC
 only constrain derivatives of $G$.
 Hence, $G_N +c$ and
-$G_N$ both 
-satisfy those constrains; i.e.,  is 
+$G_N$ for some constant $c$, both 
+satisfy those constraints; i.e., $G_N$  is 
 defined only  up to a constant. This
 ambiguity  in $G_N$
-is referred to as a zero-mode.
+is referred to as a {\bf zero-mode}.
  
-\begin{mybluearea}
 
-For the Wave Equation, one must make the following modifications.
-\beq
-\partial_x G\twoevent{0}{t}{x'}{t'} =0
-\eeq
-
-
-\beq
-R=1,\quad G = G^+
-+G^-
-\eeq
-\end{mybluearea}
 
 \subsubsection{Mixed (Robin) BC}
+For the Robin BC, $\eta$ must satisfy
 \beq
 a_0\eta(0, t) + a_1\partial_x \eta(0, t)= R_\rvt(t)
 \eeq
-
-Choose Green's function $G_R$ so that
-it satisfies the DE with delta function source and obeys
-the same BC, but homogeneous
+and the Green's function $G_R$ must satisfy
 \beq
 [a_0 +  a_1 \partial_x]G_R\twoevent{0}{t}{x'}{t'}=0
 \eeq
-Free space Green's function
+
+Let 
 \beq
 G_0\twoevent{x}{t}{x'}{t'}=
 g_0(x-x', t-t)
 \eeq
-
+denote the free space Green's function
+and let
 \beq
 G_\mu\twoevent{x}{t}{x'}{t'}=
 g_\mu(x, x'; t-t) \quad\text{for $\mu = D, N, R$}
 \eeq
+denote the Dirichlet, Neumann 
+and Robin Green's functions.
 
-
-$\tau=t-t'>0$
+For $\tau=t-t'>0$,
+define the following Laplace transforms
 \beq
 \underbrace{\call[g_0(x-x', \cdot)](s)}_
 {\tilde{g}_0(x-x',s)}=\int_0^\infty d\tau\; e^{-s\tau}g_0(x-x', \tau)
@@ -1322,8 +1313,7 @@ $\tau=t-t'>0$
 {\tilde{g}_\mu(x, x';s)}=\int_0^\infty d\tau\; e^{-s\tau}g_\mu(x-x'; \tau)
 \quad\text{for $\mu = D, N, R$}
 \eeq
-
-for Diffusion
+Let
 \beq
 K= \sqrt{\frac{s}{D}},\quad
 L_{x,t}=\partial_t -\partial_x^2
@@ -1378,7 +1368,7 @@ G_R= g_0(x-x', \tau)
 d\tau'\; R(\tau')
 g_0(x+x', \tau-\tau')}_{\text{time convolution}}
 \eeq
-$R(\tau)$ is called the {\bf boundary response kernel}.
+$R(\tau)$ is called the {\bf boundary response kernel} or {\bf reflection coefficient}.
 \end{claim}
 \proof
 
@@ -1387,7 +1377,7 @@ $R(\tau)$ is called the {\bf boundary response kernel}.
 \eeq
 Apply 
 $\int_0^\infty dt\;e^{-st}$
-to both sides and integrate time derivatives by parts
+to both sides and integrate the time derivative by parts
 
 
 \beq
@@ -1403,10 +1393,12 @@ where $K=\sqrt{s/D}$
 -\;\frac{1}{D}
 \delta(x-x')
 \eeq
-
-homogeneous equation 
-and its solution. 
-Discontinuous at $x=x'$,
+The most
+general
+solution to this ODE is
+as follows, assuming that
+the solution has a kink
+at  $x=x'$, and is
 finite for $x\rarrow \infty$
 \beq
 \tilde{g}(x, x'; s)
@@ -1420,10 +1412,18 @@ C e^{-Kx}
 \end{array}
 \right.
 \eeq
-Robin
+To solve for the 3 unknowns $A,B,C$, we need
+3 linear equations.
+Those 3 equations are
+provided by the Robin BC at $x=0$,
+and 2 continuity conditions 
+at $x=x'$.
+
+The Robin BC means that
 \beq
 K_0 \tilde{g}|_{x=0}+ \tilde{g}'|_{x=0}=0
 \eeq
+so
  \beq K_0(A+B) + K(A-B)=0
 \eeq
 
@@ -1438,12 +1438,15 @@ K_0 \tilde{g}|_{x=0}+ \tilde{g}'|_{x=0}=0
 \hrule
 
 Let $E=e^{Kx'}$, $\ol{E}=e^{-Kx'}$
-Behavior at $x=x'$ in
+The behavior 
+of $\tilde{g}$ at $x=x'$
+must be as follows, in
 order
-to produce $\delta(x-x')$
+to produce a $\delta(x-x')$
 when differentiated twice.
 \begin{enumerate}
-\item $\tilde{g}$ must be 
+\item $\tilde{g}$ must
+have a kink but be 
 continuous at $x=x'$
 
 \beq
@@ -1459,6 +1462,7 @@ Ce^{-Kx'}
 \beq
 \boxed
 {A(E +R\ol{E})-C\ol{E}=0}
+\label{eq-boxed-cont-eq1}
 \eeq
 
 \item 
@@ -1467,7 +1471,7 @@ $\tilde{g}'$ must jump at $x=x'$
 \beq
 \int_{x'-\eps}^{x'+\eps}dx\;  [\tilde{g}''-K^2\tilde{g}]= -\;\frac{1}{D}
 \eeq
-integral over $K^2 \tilde{g}$ is zero as $\eps\to 0$
+The integral over $K^2 \tilde{g}$ tends to zero as $\eps\to 0$ so
 
 \beq
 \tilde{g}'|_{x=x'+\eps}-
@@ -1481,11 +1485,12 @@ integral over $K^2 \tilde{g}$ is zero as $\eps\to 0$
 
 \beq
 \boxed{-C\ol{E} +A(-E+R\ol{E})=-\frac{1}{DK}}
+\label{eq-boxed-cont-eq2}
 \eeq
 \end{enumerate}
-\hrule
-
- 
+\hrule Eqs.(\ref{eq-boxed-cont-eq1})
+ and Eq.(\ref{eq-boxed-cont-eq2})
+constitute an easily solved system of two equations in 2 unknowns $A,C$.
 \beq
 \underbrace{\begin{pmatrix}
 E + R\ol{E}&-\ol{E}
@@ -1548,13 +1553,13 @@ For $0<x<x'$
 e^{K(x-x')} +R e^{-K(x+x')}
 \right]
 \eeq
-For $x>x'$
+and for $x>x'$
 \beq
 \tilde{g}=Ce^{-Kx}=
 \frac{1}{2DK}\left[ 
 e^{-K(x-x')}+Re^{-K(x+x')}\right]
 \eeq
-so, for all $x$
+Hence, for all $x$
 
 \beq
 \tilde{g}=
@@ -1566,7 +1571,22 @@ e^{-K|x-x'|}+R e^{-K(x+x')}\right]
 
 \qed
 
-Neumann, $K_0=0$
+We can check
+that $\tilde{g}$
+has the expected
+behavior in the
+$K_0$ equals $0$ and $infty$ limits: 
+\begin{itemize}
+\item Dirichlet BC, $K_0\rarrow \pm\infty$, $\tilde{R}(s)\to -1$ so $R(\tau)=-\delta(\tau)$
+
+\beq G_R\rarrow 
+g_0(x-x', \tau)
+-
+g_0(x+x', \tau -\tau')
+=G_D
+\eeq
+\item
+Neumann BC, $K_0=0$
 $\tilde{R}(s)=1$ so 
 $R(\tau)=\delta(\tau)$
 
@@ -1576,17 +1596,12 @@ g_0(x-x', \tau)
 g_0(x+x', \tau )
 =G_N
 \eeq
-
-Dirichlet, $K_0\rarrow \pm\infty$, $\tilde{R}(s)\to -1$ so $R(\tau)=-\delta(\tau)$
-
-\beq G_R\rarrow 
-g_0(x-x', \tau)
--
-g_0(x+x', \tau -\tau')
-=G_D
-\eeq
+\end{itemize}
 
 
+From 
+a table of Laplace
+transforms, we know that
 
 \beq
 \call^{-1}_s\left[
@@ -1594,7 +1609,7 @@ g_0(x+x', \tau -\tau')
 -a\sqrt{s}\right)\right](t)=
 \frac{1}{\sqrt{\pi t}}\exp\left(\frac{-a^2}{4t}\right)
 \eeq
-
+Therefore, 
 \beq
 \underbrace{\call^{-1}_s[\tilde{g}_0(b,s)](\tau)}_{g_0(b,\tau)}
 =
@@ -1609,28 +1624,40 @@ g_0(x+x', \tau -\tau')
 \right)
 \eeq
 
-$K_0=a_0/a_1$ can be positive or negative
+Note that $K_0=a_0/a_1$ can be positive or negative
+and that changing the
+sign of $K_0$
+inverts the refection
+coefficient $K_0$
 \beq
 R(-K_0)=\frac{1}{R(K_0)}
 \eeq
 
+Note also that $R$
+can be easily rewritten
+as 1 plus something
 \beq
 R= \frac{K-K_0+2K_0}{K-K_0}=
 1 +\frac{2K_0}{K-K_0}
+\label{eq-r-2k0-div-sum}
 \eeq
 
 \beq
 R= \frac{-(K-K_0)+2K}{K-K_0}=
 -1 +\frac{2K}{K-K_0}
 \eeq
-
+By virtue of Eq.(\ref{eq-r-2k0-div-sum}), we can re-express $\tilde{g}_R$ as
 \beq
 \tilde{g}_R(x, x';s)=
 \tilde{g}_N(x-x', s)
 +\frac{2K_0}{K-K_0}\tilde{g}_0(x+x', s)
+\label{eq-r-n-plus-boundary-term}
 \eeq
-Neumann BC solution has 2 identical images
-at $x'=\pm x$, interfering constructively plus a boundary term that vanishes when $K_0=a_0=0$
+According to
+Eq.(\ref{eq-r-n-plus-boundary-term}), $\tilde{g}_R$
+equals $\tilde{g}_N$  plus a boundary term that vanishes when $K_0=a_0=0$.
+$\tilde{g}_N$  has 2 identical point sources
+at $x'=\pm x$ interfering constructively.
 
 
 
@@ -1660,7 +1687,10 @@ L_{x,t}=\partial_t^2 -\partial_x^2
 \frac{1}{2}\indi(\tau>b)
 \eeq
 
-For Wave Equation, $K=s$
+For the Wave Equation, $K=s$,
+so (unlike the
+DE case where $K\propto \sqrt{s}$) we can invert the Laplace transform of $\tilde{R}$ in closed form. 
+From Laplace Transform tables,
 \beq
 \call_s^{-1}\left[\frac{1}{s-a}\right]=
 e^{at}
@@ -1679,7 +1709,9 @@ As $K_0\to 0$,
 \beq
 G_R\to G_D
 \eeq
-$-K_0 e^{K_0\tau}\to \delta(\tau)$ as $K_0\to -\infty$. Hence, as $K_0\to -\infty$,
+As $K_0\to -\infty$,
+we have
+$-K_0 e^{K_0\tau}\to \delta(\tau)$. Hence, 
 
 \beq
 G_R \to G_N -2G^- = G_D
@@ -2004,7 +2036,7 @@ G^+(\vecr,\vecrp)= \;\frac{1}{4\pi |\vecr
 
 \begin{figure}[h!]
 \centering
-\includegraphics[draft=false, width=3in]
+\includegraphics[draft, width=3in]
 {green-fun-pde/green-fun-123dim.png}
 \caption{Free space Green's functions $G$ for minus Laplacian as a function of $R=|\vecr-\vecrp|$
 for integral dimensions.
@@ -2015,7 +2047,7 @@ for integral dimensions.
 
 \begin{figure}[h!]
 \centering
-\includegraphics[draft=false, width=5in]
+\includegraphics[draft, width=5in]
 {green-fun-pde/greens-fun-laplacian-continuous-dim.png}
 \caption{Free space Green's functions $G$ for minus Laplacian as a function of $R=|\vecr-\vecrp|$
 in various dimensions, including fractional ones.
