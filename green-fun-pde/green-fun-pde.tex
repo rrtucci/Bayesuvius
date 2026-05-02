@@ -475,7 +475,7 @@ with initial conditions
 \beq
 \eta(x,0)= \eta_\rvx(x)
 \eeq
-and Dirichlet, Neumann or Robin boundary conditions,
+and satisfying Dirichlet, Neumann or Robin boundary conditions at $x=0$,
 is:
 
 \beqa
@@ -866,7 +866,7 @@ with \beq
 \eta(x,0)= \eta_\rvx(x),
 \quad \partial_x\eta(x,0)=C_\rvx(x)
 \eeq
-and Dirichlet, Neumann or Robin boundary conditions,
+and satisfying Dirichlet, Neumann or Robin boundary conditions at $x=0$,
 is:
 
 
@@ -968,7 +968,7 @@ satisfied by $\eta(x,t)$.
 \subsection{Point sources and their images}
 
 All Green's functions must satisfy
-the DE with delta function sources
+the DE with delta function source
 
 \beq
 \underbrace{(\partial_t-D\partial_x^2)}_{L_{x,t}} G\twoevent{x}{t}{x'}{t'}=\delta(x-x')\delta(t-t')
@@ -1665,16 +1665,16 @@ at $x'=\pm x$ interfering constructively.
 
 For the Wave Equation, one must make the following modifications.
 
-wave
 \beq
 K=\frac{s}{c}=s,\quad
 L_{x,t}=\partial_t^2 -\partial_x^2
 \eeq
-
+From a table of Laplace transforms,
 \beq
 \call^{-1}_s\left[\frac{1}{s}\exp(-as)\right](t)=
 \indi(t>a)
 \eeq
+so
 
 \beq
 \underbrace{\call^{-1}_s[\tilde{g}_0(a,s)](\tau)}_{g_0(a,\tau)}
@@ -1690,7 +1690,7 @@ L_{x,t}=\partial_t^2 -\partial_x^2
 For the Wave Equation, $K=s$,
 so (unlike the
 DE case where $K\propto \sqrt{s}$) we can invert the Laplace transform of $\tilde{R}$ in closed form. 
-From Laplace Transform tables,
+From a table of Laplace transforms,
 \beq
 \call_s^{-1}\left[\frac{1}{s-a}\right]=
 e^{at}
@@ -1739,9 +1739,18 @@ L_{x} G(x,x')=
 \engdim{G}=L
 \eeq
 
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2in]
+{green-fun-pde/min-max-x-xp.png}
+\caption{Plots of $y=\pm \min(x,x')$
+and $y=\max(x, x')$ in $(x', y)$ plane.
+ }
+\label{fig-min-max-x-xp}
+\end{figure}
 
-$\max(x, x')=$ ramp with height $x$ when plotted as a
-function of $x'$.
+See Fig.\ref{fig-min-max-x-xp}.
+When plotted as a function of $x'$, $\max(x, x')$ and $\min(x, x')$ look like  ramps   (inclines) changing slope at $x'=x$.
 
 \beq
 \partial_x\min(x,x')=
@@ -1754,14 +1763,17 @@ function of $x'$.
 \right\}
 =\indi(x<x')
 \eeq
+Also
+
+\beq
+ \partial_x\indi(x<x')=a\delta(x-x')
+\eeq
+$a=1$ because
 
 \beq
 1=\int_{-\infty}^\infty dx\;\partial_x\indi(x<x')=\int_{-\infty}^\infty dx\; \delta(x-x')
 \eeq
-so
-\beq
- \partial_x\indi(x<x')=\delta(x-x')
-\eeq
+
 
 
 
@@ -1775,17 +1787,9 @@ in 1 dim.
 \label{fig-distance-funs}
 \end{figure}
 
-\begin{figure}[h!]
-\centering
-\includegraphics[width=2in]
-{green-fun-pde/min-max-x-xp.png}
-\caption{Plots of $y=\pm \min(x,x')$
-and $y=\max(x, x')$ in $(x', y)$ plane.
- }
-\label{fig-min-max-x-xp}
-\end{figure}
 
-assume $x>0$
+
+\begin{subequations}
 \beq
 |x-x'|=
 \left\{
@@ -1842,9 +1846,12 @@ x&\text{if $x'<-x$}
 \right\}}_{
 =-\min(x,x') \text{ if $x'>0$}}
 \eeq
+\label{eq-four-distance-funs}
+\end{subequations}
 
-
-
+The four functions
+given by Eqs.(\ref{eq-four-distance-funs}) are
+plotted in Fig.\ref{fig-distance-funs}.
  
 
 \subsection{General Solution}
@@ -1856,12 +1863,12 @@ Suppose
 L_{x}= -\partial_x^2,\quad
 L_{x} G(x, x')=\delta(x-x')
 \eeq
-The solution to the equation
+The {\bf General Solution} to the equation
 \beq
 L_{x} \eta (x) = S(x)\quad
 \eeq
-for $x>0$
-with  Dirichlet, Neumann or Robin boundary conditions satisfies the {\bf General Solution}:
+for $x>0$, satisfying
+Dirichlet, Neumann or Robin boundary conditions at $x=0$, is:
 
 \beqa
 \ket{\eta}
@@ -1894,17 +1901,23 @@ G(x,0) \left[-\partial_{x'}
 \subsection{Point Sources and their images}
 
 
+\beq
+\underbrace{-\partial_x^2}_{L_{x,t}} G\twoevent{x}{t}{x'}{t'}=\delta(x-x')
+\quad \text{for all $x>0$}
+\eeq
+
 Free space Geeen's function
 
 
 \beq
-G^+(x, x')= -\;\frac{1}{2}|x-x'| = g_0(x-x')
+\underbrace{G^+(x, x')}_
+{g_0(x-x')}= -\;\frac{1}{2}|x-x'| 
 \eeq
 
 \beq
 G^-(x, x')=G(-x, x')
+= -\;\frac{1}{2}|x+x'| 
 \eeq
-
 
 
 
@@ -1912,36 +1925,65 @@ G^-(x, x')=G(-x, x')
 \subsection{Boundary Conditions}
 \subsubsection{Dirichlet BC}
 
-
+For the Dirichlet BC, $\eta(x)$
+must satisfy
 \beq
-G_D(x, x')= G^+ -G^-
-=\min(x, x')
+\eta(0)= A
 \eeq
+and the Green's function $G_D(x)$ must satisfy
+\beq
+G_D(0)=0
+\eeq
+A possible solution is
+\beqa
+G_D(x, x')
+&=&G^+ -G^-
+\\
+&=&\min(x, x')
+\quad\text{for $x>0$ (see Eqs.(\ref{eq-four-distance-funs}))}
+\eeqa
 
-$\min(x,x')$ has slope$+1$  for $x'\in [-x, x]$
+As can be seen from Fig.\ref{fig-min-max-x-xp}
+and Fig.\ref{fig-distance-funs},
+$G^+-G^-$ has slope $+1$  for $x'\in [-x, x]$
 and is constant for $x'<-x$ and $x'>x$.
 This kink at $x'=\pm x$
 leads to a jump in the first derivative $\partial_{x'}G$ and to a delta in the 
 second derivative $\partial_{x'}^2G$.
-Hence $L G=\delta(x-x') + \delta(x+x')$
+Hence $L G=\delta(x-x') + \delta(x+x')$.
 Since we are working in the $x'>0$ quadrant,
 the mirror image delta function $\delta(x+x')$ can be 
 ignored.
 
 
 \subsubsection{Neumann BC}
-
+For the Neumann BC, $\eta(x)$
+must satisfy
 \beq
-G_N(x, x')=G^++G^- =
--\max(x, x')
+\partial_x\eta(0)= B
 \eeq
+and the Green's function $G_N(x)$ must satisfy
+\beq
+\partial_xG_N(0)=0
+\eeq
+A possible solution is
 
-$\max(x,x')$ is constant  for $x'\in [-x, x]$
+\beqa
+G_N(x, x')&=&G^++G^- 
+\\
+&=&
+-\max(x, x')
+\quad\text{for $x>0$ (see Eqs.(\ref{eq-four-distance-funs}))}
+\eeqa
+
+As can be seen from Fig.\ref{fig-min-max-x-xp}
+and Fig.\ref{fig-distance-funs},
+$G^++G^-$ is constant  for $x'\in [-x, x]$
 and has slope $\pm 1$ for $x'<-x$ and $x'>x$.
 This kink at $x'=\pm x$
 leads to a jump in the first derivative $\partial_{x'}G$ and to a delta in the 
 second derivative $\partial_{x'}^2G$.
-Hence $L G=\delta(x-x') + \delta(x+x')$
+Hence $L G=\delta(x-x') + \delta(x+x')$.
 Since we are working in the $x'>0$ quadrant,
 the mirror image delta function $\delta(x+x')$ can be 
 ignored.
@@ -1958,7 +2000,7 @@ G_R=\frac {a_0 x'\min (x,x') - a_1 \max(x, x')}{a_0 x' + a_1}
 \proof
 Let 
 \beq
-\Omega= a_0 + a_1\partial_x,,
+\Omega_x= a_0 + a_1\partial_x,,
 \quad L_x = -\partial_x^2
 \eeq
 We know that
@@ -1970,17 +2012,17 @@ can be verified visually
 from Fig.\ref{fig-min-max-x-xp})
 
 \beq
-\Omega\min(x=0, x') =0, \quad L_x \min(x, x')=\delta(x-x')
+\Omega_x\min(0, x') =0, \quad L_x \min(x, x')=\delta(x-x')
 \eeq
-We know that $G_N$
+Likewise, we know that $G_N$
 satisfies those 2 constraints too.
 
 \beq
--\Omega\max(x=0, x') =0, \quad -L_x \max(x, x')=\delta(x-x')
+-\Omega_x\max(0, x') =0, \quad -L_x \max(x, x')=\delta(x-x')
 \eeq
 Assume\footnote{Note that
-the constraint $G\to 0$ as $x\to \infty$ is NOT being used. Neither $G_D=\min(x, x')$
-nor $G_N=-\max(x,x')$ satisfy it. Physically, it must be true, but would require modification of the PDE model to exhibit it.}
+the constraint $\lim_{x\to \infty}G =0$  is NOT being used. Neither $G_D=\min(x, x')$
+nor $G_N=-\max(x,x')$ satisfy it. Physically, $\lim_{x\to \infty}G =0$ must be true, but a modification of the PDE model is required to exhibit it.}
 
 \beq
 G_R = A \min(x, x') - B\max(x,x')  
@@ -2008,32 +2050,6 @@ B= \frac{a_1}{a_0 x' +a_1}
 
 \section{2-dim Laplace Equation (Elliptic)}
 
-
-
-Free space Geeen's function
-
-\beq
-\underbrace{-\sum_{i=1}^d \partial^2_{x_i}G}_{-\nabla^2G(\vecr, \vecrp)}=
-\underbrace{\prod_{1=1}^d\delta(x_i-x_i')}_{\delta^d(\vecr, \vecrp)}
-\eeq
-
-$\engdim{G}=L^{2-d}$
-
-1-dim
-\beq
-G^+(x, x')= -\;\frac{1}{2}|x-x'| = g_0(x-x')
-\eeq
-2-dim
-\beq
-G^+(\vecr,\vecrp)= -\;\frac{1}{2\pi}\ln |\vecr
--\vecrp| = g_0(\vecr-\vecrp)
-\eeq
-3-dim
-\beq
-G^+(\vecr,\vecrp)= \;\frac{1}{4\pi |\vecr
--\vecrp|} = g_0(\vecr-\vecrp)
-\eeq
-
 \begin{figure}[h!]
 \centering
 \includegraphics[draft, width=3in]
@@ -2055,6 +2071,34 @@ in various dimensions, including fractional ones.
 \label{fig-greens-fun-laplacian-continuous-dim}
 \end{figure}
 
+
+Free space Geeen's function
+
+\beq
+\underbrace{-\sum_{i=1}^d \partial^2_{x_i}G}_{-\nabla^2G(\vecr, \vecrp)}=
+\underbrace{\prod_{1=1}^d\delta(x_i-x_i')}_{\delta^d(\vecr, \vecrp)}
+\eeq
+
+$\engdim{G}=L^{2-d}$
+
+\begin{itemize}
+\item 1-dim
+\beq
+G^+(x, x')= -\;\frac{1}{2}|x-x'| = g_0(x-x')
+\eeq
+\item 2-dim
+\beq
+G^+(\vecr,\vecrp)= -\;\frac{1}{2\pi}\ln |\vecr
+-\vecrp| = g_0(\vecr-\vecrp)
+\eeq
+\item 3-dim
+\beq
+G^+(\vecr,\vecrp)= \;\frac{1}{4\pi |\vecr
+-\vecrp|} = g_0(\vecr-\vecrp)
+\eeq
+
+
+\item $d$-dim
 \beq
 G(R)=
 \frac{1}{(d-2)S_d}
@@ -2065,5 +2109,20 @@ G(R)=
 {\Gamma(d/2)}
 \eeq
 
+Numerous systems in Nature
+behave as if they lived
+in a non-integral dimension.
+This usually happens
+when the system zig-zags a lot
+in going from point $A$ to point $B$. Such fractal
+trajectories occur in Brownian motion,
+percolation, turbulence,
+near any critical point, etc.
+\end{itemize}
+
+Fig.\ref{fig-green-fun-123dim}
+and Fig.\ref{fig-greens-fun-laplacian-continuous-dim}
+show the free space Green's functions $G$ for minus Laplacian as a function of $R=|\vecr-\vecrp|$
+in various dimensions, including fractional ones.
 
 
