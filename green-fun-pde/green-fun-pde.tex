@@ -15,25 +15,24 @@ $L_{x, t}=\partial_t -\partial_x^2\quad$ for {\bf Diffusion Equation (DE)}
 
 $L_{x, t}=\partial_t^2 -\partial_x^2\quad$ for {\bf Wave Equation (WE)}
 
-$L_{x, t}=\quad -\partial_x^2\quad$   for {\bf 1-dim Laplace Equation}\footnote{Many workers call $\nabla^2 \eta=0$ Laplace's equation and $\nabla^2 \eta=S$ Poisson's Equation. I will
+$L_{x, t}=\quad -\partial_x^2\quad$   for {\bf 1-dim Laplace Equation}\footnote{Many workers in this field call $\nabla^2 \eta=0$ Laplace's equation and $\nabla^2 \eta=S$ Poisson's Equation. I will
 refer to both as Laplace's Equation.}
 
 
 
 
 
-
-The Diffusion Equation (DE) in one space dimension $x$,
- with a source $S(x,t)$, is
-
-In this chapter will illustrate the use of Green
-functions by solving the DE partial
-differential equation (PDE)
-for all $x>0$ and $t>0$, with  
-given initial
+In this chapter, we will illustrate the use of Green
+functions by solving these partial
+differential equations (PDE)
+for $\eta(x,t)$ for all $x>0$ and $t>0$, given:
+\begin{itemize} 
+\item the source function $S(x,t)$
+\item  initial
 conditions at $t=0$
-and given boundary conditions (BC) of 3 possible types
+\item boundary conditions 
 at $x=0$.
+\end{itemize}
 
 \section{Boundary Condition Types}
 Types of boundary conditions (BC) that we will consider:
@@ -57,12 +56,16 @@ For example, if there were an impermeable wall at $x=0$,
 \partial_x\eta(0,t)=0
 \eeq
 
-$L\eta=S$ and Neumann BC
+Note that $L\eta=S$ and Neumann BC
 only constrain derivatives of $\eta$.
-Hence, $\eta+c$ and
-$\eta$ for some constant $c$, both 
+Hence, both $\eta+c$ and
+$\eta$, for some constant $c$, 
 satisfy those constraints; i.e., $\eta$ is 
 defined only  up to a constant.
+This
+ambiguity  in $\eta$
+for Neumann BC
+is referred to as a {\bf zero-mode}.
 
 \item {\bf Mixed (Robin) BC}
 
@@ -70,8 +73,8 @@ defined only  up to a constant.
 [a_0 \eta + a_1\partial_x\eta  ](0, t)=R_\rvt(t)
 \eeq
 \end{itemize}
-If the boundary condition depends on $\eta(x,t)$
-only (i.e., if $D_\rvt=N_\rvt=R_\rvt=0$), then it is called a {\bf homogeneous BC}.
+If a boundary condition depends on $\eta(x,t)$
+only (i.e., if $D_\rvt=N_\rvt=R_\rvt=0$), then it is said to be a {\bf homogeneous BC}.
 Otherwise, it is said to be an {\bf inhomogeneous BC}.
 
 
@@ -79,8 +82,9 @@ Otherwise, it is said to be an {\bf inhomogeneous BC}.
 \centering
 \includegraphics[width=5in]
 {green-fun-pde/dir-.5-1.png}
-\caption{Solution for Dirichlet BC to diffusion equation
- $\partial_t\eta = D\partial_x^2\eta$ at two different times $t_1, t_2$ where $s_1=\sqrt{4Dt_1}$
+\caption{For diffusion equation
+ $\partial_t\eta = D\partial_x^2\eta$ with
+\ul{Dirichlet BC}: solution $\eta(x,t)$  at two different times $t_1, t_2$ where $s_1=\sqrt{4Dt_1}$
 and $s_2=\sqrt{4Dt_2}$.
  }
 \label{fig-dir-s1-s2}
@@ -90,8 +94,9 @@ and $s_2=\sqrt{4Dt_2}$.
 \centering
 \includegraphics[width=5in]
 {green-fun-pde/neu-.5-1.png}
-\caption{Solution for Neumann BC to diffusion equation
- $\partial_t\eta = D\partial_x^2\eta$ at two different times $t_1, t_2$ where $s_1=\sqrt{4Dt_1}$
+\caption{For diffusion equation
+ $\partial_t\eta = D\partial_x^2\eta$ with
+\ul{Neumann BC}: solution $\eta(x,t)$  at two different times $t_1, t_2$ where $s_1=\sqrt{4Dt_1}$
 and $s_2=\sqrt{4Dt_2}$.
  }
 \label{fig-neu-s1-s2}
@@ -103,7 +108,9 @@ and $s_2=\sqrt{4Dt_2}$.
 {green-fun-pde/fixed-in.jpg}
 \includegraphics[width=2in]
 {green-fun-pde/fixed-out.jpg}
-\caption{Solution for Dirichlet BC to wave equation $\partial_t^2\eta = c^2\partial_x^2\eta$ at two different times.}
+\caption{For wave equation
+ $\partial_t^2\eta = c^2\partial_x^2\eta$ with
+\ul{Dirichlet BC}: solution $\eta(x,t)$  at two different times}
 \label{fig-fixed-in-out}
 \end{figure}
 
@@ -113,8 +120,9 @@ and $s_2=\sqrt{4Dt_2}$.
 {green-fun-pde/ring-in.jpg}
 \includegraphics[width=2in]
 {green-fun-pde/ring-out.jpg}
-\caption{Solution for Neumann BC to wave equation $\partial_t^2\eta = c^2\partial_x^2\eta$
-at two different times.}
+\caption{For wave equation
+ $\partial_t^2\eta = c^2\partial_x^2\eta$ with
+\ul{Neumann BC}: solution $\eta(x,t)$  at two different times}
 \label{fig-ring-in-out}
 \end{figure}
 
@@ -175,15 +183,15 @@ discuss first the DE, and then indicate
 in blue shaded areas 
 how to modify the DE
 treatment so that
-it applies to the WE.
+it applies to the WE as well.
 
 
-\subsection{Notation and Conventions},
-I will often use specialized 
-notation in this chapter to
+\subsection{Notation and Conventions}
+
+In this chapter, we will often use specialized 
+notation  to
 express with more clarity 
-the basic Green's functions equations and their
-derivations. This section
+the derivations and conclusions. This section
 will describe such notation.
 
 An event
@@ -199,15 +207,10 @@ will be expressed with their events either as row or column vectors
 f(x,t) \leftrightarrow f\oneevent{x}{t}
 \eeq
 \beq
-G\twoevent{x}{t}{x'}{t'}\leftrightarrow G\twoevent{x}{t}{x'}{t'}
+G({x},{t};{x'},{t'})\leftrightarrow G\twoevent{x}{t}{x'}{t'}
 \eeq
-
-Another notation that we will often use for 
-expressing functions of one or two
-events, is Dirac bra-ket notation.
-We describe that notation next.
-
-Define
+In terms of this column notation,
+we have
 \beq
 L_{x,t}= \partial_t -D \partial_x^2,\quad
 L_{x,t} G\twoevent{x}{t}{x'}{t'}=\stackt{\delta(x-x')}{\delta(t-t')}
@@ -216,8 +219,11 @@ L_{x,t} G\twoevent{x}{t}{x'}{t'}=\stackt{\delta(x-x')}{\delta(t-t')}
 
 \beq
 L^\dagger_{x,t}= -{\partial}_t -D {\partial}_x^2,
-\quad L^\dagger_{x,t}G^\dagger\twoevent{x'}{t'}{x}{t}=\stackt{\delta(x-x')}{\delta(t+t')}
+\quad L^\dagger_{x,t}G^\dagger\twoevent{x'}{t'}{x}{t}=\stackt{\delta(x-x')}{\delta(t'-t)}
 \eeq
+From these equations,
+we infer the following
+dimensions:
 
 \beq
 \engdim{D}\engdim{\partial_x^2} = 
@@ -231,6 +237,13 @@ L^\dagger_{x,t}= -{\partial}_t -D {\partial}_x^2,
 \implies 
 \engdim{G}=1/L
 \eeq
+
+
+Another notation that we will often use to 
+express functions of one or two
+events, is Dirac bra-ket notation.
+We define that notation next. Let
+
 
 
 \beq
@@ -328,11 +341,16 @@ are dimensionless.
 
 
 
-
-{\bf Light cone coordinates}
+To deal with the WE in $1+1$
+dimensions, it is
+convenient to introduce
+{\bf Light cone coordinates}.
+These are
+defined by
 \beq
 t_\pm = \frac{t\pm x}{\sqrt{2}}
 \eeq
+Hence,
 
 \beq
 \begin{pmatrix}
@@ -402,12 +420,13 @@ M
 \partial_x \\\partial_t
 \end{pmatrix}
 \eeq
-
+From this, we can calculate
+the Jacobian
 \beq
 dx\;dt = \frac{\partial(x, t)}
 {\partial(\tp, \tm)}d\tp\;d\tm = \underbrace{\det M}_1 d\tp\;d\tm
 \eeq
-
+Since that Jacobian is 1, we have
 \beq
 \int_{-\infty}^\infty dx
 \int_{-\infty}^\infty dt\;
@@ -420,6 +439,7 @@ dx\;dt = \frac{\partial(x, t)}
 \delta(\tm-\tmp)
 =1
 \eeq
+which implies that
 
 \beq
 \delta(x-x')
@@ -428,17 +448,18 @@ dx\;dt = \frac{\partial(x, t)}
 \delta(\tp-\tpp)
 \delta(\tm-\tmp)
 \eeq
-
+Note also that
 \beq
 \partial^2_t-\partial^2_x=
 (\partial_t + \partial_x)
 (\partial_t - \partial_x)= 2\partial_\tp\partial_\tm
-\eeq 
+\eeq
+and 
 
 \beq
 \indi(t>|x|) = \indi(t>x)\indi(t>-x)=\indi(\tm>0)\indi(\tp>0)
 \eeq
-
+Therefore
 
 
 
@@ -727,7 +748,7 @@ G\twoevent{x}{\eps}{x'}{0}=\delta(x-x')
 
 
 Consider the
-the master solution and its IC term in particular:
+the General Solution and its IC term in particular:
 \beq
 \eta(x,t)= \cala_S(x,t) + \cala_{IC}(x,t) + \cala_{BC}(x,t)
 \eeq
@@ -794,7 +815,7 @@ DG\twoevent{0}{t}{0}{t'}\cev{\partial}_{x'}=\delta(t-t')
 
 
 Consider the
-the master solution and its BC term in particular:
+the General Solution and its BC term in particular:
 \beq
 \eta(x,t)= \cala_S(x,t) + \cala_{IC}(x,t) + \cala_{BC}(x,t)
 \eeq
@@ -967,7 +988,8 @@ satisfied by $\eta(x,t)$.
 
 \subsection{Point sources and their images}
 
-All Green's functions must satisfy
+All Green's functions $G$
+for this problem must satisfy
 the DE with delta function source
 
 \beq
@@ -976,12 +998,12 @@ the DE with delta function source
 \label{eq-LG-deltas}
 \eeq
 In addition, they must satisfy the homogeneous BC
-that match the 
+that matches the 
 inhomogeneous BC satisfied by the
 solution $\eta(x,t)$.
 
 Let $\caln(x;\s^2)$
-represent the Normal Distribution
+denote the Normal Distribution
 with mean zero and standard deviation $\s$:
 \beq
 \caln(x;\s^2)=\frac{1}{\sqrt{2\pi\s^2}}
@@ -1148,11 +1170,11 @@ G^+\twoevent{x-x'}{t}{0}{0}=
 Fig.\ref{fig-g0-support} shows the support 
 of $G^+$: it's just
 the forward light cone  region.
-$G^+$ is a unit step advancing at speed $c=1$ 
-towards $x-x'=\infty$ for $x-x'>0$
-and towards $x-x'=-\infty$ for $x-x'<0$.
-The side of the step closest to $x-x'=0$
-has $G^+=1$, and the other side has $G^+=0$.
+$G^+$ is a unit amplitude square wave 
+with its right edge advancing at speed $c=1$ 
+towards $x-x'=+\infty$ 
+and its left edge 
+advancing at the same speed towards $x-x'=-\infty$.
 
 Fig.\ref{fig-wave-integration-region}
 shows the integration region
@@ -1248,6 +1270,7 @@ D\int_0^t dt'\left[\partial_{x'} G^+\twoevent{x}{t}{x'}{t'}
 dy \frac{1}{\sqrt{2\pi}}\exp\left(
 \frac{-y^2}{2}\right)=\frac{1}{2}
 \eeq
+\qed
 \subsubsection{Neumann BC}
 For the Neumann BC, $\eta$ must satisfy
 \beq
@@ -1266,15 +1289,16 @@ Note that for the Dirichlet BC problem, $G^+$ and $G^+$
 are subtracted 
 whereas here they are added.
 
-$LG=\delta$ and the Neumann BC
+
+ $LG=\delta$ and Neumann BC
 only constrain derivatives of $G$.
 Hence, $G_N +c$ and
-$G_N$ for some constant $c$, both 
-satisfy those constraints; i.e., $G_N$  is 
+$G_N$ both 
+satisfy those constrains; i.e.,  is 
 defined only  up to a constant. This
 ambiguity  in $G_N$
+for Neumann BC
 is referred to as a {\bf zero-mode}.
- 
 
 
 \subsubsection{Mixed (Robin) BC}
@@ -1381,12 +1405,14 @@ to both sides and integrate the time derivative by parts
 
 
 \beq
+\frac{1}{D}\tilde{g}(x, x';0)+
 (K^2-\partial_x^2)
 \tilde{g}(x, x';s)=
 \frac{1}{D}
 \delta(x-x')
 \eeq
-where $K=\sqrt{s/D}$
+where $K=\sqrt{s/D}$.
+Setting $\tilde{g}(x, x';0)=0$, we get
 
 \beq
 \tilde{g}'' - K^2\tilde{g}= 
@@ -1490,7 +1516,7 @@ The integral over $K^2 \tilde{g}$ tends to zero as $\eps\to 0$ so
 \end{enumerate}
 \hrule Eqs.(\ref{eq-boxed-cont-eq1})
  and Eq.(\ref{eq-boxed-cont-eq2})
-constitute an easily solved system of two equations in 2 unknowns $A,C$.
+constitute an easily solved system of two linear equations in 2 unknowns $A,C$.
 \beq
 \underbrace{\begin{pmatrix}
 E + R\ol{E}&-\ol{E}
@@ -1538,7 +1564,7 @@ E-R\ol{E}&E+R\ol{E}
 E + R\ol{E}
 \end{pmatrix}
 \eeqa
-
+Thus,
 \beq
 A= \frac{\ol{E}}{2DK}, \quad 
 B= RA=R\frac{\ol{E}}{2DK},
@@ -1574,8 +1600,8 @@ e^{-K|x-x'|}+R e^{-K(x+x')}\right]
 We can check
 that $\tilde{g}$
 has the expected
-behavior in the
-$K_0$ equals $0$ and $infty$ limits: 
+behavior when
+$K_0$ equals $0$ and $\infty$: 
 \begin{itemize}
 \item Dirichlet BC, $K_0\rarrow \pm\infty$, $\tilde{R}(s)\to -1$ so $R(\tau)=-\delta(\tau)$
 
@@ -1586,7 +1612,7 @@ g_0(x+x', \tau -\tau')
 =G_D
 \eeq
 \item
-Neumann BC, $K_0=0$
+Neumann BC, $K_0=0$,
 $\tilde{R}(s)=1$ so 
 $R(\tau)=\delta(\tau)$
 
@@ -1634,8 +1660,7 @@ R(-K_0)=\frac{1}{R(K_0)}
 \eeq
 
 Note also that $R$
-can be easily rewritten
-as 1 plus something
+can be naturally decomposed into 1 plus something else
 \beq
 R= \frac{K-K_0+2K_0}{K-K_0}=
 1 +\frac{2K_0}{K-K_0}
@@ -1688,8 +1713,8 @@ so
 \eeq
 
 For the Wave Equation, $K=s$,
-so (unlike the
-DE case where $K\propto \sqrt{s}$) we can invert the Laplace transform of $\tilde{R}$ in closed form. 
+so (unlike for the
+DE for which $K\propto \sqrt{s}$) we can invert the Laplace transform of $\tilde{R}$ in closed form. 
 From a table of Laplace transforms,
 \beq
 \call_s^{-1}\left[\frac{1}{s-a}\right]=
@@ -1723,13 +1748,16 @@ G_R \to G_N -2G^- = G_D
 (Elliptic)}
 
 \subsection{Notation}
-
+Let
 \beq
 L_{x}= - \partial_x^2,\quad
 L_{x} G(x,x')=
 \delta(x-x')
 \eeq
 
+From this equation,
+we can infer the 
+dimension of $G$:
 
 
 \beq
@@ -1788,8 +1816,10 @@ in 1 dim.
 \end{figure}
 
 
+Note that
 
 \begin{subequations}
+
 \beq
 |x-x'|=
 \left\{
@@ -1814,6 +1844,7 @@ x'+x&\text{if $-x<x'<x$}
 \end{array}
 \right\}
 \eeq
+Therefore,
 
 \beq
 \frac{1}{2}|x-x'|
@@ -1900,19 +1931,35 @@ G(x,0) \left[-\partial_{x'}
 
 \subsection{Point Sources and their images}
 
-
+All Green's function $G$ 
+for this problem
+must satisfy the
+Laplace equation with delta
+function source.
 \beq
 \underbrace{-\partial_x^2}_{L_{x,t}} G\twoevent{x}{t}{x'}{t'}=\delta(x-x')
 \quad \text{for all $x>0$}
 \eeq
+In addition, they must satisfy the homogeneous BC
+that matches the 
+inhomogeneous BC satisfied by the
+solution $\eta(x,t)$.
 
-Free space Geeen's function
+Let
 
 
 \beq
 \underbrace{G^+(x, x')}_
 {g_0(x-x')}= -\;\frac{1}{2}|x-x'| 
 \eeq
+$G^+=G_0$ is called the {\bf free space (no BC) Green's function}. It 
+will be used as a building block
+to construct the Green's functions
+appropriate to the various BC.
+
+$G^+$ is centered at $x= x'$.
+$G^-$, centered at $x'=-x$, is the image of $G^+$
+with respect to the $x=0$ plane.
 
 \beq
 G^-(x, x')=G(-x, x')
@@ -1947,8 +1994,8 @@ As can be seen from Fig.\ref{fig-min-max-x-xp}
 and Fig.\ref{fig-distance-funs},
 $G^+-G^-$ has slope $+1$  for $x'\in [-x, x]$
 and is constant for $x'<-x$ and $x'>x$.
-This kink at $x'=\pm x$
-leads to a jump in the first derivative $\partial_{x'}G$ and to a delta in the 
+These kinks at $x'=\pm x$
+lead to a jump in the first derivative $\partial_{x'}G$ and to a delta in the 
 second derivative $\partial_{x'}^2G$.
 Hence $L G=\delta(x-x') + \delta(x+x')$.
 Since we are working in the $x'>0$ quadrant,
@@ -1980,8 +2027,8 @@ As can be seen from Fig.\ref{fig-min-max-x-xp}
 and Fig.\ref{fig-distance-funs},
 $G^++G^-$ is constant  for $x'\in [-x, x]$
 and has slope $\pm 1$ for $x'<-x$ and $x'>x$.
-This kink at $x'=\pm x$
-leads to a jump in the first derivative $\partial_{x'}G$ and to a delta in the 
+These kinks at $x'=\pm x$
+lead to a jump in the first derivative $\partial_{x'}G$ and to a delta in the 
 second derivative $\partial_{x'}^2G$.
 Hence $L G=\delta(x-x') + \delta(x+x')$.
 Since we are working in the $x'>0$ quadrant,
@@ -2052,7 +2099,7 @@ B= \frac{a_1}{a_0 x' +a_1}
 
 \begin{figure}[h!]
 \centering
-\includegraphics[draft, width=3in]
+\includegraphics[ width=3in]
 {green-fun-pde/green-fun-123dim.png}
 \caption{Free space Green's functions $G$ for minus Laplacian as a function of $R=|\vecr-\vecrp|$
 for integral dimensions.
@@ -2063,7 +2110,7 @@ for integral dimensions.
 
 \begin{figure}[h!]
 \centering
-\includegraphics[draft, width=5in]
+\includegraphics[ width=5in]
 {green-fun-pde/greens-fun-laplacian-continuous-dim.png}
 \caption{Free space Green's functions $G$ for minus Laplacian as a function of $R=|\vecr-\vecrp|$
 in various dimensions, including fractional ones.
@@ -2071,41 +2118,61 @@ in various dimensions, including fractional ones.
 \label{fig-greens-fun-laplacian-continuous-dim}
 \end{figure}
 
+Most of the
+results for the 1 dim Laplace Equation generalize
+easily to higher dimensions, but 
+there are some
+interesting differences
+worth  pointing out
+between the two cases.
 
-Free space Geeen's function
+In $d$ dimensions, the Green's function
+satisfies
 
 \beq
 \underbrace{-\sum_{i=1}^d \partial^2_{x_i}G}_{-\nabla^2G(\vecr, \vecrp)}=
 \underbrace{\prod_{1=1}^d\delta(x_i-x_i')}_{\delta^d(\vecr, \vecrp)}
+\label{eq-lap-pde-d-dim}
+\eeq
+From this we can infer
+$G$'s dimension
+
+\beq
+\engdim{G}=L^{2-d}
 \eeq
 
-$\engdim{G}=L^{2-d}$
-
+Solutions to
+Eq.(\ref{eq-lap-pde-d-dim})
+are known to be as follows.
+They'be been plotted
+in Fig.\ref{fig-green-fun-123dim}
+and Fig.\ref{fig-greens-fun-laplacian-continuous-dim}
 \begin{itemize}
-\item 1-dim
+\item $d=1$
 \beq
 G^+(x, x')= -\;\frac{1}{2}|x-x'| = g_0(x-x')
 \eeq
-\item 2-dim
+\item $d=2$
 \beq
 G^+(\vecr,\vecrp)= -\;\frac{1}{2\pi}\ln |\vecr
 -\vecrp| = g_0(\vecr-\vecrp)
 \eeq
-\item 3-dim
+\item $d=3$
 \beq
 G^+(\vecr,\vecrp)= \;\frac{1}{4\pi |\vecr
 -\vecrp|} = g_0(\vecr-\vecrp)
 \eeq
 
 
-\item $d$-dim
+\item arbitrary continuous dimension $d$
 \beq
 G(R)=
 \frac{1}{(d-2)S_d}
 \frac{1}{R^{d-2}}
 \eeq
-
-\beq S_d= \frac{2\pi^{d/2}}
+where
+\beq 
+R=|\vecr-\vecrp|, \quad S_d= \frac{2\pi^{d/2}}
 {\Gamma(d/2)}
 \eeq
 
@@ -2120,9 +2187,6 @@ percolation, turbulence,
 near any critical point, etc.
 \end{itemize}
 
-Fig.\ref{fig-green-fun-123dim}
-and Fig.\ref{fig-greens-fun-laplacian-continuous-dim}
-show the free space Green's functions $G$ for minus Laplacian as a function of $R=|\vecr-\vecrp|$
-in various dimensions, including fractional ones.
+
 
 
