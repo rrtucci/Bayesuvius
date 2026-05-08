@@ -128,7 +128,7 @@ we will use $A^\dagger$ to denote the Hermitian conjugate of $A$, $A^T$ to denot
  \centering
  \includegraphics[width=4in]
  {stochastic-diff-eqns/white-noise-labeled}
- \caption{One dimensional white noise $\rvW(t)$}
+ \caption{One dimensional white noise ${\dot{\rvB}}(t)$}
  \label{fig-white-noise-t}
  \end{figure}
 
@@ -142,30 +142,30 @@ we will use $A^\dagger$ to denote the Hermitian conjugate of $A$, $A^T$ to denot
 
 
 
-{\bf White noise} $\rvW(t)
+{\bf White noise} ${\dot{\rvB}}(t)
 \in\RR^n$ for $t\geq 0$
 is a random process with the
 following properties:
 
 \begin{itemize}
-\item ==========================
+\item Normally distributed
 \beq
-\rvW(t) =\caln(W(t);\mu=0, Cov=Q)
+{\dot{\rvB}}(t) \sim \caln(\mu=0, Cov=Q)
 \eeq
 
-\item ==========================
+\item Independence at different times
 
-$\rvW(t)$ and $\rvW(s)$ are independent for
+${\dot{\rvB}}(t)$ and ${\dot{\rvB}}(s)$ are independent for
 $t\neq s$
 
-\item ==========================
+\item Zero Mean
 
-\beq E[\rvW(t)]=0
+\beq E[{\dot{\rvB}}(t)]=0
 \eeq
 
-\item ==========================
+\item Zero covariance at two different times
 \beq
-C_\rvW(t, s) = \av{\rvW(t), \rvW^T(s)} = Q\delta(t-s)
+C_{\dot{\rvB}}(t, s) = \av{{\dot{\rvB}}(t), {\dot{\rvB}}^T(s)} = Q\delta(t-s)
 \eeq
 
 
@@ -179,7 +179,7 @@ following properties:
 
 \begin{itemize}
 
-\item==========================
+\item Zero at time zero
 
 \beq
 \rvB(0)=0\footnote{If you wish to
@@ -187,8 +187,8 @@ consider  $\rvB(0)=\beta_0\neq 0$, replace
 $\rvB$ by $\rvB-\beta_0$}
 \eeq
 
-\item ==========================
-
+\item Time derivative is 
+white noise
 \beq
 \frac{
 \Delta_{t_k}^{t_{k+1}}\rvB
@@ -197,18 +197,20 @@ $\rvB$ by $\rvB-\beta_0$}
 \eeq
 
 \beq
-\rvW(t_k)\sim  \caln(\mu=0, Cov=Q)
+{\dot{\rvB}}(t_k)\sim  \caln(\mu=0, Cov=Q)
 \eeq
 
 \beq
 \frac
-{d \rvB}{dt} = \rvW
+{d \rvB}{dt} = {\dot{\rvB}}
 \eeq
 
 
-\item ==========================
+\item
+Covariance value from time 
+overlap
 
-If $\rvB(t)\in\RR^n$ and
+If $\rvB(t)\in\RR$ and
 $[r, s]\cap [r', s']=\emptyset$, then
 
 \beq
@@ -217,7 +219,7 @@ E[(\Delta^{s}_{r}\rvB) (\Delta^{s'}_{r'}\rvB)]=0
 \eeq and
 
 \beq
-E[|\Delta^{t}_{s}\rvB|^2] = n|t-s|
+E[|\Delta^{t}_{s}\rvB|^2] = |t-s|
 \label{eq-overlap-B}
 \eeq
 
@@ -232,14 +234,22 @@ E[(\Delta_1^3\rvB + \Delta_3^4\rvB)
 &=&
 E[(\Delta_3^4\rvB)^2]
 \\
-&=& n |4-3|
+&=& |4-3|
 \eeqa
 
 Eqs.(\ref{eq-non-overlap-B}) and (\ref{eq-overlap-B}) can be
 combined as follows
 
 \beq
-E[(\Delta^{s}_{r}\rvB) (\Delta^{s'}_{r'}\rvB)]=n\; {\rm len}([r, s]\cap [r', s'])
+E[(\Delta^{s}_{r}\rvB) (\Delta^{s'}_{r'}\rvB)]=\; {\rm len}([r, s]\cap [r', s'])
+\eeq
+If  $(B_\mu)\in \RR^n$,
+then covariance
+matrix is proportional to the identity matrix
+
+\beq
+E[(\Delta^{s}_{r}\rvB) (\Delta^{s'}_{r'}\rvB)^T]
+=I_n \; {\rm len}([r, s]\cap [r', s'])
 \eeq
 
 \end{itemize}
@@ -466,7 +476,7 @@ f_\mu(x, t)dt + L_{\mu, \nu}(x,t)d\rvB_\nu(t)
 \eeq
 where $\mu, \nu\in [n]$.
 A system for which $f$ and $L$ are
-both constant (i.e., independent of the event $(x,t)$) is said to have CC {\bf Constant Coefficients}\footnote{Ref.\cite{sar-sol},
+both constant (i.e., independent of the event $(x,t)$) is said to have {\bf Constant Coefficients (CC)}\footnote{Ref.\cite{sar-sol},
 on which most of this chapter is
 based, calls systems with CC, LTI (linear, time-invariant) systems.}
 
@@ -478,7 +488,7 @@ We define
 the {\bf event transition probability matrix (TPM)} as
 
 \beq
-P(\XT{y}{t}|\XT{x}{s})
+P\twoevent{y}{t}{x}{s}
 \eeq
 
 If you are familiar with the Dirac bra-ket
@@ -575,9 +585,9 @@ aren't.
 
 \section{It\^{o} Integral}
 
-Consider the 1 dimensional case $\rvx, \rvW\in \RR$.
+Consider the 1 dimensional case $\rvx, \dot{\rvB}\in \RR$.
 \beq
-\frac{d\rvx}{dt}= f(\rvx, t) + L(\rvx, t)\rvW(t)
+\frac{d\rvx}{dt}= f(\rvx, t) + L(\rvx, t)\dot{\rvB}(t)
 \eeq
 
 \beq
@@ -588,7 +598,7 @@ where
 
 \beq
 J = \int_{0}^t dt\;
-L(x, t)\rvW(t)
+L(x, t)\dot{\rvB}(t)
 \eeq
 
 For $t_0=0 < t_1 <\ldots <t_{N-1}$, $t_k^*\in [t_k, t_{k+1})$, define
@@ -605,7 +615,7 @@ and
 J = \lim_{N\rarrow \infty} J_N
 \eeq
 
-Consider the integrand $L(x,t)\rvW(t)$.
+Consider the integrand $L(x,t)\dot{\rvB}(t)$.
 In non-rigorous calculus,
 we normally consider integrands
 that are smooth, so that as $N\rarrow \infty$
@@ -614,7 +624,7 @@ goes to zero,
 the value of $J$
 is independent of where $t^*_k$
 is located inside the interval $[t_k, t_{k+1})$.
-In the SDE case, the integrand $L\rvW$ is continuous
+In the SDE case, the integrand $L\dot{\rvB}$ is continuous
 but very jagged, so the value of $J$ does
 depend on the choice of $t^*_k$.
 
@@ -718,7 +728,8 @@ For $\rvB\in\RR^n$,
 d[\rvB_\alpha(t)\rvB_\beta(t)]=\delta(\alpha, \beta)
 \left[
 2\rvB_\alpha(t)d\rvB_\alpha(t)
-+nt\right]}
++t\right]\quad
+\text{(no sum on right hand side)}}
 \eeq
 
 \beq
@@ -735,7 +746,7 @@ d[\rvB_\alpha(t)]d[\rvB_\beta(t)]
 \section{Fokker-Planck Equation}
 
 
-Consider the $n$ dimensional case $\rvx, \rvW\in \RR^n$. Let $\mu, \nu,\alpha, \beta\in [n]$. Suppose
+Consider the $n$ dimensional case $\rvx, \dot{\rvB}\in \RR^n$. Let $\mu, \nu,\alpha, \beta\in [n]$. Suppose
 \beq
 d\rvx_\mu= f_\mu(\rvx, t)dt + L_{\mu,\nu}(\rvx, t)d\rvB_\nu(t)
 \eeq
@@ -820,7 +831,7 @@ f_\mu \pder{\phi}{x_\mu} + R_{\mu, \nu}
 \qed
 
 For example,  if $n=1$, $\rvx=\rvB$,
-$\phi = \rvB^K$
+$\phi = \rvB^m$
 and
 $L=Q=1$, $f=0$,
 we get
@@ -830,7 +841,7 @@ d(\rvB^m) = \left[m \rvB^{m-1}+ m(m-1) \rvB^{m-2}\right]dt
 + m\rvB^{m-1}d\rvB
 \eeq
 
-The next claim defines the {\bf Fokker-Planck equation} (FP equation) (a.k.a. {\bf Fokker-Planck-Kolgomorov equation} )
+The next claim defines the {\bf Fokker-Planck equation} (FP equation) (a.k.a. {\bf Fokker-Planck-Kolgomorov equation})
 for the probability $P(x,t)$
 of single event $(x,t)$
 
@@ -1430,11 +1441,11 @@ of process $x(t)$ by
 val(\rvx)(\omega)= \lim_{T\rarrow 0}
 \frac{1}{T} E[\TIL{x}_T(\omega)\TIL{x}^\dagger_T(\omega)]
 \eeq
-In case $\rvx=\rvW$= white noise,
+In case $\rvx=\dot{\rvB}$= white noise,
 
 
 \beq
-S_{\rvW}(\omega) = Q
+S_{\dot{\rvB}}(\omega) = Q
 \eeq
 
 Define the
@@ -1595,7 +1606,7 @@ AC(\tau)e^{i\omega \tau}(T-|\tau|)
 
 As a trivial example of the WK theorem, note that
 \beq
-AC_{\rvW}(\tau) = Q\delta(\tau)
+AC_{\dot{\rvB}}(\tau) = Q\delta(\tau)
 \eeq
 Hence,  by the WK theorem,
 
@@ -1608,21 +1619,21 @@ SDE with CC using Fourier transforms.
 Substituting Fourier transforms for $x(t)$
 into this equation
 \beq
-\frac{d x}{dt}=Fx + L\rvW
+\frac{d x}{dt}=Fx + L\dot{\rvB}
 \eeq
 we get
 
 \beq
--i\omega \TIL{x} = F\TIL{x} + L\TIL{\rvW}
+-i\omega \TIL{x} = F\TIL{x} + L\TIL{\dot{\rvB}}
 \eeq
 Hence,
 
 \beq
-\TIL{x}= -( F+i\omega)^{-1}L\TIL{\rvW}
+\TIL{x}= -( F+i\omega)^{-1}L\TIL{\dot{\rvB}}
 \eeq
 
 \beqa
-S_{\rvW}(\omega) &=& \TIL{x}\TIL{x}^\dagger
+S_{\dot{\rvB}}(\omega) &=& \TIL{x}\TIL{x}^\dagger
 \\
 &=&
 (F+i\omega)^{-1}\underbrace{LQL^\dagger}
@@ -2501,7 +2512,7 @@ x(t_0)
 \int_{t_0}^{t}ds\;\Psi^{-1}(s, t_0)[c(s)-b(s)]
 +
 \int_{t_0}^{t}
-\Psi^{-1}(s, t_0)d(s)d\rvW(s)
+\Psi^{-1}(s, t_0)d(s)d\dot{\rvB}(s)
 \right)
 \eeq
 
@@ -2510,7 +2521,7 @@ x(t_0)
 \exp\left(
 \int_{t_0}^t ds\; \left[a(s)-\frac{1}{2}b^2(s)\right]
 +
-\int_{t_0}^t b(s) d\rvW(s)
+\int_{t_0}^t b(s) d\dot{\rvB}(s)
 \right)
 \eeq
 
