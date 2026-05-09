@@ -122,6 +122,7 @@ For any matrix $A$,
 we will use $A^\dagger$ to denote the Hermitian conjugate of $A$, $A^T$ to denote its transpose, and $A^*$ to denote its complex conjugate. $A^\dagger = A^{* T}$.
 
 
+
  \section{White Noise and Brownian Motion}
 
  \begin{figure}[h!]
@@ -253,6 +254,56 @@ E[(\Delta^{s}_{r}\rvB) (\Delta^{s'}_{r'}\rvB)^T]
 \eeq
 
 \end{itemize}
+
+\section{Martingales and Semi-Martingales}
+
+Let $0\leq t, t_i \leq T$ and $x(t_i)=x_i$
+for $i\in[N]$.
+A {\bf martingale}  for discrete (resp., continuous) time is a process $\rvy_i$ (resp., $\rvy(t)$)
+which satisfies
+
+
+\beq
+E[\;|\rvy(t_i)|\;] < \infty\quad \forall i\quad
+(\text{resp., }E[\;|\rvy(t)|\;] < \infty \quad \forall t\geq 0)
+\eeq
+
+
+\beq
+E\left[\rvy(t)|x(t_{[i\upto j]})\right]= y(t_j)
+\quad (\text{resp., }E\left[\rvy(t)|x([0,s])\right]= y(s))
+\eeq
+
+
+Brownian motion is a martingale.
+\beq
+E[\rvB(t)| B(t_{[i\upto j]}] = B(t_j)
+\eeq
+
+
+It\^{o} integrals $\int L\XT{x}{t}d\rvB_t$ (discussed later)
+are martingales too, but Stratonovich integrals
+$\int L\XT{x}{t}\circ d\rvB_t$
+(discussed later)
+aren't.
+
+
+
+
+\section{SDE definition}
+The most general system discussed in this
+chapter obeys the following SDE
+
+\beq
+dx_\mu =
+f_\mu(x, t)dt + L_{\mu, \nu}(x,t)d\rvB_\nu(t)
+\eeq
+where $\mu, \nu\in [n]$.
+A system for which $f$ and $L$ are
+both constant (i.e., independent of the event $(x,t)$) is said to have {\bf Constant Coefficients (CC)}\footnote{Ref.\cite{sar-sol},
+on which most of this chapter is
+based, calls systems with CC, LTI (linear, time-invariant) systems.}
+
 
 
 \section{SDE bnet}
@@ -457,133 +508,8 @@ L(x_2, t)\Delta_{2}^{3}\rvB
 +x_0
 \eeq
 
-
-
-
-
-\section{Simple Properties of SDE}
-In this section,
-we discuss several simple properties
-of SDEs.
-
-\subsection{STD with Constant Coefficients (CC)}
-The most general system discussed in this
-chapter obeys the following SDE
-
-\beq
-dx_\mu =
-f_\mu(x, t)dt + L_{\mu, \nu}(x,t)d\rvB_\nu(t)
-\eeq
-where $\mu, \nu\in [n]$.
-A system for which $f$ and $L$ are
-both constant (i.e., independent of the event $(x,t)$) is said to have {\bf Constant Coefficients (CC)}\footnote{Ref.\cite{sar-sol},
-on which most of this chapter is
-based, calls systems with CC, LTI (linear, time-invariant) systems.}
-
-
-\subsection {Transition Probability Matrices}
-
-Suppose  $t,s\geq 0$ and $x, y\in \RR^n$.
-We define
-the {\bf event transition probability matrix (TPM)} as
-
-\beq
-P\twoevent{y}{t}{x}{s}
-\eeq
-
-If you are familiar with the Dirac bra-ket
-notation used in Quantum Mechanics,
-note that a TPM can be expressed in such notation as
-
-\beq \av{y|P_{t,s}|x}\eeq
-where $\{\ket{x}: x\in\RR^n\}$ is a
-complete orthonormal basis:
-\beq
-\int dx\;\ket{x}\bra{x}
-=1,\quad
-\av{y|x} = \delta(y-x)
-\eeq
-
-\subsection{Markov chain}
-
-Let $\rvx(t_k)=x_k$ for $k\in[N]$. The bnet
-$$
-x_0\rarrow\rvx_1\rarrow \rvx_2\rarrow\cdots\rarrow\rvx_{N-1}$$
-is called a {\bf Markov chain}. It satisfies
-
-\beq
-P(x_{i+1}| x_i, x_{i-1}, \ldots, x_0)=
-P(x_{i+1}| x_i)
-\eeq
-For continuous instead of discrete time,
-the Markov chain definition is generalized
-as follows.
-For $s<t$,
-\beq
-P(x(t)| x([0, s]))=
-P(x(t)| x(s))
-\eeq
-\subsection{Chapman-Kolgomorov Equation}
-
-\begin{claim}
-(Chapman-Kolgomorov equation)
-
-Let $x(t_k) = x_k$
-
-\beq
-P(x_3|x_1) =\int dx^n_2\; P(x_3|x_2)P(x_2|x_1)
-\eeq
-\end{claim}
-\proof
-
-\beqa
-P(x_3, x_2|x_1) &=&
-P(x_3|x_2, x_1)P(x_2|x_1)
-\\
-&=&
-P(x_3|x_2)P(x_2|x_1)
-\eeqa
-Now integrate both sides over $x_2$.
-\qed
-
-
-\subsection{Martingale}
-
-Let $0\leq t, t_i \leq T$ and $x(t_i)=x_i$
-for $i\in[N]$.
-A {\bf martingale}  for discrete (resp., continuous) time is a process $\rvy_i$ (resp., $\rvy(t)$)
-which satisfies
-
-
-\beq
-E[\;|\rvy(t_i)|\;] < \infty\quad \forall i\quad
-(\text{resp., }E[\;|\rvy(t)|\;] < \infty \quad \forall t\geq 0)
-\eeq
-
-
-\beq
-E\left[\rvy(t)|x(t_{[i\upto j]})\right]= y(t_j)
-\quad (\text{resp., }E\left[\rvy(t)|x([0,s])\right]= y(s))
-\eeq
-
-
-Brownian motion is a martingale.
-\beq
-E[\rvB(t)| B(t_{[i\upto j]}] = B(t_j)
-\eeq
-
-
-It\^{o} integrals $\int L\XT{x}{t}d\rvB_t$ (discussed later)
-are martingales too, but Stratonovich integrals
-$\int L\XT{x}{t}\circ d\rvB_t$
-(discussed later)
-aren't.
-
-
-
-
-
-\section{It\^{o} Integral}
+\section{Stochastic Calculus of It\^{o}
+and Stratonovich}
 
 Consider the 1 dimensional case $\rvx, \dot{\rvB}\in \RR$.
 \beq
@@ -729,7 +655,7 @@ d[\rvB_\alpha(t)\rvB_\beta(t)]=\delta(\alpha, \beta)
 \left[
 2\rvB_\alpha(t)d\rvB_\alpha(t)
 +t\right]\quad
-\text{(no sum on right hand side)}}
+\text{(no sum on RHS)}}
 \eeq
 
 \beq
@@ -738,6 +664,70 @@ d[\rvB_\alpha(t)]d[\rvB_\beta(t)]
 =Q_{\alpha, \beta}dt}
 \eeq
 
+
+
+\section{Transition Probability Matrices}
+
+Suppose  $t,s\geq 0$ and $x, y\in \RR^n$.
+We define
+the {\bf event transition probability matrix (TPM)} as
+
+\beq
+P\twoevent{y}{t}{x}{s}
+\eeq
+
+If you are familiar with the Dirac bra-ket
+notation used in Quantum Mechanics,
+note that a TPM can be expressed in such notation as
+
+\beq \av{y|P_{t,s}|x}\eeq
+where $\{\ket{x}: x\in\RR^n\}$ is a
+complete orthonormal basis:
+\beq
+\int dx\;\ket{x}\bra{x}
+=1,\quad
+\av{y|x} = \delta(y-x)
+\eeq
+
+
+Let $\rvx(t_k)=x_k$ for $k\in[N]$. The bnet
+$$
+x_0\rarrow\rvx_1\rarrow \rvx_2\rarrow\cdots\rarrow\rvx_{N-1}$$
+is called a {\bf Markov chain}. It satisfies
+
+\beq
+P(x_{i+1}| x_i, x_{i-1}, \ldots, x_0)=
+P(x_{i+1}| x_i)
+\eeq
+For continuous instead of discrete time,
+the Markov chain definition is generalized
+as follows.
+For $s<t$,
+\beq
+P(x(t)| x([0, s]))=
+P(x(t)| x(s))
+\eeq
+
+\begin{claim}
+(Chapman-Kolgomorov equation)
+
+Let $x(t_k) = x_k$
+
+\beq
+P(x_3|x_1) =\int dx^n_2\; P(x_3|x_2)P(x_2|x_1)
+\eeq
+\end{claim}
+\proof
+
+\beqa
+P(x_3, x_2|x_1) &=&
+P(x_3|x_2, x_1)P(x_2|x_1)
+\\
+&=&
+P(x_3|x_2)P(x_2|x_1)
+\eeqa
+Now integrate both sides over $x_2$.
+\qed
 
 
 
