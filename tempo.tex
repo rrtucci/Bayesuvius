@@ -3,6 +3,113 @@
 \input{bayesuvius.sty}
 \begin{document}
 
+\beq
+\frac{d\rvx_t}{dt}= a_t + b_t\circ_\alp \dot{\rvB}_t
+\eeq
+
+\beq
+d\rvx_t= a_t dt + b_t\circ_\alp d\rvB_t
+\eeq
+
+\beq
+\rvx(T)-\rvx(0)=\int_{0}^T a_t dt  + 
+\int_{t=0}^T b_t\circ_\alp d\rvB_t
+\eeq
+
+{\bf General Stochastic $\alp$-anticipatory Integral}
+For $\alp\in[0, 1]$, 
+\beq 
+\int_{t=0}^T 
+\rvx_t\circ_\alp d\rvB_t
+\eqdef 
+\lim_{\Delta t\to 0}\sum_i \rvx_{t_i+\alp\Delta t}\Delta_{t_i}^{t_{i+1}}\rvB
+\eeq
+
+\begin{itemize}
+\item $\alp=0$: {\bf It\^{o} Integral}
+\item $\alp=1/2$: {\bf Stratonovitch integral}
+\item $\alp=1$: {\bf fully anticipatory integral}
+\end{itemize}
+
+\beq
+\rvx\circ_0 d\rvB =\rvx\; d\rvB,
+\eeq
+
+\beq
+\rvx\circ_{1/2} d\rvB =\rvx\circ d\rvB
+\eeq
+
+\begin{claim}
+\beq
+\int_{t=0}^T \rvB_t \;d\rvB_t= \frac{1}{2}\rvB_T^2 -T
+\eeq
+
+\end{claim}
+\proof
+\qed
+
+\begin{claim}
+\beq
+\int_{t=0}^T \rvB_t \circ d\rvB_t= \frac{1}{2}\rvB_T^2 
+\eeq
+
+\end{claim}
+\proof
+\qed
+
+\begin{claim}
+If
+
+\beq
+d\rvx_t= a_t dt + b_t d\rvB_t
+\eeq
+then
+
+\beq
+\int_{t=0}^T
+\rvx_t \circ_\alp d\rvB_t
+=
+\int_{t=0}^T \rvx_t d \rvB_t
++\alp  \int_{t=0}^T  b_t dt
+\eeq
+\end{claim}
+\proof
+
+\beq
+\rvx_{t_i +\alp \Delta t}
+=
+\rvx_{t_i} +\alp \Delta_{t_i}^{t_{i+1}}
+\rvx
++
+\calo
+\left([\Delta_{t_i}^{t_{+1} } \rvx]^2\right)
+\eeq
+
+\beqa
+\sum_i \rvx_{t_i+\alp\Delta t}\Delta_{t_i}^{t_{i+1}}\rvB
+&=&
+\sum_i  \rvx_{t_i}
+\Delta_{t_i}^{t_{i+1}}\rvB
++
+\alp\sum_i
+\underbrace{\left(\Delta_{t_i}^{t_{i+1}}\rvx\right)}_{b_i \Delta_{t_i}^{t_{i+1}}\rvB}
+\left(\Delta_{t_i}^{t_{i+1}}\rvB\right)
+\\
+&\to&
+\int_{t=0}^T \rvx_t d \rvB_t
++\alp  \int_{t=0}^T  b_t dt
+\eeqa
+
+\qed
+
+\beq
+E[
+\int_{t=0}^T
+\rvx_t \circ_\alp d\rvB_t
+\mid
+\calf_s
+]
+\eeq
 
 
 \end{document}
