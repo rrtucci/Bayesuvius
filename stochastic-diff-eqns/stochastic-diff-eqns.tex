@@ -3,7 +3,9 @@
 
 This chapter is based mostly on Ref.\cite{sar-sol}.
 
-{\bf Stochastic Differential Equations (SDE)}
+{\bf Stochastic Differential Equations (SDE)}\footnote{The 
+acronym SDE complements the acronyms ODE (Ordinary Differential Equation)
+and PDE (Partial Differential Equation)}
 are deterministic first order differential equations with additive external white noise. When discretized, they
 can be modelled as dynamic bnets of type
 DEN (Deterministic bnet with External Noise) (see Chapter \ref{ch-LDEN}).
@@ -61,8 +63,8 @@ to indicate that last int is included.
 $[n]=[0:n]=\{0, 1, 2, \ldots, n-1\}$
 
 
-Consider times $t_0=0<t_1<t_2<\ldots < t_{N-1}$
-
+We will consider times $t_0=0<t_1<t_2<\ldots < t_{N-1}=T$
+with $|t_{i}-t_{i-1}|=\Delta t$ for all $i$ such that $0<i<N$
 
 
 $t_{[i\upto j]} = [t_i, t_{i+1}, \ldots, t_j]$
@@ -94,8 +96,6 @@ A_\mu B_\mu = \sum_{\mu \in[n]}A_\mu B_\mu
 
 $dx^n = dx_0 dx_1 \ldots dx_{n-1}$
 \hrule\noindent
-{\bf Path}
-
 A {\bf path} is defined as one of the following sets, depending on whether we are considering continuous or discretized time:
 
 $\rvx([t,s])=\{  \rvx(\tau): \tau\in[t,s]\}$
@@ -106,13 +106,24 @@ $\rvx(t_{[j\upto k]}) =\{  x(\tau): \tau\in\{t_j, t_{j+1}, \ldots, t_k\}\}$
 $\rvx_{[j\upto k]} =\{ \rvx_j, \rvx_{j+1},
 \ldots,\rvx_k\}$
 
-Measure theorists speak of a set of sigma algebras
-parametrized by $t$
-with the $t$ algebra
-containing
-all algebras with smaller t.
- They call this a {\bf filtration}. A path $x([t, s])$ is equivalent to a filtration,
-so we won't speak of filtrations here.
+\hrule
+Measure theorists often speak of a filtration
+for an expected value.
+A {\bf filtration} $\calf_t$ is just the mathematical encoding of \qt{some information available from times less than or equal to $t$.}
+$\calf_t$ grows or stays the same as $t$ increases.
+Filtrations are often used as conditions in an expected value, as 
+in $E[M_s|\calf_t]=M_t$
+for a martingale $M_t$.
+Formally, a filtration is a nested family of sigma-algebras
+$\calf_t=\{A_{t'}: t'\in S, t'\leq t\}$
+satisfying
+$A_{t_1}\subset A_{t_2}$ if $t_1\leq t_2$. Thus, as
+time increases,
+more 
+or the same amount of info  is known.
+ A path segment $x([t, s])$
+or some events is often an adequate filtration,
+so we won't speak of filtrations again.
 \hrule
 For any matrix $A$,
 we will use $A^\dagger$ to denote the Hermitian conjugate of $A$, $A^T$ to denote its transpose, and $A^*$ to denote its complex conjugate. $A^\dagger = A^{* T}$.
@@ -251,7 +262,49 @@ E[(\Delta^{s}_{r}\rvB) (\Delta^{s'}_{r'}\rvB)^T]
 
 \end{enumerate}
 
-\section{Martingales and Semi-Martingales}
+Brownian Motion $\rvB_t$
+is a special case of a {\bf Levy process}. A Levy process
+$\rvx_t$ satisfies
+
+\beq
+P(\rvx_s-\rvx_t=x)= P(\rvx_{s-t}=x)
+\eeq
+3 examples of a Levy process are
+
+\begin{enumerate}
+\item Brownian Motion
+
+\beq
+P(\rvx_s-\rvx_t=x)=\caln(x;
+\mu=0, \s^2 )
+\eeq
+\item Poisson process
+\beq
+P(\rvx_s-\rvx_t=x)= {\rm Poisson}(x;\lam=r(s-t))=
+\frac{\lam^x e^{-\lam}}{x!}
+\quad
+\text{(Poisson Distri.)}
+\eeq
+
+For $\lam\ll 1$ and $x=1$,
+
+\beq
+P(\rvx_{s-t}=1)\approx r(s-t)
+\eeq
+
+\item Cauchy process
+
+\beq
+P(\rvx_s-\rvx_t=x)= 
+{\rm Cauchy}(x;\mu=0, \gamma=s-t)=
+\frac{1}{\pi\gamma}\frac{\gamma^2}{(x^2+\gamma^2)}
+\quad
+\text{(Cauchy Distri.)}
+\eeq
+
+\end{enumerate}
+
+\section{Martingales}
 
 Let $0\leq t, t_i \leq T$ and $x(t_i)=x_i$
 for $i\in[N]$.
@@ -286,21 +339,409 @@ aren't.
 
 
 
-\section{SDE definition}
-The most general system discussed in this
-chapter obeys the following SDE
 
+\section{Stochastic Calculus}
+
+
+
+Define a {\bf semi-martingale}
+as a random process $\rvx_t$ that satisfies the 
+{\bf Stochastic Differential Equation} (SDE)
 \beq
-dx_\mu =
-f_\mu(x, t)dt + L_{\mu, \nu}(x,t)d\rvB_\nu(t)
+\frac{d\rvx_t}{dt}= f_t + L_t\circ_\alp \dot{\rvB}_t
 \eeq
-where $\mu, \nu\in [n]$.
+where $f_t$ and $L_t$ are reasonably  smooth
+function of $t$ and $\rvx_t$. 
+$f_t=f(\rvx_t, t)$ is called
+the {\bf drift term} and 
+$L_t=L(\rvx_t, t)$ is called the
+{\bf diffusion coefficient}. When 
+$L_t$ depends (resp., does not depend)
+explicitly on $\rvx_t$,
+we say the system has
+{\bf multiplicative noise} 
+(resp., {\bf additive}).
 A system for which $f$ and $L$ are
 both constant (i.e., independent of the event $(x,t)$) is said to have {\bf Constant Coefficients (CC)}\footnote{Ref.\cite{sar-sol},
 on which most of this chapter is
 based, calls systems with CC, LTI (linear, time-invariant) systems.}
 
+The definition of the product $\circ_\alp$ of $L_t$ and
+the white noise $\dot{\rvB}_t$, requires 
+some finesse and will be given below.
+Hence
+a semi-martingale's time derivative is the 
+sum of a smooth function and a zig-zaggy function.
 
+An alternative differential expression for this SDE is
+
+\beq
+d\rvx_t= f_t dt + L_t\circ_\alp d\rvB_t
+\eeq
+For example, $d\rvx_t=  \mu dt
++ d\rvB_t$, Brownian motion with a drift,
+is a semi-martingale.
+
+
+
+This SDE is solved, at least formally once 
+we define a stochastic integral, by
+
+\beq
+\rvx(T)-\rvx(0)=\int_{0}^T f_t dt  + 
+\int_{t=0}^T L_t\circ_\alp d\rvB_t
+\eeq
+
+For any $\alp\in[0, 1]$, define the {\bf General Stochastic $\alp$-anticipatory Integral} of the  semi-martingales $\rvx_t$and $\rvy_t$ by
+
+\beq 
+\int_{t=0}^T 
+\rvx_t\circ_\alp d\rvy_t
+\eqdef 
+\lim_{\Delta t\to 0}\sum_i \rvx_{t_i+\alp\Delta t}\Delta_{t_i}^{t_{i+1}}\rvy
+\eeq
+
+\begin{itemize}
+\item $\alp=0$: {\bf It\^{o} (zero anticipatory) Integral}
+
+In this case we will omit the $\circ_\alp$
+\beq
+\rvx\circ_0 d\rvy =\rvx\; d\rvy,
+\eeq
+\item $\alp=1/2$: {\bf Stratonovitch (half anticipatory) integral}
+
+In this case we will omit the $\alp$
+\beq
+\rvx\circ_{1/2} d\rvy =\rvx\circ d\rvy
+\eeq
+\item $\alp=1$: {\bf fully anticipatory integral}
+\end{itemize}
+
+
+Define the {\bf quadratic co-variation of $\rvx_t$ and $\rvy_t$} (or variation if
+$\rvx_t=\rvy_t$)
+by
+\beq
+\av{\rvx_t, \rvy_t}_0^T=
+\lim_{\Delta t\to 0}\sum_i\left[\Delta_{t_i}^{t_i+\Delta t}\rvx\right]
+\left[\Delta_{t_i}^{t_i+\Delta t}\rvy\right]
+\eeq
+For example, in a semi-martingale,
+the smooth part  $f_t$ has
+zero quadratic variation but the
+zig-zaggy part $L_t\rvB_t$ has a non-zero one.
+
+\beq
+\av{f_t, f_t}_0^T=0,
+\quad 
+\av{L_t\rvB_t, L_t\rvB_t}_0^T\neq 0
+\eeq
+
+
+\begin{claim}
+(Conversion to It\^{o} formula)
+
+If $\rvx_t$ and $\rvy_t$
+are semi-martingales,
+then
+
+\beq
+\int_{t=0}^T
+\rvx_t \circ_\alp d\rvy_t
+=
+\int_{t=0}^T \rvx_t d \rvy_t
++\alp  \av{\rvx_t, \rvy_t}_0^T
+\eeq
+\label{cl-ito-conversion-eq}
+\end{claim}
+\proof
+
+\beq
+\rvx_{t_i +\alp \Delta t}
+=
+\rvx_{t_i} +\alp \Delta_{t_i}^{t_{i+1}}
+\rvx
++
+\calo
+\left([\Delta_{t_i}^{t_{+1} } \rvx]^2\right)
+\eeq
+
+\beqa
+\sum_i \rvx_{t_i+\alp\Delta t}\Delta_{t_i}^{t_{i+1}}\rvy
+&=&
+\sum_i  \rvx_{t_i}
+\Delta_{t_i}^{t_{i+1}}\rvy
++
+\alp\sum_i
+\left(\Delta_{t_i}^{t_{i+1}}\rvx\right)
+\left(\Delta_{t_i}^{t_{i+1}}\rvy\right)
+\\
+&\to&
+\int_{t=0}^T \rvx_t d \rvy_t
++\alp  \av{\rvx_t, \rvy_t}_0^T
+\eeqa
+
+
+\qed
+
+\begin{claim}
+\beq
+\int_{t=0}^T \rvB_t \;d\rvB_t= \frac{1}{2}(\rvB_T^2 -T)
+\eeq
+\label{cl-ito-b-db}
+\end{claim}
+\proof
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=5in]
+{stochastic-diff-eqns/ito-integral-square.png}
+\caption{Geometry involved in calculation of $\int \rvB_t d\rvB_t$.}
+\label{fig-ito-integral-square}
+\end{figure}
+
+From Fig.\ref{fig-ito-integral-square}
+\beq
+2\rvB_t \Delta_t^{t+\Delta t} \rvB=
+\underbrace{\rvB_{t+\Delta t}^2 - \rvB_t^2}_{
+\Delta_t^{t+\Delta t} (\rvB^2)
+} 
+- \underbrace{\left[\Delta_t^{t+\Delta  t}\rvB\right]^2}_{\Delta t}
+\eeq
+Hence
+
+\beqa
+2\int_{t=0}^T \rvB_t \;d\rvB_t &=&
+\lim_{\Delta t\to 0}\sum_i 2\rvB_{t_i}\Delta_{t_i}^{t_i +\Delta t}\rvB
+\\
+&=&
+\rvB_T^2 - \rvB_0^2 -T
+\eeqa
+
+\qed
+
+\begin{claim}
+\beq
+\int_{t=0}^T \rvB_t \circ d\rvB_t= \frac{1}{2}\rvB_T^2 
+\eeq
+\end{claim}
+\proof
+
+From Claims
+ \ref{cl-ito-conversion-eq}
+and \ref{cl-ito-b-db}, we get
+
+\beq
+\int_{t=0}^T
+\rvB_t \circ d\rvB_t = \frac{1}{2}(\rvB_T^2-T)+
+\underbrace{\alp}_{\frac12}\int_{t=0}^T \underbrace{L_t}_1 dt
+\eeq
+\qed
+
+\begin{claim}
+The It\^{o} integral
+is a martigale. The $\alp$-anticipatory
+integral for $\alp\neq 0$ is not a martingale.
+\end{claim}
+\proof
+
+\beq
+M_\alp(T)= \int_{t=0}^T
+\rvB_t \circ_\alp d\rvB_t
+\eeq
+
+\beq
+E[
+M_0(T)
+\mid
+\rvB_{[0, T]}
+]
+=
+\frac{1}{2}E[\rvB_T^2 - T\mid \rvB_{[0, T]}]
+=
+\frac{1}{2}[\rvB_T^2 -T]
+=M_0(T)
+\eeq
+
+For $\alp\neq 0$,
+\beq
+E[
+M_\alp(T)
+\mid
+\rvB_{[0, T]}
+]\neq M_\alp(T)
+\eeq
+
+\qed
+
+The It\^o integral is  a martingale
+but it violates the integration
+rules of standard Calculus. The
+Stratonovich integral does the opposite. It's not
+a Martingale, but it 
+preserves  the integration
+rules of standard Calculus.
+
+Martingale random processes respect Causality; i.e., 
+their current expectation value does not
+depend on the future. The
+$\alp$ in a stochastic integral (SI)
+measures how much the SI
+violates Causality. SIs with
+$\alp=0$ (It\^{o}) are the only truly causal ones.
+Microscopic Physics should
+of course obey Causality so
+observable
+quantities
+should be 
+expressible using Causal SI's only. 
+However, there are
+many situations
+in which non-causal SI with fractional $\alp$
+are useful. This
+is true, for example,
+if we want to impose future time
+boundary conditions
+(such as terminal $\rvx_T=k$
+instead of the usual initial $\rvx_0=k$  conditions), or if we do some
+temporal averaging that
+includes future values.
+
+
+\hrule
+
+{\bf It\^{o} ($\alp=0$) differential calculus:}
+
+For $\rvB\in\RR$, 
+
+\beq
+d[\rvB^2(t)]=
+2\rvB(t)d\rvB(t)
++\underbrace{[d\rvB(t)]^2}_{dt}
+\eeq
+
+
+
+
+For $\rvB\in\RR^n$,
+
+\beq
+d[\rvB_\alpha(t)\rvB_\beta(t)]=\delta(\alpha, \beta)
+\left[
+2\rvB_\alpha(t)d\rvB_\alpha(t)
++dt\right]\quad
+\text{(no sum on RHS)}
+\eeq
+
+\beq
+d[\rvB_\alpha(t)]d[\rvB_\beta(t)]
+=Q_{\alpha, \beta}dt
+\eeq
+
+\section{It\^{o}  Lemma}
+
+
+Consider the $n$ dimensional case $\rvx, \dot{\rvB}\in \RR^n$. Let $\mu, \nu,\alpha, \beta\in [n]$. Suppose
+\beq
+d\rvx_\mu= f_\mu(\rvx, t)dt + L_{\mu,\nu}(\rvx, t)d\rvB_\nu(t)
+\eeq
+
+\beq
+d\rvB_\alp d\rvB_\beta = Q_{\alp, \beta}
+\eeq
+and
+
+\beq
+R_{\mu, \nu} = \frac{1}{2} L_{\mu,\alpha}Q_{\alpha,\beta}L^T_{\beta,\nu}
+\eeq
+
+
+
+\begin{claim}(It\^{o} Lemma)
+
+If $\ul{\phi}=\phi(\rvx, t)$ then
+\beq
+d\ul{\phi}=
+\left[\pder{\phi}{t} +
+ f_\mu\pder{\phi}{x_\mu} +
+ R_{\mu, \nu}
+\frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}\right]dt
++
+\pder{\phi}{x_\mu}L_{\mu,\nu}d\rvB_\nu
+\eeq
+\end{claim}
+\proof
+
+The Taylor
+expansion of $\phi(x,t)$, up to second
+order derivatives, is
+
+\beq
+d\phi =
+\pder{\phi}{t}dt
++
+\sum_\mu \pder{\phi}{x_\mu} d\rvx_\mu
++\frac{1}{2}
+\sum_\mu \sum_\nu \frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}d\rvx_\mu d\rvx_\nu
+\eeq
+
+
+\beq
+\pder{\phi}{x_\mu} d\rvx_\mu
+=
+\pder{\phi}{x_\mu}
+\left[
+f_\mu dt + L_{\mu, \nu}d\rvB_\nu
+\right]
+\eeq
+
+\beqa
+\frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}d\rvx_\mu d\rvx_\nu
+&=&\frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}
+\left[
+f_\mu dt + L_{\mu, \alpha}d\rvB_\alpha
+\right]
+\left[
+f_\nu dt + L_{\nu, \beta}d\rvB_\beta
+\right]
+\\
+&=&
+\frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}
+L_{\mu, \alpha}  L_{\nu, \beta} d\rvB_\alpha d\rvB_\beta
+\\
+&=&
+\frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}
+L_{\mu, \alpha}  L_{\nu, \alp} Q_{\alpha,\alp} dt
+\eeqa
+
+\beqa
+d\phi &=&
+\pder{\phi}{t}dt
++
+\pder{\phi}{x_\mu} [f_\mu dt + L_{\mu,\nu}d\rvB_\nu]
++ R_{\mu, \nu}
+\frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}dt
+\\
+&=&
+\left[\pder{\phi}{t} +
+f_\mu \pder{\phi}{x_\mu} + R_{\mu, \nu}
+\frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}\right]dt
++
+\pder{\phi}{x_\mu}L_{\mu,\nu}d\rvB_\nu
+\eeqa
+
+\qed
+
+For example,  if $n=1$, $\rvx=\rvB$,
+$\phi = \rvB^m$
+and
+$L=Q=1$, $f=0$,
+we get
+
+\beq
+d(\rvB^m) = \left[m \rvB^{m-1}+ m(m-1) \rvB^{m-2}\right]dt
++ m\rvB^{m-1}d\rvB
+\eeq
 
 \section{SDE bnet}
 
@@ -504,162 +945,6 @@ L(x_2, t)\Delta_{2}^{3}\rvB
 +x_0
 \eeq
 
-\section{Stochastic Calculus of It\^{o}
-and Stratonovich}
-
-Consider the 1 dimensional case $\rvx, \dot{\rvB}\in \RR$.
-\beq
-\frac{d\rvx}{dt}= f(\rvx, t) + L(\rvx, t)\dot{\rvB}(t)
-\eeq
-
-\beq
-\rvx(t) - \rvx(0) =
-\int_{0}^{t}dt\; f(x,t) + J
-\eeq
-where
-
-\beq
-J = \int_{0}^t dt\;
-L(x, t)\dot{\rvB}(t)
-\eeq
-
-For $t_0=0 < t_1 <\ldots <t_{N-1}$, $t_k^*\in [t_k, t_{k+1})$, define
-
-
-
-\beq
-J_N =
-\sum_k L(\rvx, t_k^*)\Delta_{t_k}^{t_{k+1}}\rvB
-\eeq
-and
-
-\beq
-J = \lim_{N\rarrow \infty} J_N
-\eeq
-
-Consider the integrand $L(x,t)\dot{\rvB}(t)$.
-In non-rigorous calculus,
-we normally consider integrands
-that are smooth, so that as $N\rarrow \infty$
-and the separation between successive $t_i$
-goes to zero,
-the value of $J$
-is independent of where $t^*_k$
-is located inside the interval $[t_k, t_{k+1})$.
-In the SDE case, the integrand $L\dot{\rvB}$ is continuous
-but very jagged, so the value of $J$ does
-depend on the choice of $t^*_k$.
-
-Consider the special case that
-$L=\rvx=\rvB$, so
-
-\beq
-J_N=\sum_k \rvB(t_k^*) \Delta_{t_k}^{t_{k+1}}\rvB
-\eeq
-Let us see how in this simple case,
-the value of $J$ depends on the
-choice of $t^*_k$.
-
-\begin{enumerate}
-
-\hrule
-\item $t_k^* = t_{k+1}$
-\beqa
-E[J_N] &=&
-\sum_k E[\rvB(t_{k+1})\Delta_{t_k}^{t_{k+1}}\rvB]
-\\
-&=&
-\sum_k
-E[(\Delta_{0}^{t_{k+1}}\rvB)\Delta_{t_k}^{t_{k+1}}\rvB]
-\\
-&=&
-\sum_k
-E[(\Delta_{t_k}^{t_{k+1}}\rvB)^2]
-\\
-&=&t
-\eeqa
-
-\hrule
-\item $t_k^* = \frac{t_k + t_{k+1}}{2}$
-Stratonovich integral
-
-\hrule
-\item $t_k^* = t_k$, It\^{o} (Ito) integral
-
-
-\beqa
-E[J_N] &=&\sum_k E[\rvB(t_k)\Delta_{t_k}^{t_{k+1}}\rvB]
-\\
-&=& \sum_k
-E[(\Delta_{0}^{t_k}\rvB)\Delta_{t_k}^{t_{k+1}}\rvB]
-\\
-&=&0
-\eeqa
-
-\beqa
-J_N &=&
-\sum_k \rvB(t_k)\Delta_{t_k}^{t_{k+1}}\rvB
-\\
-&=&\sum_k B_k(B_{k+1}-B_k)
-\\
-\\
-&=&
-\frac{1}{2}\sum_k\left[
--[B_{k+1}-B_k]^2
-+ (B^2_{k+1}-B^2_{k})\right]
-\\
-&=&
-\frac{1}{2}\sum_k\left[
--[\Delta_{t_k}^{t_{k+1}}\rvB]^2
-+ \Delta_{t_k}^{t_{k+1}}(\rvB^2)\right]
-\eeqa
-
-\beqa
-J &=& \lim_{N\rarrow \infty} J_N
-\\
-&=&
-\frac{1}{2}
-(-t+\rvB^2(t))
-\eeqa
-$E[J] = \frac{1}{2}(-t+t)=0$
-
-
-
-
-
-
-\end{enumerate}
-
-\beq
-d[\rvB^2(t)]=
-2\rvB(t)d\rvB(t)
-+t
-\eeq
-
-
-\beq
-[d\rvB(t)]^2 = dt
-\eeq
-
-
-
-For $\rvB\in\RR^n$,
-
-\beq
-\boxed{
-d[\rvB_\alpha(t)\rvB_\beta(t)]=\delta(\alpha, \beta)
-\left[
-2\rvB_\alpha(t)d\rvB_\alpha(t)
-+t\right]\quad
-\text{(no sum on RHS)}}
-\eeq
-
-\beq
-\boxed{
-d[\rvB_\alpha(t)]d[\rvB_\beta(t)]
-=Q_{\alpha, \beta}dt}
-\eeq
-
 
 
 \section{Transition Probability Matrices}
@@ -729,104 +1014,8 @@ Now integrate both sides over $x_2$.
 
 
 
+
 \section{Fokker-Planck Equation}
-
-
-Consider the $n$ dimensional case $\rvx, \dot{\rvB}\in \RR^n$. Let $\mu, \nu,\alpha, \beta\in [n]$. Suppose
-\beq
-d\rvx_\mu= f_\mu(\rvx, t)dt + L_{\mu,\nu}(\rvx, t)d\rvB_\nu(t)
-\eeq
-where
-
-\beq
-R_{\mu, \nu} = \frac{1}{2} L_{\mu,\alpha}Q_{\alpha,\beta}L^T_{\beta,\nu}
-\eeq
-
-
-\begin{claim}
-\beq
-d\phi=
-\left[\pder{\phi}{t} +
- f_\mu\pder{\phi}{x_\mu} +
- R_{\mu, \nu}
-\frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}\right]dt
-+
-\pder{\phi}{x_\mu}L_{\mu,\nu}d\rvB_\nu
-\eeq
-\end{claim}
-\proof
-
-The Taylor
-expansion of $\phi(x,t)$, up to second
-order derivatives, is
-
-\beq
-d\phi =
-\pder{\phi}{t}dt
-+
-\sum_\mu \pder{\phi}{x_\mu} d\rvx_\mu
-+\frac{1}{2}
-\sum_\mu \sum_\nu \frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}d\rvx_\mu d\rvx_\nu
-\eeq
-
-
-\beq
-\pder{\phi}{x_\mu} d\rvx_\mu
-=
-\pder{\phi}{x_\mu}
-\left[
-f_\mu dt + L_{\mu, \nu}d\rvB_\nu
-\right]
-\eeq
-
-\beqa
-\frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}d\rvx_\mu d\rvx_\nu
-&=&\frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}
-\left[
-f_\mu dt + L_{\mu, \alpha}d\rvB_\alpha
-\right]
-\left[
-f_\nu dt + L_{\nu, \beta}d\rvB_\beta
-\right]
-\\
-&=&
-\frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}
-L_{\mu, \alpha}  L_{\nu, \beta} d\rvB_\alpha d\rvB_\beta
-\\
-&=&
-\frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}
-L_{\mu, \alpha}  L_{\nu, \alp} Q_{\alpha,\alp} dt
-\eeqa
-
-\beqa
-d\phi &=&
-\pder{\phi}{t}dt
-+
-\pder{\phi}{x_\mu} [f_\mu dt + L_{\mu,\nu}d\rvB_\nu]
-+ R_{\mu, \nu}
-\frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}dt
-\\
-&=&
-\left[\pder{\phi}{t} +
-f_\mu \pder{\phi}{x_\mu} + R_{\mu, \nu}
-\frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}\right]dt
-+
-\pder{\phi}{x_\mu}L_{\mu,\nu}d\rvB_\nu
-\eeqa
-
-\qed
-
-For example,  if $n=1$, $\rvx=\rvB$,
-$\phi = \rvB^m$
-and
-$L=Q=1$, $f=0$,
-we get
-
-\beq
-d(\rvB^m) = \left[m \rvB^{m-1}+ m(m-1) \rvB^{m-2}\right]dt
-+ m\rvB^{m-1}d\rvB
-\eeq
-
 The next claim defines the {\bf Fokker-Planck equation} (FP equation) (a.k.a. {\bf Fokker-Planck-Kolgomorov equation})
 for the probability $P(x,t)$
 of single event $(x,t)$
