@@ -272,13 +272,13 @@ P(\rvx_s-\rvx_t=x)= P(\rvx_{s-t}=x)
 3 examples of a Levy process are
 
 \begin{enumerate}
-\item Brownian Motion
+\item {\bf Brownian Motion}
 
 \beq
 P(\rvx_s-\rvx_t=x)=\caln(x;
 \mu=0, \s^2 )
 \eeq
-\item Poisson process
+\item {\bf Poisson process}
 \beq
 P(\rvx_s-\rvx_t=x)= {\rm Poisson}(x;\lam=r(s-t))=
 \frac{\lam^x e^{-\lam}}{x!}
@@ -292,7 +292,7 @@ For $\lam\ll 1$ and $x=1$,
 P(\rvx_{s-t}=1)\approx r(s-t)
 \eeq
 
-\item Cauchy process
+\item {\bf Cauchy process}
 
 \beq
 P(\rvx_s-\rvx_t=x)= 
@@ -310,19 +310,22 @@ Let $0\leq t, t_i \leq T$ and $x(t_i)=x_i$
 for $i\in[N]$.
 A {\bf martingale}  for discrete (resp., continuous) time is a process $\rvy_i$ (resp., $\rvy(t)$)
 which satisfies
-
-
+\begin{itemize}
+\item finite
 \beq
 E[\;|\rvy(t_i)|\;] < \infty\quad \forall i\quad
 (\text{resp., }E[\;|\rvy(t)|\;] < \infty \quad \forall t\geq 0)
 \eeq
+(Sometimes this is not satisfied for all $t$. If it is satisfied for
+a finite closed time interval, 
+it's called a \qt{local} martingale)
 
-
+\item Causal
 \beq
 E\left[\rvy(t)|x(t_{[i\upto j]})\right]= y(t_j)
 \quad (\text{resp., }E\left[\rvy(t)|x([0,s])\right]= y(s))
 \eeq
-
+\end{itemize}
 
 Brownian motion is a martingale.
 \beq
@@ -352,6 +355,39 @@ as a random process $\rvx_t$ that satisfies the
 \eeq
 where $f_t$ and $L_t$ are reasonably  smooth
 function of $t$ and $\rvx_t$. 
+The definition of the product $\circ_\alp$ of $L_t$ and
+the white noise $\dot{\rvB}_t$, requires 
+some care and will be given later.
+For now, just note that
+a semi-martingale's time derivative is the 
+sum of a smooth function and a zig-zaggy function.
+
+An alternative differential expression for this SDE is
+
+\beq
+\begin{array}{lll}
+\xymatrix{
+\ul{dt}\ar[dr]|f
+&&\ul{dB}\ar[dl]|{L\circ_\alp}
+\\
+&\ul{dx}
+}&&
+d\rvx_t= f_t dt + L_t\circ_\alp d\rvB_t
+\end{array}
+\eeq
+For example, $d\rvx_t=  \mu dt
++ d\rvB_t$, Brownian motion with a drift,
+is a semi-martingale.
+
+This SDE is solved, at least formally once 
+we define a stochastic integral, by
+
+\beq
+\rvx(T)-\rvx(0)=\int_{0}^T f_t dt  + 
+\int_{t=0}^T L_t\circ_\alp d\rvB_t
+\eeq
+
+
 $f_t=f(\rvx_t, t)$ is called
 the {\bf drift term} and 
 $L_t=L(\rvx_t, t)$ is called the
@@ -366,31 +402,10 @@ both constant (i.e., independent of the event $(x,t)$) is said to have {\bf Cons
 on which most of this chapter is
 based, calls systems with CC, LTI (linear, time-invariant) systems.}
 
-The definition of the product $\circ_\alp$ of $L_t$ and
-the white noise $\dot{\rvB}_t$, requires 
-some finesse and will be given below.
-Hence
-a semi-martingale's time derivative is the 
-sum of a smooth function and a zig-zaggy function.
-
-An alternative differential expression for this SDE is
-
-\beq
-d\rvx_t= f_t dt + L_t\circ_\alp d\rvB_t
-\eeq
-For example, $d\rvx_t=  \mu dt
-+ d\rvB_t$, Brownian motion with a drift,
-is a semi-martingale.
 
 
 
-This SDE is solved, at least formally once 
-we define a stochastic integral, by
 
-\beq
-\rvx(T)-\rvx(0)=\int_{0}^T f_t dt  + 
-\int_{t=0}^T L_t\circ_\alp d\rvB_t
-\eeq
 
 For any $\alp\in[0, 1]$, define the {\bf General Stochastic $\alp$-anticipatory Integral} of the  semi-martingales $\rvx_t$and $\rvy_t$ by
 
@@ -483,6 +498,7 @@ then
 \qed
 
 \begin{claim}
+\label{cl-covariation-LM}
 If
 \beq
 d\rvx_t = f_t dt + L_t d\rvB_t
@@ -560,7 +576,7 @@ Hence
 \proof
 
 From Claims
- \ref{cl-ito-conversion-eq}
+ \ref{cl-ito-conversion-eq}, \ref{cl-covariation-LM}
 and \ref{cl-ito-b-db}, we get
 
 \beq
@@ -693,6 +709,7 @@ R_{\mu, \nu} = \frac{1}{2} L_{\mu,\alpha}Q_{\alpha,\beta}L^T_{\beta,\nu}
 
 If $\ul{\phi}=\phi(\rvx, t)$ then
 \beq
+\begin{array}{c}
 d\ul{\phi}=
 \left[\pder{\phi}{t} +
  f_\mu\pder{\phi}{x_\mu} +
@@ -700,7 +717,63 @@ d\ul{\phi}=
 \frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}\right]dt
 +
 \pder{\phi}{x_\mu}L_{\mu,\nu}d\rvB_\nu
+\\
+\bcen
+\xymatrix{
+\ul{dt}\ar[dr]|{f_\mu}
+&&\ul{dB}_\nu\ar[dl]|{L_{\mu\nu}}
+\\
+&\ul{dx}_\mu\ar[d]|{
+\pder{\phi}{x_\mu}dx_\mu +\frac{1}{2}
+dx_\mu dx_\nu\frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}
+}
+\\
+&\ul{d\phi}
+}
+\ecen
+=
+\bcen
+\xymatrix@C=7pc{
+\ul{dt}\ar[dr]|{\pder{\phi}{t} +
+f_\mu \pder{\phi}{x_\mu} + R_{\mu, \nu}
+\frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}}
+&&\ul{dB}_\nu\ar[dl]|{\pder{\phi}{x_\mu}L_{\mu,\nu}}
+\\
+&\ul{d\phi}
+}
+\ecen
+\end{array}
 \eeq
+or, in the 1-dim case,
+\beq
+\bcen
+\xymatrix{
+\ul{dt}\ar[dr]|{f}
+&&\ul{dB}\ar[dl]|{L}
+\\
+&\ul{dx}\ar[d]|{
+dx \partial_x \phi+\frac{1}{2}
+(dx)^2\partial^2_x\phi
+}
+\\
+&\ul{d\phi}
+}
+\ecen
+=
+\bcen
+\xymatrix@C=7pc{
+\ul{dt}\ar[dr]|{\partial_t \phi +
+f \partial_x \phi + \frac{1}{2}L^2
+\partial^2_x \phi}
+&&\ul{dB}\ar[dl]|{L\partial_x\phi}
+\\
+&\ul{d\phi}
+}
+\ecen
+\eeq
+
+
+
 \end{claim}
 \proof
 
@@ -831,6 +904,118 @@ d\ln(\rvx_t)&=&
 \left(\mu-\frac{1}{2}\s^2\right)t
 + \s \rvB_t\right]
 \eeq
+\item 
+\begin{claim}
+
+If 
+\beq
+d\rvx_t = f(\rvx_t, t)dt
++
+L(\rvx_t, t)\circ_\alp d\rvB_t
+\eeq
+then
+
+\beq
+d\rvx_t = [f+\alp L\partial_x L
+]
+dt
++
+Ld\rvB_t
+\eeq
+\end{claim}
+\proof
+
+\beq
+dx_t = f_t dt + L(x_{t + \alp dt}, t+\alp dt)d\rvB_t
+\eeq
+
+\beq
+x_{t + \alp d t}=
+x_t + \alp \Delta_t^{t+dt}x
+=
+x_t + \alp dx_t
+\eeq
+
+\beqa
+L(x_{t + \alp d t}, t+\alp dt)&=&
+L_t +\alp dt\partial_t L_t + \alp dx_t \partial_x L_t  
+\eeqa
+
+\beqa
+L(x_{t + \alp d t}, t+\alp d t)
+d\rvB_t&=&
+L_t d\rvB_t  + \alp \partial_x L_t 
+\underbrace{dx_t}_{L_t d\rvB_t} d\rvB_t
+\\
+&=&
+L_t d\rv
+B_t +\alp dt L_t\partial_x L_t
+\eeqa
+
+Note that
+\beqa
+dx&=& fdt + L\circ_\alp d\rvB
+\\
+&\neq &(f +\alp L)dt + L d\rvB
+\eeqa
+
+This $dx$ has the same
+diffusion 
+coefficient $L\partial_x L$
+as the process $dL$.
+Indeed,
+
+\beq
+\bcen
+\xymatrix{
+\ul{dt}\ar[dr]|{f}
+&&\ul{dB}\ar[dl]|{L}
+\\
+&\ul{dx}\ar[d]|{
+dx \partial_x L+\frac{1}{2}
+(dx)^2\partial^2_xL
+}
+\\
+&\ul{dL}
+}
+\ecen
+=
+\bcen
+\xymatrix@C=7pc{
+\ul{dt}\ar[dr]|{\partial_t L +
+f \partial_x L + \frac{1}{2}L^2
+\partial^2_x L}
+&&\ul{dB}\ar[dl]|{L\partial_xL}
+\\
+&\ul{dL}
+}
+\ecen
+\eeq
+
+
+Assume
+
+\beq
+dx= fdt + Ld\rvB
+\eeq
+Then
+
+\beqa
+dL&=& dt \partial_t L  +dx \partial_x L
++
+\frac{1}{2}(dx)^2 \partial^2_x L
+\\
+&=&dt \partial_t L+
+[Fdt + Ld\rvB]\partial_x L + 
+\frac12 [Fdt + Ld\rvB]^2\partial^2_x L
+\\
+&=&
+\left[
+\partial_t L + F\partial_xL +\frac12L^2\partial_x^2L
+\right]dt
++
+[L\partial_x L]d\rvB
+\eeqa
 
 \end{enumerate}
 
