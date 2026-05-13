@@ -213,10 +213,54 @@ white noise
 {d \rvB}{dt} = {\dot{\rvB}}
 \eeq
 
+\beq
+\rvB_t = \int_{t'=0}^t
+dt'\; \dot{\rvB}_{t'}
+\label{eq-int-white-noise}
+\eeq
+ Hence
+$\rvB_t$ is an accumulation of white noise over the time
+interval $[0, t]$.
+Brownian motion acts as if it had a tail.
 
 \item
-Covariance value from time 
+Zero mean and covariance value from time 
 overlap
+
+
+\begin{claim}
+\beq
+E[\rvB_s] =0, \quad E[\rvB_s \rvB_t]=
+\min(s,t)
+\eeq
+
+\beq
+\av{\rvB_s, \rvB_t}=
+\min(s,t)
+\eeq
+\end{claim}
+\proof
+
+$E[\rvB_t]=0$ is
+obvious from
+Eq.(\ref{eq-int-white-noise}) and the properties of white noise.
+
+Assume $s<t$ (let $s$ stands for smaller).
+
+\beq
+\rvB_t-\rvB_s = \int_{s}^t
+dt'\; \dot{\rvB}_{t'}
+\eeq
+
+
+\beqa
+\av{\rvB_t, \rvB_s}
+&=&
+\underbrace{\av{(\rvB_t-\rvB_s),\rvB_s}}_0
++
+\underbrace{\av{\rvB_s,\rvB_s}}_s
+\eeqa
+\qed
 
 If $\rvB(t)\in\RR$ and
 $[r, s]\cap [r', s']=\emptyset$, then
@@ -280,7 +324,7 @@ P(\rvx_s-\rvx_t=x)=\caln(x;
 \eeq
 \item {\bf Poisson process}
 \beq
-P(\rvx_s-\rvx_t=x)= {\rm Poisson}(x;\lam=r(s-t))=
+P(\rvx_s-\rvx_t=x)= {\rm Poisson}(x;\lam=R(s-t))=
 \frac{\lam^x e^{-\lam}}{x!}
 \quad
 \text{(Poisson Distri.)}
@@ -289,7 +333,11 @@ P(\rvx_s-\rvx_t=x)= {\rm Poisson}(x;\lam=r(s-t))=
 For $\lam\ll 1$ and $x=1$,
 
 \beq
-P(\rvx_{s-t}=1)\approx r(s-t)
+P(\rvx_{s-t}=1)\approx R(s-t)
+\eeq
+
+\beq
+P(\rvx_{s-t}=0)\approx 1-R(s-t)
 \eeq
 
 \item {\bf Cauchy process}
@@ -343,7 +391,7 @@ aren't.
 
 
 
-\section{Stochastic Calculus}
+\section{Stochastic Integrals}
 
 
 
@@ -859,7 +907,7 @@ d\rvx_t= \mu \rvx_t dt + \s \rvx_t d\rvB_t
 It  would be a mistake
 to divide both sides by $\rvx$,
 because the product $\rvx d\rvB$ is not
- a normal product. 
+ simple multiplication. 
 \beq
 \frac{d\rvx_t}{\rvx_t}
 \neq
@@ -1302,7 +1350,7 @@ of single event $(x,t)$
 
 If
 \beq
-dx = f(x, t)dt + L(x, t)d\rvB
+dx_\mu = f_\mu(x, t)dt + L_{\mu\nu}(x, t)d\rvB_\nu
 \eeq
 Then
 
@@ -1320,11 +1368,11 @@ with
 \end{claim}
 \proof
 
-\beq
-\int dx^n\; P\XT{x}{t}\left[ \pder{\phi}{x_\mu}L_{\mu,\nu}d\rvB_\nu
-\right]
-=0
-\eeq
+%\beq
+%\int dx^n\; P\XT{x}{t}\left[ \pder{\phi}{x_\mu}L_{\mu,\nu}d\rvB_\nu
+%\right]
+%=0
+%\eeq
 
 Integration by parts
 
@@ -1343,8 +1391,8 @@ udv = d(uv)-(du)v
 
 
 \beq
-\int dt dx^n\; P\XT{x}{t}\frac{d\phi}{dt}=
-\int dt dx^n\; P\XT{x}{t}
+dt\int dx^n\; P\XT{x}{t}\frac{d\phi}{dt}=
+dt\int dx^n\; P\XT{x}{t}
 \left[\pder{\phi}{t} +
  f_\mu\pder{\phi}{x_\mu} + R_{\mu, \nu}
 \frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}\right]
@@ -1353,8 +1401,8 @@ udv = d(uv)-(du)v
 
 
 \beq
--\int dt dx^n\; \phi\frac{dP}{dt}=
-\int dt dx^n\;  \phi
+-dt\int dx^n\; \phi\frac{dP}{dt}=
+dt\int dx^n\;  \phi
 \left[-\;\pder{P}{t} -
 \pder{(Pf_\mu)}{x_\mu} +
 \frac{\partial^2 }{\partial x_\mu\partial x_\nu}(PR_{\mu, \nu})\right]
@@ -1387,10 +1435,10 @@ J_\mu = Pf_\mu - \pder{(PR_{\mu,\nu})}{x_\nu}
 \eeq
 
 Eq.(\ref{eq-cons-prob})
-is the {\bf equation for conservation of probability}\footnote{It implies conservation of probability because
-$$0=\pder{}{t}\int_V dV\;P=
-\int_V dV\;\nabla\cdot \vec{J}=
-\int \vec{J}\cdot d\vec{S}$$
+is the {\bf equation for conservation of probability}\footnote{In integral form
+$$\pder{}{t}\int_V dV\;P=
+-\int_V dV\;\nabla\cdot \vec{J}=
+-\int_{\partial V} \vec{J}\cdot d\vec{S}$$
 }. $J_\mu$ is called the {\bf probability
 flux}, $f_\mu$ is called the {\bf drift},
 and $R_{\mu, \nu}$ is called the
@@ -1415,12 +1463,12 @@ Ref.\cite{wiki-brownian-dyn}),  arises from
 Newton's equation $m\ddot{x}= -\lam\dot{x}  -U'(x)$ when the acceleration $\ddot{x}$ is negligible, so the drag force and potential force cancel each other.}
 
 \beq
-dx_\mu = -\;\frac{1}{2}\pder{U}{x_\mu}dt + d\rvB
+dx_\mu = -\;\frac{1}{2}\pder{U}{x_\mu}dt + d\rvB_\mu
 \eeq
 
 \begin{claim}
 For the overdamped Langevin equation,
-if $Q =\frac{1}{\lam}>0$, then the steady state
+if $R_{\mu\nu}=\delta_{\mu\nu} \frac{1}{2\lam}>0$, then the steady state
 solution is
 
 \beq
@@ -1435,7 +1483,8 @@ Z = \int dx^n\;e^{-\lam U(x)}
 \proof
 
 The forward FP equation with
-$L=1$, $\pder{P}{t}=0$ is
+$\pder{P}{t}=0$ and
+$R_{\mu\nu}=\delta_{\mu\nu} \frac{1}{2\lam}$ is
 \beq
 0= -
 \pder{(Pf_\mu)}{x_\mu} + \frac{1}{2\lam}
@@ -1472,10 +1521,7 @@ Recall that
 
 Define $\calb_\rvx$ to be the same as $\calf_\rvx$
 but with every derivative $A\pder{B}{x_\mu}$
-replaced by $-B\pder{A}{x_\mu}$. Hence\footnote{For those
-	who know Quantum Mechanics, our $\calf$ equals
-	a Hamiltonian $H$ times $i$, $\calf =Hi$.
-}
+replaced by $-B\pder{A}{x_\mu}$. Hence
 
 \beq
 \calb_\rvx \bullet=
@@ -1518,6 +1564,8 @@ with
 \quad \text{(Hence, $P_{s,s}=1$)}
 \eeq
 \end{claim}
+\proof
+\qed
 
 
 	
@@ -1554,6 +1602,8 @@ with
 \eeq
 	
 \end{claim}
+\proof
+\qed
 
 The forward FP equation is the
 time reversed version of the
@@ -1889,7 +1939,7 @@ Define the
 {\bf power spectral density}
 of process $x(t)$ by
 \beq
-val(\rvx)(\omega)= \lim_{T\rarrow 0}
+Pow_\rvx(\omega)= \lim_{T\rarrow 0}
 \frac{1}{T} E[\TIL{x}_T(\omega)\TIL{x}^\dagger_T(\omega)]
 \eeq
 In case $\rvx=\dot{\rvB}$= white noise,
@@ -1967,14 +2017,14 @@ for integral given by Eq.(\ref{eq-ac-integral-formula})}
 \begin{claim}(Wiener Khinchin theorem (WK))
 
 \beq
-val(\rvx)(\omega)
+Pow_\rvx(\omega)
 =
 \int_{-\infty}^{\infty}d\tau\; AC_\rvx(\tau)e^{i\omega \tau}
 \eeq
 If $AC(\tau)=AC(-\tau)$,
 
 \beq
-val(\rvx)(\omega)
+Pow_\rvx(\omega)
 =
 2\int_{0}^{\infty}d\tau\; AC_\rvx(\tau)\cos(\omega\tau)
 \eeq
@@ -2062,7 +2112,7 @@ AC_{\dot{\rvB}}(\tau) = Q\delta(\tau)
 Hence,  by the WK theorem,
 
 \beq
-val(\rvx)(\omega)=Q
+Pow_\rvx(\omega)=Q
 \eeq
 
 Next, let us solve the
@@ -2084,7 +2134,7 @@ Hence,
 \eeq
 
 \beqa
-S_{\dot{\rvB}}(\omega) &=& \TIL{x}\TIL{x}^\dagger
+Pow_{\dot{\rvB}}(\omega) &=& \TIL{x}\TIL{x}^\dagger
 \\
 &=&
 (F+i\omega)^{-1}\underbrace{LQL^\dagger}
@@ -2106,7 +2156,7 @@ Hence, we only need to know $AC(\tau)$ at $\tau=0$.
 
 For steady state, by the Wiener Khinchin theorem,
 \beq
-val(\rvx)(\omega)=AC_\rvx(0) 2\pi\delta(w)
+Pow_\rvx(\omega)=AC_\rvx(0) 2\pi\delta(w)
 \eeq
 where
 
@@ -2131,7 +2181,9 @@ dx_\mu = f_\mu(x,t)dt + L_{\mu,\nu}(x,t)d\rvB_\nu
 dy_\mu = g_\mu(y,t)dt + d\rvB_\mu
 \label{eq-g-def-grisa}
 \eeq
-
+Note that $g\neq f/L$
+because the product $Ld\rvB$
+is not simple multiplication.
 
 
 \begin{claim} For $n=1$, the function
@@ -2141,10 +2193,10 @@ is given by
 \beq
 g(y,t)=
 \left.\left(
+\frac{f\XT{x}{t}}{L\XT{x}{t}}
++
 \pder{}{t}
 \int_\xi^x \frac{du}{L\XT{u}{t}}
-+
-\frac{f\XT{x}{t}}{L\XT{x}{t}}
 -\;
 \frac{1}{2}
 \pder{L\XT{x}{t}}{x}
@@ -2182,11 +2234,11 @@ dy &=& \pder{h}{t}dt + \frac{dx}{L}
 \section{Feynman-Kac Path Integrals}
 
 {\bf Kac path integrals} (Kac PI)
-are weighted sums  over paths. Kac FPs
+are weighted sums  over paths. Kac PIs
 are solutions of a classical SDE for specific boundary conditions. They were first proposed by Kac.
 
 {\bf Feynman path integrals} (Feynman PI) are similar to Kac PI,
-but the weights of the sum are complex valued instead of real valued. Feynman FPs
+but the weights of the sum are complex valued instead of real valued. Feynman PIs
 are solutions of a quantum SDE (i.e., a Schr\"{o}dinger's equation) for specific boundary conditions. They
 were first proposed by Feynman,
 who  wrote this book
@@ -2205,10 +2257,10 @@ is similar.
 \begin{figure}[h!]
 $$
 \xymatrix{
-\ul{\Delta B}_3 \ar[d]
-& \ul{\Delta B}_2 \ar[d]
-& \ul{\Delta B}_1 \ar[d]
-& \ul{\Delta B}_0\ar[d]
+\ul{\Delta_2^3 B} \ar[d]
+& \ul{\Delta_1^2 B} \ar[d]
+& \ul{\Delta_0^1 B} \ar[d]
+& 
 \\
 \rvx_3
 & \rvx _2 \ar[l]
@@ -2227,100 +2279,93 @@ TPMs, printed in blue,
 for that bnet, are as follows
 
 \beq\color{blue}
-P(x_k|x_{k-1})= \indi(x_{k-1}
-+f_k\Delta t +\Delta\rvB_k)
+P(x_{k+1}|x_{k})= \indi(x_{k}
++f_k\Delta t +\Delta_k^{k+1}\rvB)
 \eeq
 
 \beq \color{blue}
-\Delta\rvB_k \sim \caln(\mu=0, \s^2=q\Delta t)
+\Delta_k^{k+1}\rvB \sim \caln(\mu=0, \s^2=q\Delta t)
 \eeq
 Then
 
 \begin{align}
 P(x_{[1\upto N]}|x_0)&=
-\prod_{k=1}^N P(x_k|x_{k-1})
+\prod_{k=0}^{N-1} P(x_{k+1}|x_{k})
 \\
 &=
-\prod_{k=1}^N
+\prod_{k=0}^{N-1}
 \left[
 \frac{1}{\sqrt{2\pi q\Delta t}}
 \exp\left(
 -\;
-\frac{(x_k-x_{k-1})^2}{2q\Delta t}
+\frac{(x_{k+1}-x_{k})^2}{2q\Delta t}
 \right)
 \right]
 \\
 &=
-\prod_{k=1}^N
+\prod_{k=0}^{N-1}
 \left[
 \frac{1}{\sqrt{2\pi q \Delta t}}
 \exp\left(
 -\;
-\frac{(f_k\Delta t + \Delta B_k)^2}{2q\Delta t}
+\frac{(f_k\Delta t + \Delta_k^{k+1} B)^2}{2q\Delta t}
 \right)
 \right]
 \\
 &=
-\underbrace{\prod_{k=1}^N
+\underbrace{\prod_{k=0}^{N-1}
 \left[
-\frac{1}{\sqrt{2\pi q \Delta t}}
+\frac{e^{-\frac{1}{2q}}}{\sqrt{2\pi q \Delta t}}
 \right]}_{\gamma^N}
 \exp\left(
 -\;
 \frac{1}
 {2q}\int_0^{t_N}dt
-\left[(\ddot{B})^2 +
+\left[
 2f\dot{B} +f^2\right]
 \right)
 \end{align}
 
-
-
-\beq
-P(B_{[0 \upto N]})
-=
-\gamma^N\exp\left(-\;
-\frac{1}{2 q}\int_0^{t_N} dt (\ddot{B})^2
-\right)
-\eeq
-
-\beq
-\frac{P(x_{[1\upto N]})}{P(B_{[1\upto N]})}=
-\exp\left(-\;
-\frac{1}{2q}\int_0^{t_N}dt
-\left[
-2f\dot{B} +f^2\right]
-\right)
-\label{eq-px-div-pb}
-\eeq
-
-\beq
-\cald B = \gamma^N \prod_{k=1}^N dB_k
-\eeq
-
-Note that
-$(B_k, t_k)\in \RR^n\times [0, T]$
-for $k\in[0-N]$.
 Let
-$\cale\subset \RR^n\times [0, T]$.
-Fig.\ref{fig-possible-paths}
-shows a possible set $\cale$
-when $n=1$.
-The path integration is over all
-paths $(B_k, t_k)$ for $k\in [0-N]$
-that live inside $\cale$.
-
-It follows that
 \beq
-P(x_{N+1}|x_0=0)  =
-\int_{\cale}\cald B\;
+\int \cald x
+=
+\prod_{i=0}^{N-1}
+\left\{
+\frac{1}{\gamma}
+\sum_{x\in val(\rvx_i)}
+\right\}
+\eeq
+Note that
+\beq\dot{B}=\dot{x}-f
+\implies\quad
+f(2\dot{B}+f)= f(2\dot{x}-f)
+\eeq
+Hence
+
+\beq
+P(x_N)= 
+\int\cald x\;
 \exp\left(
+-\;
 \frac{1}
 {2q}\int_0^{t_N}dt
-\left[(\ddot{B})^2 +
-2f\dot{B} -f^2\right]
+\left[
+f(2\dot{x}-f)\right]
 \right)
 \eeq
+
+
+
+
+
+Let
+$\cale\subset \RR\times [0, T]$.
+Fig.\ref{fig-possible-paths}
+shows a possible set $\cale$.
+The path sum is over all
+paths $(x_k, t_k)$ for $k\in [0:N]$
+that live inside $\cale$.
 
 
 \begin{figure}[h!]
@@ -2329,7 +2374,7 @@ P(x_{N+1}|x_0=0)  =
 {stochastic-diff-eqns/possible-paths.png}
 \caption{The pink area is a possible set
 $\cale\subset\RR\times [0,T]$
-such that  $(B_k, t_k)\in \cale$
+such that  $(x_k, t_k)\in \cale$
 }
 \label{fig-possible-paths}
 \end{figure}
