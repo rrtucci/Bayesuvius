@@ -52,7 +52,7 @@ Suppose $i, j\in \{0, 1,2, \ldots\}$
 
 $[i:j] =\{i, i+1, \ldots, j-1\}$  (like Python)
 
-$[i \upto j] = \{i, i+1, \ldots, j\}$ (To distinguish from Python,
+$i \ldots j = \{i, i+1, \ldots, j\}$ (To distinguish from Python,
 we use dash instead of colon
 to indicate that last int is included.
 )
@@ -67,7 +67,7 @@ We will consider times $t_0=0<t_1<t_2<\ldots < t_{N-1}=T$
 with $|t_{i}-t_{i-1}|=\Delta t$ for all $i$ such that $0<i<N$
 
 
-$t_{[i\upto j]} = [t_i, t_{i+1}, \ldots, t_j]$
+$t_{i\ldots j} = [t_i, t_{i+1}, \ldots, t_j]$
 
 
 \hrule\noindent {\bf Stochastic Process}
@@ -101,9 +101,9 @@ A {\bf path} is defined as one of the following sets, depending on whether we ar
 $\rvx([t,s])=\{  \rvx(\tau): \tau\in[t,s]\}$
 
 
-$\rvx(t_{[j\upto k]}) =\{  x(\tau): \tau\in\{t_j, t_{j+1}, \ldots, t_k\}\}$
+$\rvx(t_{j\ldots k}) =\{  x(\tau): \tau\in\{t_j, t_{j+1}, \ldots, t_k\}\}$
 
-$\rvx_{[j\upto k]} =\{ \rvx_j, \rvx_{j+1},
+$\rvx_{j\ldots k} =\{ \rvx_j, \rvx_{j+1},
 \ldots,\rvx_k\}$
 
 \hrule
@@ -370,14 +370,14 @@ it's called a \qt{local} martingale)
 
 \item Causal
 \beq
-E\left[\rvy(t)|x(t_{[i\upto j]})\right]= y(t_j)
+E\left[\rvy(t)|x(t_{i\ldots j})\right]= y(t_j)
 \quad (\text{resp., }E\left[\rvy(t)|x([0,s])\right]= y(s))
 \eeq
 \end{itemize}
 
 Brownian motion is a martingale.
 \beq
-E[\rvB(t)| B(t_{[i\upto j]}] = B(t_j)
+E[\rvB(t)| B(t_{i\ldots j}] = B(t_j)
 \eeq
 
 
@@ -904,6 +904,8 @@ Suppose
 \beq
 d\rvx_t= \mu \rvx_t dt + \s \rvx_t d\rvB_t
 \eeq
+where $\mu$ and $\s$ are time 
+independent.
 It  would be a mistake
 to divide both sides by $\rvx$,
 because the product $\rvx d\rvB$ is not
@@ -2289,7 +2291,7 @@ P(x_{k+1}|x_{k})= \indi(x_{k}
 Then
 
 \begin{align}
-P(x_{[1\upto N]}|x_0)&=
+P(x_{1\ldots N}|x_0)&=
 \prod_{k=0}^{N-1} P(x_{k+1}|x_{k})
 \\
 &=
@@ -2313,45 +2315,39 @@ P(x_{[1\upto N]}|x_0)&=
 \right]
 \\
 &=
-\underbrace{\prod_{k=0}^{N-1}
-\left[
-\frac{e^{-\frac{1}{2q}}}{\sqrt{2\pi q \Delta t}}
-\right]}_{\gamma^N}
+\prod_{k=0}^{N-1}
+\underbrace{\left[
+\frac{1}
+{\sqrt{2\pi q \Delta t}}
+\right]}_{\gamma}
 \exp\left(
 -\;
 \frac{1}
 {2q}\int_0^{t_N}dt
-\left[
-2f\dot{B} +f^2\right]
+\underbrace{[f + \dot{B}]^2}_{\dot{x}^2}
 \right)
+\label{eq-px-div-pb-source}
 \end{align}
 
 Let
-\beq
-\int \cald x
-=
-\prod_{i=0}^{N-1}
-\left\{
-\frac{1}{\gamma}
-\sum_{x\in val(\rvx_i)}
-\right\}
-\eeq
-Note that
-\beq\dot{B}=\dot{x}-f
-\implies\quad
-f(2\dot{B}+f)= f(2\dot{x}-f)
-\eeq
-Hence
 
 \beq
-P(x_N)= 
-\int\cald x\;
+dx_j = \gamma
+,\quad
+dx_{1\ldots N}
+=
+\prod_{i=1}^{N}dx_i
+\eeq
+Then
+
+\beq
+P(x_N|x_0)= 
+\int dx_{1\ldots N-1}
 \exp\left(
 -\;
 \frac{1}
-{2q}\int_0^{t_N}dt
-\left[
-f(2\dot{x}-f)\right]
+{2q}\int_0^{t_N}dt\;
+\dot{x}^2
 \right)
 \eeq
 
@@ -2378,6 +2374,19 @@ such that  $(x_k, t_k)\in \cale$
 }
 \label{fig-possible-paths}
 \end{figure}
+
+Let
+\beq
+\rvx_{(0,t)}= \{\rvx_{\tau}: \tau\in(0, t)\}=\lim_{N\to \infty}\{\rvx_{t_i}:i=1, 2, \ldots N-1\}=
+\rvx_{t_{1\ldots N-1}}
+\eeq
+
+\beq
+E[h[x_{(0,t)}]|x_0]=\int dx_{(0,t)}P(x_{(0,t)}|x_0)
+h[x_{(0,t)}]
+\eeq
+
+
 
 \section{Karhunen–Loève series}
 
@@ -2447,9 +2456,12 @@ If we define
 \eeq
 
 \beq
-\rvx^*_n = \av{\rvx|\phi_n},
-\;
-\rvx_n = \av{\phi_n|\rvx}
+\rvx^*_n = \av{\rvx|\phi_n}=
+\int_0^Tdt\;\av{\rvx|t}\av{t|\phi_n},
+\quad
+\rvx_n = \av{\phi_n|\rvx}=
+\int_0^T dt\; 
+\av{\phi_n|t}\av{t|x}
 \eeq
 then
 
@@ -2641,7 +2653,7 @@ Eq.(\ref{eq-girsa-g}) .
 \begin{claim}(Girsanov theorem, part 2)
 
 \beq
-\frac{P(x_{[1\upto N]})}{P(y_{[1\upto N]})}=
+\frac{P(x_{1\ldots N})}{P(y_{1\ldots N})}=
 \exp\left(-\;
 \frac{1}{2q}\int_0^{t_N}dt\;
 (f-g)^2 -
@@ -2651,9 +2663,9 @@ Eq.(\ref{eq-girsa-g}) .
 \end{claim}
 \proof
 
-From Eq.(\ref{eq-px-div-pb})
+From Eq.(\ref{eq-px-div-pb-source})
 \beq
-\frac{P(x_{[1\upto N]})}{P(y_{[1\upto N]})}=
+\frac{P(x_{1\ldots N})}{P(y_{1\ldots N})}=
 \exp\left(-\;
 \frac{1}{2q}\int_0^{t_N}dt
 \underbrace{
@@ -2688,33 +2700,31 @@ From Eq.(\ref{eq-px-div-pb})
 If
 \beq
 Z=
-\frac{P(x_{[1\upto N]})}
-{P(y_{[1\upto N]})}
+\frac{P(x_{1\ldots N})}
+{P(y_{1\ldots N})}
 \eeq
 then
 
 \beq
-E[h(x_{[1\upto N]})]=
-E[Zh(y_{[1\upto N]})]
+E[h(x_{1\ldots N})]=
+E[Zh(y_{1\ldots N})]
 \eeq
 \end{claim}
 \proof
+
+
+
 \beqa
-E[h(\rvx_{[1\upto N]})]
+E[h(\rvx_{1\ldots N})]
 &=&
-\int \underbrace{dx_{[1\upto N]}}_
-{dy_{[1\upto N]}} P(x_{[1\upto N]})
-\underbrace{h(x_{[1\upto N]})}_
-{h(y_{[1\upto N]})}
+\int \underbrace{dy_{1\ldots N} ZP(y_{1\ldots N})
+}_
+{dx_{1\ldots N}P(x_{1\ldots N})}
+\underbrace{h(y_{1\ldots N})}_
+{h(x_{1\ldots N})}
 \\
 &=&
-\int dy_{[1\upto N]}
-Z
-P(y_{[1\upto N]})
-h(y_{[1\upto N]})
-\\
-&=&
-E[Zh(y_{[1\upto N]})]
+E[Zh(y_{1\ldots N})]
 \eeqa
 
 \section{Doob's Transform}
