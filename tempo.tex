@@ -3,8 +3,138 @@
 \input{bayesuvius.sty}
 \begin{document}
 
+\begin{claim}
+If $\rvx_t,
+\rvy_t\in\RR^n$ are
+semi-martingales such that
+\beq
+d\rvx_t = f(x,t)dt + d\rvB
+\label{eq-girsa-f}
+\eeq
+
+\beq
+d\rvy_t = g(y,t)dt + d\rvB
+\label{eq-girsa-g}
+\eeq
+and if we define $R$ by
+\beq
+R=
+\frac{P(x_{1\ldots N})}
+{P(y_{1\ldots N})}
+\eeq
+then with $x=y$
 
 
+
+
+\beq
+R=
+\exp
+\left\{
+\begin{array}{l}
+\frac{-1}{2}\int_{\tau=0}^td\tau\; (f(\XT{x}{\tau})-g(\XT{y}{\tau}))^TQ^{-1}(f(\XT{x}{\tau})-g(\XT{y}{\tau}))
+\\
++\int_{\tau=0}^t (f(\XT{x}{\tau})-g(\XT{y}{\tau}))^T 
+Q^{-1}d\rvB_\tau
+\end{array}
+\right\}
+\eeq
+and
+\beq
+E[h(x_{1\ldots N})]=
+E[Rh(y_{1\ldots N})]
+\eeq
+Furthermore,
+\beq
+dy_t = f(\XT{x}{t})dt + d\ul{\beta}_t
+\eeq
+where
+
+\beq
+\ul{\beta}_t=\rvB_t-
+\int_0^t [f(\XT{x}{\tau})-g(\XT{y}{\tau})] d\tau
+\eeq
+is Brownian motion
+with diffusion
+matrix $Q$.
+
+\end{claim}
+\proof
+
+We will
+only prove this for $n=1$.
+The case of general $n$ 
+is closely analogous, but 
+with matrices instead of scalars.
+\beqa
+\frac{P(x_{1\ldots N})}
+{P(y_{1\ldots N})}
+&=&
+\frac{-1}{2q}
+\int_{\tau=0}^t d\tau\;
+[(\dot{x}_\tau)^2
+-(\dot{y}_\tau)^2]
+\\
+&=&
+\frac{-1}{2q}
+\int_{\tau=0}^t d\tau\;
+[\dot{x}_\tau
+-\dot{y}_\tau]
+[\dot{x}_\tau
++\dot{y}_\tau]
+\\
+&=&
+\frac{-1}{2q}
+\int_{\tau=0}^t d\tau\;
+[f-g][f+g+2\dot{\rvB}]
+\\
+&=&
+\left\{
+\begin{array}{l}
+\frac{-1}{2q}
+\int_{\tau=0}^t d\tau\;
+[f-g]^2
+\\
++
+\frac{-1}{q}
+\int_{\tau=0}^t d\tau\;
+[f-g]
+[g+\dot{\rvB}]
+\end{array}
+\right\}
+\eeqa
+
+
+
+\beq
+d\ul{\beta}_t=
+d\rvB_t - [f(\XT{y}{t})-g(\XT{y}{t})]dt
+\eeq
+so
+
+\beq
+ [d\ul{\beta  }] ^2
+=[d\rvB] ^2 = q\;dt
+\eeq
+
+\beqa
+f(\XT{y}{t})dt + d\ul{\beta}_t
+&=&
+f(\XT{y}{t})dt +
+d\rvB_t-[f(\XT{y}{t})-g(\XT{y}{t})]dt
+\\
+&=& 
+g(\XT{y}{t})dt
++ d\rvB_t
+\\
+&=&
+dy_t
+\eeqa
+
+
+
+
+\qed
 
 
 
