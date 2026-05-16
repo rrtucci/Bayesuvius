@@ -9,13 +9,12 @@ If $\rvx_t,
 \rvy_t\in\RR^n$ are
 semi-martingales such that
 \beq
-d\rvx_t = f(x,t)dt + d\rvB
-\label{eq-girsa-f}
-\eeq
-
-\beq
-d\rvy_t = g(x,t)dt + d\rvB
-\label{eq-girsa-g}
+\left\{
+\begin{array}{l}
+d\rvx_t = f(\XT{x}{t})dt + d\rvB
+\\
+d\rvy_t = g(\XT{x}{t})dt + d\rvB
+\end{array}\right.
 \eeq
 and if we define $\calr$ by
 \beq
@@ -47,18 +46,47 @@ E[h[\rvx_{1\ldots N}]]=
 E[\calr h[\rvy_{1\ldots N}]]
 \eeq
 \item \label{enum-beta}
-\beq
-dy_t = f(\XT{x}{t})dt + d\ul{\calb}_t
-\eeq
-where
+If we define
 
 \beq
-\ul{\calb}_t=\rvB_t-
-\int_0^t [f(\XT{x}{\tau})-g(\XT{x}{\tau})] d\tau
+\theta(\XT{x}{t}) = (g-f)(\XT{x}{t})
 \eeq
-is Brownian motion
+and
+
+\beq
+\rvB_t^{\pm \theta}=\rvB_t\pm
+\int_0^t \theta(\XT{x}{\tau}) d\tau
+\eeq
+then $\rvB_t^{\pm \theta}$ is Brownian motion
 with diffusion
 matrix $Q$.
+Furthermore
+
+\beq
+\left\{
+\begin{array}{l}
+dx_t = g(\XT{x}{t})dt + d\rvB_t^{-\theta}
+\\
+dy_t = (g+\theta)(\XT{x}{t})dt + d\rvB_t^{-\theta}
+\end{array}
+\right.
+\eeq
+
+\beq
+\left\{
+\begin{array}{l}
+dx_t = (f-\theta)(\XT{x}{t})dt + d\rvB_t^{+\theta}
+\\
+dy_t = f(\XT{x}{t})dt + d\rvB_t^{+\theta}
+\end{array}
+\right.
+\eeq
+
+
+
+
+
+
 
 \end{enumerate}
 \end{claim}
@@ -137,29 +165,17 @@ E[\calr h[\rvy_{1\ldots N}]]
 \eeqa
 Proof of \ref{enum-beta}:
 \beq
-d\ul{\calb}_t=
-d\rvB_t - [f(\XT{x}{t})-g(\XT{x}{t})]dt
+d\rvB_t^{\pm \theta}=
+d\rvB_t \pm \theta(\XT{x}{t})dt
 \eeq
 so
 
 \beq
- [d\ul{\calb  }] ^2
+ [d\rvB^{\pm \theta}] ^2
 =[d\rvB] ^2 = q\;dt
 \eeq
 
-\beqa
-f(\XT{x}{t})dt + d\ul{\calb}_t
-&=&
-f(\XT{x}{t})dt +
-d\rvB_t-[f(\XT{x}{t})-g(\XT{x}{t})]dt
-\\
-&=& 
-g(\XT{x}{t})dt
-+ d\rvB_t
-\\
-&=&
-dy_t
-\eeqa
+
 
 \qed
 \hrule
@@ -186,46 +202,75 @@ h[\rvx_{1\ldots N}]
 \eeq
 
 \hrule
-It's common to choose $g=0$ and $Q=1$ in the above claim.
-Then 
-
-\beq
-dy_t = d\rvB_t
-\eeq
+$\calr$ can be written in terms of $\theta$
 
 \beq
 \calr =
 \exp
 \left\{
 \begin{array}{l}
-\frac{-1}{2}\int_{\tau=0}^td\tau\; f(\XT{x}{\tau})^Tf(\XT{x}{\tau})
+\frac{-1}{2}\int_{\tau=0}^td\tau\; \theta(\XT{x}{\tau})^T
+Q^{-1}
+\theta(\XT{x}{\tau})
 \\
--\int_{\tau=0}^t f(\XT{x}{\tau})^T 
++\int_{\tau=0}^t \theta(\XT{x}{\tau})^T Q^{-1}
 d\rvB_\tau
 \end{array}
 \right\}
 \eeq
-and 
+ 
+Assume $Q=1$ and $n=1$ for simplicity.
+\begin{claim}
+$\calr$ can be expressed as a DD exponential with mean value 1. 
+$\calr_t$ is a martingale.
+\end{claim}
+\proof
 
 \beq
-d\ul{\calb}_t=
-d\rvB_t - f(\XT{x}{t})dt
+\calr\approx 1 + x
++\frac12 x^2
 \eeq
-
-Assume $n=1$ for simplicity.
-If 
+with
 
 \beq
-d\ell_t =- f(\XT{x}{t}) 
-d\rvB_t
+x = \left\{
+\begin{array}{l}
+\frac{-1}{2}\int_{\tau=0}^td\tau\; \theta(\XT{x}{\tau})^2
+\\
++\int_{\tau=0}^t \theta(\XT{x}{\tau})
+d\rvB_\tau
+\end{array}
+\right\}
+\eeq
+so
+
+\beqa
+E[\calr]&=& 1- \frac{1}{2}\int_{\tau=0}^td\tau\; \theta(\XT{x}{\tau})^2
++
+\frac12 E[x^2]
+\\
+&=& 1
+\eeqa
+
+If
+\beq
+d\ell_t =\theta(\XT{x}{t}) 
+d\rvB_t, \quad \text{with } \ell_0=0
 \eeq
 then
 
 \beq
+\ell_t =\int_0^t 
+\theta(\XT{x}{\tau}) d\rvB_\tau
+\eeq
+and
+
+\beq
 \av{\ell_\tau, \ell_\tau}_0^t=
 \int_0^t d\tau\; 
-[f(\XT{x}{\tau})]^2
+[\theta(\XT{x}{\tau})]^2
 \eeq
+so
 
 \beq
 \calr=
@@ -233,48 +278,20 @@ then
 \right)
 =\cale(\ell_t)
 \eeq
-
-
-
-
-
-
-\hrule
-
-It's also common to use
-negatives of some of these
-quantities. for example, if
-
+From
+the properties of DD exponentials,
 \beq
-d\ol{y}=-dy, \quad
-d\ol{\rvB}=-d\rvB,
-\quad d\ol{\ul{\calb}}=-d\ul{\calb}
+d\calr_t = d\cale(\ell_t)= \cale(
+\ell_t)d\ell_t=
+\cale(
+\ell_t)\theta(\XT{x}{t})d\rvB_t
 \eeq
-then
+$\calr_t$ is
+a semi-martingale with
+zero drift term, i.e., it's an honest martingale.
 
-\beq
-d\ol{y}_t = d\ol{\rvB}_t
-\eeq
+\qed
 
-\beq
-\calr =
-\exp
-\left\{
-\begin{array}{l}
-\frac{-1}{2}\int_{\tau=0}^td\tau\; f(\XT{x}{\tau})^Tf(\XT{x}{\tau})
-\\
-+\int_{\tau=0}^t f(\XT{x}{\tau})^T 
-d\ol{\rvB}_\tau
-\end{array}
-\right\}
-\eeq
-and 
-
-\beq
-d\ol{\ul{\calb}}_t=
-d\ol{\rvB}_t + f(\XT{x}{t})dt
-\eeq
- 
 
 
 

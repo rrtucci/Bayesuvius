@@ -708,20 +708,21 @@ includes future values.
 
 {\bf It\^{o} ($\alp=0$) differential calculus:}
 
-For $\rvx_1, \rvx_2\in \RR$,
+For $\rva_t, \rvb_t\in \RR$,
 
 \beqa
-d(\rvx_1 \rvx_2)&=&
-(\rvx_1 +d\rvx_1)(\rvx_2 + d\rvx_2)-\rvx_1\rvx_2
+d(\rva_t \rvb_t)&=&
+(\rva_t +d\rva_t)(\rvb_t + d\rvb_t)-\rva_t\rvb_t
 \\
 &=&
-\rvx_1d\rvx_2 +\rvx_2d\rvx_1
+\rva_td\rvb_t +\rvb_td\rva_t
 +
-d\rvx_1d\rvx_2
+d\rva_td\rvb_t
 \eeqa
 
 
-For $\rvB\in\RR$, 
+If $\rvB\in\RR$
+is a 1-dim Brownian motion, 
 
 \beq
 d[\rvB^2(t)]=
@@ -732,7 +733,8 @@ d[\rvB^2(t)]=
 
 
 
-For $\rvB\in\RR^n$,
+If $\rvB\in\RR^n$
+is an $n$-dim Brownian motion,
 
 \beq
 d[\rvB_\alpha(t)\rvB_\beta(t)]=\delta(\alpha, \beta)
@@ -928,8 +930,7 @@ we get
 d(\rvB^m) = \left[m \rvB^{m-1}+ m(m-1) \rvB^{m-2}\right]dt
 + m\rvB^{m-1}d\rvB
 \eeq
-\item Geometric Brownian Motion (GBM)
-and Dol\`{e}ans-Dade (DD) exponential
+\item Geometric Brownian Motion (GBM) 
 
 Suppose
 
@@ -938,7 +939,8 @@ d\ell_t = \mu dt + \s d\rvB_t
 \eeq
 
 \beq
-d\rvx_t= \mu \rvx_t dt + \s \rvx_t d\rvB_t
+d\rvx_t= \rvx_t d\ell_t
+=\mu \rvx_t dt + \s \rvx_t d\rvB_t
 \eeq
 where $\mu$ and $\s$ are time 
 independent.
@@ -999,6 +1001,9 @@ d\ell_t -\frac12 \s^2 dt
 -\frac{1}{2}\s^2 t
 \right)
 \eeqa
+
+\item Dol\`{e}ans-Dade (DD) exponential
+
 The DD exponential is defined
 as
 
@@ -1006,11 +1011,26 @@ as
 \cale(\ell_t)=
 \exp(
 \ell_t -\ell_0 
--\frac12\underbrace{\av{\ell_\tau,\ell_\tau }_0^t}_{\s^2 t}
+-\frac12\av{\ell_\tau,\ell_\tau }_0^t
 )
 \eeq
-\item In the previous example, assume $\mu$ and 
-$\s$ depend on time, but smoothly. Then
+
+In the previous example, suppose $\mu$ and 
+$\s$ depend on time, but smoothly. In other words,
+suppose
+
+\beq
+d\ell_t = \mu_t dt + \s_t d\rvB_t
+\eeq
+
+\beq
+d\rvx_t=  \rvx_t d\ell_t=
+\mu_t \rvx_t dt + \s_t \rvx_t d\rvB_t
+\eeq
+where $\mu_t$ and $\s_t$ depend on time, but smoothly.
+ Then, by the same math
+that was previously presented for the case of time
+independent $\mu, \s$,
 \beq
 \rvx_t =\rvx_0 \cale(\ell_t)
 \eeq
@@ -1025,6 +1045,15 @@ and
 \av{\ell_\tau,\ell_\tau }_0^t=
 \int_0^t d\tau\; \s^2_\tau
 \eeq
+Note that
+$\rvx_t=\rvx_0\cale(\ell_t)$.
+Hence, 
+
+\beq
+d\cale(\ell_t)=
+\cale(\ell_t)d\ell_t
+\eeq
+
 
 
 
