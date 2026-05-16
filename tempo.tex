@@ -3,7 +3,8 @@
 \input{bayesuvius.sty}
 \begin{document}
 
-\begin{claim}
+\begin{claim}(Girsanov)
+
 If $\rvx_t,
 \rvy_t\in\RR^n$ are
 semi-martingales such that
@@ -13,59 +14,64 @@ d\rvx_t = f(x,t)dt + d\rvB
 \eeq
 
 \beq
-d\rvy_t = g(y,t)dt + d\rvB
+d\rvy_t = g(x,t)dt + d\rvB
 \label{eq-girsa-g}
 \eeq
-and if we define $R$ by
+and if we define $\calr$ by
 \beq
-R=
+\calr=
 \frac{P(x_{1\ldots N})}
 {P(y_{1\ldots N})}
 \eeq
-then with $x=y$
+then
 
 
+\begin{enumerate}[(a)]
 
-
+\item  \label{enum-R}
 \beq
-R=
+\calr=
 \exp
 \left\{
 \begin{array}{l}
-\frac{-1}{2}\int_{\tau=0}^td\tau\; (f(\XT{x}{\tau})-g(\XT{y}{\tau}))^TQ^{-1}(f(\XT{x}{\tau})-g(\XT{y}{\tau}))
+\frac{-1}{2}\int_{\tau=0}^td\tau\; (f(\XT{x}{\tau})-g(\XT{x}{\tau}))^TQ^{-1}(f(\XT{x}{\tau})-g(\XT{x}{\tau}))
 \\
-+\int_{\tau=0}^t (f(\XT{x}{\tau})-g(\XT{y}{\tau}))^T 
-Q^{-1}d\rvB_\tau
+-\int_{\tau=0}^t (f(\XT{x}{\tau})-g(\XT{x}{\tau}))^T 
+Q^{-1}d\rvy_\tau
 \end{array}
 \right\}
 \eeq
-and
+\item \label{enum-exp-val}
 \beq
-E[h(x_{1\ldots N})]=
-E[Rh(y_{1\ldots N})]
+E[h[\rvx_{1\ldots N}]]=
+E[\calr h[\rvy_{1\ldots N}]]
 \eeq
-Furthermore,
+\item \label{enum-beta}
 \beq
-dy_t = f(\XT{x}{t})dt + d\ul{\beta}_t
+dy_t = f(\XT{x}{t})dt + d\ul{\calb}_t
 \eeq
 where
 
 \beq
-\ul{\beta}_t=\rvB_t-
-\int_0^t [f(\XT{x}{\tau})-g(\XT{y}{\tau})] d\tau
+\ul{\calb}_t=\rvB_t-
+\int_0^t [f(\XT{x}{\tau})-g(\XT{x}{\tau})] d\tau
 \eeq
 is Brownian motion
 with diffusion
 matrix $Q$.
 
+\end{enumerate}
 \end{claim}
 \proof
 
 We will
-only prove this for $n=1$.
+only prove this for $n=1$,
+$Q=q$.
 The case of general $n$ 
 is closely analogous, but 
 with matrices instead of scalars.
+
+Proof of \ref{enum-R}:
 \beqa
 \frac{P(x_{1\ldots N})}
 {P(y_{1\ldots N})}
@@ -99,45 +105,176 @@ with matrices instead of scalars.
 \frac{-1}{q}
 \int_{\tau=0}^t d\tau\;
 [f-g]
-[g+\dot{\rvB}]
+\underbrace{[g+\dot{\rvB}]}_{\dot{y}_\tau}
 \end{array}
 \right\}
 \eeqa
-
-
+Proof of \ref{enum-exp-val}:
 
 \beq
-d\ul{\beta}_t=
-d\rvB_t - [f(\XT{y}{t})-g(\XT{y}{t})]dt
+dx_{1\ldots N}=
+dy_{1\ldots N},
+\quad
+h[x_{1\ldots N}]=
+h[y_{1\ldots N}]
+\eeq
+Hence
+
+\beqa
+E[h[\rvx_{1\ldots N}]]
+&=&
+\int d\rvx_{1\ldots N}\;
+P(x_{1\ldots N})  
+h[x_{1\ldots N}]
+\\
+&=&
+\int d\rvy_{1\ldots N} 
+P(y_{1\ldots N})  
+\calr  h[y_{1\ldots N}]
+\\
+&=&
+E[\calr h[\rvy_{1\ldots N}]]
+\eeqa
+Proof of \ref{enum-beta}:
+\beq
+d\ul{\calb}_t=
+d\rvB_t - [f(\XT{x}{t})-g(\XT{x}{t})]dt
 \eeq
 so
 
 \beq
- [d\ul{\beta  }] ^2
+ [d\ul{\calb  }] ^2
 =[d\rvB] ^2 = q\;dt
 \eeq
 
 \beqa
-f(\XT{y}{t})dt + d\ul{\beta}_t
+f(\XT{x}{t})dt + d\ul{\calb}_t
 &=&
-f(\XT{y}{t})dt +
-d\rvB_t-[f(\XT{y}{t})-g(\XT{y}{t})]dt
+f(\XT{x}{t})dt +
+d\rvB_t-[f(\XT{x}{t})-g(\XT{x}{t})]dt
 \\
 &=& 
-g(\XT{y}{t})dt
+g(\XT{x}{t})dt
 + d\rvB_t
 \\
 &=&
 dy_t
 \eeqa
 
-
-
-
 \qed
+\hrule
+$dP_\rvx=P(x_{1\ldots N})dx_{1\ldots N}$ corresponds to
+what is called an infinitesimal probability measure in 
+more sophisticated treatments.
+
+\beq
+\calr  = \frac{dP_\rvx}{dP_\rvy}=
+\frac{P(x_{1\ldots N})dx_{1\ldots N}}
+{P(y_{1\ldots N})dy_{1\ldots N}}
+=
+\frac{P(x_{1\ldots N})}
+{P(y_{1\ldots N})}
+\eeq
+So $\calr$ is both a \qt{Radon–Nikodym derivative},and a likelihood  ratio.
+
+Expectation values
+over paths depend on measure $dP_\rvx$:
+\beq
+E_{dP_\rvx}[h[\rvx_{1\ldots N}]]=\int dx_{1\ldots N}
+P(x_{1\ldots N})
+h[\rvx_{1\ldots N}]
+\eeq
+
+\hrule
+It's common to choose $g=0$ and $Q=1$ in the above claim.
+Then 
+
+\beq
+dy_t = d\rvB_t
+\eeq
+
+\beq
+\calr =
+\exp
+\left\{
+\begin{array}{l}
+\frac{-1}{2}\int_{\tau=0}^td\tau\; f(\XT{x}{\tau})^Tf(\XT{x}{\tau})
+\\
+-\int_{\tau=0}^t f(\XT{x}{\tau})^T 
+d\rvB_\tau
+\end{array}
+\right\}
+\eeq
+and 
+
+\beq
+d\ul{\calb}_t=
+d\rvB_t - f(\XT{x}{t})dt
+\eeq
+
+Assume $n=1$ for simplicity.
+If 
+
+\beq
+d\ell_t =- f(\XT{x}{t}) 
+d\rvB_t
+\eeq
+then
+
+\beq
+\av{\ell_\tau, \ell_\tau}_0^t=
+\int_0^t d\tau\; 
+[f(\XT{x}{\tau})]^2
+\eeq
+
+\beq
+\calr=
+\exp\left(\ell_t -\frac{1}{2}\av{\ell_\tau, \ell_\tau}_0^t
+\right)
+=\cale(\ell_t)
+\eeq
 
 
 
+
+
+
+\hrule
+
+It's also common to use
+negatives of some of these
+quantities. for example, if
+
+\beq
+d\ol{y}=-dy, \quad
+d\ol{\rvB}=-d\rvB,
+\quad d\ol{\ul{\calb}}=-d\ul{\calb}
+\eeq
+then
+
+\beq
+d\ol{y}_t = d\ol{\rvB}_t
+\eeq
+
+\beq
+\calr =
+\exp
+\left\{
+\begin{array}{l}
+\frac{-1}{2}\int_{\tau=0}^td\tau\; f(\XT{x}{\tau})^Tf(\XT{x}{\tau})
+\\
++\int_{\tau=0}^t f(\XT{x}{\tau})^T 
+d\ol{\rvB}_\tau
+\end{array}
+\right\}
+\eeq
+and 
+
+\beq
+d\ol{\ul{\calb}}_t=
+d\ol{\rvB}_t + f(\XT{x}{t})dt
+\eeq
+ 
 
 
 
