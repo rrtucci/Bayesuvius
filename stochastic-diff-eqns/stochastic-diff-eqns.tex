@@ -368,7 +368,8 @@ E[\;|\rvy(t_i)|\;] < \infty\quad \forall i\quad
 a finite closed time interval, 
 it's called a \qt{local} martingale)
 
-\item Causal
+\item Causal and only remembers
+last past observation
 \beq
 E\left[\rvy(t)|x(t_{i\ldots j})\right]= y(t_j)
 \quad (\text{resp., }E\left[\rvy(t)|x([0,s])\right]= y(s))
@@ -381,9 +382,9 @@ E[\rvB(t)| B(t_{i\ldots j}] = B(t_j)
 \eeq
 
 
-It\^{o} integrals $\int L\XT{x}{t}d\rvB_t$ (discussed later)
+It\^{o} integrals $\int L(\XT{x}{t})d\rvB_t$ (discussed later)
 are martingales too, but Stratonovich integrals
-$\int L\XT{x}{t}\circ d\rvB_t$
+$\int L(\XT{x}{t})\circ d\rvB_t$
 (discussed later)
 aren't.
 
@@ -408,7 +409,7 @@ the white noise $\dot{\rvB}_t$, requires
 some care and will be given later.
 For now, just note that
 a semi-martingale's time derivative is the 
-sum of a smooth function and a zig-zaggy function.
+sum of a smooth function ({\bf drift term}) and a zig-zaggy function ({\bf diffusion term, a martingale if $\alp=0$}).
 
 An alternative differential expression for this SDE is
 
@@ -1467,17 +1468,13 @@ with
 \beq
 \calf_\rvx \bullet=
 -\;\pder{}{x_\mu}
-(\bullet f_\mu) +
-\frac{\partial^2}{ \partial x_\mu\partial x_\nu}(\bullet R_{\mu, \nu})
+(f_\mu\bullet ) +
+\frac{\partial^2}{ \partial x_\mu\partial x_\nu}( R_{\mu, \nu}\bullet)
 \eeq
 \end{claim}
 \proof
 
-%\beq
-%\int dx^n\; P\XT{x}{t}\left[ \pder{\phi}{x_\mu}L_{\mu,\nu}d\rvB_\nu
-%\right]
-%=0
-%\eeq
+
 
 Integration by parts
 
@@ -1496,8 +1493,8 @@ udv = d(uv)-(du)v
 
 
 \beq
-dt\int dx^n\; P\XT{x}{t}\frac{d\phi}{dt}=
-dt\int dx^n\; P\XT{x}{t}
+\int dt\int dx^n\; P(\XT{x}{t})\frac{d\phi}{dt}=
+\int dt\int dx^n\; P(\XT{x}{t})
 \left[\pder{\phi}{t} +
  f_\mu\pder{\phi}{x_\mu} + R_{\mu, \nu}
 \frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}\right]
@@ -1506,7 +1503,8 @@ dt\int dx^n\; P\XT{x}{t}
 
 
 \beq
--dt\int dx^n\; \phi\frac{dP}{dt}=
+-\int dt\int dx^n\; \phi\frac{dP}{dt}=
+\int
 dt\int dx^n\;  \phi
 \left[-\;\pder{P}{t} -
 \pder{(Pf_\mu)}{x_\mu} +
@@ -1620,13 +1618,18 @@ Recall that
 \beq
 \calf_\rvx \bullet=
 -\;\pder{}{x_\mu}
-(\bullet f_\mu) +
-\frac{\partial^2}{ \partial x_\nu\partial x_\mu}(\bullet R_{\mu, \nu})
+( f_\mu\bullet) +
+\frac{\partial^2}{ \partial x_\nu\partial x_\mu}( R_{\mu, \nu}\bullet)
 \eeq
 
 Define $\calb_\rvx$ to be the same as $\calf_\rvx$
-but with every derivative $A\pder{B}{x_\mu}$
-replaced by $-B\pder{A}{x_\mu}$. Hence
+but with every derivative $\partial_t$
+or $\partial_{x_i}$
+replaced by its negative
+and the order
+of the operators
+acting on $\bullet$ is
+reversed. Hence
 
 \beq
 \calb_\rvx \bullet=
@@ -1753,6 +1756,90 @@ for the backwards FP equation.
 \end{figure}
 
 
+\section{FP Equations in Dirac Notation}
+
+When expressed in succinct
+Dirac notation,
+the derivation  of the forward and
+backward FP equations
+becomes very clear.
+
+Begin by expressing a PDE in Dirac notation
+\beq
+\partial_t \phi(\XT{x}{t})= \Omega_{x,t}\phi(\XT{x}{t})
+\to \quad 
+\partial_t \av{\XT{x}{t}|\phi}= \Omega_{x,t}\av{\XT{x}{t}|\phi}
+\to\quad
+\av{\XT{x}{t}|\partial_\rvt|\phi}
+\av{\XT{x}{t}|\Omega_{\rvx,\rvt}|\phi}
+\eeq
+and an expectation value in Dirac notation
+
+\beq
+E_{\rvx, \rvt}[\phi(\XT{\rvx}{\rvt})]=
+\int dx \int dt\;P(\XT{x}{t})\phi(\XT{x}{t})
+\to \quad
+E_{\rvx, \rvt}[\phi(\XT{\rvx}{\rvt})]=\av{P|\phi}
+\eeq
+Hence
+
+\beq
+\av{P|\partial_\rvt |\phi}=
+\av{P|\Omega_{\rvx,\rvt}|\phi}
+\eeq
+Now taking the Hermitian
+conjugate of both sides,
+
+\beq
+-\av{\phi|\partial_\rvt |P}=
+\av{\phi|\Omega^\dagger_{\rvx,\rvt}|P}
+\eeq
+Setting $\bra{\phi}=\bra{\XT{x}{t}}$ we get
+\beq
+-\av{\XT{x}{t}|\partial_\rvt |P}=
+\av{\XT{x}{t}|\Omega^\dagger_{\rvx,\rvt}|P}
+\eeq
+Pulling the operators out 
+of the bra-ket sandwich
+
+\beq
+-\partial_t\av{\XT{x}{t}| P}=
+\Omega^\dagger_{x,t}\av{\XT{x}{t}|P}
+\eeq
+so
+\beq
+\partial_t\av{\XT{x}{t}| P}=
+\calf_{x,t}\av{\XT{x}{t}|P},\quad
+\calf_{x,t}=-\Omega^\dagger_{x,t}
+\eeq
+If we make $P$ a conditional
+probability, then
+for the forward evolution, we get
+
+\beq
+\partial_t
+\underbrace{\av{\XT{x}{t}| P|\XT{w}{s}}}_
+{P(\XT{x}{t}|\XT{w}{s})}=
+\calf_{x,t}\av{\XT{x}{t}|P|\XT{w}{s}},\quad
+\calf_{x,t}=-\Omega^\dagger_{x,t}
+\eeq
+and for the backwards evolution we get
+
+\beq
+\partial_t
+\underbrace{\av{\XT{y}{u}| P|\XT{x}{t}}}_{
+P(\XT{y}{u}|\XT{x}{t})}=
+\calb_{x,t}\av{\XT{y}{u}|P|\XT{x}{t}},\quad
+\calb_{x,t}=-\Omega_{x,t}
+\eeq
+
+Note that the
+$P(\XT{x}{t}|\XT{w}{s})$ in the
+forward FP equation is a probability density 
+in $(x,t)$,
+but the $P(\XT{y}{u}|\XT{x}{t})$
+in the backwards FP is NOT
+a probability density in $(x,t)$.
 
 
 
@@ -2298,13 +2385,13 @@ is given by
 \beq
 g(y,t)=
 \left.\left(
-\frac{f\XT{x}{t}}{L\XT{x}{t}}
+\frac{f(\XT{x}{t})}{L(\XT{x}{t})}
 +
 \pder{}{t}
-\int_\xi^x \frac{du}{L\XT{u}{t}}
+\int_\xi^x \frac{du}{L(\XT{u}{t})}
 -\;
 \frac{1}{2}
-\pder{L\XT{x}{t}}{x}
+\pder{L(\XT{x}{t})}{x}
 \right)\right|_{x\rarrow h^{-1}(y,t)}
 \eeq
 \end{claim}
@@ -3020,7 +3107,7 @@ In this section, we explain {\bf Doob's transform}.
 
 We begin by assuming that a function
 $D(.|\XT{x}{t})$ \footnote{Sometimes, $D(.|\XT{x}{t})$ is denoted by the letter $h$, and this transform is called Doob's h-transform.}
-\footnote{Later on, we will see that the conditional probability
+\footnote{According to the Chapman Kolgomorov equation, the conditional probability
 $P(\XT{x}{T}|\XT{x}{t})=D(.|\XT{x}{t})$
 satisfies Eq.(\ref{eq-dooby}).}
 satisfies the equation
@@ -3071,7 +3158,7 @@ If
 \beq
 \left[\pder{}{s} + \calb_\rvy\right] \phi\XT{y}{s}=0,
 \eeq
-then that implies we can define a process $y(s)$
+then we can define a process $y(s)$
 such that
 
 \beq
@@ -3118,6 +3205,7 @@ P^D(\XT{y}{t+s}|\XT{x}{t})
 	
 \end{claim}
 \proof
+
 For conciseness, define
 $P_s=P(\XT{y}{t+s}|\XT{x}{t})$, $D_s=D(.|\XT{y}{t+s})$, $D_0=D(.|y_{t})$
 , and
@@ -3271,7 +3359,7 @@ D(.|\XT{x}{t+s})= P(\XT{x}{T}|\XT{x}{t+s})
 \eeq
 then Claim \ref{cl-doobs-transform} applies.
 
-\section{Appendix: Some explicitly solvable examples}
+\section{Appendix: Some explicitly solvable SDE examples}
 Let $\mu, \nu, \alpha, \beta\in [n]$
 \beq
 d\rvx_\mu= f_\mu(\rvx, t)dt + L_{\mu, \nu}(\rvx, t)d\rvB_\nu(t)
@@ -3305,7 +3393,7 @@ dx_\mu = -\;\frac{1}{2}\pder{U}{x_\mu}dt + d\rvB_\mu
 
 \item {\bf Ornstein–Uhlenbeck process (a.k.a. Langevin equation)} ($f_\mu=-\lam x_\mu$, $R_{\mu,\nu}=D\delta(\mu, \nu)$)
 
-This is the same as the Langevin equation, if identify $\rvx$ with
+This is the same as the Langevin equation, if we identify $\rvx$ with
 the velocity of the
 particle and $\lam$ with the drag coefficient.
 
