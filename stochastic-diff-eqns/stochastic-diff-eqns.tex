@@ -2718,117 +2718,302 @@ T\frac{2}{\pi^2}
 \section{Girsamov Theorem}
 
 In this section,
-we explain the {\bf Grisamov theorem}.
-We divide the explanation into 3 parts.
+we explain the {\bf Girsamov theorem}.\begin{claim}(Girsanov)
 
-Suppose
+If $\rvx_t,
+\rvy_t\in\RR^n$ are
+semi-martingales such that
 \beq
-dx = f(x,t)dt + d\rvB
-\label{eq-girsa-f}
-\eeq
-
-\beq
-dy = g(y,t)dt + d\rvbeta
-\label{eq-girsa-g}
-\eeq
-and
-\beq
-dx=dy
-\eeq
-
-
-
-\begin{claim}(Girsanov theorem, part 1)
-
-\beq
-d\rvbeta =
-(f-g)dt + d\rvB
-\eeq
-
-\end{claim}
-\proof
-Just subtract
-Eq.(\ref{eq-girsa-f})
-from
-Eq.(\ref{eq-girsa-g}) .
-\qed
-
-\begin{claim}(Girsanov theorem, part 2)
-
-\beq
-\frac{P(x_{1\ldots N})}{P(y_{1\ldots N})}=
-\exp\left(-\;
-\frac{1}{2q}\int_0^{t_N}dt\;
-(f-g)^2 -
-\frac{1}{2q}\int 2(f-g)d{\rvB}
-\right)
-\eeq
-\end{claim}
-\proof
-
-From Eq.(\ref{eq-px-div-pb-source})
-\beq
-\frac{P(x_{1\ldots N})}{P(y_{1\ldots N})}=
-\exp\left(-\;
-\frac{1}{2q}\int_0^{t_N}dt
-\underbrace{
-\left[
-2f\dot{B} + f^2
--2g\dot{\beta} -g^2
-\right]}_{\cala}
-\right)
-\eeq
-
-\beqa
-\cala &=&2f\dot{\rvB}
- -2g[\dot{\rvB}+f-g]
-+ f^2-g^2
+\left\{
+\begin{array}{l}
+d\rvx_t = f(\XT{x}{t})dt + d\rvB
 \\
-&=&
-(f-g)2\dot{\rvB}
-+
-(f-g)(-2g) + (f-g)(f +g)
-\\
-&=&
-(f-g)[2\dot{\rvB}
--2g + f +g]
-\\
-&=&
-(f-g)^2 + 2\dot{\rvB}(f-g)
-\eeqa
-\qed
-
-\begin{claim}(Girsanov theorem, part 3)
-
-If
+d\rvy_t = g(\XT{x}{t})dt + d\rvB
+\end{array}\right.
+\eeq
+and if we define $\calr$ by
 \beq
-Z=
+\calr=
 \frac{P(x_{1\ldots N})}
 {P(y_{1\ldots N})}
 \eeq
 then
 
+
+\begin{enumerate}[(a)]
+
+\item  \label{enum-R}
 \beq
-E[h(x_{1\ldots N})]=
-E[Zh(y_{1\ldots N})]
+\calr=
+\exp
+\left\{
+\begin{array}{l}
+\frac{-1}{2}\int_{\tau=0}^td\tau\; (f(\XT{x}{\tau})-g(\XT{x}{\tau}))^TQ^{-1}(f(\XT{x}{\tau})-g(\XT{x}{\tau}))
+\\
+-\int_{\tau=0}^t (f(\XT{x}{\tau})-g(\XT{x}{\tau}))^T 
+Q^{-1}d\rvy_\tau
+\end{array}
+\right\}
 \eeq
+\item \label{enum-exp-val}
+\beq
+E[h[\rvx_{1\ldots N}]]=
+E[\calr h[\rvy_{1\ldots N}]]
+\eeq
+\item \label{enum-beta}
+If we define
+
+\beq
+\theta(\XT{x}{t}) = (g-f)(\XT{x}{t})
+\eeq
+and
+
+\beq
+\rvB_t^{\pm \theta}=\rvB_t\pm
+\int_0^t \theta(\XT{x}{\tau}) d\tau
+\eeq
+then $\rvB_t^{\pm \theta}$ is Brownian motion
+with diffusion
+matrix $Q$.
+Furthermore,
+
+
+\beq\text{For $d\rvB_t^{-\theta}$:}\quad
+\left\{
+\begin{array}{l}
+dx_t = g(\XT{x}{t})dt + d\rvB_t^{-\theta}
+\\
+dy_t = (g+\theta)(\XT{x}{t})dt + d\rvB_t^{-\theta}\quad\text{($+\theta dt$ shift in drift term)}
+\end{array}
+\right.
+\eeq
+
+\beq
+\text{For $d\rvB_t^{+\theta}$:}\quad
+\left\{
+\begin{array}{l}
+dx_t = (f-\theta)(\XT{x}{t})dt + d\rvB_t^{+\theta}\quad\text{($-\theta dt$ shift in drift term)}
+\\
+dy_t = f(\XT{x}{t})dt + d\rvB_t^{+\theta}
+\end{array}
+\right.
+\eeq
+
+
+
+
+
+
+
+\end{enumerate}
 \end{claim}
 \proof
 
+We will
+only prove this for $n=1$,
+$Q=q$.
+The case of general $n$ 
+is closely analogous, but 
+with matrices instead of scalars.
 
-
+Proof of \ref{enum-R}:
 \beqa
-E[h(\rvx_{1\ldots N})]
+\frac{P(x_{1\ldots N})}
+{P(y_{1\ldots N})}
 &=&
-\int \underbrace{dy_{1\ldots N} ZP(y_{1\ldots N})
-}_
-{dx_{1\ldots N}P(x_{1\ldots N})}
-\underbrace{h(y_{1\ldots N})}_
-{h(x_{1\ldots N})}
+\frac{-1}{2q}
+\int_{\tau=0}^t d\tau\;
+[(\dot{x}_\tau)^2
+-(\dot{y}_\tau)^2]
+\quad \text{(from Eq.(\ref{eq-px-div-pb-source}))}
 \\
 &=&
-E[Zh(y_{1\ldots N})]
+\frac{-1}{2q}
+\int_{\tau=0}^t d\tau\;
+[\dot{x}_\tau
+-\dot{y}_\tau]
+[\dot{x}_\tau
++\dot{y}_\tau]
+\\
+&=&
+\frac{-1}{2q}
+\int_{\tau=0}^t d\tau\;
+[f-g][f+g+2\dot{\rvB}]
+\\
+&=&
+\left\{
+\begin{array}{l}
+\frac{-1}{2q}
+\int_{\tau=0}^t d\tau\;
+[f-g]^2
+\\
++
+\frac{-1}{q}
+\int_{\tau=0}^t d\tau\;
+[f-g]
+\underbrace{[g+\dot{\rvB}]}_{\dot{y}_\tau}
+\end{array}
+\right\}
 \eeqa
+Proof of \ref{enum-exp-val}:
+
+\beq
+dx_{1\ldots N}=
+dy_{1\ldots N},
+\quad
+h[x_{1\ldots N}]=
+h[y_{1\ldots N}]
+\eeq
+Hence
+
+\beqa
+E[h[\rvx_{1\ldots N}]]
+&=&
+\int d\rvx_{1\ldots N}\;
+P(x_{1\ldots N})  
+h[x_{1\ldots N}]
+\\
+&=&
+\int d\rvy_{1\ldots N} 
+P(y_{1\ldots N})  
+\calr  h[y_{1\ldots N}]
+\\
+&=&
+E[\calr h[\rvy_{1\ldots N}]]
+\eeqa
+Proof of \ref{enum-beta}:
+\beq
+d\rvB_t^{\pm \theta}=
+d\rvB_t \pm \theta(\XT{x}{t})dt
+\eeq
+so
+
+\beq
+ [d\rvB^{\pm \theta}] ^2
+=[d\rvB] ^2 = q\;dt
+\eeq
+
+
+
+\qed
+\hrule
+$dP_\rvx=P(x_{1\ldots N})dx_{1\ldots N}$ corresponds to
+what is called an infinitesimal probability measure in 
+more sophisticated treatments.
+
+\beq
+\calr  = \frac{dP_\rvx}{dP_\rvy}=
+\frac{P(x_{1\ldots N})dx_{1\ldots N}}
+{P(y_{1\ldots N})dy_{1\ldots N}}
+=
+\frac{P(x_{1\ldots N})}
+{P(y_{1\ldots N})}
+\eeq
+So $\calr$ is both a \qt{Radon–Nikodym derivative} $dP_\rvx/dP_\rvy$, and a likelihood  ratio\\
+$P(x_{1\ldots N})/
+P(y_{1\ldots N})$.
+
+Note that expectation values
+over paths depend on measure $dP_\rvx$:
+\beq
+E_{dP_\rvx}[h[\rvx_{1\ldots N}]]=\int dx_{1\ldots N}
+P(x_{1\ldots N})
+h[\rvx_{1\ldots N}]
+\eeq
+
+\hrule
+$\calr$ can be written in terms of $\theta$
+
+\beq
+\calr =
+\exp
+\left\{
+\begin{array}{l}
+\frac{-1}{2}\int_{\tau=0}^td\tau\; \theta(\XT{x}{\tau})^T
+Q^{-1}
+\theta(\XT{x}{\tau})
+\\
++\int_{\tau=0}^t \theta(\XT{x}{\tau})^T Q^{-1}
+d\rvB_\tau
+\end{array}
+\right\}
+\eeq
+ 
+In next claim, will assume $Q=1$ and $n=1$ for simplicity.
+\begin{claim}
+$\calr$ can be expressed as a DD exponential with mean value 1. 
+$\calr_t$ is a martingale.
+\end{claim}
+\proof
+
+\beq
+\calr\approx 1 + x
++\frac12 x^2
+\eeq
+with
+
+\beq
+x = \left\{
+\begin{array}{l}
+\frac{-1}{2}\int_{\tau=0}^td\tau\; \theta(\XT{x}{\tau})^2
+\\
++\int_{\tau=0}^t \theta(\XT{x}{\tau})
+d\rvB_\tau
+\end{array}
+\right\}
+\eeq
+so
+
+\beqa
+E[\calr]&=& 1- \frac{1}{2}\int_{\tau=0}^td\tau\; \theta(\XT{x}{\tau})^2
++
+\frac12 E[x^2]
+\\
+&=& 1
+\eeqa
+
+If
+\beq
+d\ell_t =\theta(\XT{x}{t}) 
+d\rvB_t, \quad \text{with } \ell_0=0
+\eeq
+then
+
+\beq
+\ell_t =\int_0^t 
+\theta(\XT{x}{\tau}) d\rvB_\tau
+\eeq
+and
+
+\beq
+\av{\ell_\tau, \ell_\tau}_0^t=
+\int_0^t d\tau\; 
+[\theta(\XT{x}{\tau})]^2
+\eeq
+so
+
+\beq
+\calr=
+\exp\left(\ell_t -\frac{1}{2}\av{\ell_\tau, \ell_\tau}_0^t
+\right)
+=\cale(\ell_t)
+\eeq
+From
+the properties of DD exponentials,
+\beq
+d\calr_t = d\cale(\ell_t)= \cale(
+\ell_t)d\ell_t=
+\cale(
+\ell_t)\theta(\XT{x}{t})d\rvB_t
+\eeq
+$\calr_t$ is
+a semi-martingale with
+zero drift term so it's an honest martingale.
+
+\qed
+
+
+
 
 \section{Doob's Transform}
 In this section, we explain {\bf Doob's transform}.
