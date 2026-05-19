@@ -1384,20 +1384,7 @@ We define
 the {\bf event transition probability matrix (TPM)} as
 
 \beq
-P\twoevent{y}{t}{x}{s}
-\eeq
-
-If you are familiar with the Dirac bra-ket
-notation used in Quantum Mechanics,
-note that a TPM can be expressed in such notation as
-
-\beq \av{y|P_{t,s}|x}\eeq
-where $\{\ket{x}: x\in\RR^n\}$ is a
-complete orthonormal basis:
-\beq
-\int dx\;\ket{x}\bra{x}
-=1,\quad
-\av{y|x} = \delta(y-x)
+P(\XT{y}{t}|\XT{x}{s})
 \eeq
 
 
@@ -1490,12 +1477,10 @@ udv = d(uv)-(du)v
 \int_{-\infty}^{+\infty}(du)v
 \eeq
 
-
-
 \beq
-\int dt\int dx^n\; P(\XT{x}{t})\frac{d\phi}{dt}=
-\int dt\int dx^n\; P(\XT{x}{t})
-\left[\pder{\phi}{t} +
+\int dx^n\; P(x)\frac{d\phi(x_t)}{dt}=
+\int dx^n\; P(x)
+\left[
  f_\mu\pder{\phi}{x_\mu} + R_{\mu, \nu}
 \frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}\right]
 \eeq
@@ -1503,10 +1488,9 @@ udv = d(uv)-(du)v
 
 
 \beq
--\int dt\int dx^n\; \phi\frac{dP}{dt}=
-\int
-dt\int dx^n\;  \phi
-\left[-\;\pder{P}{t} -
+\frac{d}{dt}\int dx^n\; \phi(x_t) P(x)=
+\int dx^n\;  \phi(x_t)
+\left[ -
 \pder{(Pf_\mu)}{x_\mu} +
 \frac{\partial^2 }{\partial x_\mu\partial x_\nu}(PR_{\mu, \nu})\right]
 \eeq
@@ -1514,7 +1498,7 @@ dt\int dx^n\;  \phi
 
 \begin{claim}
 	\beq
-	\pder{P}{t}= \calf_\rvx P
+\pder{P}{t}= \calf_\rvx P
 	\eeq
 	is solved formally by
 	
@@ -1623,12 +1607,12 @@ Recall that
 \eeq
 
 Define $\calb_\rvx$ to be the same as $\calf_\rvx$
-but with every derivative $\partial_t$
-or $\partial_{x_i}$
+but with every derivative 
+$\partial_{x_i}$ (not the $\partial_t$'s) is
 replaced by its negative
 and the order
 of the operators
-acting on $\bullet$ is
+acting on $\bullet$ 
 reversed. Hence
 
 \beq
@@ -1640,9 +1624,9 @@ f_\mu\pder{\bullet}{x_\mu}
 
 
 
-\begin{claim} (Forward FP equation for transition matrix $ P(\XT{x}{t}|\XT{w}{s})$)
-
-$ P(\XT{x}{t}|\XT{w}{s})$ satisfies
+\
+The {\bf forward FP equation} for transition matrix $ P(\XT{x}{t}|\XT{w}{s})$
+is  defined as
 	
 \beq
 \pder{P(\XT{x}{t}|\XT{w}{s})}{t}=
@@ -1654,35 +1638,11 @@ with
 P(\XT{x}{s}|\XT{w}{s})=\delta(x-w)
 \eeq
 
-In case you know Dirac bra-ket notation,
-note that the
-differential
-equation Eq.(\ref{eq-forward-fp-tm})
- can be expressed in Dirac notation as
+The {\bf backward FP equation} for transition matrix $P(\XT{y}{u}|\XT{x}{t})$
+is defined as
 
 \beq
-\pder{\av{x|P_{t,s}|w}}{t}
-=\int
-\av{x|\calf_{t}|x'}dx'\av{x'|P_{t,s}|w}
-\eeq
-with
-
-\beq
-\av{x|P_{s,s}|w} =\delta(x-w)
-\quad \text{(Hence, $P_{s,s}=1$)}
-\eeq
-\end{claim}
-\proof
-\qed
-
-
-	
-	
-\begin{claim} (Backward FP equation for transition matrix $P(\XT{y}{u}|\XT{x}{t})$)
-
-$P(\XT{y}{u}|\XT{x}{t})$ satisfies
-\beq
--\;\pder{P(\XT{y}{u}|\XT{x}{t})}{t}=
+\;\pder{P(\XT{y}{u}|\XT{x}{t})}{t}=
 \calb_\rvx P(\XT{y}{u}|\XT{x}{t})
 \label{eq-backward-fp-tm}
 \eeq
@@ -1691,27 +1651,6 @@ with
 \beq
 P(\XT{y}{t}|\XT{x}{t}) =\delta(y-x)
 \eeq
-
-In case you know Dirac bra-ket notation,
-note that the
-differential
-equation Eq.(\ref{eq-backward-fp-tm})
- can be expressed in Dirac notation as
-
-\beq
--\; \pder{\av{y|P_{u,t}|x}}{t}
-=\int
-\av{y|\calb_t|y'}dy'\av{y'|P_{u,t}|x}
-\eeq
-with
-\beq
-\av{y|P_{t,t}|x}=\delta(y-x)
-\quad \text{(Hence, $P_{t,t}=1$)}
-\eeq
-	
-\end{claim}
-\proof
-\qed
 
 The forward FP equation is the
 time reversed version of the
@@ -1766,71 +1705,80 @@ becomes very clear.
 
 Begin by expressing a PDE in Dirac notation
 \beq
-\partial_t \phi(\XT{x}{t})= \Omega_{x,t}\phi(\XT{x}{t})
+\frac{d}{dt}\phi(\XT{x}{t})= \Omega_{x,t}\phi(\XT{x}{t})
 \to \quad 
-\partial_t \av{\XT{x}{t}|\phi}= \Omega_{x,t}\av{\XT{x}{t}|\phi}
+\frac{d}{dt} \av{x|\phi_t}= \Omega_{x,t}\av{x|\phi_t}
 \to\quad
-\av{\XT{x}{t}|\partial_\rvt|\phi}
-\av{\XT{x}{t}|\Omega_{\rvx,\rvt}|\phi}
+\frac{{d}}{dt}\ket{\phi_t}=
+\Omega_{\rvx,t}\ket{\phi_t}
+\label{eq-pde-dirac-notation}
 \eeq
-and an expectation value in Dirac notation
+and an expectation value in Dirac notation\footnote{Note that
+we don't use a complete
+set $\ket{\XT{x}{t}}$
+because the expectation
+value sums over all $x$ values only,
+not over all $x$ and $t$ values.}
 
 \beq
-E_{\rvx, \rvt}[\phi(\XT{\rvx}{\rvt})]=
-\int dx \int dt\;P(\XT{x}{t})\phi(\XT{x}{t})
+E_{\rvx}[A(\rvx,t)]=
+\int dx P(x)A(x,t)
 \to \quad
-E_{\rvx, \rvt}[\phi(\XT{\rvx}{\rvt})]=\av{P|\phi}
+E_{\rvx}[A(\rvx, t)]=
+\int dx\;\av{P|x}\av{x|A_t}=
+\av{P|A_t}
 \eeq
-Hence
+Now applying $E_\rvx[\cdot]$ to
+both sides of Eq.(\ref{eq-pde-dirac-notation}), we get
 
 \beq
-\av{P|\partial_\rvt |\phi}=
-\av{P|\Omega_{\rvx,\rvt}|\phi}
+\av{P|\frac{d}{dt} |\phi_t}=
+\av{P|\Omega_{\rvx,t}|\phi_t}
 \eeq
-Now taking the Hermitian
-conjugate of both sides,
+Now taking the Hermitian conjugate of both sides with respect to
+$x$ only (not $t$)
 
 \beq
--\av{\phi|\partial_\rvt |P}=
-\av{\phi|\Omega^\dagger_{\rvx,\rvt}|P}
+\frac{d}{dt}\av{\phi_t|P}=
+\av{\phi_t|\Omega^\dagger_{\rvx,t}|P}
 \eeq
-Setting $\bra{\phi}=\bra{\XT{x}{t}}$ we get
+Setting $\bra{\phi_t}=\bra{x_t}$ we get
 \beq
--\av{\XT{x}{t}|\partial_\rvt |P}=
-\av{\XT{x}{t}|\Omega^\dagger_{\rvx,\rvt}|P}
+\frac{d}{dt}\av{x_t|P}=
+\av{x_t|\Omega^\dagger_{\rvx,t}|P}
 \eeq
 Pulling the operators out 
 of the bra-ket sandwich
 
 \beq
--\partial_t\av{\XT{x}{t}| P}=
-\Omega^\dagger_{x,t}\av{\XT{x}{t}|P}
+\frac{d}{dt}\av{x_t| P}=
+\Omega^\dagger_{x,t}\av{x_t|P}
 \eeq
 so
 \beq
-\partial_t\av{\XT{x}{t}| P}=
-\calf_{x,t}\av{\XT{x}{t}|P},\quad
-\calf_{x,t}=-\Omega^\dagger_{x,t}
+\frac{d}{dt}\av{x_t| P}=
+\calf_{x,t}\av{x_t|P},\quad
+\calf_{x,t}=\Omega^\dagger_{x,t}
 \eeq
 If we make $P$ a conditional
 probability, then
 for the forward evolution, we get
 
 \beq
-\partial_t
-\underbrace{\av{\XT{x}{t}| P|\XT{w}{s}}}_
+\frac{d}{dt}
+\underbrace{\av{x_t| P|\XT{w}{s}}}_
 {P(\XT{x}{t}|\XT{w}{s})}=
-\calf_{x,t}\av{\XT{x}{t}|P|\XT{w}{s}},\quad
-\calf_{x,t}=-\Omega^\dagger_{x,t}
+\calf_{x,t}\av{x_t|P|\XT{w}{s}},\quad
+\calf_{x,t}=\Omega^\dagger_{x,t}
 \eeq
 and for the backwards evolution we get
 
 \beq
-\partial_t
-\underbrace{\av{\XT{y}{u}| P|\XT{x}{t}}}_{
+\frac{d}{dt}
+\underbrace{\av{\XT{y}{u}| P|x_t}}_{
 P(\XT{y}{u}|\XT{x}{t})}=
-\calb_{x,t}\av{\XT{y}{u}|P|\XT{x}{t}},\quad
-\calb_{x,t}=-\Omega_{x,t}
+\calb_{x,t}\av{\XT{y}{u}|P|x_t},\quad
+\calb_{x,t}=\Omega_{x,t}
 \eeq
 
 Note that the
@@ -1840,6 +1788,12 @@ in $(x,t)$,
 but the $P(\XT{y}{u}|\XT{x}{t})$
 in the backwards FP is NOT
 a probability density in $(x,t)$.
+According to Bayes rule,
+true backwards prediction would entail
+a PDE for $\frac{d}{dt} [P(\XT{y}{u}|\XT{x}{t})P(\XT{x}{t})]$,
+as is done for Doob's $h$-transform
+(described later).
+
 
 
 
