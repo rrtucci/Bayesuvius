@@ -1406,27 +1406,42 @@ P(x(t)| x([0, s]))=
 P(x(t)| x(s))
 \eeq
 
-\begin{claim}
-(Chapman-Kolgomorov equation)
-
-Let $x(t_k) = x_k$
+Transition matrix for
+random process $\rvx_t$. Assume $t_0\leq t$
 
 \beq
-P(x_3|x_1) =\int dx^n_2\; P(x_3|x_2)P(x_2|x_1)
+P_\rvx(\XT{x}{t}|\XT{x_0}{t_0})=
+\bra{\XT{x}{t}}P_\rvx\ket{\XT{x_0}{t_0}}
 \eeq
-\end{claim}
-\proof
 
-\beqa
-P(x_3, x_2|x_1) &=&
-P(x_3|x_2, x_1)P(x_2|x_1)
-\\
-&=&
-P(x_3|x_2)P(x_2|x_1)
-\eeqa
-Now integrate both sides over $x_2$.
-\qed
 
+
+Chapman-Kolgomorov
+for random process $\rvx_t$
+
+\beq
+\sum_{x_b}
+P(\XT{x_a}{t_a}|\XT{x_b}{t_b})
+P(\XT{x_b}{t_b}|\XT{x_c}{t_c})
+=
+P(\XT{x_a}{t_a}|\XT{x_c}{t_c})
+\eeq
+
+\beq
+\bra{x_a} P^\rvx_{t_a|t_b}
+\underbrace{\left[\sum_{x_b} \ket{x_b}
+\bra{x_b}\right] }_{1} P^\rvx_{t_b|t_c}
+\ket{x_c}
+=
+\bra{x_a} P^\rvx_{t_a|t_c} \ket{x_c}
+\eeq
+
+\beq
+\boxed{
+P^\rvx_{t_a|t_b}
+P^\rvx_{t_b|t_c} = 
+P^\rvx_{t_a|t_c}}
+\eeq
 
 
 

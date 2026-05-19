@@ -11,71 +11,91 @@ the derivation  of the forward and
 backward FP equations
 becomes very clear.
 
-Begin by expressing a PDE in Dirac notation
+
+\begin{claim}
+If
 \beq
-\partial_t \phi(x_t)= \Omega_{x}\phi(x_t)
-\to \quad 
-\partial_t \av{x_t|\phi}= \Omega_{x_t}\av{x_t|\phi}
+\partial_t \phi(x_t)= \Omega_{x,t}\phi(x_t)
 \eeq
-and an expectation value in Dirac notation
+then
 
 \beq
-E_{\rvx, t}[\phi(\rvx)]=
-\int dx P(x,t)\phi(x)
-\to \quad
-E_{\rvx, t}[\phi(\rvx)]=\av{P|\phi}
+\partial_tP_{t|t_0}= \Omega_{\rvx,t}^\dagger P_{t|t_0}
 \eeq
 Hence
 
 \beq
-\av{P|\partial_t |\phi}=
-\av{P|\Omega_{\rvx,t}|\phi}
+\calf_{x,t}=\Omega_{x,t}^\dagger
 \eeq
-Now taking the Hermitian
-conjugate of both sides,
+
+\end{claim}
+\proof
+
+We want to express  the expected value of
+both sides of this PDE in Dirac notation
+\beqa
+E[\phi(\rvx_t)|\rvx_0=x_0] &=&
+\int dx \;\phi(x)P(\XT{x}{t}|\XT{x_0}{t_0})
+\\
+&=&\sum_x\av{\phi|x}\av{x|P_{t|t_0}|x_0}_{t_0}
+\\
+&=&
+\av{\phi|P_{t|t_0}|x_0}_{t_0}
+\eeqa
+Note that the time dependence
+in this expected value gets transferred from inside the $\phi()$
+to inside the $P()$. This is a crucial observation.
+
+\beqa
+E[\partial_t\phi(\rvx_t)|\rvx_0=x_0]
+&=&
+\int dx \;\phi(x)\partial_tP(\XT{x}{t}|\XT{x_0}{t_0})
+\\&=&
+\sum_x\av{\phi|x}\av{x|\partial_tP_{t|t_0}|x_0}_{t_0}
+\\
+&=&
+\bra{\phi}
+\partial_tP_{t|t_0}\ket{x_0}_{t_0}
+\eeqa
+
+\beqa
+E[\Omega_{\rvx,t}\phi(\rvx_t)|\rvx_0=x_0]
+&=&\sum_x\left[\Omega_{x,t}\av{\phi|x}\right]\bra{x}
+P_{t|t_0}\ket{x_0}_{t_0}
+\\
+&=&\sum_x\av{\phi|x}\Omega^\dagger_{x,t}\bra{x}
+P_{t|t_0}\ket{x_0}_{t_0}
+\quad \text{(integrate by parts)}
+\\
+&=&\sum_x\av{\phi|x}\bra{x}
+\Omega^\dagger_{\rvx,t}
+P_{t|t_0}\ket{x_0}_{t_0}
+\\
+&=&\bra{\phi}
+\Omega^\dagger_{\rvx,t}
+P_{t|t_0}\ket{x_0}_{t_0}
+\eeqa
+\qed
+\begin{claim}
+If
+\beq
+\partial_t \phi(x_t)= \Omega_{x,t}\phi(x_t)
+\eeq
+then
 
 \beq
--\av{\phi|\partial_t |P}=
-\av{\phi|\Omega^\dagger_{\rvx,t}|P}
+\partial_tP_{T|t}= \Omega_{\rvx,t} P_{T|t}
 \eeq
-Setting $\bra{\phi}=\bra{\XT{x}{t}}$ we get
-\beq
--\av{\XT{x}{t}|\partial_t |P}=
-\av{\XT{x}{t}|\Omega^\dagger_{\rvx,t}|P}
-\eeq
-Pulling the operators out 
-of the bra-ket sandwich
+Hence
 
 \beq
--\partial_t\av{\XT{x}{t}| P}=
-\Omega^\dagger_{x,t}\av{\XT{x}{t}|P}
+\calb_{x,t}=\Omega_{x,t}
 \eeq
-so
-\beq
-\partial_t\av{\XT{x}{t}| P}=
-\calf_{x,t}\av{\XT{x}{t}|P},\quad
-\calf_{x,t}=-\Omega^\dagger_{x,t}
-\eeq
-If we make $P$ a conditional
-probability, then
-for the forward evolution, we get
 
-\beq
-\partial_t
-\underbrace{\av{\XT{x}{t}| P|\XT{w}{s}}}_
-{P(\XT{x}{t}|\XT{w}{s})}=
-\calf_{x,t}\av{\XT{x}{t}|P|\XT{w}{s}},\quad
-\calf_{x,t}=-\Omega^\dagger_{x,t}
-\eeq
-and for the backwards evolution we get
+\end{claim}
+\proof
+\qed
 
-\beq
-\partial_t
-\underbrace{\av{\XT{y}{u}| P|\XT{x}{t}}}_{
-P(\XT{y}{u}|\XT{x}{t})}=
-\calb_{x,t}\av{\XT{y}{u}|P|\XT{x}{t}},\quad
-\calb_{x,t}=-\Omega_{x,t}
-\eeq
 
 Note that the
 $P(\XT{x}{t}|\XT{w}{s})$ in the
@@ -90,38 +110,6 @@ a probability density in $(x,t)$.
 
 
 
-\beq
-u(x,  t)= \av{\XT{x}{t}|u}
-\eeq
-
-\beq
-\av{\XT{x}{t}|u}=E[\phi(\rvx_T)|\rvx_{t}=x]
-\eeq
-
-\beq
-\av{\rvx_t|u_t}=\int dz\;
-\bra{\rvx_t}P_{t,t'}\ket{z}
-\av{z|u_t}
-\eeq
-
-
-\beq
-\int dx_2\; P(\XT{x_1}{t_1}|\XT{x_2}{t_2
-})
-P(\XT{x_2}{t_2}|\XT{x_3}{t_3
-})=
-P(\XT{x_1}{t_1}|\XT{x_3}{t_3
-})
-\eeq
-
-\beq
-\int dx_2
-\av{\XT{x_1}{t_1}|P|\XT{x_2}{t_2}}
-\av{\XT{x_2}{t_2}|P|\XT{x_3}{t_3}}=
-\av{\XT{x_1}{t_1}|P|\XT{x_3}{t_3}}
-\eeq
-
-Martingale
 
 \beq
 \sum_x = \int dx
@@ -135,35 +123,9 @@ P_\rvx(\XT{x}{t}|\XT{x_0}{t_0})=
 \bra{\XT{x}{t}}P_\rvx\ket{\XT{x_0}{t_0}}
 \eeq
 
-Chapman-Kolgomorov
-for random process $\rvx_t$
-
-\beq
-\sum_{x_b}
-P(\XT{x_a}{t_a}|\XT{x_b}{t_b})
-P(\XT{x_b}{t_b}|\XT{x_c}{t_c})
-=
-P(\XT{x_a}{t_a}|\XT{x_c}{t_c})
-\eeq
-
-\beq
-\bra{x_a} P^\rvx_{t_a|t_b}
-\underbrace{\left[\sum_{x_b} \ket{x_b}
-\bra{x_b}\right] }_{1} P^\rvx_{t_b|t_c}
-\ket{x_c}
-=
-\bra{x_a} P^\rvx_{t_a|t_c} \ket{x_c}
-\eeq
-
-\beq
-\boxed{
-P^\rvx_{t_a|t_b}
-P^\rvx_{t_b|t_c} = 
-P^\rvx_{t_a|t_c}}
-\eeq
 
 
-Random process $\rvx_t$ is a martingale if
+Random process $\rvx_t$ is a {\bf martingale} if
 \beq
 E[\rvx_t|\rvx_{t_0}]= \rvx_{t_0} 
 \eeq
@@ -209,7 +171,7 @@ E[\rvB_t|\rvB_{t_0}=B_0]= B_0
 \beqa
 E[\rvB_t|\rvB_{t_0}=B_0]
 &=&
-\sum_B B \av{B|P|B_0}
+\sum_B B \av{B|P_{t|t_0}|B_0}
 \\
 &=&
 \int_{-\infty}^\infty dB\; B\;
@@ -218,6 +180,8 @@ E[\rvB_t|\rvB_{t_0}=B_0]
 &=&
 B_0
 \eeqa
+The mean of a normal distribution is
+its mean.
 
 \qed
 
@@ -235,6 +199,8 @@ with explicit time dependence by
 \phi(x,t)=\av{\phi|x}_t
 \eeq
 
+Note that $x_t=x(t)$ so $\ket{x_t}\neq \ket{x}_t= \ket{\rvx_t=x}$, strictly speaking.
+We won't use $\ket{x_t}$.
 
 \begin{claim}
 $\phi(\rvx_t,{t})$ is a martingale, for some smooth function $\phi(\cdot)$
