@@ -1450,25 +1450,29 @@ P^\rvx_{t_a|t_c}}
 \section{Fokker-Planck Equation}
 The next claim defines the {\bf Fokker-Planck equation} (FP equation) (a.k.a. {\bf Fokker-Planck-Kolgomorov equation})
 for the probability $P(x,t)$
-of single event $(x,t)$
+of single event $(x,t)$.
+
+Below, we will use $x$  for the vector with components $x_\mu$
+and $x_t=x(t)$ for the vector with components $x_{t\mu}$.
 
 
 \begin{claim}
 (Forward FP equation)
 
-If
+If\footnote{Note that $\rvx_\mu$ does not
+depend on $t$ explicitly but $P(x,t)$ does}
 \beq
-dx_\mu = f_\mu(x, t)dt + L_{\mu\nu}(x, t)d\rvB_\nu
+d\rvx_\mu(\rvx_t) = f_\mu(\rvx_t)dt + L_{\mu\nu}(\rvx_t)d\rvB_\nu
 \eeq
-Then
+then
 
 \beq
-	\pder{P(x, t)}{t}= \calf_\rvx P(x, t)
+	\pder{P(x, t)}{t}= \calf_x P(x, t)
 	\eeq
 with
 
 \beq
-\calf_\rvx \bullet=
+\calf_x \bullet=
 -\;\pder{}{x_\mu}
 (f_\mu\bullet ) +
 \frac{\partial^2}{ \partial x_\mu\partial x_\nu}( R_{\mu, \nu}\bullet)
@@ -1492,6 +1496,8 @@ udv = d(uv)-(du)v
 \int_{-\infty}^{+\infty}(du)v
 \eeq
 
+From It\^o's Lemma for $\phi(\cdot)$
+that doesn't depend on $t$ explicitly,
 \beq
 \int dx^n\; P(x)\frac{d\phi(x_t)}{dt}=
 \int dx^n\; P(x)
@@ -1499,6 +1505,9 @@ udv = d(uv)-(du)v
  f_\mu\pder{\phi}{x_\mu} + R_{\mu, \nu}
 \frac{\partial^2\phi}{\partial x_\mu\partial x_\nu}\right]
 \eeq
+Now pull the time derivative
+out of the integral on left hand side
+and integrate by parts the right hand side.
 
 
 
@@ -1513,16 +1522,16 @@ udv = d(uv)-(du)v
 
 \begin{claim}
 	\beq
-\pder{P}{t}= \calf_\rvx P
+\pder{P(x,t)}{t}= \calf_x P(x,t)
 	\eeq
 	is solved formally by
 	
 	\beq
-	P(x,t)=e^{(t-t_0)\calf_\rvx}P(x, t_0)
+	P(x,t)=e^{(t-t_0)\calf_x}P(x, t_0)
 	\eeq
 \end{claim}
 \proof
-Just use the Taylor expansion of an exponential function and analogize with the case when $\calf_\rvx$ is a constant.
+Just use the Taylor expansion of an exponential function and treat the operator $\calf_x$ as a constant.
 \qed
 
 Note that
@@ -1565,12 +1574,12 @@ Ref.\cite{wiki-brownian-dyn}),  arises from
 Newton's equation $m\ddot{x}= -\lam\dot{x}  -U'(x)$ when the acceleration $\ddot{x}$ is negligible, so the drag force and potential force cancel each other.}
 
 \beq
-dx_\mu = -\;\frac{1}{2}\pder{U}{x_\mu}dt + d\rvB_\mu
+d\rvx_\mu(\rvx_t) = -\;\frac{1}{2}\pder{U(\rvx_t)}{x_\mu}dt + d\rvB_\mu
 \eeq
 
 \begin{claim}
 For the overdamped Langevin equation,
-if $R_{\mu\nu}=\delta_{\mu\nu} \frac{1}{2\lam}>0$, then the steady state
+if $R_{\mu\nu}=\delta_{\mu\nu} \frac{1}{2\lam}>0$, the steady state
 solution is
 
 \beq
@@ -1615,15 +1624,15 @@ If we now substitute the proposed value of $P$, we get $0=0$
 Recall that
 
 \beq
-\calf_\rvx \bullet=
+\calf_x \bullet=
 -\;\pder{}{x_\mu}
 ( f_\mu\bullet) +
 \frac{\partial^2}{ \partial x_\nu\partial x_\mu}( R_{\mu, \nu}\bullet)
 \eeq
 
-Define $\calb_\rvx$ to be the same as $\calf_\rvx$
+Define $\calb_x$ to be the same as $\calf_x$
 but with every derivative 
-$\partial_{x_i}$ (not the $\partial_t$'s) is
+$\partial_{x_i}$ 
 replaced by its negative
 and the order
 of the operators
@@ -1631,7 +1640,7 @@ acting on $\bullet$
 reversed. Hence
 
 \beq
-\calb_\rvx \bullet=
+\calb_x \bullet=
 f_\mu\pder{\bullet}{x_\mu}
  + R_{\mu, \nu}
 \frac{\partial^2\bullet}{\partial x_\mu\partial x_\nu}
@@ -1640,32 +1649,26 @@ f_\mu\pder{\bullet}{x_\mu}
 
 
 \
-The {\bf forward FP equation} for transition matrix $ P(\XT{x}{t}|\XT{w}{s})$
+The {\bf forward FP equation} for transition matrix $ P(\XT{x}{t}|\XT{x_0}{t_0})$
+where $t_0<t$,
 is  defined as
 	
 \beq
-\pder{P(\XT{x}{t}|\XT{w}{s})}{t}=
-\calf_\rvx P(\XT{x}{t}|\XT{w}{s})
+\pder{P(\XT{x}{t}|\XT{x_0}{t_0})}{t}=
+\calf_x P(\XT{x}{t}|\XT{x_0}{t_0})
 \label{eq-forward-fp-tm}
 \eeq
-with
-\beq
-P(\XT{x}{s}|\XT{w}{s})=\delta(x-w)
-\eeq
 
-The {\bf backward FP equation} for transition matrix $P(\XT{y}{u}|\XT{x}{t})$
+The {\bf backward FP (or Kolgomorov) equation} for transition matrix $P(\XT{x_T}{T}|\XT{x}{t})$
+where $t<T$,
 is defined as
 
 \beq
-\;\pder{P(\XT{y}{u}|\XT{x}{t})}{t}=
-\calb_\rvx P(\XT{y}{u}|\XT{x}{t})
+-\pder{P(\XT{x_T}{T}|\XT{x}{t})}{t}=
+\calb_x P(\XT{x_T}{T}|\XT{x}{t})
 \label{eq-backward-fp-tm}
 \eeq
-with
 
-\beq
-P(\XT{y}{t}|\XT{x}{t}) =\delta(y-x)
-\eeq
 
 The forward FP equation is the
 time reversed version of the
@@ -1673,17 +1676,7 @@ backward FP equation. Thus, they describe
 the same stochastic process,
 in opposite time directions.
 
-Note that if we view
-a transition matrix
-$P(\XT{y}{u}|\XT{x}{t})$  as a matrix whose rows and columns are labeled by
-all possible events $(\XT{x}{t})$, then the forward FP equation (resp., backward FP equation)
-is a differential equation
-constraining all the rows $(\XT{y}{u})$ for a fixed column
-$(\XT{x}{t})$
-(resp., all the columns for a fixed row).
-They both constrain
-the same matrix $P(\XT{y}{u}|\XT{x}{t})$,
-but in 2 different ways.
+
 
 Figure \ref{fig-fokker-planck}
 shows the TPM arrows for the
@@ -1697,13 +1690,13 @@ backward FP in blue.
 \includegraphics[width=2.5in]
 {stochastic-diff-eqns/fokker-planck.png}
 \caption{Red arrows refer to
-$P((x,t)|(w,s))$
-and $P((x,t+dt)|(w,s))$
+$P((x,t)|(x_0, t_0))$
+and $P((x,t+dt)|(x_0,t_0))$
 for the forward FP equation.
 Blue arrows refer to
-$P((y,u)|(x,t))$
+$P((x_T,T)|(x,t))$
 and
-$P((y,u)|(x,t+dt))$
+$P((x_T,T)|(x,t+dt))$
 for the backwards FP equation.
 }
 \label{fig-fokker-planck}
@@ -1717,101 +1710,221 @@ Dirac notation,
 the derivation  of the forward and
 backward FP equations
 becomes very clear.
+For simplicity,
+we will consider only the
+1-dim case. 
 
-Begin by expressing a PDE in Dirac notation
-\beq
-\frac{d}{dt}\phi(\XT{x}{t})= \Omega_{x,t}\phi(\XT{x}{t})
-\to \quad 
-\frac{d}{dt} \av{x|\phi_t}= \Omega_{x,t}\av{x|\phi_t}
-\to\quad
-\frac{{d}}{dt}\ket{\phi_t}=
-\Omega_{\rvx,t}\ket{\phi_t}
-\label{eq-pde-dirac-notation}
-\eeq
-and an expectation value in Dirac notation\footnote{Note that
-we don't use a complete
-set $\ket{\XT{x}{t}}$
-because the expectation
-value sums over all $x$ values only,
-not over all $x$ and $t$ values.}
+Suppose
 
 \beq
-E_{\rvx}[A(\rvx,t)]=
-\int dx P(x)A(x,t)
-\to \quad
-E_{\rvx}[A(\rvx, t)]=
-\int dx\;\av{P|x}\av{x|A_t}=
-\av{P|A_t}
+d\rvx_t = f(\rvx_t)dt + L(\rvx_t)d\rvB_t
 \eeq
-Now applying $E_\rvx[\cdot]$ to
-both sides of Eq.(\ref{eq-pde-dirac-notation}), we get
+Let
 
 \beq
-\av{P|\frac{d}{dt} |\phi_t}=
-\av{P|\Omega_{\rvx,t}|\phi_t}
+\Omega_x\bullet = 
+\partial_x(f(x)\bullet)
++ \frac12 q \partial_x^2 (L(x)\bullet)
 \eeq
-Now taking the Hermitian conjugate of both sides with respect to
-$x$ only (not $t$)
+and 
+\beq
+\Omega_x^\dagger\bullet =
+-
+f(x)\partial_x\bullet
++ \frac12 q L(x) \partial_x^2 \bullet
+\eeq
+with $qdt=d\rvB_t d\rvB_t$.
+
+
+\begin{claim}(Forward FP equation)
+
+If $\phi(x)$ is a smooth function
+of $x$,
+then
 
 \beq
-\frac{d}{dt}\av{\phi_t|P}=
-\av{\phi_t|\Omega^\dagger_{\rvx,t}|P}
+\partial_t \phi(x_t)= \Omega_x\phi(x_t)
+\label{eq-pde-Omega-phi}
 \eeq
-Setting $\bra{\phi_t}=\bra{x_t}$ we get
 \beq
-\frac{d}{dt}\av{x_t|P}=
-\av{x_t|\Omega^\dagger_{\rvx,t}|P}
+\partial_tP(\XT{x}{t}|\XT{x_0}{t_0})=
+\underbrace{\Omega_x^\dagger}_
+{\calf_x}
+P(\XT{x}{t}|\XT{x_0}{t_0})
 \eeq
-Pulling the operators out 
-of the bra-ket sandwich
+and
+\beq
+\partial_tP_{t|t_0}= \Omega_\rvx^\dagger P_{t|t_0}
+\eeq
+\end{claim}
+\proof
+
+Eq.(\ref{eq-pde-Omega-phi}) follows directly from It\^{o}'s Lemma
+assuming $\phi(x)$ does not depend
+explicitly on $t$.
+
+Next, we express in Dirac notation, the expected value of
+both sides of Eq.(\ref{eq-pde-Omega-phi}) 
+(with $x_t$
+replaced by $\rvx_t$).
+\beqa
+E[\phi(\rvx_t)|\rvx_0=x_0] &=&
+\int dx \;\phi(x)P(\XT{x}{t}|\XT{x_0}{t_0})
+\\
+&=&\sum_x\av{\phi|x}\av{x|P_{t|t_0}|x_0}_{t_0}
+\\
+&=&
+\av{\phi|P_{t|t_0}|x_0}_{t_0}
+\eeqa
+Note that the time dependence
+in this expected value gets transferred from inside the $\phi(\cdot)$ to inside the $P(\cdot)$. This is a crucial observation. It's
+the reason why $\partial_t$ and $E[\cdot]$
+commute.
+
+
+
+\beqa
+E[\partial_t\phi(\rvx_t)|\rvx_0=x_0]
+&=&
+\int dx \;\phi(x)\partial_tP(\XT{x}{t}|\XT{x_0}{t_0})
+\\&=&
+\sum_x\av{\phi|x}\av{x|\partial_tP_{t|t_0}|x_0}_{t_0}
+\\
+&=&
+\bra{\phi}
+\partial_tP_{t|t_0}\ket{x_0}_{t_0}
+\eeqa
+
+\beqa
+E[\Omega_\rvx\phi(\rvx_t)|\rvx_0=x_0]
+&=&
+\int dx [\Omega_x\phi(x)]
+P(\XT{x}{t}|\XT{x_0}{t_0})
+\\
+&=&
+\int dx\; \phi(x)\Omega_x^\dagger
+P(\XT{x}{t}|\XT{x_0}{t_0})
+\quad \text{(integrate by parts)}
+\\
+&=&\sum_x\av{\phi|x}\bra{x}
+\Omega^\dagger_\rvx
+P_{t|t_0}\ket{x_0}_{t_0}
+\\
+&=&\bra{\phi}
+\Omega^\dagger_{\rvx}
+P_{t|t_0}\ket{x_0}_{t_0}
+\eeqa
+\qed
+
+
+\begin{claim}(Backwards FP 
+(or Kolgomorov)  equation)
+
+If $\phi(x)$ is a smooth function
+of $x$ with {\bf payoff function}
+\beq
+u(x, t)=  E[\phi(\rvx_T)|\rvx_t=x]
+\eeq
+where $t<T$,
+then
 
 \beq
-\frac{d}{dt}\av{x_t| P}=
-\Omega^\dagger_{x,t}\av{x_t|P}
+-\partial_t u(x, t)= \Omega_xu(x, t)
+\quad
+\text{with {\bf terminal BC} }u(x, T)= \phi(x)
+\label{eq-pde-Omega-u}
 \eeq
-so
 \beq
-\frac{d}{dt}\av{x_t| P}=
-\calf_{x,t}\av{x_t|P},\quad
-\calf_{x,t}=\Omega^\dagger_{x,t}
+-\partial_tP(\XT{x_T}{T}|\XT{x}{t})=
+\underbrace{\Omega_x}_
+{\calb_x}
+P(\XT{x_T}{T}|\XT{x}{t})
 \eeq
-If we make $P$ a conditional
-probability, then
-for the forward evolution, we get
+and
+\beq
+-\partial_tP_{T|t}= \Omega_{\rvx} P_{T|t}
+\eeq
+\end{claim}
+\proof
+
+Begin by noticing that
+$u(\rvx_{\tau},\tau )$
+for $t<\tau<T$ is a
+martingale. 
+\beq
+E[u(\rvx_\tau, \tau)|\rvx_t=x]= u(x,t)
+\eeq
+(This was
+proven as an example 
+in the section on martingales)
+Hence, $du$ has no drift. 
+
+By It\^o's Lemma,
 
 \beq
-\frac{d}{dt}
-\underbrace{\av{x_t| P|\XT{w}{s}}}_
-{P(\XT{x}{t}|\XT{w}{s})}=
-\calf_{x,t}\av{x_t|P|\XT{w}{s}},\quad
-\calf_{x,t}=\Omega^\dagger_{x,t}
+d u(\rvx_\tau, \tau)=\partial_\tau u(\rvx_\tau, \tau)+
+\Omega_x u(\rvx_\tau, \tau)
++ \frac12  qL^2 d\rvB_\tau
 \eeq
-and for the backwards evolution we get
+Setting the drift to zero gives 
+
 
 \beq
-\frac{d}{dt}
-\underbrace{\av{\XT{y}{u}| P|x_t}}_{
-P(\XT{y}{u}|\XT{x}{t})}=
-\calb_{x,t}\av{\XT{y}{u}|P|x_t},\quad
-\calb_{x,t}=\Omega_{x,t}
+0=\partial_\tau u(\rvx_\tau, \tau)+
+\Omega_x u(\rvx_\tau, \tau)
 \eeq
+Taking the expected value
+$E[\cdot|\rvx_t=x]$
+of both sides of the last 
+equation and using martingale property gives
+\beq
+-\partial_t u(x, t)=
+\Omega_x u(x, t)
+\eeq
+
+Next, we express 
+ in Dirac notation, 
+both sides of 
+the last equation
+(with $u(x,t)$ replaced by $E[\phi(\rvx_T)|\rvx_t=x]$).
+
+\beqa
+-\partial_tE[\phi(\rvx_T)|\rvx_t=x]
+&=&
+-
+\int dx' \;\phi(x')\partial_tP(\XT{x'}{T}|\XT{x}{t})
+\\&=&
+-\sum_{x'}\av{\phi|x'}\av{x'|\partial_tP_{T|t}|x}_{t}
+\\
+&=&
+-\bra{\phi}
+\partial_tP_{T|t}\ket{x}_{t}
+\eeqa
+
+\beqa
+\Omega_xE[\phi(\rvx_T)|\rvx_t=x]
+&=&
+\int dx' \;\phi(x')\Omega_xP(\XT{x'}{T}|\XT{x}{t})
+\\&=&
+\sum_{x'}\av{\phi|x'}
+\av{x'|\Omega_\rvx P_{T|t}|x}_{t}
+\\
+&=&
+\bra{\phi}
+\Omega_\rvx P_{T|t}\ket{x}_{t}
+\eeqa
+
+
+\qed
+
 
 Note that the
-$P(\XT{x}{t}|\XT{w}{s})$ in the
+$P(\XT{x}{t}|\XT{x_0}{t_0})$ in the
 forward FP equation is a probability density 
 in $(x,t)$,
-but the $P(\XT{y}{u}|\XT{x}{t})$
+but the $P(\XT{x_T}{T}|\XT{x}{t})$
 in the backwards FP is NOT
 a probability density in $(x,t)$.
-According to Bayes rule,
-true backwards prediction would entail
-a PDE for $\frac{d}{dt} [P(\XT{y}{u}|\XT{x}{t})P(\XT{x}{t})]$,
-as is done for Doob's $h$-transform
-(described later).
-
-
-
-
 
 
 \section{First and second order statistics}
