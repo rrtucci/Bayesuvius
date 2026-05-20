@@ -907,7 +907,7 @@ where $k$
 is Boltzmann's constant.
 
 The function
-softmax() is called softmax because if we
+softmax$(\cdot)$ is called softmax because if we
 approximate the exponentials,
  both in the numerator and denominator
 of Eq.(\ref{eq-softmax}),
@@ -3412,17 +3412,17 @@ subpopulation size $n$
 minus one.
 When fitting
 the data with
-Stud(), variable
+Stud$(\cdot)$, variable
 $t$ replaces
 variable $z$,
 and ${\rm Stud}(t; \nu=n-1)$
 replaces the Standard Normal distribution (SND)
 $\caln(z; \mu=0, \sigma=1)$.
-Stud() is symmetric about
+Stud$(\cdot)$ is symmetric about
 the origin like SND,
 but its tails
 are fatter.
-When fitting the data with Stud(),
+When fitting the data with Stud$(\cdot)$,
 the $|z^*|$
 value is replaced
 by a $|t^*|$ value.
@@ -3440,7 +3440,7 @@ C=\int_{-|t^*|}^{|t^*|} dt\;{\rm Stud}(t) =
 \eeq
 where $\Phi_S(\cdot)$
 is the cumulative
-distribution for  Stud().
+distribution for  Stud$(\cdot)$.
 Also, Eq.(\ref{eq-err-bars})
 is replaced  by
 
@@ -6278,7 +6278,7 @@ T^{\alpha,0} + S^{0,\beta}
 T^{\alpha, 0} + S^{0,\beta}
 \eeq
 
-\item {\bf concatenate()} along $dim=0$
+\item {\bf concatenate$(\cdot)$} along $dim=0$
 
 \beq
 [T_0^{
@@ -6299,7 +6299,7 @@ T_2^{[n_2], \beta, \gamma}
 \eeq
 where $n= n_0 + n_1 + n_2$.
 
-\item {\bf expand\_dims()} (same as {\bf unsqueeze()}) along $dim=0$
+\item {\bf expand\_dims$(\cdot)$} (same as {\bf unsqueeze$(\cdot)$}) along $dim=0$
 
 \beq
 T^{[b], [c]}\rarrow Y^{0, [b], [c]}
@@ -6311,7 +6311,7 @@ T^{\beta, \gamma}
 Y^{0,\beta, \gamma} =  T^{\beta, \gamma}
 \eeq
 
-\item {\bf flatten()}
+\item {\bf flatten$(\cdot)$}
 
 \beq
 T^{
@@ -6332,7 +6332,7 @@ $\nu:[n_0]\times[n_1]\times[n_2]\rarrow [n]$
 is a 1-1 onto function.
 
 
-\item {\bf gather()}\footnote{This operation is available in
+\item {\bf gather$(\cdot)$}\footnote{This operation is available in
 PyTorch. So far Numpy doesn't have it in direct form.} along $dim=0$
 
 
@@ -6356,7 +6356,7 @@ I^{\alp, \nu_1, \nu_2}=
 {\tt source=} $S^{[a], [n_1], [n_2]}$,
 {\tt index=} $I^{[a], [n_1], [n_2]}$
 
-\item {\bf max()} and {\bf argmax()} along $dim=0$
+\item {\bf max$(\cdot)$} and {\bf argmax$(\cdot)$} along $dim=0$
 
 \beq
 {\rm max:}\;\; T^{[a], [b]}\rarrow T^{\alp_0, [b]}
@@ -6370,7 +6370,7 @@ where $T^{\alp_0, \beta}=\max\{T^{\alp, \beta}: \alp\in[a]\}$
 
 
 
-\item {\bf repeat()} with $r=[r_0, r_1, \ldots, r_{n-1}]$
+\item {\bf repeat$(\cdot)$} with $r=[r_0, r_1, \ldots, r_{n-1}]$
 along $dim=0$
 
 \beq
@@ -6389,13 +6389,13 @@ pow(T^{n-1,\beta, \gamma}, r_{n-1})
 }^{[R], \beta, \gamma}
 \eeq
 where $R=\sum_{i=0}^{n-1}r_i$.
-note that concatenate() along $dim=0$ and repeat()
+note that concatenate$(\cdot)$ along $dim=0$ and repeat$(\cdot)$
  with $r=pow(1, n)$
-along $dim=0$, are the same thing. So repeat() is a
-souped up version of concatenate().
+along $dim=0$, are the same thing. So repeat$(\cdot)$ is a
+souped up version of concatenate$(\cdot)$.
 
 
-\item {\bf reshape()} from shape
+\item {\bf reshape$(\cdot)$} from shape
 $(n_0, n_1, n_2)$ to shape $(n,m)$
 
 \beq
@@ -6423,10 +6423,10 @@ $\mu:[n_0]\times[n_1]\times[n_2]\rarrow [n]$
 and
 $\nu:[n_0]\times[n_1]\times[n_2]\rarrow [m]$
 are 1-1 onto functions.
-flatten() is clearly a special case of reshape().
+flatten$(\cdot)$ is clearly a special case of reshape$(\cdot)$.
 
 
-\item {\bf split()} along $dim=0$
+\item {\bf split$(\cdot)$} along $dim=0$
 
 \beq
 \boxed{
@@ -6448,7 +6448,7 @@ where $n= n_0 + n_1 + n_2$
 
 
 
-\item {\bf squeeze()} $dim=0$
+\item {\bf squeeze$(\cdot)$} $dim=0$
 
 \beq
 T^{0,[b], [c]}
@@ -6463,7 +6463,7 @@ Y^{\beta, \gamma}=
 T^{0,\beta, \gamma}
 \eeq
 
-\item {\bf stack()} along $dim=0$
+\item {\bf stack$(\cdot)$} along $dim=0$
 
 \beq
 [T_0^{\alpha, \beta, \gamma},
@@ -6481,18 +6481,18 @@ T_2^{\alpha, \beta, \gamma}
 }^{
 [3], \alpha, \beta, \gamma}
 \eeq
-Compare this to concatenate(). stack()
+Compare this to concatenate$(\cdot)$. stack$(\cdot)$
 creates a new dimension
-whereas concatenate() doesn't. concatenate() just increases the range
+whereas concatenate$(\cdot)$ doesn't. concatenate$(\cdot)$ just increases the range
 of an existing dimension.
 
-\item {\bf sum()} along $dim=0$
+\item {\bf sum$(\cdot)$} along $dim=0$
 
 \beq
 T^{[a], [b]}\rarrow \sum_{\alp} T^{\alp, [b]}
 \eeq
 
-\item {\bf tensordot()} (i.e., contraction) along $dim=0$
+\item {\bf tensordot$(\cdot)$} (i.e., contraction) along $dim=0$
 
 \beq
 [T^{[n],\beta}, S^{[n],\beta}]\rarrow
@@ -6502,9 +6502,9 @@ T^{\alpha, \beta}\delta_{\alpha,\alpha'} S^{\alpha',\beta}
 T^{\alp, \beta}S^{\alp, \beta}
 \eeq
 
-\item {\bf  tile()}\footnote{
-tile() in Numpy corresponds
-to repeat() in PyTorch.}
+\item {\bf  tile$(\cdot)$}\footnote{
+tile$(\cdot)$ in Numpy corresponds
+to repeat$(\cdot)$ in PyTorch.}
 
 \beq
 {\tt reps} = [2,3]
@@ -6535,7 +6535,7 @@ T^{[a], [b]} & T^{[a], [b]} & T^{[a], [b]}
 
 
 
-\item {\bf transpose()} by a permutation
+\item {\bf transpose$(\cdot)$} by a permutation
 $\sigma:[3]\rarrow [3]$. \footnote{ a permutation $\s:[n] \rarrow [n]$ is a bijection, i.e., a 1-1 onto map.}
 
 \beq
