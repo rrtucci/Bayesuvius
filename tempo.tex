@@ -11,28 +11,56 @@ the derivation  of the forward and
 backward FP equations
 becomes very clear.
 
+Suppose
+
+\beq
+d\rvx_t = f(\rvx_t)dt + L(\rvx_t)d\rvB_t
+\eeq
+Let
+
+\beq
+\Omega_x\bullet = 
+\partial_x(f(x)\bullet)
++ \frac12 q \partial_x^2 (L(x)\bullet)
+\eeq
+and 
+\beq
+\Omega_x^\dagger\bullet =
+-
+f(x)\partial_x\bullet
++ \frac12 q L(x) \partial_x^2 \bullet
+\eeq
+with $qdt=d\rvB_t d\rvB_t$.
+
 
 \begin{claim}
-If
-\beq
-\partial_t \phi(x_t)= \Omega_{x,t}\phi(x_t)
-\eeq
+If $\phi(x)$ is a smooth function
+of $x$,
 then
 
 \beq
-\partial_tP_{t|t_0}= \Omega_{\rvx,t}^\dagger P_{t|t_0}
+\partial_t \phi(x_t)= \Omega_x\phi(x_t)
+\label{eq-pde-Omega-phi}
 \eeq
-Hence
-
 \beq
-\calf_{x,t}=\Omega_{x,t}^\dagger
+\partial_tP(\XT{x}{t}|\XT{x_0}{t_0})=
+\underbrace{\Omega_x^\dagger}_
+{\calf_x}
+P(\XT{x}{t}|\XT{x_0}{t_0})
 \eeq
-
+and
+\beq
+\partial_tP_{t|t_0}= \Omega_\rvx^\dagger P_{t|t_0}
+\eeq
 \end{claim}
 \proof
 
-We want to express  the expected value of
-both sides of this PDE in Dirac notation
+Eq.(\ref{eq-pde-Omega-phi}) follows directly from It\^{o}'s Lemma
+assuming $\phi(x)$ does not depend
+explicitly on $t$.
+
+Next, we express  the expected value of
+both sides of Eq.(\ref{eq-pde-Omega-phi}) in Dirac notation
 \beqa
 E[\phi(\rvx_t)|\rvx_0=x_0] &=&
 \int dx \;\phi(x)P(\XT{x}{t}|\XT{x_0}{t_0})
@@ -43,8 +71,10 @@ E[\phi(\rvx_t)|\rvx_0=x_0] &=&
 \av{\phi|P_{t|t_0}|x_0}_{t_0}
 \eeqa
 Note that the time dependence
-in this expected value gets transferred from inside the $\phi()$
-to inside the $P()$. This is a crucial observation.
+in this expected value gets transferred from inside the $\phi(\cdot)$ to inside the $P(\cdot)$. This is a crucial observation. It's
+the reason why $\partial_t$ and $E[\cdot]$
+commute.
+
 
 \beqa
 E[\partial_t\phi(\rvx_t)|\rvx_0=x_0]
@@ -59,41 +89,58 @@ E[\partial_t\phi(\rvx_t)|\rvx_0=x_0]
 \eeqa
 
 \beqa
-E[\Omega_{\rvx,t}\phi(\rvx_t)|\rvx_0=x_0]
-&=&\sum_x\left[\Omega_{x,t}\av{\phi|x}\right]\bra{x}
-P_{t|t_0}\ket{x_0}_{t_0}
+E[\Omega_\rvx\phi(\rvx_t)|\rvx_0=x_0]
+&=&
+\int dx [\Omega_x\phi(x)]
+P(\XT{x}{t}|\XT{x_0}{t_0})
 \\
-&=&\sum_x\av{\phi|x}\Omega^\dagger_{x,t}\bra{x}
-P_{t|t_0}\ket{x_0}_{t_0}
+&=&
+\int dx\; \phi(x)\Omega_x^\dagger
+P(\XT{x}{t}|\XT{x_0}{t_0})
 \quad \text{(integrate by parts)}
 \\
 &=&\sum_x\av{\phi|x}\bra{x}
-\Omega^\dagger_{\rvx,t}
+\Omega^\dagger_\rvx
 P_{t|t_0}\ket{x_0}_{t_0}
 \\
 &=&\bra{\phi}
-\Omega^\dagger_{\rvx,t}
+\Omega^\dagger_{\rvx}
 P_{t|t_0}\ket{x_0}_{t_0}
 \eeqa
 \qed
+
+
 \begin{claim}
-If
+If $\phi(x)$ is a smooth function
+of $x$, and 
 \beq
-\partial_t \phi(x_t)= \Omega_{x,t}\phi(x_t)
+u(x, t)=  E[\phi(\rvx_T)|\rvx_t=x]
 \eeq
 then
 
 \beq
-\partial_tP_{T|t}= \Omega_{\rvx,t} P_{T|t}
+\partial_t u(x, t)= \Omega_xu(x, t)
+\label{eq-pde-Omega-u}
 \eeq
-Hence
-
 \beq
-\calb_{x,t}=\Omega_{x,t}
+\partial_tP(\XT{x_T}{T}|\XT{x}{t})=
+\underbrace{\Omega_x}_
+{\calb_x}
+P(\XT{x_T}{T}|\XT{x}{t})
 \eeq
-
+and
+\beq
+\partial_tP_{T|t}= \Omega_{\rvx} P_{T|t}
+\eeq
 \end{claim}
 \proof
+Eq.(\ref{eq-pde-Omega-u}) follows directly from It\^{o}'s Lemma
+assuming $\phi(x)$ does not depend
+explicitly on $t$.
+
+Next, we express  the expected value of
+both sides of Eq.(\ref{eq-pde-Omega-u}) in Dirac notation
+
 \qed
 
 
