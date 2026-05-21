@@ -127,6 +127,23 @@ so we won't speak of filtrations again.
 \hrule
 For any matrix $A$,
 we will use $A^\dagger$ to denote the Hermitian conjugate of $A$, $A^T$ to denote its transpose, and $A^*$ to denote its complex conjugate. $A^\dagger = A^{* T}$.
+\hrule
+Dirac Notation
+
+We will often use $\sum_x$
+as a shorthand for $\int dx$.
+
+\beq
+\sum_x = \int dx
+\eeq
+
+For a complete orthonormal basis 
+$\{\ket{x}: x\in val(\rvx)\}$
+\beq
+\sum_{x\in val(\rvx)} \ket{x}\bra{x}=1
+\eeq
+
+
 
 
 
@@ -354,39 +371,145 @@ P(\rvx_s-\rvx_t=x)=
 
 \section{Martingales}
 
-Let $0\leq t, t_i \leq T$ and $x(t_i)=x_i$
-for $i\in[N]$.
-A {\bf martingale}  for discrete (resp., continuous) time is a process $\rvy_i$ (resp., $\rvy(t)$)
-which satisfies
-\begin{itemize}
-\item finite
-\beq
-E[\;|\rvy(t_i)|\;] < \infty\quad \forall i\quad
-(\text{resp., }E[\;|\rvy(t)|\;] < \infty \quad \forall t\geq 0)
-\eeq
-(Sometimes this is not satisfied for all $t$. If it is satisfied for
-a finite closed time interval, 
-it's called a \qt{local} martingale)
+Consider a discrete sequence
+of random variables
+$\rvx=[\rvx_1, \rvx_2, \rvx_3, \ldots]$.
+$\rvx$ is a {\bf martingale}
+if\footnote{In more rigorous
+treatments, the finiteness constraint
+$ \forall i\;
+E[\;|\rvx_i|\;] < \infty 
+$
+is added to the definition
+of martingale. We
+won't bother with that constraint
+because we don't aim to be 
+fully rigorous.in this book.
+}
 
-\item Causal and only remembers
-last past observation
 \beq
-E\left[\rvy(t)|x(t_{i\ldots j})\right]= y(t_j)
-\quad (\text{resp., }E\left[\rvy(t)|x([0,s])\right]= y(s))
+E[\rvx_b|\rvx_a]=\rvx_a
 \eeq
-\end{itemize}
+and
+\beq
+E[\rvx_b|\rvx_a=x]=x
+\eeq
+for any $a, b$ such that $a\leq b$.
 
+A (continuous) random process $\rvx_t$ is a {\bf martingale} if
+\beq
+E[\rvx_t|\rvx_{t_0}]= \rvx_{t_0} 
+\eeq
+when $t_0\leq t$.
+In particular, applying $\ket{x_0}$ to both sides,
+\beq
+E[\rvx_t|\rvx_{t_0}=x_0]=x_0
+\eeq
+
+Below, we will assume $t_0\leq t$.
+
+\begin{claim}
+If $\rvx_t$ is a martingale, then
+
+\beq
+\boxed {P^\rvx_{t|t_0}= P^\rvx_{t_0|t_0}=1}
+\eeq
+
+\end{claim}
+\proof
+\beqa
+E[\rvx_t|\rvx_{t_0}=x_0]
+&=&
+\sum_{x}x\bra{x}P_{t|t_0}\ket{x_0}
+\\
+&=&
+\rvx\sum_{x}\ket{x}\bra{x} P_{t|t_0}\ket{x_0}
+\\
+&=& \rvx \underbrace{P_{t|t_0}}_{1}\ket{x_0}
+\\
+&=&
+x_0
+\eeqa
+\qed
+
+\begin{claim}
 Brownian motion is a martingale.
 \beq
-E[\rvB(t)| B(t_{i\ldots j}] = B(t_j)
+E[\rvB_t|\rvB_{t_0}=B_0]= B_0
 \eeq
+\end{claim}
+\proof
+
+\beqa
+E[\rvB_t|\rvB_{t_0}=B_0]
+&=&
+\sum_B B \av{B|P_{t|t_0}|B_0}
+\\
+&=&
+\int_{-\infty}^\infty dB\; B\;
+\caln(B; \mu=B_0, \s^2=0)
+\\
+&=&
+B_0
+\eeqa
+The mean of a normal distribution is
+its mean.
+
+\qed
+
+Let
+\beq
+\phi(x)=\av{\phi|x}
+\eeq
+
+Let $\ket{x}_t$  be a copy of $\ket{x}$ for time $t$.
+Likewise, let $\bra{x}_t$  be a copy of $\bra{x}$ for time $t$.
+We shall represent a function $\phi(x,t)$
+with explicit time dependence by
+
+\beq
+\phi(x,t)=\av{\phi|x}_t
+\eeq
+
+Note that $x_t=x(t)$ so $\ket{x_t}\neq \ket{x}_t= \ket{\rvx_t=x}$ (strictly speaking, although some people
+might equate both).
+I won't use $\ket{x_t}$.
+
+\begin{claim}
+ If $\phi(\cdot)$ is a smooth function 
+and $\rvx_t$
+is a martingale, then $\phi(\rvx_t,{t})$ is a martingale.
+\beq
+E[\phi(\rvx_t,{t})|\rvx_{t_0}=x_0]= \phi(x_0, t_0)
+\eeq
+\end{claim}
+\proof
+
+\beqa
+E[\phi(\rvx_t,{t})|\rvx_{t_0}=x_0]
+&=&
+\bra{\phi}
+\sum_{x}\ket{x}_t
+\bra{x}_tP_{t|t_0}
+\ket{x_0}_{t_0}
+\\
+&=&
+\bra{\phi}P_{t|t_0}\ket{x_0}_{t_0}
+\\
+&=&
+\av{\phi|x_0}_{t_0}
+\eeqa
+\qed
+
+
 
 
 It\^{o} integrals $\int L(\XT{x}{t})d\rvB_t$ (discussed later)
-are martingales too, but Stratonovich integrals
+are martingales too
+(because they are semi-martingales without a drift term), but Stratonovich integrals
 $\int L(\XT{x}{t})\circ d\rvB_t$
 (discussed later)
-aren't.
+aren't (because they are semi-martingales with a drift term).
 
 
 
@@ -1379,45 +1502,46 @@ L(x_2, t)\Delta_{2}^{3}\rvB
 
 \section{Transition Probability Matrices}
 
-Suppose  $t,s\geq 0$ and $x, y\in \RR^n$.
-We define
-the {\bf event transition probability matrix (TPM)} as
+Consider a sequence of random variables $\rvx_1, \rvx_2, \rvx_3, \dots$
+
+The probability 
 
 \beq
-P(\XT{y}{t}|\XT{x}{s})
+P(\rvx_b=x_b|\rvx_a=x_a)=P(x_b|x_a)
 \eeq
-
-
-Let $\rvx(t_k)=x_k$ for $k\in[N]$. The bnet
+for $a<b$ is called a {\bf transition probability matrix (TPM)} for a discrete 
+process.
+ The bnet
 $$
-x_0\rarrow\rvx_1\rarrow \rvx_2\rarrow\cdots\rarrow\rvx_{N-1}$$
-is called a {\bf Markov chain}. It satisfies
+\rvx_0\rarrow\rvx_1\rarrow \rvx_2\rarrow\cdots\rarrow\rvx_{N-1}$$
+is called a {\bf Markov chain}. Its TPM satisfies
 
 \beq
 P(x_{i+1}| x_i, x_{i-1}, \ldots, x_0)=
 P(x_{i+1}| x_i)
 \eeq
+
 For continuous instead of discrete time,
-the Markov chain definition is generalized
+the definitions of TPM and Markov chain are generalized
 as follows.
-For $s<t$,
+It's as if $\rvx(t_k)=\rvx_k$ for $k\in[N]$ and $t_{k-1}-t_k=\Delta t\to 0$.
+
+Suppose  $t_0<t$ and $x_0, x\in \RR^n$.
+We define
+the {\bf event transition probability matrix (TPM)} as
+
+\beq
+P(\rvx_t=x|\rvx_{t_0}=x_0)=
+=P(x(t)|x(t_0))=P(\XT{x}{t}|\XT{x_0}{t_0})
+\eeq
+For a {\bf Markov chain}
+
 \beq
 P(x(t)| x([0, s]))=
 P(x(t)| x(s))
 \eeq
-
-Transition matrix for
-random process $\rvx_t$. Assume $t_0\leq t$
-
-\beq
-P_\rvx(\XT{x}{t}|\XT{x_0}{t_0})=
-\bra{\XT{x}{t}}P_\rvx\ket{\XT{x_0}{t_0}}
-\eeq
-
-
-
-Chapman-Kolgomorov
-for random process $\rvx_t$
+Any process $\rvx_t$ satisfies the
+{\bf Chapman-Kolgomorov equation}:
 
 \beq
 \sum_{x_b}
@@ -1426,6 +1550,21 @@ P(\XT{x_b}{t_b}|\XT{x_c}{t_c})
 =
 P(\XT{x_a}{t_a}|\XT{x_c}{t_c})
 \eeq
+for $t_a\leq t_b\leq t_c$.
+
+
+In this chapter, we will
+re-express many equations in Dirac notation
+for greater clarity.
+In Dirac notation, the TPM
+becomes
+
+\beq
+P^\rvx(\XT{x}{t}|\XT{x_0}{t_0})=
+\bra{\XT{x}{t}}P^\rvx_{t,t_0}\ket{\XT{x_0}{t_0}}
+\eeq
+and the Chapman-Kolgomorov equation 
+becomes
 
 \beq
 \bra{x_a} P^\rvx_{t_a|t_b}
@@ -1435,6 +1574,7 @@ P(\XT{x_a}{t_a}|\XT{x_c}{t_c})
 =
 \bra{x_a} P^\rvx_{t_a|t_c} \ket{x_c}
 \eeq
+Hence
 
 \beq
 \boxed{
