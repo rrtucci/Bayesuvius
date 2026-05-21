@@ -96,34 +96,39 @@ A_\mu B_\mu = \sum_{\mu \in[n]}A_\mu B_\mu
 
 $dx^n = dx_0 dx_1 \ldots dx_{n-1}$
 \hrule\noindent
-A {\bf path} is defined as one of the following sets, depending on whether we are considering continuous or discretized time:
+A {\bf path segment} is defined as one of the following sets, depending on whether we are considering continuous or discretized time:
 
-$\rvx([t,s])=\{  \rvx(\tau): \tau\in[t,s]\}$
+$\rvx([t,s])=\{  \rvx(\tau): \tau\in[t,s]\}$, \quad
+$\rvx(\leq t)=\{  \rvx(\tau): \tau\leq t\}$
 
 
-$\rvx(t_{j\ldots k}) =\{  x(\tau): \tau\in\{t_j, t_{j+1}, \ldots, t_k\}\}$
+
+$\rvx(t_{j\ldots k}) =\{  x(\tau): \tau\in\{t_j, t_{j+1}, \ldots, t_k\}\}$,\quad
+$\rvx(t_{\leq j}) =\{  x(\tau): \tau\leq t_j\}$
 
 $\rvx_{j\ldots k} =\{ \rvx_j, \rvx_{j+1},
-\ldots,\rvx_k\}$
+\ldots,\rvx_k\}$,\quad
+$\rvx_{\leq j} =\{ \rvx_i: i\leq j\}$
+
+etc.
 
 \hrule
-Measure theorists often speak of a filtration
-for an expected value.
-A {\bf filtration} $\calf_t$ is just the mathematical encoding of \qt{some information available from times less than or equal to $t$.}
-$\calf_t$ grows or stays the same as $t$ increases.
+Measure theorists often speak of a filtration.
 Filtrations are often used as conditions in an expected value, as 
-in $E[M_s|\calf_t]=M_t$
-for a martingale $M_t$.
-Formally, a filtration is a nested family of sigma-algebras
-$\calf_t=\{A_{t'}: t'\in S, t'\leq t\}$
-satisfying
-$A_{t_1}\subset A_{t_2}$ if $t_1\leq t_2$. Thus, as
-time increases,
-more 
-or the same amount of info  is known.
- A path segment $x([t, s])$
-or some events is often an adequate filtration,
-so we won't speak of filtrations again.
+in $E[\rvx_s|\calf_t]=\rvx_t$
+for a martingale $\rvx_t$.
+A {\bf filtration} $\calf_t$ is just the mathematical encoding of \qt{ALL information available for times less than or equal to $t$.}
+$\calf_t$ grows as $t$ increases.
+For a discrete sequence 
+of random variables $\rvx=[\rvx_1, \rvx_2, \rvx_3, \ldots]$, 
+you can safely replace
+$\calf_a$ by $\rvx_{\leq a}$.
+For a (continuous) random process $\rvx_t=\rvx(t)$,
+you can safely
+replace $\calf_t$ by
+$\rvx_{\leq t}$.
+So we won't 
+speak of filtrations any further in this book.
 \hrule
 For any matrix $A$,
 we will use $A^\dagger$ to denote the Hermitian conjugate of $A$, $A^T$ to denote its transpose, and $A^*$ to denote its complex conjugate. $A^\dagger = A^{* T}$.
@@ -143,6 +148,11 @@ $\{\ket{x}: x\in val(\rvx)\}$
 \sum_{x\in val(\rvx)} \ket{x}\bra{x}=1
 \eeq
 
+For a random variable  $\rvx$,
+
+\beq
+\rvx = \sum_{x\in val(\rvx)} \ket{x}x\bra{x}
+\eeq
 
 
 
@@ -369,6 +379,116 @@ P(\rvx_s-\rvx_t=x)=
 
 \end{enumerate}
 
+\section{Transition Probability Matrices}
+
+Consider a sequence of random variables $\rvx_1, \rvx_2, \rvx_3, \dots$
+
+The probability 
+
+\beq
+P(\rvx_b=x_b|\rvx_a=x_a)=P(x_b|x_a)
+\eeq
+for $a<b$ is called a {\bf transition probability matrix (TPM)} for a discrete 
+process.
+ The bnet
+$$
+\rvx_0\rarrow\rvx_1\rarrow \rvx_2\rarrow\cdots\rarrow\rvx_{N-1}$$
+is called a {\bf Markov chain}. Its TPM satisfies
+
+\beq
+P(x_{i+1}| x_i, x_{i-1}, \ldots, x_0)=
+P(x_{i+1}| x_i)
+\eeq
+
+For continuous instead of discrete time,
+the definitions of TPM and Markov chain are generalized
+as follows.
+It's as if $\rvx(t_k)=\rvx_k$ for $k\in[N]$ and $t_{k-1}-t_k=\Delta t\to 0$.
+
+Suppose  $t_0<t$ and $x_0, x\in \RR^n$.
+We define
+the {\bf event transition probability matrix (TPM)} as
+
+\beq
+P(\rvx_t=x|\rvx_{t_0}=x_0)=
+=P(x(t)|x(t_0))=P(\XT{x}{t}|\XT{x_0}{t_0})
+\eeq
+For a {\bf Markovian process}
+
+\beq
+P(x(t)| x([0, s]))=
+P(x(t)| x(s))
+\eeq
+\begin{claim}
+A Markovian process $\rvx_t$ satisfies the
+{\bf Chapman-Kolgomorov equation}:
+
+\beq
+\sum_{x_b}
+P(\XT{x_c}{t_c}|\XT{x_b}{t_b})
+P(\XT{x_b}{t_b}|\XT{x_a}{t_a})
+=
+P(\XT{x_c}{t_c}|\XT{x_a}{t_a})
+\eeq
+for $t_a\leq t_b\leq t_c$.
+\end{claim}
+\proof
+\beqa
+P(\XT{x_c}{t_c}|\XT{x_b}{t_b})
+P(\XT{x_b}{t_b}|\XT{x_a}{t_a})
+&=&
+P(\XT{x_c}{t_c}|\XT{x_b}{t_b},\XT{x_a}{t_a})
+P(\XT{x_b}{t_b}|\XT{x_a}{t_a})
+\\
+&=&
+P(\XT{x_c}{t_c},\XT{x_b}{t_b}|\XT{x_c}{t_c})
+\eeqa
+Now apply $\sum_{x_b}$ to both sides.
+
+Note that if $\rvx_t$ is not Markovian, $\sum_{x_b}
+P(\XT{x_c}{t_c}|\XT{x_b}{t_b})
+P(\XT{x_b}{t_b}|\XT{x_a}{t_a})$
+is still a probability distribution in $x_c$, but a different one from $P(\XT{x_c}{t_c}|\XT{x_a}{t_a})$.
+\beq
+\sum_{x_b}
+P(\XT{x_c}{t_c}|\XT{x_b}{t_b})
+P(\XT{x_b}{t_b}|\XT{x_a}{t_a})=
+Q(\XT{x_c}{t_c}|\XT{x_a}{t_a})
+\eeq
+\qed
+
+
+In this chapter, we will
+re-express many equations in Dirac notation
+for greater clarity.
+In Dirac notation, the TPM
+becomes
+
+\beq
+P^\rvx(\XT{x}{t}|\XT{x_0}{t_0})=
+\bra{\XT{x}{t}}P^\rvx_{t,t_0}\ket{\XT{x_0}{t_0}}
+\eeq
+and the Chapman-Kolgomorov equation 
+for a Markovian process $\rvx_t$
+becomes
+
+\beq
+\bra{x_a} P^\rvx_{t_a|t_b}
+\underbrace{\left[\sum_{x_b} \ket{x_b}
+\bra{x_b}\right] }_{1} P^\rvx_{t_b|t_c}
+\ket{x_c}
+=
+\bra{x_a} P^\rvx_{t_a|t_c} \ket{x_c}
+\eeq
+Hence
+
+\beq
+\boxed{
+P^\rvx_{t_a|t_b}
+P^\rvx_{t_b|t_c} = 
+P^\rvx_{t_a|t_c}}
+\eeq
+
 \section{Martingales}
 
 Consider a discrete sequence
@@ -388,22 +508,22 @@ fully rigorous.in this book.
 }
 
 \beq
-E[\rvx_b|\rvx_a]=\rvx_a
+E[\rvx_b|\rvx_a, \rvx_{<a}]=\rvx_a
 \eeq
 and
 \beq
-E[\rvx_b|\rvx_a=x]=x
+E[\rvx_b|\rvx_a=x, \rvx_{<a}]=x
 \eeq
 for any $a, b$ such that $a\leq b$.
 
 A (continuous) random process $\rvx_t$ is a {\bf martingale} if
 \beq
-E[\rvx_t|\rvx_{t_0}]= \rvx_{t_0} 
+E[\rvx_t|\rvx_{t_0}, \rvx_{<t_0}]= \rvx_{t_0} 
 \eeq
 when $t_0\leq t$.
 In particular, applying $\ket{x_0}$ to both sides,
 \beq
-E[\rvx_t|\rvx_{t_0}=x_0]=x_0
+E[\rvx_t|\rvx_{t_0}=x_0, \rvx_{<t_0}]=x_0
 \eeq
 
 Below, we will assume $t_0\leq t$.
@@ -509,7 +629,7 @@ are martingales too
 (because they are semi-martingales without a drift term), but Stratonovich integrals
 $\int L(\XT{x}{t})\circ d\rvB_t$
 (discussed later)
-aren't (because they are semi-martingales with a drift term).
+aren't martingales (because they are semi-martingales with a drift term).
 
 
 
@@ -626,7 +746,7 @@ zig-zaggy part $L_t\rvB_t$ has a non-zero one.
 
 
 \begin{claim}
-(Conversion to It\^{o} formula)
+(Conversion from $\alp$-anticipatory to It\^{o})
 
 If $\rvx_t$ and $\rvy_t$
 are semi-martingales,
@@ -882,12 +1002,14 @@ d\rvx_\mu= f_\mu(\rvx, t)dt + L_{\mu,\nu}(\rvx, t)d\rvB_\nu(t)
 \eeq
 
 \beq
-d\rvB_\alp d\rvB_\beta = Q_{\alp, \beta}
+d\rvB_\alp d\rvB_\beta = Q_{\alp, \beta}\quad
+\text{(In 1-dim, $Q_{\alp, \beta}\to q$)}
 \eeq
 and
 
 \beq
-R_{\mu, \nu} = \frac{1}{2} L_{\mu,\alpha}Q_{\alpha,\beta}L^T_{\beta,\nu}
+\boxed
+{R_{\mu, \nu} = \frac{1}{2} L_{\mu,\alpha}Q_{\alpha,\beta}L^T_{\beta,\nu}\quad \text{(In 1-dim, $R_{\mu,\nu}\to \frac{q}{2}L^2$)}}
 \eeq
 
 
@@ -1497,92 +1619,6 @@ L(x_2, t)\Delta_{2}^{3}\rvB
 +\Delta_{0}^{1}\rvx
 +x_0
 \eeq
-
-
-
-\section{Transition Probability Matrices}
-
-Consider a sequence of random variables $\rvx_1, \rvx_2, \rvx_3, \dots$
-
-The probability 
-
-\beq
-P(\rvx_b=x_b|\rvx_a=x_a)=P(x_b|x_a)
-\eeq
-for $a<b$ is called a {\bf transition probability matrix (TPM)} for a discrete 
-process.
- The bnet
-$$
-\rvx_0\rarrow\rvx_1\rarrow \rvx_2\rarrow\cdots\rarrow\rvx_{N-1}$$
-is called a {\bf Markov chain}. Its TPM satisfies
-
-\beq
-P(x_{i+1}| x_i, x_{i-1}, \ldots, x_0)=
-P(x_{i+1}| x_i)
-\eeq
-
-For continuous instead of discrete time,
-the definitions of TPM and Markov chain are generalized
-as follows.
-It's as if $\rvx(t_k)=\rvx_k$ for $k\in[N]$ and $t_{k-1}-t_k=\Delta t\to 0$.
-
-Suppose  $t_0<t$ and $x_0, x\in \RR^n$.
-We define
-the {\bf event transition probability matrix (TPM)} as
-
-\beq
-P(\rvx_t=x|\rvx_{t_0}=x_0)=
-=P(x(t)|x(t_0))=P(\XT{x}{t}|\XT{x_0}{t_0})
-\eeq
-For a {\bf Markov chain}
-
-\beq
-P(x(t)| x([0, s]))=
-P(x(t)| x(s))
-\eeq
-Any process $\rvx_t$ satisfies the
-{\bf Chapman-Kolgomorov equation}:
-
-\beq
-\sum_{x_b}
-P(\XT{x_a}{t_a}|\XT{x_b}{t_b})
-P(\XT{x_b}{t_b}|\XT{x_c}{t_c})
-=
-P(\XT{x_a}{t_a}|\XT{x_c}{t_c})
-\eeq
-for $t_a\leq t_b\leq t_c$.
-
-
-In this chapter, we will
-re-express many equations in Dirac notation
-for greater clarity.
-In Dirac notation, the TPM
-becomes
-
-\beq
-P^\rvx(\XT{x}{t}|\XT{x_0}{t_0})=
-\bra{\XT{x}{t}}P^\rvx_{t,t_0}\ket{\XT{x_0}{t_0}}
-\eeq
-and the Chapman-Kolgomorov equation 
-becomes
-
-\beq
-\bra{x_a} P^\rvx_{t_a|t_b}
-\underbrace{\left[\sum_{x_b} \ket{x_b}
-\bra{x_b}\right] }_{1} P^\rvx_{t_b|t_c}
-\ket{x_c}
-=
-\bra{x_a} P^\rvx_{t_a|t_c} \ket{x_c}
-\eeq
-Hence
-
-\beq
-\boxed{
-P^\rvx_{t_a|t_b}
-P^\rvx_{t_b|t_c} = 
-P^\rvx_{t_a|t_c}}
-\eeq
-
 
 
 
@@ -3321,265 +3357,201 @@ zero drift term so it's an honest martingale.
 
 \qed
 
+\section{Doob's $h$ transform}
 
-
-
-\section{Doob's Transform}
-In this section, we explain {\bf Doob's transform}.
-
-We begin by assuming that a function
-$D(.|\XT{x}{t})$ \footnote{Sometimes, $D(.|\XT{x}{t})$ is denoted by the letter $h$, and this transform is called Doob's h-transform.}
-\footnote{According to the Chapman Kolgomorov equation, the conditional probability
-$P(\XT{x}{T}|\XT{x}{t})=D(.|\XT{x}{t})$
-satisfies Eq.(\ref{eq-dooby}).}
-satisfies the equation
+Assume
 \beq
-D(.|\XT{x}{t})
-=
-\int dy\; D(.|\XT{y}{t+s})P(\XT{y}{t+s} |\XT{x}{t})
-\label{eq-dooby}
-\eeq
-Next we define a function
-$P^D(\XT{y}{t+s}|\XT{x}{t})$ by
-
-\beq
-P^D(\XT{y}{t+s}|\XT{x}{t})=\frac{D(.|\XT{y}{t+s})P(\XT{y}{t+s}|\XT{x}{t})}
-{D(.|\XT{x}{t})}
-\eeq
-Note that $P^D(\XT{y}{t+s}|\XT{x}{t})$
-is a conditional probability as its symbol
-suggests.
-
-\beq
-\int dy\; P^D(\XT{y}{t+s}|\XT{x}{t})=1
+d\rvx_t=f(\rvx_t, t)
+dt +  L(\rvx_t, t)d\rvB_t
 \eeq
 
-
-
-
-
-
-Recall that
-
 \beq
-\calf_\rvx \bullet=
--\;\pder{}{x_\mu}
-(\bullet f_\mu) +
-\frac{\partial^2}{ \partial x_\mu\partial x_\nu}(\bullet R_{\mu, \nu})
-\eeq
-and
-
-\beq
-\calb_\rvx \bullet=
-f_\mu\pder{\bullet}{x_\mu}
- + R_{\mu, \nu}
-\frac{\partial^2\bullet}{\partial x_\mu\partial x_\nu}
+\calb_x= \Omega_x=
+f(x,t)\partial_x + \frac12 L(x,t)^2
+\partial_x^2
 \eeq
 
-If
-\beq
-\left[\pder{}{s} + \calb_\rvy\right] \phi\XT{y}{s}=0,
-\eeq
-then we can define a process $y(s)$
-such that
+Suppose $u(x,t)$
+and $h(x,t)$ 
+are positive functions 
+(such as products of probabilities)
+that are solutions  to the
+backward FP equation
 
 \beq
-dy_\mu = f_\mu(\XT{y}{s})ds + L_{\mu,\nu}(\XT{y}{s})d\rvB_\nu
+\left\{
+\begin{array}{l}
+-\partial_t u(x,t) =
+\calb_x u(x, t)
+\\
+-\partial_t h(x,t) =
+\calb_x h(x, t)
+\end{array}
+\right.
 \eeq
-with
+Define a new process
 
 \beq
-P(\XT{z}{t}|\XT{y}{s}) =\phi\XT{y}{s}
+U(x,t)= 
+\frac{u(x,t)}{h(x,t)}
 \eeq
 
-
-\begin{claim} (Doob's Transform)
- \label{cl-doobs-transform}
-
-Let $\calf_\rvy^D$ (resp.,
-$\calb_\rvy^{D}$) be the
-	same as $\calf_\rvy$ (resp.,
-	$\calb_\rvy$), but with $f_\mu(\XT{y}{t})$
-	replaced by $f^D_\mu(\XT{y}{t})$
-		given by
-		\beq
-		f^D_\mu(\XT{y}{t})=
-		f_\mu(\XT{y}{t}) +
-		2R_{\mu, \nu}\pder{\ln D(.|\XT{y}{t})}{y_\nu}
-		\eeq
-Suppose
+\begin{claim}
+$U(x,t)$ satisfies
 \beq
-\left[\pder{}{s} + \calb_\rvy\right] D(.|\XT{y}{s})=0,
+-\partial_tU(x, t)=\calb^{(h)}_x U(x,t)
 \eeq
-and
+where 
 \beq
-\left[\pder{}{s} + \calb_\rvy^D\right]
-P(\XT{y}{t+s}|\XT{x}{t})=0
+\calb^{(h)}_x= (\calb_x)|_{f\to f^{(h)}}
 \eeq
-Then
-	
-\beq
-\left[\pder{}{s} + \calb_\rvy\right]
-P^D(\XT{y}{t+s}|\XT{x}{t})
-=0
-\eeq
+where
 
-	
+\beq
+f^{(h)}(x,t)= f(x,t) + L^2\partial_x  h(x,t)
+\eeq
 \end{claim}
 \proof
 
-For conciseness, define
-$P_s=P(\XT{y}{t+s}|\XT{x}{t})$, $D_s=D(.|\XT{y}{t+s})$, $D_0=D(.|y_{t})$
-, and
-
-$\partial_\mu=\pder{}{y_\mu}$,
-$\partial_\nu=\pder{}{y_\nu}$,
-$\partial_s=\pder{}{s}$
-
-
-
-
 \beq
-(\partial_s + \calb_\rvy)P^D_s
-=
-\frac{1}{D_0}
-\left[\partial_s(D_sP_s)
-+f_\mu\partial_\mu(D_sP_s)
-+R_{\mu, \nu}
-\partial_\mu\partial_\nu (D_sP_s)
-\right]
-\eeq
-
-
-\beq
-\partial_\mu\partial_\nu (D_sP_s)
-=
-\left\{
-\begin{array}{l}
-\partial_\mu\partial_\nu(D_s)P_s
-\\
-+
-\partial_\nu(D_s)\partial_\mu(P_s)
-\\
-+
-\partial_\mu(D_s)\partial_\nu(P_s)
-\\
-+
-D_s
-\partial_\mu\partial_\nu (P_s)
-\end{array}
-\right.
+-\partial_x(hU)=  \calb_x (hU)
+\label{eq-doob-start}
 \eeq
 
 \beq
-(\partial_s + \calb_\rvy)P^D_s
-=\left\{
-\begin{array}{l}
-\frac{P_s}{D_s}
-\bcancel{\left[\partial_s +\calb_\rvy
-\right]D_s}
-\\
-+
-\frac{1}{D_0}
-\left[D_s\partial_s(P_s)
-+f_\mu D_s\partial_\mu P_s
-\right]
-\\
-+R_{\mu, \nu}
-\left\{
-\begin{array}{l}
-\partial_\nu(D_s)\partial_\mu(P_s)
-\\
-+
-\partial_\mu(D_s)\partial_\nu(P_s)
-\\
-+
-D_s
-\partial_\mu\partial_\nu (P_s)
-\end{array}
-\right.
-\end{array}
-\right.
+\partial_x hU =
+h\partial_x U 
++ U\partial_x h
 \eeq
-
-
-\begin{align}
-(\partial_s + \calb_\rvy)P^D_s
-&=\left\{
-\begin{array}{l}
-\frac{D_s}{D_0}
-\left[\partial_s P_s
-+f_\mu\partial_\mu P_s
-+R_{\mu, \nu}
-\partial_\mu\partial_\nu P_s
-\right]
-\\
-+R_{\mu, \nu}
-\partial_\nu(D_s)\partial_\mu(P_s)
-\end{array}
-\right.
-\\
-&=
-\frac{D_s}{D_0}
-\left[\partial_s P_s
-+[f_\mu
-+ 2R_{\mu, \nu}
-\partial_\nu(\ln D_s)
-]
-\partial_\mu P_s
-+R_{\mu, \nu}
-\partial_\mu\partial_\nu P_s
-\right]
-\\
-&=
-\frac{D_s}{D_0}
-\left[\partial_s P_s
-+f_\mu^D
-\partial_\mu P_s
-+R_{\mu, \nu}
-\partial_\mu\partial_\nu P_s
-\right]
-\\
-&=
-\frac{D_s}{D_0}
-(\partial_s + \calb^D_\rvy)P_s
-\end{align}
-
-\qed
-
-
-Let $A=(\XT{x}{t+s})$ , $B=(\XT{x}{T})$.
-Bayes Rule says
-
-\beq
-P(A|B, \XT{x}{t})=\frac{P(B|A, \XT{x}{t})P(A|\XT{x}{t})}
-{P(B|\XT{x}{t})}
-\eeq
-Hence,
-
 
 \beqa
-P(\XT{x}{t+s}|\XT{x}{T}, \XT{x}{t})
+\partial_x^2 hU
 &=&
-\frac{
-P(\XT{x}{T}|\XT{x}{t+s}, \XT{x}{t})P(\XT{x}{t+s}|\XT{x}{t})
-}{
-P(\XT{x}{T}|\XT{x}{t})
-}
+\partial_x[h\partial_x U 
++ U\partial_x h
+]
 \\
 &=&
-\frac{
-P(\XT{x}{T}|\XT{x}{t+s})P(\XT{x}{t+s}|\XT{x}{t})
-}{
-P(\XT{x}{T}|\XT{x}{t})
-}
+h\partial_x^2U
++2(\partial_x U)
+(\partial_x h)
++U\partial_x^2 h
 \eeqa
-If we set
+
+Expanding both sides of
+Eq.(\ref{eq-doob-start}) and using the fact that
+$h$ satisfies the FP backwards equation, we get
+\beq
+-\left[
+{h\partial_t U }
++ \cancel{U\partial_t h}
+\right]=
+\left\{
+\begin{array}{l}
+f\left[{h\partial_x U} 
++\cancel{ U\partial_x} h\right]
+\\
++\frac12 L^2\left[
+h\partial_x^2U
++2(\partial_x U)
+(\partial_x h)
++\cancel{U\partial_x^2 h}
+\right]
+\end{array}
+\right\}
+\eeq
+
+Dividing by $h$
+
+\beqa
+-\partial_t U &=&
+\underbrace{\left[
+f +  L^2 \partial_x(\ln h)
+\right]}_{f^{(h)}} \partial_x U
++ \frac12 L^2 \partial_x^2 U
+\\
+&=&
+\calb_x^{(h)}U
+\eeqa
+\qed
+
+Define {\bf Doob's transform} as the process $\rvx^{(h)}$ 
+such that
+\beq
+d\rvx_t^{(h)}=f^{(h)}(\rvx_t, t)
+dt +  L(\rvx_t, t)d\rvB_t
+\eeq
+
+Both $u(\rvx_t, t)$ and $h(\rvx_t, t)$ are martingales for $\rvx_t$. $U(\rvx_t, t; h)$ is a martingale for $\rvx^{(h)}$.
+
+In  $n$-dim,
+the drift term is
+
+ \beq
+qL^2\partial_x h
+\to 2R_{\mu,\nu}\pder{}{x_\nu}
+\eeq
+
+\hrule
+Examples
+\begin{enumerate}
+\item
+Bayes rule
+
+Suppose $t\leq t_m\leq T$. Let
 
 \beq
-D(.|\XT{x}{t+s})= P(\XT{x}{T}|\XT{x}{t+s})
+u(x, t) = P(\XT{x_T}{T}|\XT{x_m}{t_m})
+P(\XT{x_{m}}{t_m}|\XT{x}{t})
+,\quad
+h(x,t)=
+P(\XT{x_T}{T}|\XT{x}{t})
+,\quad
+U(x,t)=\frac{u(x,t)}{h(x,t)}
 \eeq
-then Claim \ref{cl-doobs-transform} applies.
+
+If the process $\rvx_t$ is Markovian 
+
+\beq
+u(x, t) = P(\XT{x_T}{T}|\XT{x_m}{t_m},\XT{x}{t})
+P(\XT{x_{m}}{t_m}|\XT{x}{t})=
+P(\XT{x_T}{T},\XT{x_m}{t_m}|\XT{x}{t})
+\eeq
+so
+
+\beq
+U(x,t)=P(\XT{x_m}{t_m}| \XT{x_T}{T},\XT{x}{t})
+\eeq
+\item Brownian Bridge (Brownian motion conditioned
+on a hit point)
+
+\beq
+d\rvx_t=d\rvB_t
+\eeq
+
+\beq
+h(x, t)=P(\XT{x_T}{T}
+|\XT{x}{t})=
+\frac{1}{\sqrt{2\pi(T-t)}}
+\exp\left(
+\frac{-(x-x_T)^2}
+{2(T-t)}
+\right)
+\eeq
+
+\beq
+\partial_x\ln h(x,t)=
+\frac{x_T-x}{T-t}
+\eeq
+
+\beq
+d\rvx^{(h)}=
+\frac{x_T-x}{T-t} dt + d\rvB_t
+\eeq
+
+
+\end{enumerate}
+
 
 \section{Appendix: Some explicitly solvable SDE examples}
 Let $\mu, \nu, \alpha, \beta\in [n]$
