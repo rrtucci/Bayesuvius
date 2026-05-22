@@ -3063,7 +3063,10 @@ T\frac{2}{\pi^2}
 \section{Girsamov Theorem}
 
 In this section,
-we explain the {\bf Girsamov theorem}.\begin{claim}(Girsanov)
+we prove the {\bf Girsamov theorem}.
+
+\begin{claim}(Girsanov Theorem)
+\label{cl-girsanov-theo}
 
 If $\rvx_t,
 \rvy_t\in\RR^n$ are
@@ -3071,16 +3074,16 @@ semi-martingales such that
 \beq
 \left\{
 \begin{array}{l}
-d\rvx_t = f(\XT{x}{t})dt + d\rvB
+d\rvx_t = f(\rvx_t, t)dt + d\rvB_t
 \\
-d\rvy_t = g(\XT{x}{t})dt + d\rvB
+d\rvy_t = g(\rvx_t, t)dt + d\rvB_t
 \end{array}\right.
 \eeq
 and if we define $\calr$ by
 \beq
 \calr=
-\frac{P(x_{1\ldots N})}
-{P(y_{1\ldots N})}
+\frac{P(x_{1\ldots N})dx_{1\ldots N}}
+{P(y_{1\ldots N})dy_{1\ldots N}}
 \eeq
 then
 
@@ -3093,9 +3096,9 @@ then
 \exp
 \left\{
 \begin{array}{l}
-\frac{-1}{2}\int_{\tau=0}^td\tau\; (f(\XT{x}{\tau})-g(\XT{x}{\tau}))^TQ^{-1}(f(\XT{x}{\tau})-g(\XT{x}{\tau}))
+\frac{-1}{2}\int_{\tau=0}^td\tau\; (f(\XT{x_\tau}{\tau})-g(\XT{x_\tau}{\tau}))^TQ^{-1}(f(\XT{x_\tau}{\tau})-g(\XT{x_\tau}{\tau}))
 \\
--\int_{\tau=0}^t (f(\XT{x}{\tau})-g(\XT{x}{\tau}))^T 
+-\int_{\tau=0}^t (f(\XT{x_\tau}{\tau})-g(\XT{x_\tau}{\tau}))^T 
 Q^{-1}d\rvy_\tau
 \end{array}
 \right\}
@@ -3109,13 +3112,13 @@ E[\calr h[\rvy_{1\ldots N}]]
 If we define
 
 \beq
-\theta(\XT{x}{t}) = (g-f)(\XT{x}{t})
+\theta(\XT{x_t}{t}) = (g-f)(\XT{x_t}{t})
 \eeq
 and
 
 \beq
 \rvB_t^{\pm \theta}=\rvB_t\pm
-\int_0^t \theta(\XT{x}{\tau}) d\tau
+\int_0^t \theta(\XT{x_\tau}{\tau}) d\tau
 \eeq
 then $\rvB_t^{\pm \theta}$ is Brownian motion
 with diffusion
@@ -3126,9 +3129,9 @@ Furthermore,
 \beq\text{For $d\rvB_t^{-\theta}$:}\quad
 \left\{
 \begin{array}{l}
-dx_t = g(\XT{x}{t})dt + d\rvB_t^{-\theta}
+dx_t = g(\XT{x_t}{t})dt + d\rvB_t^{-\theta}
 \\
-dy_t = (g+\theta)(\XT{x}{t})dt + d\rvB_t^{-\theta}\quad\text{($+\theta dt$ shift in drift term)}
+dy_t = (g+\theta)(\XT{x_t}{t})dt + d\rvB_t^{-\theta}\quad\text{($+\theta dt$ shift in drift term)}
 \end{array}
 \right.
 \eeq
@@ -3137,9 +3140,9 @@ dy_t = (g+\theta)(\XT{x}{t})dt + d\rvB_t^{-\theta}\quad\text{($+\theta dt$ shift
 \text{For $d\rvB_t^{+\theta}$:}\quad
 \left\{
 \begin{array}{l}
-dx_t = (f-\theta)(\XT{x}{t})dt + d\rvB_t^{+\theta}\quad\text{($-\theta dt$ shift in drift term)}
+dx_t = (f-\theta)(\XT{x_t}{t})dt + d\rvB_t^{+\theta}\quad\text{($-\theta dt$ shift in drift term)}
 \\
-dy_t = f(\XT{x}{t})dt + d\rvB_t^{+\theta}
+dy_t = f(\XT{x_t}{t})dt + d\rvB_t^{+\theta}
 \end{array}
 \right.
 \eeq
@@ -3229,7 +3232,7 @@ E[\calr h[\rvy_{1\ldots N}]]
 Proof of \ref{enum-beta}:
 \beq
 d\rvB_t^{\pm \theta}=
-d\rvB_t \pm \theta(\XT{x}{t})dt
+d\rvB_t \pm \theta(\XT{x_t}{t})dt
 \eeq
 so
 
@@ -3274,11 +3277,11 @@ $\calr$ can be written in terms of $\theta$
 \exp
 \left\{
 \begin{array}{l}
-\frac{-1}{2}\int_{\tau=0}^td\tau\; \theta(\XT{x}{\tau})^T
+\frac{-1}{2}\int_{\tau=0}^td\tau\; \theta(\XT{x_\tau}{\tau})^T
 Q^{-1}
-\theta(\XT{x}{\tau})
+\theta(\XT{x_\tau}{\tau})
 \\
-+\int_{\tau=0}^t \theta(\XT{x}{\tau})^T Q^{-1}
++\int_{\tau=0}^t \theta(\XT{x_\tau}{\tau})^T Q^{-1}
 d\rvB_\tau
 \end{array}
 \right\}
@@ -3300,9 +3303,9 @@ with
 \beq
 x = \left\{
 \begin{array}{l}
-\frac{-1}{2}\int_{\tau=0}^td\tau\; \theta(\XT{x}{\tau})^2
+\frac{-1}{2}\int_{\tau=0}^td\tau\; \theta(\XT{x_\tau}{\tau})^2
 \\
-+\int_{\tau=0}^t \theta(\XT{x}{\tau})
++\int_{\tau=0}^t \theta(\XT{x_\tau}{\tau})
 d\rvB_\tau
 \end{array}
 \right\}
@@ -3310,7 +3313,7 @@ d\rvB_\tau
 so
 
 \beqa
-E[\calr]&=& 1- \frac{1}{2}\int_{\tau=0}^td\tau\; \theta(\XT{x}{\tau})^2
+E[\calr]&=& 1- \frac{1}{2}\int_{\tau=0}^td\tau\; \theta(\XT{x_\tau}{\tau})^2
 +
 \frac12 E[x^2]
 \\
@@ -3319,21 +3322,21 @@ E[\calr]&=& 1- \frac{1}{2}\int_{\tau=0}^td\tau\; \theta(\XT{x}{\tau})^2
 
 If
 \beq
-d\ell_t =\theta(\XT{x}{t}) 
+d\ell_t =\theta(\XT{x_t}{t}) 
 d\rvB_t, \quad \text{with } \ell_0=0
 \eeq
 then
 
 \beq
 \ell_t =\int_0^t 
-\theta(\XT{x}{\tau}) d\rvB_\tau
+\theta(\XT{x_\tau}{\tau}) d\rvB_\tau
 \eeq
 and
 
 \beq
 \av{\ell_\tau, \ell_\tau}_0^t=
 \int_0^t d\tau\; 
-[\theta(\XT{x}{\tau})]^2
+[\theta(\XT{x_\tau}{\tau})]^2
 \eeq
 so
 
@@ -3349,7 +3352,7 @@ the properties of DD exponentials,
 d\calr_t = d\cale(\ell_t)= \cale(
 \ell_t)d\ell_t=
 \cale(
-\ell_t)\theta(\XT{x}{t})d\rvB_t
+\ell_t)\theta(\XT{x_t}{t})d\rvB_t
 \eeq
 $\calr_t$ is
 a semi-martingale with
@@ -3562,6 +3565,156 @@ acts like a potential.
 The particle is attracted towards $(x_T, T)$.
 
 \end{enumerate}
+
+\begin{claim}
+\label{cl-ratio-2-martingales-h}
+
+If $h(\rvx_t, t)$
+is a martingale, then
+\beq
+\frac{h(\rvx_t, t)}
+{h(\rvx_0, t_0)}=
+\exp\left(
+-
+\frac12 \int_0^t d\tau\;
+\theta_\tau^2
++
+\int_0^t \theta_\tau d\rvB_\tau
+\right)
+\eeq
+where
+\beq
+\theta_t=
+L(\rvx_t, t)
+\partial_x \ln h(\rvx_t, t)
+\eeq
+\end{claim}
+\proof
+
+Apply It\^o's Lemma to   $\ln h(\rvx_t, t)$
+($h(\rvx_t, t)$ is a martingale by assumption, but $\ln h$
+is a semi-martingale)
+
+\beq
+d\ln h=
+(\partial_t \ln h +
+\Omega_x \ln h)dt +
+L(\partial_x\ln h)d\rvB_t
+\eeq
+where
+\beq
+\Omega_x = 
+f(x,t)\partial_x
++\frac12 L^2(x,t)\partial_x^2
+\eeq
+
+\beq
+\partial_x \ln h=
+\frac{\partial_x h}{h}
+\eeq
+
+\beqa
+\partial_x^2 \ln h
+&=&
+\partial_x
+\frac{\partial_x h}{h}
+\\
+&=&
+\frac{-(\partial_x h)^2}{h^2}+
+\frac{\partial_x^2h}{h}
+\\
+&=&
+-(\partial_x \ln h)^2 + \frac{1}{h}
+\partial_x^2 h
+\eeqa
+
+\beqa
+\Omega_x \ln h&=&
+f\left[\frac{\partial_x h}{h}\right]
++\frac12 L^2
+\left[
+-(\partial_x \ln h)^2 + \frac{1}{h}
+\partial_x^2 h
+\right]
+\\
+&=&
+\frac{\Omega_x h}{h}
+-
+\frac{L^2}{2} 
+(\partial_x \ln h)^2
+\eeqa
+
+$h(\rvx_t, t)$
+is a martingale so
+ \beq
+\partial_t h +
+\Omega_x h=0
+\eeq
+Hence
+\beqa
+d\ln h&=&
+\left(-\frac{L^2}{2}
+(\partial_x \ln h)^2
+\right)dt
++ L(\partial_x \ln h)d\rvB_t
+\\
+&=&
+-\;\frac12 \theta^2
+dt + \theta d\rvB_t
+\eeqa
+Now integrate 
+both sides
+
+\beq
+\ln\left[
+\frac{h(\rvx_t, t)}
+{h(\rvx_0, 0)}
+\right]=
+\int_0^t
+\left[
+-\;\frac12 \theta^2
+dt + \theta d\rvB_t
+\right]
+\eeq
+Finally, exponentiate both sides.
+\qed
+
+\begin{claim}
+
+If $\rvx_t,
+\rvy_t\in\RR^n$ are
+semi-martingales such that
+\beq
+\left\{
+\begin{array}{l}
+d\rvx_t = f(\rvx_t, t)dt + L(\rvx_t, t)d\rvB_t
+\\
+d\rvy_t = g(\rvx_t, t)dt + L(\rvx_t, t)d\rvB_t
+\end{array}\right.
+\eeq
+and if we define $\calr$ by
+\beq
+\calr=
+\frac{P(x_{1\ldots N})dx_{1\ldots N}}
+{P(y_{1\ldots N})dy_{1\ldots N}}
+\eeq
+and 
+
+\beq
+\theta_t = (f-g)(\rvx_t, t)= L(\rvx_t, t)\partial_x \ln h(\rvx_t, t)
+\eeq
+for a martingale $h(\rvx_t, t)$, 
+then
+
+\beq
+\calr = \frac{h(\rvx_t, t)}{h(\rvx_0, t)}
+\eeq
+
+\end{claim}
+\proof
+Just combine Claims \ref{cl-girsanov-theo} and \ref{cl-ratio-2-martingales-h}
+\qed
+
 
 
 \section{Appendix: Some explicitly solvable SDE examples}
