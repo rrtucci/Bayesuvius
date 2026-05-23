@@ -3361,6 +3361,7 @@ zero drift term so it's an honest martingale.
 \qed
 
 \section{Doob's $h$ transform}
+Doob's h-transform is as a modification of the drift in the backward equation by conditioning the diffusion on a future event.
 
 Assume
 \beq
@@ -3504,18 +3505,19 @@ Bayes rule
 Suppose $t\leq t_m\leq T$. Let
 
 \beq
-u(x, t) = P(\XT{x_T}{T}|\XT{x_m}{t_m})
+u(x, t) =\lam P(\XT{x_T}{T}|\XT{x_m}{t_m})
 P(\XT{x_{m}}{t_m}|\XT{x}{t})
 ,\quad
-h(x,t)=
+h(x,t)=\lam
 P(\XT{x_T}{T}|\XT{x}{t})
 ,\quad
 U(x,t)=\frac{u(x,t)}{h(x,t)}
 \eeq
 
+\begin{itemize}
+\item Assume $\lam=1:$
 
-
-If the process $\rvx_t$ is Markovian 
+In this case, if the process $\rvx_t$ is Markovian 
 
 \beq
 u(x, t) = P(\XT{x_T}{T}|\XT{x_m}{t_m},\XT{x}{t})
@@ -3526,11 +3528,36 @@ so
 
 \beq
 U(x,t)=P(\XT{x_m}{t_m}| \XT{x_T}{T},\XT{x}{t})
+\label{eq-doob-markov}
 \eeq
 
 $ h(x, t) =  P(\XT{x_T}{T}|\XT{x}{t})$
 is the likelihood function for event $(\XT{x}{t})$, $U$ is the
 prior and $u=Uh$ is the posterior.
+
+The drift correction is proportional to
+$\nabla_x P(\XT{x_T}{T}|\XT{x}{t})$
+which makes a lot of sense
+if you want to induce
+ the system to go from event  $(\XT{x}{t})$ to event
+$(\XT{x_T}{T})$.
+
+\item Assume $\lam=1/P(\XT{x_T}{T}|\XT{x_m}{t_m})$:
+
+In this case,
+
+\beq
+U(x, t) = \underbrace{P(\XT{x_m}{t_m}|\XT{x}{t})}_{u}
+\underbrace{\left[
+\frac{P(\XT{x_T}{T}|\XT{x_m}{t_m})}{P(\XT{x_T}{T}|\XT{x}{t})}
+\right]}_{=1/h=\text{importance weight}}
+\eeq
+As with $\lam=1$, if $\rvx_t$ is a Markovian process, then Eq.(\ref{eq-doob-markov}) holds.
+
+
+
+
+\end{itemize}
 
 \item Brownian Endpoint Bridge (Brownian motion conditioned
 on a hit an endpoint)
