@@ -69,20 +69,20 @@ arrows from $w_i$ to $L$.
 \centering
 $$
 \xymatrix{
-&\rvw_2\ar[d]
+&d\rvw_2\ar[d]
 \\
-&\rvc\ar[rdd]
+&d\rvc\ar[rdd]
 \\
-&&\rvw_4\ar[d]
+&&d\rvw_4\ar[d]
 \\
-\rva\ar[r]
+d\rva\ar[r]
 \ar[ruu]
-&\rvb\ar[r]
-&\rvd\ar[r]
-&\rvL
+&d\rvb\ar[r]
+&d\rvd\ar[r]
+&d\rvL
 \\
-&\rvw_1\ar[u]
-&\rvw_3\ar[u]
+&d\rvw_1\ar[u]
+&d\rvw_3\ar[u]
 }
 $$
 \caption{bnet
@@ -97,39 +97,39 @@ for which we want to calculate $\nabla_w L$ where
 $$
 \begin{array}{ccc}
 \xymatrix{
-&\rvw_2\ar[d]_{\partial_{w_2}c}
+&d\rvw_2\ar[d]_{\partial_{w_2}c}
 \\
-&\rvc\ar[rdd]_{\partial_{c}d}
+&d\rvc\ar[rdd]_{\partial_{c}d}
 \\
-&&\rvw_4\ar[d]^{\partial_{w_4}d}
+&&d\rvw_4\ar[d]^{\partial_{w_4}d}
 \\
-\rva\ar[r]_{\partial_{a}b}
+d\rva\ar[r]_{\partial_{a}b}
 \ar[ruu]^{\partial_{a}c}
-&\rvb\ar[r]_{\partial_{b}d}
-&\rvd\ar[r]_{\partial_d L}
-&\rvL
+&d\rvb\ar[r]_{\partial_{b}d}
+&d\rvd\ar[r]_{\partial_d L}
+&d\rvL
 \\
-&\rvw_1\ar[u]_{\partial_{w_1}b}
-&\rvw_3\ar[u]_{\partial_{w_3}d}
+&d\rvw_1\ar[u]_{\partial_{w_1}b}
+&d\rvw_3\ar[u]_{\partial_{w_3}d}
 }
 &
 \xymatrix{\\ \\ =}
 &
 \xymatrix{
-&\rvw_2\ar[d]_{a}
+&d\rvw_2\ar[d]_{a}
 \\
-&\rvc\ar[rdd]_{w_4}
+&d\rvc\ar[rdd]_{w_4}
 \\
-&&\rvw_4\ar[d]^{c}
+&&d\rvw_4\ar[d]^{c}
 \\
-\rva\ar[r]_{w_1}
+d\rva\ar[r]_{w_1}
 \ar[ruu]^{w_2}
-&\rvb\ar[r]_{w_3}
-&\rvd\ar[r]_{-1}
-&\rvL
+&d\rvb\ar[r]_{w_3}
+&d\rvd\ar[r]_{-1}
+&d\rvL
 \\
-&\rvw_1\ar[u]_{a}
-&\rvw_3\ar[u]_{b}
+&d\rvw_1\ar[u]_{a}
+&d\rvw_3\ar[u]_{b}
 }
 \end{array}
 $$
@@ -187,17 +187,18 @@ y=g\circ f (x)
 then
 
 \beq
-\pder{y}{x}
+\pder{y}{x}dx
 =
 \pder{g}{f}
-\pder{f}{x}
+\pder{f}{x}dx
 \;.
 \eeq
 Right-hand side
-of last equation
+of the last equation
 is a product
 of two matrices,
-so order of matrices is important.
+so order of the product is important. $dx$ is
+a column vector.
 
 \subsection{Bnets for function
 composition,
@@ -217,31 +218,31 @@ $$
 &
 \rvf^1\ar[l]
 &
-\rvf^0\ar[l]
+\rvf^0=\rvx\ar[l]
 \\
 &&\text{$(a)$ Composition}
 \\
-\ul{\pder{f^4}{x}}
+d\rvf^4
 &
-\ul{\pder{f^3}{x}}\ar[l]
+d\rvf^3\ar[l]
 &
-\ul{\pder{f^2}{x}}\ar[l]
+d\rvf^2\ar[l]
 &
-\ul{\pder{f^1}{x}}\ar[l]
+d\rvf^1\ar[l]
 &
-\ul{1}\ar[l]
+d\rvx\ar[l]
 \\
 &&\text{$(b)$ Forward-p}
 \\
-\ul{1}\ar[r]
+d\rvf^4\ar[r]
 &
-\ul{\pder{y}{f^3}}\ar[r]
+d\rvf^3\ar[r]
 &
-\ul{\pder{y}{f^2}}\ar[r]
+d\rvf^2\ar[r]
 &
-\ul{\pder{y}{f^1}}\ar[r]
+d\rvf^1\ar[r]
 &
-\ul{\pder{y}{f^0}}
+d\rvx
 \\
 &&\text{$(c)$ Back-p}
 }
@@ -274,29 +275,26 @@ for $\mu=1, 2,3,4$.
 
 Note that
 \beqa
-\pder{y}{x}&=&
 \pder{y}{f^3}
 \pder{f^3}{f^2}
-\left[
 \pder{f^2}{f^1}
-\pder{f^1}{x}
-\right]
-\\
+\pder{f^1}{x}dx
 &=&
 \pder{y}{f^3}
-\left[
 \pder{f^3}{f^2}
-\pder{f^2}{x}
-\right]
+\pder{f^2}{f^1}
+df^1
 \\
 &=&
-\left[
 \pder{y}{f^3}
-\pder{f^3}{x}
-\right]
+\pder{f^3}{f^2}
+df^2
 \\
 &=&
-\pder{y}{x}
+\pder{y}{f^3}df^3
+\\
+&=&
+dy
 \;.
 \eeqa
 This forward propagation can be
@@ -305,41 +303,35 @@ Fig.\ref{fig-backp-abc}$(b)$
 with node TPMs
 
 \beq\color{blue}
-P(\pder{f^{\mu+1}}{x}\cond
- \pder{f^{\mu}}{x})=
-\indi(\pder{f^{\mu+1}}{x}=
-\pder{f^{\mu+1}}{f^{\mu}}
-\pder{f^{\mu}}{x}
-)\;
+P(df^{\mu+1}\cond
+df^{\mu})=
+\indi(df^{\mu+1}=
+\pder{f^{\mu+1}}{f^{\mu}}df^\mu
+)
 \eeq
 for $\mu=1,2,3$.
 
 Note that
 
 \beqa
-\pder{y}{x}&=&
-\left[
-\pder{y}{f^3}
-\pder{f^3}{f^2}
-\right]
-\pder{f^2}{f^1}
-\pder{f^1}{x}
+\pder{x}{f^1}
+\pder{f^1}{f^2}
+\pder{f^2}{f^3}
+\pder{f^3}{y}dy
+&=&
+\pder{x}{f^1}
+\pder{f^1}{f^2}
+\pder{f^2}{f^3}df^3
 \\
 &=&
-\left[
-\pder{y}{f^2}
-\pder{f^2}{f^1}
-\right]
-\pder{f^1}{x}
+\pder{x}{f^1}
+\pder{f^1}{f^2}df^2
 \\
 &=&
-\left[
-\pder{y}{f^1}
-\pder{f^1}{x}
-\right]
+\pder{x}{f^1}df^1
 \\
 &=&
-\pder{y}{x}\;.
+dx
 \eeqa
 This back propagation can be
 represented by the bnet
@@ -348,15 +340,15 @@ with node TPMs
 
 \beq\color{blue}
 P(
-\pder{y}{f^{\mu}}
+df^{\mu}
 \cond
-\pder{y}{f^{\mu+1}}
+df^{\mu+1}
 )=
 \indi(
-\pder{y}{f^{\mu}}
+df^{\mu}
 =
-\pder{y}{f^{\mu+1}}
-\pder{f^{\mu+1}}{f^{\mu}})
+df^{\mu+1}
+\pder{f^{\mu}}{f^{\mu+1}})
 \;
 \eeq
 for $\mu=2,1,0$.
@@ -378,11 +370,11 @@ $$\xymatrix
 \rvx\ar[r]\ar[rd]
 &\rvh^0_2\ar[r]\ar[rd]
 &\rvh^1_2\ar[r]\ar[rd]
-& Y_2
+& \rvY_2
 \\
 & \rvh^0_1 \ar[r]\ar[ru]
 &\rvh^1_1 \ar[r]\ar[ru]
-& Y_1
+& \rvY_1
 \\
 & \rvh^0_0 \ar[u]\ar@/^1pc/[uu]
 &\rvh^1_0\ar[u]\ar@/^1pc/[uu]
@@ -518,43 +510,43 @@ $$
 \\
 &&\text{$(a)$}
 \\
-\ul{\pder{\cala^3}{x}}
+d\ul{\cala^3}
 &
-\ul{\pder{\calb^3}{x}}\ar[l]
+d\ul{\calb^3}\ar[l]
 &
-\ul{\pder{\cala^2}{x}}\ar[l]
+d\ul{\cala^2}\ar[l]
 &
-\ul{\pder{\calb^2}{x}}\ar[l]
+d\ul{\calb^2}\ar[l]
 &
-\ul{\pder{\cala^1}{x}}\ar[l]
+d\ul{\cala^1}\ar[l]
 &
-\ul{\pder{\calb^1}{x}}\ar[l]
+d\ul{\calb^1}\ar[l]
 &
-\ul{\pder{\cala^0}{x}}\ar[l]
+d\ul{\cala^0}\ar[l]
 &
-\ul{\pder{\calb^0}{x}}\ar[l]
+d\ul{\calb^0}\ar[l]
 &
-\ul{1}\ar[l]
+d\ul{x}\ar[l]
 \\
 &&\text{$(b)$}
 \\
-\ul{1}\ar[r]
+d\ul{\cala^3}\ar[r]
 &
-\ul{\pder{Y}{\calb^3}}\ar[r]
+d\ul{\calb^3}\ar[r]
 &
-\ul{\pder{Y}{\cala^2}}\ar[r]
+d\ul{\cala^2}\ar[r]
 &
-\ul{\pder{Y}{\calb^2}}\ar[r]
+d\ul{\calb^2}\ar[r]
 &
-\ul{\pder{Y}{\cala^1}}\ar[r]
+d\ul{\cala^1}\ar[r]
 &
-\ul{\pder{Y}{\calb^1}}\ar[r]
+d\ul{\calb^1}\ar[r]
 &
-\ul{\pder{Y}{\cala^0}}\ar[r]
+d\ul{\cala^0}\ar[r]
 &
-\ul{\pder{Y}{\calb^0}}\ar[r]
+d\ul{\calb^0}\ar[r]
 &
-\ul{\pder{Y}{x}}
+d\ul{x}
 \\
 &&\text{$(c)$}
 }
@@ -575,7 +567,7 @@ The Error (a.k.a. loss or cost function) is
 
 \beq
 \cale =\frac{1}{nsam}
-\sum_{\sigma=0}^{nsam-1}\sum_{i=0}^{ny-1}
+\sum_{\sigma=0}^{nsam-1}\sum_i
 |Y_i-y_i[\sigma]|^2
 \eeq
 To perform simple gradient descent,
