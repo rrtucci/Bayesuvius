@@ -169,17 +169,17 @@ Using the notation of Chapter \ref{ch-nn},
 
 \beq
 h^{\lam, \s}_i=
-\cala_i^\lam(z^{\lam,\s}_i)
+\phi_i^\lam(z^{\lam,\s}_i)
 \eeq
 where
 
 \beq
 z^{\lam,\s}_i=
-\sum_j w^{\lam}_{i|j}
+\sum_j W^{\lam}_{i|j}
 h^{\lam-1,\s}_j + b^{\lam}_i
 \label{eq-linear-nn}
 \eeq
-Activation functions  $\cala^\lam_i:\RR\rarrow \RR$
+Activation functions  $\phi^\lam_i:\RR\rarrow \RR$
 for NNs
 are discussed in Section \ref{sec-activation-fun}.
 Suppose the population $\Sigma$ is partitioned
@@ -189,9 +189,9 @@ have mean $\mu^{\lam(b)}_i$
 and standard deviation $\s^{\lam(b)}_i$.
 For any $z^{\lam, \s}_i$ with $\s\in\Sigma$, define
 the BN activation function
-$\cala^\lam_{i, BN}(\cdot)$ by
+$\phi^\lam_{i, BN}(\cdot)$ by
 \beq
-\cala^\lam_{i, BN}(z^{\lam, \s}_i)=
+\phi^\lam_{i, BN}(z^{\lam, \s}_i)=
 \gamma^\lam_i
 \left[
 \frac{z^{\lam, \s}_i-\mu^{\lam(b)}_i}{\s^{\lam(b)}_i}
@@ -203,18 +203,18 @@ $\cala^\lam_{i, BN}(\cdot)$ by
 where the real valued parameters $\gamma^\lam_i$ and $\beta^\lam_i$
 are learned during the optimization process.
 If node $\rvh^\lam_i$ of the NN has activation function
- $\cala^\lam_i:\RR\rarrow \RR$,
-defined a new activation function $\cala^\lam_{i, new}:\RR\rarrow \RR$ by
+ $\phi^\lam_i:\RR\rarrow \RR$,
+defined a new activation function $\phi^\lam_{i, new}:\RR\rarrow \RR$ by
 the composition of functions
 \beq
-\cala^\lam_{i, new}
- =\cala^\lam_i\circ\cala^\lam_{i, BN}
+\phi^\lam_{i, new}
+ =\phi^\lam_i\circ\phi^\lam_{i, BN}
 \eeq
 Hence, the BN activation
 function
 is applied after the linear transformation
 Eq.(\ref{eq-linear-nn}), but before the nonlinear
-transformation $\cala^\lam_i$.
+transformation $\phi^\lam_i$.
 
 Intuition on why BN diminishes dataset shift:
 We discussed in Section \ref{sec-activation-fun}

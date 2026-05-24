@@ -2,6 +2,8 @@
  (Automatic Differentiation)}
  \label{ch-backp}
 
+
+
 \section{Toy Example}
 This example
 comes from Ref.\cite{backp-toy}.
@@ -10,43 +12,43 @@ Consider the following system of 4 equations:
 \beq
 \left\{
 \begin{array}{l}
-b= w_1a
+b= W_1a
 \\
-c=w_2a
+c=W_2a
 \\
-d=w_3b+w_4c
+d=W_3b+W_4c
 \\
-L=10-d
+\cale=10-d
 \end{array}
 \right.
 \label{eq-backp-toy-eqs}
 \eeq
 
-To calculate $\nabla_w L$ where
- $w=(w_1, w_2, w_3, w_4)$, we can use the
+To calculate $\\nabla_W \cale$ where
+ $W=(W_1, W_2, W_3, W_4)$, we can use the
 chain rule for partial derivatives.
 This yields
 
 
 \begin{subequations}
 \beq
-\pder{L}{w_4}=\pder{L}{d}\pder{d}{w_4}=(-1)(c)
+\pder{\cale}{W_4}=\pder{\cale}{d}\pder{d}{W_4}=(-1)(c)
 \eeq
 
 \beq
-\pder{L}{w_3}=\pder{L}{d}\pder{d}{w_3}=(-1)(b)
+\pder{\cale}{W_3}=\pder{\cale}{d}\pder{d}{W_3}=(-1)(b)
 \eeq
 
 \beq
-\pder{L}{w_2}=\pder{L}{d}\pder{d}{c}\pder{c}{w_2}
-=(-1)(w_4)(a)
+\pder{\cale}{W_2}=\pder{\cale}{d}\pder{d}{c}\pder{c}{W_2}
+=(-1)(W_4)(a)
 \eeq
 
 \beq
-\pder{L}{w_1}=\pder{L}{d}\pder{d}{b}
-\pder{b}{w_1}
+\pder{\cale}{W_1}=\pder{\cale}{d}\pder{d}{b}
+\pder{b}{W_1}
 =
-(-1)(w_3)(a)
+(-1)(W_3)(a)
 \eeq
 \end{subequations}
 
@@ -56,38 +58,38 @@ be represented graphically by the bnet (with
 deterministic nodes) of
 Fig.\ref{fig-toy-backp-bnet}.
 The calculation
-of $\nabla_wL$ can also be represented
+of $\\nabla_W\cale$ can also be represented
 graphically with the aid of the defining bnet
 Fig.\ref{fig-toy-backp-bnet}. This is done in Fig.\ref{fig-toy-backp-deriv-bnet}.
 As illustrated by that figure,
-the derivative $\partial_{w_i}L$ for $i=1,2,3,4$
+the derivative $\partial_{W_i}\cale$ for $i=1,2,3,4$
 is the product of the derivatives along the
-arrows from $w_i$ to $L$.
+arrows from $W_i$ to $\cale$.
 
 
 \begin{figure}[h!]
 \centering
 $$
 \xymatrix{
-&d\rvw_2\ar[d]
+&d\rvW_2\ar[d]
 \\
 &d\rvc\ar[rdd]
 \\
-&&d\rvw_4\ar[d]
+&&d\rvW_4\ar[d]
 \\
 d\rva\ar[r]
 \ar[ruu]
 &d\rvb\ar[r]
 &d\rvd\ar[r]
-&d\rvL
+&d\ul{\cale}
 \\
-&d\rvw_1\ar[u]
-&d\rvw_3\ar[u]
+&d\rvW_1\ar[u]
+&d\rvW_3\ar[u]
 }
 $$
 \caption{bnet
-for which we want to calculate $\nabla_w L$ where
- $w=(w_1, w_2, w_3, w_4)$}
+for which we want to calculate $\\nabla_W \cale$ where
+ $W=(W_1, W_2, W_3, W_4)$}
 \label{fig-toy-backp-bnet}
 \end{figure}
 
@@ -97,39 +99,39 @@ for which we want to calculate $\nabla_w L$ where
 $$
 \begin{array}{ccc}
 \xymatrix{
-&d\rvw_2\ar[d]_{\partial_{w_2}c}
+&d\rvW_2\ar[d]_{\partial_{W_2}c}
 \\
 &d\rvc\ar[rdd]_{\partial_{c}d}
 \\
-&&d\rvw_4\ar[d]^{\partial_{w_4}d}
+&&d\rvW_4\ar[d]^{\partial_{W_4}d}
 \\
 d\rva\ar[r]_{\partial_{a}b}
 \ar[ruu]^{\partial_{a}c}
 &d\rvb\ar[r]_{\partial_{b}d}
-&d\rvd\ar[r]_{\partial_d L}
-&d\rvL
+&d\rvd\ar[r]_{\partial_d \cale}
+&d\ul{\cale}
 \\
-&d\rvw_1\ar[u]_{\partial_{w_1}b}
-&d\rvw_3\ar[u]_{\partial_{w_3}d}
+&d\rvW_1\ar[u]_{\partial_{W_1}b}
+&d\rvW_3\ar[u]_{\partial_{W_3}d}
 }
 &
 \xymatrix{\\ \\ =}
 &
 \xymatrix{
-&d\rvw_2\ar[d]_{a}
+&d\rvW_2\ar[d]_{a}
 \\
-&d\rvc\ar[rdd]_{w_4}
+&d\rvc\ar[rdd]_{W_4}
 \\
-&&d\rvw_4\ar[d]^{c}
+&&d\rvW_4\ar[d]^{c}
 \\
-d\rva\ar[r]_{w_1}
-\ar[ruu]^{w_2}
-&d\rvb\ar[r]_{w_3}
+d\rva\ar[r]_{W_1}
+\ar[ruu]^{W_2}
+&d\rvb\ar[r]_{W_3}
 &d\rvd\ar[r]_{-1}
-&d\rvL
+&d\ul{\cale}
 \\
-&d\rvw_1\ar[u]_{a}
-&d\rvw_3\ar[u]_{b}
+&d\rvW_1\ar[u]_{a}
+&d\rvW_3\ar[u]_{b}
 }
 \end{array}
 $$
@@ -211,20 +213,24 @@ forward propagation and back propagation}
 \begin{figure}[h!]
 \centering
 $$
+\begin{array}{l}
+(a)\quad
 \xymatrix{
-\rvf^4
+\rvf^4=\rvy
 &
-\rvf^3\ar[l]
+\;\rvf^3\ar[l]
 &
-\rvf^2\ar[l]
+\;\rvf^2\ar[l]
 &
-\rvf^1\ar[l]
+\;\rvf^1\ar[l]
 &
-\rvf^0=\rvx\ar[l]
+\;\rvf^0=\rvx\ar[l]
+}
 \\
-&&\text{$(a)$ Composition}
 \\
-d\rvf^4
+(b)\quad\quad\;\;
+\xymatrix{
+d\rvy
 &
 d\rvf^3\ar[l]
 &
@@ -233,10 +239,12 @@ d\rvf^2\ar[l]
 d\rvf^1\ar[l]
 &
 d\rvx\ar[l]
+}
 \\
-&&\text{$(b)$ Forward-p}
 \\
-d\rvf^4\ar[r]
+(c)\quad\quad\;\;
+\xymatrix{
+d\rvy\ar[r]
 &
 d\rvf^3\ar[r]
 &
@@ -245,13 +253,12 @@ d\rvf^2\ar[r]
 d\rvf^1\ar[r]
 &
 d\rvx
-\\
-&&\text{$(c)$ Back-p}
 }
+\end{array}
 $$
-\caption{bnets for function
-composition,
-forward propagation and back propagation
+\caption{bnets for function $(a)$
+composition, $(b)$
+forward propagation and $(c)$ back propagation
 for $nf=5$ nodes.}
 \label{fig-backp-abc}
 \end{figure}
@@ -364,7 +371,7 @@ and in back prop it post-multiplies.
 
 \section{Application to Neural Networks}
 
-\subsection{Absorbing $b^\lam_i$ into $w_{i|j}$.}
+\subsection{Absorbing $b^\lam_i$ into $W_{i|j}$.}
 
 \begin{figure}[h!]
 $$\xymatrix
@@ -386,7 +393,7 @@ $$\xymatrix
 are all set to 1. They
 allow us to absorb $b^\lam_i$
 into the first column of
-$w^\lam_{i|j}$.}
+$W^\lam_{i|j}$.}
 \label{fig-backp-abs}
 \end{figure}
 
@@ -399,10 +406,10 @@ For all hidden layers $\lam=0, 1, \dots,
 \Lambda-2$,
 
 \beq\color{blue}
-P(h^{\lam}_i\mid h^{\lam-1}_.)=
+P(h^{\lam}_i\mid h^{\lam-1})=
 \delta\left(h^{\lam}_i,
-\cala_i^\lam(\sum_j
- w^{\lam}_{i|j}
+\phi_i^\lam(\sum_j
+ W^{\lam}_{i|j}
 h^{\lam-1}_j + b^{\lam}_i)\right)
 \eeq
 for $i=0, 1, \ldots, nh(\lam)-1$.
@@ -411,7 +418,7 @@ For the output visible layer $\lam=\Lambda-1$:
 \beq\color{blue}
 P(Y_i\mid h^{\Lambda-2}_.)=
 \delta \left(Y_i,
-\cala_i^{\Lambda-1}(\sum_j w^{\Lambda-1}_{i|j}
+\phi_i^{\Lambda-1}(\sum_j W^{\Lambda-1}_{i|j}
 h^{\Lambda-2}_j + b^{\Lambda-1}_i)\right)
 \;
 \eeq
@@ -419,15 +426,15 @@ for $i=0, 1, \ldots, ny-1$.
 
 
 For each $\lam$, replace the matrix
- $w^\lam_{\cdot|\cdot}$
+ $W^\lam_{\cdot|\cdot}$
 by
 the augmented matrix
-$[b^\lam., w^\lam_{\cdot|\cdot}]$
+$[b^\lam., W^\lam_{\cdot|\cdot}]$
 so that the new
- $w^\lam_{\cdot|\cdot}$ satisfies
+ $W^\lam_{\cdot|\cdot}$ satisfies
 
 \beq
-w^{\lam}_{i|0}=b_i^{\lam}
+W^{\lam}_{i|0}=b_i^{\lam}
 \;
 \eeq
 
@@ -461,8 +468,8 @@ and
 \beq\color{blue}
 P(h^{\lam}_i\mid h^{\lam-1}_., h_0^\lam=1)=
 \delta\left(h^{\lam}_i,
-\cala_i^\lam(\sum_{j}
- w^{\lam}_{i|j}
+\phi_i^\lam(\sum_{j}
+ W^{\lam}_{i|j}
 h^{\lam-1}_j)\right)
 \eeq
 for $i=1, \ldots, nh(\lam)-1$.
@@ -477,7 +484,7 @@ and
 \beq\color{blue}
 P(Y_i\mid h^{\Lambda-2}_., Y_0=1)=
 \delta \left(Y_i,
-\cala_i^{\Lambda-1}(\sum_j w^{\Lambda-1}_{i|j}
+\phi_i^{\Lambda-1}(\sum_j W^{\Lambda-1}_{i|j}
 h^{\Lambda-2}_j)\right)
 \;
 \eeq
@@ -491,67 +498,66 @@ for NN}
 \begin{figure}[h!]
 \centering
 $$
-\xymatrix{
-\ul{\cala^3}
+\begin{array}{l}
+(a)\quad
+\xymatrix@C=3pc{
+\rvY
 &
-\ul{\calb^3}\ar[l]
+\ul{\phi^3}
+(z^3)\ar[l]
 &
-\ul{\cala^2}\ar[l]
+\ul{\phi^2}
+(z^2)\ar[l]
 &
-\ul{\calb^2}\ar[l]
+\ul{\phi^1}
+(z^1)\ar[l]
 &
-\ul{\cala^1}\ar[l]
-&
-\ul{\calb^1}\ar[l]
-&
-\ul{\cala^0}\ar[l]
-&
-\ul{\calb^0}\ar[l]
+\ul{\phi^0}
+(z^0)\ar[l]
 &
 \rvx\ar[l]
+}
 \\
-&&\text{$(a)$}
 \\
-d\ul{\cala^3}
+(b)\quad
+\xymatrix{
+d\rvY
 &
-d\ul{\calb^3}\ar[l]
+d[\ul{\phi^3}
+(z^3)]\ar[l]
 &
-d\ul{\cala^2}\ar[l]
+d[\ul{\phi^2}
+(z^2)]\ar[l]
 &
-d\ul{\calb^2}\ar[l]
+d[\ul{\phi^1}
+(z^1)]\ar[l]
 &
-d\ul{\cala^1}\ar[l]
-&
-d\ul{\calb^1}\ar[l]
-&
-d\ul{\cala^0}\ar[l]
-&
-d\ul{\calb^0}\ar[l]
+d[\ul{\phi^0}
+(z^0)]\ar[l]
 &
 d\ul{x}\ar[l]
+}
 \\
-&&\text{$(b)$}
 \\
-d\ul{\cala^3}\ar[r]
+(c)\quad
+\xymatrix{
+d\rvY\ar[r]
 &
-d\ul{\calb^3}\ar[r]
+d[\ul{\phi^3}
+(z^3)]\ar[r]
 &
-d\ul{\cala^2}\ar[r]
+d[\ul{\phi^2}
+(z^2)]\ar[r]
 &
-d\ul{\calb^2}\ar[r]
+d[\ul{\phi^1}
+(z^1)]\ar[r]
 &
-d\ul{\cala^1}\ar[r]
-&
-d\ul{\calb^1}\ar[r]
-&
-d\ul{\cala^0}\ar[r]
-&
-d\ul{\calb^0}\ar[r]
+d[\ul{\phi^0}
+(z^0)]\ar[r]
 &
 d\ul{x}
-\\
-&&\text{$(c)$}
 }
+\end{array}
 $$
 \caption{bnets for $(a)$ function
 composition, $(b)$
@@ -576,46 +582,46 @@ To perform simple gradient descent,
 one uses:
 
 \beq
-(w_{i|j}^\lam)'=w_{i|j}^\lam
--\eta\pder{\cale}{w^\lam_{i|j}}
+(W_{i|j}^\lam)'=W_{i|j}^\lam
+-\eta\pder{\cale}{W^\lam_{i|j}}
 \;.
 \eeq
 One has
 
 \beq
-\pder{\cale}{w^\lam_{i|j}}=
+\pder{\cale}{W^\lam_{i|j}}=
 \frac{1}{nsam}
 \sum_{\sigma=0}^{nsam-1}
-2(Y_i-y_i[\sigma])\pder{Y}{w^\lam_{i|j}}
+2(Y_i-y_i[\sigma])\pder{Y_i}{W^\lam_{i|j}}
 \;.
 \eeq
-Define $\calb^\lam_i$ thus
+Define $z ^\lam_{i}$ thus
 
 
 \beq
-\calb^\lam_i(h^{\lam-1})=
-\sum_{j'} w^{\lam}_{i|j'}h^{\lam-1}_{j'}
+[z ^\lam(h^{\lam-1})]_{i}=\sum_{j'}
+ W^{\lam}_{i|j'}h^{\lam-1}_{j'}
 \;.
 \label{eq-calb}
 \eeq
 Then
 
 \beqa
-\pder{Y}{w^\lam_{i|j}}&=&
-\pder{Y}{\calb^\lam_i}
-\pder{\calb_i^\lam}{w^\lam_{i|j}}
+\pder{Y_k}{W^\lam_{i|j}}&=&
+\pder{Y_k}{z ^\lam_{i}}
+\pder{z _{i}^\lam}{W^\lam_{i|j}}
 \\
-&=&\pder{Y}{\calb^\lam_i}
+&=&\pder{Y_k}{z ^\lam_{i}}
 h^{\lam-1}_j
 \eeqa
 
 \beqa
-\pder{\cale}{w^\lam_{i|j}}&=&
-\pder{\cale}{\calb^\lam_i}
-\pder{\calb^\lam_j}{w^\lam_{i|j}}
+\pder{\cale}{W^\lam_{i|j}}&=&
+\pder{\cale}{z ^\lam_{i}}
+\pder{z ^\lam_{i}}{W^\lam_{i|j}}
 \\
 &=&
-\pder{\cale}{\calb^\lam_i}
+\underbrace{\pder{\cale}{z ^\lam_{i}}}_{\delta^\lam_i}
 h^{\lam-1}_j
 \;.
 \eeqa
@@ -624,16 +630,16 @@ we can calculate
 the derivatives of the error
 $\cale$
 with respect to the weights
-$w^\lam_{i|j}$ in two
+$W^\lam_{i|j}$ in two
 stages, using an intermediate
-quantity $\delta^\lam_j$:
+quantity $\delta^\lam_{i}$:
 
 \beq
 \left\{
 \begin{array}{l}
-\delta^\lam_j=\pder{\cale}{\calb^\lam_j}
+\delta^\lam_{i}=\pder{\cale}{z ^\lam_{i}}
 \\
-\pder{\cale}{w^\lam_{i|j}}=\delta^\lam_j h^{\lam-1}_j
+\pder{\cale}{W^\lam_{i|j}}=\delta^\lam_{i} h^{\lam-1}_j
 \end{array}
 \right.
 \eeq
@@ -644,52 +650,7 @@ General Theory
 section of this chapter,
 consider a NN with 4
 layers (3 hidden, and the
-output visible one). Define the
-functions $f_i$
-as follows:
-
-
-\beq
-f^0_i=x_i
-\eeq
-
-\beqa
-\text{Layer 0:}&
-f^1_i=\calb_i^0(x_i),&
-f^2_i=\cala_i^0(\calb_i^0)
-\\
-\text{Layer 1:}&
-f^3_i=\calb_i^1(\cala_i^0),&
-f^4_i=\cala_i^1(\calb_i^1)
-\\
-\text{Layer 2:}&
-f^5_i=\calb_i^2(\cala_i^1),&
-f^6_i=\cala_i^2(\calb_i^2)
-\\
-\text{Layer 3:}&
-f^7_i=\calb_i^3(\cala_i^2),&
-f^8_i=\cala_i^3(\calb_i^3)
-\eeqa
-
-
-
-
-%\beq\color{blue}
-%P(\cala^\lam|\cala^{\lam-1})=
-%\indi(\cala^\lam=\cala^\lam\circ\calb^\lam(\cala^{\lam-1}))
-%\;
-%\eeq
-
-%\beq\color{blue}
-%P(\pder{\cala^{\lam+1}}{x}\mid
-%\pder{\cala^{\lam}}{x})=
-%\indi(\pder{\cala^{\lam+1}}{x}=
-%\pder{\cala^{\lam+1}}{\calb^{\lam+1}}
-%\pder{\calb^{\lam+1}}{\cala^{\lam}}
-%\pder{\cala^{\lam}}{x}
-%)\;
-%\eeq
-
+output visible one).
 See Fig.\ref{fig-backp-nn}. The
 TPMs, printed in blue,
 for the bnet $(c)$
@@ -698,77 +659,72 @@ as follows:
 
 \beq\color{blue}
 P(
-dY \mid d\calb^{\lam}
+dY \mid dz ^{\lam}
 )=
 \indi\left(
 dY
 =
-\pder{Y}{\calb^{\lam+1}}
-\pder{\calb^{\lam+1}}{\cala^{\lam}}
-\pder{\cala^{\lam}}{\calb^{\lam}}
-d\calb^{\lam}
+\pder{Y}{z ^{\lam+1}}
+\pder{z ^{\lam+1}}{\phi^{\lam}}
+\pder{\phi^{\lam}}{z ^{\lam}}
+dz ^{\lam}
 \right)
 \;.
 \label{eq-backp-nn-1}
 \eeq
-One has
-
-\beq
-\pder{\cala^{\lam}_i}{\calb^{\lam}_j}
-=
-D{\cala_i}^\lam(\calb_i^\lam)\delta(i,j)
-\eeq
-where $D{\cala}^\lam_i(z)$
-is the derivative of
-$\cala^\lam_i(z)$.
-
 From Eq.(\ref{eq-calb})
 
 \beq
-\calb^{\lam+1}_i(\cala^{\lam})=
-\sum_{j'} w^{\lam+1}_{i|j'}\cala^{\lam}_{j'}
+z ^{\lam+1}_{i}(\phi^{\lam})=
+\sum_{r} W^{\lam+1}_{i|r}\phi^{\lam}_{r}
 \eeq
 so
 
 \beq
-\pder{\calb_i^{\lam+1}}{\cala_j^{\lam}}
-=w^{\lam+1}_{i|j}
+\pder{z _{i}^{\lam+1}}{\phi_{j}^{\lam}}
+=W^{\lam+1}_{i|j}
 \;.
 \eeq
+One also has
+
+\beq
+\pder{\phi^{\lam}_i}{z ^{\lam}_j}
+=
+D\phi_i^\lam(z _i^\lam)\delta(i,j)
+\eeq
+where $D{\phi}^\lam_i(z)$
+is the derivative of
+$\phi^\lam_i(z)$.
 Therefore, Eq.(\ref{eq-backp-nn-1})
 implies
 
 \beq\color{blue}
 P(
-\pder{Y}{\calb^{\lam}_j}
-\mid
-\pder{Y}{\calb^{\lam+1}_j}
+dY\mid dz ^{\lam}
 )=
-\indi(
-\pder{Y}{\calb^{\lam}_j}
+\indi\left(
+dY
 =
-\sum_i
-\pder{Y}{\calb_i^{\lam+1}}
-D{\cala}^\lam_j(\calb^\lam_j)
-w^{\lam+1}_{i|j}
-)
+\sum_{i,j}
+\pder{Y}{z _i^{\lam+1}}
+W^{\lam+1}_{i|j}
+D{\phi}^\lam_j(z ^\lam_j)dz ^\lam_j
+\right)
 \;,
 \eeq
 
 \beq\color{blue}
 P(
-\pder{\cale}{\calb^{\lam}_j}
-\mid
-\pder{\cale}{\calb^{\lam+1}_j}
+d\cale\mid dz ^{\lam}
 )=
-\indi(
-\pder{\cale}{\calb^{\lam}_j}
+\indi\left(
+d\cale
 =
 \sum_i
-\pder{\cale}{\calb_i^{\lam+1}}
-D{\cala}^\lam_j(\calb^\lam_j)
-w^{\lam+1}_{i|j}
-)
+\pder{\cale}{z _i^{\lam+1}}
+W^{\lam+1}_{i|j}
+D{\phi}^\lam_j(z ^\lam_j)dz _j^\lam
+\right)
 \;,
 \eeq
 
@@ -784,8 +740,8 @@ P(
 =
 \sum_i
 \delta_i^{\lam+1}
-D{\cala}^\lam_j(\calb^\lam_j))
-w^{\lam+1}_{i|j}
+D{\phi}^\lam_j(z ^\lam_j))
+W^{\lam+1}_{i|j}
 )
 }
 \;.
@@ -796,19 +752,19 @@ layer $\lam=\Lambda-1$:
 
 \beqa
 \delta^{\Lambda-1}_j&=&
-\pder{\cale}{\calb^{\Lambda-1}_j}
+\pder{\cale}{z ^{\Lambda-1}_j}
 \\
 &=&
 \frac{1}{nsam}
 \sum_{\sigma=0}^{nsam-1}\sum_{i=0}^{ny-1}
 2(Y_i-y_i[\sigma])
-D{\cala}^{\Lambda-1}_i(\calb^{\Lambda-1}_i)\delta(i,j)
+D{\phi}^{\Lambda-1}_i(z ^{\Lambda-1}_i)\delta(i,j)
 \\
 &=&
 \frac{1}{nsam}
 \sum_{\sigma=0}^{nsam-1}
 2(Y_j-y_j[\sigma])
-D{\cala}^{\Lambda-1}_j(\calb^{\Lambda-1}_j)
+D{\phi}^{\Lambda-1}_j(z ^{\Lambda-1}_j)
 \eeqa
 
 Cute expression for
@@ -832,8 +788,8 @@ P(
 =
 \sum_{\rva\in ch(\rvx)}
 \delta_\rva
-D{\cala}_\rvx(\calb_\rvx))
-w_{\rva|\rvx}
+D{\phi}_\rvx(z _\rvx))
+W_{\rva|\rvx}
 )
 \;
 \eeq
@@ -854,8 +810,8 @@ P(
 =
 \sum_{\rva\in pa(\rvx)}
 \delta_\rva
-D{\cala}_\rvx(\calb_\rvx))
-w^T_{\rvx|\rva}
+D{\phi}_\rvx(z _\rvx))
+W^T_{\rvx|\rva}
 )
 }
 \;

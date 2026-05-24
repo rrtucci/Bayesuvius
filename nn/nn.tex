@@ -98,7 +98,7 @@ we will
 discuss non-dense layers.
 
 Let
-  $w^\lam_{i|j}, b_i^\lam\in \RR$
+  $W^\lam_{i|j}, b_i^\lam\in \RR$
 be given,
 for $i\in\ZZ_{[0, nh(\lam))}$,
 $j\in\ZZ_{[0, nh(\lam-1))}$,
@@ -119,7 +119,7 @@ x_{i-1},\dots, x_0)\text{ = given}
 \beq\color{blue}
 P(h^{\lam}_i\mid h^{\lam-1}_.)=
 \delta\left(h^{\lam}_i,
-\cala_i^\lam(\sum_j w^{\lam}_{i|j}
+\phi_i^\lam(\sum_j W^{\lam}_{i|j}
 h^{\lam-1}_j + b^{\lam}_i)\right)
 \;,
 \eeq
@@ -128,14 +128,14 @@ where $P(h^0_i|h^{-1})=P(h^0_i|x)$.
 \beq\color{blue}
 P(Y_i\mid h^{\Lambda-2}_.)=
 \delta \left(Y_i,
-\cala_i^{\Lambda-1}(\sum_j w^{\Lambda-1}_{i|j}
+\phi_i^{\Lambda-1}(\sum_j W^{\Lambda-1}_{i|j}
 h^{\Lambda-2}_j + b^{\Lambda-1}_i)\right)
 \;.
 \eeq
 
 
 \section{Activation Functions
-$\cala_i^\lam:\RR\rarrow \RR$}
+$\phi_i^\lam:\RR\rarrow \RR$}
 \label{sec-activation-fun}
 
 Activation functions must be
@@ -155,14 +155,14 @@ to be much smaller than the domain.
 \item {\bf Step function (Perceptron)}
 
 \beq\
-\cala(x)=\indi(x>0)
+\phi(x)=\indi(x>0)
 \eeq
 Zero for $x\leq 0$, one for $x>0$.
 
 \item {\bf Sigmoid function}
 
 \beq
-\cala(x)=\frac{1}{1+e^{-x}}=\smoid(x)
+\phi(x)=\frac{1}{1+e^{-x}}=\smoid(x)
 \eeq
 Smooth, monotonically increasing
 function.
@@ -171,7 +171,7 @@ $\smoid(\infty)=1$.
 
 \item {\bf Hyperbolic tangent}
 \beq
-\cala(x)=\tanh(x)=\frac{e^x-e^{-x}}
+\phi(x)=\tanh(x)=\frac{e^x-e^{-x}}
 {e^x+e^{-x}}
 \eeq
 Smooth,
@@ -191,7 +191,7 @@ $\tanh(x)\in[-1,1]$.
 \item {\bf ReLU (Rectified Linear Unit)}
 
 \beq
-\cala(x)=\underbrace{x\indi(x>0)}_{x_+}= \max(0, x)
+\phi(x)=\underbrace{x\indi(x>0)}_{x_+}= \max(0, x)
 \;.
 \eeq
 Compare this to the step function
@@ -199,12 +199,12 @@ $\indi(x>0)$.
 
 \item {\bf Swish}
 \beq
-\cala(x)=x\;\smoid(x)
+\phi(x)=x\;\smoid(x)
 \eeq
 \item {\bf Softmax}
 
 \beq
-\cala(x_i
+\phi(x_i
 |x.)=\frac{e^{x_i}}{\sum_i e^{x_i}}=
 \softmax(x.)(i)
 \eeq
@@ -226,7 +226,7 @@ The bnet of Fig.\ref{fig-nn}
 is used for classification
 of a single data point $x.$.
 It assumes that the
-weights $w^\lam_{i|j}, b_i^\lam$
+weights $W^\lam_{i|j}, b_i^\lam$
 are given.
 
 To find the optimum
@@ -281,7 +281,7 @@ the batches in the training dataset.
 
 Define
 \beq
-W^\lam_{i|j}=[w^\lam_{i|j}, b^\lam_i]
+W^\lam_{i|j}=[W^\lam_{i|j}, b^\lam_i]
 \;.
 \eeq
 
@@ -297,7 +297,7 @@ are as follows.
 $$\xymatrix{
 &&\ranvec{x.}\ar[d]\ar[r]&
 \ranvec{y.}\ar[dddd]\\
-&\rvW^0_{.|.}, \ar[r]&
+&\rvW^0_{.|.} \ar[r]&
 \ranvec{h^0_.}\ar[d]\\
 &\rvW^1_{.|.}\ar[r]&
 \ranvec{h^1_.}\ar[d]\\
@@ -335,14 +335,14 @@ P(y.[\sigma]\mid x.[\sigma])
 \beq\color{blue}
 P(h^{\lam}_i[\sigma]\mid h^{\lam-1}_.[\sigma])=
 \delta\left(h^{\lam}_i[\sigma],
-\cala_i^\lam(\sum_j w^{\lam}_{i|j}
+\phi_i^\lam(\sum_j W^{\lam}_{i|j}
 h^{\lam-1}_j[\sigma] + b^{\lam}_i)\right)
 \eeq
 
 \beq\color{blue}
 P(Y_i[\sigma]\mid h^{\Lambda-2}_.[\sigma])=
 \delta\left(Y_i[\sigma],
-\cala_i^{\Lambda-1}(\sum_j w^{\Lambda-1}_{i|j}
+\phi_i^{\Lambda-1}(\sum_j W^{\Lambda-1}_{i|j}
 h^{\Lambda-2}_j[\sigma] + b^{\Lambda-1}_i)\right)
 \eeq
 
@@ -448,8 +448,8 @@ where
 
 \beq
 H^\lam_i[\sigma]=
-\cala^\lam_i(
-r^\lam_i\sum_j w^\lam_{i|j}h^{\lam-1}_j[\sigma]
+\phi^\lam_i(
+r^\lam_i\sum_j W^\lam_{i|j}h^{\lam-1}_j[\sigma]
 +b^\lam_i
 )
 \;.
@@ -473,12 +473,12 @@ $\rvr^\lam_i$ stochasticity from classification
 and for Fig.\ref{fig-nn} to act as an average
 over sampling space of Fig.\ref{fig-nn-ext}.
 Therefore,
-if weights $w^\lam_{i|j}$ are obtained
+if weights $W^\lam_{i|j}$ are obtained
 for a dropout layer $\lam$ in Fig.\ref{fig-nn-ext},
 then that layer is used in Fig.\ref{fig-nn} with
 no $\rvr^\lam_i$ nodes but
-with weights $\av{r^\lam_i}w^\lam_{i|j}=
-pw^\lam_{i|j}$.
+with weights $\av{r^\lam_i}W^\lam_{i|j}=
+pW^\lam_{i|j}$.
 
 
 Note that dropout adds non-deterministic
