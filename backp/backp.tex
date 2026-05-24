@@ -164,8 +164,10 @@ y=f(x)
 Then the Jacobian $\pder{y}{x}$
 is defined as the matrix with entries\footnote{
 Mnemonic for remembering
-order of indices: $i$ in numerator/$j$ in denominator
-becomes index $i/j$ of Jacobian matrix.}
+order of indices: 
+Visualize the Jacobian $\pder{f}{x}$ as
+the matrix $\partial f_i/\partial x_j=M_{i,j}$
+with row index $i$ and column index $j$.}
 
 \beq
 \left[\pder{y}{x}\right]_{i,j}=
@@ -303,7 +305,7 @@ Fig.\ref{fig-backp-abc}$(b)$
 with node TPMs
 
 \beq\color{blue}
-P(df^{\mu+1}\cond
+P(df^{\mu+1}\mid
 df^{\mu})=
 \indi(df^{\mu+1}=
 \pder{f^{\mu+1}}{f^{\mu}}df^\mu
@@ -341,7 +343,7 @@ with node TPMs
 \beq\color{blue}
 P(
 df^{\mu}
-\cond
+\mid
 df^{\mu+1}
 )=
 \indi(
@@ -397,7 +399,7 @@ For all hidden layers $\lam=0, 1, \dots,
 \Lambda-2$,
 
 \beq\color{blue}
-P(h^{\lam}_i\cond h^{\lam-1}_.)=
+P(h^{\lam}_i\mid h^{\lam-1}_.)=
 \delta\left(h^{\lam}_i,
 \cala_i^\lam(\sum_j
  w^{\lam}_{i|j}
@@ -407,7 +409,7 @@ for $i=0, 1, \ldots, nh(\lam)-1$.
 For the output visible layer $\lam=\Lambda-1$:
 
 \beq\color{blue}
-P(Y_i\cond h^{\Lambda-2}_.)=
+P(Y_i\mid h^{\Lambda-2}_.)=
 \delta \left(Y_i,
 \cala_i^{\Lambda-1}(\sum_j w^{\Lambda-1}_{i|j}
 h^{\Lambda-2}_j + b^{\Lambda-1}_i)\right)
@@ -457,7 +459,7 @@ P(h^\lam_0)=\delta(h^\lam_0,1)
 and
 
 \beq\color{blue}
-P(h^{\lam}_i\cond h^{\lam-1}_., h_0^\lam=1)=
+P(h^{\lam}_i\mid h^{\lam-1}_., h_0^\lam=1)=
 \delta\left(h^{\lam}_i,
 \cala_i^\lam(\sum_{j}
  w^{\lam}_{i|j}
@@ -473,7 +475,7 @@ P(Y_0)=\delta(Y_0,1)
 and
 
 \beq\color{blue}
-P(Y_i\cond h^{\Lambda-2}_., Y_0=1)=
+P(Y_i\mid h^{\Lambda-2}_., Y_0=1)=
 \delta \left(Y_i,
 \cala_i^{\Lambda-1}(\sum_j w^{\Lambda-1}_{i|j}
 h^{\Lambda-2}_j)\right)
@@ -583,7 +585,7 @@ One has
 \beq
 \pder{\cale}{w^\lam_{i|j}}=
 \frac{1}{nsam}
-\sum_{\sigma=0}^{nsam-1}\sum_{i=0}^{ny-1}
+\sum_{\sigma=0}^{nsam-1}
 2(Y_i-y_i[\sigma])\pder{Y}{w^\lam_{i|j}}
 \;.
 \eeq
@@ -592,7 +594,7 @@ Define $\calb^\lam_i$ thus
 
 \beq
 \calb^\lam_i(h^{\lam-1})=
-\sum_j w^{\lam}_{i|j}h^{\lam-1}_j
+\sum_{j'} w^{\lam}_{i|j'}h^{\lam-1}_{j'}
 \;.
 \label{eq-calb}
 \eeq
@@ -609,11 +611,11 @@ h^{\lam-1}_j
 
 \beqa
 \pder{\cale}{w^\lam_{i|j}}&=&
-\pder{\cale}{\calb^\lam_j}
+\pder{\cale}{\calb^\lam_i}
 \pder{\calb^\lam_j}{w^\lam_{i|j}}
 \\
 &=&
-\pder{\cale}{\calb^\lam_j}
+\pder{\cale}{\calb^\lam_i}
 h^{\lam-1}_j
 \;.
 \eeqa
@@ -679,7 +681,7 @@ f^8_i=\cala_i^3(\calb_i^3)
 %\eeq
 
 %\beq\color{blue}
-%P(\pder{\cala^{\lam+1}}{x}\cond
+%P(\pder{\cala^{\lam+1}}{x}\mid
 %\pder{\cala^{\lam}}{x})=
 %\indi(\pder{\cala^{\lam+1}}{x}=
 %\pder{\cala^{\lam+1}}{\calb^{\lam+1}}
@@ -696,16 +698,16 @@ as follows:
 
 \beq\color{blue}
 P(
-\pder{Y}{\calb^{\lam}}
-\cond
-\pder{Y}{\calb^{\lam+1}}
+dY \mid d\calb^{\lam}
 )=
-\indi(
-\pder{Y}{\calb^{\lam}}
+\indi\left(
+dY
 =
 \pder{Y}{\calb^{\lam+1}}
 \pder{\calb^{\lam+1}}{\cala^{\lam}}
-\pder{\cala^{\lam}}{\calb^{\lam}})
+\pder{\cala^{\lam}}{\calb^{\lam}}
+d\calb^{\lam}
+\right)
 \;.
 \label{eq-backp-nn-1}
 \eeq
@@ -724,7 +726,7 @@ From Eq.(\ref{eq-calb})
 
 \beq
 \calb^{\lam+1}_i(\cala^{\lam})=
-\sum_j w^{\lam+1}_{i|j}\cala^{\lam}_j
+\sum_{j'} w^{\lam+1}_{i|j'}\cala^{\lam}_{j'}
 \eeq
 so
 
@@ -739,7 +741,7 @@ implies
 \beq\color{blue}
 P(
 \pder{Y}{\calb^{\lam}_j}
-\cond
+\mid
 \pder{Y}{\calb^{\lam+1}_j}
 )=
 \indi(
@@ -756,7 +758,7 @@ w^{\lam+1}_{i|j}
 \beq\color{blue}
 P(
 \pder{\cale}{\calb^{\lam}_j}
-\cond
+\mid
 \pder{\cale}{\calb^{\lam+1}_j}
 )=
 \indi(
@@ -774,7 +776,7 @@ w^{\lam+1}_{i|j}
 \boxed{
 P(
 \delta^{\lam}_j
-\cond
+\mid
 \delta^{\lam+1}_j
 )=
 \indi(
@@ -822,7 +824,7 @@ induced by layered structure of NNs}
 \beq
 P(
 \delta_\rvx
-\cond
+\mid
 (\delta_\rva)_{\rva\in ch(\rvx)}
 )=
 \indi(
@@ -844,7 +846,7 @@ of nodes of \qt{time reversed} bnet by
 \boxed{
 P(
 \delta_\rvx
-\cond
+\mid
 (\delta_\rva)_{\rva\in pa(\rvx)}
 )=
 \indi(

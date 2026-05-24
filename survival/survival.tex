@@ -107,7 +107,7 @@ as we show next.
 \quad\text{(because $P(A \A B) = P(A)$ if $A$ implies $B$)}
 \\
 &=
-P(\rvtau=t\cond \rvtau\geq t)
+P(\rvtau=t\mid \rvtau\geq t)
 \end{align}
 
 
@@ -286,7 +286,7 @@ Kaplan-Meier (KM) estimate of $S(t)$ (see\footnote{Even though $S(t)$ has
 been defined as $P(\rvtau\geq  t)$,
 a more precise definition
 in the presence of censoring is
-$P(\rvtau\geq t\cond \text{patient dies rather than being censored})$})
+$P(\rvtau\geq t\mid \text{patient dies rather than being censored})$})
 \beqa
 \HAT{S}(\tau^j) &=&
 P\left(\bigxor_{k> j}\{\rvo(\tau^k)=1\}\right)
@@ -295,23 +295,23 @@ P\left(\bigxor_{k> j}\{\rvo(\tau^k)=1\}\right)
 P\left(\bigA_{k\leq j}\{\rvo(\tau^k)=0\}\right)
 \\
 &=&
-\prod_{k\leq j}P\left(\rvo(\tau^k)=0\cond \bigA_{k'<k}\{\rvo(\tau^{k'})=0\}\right)
+\prod_{k\leq j}P\left(\rvo(\tau^k)=0\mid \bigA_{k'<k}\{\rvo(\tau^{k'})=0\}\right)
 \quad \text{(chain rule)}
 \\
 &=&
 \left\{
 \begin{array}{l}
-\prod_{k\leq j}P\left(\rvd(\tau^k)=0\cond \bigA_{k'<k}\{\rvo(\tau^{k'})=0\}\right)
+\prod_{k\leq j}P\left(\rvd(\tau^k)=0\mid \bigA_{k'<k}\{\rvo(\tau^{k'})=0\}\right)
 \\
 +
 \underbrace{
-\prod_{k\leq j}P\left(\rvc(\tau^k)=0\cond \bigA_{k'<k}\{\rvo(\tau^{k'})=0\}\right)
+\prod_{k\leq j}P\left(\rvc(\tau^k)=0\mid \bigA_{k'<k}\{\rvo(\tau^{k'})=0\}\right)
 }_{=0 \text{(see footnote)}}
 \end{array}\right.
 \\
 &=&
 \prod_{k\leq j}\left[
-1-P\left(\rvd(\tau^k)=1\cond \bigA_{k'<k}\{\rvo(\tau^{k'})=0\}\right)\right]
+1-P\left(\rvd(\tau^k)=1\mid \bigA_{k'<k}\{\rvo(\tau^{k'})=0\}\right)\right]
 \\
 &=&
 \prod_{k\leq j} \left[ 1 -\;\frac{n_D^k}{n_R^k}\right]
@@ -348,17 +348,17 @@ The TPMs, printed in blue, for that bnet,
 must be as follows:
 
 \beq \color{blue}
-P(\rvo(\tau^k)=1\cond \bigA_{k'<k}\{\rvo(\tau^{k'})=0\})
+P(\rvo(\tau^k)=1\mid \bigA_{k'<k}\{\rvo(\tau^{k'})=0\})
 = \frac{n_O^k}{n_R^k}
 \eeq
 
 \beq \color{blue}
-P(\rvd(\tau^k)=1\cond \rvo(\tau^{k})=1)
+P(\rvd(\tau^k)=1\mid \rvo(\tau^{k})=1)
 = \frac{n_D^k}{n_O^k}
 \eeq
 
 \beq \color{blue}
-P(\rvc(\tau^k)=1\cond \rvo(\tau^{k})=1)
+P(\rvc(\tau^k)=1\mid \rvo(\tau^{k})=1)
 = \frac{n_C^k}{n_O^k}
 \eeq
 
@@ -667,7 +667,7 @@ Recall that
 \lam(\tau^{j}|Z^{k})=
 \lam_0(\tau^{j})e^{\beta^T Z^{k}}
 =
-P(\rvtau^k=\tau^j\cond \rvtau^k\geq \tau^j)
+P(\rvtau^k=\tau^j\mid \rvtau^k\geq \tau^j)
 \eeq
 Therefore
 
@@ -703,12 +703,12 @@ Hence
 
 \begin{align}
  L^j (\beta)&=
-\frac{ P(Z^j\cond\tau^{j})}
-{\sum_{k\geq j}P(Z^{k}\cond\tau^{j})}
+\frac{ P(Z^j\mid\tau^{j})}
+{\sum_{k\geq j}P(Z^{k}\mid\tau^{j})}
 \\
 &=
-\frac{ P(Z^j\cond\tau^{j})}
-{P(\bigV_{k\geq j}\{\ul{Z}^{k}=Z^k\}\cond\tau^{j})}
+\frac{ P(Z^j\mid\tau^{j})}
+{P(\bigV_{k\geq j}\{\ul{Z}^{k}=Z^k\}\mid\tau^{j})}
 \quad\text{(because the $Z^k$ are independent)}
 \\
 &=
@@ -717,7 +717,7 @@ Hence
 \quad\text{(because $P(A \A B) = P(A)$ if $A \implies B$)}
 \\
 &=
-P(Z^j\cond \bigV_{k\geq j}\{\ul{Z}^{k}=Z^k\},\tau^{j})
+P(Z^j\mid \bigV_{k\geq j}\{\ul{Z}^{k}=Z^k\},\tau^{j})
 \end{align}
 
 Note that $ L^j(\beta)$ depends
@@ -737,21 +737,21 @@ P(\rvtau\geq \tau^j) =S(\tau^j)
 & \text{ if $d(\tau^j)=0$ (i.e., $c(\tau^j)=1$)}
 \\
  P(\rvtau=\tau^j)=
- \lam(\tau^j\cond Z^j) S(\tau^j)
+ \lam(\tau^j\mid Z^j) S(\tau^j)
   & \text{ if $d(\tau^j)=1$ }
  \end{array}\right.
  \\
  &=
- \lam(\tau^j\cond Z^j)^{d(\tau^j)} S(\tau^j)
+ \lam(\tau^j\mid Z^j)^{d(\tau^j)} S(\tau^j)
  \\
  &=
-\underbrace{\left[\frac{\lam(\tau^j\cond Z^j)}
-{\sum_{k\geq j} \lam(\tau^k\cond Z^j)}
+\underbrace{\left[\frac{\lam(\tau^j\mid Z^j)}
+{\sum_{k\geq j} \lam(\tau^k\mid Z^j)}
 \right]^{d(\tau^j)}
 }_{L_1}
 \underbrace{
 \left[
-\sum_{k\geq j} \lam(\tau^k\cond Z^j)
+\sum_{k\geq j} \lam(\tau^k\mid Z^j)
 \right]^{d(\tau^j)}
 S(\tau^j)
 }_{L_2}
@@ -801,11 +801,11 @@ where
 \frac{n_D^j}{\Delta t}
 &\approx&
 \sum_{k\geq j}
-P(\rvtau^k=\tau^j\cond \rvtau^k\geq\tau^j)
+P(\rvtau^k=\tau^j\mid \rvtau^k\geq\tau^j)
 \\
 &=&
 \sum_{k\geq j}
-\lam(\tau^j\cond Z^k)
+\lam(\tau^j\mid Z^k)
 \\
 &=&
 \lam_0(\tau^j)
