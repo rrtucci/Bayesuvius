@@ -2,6 +2,13 @@
  (Automatic Differentiation)}
  \label{ch-backp}
 
+Back propagation (or backprop for short), a.k.a.
+automatic differentiation, is 
+a basic
+operation
+performed when 
+training (adjusting the weights) of a 
+neural net (NN).
 
 
 \section{Toy Example}
@@ -24,7 +31,7 @@ d=W_3b+W_4c
 \label{eq-backp-toy-eqs}
 \eeq
 
-To calculate $\\nabla_W \cale$ where
+To calculate $\nabla_W \cale$ where
  $W=(W_1, W_2, W_3, W_4)$, we can use the
 chain rule for partial derivatives.
 This yields
@@ -58,7 +65,7 @@ be represented graphically by the bnet (with
 deterministic nodes) of
 Fig.\ref{fig-toy-backp-bnet}.
 The calculation
-of $\\nabla_W\cale$ can also be represented
+of $\nabla_W\cale$ can also be represented
 graphically with the aid of the defining bnet
 Fig.\ref{fig-toy-backp-bnet}. This is done in Fig.\ref{fig-toy-backp-deriv-bnet}.
 As illustrated by that figure,
@@ -88,7 +95,7 @@ d\rva\ar[r]
 }
 $$
 \caption{bnet
-for which we want to calculate $\\nabla_W \cale$ where
+for which we want to calculate $\nabla_W \cale$ where
  $W=(W_1, W_2, W_3, W_4)$}
 \label{fig-toy-backp-bnet}
 \end{figure}
@@ -260,6 +267,12 @@ for $nf=5$ nodes.}
 \label{fig-backp-abc}
 \end{figure}
 
+Henceforth, we will refer to bnets whose
+nodes are differentials or increments as {\bf delta bnets.}
+For example, Fig.\ref{fig-toy-backp-bnet}
+and  parts $(b)$ and $(c)$
+of Fig.\ref {fig-backp-abc}
+are delta bnets.
 
 Let
 \beq
@@ -527,42 +540,59 @@ $$
 &
 &
 \\
-d\rv\phi^3
-&d\rv\phi^2
-&d\rv\phi^1
-&d\rv\phi^0
-&d\rv\phi^{-1}
+d\ul{\phi}^3
+&d\ul{\phi}^2\ar[dl]|{W^3}
+&d\ul{\phi}^1\ar[dl]|{W^2}
+&d\ul{\phi}^0\ar[dl]|{W^1}
+&d\ul{\phi}^{-1}=d\rvx\ar[dl]|{W^0}
 \\
-d\rvz^3\ar[r]\ar[u]|{D\phi^{3}}
-\ar@/^1.5pc/[uurr]|{\delta^3}
-&d\rvz^2\ar[r]\ar[uur]
-\ar[u]
-&d\rvz^1\ar[r]\ar[u]
-\ar@/^1pc/[uu]
-&d\rvz^0\ar[r]\ar[u]\ar[uul]
-&d\rvz^{-1}\ar[u]\ar\ar@/_1.5pc/[uull]
+d\rvz^3
+\ar[u]|{D\phi^{3}}
+\ar@[red]@/^1.5pc/[uurr]|{\delta^3}
+&d\rvz^2\ar@[red][l]|{W^3D\phi^2}
+\ar@[red][uur]|{\delta^2}
+\ar[u]|{D\phi^2}
+&d\rvz^1\ar[l]|{W^2D\phi^1}
+\ar[u]|{D\phi^1}
+\ar@[green]@/^1.5pc/[uu]|{\delta^1}
+&d\rvz^0\ar[l]|{W^1D\phi^0}
+\ar[u]|{D\phi^0}
+\ar[uul]|{\delta^0}
+&d\rvz^{-1}\ar[l]|{W^0}
+\ar[u]_1
+%\ar@/_1.5pc/[uull]|{\delta^0}
 \\
 d\ul{W}^3\ar[u]|{h^{2}}
-&d\ul{W}^2\ar[u]
-&d\ul{W}^1\ar[u]
-&d\ul{W}^0\ar[u]
-&d\ul{W}^{-1}\ar[u]
+&d\ul{W}^2\ar[u]|{h^{1}}
+&d\ul{W}^1\ar@[green][u]|{h^{0}}
+&d\ul{W}^0\ar[u]|{x}
+&
 \\
 d\rvh^3=\rvY
 &d\rvh^2\ar[luu]|{W^3}
-&d\rvh^1\ar[luu]
-&d\rvh^0\ar[luu]
-&d\rvh^{-1}=d\rvx\ar[luu]
+&d\rvh^1\ar[luu]|{W^2}
+&d\rvh^0\ar[luu]|{W^1}
+&d\rvh^{-1}=d\rvx
+\ar[luu]|{W^0}
 }
 $$
-\caption{Note that $h^\lam=\phi^\lam(z^\lam)$}
+\caption{NN backprop delta bnet. Note that $h^\lam=\phi^\lam(z^\lam)$.
+Green arrows are an example of Eq.(\ref{eq-backprop-green})
+and red arrows are an example of Eq.(\ref{eq-backprop-red})}
 \label{fig-back-prop-4-layers}
 \end{figure}
 
 
 
 \subsection
-{Computing derivatives of arrows in Fig.\ref{fig-back-prop-4-layers}}
+{Computing derivatives of NN backprop delta bnet}
+
+we will call Fig.\ref{fig-back-prop-4-layers}
+our NN backprop delta bnet.
+In this section,
+we will compute the derivatives 
+along its arrows
+and prove that they are as indicated in the figure.
 
 Define $z ^\lam_{i}$ thus
 
@@ -613,6 +643,8 @@ so
 \boxed{\pder{\cale}{W^\lam_{i|j}}=
 \delta^\lam_i
 h^{\lam-1}_j}
+\text{(for example, green arrows in Fig.\ref{fig-back-prop-4-layers})}
+\label{eq-backprop-green}
 \eeq
 
 From Eq.(\ref{eq-calb})
@@ -647,7 +679,7 @@ D\phi_i^\lam(z _i^\lam)\delta(i,j)
 &=&
 \sum_{j,k}
 \pder{Y_i}{z ^{\lam+1}_k}
-W_{k|j}
+W_{k|j}^{\lam+1}
 \left[
 \delta(i, j)D\phi_i^\lam
 \right]
@@ -655,16 +687,25 @@ W_{k|j}
 &=&
 \sum_k
 \pder{Y_i}{z ^{\lam+1}_k}
-W_{k|i}
+W_{k|i}^{\lam+1}
 D\phi_i^\lam
 \eeqa
 Likewise,
+
+\beq
+\pder{z_i^{\lam+1}}{z_i^\lam}=
+W_{j|i}^{\lam+1} D\phi^\lam_i
+\eeq
+and
+
 \beq
 \boxed{\underbrace{\pder{\cale}{z^\lam_i}}_{\delta^\lam_i}=
 \sum_k
 \underbrace{\pder{\cale}{z ^{\lam+1}_k}}_{\delta^{\lam+1}_k}
-W_{k|i}
+W_{k|i}^{\lam+1}
 D\phi_i^\lam}
+\text{(for example, red arrows in Fig.\ref{fig-back-prop-4-layers})}
+\label{eq-backprop-red}
 \eeq
 
 
