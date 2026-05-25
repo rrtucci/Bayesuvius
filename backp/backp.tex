@@ -153,7 +153,6 @@ with derivatives along each arrow.
 
 \section{General Theory}
 
-\subsection{Jacobians}
 
 Suppose
  $f:\RR^{nx}\rarrow \RR^{nf}$
@@ -204,9 +203,7 @@ of two matrices,
 so order of the product is important. $dx$ is
 a column vector.
 
-\subsection{Bnets for function
-composition,
-forward propagation and back propagation}
+
 
 
 
@@ -276,7 +273,7 @@ with TPMs
 
 \beq\color{blue}
 P(f^\mu|f^{\mu-1})=
-\indi(f^\mu=f^\mu(f^{\mu-1}))
+\indi\left(f^\mu=f^\mu(f^{\mu-1})\right)
 \;
 \eeq
 for $\mu=1, 2,3,4$.
@@ -314,9 +311,9 @@ with node TPMs
 \beq\color{blue}
 P(df^{\mu+1}\mid
 df^{\mu})=
-\indi(df^{\mu+1}=
+\indi\left(df^{\mu+1}=
 \pder{f^{\mu+1}}{f^{\mu}}df^\mu
-)
+\right)
 \eeq
 for $\mu=1,2,3$.
 
@@ -353,12 +350,11 @@ df^{\mu}
 \mid
 df^{\mu+1}
 )=
-\indi(
+\indi\left(
 df^{\mu}
 =
 df^{\mu+1}
-\pder{f^{\mu}}{f^{\mu+1}})
-\;
+\pder{f^{\mu}}{f^{\mu+1}}\right)
 \eeq
 for $\mu=2,1,0$.
 
@@ -371,36 +367,16 @@ and in back prop it post-multiplies.
 
 \section{Application to Neural Networks}
 
-\subsection{Absorbing $b^\lam_i$ into $W_{i|j}$.}
 
-\begin{figure}[h!]
-$$\xymatrix
-{
-\rvx\ar[r]\ar[rd]
-&\rvh^0_2\ar[r]\ar[rd]
-&\rvh^1_2\ar[r]\ar[rd]
-& \rvY_2
-\\
-& \rvh^0_1 \ar[r]\ar[ru]
-&\rvh^1_1 \ar[r]\ar[ru]
-& \rvY_1
-\\
-& \rvh^0_0 \ar[u]\ar@/^1pc/[uu]
-&\rvh^1_0\ar[u]\ar@/^1pc/[uu]
-& \rvY_0\ar[u]\ar@/^1pc/[uu]
-}$$
-\caption{Nodes $\rvh^0_0, \rvh^1_0, \rvY_0$
-are all set to 1. They
-allow us to absorb $b^\lam_i$
-into the first column of
-$W^\lam_{i|j}$.}
-\label{fig-backp-abs}
-\end{figure}
 
-The TPMs, printed in blue,
-for a NN bnet,
-as given in Chapter \ref{ch-nn},
+
+
+As discussed in Chapter \ref{ch-nn},
+the TPMs, printed in blue,
+for a NN bnet
+such as Fig.\ref{fig-backp-abs},
 are as follows.
+
 
 For all hidden layers $\lam=0, 1, \dots,
 \Lambda-2$,
@@ -412,6 +388,7 @@ P(h^{\lam}_i\mid h^{\lam-1})=
  W^{\lam}_{i|j}
 h^{\lam-1}_j + b^{\lam}_i)\right)
 \eeq
+with $h^{-1}_i=x_i$
 for $i=0, 1, \ldots, nh(\lam)-1$.
 For the output visible layer $\lam=\Lambda-1$:
 
@@ -424,87 +401,37 @@ h^{\Lambda-2}_j + b^{\Lambda-1}_i)\right)
 \eeq
 for $i=0, 1, \ldots, ny-1$.
 
-
+It's possible to absorb
+the $b^\lam$ vector into
+$W^\lam$ as follows.
 For each $\lam$, replace the matrix
- $W^\lam_{\cdot|\cdot}$
+ $W^\lam$
 by
 the augmented matrix
-$[b^\lam., W^\lam_{\cdot|\cdot}]$
+$[W^\lam, b^\lam]$
 so that the new
- $W^\lam_{\cdot|\cdot}$ satisfies
+ $W^\lam$
+satisfies 
 
 \beq
-W^{\lam}_{i|0}=b_i^{\lam}
-\;
+W^{\lam}_{i|nx}=b_i^{\lam}
+\eeq
+Also replace the column vector $h^\lam$ by the augmented column vector $[\XT{h^\lam}{1}]$ so that the new $h^\lam$ satisfies
+
+\beq
+h^\lam_{nx}=1
 \eeq
 
-Let the nodes $\rvh_0^\lam$
-for all $\lam$ and $\rvY_0$ be
-root nodes (so no arrows
-pointing into them).
-For each $\lam$, draw arrows from
-$\rvh_0^\lam$ to all other nodes
-in that same layer.
-Draw arrows from
-$\rvY_0$ to all other nodes
-in that same layer.
 
-After performing the
-above steps,
-the TPMs,
-printed in blue,
-for the NN bnet,
- are as follows:
 
-For all hidden layers $\lam=0, 1, \dots,
-\Lambda-2$,
-
-\beq\color{blue}
-P(h^\lam_0)=\delta(h^\lam_0,1)
-\;,
-\eeq
-and
-
-\beq\color{blue}
-P(h^{\lam}_i\mid h^{\lam-1}_., h_0^\lam=1)=
-\delta\left(h^{\lam}_i,
-\phi_i^\lam(\sum_{j}
- W^{\lam}_{i|j}
-h^{\lam-1}_j)\right)
-\eeq
-for $i=1, \ldots, nh(\lam)-1$.
-For the output visible layer $\lam=\Lambda-1$:
-
-\beq\color{blue}
-P(Y_0)=\delta(Y_0,1)
-\;,
-\eeq
-and
-
-\beq\color{blue}
-P(Y_i\mid h^{\Lambda-2}_., Y_0=1)=
-\delta \left(Y_i,
-\phi_i^{\Lambda-1}(\sum_j W^{\Lambda-1}_{i|j}
-h^{\Lambda-2}_j)\right)
-\;
-\eeq
-for $i=1, 2, \ldots, ny-1$.
-
-\subsection{Bnets for function
-composition,
-forward propagation and back propagation
-for NN}
 
 \begin{figure}[h!]
 \centering
 $$
 \begin{array}{l}
 (a)\quad
-\xymatrix@C=3pc{
+\xymatrix@C=2.5pc{
 \rvY
-&
-\ul{\phi^3}
-(z^3)\ar[l]
 &
 \ul{\phi^2}
 (z^2)\ar[l]
@@ -523,17 +450,14 @@ $$
 \xymatrix{
 d\rvY
 &
-d[\ul{\phi^3}
-(z^3)]\ar[l]
+d\ul{\phi^2}
+(z^2)\ar[l]
 &
-d[\ul{\phi^2}
-(z^2)]\ar[l]
+d\ul{\phi^1}
+(z^1)\ar[l]
 &
-d[\ul{\phi^1}
-(z^1)]\ar[l]
-&
-d[\ul{\phi^0}
-(z^0)]\ar[l]
+d\ul{\phi^0}
+(z^0)\ar[l]
 &
 d\ul{x}\ar[l]
 }
@@ -543,17 +467,14 @@ d\ul{x}\ar[l]
 \xymatrix{
 d\rvY\ar[r]
 &
-d[\ul{\phi^3}
-(z^3)]\ar[r]
+d\ul{\phi^2}
+(z^2)\ar[r]
 &
-d[\ul{\phi^2}
-(z^2)]\ar[r]
+d\ul{\phi^1}
+(z^1)\ar[r]
 &
-d[\ul{\phi^1}
-(z^1)]\ar[r]
-&
-d[\ul{\phi^0}
-(z^0)]\ar[r]
+d\ul{\phi^0}
+(z^0)\ar[r]
 &
 d\ul{x}
 }
@@ -566,7 +487,190 @@ for a neural net with 4 layers (3 hidden and
 output visible).}
 \label{fig-backp-nn}
 \end{figure}
-.\\
+
+\begin{figure}[h!]
+\centering
+$$\xymatrix{
+\rvY_0 
+&\rvh_0^1\ar[l]\ar[dl]
+&\rvh_0^0\ar[l]\ar[dl]
+&\rvx_0\ar[l]\ar[ld]\ar[ldd]
+\\
+\rvY_1 
+&\rvh_1^1\ar[l]\ar[lu]
+&\rvh_1^0\ar[l]\ar[lu]
+&\rvx_1\ar[l]\ar[lu]\ar[ld]
+\\
+&&
+\rvh_2^0\ar[lu]\ar[luu]
+&
+\rvx_2\ar[l]\ar[lu]\ar[luu]
+\\
+&&&
+\rvx_3\ar[lu]\ar[luu]\ar[luuu]
+}$$
+\caption{Neural Network (feed forward)
+with 3 layers: input layer $\rvx.$,
+2 hidden layers $\rvh^0.$,
+$\rvh^1.$ and
+output layer $\rvY.$ 
+}
+\label{fig-backp-abs}
+\end{figure}
+
+\begin{figure}[h!]
+$$
+\xymatrix@C=2.5pc{
+&
+&d\ul{\cale}
+&
+&
+&
+\\
+d\rv\phi^3
+&d\rv\phi^2
+&d\rv\phi^1
+&d\rv\phi^0
+&d\rv\phi^{-1}
+\\
+d\rvz^3\ar[r]\ar[u]|{D\phi^{3}}
+\ar@/^1.5pc/[uurr]|{\delta^3}
+&d\rvz^2\ar[r]\ar[uur]
+\ar[u]
+&d\rvz^1\ar[r]\ar[u]
+\ar@/^1pc/[uu]
+&d\rvz^0\ar[r]\ar[u]\ar[uul]
+&d\rvz^{-1}\ar[u]\ar\ar@/_1.5pc/[uull]
+\\
+d\ul{W}^3\ar[u]|{h^{2}}
+&d\ul{W}^2\ar[u]
+&d\ul{W}^1\ar[u]
+&d\ul{W}^0\ar[u]
+&d\ul{W}^{-1}\ar[u]
+\\
+d\rvh^3=\rvY
+&d\rvh^2\ar[luu]|{W^3}
+&d\rvh^1\ar[luu]
+&d\rvh^0\ar[luu]
+&d\rvh^{-1}=d\rvx\ar[luu]
+}
+$$
+\caption{Note that $h^\lam=\phi^\lam(z^\lam)$}
+\label{fig-back-prop-4-layers}
+\end{figure}
+
+
+
+\subsection
+{Computing derivatives of arrows in Fig.\ref{fig-back-prop-4-layers}}
+
+Define $z ^\lam_{i}$ thus
+
+
+\beq
+[z ^\lam(h^{\lam-1})]_{i}=\sum_{j'}
+ W^{\lam}_{i|j'}h^{\lam-1}_{j'}
+\;.
+\label{eq-calb}
+\eeq
+Then
+
+\beq
+\pder{z^\lam_i}{W^\lam_{i|j}}=h_j^{\lam-1},
+\quad 
+\pder{z^\lam_i}{h_j^{\lam-1}}=W^\lam_{i|j}
+\eeq
+Define
+
+\beq
+\delta^\lam_{i}=\pder{\cale}{z ^\lam_{i}}
+\eeq
+Let $D\phi^\lam_i$ represent
+the derivative of the activation function $\phi^\lam_i$
+\beq
+\frac{d\phi^\lam_i}{dz_i^\lam}=D\phi^\lam_i(z^\lam)
+\eeq
+
+
+\beqa
+\pder{Y_k}{W^\lam_{i|j}}&=&
+\pder{Y_k}{z ^\lam_{i}}
+\pder{z _{i}^\lam}{W^\lam_{i|j}}
+\\
+&=&\pder{Y_k}{z ^\lam_{i}}
+h^{\lam-1}_j
+\eeqa
+
+
+
+\beq
+\pder{\cale}{W^\lam_{i|j}}=
+\pder{\cale}{z ^\lam_{i}}
+\pder{z ^\lam_{i}}{W^\lam_{i|j}}
+\eeq
+so
+\beq
+\boxed{\pder{\cale}{W^\lam_{i|j}}=
+\delta^\lam_i
+h^{\lam-1}_j}
+\eeq
+
+From Eq.(\ref{eq-calb})
+
+\beq
+z ^{\lam+1}_{i}(\phi^{\lam})=
+\sum_{r} W^{\lam+1}_{i|r}\phi^{\lam}_{r}
+\eeq
+so
+
+\beq
+\pder{z _{i}^{\lam+1}}{\phi_{j}^{\lam}}
+=W^{\lam+1}_{i|j}
+\;.
+\eeq
+One also has
+
+\beq
+\pder{\phi^{\lam}_i}{z ^{\lam}_j}
+=
+D\phi_i^\lam(z _i^\lam)\delta(i,j)
+\eeq
+
+
+\beqa
+\pder{Y_i}{z^\lam_i}
+&=&\sum_{j,k}
+\pder{Y_i}{z ^{\lam+1}_k}
+\pder{z_k ^{\lam+1}}{\phi^{\lam}_j}
+\pder{\phi^{\lam}_j}{z_i ^{\lam}}
+\\
+&=&
+\sum_{j,k}
+\pder{Y_i}{z ^{\lam+1}_k}
+W_{k|j}
+\left[
+\delta(i, j)D\phi_i^\lam
+\right]
+\\
+&=&
+\sum_k
+\pder{Y_i}{z ^{\lam+1}_k}
+W_{k|i}
+D\phi_i^\lam
+\eeqa
+Likewise,
+\beq
+\boxed{\underbrace{\pder{\cale}{z^\lam_i}}_{\delta^\lam_i}=
+\sum_k
+\underbrace{\pder{\cale}{z ^{\lam+1}_k}}_{\delta^{\lam+1}_k}
+W_{k|i}
+D\phi_i^\lam}
+\eeq
+
+
+
+\subsection{Full AutoDiff and Gradient Descent}
+
 From here on, we will rename $y$ above
 by $Y=\HAT{y}$ and
 consider samples $y[i]$ for
@@ -595,157 +699,8 @@ One has
 2(Y_i-y_i[\sigma])\pder{Y_i}{W^\lam_{i|j}}
 \;.
 \eeq
-Define $z ^\lam_{i}$ thus
 
 
-\beq
-[z ^\lam(h^{\lam-1})]_{i}=\sum_{j'}
- W^{\lam}_{i|j'}h^{\lam-1}_{j'}
-\;.
-\label{eq-calb}
-\eeq
-Then
-
-\beqa
-\pder{Y_k}{W^\lam_{i|j}}&=&
-\pder{Y_k}{z ^\lam_{i}}
-\pder{z _{i}^\lam}{W^\lam_{i|j}}
-\\
-&=&\pder{Y_k}{z ^\lam_{i}}
-h^{\lam-1}_j
-\eeqa
-
-\beqa
-\pder{\cale}{W^\lam_{i|j}}&=&
-\pder{\cale}{z ^\lam_{i}}
-\pder{z ^\lam_{i}}{W^\lam_{i|j}}
-\\
-&=&
-\underbrace{\pder{\cale}{z ^\lam_{i}}}_{\delta^\lam_i}
-h^{\lam-1}_j
-\;.
-\eeqa
-This suggests that
-we can calculate
-the derivatives of the error
-$\cale$
-with respect to the weights
-$W^\lam_{i|j}$ in two
-stages, using an intermediate
-quantity $\delta^\lam_{i}$:
-
-\beq
-\left\{
-\begin{array}{l}
-\delta^\lam_{i}=\pder{\cale}{z ^\lam_{i}}
-\\
-\pder{\cale}{W^\lam_{i|j}}=\delta^\lam_{i} h^{\lam-1}_j
-\end{array}
-\right.
-\eeq
-
-To
-apply what we learned in the earlier
-General Theory
-section of this chapter,
-consider a NN with 4
-layers (3 hidden, and the
-output visible one).
-See Fig.\ref{fig-backp-nn}. The
-TPMs, printed in blue,
-for the bnet $(c)$
-for back propagation, are
-as follows:
-
-\beq\color{blue}
-P(
-dY \mid dz ^{\lam}
-)=
-\indi\left(
-dY
-=
-\pder{Y}{z ^{\lam+1}}
-\pder{z ^{\lam+1}}{\phi^{\lam}}
-\pder{\phi^{\lam}}{z ^{\lam}}
-dz ^{\lam}
-\right)
-\;.
-\label{eq-backp-nn-1}
-\eeq
-From Eq.(\ref{eq-calb})
-
-\beq
-z ^{\lam+1}_{i}(\phi^{\lam})=
-\sum_{r} W^{\lam+1}_{i|r}\phi^{\lam}_{r}
-\eeq
-so
-
-\beq
-\pder{z _{i}^{\lam+1}}{\phi_{j}^{\lam}}
-=W^{\lam+1}_{i|j}
-\;.
-\eeq
-One also has
-
-\beq
-\pder{\phi^{\lam}_i}{z ^{\lam}_j}
-=
-D\phi_i^\lam(z _i^\lam)\delta(i,j)
-\eeq
-where $D{\phi}^\lam_i(z)$
-is the derivative of
-$\phi^\lam_i(z)$.
-Therefore, Eq.(\ref{eq-backp-nn-1})
-implies
-
-\beq\color{blue}
-P(
-dY\mid dz ^{\lam}
-)=
-\indi\left(
-dY
-=
-\sum_{i,j}
-\pder{Y}{z _i^{\lam+1}}
-W^{\lam+1}_{i|j}
-D{\phi}^\lam_j(z ^\lam_j)dz ^\lam_j
-\right)
-\;,
-\eeq
-
-\beq\color{blue}
-P(
-d\cale\mid dz ^{\lam}
-)=
-\indi\left(
-d\cale
-=
-\sum_i
-\pder{\cale}{z _i^{\lam+1}}
-W^{\lam+1}_{i|j}
-D{\phi}^\lam_j(z ^\lam_j)dz _j^\lam
-\right)
-\;,
-\eeq
-
-\beq\color{blue}
-\boxed{
-P(
-\delta^{\lam}_j
-\mid
-\delta^{\lam+1}_j
-)=
-\indi(
-\delta^{\lam}_j
-=
-\sum_i
-\delta_i^{\lam+1}
-D{\phi}^\lam_j(z ^\lam_j))
-W^{\lam+1}_{i|j}
-)
-}
-\;.
-\eeq
 
 First delta of iteration, belonging to output
 layer $\lam=\Lambda-1$:
@@ -774,8 +729,7 @@ D\smoid(x)=
 \smoid (x)(1-\smoid(x))
 \eeq
 
-\section{General bnets instead of Markov chains
-induced by layered structure of NNs}
+
 
 \beq
 P(
@@ -783,14 +737,14 @@ P(
 \mid
 (\delta_\rva)_{\rva\in ch(\rvx)}
 )=
-\indi(
+\indi\left(
 \delta_\rvx
 =
 \sum_{\rva\in ch(\rvx)}
 \delta_\rva
 D{\phi}_\rvx(z _\rvx))
 W_{\rva|\rvx}
-)
+\right)
 \;
 \eeq
 
@@ -805,14 +759,14 @@ P(
 \mid
 (\delta_\rva)_{\rva\in pa(\rvx)}
 )=
-\indi(
+\indi\left(
 \delta_\rvx
 =
 \sum_{\rva\in pa(\rvx)}
 \delta_\rva
 D{\phi}_\rvx(z _\rvx))
 W^T_{\rvx|\rva}
-)
+\right)
 }
 \;
 \eeq

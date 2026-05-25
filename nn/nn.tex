@@ -29,12 +29,11 @@ array of $x_i$ for all $i$.
 \begin{figure}[h!]
 \centering
 $$\xymatrix{
-\rvx_0\ar@/^1pc/[rr]
-\ar@/^2pc/[rrr]
-\ar[d]\ar[dr]\ar[drr]\ar[r]&
-\rvx_1\ar@/^1pc/[rr]
- \ar[dl]\ar[d]\ar[dr]\ar[r]&
-\rvx_2\ar[dll]\ar[dl]\ar[d]\ar[r]&
+\rvx_0
+\ar[d]\ar[dr]\ar[drr]&
+\rvx_1
+ \ar[dl]\ar[d]\ar[dr]&
+\rvx_2\ar[dll]\ar[dl]\ar[d]&
 \rvx_3\ar[dlll]\ar[dll]\ar[dl]\\
 \rvh_0^0\ar[d]\ar[dr]&
 \rvh_1^0\ar[dl]\ar[d]&
@@ -45,7 +44,7 @@ $$\xymatrix{
 \rvY_1
 }$$
 \caption{Neural Network (feed forward)
-with 4 layers: input layer $\rvx.$,
+with 3 layers: 
 2 hidden layers $\rvh^0.$,
 $\rvh^1.$ and
 output layer $\rvY.$ }
@@ -112,18 +111,13 @@ are as follows.
 
 
 \beq\color{blue}
-P(x_i\mid x_{i-1},
-x_{i-1},\dots, x_0)\text{ = given}
-\eeq
-
-\beq\color{blue}
 P(h^{\lam}_i\mid h^{\lam-1}_.)=
 \delta\left(h^{\lam}_i,
 \phi_i^\lam(\sum_j W^{\lam}_{i|j}
 h^{\lam-1}_j + b^{\lam}_i)\right)
 \;,
 \eeq
-where $P(h^0_i|h^{-1})=P(h^0_i|x)$.
+where $h^{-1}=x$.
 
 \beq\color{blue}
 P(Y_i\mid h^{\Lambda-2}_.)=
@@ -132,6 +126,27 @@ P(Y_i\mid h^{\Lambda-2}_.)=
 h^{\Lambda-2}_j + b^{\Lambda-1}_i)\right)
 \;.
 \eeq
+
+It's possible to absorb
+the $b^\lam$ vector into
+$W^\lam$ as follows. For each $\lam$, replace the matrix
+ $W^\lam$
+by
+the augmented matrix
+$[W^\lam, b^\lam]$
+so that the new
+ $W^\lam$
+satisfies 
+
+\beq
+W^{\lam}_{i|nx}=b_i^{\lam}
+\eeq
+Also replace the column vector $h^\lam$ by the augmented column vector $[\XT{h^\lam}{1}]$ so that the new $h^\lam$ satisfies
+
+\beq
+h^\lam_{nx}=1
+\eeq
+
 
 
 \section{Activation Functions
@@ -279,11 +294,7 @@ split into batches.
 An {\bf epoch} is a pass through all
 the batches in the training dataset.
 
-Define
-\beq
-W^\lam_{i|j}=[W^\lam_{i|j}, b^\lam_i]
-\;.
-\eeq
+
 
 The
 TPMs,
@@ -297,7 +308,7 @@ are as follows.
 $$\xymatrix{
 &&\ranvec{x.}\ar[d]\ar[r]&
 \ranvec{y.}\ar[dddd]\\
-&\rvW^0_{.|.} \ar[r]&
+&\rvW^0_{.|.}, \ar[r]&
 \ranvec{h^0_.}\ar[d]\\
 &\rvW^1_{.|.}\ar[r]&
 \ranvec{h^1_.}\ar[d]\\
