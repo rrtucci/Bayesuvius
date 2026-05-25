@@ -7,7 +7,7 @@ automatic differentiation, is
 a basic
 operation
 performed when 
-training (adjusting the weights) of a 
+training (updating the weights) of a 
 neural net (NN).
 
 
@@ -31,7 +31,7 @@ d=W_3b+W_4c
 \label{eq-backp-toy-eqs}
 \eeq
 
-To calculate $\nabla_W \cale$ where
+To calculate $\partial_W \cale$ where
  $W=(W_1, W_2, W_3, W_4)$, we can use the
 chain rule for partial derivatives.
 This yields
@@ -65,7 +65,7 @@ be represented graphically by the bnet (with
 deterministic nodes) of
 Fig.\ref{fig-toy-backp-bnet}.
 The calculation
-of $\nabla_W\cale$ can also be represented
+of $\partial_W\cale$ can also be represented
 graphically with the aid of the defining bnet
 Fig.\ref{fig-toy-backp-bnet}. This is done in Fig.\ref{fig-toy-backp-deriv-bnet}.
 As illustrated by that figure,
@@ -95,7 +95,7 @@ d\rva\ar[r]
 }
 $$
 \caption{bnet
-for which we want to calculate $\nabla_W \cale$ where
+for which we want to calculate $\partial_W \cale$ where
  $W=(W_1, W_2, W_3, W_4)$}
 \label{fig-toy-backp-bnet}
 \end{figure}
@@ -144,7 +144,9 @@ d\rva\ar[r]_{W_1}
 $$
 \caption{bnet of
 Fig. \ref{fig-toy-backp-bnet}
-with derivatives along each arrow.
+with nodes
+replaced by their differentials.The arrows of the new bnet
+ carry derivatives.
 }
 \label{fig-toy-backp-deriv-bnet}
 \end{figure}
@@ -267,12 +269,6 @@ for $nf=5$ nodes.}
 \label{fig-backp-abc}
 \end{figure}
 
-Henceforth, we will refer to bnets whose
-nodes are differentials or increments as {\bf delta bnets.}
-For example, Fig.\ref{fig-toy-backp-bnet}
-and  parts $(b)$ and $(c)$
-of Fig.\ref {fig-backp-abc}
-are delta bnets.
 
 Let
 \beq
@@ -372,16 +368,53 @@ df^{\mu+1}
 for $\mu=2,1,0$.
 
 $\pder{f^{\mu+1}}{f^{\mu}}$
-is a Jacobian matrix
+and $\pder{f^{\mu}}{f^{\mu+1}}$
+are Jacobian matrices 
 so the order of multiplication
-matters. In forward prop,
-it pre-multiplies,
-and in back prop it post-multiplies.
+matters.
+
+Henceforth, we will refer to bnets whose
+nodes are differentials (e.g., $df$) or infinitesimals (e.g., $\Delta f$) as {\bf delta bnets.}\footnote{Delta bnets are also
+useful for discussing It\^o calculus. See Chapter \ref{ch-stochastic-diff-eqns}}
+For example, Fig.\ref{fig-toy-backp-bnet}
+and  parts $(b)$ and $(c)$
+of Fig.\ref {fig-backp-abc}
+are delta bnets.
+
 
 \section{Application to Neural Networks}
 
 
-
+\subsection{Review of NN}
+\begin{figure}[h!]
+\centering
+$$\xymatrix{
+\rvY_0 
+&\rvh_0^1\ar[l]\ar[dl]
+&\rvh_0^0\ar[l]\ar[dl]
+&\rvx_0\ar[l]\ar[ld]\ar[ldd]
+\\
+\rvY_1 
+&\rvh_1^1\ar[l]\ar[lu]
+&\rvh_1^0\ar[l]\ar[lu]
+&\rvx_1\ar[l]\ar[lu]\ar[ld]
+\\
+&&
+\rvh_2^0\ar[lu]\ar[luu]
+&
+\rvx_2\ar[l]\ar[lu]\ar[luu]
+\\
+&&&
+\rvx_3\ar[lu]\ar[luu]\ar[luuu]
+}$$
+\caption{Neural Network (feed forward)
+with 3 layers: input layer $\rvx.$,
+2 hidden layers $\rvh^0.$,
+$\rvh^1.$ and
+output layer $\rvY.$ 
+}
+\label{fig-backp-abs}
+\end{figure}
 
 
 As discussed in Chapter \ref{ch-nn},
@@ -435,8 +468,28 @@ Also replace the column vector $h^\lam$ by the augmented column vector $[\XT{h^\
 h^\lam_{nx}=1
 \eeq
 
+Consider samples $y[i]$ for
+$i=0, 1, \ldots, nsam-1$.
+The Error (a.k.a. loss or cost function) is
+
+\beq
+\cale =\frac{1}{nsam}
+\sum_{\sigma=0}^{nsam-1}\sum_i
+|Y_i-y_i[\sigma]|^2
+\eeq
+To perform simple gradient descent,
+one uses:
+
+\beq
+(W_{i|j}^\lam)'=W_{i|j}^\lam
+-\eta\pder{\cale}{W^\lam_{i|j}}
+\label{eq-backp-grad-descent}
+\eeq
+for some $\eta >0$.
 
 
+\subsection
+{Computing derivatives of NN backprop delta bnet}
 
 \begin{figure}[h!]
 \centering
@@ -501,35 +554,7 @@ output visible).}
 \label{fig-backp-nn}
 \end{figure}
 
-\begin{figure}[h!]
-\centering
-$$\xymatrix{
-\rvY_0 
-&\rvh_0^1\ar[l]\ar[dl]
-&\rvh_0^0\ar[l]\ar[dl]
-&\rvx_0\ar[l]\ar[ld]\ar[ldd]
-\\
-\rvY_1 
-&\rvh_1^1\ar[l]\ar[lu]
-&\rvh_1^0\ar[l]\ar[lu]
-&\rvx_1\ar[l]\ar[lu]\ar[ld]
-\\
-&&
-\rvh_2^0\ar[lu]\ar[luu]
-&
-\rvx_2\ar[l]\ar[lu]\ar[luu]
-\\
-&&&
-\rvx_3\ar[lu]\ar[luu]\ar[luuu]
-}$$
-\caption{Neural Network (feed forward)
-with 3 layers: input layer $\rvx.$,
-2 hidden layers $\rvh^0.$,
-$\rvh^1.$ and
-output layer $\rvY.$ 
-}
-\label{fig-backp-abs}
-\end{figure}
+
 
 \begin{figure}[h!]
 $$
@@ -584,10 +609,11 @@ and red arrows are an example of Eq.(\ref{eq-backprop-red})}
 
 
 
-\subsection
-{Computing derivatives of NN backprop delta bnet}
+Fig.\ref{fig-backp-abc} becomes Fig.\ref{fig-backp-nn} for the case of NN.  
+A much more detailed version of
+Fig.\ref{fig-backp-nn} is  Fig.\ref{fig-back-prop-4-layers}.
 
-we will call Fig.\ref{fig-back-prop-4-layers}
+We will call Fig.\ref{fig-back-prop-4-layers}
 our NN backprop delta bnet.
 In this section,
 we will compute the derivatives 
@@ -643,7 +669,7 @@ so
 \boxed{\pder{\cale}{W^\lam_{i|j}}=
 \delta^\lam_i
 h^{\lam-1}_j}
-\text{(for example, green arrows in Fig.\ref{fig-back-prop-4-layers})}
+\text{(example: green arrows in Fig.\ref{fig-back-prop-4-layers})}
 \label{eq-backprop-green}
 \eeq
 
@@ -704,110 +730,57 @@ and
 \underbrace{\pder{\cale}{z ^{\lam+1}_k}}_{\delta^{\lam+1}_k}
 W_{k|i}^{\lam+1}
 D\phi_i^\lam}
-\text{(for example, red arrows in Fig.\ref{fig-back-prop-4-layers})}
+\text{(example: red arrows in Fig.\ref{fig-back-prop-4-layers})}
 \label{eq-backprop-red}
 \eeq
 
-
-
-\subsection{Full AutoDiff and Gradient Descent}
-
-From here on, we will rename $y$ above
-by $Y=\HAT{y}$ and
-consider samples $y[i]$ for
-$i=0, 1, \ldots, nsam-1$.
-The Error (a.k.a. loss or cost function) is
-
+Cute expression for
+derivative of sigmoid function
+in case activation function $\phi(z)$
+is sigmoid function:
 \beq
-\cale =\frac{1}{nsam}
-\sum_{\sigma=0}^{nsam-1}\sum_i
-|Y_i-y_i[\sigma]|^2
-\eeq
-To perform simple gradient descent,
-one uses:
-
-\beq
-(W_{i|j}^\lam)'=W_{i|j}^\lam
--\eta\pder{\cale}{W^\lam_{i|j}}
-\;.
-\eeq
-One has
-
-\beq
-\pder{\cale}{W^\lam_{i|j}}=
-\frac{1}{nsam}
-\sum_{\sigma=0}^{nsam-1}
-2(Y_i-y_i[\sigma])\pder{Y_i}{W^\lam_{i|j}}
-\;.
+D\smoid(z)=
+\smoid (z)(1-\smoid(z))
 \eeq
 
 
+\subsection{Backprop algorithm}
 
-First delta of iteration, belonging to output
-layer $\lam=\Lambda-1$:
+
+\begin{enumerate}
+\item
+First, calculate $\delta^\lam$
+for each weight layer $W^\lam$. One does this recursively backwards
+using boxed equation Eq.(\ref{eq-backprop-red}). For 4 layers:
+
+\beq
+\delta^3\to \delta^2\to \delta^1\to \delta^0
+\eeq
+First delta of recursion, belonging to output
+layer $\lam=\Lambda-1=3$, is:
 
 \beqa
-\delta^{\Lambda-1}_j&=&
-\pder{\cale}{z ^{\Lambda-1}_j}
+\delta^{3}_j&=&
+\pder{\cale}{z ^{3}_j}
 \\
 &=&
 \frac{1}{nsam}
-\sum_{\sigma=0}^{nsam-1}\sum_{i=0}^{ny-1}
+\sum_{\sigma=0}^{nsam-1}\sum_{i}
 2(Y_i-y_i[\sigma])
-D{\phi}^{\Lambda-1}_i(z ^{\Lambda-1}_i)\delta(i,j)
+D{\phi}^{3}_i(z ^{3}_i)\delta(i,j)
 \\
 &=&
 \frac{1}{nsam}
 \sum_{\sigma=0}^{nsam-1}
 2(Y_j-y_j[\sigma])
-D{\phi}^{\Lambda-1}_j(z ^{\Lambda-1}_j)
+D{\phi}^{3}_j(z ^{3}_j)
 \eeqa
-
-Cute expression for
-derivative of sigmoid function:
-\beq
-D\smoid(x)=
-\smoid (x)(1-\smoid(x))
-\eeq
-
-
-
-\beq
-P(
-\delta_\rvx
-\mid
-(\delta_\rva)_{\rva\in ch(\rvx)}
-)=
-\indi\left(
-\delta_\rvx
-=
-\sum_{\rva\in ch(\rvx)}
-\delta_\rva
-D{\phi}_\rvx(z _\rvx))
-W_{\rva|\rvx}
-\right)
-\;
-\eeq
-
-Reverse arrows of original bnet
-and define the TPM
-of nodes of \qt{time reversed} bnet by
-
-\beq\color{blue}
-\boxed{
-P(
-\delta_\rvx
-\mid
-(\delta_\rva)_{\rva\in pa(\rvx)}
-)=
-\indi\left(
-\delta_\rvx
-=
-\sum_{\rva\in pa(\rvx)}
-\delta_\rva
-D{\phi}_\rvx(z _\rvx))
-W^T_{\rvx|\rva}
-\right)
-}
-\;
-\eeq
+\item Next, using the boxed equation Eq.(\ref{eq-backprop-green}),  calculate the
+gradients $\partial_{W^\lam} \cale$ for each
+layer $\lam$.
+\item
+Finally, using the gradient descent
+Eq.(\ref{eq-backp-grad-descent}) and the gradients $\partial_{W^\lam}\cale$
+obtained in the previous step, calculate how to update
+the weights $W^\lam$ of each layer $\lam$.
+\end{enumerate}
