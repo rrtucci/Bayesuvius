@@ -3,7 +3,6 @@
 \input{bayesuvius.sty}
 \begin{document}
 
-The {\bf Kramers–Moyal expansion} is a Taylor expansion to all orders in $x$ and first order in $t$ of the Chapman–Kolmogorov equation for a \ul{Markovian process}.
 
 Let 
 
@@ -211,7 +210,10 @@ so moments higher than second vanish after division by $\tau$.
 
 
 
-\section{second try}
+\section{Kramers-Moyal Expansion}
+
+The {\bf Kramers–Moyal expansion} is a Taylor expansion to all orders in $x$ and first order in $t$ of the Chapman–Kolmogorov equation for a \ul{Markovian process}.
+
 
 
 the following identity which is formally valid for a
@@ -271,6 +273,8 @@ Dirac delta function:
 
 
 
+\begin{enumerate}
+\item Expanding $\ket{P}$ in $\ket{x}$ basis
 
 \beq
 \tilde{P}(k)
@@ -282,6 +286,8 @@ Dirac delta function:
 \sum_x\av{k| x}\av{x|P}
 \right)
 \eeq
+
+\item Expanding $\ket{P}$ in $\ket{k}$ basis
 
 \beq
 P(x)=
@@ -295,15 +301,15 @@ P(x)=
 \right)
 \eeq
 
+\item Expanding $\ket{P}$ in $\ket{n}$ basis
+
 
 \beq
-\mu_n= \int_{-\infty}^\infty x^n P(x)
+\mu_n= \int_{-\infty}^\infty dx\; x^n P(x)
 ,\quad
 \left(\underbrace{\av{n|\ul{\mu}|P}}_{\mu_n}=
 \sum_x \underbrace{\av{n|\ul{\mu}|x}}_{x^n}\av{x|P}\right)
 \eeq
-
-
 
 \beq
 \av{k|n}=\frac{(ik)^n}{n!\sqrt{2\pi}}\implies
@@ -312,7 +318,6 @@ P(x)=
 \int_{-\infty}^\infty dk\; \frac{e^{-ikx}}{\sqrt{2\pi}}\frac{(ik)^n}{n!\sqrt{2\pi}}=\frac{1}{n!}
 (-\partial_x)^n\delta(x)
 \eeq
-
 
 
 \beq
@@ -325,7 +330,7 @@ P(x)=
 }
 \eeq
 \beq
-\av{x-x_0|n}=\frac{1}{n!}(-\partial_x)^n\delta(x-x_0)
+\av{x-x'|n}=\frac{1}{n!}(-\partial_x)^n\delta(x-x')
 \eeq
 
 \beq
@@ -349,40 +354,63 @@ P(x)=
 \sum_{n=0}^\infty \ket{n}\bra{n}\ul{\mu}=1}
 \eeq
 
+\beq
+\av{x|P}=\sum_{n=0}^\infty \av{x|n}\av{n|\ul{\mu}P}=
+\sum_{n=0}^\infty \frac{1}{n!}(-\partial_x)^n \delta(x)\mu_n
+\eeq
 
+
+\end{enumerate}
 
 
 \hrule
 
+Jump
 \beq
-\mu(\XT{n}{t}\mid \XT{x_0}{t_0})= \int_{-\infty}^\infty dx\; (x-x_0)^n P(
-\XT{x}{t}\mid \XT{x_0}{t_0})
+\Delta = x-x'
+\eeq
+
+
+\beq
+\mu(\XT{n}{t}\mid \XT{x'}{t'})= \int_{-\infty}^\infty dx\; (x-x')^n P(
+\XT{x}{t}\mid \XT{x'}{t'})
 ,\quad
-\left(\underbrace{\av{n|\ul{\mu}^{x_0}P_{t, t_0}|x_0}}_
-{\mu(\XT{n}{t}\mid \XT{x_0}{t_0})}
+\left(\underbrace{\av{n|\ul{\mu}^{x'}P_{t, t'}|x'}}_
+{\mu(\XT{n}{t}\mid \XT{x'}{t'})}
 =
-\sum_x \underbrace{\av{n|\ul{\mu}^{x_0}|x}}_{(x-x_0)^n}
-\av{x|P_{t,t_0}|x_0}\right)
+\sum_x \underbrace{\av{n|\ul{\mu}^{x'}|x}}_{(x-x')^n}
+\av{x|P_{t,t'}|x'}\right)
 \eeq
 
 \beq
-\int_{-\infty}^\infty dx\; \frac{e^{ik(x-x_0)}}{\sqrt{2\pi}} P(\XT{x}{t}|\XT{x_0}{t_0})=\sum_{n=0}^\infty \frac{(ik)^n}{n!\sqrt{2\pi}}\int_{-\infty}^\infty (x-x_0)^n P(\XT{x}{t}|\XT{x_0}{t_0})=
-\sum_{n=0}^\infty \frac{(ik)^n}{n!\sqrt{2\pi}}\mu(\XT{n}{t}| \XT{x_0}{t_0})
+\int_{-\infty}^\infty dx\; \frac{e^{ik(x-x')}}{\sqrt{2\pi}} P(\XT{x}{t}|\XT{x'}{t'})=\sum_{n=0}^\infty \frac{(ik)^n}{n!\sqrt{2\pi}}\int_{-\infty}^\infty (x-x')^n P(\XT{x}{t}|\XT{x'}{t'})=
+\sum_{n=0}^\infty \frac{(ik)^n}{n!\sqrt{2\pi}}\mu(\XT{n}{t}| \XT{x'}{t'})
 \eeq
 
 \beq
-\sum_x\av{k|x-x_0}\av{x|P_{t,t_0}|x_0}=
-\sum_{n=0}^\infty\av{k|n}\av{n|\ul{\mu}^{x_0}P_{t,t_0}|x_0}
+\sum_x\av{k|x-x'}\av{x|P_{t,t'}|x'}=
+\sum_{n=0}^\infty\av{k|n}\av{n|\ul{\mu}^{x'}P_{t,t'}|x'}
 \eeq
+
+
 
 \beq
 \boxed{
-\sum_n \ket{n}\bra{n}\ul{\mu}^{x_0}=
-\sum_x \ket{x-x_0}\bra{x}}
+\sum_{n=0}^\infty \ket{n}\bra{n}\ul{\mu}^{x'}=
+\sum_x \ket{x-x'}\bra{x}}
+\eeq
+
+\beq
+\bra{x-x'}P_{t,t'}\ket{x'}=
+\sum_{n=0}^\infty \av{x-x'|n}\av{n|\ul{\mu}^{x'}P_{t,t'}|x'}
+=
+\sum_{n=0}^\infty
+\frac{1}{n!}(-\partial_x)^n\delta(x-x')
+\mu(\XT{n}{t}| \XT{x'}{t'})
 \eeq
 
 
-
+\hrule
 \beq
 P(\XT{x}{t}|\XT{x_0}{t_0})=
 \int dx'\;
@@ -402,25 +430,44 @@ P_{t, t-\tau}P_{t-\tau, t_0}
 
 
 \beqa
-\bra{x}P_{t, t_0}\ket{x_0}&=&
+\bra{x-x'}P_{t, t_0}\ket{x_0}&=&
 \sum_{n=0}^\infty
 \sum_{x'}
-\bra{x}P_{t, t-\tau}
+\bra{x-x'}P_{t, t-\tau}
 \ket{n}\av{n|x'}
 \bra{x'}P_{t-\tau, t_0}\ket{x_0}
 \\
 &=&
 \sum_{n=0}^\infty
 \sum_{x'}
-\bra{x}P_{t, t-\tau}
-\ket{n}\frac{(-\partial_{x'})^n \delta(x-x')}{n!}
+\frac{1}{n!}(-\partial_x)^n\delta(x-x')
+\mu(\XT{n}{t}| \XT{x'}{t-\tau})
 \bra{x'}P_{t-\tau, t_0}\ket{x_0}
 \\
 &=&
 \sum_{n=0}^\infty\frac{(-\partial_{x})^n}{n!} 
-\bra{x}P_{t, t-\tau}\ket{n}
-\bra{x}P_{t-\tau, t_0}\ket{x_0}
+\left[\mu(\XT{n}{t}| \XT{x}{t-\tau})
+\bra{x}P_{t-\tau, t_0}\ket{x_0}\right]
 \eeqa
+
+$n=0$ term on right  hand side is just 
+$\av{x-x'|P(t-\tau, t_0)|x_0}$ so move it to
+left hand side and divide by $\tau$.
+Also define
+
+\beq
+D^{(n)}(x,t) = \lim_{\tau\to 0}\frac{1}{\tau}\mu(\XT{n}{t}| \XT{x}{t-\tau})
+\eeq
+
+\beq
+\partial_t P(x,t)=
+\sum_{n=1}^\infty
+\frac{(-\partial_{x})^n}{n!} 
+\left[D^{(n)}(x,t)
+P(x,t)\right]
+\eeq
+
+
 
 
  
