@@ -4,6 +4,15 @@
 \begin{document}
 
 
+
+
+
+
+\section{Kramers-Moyal Expansion}
+
+The {\bf Kramers–Moyal expansion} is a Taylor expansion to all orders in $x$ and first order in $t$ of the Chapman–Kolmogorov equation for a \ul{Markovian process}.
+
+
 Let 
 
 $p( x, t)=$ denote the probability density of a Markov process $\rvx_t$
@@ -40,28 +49,34 @@ p( x, t+\tau)
  K(x\mid x-\Delta) 
 p(x-\Delta, t) 
 \eeq
-Next use the following identity which is formally valid for a
-finite translation $\Delta$:
+Define the jump moments $M_n$ by
 \beq
-f(x-\Delta)
+M_n(x,\tau)
 =
-e^{-\Delta\partial_x}f(x)
+\int d\Delta\;\Delta^n  K(x+\Delta|x)
 \eeq
-where
+Define the Kramers–Moyal coefficients
 \beq
-e^{-\Delta\partial_x}
+D^{(n)}( x, t)
 =
-\sum_{n=0}^\infty
-\frac{(-\Delta)^n}{n!}\partial_x^n
+\frac{1}{n!}
+\lim_{\tau\to0}
+\frac{M_n(x,\tau)}{\tau}.
 \eeq
-In particular, this applies to the 
-Dirac delta function:
 
+
+\begin{claim}
 \beq
-\delta(x)= \int_{-\infty}^{+\infty}\frac{dk}{2\pi}\;
-e^{ikx}
+\partial_t p( x, t)
+=
+\sum_{n=1}^\infty
+(-\partial_x)^n
+\bigl[
+D^{(n)}( x, t)p( x, t)
+\bigr].
 \eeq
-Hence
+\end{claim}
+\noindent{\it proof 1 (low tech):}
 
 \beqa
 p( x, t+\tau)
@@ -69,36 +84,25 @@ p( x, t+\tau)
 \int d\Delta\;
 \int dx'\; \delta(x'-(x-\Delta))K(x\mid x')p( x', t)
 \\
-&=&
+&=&\int dx'\;
 \int d\Delta\;
-\int dx'\; e^{-\Delta \partial_x}
-\delta(x'-x)K(x\mid x')p( x', t)
+\delta(\Delta-(x-x'))K(x'+\Delta\mid x')p( x', t)
 \\&=&
+\int dx'
 \sum_{n=0}^\infty
-\frac{(-1)^n}{n!}
-\partial_x^n
-\left[
-\int d\Delta\; \Delta^n
- K(x;\Delta, \tau) 
-p( x, t)
+\frac{(-\partial_x)^n}{n!}
+\left[\delta(x-x')
+M_n(x,\tau) 
+p( x', t)
 \right]
-\eeqa
-Define the jump moments $M_n$ by
-\beq
-M_n(x,\tau)
-=
-\int d\Delta\;\Delta^n  K(x;\Delta, \tau)
-\eeq
-Then
-\beq
-p( x, t+\tau)
-=
+\\
+&=&
 \sum_{n=0}^\infty
 \frac{(-1)^n}{n!}
 \partial_x^n
 \bigl[M_n(x, \tau)p( x, t)\bigr]
 \label{eq-m-zero-on-right}
-\eeq
+\eeqa
 Note that
 \beq
 M_0(x,\tau)=\int d\Delta \;
@@ -130,46 +134,8 @@ If we now divide by $\tau$:
 p( x, t)
 \right].
 \eeq
-
 Now take $\tau\to 0$.
-
-Define the Kramers–Moyal coefficients
-\beq
-D^{(n)}( x, t)
-=
-\frac{1}{n!}
-\lim_{\tau\to0}
-\frac{M_n(x,\tau)}{\tau}.
-\eeq
-
-Equivalently 
-\beq
-D^{(n)}( x, t)
-=
-\frac{1}{n!}
-\lim_{\tau\to0}
-\frac{1}{\tau}
-\int
-\Delta^n
-P(x+\Delta, t+\tau\mid  x, t) d\Delta.
-\eeq
-
-Hence
-\beq
-\partial_t p( x, t)
-=
-\sum_{n=1}^\infty
-(-\partial_x)^n
-\bigl[
-D^{(n)}( x, t)p( x, t)
-\bigr].
-\eeq
-
-This is the Kramers–Moyal expansion.
-
-
-
-4. Relation to Fokker–Planck
+\qed
 
 If all terms with $n\ge3$ vanish  then
 \beq
@@ -182,25 +148,16 @@ which is the Fokker–Planck equation.
 
 For an Itô SDE
 \beq
-d\rvx_t=f(\rvx_t t) dt+L(\rvx_t t) dW_t 
+d\rvx_t=f(\rvx_t t) dt+L(\rvx_t t) d\rvB_t 
 \eeq
 one finds
 \beq
-D^{(1)}=a 
+D^{(1)}=f
 \qquad
-D^{(2)}=\frac12 b^2 
+D^{(2)}=\frac12 L^2 
 \eeq
 and all higher coefficients vanish.
 
-
-
-5. Intuition
-
-The Kramers–Moyal expansion is the probabilistic analogue of expanding a finite-difference master equation into derivatives.
-
-* $D^{(1)}$: mean infinitesimal displacement (drift)
-* $D^{(2)}$: infinitesimal variance (diffusion)
-* higher $D^{(n)}$: non-Gaussian jump structure
 
 Brownian diffusions truncate at second order because increments scale as
 \beq
@@ -208,13 +165,9 @@ Brownian diffusions truncate at second order because increments scale as
 \eeq
 so moments higher than second vanish after division by $\tau$.
 
+\hrule
 
-
-\section{Kramers-Moyal Expansion}
-
-The {\bf Kramers–Moyal expansion} is a Taylor expansion to all orders in $x$ and first order in $t$ of the Chapman–Kolmogorov equation for a \ul{Markovian process}.
-
-
+\noindent{\it proof 2 (high tech):}
 
 the following identity which is formally valid for a
 finite translation $\Delta$:
@@ -466,7 +419,7 @@ D^{(n)}(x,t) = \lim_{\tau\to 0}\frac{1}{\tau}\mu(\XT{n}{t}| \XT{x}{t-\tau})
 \left[D^{(n)}(x,t)
 P(x,t)\right]
 \eeq
-
+\qed
 
 
 
