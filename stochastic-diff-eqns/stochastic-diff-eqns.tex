@@ -3773,6 +3773,490 @@ then
 Just combine Claims \ref{cl-girsanov-theo} and \ref{cl-ratio-2-martingales-h}
 \qed
 
+\section{Kramers-Moyal Expansion}
+
+The {\bf Kramers–Moyal expansion} is a Taylor expansion to all orders in $x$ and first order in $t$ of the Chapman–Kolmogorov equation for a \ul{Markovian process}.
+
+
+Let 
+
+$p( x, t)=$ denote the probability density of a Markov process $\rvx_t$
+
+$P( \XT{x}{t}|\XT{x'}{t-\tau})=$
+the transition probability of $\rvx_t$
+
+The expansion expresses the evolution equation for $p( x, t)$ in terms of the jump moments of the process.
+
+
+
+ 
+
+For a Markov process  the 
+Chapman–Kolmogorov equation implies
+\beq
+\underbrace{p(x, t)}
+_{P(\XT{x}{t}\mid\XT{x_0}{t_0})}
+=
+\int_{-\infty}^{\infty}dx'\;
+P(\XT{x}{t}\mid\XT{x'}{t-\tau})
+\underbrace{p(x', t-\tau)}_{P(\XT{x'}{t-\tau}\mid\XT{x_0}{t_0})}
+\eeq
+Define the jump variable $\Delta$ and kernel $K(\cdot)$
+\beq
+\Delta = x-x', \quad K_{t|t-\tau}(x|x')=
+ P(\XT{x}{t}\mid\XT{x'}{t-\tau})
+\eeq
+Then
+\beq
+p( x, t)
+=
+\int d\Delta\;
+ K(x\mid x-\Delta) 
+p(x-\Delta, t-\tau) 
+\eeq
+Define the jump moments $\mu_n$ by
+\beq
+\mu_n(x;t,\tau)
+=
+\int d\Delta\;\Delta^n  K(x+\Delta|x)
+\eeq
+Define the Kramers–Moyal coefficients $D^{(n)}$ by
+\beq
+D^{(n)}( x, t)
+=
+\frac{1}{n!}
+\lim_{\tau\to0}
+\frac{\mu_n(x)}{\tau}
+\eeq
+
+
+\begin{claim}
+\beq
+\partial_t p( x, t)
+=
+\sum_{n=1}^\infty
+(-\partial_x)^n
+\bigl[
+D^{(n)}( x, t)p( x, t)
+\bigr]
+\eeq
+\end{claim}
+\noindent{\it proof 1 (low tech):}
+
+\beqa
+p( x, t)
+&=&
+\int d\Delta\;
+\int dx'\; \delta(x'-(x-\Delta))K(x\mid x')p( x', t-\tau)
+\\
+&=&\int dx'\;
+\int d\Delta\;
+\delta(\Delta-(x-x'))K(x'+\Delta\mid x')p( x', t-\tau)
+\\&=&
+\int dx'
+\sum_{n=0}^\infty
+\frac{(-\partial_x)^n}{n!}
+\left[\delta(x-x')
+\mu_n(x) 
+p( x', t-\tau)
+\right]
+\\
+&=&
+\sum_{n=0}^\infty
+\frac{(-1)^n}{n!}
+\partial_x^n
+\bigl[\mu_n(x)p( x, t-\tau)\bigr]
+\label{eq-m-zero-on-right}
+\eeqa
+Note that
+\beq
+\mu_0(x)=\int d\Delta \;
+\underbrace{K(x+\Delta|x)}_{P( \XT{x+\Delta} {t}\mid \XT{x}{t-\tau})}=1
+\eeq
+Therefore, in
+Eq.(\ref{eq-m-zero-on-right}),
+if
+we move the $n=0$ term 
+from the right to the
+left hand side, we get
+\beq
+p( x, t)-p( x, t-\tau)
+=
+\sum_{n=1}^\infty
+\frac{(-1)^n}{n!}
+\partial_x^n
+\bigl[\mu_n(x)p( x, t-\tau)\bigr].
+\eeq
+If we now divide by $\tau$:
+\beq
+\frac{p( x, t)-p( x, t-\tau)}{\tau}
+=
+\sum_{n=1}^\infty
+\frac{(-1)^n}{n!}
+\partial_x^n
+\left[
+\frac{\mu_n(x)}{\tau}
+p( x, t)
+\right].
+\eeq
+Finally, we let $\tau\to 0$.
+\qed
+
+If all terms with $n\ge3$ vanish  then
+\beq
+\partial_t p
+=
+-\partial_x(D^{(1)}p)
++\partial_x^2(D^{(2)}p) 
+\eeq
+which is the Fokker–Planck forward equation.
+
+For an Itô SDE
+\beq
+d\rvx_t=f(\rvx_t, t) dt+L(\rvx_t, t) d\rvB_t 
+\eeq
+one finds
+\beq
+D^{(1)}=f
+\qquad
+D^{(2)}=\frac12 L^2 
+\eeq
+and all higher coefficients vanish.
+
+
+Brownian diffusions truncate at second order because increments scale as
+\beq
+\Delta X \sim \sqrt{\tau} 
+\eeq
+so moments higher than second vanish after division by $\tau$.
+
+\hrule
+
+\noindent{\it proof 2 (high tech):}
+
+This high-tech proof uses the machinery
+of Dirac notation. It
+takes a while to
+set up that machinery, but once 
+it's set up, the proof
+itself is just as trivial.
+I decided to include this proof
+besides the low tech one because
+I feel it provides unique
+insights. It
+interprets
+the Kramers-Moyal
+expansion as just a 
+change of basis for the
+Chapman Kolgomorov equation.
+
+Recall some standard 
+results for Dirac notation (found in most Quantum Mechanics  textbooks) 
+
+The following identity is formally valid for a
+finite translation $\Delta$:
+\beq
+f(x-\Delta)
+=
+e^{-\Delta\partial_x}f(x)
+,\quad
+\left(\av{f|x-\Delta}= \av{f|e^{-\Delta\partial_x}|x}\right)
+\eeq
+where
+\beq
+e^{-\Delta\partial_x}
+=
+\sum_{n=0}^\infty
+\frac{(-\Delta)^n}{n!}\partial_x^n
+\eeq
+The 
+Dirac delta function
+can be represented formally as
+
+
+\beq
+\delta(x)=\int_{-\infty}^\infty dk\; \frac{e^{ik}}{2\pi},\quad
+\delta(k)=\int_{-\infty}^\infty dx\; \frac{e^{ik}}{2\pi}
+\eeq
+
+
+
+For succinctness, I will represent integrals over 
+position $x$ and wave number $k$ as finite sums:
+\beq
+\int_{-\infty}^\infty dx\to \quad \sum_x,\quad 
+\int_{-\infty}^\infty dk\to \quad \sum_k
+\eeq
+
+
+The eigenstates $\ket{x}$ of the 
+position operator $\rvx$
+and the eigenstates $\ket{k}$ of the
+wave number operator $\rvk$ 
+are related by
+
+\beq
+\av{k| x}=
+\frac{e^{ikx}}{\sqrt{2\pi}},
+\quad 
+\av{x| k}=
+\frac{e^{-ikx}}{\sqrt{2\pi}}
+\eeq
+The $\ket{x}$ and $\ket{k}$
+ bases are complete orthonormal bases:
+\beq
+\sum_{x}\ket{x}\bra{x}=1,\quad
+\av{x|x'}=\delta(x-x')
+\eeq
+
+\beq
+\sum_{k}\ket{k}\bra{k}=1,\quad
+\av{k|k'}=\delta(k-k')
+\eeq
+
+
+
+
+
+
+\begin{enumerate}
+\item Expanding $\ket{P}$ in $\ket{x}$ basis
+(Fourier transform)
+
+\beq
+\tilde{P}(k)
+=
+\int_{-\infty}^\infty dx\; 
+\frac{e^{ik}}{\sqrt{2\pi}}P(x),\quad
+\left(
+\av{k|P}=
+\sum_x\av{k| x}\av{x|P}
+\right)
+\eeq
+
+\item Expanding $\ket{P}$ in $\ket{k}$ basis
+(Inverse Fourier Transform)
+
+\beq
+P(x)=
+\int_{-\infty}^\infty dk\;
+\frac{e^{-ik}}{\sqrt{2\pi}}
+\tilde{P}(k)
+,\quad
+\left(
+\av{x|P}=
+\sum_k \av{x|k}\av{k|P}
+\right)
+\eeq
+
+\item Expanding $\ket{P}$ in $\ket{n}$ basis
+
+Consider a probability distribution $P(x)$
+such that $P(x)\in[0,1]$ for all $x\in val(\rvx)$ and $\sum_{x\in val(\rvx)} P(x)=1$.
+Define the moments
+$\mu_n$  of $P(x)$ by
+
+\beq
+\mu_n= \int_{-\infty}^\infty dx\; x^n P(x)
+,\quad
+\left(\underbrace{\av{n|\ul{\mu}|P}}_{\mu_n}=
+\sum_x \underbrace{\av{n|\ul{\mu}|x}}_{x^n}\av{x|P}\right)
+\eeq
+
+Consider a span of vectors $\ket{n}$ for
+$n=0, 1, 2, \ldots$.
+If we assume $\av{k|n}$ has a certain value, then 
+that implies the value of $\av{x|n}$
+\begin{align}
+\av{k|n}&=\frac{(ik)^n}{n!\sqrt{2\pi}}\implies
+\\&
+\av{x|n}= \sum_k\av{x|k}\av{k|n}
+\int_{-\infty}^\infty dk\; \frac{e^{-ikx}}{\sqrt{2\pi}}\frac{(ik)^n}{n!\sqrt{2\pi}}=\frac{1}{n!}
+(-\partial_x)^n\delta(x)
+\end{align}
+Hence
+\beq
+\boxed{
+\av{k|n}=\frac{(ik)^n}{n!\sqrt{2\pi}},
+\quad
+\av{x|n}=
+\frac{1}{n!}
+(-\partial_x)^n\delta(x)
+}
+\eeq
+\beq
+\av{x-x'|n}=\frac{1}{n!}(-\partial_x)^n\delta(x-x')
+\eeq
+
+One can Taylor series expand the exponential in the Fourier
+transform of $P(x)$. If we do so,
+we obtain a sum over moments of $P(x)$,
+which can be interpreted as an 
+expansion over the $\ket{n}$ states:
+\beq
+\tilde{P}(k)=
+\int_{-\infty}^\infty dx\; \frac{e^{ikx}}{\sqrt{2\pi}} P(x)=\sum_{n=0}^\infty \frac{(ik)^n}{n!\sqrt{2\pi}}\int_{-\infty}^\infty x^n P(x)=
+\sum_{n=0}^\infty \frac{(ik)^n}{n!\sqrt{2\pi}}\mu_n
+\eeq
+
+
+
+
+\beq
+\av{k|P}=
+\sum_x \av{k|x}\av{x|P}=
+\sum_{n=0}^\infty
+\underbrace{\av{k|n}}_{\frac{(ik)^n}{n!\sqrt{2\pi}}}
+\underbrace{\av{n|\ul{\mu}|P}}_{\mu_n}
+\eeq
+From the last equation,
+the $\ket{n}$ states satisfy
+a type of completeness relation:
+
+\beq
+\boxed{ 
+\sum_{n=0}^\infty \ket{n}\bra{n}\ul{\mu}=1}
+\eeq
+We already expanded $\av{k|P}$ in the $\ket{n}$
+basis. What if we expand $\av{x|P}$ instead?
+\beq
+\av{x|P}=\sum_{n=0}^\infty \av{x|n}\av{n|\ul{\mu}P}=
+\sum_{n=0}^\infty \frac{1}{n!}(-\partial_x)^n \delta(x)\mu_n
+\eeq
+
+
+\end{enumerate}
+
+
+\hrule
+Next, we will expand a
+transition probability matrix $P(\XT{x}{t}|\XT{x'}{t'})$
+instead of probability distribution $P(x)$
+in the $\ket{n}$ basis
+
+Define a finite jump $\Delta$ in position $x$ by
+\beq
+\Delta = x-x'
+\eeq
+
+Define moments $\mu(\XT{n}{t}\mid \XT{x'}{t'})$ by
+
+\beq
+\mu(\XT{n}{t}\mid \XT{x'}{t'})= \int_{-\infty}^\infty d\Delta\; \Delta^n P(
+\XT{x'+\Delta}{t}\mid \XT{x'}{t'})
+,\quad
+\left(\underbrace{\av{n|\ul{\mu}P_{t| t'}|x'}}_
+{\mu(\XT{n}{t}\mid \XT{x'}{t'})}
+=
+\sum_\Delta \underbrace{\av{n|\ul{\mu}|\Delta}_{x'}}_{\Delta^n}
+\av{\Delta|_{x'}P_{t|t'}|x'}\right)
+\eeq
+where
+
+\beq
+\bra{\Delta}_{x'}P_{t|t'}\ket{x'}=
+\av{x'+\Delta|P_{t|t'}x'}=P(\XT{x}{t}|\XT{x'}{t'})
+\eeq
+
+\beq
+\int_{-\infty}^\infty d\Delta\; \frac{e^{ik\Delta}}{\sqrt{2\pi}} P(\XT{x'+\Delta}{t}|\XT{x'}{t'})=\sum_{n=0}^\infty \frac{(ik)^n}{n!\sqrt{2\pi}}\int_{-\infty}^\infty \Delta^n P(\XT{x'+\Delta}{t}|\XT{x'}{t'})=
+\sum_{n=0}^\infty \frac{(ik)^n}{n!\sqrt{2\pi}}\mu(\XT{n}{t}| \XT{x'}{t'})
+\eeq
+
+\beq
+\sum_\Delta\av{k|\Delta}_{x'}\av{\Delta|_{x'}P_{t|t'}|x'}=
+\sum_{n=0}^\infty\av{k|n}\av{n|\ul{\mu}P_{t|t'}|x'}
+\eeq
+
+
+
+\beq
+\boxed{
+\sum_{n=0}^\infty \ket{n}\bra{n}\ul{\mu}=
+\sum_\Delta \ket{\Delta}_{x'}\bra{\Delta}_{x'}=1}
+\eeq
+
+\beq
+\bra{\Delta}_{x'}P_{t|t'}\ket{x'}=
+\sum_{n=0}^\infty \av{\Delta|_{x'}n}\av{n|\ul{\mu}P_{t|t'}|x'}
+=
+\sum_{n=0}^\infty
+\frac{1}{n!}(-\partial_x)^n\delta(\Delta)
+\mu(\XT{n}{t}| \XT{x'}{t'})
+\eeq
+
+
+\hrule
+\beq
+P(\XT{x}{t}|\XT{x_0}{t_0})=
+\int dx'\;
+P(\XT{x}{t}|\XT{x'}{t-\tau})P(\XT{x'}{t-\tau}|\XT{x_0}{t_0})
+,\quad
+\left(\av{x|P_{t| t-\tau}|x_0} =
+\sum_{x'} 
+\av{x|P_{t| t-\tau}|x'}
+\av{x'|P_{t-\tau|t_0}|x_0}\right)
+\eeq
+
+
+\beq
+P_{t| t_0}=
+P_{t| t-\tau}P_{t-\tau|t_0}
+\eeq
+
+
+\beqa
+\bra{x}P_{t, t_0}\ket{x_0}&=&
+\sum_{x'}
+\bra{x}P_{t|t-\tau}
+\ket{x'}
+\bra{x'}P_{t-\tau|t_0}\ket{x_0}
+\\
+&=&
+\sum_{x'}
+\bra{\Delta}_{x'}P_{t|t-\tau}
+\ket{x'}
+\bra{x'}P_{t-\tau|t_0}\ket{x_0}
+\\
+&=&
+\sum_{n=0}^\infty
+\sum_{x'}
+\frac{1}{n!}(-\partial_x)^n\delta(x-x')
+\mu(\XT{n}{t}| \XT{x'}{t-\tau})
+\bra{x'}P_{t-\tau|t_0}\ket{x_0}
+\\
+&=&
+\sum_{n=0}^\infty\frac{(-\partial_{x})^n}{n!} 
+\left[\mu(\XT{n}{t}| \XT{x}{t-\tau})
+\bra{x}P_{t-\tau|t_0}\ket{x_0}\right]
+\eeqa
+
+
+The $n=0$ term on right  hand side is just 
+$\av{x|P_{t-\tau|t_0}|x_0}$ so move it to
+left hand side and divide by $\tau$.
+Also define
+
+\beq
+D^{(n)}(x,t) = \lim_{\tau\to 0}\frac{1}{\tau}
+\frac{\mu(\XT{n}{t}| \XT{x}{t-\tau})}{n!}
+\eeq
+and
+
+\beq
+p(x,t)= \av{x|P_{t|t_0}|x_0}
+\eeq
+Then
+\beq
+\partial_t p(x,t)=
+\sum_{n=1}^\infty
+(-\partial_{x})^n 
+\left[D^{(n)}(x,t)
+p(x,t)\right]
+\eeq
+\qed
+
+
 
 
 \section{Appendix: Some explicitly solvable SDE examples}
