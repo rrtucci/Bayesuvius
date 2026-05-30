@@ -2,6 +2,7 @@
 \documentclass[12pt]{report}
 \input{bayesuvius.sty}
 \begin{document}
+
 \beq
 \begin{array}{ll}
 \xymatrix{
@@ -18,6 +19,30 @@ dy\ar[dl]
 \right)_y
 \end{array}
 \eeq
+
+\beq
+\begin{array}{ll}
+\xymatrix{
+\delta Q
+\ar@{.>}[d]_1   
+\ar@{.>}[drr]|{1/T}
+&dV
+\ar[dl]|{-p}
+\\
+dU
+&&dS\ar[ll]|T
+}\quad\quad
+\begin{array}{l}
+\text{First Law}:\quad
+dU = \underbrace{\delta W}_{TdS-pdV} +\delta Q
+\\
+\text{Second Law:}\quad
+dS \geq \frac{\delta Q}{T}
+\end{array}
+\end{array}
+\eeq
+
+
 \hrule
 Tabulated parameters for 
 Thermodynamics
@@ -96,34 +121,126 @@ dp\ar[dl]|{-\kappa_T V}
 \end{array}
 \eeq
 
-
-\item {\bf Derived Results}
-
-
-
-
-\beq
-\partial_{V|T}U=
-T\partial_{T|V}p - p
-\eeq
-
-\beq
-\partial_{p|T}H=
--T\partial_{T|p}V-
-p
-\eeq
-
 \end{itemize}
 
+\beq
+\xymatrix@C=2.5pc{
+&dV\ar@/_1pc/[dd]
+&
+\\
+dU\ar[dr]|{C_V}
+&
+&dS
+\\
+&dT\ar[uu]|{\alp V}
+\ar[dr]|{C_p}
+&dp\ar[uul]|{-\kappa_T V}
+\\
+dF
+&dG
+&dH
+}
+\eeq
+
 \hrule
-Rules for computing 
-partial derivative relations in equilibrium
-thermodynamics
+First Law (reversible) and differentials of
+Legendre transforms 
+
+\beq
+\begin{array}{ll}
+\bcen
+\xymatrix@C=3pc{
+&V\ar[ld]
+\ar@/^1pc/[ddd]
+\ar[dddr]
+&
+\\
+U
+\ar[dd]
+\ar[ddr]
+\ar@/^1pc/[ddrr]
+&
+&S\ar[ll]
+\ar@/^1pc/[ddll]
+\ar[ddl]
+\\
+&T\ar[d]\ar[dl]
+&p\ar[d]
+\ar[dl]
+\\
+F
+&G
+&H
+}\ecen
+\quad\quad
+&
+\left\{
+\begin{array}{l}
+U=U(S, V)
+\\
+F=U-TS
+\\
+G=U+pV -TS
+\\
+H=U+pV
+\end{array}
+\right.
+\end{array}
+\eeq
+
+Example:
+
+\beq F=U-TS, \quad dU=TdS-pdV
+\eeq
+\beq
+dF= dU-TdS-SdT=
+-pdV-SdT
+\eeq
 
 
-\begin{itemize}
 
-\item {\bf Maxwell's Relations}
+\beq
+\begin{array}{ll}
+\bcen
+\xymatrix{
+&dV\ar[dl]|{-p}
+\ar[lddd]|{-p}
+&
+\\
+dU
+&
+&dS\ar[ll]|{T}
+\ar@/^1.5pc/[dd]|T
+\\
+&dT
+\ar[dl]|{-S}
+\ar[d]|{-S}
+&dp
+\ar[dl]|V
+\ar[d]|V
+\\
+dF
+&dG
+&dH
+}
+\ecen
+&\quad\quad
+\left\{
+\begin{array}{l}
+dU = TdS - pdV
+\\
+dF = -pdV -SdT
+\\
+dG =-S dT + Vdp
+\\
+dH = Vdp +TdS
+\end{array}
+\right.
+\end{array}
+\eeq
+
+\hrule
+Maxwell's Relations
 
 
 \beq
@@ -153,14 +270,6 @@ dx\ar[dr]|{a}
 \end{array}
 \eeq
 
-Example:
-
-\beq F=U-TS, \quad dU=TdS-pdV
-\eeq
-\beq
-dF= dU-TdS-SdT=
--pdV-SdT
-\eeq
 
 
 \beq
@@ -188,7 +297,55 @@ dT\ar[dr]|{-S}
 \label{eq-dp-is-ds}
 \eeq
 
+
+
+\beq
+\begin{array}{ll}
+\bcen
+\xymatrix@C=3pc@R=3pc{
+dV\ar@/^1pc/[r]|{a_3}
+\ar@/^1pc/[d]|{a_4}
+&
+dS\ar@/^1pc/[l]|{a_2}
+\ar@/^1pc/[d]|{-a_4}
+\\
+dT\ar@/^1pc/[r]|{a_2}
+\ar@/^1pc/[u]|{a_1}
+&
+dp\ar@/^1pc/[l]|{a_3}
+\ar@/^1pc/[u]|{-a_1}
+}\quad\quad
+\ecen
+&
+\left\{
+\begin{array}{l}
+a_1= \partial_{V|S}T=-\partial_{S|V}p
+\\
+a_2=\partial_{p|S}T=\partial_{S|p}V
+\\
+a_3=\partial_{V|T}S=\partial_{T|V}p
+\\
+a_4=-\partial_{p|T}S=
+\partial_{T|p}V
+\end{array}
+\right.
+\end{array}
+\eeq
+
+
+
+\hrule
+Rules for computing 
+partial derivative relations in reversible
+thermodynamics
+
+
+\begin{itemize}
+
+
+
 \item {\bf Type I (Reciprocal Rule)}
+
  
 \begin{claim}
 \beq
@@ -298,7 +455,9 @@ dp\ar[dl]|{-\kappa_T V}
 \end{array}
 \eeq 
 
-\item {\bf Type III Rule (Parallelogram Rule)}
+\item {\bf Type III Rule (Parallelogram Rule\footnote{I gave it this name. Ref.
+%\cite{Fleming-physica-chemistry}
+calls it just Type III rule})}
 
 
 For this rule,
@@ -433,7 +592,7 @@ d_{TV}U
 &
 &
 d_{VS}U
-}\quad\quad
+}\quad
 &
 \boxed{
 \begin{array}{l}
@@ -441,13 +600,62 @@ d_{VS}U
 =-p+ T\partial_{V|T}S
 \\
  \partial_{T|V}p=
-\partial_{V|T}S \quad\text{(by Eq.(\ref{eq-dp-is-ds}))}
+\partial_{V|T}S \quad\text{(Maxwell Rel.)}
+\end{array}}
+\end{array}
+\eeq
+
+Example 2:
+
+\beq
+\begin{array}{ll}
+\xymatrix@C=1pc{
+dT
+\ar@/^1pc/[rrrr]
+\ar[dr]|{r}
+&
+&
+dp
+\ar[ll]
+\ar[rr]|{\partial_{p|T}S}
+\ar[dl]|{\partial_{p|T}H}
+\ar[dr]|{V}
+&
+&
+dS
+\ar[dl]|{T}
+\ar@/_2pc/[llll]
+\\
+&
+d_{Tp}H
+\ar@{-}[rr]_{=}
+&
+&
+d_{pS}H
+}\quad
+&
+\boxed{
+\begin{array}{l}
+\partial_{p|T}H
+=V+ T\partial_{p|T}S
+\\
+\partial_{p|T}S=
+- \partial_{T|p}V
+\quad\text{(Maxwell Rel.)}
 \end{array}}
 \end{array}
 \eeq
 
 
 \end{itemize}
+
+
+
+
+
+
+
+
 
 
 \end{document}
