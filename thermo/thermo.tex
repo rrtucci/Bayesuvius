@@ -13,7 +13,7 @@ were originally derived from causal type
 	arguments and experimentation, in much
 	the same way that one  derives a bnet
 	as a hypothesis which is then tested.
-Fig.\ref{fig-texnn-for-thermo} is a bnet for thermo that
+Fig.\ref{fig-texnn-for-thermo} is a bnet for Thermodynamics that
 captures some of those causal arguments.
 The structural equations for the bnet are printed in blue.
 
@@ -95,35 +95,728 @@ The structural equations for the bnet are printed in blue.
 	
 \end{subequations}
 
-\begin{figure}[h!]\centering
-	$$\xymatrix@C=5pc@R=5pc{
-		&*+[F*:SpringGreen]{\ul{dV}}
-\ar@/^3.5pc/[ddd]|{\partial_VT}
-\ar@/_1pc/[dddd]\ar[ddddr]\ar[dl]|{-p=\partial_V U}&*+[F*:SpringGreen]{\ul{d\{N_i\}}}\ar[ddddr]\ar[dll]|{\mu_i=\partial_{N_i}U}&
-		\\
-		*+[F*:SpringGreen]{\ul{dU}}\ar@/_1pc/[dddrrr]\ar[ddd]\ar[dddr]\ar[dddrr]&&*+[F*:Lavender]{\ul{dS}}
-\ar[dd]|{\partial_Sp=-\partial_VT}
-\ar[dddr]\ar@/_1pc/[dddll]\ar[dddl]\ar[ll]|{T=\partial_SU}&
-		\\
-		&&&
-		\\
-		&*+[F*:Lavender]{\ul{dT}}
-\ar[r]|{\partial_Tp\;=\alp/\kappa_T}
-\ar[uul]|{C_V=\partial_T U}
-\ar[dr]|{C_p=\partial_TH}
-\ar[uuu]|{\alp V=\partial_T V}
-\ar[drr]\ar[dl]\ar[d]&*+[F*:Lavender]{\ul{dp}}
-\ar@/^1pc/[d]|{\partial_pH}
-\ar[dl]\ar[d]&*+[F*:Lavender]{\ul{d\{\mu_i\}}}\ar[d]
-		\\
-		*+[F*:SkyBlue]{\ul{dF}}&*+[F*:SkyBlue]{\ul{dG}}&*+[F*:SkyBlue]{\ul{dH}}&*+[F*:SkyBlue]{\ul{d\Phi}}
-	}$$
-	\caption{Delta bnet for Thermodynamics obtained from Fig.\ref{fig-texnn-for-thermo}.}
-	\label{fig-thermo-delta-bnet}
-\end{figure}
+\section{Delta bnets for Thermodynamics}
 
-If we take the differential of
-every node in  Fig.\ref{fig-texnn-for-thermo},
-we get the \qt{delta bnet}
-shown in Fig.\ref{fig-thermo-delta-bnet}.
+In this book, we refer to bnets whose
+nodes are differentials (e.g., $df$) or infinitesimals (e.g., $\Delta f$) as {\bf delta bnets.}
+
+The  math of Thermodynamics
+(PDEs  relating 
+$U, S, T, V, p, F, G, H$, to name a few) can seem like a dizzying  alphabet
+soup to the beginner.
+The purpose of this chapter is to
+show how
+delta bnets can be very helpful in visualizing 
+and motivating the math
+of Thermodynamics.\footnote{We learned the Thermo math, without the delta bnets, for this chapter 
+from an open source book
+on Physical Chemistry Ref.\cite{fleming-physical-chemistry}. 
+Physical Chemistry  uses a lot of Thermodynamics.} Delta bnets are also
+useful for discussing It\^o calculus
+(see Chapter \ref{ch-stochastic-diff-eqns})
+and the back-propagation algorithm (see
+Chapter \ref{ch-backp}). 
+
+We shall refer 
+to the bnet shown in Eq.(\ref{eq-2c-graph})
+as a 2-collision (2C) graph.
+Note 
+that the arrows 
+of a 2C graph
+carry partial derivatives,
+and that they represent
+a perfect differential  $dz$
+in 2 variables $x$ and $y$.
+
+
+\beq
+\begin{array}{ll}
+\xymatrix{
+dx\ar[dr]|a
+&
+&
+dy\ar[dl]|b
+\\
+&dz
+}
+&\quad\quad
+\left\{
+\begin{array}{l}
+a=\partial_{x|y}z=
+\left(\pder{z}{x}
+\right)_y
+\\
+b=\partial_{y|x}z=
+\left(\pder{z}{y}
+\right)_x
+\\
+dz = a \;dx +  b \;dy
+\end{array}
+\right.
+\end{array}
+\label{eq-2c-graph}
+\eeq
+
+We can even use delta bnets
+with inexact differentials such as a small heat change $\delta Q$. In such cases, the arrows exiting
+$\delta Q$ will be dotted
+arrows, indicating
+that such arrows do not carry a partial
+derivative. 
+
+In terms of delta bnets,
+the First and Second
+Laws of Thermodynamics 
+can be expressed as:
+
+\beq
+\begin{array}{ll}
+\xymatrix{
+\delta Q
+\ar@{.>}[d]_1   
+\ar@{.>}[drr]|{1/T}
+&dV
+\ar[dl]|{-p}
+\\
+dU
+&&dS\ar[ll]|T
+}\quad\quad
+\begin{array}{l}
+\text{First Law}:\quad
+dU = \underbrace{\delta W}_{TdS-pdV} +\delta Q
+\\
+\text{Second Law:}\quad
+dS \geq \frac{\delta Q}{T}
+\end{array}
+\end{array}
+\eeq
+
+
+\hrule
+Tabulated parameters for 
+Thermodynamics
+
+\begin{itemize}
+\item{\bf Heat Capacities}
+
+\beq
+\begin{array}{ll}
+\xymatrix{
+dT\ar[dr]|{C_V}
+&
+&
+dV\ar[dl]
+\\
+&dU
+}
+&\quad\quad
+C_V = \partial_{T|V}U
+\end{array}
+\eeq
+
+\beq
+\begin{array}{ll}
+\xymatrix{
+dT\ar[dr]|{C_p}
+&
+&
+dp\ar[dl]
+\\
+&dH
+}
+&\quad\quad
+C_p = \partial_{T|p}H
+\end{array}
+\eeq
+
+
+
+\item
+{\bf Coefficient of
+Thermal Expansion}
+
+
+\beq
+\begin{array}{ll}
+\xymatrix{
+dT\ar[dr]|{\alp V}
+&
+&
+dp\ar[dl]|{-\kappa_T V}
+\\
+&dV
+}
+&\quad\quad
+\alp = \partial_{T|p}\ln (V)
+\end{array}
+\eeq
+
+
+\item {\bf Isothermal Compressibility}
+
+
+\beq
+\begin{array}{ll}
+\xymatrix{
+dT\ar[dr]|{\alp V}
+&
+&
+dp\ar[dl]|{-\kappa_T V}
+\\
+&dV
+}\quad\quad
+&
+\kappa_T=-\partial_{p|T}\ln(V)
+\end{array}
+\eeq
+
+
+\item {\bf All of the above in a delta bnet}
+\beq
+\xymatrix@C=2.5pc{
+&dV\ar@/_1pc/[dd]
+&
+\\
+dU\ar[dr]|{C_V}
+&
+&dS
+\\
+&dT\ar[uu]|{\alp V}
+\ar[dr]|{C_p}
+&dp\ar[uul]|{-\kappa_T V}
+\\
+dF
+&dG
+&dH
+}
+\eeq
+\end{itemize}
+
+\hrule
+First Law (reversible version) and differentials of
+Legendre transforms.
+
+
+Reversible Thermodynamics
+defines as follows the 3 Legendre transforms 
+$F, G, H$ of 
+the energy $U$:
+
+\beq
+\begin{array}{ll}
+\bcen
+\xymatrix@C=3pc{
+&V\ar[ld]
+\ar@/^1pc/[ddd]
+\ar[dddr]
+&
+\\
+U
+\ar[dd]
+\ar[ddr]
+\ar@/^1pc/[ddrr]
+&
+&S\ar[ll]
+\ar@/^1pc/[ddll]
+\ar[ddl]
+\\
+&T\ar[d]\ar[dl]
+&p\ar[d]
+\ar[dl]
+\\
+F
+&G
+&H
+}\ecen
+\quad\quad
+&
+\left\{
+\begin{array}{l}
+U=U(S, V)
+\\
+F=U-TS
+\\
+G=U+pV -TS
+\\
+H=U+pV
+\end{array}
+\right.
+\end{array}
+\eeq
+
+Even though 
+at first it seems that
+the 3 Legendre transforms
+$F,G,H$, all depend on more 
+than 2 dofs (degrees of freedom), 
+once we calculate
+their differentials,
+we realize that they all depend on 2 dofs only.
+For example,
+from the definition of 
+$F$, you might think it depends on 3 dofs, but 
+the following calculation shows that it depends only on 2 dofs.
+
+
+
+\beq F=U-TS, \quad dU=TdS-pdV
+\eeq
+\beq
+dF= dU-TdS-SdT=
+-pdV-SdT
+\eeq
+The following equation
+gives the differentials of $U$ and of the 3 Legendre transforms $F,G, H$.
+
+
+\beq
+\begin{array}{ll}
+\bcen
+\xymatrix{
+&dV\ar[dl]|{-p}
+\ar[lddd]|{-p}
+&
+\\
+dU
+&
+&dS\ar[ll]|{T}
+\ar@/^1.5pc/[dd]|T
+\\
+&dT
+\ar[dl]|{-S}
+\ar[d]|{-S}
+&dp
+\ar[dl]|V
+\ar[d]|V
+\\
+dF
+&dG
+&dH
+}
+\ecen
+&\quad\quad
+\left\{
+\begin{array}{l}
+dU = TdS - pdV
+\\
+dF = -pdV -SdT
+\\
+dG =-S dT + Vdp
+\\
+dH = Vdp +TdS
+\end{array}
+\right.
+\end{array}
+\eeq
+
+\hrule
+Maxwell's Relations
+
+
+\beq
+\begin{array}{ll}
+\xymatrix{
+db
+&
+&da
+\\
+dx\ar[dr]|{a}
+\ar[u]|{\partial_x b}
+&
+&dy\ar[dl]|{b}
+\ar[u]|{\partial_y a=\partial_x b}
+\\
+&dz
+&
+}\quad\quad
+&
+\boxed{
+\partial_{y}
+\underbrace{\partial_{x|y}z}_a
+=
+\partial_{x}
+\underbrace{\partial_{y|x}z}_b
+}
+\end{array}
+\eeq
+
+
+
+\beq
+\begin{array}{ll}
+\xymatrix{
+-dp
+&
+&-dS
+\\
+dT\ar[dr]|{-S}
+\ar[u]|{-\partial_{T|V}p}
+&
+&dV\ar[dl]|{-p}
+\ar[u]|{-\partial_{V|T}S}
+\\
+&dF
+&
+}\quad\quad
+&
+\boxed{
+\partial_{T|V}p=
+\partial_{V|T}S
+}
+\end{array}
+\label{eq-dp-is-ds}
+\eeq
+
+
+
+\beq
+\begin{array}{ll}
+\bcen
+\xymatrix@C=3pc@R=3pc{
+dV\ar@/^1pc/[r]|{a_3}
+\ar@/^1pc/[d]|{a_4}
+&
+dS\ar@/^1pc/[l]|{a_2}
+\ar@/^1pc/[d]|{-a_4}
+\\
+dT\ar@/^1pc/[r]|{a_2}
+\ar@/^1pc/[u]|{a_1}
+&
+dp\ar@/^1pc/[l]|{a_3}
+\ar@/^1pc/[u]|{-a_1}
+}\quad\quad
+\ecen
+&
+\left\{
+\begin{array}{l}
+a_1= \partial_{V|S}T=-\partial_{S|V}p
+\\
+a_2=\partial_{p|S}T=\partial_{S|p}V
+\\
+a_3=\partial_{V|T}S=\partial_{T|V}p
+\\
+a_4=-\partial_{p|T}S=
+\partial_{T|p}V
+\end{array}
+\right.
+\end{array}
+\eeq
+
+
+
+\hrule
+Rules for computing 
+partial derivative relations in reversible
+Thermodynamics.
+
+
+\begin{itemize}
+
+
+
+\item {\bf Type I (Reciprocal Rule)}
+
+ 
+\begin{claim}
+\beq
+\begin{array}{ll}
+\xymatrix{
+dx\ar[dr]|{a}
+\ar[rr]|{b_1}
+&&
+dy\ar[dl]|{b_2, c_2}
+\\
+&dz\ar@/_1.5pc/[ur]|{c_1}
+&
+}\quad\quad
+\left\{
+\begin{array}{l}
+a = \partial_{x|y}z
+\\
+b_1=\partial_{x|z}y,\quad
+b_2=\partial_{y|x} z
+\\
+c_1=\partial_{z|x}y,\quad
+c_2=\partial_{y|x} z
+\\
+\boxed{
+a =- b_1b_2,\quad
+c_1c_2=1
+}
+\end{array}
+\right.
+\end{array}
+\eeq
+\end{claim}
+\proof
+
+\beq
+dz= dx
+\underbrace{\partial_{x|y}z}_{a}
++dy
+\underbrace{\partial_{y|x}z}_{b_2, c_2}
+\eeq
+\beq
+dy=dx
+\underbrace{\partial_{x|z}y}_{b_1}
++
+dz
+\underbrace{\partial_{z|x}y}_{c_1}
+\eeq
+
+\beq
+dz=[a +b_1b_2]dx + [c_1c_2]dz
+\eeq
+
+\qed
+
+
+\item {\bf Type II (Cyclic Permutation Rule)}.
+
+This rule
+is the same as
+the Type I rule, but with $dz=0$.
+
+\begin{claim}
+\beq
+\begin{array}{ll}
+\xymatrix{
+dx\ar[dr]|{a}
+\ar[rr]|{b_1}
+&&
+dy\ar[dl]|{b_2, c_2}
+\\
+&dz=0\ar@/_1.5pc/[ur]|{c_1}
+&
+}\quad\quad
+\left\{
+\begin{array}{l}
+a = \partial_{x|y}z
+\\
+b_1=\partial_{x|z}y,\quad
+b_2=\partial_{y|x} z
+\\
+\boxed{
+a =-b_1b_2
+}
+\end{array}
+\right.
+\end{array}
+\eeq
+\end{claim}
+\proof See proof of Type I rule.
+\qed
+
+Example:
+
+\beq
+\begin{array}{ll}
+\xymatrix{
+dT\ar[dr]|{\alp V}
+\ar[rr]|{\partial_{T|V}p}
+&&
+dp\ar[dl]|{-\kappa_T V}
+\\
+&dV=0\ar@/_1.5pc/[ur]
+&
+}\quad\quad
+\boxed{\partial_{T|V}p=
+\alp/\kappa_T}
+\end{array}
+\eeq 
+
+\item {\bf Type III Rule (Parallelogram Rule\footnote{I gave it this name. Ref.\cite{fleming-physical-chemistry}
+calls it just Type III rule})}
+
+
+For this rule,
+two $dz$ 
+must be considered.
+We label each of
+the 2 $dz$ nodes with a subscript
+listing the arrows
+entering the node.
+The 2 $dz$ 
+are numerically equal
+(i.e., $d_{xy}z
+=
+d_{xw}z$ ).
+
+\begin{claim}
+\beq
+\begin{array}{ll}
+\xymatrix@C=1pc{
+dy
+\ar@/^1pc/[rrrr]|{s_1}
+\ar[dr]|{r}
+&
+&
+dx
+\ar[ll]
+\ar[rr]|{b_1}
+\ar[dl]|{\;a'}
+\ar[dr]|{a}
+&
+&
+dw
+\ar[dl]|{b_2, s_2}
+\ar@/_2pc/[llll]
+\\
+&
+d_{yx}z
+\ar@{-}[rr]_{=}
+&
+&
+d_{xw}z
+}\quad\quad
+&
+\left\{
+\begin{array}{l}
+a'=\partial_{x|y}z
+\\
+a=\partial_{x|w}z
+\\
+b_1=\partial_{x|y}w
+,\quad
+b_2=\partial_{w|x}z
+\\
+r=\partial_{y|x}z
+\\
+s_1=\partial_{y|x}w,\quad
+s_2=\partial_{w|x}z
+\\
+\boxed{a'=a+b_1 b_2, \quad r=s_1s_2
+}
+\end{array}
+\right.
+\end{array}
+\eeq
+\end{claim}
+\proof
+
+\beq
+d_{xy}z = d_{xw}z
+\implies
+dx
+\underbrace{\partial_{x|y}z}_{a'}
++ dy
+\underbrace{\partial_{y|x}z}_r
+=
+dx
+\underbrace{\partial_{x|w}z}_{a}
++
+dw
+\underbrace{\partial_{w|x}z}_{b_2,s_2}
+\eeq
+
+\beq
+dw= dx
+\underbrace{\partial_{x|y}w}_{b_1}+
+dy
+\underbrace{\partial_{y|x}w}_{s_1}
+\eeq
+
+\beq
+0=
+dx\left[
+a'
+-a
+-
+b_1
+b_2
+\right]
++dy\left[
+r
+-
+s_1s_2
+\right]
+\eeq
+
+\qed
+
+Example 1:
+
+\beq
+\begin{array}{ll}
+\xymatrix@C=1pc{
+dT
+\ar@/^1pc/[rrrr]
+\ar[dr]|{r}
+&
+&
+dV
+\ar[ll]
+\ar[rr]|{\partial_{V|T}S}
+\ar[dl]|{\partial_{V|T}U}
+\ar[dr]|{-p}
+&
+&
+dS
+\ar[dl]|{T}
+\ar@/_2pc/[llll]
+\\
+&
+d_{TV}U
+\ar@{-}[rr]_{=}
+&
+&
+d_{VS}U
+}\quad
+&
+\boxed{
+\begin{array}{l}
+\partial_{V|T}U
+=-p+ T\partial_{V|T}S
+\\
+\partial_{V|T}S=
+\partial_{T|V}p \quad\text{(Maxwell Rel.)}
+\end{array}}
+\end{array}
+\eeq
+
+Example 2:
+
+\beq
+\begin{array}{ll}
+\xymatrix@C=1pc{
+dT
+\ar@/^1pc/[rrrr]
+\ar[dr]|{r}
+&
+&
+dp
+\ar[ll]
+\ar[rr]|{\partial_{p|T}S}
+\ar[dl]|{\partial_{p|T}H}
+\ar[dr]|{V}
+&
+&
+dS
+\ar[dl]|{T}
+\ar@/_2pc/[llll]
+\\
+&
+d_{Tp}H
+\ar@{-}[rr]_{=}
+&
+&
+d_{pS}H
+}\quad
+&
+\boxed{
+\begin{array}{l}
+\partial_{p|T}H
+=V+ T\partial_{p|T}S
+\\
+\partial_{p|T}S=
+- \partial_{T|p}V
+\quad\text{(Maxwell Rel.)}
+\end{array}}
+\end{array}
+\eeq
+
+
+\end{itemize}
+
+
 
