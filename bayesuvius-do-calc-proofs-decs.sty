@@ -53,10 +53,27 @@ promises that
 \beq
 P(a,b,c)=P(c|b)P(b|a)P(a)
 \eeq
-Two bnets are said to be equal iff their promises are equal. 
+Two bnets are said to be equal iff their promises are equal.
+If two bnets are the same except one has more
+arrows than the other, we will say the
+bnet with more arrows makes a {\bf stronger promise}
+and the one with fewer arrows makes a {\bf weaker promise}.
+Alternatively, the weaker bnet has the same number of
+arrows as the stronger one, but some have a 0 subscript
+ ({\bf ghost arrows}) to
+indicate they carry zero information.
+A result proven for a specific promise is valid for
+a weaker promise, but not for a stronger promise.
+In other words, a result valid for a bnet is still valid
+if an arrow is zeroed (ghosted) but
+not if an arrow is unzeroed (unghosted).
+Ghost arrows can be added and removed with impunity,
+but ghost arrows cannot be unghosted.
 An instantiation alone makes no promises.
-Think of a bnet promise as being the equality
-of two instantiations.}
+Think of a bnet promise as an equation,
+whereas an
+ instantiation is just a possible term in an equation.
+ }
 
 \newcommand{\hiddenNodes}[0]{
 Unobserved (a.k.a. hidden, latent) nodes are
@@ -248,7 +265,7 @@ Eq.(\ref{def-q-y-xn-seqbdoor}).
  (Backdoor
 Adjustment Formula)
 
-If $G_{hypo}=$
+If $G_{promise}=$
 $
 \xymatrix{
 {\rvz}\ar[d]\ar[rd]
@@ -265,7 +282,7 @@ then
 \newcommand{\decFrontDoor}[0]{(Frontdoor
 Adjustment Formula)
 
-If $G_{hypo}=$
+If $G_{promise}=$
 $
 \xymatrix{
 &*++[F-o]{\rvc}\ar[ld]\ar[rd]
@@ -275,15 +292,13 @@ $
 then
 
 \fdoorconclusion
-Using the node summation identities, 
-the $\EE x'$ node may be removed from the final instantiation.
 }
 
 
 \newcommand{\decNapkin}[0]{(Napkin problem from Ref.\cite{book-why})
 
-If $G_{hypo}=$ $
-\xymatrix{
+If $G_{promise}=\bcen
+\xymatrix@R=1pc@C=1pc{
 &*++[F-o]{\rvu_1}\ar[ddl]\ar[ddrr]
 \\
 &*++[F-o]{\rvu_2}\ar[dl]\ar[dr]
@@ -292,17 +307,15 @@ If $G_{hypo}=$ $
 &\rvz\ar[r]
 &\rvx\ar[r]
 &\rvy
-}$ then
-\begin{align}
-P(y|\cald \rvx = x)
-&=
-\text{Not identifiable}
-\end{align}
+}\ecen$ then
+$P(y|\cald \rvx = x)$
+is not identifiable.
 }
+
 
 \newcommand{\decWhy}[0]{(from Ref.\cite{book-why})
 
-If $G_{hypo}=$ $
+If $G_{promise}=$ $
 \xymatrix{
 \rvx\ar[d]\ar[drr]
 \\
@@ -332,7 +345,7 @@ x\ar[rrd]
  Transfer,
 from Ref.\cite{pearl2011trans})
 
-If $G_{hypo}=$ $
+If $G_{promise}=$ $
 \xymatrix{
 &\rvz\ar[ld]\ar[rd]
 &\rvs\ar[d]
@@ -380,7 +393,7 @@ x\ar[rr]
 External Validity,
 from Ref.\cite{pearl2011trans})
 
-If $G_{hypo}=$ $
+If $G_{promise}=$ $
 \xymatrix{
 \rvs\ar[r]
 &\rvz\ar[ld]\ar[rd]
@@ -450,7 +463,7 @@ P(y|\cald \rvx=x,z)P^*(z)
 {(S-Admissible Transfer,
 from Ref.\cite{pearl2011trans})
 
-If $G_{hypo}=$
+If $G_{promise}=$
 $
 \xymatrix{
 \rvs\ar[r]
@@ -496,7 +509,7 @@ P^*(y|\cald \rvx=x)=
 {(Non-transferability,
 from Ref.\cite{pearl2011trans})
 
-If $G_{hypo}=$ $
+If $G_{promise}=$ $
 \xymatrix{
 &*++[F-o]{\rvh}\ar[ld]\ar[rd]
 &\rvs\ar[d]
@@ -524,7 +537,7 @@ The right hand side is not identifiable.}
 \\
 \\
 
-If $G_{hypo}=$
+If $G_{promise}=$
 $\xymatrix{
 \rvs\ar@/^1.5pc/[rr]
 &*++[F-o]{\rvh}\ar[dl]\ar[dr]\ar[r]
@@ -559,7 +572,7 @@ P(y|\cald \rvx=x)
 
 \newcommand{\decTransferThree}[0]{(from Ref.\cite{pearl2011trans})
 
-If $G_{hypo}=$
+If $G_{promise}=$
 $\xymatrix{
 \rvs\ar[rd]
 &*++[F-o]{\rvh}\ar[dl]\ar[dr]
@@ -608,7 +621,7 @@ x
 [0]{(Unconfounded Mediation,
 from Ref.\cite{pearl-2019review})
 
-If $G_{hypo}=$
+If $G_{promise}=$
 $\xymatrix{
 &\rvm\ar[rd]
 \\
@@ -646,7 +659,7 @@ with universal prior $\rvxi$
 and universal confounder $\rvu$,
 from Ref.\cite{pearl-2019review})
 
-If $G_{hypo}=$
+If $G_{promise}=$
 $\xymatrix{
 &*++[F-o]{\rvu}\ar[dl]
 \ar[ddr]\ar[ddl]\ar[d]
@@ -692,7 +705,7 @@ d\ar[rrr]
 backdoor (SBD) adjustment formula,
 from Ref.\cite{pearl-robins-95})
 
-If $G_{hypo}=$
+If $G_{promise}=$
 \xymatrix{
 \rvz_0\ar[r]\ar@/^1pc/[rr]\ar[drrr]
 \ar[dd]
@@ -775,7 +788,7 @@ Adjustment Formula,
 from Ref.\cite{bare-sb-removal})
 \\
 \\
-If $G_{hypo}=$
+If $G_{promise}=$
 $
 \xymatrix{
 \rvs\ar[d]\ar[r]\ar@/^1pc/[rr]

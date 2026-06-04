@@ -39,7 +39,7 @@ adjustment formulae from first principles,
 without using the 
 3 Rules of Do Calculus.
 
-
+\section{Bnet Conventions}
 In this chapter, we use the
  following conventions for bnet diagrams.
 
@@ -48,6 +48,7 @@ In this chapter, we use the
 \hiddenNodes
 
 \selectionGraphs
+
 
 We often write
 
@@ -75,15 +76,98 @@ is to say that Eq.(\ref{eq-promi-dep})
 $G$ is the bnet $\rva\rarrow\rvb\rarrow\rvc$.
 We say that Eq.(\ref{eq-promi-dep})
 is {\bf bnet promise dependent}.
+\section{Identifiability}
+
+Given a probability distribution $P(x)$, we
+define a {\bf zero-sum variation}
+$\delta P(x)$ of $P(x)$ so that 
+
+\beq 
+1=\sum_x P(x)=\sum_x\left[P(x)+\delta P(x)\right]\implies \sum_x \delta P(x)=0
+\eeq
 
 
+Suppose a bnet $\calg$ with nodes 
+$\rvx_1, \rvx_2, \ldots, \rvx_N$ has a joint 
+distribution (i.e., promise)
+given by
+\beq
+P(x_{1\dots N})
+=\prod_{i=1}^N P(x_i\mid pa(x_i))
+\eeq
+where $pa(x_1)$ is the empty set.
+Suppose $H\subset \{1, 2, \ldots, N\}$ is the set of indices belonging to the
+hidden variables of the bnet.
+Then we define $\calg$  
+to be {\bf identifiable} iff
+
+\beq
+0=\delta_{hidden}P(x_{1\dots N})
+=\sum_{h\in H}
+\left[\prod_{i\neq h}P(x_i\mid pa(x_i))
+\right]\delta
+P(x_i\mid pa(x_i)
+\eeq 
+where the $\delta
+P(x_i\mid pa(x_i)$
+are zero sum variations.
+Hence, an identifiable bnet
+is invariant under changes
+in the probability
+distributions of its hidden variables. 
+
+Given a bnet $\calg$, let $\cald_\rvx \calg$
+be the bnet $\calg$
+after all arrows entering $\rvx$ have been amputated.
+$P(y\mid do(\rvx)=x)=P(y\mid \cald \rvx=x)$
+corresponds to the
+instantiation of $\cald_\rvx \calg$ wherein all nodes other than $x$ and $y$ have been 
+summed over.  This instantiation
+of $\cald_\rvx \calg$ is a
+probability distribution represented by
+a bnet too, so the definition
+of identifiabilty applies to it too.
+Hence, {\bf $P(y\mid \cald x=x)$
+is identifiable} iff
+\beq
+0=\delta_{hidden}P(y\mid \cald \rvx =x)
+\eeq
+The goal of Pearl's do Calculus is
+two-fold:
+\begin{enumerate}
+\item 
+Decide whether a bnet is identifiable or not.
+Of course, bnets
+without hidden
+nodes are always identifiable.
+
+\item If the bnet has hidden
+nodes but is identifiable, find
+an equivalent bnet
+that gives the same promise
+but has no hidden nodes. 
+
+\end{enumerate}
+Pearl's 3 rules of do-calculus
+deal specifically
+with identifiability 
+for probabilities conditioned
+on one or more do contraints (i.e., constraints of the form $do(\rvx)=x$),
+but note that identifiability
+is an issue that arises for any
+probability distribution
+with hidden variables, not
+just for \qt{doey} ones.
+
+
+\section{Promise Independent Node Summation (NS) Identities}
 Next we will
-give some {\bf node summation identities}
+give some {\bf node summation  (NS) identities}
 that are used in this chapter.
 Note that these identities are {\bf bnet promise independent}; i.e., they are true
 for any bnet promise. 
 
-\hrule
+
 \begin{enumerate}
 \item
 
@@ -245,9 +329,9 @@ P(y)\quad
 \end{enumerate}
 \hrule
 
-The moral of the above summation identities is that
+The moral of the above NS identities is that
 if one has a fully connected bnet, or a bnet clique
-(i.e., fully connected subgraph of a bnet)\footnote{Note that in order to use the node summation identities on a clique,
+(i.e., fully connected subgraph of a bnet)\footnote{Note that in order to use the NS identities on a clique,
 the clique's nodes can have NO incoming arrows (i.e., arrows pointing from outside the clique into the clique). Outgoing arrows are allowed though. I like to call such a clique an {\bf exploding clique}, because of its outgoing arrows.},
 one can remove completely (including its arrows) a sum vertex $\sum a$ or an average
 vertex $\EE a$ of the clique. Not only that! We can also 
@@ -255,7 +339,7 @@ replace a sum vertex $\sum a$  of the clique by a different  sum vertex $\sum b$
 an average vertex $\EE a$  of the clique by a different  average vertex $\EE b$.
 
 %An important caveat concerning the above
-%summation identities is that 
+%NS identities is that 
 %the instantiations that they produce depend on the
 %original bnet whence they come from. 
 %This caveat is illustrated in Fig.\ref{fig-dep-on-origing-bnet}.
@@ -371,16 +455,16 @@ of observed TPMs of $G$.
 
 To make matters even more confusing, let $G|x$
 be the bnet $G$ conditioned on $\rvx=x$. If $G$ has promise $P_G(\cdot)$,
-then  $P_{G|x)}(\cdot) = P_G(\cdot|x)$.
+then  $P_{G|x}(\cdot) = P_G(\cdot|x)$.
  
 Note that, in general,  $P_G$, $P_{G_{amp(x)}}$ and $P_{G|x}$ are
 different probability distributions. 
 
 IMPORTANT: For any adjustment formula, we assume
-a hypothesis bnet $G_{hypo}$.
+a promise bnet $G_{promise}$.
 Then for a query
 $P(y|\cald\rvx=x)$, we express the adjustment
-formula in terms of the promise $P(\cdot)=P_{G_{hypo}|x}(\cdot)=P_{G_{hypo}}
+formula in terms of the promise $P(\cdot)=P_{G_{promise}|x}(\cdot)=P_{G_{promise}}
 (\cdot|x)$.
 
 
@@ -418,7 +502,7 @@ are summed (indicated by $\sum$) or averaged
 
 
 
-\item Use the node summation identities to
+\item Use the NS identities to
 remove all sums and averages over hidden nodes.
 Each sum or average over a hidden node may be 
 removed completely or replaced by a sum or average over an observed node. 
@@ -482,12 +566,13 @@ we get
 \beqa
 P(y|\cald\rvx=x)
 &=&
+\bcen
 \xymatrix{
 \EE z\ar[dr]
 \\
 x\ar[r]
 &y
-}
+}\ecen
 \label{eq-simplest-identifiable}
 \eeqa
 The right-hand
@@ -506,12 +591,13 @@ we get
 \beqa
 P(y|\cald \rvx =x)
 &=&
+\bcen
 \xymatrix{
 *++[F-o]{\EE z}\ar[rd]
 \\
 x\ar[r]
 &y
-}
+}\ecen
 \label{eq-simplest-not-DI}
 \eeqa
 The right-hand
@@ -550,12 +636,13 @@ and $P(y|x, x')$ is undefined.
 \beq
 P(y|\cald\rvx=x)
 =
+\bcen
 \xymatrix{
 \EE z\ar[dr]
 \\
 x\ar[r]
 &y
-}
+}\ecen
 \eeq
 
 
@@ -628,69 +715,170 @@ $
 
 {\bf * proof 1:}
 
-\begin{longtable}{l}
-$P(y|\cald\rvx=x) =\sum_c\sum_m P(y|m,c)P(m|x)P(c)$
-\\
-\hspace{2cm}
+\begin{align}
+P(y\mid \cald\rvx=x)&=
 \xymatrix{
-&\EE c\ar[dr]
+&*++[F-o]{\sum c}\ar[rd]
 \\
-x\ar[r]&\sum m\ar[r]
+x\ar[r]
+&\sum m\ar[r]&y
+}
+\\
+&=
+\bcen
+\xymatrix{
+&*++[F-o]{\sum c}\ar@[red][rd]
+\ar@[red][r]
+& \sum x'
+\\
+x\ar[r]\ar[rru]
+&\sum m\ar[r]
+&y\ar@[red][u]
+}
+\ecen
+\text{(added summed leaf node $x'$)}
+\\
+&=
+\bcen
+\xymatrix{
+&*++[F-o]{\sum c}\ar@{<-}@[red][rd]
+\ar@{<-}@[red][r]
+& \sum x'
+\\
+x\ar[r]\ar[rru]\ar[ur]|0
+&\sum m\ar[r]
+&y\ar@[red]@{<-}[u]
+}
+\ecen
+\begin{array}{l}
+\text{(fully connected 4 node graph so we} 
+\\
+\text{are allowed to reverse red arrows)}
+\end{array}
+\\
+&=
+\bcen
+\xymatrix{
+& &\sum x'\ar[d]
+\\
+x\ar[r]\ar[rru]
+&\sum m\ar[r]
 &y
 }
+\ecen
+\text{(Removed summed leaf node $c$)}
 \\
-\quad$=\sum_m \left[\sum_c\frac{1}{P(m|c)} P(y|m,c)P(m|c)P(c)\right]P(m|x)$
-\\
-\hspace{2cm}
-\xymatrix{\\
-\sum_m\sum_c\frac{P(c)}{P(m|c)}
-}
+&=
+\bcen
 \xymatrix{
-&&c\ar[dr]\ar[d]
+& &\EE x'\ar[d]
 \\
-x\ar[r]&m&m\ar[r]
+x\ar[r]
+&\sum m\ar[r]
 &y
 }
-\\
-\quad$=\sum_m \frac{1}{P(m)}\left[\sum_c P(y|m,c)P(m|c)P(c)\right]P(m|x)$ \\
-\hspace{2cm}(because $P(m|c)=P(m)$ by d-separation
-on $G_{hypo}|x$)
-\\
-\hspace{2cm}
-\xymatrix{\\
-\sum_m\frac{1}{P(m)}
-}
-\xymatrix{
-&&\EE c\ar[dr]\ar[d]
-\\
-x\ar[r]&m&m\ar[r]
-&y
-}
-\\
-\quad$=\sum_m P(y|m)P(m|x)$ 
-\\
-\hspace{2cm}
-(because square bracketed expression equals $P(y,m)$)
-\\
-\hspace{2cm}
-\xymatrix{
-x\ar[r]&\sum m \ar[r]& y
-}\quad (this simplifies frontdoor AF)
-\\
-\quad
-$=\sum_{x'}\sum_m P(y|m,x')P(m|x)P(x')$
-\\
-\hspace{2cm}
-(because can reverse steps that led to last expression)
-\\
-\hspace{2cm}
-\xymatrix{
-&\EE x'\ar[dr]
-\\
-x\ar[r]&\sum m\ar[r]
-&y
-}
-\end{longtable}
+\ecen
+\text{(used $P(x'|x)=P(x')$)}
+\end{align}
+
+%
+%\begin{longtable}{l}
+%$P(y|\cald\rvx=x) =\sum_c\sum_m P(y|m,c)P(m|x)P(c)$
+%\\
+%\hspace{2cm}
+%\xymatrix{
+%&\EE c\ar[dr]
+%\\
+%x\ar[r]&\sum m\ar[r]
+%&y
+%}
+%\\
+%\quad$=\sum_m \left[\sum_c\frac{1}{P(m|c)} P(y|m,c)P(m|c)P(c)\right]P(m|x)$
+%\\
+%\hspace{2cm}
+%\xymatrix{\\
+%\sum_m\sum_c\frac{P(c)}{P(m|c)}
+%}
+%\xymatrix{
+%&&c\ar[dr]\ar[d]
+%\\
+%x\ar[r]&m&m\ar[r]
+%&y
+%}
+%\\
+%\quad$=\sum_m \frac{1}{P(m)}\left[\sum_c P(y|m,c)P(m|c)P(c)\right]P(m|x)$ \\
+%\hspace{2cm}(because $P(m|c)=P(m)$ by d-separation
+%on $G_{promise}|x$)
+%\\
+%\hspace{2cm}
+%\xymatrix{\\
+%\sum_m\frac{1}{P(m)}
+%}
+%\xymatrix{
+%&&\EE c\ar[dr]\ar[d]
+%\\
+%x\ar[r]&m&m\ar[r]
+%&y
+%}
+%\\
+%\quad$=\sum_m P(y|m)P(m|x)$ 
+%\\
+%\hspace{2cm}
+%(because square bracketed expression equals $P(y,m)$)
+%\\
+%\hspace{2cm}
+%\xymatrix{
+%x\ar[r]&\sum m \ar[r]& y
+%}\quad (this simplifies frontdoor AF)
+%\\
+%\quad
+%$=\sum_{x'}\sum_m P(y|m,x')P(m|x)P(x')$
+%\\
+%\hspace{2cm}
+%(because can reverse steps that led to last expression)
+%\\
+%\hspace{2cm}
+%\xymatrix{
+%&\EE x'\ar[dr]
+%\\
+%x\ar[r]&\sum m\ar[r]
+%&y
+%}
+%\end{longtable}
+%
+%\beqa
+%P(y\mid \cald\rvx=x)
+%&=&
+%\bcen\xymatrix{
+%&*++[F-o]{c}\ar[ld]\ar[rd]
+%\ar[d]
+%\\
+%x\ar[r]\ar@/_1pc/[rr]
+%&m\ar[r]&y
+%}
+%\ecen
+%\eeqa
+%Now,
+%on both sides
+%of the last equation,
+% amputate arrows entering 
+%node $\rvx$, 
+%and sum over nodes that aren't
+%$\rvx$ or $\rvy$
+%
+%\beq
+%P(\rvy=y\mid \cald\rvx=x)=
+%\bcen\xymatrix{
+%&
+%&\EE x'\ar[ld]\ar[d]
+%\\
+%x\ar[r]\ar@/_1pc/[rr]
+%&\sum m\ar[r]
+%&y
+%}
+%\ecen
+%\eeq
+%
 
 {\bf * proof 2:}
 \begin{longtable}{l}
@@ -839,7 +1027,8 @@ $\xymatrix{
 \begin{align}
 P(y|\cald\rvx=x)
 &=
-\xymatrix{
+\bcen
+\xymatrix@R=1pc@C=1pc{
 &*++[F-o]{\EE u_1}\ar[ddl]\ar[ddrr]
 &&
 \\
@@ -850,24 +1039,31 @@ P(y|\cald\rvx=x)
 &\sum z
 &x\ar[r]
 &y
-}
+}\ecen
 \\
 &=
-\xymatrix{
+\bcen \xymatrix{
 *++[F-o]{\EE u_1}\ar[dr]
 \\
 x \ar[r]&  y}
+\ecen
 \end{align}
-The last diagram is not identifiable.
-If we try to add  the arrow $P(x|u_1)$ 
-in order to eliminate vertex $\EE u_1$, 
-we run into problems,
-because $P(x|u_1)\neq P(x)$ by d-separation on $G_{hypo}|x$.
-Since the last diagram is not identifiable, the Napkin problem is not identifiable either.\footnote{Pearl claims, 
-in his {\it The Book of Why} book, that the Napkin problem
-is identifiable, but he doesn't give an adjustment formula for it there. I myself
-have vacillated during the writing of this book on whether 
-it is identifiable or not.}
+The last diagram is not identifiable
+because you it's easy to find
+a zero-sum variation $\delta P(u_1)$
+such that
+
+\beq
+\delta P(y|\cald\rvx=x) =
+\bcen \xymatrix{
+*++[F-o]{\delta \EE u_1}\ar[dr]
+\\
+x \ar[r]&  y}
+\ecen \neq 0
+\eeq
+
+
+
 \qed
 
 
@@ -908,7 +1104,7 @@ x\ar[rrd]
 }
 \eeqa
 The last line follows because $P(u|x,z)=P(u)$ in 
-$G_{hypo}|(x,z)$ so
+$G_{promise}|(x,z)$ so
 \beqa
 \sum_u P(y|u,x,z)P(u)&=&
 \sum_u P(y|u,x,z) P(u|x, z)
@@ -971,7 +1167,7 @@ Let $\xi=(z,s)$. Above, we used
 \sum_{u_2}P(y|x, u_2,\xi)P(x|u_2, \xi)P(u_2|\xi)&=
 \\&=
 P(y|x, \xi)
-\;\text{(because $P(x|u_2, \xi)=P(x|u_2)$ in $G_{hypo}|\xi$)}
+\;\text{(because $P(x|u_2, \xi)=P(x|u_2)$ in $G_{promise}|\xi$)}
 \end{align}
 
 \qed
@@ -1264,7 +1460,7 @@ Obvious, once one defines
 %\nonumber
 %&&
 %\text{(because $P(y|x, z^-, s)=
-%P(y|x, z^-)$ in $G_{hypo}|x$)}
+%P(y|x, z^-)$ in $G_{promise}|x$)}
 %\\
 %&=&
 %\xymatrix{
@@ -1279,7 +1475,7 @@ Obvious, once one defines
 %&&
 %\text{(because $P(s|x)=P(s)$
 %and $P(z^-|x)=P(z^-)$
-%in $G_{hypo}|x$)}
+%in $G_{promise}|x$)}
 %\\
 %&=&
 %\xymatrix{
@@ -1299,7 +1495,7 @@ Obvious, once one defines
 %&&
 %\text{(because $P(y|x, s)=P(y|x)$
 %and $P(s|x)=P(s)$
-%in $G_{hypo}|x$)}
+%in $G_{promise}|x$)}
 %\eeqa
 %\qed
 %
