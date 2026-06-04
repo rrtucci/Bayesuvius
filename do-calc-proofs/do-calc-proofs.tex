@@ -78,6 +78,49 @@ We say that Eq.(\ref{eq-promi-dep})
 is {\bf bnet promise dependent}.
 \section{Identifiability}
 
+In Statistics, given a probability distribution
+$P(x;\theta)$ that depends on a parameter $\theta$, 
+we say  {\bf parameter $\theta$ is identifiable } iff
+
+\beq
+\forall\; \delta\theta \neq 0,\quad \quad
+\delta P\neq 0 
+\eeq
+Hence, the \qt{slope} $\delta P/\delta \theta \neq 0$
+for all $\delta\theta$.\footnote{
+This is usually stated equivalently as
+$\delta P=0$ implies $\delta\theta=0$.} Equivalently, {\bf $\theta$ is not
+identifiable} 
+ iff
+
+\beq\exists \;\delta\theta\in \RR\text{ such that }
+\quad\quad \delta P= 0
+\eeq
+
+For Pearl, a {\bf causal effect is identifiable} (and the hidden variables
+corresponding to $\theta$  
+are not identifiable) for a promise $P$ iff 
+\beq
+\exists \text{ changes in the 
+hidden variables such that}\quad\quad
+\delta P=0
+\eeq
+I'm going to adopt the stronger definition: a {\bf causal effect is identifiable} (and the hidden variables
+corresponding to $\theta$  
+are not identifiable) for a promise $P$ iff 
+\beq
+\forall \text{ changes in the 
+hidden variables,}\quad\quad
+\delta P=0
+\eeq
+(i.e., the hidden variables
+are totally, not partially, hidden.)
+
+
+
+Let's be more specific about
+the causal effect case.
+
 Given a probability distribution $P(x)$, we
 define a {\bf zero-sum variation}
 $\delta P(x)$ of $P(x)$ so that 
@@ -106,11 +149,12 @@ to be {\bf identifiable} iff
 =\sum_{h\in H}
 \left[\prod_{i\neq h}P(x_i\mid pa(x_i))
 \right]\delta
-P(x_i\mid pa(x_i)
-\eeq 
-where the $\delta
-P(x_i\mid pa(x_i)$
-are zero sum variations.
+P(x_h\mid pa(x_h)
+\eeq  
+for all possible zero-sum
+variations
+$\delta P(x_h\mid pa(x_h)$
+for all $h\in H$.
 Hence, an identifiable bnet
 is invariant under changes
 in the probability
@@ -145,7 +189,7 @@ nodes are always identifiable.
 nodes but is identifiable, find
 an equivalent bnet
 that gives the same promise
-but has no hidden nodes. 
+but without hidden nodes. 
 
 \end{enumerate}
 Pearl's 3 rules of do-calculus
