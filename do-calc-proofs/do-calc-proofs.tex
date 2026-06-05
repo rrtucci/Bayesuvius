@@ -89,45 +89,64 @@ we say  {\bf parameter $\theta$ is identifiable } iff
 Hence, the \qt{slope} $\delta P/\delta \theta \neq 0$
 for all $\delta\theta$.\footnote{
 This is usually stated equivalently as
-$\delta P=0$ implies $\delta\theta=0$.} Equivalently, {\bf $\theta$ is not
-identifiable} 
+$\delta P=0$ implies $\delta\theta=0$.} Equivalently, {\bf parameter $\theta$ is UN-identifiable} 
  iff
 
 \beq\exists \;\delta\theta\in \RR\text{ such that }
 \quad\quad \delta P= 0
 \eeq
 
-For Pearl, a {\bf causal effect is identifiable} (and the hidden variables
-corresponding to $\theta$  
-are not identifiable) for a promise $P$ iff 
-\beq
+I will say a {\bf a probability distribution $P(\cdot)$ is partially (resp., totally) identifiable} (and the hidden variables
+analogous to $\theta$  
+are partially (resp., totally) unidentifiable) iff 
+\beq \text{partially:}\quad
 \exists \text{ changes in the 
 hidden variables such that}\quad\quad
 \delta P=0
 \eeq
-I'm going to adopt the stronger definition: a {\bf causal effect is identifiable} (and the hidden variables
-corresponding to $\theta$  
-are not identifiable) for a promise $P$ iff 
 \beq
+\text{totally:}\quad
 \forall \text{ changes in the 
 hidden variables,}\quad\quad
 \delta P=0
 \eeq
-(i.e., the hidden variables
-are totally, not partially, hidden.)
+Whenever I talk about 
+$P(\cdot)$ being
+identifiable or unidentifiable
+without specifying whether I 
+mean partially or totally,
+I will be referring to
+the total version. 
 
 
 
 Let's be more specific about
-the causal effect case.
+the $P(\cdot)$ identifiability.
 
-Given a probability distribution $P(x)$, we
-define a {\bf zero-sum variation}
-$\delta P(x)$ of $P(x)$ so that 
 
-\beq 
-1=\sum_x P(x)=\sum_x\left[P(x)+\delta P(x)\right]\implies \sum_x \delta P(x)=0
+Define an
+{\bf infinitesimal variation }
+$\delta P$ of the
+ probability distribution $P(x)$ by
+
+\beq
+\delta P(x)=
+\delta x\; \pder{P(x)}{x}
 \eeq
+\beq
+\delta_{P_\rvx} \sum_x f(x) P(x)= \sum_x f(x) \delta P(x)
+\eeq
+
+This assumes $P(x)$
+is a smooth function of
+a continuous  $x$.
+If we can prove or
+disprove identifiability
+for the smooth $P(x)$ case,
+that is strong evidence that
+it is true in the discrete case too.
+
+
 
 
 Suppose a bnet $\calg$ with nodes 
@@ -138,7 +157,7 @@ given by
 P(x_{1\dots N})
 =\prod_{i=1}^N P(x_i\mid pa(x_i))
 \eeq
-where $pa(x_1)$ is the empty set.
+where $pa(x_i)$ is the empty set for root nodes.
 Suppose $H\subset \{1, 2, \ldots, N\}$ is the set of indices belonging to the
 hidden variables of the bnet.
 Then we define $\calg$  
@@ -149,9 +168,9 @@ to be {\bf identifiable} iff
 =\sum_{h\in H}
 \left[\prod_{i\neq h}P(x_i\mid pa(x_i))
 \right]\delta
-P(x_h\mid pa(x_h)
+P(x_h\mid pa(x_h))
 \eeq  
-for all possible zero-sum
+for all possible 
 variations
 $\delta P(x_h\mid pa(x_h)$
 for all $h\in H$.
@@ -165,7 +184,7 @@ be the bnet $\calg$
 after all arrows entering $\rvx$ have been amputated.
 $P(y\mid do(\rvx)=x)=P(y\mid \cald \rvx=x)$
 corresponds to the
-instantiation of $\cald_\rvx \calg$ wherein all nodes other than $x$ and $y$ have been 
+instantiation of $\cald_\rvx \calg$ wherein all nodes other than $\rvx$ and $\rvy$ have been 
 summed over.  This instantiation
 of $\cald_\rvx \calg$ is a
 probability distribution represented by
@@ -176,7 +195,8 @@ is identifiable} iff
 \beq
 0=\delta_{hidden}P(y\mid \cald \rvx =x)
 \eeq
-The goal of Pearl's do Calculus is
+for all possible $\delta_{hidden}$.
+The goal of Pearl's Do Calculus is
 two-fold:
 \begin{enumerate}
 \item 
@@ -192,7 +212,13 @@ that gives the same promise
 but without hidden nodes. 
 
 \end{enumerate}
-Pearl's 3 rules of do-calculus
+
+Note that Pearl's \qt{identifiability of causal effects} is actually defined 
+as a partial identifiability,
+whereas we will always assume 
+total identifiabity.
+
+Note also that Pearl's 3 rules of Do Calculus
 deal specifically
 with identifiability 
 for probabilities conditioned
@@ -204,13 +230,76 @@ with hidden variables, not
 just for \qt{doey} ones.
 
 
-\section{Promise Independent Node Summation (NS) Identities}
-Next we will
-give some {\bf node summation  (NS) identities}
-that are used in this chapter.
-Note that these identities are {\bf bnet promise independent}; i.e., they are true
-for any bnet promise. 
 
+\section{Promise Keeping Operations}
+
+So far, we have defined
+a {\bf promise} to be the full
+probability distribution of a bnet.
+Next, we shall introduce
+the concept of {\bf original promise}. Suppose
+
+\begin{itemize} 
+
+\item The original promise $\pi_a$ equals:
+
+\beq
+P(z, y, x)= P(z|y)P(y|z)P(z)
+\eeq
+
+\item the original Promise $\pi_b$ equals:
+
+\beq
+Q(z, y, x)=Q(z|y, x) Q(y\mid x)Q(x) 
+\eeq
+\end{itemize}
+
+Note that 
+
+\beq
+\sum_y P(z|y)P(y|x)= P(z|x)
+\eeq
+and
+
+\beq
+\sum_y Q(z|y, x)Q(y|x)= Q(z|x)
+\eeq
+An alternative notation is to
+condition on the OP:
+
+\beq
+P(\cdot)= P(\cdot\mid \pi_a),
+\quad Q(\cdot)=P(\cdot\mid \pi_b)
+\eeq
+
+Often, people (including me) do not write
+the conditioning on the OP
+or use separate symbols $P(\cdot)$ and $Q(\cdot)$.
+Then
+ the operation of deleting 
+a sum over intermediate nodes such as $\rvy$, 
+removes all
+trace of the OP.
+This does not cause problems
+as long as we are dealing
+with just one OP.
+However, in doing Do Calculus,
+we deal with more than one OP
+at a time,
+and in that case, not distinguishing between OPs
+can lead to erroneous conclusions. A way to 
+avoid this pitfall is to 
+represent instantiations of
+a bnet with diagrams, and
+to use only 
+ promise keeping (PK) operations
+on that diagram.
+We say an {\bf operation is PK} if it does not erase some
+trace or memory of the OP.
+Next, we shall discuss
+PK operations.
+
+Consider the following  node summation identities.
 
 \begin{enumerate}
 \item
@@ -373,14 +462,35 @@ P(y)\quad
 \end{enumerate}
 \hrule
 
-The moral of the above NS identities is that
-if one has a fully connected bnet, or a bnet clique
-(i.e., fully connected subgraph of a bnet)\footnote{Note that in order to use the NS identities on a clique,
-the clique's nodes can have NO incoming arrows (i.e., arrows pointing from outside the clique into the clique). Outgoing arrows are allowed though. I like to call such a clique an {\bf exploding clique}, because of its outgoing arrows.},
-one can remove completely (including its arrows) a sum vertex $\sum a$ or an average
-vertex $\EE a$ of the clique. Not only that! We can also 
-replace a sum vertex $\sum a$  of the clique by a different  sum vertex $\sum b$. Likewise, we can replace
-an average vertex $\EE a$  of the clique by a different  average vertex $\EE b$.
+Recall that a  {\bf clique} 
+of a DAG $\calg$ is a fully
+connected subgraph of $\calg$.
+Define an {\bf exploding clique} as one that
+has no incoming arrows,
+only outgoing ones.
+
+All of the above
+node summation identities
+are PK. They all
+follow from  the
+following 2  
+{\bf basic promise-keeping (PK)
+operations}:
+\begin{enumerate}
+\item
+If one has a fully connected exploding clique, one is free to
+change the direction
+of the arrows to any 
+other directions,
+as  long as the 
+final graph is acyclic.
+\item
+Sums over leaf nodes
+are always 1 
+so they can be removed
+from the instantiation.
+\end{enumerate}
+
 
 %An important caveat concerning the above
 %NS identities is that 
@@ -461,9 +571,6 @@ then we say the do-query is
 %by (2). }
 A {\bf do-transfer formula}
 is a relationship between 2  do-queries.
-This chapter deals with both
-do-adjustment and do-transfer
-formulae.
 
 Let $G$ be a graph before
 amputation
@@ -687,6 +794,7 @@ P(y|\cald\rvx=x)
 x\ar[r]
 &y
 }\ecen
+\text{(by definition)}
 \eeq
 
 
@@ -762,25 +870,52 @@ $
 \begin{align}
 P(y\mid \cald\rvx=x)&=
 \xymatrix{
-&*++[F-o]{\sum c}\ar[rd]
+&*++[F-o]{\EE c}\ar[rd]
 \\
 x\ar[r]
 &\sum m\ar[r]&y
 }
 \\
 &=
+\sum_c
+\frac{1}{P(c|x)}
 \bcen
 \xymatrix{
-&*++[F-o]{\sum c}\ar@[red][rd]
+&*++[F-o]{c}\ar@[red][rd]
 \ar@[red][r]
 & \sum x'
 \\
-x\ar[r]\ar[rru]
+x\ar[r]\ar[rru]\ar[ur]
 &\sum m\ar[r]
 &y\ar@[red][u]
 }
 \ecen
-\text{(added summed leaf node $x'$)}
+\begin{array}{l}
+\text{(added summed leaf node $x'$,}
+\\
+\text{added $\rvx\to \rvc$ arrow)}
+\end{array}
+\\
+&=\sum_c
+\frac{1}{P(c|x)}
+\bcen
+\xymatrix{
+&*++[F-o]{ c}\ar@{<-}@[red][rd]
+\ar@{<-}@[red][r]
+& \sum x'
+\\
+x\ar[r]\ar[rru]\ar[ur]
+&\sum m\ar[r]
+&y\ar@[red]@{<-}[u]
+}
+\ecen
+\begin{array}{l}
+\text{(fully connected 4 node}
+\\
+\text{graph so we are allowed} 
+\\
+\text{to reverse red arrows)}
+\end{array}
 \\
 &=
 \bcen
@@ -789,16 +924,13 @@ x\ar[r]\ar[rru]
 \ar@{<-}@[red][r]
 & \sum x'
 \\
-x\ar[r]\ar[rru]\ar[ur]|0
+x\ar[r]\ar[rru]
 &\sum m\ar[r]
-&y\ar@[red]@{<-}[u]
+&y\ar@{<-}@[red][u]
 }
 \ecen
-\begin{array}{l}
-\text{(fully connected 4 node graph so we} 
-\\
-\text{are allowed to reverse red arrows)}
-\end{array}
+\text{(temporary arrow $\rvx\to \rvc$ removed)}
+\label{eq-temp-ar-rem}
 \\
 &=
 \bcen
@@ -810,7 +942,7 @@ x\ar[r]\ar[rru]
 &y
 }
 \ecen
-\text{(Removed summed leaf node $c$)}
+\text{(removed summed leaf node $c$)}
 \\
 &=
 \bcen
@@ -824,6 +956,43 @@ x\ar[r]
 \ecen
 \text{(used $P(x'|x)=P(x')$)}
 \end{align}
+
+The above argument seems to
+be valid even if there is no node $\rvm$ in the promise.
+However, with node $\rvm$,
+the final adjustment
+formula uses a $P(y\mid m, x)$
+which is computable from the
+available promise.
+Without node $\rvm$,
+we would need a $P(y\mid x, x')$
+which is not computable from the
+available promise.
+
+Note that
+we can prove that
+$\delta_{hidden}P(y\mid \rvx=x)=0$,
+but the differential
+approach does not
+yield an adjustment formula. Indeed,
+by Eq.(\ref{eq-temp-ar-rem}), 
+\beqa
+\delta_{hidden}P(y\mid \rvx=x)&=&
+\sum_c \delta c \pder{}{c}
+\bcen
+\xymatrix{
+&*++[F-o]{ c}\ar@{<-}@[red][rd]
+\ar@{<-}@[red][r]
+& \sum x'
+\\
+x\ar[r]\ar[rru]
+&\sum m\ar[r]
+&y\ar@{<-}@[red][u]
+}
+\ecen
+\\
+&=& 0
+\eeqa
 
 %
 %\begin{longtable}{l}
@@ -1093,8 +1262,8 @@ x \ar[r]&  y}
 \ecen
 \end{align}
 The last diagram is not identifiable
-because you it's easy to find
-a zero-sum variation $\delta P(u_1)$
+because  it's easy to find
+a variation $\delta P(u_1)$
 such that
 
 \beq
