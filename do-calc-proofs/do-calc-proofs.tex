@@ -330,6 +330,132 @@ Next, we shall discuss
 universal operations
 in more detail.
 
+
+
+\begin{claim}
+In any graph, a summed leaf node equals 1:
+
+\beq
+\begin{array}{c}
+\bcen
+\xymatrix{
+\sum a
+&
+\\
+y\ar[u]
+& x\ar[ul]\ar[l]
+}
+\ecen
+=\xymatrix{y&x\ar[l]}
+\\
+\sum_a P(a|x, y)P(y|x)=P(y|x)
+\end{array}
+\eeq
+\end{claim}
+\proof Obvious
+\qed
+
+
+\begin{claim}
+In an EC, a summed hidden node can be replaced
+by a summed non-hidden node:
+
+\beq
+\bcen \xymatrix{
+*++[F-o]{\EE h}
+\ar@[red][d]\ar[dr]
+\\
+x\ar[r]
+&y
+}\ecen
+=
+\bcen \xymatrix{
+{\EE z}
+\ar@[red][d]\ar[dr]
+\\
+x\ar[r]
+&y
+}\ecen
+\label{eq-summed-root-identity}
+\eeq
+and
+
+\beq
+\bcen \xymatrix{
+*++[F-o]{\sum h}
+\ar@{<-}[d]\ar[dr]
+\\
+\PP x\ar[r]
+&y
+}\ecen
+=
+\bcen \xymatrix{
+{\sum z}
+\ar@{<-}[d]\ar[dr]
+\\
+\PP x\ar[r]
+&y
+}\ecen
+\label{eq-summed-witness-h}
+\eeq
+\end{claim}
+\proof
+\beqa
+\bcen \xymatrix{
+*++[F-o]{\EE h}
+\ar[d]\ar[dr]
+\\
+x\ar[r]
+&y
+}\ecen
+&=&
+\bcen
+\xymatrix{
+*++[F-o]{\EE h}
+\ar[d]\ar[dr]
+\ar[r]
+&\sum z
+\\
+x\ar[r]\ar[ur]
+&y\ar[u]
+}
+\ecen
+\\
+&=&
+\bcen
+\xymatrix{
+*++[F-o]{\sum h}
+\ar@{<-}[d]
+\ar@{<-}[dr]
+\ar@{<-}[r]
+&\EE z
+\\
+x\ar[r]
+\ar@{<-}[ur]
+&y\ar@{<-}[u]
+}
+\ecen
+\\
+&=&
+\bcen
+\xymatrix{
+&\EE z
+\\
+x\ar[r]
+\ar@{<-}[ur]
+&y\ar@{<-}[u]
+}
+\ecen
+\eeqa
+Eq.(\ref{eq-summed-witness-h})
+follows
+by redirecting the red arrows
+in Eq.(\ref{eq-summed-root-identity}).
+
+\qed
+
+
+
 Consider the following  node summation identities.
 
 \begin{enumerate}
@@ -341,13 +467,14 @@ P(a|x_1, x_2)=1
 \eeq
 
 \beq
+\bcen
 \xymatrix@R=.3pc{
 x_1\ar[dr]
 \\
-&\sum a&=1
+&\sum a
 \\
 x_2\ar[ur]
-}
+}\ecen=1
 \label{eq-collider-sum}
 \eeq
 \hrule
@@ -359,26 +486,26 @@ x_2\ar[ur]
 \eeq
 
 \beq
-\xymatrix{\\P(x_1)}
+\bcen
 \xymatrix{
-x_1\ar[rd]\ar[drr]\ar[dd]
+\PP x_1\ar[rd]\ar[drr]\ar[dd]
 \\
 &\sum a\ar[r]
 &y
 \\
 x_2\ar[ru]\ar[rru]
-}
-\xymatrix
-{\\ =P(x_1)}
+}\ecen
+=
+\bcen
 \xymatrix{
-x_1\ar[rrd]\ar[dd]
+\PP x_1\ar[rrd]\ar[dd]
 \\
 &&y
 \\
 x_2\ar[urr]
 }
 \label{eq-univ-bdoor}
-\;.
+\ecen
 \eeq
 This identity can be interpreted
 geometrically by noting that the 
@@ -397,6 +524,7 @@ The following identity has a similar geometrical interpretation
 \eeq
 
 \beq
+\bcen
 \xymatrix{
 x_1\ar[drr]\ar[dd]
 \\
@@ -404,18 +532,18 @@ x_1\ar[drr]\ar[dd]
 &y
 \\
 x_2\ar[rru]
-}
-\xymatrix
-{\\ = P(x_1)}
+}\ecen
+=
+\bcen
 \xymatrix{
-x_1\ar[rrd]\ar[dd]
+\PP x_1\ar[rrd]\ar[dd]
 \\
 &&y
 \\
 x_2\ar[urr]
 }
+\ecen
 \label{eq-univ-bdoor-ee}
-\;.
 \eeq
 
 
@@ -426,16 +554,18 @@ x_2\ar[urr]
 \eeq
 
 \beq
-\xymatrix@R=1pc{
-\\P(x)}
+\bcen
 \xymatrix@R=1pc{
 &\sum a\ar[rd]
 \\
-x\ar[ru]\ar[rr]
-&&y
-&=&P(x)\quad
-x\ar[r]
-&y}
+\PP x\ar[ru]\ar[rr]
+&&y}
+\ecen
+=
+\bcen
+\xymatrix{
+\PP x\ar[r]
+&y}\ecen
 \label{eq-med-sum}
 \eeq
 Once again, the bnet on the LHS is fully
@@ -448,14 +578,18 @@ The following identity has a similar geometrical interpretation
 \eeq
 
 \beq
+\bcen
 \xymatrix@R=1pc{
 &\EE a\ar[rd]\ar[ld]
 \\
 x\ar[rr]
-&&y
-&=&P(x)\quad
-x\ar[r]
+&&y}\ecen
+=
+\bcen
+\xymatrix{
+\PP x\ar[r]
 &y}
+\ecen
 \label{eq-med-sum-ee}
 \eeq
 
@@ -469,9 +603,8 @@ x\ar[r]
 \beq
 \xymatrix{
 \EE a\ar[r]
-&y
-&=&P(y)
-}
+&y}\quad
+=P(y)
 \label{eq-diff-priors}
 \eeq
 Furthermore,
@@ -482,11 +615,9 @@ Furthermore,
 
 \beq
 \xymatrix{
-P(y)\quad
 \sum a
-&y\ar[l]
-&=&P(y)
-}
+&\PP y\ar[l]}
+\quad=P(y)
 \label{eq-diff-priors-ee}
 \eeq
 
