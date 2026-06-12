@@ -337,136 +337,9 @@ In any graph, a summed leaf node equals 1:
 
 \beq
 \begin{array}{c}
-\bcen
-\xymatrix{
-\sum a
-&
-\\
-y\ar[u]
-& x\ar[ul]\ar[l]
-}
-\ecen
-=\xymatrix{y&x\ar[l]}
-\\
-\sum_a P(a|x, y)P(y|x)=P(y|x)
-\end{array}
-\eeq
-\end{claim}
-\proof Obvious
-\qed
-
-
-\begin{claim}
-In an EC, a summed hidden node can be replaced
-by a summed non-hidden node:
-
-\beq
-\bcen \xymatrix{
-*++[F-o]{\EE h}
-\ar@[red][d]\ar[dr]
-\\
-x\ar[r]
-&y
-}\ecen
-=
-\bcen \xymatrix{
-{\EE z}
-\ar@[red][d]\ar[dr]
-\\
-x\ar[r]
-&y
-}\ecen
-\label{eq-summed-root-identity}
-\eeq
-and
-
-\beq
-\bcen \xymatrix{
-*++[F-o]{\sum h}
-\ar@{<-}[d]\ar[dr]
-\\
-\PP x\ar[r]
-&y
-}\ecen
-=
-\bcen \xymatrix{
-{\sum z}
-\ar@{<-}[d]\ar[dr]
-\\
-\PP x\ar[r]
-&y
-}\ecen
-\label{eq-summed-witness-h}
-\eeq
-\end{claim}
-\proof
-\beqa
-\bcen \xymatrix{
-*++[F-o]{\EE h}
-\ar[d]\ar[dr]
-\\
-x\ar[r]
-&y
-}\ecen
-&=&
-\bcen
-\xymatrix{
-*++[F-o]{\EE h}
-\ar[d]\ar[dr]
-\ar[r]
-&\sum z
-\\
-x\ar[r]\ar[ur]
-&y\ar[u]
-}
-\ecen
-\\
-&=&
-\bcen
-\xymatrix{
-*++[F-o]{\sum h}
-\ar@{<-}[d]
-\ar@{<-}[dr]
-\ar@{<-}[r]
-&\EE z
-\\
-x\ar[r]
-\ar@{<-}[ur]
-&y\ar@{<-}[u]
-}
-\ecen
-\\
-&=&
-\bcen
-\xymatrix{
-&\EE z
-\\
-x\ar[r]
-\ar@{<-}[ur]
-&y\ar@{<-}[u]
-}
-\ecen
-\eeqa
-Eq.(\ref{eq-summed-witness-h})
-follows
-by redirecting the red arrows
-in Eq.(\ref{eq-summed-root-identity}).
-
-\qed
-
-
-
-Consider the following  node summation identities.
-
-\begin{enumerate}
-\item
-
-\beq
 \sum_a
 P(a|x_1, x_2)=1
-\eeq
-
-\beq
+\\
 \bcen
 \xymatrix@R=.3pc{
 x_1\ar[dr]
@@ -475,17 +348,95 @@ x_1\ar[dr]
 \\
 x_2\ar[ur]
 }\ecen=1
+\end{array}
 \label{eq-collider-sum}
 \eeq
-\hrule
+
+
+\end{claim}
+\proof Obvious
+\qed
+
+Examples:
+\begin{enumerate}
 \item
 \beq
-\sum_a P(y|a, x_1, x_2)P(a|x_1, x_2)P(x_2|x_1)P(x_1)
-= P(y,x_1, x_2)
-\;.
+\begin{array}{c}
+\sum_a P(y|a)P(a)=P(y)
+\\
+\xymatrix{
+\EE a\ar[r]
+&y}\quad
+=P(y)
+\end{array}
+\label{eq-diff-priors}
 \eeq
+Furthermore,
 
 \beq
+\begin{array}{c}
+\sum_a P(a|y)P(y)=P(y)
+\\
+\xymatrix{
+\sum a
+&\PP y\ar[l]}
+\quad=P(y)
+\end{array}
+\label{eq-diff-priors-ee}
+\eeq
+
+
+\item
+\beq
+\begin{array}{c}
+\sum_a P(y|a, x)P(a|x)P(x)=P(x,y)
+\\
+\bcen
+\xymatrix@R=1pc{
+&\sum a\ar[rd]
+\\
+\PP x\ar[ru]\ar[rr]
+&&y}
+\ecen
+=
+\bcen
+\xymatrix{
+\PP x\ar[r]
+&y}\ecen
+\end{array}
+\label{eq-med-sum}
+\eeq
+Once again, the bnet on the LHS is fully
+connected so the arrow $\sum a\rarrow y$ can be reversed and then the sum over $a$ yields 1.
+
+The following identity has a similar geometrical interpretation
+
+\beq
+\begin{array}{c}
+\sum_a P(y|x,a)P(x|a)P(a)=P(x,y)
+\\
+\bcen
+\xymatrix@R=1pc{
+&\EE a\ar[rd]\ar[ld]
+\\
+x\ar[rr]
+&&y}\ecen
+=
+\bcen
+\xymatrix{
+\PP x\ar[r]
+&y}
+\ecen
+\end{array}
+\label{eq-med-sum-ee}
+\eeq
+
+\item
+\beq
+\begin{array}{c}
+\sum_a P(y|a, x_1, x_2)P(a|x_1, x_2)P(x_2|x_1)P(x_1)
+= P(y,x_1, x_2)
+\\
 \bcen
 \xymatrix{
 \PP x_1\ar[rd]\ar[drr]\ar[dd]
@@ -504,6 +455,7 @@ x_2\ar[ru]\ar[rru]
 \\
 x_2\ar[urr]
 }
+\end{array}
 \label{eq-univ-bdoor}
 \ecen
 \eeq
@@ -518,12 +470,10 @@ with its 3 incoming arrows can be deleted.
 The following identity has a similar geometrical interpretation
 
 \beq
+\begin{array}{c}
 \sum_a P(y|x_2, a, x_1)P(x_2|a, x_1)P(x_1|a)P(a)
 = P(y,x_1, x_2)
-\;.
-\eeq
-
-\beq
+\\
 \bcen
 \xymatrix{
 x_1\ar[drr]\ar[dd]
@@ -543,96 +493,15 @@ x_2\ar[rru]
 x_2\ar[urr]
 }
 \ecen
+\end{array}
 \label{eq-univ-bdoor-ee}
 \eeq
 
 
-\hrule
-\item
-\beq
-\sum_a P(y|a, x)P(a|x)P(x)=P(x,y)
-\eeq
-
-\beq
-\bcen
-\xymatrix@R=1pc{
-&\sum a\ar[rd]
-\\
-\PP x\ar[ru]\ar[rr]
-&&y}
-\ecen
-=
-\bcen
-\xymatrix{
-\PP x\ar[r]
-&y}\ecen
-\label{eq-med-sum}
-\eeq
-Once again, the bnet on the LHS is fully
-connected so the arrow $\sum a\rarrow y$ can be reversed and then the sum over $a$ yields 1.
-
-The following identity has a similar geometrical interpretation
-
-\beq
-\sum_a P(y|x,a)P(x|a)P(a)=P(x,y)
-\eeq
-
-\beq
-\bcen
-\xymatrix@R=1pc{
-&\EE a\ar[rd]\ar[ld]
-\\
-x\ar[rr]
-&&y}\ecen
-=
-\bcen
-\xymatrix{
-\PP x\ar[r]
-&y}
-\ecen
-\label{eq-med-sum-ee}
-\eeq
-
-\hrule
-
-\item
-\beq
-\sum_a P(y|a)P(a)=P(y)
-\eeq
-
-\beq
-\xymatrix{
-\EE a\ar[r]
-&y}\quad
-=P(y)
-\label{eq-diff-priors}
-\eeq
-Furthermore,
-
-\beq
-\sum_a P(a|y)P(y)=P(y)
-\eeq
-
-\beq
-\xymatrix{
-\sum a
-&\PP y\ar[l]}
-\quad=P(y)
-\label{eq-diff-priors-ee}
-\eeq
 
 \end{enumerate}
-\hrule
 
-Recall that a  {\bf clique} 
-of a DAG $\calg$ is a fully
-connected subgraph of $\calg$.
-Define an {\bf exploding clique} as one that
-has no incoming arrows,
-only outgoing ones.
 
-Recall that a {\bf leaf node}
-is a node with no outgoing arrows.
 
 All of the above
 node summation identities
@@ -927,6 +796,108 @@ x\ar[r]
 }\ecen
 \neq 0
 \eeqa
+
+
+
+
+\begin{claim}
+In an EC, a summed hidden node can be replaced
+by a summed non-hidden node:
+
+\beq
+\bcen \xymatrix{
+*++[F-o]{\EE h}
+\ar@[red][d]\ar[dr]
+\\
+x\ar[r]
+&y
+}\ecen
+=
+\bcen \xymatrix{
+{\EE z}
+\ar@[red][d]\ar[dr]
+\\
+x\ar[r]
+&y
+}\ecen
+\label{eq-summed-root-identity}
+\eeq
+and
+
+\beq
+\bcen \xymatrix{
+*++[F-o]{\sum h}
+\ar@{<-}[d]\ar[dr]
+\\
+\PP x\ar[r]
+&y
+}\ecen
+=
+\bcen \xymatrix{
+{\sum z}
+\ar@{<-}[d]\ar[dr]
+\\
+\PP x\ar[r]
+&y
+}\ecen
+\label{eq-summed-witness-h}
+\eeq
+\end{claim}
+\proof
+\beqa
+\bcen \xymatrix{
+*++[F-o]{\EE h}
+\ar[d]\ar[dr]
+\\
+x\ar[r]
+&y
+}\ecen
+&=&
+\bcen
+\xymatrix{
+*++[F-o]{\EE h}
+\ar[d]\ar[dr]
+\ar[r]
+&\sum z
+\\
+x\ar[r]\ar[ur]
+&y\ar[u]
+}
+\ecen
+\\
+&=&
+\bcen
+\xymatrix{
+*++[F-o]{\sum h}
+\ar@{<-}[d]
+\ar@{<-}[dr]
+\ar@{<-}[r]
+&\EE z
+\\
+x\ar[r]
+\ar@{<-}[ur]
+&y\ar@{<-}[u]
+}
+\ecen
+\\
+&=&
+\bcen
+\xymatrix{
+&\EE z
+\\
+x\ar[r]
+\ar@{<-}[ur]
+&y\ar@{<-}[u]
+}
+\ecen
+\eeqa
+Eq.(\ref{eq-summed-witness-h})
+follows
+by redirecting the red arrows
+in Eq.(\ref{eq-summed-root-identity}).
+
+\qed
+
 
 
 \section{Compilation of Do Calculus Proofs}
