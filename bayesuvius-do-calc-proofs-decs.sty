@@ -1,4 +1,5 @@
 \newcommand{\bnetInstantiations}[0]{
+\hrule
 Random variables are underlined
 and their values are not.
 For example, $\rva=a$ means
@@ -18,7 +19,52 @@ $P(a,b,c)$ equals $P(c|b)P(b|a)P(a)$,
 whereas  $a\rarrow b\rarrow c$
 is identically equal to  $P(c|b)P(b|a)$. Note that, for convenience,
 we define $a\rarrow b\rarrow c$ to
-exclude the priors of root nodes such as $P(a)$.
+exclude the priors of root nodes such as $P(a)$. An instantiation alone makes no promises.
+Think of a bnet promise as an equation,
+whereas an
+ instantiation is just a possible term in an equation.
+
+\hrule
+If $\rva$ is a root node,
+then $\PP a$ signifies
+just $P(a)$.
+For example,
+\beq
+\xymatrix{a&\PP b\ar[l]}
+=
+P(a|b)P(b)=P(a,b)
+\eeq
+and 
+\beq
+\xymatrix{\PP a\ar[r]&b}=
+P(b|a)P(a)=P(a,b)
+\eeq
+More generally,
+\beq
+\bcen
+\xymatrix@R=1pc{
+&a_1
+\\
+\PP x \ar[ru]\ar[rd]
+&
+\\
+&a_2
+}\ecen
+=
+P(x)
+\bcen
+\xymatrix@R=1pc{
+&a_1
+\\
+x \ar[ru]\ar[rd]
+&
+\\
+&a_2
+}\ecen
+= 
+P(x)P(a_1|x)P(a_2|x)
+\eeq
+
 
 If $\rva$ is a root node,
 then $\EE a$ signifies
@@ -27,8 +73,34 @@ For example,
 
 \beq\EE a\rarrow b\rarrow c=\sum_a P(c|b)P(b|a)P(a)
 \eeq
-If $\rva$ is not
-a root node, then
+More generally,
+
+\beq
+\bcen
+\xymatrix@R=1pc{
+&a_1
+\\
+\EE x \ar[ru]\ar[rd]
+&
+\\
+&a_2
+}\ecen
+=
+\sum_x P(x)
+\bcen
+\xymatrix@R=1pc{
+&a_1
+\\
+x \ar[ru]\ar[rd]
+&
+\\
+&a_2
+}\ecen
+= 
+\sum_x P(x)P(a_1|x)P(a_2|x)
+\eeq
+
+If $\rva$ is not a root node, then
 $\sum a$ signifies
 a simple unweighted sum $\sum_a$.
 For example,
@@ -37,7 +109,38 @@ For example,
 x\rarrow\sum a \rarrow y=
 \sum_a P(y|a)P(a|x)
 \eeq
+More generally,
+\beq
+\bcen
+\xymatrix@R=1pc{
+&
+&\ar[dl]
+\\
+&
+\sum x \ar[lu]\ar[ld]
+&
+\\
+&
+&\ar[ul]
+}\ecen
+=
+\sum_x
+\bcen
+\xymatrix@R=1pc{
+&
+&\ar[dl]
+\\
+&
+x\ar[lu]\ar[ld] 
+&
+\\
+&
+&\ar[ul]
+}\ecen=
+\sum_x P(\cdot\mid \cdot, x)P(x|pa(x))
+\eeq
 
+\hrule
 A bnet promises a particular full probability distribution
 function. We will sometimes refer to that full probability distribution function as the {\bf bnet promise}. 
 For example, the bnet 
@@ -53,15 +156,59 @@ promises that
 \beq
 P(a,b,c)=P(c|b)P(b|a)P(a)
 \eeq
+
 Two bnets are said to be equal iff their promises are equal.
 If two bnets are the same except one has more
-arrows than the other, we will say the
+arrows than the other
+(i.e., they have
+the same structure in the arrows that are in common, one
+bnet is a subset
+of the other), we will say the
 bnet with more arrows makes a {\bf stronger promise}
 and the one with fewer arrows makes a {\bf weaker promise}.
 Alternatively, the weaker bnet has the same number of
 arrows as the stronger one, but some have a 0 subscript
  ({\bf ghost arrows}) to
-indicate they are missing (or they equal 1), and thus carry zero information.
+indicate they are {\bf missing}, and thus {\bf carry zero information}.
+Pictorially speaking,
+\beq
+\begin{array}{c}
+\underbrace{P(x|a_1)}_{
+\text{special case  of } P(x|a_1, a_2)
+}
+P(a_1|pa(a_1))
+= P(x|a_1, \underbrace{a_2}_{\text{ghost}})P(a_1|pa(a_1))
+\\
+\bcen
+\xymatrix@R=1pc{
+&a_2
+&\ar[l]
+&
+\\
+x
+&
+\\
+&a_1\ar[ul]
+&\ar[uul]
+&
+}\ecen
+=
+\bcen
+\xymatrix@R=1pc{
+&a_2
+\ar[dl]_0
+&\ar[l]
+\\
+x
+&
+&
+\\
+&a_1\ar[ul]
+&\ar[uul]
+}\ecen
+\end{array}
+\eeq
+
 A result proven for a specific promise is valid for
 a weaker promise, but not for a stronger promise.
 In other words, a result valid for a bnet is still valid
@@ -69,14 +216,148 @@ if an arrow is zeroed (ghosted) but
 not if an arrow is unzeroed (unghosted).
 Ghost arrows can be added and removed with impunity,
 but ghost arrows cannot be unghosted.
-An instantiation alone makes no promises.
-Think of a bnet promise as an equation,
-whereas an
- instantiation is just a possible term in an equation.
+
+We often write
+
+\beq
+\begin{array}{c}
+\xymatrix {\PP a\ar[r]&\sum b\ar[r]&c}
+\quad=\quad
+\xymatrix {\PP a\ar[r]&c}
+\\
+\sum_b P(c|b)P(b|a)P(a)=P(c,a)
+\label{eq-promi-dep}
+\end{array}
+\eeq
+because  the left-hand side summed over $a,c$ yields 1. However,
+this equation
+is only true if the $P(c,a)$
+on the right-hand side
+assumes a particular promise, namely
+\beq
+P(c,b, a)=P(c|b)P(b|a)P(a)
+\eeq
+An alternative way of saying the same thing
+is to say that Eq.(\ref{eq-promi-dep})
+ assumes that $P(\cdot)=P(\cdot\mid G)$ where
+$G$ is the bnet $\rva\rarrow\rvb\rarrow\rvc$.
+We say that Eq.(\ref{eq-promi-dep})
+is {\bf promise dependent}.
+
+
+\hrule
+A fully connected bnet can be {\bf redirected}
+with impunity (i.e., one can reverse the
+direction of any arrows 
+as long as the final bnet 
+is acyclic) because the promise
+doesn't change under
+ this operation.
+For example, for a 2 node bnet,
+ 
+\beq
+\xymatrix{
+\rvx
+&\rvy\ar[l]
+}=
+\xymatrix{
+\rvx\ar[r] 
+& \rvy
+}
+\eeq
+because both bnets promise 
+the same $P(x,y)$. For a 3 node bnet\footnote{Double arrows in an equation means the equation is
+true with either choice of arrow
+direction.},
+\beq
+\bcen
+\xymatrix{
+\rvz\ar[d]\ar[dr]
+\\
+\rvx\ar@<-1ex>[r]
+&\rvy\ar[l]
+}\ecen
+=
+\bcen
+\xymatrix{
+\rvz\ar[rd]
+\\
+ \rvx\ar[r]\ar[u]
+&\rvy\ar@<-1ex>[ul]
+}
+\ecen
+=
+\bcen
+\xymatrix{
+\rvz\ar[d]
+&
+\\
+\rvx\ar@<1ex>[u]
+&\rvy\ar[l]\ar[ul]
+}
+\ecen
+\eeq
+because all 6 bnets promise  the
+same
+ $P(x,y,z)$.
+
+
+Likewise, 
+a fully connected instantiation 
+of a bnet can be redirected with
+impunity.
+For example, for a 2 node instantiation,
+\beq
+P(x, y)=\xymatrix{y&\PP x\ar[l]}
+=\xymatrix{\PP y\ar[r]&x}
+\eeq
+and for a 3 node instantiation,
+\beq
+P(x,y,z)=
+\bcen
+\xymatrix{
+\PP z\ar[d]\ar[dr]
+\\
+x\ar@<-1ex>[r]
+&y\ar[l]
+}\ecen
+=
+\bcen
+\xymatrix{
+z\ar[rd]
+\\
+\PP x\ar[r]\ar[u]
+&y\ar@<-1ex>[ul]
+}
+\ecen
+=
+\bcen
+\xymatrix{
+z\ar[d]
+&
+\\
+x\ar@<1ex>[u]
+&\PP y\ar[l]\ar[ul]
+}
+\ecen
+\eeq
+
+Recall that a  {\bf clique} 
+of a DAG $\calg$ is a fully
+connected subgraph of $\calg$.
+Define an {\bf exploding clique (EC)} as one that
+has no incoming arrows,
+only outgoing ones.
+Redirecting can 
+also be done with
+impunity on ECs
+(either bnets or instantiations)
+ 
+\hrule
  }
 
 \newcommand{\hiddenNodes}[0]{
-Unobserved (a.k.a. hidden, latent) nodes are
+{\bf Unobserved (a.k.a. hidden, latent) nodes} are
 indicated in a bnet by enclosing their
 label
 in a dashed circle. For example,
@@ -87,7 +368,7 @@ using dashed arrows for all arrows emanating from the unobserved node.}
 
 
 \newcommand{\selectionGraphs}
-[0]{A selector node is a \qt{switch} node $\rvs\in \bool$.
+[0]{A {\bf selector node} is a \qt{switch} node $\rvs\in \bool$.
 A node $\rvx$
 such that $\rvs\not\in pa(\rvx)$ has a
 TPM $P(x|pa(x))$.
