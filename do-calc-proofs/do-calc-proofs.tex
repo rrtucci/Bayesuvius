@@ -75,7 +75,7 @@ and easier to
 pronounce and 
 spell.
 
-\subsection{Parameter Visibility}
+\subsection{Parameter Invisibility}
 In Statistics, given a probability distribution
 $P(x;\theta)$ that depends on a parameter $\theta$, 
 we say  {\bf parameter $\theta$ is visible} iff
@@ -95,8 +95,7 @@ invisible}
 \quad\quad \delta P= 0
 \eeq
 
-\subsection{Hidden Variable
-Visibility}
+\subsection{Hidden Variable Invisibility}
 
 I will say that hidden variables
 in a probability 
@@ -182,7 +181,126 @@ Hence, an HV-invisible bnet
 is invariant under changes
 in the probability
 distributions of its hidden variables. 
-\subsection{Do Operator Visibility}
+\subsection{Do-Query Invisibility}
+
+Let $G$ be a bnet
+with a node $\rvx$,
+and let $G_{amp(\rvx)}=\cald_{\rvx}G$
+be the same bnet after amputation of all the 
+arrows entering
+$\rvx$.
+Also let $P_G(\cdot)=P(\cdot|G)$ be
+the promise
+for graph $G$, and $P_{G_{amp(\rvx)}}(\cdot)=
+P(\cdot|G_{amp(\rvx)})$
+be that for $G_{amp(\rvx)}$.
+In general, 
+for bnets
+with or  without hidden nodes, we have:\footnote{
+$P_{G_{amp(\rvx)}}(y|x)\neq P_G(y|x)$
+iff there is confounding.
+}
+
+\beq
+P(y|\cald\rvx=x)=P_{G_{amp(\rvx)}}(y|x)\neq P_G(y|x)
+\;
+\eeq
+However, $P_{G_{amp(\rvx)}}(y|x)$ is
+not practical if
+it contains hidden nodes. 
+
+We define a {\bf do-adjustment formula}
+for a {\bf do-query}
+$P(y|\cald\rvx=x)$
+on a bnet $G$
+which we call
+the {\bf original promise (OP)}
+to be an algebraic expression that:
+\begin{itemize}
+\item equals 
+$P(y|\cald \rvx=x)$
+\item contains no do operators
+\item contains no probabilities of hidden variables, even when the OP has some.
+\item can be calculated from data that can be obtained without 
+conducting an RCT (Randomized Controlled Trial).
+
+\end{itemize} 
+
+Note that a do-adjustment
+formula is more practical
+than $P_{G_{amp(\rvx)}}$
+because, by definition,  it
+contains no data
+about hidden variables.
+
+
+
+If a do-adjustment formula
+exists for a
+particular do-query,
+then we say the do-query is
+ {\bf do-invisible} or {\bf Pearl identifiable}.
+
+A {\bf do-transfer formula}
+is a relationship between 2  do-queries.
+
+When I first
+started learning 
+about Pearl identifiability (i.e., do-invisibility),
+I thought that do-invisibility and
+HV-invisibility
+were the same thing.
+Later, I found out
+that they are not.
+In fact, it's easy to 
+find examples (most notably, the front door adjustment formula), where
+a do-query for an
+OP is do-invisible but not
+HV-invisible.\footnote{This assertion
+about the frontdoor formula has be verified with my computer program
+{\tt dag\_iden\_detector}}
+
+
+
+The goal of Pearl's Do Calculus is
+two-fold:
+\begin{enumerate}
+\item 
+Decide whether a do-query 
+for an OP is do-visible or not.
+Of course, do-queries
+for OPs without hidden
+nodes are always do-visible.
+
+\item If the do-query is do-visible, find
+an adjustment formula. 
+
+\end{enumerate}
+
+Note also that Pearl's 3 rules of Do Calculus
+deal specifically
+with do-invisibility
+for probabilities conditioned
+on one or more do constraints (i.e., constraints of the form $do(\rvx)=x$),
+but HV-invisibility
+is an issue that arises for any
+probability distribution
+with hidden variables, not
+just for \qt{doey} ones
+(i.e., those conditioned on a do).
+
+\hrule
+Do-invisibility software
+
+I've written 
+a free open source Python program
+called {\tt dag\_iden\_detector}
+See Ref.\cite{dag-iden-detector}
+ 
+What this program can and cannot do:
+The program can check numerically whether a do-adjustment formula is correct or not. The code cannot tell its users whether any or how many adjustment formulae exist for a given 
+do-query on an OP, nor can it derive new adjustment formulae. What it can do is to check whether an alleged adjustment formula is correct or not.
+
 
 
 \section{Universal Operations}
