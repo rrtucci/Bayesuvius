@@ -52,9 +52,9 @@ In this chapter, we use the
 
 \section{3  Types of Identifiabilities (Invisibilities)}
 
-In this chapter
+In this book,
 we  
-will replace 
+replace 
 the words
 
 $$\text{ identifiability }
@@ -74,6 +74,11 @@ less confusing
 and easier to 
 pronounce and 
 spell.
+
+The following
+3 types of invisibilities
+are
+useful.
 
 \subsection{Parameter Invisibility}
 In Statistics, given a probability distribution
@@ -175,7 +180,7 @@ P(x_h\mid pa(x_h))
 \eeq  
 for all possible 
 variations
-$\delta P(x_h\mid pa(x_h)$
+$\delta P(x_h\mid pa(x_h))$
 for all $h\in H$.
 Hence, an HV-invisible bnet
 is invariant under changes
@@ -253,11 +258,11 @@ were the same thing.
 Later, I found out
 that they are not.
 In fact, it's easy to 
-find examples (most notably, the front door adjustment formula), where
+find examples (most notably, the front door adjustment formula), for which
 a do-query for an
 OP is do-invisible but not
-HV-invisible.\footnote{This assertion
-about the frontdoor formula has be verified with my computer program
+HV-invisible.\footnote{I've verified this assertion
+about the frontdoor formula using  my computer program
 {\tt dag\_iden\_detector}}
 
 
@@ -616,200 +621,6 @@ x_2\ar[urr]
 
 
 
-%An important caveat concerning the above
-%NS identities is that 
-%the instantiations that they produce depend on the
-%original bnet whence they come from. 
-%This caveat is illustrated in Fig.\ref{fig-dep-on-origing-bnet}.
-%This caveat is especial relevant when dealing 
-%with do operators. In that case, the unamputated
-%graph and the amputated graph are different bnets, with
-%different promises.
-%
-%\begin{figure}[h!]
-%$$
-%\begin{array}{c|c}
-%\sum_a P_{G}(x_2|a)P_{G}(a|x_1)=P_{G}(x_2|x_1)
-%&
-%\sum_a P_{G'}(x_2|a, x_1)P_{G'}(a|x_1)=P_{G'}(x_2|x_1)
-%\\
-%\xymatrix@C=1.5pc{
-%x_1\ar[r]
-%&\sum a\ar[r]
-%&x_2
-%&=&
-%x_1\ar[r]
-%&x_2}
-%&
-%\xymatrix@C=1.5pc{
-%x_1\ar[r]\ar@/_1pc/[rr]
-%&\sum a\ar[r]
-%&x_2
-%&=&
-%x_1\ar[r]
-%&x_2}
-%\end{array}
-%$$
-%\caption{Note that there are cases when $P_G(x_2|x_1)
-%\neq P_{G'}(x_2|x_1)$. Hence,
-% $P(x_2|x_1)$ depends on the bnet of origin.
-%}
-%\label{fig-dep-on-origing-bnet}
-%\end{figure}
-%
-%
-
-\section{Not Do Calculus (NDC) Technique}
-
-The following 2 step heuristic technique,
-which I call the {\bf Not Do Calculus} (NDC) technique, appears to be equivalent to Pearl's 3 rules of Do Calculus.\footnote{This NDC technique was invented solely by me. I haven't proven that it is equivalent to Pearl's 
-3 rules of Do Calculus. I believe it is,
-but it might not be. It 
-correctly produces the backdoor and frontdoor adjustment formulae.}
-
-\begin{mybluearea}
-
-\begin{enumerate}
-\item 
-Equate $P(y\mid \cald\rvx=x)$
-to a bnet instantiation
-that has a DAG structure identical
-to the OP,
-except that arrows entering node
-$\rvx$ have been amputated.
-All nodes  of that instantiation, except
-nodes  $x$ and $y$,
-are summed over (indicated by $\sum$) if non-root nodes or averaged over
-(indicated by $\EE$) if root nodes.
-
-
-
-\item Use the basic universal operations to
-remove all sums and averages over hidden nodes.
-Each sum or average over a hidden node may be 
-removed completely or replaced by a sum or average over an observed node. 
-\end{enumerate}
-Perform these steps until you remove all sums and averages  over hidden variables 
-and obtain a valid adjustment formula.
-If such an outcome cannot be achieved,
-declare the  query visible.
-
-\end{mybluearea}
-
-
-\begin{figure}[h!]
-$$
-\begin{array}{ccc}
-\xymatrix{
-&\rvz\ar[ld]\ar[rd]
-\\
-\rvx\ar[rr]&&\rvy
-}
-&\quad\quad&
-\xymatrix{
-&*++[F-o]{\rvz}\ar[ld]\ar[rd]
-\\
-\rvx\ar[rr]&&\rvy
-}
-\\
-(a) \text{$P(y|\cald\rvx=x)$ is do-invisible}
-&&(b) \text{$P(y|\cald\rvx=x)$ is do-visible}
-\end{array}
-$$
-\caption{Examples of
-OPs for which
-the do-query $P(y|\cald\rvx=x)$
-is
-do-invisible
-and do-visible.
-}
-\label{fig-iden-noniden}
-\end{figure}
-See Fig.\ref{fig-iden-noniden}
-for some simple
-examples of OPs
- for which
-the do-query $P(y|\cald\rvx=x)$
-is
-do-invisible
-and do-visible.
-Using the NDC technique,
-we can easily see why the
-query $P(y|\cald\rvx=x)$
-is do-invisible
-for OP $(a)$ 
-and do-visible for OP $(b)$.
-
-For OP $(a)$, after amputating arrow
-$z\rarrow x$ and averaging over node $z$,
-we get
-
-\beqa
-P(y|\cald\rvx=x)
-&=&
-\bcen
-\xymatrix{
-\EE z\ar[dr]
-\\
-x\ar[r]
-&y
-}\ecen
-\label{eq-simplest-visible}
-\eeqa
-The right-hand
-side of Eq.(\ref{eq-simplest-visible})
-is a valid
-adjustment formula
-because it's expressed in terms
-of observed TPMs of $G$.
-
-For bnet $(b)$,
-if we amputate arrow
-$z\rarrow x$
-and average over node $z$,
-we get
-
-\beqa
-P(y|\cald \rvx =x)
-&=&
-\bcen
-\xymatrix{
-*++[F-o]{\EE z}\ar[rd]
-\\
-x\ar[r]
-&y
-}\ecen
-\label{eq-simplest-do-invisible}
-\eeqa
-The right-hand
-side of Eq.(\ref{eq-simplest-do-invisible})
-is not a valid
-adjustment formula
-because
-if we replace $\EE z$ by $\EE x' $, we get 
-$\sum_{x'}P(y|x, x')P(x')$,
-and $P(y|x, x')$ is undefined.
-Furthermore,
-there exists a
- $\delta_{hidden}$
-such that
-
-\beqa
-\delta_{hidden}P(y|\cald \rvx =x)
-&=&
-\bcen
-\xymatrix{
-*++[F-o]{\delta\EE z}\ar[rd]
-\\
-x\ar[r]
-&y
-}\ecen
-\neq 0
-\eeqa
-
-
-
-
 \begin{claim}
 In an EC, a summed hidden node can be replaced
 by a summed non-hidden node:
@@ -910,6 +721,165 @@ in Eq.(\ref{eq-summed-root-identity}).
 
 
 
+
+\section{Not Do Calculus (NDC) Technique}
+
+The following 2 step heuristic technique,
+which I call the {\bf Not Do Calculus} (NDC) technique, appears to be equivalent to Pearl's 3 rules of Do Calculus.\footnote{This NDC technique was invented solely by me. I haven't proven that it is equivalent to Pearl's 
+3 rules of Do Calculus. I believe it is,
+but it might not be. It 
+correctly produces the backdoor and frontdoor adjustment formulae.}
+
+\begin{mybluearea}
+
+\begin{enumerate}
+\item 
+Equate $P(y, x| G_{amp(\rvx)})$
+to a bnet instantiation
+that has a DAG structure identical
+to the OP,
+except that arrows entering node
+$\rvx$ have been amputated.
+All nodes  of that instantiation, except
+nodes  $x$ and $y$,
+are summed over (indicated by $\sum$) if non-root nodes or averaged over
+(indicated by $\EE$) if root nodes.
+
+
+
+\item Use the basic universal operations to
+remove all sums and averages over hidden nodes.
+Each sum or average over a hidden node may be 
+removed completely or replaced by a sum or average over an observed node. 
+\end{enumerate}
+Perform these steps until you remove all sums and averages  over hidden variables. 
+At the end, 
+obtain a valid adjustment formula
+by dividing 
+by the final diagram, call it $num$ for numerator, by
+$\sum_y num$.
+If such an outcome cannot be achieved,
+declare the  query visible.
+
+\end{mybluearea}
+
+
+\begin{figure}[h!]
+$$
+\begin{array}{ccc}
+\xymatrix{
+&\rvz\ar[ld]\ar[rd]
+\\
+\rvx\ar[rr]&&\rvy
+}
+&\quad\quad&
+\xymatrix{
+&*++[F-o]{\rvz}\ar[ld]\ar[rd]
+\\
+\rvx\ar[rr]&&\rvy
+}
+\\
+(a) \text{$P(y|\cald\rvx=x)$ is do-invisible}
+&&(b) \text{$P(y|\cald\rvx=x)$ is do-visible}
+\end{array}
+$$
+\caption{Examples of
+OPs for which
+the do-query $P(y|\cald\rvx=x)$
+is
+do-invisible
+and do-visible.
+}
+\label{fig-iden-noniden}
+\end{figure}
+See Fig.\ref{fig-iden-noniden}
+for some simple
+examples of OPs
+ for which
+the do-query $P(y|\cald\rvx=x)$
+is
+do-invisible
+and do-visible.
+Using the NDC technique,
+we can easily see why the
+query $P(y|\cald\rvx=x)$
+is do-invisible
+for OP $(a)$ 
+and do-visible for OP $(b)$.
+
+For OP $(a)$, after amputating arrow
+$z\rarrow x$ and averaging over node $z$,
+we get
+
+\beqa
+P(y|\cald\rvx=x)
+&=&
+\bcen
+\xymatrix{
+\EE z\ar[dr]
+\\
+x\ar[r]
+&y
+}\ecen
+\label{eq-simplest-visible}
+\eeqa
+The right-hand
+side of Eq.(\ref{eq-simplest-visible})
+is a valid
+adjustment formula
+because it's expressed in terms
+of observed TPMs of $G$.
+
+For bnet $(b)$,
+if we amputate arrow
+$z\rarrow x$
+and average over node $z$,
+we get
+
+\beqa
+P(y|\cald \rvx =x)
+&=&
+\bcen
+\xymatrix{
+*++[F-o]{\EE z}\ar[rd]
+\\
+x\ar[r]
+&y
+}\ecen
+\label{eq-simplest-do-invisible}
+\eeqa
+The right-hand
+side of Eq.(\ref{eq-simplest-do-invisible})
+is not a valid
+adjustment formula
+because
+if we replace $\EE z$ by $\EE x' $, we get 
+$\sum_{x'}P(y|x, x')P(x')$,
+and $P(y|x, x')$ is undefined.
+OP $(b)$ is not even 
+HV-invisible
+because
+there exists a
+ $\delta_{hidden}$
+such that
+
+\beqa
+\delta_{hidden}P(y|\cald \rvx =x)
+&=&
+\bcen
+\xymatrix{
+*++[F-o]{\delta\EE z}\ar[rd]
+\\
+x\ar[r]
+&y
+}\ecen
+\neq 0
+\eeqa
+
+
+
+
+
 \section{Compilation of Do Calculus Proofs}
 This section
 is a compilation 
@@ -929,6 +899,8 @@ and his Napkin problem.
 \end{claim}
 
 \proof
+(This claim was verified with software in 
+Ref.\cite{dag-iden-detector})
 
 {\bf * proof 1:}
 %\beq
@@ -943,8 +915,20 @@ and his Napkin problem.
 %\eeq
 
 \beq
-P(y|\cald\rvx=x)
+P(y, x|G_{amp(\rvx)})
 =
+\bcen
+\xymatrix{
+\EE z\ar[dr]
+\\
+\PP x\ar[r]
+&y
+}\ecen
+\eeq
+so
+
+\beq
+P(y|\cald \rvx =x)=
 \bcen
 \xymatrix{
 \EE z\ar[dr]
@@ -952,7 +936,6 @@ P(y|\cald\rvx=x)
 x\ar[r]
 &y
 }\ecen
-\text{(by definition)}
 \eeq
 
 
@@ -1021,29 +1004,29 @@ $
 \end{claim}
 
 \proof
+(This claim was verified with software in 
+Ref.\cite{dag-iden-detector})
 
 
 {\bf * proof 1:}
 
 \begin{align}
-P(y\mid \cald\rvx=x)&=
+P(y, x |G_{amp(\rvx)})&=
 \xymatrix{
 &*++[F-o]{\EE c}\ar[rd]
 \\
-x\ar[r]
+\PP x\ar[r]
 &\sum m\ar[r]&y
 }
 \\
 &=
-\sum_c
-\frac{1}{P(c|x)}
 \bcen
 \xymatrix{
-&*++[F-o]{c}\ar@[red][rd]
+&*++[F-o]{\sum c}\ar@[red][rd]
 \ar@[red][r]
 & \sum x'
 \\
-x\ar[r]\ar[rru]\ar[ur]
+\PP x\ar[r]\ar[rru]\ar[ur]|0
 &\sum m\ar[r]
 &y\ar@[red][u]
 }
@@ -1051,14 +1034,14 @@ x\ar[r]\ar[rru]\ar[ur]
 \begin{array}{l}
 \text{(added summed leaf node $x'$,}
 \\
-\text{added $\rvx\to \rvc$ arrow)}
+\text{added $\rvx\to \rvc$
+ghost arrow)}
 \end{array}
 \\
-&=\sum_c
-\frac{1}{P(c|x)}
+&=
 \bcen
 \xymatrix{
-&*++[F-o]{ c}\ar@{<-}@[red][rd]
+&*++[F-o]{\sum c}\ar@{<-}@[red][rd]
 \ar@{<-}@[red][r]
 & \sum x'
 \\
@@ -1074,21 +1057,6 @@ x\ar[r]\ar[rru]\ar[ur]
 \\
 \text{to reverse red arrows)}
 \end{array}
-\\
-&=
-\bcen
-\xymatrix{
-&*++[F-o]{\sum c}\ar@{<-}@[red][rd]
-\ar@{<-}@[red][r]
-& \sum x'
-\\
-x\ar[r]\ar[rru]
-&\sum m\ar[r]
-&y\ar@{<-}@[red][u]
-}
-\ecen
-\text{(temporary arrow $\rvx\to \rvc$ removed)}
-\label{eq-temp-ar-rem}
 \\
 &=
 \bcen
@@ -1120,37 +1088,12 @@ be valid even if there is no node $\rvm$ in the promise.
 However, with node $\rvm$,
 the final adjustment
 formula uses a $P(y\mid m, x)$
-which is computable from the
-available promise.
+which is computable from the OP.
 Without node $\rvm$,
 we would need a $P(y\mid x, x')$
 which is not computable from the
-available promise.
+OP.
 
-Note that
-we can prove that
-$\delta_{hidden}P(y\mid \rvx=x)=0$,
-but the differential
-approach does not
-yield an adjustment formula. Indeed,
-by Eq.(\ref{eq-temp-ar-rem}), 
-\beqa
-\delta_{hidden}P(y\mid \rvx=x)&=&
-\sum_c \delta c \pder{}{c}
-\bcen
-\xymatrix{
-&*++[F-o]{ c}\ar@{<-}@[red][rd]
-\ar@{<-}@[red][r]
-& \sum x'
-\\
-x\ar[r]\ar[rru]
-&\sum m\ar[r]
-&y\ar@{<-}@[red][u]
-}
-\ecen
-\\
-&=& 0
-\eeqa
 
 %
 %\begin{longtable}{l}
@@ -1393,13 +1336,15 @@ $\xymatrix{
 \label{cl-decNapkin}
 \decNapkin
 \end{claim}
-\proof
-\\
+\proof 
+(This claim was verified with software in 
+Ref.\cite{dag-iden-detector})
+{\allowdisplaybreaks
 \begin{align}
-P(y|\cald\rvx=x)
+P(y, x|G_{amp(\rvx)})
 &=
 \bcen
-\xymatrix@R=1pc@C=1pc{
+\xymatrix@R=1pc@C=2pc{
 &*++[F-o]{\EE u_1}\ar[ddl]\ar[ddrr]
 &&
 \\
@@ -1408,32 +1353,106 @@ P(y|\cald\rvx=x)
 \\
 \sum w\ar[r]
 &\sum z
-&x\ar[r]
+&\PP x\ar[r]
 &y
 }\ecen
 \\
 &=
 \bcen \xymatrix{
-*++[F-o]{\EE u_1}\ar[dr]
+*++[F-o]{\EE u_1}
+\ar[dr]
 \\
-x \ar[r]&  y}
+\PP x \ar[r]
+&  y}
+\ecen
+\text{(Removed summed leaf nodes $z$ and then $w$)}
+\\
+&=
+\bcen \xymatrix{
+*++[F-o]{\EE u_1}
+\ar[dr]\ar[r]
+&\sum z
+\\
+\PP x \ar[r]
+\ar[u]|0
+\ar[ru]
+&  y\ar[u]
+}\ecen
+(\text{Added summed leaf node $z$})
+\\
+&=
+\bcen \xymatrix{
+*++[F-o]{\EE u_1}
+\ar@{<-}[dr]
+\ar@{<-}[r]
+&\sum z
+\\
+\PP x \ar[r]
+\ar[u]|0
+\ar[ru]
+&  y\ar[u]
+}
+\ecen
+\text{(Redirected 4 node EC)}
+\\
+&=
+\bcen
+\xymatrix@R=1pc{
+&\EE z
+\ar[ld]\ar[rd]
+\\
+x \ar[rr]
+&& y
+}
+\ecen
+\text{(Removed summed leaf node $u_1$)}
+\\
+&=
+\bcen
+\xymatrix@R=1pc{
+&\EE z\ar[dd]
+\ar[ld]\ar[rd]
+\\
+x \ar[rr]
+\ar[dr]
+&& y
+\ar[dl]
+\\
+& \sum w
+}
+\ecen
+\text{(Added summed leaf node $w$)}
+\\
+&=
+\bcen
+\xymatrix@R=1pc{
+&\EE z\ar[dd]
+\ar[ld]\ar[rd]
+\\
+x \ar[rr]
+&& y
+\\
+& \sum w
+\ar[ur]\ar[ul]
+}
+\ecen
+\text{(Redirected 4 node EC)}
+\\
+&=
+\bcen
+\xymatrix@R=1pc{
+&\EE z
+\ar[ld]\ar[rd]
+\\
+x \ar[rr]
+&& y
+\\
+& \EE w
+\ar[ur]\ar[ul]
+}
 \ecen
 \end{align}
-The last diagram is not visible
-because  it's easy to find
-a variation $\delta P(u_1)$
-such that
-
-\beq
-\delta P(y|\cald\rvx=x) =
-\bcen \xymatrix{
-*++[F-o]{\delta \EE u_1}\ar[dr]
-\\
-x \ar[r]&  y}
-\ecen \neq 0
-\eeq
-
-
+}
 
 \qed
 

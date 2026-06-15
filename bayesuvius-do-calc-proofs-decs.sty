@@ -425,23 +425,24 @@ $\rvz. \cap de(\rvx.)=\emptyset$.
 
 \newcommand{\bdoorconclusion}[0]{
 \beqa
-P(y. | \cald \rvx.=x.)&=&
-\sum_{z.} P(y.|x., z.)P(z.)
+P(y | \cald \rvx=x)&=&
+\sum_{z} P(y|x, z)P(z)
 \\
 &=&
+\bcen
 \xymatrix{
-\EE z.\ar[dr]
+\EE z\ar[dr]
 \\
-x.\ar[r]
-&y.
-}
+x\ar[r]
+&y
+}\ecen
 \eeqa
 }
 
 \newcommand{\bdoorclaim}[0]{
-If $\rvz.$ satisfies the
+If $\rvz$ satisfies the
 backdoor criterion relative to
- $(\rvx., \rvy.)$, then
+ $(\rvx, \rvy)$, then
 
 \bdoorconclusion
 
@@ -452,54 +453,55 @@ Suppose that we have access to data
 that allows us to
 estimate a probability
 distribution
- $P(x., m., y.)$.
+ $P(x, m, y)$.
 Hence, the variables
-$\rvx., \rvm., \rvy.$ are
-ALL observed (i.e, not hidden).
+$\rvx, \rvm, \rvy$ are
+ALL observed (ie, not hidden).
 Then we say that
-the frontdoor $\rvm.$
+the frontdoor $\rvm$
 satisfies the
 {\bf frontdoor adjustment criterion}
-relative to $(\rvx., \rvy.)$
+relative to $(\rvx, \rvy)$
 if
 \begin{enumerate}
 \item
 All directed paths from
-$\rvx.$ to $\rvy.$ are intercepted by
-(i.e., have a node in) $\rvm.$.
+$\rvx$ to $\rvy$ are intercepted by
+(i.e., have a node in) $\rvm$.
 \item
-All backdoor paths from $\rvx.$ to
-$\rvm.$ are blocked.
+All backdoor paths from $\rvx$ to
+$\rvm$ are blocked.
 \item
 All backdoor paths from
-on $\rvm.$ to $\rvy.$
+on $\rvm$ to $\rvy$
 are blocked by conditioning
-on  $\rvx.$.
+on  $\rvx$.
 \end{enumerate}
 }
 
 \newcommand{\fdoorconclusion}[0]{
 \beqa
-P(y. | \cald \rvx.=x.)&=&\sum_{m.}
-\left[\sum_{x'.}
-P(y.|m., x'.)P(x'.)\right]
-P(m.|x.)
+P(y | \cald \rvx=x)&=&\sum_{m}
+\left[\sum_{x'}
+P(y|m, x')P(x')\right]
+P(m|x)
 \\
 &=&
+\bcen
 \xymatrix{
-&\EE x'.\ar[dr]
+&\EE x'\ar[dr]
 \\
-x.\ar[r]
-&\sum m.\ar[r]&y.
-}
+x\ar[r]
+&\sum m\ar[r]&y
+}\ecen
 \eeqa
 }
 
 \newcommand{\fdoorclaim}[0]{
-If $\rvm.$ satisfies the
+If $\rvm$ satisfies the
 frontdoor criterion
-relative to $(\rvx., \rvy.)$,
-and $P(x.,m.)>0$, then
+relative to $(\rvx, \rvy)$,
+and $P(x,m)>0$, then
 
 \fdoorconclusion
 }
@@ -556,13 +558,14 @@ Eq.(\ref{def-q-y-xn-seqbdoor}).
  (Backdoor
 Adjustment Formula)
 
-If $OP=$
-$
+If $OP=
+\bcen
 \xymatrix{
 {\rvz}\ar[d]\ar[rd]
 \\
 \rvx\ar[r]&\rvy
-}$
+}
+\ecen$
 then
 
 \bdoorconclusion
@@ -573,13 +576,12 @@ then
 \newcommand{\decFrontDoor}[0]{(Frontdoor
 Adjustment Formula)
 
-If $OP=$
-$
+If $OP=\bcen
 \xymatrix{
 &*++[F-o]{\rvc}\ar[ld]\ar[rd]
 \\
 \rvx\ar[r]&\rvm\ar[r]&\rvy
-}$
+}\ecen$
 then
 
 \fdoorconclusion
@@ -599,8 +601,36 @@ If $OP=\bcen
 &\rvx\ar[r]
 &\rvy
 }\ecen$ then
-$P(y|\cald \rvx = x)$
-is do-invisible.
+
+\beqa
+P(y\mid \cald \rvx=x)
+&=&
+\frac{\sum_{w,z} P(x,y|w,z)P(w)P(z)}
+{\sum_y
+\text{ num}}
+\\
+&=&
+\frac{\sum_{w, z}
+P(y|x,w,z)P(x|w,z)
+P(z)
+P(w)}{\sum_y\;\text{ num}}
+\\\nonumber
+\\
+&=&
+\frac{1}{\sum_y \text{ num}}
+\bcen
+\xymatrix{
+\EE w
+\ar@/^1.5pc/[rrr]
+\ar@/_1.5pc/[rr]
+&
+\EE z
+\ar@/^1pc/[rr]
+\ar[r]
+&x\ar[r]
+&y
+}\ecen
+\eeqa
 }
 
 
