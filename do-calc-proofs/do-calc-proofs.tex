@@ -453,6 +453,8 @@ a FC graph or EC. This includes adding ghost arrows in order to get an FC graph 
 to begin with.
 However, and this is crucial, once a ghost arrow is added, it may not be removed (otherwise we lose track of the OP)
 except by removing a summed leaf node.
+The direction of a 
+ghost arrow may not be reversed either.
 \end{enumerate}
 \end{mybluearea}
 
@@ -1008,7 +1010,9 @@ P(y, x |G_{amp(\rvx)})&=
 \ar@[red][r]
 & \sum x'
 \\
-\PP x\ar[r]\ar[rru]\ar[ur]|0
+\PP x\ar[r]
+\ar[rru]|0
+\ar[ur]|0
 &\sum m\ar[r]
 &y\ar@[red][u]
 }
@@ -1027,7 +1031,9 @@ ghost arrow)}
 \ar@{<-}@[red][r]
 & \sum x'
 \\
-x\ar[r]\ar[rru]\ar[ur]
+\PP x\ar[r]
+\ar[rru]|0
+\ar[ur]|0
 &\sum m\ar[r]
 &y\ar@[red]@{<-}[u]
 }
@@ -1045,7 +1051,7 @@ x\ar[r]\ar[rru]\ar[ur]
 \xymatrix{
 & &\sum x'\ar[d]
 \\
-x\ar[r]\ar[rru]
+\PP x\ar[r]\ar[rru]|0
 &\sum m\ar[r]
 &y
 }
@@ -1057,7 +1063,7 @@ x\ar[r]\ar[rru]
 \xymatrix{
 & &\EE x'\ar[d]
 \\
-x\ar[r]
+\PP x\ar[r]
 &\sum m\ar[r]
 &y
 }
@@ -1392,7 +1398,7 @@ x \ar[rr]
 &=
 \bcen
 \xymatrix@R=1pc{
-&\EE z\ar[dd]
+&\EE z\ar[dd]^<<<<0
 \ar[ld]\ar[rd]
 \\
 x \ar[rr]
@@ -1408,7 +1414,7 @@ x \ar[rr]
 &=
 \bcen
 \xymatrix@R=1pc{
-&\EE z\ar[dd]
+&\EE z\ar[dd]^<<<<0
 \ar[ld]\ar[rd]
 \\
 x \ar[rr]
