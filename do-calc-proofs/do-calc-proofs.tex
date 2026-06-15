@@ -50,7 +50,7 @@ In this chapter, we use the
 \selectionGraphs
 
 
-\section{3  Types of Identifiabilities (Invisibilities)}
+\section{3  Types of Identifiabilities (Weaknesses)}
 
 In this book,
 we  
@@ -58,32 +58,30 @@ replace
 the words
 
 $$\text{ identifiability }
-\to \text{ visibility},\quad
-\text{ unidentifiability }
-\to \text{ invisibility}
+\to \text{ weakness}
 $$
 
 $$\text{ identifiable }
-\to \text{ visible},\quad
+\to \text{ weak},\quad
 \text{ unidentifiable }
-\to \text{ invisible}
+\to \text{ strong}
 $$
 because we find 
 the latter 
 less confusing
 and easier to 
 pronounce and 
-spell.
+spell (six syllables versus one).
 
 The following
-3 types of invisibilities
+3 types of weaknesses
 are
-useful.
+interesting.
 
-\subsection{Parameter Invisibility}
+\subsection{Parameter Weakness}
 In Statistics, given a probability distribution
 $P(x;\theta)$ that depends on a parameter $\theta$, 
-we say  {\bf parameter $\theta$ is visible} iff
+we say  {\bf parameter $\theta$ is strong} iff
 
 \beq
 \forall\; \delta\theta \neq 0,\quad \quad
@@ -93,45 +91,28 @@ Hence, the \qt{slope} $\delta P/\delta \theta \neq 0$
 for all $\delta\theta$.\footnote{
 This is usually stated equivalently as
 $\delta P=0$ implies $\delta\theta=0$.} Equivalently, {\bf parameter $\theta$ is 
-invisible} 
+weak}
  iff
 
-\beq\exists \;\delta\theta\in \RR\text{ such that }
+\beq\exists \;\delta\theta\neq 0\text{ such that }
 \quad\quad \delta P= 0
 \eeq
 
-\subsection{Hidden Variable Invisibility}
+\subsection{Hidden Variable Weakness}
 
 I will say that hidden variables
 in a probability 
 distribution $P(\cdot)$
-are {\bf partially (resp., totally) invisible} iff 
-\beq \text{partially:}\quad
-\exists \text{ changes in the 
+are {\bf weak} iff
+\beq
+\exists \text{ non-zero changes in the 
 hidden variables  such that}\quad\quad
 \delta P=0
 \eeq
-\beq
-\text{totally:}\quad
-\forall \text{ changes in the 
-hidden variables,}\quad\quad
-\delta P=0
-\eeq
-Whenever I talk about the
-hidden variables
-in
-$P(\cdot)$ being
-visible or invisible
-without specifying whether I 
-mean partially or totally,
-I will be referring to
-the total version. 
-
-
 
 Let's be more specific about
 hidden variable (HV)
-invisibility.
+weakness.
 
 
 Define an
@@ -151,7 +132,7 @@ This assumes $P(x)$
 is a smooth function of
 a continuous  $x$.
 If we can prove or
-disprove HV invisibility
+disprove HV-weakness
 for the smooth $P(x)$ case,
 that is strong evidence that
 it is true in the discrete case too.
@@ -169,7 +150,7 @@ where $pa(x_i)$ is the empty set for root nodes.
 Suppose $H\subset \{1, 2, \ldots, N\}$ is the set of indices belonging to the
 hidden variables of the bnet.
 Then we define $\calg$  
-to be {\bf HV-invisible} iff
+to be {\bf HV-weak} iff
 
 \beq
 0=\delta_{hidden}P(x_{1\dots N})
@@ -182,11 +163,11 @@ for all possible
 variations
 $\delta P(x_h\mid pa(x_h))$
 for all $h\in H$.
-Hence, an HV-invisible bnet
+Hence, an HV-weak bnet
 is invariant under changes
 in the probability
 distributions of its hidden variables. 
-\subsection{Do-Query Invisibility}
+\subsection{Do-Query Weakness}
 
 Let $G$ be a bnet
 with a node $\rvx$,
@@ -244,24 +225,24 @@ If a do-adjustment formula
 exists for a
 particular do-query,
 then we say the do-query is
- {\bf do-invisible} or {\bf Pearl identifiable}.
+ {\bf do-weak} or {\bf Pearl identifiable}.
 
 A {\bf do-transfer formula}
 is a relationship between 2  do-queries.
 
 When I first
 started learning 
-about Pearl identifiability (i.e., do-invisibility),
-I thought that do-invisibility and
-HV-invisibility
+about Pearl identifiability (i.e., do-weakness),
+I thought that do-weakness and
+HV-weakness
 were the same thing.
 Later, I found out
 that they are not.
 In fact, it's easy to 
 find examples (most notably, the front door adjustment formula), for which
 a do-query for an
-OP is do-invisible but not
-HV-invisible.\footnote{I've verified this assertion
+OP is do-weak but not
+HV-weak.\footnote{I've verified this assertion
 about the frontdoor formula using  my computer program
 {\tt dag\_iden\_detector}}
 
@@ -272,22 +253,22 @@ two-fold:
 \begin{enumerate}
 \item 
 Decide whether a do-query 
-for an OP is do-visible or not.
+for an OP is do-weak or not.
 Of course, do-queries
 for OPs without hidden
-nodes are always do-visible.
+nodes are always do-weak.
 
-\item If the do-query is do-visible, find
+\item If the do-query is do-weak, find
 an adjustment formula. 
 
 \end{enumerate}
 
 Note also that Pearl's 3 rules of Do Calculus
 deal specifically
-with do-invisibility
+with do-weakness
 for probabilities conditioned
 on one or more do constraints (i.e., constraints of the form $do(\rvx)=x$),
-but HV-invisibility
+but HV-weakness
 is an issue that arises for any
 probability distribution
 with hidden variables, not
@@ -295,7 +276,7 @@ just for \qt{doey} ones
 (i.e., those conditioned on a do).
 
 \hrule
-Do-invisibility software
+Do-weakness software
 
 I've written 
 a free open source Python program
@@ -758,7 +739,7 @@ by dividing
 by the final diagram, call it $num$ for numerator, by
 $\sum_y num$.
 If such an outcome cannot be achieved,
-declare the  query visible.
+declare the  query do-strong.
 
 \end{mybluearea}
 
@@ -778,16 +759,16 @@ $$
 \rvx\ar[rr]&&\rvy
 }
 \\
-(a) \text{$P(y|\cald\rvx=x)$ is do-invisible}
-&&(b) \text{$P(y|\cald\rvx=x)$ is do-visible}
+(a) \text{$P(y|\cald\rvx=x)$ is do-weak}
+&&(b) \text{$P(y|\cald\rvx=x)$ is do-strong}
 \end{array}
 $$
 \caption{Examples of
 OPs for which
 the do-query $P(y|\cald\rvx=x)$
 is
-do-invisible
-and do-visible.
+do-weak
+and do-strong.
 }
 \label{fig-iden-noniden}
 \end{figure}
@@ -797,14 +778,14 @@ examples of OPs
  for which
 the do-query $P(y|\cald\rvx=x)$
 is
-do-invisible
-and do-visible.
+do-weak
+and do-strong.
 Using the NDC technique,
 we can easily see why the
 query $P(y|\cald\rvx=x)$
-is do-invisible
+is do-weak
 for OP $(a)$ 
-and do-visible for OP $(b)$.
+and do-strong for OP $(b)$.
 
 For OP $(a)$, after amputating arrow
 $z\rarrow x$ and averaging over node $z$,
@@ -820,10 +801,10 @@ P(y|\cald\rvx=x)
 x\ar[r]
 &y
 }\ecen
-\label{eq-simplest-visible}
+\label{eq-simplest-weak}
 \eeqa
 The right-hand
-side of Eq.(\ref{eq-simplest-visible})
+side of Eq.(\ref{eq-simplest-weak})
 is a valid
 adjustment formula
 because it's expressed in terms
@@ -845,10 +826,10 @@ P(y|\cald \rvx =x)
 x\ar[r]
 &y
 }\ecen
-\label{eq-simplest-do-invisible}
+\label{eq-simplest-do-weak}
 \eeqa
 The right-hand
-side of Eq.(\ref{eq-simplest-do-invisible})
+side of Eq.(\ref{eq-simplest-do-weak})
 is not a valid
 adjustment formula
 because
@@ -856,7 +837,7 @@ if we replace $\EE z$ by $\EE x' $, we get
 $\sum_{x'}P(y|x, x')P(x')$,
 and $P(y|x, x')$ is undefined.
 OP $(b)$ is not even 
-HV-invisible
+HV-weak
 because
 there exists a
  $\delta_{hidden}$
