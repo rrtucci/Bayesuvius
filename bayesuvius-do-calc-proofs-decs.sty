@@ -170,7 +170,7 @@ Alternatively, the weaker bnet has the same number of
 arrows as the stronger one, but some have a 0 subscript
  ({\bf ghost arrows}) to
 indicate they are {\bf missing}, and thus {\bf carry zero information}.
-Pictorially speaking,
+Graphically,
 \beq
 \begin{array}{c}
 \underbrace{P(x|a_1)}_{
@@ -210,6 +210,26 @@ x
 \end{array}
 \eeq
 
+\beq
+P(x|a_1, a_2)= P(x|a_1) \quad \forall a_1, a_2
+\eeq
+Note that, despite their name, there
+is nothing supernatural
+about ghost arrows, just
+a bigger, more redundant TPM. The TPM $P(x|a_1, a_2)$ is constant 
+if we vary $a_2$ and keep
+$(x, a_1)$ fixed.
+
+Note that adding or removing ghost arrows
+does not change the promise. It's
+just a way of expressing the same info with 
+a more redundant
+or less redundant TPM.
+Graph operations
+that do not change the promise 
+will be called {\bf promise-preserving (p-preserving)
+operations}.
+
 A result proven for a specific promise is valid for
 a weaker promise, but not for a stronger promise.
 In other words, a result valid for a bnet is still valid
@@ -243,12 +263,14 @@ P(c,b, a)=P(c|b)P(b|a)P(a)
 
 \hrule
 A fully connected (FC) bnet can be {\bf redirected}
-with impunity (i.e., one can reverse the
+ (i.e., one can reverse the
 direction of any arrows 
 as long as the final bnet 
-is acyclic) because the promise
-doesn't change under
- this operation.
+is acyclic). This does not change the promise. Graph operations
+that do not change the promise 
+will be called {\bf
+promise-preserving (p-preserving)
+operations}.
 For example, for a 2 node bnet,
  
 \beq
@@ -361,7 +383,49 @@ only outgoing ones.
 Redirecting can 
 also be done with
 impunity on ECs
-(either bnets or instantiations)
+(either bnets or instantiations).
+
+Note that you can redirect
+an EC  which contains ghost arrows, but the ghost arrows in the
+initial EC 
+cease to be ghost arrows
+in the redirected EC.
+For example,
+
+\beq
+\bcen
+\xymatrix{
+\sum a\ar[dr]
+\\
+x\ar[u]
+&y
+}\ecen
+=
+\bcen
+\xymatrix{
+\sum a\ar[dr]
+\\
+x\ar[r]|0
+\ar[u]
+&y
+}\ecen
+\\
+=
+\bcen
+\xymatrix{
+\sum a
+\\
+x\ar[r]
+\ar[u]
+&y\ar[lu]
+}\ecen
+=
+\bcen
+\xymatrix{
+x\ar[r]&y
+}\ecen
+\eeq
+
  
 \hrule
  }

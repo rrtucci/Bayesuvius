@@ -289,7 +289,7 @@ do-query on an OP, nor can it derive new adjustment formulae. What it can do is 
 
 
 
-\section{Universal Operations}
+\section{P-Preserving Operations}
 Suppose
 
 \begin{itemize} 
@@ -357,7 +357,7 @@ z
 }=
 \xymatrix{z&x\ar[l]}
 \end{array}
-\label{eq-universal-op}
+\label{eq-p-preserving-op}
 \eeq
 An alternative notation is to
 condition on the promise:
@@ -367,11 +367,9 @@ P(\cdot)= P(\cdot\mid \pi_a),
 \quad Q(\cdot)=P(\cdot\mid \pi_b)
 \eeq
 
-Note that operation Eq.(\ref{eq-markovian-op-only})
-is valid only for a Markovian
-promise whereas operation
-Eq.(\ref{eq-universal-op})
-is a {\bf universal operation}, in the sense that it is valid for any promise.
+Recall that we've defined
+a p-preserving graph operation  
+as one that does not change the promise.
 
 Do Calculus can succumb to the
 following two pifalls:
@@ -392,20 +390,20 @@ at least two
 distinct promises,
 the original promise (OP),
 and its amputated version.
-\item Using non-universal operations
+\item Using non-p-preserving operations
 to simplify an instantiation.
 This removes memory of
-how the instantiation was built (modulus universal operations which are not recorded). 
+how the instantiation was built (modulus p-preserving operations which are not recorded). 
 \end{enumerate}
 A way to 
 avoid these 2 pitfalls is to 
 represent instantiations of
 a bnet with diagrams, and
 to use only 
- universal operations
+ p-preserving operations
 to simplify a diagram.
 Next, we shall discuss
-universal operations
+p-preserving operations
 in more detail.
 
 
@@ -437,9 +435,9 @@ x_2\ar[ur]
 \qed
 
 Let us define the
-following 2  operations
+following 3  operations
 to be the 
-{\bf basic universal
+{\bf basic p-preserving
 operations}
 on a bnet instantiation:
 \begin{mybluearea}
@@ -447,18 +445,16 @@ on a bnet instantiation:
 \item
 Adding or removing a summed
 leaf node.
+\item Adding or removing ghost arrows
 \item
 Redirecting
-a FC graph or EC. This includes adding ghost arrows in order to get an FC graph or EC
-to begin with.
-However, and this is crucial, once a ghost arrow is added, it may not be removed (otherwise we lose track of the OP)
-except by removing a summed leaf node.
-The direction of a 
-ghost arrow may not be reversed either.
+a FC graph (or EC). This includes adding ghost arrows in order to get an FC graph
+to begin with. But redirecting 
+an FC graph unghosts all its arrows.
 \end{enumerate}
 \end{mybluearea}
 
-Examples of basic universal operations:
+Examples of basic p-preserving operations:
 \begin{enumerate}
 \item
 \beq
@@ -731,7 +727,7 @@ are summed over (indicated by $\sum$) if non-root nodes or averaged over
 
 
 
-\item Use the basic universal operations to
+\item Use the basic p-preserving operations to
 remove all sums and averages over hidden nodes.
 Each sum or average over a hidden node may be 
 removed completely or replaced by a sum or average over an observed node. 
@@ -1008,11 +1004,11 @@ P(y, x |G_{amp(\rvx)})&=
 \xymatrix{
 &*++[F-o]{\sum c}\ar@[red][rd]
 \ar@[red][r]
+\ar@{<-}[dl]|0
 & \sum x'
 \\
 \PP x\ar[r]
-\ar[rru]|0
-\ar[ur]|0
+\ar[rru]
 &\sum m\ar[r]
 &y\ar@[red][u]
 }
@@ -1029,11 +1025,11 @@ ghost arrow)}
 \xymatrix{
 &*++[F-o]{\sum c}\ar@{<-}@[red][rd]
 \ar@{<-}@[red][r]
+\ar@{<-}[dl]
 & \sum x'
 \\
 \PP x\ar[r]
-\ar[rru]|0
-\ar[ur]|0
+\ar[rru]
 &\sum m\ar[r]
 &y\ar@[red]@{<-}[u]
 }
@@ -1051,7 +1047,7 @@ ghost arrow)}
 \xymatrix{
 & &\sum x'\ar[d]
 \\
-\PP x\ar[r]\ar[rru]|0
+\PP x\ar[r]\ar[rru]
 &\sum m\ar[r]
 &y
 }
@@ -1336,7 +1332,7 @@ P(y, x|G_{amp(\rvx)})
 &*++[F-o]{\EE u_1}\ar[ddl]\ar[ddrr]
 &&
 \\
-&*++[F-o]{\EE u_2}\ar[dl]
+&*++[F-o]{\sum u_2}\ar[dl]
 &&
 \\
 \sum w\ar[r]
@@ -1347,7 +1343,7 @@ P(y, x|G_{amp(\rvx)})
 \\
 &=
 \bcen \xymatrix{
-*++[F-o]{\EE u_1}
+*++[F-o]{\sum u_1}
 \ar[dr]
 \\
 \PP x \ar[r]
@@ -1414,7 +1410,7 @@ x \ar[rr]
 &=
 \bcen
 \xymatrix@R=1pc{
-&\EE z\ar[dd]^<<<<0
+&\EE z\ar[dd]
 \ar[ld]\ar[rd]
 \\
 x \ar[rr]
@@ -1450,46 +1446,60 @@ x \ar[rr]
 \decWhy
 \end{claim}
 \proof
+{\allowdisplaybreaks
 \beqa
-P(y|\cald\rvz=z, x)
+P(y,z, x|G_{amp(\rvz)})
 &=&
+\bcen
+\xymatrix{
+\PP x\ar[d]\ar[drr]
+\\
+ \sum w
+&\PP z\ar[r]
+&y
+\\
+*++[F-o]{\EE u}\ar[u]\ar[urr]
+}\ecen
+\\
+&=&
+\bcen
 \xymatrix{
 x\ar[d]\ar[drr]
 \\
  \sum w
-&z\ar[r]
+&\PP z\ar[r]
+\ar[l]|0
+\ar[ld]|0
+\ar[lu]|0
 &y
 \\
-*++[F-o]{\EE u}\ar[u]\ar[urr]
-}
+*++[F-o]{\sum u}\ar[u]\ar[urr]
+}\ecen
 \\
 &=&
+\bcen
 \xymatrix{
 x\ar[drr]
 \\
-&z\ar[r]
+&\PP z\ar[r]
+\ar[ld]|0
+\ar[lu]|0
 &y
 \\
-*++[F-o]{\EE u}\ar[urr]
-}
+*++[F-o]{\sum u}\ar[urr]
+}\ecen
 \\
 &=&
+\bcen
 \xymatrix{
-x\ar[rrd]
+x\ar[drr]
 \\
-&z\ar[r]
+&\PP z\ar[r]
+\ar[lu]|0
 &y
+}\ecen
+\eeqa
 }
-\eeqa
-The last line follows because $P(u|x,z)=P(u)$ in 
-$G_{promise}|(x,z)$ so
-\beqa
-\sum_u P(y|u,x,z)P(u)&=&
-\sum_u P(y|u,x,z) P(u|x, z)
-\\
-&=&
-P(y|x,z)
-\eeqa
 \qed
 
 \begin{claim}
