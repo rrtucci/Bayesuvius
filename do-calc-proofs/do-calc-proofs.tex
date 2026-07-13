@@ -39,6 +39,40 @@ adjustment formulae from first principles,
 without using the 
 3 Rules of Do Calculus.
 
+
+
+Do Calculus can succumb to the
+following two pifalls:
+
+\begin{enumerate}
+\item Making the
+promise being considered  ambiguous 
+ by neither writing
+the conditioning on the promise,
+nor using separate symbols $P(\cdot)$ and $Q(\cdot)$.
+This does not cause problems
+as long as we are dealing
+with just one promise.
+However, in the case
+of Do Calculus,
+we are dealing with
+at least two
+distinct promises,
+the original promise (OP),
+and its amputated version.
+\item Using non-p-preserving operations
+to simplify an instantiation.
+This removes memory of
+how the instantiation was built. 
+\end{enumerate}
+A way to 
+avoid these 2 pitfalls is to 
+represent instantiations of
+a bnet with diagrams, and
+to use only 
+ p-preserving operations
+to simplify a diagram.
+
 \section{Bnet Conventions}
 In this chapter, we use the
  following conventions for bnet diagrams.
@@ -88,7 +122,7 @@ we say  {\bf parameter $\theta$ is strong} iff
 \delta P\neq 0 
 \eeq
 Hence, the \qt{slope} $\delta P/\delta \theta \neq 0$
-for all $\delta\theta$.\footnote{
+for all $\delta\theta\neq 0$.\footnote{
 This is usually stated equivalently as
 $\delta P=0$ implies $\delta\theta=0$.} Equivalently, {\bf parameter $\theta$ is 
 weak}
@@ -153,18 +187,18 @@ Then we define $\calg$
 to be {\bf HV-weak} iff
 
 \beq
-0=\delta_{hidden}P(x_{1\dots N})
+0= \delta_{hidden}P(x_{1\dots N})
 =\sum_{h\in H}
 \left[\prod_{i\neq h}P(x_i\mid pa(x_i))
 \right]\delta
 P(x_h\mid pa(x_h))
 \eeq  
-for all possible 
+for some possible 
 variations
 $\delta P(x_h\mid pa(x_h))$
 for all $h\in H$.
 Hence, an HV-weak bnet
-is invariant under changes
+is invariant under some changes
 in the probability
 distributions of its hidden variables. 
 \subsection{Do-Query Weakness}
@@ -289,418 +323,6 @@ do-query on an OP, nor can it derive new adjustment formulae. What it can do is 
 
 
 
-\section{P-Preserving Operations}
-Suppose
-
-\begin{itemize} 
-
-\item The promise $\pi_a$ equals:
-
-\beq
-\begin{array}{c}
-P(z, y, x)
-=
-P(z|y)P(y|z)P(z)
-\\
-\\
-\xymatrix{
-\rvz
-&\rvy\ar[l]
-&\rvx\ar[l]}
-\end{array}
-\eeq
-
-\item the promise $\pi_b$ equals:
-
-\beq
-\begin{array}{c}
-Q(z, y, x)=Q(z|y, x) Q(y| x)Q(x)
-\\
-\\ 
-\xymatrix{
-\rvz
-&\rvy\ar[l]
-&\rvx\ar[l]
-\ar@/_1pc/[ll]
-}
-\end{array}
-\eeq
-\end{itemize}
-
-Note that 
-
-\beq
-\begin{array}{l}
-\sum_y P(z|y)P(y|x)= P(z|x)
-\\
-\\
-\xymatrix{
-z
-&\sum y\ar[l]
-&x\ar[l]}=
-\xymatrix{z&x\ar[l]}
-\end{array}
-\label{eq-markovian-op-only}
-\eeq
-and
-
-\beq
-\begin{array}{l}
-\sum_y Q(z|y, x)Q(y|x)= Q(z|x)
-\\
-\\
-\xymatrix{
-z
-&\sum y\ar[l]
-&x\ar[l]
-\ar@/_1pc/[ll]
-}=
-\xymatrix{z&x\ar[l]}
-\end{array}
-\label{eq-p-preserving-op}
-\eeq
-An alternative notation is to
-condition on the promise:
-
-\beq
-P(\cdot)= P(\cdot\mid \pi_a),
-\quad Q(\cdot)=P(\cdot\mid \pi_b)
-\eeq
-
-Recall that we've defined
-a p-preserving graph operation  
-as one that does not change the promise.
-
-Do Calculus can succumb to the
-following two pifalls:
-
-\begin{enumerate}
-\item Making the
-promise being considered  ambiguous 
- by neither writing
-the conditioning on the promise,
-nor using separate symbols $P(\cdot)$ and $Q(\cdot)$.
-This does not cause problems
-as long as we are dealing
-with just one promise.
-However, in the case
-of Do Calculus,
-we are dealing with
-at least two
-distinct promises,
-the original promise (OP),
-and its amputated version.
-\item Using non-p-preserving operations
-to simplify an instantiation.
-This removes memory of
-how the instantiation was built. 
-\end{enumerate}
-A way to 
-avoid these 2 pitfalls is to 
-represent instantiations of
-a bnet with diagrams, and
-to use only 
- p-preserving operations
-to simplify a diagram.
-Next, we shall discuss
-p-preserving operations
-in more detail.
-
-
-
-\begin{claim}
-In any graph, a summed leaf node equals 1:
-
-\beq
-\begin{array}{c}
-\sum_a
-P(a|x_1, x_2)f(x_1, x_2, 
-\text{anything except $a$})=1
-\\
-\bcen
-\xymatrix@R=.3pc{
-x_1\ar[dr]
-\\
-&\sum a
-\\
-x_2\ar[ur]
-}\ecen=1
-\end{array}
-\label{eq-collider-sum}
-\eeq
-
-
-\end{claim}
-\proof Obvious
-\qed
-
-Let us define the
-following 3  operations
-to be the 
-{\bf basic p-preserving
-operations}
-on a bnet instantiation:
-\begin{mybluearea}
-\begin{enumerate}
-\item
-Adding or removing a summed
-leaf node.
-\item Adding or removing ghost arrows
-\item
-Redirecting
-a FC graph (or EC). This includes adding ghost arrows in order to get an FC graph
-to begin with. But redirecting 
-an FC graph unghosts all its arrows.
-\end{enumerate}
-\end{mybluearea}
-
-Examples of basic p-preserving operations:
-\begin{enumerate}
-\item
-\beq
-\begin{array}{c}
-\sum_a P(y|a)P(a)=P(y)
-\\
-\xymatrix{
-\EE a\ar[r]
-&y}\quad
-=P(y)
-\end{array}
-\label{eq-diff-priors}
-\eeq
-Furthermore,
-
-\beq
-\begin{array}{c}
-\sum_a P(a|y)P(y)=P(y)
-\\
-\xymatrix{
-\sum a
-&\PP y\ar[l]}
-\quad=P(y)
-\end{array}
-\label{eq-diff-priors-ee}
-\eeq
-
-
-\item
-\beq
-\begin{array}{c}
-\sum_a P(y|a, x)P(a|x)P(x)=P(y|x)P(x)=P(x,y)
-\\
-\bcen
-\xymatrix@R=1pc{
-&\sum a\ar[rd]
-\\
-\PP x\ar[ru]\ar[rr]
-&&y}
-\ecen
-=
-\bcen
-\xymatrix{
-\PP x\ar[r]
-&y}\ecen
-\end{array}
-\label{eq-med-sum}
-\eeq
-This follows because the bnet on the left hand side (LHS) is fully
-connected so the arrow $\sum a\rarrow y$ can be reversed and then the sum over $a$ yields 1.
-
-The following identity has a similar justification
-
-\beq
-\begin{array}{c}
-\sum_a P(y|x,a)P(x|a)P(a)=P(x,y)
-\\
-\bcen
-\xymatrix@R=1pc{
-&\EE a\ar[rd]\ar[ld]
-\\
-x\ar[rr]
-&&y}\ecen
-=
-\bcen
-\xymatrix{
-\PP x\ar[r]
-&y}
-\ecen
-\end{array}
-\label{eq-med-sum-ee}
-\eeq
-
-\item
-\beq
-\begin{array}{c}
-\sum_a P(y|a, x_1, x_2)P(a|x_1, x_2)P(x_2|x_1)P(x_1)
-= P(y,x_1, x_2)
-\\
-\bcen
-\xymatrix{
-\PP x_1\ar[rd]\ar[drr]\ar[dd]
-\\
-&\sum a\ar[r]
-&y
-\\
-x_2\ar[ru]\ar[rru]
-}\ecen
-=
-\bcen
-\xymatrix{
-\PP x_1\ar[rrd]\ar[dd]
-\\
-&&y
-\\
-x_2\ar[urr]
-}
-\end{array}
-\label{eq-univ-bdoor}
-\ecen
-\eeq
-This follows because the
-bnet on the LHS is fully connected, 
-so one can reverse the direction of the 
-arrow $\sum a \rarrow y$. Then the sum over $a$
-yields 1 so the $\sum a$ vertex 
-with its 3 incoming arrows can be deleted.
-
-The following identity has a similar justification
-
-\beq
-\begin{array}{c}
-\sum_a P(y|x_2, a, x_1)P(x_2|a, x_1)P(x_1|a)P(a)
-= P(y,x_1, x_2)
-\\
-\bcen
-\xymatrix{
-x_1\ar[drr]\ar[dd]
-\\
-&\EE a\ar[r]\ar[ul]\ar[dl]
-&y
-\\
-x_2\ar[rru]
-}\ecen
-=
-\bcen
-\xymatrix{
-\PP x_1\ar[rrd]\ar[dd]
-\\
-&&y
-\\
-x_2\ar[urr]
-}
-\ecen
-\end{array}
-\label{eq-univ-bdoor-ee}
-\eeq
-
-
-
-\end{enumerate}
-
-
-
-
-
-\begin{claim}
-In an EC, a summed hidden node can be replaced
-by a summed non-hidden node:
-
-\beq
-\bcen \xymatrix{
-*++[F-o]{\EE h}
-\ar@[red][d]\ar[dr]
-\\
-x\ar[r]
-&y
-}\ecen
-=
-\bcen \xymatrix{
-{\EE z}
-\ar@[red][d]\ar[dr]
-\\
-x\ar[r]
-&y
-}\ecen
-\label{eq-summed-root-identity}
-\eeq
-and
-
-\beq
-\bcen \xymatrix{
-*++[F-o]{\sum h}
-\ar@{<-}[d]\ar[dr]
-\\
-\PP x\ar[r]
-&y
-}\ecen
-=
-\bcen \xymatrix{
-{\sum z}
-\ar@{<-}[d]\ar[dr]
-\\
-\PP x\ar[r]
-&y
-}\ecen
-\label{eq-summed-witness-h}
-\eeq
-\end{claim}
-\proof
-\beqa
-\bcen \xymatrix{
-*++[F-o]{\EE h}
-\ar[d]\ar[dr]
-\\
-x\ar[r]
-&y
-}\ecen
-&=&
-\bcen
-\xymatrix{
-*++[F-o]{\EE h}
-\ar[d]\ar[dr]
-\ar[r]
-&\sum z
-\\
-x\ar[r]\ar[ur]
-&y\ar[u]
-}
-\ecen
-\\
-&=&
-\bcen
-\xymatrix{
-*++[F-o]{\sum h}
-\ar@{<-}[d]
-\ar@{<-}[dr]
-\ar@{<-}[r]
-&\EE z
-\\
-x\ar[r]
-\ar@{<-}[ur]
-&y\ar@{<-}[u]
-}
-\ecen
-\\
-&=&
-\bcen
-\xymatrix{
-&\EE z
-\\
-x\ar[r]
-\ar@{<-}[ur]
-&y\ar@{<-}[u]
-}
-\ecen
-\eeqa
-Eq.(\ref{eq-summed-witness-h})
-follows
-by redirecting the red arrows
-in Eq.(\ref{eq-summed-root-identity}).
-
-\qed
-
-
-
 
 \section{Not Do Calculus (NDC) Technique}
 
@@ -736,7 +358,7 @@ Perform these steps until you remove all sums and averages  over hidden variable
 At the end, 
 obtain a valid adjustment formula
 by dividing 
-by the final diagram, call it $num$ for numerator, by
+the current expression, call it $num$ for numerator, by
 $\sum_y num$.
 If such an outcome cannot be achieved,
 declare the  query do-strong.
@@ -1354,13 +976,13 @@ P(y, x|G_{amp(\rvx)})
 &=
 \bcen \xymatrix{
 *++[F-o]{\EE u_1}
-\ar[dr]\ar[r]
+\ar@[red][dr]\ar@[red][r]
 &\sum z
 \\
 \PP x \ar[r]
 \ar[u]|0
 \ar[ru]
-&  y\ar[u]
+&  y\ar@[red][u]
 }\ecen
 (\text{Added summed leaf node $z$})
 \\
@@ -1374,7 +996,7 @@ P(y, x|G_{amp(\rvx)})
 \PP x \ar[r]
 \ar[u]|0
 \ar[ru]
-&  y\ar[u]
+&  y\ar@{<-}[u]
 }
 \ecen
 \text{(Redirected 4 node FC graph)}
