@@ -311,11 +311,11 @@ if we vary $a_2$ while keeping
 $(x, a_1)$ fixed.
 
 
-Note that adding or removing ghost arrows
+Note that adding (or removing) ghost arrows
 does not change the promise. It's
 just a way of expressing the same info with 
 a more redundant
-or less redundant TPM.
+(or less redundant) TPM.
 Graph operations
 that do not change the promise 
 will be called {\bf promise-preserving (p-preserving)
@@ -341,9 +341,9 @@ We often write
 \label{eq-promi-dep}
 \end{array}
 \eeq
-because  the left-hand side summed over $a,c$ yields 1.
+because  either side summed over $a,c$ yields 1.
 This is a p-preserving operation. However, note that
-this equation is {\bf promise dependent}; 
+this operation is {\bf promise dependent}; 
 i.e., it's
 only true if the $P(c,a)$
 on the right-hand side
@@ -352,6 +352,19 @@ presumes a particular
 \beq
 P(c,b, a)=P(c|b)P(b|a)P(a)
 \eeq
+By comparison,
+\beq
+\begin{array}{c}
+\sum_b P(c|b, a)P(b|a)P(a)=P(c,a)
+\\
+\xymatrix {\PP a\ar[r]
+\ar@/_1pc/[rr]&\sum b\ar[r]&c}
+\quad=\quad
+\xymatrix {\PP a\ar[r]&c}
+\label{eq-promi-indep}
+\end{array}
+\eeq
+is a {\bf promise independent} operation.
 \section{Redirecting}
 
 A {\bf fully connected (FC)} bnet (i.e., an acyclic DAG with the maximum possible number of arrows) can be {\bf redirected}
@@ -413,8 +426,8 @@ same
 
 
 Likewise, 
-a FC instantiation 
-of a bnet can be redirected without changing the promise.
+an instantiation 
+of a FC bnet can be redirected without changing the promise.
 For example, for a 2 node instantiation,
 \beq
 P(x, y)=\xymatrix{y&\PP x\ar[l]}
@@ -459,10 +472,10 @@ and, subsequently, to redirect the {\bf completed}
 instantiation. Of course,
 none of the arrows of the
 redirected graph may be
-safely assumed to be ghosts (unless you can safely prove this 
-by applying the d-separation theorem
+safely assumed to be ghosts (unless you can prove this via the d-separation theorem,
+applied
 to the instantiation
-prior to redirecting it.)
+prior to redirecting.)
 For example,
 
 \beq
@@ -566,14 +579,13 @@ leaf node.
 \item
 Redirecting
 a FC graph (or EC). This includes adding ghost arrows in order to get an FC graph
-to begin with. But when redirecting, 
+to begin with. But after redirecting, 
 none of the arrows of the
 redirected graph may be
-safely assumed to be ghosts (unless
-you can safely prove this 
-by applying the d-separation theorem
+safely assumed to be ghosts (unless you can prove this via the d-separation theorem,
+applied
 to the instantiation
-prior to redirecting it.)
+prior to redirecting.)
 \end{enumerate}
 \end{mybluearea}
 
@@ -731,7 +743,7 @@ by a summed non-hidden node:
 \beq
 \bcen \xymatrix{
 *++[F-o]{\EE h}
-\ar@[red][d]\ar[dr]
+\ar[d]\ar[dr]
 \\
 x\ar[r]
 &y
@@ -739,7 +751,7 @@ x\ar[r]
 =
 \bcen \xymatrix{
 {\EE z}
-\ar@[red][d]\ar[dr]
+\ar[d]\ar[dr]
 \\
 x\ar[r]
 &y
@@ -771,7 +783,7 @@ and
 \beqa
 \bcen \xymatrix{
 *++[F-o]{\EE h}
-\ar[d]\ar[dr]
+\ar@[red][d]\ar[dr]
 \\
 x\ar[r]
 &y
@@ -780,7 +792,7 @@ x\ar[r]
 \bcen
 \xymatrix{
 *++[F-o]{\EE h}
-\ar[d]\ar[dr]
+\ar@[red][d]\ar[dr]
 \ar[r]
 &\sum z
 \\
@@ -799,7 +811,7 @@ x\ar[r]\ar[ur]
 &\EE z
 \\
 x\ar[r]
-\ar@{<-}[ur]
+\ar@{<-}@[red][ur]
 &y\ar@{<-}[u]
 }
 \ecen
@@ -810,14 +822,14 @@ x\ar[r]
 &\EE z
 \\
 x\ar[r]
-\ar@{<-}[ur]
+\ar@{<-}@[red][ur]
 &y\ar@{<-}[u]
 }
 \ecen
 \eeqa
 Eq.(\ref{eq-summed-witness-h})
 follows
-by redirecting the red arrows
-in Eq.(\ref{eq-summed-root-identity}).
+by reversing the red arrows
+in the proof.
 
 \qed
