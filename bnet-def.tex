@@ -15,12 +15,12 @@ $(\rva,\rvb)$ where $\rva, \rvb\in V$.
 The {\bf parents}
 of a node $\rvx$ are
 those nodes $\rva$
-such that there are arrows
+such that there is an arrow
 $\rva\rarrow \rvx$.
 The {\bf children} of a node
 $\rvx$
 are those nodes $\rvb$
-such that there are arrows $\rvx\rarrow \rvb$.
+such that there is an arrow $\rvx\rarrow \rvb$.
 A {\bf root node}
 is a node with no parents.
 A {\bf leaf node}
@@ -44,7 +44,7 @@ is a path in
 which all the arrows point
 in the same direction.
 A {\bf loop}
-is a closed path;i.e.,
+is a closed path; i.e.,
 a path in which all
 nodes have exactly 2 neighbors.
 A {\bf cycle} is a directed loop.
@@ -313,18 +313,61 @@ Let us denote the correlation
 between $\rvx$ and $\rvy$ by 
 $\av{\rvx,\rvy}=
 \av{\rvx\rvy}-\av{\rvx}\av{\rvy}$.
-It's easy to show
-that $\rvx\perp \rvy$
-implies $\av{\rvx, \rvy}=0$.
-However, the converse is not true:
-it's possible for $\rvx$ and $\rvy$ to
-be uncorrelated but dependent.
-For example, if $\rvy=\rvx-\av{\rvx, \rvx}$,
-we get $\av{\rvx, \rvy}=0$, but
- $P(y|x)\neq P(x)$.
+\begin{claim}
+
+\beqa
+\rvx \perp \rvy
+&\implies&
+\av{\rvx, \rvy}=0
+\\
+\av{\rvx, \rvy}=0
+&\centernot\implies& \rvx \perp \rvy
+\eeqa
 However, $\rvx\perp \rvy$
 if and only if $\av{f(\rvx), g(\rvy)}$
 for all functions $f,g$.
+\end{claim}
+\proof
+
+($\implies$)
+If $P(x,y)=P(x)P(y)$, then
+
+\beq
+\av{\rvx, \rvy}=
+\sum_{x, y}xy P(x,y)
+- \av{\rvx}\av{\rvy}=0
+\eeq
+
+
+($\centernot\implies$)
+counterexample:
+
+Suppose
+
+\beq
+\rvx \sim Uniform(-1, 1), \quad \rvy = \rvx^2
+\eeq
+$\rvx$ and $\rvy$ are clearly correlated but
+$\av{\rvx, \rvy}=0$, as we now show.
+
+\beq
+\av{\rvx}=0
+\eeq
+\beq
+\av{\rvy}=\av{\rvx^2}=\frac{1}{3}
+\eeq
+
+\beq
+\av{\rvx \rvy}=\av{\rvx^3}=0
+\eeq
+Hence,
+\beq
+\av{\rvx, \rvy}=
+\av{\rvx \rvy}-\av{\rvx}\av{\rvy}=0
+\eeq
+
+\qed
+
 
 
 Consider the bnet $\rvx\rarrow\rvm\rarrow\rvy$.
@@ -338,20 +381,6 @@ we will say that there is a
 between nodes $\rvx$ and
 $\rvy$ if there is an arrow
 connecting them.
-Note that $\rvx$ and $\rvy$
-are not directly dependent iff\footnote{As
-will be defined in Chapter \ref{ch-counterf}, $P(y|do(x))$ equals
-$P(y|x)$ for the bnet 
-in which all arrows entering node $\rvx$ have been amputated
-and node $\rvx$ has been set to state $x$.}
-$P(y|do(x))=P(y)$ (i.e., no $\rvx\rarrow \rvy$)
-and
-$P(x|do(y))=P(x)$ (i.e., no
-$\rvy\rarrow \rvx$).
-$\rvx$ and $\rvy$ can
-be dependent but
-not directly dependent.
-
  
 \hrule
 {\bf Special Nodes}
@@ -404,8 +433,8 @@ tools. They are incorrect causally,
 but they aren't incorrect numerically.
 For instance, in Bayes rule,
 we switch from a good CF bnet
-$P(x|\theta)P(\theta)=\rvx\larrow\ul{\theta}$
+$P(x|\theta)P(\theta)=x\larrow\PP \theta$
 to a bad CF bnet
-$P(\theta|x)P(x)=\rvx\rarrow\ul{\theta}$,
+$P(\theta|x)P(x)=\PP x\rarrow\theta$,
 where $x$ is the data
 and $\theta$ are the parameters.
