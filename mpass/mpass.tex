@@ -1805,7 +1805,7 @@ Fig.\ref{fig-mp-9tree}.}
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=7in]
+\includegraphics[width=6in]
 {mpass/mp-multiframe-9tree.png}
 \caption{Steps encoded in
 the bnet 
@@ -2581,20 +2581,28 @@ where $x_i\in\{0,1,2\}$ for all $i$.
 Note that if we calculate 
 $P(x_{n-1})$ as follows
 
-\beq
-P(x_{n-1})=
+\begin{align}
+P(x_{n-1}) &=
 \left[\sum_{x_{n-2}} P(x_{n-1}|x_{n-2})\ldots
 \left[\sum_{x_1} P(x_2|x_1)
 \left[\sum_{x_0}P(x_1|x_0)P(x_0)\right]\right]\ldots\right]
-\;,
-\eeq
+\\
+P(x_3)&=
+\bcen
+\xymatrix{
+x_3
+&\sum x_2\ar[l]
+&\sum x_1\ar[l]
+&\EE x_0\ar[l]
+}\ecen
+\end{align}
 we need to perform 
  $2(n-1)$ additions and $3(n-1)$ multiplications.
 On the other hand, if we calculate $P(x_{n-1})$
 as follows 
 
-\beq
-P(x_{n-1})=
+\beqa
+P(x_{n-1}) &=&
 \sum_{x_{n-2}} \ldots
 \sum_{x_1} 
 \sum_{x_0}
@@ -2603,8 +2611,18 @@ P(x_{n-1}|x_{n-2})
 P(x_2|x_1)
 P(x_1|x_0)
 P(x_0)
-\;,
-\eeq
+\\\nonumber
+\\\nonumber
+\\
+P(x_3)&=&
+\bcen
+\xymatrix{
+x_3
+&\sum x_2\ar[l]
+&\sum x_1\ar[l]\ar@/_1pc/[ll]
+&\EE x_0\ar[l]\ar@/_2pc/[ll]\ar@/_2pc/[lll]
+}\ecen
+\eeqa
 we need to perform $3^n-1$ additions and
  $3^n(n-1)$
 multiplications.
