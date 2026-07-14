@@ -1,0 +1,385 @@
+\chapter{G-formula (Sequential Backdoor
+Adjustment Formula)}
+\label{ch-g-formula}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=5in]
+{g-formula/piscina-mirabilis.jpeg}
+\caption{Piscina Mirabilis,
+ancient Roman cistern in Naples}
+\label{fig-piscina}
+\end{figure}
+
+
+This chapter is based
+on Ref.\cite{pearl-robins-95}
+by Pearl and Robins.
+
+A {\bf g-formula}\footnote{It's
+not clear from the literature what the \qt{g}
+stands for. I assume it stands for \qt{generating}.
+}
+is any formula that
+defines recursively the full
+probability distribution of a bnet.
+In other words, it's a recursive
+definition of a Dynamical Bayesian Network.\footnote{Dynamical
+Bayesian Networks
+are discussed in Chapter \ref{ch-dyn-bnets}.}
+
+
+The goal of this
+chapter is to
+generalize
+the backdoor adjustment
+formula (see Chapter \ref{ch-bdoor})
+from
+a query $P(y|\cald\rvx=x)$
+with a single
+do node to a query
+$P(y|\cald\rvx^n=x^n)$
+with multiple
+do nodes.
+The resulting generalized adjustment
+formula is called  a {\bf sequential backdoor (SBD)
+adjustment formula},
+and it is associated with
+an {\bf
+SBD  g-formula}.
+
+For $n=1,2,3 \ldots$, define
+\beqa
+\calq(y|x^n)&=&
+\sum_{z^n}
+P(y|x^n, z^n)
+\prod_{t=0}^{n-1}
+P(z_t|x_{<t}, z_{<t})
+\\
+&=&
+\bcen
+\xymatrix{
+z^n\ar[d]
+\\
+y
+\\
+x^n\ar[u]
+}
+\ecen
+\prod_{t=0}^{n-1}
+\bcen
+\xymatrix{
+z_{<t}\ar[r]
+&z_t
+\\
+\\
+x_{<t}\ar[uur]
+}\ecen
+\label{def-q-y-xn-seqbdoor}
+\eeqa
+
+For $n=1$,
+\beq
+\calq(y|x_0)
+=
+\sum_{z_0}
+\bcen
+\xymatrix{
+\PP z_0\ar[d]
+\\
+y
+\\
+x_0\ar[u]
+}\ecen
+=
+\bcen
+\xymatrix{
+\EE z_0\ar[dr]
+\\
+& y
+\\
+x_0\ar[ur]
+}\ecen
+\eeq
+
+For $n=2$,
+
+\begin{align}
+\calq(y|x^2)
+&=
+\sum_{z^2}
+\bcen
+\xymatrix{
+(z_0,z_1)\ar[d]
+\\
+y
+\\
+(x_0,x_1)\ar[u]
+}
+\ecen
+P(z_0)
+\bcen
+\xymatrix{
+z_0\ar[r]
+&z_1
+\\
+\\
+x_0\ar[ruu]
+}\ecen
+\\
+&=
+\bcen
+\xymatrix{
+\EE z_0\ar[r]\ar[drr]
+&\sum z_1\ar[dr]
+\\
+&&y
+\\
+x_0\ar[ruu]\ar[urr]
+&x_1\ar[ur]
+}\ecen
+\end{align}
+
+For $n=3$,
+
+\begin{align}
+\xymatrix{\\
+\calq(y|x^3)
+}
+&
+\xymatrix{
+&\sum_{z^3}
+\\
+=
+}
+\xymatrix{
+(z_0,z_1,z_2)\ar[d]
+\\
+y
+\\
+(x_0,x_1, x_2)\ar[u]
+}
+\xymatrix{
+P(z_0)
+}
+\xymatrix{
+z_0\ar[r]
+&z_1
+\\
+\\
+x_0\ar[ruu]
+}
+\xymatrix{
+(z_0,z_1)\ar[r]
+&z_2
+\\
+\\
+(x_0,x_1)\ar[ruu]
+}
+\\
+\nonumber
+\\
+&
+\xymatrix{
+&\sum_{z^3}
+\\
+=
+}
+\xymatrix{
+(z_0,z_1,z_2)\ar[d]
+\\
+y
+\\
+(x_0,x_1, x_2)\ar[u]
+}
+\xymatrix{
+P(z_0)
+}
+\xymatrix{
+z_0\ar[r]\ar@/^1pc/[rr]
+&z_1\ar[r]
+&z_2
+\\
+\\
+x_0\ar[uur]\ar[uurr]
+&x_1\ar[uur]
+&x_2
+}
+\\
+\nonumber
+\\
+&
+\xymatrix{\\=}
+\xymatrix{
+\EE z_0\ar[r]\ar@/^1pc/[rr]
+\ar[drrr]
+&\sum z_1\ar[r]
+\ar[drr]
+&\sum z_2
+\ar[dr]
+\\
+&&&y
+\\
+x_0\ar[uur]\ar[uurr]
+\ar[urrr]
+&x_1\ar[uur]
+\ar[urr]
+&x_2
+\ar[ur]
+}
+\end{align}
+
+
+
+Suppose that we have access to data
+that allows us to
+estimate a probability
+distribution
+ $P(x^n, y, z^n)$.
+Hence, the variables
+$\rvx^n, \rvy, \rvz^n$ are
+ALL observed (i.e, not hidden).
+Then we say that the
+ multinode
+of \enquote{covariates} $\rvz^n$
+satisfies the
+{\bf sequential backdoor (SBD) adjustment criterion}
+relative to $(\rvx^n, \rvy)$
+if for all $t\in\{0,1, \ldots, n-1\}$,
+
+\begin{enumerate}
+\item
+$\rvy\perp\rvx_t|
+\underbrace{(\rvx_0, \rvx_1, \ldots,\rvx_{t-1},
+\rvz_0, \rvz_1, \ldots, \rvz_t)}
+_{\text{Past of $\rvx_t$}}$
+in $\call_{\rvx_{t}}
+\cald_{\rvx_{t+1},\rvx_{t+2}
+,\ldots, \rvx_{n-1}}G$.
+\item
+$\rvz_t \cap de(\rvx_t)=\emptyset$.
+\end{enumerate}
+
+\begin{claim}(SBD Adjustment Formula)
+If $\rvz^n$ satisfies the
+sequential backdoor criterion relative to
+ $(\rvx^n, \rvy)$, then
+
+\beq
+P(y | \cald \rvx^n=x^n)=
+\calq(y|x^n)
+\;,
+\eeq
+where $\calq(y|x^n)$
+is defined by
+Eq.(\ref{def-q-y-xn-seqbdoor}).
+\end{claim}
+\proof
+If
+$z^n$
+satisfies the SBD
+criterion
+relative
+to
+$(\rvx^n, \rvy)$,
+then
+$\rvx^n, \rvy, \rvz^n$
+might
+have the following
+structure for $n=3$.
+
+\beq
+\xymatrix{
+\rvz_0\ar[r]\ar@/^1pc/[rr]\ar[drrr]
+\ar[dd]
+&\rvz_1\ar[r]\ar[drr]
+\ar[dd]
+&\rvz_2\ar[dr]
+\ar[dd]
+\\
+&&&\rvy
+\\
+\rvx_0\ar[uur]\ar[uurr]\ar[urrr]
+\ar[r]\ar@/_1pc/[rr]
+&\rvx_1\ar[uur]
+\ar[urr]\ar[r]
+&\rvx_2
+\ar[ur]
+}
+\label{eq-seq-bdoor-special}
+\eeq
+
+One can check
+using the following 3
+auxiliary bnets
+that bnet Eq.(\ref{eq-seq-bdoor-special})
+satisfies the
+SBD
+criterion.
+Note that conditioned
+nodes are shaded yellow.
+\beq
+\begin{array}{ccc}
+\xymatrix@C=.95pc{
+*++[o][F*:yellow]{\rvz_0}\ar[r]\ar@/^1pc/[rr]\ar[drrr]
+\ar[dd]
+&*++[o][F*:yellow]{\rvz_1}\ar[r]\ar[drr]
+&*++[o][F*:yellow]{\rvz_2}\ar[dr]
+\\
+&&&\rvy
+\\
+\rvx_0
+&\rvx_1\ar[uur]
+\ar[urr]
+&\rvx_2
+\ar[ur]
+}
+&
+\xymatrix@C=.95pc{
+\rvz_0\ar[r]\ar@/^1pc/[rr]\ar[drrr]
+\ar[dd]
+&*++[o][F*:yellow]{\rvz_1}\ar[r]\ar[drr]
+\ar[dd]
+&*++[o][F*:yellow]{\rvz_2}\ar[dr]
+\\
+&&&\rvy
+\\
+*++[o][F*:yellow]{\rvx_0}
+\ar[uur]\ar[uurr]\ar[urrr]\ar[r]
+&\rvx_1
+&\rvx_2
+\ar[ur]
+}
+&
+\xymatrix@C=.95pc{
+\rvz_0\ar[r]\ar@/^1pc/[rr]\ar[drrr]
+\ar[dd]
+&\rvz_1\ar[r]\ar[drr]
+\ar[dd]
+&*++[o][F*:yellow]{\rvz_2}\ar[dr]
+\ar[dd]
+\\
+&&&\rvy
+\\
+*++[o][F*:yellow]{\rvx_0}
+\ar[uur]\ar[uurr]\ar[urrr]
+\ar[r]\ar@/_1pc/[rr]
+&*++[o][F*:yellow]{\rvx_1}\ar[uur]
+\ar[urr]\ar[r]
+&\rvx_2
+}
+\\
+\\
+\call_{\rvx_0}\cald_{\rvx_1, \rvx_2}G
+&\call_{\rvx_1}\cald_{\rvx_2}G
+&\call_{\rvx_2}G
+\end{array}
+\eeq
+
+
+
+See Claim \ref{cl-decSeqBackDoor}
+for a proof of this claim
+for the special case
+Eq.(\ref{eq-seq-bdoor-special}).
+\qed
