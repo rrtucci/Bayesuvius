@@ -164,13 +164,31 @@ dx^{i_1}(\$)\wedge dx^{i_2}(\$)\wedge\cdots
 
 
 
-If $\vec{A}= \vec{U}\times \vec{V}= \check{x}_1 (U_2 V_3)-U_3V_2 +\cdots$
+\item Exact and Closed 1-form
+
 \beq
-[\star \vec{A}](\$^2)=
-U_2 U_3 
-=
-A_k 
+\begin{array}{ccc}
+\xymatrix{
+f()\ar[d]|d\ar[dr]|d & 
+\\
+(df)(\$)\ar[d]|d&\Circle{0}
+& \omega(\$)\ar[l]_1
+\\
+\Circle{0}
+}
+&&
+\xymatrix{
+\\
+\omega(\$)\ar[d]^d
+\\
+\Circle{0}
+}\\
+\text{$\omega(\$)$ Exact}&& \text{$\omega(\$)$  Closed}
+\end{array}
 \eeq
+
+
+
 
 \item Lie Derivative
 \beq
@@ -339,6 +357,22 @@ $g=\det(g_{ij})$, and $\varepsilon$ is the Levi-Civita symbol.
 
 \section{Thermodynamics}
 
+\beq
+dU(\$)=T dS(\$)-pdV(\$)
+\eeq
+
+\beq
+0=ddU=dT\wedge dS - dp\wedge dV
+\eeq
+
+\beq
+\xymatrix{
+dT\wedge dS\ar[d]^1& dp\wedge dV\ar[dl]^1
+\\
+\Circle{0}
+}
+\eeq
+
 \section{Electromagnetism}
 
 Free space Maxwell Equations ($c=\mu_0=\eps_0=1$)
@@ -430,26 +464,191 @@ F(\$^2) \ar[d]|{d}& (\star F)(\$^2)\ar[d]|d & (\star J)(\$^2)\ar[dl]|{4\pi}
 }
 \eeq
 
+
+Commutative diagram
 \beq
-\begin{array}{ccc}
 \xymatrix{
-f()\ar[d]|d\ar[dr]|d & 
+X\ar[r]|f \ar[dr]|\phi
+& Y\ar[d]|g
 \\
-(df)(\$)\ar[d]|d&\Circle{0}
-& \omega(\$)\ar[l]_1
-\\
-\Circle{0}
+&Z
 }
-&&
-\xymatrix{
-\\
-\omega(\$)\ar[d]^d
-\\
-\Circle{0}
-}\\
-\text{$\omega(\$)$ Exact}&& \text{$\omega(\$)$  Closed}
-\end{array}
 \eeq
+
+Instantiation  of commutative diagram
+\beq
+\xymatrix{
+x\ar[r]|f \ar[dr]|\phi
+& y\ar[d]|g
+\\
+&\Circle{0}
+}
+\eeq
+$\phi(x) = g\circ f (x)$
+
+
+\section{Expressing grad, div and curl with differential forms}
+
+$\RR^3$, orthonormal coordinates $\hat{x}_i$ ( $=\check{x}_i$ in this case)
+
+\beq
+(dx_i(\$))^\sharp = \hatx_i,
+\quad
+(\hatx_i)^\flat=
+dx_i(\$)
+\eeq
+for $i=1,2,3$
+
+\begin{claim}
+\beq
+\boxed
+{\nabla f =
+(\sharp\circ d) [f]}
+\eeq
+\end{claim}
+\proof
+\beq
+df(\$)=
+\sum_{i=1}^3
+\partial_i f dx_i(\$)
+\eeq
+\qed
+
+
+\begin{claim}
+\beq
+\boxed
+{\nabla \times \vec{V}=
+(\sharp\circ \star \circ d \circ \flat)(\vec{V})}
+\eeq
+\end{claim}
+\proof
+
+\beq
+\vec{V}= \sum_i
+Q_1 \hatx_1
++ Q_2 \hatx_2
++ Q_3 \hatx_3
+\eeq
+
+\beq
+\omega(\$)=
+[\vec{V}]^\flat=
+Q_1 dx_1(\$)
++ Q_2 dx_2(\$)
++ Q_3 dx_3(\$)
+\eeq
+
+\beq
+d\omega(\$^2)=
+\left\{
+\begin{array}{l}
+\left(
+\partial_1 Q_2 -\partial_2 Q_1
+\right)
+dx_1(\$)\wedge dx_2(\$)
+\\
+\left(
+\partial_2 Q_3 -\partial_3 Q_2
+\right)
+dx_2(\$)\wedge dx_3(\$)
+\\
+\left(
+\partial_3 Q_1 -\partial_1 Q_3
+\right)dx_3(\$)\wedge dx_1(\$)
+\end{array}
+\right.
+\eeq
+
+
+\beq
+(\star d\omega)(\$)=
+\left\{
+\begin{array}{l}
+\left(
+\partial_1 Q_2 -\partial_2 Q_1
+\right)
+dx_3(\$)
+\\
+\left(
+\partial_2 Q_3 -\partial_3 Q_2
+\right)
+dx_1(\$)
+\\
+\left(
+\partial_3 Q_1 -\partial_1 Q_3
+\right)dx_2(\$)
+\end{array}
+\right.
+\eeq
+\qed
+
+
+\begin{claim}
+\beq
+\boxed{
+\nabla \cdot \vec{Q}=
+(\star\circ
+d\circ
+\star\circ
+\flat)
+\vec{Q}
+}
+\eeq
+\end{claim}
+\proof
+\beq
+\omega(\$)=
+Q_1 dx_1(\$)
++ Q_2 dx_2(\$)
++ Q_3 dx_3(\$)
+\eeq
+
+\beq
+(\star\omega)(\$^2)=
+Q_1 dx_1(\$)\wedge dx_2(\$)
++ Q_2 dx_2(\$)\wedge dx_3(\$)
++ Q_3 dx_3(\$)\wedge dx_1(\$)
+\eeq
+
+\beq
+(d\star\omega)(\$^3)=
+\underbrace{(\sum_i\partial_i Q_i )}_{\nabla\cdot \vec{Q}}dx_1(\$)\wedge dx_2(\$)\wedge dx_3(\$)
+\eeq
+
+\beq
+\star(dx_1\wedge  dx_2 \wedge dx_3)= 1
+\eeq
+\qed
+
+\begin{claim}
+
+\beq
+\nabla \times (\nabla f)=0
+\eeq
+
+\beq
+\nabla \cdot (\nabla \times \vec{V})=0
+\eeq
+\end{claim}
+\proof
+
+\beq
+\nabla \times (\nabla f)=
+(\sharp\circ \star \circ d \circ \flat)(\sharp\circ d) [f] =0
+\eeq
+because $d^2=0$.
+
+\beq
+\nabla \cdot (\nabla \times \vec{V})=
+(\star\circ
+d\circ
+\star\circ
+\flat)(\sharp\circ \star \circ d \circ \flat)\vec{V}=0
+\eeq
+because $\star\star=\pm 1$ and $d^2=0$
+
+\qed
 
 
 
