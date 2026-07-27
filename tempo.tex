@@ -3,6 +3,15 @@
 \input{bayesuvius.sty}
 \begin{document}
 
+\newcommand{\pred}[0]{{\color{red}p}}
+
+\newcommand{\Vred}[0]{{\color{red}V}}
+
+
+\newcommand{\AT}[2]{{
+\left.#1\right|_{#2}}}
+\newcommand{\pderAT}[3]{\AT{\pder{#1}{#2}}{#3}}
+
 
 \begin{itemize}
 \item tangent vectors, Vector Fields
@@ -357,6 +366,10 @@ Then
 where
 $g=\det(g_{ij})$, and $\varepsilon$ is the Levi-Civita symbol.
 
+\subsection{Interior Product}
+
+\subsection{Cartan's Magic Formula}
+
 
 \subsection{Expressing grad, div and curl with differential forms}
 
@@ -528,10 +541,10 @@ dU(\$)=T dS(\$)-pdV(\$)
 \eeq
 
 \beq
-0=ddU=dT\wedge dS - dp\wedge dV
+0=d^2 U=dT\wedge dS - dp\wedge dV
 \eeq
 
-
+\begin{claim}(Maxwell's identities)
 \beq
 \begin{array}{ll}
 \bcen
@@ -539,17 +552,17 @@ dU(\$)=T dS(\$)-pdV(\$)
 &dT\wedge dS
 \ar[d]^1
 \\
-dT\wedge dp
-\ar[ur]|{(\partial_p S)_T}
-\ar[dr]|{-(\partial_T V)_p}
+dT\wedge d\pred 
+\ar[ur]|{(\partial_\pred  S)_T}
+\ar[dr]|{-(\partial_T \Vred )_\pred }
 &\Circle{0}
 \\
-&dp\wedge dV
+&d\pred \wedge d\Vred 
 \ar[u]_1
 }\ecen
 &
-(\partial_pS)_T=
--(\partial_T V)_p
+\pderAT{S}{\pred}{T}=
+-\pderAT{\Vred}{T}{\pred}
 \end{array}
 \eeq
 
@@ -560,17 +573,17 @@ dT\wedge dp
 &dT\wedge dS
 \ar[d]^1
 \\
-dT\wedge dV
-\ar[ur]|{(\partial_V S)_T}
-\ar[dr]|{(\partial_Tp)_V}
+dT\wedge d\Vred 
+\ar[ur]|{(\partial_\Vred  S)_T}
+\ar[dr]|{(\partial_T\pred )_\Vred }
 &\Circle{0}
 \\
-&dp\wedge dV
+&d\pred \wedge d\Vred 
 \ar[u]_1
 }\ecen
 &
-(\partial_V S)_T=
-(\partial_T p)_V
+\pderAT{S}{\Vred}{T}=
+\pderAT{\pred}{T}{\Vred }
 \end{array}
 \eeq
 
@@ -581,17 +594,17 @@ dT\wedge dV
 &dT\wedge dS
 \ar[d]^1
 \\
-dp\wedge dS
-\ar[ur]|{(\partial_p T)_S}
-\ar[dr]|{(\partial_S V)_p}
+d\pred \wedge dS
+\ar[ur]|{(\partial_\pred  T)_S}
+\ar[dr]|{(\partial_S \Vred )_\pred }
 &\Circle{0}
 \\
-&dp\wedge dT
+&d\pred \wedge dT
 \ar[u]_1
 }\ecen
 &
-(\partial_p T)_S=
-(\partial_S V)_p
+\pderAT{T}{\pred}{S}=
+\pderAT{\Vred}{S}{\pred} 
 \end{array}
 \eeq
 
@@ -602,19 +615,185 @@ dp\wedge dS
 &dT\wedge dS
 \ar[d]^1
 \\
-dS\wedge dV
-\ar[ur]|{-(\partial_V T)_S}
-\ar[dr]|{(\partial_S p)_V}
+dS\wedge d\Vred 
+\ar[ur]|{-(\partial_\Vred  T)_S}
+\ar[dr]|{(\partial_S \pred )_\Vred }
 &\Circle{0}
 \\
-&dp\wedge dV
+&d\pred \wedge d\Vred 
 \ar[u]_1
 }\ecen
 &
--(\partial_V T)_S=
-(\partial_S p)_V
+-\pderAT{T}{\Vred}{S}=
+\pderAT{\pred}{S}{\Vred}
 \end{array}
 \eeq
+\end{claim}
+\proof
+
+Clear from diagrams.
+\qed
+
+\begin{claim}
+\beq
+\begin{array}{cc}
+\bcen
+\xymatrix{
+& d\pred \wedge d\Vred \ar[dr]|{T}
+\\
+dT\wedge d\Vred 
+\ar[rr]|{\;-\pred }
+\ar[ru]|{(\partial_T \pred )_\Vred }
+\ar[rd]|{(\partial_\Vred  U)_T}
+&
+&\Circle{0}
+\\
+&dT\wedge dU\ar[ur]|{-1}
+}\ecen
+&
+T\pderAT{\pred}{T}{\Vred}  - \pred  =
+\pderAT{U}{\Vred}{T}
+\end{array}
+\eeq
+\end{claim}
+\proof
+
+\beq
+dU = TdS - p dV 
+\eeq
+
+\beq
+0=d^2 S = d\left[
+\frac{dU}{T} + \frac{p }{T}dV 
+\right]=
+\frac{-1}{T^2}dT\wedge dU
++\frac{1}{T}dp \wedge dV 
+-\frac{p }{T^2}dT\wedge dV 
+\eeq
+
+\beq
+0=
+-dT\wedge dU
++T dp \wedge dV 
+-p  dT\wedge dV 
+\eeq
+
+
+\qed
+
+
+\begin{claim}
+\beq
+\begin{array}{c}
+\xymatrix@C=4pc{
+dT\wedge dS\ar[r]|{(\partial_T p)_S}
+\ar@/_2pc/[rrrr]|{\;-1}
+&
+dp\wedge dS\ar[r]|{(\partial_S T)_p}
+&
+dp\wedge dT\ar[r]|{(\partial_p S)_T}
+&
+dS\wedge dT\ar[r]|{1}
+&
+\Circle{0}
+}
+\\
+\\
+\pderAT{p}{T}{S}
+\pderAT{T}{S}{p}
+\pderAT{S} {p}{T}
+= -1
+\end{array}
+\eeq
+
+\end{claim}
+\proof
+
+Clear from diagram.
+\qed
+
+\begin{claim}
+
+\beq
+\begin{array}{c}
+\xymatrix@C=4pc{
+&dp\wedge dS
+\ar[dr]|{-T}
+&
+\\
+dT\wedge dS
+\ar[ur]|{(\partial_T p)_S}
+\ar[dr]|{
+(\partial_T p)_S(\partial_S U)_T -
+(\partial_S p)_T (\partial_T U)_S
+}
+\ar[rr]|p
+&&\Circle{0}
+\\
+&dp\wedge dU
+\ar[ur]|1
+&
+}
+\\
+\\
+-T \pderAT{p}{T}{S}
++p
++\left(
+\pderAT{p}{T}{S}\pderAT{U}{S}{T}
+-\pderAT{p}{S}{T}\pderAT{U}{T}{S}
+\right)=0
+\end{array}
+\eeq
+
+\end{claim}
+\proof
+
+\beq
+0=d^2 V=
+d\left(
+\frac{T}{p}dS
+-\frac{1}{p}dU
+\right)=
+\frac{1}{p}dT\wedge dS
+-\frac{T}{p^2}dp\wedge dS
++\frac{1}{p^2}
+dp\wedge dU
+\eeq
+
+\beq
+0=p dT\wedge dS
+-T dp\wedge dS
++dp\wedge dU
+\eeq
+
+\beq
+dp\wedge dS=
+\pderAT{p}{T}{S}
+dT\wedge dS
+\eeq 
+
+\beqa
+dp\wedge dU&=&
+\left(
+\pderAT{p}{T}{S}dT
++\pderAT{p}{S}{T}dS
+\right)
+\wedge
+\left(
+\pderAT{U}{T}{S}dT
++\pderAT{U}{S}{T}dS
+\right)
+\\
+&=&
+\left(
+\pderAT{p}{T}{S}\pderAT{U}{S}{T}
+-\pderAT{p}{S}{T}\pderAT{U}{T}{S}
+\right)
+dT\wedge dS
+\eeqa
+
+
+\qed
 
 \section{Electromagnetism}
 
@@ -1046,7 +1225,7 @@ x\ar[r]|f \ar[dr]|\phi
 \eeq
 $\phi(x) = g\circ f (x)$
 
-
+\section{Hamiltonian Mechanics}
 
 
 
