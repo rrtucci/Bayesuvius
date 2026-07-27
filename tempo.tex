@@ -393,6 +393,14 @@ Free space Maxwell Equations ($c=\mu_0=\eps_0=1$)
 \eeq
 
 \beq
+x_0=t,\quad x_1=x,\quad  x_2=y,\quad x_3=z
+\eeq
+
+\beq
+[g_{\mu\nu}]=[g^{\mu\nu}]= diag(-1, 1, 1, 1)
+\eeq
+
+\beq
 [F_{\mu\nu}]=
 \left(
 \begin{array}{cccc}
@@ -407,9 +415,7 @@ E_3 & B_2 & -B_1&0
 \right)
 \eeq
 
-\beq
-[g_{\mu\nu}]=[g^{\mu\nu}]= diag(-1, 1, 1, 1)
-\eeq
+
 
 \beq
 [F^{\mu\nu}]= [g^{\mu\alp}F_{\alp\beta}g^{\beta\nu}]=
@@ -426,43 +432,354 @@ E_3 & B_2 & -B_1&0
 \right)
 \eeq
 
+\beq
+[J^\mu] =(\rho, \vec{J})
+\eeq
+
+Index bracket notation
+
+antisymmetric part, antisymmetrization
+\beq
+T_{[\alp\beta]}=\frac{1}{2}
+(T_{\alp\beta}-T_{\beta\alp})
+\eeq
+
+symmetric part, symmetrization
+\beq
+T_{(\alp\beta)}=\frac{1}{2}
+(T_{\alp\beta}+T_{\beta\alp})
+\eeq
+
+\beq
+T_{\alp \beta}=
+T_{[\alp\beta]}+ T_{(\alp\beta)}
+\eeq
+
+\beq
+T_{[\alp\beta]}= - T_{[\beta\alp]}
+\eeq
+
+\beq
+T_{(\alp\beta)}=  T_{(\beta\alp)}
+\eeq
+
+
+\beq
+T_{[\alpha \beta \gamma]}
+=
+\frac{1}{3!}
+\sum_{\s \in S_3}
+sign(\s)T_{\s(\alpha)\s(\beta)\s(\gamma)}
+\eeq
+
+\beq
+T_{(\alpha \beta \gamma)}
+=
+\frac{1}{3!}
+\sum_{\s \in S_3}
+T_{\s(\alpha)\s(\beta)\s(\gamma)}
+\eeq
+
+\beq
+T_{\alp\beta\gamma}
+=
+T_{[\alp\beta\gamma]}
++
+T_{(\alp\beta\gamma)}
+\eeq
+
+
+
 \begin{claim}
 \beq 
 \partial_{[\gamma} F_{\mu\nu]} =
-\partial_\gamma F_{\mu\nu}+
+\frac{1}{3}
+[\partial_\gamma F_{\mu\nu}+
 \partial_\mu F_{\nu\gamma}+
-\partial_\nu F_{\nu\gamma\mu} =0
+\partial_\nu F_{\nu\gamma\mu}] =0
 \eeq
 
  \beq
 \partial_\nu F^{\mu\nu}= 4\pi J^\mu
 \eeq
+where
+
+
 
 \end{claim}
 \proof
+
+Note that 
+\beq
+\partial_{[\gamma} F_{\mu\nu]}=\frac{1}{3!}
+\sum_\s \partial_{\s(\gamma)}
+F_{\s(\mu)\s(\nu)}
+\eeq
+but $F_{\mu\nu}=-F_{\nu\mu}$ so
+the 6 terms combine in pairs to
+give only 3 distinct terms.
+
+\begin{enumerate}[(a)]
+\item
+\beq
+\partial_1 F_{23}
++
+\partial_2 F_{31}+
+\partial_3 F_{12}=0
+\eeq
+
+\beq
+F_{23}=B_1,
+\quad F_{31}=B_2,
+\quad
+F_{12}=B_3
+\eeq
+
+\beq
+\nabla\cdot \vec{B}=0
+\eeq
+\item
+ \beq
+\partial_0 F_{12}
++
+\partial_1
+F_{20}
++
+\partial_2
+F_{01}
+=0
+\eeq
+
+\beq
+F_{12}=B_3,
+\quad
+F_{20}= E_2,
+\quad
+F_{01}=-E_1
+\eeq
+
+\beq
+\partial_0 B_3 + \partial_1 E_2
+-\partial_2 E_1 =0
+\eeq
+
+\beq
+(\nabla \times \vec{E} )_3
+=- (\partial_t \vec{B})_3
+\eeq
+\item
+
+\beq
+\partial_i F^{0i}+\partial_0 F^{00}= 4\pi J^0
+\eeq
+
+\beq
+\nabla\cdot \vec{E} = 4\pi \rho
+\eeq
+
+\item
+
+\beq
+\partial_i F^{ji}+ \partial_0 F^{j0}= 4\pi J^j
+\eeq
+$j=1$
+
+\beq
+F^{10}=-E_1,
+\quad
+F^{11}=0,
+\quad
+F^{12}=B_3,
+\quad
+F^{13}=-B_2
+\quad
+\eeq
+
+\beq
+\partial_2 \underbrace{F^{12}}_{B_3}
++
+\partial_3 \underbrace{F^{13}}_{-B_2}
++\partial_0 \underbrace{F^{10}}_{-E_1}
+=
+4\pi J^1
+\eeq
+
+\beq
+[\nabla \times \vec{B}]_1
+-\partial_t E_1= 4\pi \vec{J}_1
+\eeq
+
+
+
+
+\end{enumerate}
+
+
 \qed
 
 
 \begin{claim}
 \beq
-dF=0
-\eeq
-
-\beq
-d\star F = 4\pi \star J
-\eeq
-\end{claim}
-\proof
-\qed
-
-
-\beq
+\begin{array}{ll}
+\bcen
 \xymatrix{
 F(\$^2) \ar[d]|{d}& (\star F)(\$^2)\ar[d]|d & (\star J)(\$^2)\ar[dl]|{4\pi}
 \\
 \Circle{0}& \Circle{0}
-}
+}\ecen
+&
+\left\{
+\begin{array}{l}
+dF=0
+\\
+d\star F = 4\pi \star J
+\end{array}
+\right.
+\end{array}
 \eeq
+\end{claim}
+\proof
+
+\beq
+dX(\$) = (dx_1(\$), dx_2(\$), dx_3(\$))
+\eeq
+
+
+\beq
+\s_{TX}(\$^2) = (dt(\$)\wedge dx_1(\$), dt(\$)\wedge dx_2(\$), dt(\$)\wedge dx_3(\$))
+\eeq
+
+\beq
+\s_{XX}(\$^2) = (dx_2(\$)\wedge dx_3(\$) dx_3(\$)\wedge dx_1(\$), dx_1(\$)\wedge dx_2(\$))
+\eeq
+
+\beq
+\s_{TXX}^i(\$^3)=
+dt(\$)\wedge \s_{XX}^i(\$^2)
+\quad \text{for $i=1,2,3$}
+\eeq
+
+
+\beq
+\star \s_{TX} = \s_{XX},
+\quad \star \s_{XX} =\s_{TX}
+\eeq
+
+
+
+\beq 
+F =
+B_i\s^{i}_{XX}
++
+E_i\s^{i}_{TX}
+\eeq
+
+
+\beqa 
+\star F &=&
+B_i\s^{i}_{TX}
++
+E_i\s^{i}_{XX}
+\\&=&
+E_i\s^{i}_{XX}
++B_i\s^{i}_{TX}
+\eeqa
+
+\beq
+dB_1 =  \partial_t B_1 dt
++\partial_j B_1  dx_j
+\eeq
+
+for $V_i = E_i , B_i$
+
+\beq
+d(V_1 dx_2 dx_3)=
+\partial_1 V_1 dx_1 dx_2 dx_3
++
+\partial_0 V_1 dt dx_2 dx_3
+\eeq
+
+\beq
+d(V_1 \s_{XX}^1)=
+(\partial_1 V_1 dx_1
++
+\partial_0 V_1  dt)
+\s_{XX}^1
+\eeq
+
+\beq
+\boxed{
+d(V_j \s_{XX}^j)=
+(\nabla\cdot \vec{V})dx_1 dx_2 dx_3
++
+\partial_0 V_j
+\s_{TXX}^j}
+\eeq
+
+\beqa
+d(V_1 dt dx_1)&=&
+\partial_2 V_1 dx_2 dt dx_1
++
+\partial_3 V_1 dx_3 dt dx_1
+\\
+&=&
+-dt(-\partial_2 V_1 \s_{XX}^3
++\partial_3V_1\s_{XX}^2)
+\eeqa
+
+\beq
+d(V_j\s_{TX}^j)=
+-dt
+\left\{
+\begin{array}{l}
+\partial_3V_1\s_{XX}^2-
+\partial_2 V_1 \s_{XX}^3
+\\
++\partial_1V_2\s_{XX}^3-
+\partial_3 V_2 \s_{XX}^1
+\\
++\partial_2 V_3\s_{XX}^1-
+\partial_1 V_3 \s_{XX}^2
+\end{array}
+\right.
+\eeq
+
+\beq
+\boxed{
+d(V_j\s_{TX}^j)
+=
+-
+(\nabla \times \vec{V})_j\s_{TXX}^j}
+\eeq
+
+\beq
+J(\$)= \rho dt(\$) + J_i dx_i(\$)
+\eeq
+
+\beq
+(\star J)(\$^3)=
+\rho dx_1 dx_2 dx_3 + J_i \s_{TXX}^i
+\eeq
+
+$dF=0$ implies
+\beq
+\nabla \vec{B}=0,
+\quad
+\partial_0\vec{B}+\nabla\times \vec{E}=0
+\eeq
+
+$d\star F=4\pi \star J$ implies
+
+\beq
+\nabla \vec{E}=4\pi \rho,
+\quad
+\partial_0\vec{E}-\nabla\times \vec{B}=
+-4\pi \vec{J}
+\eeq
+
+\qed
+
+
 
 
 Commutative diagram
