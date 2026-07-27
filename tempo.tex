@@ -214,16 +214,18 @@ f()\ar[d]|d\ar[dr]|d &
 
 \end{itemize}
 
-\section{Pullback map}
+\section{Review of Differential forms}
 
-\section{External Derivative}
+\subsection{Pullback map}
+
+\subsection{External Derivative}
 
 
 \beq
 d[\omega(\$^p)]= (d\omega)(\$^{p+1})
 \eeq
 
-\section{Hodge star operator}
+\subsection{Hodge star operator}
 
 For every $p$-form $\omega(\$^p)$, the the $(n-p)$-form $\star\omega(\$^{n-p})$ is the unique form satisfying
 
@@ -355,6 +357,170 @@ Then
 where
 $g=\det(g_{ij})$, and $\varepsilon$ is the Levi-Civita symbol.
 
+
+\subsection{Expressing grad, div and curl with differential forms}
+
+$\RR^3$, orthonormal coordinates $\hat{x}_i$ ( $=\check{x}_i$ in this case)
+
+\beq
+(dx_i(\$))^\sharp = \hatx_i,
+\quad
+(\hatx_i)^\flat=
+dx_i(\$)
+\eeq
+for $i=1,2,3$
+
+\begin{claim}
+\beq
+\boxed
+{\nabla f =
+(\sharp\circ d) [f]}
+\eeq
+\end{claim}
+\proof
+\beq
+df(\$)=
+\sum_{i=1}^3
+\partial_i f dx_i(\$)
+\eeq
+\qed
+
+
+\begin{claim}
+\beq
+\boxed
+{\nabla \times \vec{V}=
+(\sharp\circ \star \circ d \circ \flat)(\vec{V})}
+\eeq
+\end{claim}
+\proof
+
+\beq
+\vec{V}= \sum_i
+Q_1 \hatx_1
++ Q_2 \hatx_2
++ Q_3 \hatx_3
+\eeq
+
+\beq
+\omega(\$)=
+[\vec{V}]^\flat=
+Q_1 dx_1(\$)
++ Q_2 dx_2(\$)
++ Q_3 dx_3(\$)
+\eeq
+
+\beq
+d\omega(\$^2)=
+\left\{
+\begin{array}{l}
+\left(
+\partial_1 Q_2 -\partial_2 Q_1
+\right)
+dx_1(\$)\wedge dx_2(\$)
+\\
+\left(
+\partial_2 Q_3 -\partial_3 Q_2
+\right)
+dx_2(\$)\wedge dx_3(\$)
+\\
+\left(
+\partial_3 Q_1 -\partial_1 Q_3
+\right)dx_3(\$)\wedge dx_1(\$)
+\end{array}
+\right.
+\eeq
+
+
+\beq
+(\star d\omega)(\$)=
+\left\{
+\begin{array}{l}
+\left(
+\partial_1 Q_2 -\partial_2 Q_1
+\right)
+dx_3(\$)
+\\
+\left(
+\partial_2 Q_3 -\partial_3 Q_2
+\right)
+dx_1(\$)
+\\
+\left(
+\partial_3 Q_1 -\partial_1 Q_3
+\right)dx_2(\$)
+\end{array}
+\right.
+\eeq
+\qed
+
+
+\begin{claim}
+\beq
+\boxed{
+\nabla \cdot \vec{Q}=
+(\star\circ
+d\circ
+\star\circ
+\flat)
+\vec{Q}
+}
+\eeq
+\end{claim}
+\proof
+\beq
+\omega(\$)=
+Q_1 dx_1(\$)
++ Q_2 dx_2(\$)
++ Q_3 dx_3(\$)
+\eeq
+
+\beq
+(\star\omega)(\$^2)=
+Q_1 dx_1(\$)\wedge dx_2(\$)
++ Q_2 dx_2(\$)\wedge dx_3(\$)
++ Q_3 dx_3(\$)\wedge dx_1(\$)
+\eeq
+
+\beq
+(d\star\omega)(\$^3)=
+\underbrace{(\sum_i\partial_i Q_i )}_{\nabla\cdot \vec{Q}}dx_1(\$)\wedge dx_2(\$)\wedge dx_3(\$)
+\eeq
+
+\beq
+\star(dx_1\wedge  dx_2 \wedge dx_3)= 1
+\eeq
+\qed
+
+\begin{claim}
+
+\beq
+\nabla \times (\nabla f)=0
+\eeq
+
+\beq
+\nabla \cdot (\nabla \times \vec{V})=0
+\eeq
+\end{claim}
+\proof
+
+\beq
+\nabla \times (\nabla f)=
+(\sharp\circ \star \circ d \circ \flat)(\sharp\circ d) [f] =0
+\eeq
+because $d^2=0$.
+
+\beq
+\nabla \cdot (\nabla \times \vec{V})=
+(\star\circ
+d\circ
+\star\circ
+\flat)(\sharp\circ \star \circ d \circ \flat)\vec{V}=0
+\eeq
+because $\star\star=\pm 1$ and $d^2=0$
+
+\qed
+
 \section{Thermodynamics}
 
 \beq
@@ -365,12 +531,89 @@ dU(\$)=T dS(\$)-pdV(\$)
 0=ddU=dT\wedge dS - dp\wedge dV
 \eeq
 
+
 \beq
+\begin{array}{ll}
+\bcen
 \xymatrix{
-dT\wedge dS\ar[d]^1& dp\wedge dV\ar[dl]^1
+&dT\wedge dS
+\ar[d]^1
 \\
-\Circle{0}
-}
+dT\wedge dp
+\ar[ur]|{(\partial_p S)_T}
+\ar[dr]|{-(\partial_T V)_p}
+&\Circle{0}
+\\
+&dp\wedge dV
+\ar[u]_1
+}\ecen
+&
+(\partial_pS)_T=
+-(\partial_T V)_p
+\end{array}
+\eeq
+
+\beq
+\begin{array}{ll}
+\bcen
+\xymatrix{
+&dT\wedge dS
+\ar[d]^1
+\\
+dT\wedge dV
+\ar[ur]|{(\partial_V S)_T}
+\ar[dr]|{(\partial_Tp)_V}
+&\Circle{0}
+\\
+&dp\wedge dV
+\ar[u]_1
+}\ecen
+&
+(\partial_V S)_T=
+(\partial_T p)_V
+\end{array}
+\eeq
+
+\beq
+\begin{array}{ll}
+\bcen
+\xymatrix{
+&dT\wedge dS
+\ar[d]^1
+\\
+dp\wedge dS
+\ar[ur]|{(\partial_p T)_S}
+\ar[dr]|{(\partial_S V)_p}
+&\Circle{0}
+\\
+&dp\wedge dT
+\ar[u]_1
+}\ecen
+&
+(\partial_p T)_S=
+(\partial_S V)_p
+\end{array}
+\eeq
+
+\beq
+\begin{array}{ll}
+\bcen
+\xymatrix{
+&dT\wedge dS
+\ar[d]^1
+\\
+dS\wedge dV
+\ar[ur]|{-(\partial_V T)_S}
+\ar[dr]|{(\partial_S p)_V}
+&\Circle{0}
+\\
+&dp\wedge dV
+\ar[u]_1
+}\ecen
+&
+-(\partial_V T)_S=
+(\partial_S p)_V
+\end{array}
 \eeq
 
 \section{Electromagnetism}
@@ -804,168 +1047,7 @@ x\ar[r]|f \ar[dr]|\phi
 $\phi(x) = g\circ f (x)$
 
 
-\section{Expressing grad, div and curl with differential forms}
 
-$\RR^3$, orthonormal coordinates $\hat{x}_i$ ( $=\check{x}_i$ in this case)
-
-\beq
-(dx_i(\$))^\sharp = \hatx_i,
-\quad
-(\hatx_i)^\flat=
-dx_i(\$)
-\eeq
-for $i=1,2,3$
-
-\begin{claim}
-\beq
-\boxed
-{\nabla f =
-(\sharp\circ d) [f]}
-\eeq
-\end{claim}
-\proof
-\beq
-df(\$)=
-\sum_{i=1}^3
-\partial_i f dx_i(\$)
-\eeq
-\qed
-
-
-\begin{claim}
-\beq
-\boxed
-{\nabla \times \vec{V}=
-(\sharp\circ \star \circ d \circ \flat)(\vec{V})}
-\eeq
-\end{claim}
-\proof
-
-\beq
-\vec{V}= \sum_i
-Q_1 \hatx_1
-+ Q_2 \hatx_2
-+ Q_3 \hatx_3
-\eeq
-
-\beq
-\omega(\$)=
-[\vec{V}]^\flat=
-Q_1 dx_1(\$)
-+ Q_2 dx_2(\$)
-+ Q_3 dx_3(\$)
-\eeq
-
-\beq
-d\omega(\$^2)=
-\left\{
-\begin{array}{l}
-\left(
-\partial_1 Q_2 -\partial_2 Q_1
-\right)
-dx_1(\$)\wedge dx_2(\$)
-\\
-\left(
-\partial_2 Q_3 -\partial_3 Q_2
-\right)
-dx_2(\$)\wedge dx_3(\$)
-\\
-\left(
-\partial_3 Q_1 -\partial_1 Q_3
-\right)dx_3(\$)\wedge dx_1(\$)
-\end{array}
-\right.
-\eeq
-
-
-\beq
-(\star d\omega)(\$)=
-\left\{
-\begin{array}{l}
-\left(
-\partial_1 Q_2 -\partial_2 Q_1
-\right)
-dx_3(\$)
-\\
-\left(
-\partial_2 Q_3 -\partial_3 Q_2
-\right)
-dx_1(\$)
-\\
-\left(
-\partial_3 Q_1 -\partial_1 Q_3
-\right)dx_2(\$)
-\end{array}
-\right.
-\eeq
-\qed
-
-
-\begin{claim}
-\beq
-\boxed{
-\nabla \cdot \vec{Q}=
-(\star\circ
-d\circ
-\star\circ
-\flat)
-\vec{Q}
-}
-\eeq
-\end{claim}
-\proof
-\beq
-\omega(\$)=
-Q_1 dx_1(\$)
-+ Q_2 dx_2(\$)
-+ Q_3 dx_3(\$)
-\eeq
-
-\beq
-(\star\omega)(\$^2)=
-Q_1 dx_1(\$)\wedge dx_2(\$)
-+ Q_2 dx_2(\$)\wedge dx_3(\$)
-+ Q_3 dx_3(\$)\wedge dx_1(\$)
-\eeq
-
-\beq
-(d\star\omega)(\$^3)=
-\underbrace{(\sum_i\partial_i Q_i )}_{\nabla\cdot \vec{Q}}dx_1(\$)\wedge dx_2(\$)\wedge dx_3(\$)
-\eeq
-
-\beq
-\star(dx_1\wedge  dx_2 \wedge dx_3)= 1
-\eeq
-\qed
-
-\begin{claim}
-
-\beq
-\nabla \times (\nabla f)=0
-\eeq
-
-\beq
-\nabla \cdot (\nabla \times \vec{V})=0
-\eeq
-\end{claim}
-\proof
-
-\beq
-\nabla \times (\nabla f)=
-(\sharp\circ \star \circ d \circ \flat)(\sharp\circ d) [f] =0
-\eeq
-because $d^2=0$.
-
-\beq
-\nabla \cdot (\nabla \times \vec{V})=
-(\star\circ
-d\circ
-\star\circ
-\flat)(\sharp\circ \star \circ d \circ \flat)\vec{V}=0
-\eeq
-because $\star\star=\pm 1$ and $d^2=0$
-
-\qed
 
 
 
