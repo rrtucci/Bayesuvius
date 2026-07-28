@@ -3,18 +3,81 @@
 \input{bayesuvius.sty}
 \begin{document}
 
-\newcommand{\pred}[0]{{\color{red}p}}
 
-\newcommand{\Vred}[0]{{\color{red}V}}
 
 
 \newcommand{\AT}[2]{{
 \left.#1\right|_{#2}}}
 \newcommand{\pderAT}[3]{\AT{\pder{#1}{#2}}{#3}}
 
+\newcommand{\pform}[2]{
+\ul{#1}(\$^{#2})}
 
-\begin{itemize}
-\item tangent vectors, Vector Fields
+\section{Review of Differential forms}
+
+
+\hrule
+ Index bracket notation
+
+antisymmetric part, antisymmetrization
+\beq
+T_{A(\alp\beta)}=\frac{1}{2}
+\underbrace{(T_{\alp\beta}-T_{\beta\alp})}_
+{T_{UA(\alp \beta)}}
+\eeq
+$UA=$ un-normalized antisymmetrization
+
+symmetric part, symmetrization
+\beq
+T_{S(\alp\beta)}=\frac{1}{2}
+\underbrace{(T_{\alp\beta}+T_{\beta\alp})}_
+{T_{US(\alp \beta)}}
+\eeq
+$US=$ un-normalized symmetrization
+
+\beq
+T_{\alp \beta}=
+T_{A(\alp\beta)}+ T_{S(\alp\beta)}
+\eeq
+
+\beq
+T_{A(\alp\beta)}= - T_{A(\beta\alp)}
+\eeq
+
+\beq
+T_{S(\alp\beta)}=  T_{S(\beta\alp)}
+\eeq
+
+
+\beq
+T_{A(\alpha \beta \gamma)}
+=
+\frac{1}{3!}
+\underbrace{\sum_{\s \in S_3}
+sign(\s)T_{\s(\alpha)\s(\beta)\s(\gamma)}}_{T_{UA(\alpha \beta \gamma)}}
+\eeq
+
+\beq
+T_{S(\alpha \beta \gamma)}
+=
+\frac{1}{3!}
+\underbrace{\sum_{\s \in S_3}
+T_{\s(\alpha)\s(\beta)\s(\gamma)}}_{T_{US(\alpha \beta \gamma)}}
+\eeq
+
+\beq
+T_{\alp\beta\gamma}
+=
+T_{A(\alp\beta\gamma)}
++
+T_{S(\alp\beta\gamma)}
+\eeq
+
+
+
+
+
+\hrule tangent vectors, Vector Fields
 \beq
 \vec{r}= x_i\check{x}_i
 \eeq
@@ -30,7 +93,7 @@ $\check{x}_i$ is not a unit vector in general, as we can see for 2-dim polar coo
 
 
 \beq
-\vec{r} = r\hat{r}, \quad d\vec{r} = dr \hat{r} + rd\theta \hat{\theta}
+\vec{r} = r\hat{r}, \quad d\vec{r} = {dr} \hat{r} + r{d\theta} \hat{\theta}
 \eeq
 \beq
 \begin{array}{ll}
@@ -51,9 +114,9 @@ x_2 = \theta,& \check{x}_2 =r\hat{\theta}
 \quad \vec{V}_{op} \vec{r}= \vec{V}
 \eeq
 
-\item one-forms
+\hrule one-forms
 \beq
-\omega(\$) = \omega_i dx^i(\$)
+\pform{\omega}{} = \omega_i \pform{dx^i}{}
 \eeq
 
 \beq
@@ -67,7 +130,7 @@ x_2 = \theta,& \check{x}_2 =r\hat{\theta}
 d x^i (\check{x}_j)= \av{dx^i,\check{x}_j}=\delta_i^j
 \eeq
 
-\item metric
+\hrule metric
 \beq
 g(\vec{V}, \vec{U}) = V^i U^j
 \underbrace{g(\check{x}_i, \check{x}_j)}_{g_{ij}}
@@ -110,21 +173,26 @@ g(\check{x}_i, \check{x}_j) = diag(1, -1, -1, -1)
 
 \beq
 S\indices{^{ijk}_l_m}=
-S(dx^i(\$), dx^j(\$), dx^k(\$),\check{x}_l, \check{x}_m)
+S(\pform{dx^i}{}, \pform{dx^j}{}, \pform{dx^k}{},\check{x}_l, \check{x}_m)
 \eeq
 
 
-\item $p$-forms
+\hrule $p$-forms
 
 \beq
-dx^i (\$)\wedge dx^j(\$)=
-dx^i\wedge dx_j(\$^2)
+\pform{dx^i}{}\wedge \pform{dx^j}{}=
+\pform{dx^i\wedge dx^j}{2}
 \eeq
 
 \beq
-dx^{i_1 i_2\cdots i_r}(\$^r)=
-dx^{i_1}(\$)\wedge dx^{i_2}(\$)\wedge\cdots
-\wedge dx^{i_r}(\$)
+\pform{dx^{i_1 i_2\cdots i_r}}{r}
+=
+\pform{dx^{i_1}}{}
+\wedge
+\pform{dx^{i_2}}{}
+\wedge\cdots
+\wedge 
+\pform{dx^{i_r}}{}
 \eeq
 
 \beq
@@ -136,34 +204,39 @@ dx^{i_1}(\$)\wedge dx^{i_2}(\$)\wedge\cdots
 \eeq
 
 \beq
-\omega(\$^p)=
-\sum_{I \in \cali^p_<} \omega_I dx^I(\$^p)
+\pform{\omega}{p}=
+\sum_{I \in \cali^p_<} \omega_I
+\pform{d x^I}{p}
 =
 \frac{1}{p!}
-\sum_{I \in \cali^p} \omega_I dx^I(\$^p)
+\sum_{I \in \cali^p}
+\omega_I \pform{d x^I}{p}
 \eeq
 
 \beq
-\av{\omega_1(\$^p), \omega_2(\$^q) }=
+\av{\pform{\omega_a}{p}, \pform{\omega_b}{q} }=
 \left\{
 \begin{array}{ll}
 0& \text{if $p\neq q$}
 \\
 \sum_{I\in \cali^p_<}
-(\omega_1)^I(\omega_2)_I
+(\omega_a)_I(\omega_b)_I
 &\text{if $p=q$}
 \end{array}
 \right.
 \eeq
 
 \beq
-\omega^1(\$^p)\wedge \omega^2(\$^q)=
+\pform{\omega_a}{p}
+\wedge 
+\pform{\omega_b}{q}=
 (-1)^{pq}
-\omega^2(\$^q)\wedge
-\omega^1(\$^p)
+\pform{\omega_b}{q}\wedge
+\pform{\omega_a}{p}
 \eeq
 
-\item contraction
+\hrule
+contraction
 
 \beq
 \alp(\vec{\xi}, \$^p)_{j_1 j_2\cdots, j_p}=
@@ -173,33 +246,36 @@ dx^{i_1}(\$)\wedge dx^{i_2}(\$)\wedge\cdots
 
 
 
-\item Exact and Closed 1-form
+\hrule Exact and Closed 1-form
 
 \beq
 \begin{array}{ccc}
 \xymatrix{
 f()\ar[d]|d\ar[dr]|d & 
 \\
-(df)(\$)\ar[d]|d&\Circle{0}
-& \omega(\$)\ar[l]_1
+\pform{df}{}
+\ar[d]|d&\Circle{0}
+& \pform{\omega}{}
+\ar[l]_1
 \\
 \Circle{0}
 }
 &&
 \xymatrix{
 \\
-\omega(\$)\ar[d]^d
+\pform{\omega}{}
+\ar[d]^d
 \\
 \Circle{0}
 }\\
-\text{$\omega(\$)$ Exact}&& \text{$\omega(\$)$  Closed}
+\text{$\pform{\omega}{}$ Exact}&& \text{$\pform{\omega}{}$  Closed}
 \end{array}
 \eeq
 
 
 
 
-\item Lie Derivative
+\hrule Lie Derivative
 \beq
 \call_{\vec{V}} f(\vec{r})=
 \vec{V}_{op} f(\vec{r})
@@ -221,9 +297,9 @@ f()\ar[d]|d\ar[dr]|d &
 \omega_j(\$)\nabla_i V^j
 \eeq
 
-\end{itemize}
 
-\section{Review of Differential forms}
+
+
 
 \subsection{Pullback map}
 
@@ -231,46 +307,66 @@ f()\ar[d]|d\ar[dr]|d &
 
 
 \beq
-d[\omega(\$^p)]= (d\omega)(\$^{p+1})
+d\;\pform{\omega}{p}=
+\pform{d\omega}{p+1}
 \eeq
 
 \subsection{Hodge star operator}
 
-For every $p$-form $\omega(\$^p)$, the the $(n-p)$-form $\star\omega(\$^{n-p})$ is the unique form satisfying
+For every $p$-form $\pform{\omega}{p}$, the the $(n-p)$-form $
+\pform{\star \omega}{n-p}$ is the unique form satisfying
 
 \beq
-\alpha\wedge\star\omega
-= \av{\alpha,\omega}\text{vol}
+\pform{\alpha}{p}
+\wedge
+\pform{\star\omega}{n-p}
+= \av{\pform{\alpha}{p},\pform{\omega}{p}}\text{vol}
 \eeq
-for every $p$-form $\alpha$.
+for every $p$-form $\pform{\alpha}{p}$.
 
 Here 
-$\av{\alpha,\omega}$ is the inner product on $p$-forms induced by the metric.
+$\av{
+\ul{\alpha},
+\ul{\omega}}$ is the inner product on $p$-forms induced by the metric.
 
 
 Suppose
 $
-\s^1,\ldots,\s^n
+\ul{\s^1},\ldots,
+\ul{\s^n}
 $
 is an {\bf oriented orthonormal coframe} of 1-forms
 Then
 \beq
 \text{vol}=
-\s^1\wedge\cdots\wedge \s^n.
+\ul{\s^1}\wedge\cdots\wedge \ul{\s^n}
 \eeq
 
 The Hodge star is especially simple on basis $p$-forms.
 For example,
 \beq
-\star(\s^{i_1}\wedge\cdots\wedge \s^{i_p})=
-\pm \s^{j_1}\wedge\cdots\wedge \s^{j_{n-p}}
+\star(\ul{\s^{i_1}}
+\wedge\cdots\wedge 
+\ul{\s^{i_p}}
+)=
+\pm 
+\ul{\s^{j_1}}
+\wedge\cdots\wedge 
+\ul{\s^{j_{n-p}}}
 \eeq
 where the $j$'s are the complementary indices of the $i$'s, and the sign is chosen so that
 
 \beq
-(\s^{i_1}\wedge\cdots\wedge \s^{i_p})
+(\ul{\s^{i_1}}
+\wedge\cdots\wedge 
+\ul{\s^{i_p}}
+)
 \wedge
-\star(\s^{i_1}\wedge\cdots\wedge \s^{i_p})=
+\star(
+\ul{\s^{i_1}}
+\wedge\cdots\wedge 
+\ul{\s^{i_p}}
+)=
 \text{vol}.
 \eeq
 
@@ -280,27 +376,27 @@ Examples
 
 Take the orthonormal basis
 $
-dx,dy,dz
+\ul{dx},\ul{dy},\ul{dz}
 $
 Then
 
 \beq
 \star 1
 =
-dx\wedge dy\wedge dz,
+\ul{dx}\wedge \ul{dy}\wedge \ul{dz},
 \eeq
 
 \beq
-\star dx =
-dy\wedge dz,
+\star \ul{dx} =
+\ul{dy}\wedge \ul{dz},
 \eeq
 and cyclic permutations of $x,y,z$
 
 
 \beq
-\star(dx\wedge dy)
+\star(\ul{dx}\wedge \ul{dy})
 =
-dz
+\ul{dz}
 \eeq
 and cyclic permutations of $x,y,z$
 
@@ -308,20 +404,20 @@ and cyclic permutations of $x,y,z$
 
 The coordinate coframe is
 $
-(dr, d\theta)
+(\ul{dr}, \ul{d\theta})
 $
 but these are not orthonormal because
 $
 g
 =
-dr^2+r^2d\theta^2$.
+{dr}^2+r^2{d\theta}^2$.
 Instead define the orthonormal coframe
 
 \beq
 \begin{array}{ll}
-\s^1=dr,& \check{x}^1 = \hat{r}
+\ul{\s^1}=\ul{dr},& \check{x}^1 = \hat{r}
 \\
-\s^2=rd\theta, & \check{x}^2 =\hat{\theta}
+\ul{\s^2}=r\ul{d\theta}, & \check{x}^2 =\hat{\theta}
 \end{array}
 \eeq
 Now
@@ -329,19 +425,19 @@ $g= (1,1)$ so
 
 \beq
 \text{vol}=
-\s^1\wedge \s^2=
-r dr\wedge d\theta
+\ul{\s^1}\wedge \ul{\s^2}=
+r \ul{dr}\wedge \ul{d\theta}
 \eeq
 
 \beq
-\star \s^1=\s^2, \quad
-\star \s^2=-\s^1
+\star \ul{\s^1}=\ul{\s^2}, \quad
+\star \ul{\s^2}=-\ul{\s^1}
 \eeq
 Hence
 
 \beq
-\star dr=rd\theta,\quad
-\star d\theta=-\frac{1}{r}dr
+\star \ul{dr}=r\ul{d\theta},\quad
+\star \ul{d\theta}=-\frac{1}{r}\ul{dr}
 \eeq
 \end{enumerate}
 General coordinate formula
@@ -349,16 +445,18 @@ General coordinate formula
 Suppose
 
 \beq
-\omega
+\ul{\omega}
 =
 \frac{1}{p!}
 \omega_{i_1\cdots i_p}
-dx^{i_1}\wedge\cdots\wedge dx^{i_p}
+\ul{dx^{i_1}}
+\wedge\cdots\wedge 
+\ul{dx^{i_p}}
 \eeq
 Then
 
 \beq
-(\star\omega)_{j_1\cdots j_{n-p}}=
+(\star\ul{\omega})_{j_1\cdots j_{n-p}}=
 \frac{\sqrt{|g|}}{p!}
 \omega^{i_1\cdots i_p}
 \varepsilon_{i_1\cdots i_pj_1\cdots j_{n-p}}
@@ -376,10 +474,10 @@ $g=\det(g_{ij})$, and $\varepsilon$ is the Levi-Civita symbol.
 $\RR^3$, orthonormal coordinates $\hat{x}_i$ ( $=\check{x}_i$ in this case)
 
 \beq
-(dx_i(\$))^\sharp = \hatx_i,
+(\pform{dx^i}{})^\sharp = \hatx_i,
 \quad
 (\hatx_i)^\flat=
-dx_i(\$)
+\pform{dx^i}{}
 \eeq
 for $i=1,2,3$
 
@@ -392,9 +490,9 @@ for $i=1,2,3$
 \end{claim}
 \proof
 \beq
-df(\$)=
+\pform{df}{}=
 \sum_{i=1}^3
-\partial_i f dx_i(\$)
+\partial_i f \pform{dx^i}{}
 \eeq
 \qed
 
@@ -416,52 +514,52 @@ Q_1 \hatx_1
 \eeq
 
 \beq
-\omega(\$)=
+\pform{\omega}{}=
 [\vec{V}]^\flat=
-Q_1 dx_1(\$)
-+ Q_2 dx_2(\$)
-+ Q_3 dx_3(\$)
+Q_1 \pform{dx^1}{}
++ Q_2 \pform{dx^2}{}
++ Q_3 \pform{dx^3}{}
 \eeq
 
 \beq
-d\omega(\$^2)=
+\pform{d\omega}{2}=
 \left\{
 \begin{array}{l}
 \left(
 \partial_1 Q_2 -\partial_2 Q_1
 \right)
-dx_1(\$)\wedge dx_2(\$)
+\pform{dx^1}{}\wedge \pform{dx^2}{}
 \\
 \left(
 \partial_2 Q_3 -\partial_3 Q_2
 \right)
-dx_2(\$)\wedge dx_3(\$)
+\pform{dx^2}{}\wedge \pform{dx^3}{}
 \\
 \left(
 \partial_3 Q_1 -\partial_1 Q_3
-\right)dx_3(\$)\wedge dx_1(\$)
+\right)\pform{dx^3}{}\wedge \pform{dx^1}{}
 \end{array}
 \right.
 \eeq
 
 
 \beq
-(\star d\omega)(\$)=
+\pform{\star d\omega}{}=
 \left\{
 \begin{array}{l}
 \left(
 \partial_1 Q_2 -\partial_2 Q_1
 \right)
-dx_3(\$)
+\pform{dx^3}{}
 \\
 \left(
 \partial_2 Q_3 -\partial_3 Q_2
 \right)
-dx_1(\$)
+\pform{dx^1}{}
 \\
 \left(
 \partial_3 Q_1 -\partial_1 Q_3
-\right)dx_2(\$)
+\right)\pform{dx^2}{}
 \end{array}
 \right.
 \eeq
@@ -482,26 +580,29 @@ d\circ
 \end{claim}
 \proof
 \beq
-\omega(\$)=
-Q_1 dx_1(\$)
-+ Q_2 dx_2(\$)
-+ Q_3 dx_3(\$)
+\pform{\omega}{}=
+Q_1 \pform{dx^1}{}
++ Q_2 \pform{dx^2}{}
++ Q_3 \pform{dx^3}{}
 \eeq
 
 \beq
-(\star\omega)(\$^2)=
-Q_1 dx_1(\$)\wedge dx_2(\$)
-+ Q_2 dx_2(\$)\wedge dx_3(\$)
-+ Q_3 dx_3(\$)\wedge dx_1(\$)
+\pform{\star \omega}{2}=
+Q_1 \pform{dx^1}{}\wedge \pform{dx^2}{}
++ Q_2 \pform{dx^2}{}\wedge \pform{dx^3}{}
++ Q_3 \pform{dx^3}{}\wedge \pform{dx^1}{}
 \eeq
 
 \beq
-(d\star\omega)(\$^3)=
-\underbrace{(\sum_i\partial_i Q_i )}_{\nabla\cdot \vec{Q}}dx_1(\$)\wedge dx_2(\$)\wedge dx_3(\$)
+\pform{d\star\omega}{3}=
+\underbrace{(\sum_i\partial_i Q_i )}_{\nabla\cdot \vec{Q}}\pform{dx^1}{}\wedge \pform{dx^2}{}\wedge \pform{dx^3}{}
 \eeq
 
 \beq
-\star(dx_1\wedge  dx_2 \wedge dx_3)= 1
+\star(\ul{dx_1}\wedge  
+\ul{dx_2} \wedge 
+\ul{dx_3}
+)= 1
 \eeq
 \qed
 
@@ -537,11 +638,11 @@ because $\star\star=\pm 1$ and $d^2=0$
 \section{Thermodynamics}
 
 \beq
-dU(\$)=T dS(\$)-pdV(\$)
+\pform{dU}{}=T \pform{dS}{}-p\pform{dV}{}
 \eeq
 
 \beq
-0=d^2 U=dT\wedge dS - dp\wedge dV
+0=\ul{d^2U}=\ul{dT}\wedge \ul{dS} - \ul{dp}\wedge \ul{dV}
 \eeq
 
 \begin{claim}(Maxwell's identities)
@@ -549,20 +650,20 @@ dU(\$)=T dS(\$)-pdV(\$)
 \begin{array}{ll}
 \bcen
 \xymatrix{
-&dT\wedge dS
+&\ul{dT}\wedge \ul{dS}
 \ar[d]^1
 \\
-dT\wedge d\pred 
-\ar[ur]|{(\partial_\pred  S)_T}
-\ar[dr]|{-(\partial_T \Vred )_\pred }
+\ul{dT}\wedge \ul{dp} 
+\ar[ur]|{(\partial_p  S)_T}
+\ar[dr]|{-(\partial_T V )_p }
 &\Circle{0}
 \\
-&d\pred \wedge d\Vred 
+&\ul{dp} \wedge \ul{dV} 
 \ar[u]_1
 }\ecen
 &
-\pderAT{S}{\pred}{T}=
--\pderAT{\Vred}{T}{\pred}
+\pderAT{S}{p}{T}=
+-\pderAT{V}{T}{p}
 \end{array}
 \eeq
 
@@ -570,20 +671,20 @@ dT\wedge d\pred
 \begin{array}{ll}
 \bcen
 \xymatrix{
-&dT\wedge dS
+&\ul{dT}\wedge \ul{dS}
 \ar[d]^1
 \\
-dT\wedge d\Vred 
-\ar[ur]|{(\partial_\Vred  S)_T}
-\ar[dr]|{(\partial_T\pred )_\Vred }
+\ul{dT}\wedge \ul{dV} 
+\ar[ur]|{(\partial_V  S)_T}
+\ar[dr]|{(\partial_Tp )_V }
 &\Circle{0}
 \\
-&d\pred \wedge d\Vred 
+&\ul{dp} \wedge \ul{dV} 
 \ar[u]_1
 }\ecen
 &
-\pderAT{S}{\Vred}{T}=
-\pderAT{\pred}{T}{\Vred }
+\pderAT{S}{V}{T}=
+\pderAT{p}{T}{V }
 \end{array}
 \eeq
 
@@ -591,20 +692,20 @@ dT\wedge d\Vred
 \begin{array}{ll}
 \bcen
 \xymatrix{
-&dT\wedge dS
+&\ul{dT}\wedge \ul{dS}
 \ar[d]^1
 \\
-d\pred \wedge dS
-\ar[ur]|{(\partial_\pred  T)_S}
-\ar[dr]|{(\partial_S \Vred )_\pred }
+\ul{dp} \wedge \ul{dS}
+\ar[ur]|{(\partial_p  T)_S}
+\ar[dr]|{(\partial_S V )_p }
 &\Circle{0}
 \\
-&d\pred \wedge dT
+&\ul{dp} \wedge \ul{dT}
 \ar[u]_1
 }\ecen
 &
-\pderAT{T}{\pred}{S}=
-\pderAT{\Vred}{S}{\pred} 
+\pderAT{T}{p}{S}=
+\pderAT{V}{S}{p} 
 \end{array}
 \eeq
 
@@ -612,20 +713,20 @@ d\pred \wedge dS
 \begin{array}{ll}
 \bcen
 \xymatrix{
-&dT\wedge dS
+&\ul{dT}\wedge \ul{dS}
 \ar[d]^1
 \\
-dS\wedge d\Vred 
-\ar[ur]|{-(\partial_\Vred  T)_S}
-\ar[dr]|{(\partial_S \pred )_\Vred }
+\ul{dS}\wedge \ul{dV} 
+\ar[ur]|{-(\partial_V  T)_S}
+\ar[dr]|{(\partial_S p )_V }
 &\Circle{0}
 \\
-&d\pred \wedge d\Vred 
+&\ul{dp} \wedge \ul{dV} 
 \ar[u]_1
 }\ecen
 &
--\pderAT{T}{\Vred}{S}=
-\pderAT{\pred}{S}{\Vred}
+-\pderAT{T}{V}{S}=
+\pderAT{p}{S}{V}
 \end{array}
 \eeq
 \end{claim}
@@ -639,43 +740,45 @@ Clear from diagrams.
 \begin{array}{cc}
 \bcen
 \xymatrix{
-& d\pred \wedge d\Vred \ar[dr]|{T}
+& \ul{dp} \wedge \ul{dV} \ar[dr]|{T}
 \\
-dT\wedge d\Vred 
-\ar[rr]|{\;-\pred }
-\ar[ru]|{(\partial_T \pred )_\Vred }
-\ar[rd]|{(\partial_\Vred  U)_T}
+\ul{dT}\wedge \ul{dV} 
+\ar[rr]|{\;-p }
+\ar[ru]|{(\partial_T p )_V }
+\ar[rd]|{(\partial_V  U)_T}
 &
 &\Circle{0}
 \\
-&dT\wedge dU\ar[ur]|{-1}
+&\ul{dT}\wedge \ul{dU}\ar[ur]|{-1}
 }\ecen
 &
-T\pderAT{\pred}{T}{\Vred}  - \pred  =
-\pderAT{U}{\Vred}{T}
+T\pderAT{p}{T}{V}  - p  =
+\pderAT{U}{V}{T}
 \end{array}
 \eeq
 \end{claim}
 \proof
 
 \beq
-dU = TdS - p dV 
-\eeq
-
-\beq
-0=d^2 S = d\left[
-\frac{dU}{T} + \frac{p }{T}dV 
-\right]=
-\frac{-1}{T^2}dT\wedge dU
-+\frac{1}{T}dp \wedge dV 
--\frac{p }{T^2}dT\wedge dV 
+\ul{dU} = T\ul{dS} - p \ul{dV} 
 \eeq
 
 \beq
 0=
--dT\wedge dU
-+T dp \wedge dV 
--p  dT\wedge dV 
+\ul{d^2 S }
+= d\left[
+\frac{1}{T}\ul{dU} + \frac{p }{T}\ul{dV} 
+\right]=
+\frac{-1}{T^2}\ul{dT}\wedge \ul{dU}
++\frac{1}{T}\ul{dp} \wedge \ul{dV} 
+-\frac{p }{T^2}\ul{dT}\wedge \ul{dV} 
+\eeq
+
+\beq
+0=
+-\ul{dT}\wedge \ul{dU}
++T \ul{dp} \wedge \ul{dV} 
+-p  \ul{dT}\wedge \ul{dV} 
 \eeq
 
 
@@ -686,14 +789,14 @@ dU = TdS - p dV
 \beq
 \begin{array}{c}
 \xymatrix@C=4pc{
-dT\wedge dS\ar[r]|{(\partial_T p)_S}
+\ul{dT}\wedge \ul{dS}\ar[r]|{(\partial_T p)_S}
 \ar@/_2pc/[rrrr]|{\;-1}
 &
-dp\wedge dS\ar[r]|{(\partial_S T)_p}
+\ul{dp}\wedge \ul{dS}\ar[r]|{(\partial_S T)_p}
 &
-dp\wedge dT\ar[r]|{(\partial_p S)_T}
+\ul{dp}\wedge \ul{dT}\ar[r]|{(\partial_p S)_T}
 &
-dS\wedge dT\ar[r]|{1}
+\ul{dS}\wedge \ul{dT}\ar[r]|{1}
 &
 \Circle{0}
 }
@@ -717,20 +820,20 @@ Clear from diagram.
 \beq
 \begin{array}{c}
 \xymatrix@C=4pc{
-&dp\wedge dS
+&\ul{dp}\wedge \ul{dS}
 \ar[dr]|{-T}
 &
 \\
-dT\wedge dS
+\ul{dT}\wedge \ul{dS}
 \ar[ur]|{(\partial_T p)_S}
 \ar[dr]|{
-(\partial_T p)_S(\partial_S U)_T -
+(\partial_T p)_U(\partial_S U)_T -
 (\partial_S p)_T (\partial_T U)_S
 }
 \ar[rr]|p
 &&\Circle{0}
 \\
-&dp\wedge dU
+&\ul{dp}\wedge \ul{dU}
 \ar[ur]|1
 &
 }
@@ -749,39 +852,41 @@ dT\wedge dS
 \proof
 
 \beq
-0=d^2 V=
+0=
+\ul{d^2 V}
+=
 d\left(
-\frac{T}{p}dS
--\frac{1}{p}dU
+\frac{T}{p}\ul{dS}
+-\frac{1}{p}\ul{dU}
 \right)=
-\frac{1}{p}dT\wedge dS
--\frac{T}{p^2}dp\wedge dS
+\frac{1}{p}\ul{dT}\wedge \ul{dS}
+-\frac{T}{p^2}\ul{dp}\wedge \ul{dS}
 +\frac{1}{p^2}
-dp\wedge dU
+\ul{dp}\wedge \ul{dU}
 \eeq
 
 \beq
-0=p dT\wedge dS
--T dp\wedge dS
-+dp\wedge dU
+0=p \ul{dT}\wedge \ul{dS}
+-T \ul{dp}\wedge \ul{dS}
++\ul{dp}\wedge \ul{dU}
 \eeq
 
 \beq
-dp\wedge dS=
+\ul{dp}\wedge \ul{dS}=
 \pderAT{p}{T}{S}
-dT\wedge dS
+\ul{dT}\wedge \ul{dS}
 \eeq 
 
 \beqa
-dp\wedge dU&=&
+\ul{dp}\wedge \ul{dU}&=&
 \left(
-\pderAT{p}{T}{S}dT
-+\pderAT{p}{S}{T}dS
+\pderAT{p}{T}{S}\ul{dT}
++\pderAT{p}{S}{T}\ul{dS}
 \right)
 \wedge
 \left(
-\pderAT{U}{T}{S}dT
-+\pderAT{U}{S}{T}dS
+\pderAT{U}{T}{S}\ul{dT}
++\pderAT{U}{S}{T}\ul{dS}
 \right)
 \\
 &=&
@@ -789,7 +894,7 @@ dp\wedge dU&=&
 \pderAT{p}{T}{S}\pderAT{U}{S}{T}
 -\pderAT{p}{S}{T}\pderAT{U}{T}{S}
 \right)
-dT\wedge dS
+\ul{dT}\wedge \ul{dS}
 \eeqa
 
 
@@ -858,63 +963,12 @@ E_3 & B_2 & -B_1&0
 [J^\mu] =(\rho, \vec{J})
 \eeq
 
-Index bracket notation
-
-antisymmetric part, antisymmetrization
-\beq
-T_{[\alp\beta]}=\frac{1}{2}
-(T_{\alp\beta}-T_{\beta\alp})
-\eeq
-
-symmetric part, symmetrization
-\beq
-T_{(\alp\beta)}=\frac{1}{2}
-(T_{\alp\beta}+T_{\beta\alp})
-\eeq
-
-\beq
-T_{\alp \beta}=
-T_{[\alp\beta]}+ T_{(\alp\beta)}
-\eeq
-
-\beq
-T_{[\alp\beta]}= - T_{[\beta\alp]}
-\eeq
-
-\beq
-T_{(\alp\beta)}=  T_{(\beta\alp)}
-\eeq
-
-
-\beq
-T_{[\alpha \beta \gamma]}
-=
-\frac{1}{3!}
-\sum_{\s \in S_3}
-sign(\s)T_{\s(\alpha)\s(\beta)\s(\gamma)}
-\eeq
-
-\beq
-T_{(\alpha \beta \gamma)}
-=
-\frac{1}{3!}
-\sum_{\s \in S_3}
-T_{\s(\alpha)\s(\beta)\s(\gamma)}
-\eeq
-
-\beq
-T_{\alp\beta\gamma}
-=
-T_{[\alp\beta\gamma]}
-+
-T_{(\alp\beta\gamma)}
-\eeq
 
 
 
 \begin{claim}
 \beq 
-\partial_{[\gamma} F_{\mu\nu]} =
+\partial_{A(\gamma} F_{\mu\nu)} =
 \frac{1}{3}
 [\partial_\gamma F_{\mu\nu}+
 \partial_\mu F_{\nu\gamma}+
@@ -1045,16 +1099,23 @@ F^{13}=-B_2
 \begin{array}{ll}
 \bcen
 \xymatrix{
-F(\$^2) \ar[d]|{d}& (\star F)(\$^2)\ar[d]|d & (\star J)(\$^2)\ar[dl]|{4\pi}
+\pform{F}{2}
+\ar[d]|{d}& 
+\pform{\star F}{2}
+\ar[d]|d & 
+\pform{\star J}{3}
+\ar[dl]|{4\pi}
 \\
 \Circle{0}& \Circle{0}
 }\ecen
 &
 \left\{
 \begin{array}{l}
-dF=0
+\pform{dF}{3}=0
 \\
-d\star F = 4\pi \star J
+\pform{d\star F}{3}
+= 4\pi 
+\pform{\star J}{3}
 \end{array}
 \right.
 \end{array}
@@ -1063,124 +1124,141 @@ d\star F = 4\pi \star J
 \proof
 
 \beq
-dX(\$) = (dx_1(\$), dx_2(\$), dx_3(\$))
+\pform{dX}{}
+ = (\pform{dx^1}{}, \pform{dx^2}{}, \pform{dx^3}{})
 \eeq
 
 
 \beq
-\s_{TX}(\$^2) = (dt(\$)\wedge dx_1(\$), dt(\$)\wedge dx_2(\$), dt(\$)\wedge dx_3(\$))
+\pform{\s_{TX}}{2}= (
+\pform{dt}{}
+\wedge \pform{dx^1}{}, dt(\$)\wedge \pform{dx^2}{}, dt(\$)\wedge \pform{dx^3}{})
 \eeq
 
 \beq
-\s_{XX}(\$^2) = (dx_2(\$)\wedge dx_3(\$) dx_3(\$)\wedge dx_1(\$), dx_1(\$)\wedge dx_2(\$))
+\pform{\s_{XX}}{2}
+ = (\pform{dx^2}{}\wedge \pform{dx^3}{} \pform{dx^3}{}\wedge \pform{dx^1}{}, \pform{dx^1}{}\wedge \pform{dx^2}{})
 \eeq
 
 \beq
-\s_{TXX}^i(\$^3)=
-dt(\$)\wedge \s_{XX}^i(\$^2)
+\ul{\s_{TXX}^i}(\$^3)=
+dt(\$)\wedge \ul{\s_{XX}^i}(\$^2)
 \quad \text{for $i=1,2,3$}
 \eeq
 
 
 \beq
-\star \s_{TX} = \s_{XX},
-\quad \star \s_{XX} =\s_{TX}
+\star \ul{\s_{TX}} = \ul{\s_{XX}},
+\quad \star \ul{\s_{XX}} =\ul{\s_{TX}}
 \eeq
 
 
 
 \beq 
-F =
-B_i\s^{i}_{XX}
+\pform{F}{2}=
+B_i
+\pform{\s^{i}_{XX}}{2}
 +
-E_i\s^{i}_{TX}
+E_i\pform{\s^{i}_{TX}}{2}
 \eeq
 
 
 \beqa 
-\star F &=&
-B_i\s^{i}_{TX}
+\pform{\star F}{2}
+&=&
+B_i
+\pform{\s^{i}_{TX}}{2}
 +
-E_i\s^{i}_{XX}
+E_i
+\pform{\s^{i}_{XX}}{2}
 \\&=&
-E_i\s^{i}_{XX}
-+B_i\s^{i}_{TX}
+E_i
+\pform{\s^{i}_{XX}}{2}
++B_i
+\pform{\s^{i}_{TX}}{2}
 \eeqa
 
 \beq
-dB_1 =  \partial_t B_1 dt
-+\partial_j B_1  dx_j
+\ul{dB_1} =  \partial_t B_1 
+\ul{dt}
++\partial_j B_1  \ul{dx_j}
 \eeq
 
 for $V_i = E_i , B_i$
 
 \beq
-d(V_1 dx_2 dx_3)=
-\partial_1 V_1 dx_1 dx_2 dx_3
+d(V_1 \ul{dx_2}\wedge \ul{dx_3})=
+\partial_1 V_1 \ul{dx_1} 
+\wedge
+\ul{dx_2}\wedge \ul{dx_3}
 +
-\partial_0 V_1 dt dx_2 dx_3
+\partial_0 V_1 \ul{dt}\wedge \ul{dx_2}
+\wedge \ul{dx_3}
 \eeq
 
 \beq
-d(V_1 \s_{XX}^1)=
-(\partial_1 V_1 dx_1
+d(V_1 \ul{\s_{XX}^1})=
+(\partial_1 V_1 \ul{dx_1}
 +
-\partial_0 V_1  dt)
-\s_{XX}^1
+\partial_0 V_1  \ul{dt})
+\wedge
+\ul{\s_{XX}^1}
 \eeq
 
 \beq
 \boxed{
-d(V_j \s_{XX}^j)=
-(\nabla\cdot \vec{V})dx_1 dx_2 dx_3
+d(V_j \ul{\s_{XX}^j})=
+(\nabla\cdot \vec{V})\ul{dx_1}\wedge \ul{dx_2}\wedge \ul{dx_3}
 +
 \partial_0 V_j
-\s_{TXX}^j}
+\ul{\s_{TXX}^j}}
 \eeq
 
 \beqa
-d(V_1 dt dx_1)&=&
-\partial_2 V_1 dx_2 dt dx_1
+d(V_1 \ul{dt}\wedge \ul{dx_1})&=&
+\partial_2 V_1 \ul{dx_2}\wedge \ul{dt}
+\wedge \ul{dx_1}
 +
-\partial_3 V_1 dx_3 dt dx_1
+\partial_3 V_1 \ul{dx_3} \wedge
+\ul{dt} \wedge \ul{dx_1}
 \\
 &=&
--dt(-\partial_2 V_1 \s_{XX}^3
-+\partial_3V_1\s_{XX}^2)
+-\ul{dt}\wedge(-\partial_2 V_1 \ul{\s_{XX}^3}
++\partial_3V_1\ul{\s_{XX}^2})
 \eeqa
 
 \beq
-d(V_j\s_{TX}^j)=
--dt
+d(V_j\ul{\s_{TX}^j})=
+-\ul{dt}\wedge
 \left\{
 \begin{array}{l}
-\partial_3V_1\s_{XX}^2-
-\partial_2 V_1 \s_{XX}^3
+\partial_3V_1\ul{\s_{XX}^2}-
+\partial_2 V_1 \ul{\s_{XX}^3}
 \\
-+\partial_1V_2\s_{XX}^3-
-\partial_3 V_2 \s_{XX}^1
++\partial_1V_2\ul{\s_{XX}^3}-
+\partial_3 V_2 \ul{\s_{XX}^1}
 \\
-+\partial_2 V_3\s_{XX}^1-
-\partial_1 V_3 \s_{XX}^2
++\partial_2 V_3\ul{\s_{XX}^1}-
+\partial_1 V_3 \ul{\s_{XX}^2}
 \end{array}
 \right.
 \eeq
 
 \beq
 \boxed{
-d(V_j\s_{TX}^j)
+d(V_j\ul{\s_{TX}^j})
 =
 -
-(\nabla \times \vec{V})_j\s_{TXX}^j}
+(\nabla \times \vec{V})_j\ul{\s_{TXX}^j}}
+\eeq
+
+\beq\pform{J}{}
+= \rho \ul{dt}(\$) + J_i \pform{dx^i}{}
 \eeq
 
 \beq
-J(\$)= \rho dt(\$) + J_i dx_i(\$)
-\eeq
-
-\beq
-(\star J)(\$^3)=
-\rho dx_1 dx_2 dx_3 + J_i \s_{TXX}^i
+\pform{\star J}{3}=
+\rho \ul{dx_1} \wedge \ul{dx_2}\wedge \ul{dx_3} + J_i \ul{\s_{TXX}^i}
 \eeq
 
 $dF=0$ implies
