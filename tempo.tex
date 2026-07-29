@@ -13,9 +13,9 @@
 \newcommand{\pform}[2]{
 \ul{#1}(\$^{#2})}
 
-\section{Review of Differential forms}
+\section{Review of Differential Forms}
 
-
+\subsection{Preliminaries}
 \hrule
  Index bracket notation
 
@@ -76,8 +76,8 @@ T_{S(\alp\beta\gamma)}
 
 
 
-
-\hrule tangent vectors, Vector Fields
+\subsection{Tangent Vectors, Vector Fields}
+tangent vectors, Vector Fields
 \beq
 \vec{r}= x_i\check{x}_i
 \eeq
@@ -114,7 +114,284 @@ x_2 = \theta,& \check{x}_2 =r\hat{\theta}
 \quad \vec{V}_{op} \vec{r}= \vec{V}
 \eeq
 
-\hrule one-forms
+
+\subsection{Differential forms, definition}
+
+When discussing most
+concepts about 
+differential forms, I find it pedagogically 
+advantageous to define the 
+concept 
+first for 0-forms, 1forms, 2-forms 
+and then 
+finally the general case of p-forms
+(differential form with $p$ slots).
+Henceforth, I will
+follow that 
+strategy.
+
+Let 
+
+$M=$ manifold (e.g. the surface of a sphere or Mobius strip)
+
+$\pi=$ a 
+point on $M$
+
+$T_\pi (M)=$ 
+tangent space at $\pi$.
+A vector space.
+
+$\ZZ_1^n = \{ 1,2,\ldots n\}$
+
+$n=$ dimension of $T_\pi(M)$.
+
+$\{\check{x}_i\mid i\in \ZZ_1^n\}=$ basis for $T_\pi(M)$. These vectors need not be orthogonal nor normalized.
+
+We will always 
+underline $p$-forms
+and, except in special
+cases, use
+lower case 
+Greek letter to represent them.
+Sometimes,
+we will be even 
+more explicit and
+write
+$\pform{\omega}
+{p}$ for a
+$p$-form.
+$\$^p$, where
+represents $p$
+place holders or empty slots.
+
+
+
+\begin{itemize}
+\item  0-form:
+
+\beq
+\ul{\omega} = f,\quad
+f: M\rarrow \RR
+,\quad
+\pi \mapsto  f(\pi)
+\eeq
+For example, 
+if
+\beq
+f(x,y)=x^2 + y \quad \text{and}
+\quad \pi= (2,3)\eeq
+then
+
+\beq f(\pi)= 2^2 + 3= 7
+\eeq
+
+\item 1-form:
+
+A 1-form is a LINEAR map
+
+\beq
+\ul{\omega}: T_\pi(M)\rarrow \RR,\quad 
+X\mapsto \ul{\omega}(X)
+\eeq
+where $X$ is an n-dim vector.
+
+\beq
+\ul{\omega}(X)=\sum_{i=1}^n \omega_i \ul{dx^i}(X)
+\eeq
+
+$\{\pform{dx^i}{}\mid i\in \ZZ_1^n \}$ 
+are a basis for the 1-forms on $T_\pi(M)$. They satisfy
+
+\beq
+\ul{dx^i}(\check{x}_i)=\delta_i^j
+\eeq
+for $i, j\in\ZZ_1^n$.
+
+For example, 
+if  
+\beq
+n=2,\quad
+\pform{\omega}{}= 2 \pform{dx}{}
++ 5 \pform{dy}{},
+\quad
+X = a \check{x}
++ b \check{y}
+\eeq
+then,
+using $\ul{dx^i}(\check{x}_j)=\delta(i,j)$, 
+
+\beq
+\ul{\omega}(X)=
+2a + 5b
+\eeq
+
+\item 2-form:
+
+A 2-form is a LINEAR map
+\beq
+\ul{\omega}: T_\pi(M)\times T_\pi(M)\rarrow \RR,\quad (X,Y)\mapsto \ul{\omega}(X, Y)
+\eeq
+where $X$ and $Y$ are n-dim vectors.
+
+\beq
+\ul{\omega}(X, Y)=\sum_{1\leq i < j\leq n} \omega_{ij} \ul{dx^i}(X)
+\wedge \ul{dx^j}(Y)
+\eeq
+
+$\{\pform{dx^i}{}
+\wedge \pform{dx^j}{}\mid 
+i\in \ZZ_1^n, j\in \ZZ_1^n,
+i<j\}$ 
+are a basis for the 2-forms on $T_\pi(M)\times
+T_\pi(M)$. They satisfy
+
+\beq
+\ul{dx^i}(X)
+\wedge \ul{dx^j}(Y)=
+\ul{dx^i}(X)\ul{dx^j}(Y)
+-
+\ul{dx^i}(Y)\ul{dx^j}(X)
+\eeq
+for $i, j\in\ZZ_1^n$.
+Hence, 
+
+\beq
+\ul{dx^1}(X)\wedge\ul{dx^2}(Y)=
+-\ul{dx^1}(Y)\wedge\ul{dx^2}(X)
+\eeq
+In other words, these basis elements 
+ change sign 
+if you exchange the
+arguments $X$ and $Y$.
+
+
+
+For example, if
+
+\beq
+n=2,\quad
+\ul{\omega}=
+\ul{dx}\wedge \ul{dy},\quad
+X= X^1 \check{x}
++ X^2 \check{y}
+,\quad
+Y= Y^1 \check{x}
++ Y^2 \check{y}
+\eeq
+then
+\beq
+\ul{\omega}(X,Y)= X^1 Y^2 -
+X^2 Y^1= X^{UA(1}Y^{2)}
+\eeq
+
+\item $p$-forms
+
+A p-form $\ul{\omega_\pi}$ is a LINEAR map
+
+\beq
+\begin{array}{l}
+\ul{\omega_\pi}:
+\underbrace {T_\pi(M)
+\times
+\cdots
+T_\pi(M)}_{=T^p_\pi(M), 
+\text{ $p$ copies of } T_\pi(M)}
+\rarrow \RR,
+\\
+(X^{(1)}, X^{(2)}, \ldots, X^{(m)})\mapsto
+\ul{\omega_\pi}(X^{(1)}, X^{(2)}, \ldots, X^{(m)})
+\end{array}
+\eeq
+where $X^{j}$ for $j=1, 2, \dots p$ are n-dim vectors.
+
+Let 
+
+\beq
+\ul{\times  dx^{i_1 i_2\cdots i_p}}
+(X^{(1)}, X^{(2)}, \ldots, X^{(p)})
+=
+\ul{dx^{i_1}}(X^{(1)})
+\times 
+\ul{dx^{i_2}}(X^{(2)})
+\times \cdots
+\times 
+\ul{dx^{i_p}}(X^{(p)})
+\eeq
+where $\times $ is
+just the ordinary product for reals.
+
+\beq
+\ul{\wedge dx^{i_1 i_2\cdots i_p}}
+(X^{(1)}, X^{(2)}, \ldots, X^{(p)})
+=
+\ul{dx^{i_1}}(X^{(1)})
+\wedge
+\ul{dx^{i_2}}(X^{(2)})
+\wedge\cdots
+\wedge 
+\ul{dx^{i_p}}(X^{(p)})
+\eeq
+
+
+
+\beq
+\cali^p =\{ I\mid I=(i_1, i_2, \cdots, i_p) , \quad 1\leq i_1, i_2,\cdots ,i_p\leq n\}
+\eeq
+
+\beq
+\cali^p_< =\{ I\mid I=(i_1, i_2, \cdots, i_p) , \quad 0\leq i_1< i_2<\cdots <i_p\leq n\}
+\eeq
+
+\beq
+\pform{\omega}{p}=
+\sum_{I \in \cali^p_<} \omega_I
+\pform{\wedge d x^I}{p}
+=
+\frac{1}{p!}
+\sum_{I \in \cali^p}
+\omega_I \pform{\wedge d x^I}{p}
+\eeq
+
+
+$\{\pform{\wedge dx^I}{}
+\mid I\in 
+\cali^p_<\}$ 
+are a basis for the p-forms on $T^p_\pi(M)$. They satisfy
+
+\beq
+\ul{\wedge dx^I}(X^{(I)})=
+\sum_{\s\in S_p}sign(\s)
+\ul{\times dx^I}(X^{(\s(I))})
+=
+\ul{\times dx^I}(X^{UA(I)})
+\eeq
+for $I \in \cali^p$,
+where $\s$ ranges over all possible permutations of $p$ symbols.
+Hence, 
+
+\beq
+\ul{\wedge dx^I}(X^{(I)})=
+-\ul{\wedge dx^I}(X^{(\s (I))})
+\eeq
+if $\s$ is a swap (transposition)
+of any two symbols of $I$.
+In other words, these basis elements 
+ change sign 
+if you exchange any two 
+arguments $X$ and $Y$.
+
+
+\end{itemize}
+
+\subsection{Metric}
+
+\hrule one-forms 
+$\pform{\omega}{}: M
+\rarrow \RR$
+where manifold 
+$M\subset \RR^n$
+
+
 \beq
 \pform{\omega}{} = \omega_i \pform{dx^i}{}
 \eeq
@@ -129,6 +406,13 @@ x_2 = \theta,& \check{x}_2 =r\hat{\theta}
 \beq
 d x^i (\check{x}_j)= \av{dx^i,\check{x}_j}=\delta_i^j
 \eeq
+\hrule 2-forms
+one-forms 
+$\pform{\omega}{2}: M^2
+\rarrow \RR$
+where manifold 
+$M\subset \RR^n$
+
 
 \hrule metric
 \beq
@@ -184,34 +468,6 @@ S(\pform{dx^i}{}, \pform{dx^j}{}, \pform{dx^k}{},\check{x}_l, \check{x}_m)
 \pform{dx^i\wedge dx^j}{2}
 \eeq
 
-\beq
-\pform{dx^{i_1 i_2\cdots i_r}}{r}
-=
-\pform{dx^{i_1}}{}
-\wedge
-\pform{dx^{i_2}}{}
-\wedge\cdots
-\wedge 
-\pform{dx^{i_r}}{}
-\eeq
-
-\beq
-\cali^p =\{ I\mid I=(i_1, i_2, \cdots, i_p) , \quad 1\leq i_1, i_2,\cdots ,i_p\leq n\}
-\eeq
-
-\beq
-\cali^p_< =\{ I\mid I=(i_1, i_2, \cdots, i_p) , \quad 0\leq i_1< i_2<\cdots <i_p\leq n\}
-\eeq
-
-\beq
-\pform{\omega}{p}=
-\sum_{I \in \cali^p_<} \omega_I
-\pform{d x^I}{p}
-=
-\frac{1}{p!}
-\sum_{I \in \cali^p}
-\omega_I \pform{d x^I}{p}
-\eeq
 
 \beq
 \av{\pform{\omega_a}{p}, \pform{\omega_b}{q} }=
@@ -235,16 +491,17 @@ S(\pform{dx^i}{}, \pform{dx^j}{}, \pform{dx^k}{},\check{x}_l, \check{x}_m)
 \pform{\omega_a}{p}
 \eeq
 
-\hrule
-contraction
+
+
+\subsection{Pullback map}
+
+\subsection{External Derivative}
+
 
 \beq
-\alp(\vec{\xi}, \$^p)_{j_1 j_2\cdots, j_p}=
-\alp_{ij_1j_2\cdot j_p}\xi^i
+d\;\pform{\omega}{p}=
+\pform{d\omega}{p+1}
 \eeq
-
-
-
 
 \hrule Exact and Closed 1-form
 
@@ -272,44 +529,6 @@ f()\ar[d]|d\ar[dr]|d &
 \end{array}
 \eeq
 
-
-
-
-\hrule Lie Derivative
-\beq
-\call_{\vec{V}} f(\vec{r})=
-\vec{V}_{op} f(\vec{r})
-\eeq
-
-\beq
-\call_{\vec{V}}\vec{U}=
-\vec{V}_{op}(\vec{U})-
-\vec{U}_{op}(\vec{V})=
-\left[
-\vec{V}_{op}, \vec{U}_{op}
-\right]\vec{r}
-\eeq
-
-\beq
-\call_{\vec{V}}\omega(\$)_i=
-\vec{V}_{op} (\omega_i(\$))
-+
-\omega_j(\$)\nabla_i V^j
-\eeq
-
-
-
-
-
-\subsection{Pullback map}
-
-\subsection{External Derivative}
-
-
-\beq
-d\;\pform{\omega}{p}=
-\pform{d\omega}{p+1}
-\eeq
 
 \subsection{Hodge star operator}
 
@@ -464,10 +683,37 @@ Then
 where
 $g=\det(g_{ij})$, and $\varepsilon$ is the Levi-Civita symbol.
 
-\subsection{Interior Product}
+\subsection{Contractions (Interior Product)}
 
-\subsection{Cartan's Magic Formula}
+contraction
 
+\beq
+\alp(\vec{\xi}, \$^p)_{j_1 j_2\cdots, j_p}=
+\alp_{ij_1j_2\cdot j_p}\xi^i
+\eeq
+
+\subsection{Lie Derivatives, Cartan's Magic Formula}
+\hrule Lie Derivative
+\beq
+\call_{\vec{V}} f(\vec{r})=
+\vec{V}_{op} f(\vec{r})
+\eeq
+
+\beq
+\call_{\vec{V}}\vec{U}=
+\vec{V}_{op}(\vec{U})-
+\vec{U}_{op}(\vec{V})=
+\left[
+\vec{V}_{op}, \vec{U}_{op}
+\right]\vec{r}
+\eeq
+
+\beq
+\call_{\vec{V}}\omega(\$)_i=
+\vec{V}_{op} (\omega_i(\$))
++
+\omega_j(\$)\nabla_i V^j
+\eeq
 
 \subsection{Expressing grad, div and curl with differential forms}
 
@@ -599,9 +845,9 @@ Q_1 \pform{dx^1}{}\wedge \pform{dx^2}{}
 \eeq
 
 \beq
-\star(\ul{dx_1}\wedge  
-\ul{dx_2} \wedge 
-\ul{dx_3}
+\star(\ul{dx^1}\wedge  
+\ul{dx^2} \wedge 
+\ul{dx^3}
 )= 1
 \eeq
 \qed
@@ -1181,24 +1427,24 @@ E_i
 \beq
 \ul{dB_1} =  \partial_t B_1 
 \ul{dt}
-+\partial_j B_1  \ul{dx_j}
++\partial_j B_1  \ul{dx^j}
 \eeq
 
 for $V_i = E_i , B_i$
 
 \beq
-d(V_1 \ul{dx_2}\wedge \ul{dx_3})=
-\partial_1 V_1 \ul{dx_1} 
+d(V_1 \ul{dx^2}\wedge \ul{dx^3})=
+\partial_1 V_1 \ul{dx^1} 
 \wedge
-\ul{dx_2}\wedge \ul{dx_3}
+\ul{dx^2}\wedge \ul{dx^3}
 +
-\partial_0 V_1 \ul{dt}\wedge \ul{dx_2}
-\wedge \ul{dx_3}
+\partial_0 V_1 \ul{dt}\wedge \ul{dx^2}
+\wedge \ul{dx^3}
 \eeq
 
 \beq
 d(V_1 \ul{\s_{XX}^1})=
-(\partial_1 V_1 \ul{dx_1}
+(\partial_1 V_1 \ul{dx^1}
 +
 \partial_0 V_1  \ul{dt})
 \wedge
@@ -1208,19 +1454,19 @@ d(V_1 \ul{\s_{XX}^1})=
 \beq
 \boxed{
 d(V_j \ul{\s_{XX}^j})=
-(\nabla\cdot \vec{V})\ul{dx_1}\wedge \ul{dx_2}\wedge \ul{dx_3}
+(\nabla\cdot \vec{V})\ul{dx^1}\wedge \ul{dx^2}\wedge \ul{dx^3}
 +
 \partial_0 V_j
 \ul{\s_{TXX}^j}}
 \eeq
 
 \beqa
-d(V_1 \ul{dt}\wedge \ul{dx_1})&=&
-\partial_2 V_1 \ul{dx_2}\wedge \ul{dt}
-\wedge \ul{dx_1}
+d(V_1 \ul{dt}\wedge \ul{dx^1})&=&
+\partial_2 V_1 \ul{dx^2}\wedge \ul{dt}
+\wedge \ul{dx^1}
 +
-\partial_3 V_1 \ul{dx_3} \wedge
-\ul{dt} \wedge \ul{dx_1}
+\partial_3 V_1 \ul{dx^3} \wedge
+\ul{dt} \wedge \ul{dx^1}
 \\
 &=&
 -\ul{dt}\wedge(-\partial_2 V_1 \ul{\s_{XX}^3}
@@ -1258,7 +1504,7 @@ d(V_j\ul{\s_{TX}^j})
 
 \beq
 \pform{\star J}{3}=
-\rho \ul{dx_1} \wedge \ul{dx_2}\wedge \ul{dx_3} + J_i \ul{\s_{TXX}^i}
+\rho \ul{dx^1} \wedge \ul{dx^2}\wedge \ul{dx^3} + J_i \ul{\s_{TXX}^i}
 \eeq
 
 $dF=0$ implies
@@ -1304,6 +1550,9 @@ x\ar[r]|f \ar[dr]|\phi
 $\phi(x) = g\circ f (x)$
 
 \section{Hamiltonian Mechanics}
+
+
+
 
 
 
