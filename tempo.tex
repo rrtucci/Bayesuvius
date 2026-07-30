@@ -12,6 +12,32 @@
 
 \newcommand{\pform}[2]{
 \ul{#1}(\$^{#2})}
+\chapter{Differential Forms and Causal Diagrams}
+\label{ch-diff-forms}
+
+
+
+Commutative diagram
+\beq
+\xymatrix{
+X\ar[r]|f \ar[dr]|\phi
+& Y\ar[d]|g
+\\
+&Z
+}
+\eeq
+
+Instantiation  of commutative diagram
+\beq
+\xymatrix{
+x\ar[r]|f \ar[dr]|\phi
+& y\ar[d]|g
+\\
+&\Circle{0}
+}
+\eeq
+$\phi(x) = g\circ f (x)$
+
 
 \section{Review of Differential Forms}
 
@@ -1528,33 +1554,146 @@ $d\star F=4\pi \star J$ implies
 
 
 
-Commutative diagram
-\beq
-\xymatrix{
-X\ar[r]|f \ar[dr]|\phi
-& Y\ar[d]|g
-\\
-&Z
-}
-\eeq
-
-Instantiation  of commutative diagram
-\beq
-\xymatrix{
-x\ar[r]|f \ar[dr]|\phi
-& y\ar[d]|g
-\\
-&\Circle{0}
-}
-\eeq
-$\phi(x) = g\circ f (x)$
-
 \section{Hamiltonian Mechanics}
 
 
 
 
 
+
+
+phase space
+$M=\{(q_1, \ldots, q_n, p_1, \ldots q_n)\in \RR^{2n}\}$
+
+\beq
+\pform{\theta}{} =\sum_i q_i \pform{dp_i}{}
+\eeq
+
+\beq
+\pform{\s}{2}=\pform{d\theta}{2}=
+\sum_i \pform{dq_i}{}
+\wedge \pform{dp_i}{}
+\eeq
+
+\beq
+X=
+\sum_i
+\left[
+q_i \check{q}_i +
+p_i \check{p}_i
+\right]
+\eeq
+
+\beq
+V=\dot{X}=
+\sum_i
+\left[
+\dot{q}_i \check{q}_i +
+\dot{p}_i \check{p}_i
+\right]
+\eeq
+
+\begin{claim}
+Hamilton's equations given by
+\beq
+\dot{q}_i=\pder{H}{p_i},
+\quad 
+\dot{p}_i=-\pder{H}{q_i}
+\label{eq-ham-eqs}
+\eeq
+for  $i=1, 2\cdots, n$ are satisfied iff
+
+\beq 
+\begin{array}{cc}
+\bcen
+\xymatrix{
+\pform{dH}{}\ar[d]_1
+& \pform{i_V\s}{}\ar[dl]|1
+\\
+\Circle{0}&\pform{\s}{2}\ar[u]|{i_V}
+}\ecen
+&
+\pform{i_V \s}{}
+=
+\pform{dH}{}
+\end{array}
+\eeq
+
+\end{claim}
+\proof
+
+\beq
+\xymatrix@R=3pc{
+\pform{dq}{}
+\ar[d]|{\partial_q H}
+\ar@/_1pc/[dr]|<<<{\dot{p}}
+&\pform{dp}{}
+\ar[dl]|{\partial_p H}
+\ar[r]|q
+\ar[d]|{-\dot{q}}
+&\pform{\theta}{}
+\ar@/^2pc/[dd]|d
+\\
+\pform{dH}{}
+\ar[d]^1
+&\pform{i_V\s}{}
+\ar[dl]|1
+\ar[d]_>>>>1
+&\pform{i_V\s}{}
+\ar[dl]|1
+\\
+\Circle{0}
+&\Circle{0}
+&\pform{\s}{2}
+\ar[u]|{i_V}
+}
+\eeq
+
+
+\beq
+i_V \pform{dq_i}{} =\dot{q}_i,
+\quad
+i_V \pform{dp_i}{} =\dot{p}_i
+\eeq
+
+
+\beqa
+i_V\pform{\s}{2}
+&=&
+\sum_i 
+i_V[\pform{dq_i}{}\wedge
+\pform{dp_i}{}]
+\\
+&=&
+\sum_i
+\left[\ul{i_V dq_i}\wedge \pform{dp_i}{}
+-
+\pform{dq_i}{}\wedge \ul{i_V dp_i}
+\right]
+\\
+&=&
+\sum_i \left
+[\dot{q}_i\pform{dp_i}{}
+-
+\dot{p}_i \pform{dq_i}{}
+\right]
+\eeqa
+
+\beq
+\pform{dH}{}=\sum_i
+\left[
+\pder{H}{q_i}\pform{dq_i}{}
++
+\pder{H}{p_i}\pform{dp_i}{}
+\right]
+\eeq
+Comparing the last two equations
+for $i_V\pform {\s}{2}$ and
+$\pform{dH}{}$, and assuming they are
+equals yields Hamilton's equations, given by
+Eq.(\ref{eq-ham-eqs})
+
+\qed
 
 
 \end{document}}
