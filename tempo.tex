@@ -84,21 +84,37 @@ T_{S(\alp\beta)}=  T_{S(\beta\alp)}
 \eeq
 
 
-\beq
+\beqa
 T_{A(\alpha \beta \gamma)}
-=
+&=&
 \frac{1}{3!}
 \underbrace{\sum_{\s \in S_3}
-sign(\s)T_{\s(\alpha)\s(\beta)\s(\gamma)}}_{T_{UA(\alpha \beta \gamma)}}
-\eeq
+sign(\s)T_{\s(\alpha\beta\gamma)}}_{T_{UA(\alpha \beta \gamma)}}
+\\
+&=&
+\frac{1}{3!}
+\left[
+T_{\alp\beta\gamma}
++
+\sum_{\s(\alp\beta\gamma)\neq  I} \sign(\s)(\cdot)
+\right]
+\eeqa
 
-\beq
+\beqa
 T_{S(\alpha \beta \gamma)}
-=
+&=&
 \frac{1}{3!}
 \underbrace{\sum_{\s \in S_3}
-T_{\s(\alpha)\s(\beta)\s(\gamma)}}_{T_{US(\alpha \beta \gamma)}}
-\eeq
+T_{\s(\alpha\beta\gamma)}}_{T_{US(\alpha \beta \gamma)}}
+\\
+&=&
+\frac{1}{3!}
+\left[
+T_{\alp\beta\gamma}
++ 
+\sum_{\s(\alp\beta\gamma)\neq  I}(\cdot)
+\right]
+\eeqa
 
 \beq
 T_{\alp\beta\gamma}
@@ -2068,6 +2084,87 @@ along a	 trajectory
 \qed
 
 \section{General Relativity}
+
+Equations of 
+General Relativity (GR) in 
+tensor form
+
+\begin{enumerate}
+\item Cartan's first structure equation (zero Torsion)
+
+\beq
+T\indices{^\rho_{\mu\nu}}=
+\Gamma\indices{^\rho_{\mu\nu}}
+-
+\Gamma\indices{^\rho_{\nu\mu}}
+\eeq
+
+\beq
+T\indices{^\rho_{\mu\nu}}=0
+\eeq
+
+\item  Cartan's second equation (curvature)
+
+\beq
+R\indices{^\rho_{\s\mu\nu}}=
+D_{\mu}
+\Gamma\indices{
+^\rho_{\nu\s}}
+-
+D_{\nu}
+\Gamma\indices{
+^\rho_{\mu\s}}
+\quad\text{(Riemann tensor)}
+\eeq
+
+\beq
+D_{\mu}
+\Gamma\indices{
+^\rho_{\nu\s}}=
+\partial_\mu
+\Gamma\indices{
+^\rho_{\nu\s}}
++\Gamma\indices{^\rho_{\lam\mu}}
+\Gamma\indices{^\lam_{\nu\s}}
+\eeq
+where
+
+\beq
+R_{\mu\nu}=
+R\indices{^\rho_{\mu\rho\nu}}
+\quad\text{(Ricci tensor)}
+\text{(covariant derivative)}
+\eeq
+
+\beq
+R=g^{\mu\nu}R_{\mu\nu}\quad
+\text{(Ricci scalar)}
+\eeq
+
+\item Einstein's Equation
+
+\beq
+G_{\mu\nu}=
+R_{\mu\nu}
+-\frac{1}{2}
+R g_{\mu\nu}
+\quad\text{(Einstein tensor)}
+\eeq
+
+\beq
+\Sigma_{\mu\nu}= \text{Stress-Energy Tensor}
+\eeq
+
+
+\beq
+G_{\mu\nu}=8\pi \Sigma_{\mu\nu}\quad\text{(Einstein Field Equation)}
+\eeq
+
+\end{enumerate}
+
+
+
+
 Yes. In fact, differential forms provide one 
 of the most elegant formulations of general relativity. 
 {\bf Cartan} or {\bf tetrad (vierbein)} formulation
@@ -2155,60 +2252,10 @@ D &=& d +
  \hrule Cartan's first structure equation
 
 
-
-The {\bf torsion 2-form} is defined by
-
-
-\beqa
-\pform{T^a}{2}
-&=&
-d\pform{e^a}{}
-+
-\pform{\omega\indices{^a_b}}{}
-\wedge \pform{e^b}{}
-\\
-&=&
-\pform{(De)^a}{2}
-\eeqa
-
-For General Relativity, we usually impose the torsion-free condition,
-
-\beq
-\pform{T^a}{2}=
-\pform{(De)^a}{2}=0.
-\eeq
-
 \hrule Cartan's second structure equation
 
-The {\bf curvature 2-form} is defined by
-
-\beqa
-\pform{
-\Omega\indices{^a_b}}{2}
-&=&
-d\pform{\omega\indices{^a_b}}{}
-+
-\pform{\omega\indices{^a_c}}{}
-\wedge
-\pform{\omega\indices{^c_b}}{}
-\\
-&=&
-\pform{(D\omega)\indices{^a_b}}{2}
-\eeqa
 
 This is the differential-form version of the Riemann tensor.
-The curvature 2-form can be expanded as
-
-\beq
-\pform{\Omega\indices{^a_b}}{2}
-=
-\frac12
-R\indices{^a_{bcd}}\;
-\pform{e^c}{}
-\wedge
-\pform{e^d}{}
-\eeq
-
 Thus,
 
 \beq
@@ -2241,27 +2288,7 @@ G_{ab}=R_{ab}-\frac12\eta_{ab}R.
 
 
 
-The energy-momentum tensor is replaced by the stress-energy three-form
-
-\beq
-\Sigma_a.
-\eeq
-
-Einstein's equations become
-
-\beq
-\pform{G_a}{3}
-=
-\frac12
-\eps_{abcd}
-\;
-\pform{\Omega^{bc}}{2}
-\wedge 
-\pform{e^d}{}
-=
-8\pi G\;
-\pform{\Sigma_a}{3}
-\eeq
+The energy-momentum tensor is replaced by 
 
 This is the differential-form version of
 
@@ -2337,6 +2364,30 @@ general relativity look strikingly similar to a gauge theory.
 \eeq
 
 \begin{claim}(Cartan's first structure equation)
+
+
+The {\bf torsion 2-form} is defined by
+
+
+\beqa
+\pform{T^a}{2}
+&=&
+d\pform{e^a}{}
++
+\pform{\omega\indices{^a_b}}{}
+\wedge \pform{e^b}{}
+\\
+&=&
+\pform{(De)^a}{2}
+\eeqa
+
+In standard GR, we assume zero torsion:
+
+\beq
+\pform{T^a}{2}=
+\pform{(De)^a}{2}=0.
+\eeq
+
 \beq
 \xymatrix{
 \pform{e^a}{}
@@ -2355,6 +2406,36 @@ general relativity look strikingly similar to a gauge theory.
 
 
 \begin{claim}(Cartan's second structure equation)
+
+The {\bf curvature 2-form} is defined by
+
+\beqa
+\pform{
+\Omega\indices{^a_b}}{2}
+&=&
+d\pform{\omega\indices{^a_b}}{}
++
+\pform{\omega\indices{^a_c}}{}
+\wedge
+\pform{\omega\indices{^c_b}}{}
+\\
+&=&
+\pform{(D\omega)\indices{^a_b}}{2}
+\eeqa
+
+The curvature 2-form can be expanded as
+
+\beq
+\pform{\Omega\indices{^a_b}}{2}
+=
+\frac12
+R\indices{^a_{bcd}}\;
+\pform{e^c}{}
+\wedge
+\pform{e^d}{}
+\eeq
+
+
 \beq
 \xymatrix{
 \pform{\omega\indices{^a_b}}{}
@@ -2379,6 +2460,23 @@ general relativity look strikingly similar to a gauge theory.
 \qed
 
 \begin{claim}(Einstein's equation)
+
+If the {\bf stress-energy 3-form} is denoted by $\pform{\Sigma_a}{3}$, then
+it can be expanded as
+
+\beq
+\pform{G_a}{3}
+=
+\frac12
+\eps_{abcd}
+\;
+\pform{\Omega^{bc}}{2}
+\wedge 
+\pform{e^d}{}
+=
+8\pi G\;
+\pform{\Sigma_a}{3}
+\eeq
 \beq
 \xymatrix{
 \pform{\Omega^{bc}}{2}
@@ -2394,6 +2492,8 @@ general relativity look strikingly similar to a gauge theory.
 \end{claim}
 \proof
 \qed
+
+
 
 
 
