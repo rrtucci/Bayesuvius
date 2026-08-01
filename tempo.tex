@@ -149,6 +149,28 @@ x_2 = \theta,& \check{x}_2 =r\hat{\theta}
 \quad \vecV_{op} \vec{r}= \vecV
 \eeq
 
+There is an important distinction between vectors at a point and vector fields:
+
+A vector $\vec{v}\in T_\pi(M)$
+lives at a single point $\pi\in M$.
+A vector field $\vecX
+\in \cup_{\pi\in M} T_\pi(M)$ assigns a vector $X(\pi)$
+ to every point $\pi$.
+
+A differential form $\ul{\omega}$ is also defined pointwise. When we write
+$\ul{\omega}(\vecX, \vecY)$,
+we really mean the function
+
+
+\beq
+\pi \mapsto
+\ul{\omega}(\vecX(\pi), \vecY(\pi))
+\eeq
+
+The set $\cup_{\pi\in M}T_\pi(M)$
+is called the {\bf fibre bundle}
+of $M$.
+
 
 \subsection{Differential forms, definition}
 
@@ -282,9 +304,11 @@ T_\pi(M)$. They satisfy
 \beq
 \ul{dx^i}(\vecX)
 \wedge \ul{dx^j}(\vecY)=
-\ul{dx^i}(\vecX)\ul{dx^j}(\vecY)
+\ul{dx^i}(\vecX)
+\otimes \ul{dx^j}(\vecY)
 -
-\ul{dx^i}(\vecY)\ul{dx^j}(\vecX)
+\ul{dx^i}(\vecY)
+\otimes \ul{dx^j}(\vecX)
 \eeq
 for $i, j\in\ZZ_1^n$.
 Hence, 
@@ -343,18 +367,18 @@ where $\vecX^{(j)}$ for $j=1, 2, \dots p$ are n-dim vectors.
 Let 
 
 \beq
-\ul{\times  dx^{i_1 i_2\cdots i_p}}
+\ul{\otimes  dx^{i_1 i_2\cdots i_p}}
 (\vecX^{(1)}, \vecX^{(2)}, \ldots, \vecX^{(p)})
 =
 \ul{dx^{i_1}}(\vecX^{(1)})
-\times 
+\otimes 
 \ul{dx^{i_2}}(\vecX^{(2)})
-\times \cdots
-\times 
+\otimes \cdots
+\otimes 
 \ul{dx^{i_p}}(\vecX^{(p)})
 \eeq
-where $\times $ is
-just the ordinary product for reals.
+where $\otimes $ is
+Cartesian (order preserving) product for reals.
 
 \beq
 \ul{\wedge dx^{i_1 i_2\cdots i_p}}
@@ -397,9 +421,9 @@ are a basis for the p-forms on $T^p_\pi(M)$. They satisfy
 \beq
 \ul{\wedge dx^I}(\vecX^{(I)})=
 \sum_{\s\in S_p}sign(\s)
-\ul{\times dx^I}(\vecX^{(\s(I))})
+\ul{\otimes dx^I}(\vecX^{(\s(I))})
 =
-\ul{\times dx^I}(\vecX^{UA(I)})
+\ul{\otimes dx^I}(\vecX^{UA(I)})
 \eeq
 for $I \in \cali^p$,
 where $\s$ ranges over all possible permutations of $p$ symbols.
@@ -714,10 +738,10 @@ Then
 (\star\ul{\omega})_{j_1\cdots j_{n-p}}=
 \frac{\sqrt{|g|}}{p!}
 \omega^{i_1\cdots i_p}
-\varepsilon_{i_1\cdots i_pj_1\cdots j_{n-p}}
+\eps_{i_1\cdots i_pj_1\cdots j_{n-p}}
 \eeq
 where
-$g=\det(g_{ij})$, and $\varepsilon$ is the Levi-Civita symbol.
+$g=\det(g_{ij})$, and $\eps$ is the Levi-Civita symbol.
 
 \subsection{Contractions (Interior Product)}
 
@@ -779,9 +803,9 @@ then
 \ul{dx\wedge dy}(\vecX, \vecY)
 \\
 &=&
-\ul{dx}(\vecX)\ul{dy}(\vecY)
+\ul{dx}(\vecX)\otimes \ul{dy}(\vecY)
 -
-\ul{dy}(\vecX)\ul{dx}(\vecY)
+\ul{dy}(\vecX)\otimes \ul{dx}(\vecY)
 \\
 &=&
 X^1 \ul{dy}(\vecY)
@@ -801,7 +825,7 @@ of $\vecX$ and $\vecY$.
 \pform{\wedge d x^I}{p}
 =
 \sum_{I \in \cali^p_{<}}
-\omega_I \pform{\times d x^{UA(I)}}{p}
+\omega_I \pform{\otimes d x^{UA(I)}}{p}
 \eeq
 
 \begin{align}
@@ -811,7 +835,7 @@ of $\vecX$ and $\vecY$.
 \\
 &=
 \sum_{I \in \cali^p_{<}}
-\omega_I \ul{\times d x^{UA(I)}}
+\omega_I \ul{\otimes d x^{UA(I)}}
 (\vecX^{(1)}, \vecX^{(2)}, \vecX^{(3)},\cdots, \vecX^{(p)})
 \end{align}
 
@@ -857,12 +881,52 @@ $\vec{U}$} equals
 
 \beq
 \boxed{\call_{\vecV}\vecU=
-\vecV_{op}(\vecU)-
-\vecU_{op}(\vecV)=
 \left[
 \vecV_{op}, \vecU_{op}
 \right]\vec{r}}
 \eeq
+
+Coordinate expression
+
+Suppose
+
+\beq
+\vecV_{op} = V^i\partial_i=
+\vecV\cdot \nabla,
+\quad
+\vecU_{op} =  U^j \partial_j = \vecU\cdot \nabla
+\eeq
+
+\beqa
+\call_\vecV(\vecU)
+&=&
+\vecV\cdot \nabla
+[
+\vecU\cdot \nabla \vec{r}
+]
+-
+\vecU\cdot \nabla
+[
+\vecV\cdot \nabla \vec{r}
+]
+\\
+&=&
+[\vecV\cdot \nabla (\vecU)-
+\vecU\cdot \nabla (\vecV )
+]\cdot
+\nabla \vec{r}
+\\
+&=&
+[\vecV\cdot \nabla (U^i)-
+\vecU\cdot \nabla (V^i )
+]
+\underbrace{\partial_i \vec{r}}_{\check{x}_i}
+\\
+&=&
+\vecV_{op}(\vecU)-
+\vecU_{op}(\vecV)
+\eeqa
+
 
 The {\bf Lie derivative of a $p$-form}
 is given by
@@ -1814,12 +1878,6 @@ $d\star F=4\pi \star J$ implies
 
 \section{Hamiltonian Mechanics}
 
-
-
-
-
-
-
 phase space
 $M=\{(q_1, \ldots, q_n, p_1, \ldots q_n)\in \RR^{2n}\}$
 
@@ -1953,6 +2011,389 @@ Eq.(\ref{eq-ham-eqs})
 
 \qed
 
+\begin{claim}
+Hamiltonian mechanics preserves volume in phase space
+\beq
+\call_\vecV\ul{\s} =0
+\eeq
+\end{claim}
+\proof
+
+$\ul{\s}$ is closed:
+\beq
+d\ul{\s} = d^2\ul{\lam}=0
+\eeq
+Therefore
+\beq
+\call_\vecV \ul{\s}
+=
+d \;\underbrace{i_\vecV \ul{\s}}_{d\ul{H}}
++
+\cancel{i_\vecV d\ul{\s}}^0
+=0
+\eeq
+\qed
+
+\beq
+\frac{dH}{dt} + \call_\vecV H=0
+\eeq
+
+\begin{claim}
+
+\beq
+\call_\vecV H
+=
+\frac{dH}{dt}=0
+\eeq
+along a	 trajectory
+
+\end{claim}
+\proof
+
+\beqa
+\call_\vecV H
+&=&\vecV_{op}(H)
+\\
+&=&
+\ul{dH}(\vecV)
+\\
+&=&
+[i_\vecV \ul{\s}](\vecV)
+\\
+&=&
+\ul{\s}(\vecV, \vecV)
+\\
+&=& 0
+\eeqa
+\qed
+
+\section{General Relativity}
+Yes. In fact, differential forms provide one 
+of the most elegant formulations of general relativity. 
+{\bf Cartan} or {\bf tetrad (vierbein)} formulation
+of General Relativity.
+
+
+
+\hrule
+ The metric
+
+Ordinarily, one starts with the metric
+
+\beq
+\pform{g}{2}=g_{\mu\nu} \pform{dx^\mu}{}
+\pform{dx^\nu}{}
+\eeq
+
+In the tetrad formalism, we instead introduce an orthonormal basis of one-forms,
+
+\beq
+\pform{e^a}{}=e\indices{^a_\mu}\;
+\pform {dx^\mu} {}
+\eeq
+
+called the **coframe** (or tetrad).
+
+The metric becomes
+
+\beqa
+\pform{g}{2}
+&=&
+\frac{g_{\mu\nu}}
+{e\indices{^a_\mu}
+e\indices{^b_\nu}}
+\pform{e^a}{}
+\pform{e^b}{}
+\\
+&=&\eta_{ab}\;
+\pform{e^a}{}
+\pform{e^b}{}
+\eeqa
+
+where
+
+\beq
+\eta_{ab}=\operatorname{diag}(-1,1,1,1)
+\eeq
+
+is the Minkowski metric.
+Each Greek index $\mu, \nu, \ldots$ is replaced a Latin index
+$a, b, \ldots$.
+
+\hrule The connection 1-forms
+
+Instead of the {\bf Christoffel symbols},
+
+\beq
+\Gamma^\rho_{\mu\nu},
+\eeq
+
+we introduce the 
+{\bf connection 1-forms}
+
+\beq
+\pform{\omega\indices{^a_b}}{}=
+\omega\indices{^a_{b\mu}}
+\pform{dx^\mu}{}
+\eeq
+
+Metric compatibility implies
+
+\beq
+\omega_{ab}=-\omega_{ba}.
+\eeq
+
+{\bf Covariant derivative}
+\beqa
+DX^a &=& dX^a + \pform{\omega\indices{^a_b}}{}
+\wedge X^b
+\\
+D &=& d + 
+\pform{\omega}{}\wedge
+\eeqa
+
+ \hrule Cartan's first structure equation
+
+
+
+The {\bf torsion 2-form} is defined by
+
+
+\beqa
+\pform{T^a}{2}
+&=&
+d\pform{e^a}{}
++
+\pform{\omega\indices{^a_b}}{}
+\wedge \pform{e^b}{}
+\\
+&=&
+\pform{(De)^a}{2}
+\eeqa
+
+For General Relativity, we usually impose the torsion-free condition,
+
+\beq
+\pform{T^a}{2}=
+\pform{(De)^a}{2}=0.
+\eeq
+
+\hrule Cartan's second structure equation
+
+The {\bf curvature 2-form} is defined by
+
+\beqa
+\pform{
+\Omega\indices{^a_b}}{2}
+&=&
+d\pform{\omega\indices{^a_b}}{}
++
+\pform{\omega\indices{^a_c}}{}
+\wedge
+\pform{\omega\indices{^c_b}}{}
+\\
+&=&
+\pform{(D\omega)\indices{^a_b}}{2}
+\eeqa
+
+This is the differential-form version of the Riemann tensor.
+The curvature 2-form can be expanded as
+
+\beq
+\pform{\Omega\indices{^a_b}}{2}
+=
+\frac12
+R\indices{^a_{bcd}}\;
+\pform{e^c}{}
+\wedge
+\pform{e^d}{}
+\eeq
+
+Thus,
+
+\beq
+\pform{\Omega\indices{^a_b}}{2}
+\quad\longleftrightarrow\quad
+R\indices{^\rho_{\sigma\mu\nu}}
+\eeq
+
+\hrule Ricci tensor and scalar curvature
+
+The Ricci tensor is obtained by contraction:
+
+\beq
+R_{ab}=R\indices{^c_{acb}}
+\eeq
+
+The scalar curvature is
+
+\beq
+R=\eta^{ab}R_{ab}.
+\eeq
+
+\hrule Einstein's equation
+
+The Einstein tensor is
+
+\beq
+G_{ab}=R_{ab}-\frac12\eta_{ab}R.
+\eeq
+
+
+
+The energy-momentum tensor is replaced by the stress-energy three-form
+
+\beq
+\Sigma_a.
+\eeq
+
+Einstein's equations become
+
+\beq
+\pform{G_a}{3}
+=
+\frac12
+\eps_{abcd}
+\;
+\pform{\Omega^{bc}}{2}
+\wedge 
+\pform{e^d}{}
+=
+8\pi G\;
+\pform{\Sigma_a}{3}
+\eeq
+
+This is the differential-form version of
+
+\beq
+R_{\mu\nu}
+-\frac12Rg_{\mu\nu}
+=
+8\pi G \Sigma_{\mu\nu}.
+\eeq
+\hrule Vacuum equations
+
+For empty space,
+
+\beq
+\Sigma_a=0,
+\eeq
+
+so the field equations become
+
+\beq
+\boxed{
+\eps_{abcd}
+,
+\Omega^{bc}
+\wedge e^d=0.
+}
+\eeq
+
+\hrule The whole theory in four lines
+
+
+
+which is very much in the spirit of how Maxwell's equations become
+
+\beq
+dF=0,
+\qquad
+d(*F)=4\pi (*J).
+\eeq
+
+In fact, the Cartan formulation makes 
+general relativity look strikingly similar to a gauge theory.
+
+\beq
+\xymatrix{
+\pform{e^a}{}\pform{e^b}{}
+\ar[d]|{\eta_{ab}}
+\\
+\pform{g}{2}
+}
+\eeq
+
+\beq
+\bcen
+\xymatrix@C=3pc{
+\pform{X^a}{}
+\ar[d]|d
+\\
+\pform{(DX)^a}{2}
+& \pform{\omega\indices{^a_b}}{}\wedge
+\pform{X^b}{}
+\ar[l]|1
+}\ecen
+=
+\bcen
+\xymatrix{
+\pform{X^a}{}
+\ar[d]|D
+\\
+\pform{(DX)^a}{2}
+}
+\ecen
+\eeq
+
+\begin{claim}(Cartan's first structure equation)
+\beq
+\xymatrix{
+\pform{e^a}{}
+\ar[d]|D
+\\
+\pform{(De)^a}{2}
+\ar[d]^1
+&\pform{T^a}{2}
+\ar[dl]|1
+\\
+\Circle{0}}
+\eeq
+\end{claim}
+\proof
+\qed
+
+
+\begin{claim}(Cartan's second structure equation)
+\beq
+\xymatrix{
+\pform{\omega\indices{^a_b}}{}
+\ar[d]|D
+&
+&
+\pform{e^c}{}
+\wedge
+\pform{e^d}{}
+\ar[d]|{\frac{1}{2}R\indices{^a_{bcd}}}
+\\
+\pform{(D\omega)\indices{^a_b}}{2}
+\ar[dr]|1
+&
+&\pform{\Omega\indices{^a_b}}{2}\ar[dl]|1
+\\
+&\Circle{0}
+}
+\eeq
+\end{claim}
+\proof
+\qed
+
+\begin{claim}(Einstein's equation)
+\beq
+\xymatrix{
+\pform{\Omega^{bc}}{2}
+\wedge \pform{e^d}{}
+\ar[dr]|{\frac{1}{2}\eps_{abcd}}
+&
+& \pform{\Sigma_a}{3}
+\ar[dl]|{8\pi G}
+\\
+&\Circle{0}
+}
+\eeq
+\end{claim}
+\proof
+\qed
 
 
 
