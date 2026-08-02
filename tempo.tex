@@ -17,9 +17,10 @@
 
 \newcommand{\vecX}[0]{{\vec{X}}}
 \newcommand{\vecY}[0]{{\vec{Y}}}
+\newcommand{\vecZ}[0]{{\vec{Z}}}
 \newcommand{\vecV}[0]{{\vec{V}}}
-
 \newcommand{\vecU}[0]{{\vec{U}}}
+\newcommand{\vece}[0]{{\vec{e}}}
 
 \chapter{Differential Forms and Causal Diagrams}
 \label{ch-diff-forms}
@@ -49,6 +50,17 @@ $\phi(x) = g\circ f (x)$
 
 
 \section{Review of Differential Forms}
+
+Technically, a
+differential form is a $p$-form 
+with differential arguments,
+so a $p$-form is slightly
+more general than a differential
+form, but we will use both
+terms interchangeably. 
+Actually, we will
+prefer the term $p$-form 
+because it is more succinct.
 
 \subsection{Preliminaries}
 \hrule
@@ -173,7 +185,7 @@ A vector field $\vecX
 \in \cup_{\pi\in M} T_\pi(M)$ assigns a vector $X(\pi)$
  to every point $\pi$.
 
-A differential form $\ul{\omega}$ is also defined pointwise. When we write
+A $p$-form $\ul{\omega}$ is also defined pointwise. When we write
 $\ul{\omega}(\vecX, \vecY)$,
 we really mean the function
 
@@ -188,17 +200,17 @@ is called the {\bf fibre bundle}
 of $M$.
 
 
-\subsection{Differential forms, definition}
+\subsection{$p$-forms, definition}
 
 When discussing most
 concepts about 
-differential forms, I find it pedagogically 
+$p$-forms, I find it pedagogically 
 advantageous to define the 
 concept 
 first for 0-forms, 1forms, 2-forms 
 and then 
-finally the general case of p-forms
-(differential form with $p$ slots).
+finally the general case of $p$-forms
+(form with $p$ slots).
 Henceforth, I will
 follow that 
 strategy.
@@ -362,7 +374,7 @@ X^2 Y^1= X^{UA(1}Y^{2)}
 
 \item $p$-forms
 
-A p-form $\ul{\omega_\pi}$ is a LINEAR map
+A $p$-form $\ul{\omega_\pi}$ is a LINEAR map
 
 \beq
 \begin{array}{l}
@@ -432,7 +444,7 @@ Cartesian (order preserving) product for reals.
 $\{\pform{\wedge dx^I}{}
 \mid I\in 
 \cali^p_<\}$ 
-are a basis for the p-forms on $T^p_\pi(M)$. They satisfy
+are a basis for the $p$-forms on $T^p_\pi(M)$. They satisfy
 
 \beq
 \ul{\wedge dx^I}(\vecX^{(I)})=
@@ -584,7 +596,7 @@ d\;\pform{\omega}{p}=
 \beq
 \begin{array}{ccc}
 \xymatrix{
-f()\ar[d]|d\ar[dr]|d & 
+f(\cdot)\ar[d]|d\ar[dr]|d & 
 \\
 \pform{df}{}
 \ar[d]|d&\Circle{0}
@@ -763,7 +775,7 @@ $g=\det(g_{ij})$, and $\eps$ is the Levi-Civita symbol.
 
 A {\bf contraction, or interior product}
 operator $i_\vecX$
-for a vector field $\vecX$ maps a $p-$ form to 
+for a vector field $\vecX$ maps a $p$-form to 
 a $p-1$ form.
 It takes a $p$-form $\pform{\omega}{p}$
 and puts $\vecX$ into
@@ -974,7 +986,7 @@ unchanged.
 \item 0-forms:
 
 \beqa
-\call_{\vecX}f()
+\call_{\vecX}f(\cdot)
 &=&
 i_\vecX(df) + \cancel{d(i_\vecX f)}^0
 \\
@@ -1078,8 +1090,131 @@ X^j\partial_j
 \end{itemize}
 
 
+
+\subsection{Covariant Derivatives}
+Suppose 
+
+\beq
+\vecX = X^\nu(x) \vece_\nu(x)
+\eeq
+
+Let 
+
+\beq
+\partial_{\vece_\mu}=
+\partial_\mu =\pder{\;}{x^\mu} = \nabla_\mu=
+\nabla_{\vece_\mu}
+\eeq
+
+\beqa
+\partial_\mu 
+ \vecX &=&
+\vece_\nu\partial_\mu X^\nu
++
+\partial_\mu( \vece_\nu) X^\nu
+\\
+&=&
+\left[
+\vece_\nu\partial_\mu
++ 
+\partial_\mu( \vece_\nu)
+\right]X^\nu
+\eeqa
+
+\beq
+\nabla_\mu \vece_\nu =
+\Gamma\indices{^\rho_{\mu\nu}}\vece_\rho
+\eeq
+
+\beqa
+\partial_\mu 
+ \vecX &=&
+\left[
+\vece_\nu\partial_\mu
++ 
+\partial_\mu( \vece_\nu)
+\right]X^\nu
+\\
+&=&
+\left[
+\vece_\nu\partial_\mu
++ 
+\Gamma\indices{^\rho_{\mu\nu}}\vece_\rho
+\right]X^\nu
+\eeqa
+
+\beq
+\boxed{
+[\nabla_\mu(\cdot)]\indices{^\rho}\vecX=
+[\nabla_{\mu}\vecX]^\rho=
+\partial_\mu
+X^\rho + 
++\Gamma\indices{^\rho_{\mu\nu}}
+X^\nu}
+\eeq
+
+
+\beqa
+\vece_\rho[\nabla_{\mu}\vecX]^\rho 
+&=&\vece_\rho
+\partial_\mu
+X^\rho + 
++
+\Gamma\indices{^\rho_{\mu\nu}} \vece_\rho
+X^\nu
+\\
+&=&
+\partial_\mu \vecX
+\eeqa
+
+If 
+
+\beq
+\vecU = U^\mu(x) \vece_\mu(x)
+\eeq
+then
+define
+
+\beq
+[\nabla_\vecU \vecX]^\rho = U^\mu [\nabla_\mu \vecX]^\rho
+\eeq
+Hence, the covariant derivative 
+ $\nabla_\vecU \vecX$ is linear in the coefficients $U^\mu$ even if those depend on $x$. The derivatives only operate on $\vecX$, not $\vecU$. This is 
+a very important property of the 
+covariant derivative.
+
+\beq
+U^\mu \nabla_\mu( X^\rho) \neq
+U^\mu [\nabla_\mu X]^\rho
+\eeq
+
+Directional derivative
+\beq
+U^\mu \nabla_\mu(f) =\frac{df}{d\lam}
+\eeq
+
+It follows that if $f(x)$ and $g(x)$ are 
+functions of $x$, and $\vecU(x)$ and $\vecV(x)$
+are vector fields, that
+
+\beq
+\nabla_{f\vecU  + g\vecV}\vecX=
+(f\nabla_\vecU + g\nabla_\vecV)\vecX
+\eeq
+
+geodesics
+
+\beq
+[\nabla_\vecU \vecU]^\rho=0
+\eeq
+
+\beq
+U^\mu
+\nabla_\mu U^\rho+
+\Gamma^\rho_{\mu\nu}U^\mu U^\nu=0
+\eeq
  
-\subsection{Expressing grad, div and curl with differential forms}
+\subsection{Expressing grad, div and curl with $p$-forms}
 
 $\RR^3$, orthonormal coordinates $\hat{x}_i$ ( $=\check{x}_i$ in this case)
 
@@ -1244,6 +1379,27 @@ d\circ
 because $\star\star=\pm 1$ and $d^2=0$
 
 \qed
+
+\subsection{Integration}
+
+\beq
+ \int_V dV 
+\underbrace{4\pi\rho}_{\nabla\cdot \vec{E}}=
+\int_{\partial V} \vec{E}\cdot d\vec{A}
+\eeq
+
+Stokes' theorem
+\beq
+\int_U d\pform{\omega}{p}
+=
+\int_{\partial U}\pform{\omega}{p}
+\eeq
+
+\beq
+\underbrace{\int\int\cdots\int}_{\text{$p+1$ times}} d \pform{\omega}{p}
+=
+\underbrace{\int\int\cdots\int}_{\text{$p$ times}}\pform{\omega}{p}
+\eeq
 
 \section{Thermodynamics}
 
@@ -2093,7 +2249,7 @@ General Relativity (GR)
 \hrule
 Formulation of
 GR
-without differential forms:
+without $p$-forms:
 
 {\bf Christoffel symbols} 
 $
@@ -2123,11 +2279,11 @@ T\indices{^\rho_{\mu\nu}}=0
 \label{eqs-cartan-second}
 \beq
 R\indices{^\rho_{\s\mu\nu}}=
-D_{\mu}
+\nabla_{\mu}
 \Gamma\indices{
 ^\rho_{\nu\s}}
 -
-D_{\nu}
+\nabla_{\nu}
 \Gamma\indices{
 ^\rho_{\mu\s}}
 \quad\text{(Riemann tensor)}
@@ -2135,14 +2291,12 @@ D_{\nu}
 where
 
 \beq
-D_{\mu}
-\Gamma\indices{
-^\rho_{\nu\s}}=
+[\nabla_\mu(\cdot)]\indices{^\rho}X=
+[\nabla_{\mu}X]^\rho=
 \partial_\mu
-\Gamma\indices{
-^\rho_{\nu\s}}
-+\Gamma\indices{^\rho_{\lam\mu}}
-\Gamma\indices{^\lam_{\nu\s}}
+X^\rho 
++\Gamma\indices{^\rho_{\mu\nu}}
+X^\nu
 \quad
 \text{(covariant derivative)}
 \eeq
@@ -2184,8 +2338,51 @@ G_{\mu\nu}=8\pi \Sigma_{\mu\nu}\quad\text{(Einstein Field Equation)}
 
 \end{enumerate}
 \hrule
+Formulation of GR using $p$-forms
+but not tetrad basis
+
+
+Define the Torsion 2-form $\ul{T}(\vecX, \vecY)$ by
+
+\beq
+\ul{T}(\vecX, \vecY) =
+\nabla_\vecX \vecY - \nabla_\vecY \vecX
+-
+\left[\vecX, \vecY\right]
+\eeq
+Define the Riemaniann 3-form $\ul{R}(\vecX, \vecY)(\vecU)$ by
+
+\beq
+\ul{R}(\vecX, \vecY)(\vecU)=
+\left[
+\nabla_\vecX \vecY - \nabla_\vecY \vecX - \nabla_{[\vecX, \vecY]}
+\right]\vecU
+\eeq
+
+\begin{claim}
+
+\beq
+T(\vece_\mu, \vece_\nu)= T\indices{^\rho_{\mu\nu}}\vece_\rho
+\eeq
+
+\end{claim}
+\proof
+\qed
+
+\begin{claim}
+\beq
+\ul{R}(\vece_\mu,\vece_\nu )\vece_\s= R\indices{^\rho_{\s\mu\nu}}\vece_\rho
+\eeq
+\end{claim}
+\proof
+\qed
+
+
+
+\hrule
 Formulation of GR using 
-differential forms (Cartan formulation)
+$p$-forms 
+and tetrad basis (Cartan formulation)
 
 
 
@@ -2262,13 +2459,11 @@ Metric compatibility implies
 \eeq
 
 {\bf Covariant derivative}
-\beqa
-DX^a &=& dX^a + \pform{\omega\indices{^a_b}}{}
+\beq
+[D(\cdot)]^a X=
+[DX]^a = dX^a + \pform{\omega\indices{^a_b}}{}
 \wedge X^b
-\\
-D &=& d + 
-\pform{\omega}{}\wedge
-\eeqa
+\eeq
 
  
 
@@ -2439,7 +2634,7 @@ Eqs.(\ref{eqs-einstein-field}) imply
 \begin{tabular}{|l|l|}
 \hline
 \rowcolor[HTML]{CBCEFB} 
-Tensor Formulation & \cellcolor[HTML]{FFFC9E}Cartan (differential forms) formulation \\ \hline
+Tensor Formulation & \cellcolor[HTML]{FFFC9E}Cartan ($p$-forms, tetrad basis) formulation \\ \hline
 $g_{\mu\nu}$ & $\eta_{ab}$,\;$\pform{g}{2}$ \\ \hline
 $\Gamma\indices{^\rho_{\mu\nu}}$ & $\pform{\omega\indices{^a_b}}{}$ \\ \hline
 $T\indices{^\rho_{\mu\nu}}$ & $\pform{T^a}{2}$ \\ \hline
@@ -2450,22 +2645,68 @@ $G_{\mu\nu}$ & $\pform{G_a}{3}$ \\ \hline
 \caption{Correspondences between Tensor and Cartan formulations.
 Roughly speaking, Cartan expressed
 the equations in terms of differentials
-and their generalizations, differential forms.}
+and their generalizations, differential forms.
+When converting a physics 
+differential equation to the 
+language of $p$-forms,
+this is very often what we do: recast the
+differential equation in terms of
+differentials and their generalzation, differential forms. Same as in Stochastic differential equations.}
 \label{tab-tensor-cartan}
 \end{table}
 
 Notice the similarity
 between GR  and Maxwell's equations 
 when both are expressed in terms of
-differential forms.
+$p$-forms.
 $\pform{dF}{3}=0$ 
 is analogous to the zero 
-torsion constraint. And 
+torsion constraint of GR. And 
 $\pform{d\star F}{3}
 = 4\pi 
 \pform{\star J}{3}$ 
 is analogous to Einstein
 equation with the stress tensor
 acting as the source $\pform{J}{}$.
+
+What if non-zero Torsion?
+
+
+\begin{claim}
+
+\beq
+D^2\pform{e^a}{}=
+\pform{\Omega\indices{^a_{b}}}{2}
+\wedge \pform{e^b}{}
+\eeq
+
+\beq
+D^2 = \pform{\Omega}{2}\wedge
+\eeq
+Since 
+\beq
+\pform{T^a}{2}=D \pform{e^a}{}
+\eeq
+it follows that
+
+\beq
+\pform{DT^a}{3}
+=
+\pform{\Omega\indices{^a_b}}{2}\wedge \pform{e^b}{}
+\quad\text{(First Bianchi Identity)}
+\eeq
+\beq
+\xymatrix{
+\pform{e^a}{}\ar[d]|D
+\\
+D\pform{e^a}{}\ar[d]|D
+\\
+\pform{\Omega\indices{^a_{b}}}{2}
+\wedge \pform{e^b}{}
+}
+\eeq
+\end{claim}
+\proof
+\qed
 
 \end{document}}
