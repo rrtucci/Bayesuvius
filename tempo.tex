@@ -52,15 +52,15 @@ $\phi(x) = g\circ f (x)$
 \section{Review of Differential Forms}
 
 Technically, a
-differential form is a $p$-form 
-with differential arguments,
-so a $p$-form is slightly
+differential form is a $p+1$-form 
+created by applying the exterior derivative $d$ to a $p$-form,
+so a p-form is slightly
 more general than a differential
-form, but we will use both
-terms interchangeably. 
-Actually, we will
-prefer the term $p$-form 
-because it is more succinct.
+form, but we will seldom
+distinguish between the two. 
+We will mostly use the term p-form 
+because it is more succinct
+and general.
 
 \subsection{Preliminaries}
 \hrule
@@ -185,7 +185,7 @@ A vector field $\vecX
 \in \cup_{\pi\in M} T_\pi(M)$ assigns a vector $X(\pi)$
  to every point $\pi$.
 
-A $p$-form $\ul{\omega}$ is also defined pointwise. When we write
+A p-form $\ul{\omega}$ is also defined pointwise. When we write
 $\ul{\omega}(\vecX, \vecY)$,
 we really mean the function
 
@@ -195,21 +195,22 @@ we really mean the function
 \ul{\omega}(\vecX(\pi), \vecY(\pi))
 \eeq
 
-The set $\cup_{\pi\in M}T_\pi(M)$
+The set\footnote{$\sqcup$ is the symbol for the disjoint union, i.e., the union minus all the overlaps.} $\sqcup_{\pi\in M}T_\pi(M)$
 is called the {\bf fibre bundle}
-of $M$.
+of $M$. Each 
+$T_\pi(M)$ is a fibre.
 
 
-\subsection{$p$-forms, definition}
+\subsection{p-forms}
 
 When discussing most
 concepts about 
-$p$-forms, I find it pedagogically 
+p-forms, I find it pedagogically 
 advantageous to define the 
 concept 
 first for 0-forms, 1forms, 2-forms 
 and then 
-finally the general case of $p$-forms
+finally the general case of p-forms
 (form with $p$ slots).
 Henceforth, I will
 follow that 
@@ -233,7 +234,7 @@ $n=$ dimension of $T_\pi(M)$.
 $\{\check{x}_i\mid i\in \ZZ_1^n\}=$ basis for $T_\pi(M)$. These vectors need not be orthogonal nor normalized.
 
 We will always 
-underline $p$-forms
+underline p-forms
 and, except in special
 cases, use
 lower case 
@@ -244,7 +245,7 @@ more explicit and
 write
 $\pform{\omega}
 {p}$ for a
-$p$-form.
+p-form.
 $\$^p$, where
 represents $p$
 place holders or empty slots.
@@ -372,9 +373,9 @@ then
 X^2 Y^1= X^{UA(1}Y^{2)}
 \eeq
 
-\item $p$-forms
+\item p-forms
 
-A $p$-form $\ul{\omega_\pi}$ is a LINEAR map
+A p-form $\ul{\omega_\pi}$ is a LINEAR map
 
 \beq
 \begin{array}{l}
@@ -444,7 +445,7 @@ Cartesian (order preserving) product for reals.
 $\{\pform{\wedge dx^I}{}
 \mid I\in 
 \cali^p_<\}$ 
-are a basis for the $p$-forms on $T^p_\pi(M)$. They satisfy
+are a basis for the p-forms on $T^p_\pi(M)$. They satisfy
 
 \beq
 \ul{\wedge dx^I}(\vecX^{(I)})=
@@ -473,36 +474,10 @@ arguments $\vecX$ and $\vecY$.
 
 \subsection{Metric}
 
-\hrule one-forms 
-$\pform{\omega}{}: M
-\rarrow \RR$
-where manifold 
-$M\subset \RR^n$
-
-
-\beq
-\pform{\omega}{} = \omega_i \pform{dx^i}{}
-\eeq
-
-\beq
-\omega(\vecV)=\av{\omega, \vecV}=
-\omega_i V^i
-\eeq
 
 
 
-\beq
-d x^i (\check{x}_j)= \av{dx^i,\check{x}_j}=\delta_i^j
-\eeq
-\hrule 2-forms
-one-forms 
-$\pform{\omega}{2}: M^2
-\rarrow \RR$
-where manifold 
-$M\subset \RR^n$
-
-
-\hrule metric
+metric
 \beq
 g(\vecV, \vecU) = V^i U^j
 \underbrace{g(\check{x}_i, \check{x}_j)}_{g_{ij}}
@@ -548,8 +523,27 @@ S\indices{^{ijk}_l_m}=
 S(\pform{dx^i}{}, \pform{dx^j}{}, \pform{dx^k}{},\check{x}_l, \check{x}_m)
 \eeq
 
+$\pform{\omega}{}: M
+\rarrow \RR$
 
-\hrule $p$-forms
+
+\beq
+\pform{\omega}{} = \omega_i \pform{dx^i}{}
+\eeq
+
+\beq
+\omega(\vecV)=\av{\omega, \vecV}=
+\omega_i V^i
+\eeq
+
+
+
+\beq
+d x^i (\check{x}_j)= \av{dx^i,\check{x}_j}=\delta_i^j
+\eeq
+
+
+p-forms
 
 \beq
 \pform{dx^i}{}\wedge \pform{dx^j}{}=
@@ -570,26 +564,195 @@ S(\pform{dx^i}{}, \pform{dx^j}{}, \pform{dx^k}{},\check{x}_l, \check{x}_m)
 \right.
 \eeq
 
-\beq
-\pform{\omega_a}{p}
-\wedge 
-\pform{\omega_b}{q}=
-(-1)^{pq}
-\pform{\omega_b}{q}\wedge
-\pform{\omega_a}{p}
-\eeq
-
-
 
 \subsection{Pullback map}
 
-\subsection{External Derivative}
+Suppose functions
+$\phi: X\rarrow Y$ and $f: Y\rarrow Z$  satisfy
+
+\beq
+\xymatrix{
+X\ar[r]|\phi
+\ar[dr]|{f\circ \phi}
+&Y\ar[d]|f
+\\
+& Z
+}
+\eeq
+The {\bf pullback function} $\phi^{pb}$
+\footnote{$\phi^{pb}$
+is often denoted by $\phi^*$.}
+maps the function $f$
+to the function $f\circ\phi$.
+
+\beq
+\xymatrix@C=5pc{
+x\ar[r]|\phi
+\ar[rd]|{\phi^{pb}}
+& \phi(x)(=y)\ar[d]|f
+\\
+& \phi^{pb}(f)(x)(=f\circ\phi(x))
+}
+\eeq
+
+\beq
+\phi^{pb}(f) (x)= f(\underbrace{\phi(x)}_y)=
+f\circ \phi(x)
+\eeq
+
+\beq
+\phi^{pb}(f) = f\circ\phi
+\eeq
+
+The  pullback function
+is seldom used by physicists.
+They will either use $f(\phi(x))$ only,
+or they will
+write confusing things like
+$f(x)= f(y)$ (as they do in thermodynamics, were they 
+write stuff like $U(S, V)= U(P, T)$).
+It's a tradeoff. Not using pullback functions makes
+the notation
+more succinct but also more confusing. Using the pullback
+function can make some
+equations more symmetrical too.
+
+
+
+\subsection{Exterior Derivative}
 
 
 \beq
 d\;\pform{\omega}{p}=
 \pform{d\omega}{p+1}
 \eeq
+
+\begin{itemize}
+\item $d$ acting on 0-form $f(x)$:
+\beq
+\pform{df}{}= \sum_i \pder{f}{x_i}\pform{dx_i}{}
+\eeq
+
+\item $d$ acting on 1-form $\pform{\omega}{}$:
+
+\beq
+\pform{\omega}{}= \sum_{i=1}^n \omega^i\pform{dx_i}{}
+\eeq
+
+
+
+\beqa
+\pform{d\omega}{2} &=&
+\sum_{i,j} 
+\pder{\omega^i}{x_j}
+\pform{dx_j}{}
+\wedge\pform{dx_i}{}
+\\
+&=&
+\sum_{(i,j)\ni i<j}
+\left[
+\pder{\omega^i}{x_j}
+-
+\pder{\omega^j}{x_i}
+\right]
+\pform{dx_j}{}
+\wedge\pform{dx_i}{}
+\eeqa
+
+\beq
+a_{12}\;
+\ul{dx_1}\wedge \ul{dx_2}
+ + 
+a_{21}\;
+\ul{dx_2}\wedge \ul{dx_1}
+=
+(a_{12}-a_{21})
+\ul{dx_1}\wedge \ul{dx_2}
+\eeq
+
+
+\item $d$ acting on p-form $\pform{\omega}{p}$:
+
+\beq
+\pform{\omega}{p}=
+\frac{1}{p!} \sum_{I\in \cali^p} \omega^I\pform{\wedge dx_I}{p}
+\eeq
+
+
+
+\beqa
+\pform{d\omega}{p+1} &=&
+\frac{1}{p!}
+\sum_{j=1}^n \sum_{I\in \cali^p}
+\pder{\omega^I}{x_j}
+\pform{dx_j}{}
+\wedge\pform{\wedge dx_I}{p}
+\\
+&=&
+\frac{1}{p!}
+\sum_{(j,I)\in \cali^{p+1}}
+\pder{\omega^I}{x_j}
+\pform{\wedge dx_{j, I}}{p+1}
+\\
+&=&
+\underbrace{\frac{(p+1)!}{p!}}_{p+1}
+\sum_{(j,I)\in \cali^{p+1}_<}
+\pder{\omega^I}{x_j}
+\pform{\wedge dx_{j, I}}{p+1}
+\eeqa
+
+For $p=1$, this reduces to
+
+\beqa
+\pform{d\omega}{2} &=&
+2  \sum_{(j, i) \in \cali^2_<}
+\pder{\omega^i}{x_j}
+\pform{dx_j}{}\wedge
+\pform{dx_i}{}
+\\
+&=&
+\sum_{(j, i) \in \cali^2_<}
+\left[\pder{\omega^i}{x_j}
+-
+\pder{\omega^j}{x_i}
+\right]
+\pform{dx_j}{}\wedge
+\pform{dx_i}{}
+\eeqa
+as expected.
+
+\end{itemize}
+
+
+\begin{claim}
+For any two p-forms 
+$\pform{\alp}{p}$
+and $\pform{\beta}{q}$
+and function $f(x)$
+
+\beq
+d(f\ul{\alp})=
+\ul{df}\wedge \ul{\alp}
+\eeq
+
+\beq
+d(\ul{\alp} + \ul{\beta})=
+d\ul{\alp} + d\ul{\beta}
+\eeq
+
+\beq
+d(\ul{\alp}\wedge \ul{\beta})=
+d\ul{\alp}\wedge \ul{\beta}
++(-1)^{pq}
+\ul{\alp}\wedge d\ul{\beta}
+\eeq
+
+\beq
+d(d\ul{\alp})=0
+\eeq
+\end{claim}
+\proof
+\qed
 
 \hrule Exact and Closed 1-form
 
@@ -614,13 +777,21 @@ f(\cdot)\ar[d]|d\ar[dr]|d &
 \Circle{0}
 }\\
 \text{$\pform{\omega}{}$ Exact}&& \text{$\pform{\omega}{}$  Closed}
+\\
+\exists \text{ \qt{potential function}} f(x) \ni \pform{\omega}{}=\pform{df}{}
+&&
+d\pform{\omega}{}=0
 \end{array}
 \eeq
+
+$\pform{\omega}{}\text { exact} \implies \pform{\omega}{} \text{ closed}$.
+The converse is true locally 
+but not globally.
 
 
 \subsection{Hodge star operator}
 
-For every $p$-form $\pform{\omega}{p}$, the the $(n-p)$-form $
+For every p-form $\pform{\omega}{p}$, the the $(n-p)$-form $
 \pform{\star \omega}{n-p}$ is the unique form satisfying
 
 \beq
@@ -629,12 +800,12 @@ For every $p$-form $\pform{\omega}{p}$, the the $(n-p)$-form $
 \pform{\star\omega}{n-p}
 = \av{\pform{\alpha}{p},\pform{\omega}{p}}\text{vol}
 \eeq
-for every $p$-form $\pform{\alpha}{p}$.
+for every p-form $\pform{\alpha}{p}$.
 
 Here 
 $\av{
 \ul{\alpha},
-\ul{\omega}}$ is the inner product on $p$-forms induced by the metric.
+\ul{\omega}}$ is the inner product on p-forms induced by the metric.
 
 
 Suppose
@@ -649,7 +820,7 @@ Then
 \ul{\s^1}\wedge\cdots\wedge \ul{\s^n}
 \eeq
 
-The Hodge star is especially simple on basis $p$-forms.
+The Hodge star is especially simple on basis p-forms.
 For example,
 \beq
 \star(\ul{\s^{i_1}}
@@ -775,9 +946,9 @@ $g=\det(g_{ij})$, and $\eps$ is the Levi-Civita symbol.
 
 A {\bf contraction, or interior product}
 operator $i_\vecX$
-for a vector field $\vecX$ maps a $p$-form to 
+for a vector field $\vecX$ maps a p-form to 
 a $p-1$ form.
-It takes a $p$-form $\pform{\omega}{p}$
+It takes a p-form $\pform{\omega}{p}$
 and puts $\vecX$ into
 its first slot.
 
@@ -845,7 +1016,7 @@ anti-symmetrix
 under swap
 of $\vecX$ and $\vecY$.
 
-\item $p$-form:
+\item p-form:
 
 \beq
 \pform{\omega}{p}=
@@ -869,7 +1040,7 @@ of $\vecX$ and $\vecY$.
 
 In general,
 if $\ul{\alp}$
-is a $p$-form
+is a p-form
 and  $\ul{\beta}$ is a
 $q$-form, 
 
@@ -902,16 +1073,30 @@ The Lie derivative
 measure how a quantity
 changes along a trajectory.
 It's defined for vector fields 
-and $p$-forms
+and p-forms
 
 The {\bf Lie Derivative $\call_\vecV$  of a vector field
 $\vec{U}$} equals
 
 \beq
+\begin{array}{cc}
+\bcen
+\xymatrix{
+& \ar[dl]|{\vecU_{op}}
+\\
+\call_\vecV \vecU
+&&\vec{r}
+\ar[ul]|{\vecV_{op}}
+\ar[dl]|{\vecU_{op}}
+\\
+&\ar[ul]|{-\vecV_{op}}
+}\ecen
+&
 \boxed{\call_{\vecV}\vecU=
 \left[
 \vecV_{op}, \vecU_{op}
 \right]\vec{r}}
+\end{array}
 \eeq
 
 Coordinate expression
@@ -956,17 +1141,31 @@ Suppose
 \eeqa
 
 
-The {\bf Lie derivative of a $p$-form}
+The {\bf Lie derivative of a p-form}
 is given by
 {\bf Cartan's Magic Formula}:
 
 \beq
+\begin{array}{cc}
+\bcen
+\xymatrix{
+&\ar[dl]|{d}
+\\
+\call_\vecX \pform{\omega}{p}
+&& \pform{\omega}{p}
+\ar[ul]|{i_\vecX}
+\ar[dl]|d
+\\
+&\ar[ul]|{i_\vecX}
+}\ecen
+&
 \boxed
 {\call_\vecX = i_\vecX d + d\;i_\vecX}
+\end{array}
 \eeq
 In Cartan's Magic Formula
 \begin{itemize}
-\item external derivative $d(\;)$ gives change at a point.
+\item exterior derivative $d(\;)$ gives change at a point.
 
 \item {Lie derivative} $\call_\vecX(\;)$ gives
 change along a trajectory
@@ -979,7 +1178,7 @@ $d(\;)$ raises the degree of a form by 1 and $i_\vecX(\;)$
 lowers it by one,
 so both summands in Cartan Magic Formula
 leave the degree
-of a $p$-form
+of a p-form
 unchanged.
 
 \begin{itemize}
@@ -1012,7 +1211,7 @@ is the following  1-form \pformIN{}
 and
 
 \beq
-\vecX =\sum_i x^i(x) \check{x}_i
+\vecX =\sum_i X^i(x) \check{x}_i
 \eeq
 
 \beq
@@ -1214,7 +1413,7 @@ U^\mu
 \Gamma^\rho_{\mu\nu}U^\mu U^\nu=0
 \eeq
  
-\subsection{Expressing grad, div and curl with $p$-forms}
+\subsection{Expressing grad, div and curl with p-forms}
 
 $\RR^3$, orthonormal coordinates $\hat{x}_i$ ( $=\check{x}_i$ in this case)
 
@@ -2249,7 +2448,7 @@ General Relativity (GR)
 \hrule
 Formulation of
 GR
-without $p$-forms:
+without p-forms:
 
 {\bf Christoffel symbols} 
 $
@@ -2338,7 +2537,7 @@ G_{\mu\nu}=8\pi \Sigma_{\mu\nu}\quad\text{(Einstein Field Equation)}
 
 \end{enumerate}
 \hrule
-Formulation of GR using $p$-forms
+Formulation of GR using p-forms
 but not tetrad basis
 
 
@@ -2381,7 +2580,7 @@ T(\vece_\mu, \vece_\nu)= T\indices{^\rho_{\mu\nu}}\vece_\rho
 
 \hrule
 Formulation of GR using 
-$p$-forms 
+p-forms 
 and tetrad basis (Cartan formulation)
 
 
@@ -2634,7 +2833,7 @@ Eqs.(\ref{eqs-einstein-field}) imply
 \begin{tabular}{|l|l|}
 \hline
 \rowcolor[HTML]{CBCEFB} 
-Tensor Formulation & \cellcolor[HTML]{FFFC9E}Cartan ($p$-forms, tetrad basis) formulation \\ \hline
+Tensor Formulation & \cellcolor[HTML]{FFFC9E}Cartan (p-forms, tetrad basis) formulation \\ \hline
 $g_{\mu\nu}$ & $\eta_{ab}$,\;$\pform{g}{2}$ \\ \hline
 $\Gamma\indices{^\rho_{\mu\nu}}$ & $\pform{\omega\indices{^a_b}}{}$ \\ \hline
 $T\indices{^\rho_{\mu\nu}}$ & $\pform{T^a}{2}$ \\ \hline
@@ -2648,7 +2847,7 @@ the equations in terms of differentials
 and their generalizations, differential forms.
 When converting a physics 
 differential equation to the 
-language of $p$-forms,
+language of p-forms,
 this is very often what we do: recast the
 differential equation in terms of
 differentials and their generalzation, differential forms. Same as in Stochastic differential equations.}
@@ -2658,7 +2857,7 @@ differentials and their generalzation, differential forms. Same as in Stochastic
 Notice the similarity
 between GR  and Maxwell's equations 
 when both are expressed in terms of
-$p$-forms.
+p-forms.
 $\pform{dF}{3}=0$ 
 is analogous to the zero 
 torsion constraint of GR. And 
