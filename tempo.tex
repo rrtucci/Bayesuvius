@@ -140,7 +140,39 @@ T_{S(\alp\beta\gamma)}
 
 
 \subsection{Tangent Vectors, Vector Fields}
-tangent vectors, Vector Fields
+
+Let 
+
+$M=$ \qt{base} manifold (e.g. the surface of a sphere or Mobius strip)
+
+$\pi=$ a 
+point on $M$
+
+$T_\pi (M)=$ 
+tangent space at $\pi$.
+A vector space.
+
+$\ZZ_1^n = \{ 1,2,\ldots n\}$
+
+$n=$ dimension of $T_\pi(M)$.
+
+$\{\vec{e}_i\mid i\in \ZZ_1^n\}=$ {\bf tangent basis}, a basis for $T_\pi(M)$. These vectors need not be orthogonal nor normalized.
+
+$\{\check{x}_i\mid i\in \ZZ_1^n\}=$ {\bf coordinate (tangent) basis}
+for coordinates
+$\{x_i\}_{i=1}^n$ , a special tangent basis for $T_\pi(M)$.
+Unlike the generic tangent basis
+$\{\vec{e}_i\}_{i=1}^n$, a coordinate tangent basis
+is guaranteed to come from a coordinate system $\{x_i\}_{i=1}^n$ on $M$
+for which differentiable functions $f(x_1, x_2, \cdots, x_n)$ exist.
+ As with the basis  $\{\vec{e}_i\}_{i=0}^n$, the  basis $\{\check{x}_i\}_{i=0}^n$ need not be orthogonal nor normalized.
+
+A {\bf tangent vector} $\vec{v}\in T_\pi(M)$
+lives at a single point $\pi\in M$.
+A {\bf tangent vector field} $\vecX: 
+M\rarrow \cup_{\pi\in}T_\pi(M)$ assigns a vector $X(\pi)$
+ to every point $\pi\in M$.
+
 Let
 \beq
 \vec{r}= x_i\check{x}_i
@@ -193,13 +225,9 @@ x_2 = \theta,& \check{x}_2 =r\hat{\theta}
 \eeq
 
 
-There is an important distinction between vectors at a point and vector fields:
 
-A vector $\vec{v}\in T_\pi(M)$
-lives at a single point $\pi\in M$.
-A vector field $\vecX
-\in \cup_{\pi\in M} T_\pi(M)$ assigns a vector $X(\pi)$
- to every point $\pi$.
+
+
 
 A p-form $\ul{\omega}$ is also defined pointwise. When we write
 $\ul{\omega}(\vecX, \vecY)$,
@@ -211,11 +239,152 @@ we really mean the function
 \ul{\omega}(\vecX(\pi), \vecY(\pi))
 \eeq
 
-The set\footnote{$\sqcup$ is the symbol for the disjoint union, i.e., the union minus all the overlaps.} $\sqcup_{\pi\in M}T_\pi(M)$
+The set\footnote{$\sqcup$ is the symbol for the disjoint union, i.e., the union minus all the overlaps.} $T(M)=\sqcup_{\pi\in M}T_\pi(M)$
 is called the {\bf fibre bundle}
 of $M$. Each 
 $T_\pi(M)$ is a fibre.
+$T(M)$ ha dimension $2n$.
+\hrule
+Historical sidebar on the term \qt{holonomic}
 
+Early workers in this field
+refer to 
+a coordinate basis as a {\b holonomic} basis.
+The word \qt{holonomic}
+comes from the Greek
+words \qt{holos}=whole, complete
+and \qt{nomos}=a rule 
+or prescription.
+
+In Mechanics, a {\bf holonomic (or integrable) constraint}
+is one that can be 
+written exclusively
+in terms of the coordinates of the system and time:
+
+\beq
+f(\vecr, t)=0
+\eeq
+where $\vecr=(x_1, x_2, \dots, x_n)$.
+By contrast, a {\bf non-holonomic (or non-integrable)
+constraint} involves velocities:
+
+\beq
+g(\vecr, \dot{\vecr}, t)=0
+\eeq
+
+In differential geometry, the term holonomic refers to a basis of vectors 
+$\{\vece_i\}_{i=0}^n$
+for which there exists
+a coordinate system
+$\{x_i\}_{i=1}^n$ 
+and a vector field 
+$\vecr(x_1, x_2, \cdots, x_n)$ such that
+
+\beq
+\vece_i = \pder{\vecr}{x_i}
+\eeq
+for all $i\in\ZZ_1^n$.
+In conclusion,
+a coordinate basis and
+a holonomic basis are
+the same thing.
+
+A tangent basis $\{\vece_i\}_{i=1}^n$ is a coordinate=holonomic
+basis iff 
+\beq
+[(\vece_i)_{op},
+(\vece_j)_{op}]=0
+\eeq
+for all $i,j\in\ZZ_1^n$.
+For example, for Cartesian coordinates
+in 2-dim, 
+\beq
+d\vecr = dx \hat{x} + dy  \hat{y}
+\eeq
+so 
+$(\hat{x}, \hat{y})$
+is holonomic because
+
+\beq
+\ul{d\vecr} = \ul{dx} \hat{x} + \ul{dy}  \hat{y}
+=
+\ul{dx} \pder{\vecr}{x}
++ \ul{dy} \pder{\vecr}{y}
+\eeq
+
+\beq
+ \left[\pder{\vecr}{x}\right]_{op}=
+\pder{\;}{x},\quad
+\left[\pder{\vecr}{y}\right]_{op}
+=\pder{\;}{y}
+\eeq
+
+
+
+\beq
+\left[\pder{\;}{x}, \pder{\;}{y}
+\right]=0
+\eeq
+For polar coordinates in 2-dim,
+
+\beq
+d\vecr = 
+dr \hat{r} + rd\theta \hat{\theta}
+\eeq
+
+$(\hat{r}, \hat{\theta})$ are non-holonomic because
+
+\beq
+\ul{d\vecr} = 
+\ul{dr} \hat{r} + \ul{rd\theta} \hat{\theta}=
+\ul{dr} \pder{\vecr}{r}
++
+\ul{rd\theta}
+\left[\frac{1}{r}\pder{\vecr}{\theta}
+\right]
+\eeq 
+
+\beq
+ \left[\pder{\vecr}{r}\right]_{op}=
+\pder{\;}{r},
+\quad
+\left[
+\frac{1}{r}\pder{\vecr}{\theta}\right]_{op}
+=\frac{1}{r}\pder{\;}{\theta}
+\eeq
+
+\beq
+\left[
+\pder{\;}{r},
+\frac{1}{r}\pder{\;}{\theta}
+\right]\neq 0
+\eeq
+On the other hand, 
+$(\hat{r}, r\hat{\theta})$
+is holonomic because
+
+\beq
+\ul{d\vecr} = 
+\ul{dr} \hat{r} + \ul{d\theta} r\hat{\theta}=
+\ul{dr} \pder{\vecr}{r}
++
+\ul{d\theta} \pder{\vecr}{\theta}
+\eeq 
+
+\beq
+ \left[\pder{\vecr}{r}\right]_{op}=
+\pder{\;}{r},
+\quad
+\left[\pder{\vecr}{\theta}\right]_{op}
+=\pder{\;}{\theta}
+\eeq
+
+\beq
+\left[
+\pder{\;}{r},
+\pder{\;}{\theta}
+\right]= 0
+\eeq
 
 \subsection{p-forms}
 
@@ -228,26 +397,10 @@ first for 0-forms, 1forms, 2-forms
 and then 
 finally the general case of p-forms
 (form with $p$ slots).
-Henceforth, I will
+I will
 follow that 
-strategy.
+strategy in this chapter.
 
-Let 
-
-$M=$ manifold (e.g. the surface of a sphere or Mobius strip)
-
-$\pi=$ a 
-point on $M$
-
-$T_\pi (M)=$ 
-tangent space at $\pi$.
-A vector space.
-
-$\ZZ_1^n = \{ 1,2,\ldots n\}$
-
-$n=$ dimension of $T_\pi(M)$.
-
-$\{\check{x}_i\mid i\in \ZZ_1^n\}=$ basis for $T_\pi(M)$. These vectors need not be orthogonal nor normalized.
 
 We will always 
 underline p-forms
@@ -289,20 +442,26 @@ then
 
 \item 1-form:
 
-A 1-form is a LINEAR map
+A 1-form
+$\ul{\omega}\in T^*(M)$ is a LINEAR map
 
 \beq
 \ul{\omega}: T_\pi(M)\rarrow \RR,\quad 
 \vecX\mapsto \ul{\omega}(\vecX)
 \eeq
 where $\vecX$ is an $n$-dim vector.
+$T^*(M)$ is called the {\bf dual space of $T_\pi(M)$}.
 
 \beq
 \ul{\omega}(\vecX)=\sum_{i=1}^n \omega_i \ul{dx^i}(\vecX)
 \eeq
 
 $\{\pform{dx^i}{}\mid i\in \ZZ_1^n \}$ 
-are a basis for the 1-forms on $T_\pi(M)$. They satisfy
+are a basis for the 1-forms on $T^*_\pi(M)$.
+They are called the {\bf coordinate dual basis} \footnote{
+A basis is often called a {\bf frame} and a dual basis is called a {\bf coframe}. We won't use that nomenclature.} for coordinates 
+$\{x_i\}_{i=1}^n$.
+ They satisfy
 
 \beq
 \ul{dx^i}(\check{x}_i)=\delta_i^j
@@ -328,7 +487,9 @@ using $\ul{dx^i}(\check{x}_j)=\delta(i,j)$,
 
 \item 2-form:
 
-A 2-form is a LINEAR map
+A 2-form 
+$\ul{\omega}\in T^*_\pi(M)\wedge T^*_\pi(M)=\wedge^2[T^*_\pi(M)]$
+is a LINEAR map
 \beq
 \ul{\omega}: T_\pi(M)\times T_\pi(M)\rarrow \RR,\quad (\vecX,\vecY)\mapsto \ul{\omega}(\vecX, \vecY)
 \eeq
@@ -406,16 +567,18 @@ X^2 Y^1= X^{UA(1}Y^{2)}
 
 \item p-forms
 
-A p-form $\ul{\omega_\pi}$ is a LINEAR map
+A p-form $\ul{\omega}\in
+\underbrace{T^*_\pi(M)\wedge \cdots T^*_\pi(M)}_{\text{$p$ copies of $T^*_\pi(M)$}}=
+\wedge^p (T^*_\pi(M))$ is a LINEAR map
 
 \beq
 \begin{array}{l}
-\ul{\omega_\pi}:
+\ul{\omega}:
 \underbrace {T_\pi(M)
 \times
 \cdots
-T_\pi(M)}_{=T^p_\pi(M), 
-\text{ $p$ copies of } T_\pi(M)}
+T_\pi(M)}_{
+\text{ $p$ copies of } T_\pi(M)}=[T_\pi(M)]^p
 \rarrow \RR,
 \\
 (\vecX^{(1)}, \vecX^{(2)}, \ldots, \vecX^{(m)})\mapsto
