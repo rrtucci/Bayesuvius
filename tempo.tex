@@ -323,6 +323,21 @@ where $\vecX$ and $\vecY$ are n-dim vectors.
 \wedge \ul{dx^j}(\vecY)
 \eeq
 
+\beq
+\pform{dx^i}{}\wedge \pform{dx^j}{}=\pform{dx^i \wedge dx^j}{2}
+\eeq
+
+\beq
+\ul{dx^1}\wedge \ul{dx^1}=
+\ul{dx^2}\wedge \ul{dx^2}=0
+\eeq
+
+\beq
+\ul{dx^1}\wedge \ul{dx^2}=
+-\ul{dx^2}\wedge \ul{dx^1}
+\eeq
+
+
 $\{\pform{dx^i}{}
 \wedge \pform{dx^j}{}\mid 
 i\in \ZZ_1^n, j\in \ZZ_1^n,
@@ -477,24 +492,133 @@ arguments $\vecX$ and $\vecY$.
 
 
 
-metric
+Given two vector fields 
+$\vecU = U^i \check{x_i}$,
+and $\vecV = V^i \check{x_i}$,
+the metric function $g(\vecU, \vecV)$ satisfies 
 \beq
+g(\vecU, \vecV)=
 g(\vecV, \vecU) = V^i U^j
-\underbrace{g(\check{x}_i, \check{x}_j)}_{g_{ij}}
+\underbrace{g(\check{x}_i, \check{x}_j)}_{\check{x}_i
+\cdot\check{x}_j=g_{ij}}
 \eeq
+
+Let $g$ represent the metric 
+matrix
 \beq
-V_i = V^j g_{ij}
+g = [g_{ij}]
 \eeq
+
+\begin{itemize}
+\item $g$ is symmetric
+
 \beq
+g^T  =g
+\eeq
+
+\beq
+g_{ij}=g_{ji}
+\eeq
+\item $g$ equals its inverse
+
+\beq
+g=g^{-1},\quad 
+g g^{-1}=1
+\eeq
+
+\beq 
+g^{ij}=g_{ij}
+\quad
 g_{ij}g^{jk}= \delta_i^k
 \eeq
 
+\item raising and lowering indices with $g$
 \beq
-|\vecV|^2 = g(\vecV, \vecV)=
-V^i V_i
+V_j = V^i g_{ij},\quad
+V^j = V_ig^{ij}
 \eeq
 
-Polar coordinates
+\item computing magnitude of a vector with $g$
+\beq
+|\vecV|^2 = g(\vecV, \vecV)=
+V^i V^j g_{ij}= V^i V_i
+\eeq
+\item inner product
+\beqa
+\av{\check{x}_i, \check{x}_j}&=& g_{ij}
+\\
+\av{\ul{dx^i},\check{x}_j} &=&
+\ul{d x^i} (\check{x}_j)=\delta_i^j
+\\
+\av{\ul{dx^i}, \ul{dx^j}}&=&
+g^{ij}
+\eeqa
+
+
+
+
+\beq
+\left\{
+\begin{array}{l}
+\pform{\alp}{}=
+\alp_i\pform{dx^i},
+\quad
+\pform{\beta}{}=
+\beta_i\pform{dx^i}{}
+\\
+\vecU = U^i \check{x_i},
+\quad
+\vecV = V^i \check{x_i}
+\end{array}
+\right.
+\eeq
+
+\beqa
+g(\vecU,\vecV)&=&
+\av{\vecU,\vecV}=
+U^i V^j 
+\underbrace{g(\check{x}_i, \check{x}_j)}_{g_{ij}}
+\\
+g(\ul{\alp},\vecV)&=&
+\av{\ul{\alp},\vecV}=
+\alp_i V^j 
+\underbrace{g(\ul{dx}^i, \check{x}_j)}_{\delta^i_j}
+\\
+g(\ul{\alp},\ul{\beta}) &=&
+\av{\ul{\alp},\ul{\beta}}=
+\alp_i \beta_j 
+\underbrace{g(\ul{dx}^i,\ul {dx^j}
+)}_{g^{ij}}
+\eeqa
+
+p-forms
+
+\beq
+\pform{\alp}{p}=\sum_{I\in \cali^p_<}\alp_I \pform{\wedge dx^I}{p},
+\quad
+\pform{\beta}{q}=\sum_{I\in \cali^q_<}\beta_I \pform{\wedge dx^I}{q}
+\eeq 
+
+\beq
+\av{\pform{\alp}{p}, \pform{\beta}{q} }=
+\left\{
+\begin{array}{ll}
+0& \text{if $p\neq q$}
+\\
+\sum_{I\in \cali^p_<}
+\alp_I \beta_I
+&\text{if $p=q$}
+\end{array}
+\right.
+\eeq
+
+\end{itemize}
+
+Examples
+\begin{enumerate} 
+\item Polar coordinates metric
+
+
 
 \beq
 |\check{r}|^2 = g(\check{r}, \check{r})=1,
@@ -504,65 +628,37 @@ g(\check{\theta}, \check{\theta})=r^2,\quad
 g(\check{r}, \check{\theta})=0
 \eeq
 
-
-
-Euclidean matrix 
-
 \beq
-g(\check{x}_i, \check{x}_j) = diag(1, 1, 1, 1)
+g=[g_{ij}] = diag(1, r^2)
 \eeq
-
-Lorentz metric
-
-\beq
-g(\check{x}_i, \check{x}_j) = diag(1, -1, -1, -1)
-\eeq
+If $dx^i=[dr, d\theta]$ then
 
 \beq
-S\indices{^{ijk}_l_m}=
-S(\pform{dx^i}{}, \pform{dx^j}{}, \pform{dx^k}{},\check{x}_l, \check{x}_m)
-\eeq
-
-$\pform{\omega}{}: M
-\rarrow \RR$
-
-
-\beq
-\pform{\omega}{} = \omega_i \pform{dx^i}{}
-\eeq
-
-\beq
-\omega(\vecV)=\av{\omega, \vecV}=
-\omega_i V^i
+g_{ij}dx^i dx^j= (dr)^2 + r^2 (d\theta)^2
 \eeq
 
 
+\item Euclidean metric for $\RR^3$
 
 \beq
-d x^i (\check{x}_j)= \av{dx^i,\check{x}_j}=\delta_i^j
+g(\check{x}_i, \check{x}_j) = diag(1, 1, 1)
 \eeq
 
-
-p-forms
+\item Lorentz metric for spacetime
 
 \beq
-\pform{dx^i}{}\wedge \pform{dx^j}{}=
-\pform{dx^i\wedge dx^j}{2}
+g(\check{x}_i, \check{x}_j) = diag(-1, 1, 1, 1)
 \eeq
+(or $-diag(-1, 1, 1, 1)$ in some textbooks)
 
+\item
 
 \beq
-\av{\pform{\omega_a}{p}, \pform{\omega_b}{q} }=
-\left\{
-\begin{array}{ll}
-0& \text{if $p\neq q$}
-\\
-\sum_{I\in \cali^p_<}
-(\omega_a)_I(\omega_b)_I
-&\text{if $p=q$}
-\end{array}
-\right.
+S\indices{^{ij}_{rst}}=
+S(\ul{dx^i}, \ul{dx^j}, \check{x}_r, \check{x}_s, \check{x}_t)
 \eeq
+\end{enumerate}
+
 
 
 \subsection{Pullback map}
@@ -608,14 +704,15 @@ The  pullback function
 is seldom used by physicists.
 They will either use $f(\phi(x))$ only,
 or they will
-write confusing things like
-$f(x)= f(y)$ (as they do in thermodynamics, were they 
-write stuff like $U(S, V)= U(P, T)$).
+write slightly confusing statements like
+$f(x)= f(y)$ (as they do in Thermodynamics, were they 
+write statements like $U(S, V)= U(P, T)$
+instead of $U(S, V)= U(\phi(P, T))$.\quad).
 It's a tradeoff. Not using pullback functions makes
 the notation
-more succinct but also more confusing. Using the pullback
+more succinct but less precise. Using the pullback
 function can make some
-equations more symmetrical too.
+statements more symmetrical too. (for example, $\phi(U)(P, T)$ looks better than $U(\phi(P, T))$.\quad).
 
 
 
