@@ -179,10 +179,24 @@ lives at a single point $\pi\in M$.
 A {\bf tangent vector field} $\vecX: 
 M\rarrow \cup_{\pi\in}T_\pi(M)$ assigns a vector $X(\pi)$
  to every point $\pi\in M$.
+\footnote{
+A p-form $\ul{\omega}$ (defined later) is also defined pointwise. When we write
+$\ul{\omega}(\vecX, \vecY)$,
+we really mean the function
+$\pi \mapsto
+\ul{\omega}(\vecX(\pi), \vecY(\pi))
+$}
+
+The set\footnote{$\sqcup$ is the symbol for the disjoint union, i.e., the union minus all the overlaps.} $T(M)=\sqcup_{\pi\in M}T_\pi(M)$
+is called the {\bf fibre bundle}
+of $M$. Each 
+$T_\pi(M)$ is a fibre.
+$T(M)$ has dimension $2n$.
 
 Let
 \beq
-\vec{r}= x_i\check{x}_i
+\vec{r}= x^i\check{x}_i,
+\quad d\vecr = dx^i \check{x}_i
 \eeq
 Then
 \beq
@@ -217,49 +231,13 @@ $(\check{x}_i)_{op}$,
 but we won't follow 
 that convention here.}
 
-$\check{x}_i$ is not a unit vector in general, as we can see for 2-dim polar coordinates
-
-
-\beq
-\vec{r} = r\hat{r}, \quad d\vec{r} = {dr} \hat{r} + r{d\theta} \hat{\theta}
-\eeq
-\beq
-\begin{array}{ll}
-x_1=r,&\check{x}_1 =\hat{r}
-\\
-x_2 = \theta,& \check{x}_2 =r\hat{\theta}
-\end{array}
-\eeq
-
-
-
-
-
-
-A p-form $\ul{\omega}$ is also defined pointwise. When we write
-$\ul{\omega}(\vecX, \vecY)$,
-we really mean the function
-
-
-\beq
-\pi \mapsto
-\ul{\omega}(\vecX(\pi), \vecY(\pi))
-\eeq
-
-The set\footnote{$\sqcup$ is the symbol for the disjoint union, i.e., the union minus all the overlaps.} $T(M)=\sqcup_{\pi\in M}T_\pi(M)$
-is called the {\bf fibre bundle}
-of $M$. Each 
-$T_\pi(M)$ is a fibre.
-$T(M)$ ha dimension $2n$.
-\hrule
-Historical sidebar on the term \qt{holonomic}
 
 Early workers in this field
 refer to 
 a coordinate basis as a {\b holonomic} basis.
 The word \qt{holonomic}
 comes from the Greek
-words \qt{holos}=whole, complete
+words \qt{holos}=whole or complete
 and \qt{nomos}=a rule 
 or prescription.
 
@@ -339,7 +317,7 @@ d\vecr =
 dr \hat{r} + rd\theta \hat{\theta}
 \eeq
 
-$(\hat{r}, \hat{\theta})$ are non-holonomic because
+$(\hat{r}, \hat{\theta})$ is a non-holonomic basis because
 
 \beq
 \ul{d\vecr} = 
@@ -368,7 +346,7 @@ $(\hat{r}, \hat{\theta})$ are non-holonomic because
 \eeq
 On the other hand, 
 $(\hat{r}, r\hat{\theta})$
-is holonomic because
+is a holonomic basis because
 
 \beq
 \ul{d\vecr} = 
@@ -398,7 +376,7 @@ we will introduce
 the so called tetrad
 (vierbein) basis. That tangent basis is non-holonomic too.
 
-
+\subsection{p-forms}
 
 When discussing most
 concepts about 
@@ -682,7 +660,7 @@ arguments $\vecX$ and $\vecY$.
 % Please add the following required packages to your document preamble:
 % \usepackage[table,xcdraw]{xcolor}
 % Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
-\begin{table}[]
+\begin{table}[h!]
 \begin{tabular}{|l|l|l|l|l|}
 \hline
 \rowcolor[HTML]{FFFC9E} 
@@ -694,7 +672,7 @@ arguments $\vecX$ and $\vecY$.
 \label{tab-basis-dual-basis}
 \end{table}
 
-\subsection{p-forms}
+
 
 \subsection{Metric}
 
@@ -1888,17 +1866,14 @@ because $\star\star=\pm 1$ and $d^2=0$
 
 \subsection{Integration}
 
-\beq
- \int_V dV 
-\underbrace{4\pi\rho}_{\nabla\cdot \vec{E}}=
-\int_{\partial V} \vec{E}\cdot d\vec{A}
-\eeq
+
 
 Stokes' theorem
 \beq
 \int_U d\pform{\omega}{p}
 =
 \int_{\partial U}\pform{\omega}{p}
+\label{eq-stokes-dif-forms}
 \eeq
 
 \beq
@@ -1906,6 +1881,83 @@ Stokes' theorem
 =
 \underbrace{\int\int\cdots\int}_{\text{$p$ times}}\pform{\omega}{p}
 \eeq
+
+
+\begin{claim}
+Stokes' Theorem
+Eq.(\ref{eq-stokes-dif-forms}) implies
+\beq
+\int\int\int_V
+(\nabla\cdot \vec{F})dV=
+\int\int_{\partial V}
+\vec{F}\cdot d\vec{S}
+\quad\text{(Divergence Theorem)}
+\eeq
+
+\beq
+\int\int_S
+(\nabla\times \vec{F})\cdot d\vec{S}
+=
+\oint_C \vec{F}\cdot d\vecr
+\quad
+\text{(Curl Theorem)}
+\eeq
+\end{claim}
+\proof
+
+\beq
+\vec{F}= [F_1, F_2, F_3]
+\eeq
+
+\beq
+\ul{\omega}=
+F_1 \ul{dx}
++ F_2 \ul{dy}
++
+F_3 \ul{dz}
+\eeq
+
+\beq
+\ul{d\omega}=
+[\nabla \times \vec{F}]_1 \ul{dy}\wedge 
+\ul{dz}
++ \text{permutations}
+\eeq
+Thus, applying Stokes'
+theorem 
+to $d\ul{\omega}$ leads to
+the Curl
+Theorem.
+
+
+
+\beq
+\star\ul{\omega}=
+F_1 \ul{dy}\wedge\ul{dz}
++
+F_2 \ul{dz}\wedge\ul{dx}
++
+F_3 \ul{dx}\wedge\ul{dy}
+\eeq
+
+\beq
+d\star\ul{\omega}=
+\nabla\cdot \vec{F}
+\ul{dx}\wedge 
+\ul{dy}\wedge
+\ul{dz}
+\eeq
+Thus, applying Stokes'
+theorem 
+to $d\star\ul{\omega}$ leads to
+the Divergence
+Theorem.
+
+\qed
+
+
+
+
 
 \section{Differential Geometry of Curves in 3-dim}
 
@@ -2059,7 +2111,7 @@ d\vecB
 &0
 \\
 \end{array}
-\right]}_{\pform{\Omega}{}}
+\right]}_{\pform{A}{}}
 \underbrace{\left[
 \begin{array}{c}
 \vece_1
@@ -3800,6 +3852,71 @@ D\pform{\theta^a}{}\ar[d]|D
 \end{claim}
 \proof
 \qed
+
+\section{Lie Groups}
+
+$\vecr\rarrow \vecr + \vec{u}(\vecr)$ (in 3-dim)
+
+For a perfect crystal,
+
+\beq
+\oint_C d\vec{u}=0
+\eeq
+With a dislocation,
+ $\vec{u}$ 
+averaged over the closed loop is non-zero.
+{\bf Burger's vector} $\vec{b}$
+
+\beq
+\vec{b}=
+\oint_C d\vec{u}
+\eeq
+
+
+\beq
+b_i =
+\oint_C
+\pder{u_i}{x_j}dx_j
+\eeq
+
+Applying Stokes' theorem, this line integral can be converted to 
+a surface integral. If the vector normal to surface $S$ is $n_i$, then
+
+\beq b_i=
+\int
+\int_S
+\eps_{jkl}
+\frac{\partial^2 u_i}{
+\partial x_k \partial x_l
+}n_j dS
+\eeq
+
+\beq
+\alp_{ij}=
+\eps_{jkl}
+\pder{\beta_{il}}{x_k},
+\quad
+\beta_{il}=
+\pder{u_i}{x_l}
+\eeq
+$\alp_{ij}=$ {\bf dislocation
+density tensor},
+$\beta_{il}=$
+{\bf distortion tensor
+}
+
+\beq
+b_i =
+\int\int_S \alp_{ij}n_j dS
+\eeq
+In Cartan  notation,
+
+\beq
+\vec{u}\rarrow \pform{\theta^a}{}=
+e^a_i
+\pform{dx^i}{}
+\eeq
+
 
 
 
