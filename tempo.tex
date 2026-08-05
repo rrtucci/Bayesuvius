@@ -15,11 +15,18 @@
 
 \newcommand{\pformIN}[1]{(living in an $n$#1 dimensional tangent space).}
 
+
+
+\newcommand{\vecB}[0]{{\vec{B}}}
+\newcommand{\vecN}[0]{{\vec{N}}}
+\newcommand{\vecT}[0]{{\vec{T}}}
+\newcommand{\vecU}[0]{{\vec{U}}}
+\newcommand{\vecV}[0]{{\vec{V}}}
 \newcommand{\vecX}[0]{{\vec{X}}}
 \newcommand{\vecY}[0]{{\vec{Y}}}
 \newcommand{\vecZ}[0]{{\vec{Z}}}
-\newcommand{\vecV}[0]{{\vec{V}}}
-\newcommand{\vecU}[0]{{\vec{U}}}
+
+
 \newcommand{\vece}[0]{{\vec{e}}}
 
 \chapter{Differential Forms and Causal Diagrams}
@@ -1881,6 +1888,569 @@ Stokes' theorem
 \underbrace{\int\int\cdots\int}_{\text{$p$ times}}\pform{\omega}{p}
 \eeq
 
+\section{Differential Geometry of Curves in 3-dim}
+
+Frenet-Serret(notice it rhymes) equations
+
+Let
+
+$\vecr(s)=$
+1-dim curve in 3-dim parameterized by 
+arc length $s$
+
+$\vecT=$ tangent
+unit vector
+
+$\vecN=$
+normal unit vector
+
+$\vecB=\vecT\times\vecN
+$ $\bcen\xymatrix{
+&&
+\\
+&&
+\\
+\ar[rr]^\vecN
+\ar[uu]^\vecB
+\ar[dr]_\vecT&&
+\\
+&&
+}\ecen$
+
+$\kappa=$ curvature
+
+$\tau=$ torsion
+
+
+\beqa
+\frac{d\vecB}
+{ds}&=&
+-\tau \vecN
+\\
+\frac{d\vecN}
+{ds}&=&
+\tau\vecB -\kappa\vecT
+\\
+\frac{d\vecT}
+{ds}&=&
+\kappa \vecN
+\eeqa
+
+\beq
+\xymatrix{
+\vecB ds
+\ar[dr]|<<<<\tau
+&\vecN ds\ar[dr]|<<<<\kappa
+\ar[dl]|<<<<{-\tau}
+&\vecT ds
+\ar[dl]|<<<<{-\kappa}
+\\
+d\vecB
+&d\vecN
+&d\vecT
+}
+\eeq 
+
+\beq
+\vecN=\vecB\times\vecT
+\eeq
+so
+
+\beqa
+\frac{d\vecN}{ds}&=&
+\frac{d\vecB}{ds}
+\times \vecT
++
+\vecB\times
+\frac{d\vecT}{ds}
+\\
+&=&
+-\tau  \vecN \times \vecT
++
+\vecB \times \kappa \vecN
+\\
+&=&
+\tau \vecB - \kappa \vecT
+\eeqa
+
+
+\beq
+\left[
+\begin{array}{c}
+d\vecT
+\\
+d\vecN
+\\
+d\vecB
+\end{array}
+\right]
+=
+\left[
+\begin{array}{ccc}
+0
+&\kappa ds
+&0
+\\
+-\kappa ds
+&0
+&\tau ds
+\\
+0
+&-\tau ds
+&0
+\\
+\end{array}
+\right]
+\left[
+\begin{array}{c}
+\vecT
+\\
+\vecN
+\\
+\vecB
+\end{array}
+\right]
+\eeq
+
+\beq
+\underbrace{
+\left[
+\begin{array}{c}
+\pform{d\vece_1}{}
+\\
+\pform{d\vece_2}{}
+\\
+\pform{d\vece_3}{}
+\end{array}
+\right]
+}_{\pform{dE}{}}
+=
+\underbrace{\left[
+\begin{array}{ccc}
+0
+&\pform{\omega_{12}}{}
+&0
+\\
+\pform{\omega_{21}}{}
+&0
+&\pform{\omega_{23}}{}
+\\
+0
+&\pform{\omega_{32}}{}
+&0
+\\
+\end{array}
+\right]}_{\pform{\Omega}{}}
+\underbrace{\left[
+\begin{array}{c}
+\vece_1
+\\
+\vece_2
+\\
+\vece_3
+\end{array}
+\right]}_{E}
+\eeq
+
+\beq
+\pform{d\vece_a}{}=
+\pform{\omega_{ab}}{}\vece_b
+\eeq
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4in]
+{differ-geo/helix.png}
+\caption{Picture of a circular helix with moving frame
+$\vecT, \vecN, \vecB$}
+\label{fig-helix}
+\end{figure}
+
+Circular helix
+\beq
+\vecr(s)= (a\cos(s), a\sin(s), bs)
+\eeq
+
+straight line: $a=0$
+
+circle: $b=0$, $a=R$
+
+\beq
+\vecr\;'(s)=
+(-a\sin(s), a \cos(s), b)
+\eeq
+
+\beq
+\vecT = \frac{\vecr\;'}{|\vecr\;'|}
+=
+\frac{1}{\sqrt{a^2 + b^2}}(-a\sin(s), a\cos(s), b)
+\eeq
+
+\beq
+\kappa =\left| 
+\frac{d\vecT}{ds}
+\right|
+\quad \rarrow \quad
+\vecN = \frac{1}{\kappa}
+\frac{d\vecT}{ds}
+\quad \rarrow \quad
+\vecB = \vecT \times \vecN
+\quad \rarrow \quad
+\tau = - \left| 
+\frac{d\vecB}{ds}
+\right|
+\eeq
+
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
+\begin{table}[h!]
+\begin{tabular}{|l|l|l|}
+\hline
+\rowcolor[HTML]{FFFC9E} 
+Curve & Curvature $\kappa$ & Torsion $\tau$ \\ \hline
+Straight line & $0$ & $0$ \\ \hline
+Circle & $1/R$ & $0$ \\ \hline
+Helix & $a/(a^2 + b^2)$ & $b/(a^2 + b^2)$ \\ \hline
+\end{tabular}
+\caption{Curvature and Torsion for some curves in $\RR^3$}
+\label{tab-frenet}
+\end{table}
+
+\section{Differential Geometry of Surfaces in 3-dim}
+
+Let
+
+$(\hat{e}_1, \hat{e}_2)=$ 
+orthonormal basis
+in tangent plane
+
+
+ $(\hat{e}_1, \hat{e}_2, \hat{n})=$ orthonormal
+basis, $\hat{n}$ normal to tangent plane
+
+$(\pform{\theta^1}{}, \pform{\theta^2}{})=$ dual basis. It satisfies
+
+\beq
+\ul{\theta^a}
+(\hat{e}_b)= \delta^a_b
+\eeq
+
+\beq
+\pform{d\vecr}{} = \hat{e}_a\pform{\theta^a}{}\quad\text{(displacement vector)}
+\eeq
+
+\beq
+\pform{ds^2}{2} = 
+\pform{\theta^a}{}
+\pform{\theta_a}{}
+\quad\text{(metric)}
+\eeq
+
+$\pform{\omega\indices{^a_b}}{}=$ connection 1-form. It satisfies:
+
+\beq
+\pform{d\hat{e}_b}{} =
+\pform{\omega\indices{^b_a}}{}\hat{e}_b
+\label{eq-de-w-e}
+\eeq
+
+
+SE = Structure Equation
+
+
+\begin{align}
+\pform{T^a}{2} = \pform{d\theta^a}{2} + \pform{\omega\indices{^a_b}}{}\wedge \pform{\theta^b}{}
+&\quad  \text{(First SE, $\ul{T^a}=$ Torsion)}
+\\
+\pform{\Omega\indices{^a_b}}{2} =\pform{d\omega\indices{^a_b}}{2}
++
+\pform{\omega\indices{^a_c}}{}
+\wedge
+\pform{\omega\indices{^c_b}}{}
+& \quad \text{(Second SE, $\ul{\Omega\indices{^a_b}}=$ Curvature)}
+\end{align}
+For Euclidean space ($\RR^3$), we don't have
+to distinguish between upper and lower indices.
+
+Eq.(\ref{eq-de-w-e}) expressed in matrix form is 
+
+\beq
+\left[
+\begin{array}{c}
+\ul{d\hat{e}_1}
+\\
+\ul{d\hat{e}_2}
+\end{array}
+\right]=
+\left[
+\begin{array}{cc}
+0 &\ul{\omega_{12}}
+\\
+-\ul{\omega_{12}}&0
+\end{array}
+\right]
+\left[
+\begin{array}{c}
+\hat{e}_1
+\\
+\hat{e}_2
+\end{array}
+\right]
+\eeq
+The  matrix of connections
+$[\ul{\omega_{ab}}]$ must be anti-symmetric because the basis $(\hat{e}_1, \hat{e}_2)$
+is orthonormal.
+
+
+From the first SE,
+assuming zero torsion, 
+
+\beq
+\ul{d\theta_a}=
+-
+\ul{\omega_{ab}}\wedge \ul{\theta_b}
+\eeq
+
+\beq
+\boxed
+{\ul{d\theta_1}=-\ul{\omega_{12}}\wedge\theta_2,\quad
+\ul{d\theta_2}=\ul{\omega_{12}}\wedge\theta_1}
+\eeq
+
+From the second SE,
+
+\beq
+\ul{\Omega_{12}}=
+\ul{d\omega_{12}} +
+\cancel{\ul{\omega_{1c}}
+\wedge
+\ul{\omega_{c2}}}^0
+\label{eq-Omega-dw}
+\eeq
+
+Note that $(\ul{\theta_1},\ul{\theta_2})$ is a basis for the dual
+tangent vector space so we must have
+
+\beq 
+\pform{\omega_{12}}{}=
+A \pform{\theta_1}{} + B\pform{\theta_2}{}
+\label{eq-omega12-t1-t2}
+\eeq
+
+From
+Eq.(\ref{eq-Omega-dw})
+and  Eq.(\ref{eq-omega12-t1-t2}), we must have
+
+\beq
+\ul{\Omega_{12}}=
+K \ul{\omega_1}
+\wedge\ul{\omega_2}
+\eeq
+for some constant $K$.
+$K$ is called the {\bf Gaussian  curvature (scalar curvature)}.
+
+
+\beq
+\boxed
+{\ul{\Omega_{12}}=\ul{d\omega_{12}}= K
+\ul{\theta_1}\wedge\ul{\theta_2}}
+\eeq
+
+\beq
+\xymatrix@C=1pc{
+\pform{\omega_{12}}{}
+\ar[d]|{d}
+\\
+\pform{d\omega_{12}}{2}
+\ar[d]^1
+&
+\pform{\theta_1}{}\wedge
+\pform{\theta_2}{}
+\ar[dl]|K
+\\
+\Circle{0}
+}\quad
+\xymatrix@C=1pc{
+\pform{\theta_1}{}
+\ar[d]|d
+&&
+&\pform{\theta_2}{}
+\ar[d]|d
+\\
+\pform{d\theta_1}{2}
+\ar[d]^1
+&
+\pform{\omega_{12}}{}\wedge
+\pform{\theta_1}{}
+\ar[drr]|{1}
+&
+\pform{\omega_{12}}{}\wedge
+\pform{\theta_2}{}
+\ar[dll]|{-1}
+&
+\pform{d\theta_2}{2}
+\ar[d]^1
+\\
+\Circle{0}
+&&
+&\Circle{0}
+}
+\eeq
+Examples
+\begin{enumerate}
+\item $S^2=\{(x,y, z)
+\mid x^2 + y^2 + z^2 = R^2\}$, surface of sphere in 3-dim
+
+parameterization
+
+\beq
+\left\{
+\begin{array}{l}
+x=R\sin(\phi)\cos(\theta)
+\\
+y=R\sin(\phi)\sin(\theta)
+\\
+z=R\cos(\phi)
+\end{array}
+\right.
+\eeq
+for $\phi\in[0,\pi]$
+and $\theta \in [0, 2\pi]$.
+
+Instead of using the coordinate basis
+
+
+\beq
+d\vecr = 
+Rd\phi\hat{\phi}
++
+R\sin(\phi)d\theta\hat{\theta}
+\eeq
+
+\beq
+(ds)^2 =
+R^2(d\phi)^2 +
+R^2 \sin^2(\phi)
+(d\theta)^2
+\eeq 
+
+\begin{claim}
+If 
+\beq
+\ul{\theta_1}=
+R\ul{d\phi},
+\quad
+\hat{e}_1 =\hat{\phi}
+\eeq
+
+\beq
+\ul{\theta_2}=
+R\sin(\phi)
+\ul{d\theta},
+\quad
+\hat{e}_2 =\hat{\theta}
+\eeq
+then
+
+\beq
+\ul{\omega_{12}}
+=
+-\;\frac{\cot(\phi)}{R}\ul{\theta_2}
+=-\cos(\phi)
+\ul{d\theta}
+\eeq
+
+
+\beq
+\ul{d\theta_1}=0\eeq
+
+\beq
+\ul{d\theta_2}
+=
+\frac{\cot(\phi)}{R}
+\ul{\theta_1}
+\wedge
+\ul{\theta_2}
+=
+R \cos(\phi)
+\ul{d\phi}
+\wedge \ul{d\theta}
+\eeq
+
+\beq
+\ul{\Omega_{12}}
+=\ul{d\omega_{12}}
+=
+\underbrace{\frac{1}{R^2}}_{K}
+\ul{\theta_1}
+\wedge\ul{\theta_2}
+=\sin(\phi)
+\ul{d\phi}
+\wedge
+\ul{d\theta}
+\eeq
+\end{claim}
+\proof
+
+Zero torsion
+so
+
+\beq
+\ul{d\theta_a}
++
+\ul{\omega_{ab}}
+\wedge \ul{\theta_b}=0
+\eeq
+
+\beqa
+\cancel{\ul{d\theta_1}}^0
++
+\ul{\omega_{12}}
+\wedge
+\ul{\theta}_2
+=0
+\\
+\ul{d\theta_2}
+-
+\ul{\omega_{12}}
+\wedge
+\ul{\theta}_1
+=0
+\eeqa
+
+First equation implies
+
+\beq
+\ul{\omega_{12}}=A \ul{\theta_1}
+\eeq
+Second equation 
+can be used to solve for $A$.
+
+
+\beq
+\frac{\cot(\phi)}{R}
+\ul{\theta_1}
+\wedge\ul{\theta_2}+
+A\ul{\theta_1}
+\wedge \ul{\theta_2}=0
+\implies 
+A = -\;\frac{\cot(\phi)}{R}
+\eeq
+
+\qed
+\item {\bf Mobius strip}.
+Its curvature 
+changes as one moves on the surface but its torsion is zero.
+\item {\bf Helicoid.}
+Its curvature 
+changes as one moves on the surface but its torsion is zero.
+
+\item {\bf crystal dislocations}
+
+\end{enumerate}
+
 \section{Thermodynamics}
 
 \beq
@@ -2719,6 +3289,9 @@ along a	 trajectory
 \eeqa
 \qed
 
+$\pform{\omega_ab}{}$
+connection 1-forms
+
 \section{General Relativity}\label{sec-gen-rel}
 
 General Relativity (GR)
@@ -3188,5 +3761,7 @@ D\pform{e^a}{}\ar[d]|D
 \end{claim}
 \proof
 \qed
+
+
 
 \end{document}}
