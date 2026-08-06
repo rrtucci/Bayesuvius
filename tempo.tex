@@ -1887,18 +1887,19 @@ Stokes' theorem
 Stokes' Theorem
 Eq.(\ref{eq-stokes-dif-forms}) implies
 \beq
-\int\int\int_V
-(\nabla\cdot \vec{F})dV=
+\int\int\int_V\; dV
+\nabla\cdot \vec{F}=
 \int\int_{\partial V}
-\vec{F}\cdot d\vec{S}
+d\vec{S}\cdot
+\vec{F}
 \quad\text{(Divergence Theorem)}
 \eeq
 
 \beq
-\int\int_S
-(\nabla\times \vec{F})\cdot d\vec{S}
+\int\int_Sd\vec{S}\cdot
+\nabla\times \vec{F} 
 =
-\oint_C \vec{F}\cdot d\vecr
+\oint_C d\vecr \cdot\vec{F}
 \quad
 \text{(Curl Theorem)}
 \eeq
@@ -2528,7 +2529,127 @@ changes as one moves on the surface but its torsion is zero.
 
 \item {\bf crystal dislocations}
 
+Neither $S^2$, nor the Mobius strip nor a Helicoid
+have torsion. Here
+is an example of a surface
+in 3-dim that does.
+Basically, it's like a Helicoid, but instead of 
+growing uniformly in the $z$-direction, it 
+sallies forth in the $z$-direction but before going around a full turn, 
+it changes its mind and comes
+back to where it started. 
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=5in]
+{differ-geo/burgers_vector.png}
+\caption{Burgers vector in an edge dislocation (left) and in a screw dislocation (right). The edge dislocation can be imagined as the introduction of a half plane (gray boxes) that does not fit the crystal symmetry. The screw dislocation can be imagined as cut and shear operation along a half plane.
+(This image and caption by Martin Fleck comes
+from the Wikipedia article
+on Burgers Vector
+*******
+%\cite{wiki-burgers}
+)}
+\label{fig-burgers-vector}
+\end{figure}
+
+$\vecr\rarrow \vecr + \vec{u}(\vecr)$ (in 3-dim)
+
+For a perfect crystal,
+
+\beq
+\oint_C d\vec{u}=0
+\eeq
+If the
+crystal has a dislocation,
+ $\vec{u}$ 
+averaged over the closed loop may be non-zero.
+{\bf Burger's vector} $\vec{b}$
+
+\beq
+\vec{b}=
+\oint_C d\vec{u}
+\eeq
+
+
+\beq
+b_i =
+\oint_C
+\pder{u_i}{x_j}dx_j
+\eeq
+
+Applying Stokes' theorem, this line integral can be converted to 
+a surface integral
+over a curl. If the vector normal to surface $S$ is $n_i$, then
+
+\beq b_i=
+\int
+\int_S
+\eps_{jkl}
+\frac{\partial^2 u_i}{
+\partial x_k \partial x_l
+}n_j dS
+\eeq
+
+\beq
+\alp_{ij}=
+\eps_{jkl}
+\pder{\beta_{il}}{x_k},
+\quad
+\beta_{il}=
+\pder{u_i}{x_l}
+\eeq
+$\alp_{ij}=$ {\bf dislocation
+density tensor},
+$\beta_{il}=$
+{\bf distortion tensor
+}
+
+\beq
+b_i =
+\int\int_S \alp_{ij}n_j dS
+\eeq
+In Cartan  notation,
+
+\beq
+\vec{u}\rarrow \pform{\theta^a}{}=
+e^a_i
+\pform{dx^i}{}
+\eeq
+
+\beq
+\pform{T^a}{2
+} 
+=\pform{d\theta^a}{}+
+\pform{\omega\indices{^a_b}}
+{}\wedge
+\pform{\theta^b}{}
+\eeq
+When dealing with crystals, it's possible to choose a connection
+called the Weitzenb\"{o}ck (teleparallel) connection, for which
+$\ul{\omega\indices{^a_b}}=0$.\footnote{If the
+teleparallel connection is not being used, one must 
+include the contribution
+of $\ul{\omega\indices{^a_b}}
+\wedge \ul{\theta^b}$
+in the calculation of  Burger's vector.} Then
+
+\beq
+b^a=
+\oint_C \pform{\theta^a}{}
+\eeq
+By Stokes' theorem,
+
+\beq
+b^a =
+\int_S
+\pform{T^a}{2}
+\eeq
+
+
 \end{enumerate}
+
+\section{Fluid Mechanics}
 
 \section{Thermodynamics}
 
@@ -3854,70 +3975,6 @@ D\pform{\theta^a}{}\ar[d]|D
 \qed
 
 \section{Lie Groups}
-
-$\vecr\rarrow \vecr + \vec{u}(\vecr)$ (in 3-dim)
-
-For a perfect crystal,
-
-\beq
-\oint_C d\vec{u}=0
-\eeq
-With a dislocation,
- $\vec{u}$ 
-averaged over the closed loop is non-zero.
-{\bf Burger's vector} $\vec{b}$
-
-\beq
-\vec{b}=
-\oint_C d\vec{u}
-\eeq
-
-
-\beq
-b_i =
-\oint_C
-\pder{u_i}{x_j}dx_j
-\eeq
-
-Applying Stokes' theorem, this line integral can be converted to 
-a surface integral. If the vector normal to surface $S$ is $n_i$, then
-
-\beq b_i=
-\int
-\int_S
-\eps_{jkl}
-\frac{\partial^2 u_i}{
-\partial x_k \partial x_l
-}n_j dS
-\eeq
-
-\beq
-\alp_{ij}=
-\eps_{jkl}
-\pder{\beta_{il}}{x_k},
-\quad
-\beta_{il}=
-\pder{u_i}{x_l}
-\eeq
-$\alp_{ij}=$ {\bf dislocation
-density tensor},
-$\beta_{il}=$
-{\bf distortion tensor
-}
-
-\beq
-b_i =
-\int\int_S \alp_{ij}n_j dS
-\eeq
-In Cartan  notation,
-
-\beq
-\vec{u}\rarrow \pform{\theta^a}{}=
-e^a_i
-\pform{dx^i}{}
-\eeq
-
-
 
 
 \end{document}}
