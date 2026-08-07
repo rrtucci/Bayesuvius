@@ -1846,9 +1846,9 @@ Stokes' theorem
 \eeq
 
 \beq
-\underbrace{\int\int\cdots\int}_{\text{$p+1$ times}} d \pform{\omega}{p}
+\underbrace{\iint\cdots\int}_{\text{$p+1$ times}} d \pform{\omega}{p}
 =
-\underbrace{\int\int\cdots\int}_{\text{$p$ times}}\pform{\omega}{p}
+\underbrace{\iint\cdots\int}_{\text{$p$ times}}\pform{\omega}{p}
 \eeq
 
 
@@ -1856,16 +1856,16 @@ Stokes' theorem
 Stokes' Theorem
 Eq.(\ref{eq-stokes-dif-forms}) implies
 \beq
-\int\int\int_V\; dV
+\iiint_V\; dV
 \nabla\cdot \vec{F}=
-\int\int_{\partial V}
+\iint_{\partial V}
 d\vec{S}\cdot
 \vec{F}
 \quad\text{(Divergence Theorem)}
 \eeq
 
 \beq
-\int\int_Sd\vec{S}\cdot
+\iint_Sd\vec{S}\cdot
 \nabla\times \vec{F}
 =
 \oint_C d\vecr \cdot\vec{F}
@@ -1925,7 +1925,9 @@ Theorem.
 
 \qed
 
+\subsection{Laplacians}
 
+\subsection{Hodge Decomposition}
 
 
 
@@ -2576,7 +2578,7 @@ $\beta_{il}=$
 
 \beq
 b_i =
-\int\int_S \alp_{ij}n_j dS
+\iint_S \alp_{ij}n_j dS
 \eeq
 In Cartan  notation,
 
@@ -2619,6 +2621,344 @@ b^a =
 \end{enumerate}
 
 \section{Fluid Mechanics}
+
+
+\begin{itemize}
+
+\item coordinates $(x^1, x^2, x^3)=(x,y,z)$
+
+
+\item velocity
+
+velocity field
+\beq
+\vecv= v^i \hat{x}_i
+\eeq
+
+velocity 1-form
+\beq
+\pform{\beta}{}=
+\vecv\;^\flat =
+v_i\pform{dx^i}{}
+\eeq
+
+\item circulation
+\beq
+\Gamma =
+\oint_C \vecv\cdot d\vecr = \oint_C \pform{\beta}{}
+\eeq
+
+\item vorticity
+
+\beq
+\vec{\omega}=\nabla
+\times \vecv
+\eeq
+
+\beq
+\pform{\omega}{2}
+=
+\pform{d\beta}{2}
+\eeq
+
+\beqa
+\pform{\omega}{2}
+&=&
+\frac{1}{2}
+\left(
+\partial_i v_j
+-
+\partial_j v_i
+\right)
+\pform{dx^i}{}
+\wedge
+\pform{dx^j}{}
+\\
+&=&
+\left(
+\partial_1{v_2}-
+\partial_2{v_1}
+\right)
+\pform{dx^1}{}
+\wedge
+\pform{dx^2}{}
++ \text{permutations}
+\eeqa
+
+\beq
+\pform{\omega}{2}=
+(\star \;^\flat)(\vec{\omega})
+\eeq
+
+\item
+volume 3-form
+
+\beq
+\pform{vol}{3}=
+\pform{\star 1}{3}=
+\pform{dx}{}\wedge
+\pform{dy}{}\wedge
+\pform{dz}{}
+\eeq
+\end{itemize}
+
+Stokes' theorem for vorticity
+
+\beq
+\oint_C
+\vecv\cdot d\vec{r}=
+\iint
+d\vec{S}\cdot (\nabla\times \vecv)
+\eeq
+
+\beq
+\oint_{\partial S}\ul{\beta}=
+\iint_S \ul{d\beta}
+\eeq
+
+
+
+incompressible flow
+
+\beq
+\nabla\cdot \vecv=0
+\eeq
+
+
+\beqa
+d\star \pform{\beta}{}
+&=&d\;\left[v^1 \pform{dx^2}{}\wedge\pform{dx^3}{}+\text{permutations}\right]
+\\
+&=&
+[\nabla\cdot \vecv] \pform{vol}{3}
+\eeqa
+
+
+\beqa
+d\;i_\vecv\;\pform{vol}{3}
+&=&d\;\left[v^1 \pform{dx^2}{}\wedge\pform{dx^3}{}+\text{permutations}\right]
+\\
+&=&
+[\nabla\cdot \vecv] \pform{vol}{3}
+\eeqa
+
+\beq
+d\star \pform{\beta}{} =
+d\;i_\vecv\;\pform{vol}{3} =0
+\eeq
+
+\hrule
+Euler's equation
+for ideal incompressible fluid
+
+\beq
+\partial_t \vecv +
+(\vecv \cdot \nabla)
+\vecv +
+\frac{1}{\rho}\nabla p=0
+\eeq
+
+\begin{claim}
+
+\beq
+\vecv \times  (\nabla \times\vecv)=
+\nabla\left(
+\frac{1}{2}|\vecv|^2
+\right)
+-
+(\vecv \cdot \nabla)\vecv
+\eeq
+
+\beq
+\left[
+\vecv\times(\nabla \times \vecv)
+\right]_i=
+v_j[\partial_i v_j-
+\partial_j v_i]
+\eeq
+\end{claim}
+\proof
+
+\beqa
+v_1\hat{x}\times (\nabla \times \vecv)
+&=&
+v_1\hat{x}\times
+\left[
+\hat{y}(\partial_3 v_1-\partial_1 v_3)
++
+\hat{z}(\partial_1 v_2-\partial_2 v_1)
+\right]
+\\
+&=&v_1
+\left[\hat{z}(\partial_3 v_1-\partial_1 v_3)
+-
+\hat{y}(\partial_1 v_2-\partial_2 v_1)
+\right]
+\\
+&=&
+v_1
+\left[
+\hat{z}\partial_3 +\hat{y}\partial_2
+\right]v_1
++
+v_1\partial_1\left[
+-\hat{z}v_3
+-\hat{y}v_2
+\right]
+\\
+&=&
+v_1 \nabla v_1 -
+v_1\partial_1 \vecv
+\\
+&=&
+\nabla \left(
+\frac{1}{2}v_1^2\right) -
+v_1\partial_1 \vecv
+\eeqa
+Thus
+
+\beq
+\vecv \times  (\nabla \times\vecv)=
+\nabla\left(
+\frac{1}{2}|\vecv|^2
+\right)
+-
+(\vecv \cdot \nabla)\vecv
+\eeq
+
+\beqa
+\left[\vecv\times(\nabla \times \vecv)
+\right]_i &=&
+\partial_i\left(
+\frac{1}{2} |\vec{v}|^2\right)
+-v_j\partial_j v_i
+\\
+&=&
+v_j[\partial_i v_j-
+\partial_j v_i]
+\eeqa
+
+This can also
+be proved using the identity
+
+\beq
+\eps_{pqa}\eps_{amn}=
+\delta^{pq}_{mn}-
+\delta^{pn}_{qm}
+\eeq
+\qed
+
+
+\beq
+\partial_t \vecv
+-
+{\vecv \times  (\nabla \times\vecv)}
++\nabla\left(
+\frac{1}{2}|\vecv|^2
+\right)
+ +
+\frac{1}{\rho}\nabla p=0
+\eeq
+
+\beq
+\left[\vecv\times(\nabla \times \vecv)
+\right]_r=
+v_j
+\left[\partial_r v_j
+-\partial_j v_r
+\right]
+\eeq
+
+\beqa
+i_\vecv \pform{\omega}{2}&=&
+v_j(\partial_j v_r-
+\partial_r v_j)
+\pform{dx_r}{}
+\\
+&=&
+-\left[\vecv\times(\nabla \times \vecv)
+\right]_r \pform{dx_r}{}
+\eeqa
+
+\beq
+\Phi = \frac{1}{2}|\vecv|^2
++ \frac{p}{\rho}
+\eeq
+
+\beq
+\boxed
+{\partial_t
+\pform{\beta}{}
++
+i_\vecv \pform{\omega}{2}
++
+\pform{d
+\Phi}{}
+=0}
+\eeq
+
+\begin{claim}(Vorticity equation for ideal incompressible fluid)
+Euler's equation implies
+
+\beq
+\partial_t \ul{\omega}
++
+\call_\vecv \ul{\omega}=0
+\eeq
+
+\proof
+
+\beq
+\partial_t\pform{\beta}{}
++i_\vecv \pform{\omega}{2}
++
+\pform{d\Phi}{}=0
+\eeq
+
+Apply $d$ to the each term and use $d^2$=0
+
+\beq
+\partial_td\; \pform{\beta}{}
++
+d\;i_\vecv \pform{\omega}{2}=0
+\eeq
+
+\beq
+\call_\vecv
+\pform{\omega}{2} =
+[\cancel{i_\vecv d}^0 + 
+d\;  i_\vecv]
+\pform{\omega}{2}
+\eeq
+
+\qed
+
+Electromagnetism:
+\beq
+\pform{F}{2}= d\;\pform{A}{}\implies \pform{dF}{3}=0
+\eeq
+
+Fluid Mechanics
+\beq
+\pform{\omega}{2}=d\;\pform{\beta}{}
+\implies
+\pform{d\omega}{3}
+=0
+\eeq
+\hrule
+Navier Stokes (incompressible fluid with viscosity $\nu$)
+
+\beq
+\boxed
+{\partial_t
+\pform{\beta}{}
++
+i_\vecv \pform{\omega}{2}
++
+\pform{d
+\Phi}{}
+=-\nu \nabla^2 \pform{\beta}{}}
+\eeq
 
 \section{Thermodynamics}
 
