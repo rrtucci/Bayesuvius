@@ -345,6 +345,19 @@ we will introduce
 the so called tetrad
 (vierbein) basis. That tangent basis is non-holonomic too.
 
+A basis 
+$\{\vece_i\}_{i=1}^n$ is orthogonal if
+$(\vece_i)^a 
+(\vece_j)_a=0$ for all $i\neq j$. That basis is saidd to be normalized if $(\vece_i)^a 
+(\vece_i)_a= 1$
+for all $i$.
+A basis is orthonormal if it is
+both  orthogonal
+and normalized.
+Whether a basis
+is orthogonal  or normalized has nothing to
+do with whether it is holonomic or not.
+
 \subsection{p-forms}
 
 When discussing most
@@ -1833,7 +1846,9 @@ because $\star\star=\pm 1$ and $d^2=0$
 
 \qed
 
-\subsection{Integration}
+\subsection{Laplacians}
+
+\subsection{Stokes' Theorem}
 
 
 
@@ -1925,11 +1940,156 @@ Theorem.
 
 \qed
 
-\subsection{Laplacians}
+
 
 \subsection{Hodge Decomposition}
 
+\subsection{Frobenius Theorem}
 
+\section{Differential Geometry of General Manifolds}\label{sec-gen-differ-geo}
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
+\begin{table}[h!]
+\begin{tabular}{|
+>{\columncolor[HTML]{9AFF99}}l |l|}
+\hline
+def. displacement vector & $\pform{d\vecr}{}= \vece \pform{\theta}{}$ \\ \hline
+def. connections & $\pform{d\vece}{} =  \vece \pform{\omega}{}$ \\ \hline
+def. torsion (Cartan SE 1) & $\pform{T}{2} = D\pform{\theta}{} =d\pform{\theta}{} + \pform{\omega}{}\wedge \pform{\theta}{}$ \\ \hline
+def. curvature (Cartan SE 2) & $\pform{\Omega}{2} = D\pform{\omega}{} = d\pform{\omega}{} +\pform{\omega}{}\wedge\pform{\omega}{}$ \\ \hline
+d(torsion) (Bianchi 1) & $D\pform{T}{2} = \pform{\Omega}{2}\wedge \pform{\theta}{}$ \\ \hline
+d(curvature) (Bianchi 2) & $D\pform{\Omega}{2} =\pform{\Omega}{2}\wedge \pform{\omega}{}$ \\ \hline
+\end{tabular}
+\caption{Equations in Cartan Theory, without indices }
+\label{tab-Cartan-theory-eqs}
+\end{table}
+
+Let
+
+$(\vece_1, \vece_2, \ldots, \vece_n)=$
+basis
+in tangent plane
+
+
+$(\pform{\theta^1}{}, \pform{\theta^2}{} \ldots, \pform{\theta^n}{})=$ dual basis. It satisfies
+
+\beq
+\ul{\theta^a}
+(\vece_b)= \delta^a_b
+\eeq
+
+\beq
+\pform{d\vecr}{} = \vece_a\pform{\theta^a}{}\quad\text{(displacement vector)}
+\eeq
+
+\beq
+\pform{g}{2}=
+\pform{ds^2}{2} =
+\pform{\theta^a}{}
+\pform{\theta_a}{}
+\quad\text{(metric)}
+\eeq
+
+$\pform{\omega\indices{^a_b}}{}=$ connection 1-form. It satisfies:
+
+\beq
+\pform{d\vece_b}{} =\vece_b
+\pform{\omega\indices{^b_a}}{}
+\label{eq-de-w-e}
+\eeq
+
+
+
+SE = Structure Equation
+
+definition of torsion $\ul{T^a}$,
+Cartan's First SE
+\beq
+\pform{T^a}{2} = \pform{d\theta^a}{2} + \pform{\omega\indices{^a_b}}{}\wedge \pform{\theta^b}{}
+\eeq
+
+definition of curvature $\ul{\Omega\indices{^a_b}}$,
+Cartan's Second SE 
+
+\beq
+\pform{\Omega\indices{^a_b}}{2} =\pform{d\omega\indices{^a_b}}{2}
++
+\pform{\omega\indices{^a_c}}{}
+\wedge
+\pform{\omega\indices{^c_b}}{}
+\eeq
+
+\begin{claim}(Bianchi Identities)
+
+\beq
+\pform{dT^a}{3}=-
+\pform{\omega\indices{^a_b}}{}
+\wedge
+\pform{T^b}{2} 
++
+\pform{\Omega\indices{^a_b}}{2}
+\wedge
+\pform{\theta^b}{}
+\quad \text{(First Bianchi Identity)}
+\eeq
+
+
+\beq
+\pform{d\Omega\indices{^a_c}}{3}=
+-
+\pform{\omega\indices{^a_b}}{}
+\wedge
+\pform{\Omega\indices{^b_c}}{2}
++
+\pform{\Omega\indices{^a_b}}{2}
+\wedge
+\pform{\omega\indices{^b_c}}{}
+\quad\text{(Second Bianchi Identity)}
+\eeq
+
+
+\end{claim}
+\proof
+
+These identities both
+come from applying a $d$ derivative
+to Cartan's first and second structure functions.
+
+\beqa
+d\ul{T} &=& \cancel{d^2 \ul{\theta}} + (d\ul{\omega})\wedge\ul{\theta}
+-\ul{\omega} \wedge d\ul{\theta}
+\\
+&=&
+(d\ul{\omega})\wedge \ul{\theta}
+-
+\ul{\omega}\wedge
+(\ul{T} - \ul{\omega}\wedge \ul{\theta})
+\\
+&=&
+-\ul{\omega} \wedge \ul{T}
++ 
+\underbrace{[d\ul{\omega}
++ \ul{\omega}\wedge\ul{\omega}]}_{\ul{\Omega}}
+\wedge \ul{\theta}
+\eeqa
+
+\beqa
+d\ul{\Omega} &=& \cancel{ d^2 \ul{\omega}}
++ (d\ul{\omega})\wedge \ul{\omega}
+-  \ul{\omega} \wedge (d\ul{\omega})
+\\
+&=&
+[\ul{\Omega} - \ul{\omega}\wedge \ul{\omega}]\wedge \ul{\omega}
+-
+\ul{\omega}\wedge [\ul{\Omega} - \ul{\omega}\wedge \ul{\omega}]
+\\
+&=&
+\ul{\Omega} \wedge \ul{\omega} - \ul{\omega} \wedge \ul{\Omega}
+\eeqa
+
+\qed
 
 \section{Differential Geometry of Curves in 3-dim}
 
@@ -2068,6 +2228,7 @@ d\vecB
 \right]
 }_{\pform{dE}{}}
 =
+-
 \underbrace{\left[
 \begin{array}{ccc}
 0
@@ -2083,7 +2244,7 @@ d\vecB
 &0
 \\
 \end{array}
-\right]}_{\pform{A}{}}
+\right]}_{\pform{W}{}}
 \underbrace{\left[
 \begin{array}{c}
 \vece_1
@@ -2097,7 +2258,7 @@ d\vecB
 
 \beq
 \pform{d\vece_a}{}=
-\pform{\omega_{ab}}{}\vece_b
+-\pform{\omega_{ab}}{}\vece_b
 \eeq
 
 \begin{figure}[h!]
@@ -2173,52 +2334,18 @@ in tangent plane
  $(\hat{e}_1, \hat{e}_2, \hat{n})=$ orthonormal
 basis, $\hat{n}$ normal to tangent plane
 
-$(\pform{\theta^1}{}, \pform{\theta^2}{})=$ dual basis. It satisfies
+$(\pform{\theta^1}{}, \pform{\theta^2}{})=$ dual basis. 
 
-\beq
-\ul{\theta^a}
-(\hat{e}_b)= \delta^a_b
-\eeq
-
-\beq
-\pform{d\vecr}{} = \hat{e}_a\pform{\theta^a}{}\quad\text{(displacement vector)}
-\eeq
-
-\beq
-\pform{ds^2}{2} =
-\pform{\theta^a}{}
-\pform{\theta_a}{}
-\quad\text{(metric)}
-\eeq
-
-$\pform{\omega\indices{^a_b}}{}=$ connection 1-form. It satisfies:
-
-\beq
-\pform{d\hat{e}_b}{} =
-\pform{\omega\indices{^b_a}}{}\hat{e}_b
-\label{eq-de-w-e}
-\eeq
-
-
-SE = Structure Equation
-
-
-\begin{align}
-\pform{T^a}{2} = \pform{d\theta^a}{2} + \pform{\omega\indices{^a_b}}{}\wedge \pform{\theta^b}{}
-&\quad  \text{(First SE, $\ul{T^a}=$ Torsion)}
-\\
-\pform{\Omega\indices{^a_b}}{2} =\pform{d\omega\indices{^a_b}}{2}
-+
-\pform{\omega\indices{^a_c}}{}
-\wedge
-\pform{\omega\indices{^c_b}}{}
-& \quad \text{(Second SE, $\ul{\Omega\indices{^a_b}}=$ Curvature)}
-\end{align}
+Everything covered in Section 
+\ref{sec-gen-differ-geo} applies to
+this case of 2-dim surfaces in $\RR^3$.
+In this case, the indices $a, b,\ldots$ 
+range over $\{1, 2\}$
 For Euclidean space ($\RR^3$), we don't have
 to distinguish between upper and lower indices.
 
-Eq.(\ref{eq-de-w-e}) expressed in matrix form is
-
+The definition of the connection 1-forms
+$\ul{\omega_{ab}}$ takes the form
 \beq
 \left[
 \begin{array}{c}
@@ -2227,6 +2354,7 @@ Eq.(\ref{eq-de-w-e}) expressed in matrix form is
 \ul{d\hat{e}_2}
 \end{array}
 \right]=
+-
 \left[
 \begin{array}{cc}
 0 &\ul{\omega_{12}}
@@ -2243,7 +2371,7 @@ Eq.(\ref{eq-de-w-e}) expressed in matrix form is
 \right]
 \eeq
 The  matrix of connections
-$[\ul{\omega_{ab}}]$ must be anti-symmetric because the basis $(\hat{e}_1, \hat{e}_2)$
+$\ul{\omega}=[\ul{\omega_{ab}}]$ must be anti-symmetric because the basis $(\hat{e}_1, \hat{e}_2)$
 is orthonormal.
 
 
@@ -2898,6 +3026,7 @@ i_\vecv \pform{\omega}{2}
 \eeq
 
 \begin{claim}(Vorticity equation for ideal incompressible fluid)
+
 Euler's equation implies
 
 \beq
@@ -2905,7 +3034,7 @@ Euler's equation implies
 +
 \call_\vecv \ul{\omega}=0
 \eeq
-
+\end{claim}
 \proof
 
 \beq
