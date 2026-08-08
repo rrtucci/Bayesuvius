@@ -3,9 +3,147 @@
 \input{bayesuvius.sty}
 \begin{document}
 
+\subsection{Hodge Decomposition}
+
+\begin{claim}(Helmholtz decomposition)
+
+For any well behaved vector field $\vec{F}:\RR^3\rarrow \RR^3$, there exists functions $\phi:\RR^3\rarrow \RR$ ,
+$\vec{A}:\RR^3\rarrow \RR^3$
+and $\vec{H}:\RR^3\rarrow \RR^3$ such that
+$\vec{F}$
+can be decomposed into a sum of 3 parts, a gradient, a curl,
+and a harmonic function:
+
+\beq
+\vec{F}= \nabla \phi +
+\nabla \times \vec{A} + \vec{H}
+\eeq
+where
+
+\beq
+\nabla^2 \vec{H}=0
+\eeq
+\end{claim}
+\proof
+\qed
+
+The  operator $d^\dag$ is defined as\footnote{A common notation is to 
+represent $d^\dag$ by $\delta$.}
+\beq
+d^\dag = (-1)^{\Delta(p,n)}\star d \star
+\eeq
+where $\Delta(p,n)$
+is a function of $n$ and $p$
+discussed in Section \ref{sec-laplacians}
+on Laplacians.
+
+Note that
+
+\beq
+(d^\dagger)^2=\star d \star \star d \star=0
+\eeq
+
+Whereas the {\bf derivative} operator $d$ raised the
+degree of a p-form by 1,
+the {\bf adjoint derivative} operator $d^\dag$ lowers the degree by 1.
+If $\pform{\calv}{p}$ is the vector space 
+of p-forms on $M$, then
+
+\beq
+\xymatrix{
+\pform{\calv}{p}\ar[r]_\star
+&\pform{\calv}{n-p}\ar[r]_d
+&\pform{\calv}{n-p-1}\ar[r]_\star
+&\pform{\calv}{p+1}
+}
+\eeq
+For example, for $n=3$
+and an orthonormal coordinate basis,
+if $\pform{\omega}{}$ is a 1-form
+\beqa
+d^\dag \pform{\omega}{}
+&=&(-1)^{\Delta(p,n)}\star d \star \left[\omega_1 \pform{dx}{} +\cdots\right]
+\\
+&=&(-1)^{\Delta(p,n)}
+\star d\left[
+\omega_1 \pform{dy\wedge dz}{2}
++ \cdots\right]
+\\
+&=&(-1)^{\Delta(p,n)}
+\star \left[
+\partial_i \omega_i \pform{dx \wedge dy \wedge dz}{3}
+\right]
+\\
+&=&(-1)^{\Delta(p,n)}
+\partial_i \omega_i
+\eeqa
 
 
 
+
+The {\bf Hodge laplacian 
+$\Delta$} is defined by\footnote{The Hodge laplacian is discussed in 
+\ref{sec-laplacians}.}
+\beq
+\Delta = d d^\dag + d^\dag d
+\eeq
+For example, for $n=3$
+and an orthonormal coordinate basis,
+if $f(\rvr)$ is a 0-form
+
+\beqa
+\Delta f(\vecr)
+&=& \left[\cancel{d d^\dag }+  d^\dag d\right] f
+\\
+&=&(-1)^{\Delta(p,n)}\star d \star \left[\partial_1f \pform{dx}{} +\cdots\right]
+\\
+&=&(-1)^{\Delta(p,n)}
+\star d\left[
+\partial_1 f \pform{dy\wedge dz}{2}
++ \cdots\right]
+\\
+&=&(-1)^{\Delta(p,n)}
+\star \left[
+\nabla^2f \pform{dx \wedge dy \wedge dz}{3}
+\right]
+\\
+&=&(-1)^{\Delta(p,n)}
+\nabla^2 f
+\eeqa
+
+
+\begin{claim}(Hodge Decomposition)
+
+For any well behaved p-form
+$\pform{\omega}{p}$,
+there exist p-forms 
+$\pform{\alp}{p-1}$,
+$\pform{\beta}{p+1}$
+and $\pform{\gamma}{p}$
+such that
+$\pform{\omega}{p}$ can be decomposed
+as follows:
+
+\beq
+\pform{\omega}{p}=
+\underbrace{d\pform{\alp}{p-1}}_{\text{exact part}}\quad
++\quad
+\underbrace{d^\dagger \pform{\beta}{p+1}}_
+{\text{coexact part}}
+\quad
++
+\underbrace{\pform{\gamma}{p}}_{\text{
+harmonic part}}
+\eeq
+where
+
+\beq
+\Delta \pform{\gamma}{p}=0
+\eeq
+
+\end{claim}
+\proof
+\qed
 
 
 
