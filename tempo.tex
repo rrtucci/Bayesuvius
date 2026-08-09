@@ -3,7 +3,224 @@
 \input{bayesuvius.sty}
 \begin{document}
 
+\subsection{Laplacians}
+\label{sec-laplacians}
+
+The  operator $d^\dag$ is defined as\footnote{A common notation is to 
+represent $d^\dag$ by $\delta$.}
+\beq
+d^\dag = (-1)^{\Delta(p,n)}\star d \star
+\eeq
+where $\Delta(p,n)$
+is a function of $n$ and $p$ to be
+discussed later on in this section.
+
+Note that just like $d^2=0$, 
+
+\beq
+(d^\dagger)^2=\star d \star \star d \star=0
+\eeq
+
+Whereas the {\bf derivative} operator $d$ raises the
+degree of a p-form by 1,
+the {\bf adjoint derivative} operator $d^\dag$ lowers the degree by 1.
+If $\pform{\calv}{p}$ is the vector space 
+of p-forms on $M$, then
+
+\beq
+\xymatrix{
+\pform{\calv}{p}\ar[r]_\star
+&\pform{\calv}{n-p}\ar[r]_d
+&\pform{\calv}{n-p-1}\ar[r]_\star
+&\pform{\calv}{p+1}
+}
+\eeq
+For example, for $n=3$
+and an orthonormal coordinate t-basis,
+if $\pform{\omega}{}$ is a 1-form
+\beqa
+d^\dag \pform{\omega}{}
+&=&(-1)^{\Delta(p,n)}\star d \star \left[\omega_1 \pform{dx}{} +\cdots\right]
+\\
+&=&(-1)^{\Delta(p,n)}
+\star d\left[
+\omega_1 \pform{dy\wedge dz}{2}
++ \cdots\right]
+\\
+&=&(-1)^{\Delta(p,n)}
+\star \left[
+\partial_i \omega_i \pform{dx \wedge dy \wedge dz}{3}
+\right]
+\\
+&=&(-1)^{\Delta(p,n)}
+\partial_i \omega_i
+\eeqa
+
+Recall the BAC minus CAB
+rule for double cross products
+
+\beq
+\veca \times(\vecb \times \vecc)= \vecb(\veca\cdot\vecc)-
+\vecc(\veca\cdot\vecb)
+\eeq
+The following is a generalization to the case where $\veca=\vecb=\nabla$.
+
+\begin{claim}
+\beq
+\nabla
+\times
+(\nabla \times \vecc)=
+\nabla(\nabla\cdot \vecc)-
+\nabla^2 \vecc
+\eeq
+
+It follows that the Laplacian can
+be decomposed into
+a sum of a gradient 
+(gradient of the divergence of $\vecc$) and
+a double cross product
+(circulation of circulation of $\vecc$)
+
+\beq
+\nabla^2 \vecc
+=
+\nabla(\nabla\cdot \vecc)
+-
+\nabla\times
+(\nabla \times \vecc)
+\eeq
+
+\end{claim}
+\proof
+
+\qed
+
+The definition of the
+Hodge Laplacian $\Delta$
+is a generalization
+of this decomposition to p-forms
+
+
+
+The {\bf Hodge laplacian 
+$\Delta$} is defined by
+\beq
+\Delta = d d^\dag + d^\dag d
+\eeq
+
+Examples
+\begin{itemize} 
+\item 0-forms
+
+For $n=3$
+and an orthonormal coordinate t-basis,
+if $f(\rvr)$ is a 0-form
+
+\beqa
+\Delta f(\vecr)
+&=& \left[\cancel{d d^\dag }+  d^\dag d\right] f
+\\
+&=&{(-1)^{\Delta(p=1,n=3)}}\star d \star \left[\partial_1f \ul{dx} +\cdots\right]
+\\
+&=&(-1)^{\Delta(1,3)}
+\star d\left[
+\partial_1 f \ul{dy\wedge dz}
++ \cdots\right]
+\\
+&=&(-1)^{\Delta(1,3)}
+\star \left[
+\nabla^2f \ul{dx \wedge dy \wedge dz}
+\right]
+\\
+&=&(-1)^{\Delta(1,3)}
+\nabla^2 f
+\eeqa
+\item 1-forms
+
+For $n=3$ and a 1-form $\pform{\omega}{}=\sum_i \omega_i \pform{dx^i}{}
+$
+
+\beqa
+d d^\dag \omega_i \ul{dx^i}
+&=&
+(-1)^{\Delta(p=1,n=3)}
+d \star d \star  [\omega_1\ul{dx}+\cdots]
+\\
+&=&
+(-1)^{\Delta(1,3)}
+d \star d[ \omega_1  \ul{dy\wedge dz}+ \cdots]
+\\
+&=&
+(-1)^{\Delta(1,3)}
+d \star [ \partial^i\omega_i   \ul{dx\wedge dy\wedge dz}]
+\\
+&=&
+(-1)^{\Delta(1,3)}
+d \partial^i\omega_i   
+\\
+&=&
+(-1)^{\Delta(1,3)}
+\partial_j
+\partial^i \omega_i \ul{dx^j}
+\eeqa
+so
+
+\beq
+[d d^\dag \ul{\omega}]^\sharp=
+(-1)^{\Delta(1,3)}
+\nabla (\nabla\cdot (\ul{\omega})^\sharp)
+\eeq
+
+\beqa
+d^\dag d\omega_i \ul{dx^i}
+&=&d^\dag d\left[\omega_1 \ul{dx}+ \cdots\right]
+\\
+&=&
+d^\dag
+\left[
+(\partial_2\omega_3-\partial_3\omega_2)
+\ul{dy\wedge dz}
++\cdots
+\right]
+\\
+&=&
+(-1)^{\Delta(p=2, n=3)}
+\star d \left[
+(\partial_2\omega_3-\partial_3\omega_2)
+\ul{dx}
++\cdots
+\right]
+\\
+&=&
+(-1)^{\Delta(p=2, n=3)}
+\star \left[
+(\partial_2 A_3-
+\partial_3 A_2) 
+\ul{dy\wedge dz}
++\cdots
+\right]
+\\
+&=&
+(-1)^{\Delta(p=2, n=3)}
+\left[
+(\partial_2 A_3-
+\partial_3 A_2) 
+\ul{dx}
++\cdots
+\right]
+\eeqa
+where 
+\beq
+A_1 =(\partial_2\omega_3-\partial_3\omega_2)
+=
+(\nabla\times \omega^\sharp)_1
+\eeq
+
+\end{itemize}
+
+
 \subsection{Hodge Decomposition}
+
 
 \begin{claim}(Helmholtz decomposition)
 
@@ -27,90 +244,9 @@ where
 \proof
 \qed
 
-The  operator $d^\dag$ is defined as\footnote{A common notation is to 
-represent $d^\dag$ by $\delta$.}
-\beq
-d^\dag = (-1)^{\Delta(p,n)}\star d \star
-\eeq
-where $\Delta(p,n)$
-is a function of $n$ and $p$
-discussed in Section \ref{sec-laplacians}
-on Laplacians.
 
-Note that
-
-\beq
-(d^\dagger)^2=\star d \star \star d \star=0
-\eeq
-
-Whereas the {\bf derivative} operator $d$ raised the
-degree of a p-form by 1,
-the {\bf adjoint derivative} operator $d^\dag$ lowers the degree by 1.
-If $\pform{\calv}{p}$ is the vector space 
-of p-forms on $M$, then
-
-\beq
-\xymatrix{
-\pform{\calv}{p}\ar[r]_\star
-&\pform{\calv}{n-p}\ar[r]_d
-&\pform{\calv}{n-p-1}\ar[r]_\star
-&\pform{\calv}{p+1}
-}
-\eeq
-For example, for $n=3$
-and an orthonormal coordinate basis,
-if $\pform{\omega}{}$ is a 1-form
-\beqa
-d^\dag \pform{\omega}{}
-&=&(-1)^{\Delta(p,n)}\star d \star \left[\omega_1 \pform{dx}{} +\cdots\right]
-\\
-&=&(-1)^{\Delta(p,n)}
-\star d\left[
-\omega_1 \pform{dy\wedge dz}{2}
-+ \cdots\right]
-\\
-&=&(-1)^{\Delta(p,n)}
-\star \left[
-\partial_i \omega_i \pform{dx \wedge dy \wedge dz}{3}
-\right]
-\\
-&=&(-1)^{\Delta(p,n)}
-\partial_i \omega_i
-\eeqa
-
-
-
-
-The {\bf Hodge laplacian 
-$\Delta$} is defined by\footnote{The Hodge laplacian is discussed in 
-\ref{sec-laplacians}.}
-\beq
-\Delta = d d^\dag + d^\dag d
-\eeq
-For example, for $n=3$
-and an orthonormal coordinate basis,
-if $f(\rvr)$ is a 0-form
-
-\beqa
-\Delta f(\vecr)
-&=& \left[\cancel{d d^\dag }+  d^\dag d\right] f
-\\
-&=&(-1)^{\Delta(p,n)}\star d \star \left[\partial_1f \pform{dx}{} +\cdots\right]
-\\
-&=&(-1)^{\Delta(p,n)}
-\star d\left[
-\partial_1 f \pform{dy\wedge dz}{2}
-+ \cdots\right]
-\\
-&=&(-1)^{\Delta(p,n)}
-\star \left[
-\nabla^2f \pform{dx \wedge dy \wedge dz}{3}
-\right]
-\\
-&=&(-1)^{\Delta(p,n)}
-\nabla^2 f
-\eeqa
-
+The operators $d^\dag$ (adjoint derivative) and $\Delta$ (Hodge Laplacian)
+are defined in Section \ref{sec-laplacians}
 
 \begin{claim}(Hodge Decomposition)
 
@@ -144,6 +280,8 @@ where
 \end{claim}
 \proof
 \qed
+
+
 
 
 
