@@ -447,21 +447,21 @@ then
 \item 1-form:
 
 A 1-form
-$\ul{\omega}\in T^*(M)$ is a LINEAR map
+$\ul{\omega}\in \wedge(M)$ is a LINEAR map
 
 \beq
 \ul{\omega}: T_\pi(M)\rarrow \RR,\quad
 \vecX\mapsto \ul{\omega}(\vecX)
 \eeq
 where $\vecX$ is an $n$-dim vector.
-$T^*(M)$ is called the {\bf dual space of $T_\pi(M)$}.
+$\wedge(M)$ is called the {\bf dual space of $T_\pi(M)$}.
 
 \beq
 \ul{\omega}(\vecX)=\sum_{i=1}^n \omega_i \ul{dx^i}(\vecX)
 \eeq
 
 $\{\pform{dx^i}{}\mid i\in \ZZ_1^n \}$
-are a basis for the 1-forms on $T^*_\pi(M)$.
+are a basis for the 1-forms on $\wedge_\pi(M)$.
 They are called the {\bf coordinate dual t-basis} \footnote{
 A t-basis is often called a {\bf frame} and a dual t-basis is called a {\bf coframe}. We won't use that nomenclature.} for coordinates
 $\{x_i\}_{i=1}^n$.
@@ -492,10 +492,10 @@ using $\ul{dx^i}(\check{x}_j)=\delta(i,j)$,
 \item 2-form:
 
 A 2-form
-$\ul{\omega}\in T^*_\pi(M)\wedge T^*_\pi(M)=\wedge^2[T^*_\pi(M)]$
+$\ul{\omega}\in \wedge_\pi(M)\wedge \wedge_\pi(M)=\wedge^2_\pi(M)$
 is a LINEAR map
 \beq
-\ul{\omega}: T_\pi(M)\times T_\pi(M)\rarrow \RR,\quad (\vecX,\vecY)\mapsto \ul{\omega}(\vecX, \vecY)
+\ul{\omega}: T_\pi(M)\times T_\pi(M)=T^2_\pi(M)\rarrow \RR,\quad (\vecX,\vecY)\mapsto \ul{\omega}(\vecX, \vecY)
 \eeq
 where $\vecX$ and $\vecY$ are n-dim vectors.
 
@@ -572,8 +572,8 @@ X^2 Y^1= X^{UA(1}Y^{2)}
 \item p-forms
 
 A p-form $\ul{\omega}\in
-\underbrace{T^*_\pi(M)\wedge \cdots T^*_\pi(M)}_{\text{$p$ copies of $T^*_\pi(M)$}}=
-\wedge^p (T^*_\pi(M))$ is a LINEAR map
+\underbrace{\wedge_\pi(M)\wedge \cdots \wedge_\pi(M)}_{\text{$p$ copies of $\wedge_\pi(M)$}}=
+\wedge^p_\pi(M)$ is a LINEAR map
 
 \beq
 \begin{array}{l}
@@ -582,7 +582,7 @@ A p-form $\ul{\omega}\in
 \times
 \cdots
 T_\pi(M)}_{
-\text{ $p$ copies of } T_\pi(M)}=[T_\pi(M)]^p
+\text{ $p$ copies of } T_\pi(M)}=T^p_\pi(M)
 \rarrow \RR,
 \\
 (\vecX^{(1)}, \vecX^{(2)}, \ldots, \vecX^{(m)})\mapsto
@@ -2058,6 +2058,481 @@ because $\star\star=\pm 1$ and $d^2=0$
 \subsection{Laplacians}
 \label{sec-laplacians}
 
+For the derivative operator $d$
+(call it $d_p$ when it acts on
+p-forms of degree $p$)
+and a Hodge star $\star$ (call it $\star_p$ when it acts on p-forms of degree $p$)
+
+\beq
+d_p: \wedge^p(M)\rarrow \wedge^{p+1}(M)
+\eeq
+
+\beq
+\star_p:  \wedge^p(M)\rarrow \wedge^{p+1}(M)
+\eeq
+the adjoint operator $d^\dag_p$ of $d_p$,
+is defined as\footnote{A common notation is to 
+represent $d^\dag$ by $\delta$.}
+
+\beq
+\left\{
+\begin{array}{l}
+d^\dag_p: \wedge^{p+1}(M)\rarrow \wedge^{p}(M)
+\\
+d^\dag_p= s_p(\star_{n-p}d_{n-p-1}\star_{p+1})
+\end{array}
+\right.
+\eeq
+where $s_p=(-1)^{ np+ 1}$. See Table \ref{tab-n-p-plus-1}.
+
+
+\begin{table}[h!]
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\begin{tabular}[c]{@{}l@{}}$p$ right\\ $n$ down\end{tabular} & \cellcolor[HTML]{FFCCC9}1 & \cellcolor[HTML]{FFCCC9}2 & \cellcolor[HTML]{FFCCC9}3 & \cellcolor[HTML]{FFCCC9}4 \\ \hline
+\cellcolor[HTML]{9AFF99}1 & +1 & $-1$ & +1 & $-1$ \\ \hline
+\cellcolor[HTML]{9AFF99}2 & $-1$ & $-1$ & $-1$ & $-1$ \\ \hline
+\cellcolor[HTML]{9AFF99}3 & +1 & $-1$ & +1 & $-1$ \\ \hline
+\cellcolor[HTML]{9AFF99}4 & $-1$ & $-1$ & $-1$ & -1 \\ \hline
+\end{tabular}
+\caption{Values of $s_p = (-1)^{np+1}$}
+\label{tab-n-p-plus-1}
+\end{table}
+
+Note that 
+
+\beq
+s_{p-1}= s_p (-1)^n
+\eeq
+
+Note that just like $d^2=0$, 
+
+\beq
+(d^\dagger)^2=\star d \star \star d \star=0
+\eeq
+
+Whereas the {\bf derivative} operator $d$ raises the
+degree of a p-form by 1,
+the {\bf adjoint derivative} operator $d^\dag$ lowers the degree by 1.
+If $\wedge^p(M)$ is the vector space 
+of p-forms on $M$, then
+
+\beq
+\xymatrix{
+\wedge^{p}(M)\ar[r]_\star
+&\wedge^{n-p}(M)\ar[r]_d
+&\wedge^{n-p-1}(M)\ar[r]_\star
+&\wedge^{p+1}(M)
+}
+\eeq
+
+\begin{claim}
+
+\beq
+s_p = np +1
+\eeq
+is consistent with referring to
+$d^\dag_p$ as the adjoint of $d_p$
+
+\end{claim}
+\proof
+\beq
+\pform{\alp}{p}
+\wedge \star \pform{\beta}{p}=
+\av{\pform{\alp}{p}, \pform{\beta}{p}}
+\pform{vol}{n}
+\eeq
+so
+\beq
+\av{\ul{\alp}, \ul{\beta}}_M
+=\int_M dV \av{\ul{\alp}, \ul{\beta}}=
+\int_M \ul{\alp}\wedge \star\;\ul{\beta}
+\eeq
+
+We want
+
+\beq
+\av{d_p\pform{\alp}{p}, \pform{\beta}{p+1}}_M=
+\av{\pform{\alp}{p},d^\dag_p \pform{\beta}{p+1}}_M
+\eeq
+
+\beq
+\int_M
+d_p[\pform{\alp}{p}]\wedge \star
+\pform{\beta}{p+1}=
+\int_M
+\pform{\alp}{p}\wedge \star d^\dag_p
+\pform{\beta}{p+1}
+\eeq
+
+\beq
+d(\ul{\alp}
+\wedge \star \ul{\beta})=
+d(\ul{\alp})
+\wedge \star
+\ul{\beta}
++
+(-1)^{deg(\ul{\alp})}
+\ul{\alp}
+\wedge
+d\star \ul{\beta}
+\eeq
+Ignoring the
+boundary term,
+we must have
+
+\beq
+\int_M
+d(\ul{\alp})
+\wedge \star
+\ul{\beta}
+=
+\int_M
+(-1)^{deg(\ul{\alp})+1}
+\ul{\alp}
+\wedge
+[d\star \ul{\beta}]
+\eeq
+
+In order for
+$d^\dag_p$
+to be the adjoint of $d_p$,
+we must have,
+for $\pform{\alp}{p}$
+and $\pform{\beta}{p+1}$
+
+\beq
+\int_M
+(-1)^{p+1}
+\ul{\alp}
+\wedge
+d_{n-p-1}[\star_{p+1} \ul{\beta}]
+=
+\int_M
+\ul{\alp}
+\wedge
+\star_{p}
+d_{p}^\dag \ul{\beta}
+\eeq
+We want
+
+\beq
+(-1)^{p+1}d_{n-p-1} \star_{p+1} = \star_{p} d^\dag_{p},
+\eeq
+
+\beq
+\star_{n-p}\star_p = (-1)^{p(n-p)}
+\eeq
+
+\beq
+(-1)^{p+1}\star_{n-p}d_{n-p-1}\star_{p+1}=
+(-1)^{p(n-p)}d^\dag_{p}
+\eeq
+Hence
+
+\beq
+d^\dag_{p}= (-1)^{p(n-p)+p+1}
+\star_{n-p}d_{n-p-1}\star_{p+1}
+\eeq
+But $-p^2+p=-p(p-1)$  is always even so
+
+\beq
+d^\dag_{p}= (-1)^{np+1}
+\star_{n-p}d_{n-p-1}\star_{p+1}
+\eeq
+\qed
+
+
+
+
+For example, for coordinates $(x,y,z)\in\RR^3$,
+if $\pform{\omega}{}$ is a 1-form
+\beqa
+s_1
+d^\dag \pform{\omega}{}
+&=&\star d \star \left[\omega_1 \pform{dx}{} +\cdots\right]
+\\
+&=&
+\star d\left[
+\omega_1 \pform{dy\wedge dz}{2}
++ \cdots\right]
+\\
+&=&
+\star \left[
+\partial_i \omega_i \pform{dx \wedge dy \wedge dz}{3}
+\right]
+\\
+&=&
+\partial_i \omega_i
+\eeqa
+For $n=3$, $s_1=+1$
+
+Recall the BAC minus CAB
+rule for double cross products
+
+\beq
+\veca \times(\vecb \times \vecc)= \vecb(\veca\cdot\vecc)-
+\vecc(\veca\cdot\vecb)
+\eeq
+The following is a generalization to the case where $\veca=\vecb=\nabla$.
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2.2in]
+{differ-geo/bac-cab.png}
+\caption{Pictorial representation of
+BAC minus CAB identity: $\veca \times(\vecb \times \vecc)= \vecb(\veca\cdot\vecc)-
+\vecc(\veca\cdot\vecb) $
+}
+\label{fig-bac-cab-1}
+\end{figure}
+
+\begin{claim}
+\beq
+\nabla
+\times
+(\nabla \times \vecc)=
+\nabla(\nabla\cdot \vecc)-
+\nabla^2 \vecc
+\eeq
+
+It follows that the Laplacian can
+be decomposed into
+a sum of a gradient 
+(gradient of the divergence of $\vecc$) and
+a double cross product
+(circulation of circulation of $\vecc$)
+
+\beq
+\nabla^2 \vecc
+=
+\nabla(\nabla\cdot \vecc)
+-
+\nabla\times
+(\nabla \times \vecc)
+\eeq
+
+\end{claim}
+\proof
+
+\qed
+
+The definition of the
+Hodge Laplacian $\Delta$
+is a generalization
+of this decomposition to p-forms
+
+
+
+The {\bf Hodge laplacian 
+$\Delta$} is defined 
+as  follows
+when it acts on p-forms 
+of degree $p$:
+\beq
+\left\{
+\begin{array}{l}
+\Delta_p: \wedge_p(M)\rarrow \wedge_p(M)
+\\
+\Delta_p = d_{p-1}d^\dag_{p-1}+
+d^\dag_p d_p
+\end{array}
+\right.
+\eeq
+
+Note that
+
+\beqa
+\Delta_p &=&d_{p-1} d^\dag_{p-1}+  d^\dag_p d_p
+\\
+&=&
+d_{p-1}
+s_{p-1}
+\star_{n-p+1}
+d_{n-p}
+\star_{p}
++
+s_p
+\star_{n-p}
+d_{n-p-1}
+\star_{p+1} d_p
+\\
+&=&
+s_{p-1} (d\star d \star) +
+s_p (\star d \star d)
+\\
+&=&
+s_p\left[
+(-1)^n
+(d\star d \star) +
+(\star d \star d)
+\right]
+\eeqa
+
+
+
+Examples
+\begin{itemize} 
+\item 0-forms
+
+For $n=3$
+and an orthonormal coordinate t-basis,
+if $f(\rvr)$ is a 0-form
+
+\beqa
+\Delta f(\vecr)
+&=& \left[\cancel{d d^\dag }+  d^\dag d\right] f
+\\
+&=&s_1\star d \star \left[\partial_1f \ul{dx} +\cdots\right]
+\\
+&=&s_1
+\star d\left[
+\partial_1 f \ul{dy\wedge dz}
++ \cdots\right]
+\\
+&=&s_1
+\star \left[
+\nabla^2f \ul{dx \wedge dy \wedge dz}
+\right]
+\\
+&=&s_1
+\nabla^2 f
+\eeqa
+For $n=3$, $s_1=1$
+\item 1-forms
+
+For $n=3$ and a 1-form $\pform{\omega}{}=\sum_i \omega_i \pform{dx^i}{}
+$
+
+\beqa
+d d^\dag \omega_i \ul{dx^i}
+&=& s_1
+d \star d \star  [\omega_1\ul{dx}+\cdots]
+\\
+&=& s_1
+d \star d[ \omega_1  \ul{dy\wedge dz}+ \cdots]
+\\
+&=& s_1
+d \star [ \partial^i\omega_i   \ul{dx\wedge dy\wedge dz}]
+\\
+&=& s_1
+d \partial^i\omega_i   
+\\
+&=& s_1
+\partial_j
+\partial^i \omega_i \ul{dx^j}
+\eeqa
+so
+
+\beq
+[d d^\dag \ul{\omega}]^\sharp= s_1
+\nabla (\nabla\cdot (\ul{\omega})^\sharp)
+\eeq
+
+\beqa
+d^\dag d\omega_i \ul{dx^i}
+&=&d^\dag d\left[\omega_1 \ul{dx}+ \cdots\right]
+\\
+&=&
+d^\dag
+\left[
+(\partial_2\omega_3-\partial_3\omega_2)
+\ul{dy\wedge dz}
++\cdots
+\right]
+\\
+&=&s_2
+\star d \left[
+(\partial_2\omega_3-\partial_3\omega_2)
+\ul{dx}
++\cdots
+\right]
+\\
+&=& s_2
+\star \left[
+(\partial_2 A_3-
+\partial_3 A_2) 
+\ul{dy\wedge dz}
++\cdots
+\right]
+\\
+&=& s_2
+\left[
+(\partial_2 A_3-
+\partial_3 A_2) 
+\ul{dx}
++\cdots
+\right]
+\eeqa
+where 
+\beq
+A_1 =(\partial_2\omega_3-\partial_3\omega_2)
+=
+(\nabla\times \omega^\sharp)_1
+\eeq
+For $n=3$, $s_1=+1$ and $s_2=-1$
+
+\end{itemize}
+
+\begin{claim}
+For any p-form $\pform{c}{p}$,
+assuming a Riemannian metric 
+
+\beq
+d\ul{c}=d^\dagger \ul{c}=0
+\quad \text{iff}\quad
+\Delta \ul{c}=0 
+\eeq
+
+\end{claim}
+\proof
+
+The $\implies$ direction is obvious
+from the definition of $\Delta$.
+To prove the converse, note 
+the following.
+
+Riemannian matrix implies  positive definite inner product.
+
+\beqa
+\av{\ul{c}, \Delta \ul{c}}
+&=&
+\av{\ul{c},
+dd^\dag\ul{c}}
++
+\av{\ul{c},
+d^\dag d\ul{c}}
+\\
+&=&
+\av{d^\dag \ul{c},
+d^\dag \ul{c}}
++
+\av{d \ul{c},
+d \ul{c}}
+\\
+&=&
+\norm{d^\dag \ul{c}}^2
++
+\norm{d \ul{c}}^2
+\eeqa
+Thus
+
+\beq
+\Delta\ul{c}
+=0
+\implies 
+d\ul{c}=d^\dag \ul{c}=0
+\eeq
+assuming the inner product is 
+positive definite.
+
+\qed
+
+The last claim fails for a non-Riemannian 
+metric such as the Lorentz metric.
+Laplacians and Hodge theory (see Section \ref{sec-hodge})
+behave differently 
+in non-Riemannian theories.
+
 \subsection{Stokes' Theorem}
 
 
@@ -3141,6 +3616,17 @@ rule for double cross products
 \vecc(\veca\cdot\vecb)
 \eeq
 The following is a generalization to the case where $\vecb=\nabla$.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2.2in]
+{differ-geo/bac-cab.png}
+\caption{Pictorial representation of
+BAC minus CAB identity: $\veca \times(\vecb \times \vecc)= \vecb(\veca\cdot\vecc)-
+\vecc(\veca\cdot\vecb) $
+}
+\label{fig-bac-cab-2}
+\end{figure}
 
 \begin{claim}
 
