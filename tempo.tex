@@ -6,14 +6,52 @@
 \subsection{Laplacians}
 \label{sec-laplacians}
 
-The  operator $d^\dag$ is defined as\footnote{A common notation is to 
-represent $d^\dag$ by $\delta$.}
+For the derivative operator $d$
+(call it $d_p$ when it acts on
+p-forms of degree $p$)
+and a Hodge star $\star$ (call it $\star_p$ when it acts on p-forms of degree $p$)
+
 \beq
-d^\dag= \star d \star
+d_p: \wedge^p(M)\rarrow \wedge^{p+1}(M)
 \eeq
-where $\Delta(p,n)$
-is a function of $n$ and $p$ to be
-discussed later on in this section.
+
+\beq
+\star_p:  \wedge^p(M)\rarrow \wedge^{p+1}(M)
+\eeq
+the adjoint operator $d^\dag_p$ of $d_p$,
+is defined as\footnote{A common notation is to 
+represent $d^\dag$ by $\delta$.}
+
+\beq
+\left\{
+\begin{array}{l}
+d^\dag_p: \wedge^{p+1}(M)\rarrow \wedge^{p}(M)
+\\
+d^\dag_p= s_p(\star_{n-p}d_{n-p-1}\star_{p+1})
+\end{array}
+\right.
+\eeq
+where $s_p=(-1)^{ np+ 1}$. See Table \ref{tab-n-p-plus-1}.
+
+
+\begin{table}[h!]
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\begin{tabular}[c]{@{}l@{}}$p$ right\\ $n$ down\end{tabular} & \cellcolor[HTML]{FFCCC9}1 & \cellcolor[HTML]{FFCCC9}2 & \cellcolor[HTML]{FFCCC9}3 & \cellcolor[HTML]{FFCCC9}4 \\ \hline
+\cellcolor[HTML]{9AFF99}1 & +1 & $-1$ & +1 & $-1$ \\ \hline
+\cellcolor[HTML]{9AFF99}2 & $-1$ & $-1$ & $-1$ & $-1$ \\ \hline
+\cellcolor[HTML]{9AFF99}3 & +1 & $-1$ & +1 & $-1$ \\ \hline
+\cellcolor[HTML]{9AFF99}4 & $-1$ & $-1$ & $-1$ & -1 \\ \hline
+\end{tabular}
+\caption{Values of $s_p = (-1)^{np+1}$}
+\label{tab-n-p-plus-1}
+\end{table}
+
+Note that 
+
+\beq
+s_{p-1}= s_p (-1)^n
+\eeq
 
 Note that just like $d^2=0$, 
 
@@ -24,20 +62,141 @@ Note that just like $d^2=0$,
 Whereas the {\bf derivative} operator $d$ raises the
 degree of a p-form by 1,
 the {\bf adjoint derivative} operator $d^\dag$ lowers the degree by 1.
-If $\pform{\calv}{p}$ is the vector space 
+If $\wedge^p(M)$ is the vector space 
 of p-forms on $M$, then
 
 \beq
 \xymatrix{
-\pform{\calv}{p}\ar[r]_\star
-&\pform{\calv}{n-p}\ar[r]_d
-&\pform{\calv}{n-p-1}\ar[r]_\star
-&\pform{\calv}{p+1}
+\wedge^{p}(M)\ar[r]_\star
+&\wedge^{n-p}(M)\ar[r]_d
+&\wedge^{n-p-1}(M)\ar[r]_\star
+&\wedge^{p+1}(M)
 }
 \eeq
+
+\begin{claim}
+
+\beq
+s_p = np +1
+\eeq
+is consistent with referring to
+$d^\dag_p$ as the adjoint of $d_p$
+
+\end{claim}
+\proof
+\beq
+\pform{\alp}{p}
+\wedge \star \pform{\beta}{p}=
+\av{\pform{\alp}{p}, \pform{\beta}{p}}
+\pform{vol}{n}
+\eeq
+so
+\beq
+\av{\ul{\alp}, \ul{\beta}}_M
+=\int_M dV \av{\ul{\alp}, \ul{\beta}}=
+\int_M \ul{\alp}\wedge \star\;\ul{\beta}
+\eeq
+
+We want
+
+\beq
+\av{d_p\pform{\alp}{p}, \pform{\beta}{p+1}}_M=
+\av{\pform{\alp}{p},d^\dag_p \pform{\beta}{p+1}}_M
+\eeq
+
+\beq
+\int_M
+d_p[\pform{\alp}{p}]\wedge \star
+\pform{\beta}{p+1}=
+\int_M
+\pform{\alp}{p}\wedge \star d^\dag_p
+\pform{\beta}{p+1}
+\eeq
+
+\beq
+d(\ul{\alp}
+\wedge \star \ul{\beta})=
+d(\ul{\alp})
+\wedge \star
+\ul{\beta}
++
+(-1)^{deg(\ul{\alp})}
+\ul{\alp}
+\wedge
+d\star \ul{\beta}
+\eeq
+Ignoring the
+boundary term,
+we must have
+
+\beq
+\int_M
+d(\ul{\alp})
+\wedge \star
+\ul{\beta}
+=
+\int_M
+(-1)^{deg(\ul{\alp})+1}
+\ul{\alp}
+\wedge
+[d\star \ul{\beta}]
+\eeq
+
+In order for
+$d^\dag_p$
+to be the adjoint of $d_p$,
+we must have,
+for $\pform{\alp}{p}$
+and $\pform{\beta}{p+1}$
+
+\beq
+\int_M
+(-1)^{p+1}
+\ul{\alp}
+\wedge
+d_{n-p-1}[\star_{p+1} \ul{\beta}]
+=
+\int_M
+\ul{\alp}
+\wedge
+\star_{p}
+d_{p}^\dag \ul{\beta}
+\eeq
+We want
+
+\beq
+(-1)^{p+1}d_{n-p-1} \star_{p+1} = \star_{p} d^\dag_{p},
+\eeq
+
+\beq
+\star_{n-p}\star_p = (-1)^{p(n-p)}
+\eeq
+
+\beq
+(-1)^{p+1}\star_{n-p}d_{n-p-1}\star_{p+1}=
+(-1)^{p(n-p)}d^\dag_{p}
+\eeq
+Hence
+
+\beq
+d^\dag_{p}= (-1)^{p(n-p)+p+1}
+\star_{n-p}d_{n-p-1}\star_{p+1}
+\eeq
+But $-p^2+p=-p(p-1)$  is always even so
+
+\beq
+d^\dag_{p}= (-1)^{np+1}
+\star_{n-p}d_{n-p-1}\star_{p+1}
+\eeq
+\qed
+
+
+
+
 For example, for coordinates $(x,y,z)\in\RR^3$,
 if $\pform{\omega}{}$ is a 1-form
 \beqa
+s_1
 d^\dag \pform{\omega}{}
 &=&\star d \star \left[\omega_1 \pform{dx}{} +\cdots\right]
 \\
@@ -54,6 +213,7 @@ d^\dag \pform{\omega}{}
 &=&
 \partial_i \omega_i
 \eeqa
+For $n=3$, $s_1=+1$
 
 Recall the BAC minus CAB
 rule for double cross products
@@ -102,14 +262,51 @@ of this decomposition to p-forms
 
 
 The {\bf Hodge laplacian 
-$\Delta$} is defined by
+$\Delta$} is defined 
+as  follows
+when it acts on p-forms 
+of degree $p$:
 \beq
-\Delta\pform{\omega}{p} = (-1)^{\Delta(n,p)}(d d^\dag + d^\dag d)
-\pform{\omega}{p}
+\left\{
+\begin{array}{l}
+\Delta_p: \wedge_p(M)\rarrow \wedge_p(M)
+\\
+\Delta_p = d_{p-1}d^\dag_{p-1}+
+d^\dag_p d_p
+\end{array}
+\right.
 \eeq
-where $\Delta(n,p)$,
-to be discussed later, is a
-function of $p$ and $n$.
+
+Note that
+
+\beqa
+\Delta_p &=&d_{p-1} d^\dag_{p-1}+  d^\dag_p d_p
+\\
+&=&
+d_{p-1}
+s_{p-1}
+\star_{n-p+1}
+d_{n-p}
+\star_{p}
++
+s_p
+\star_{n-p}
+d_{n-p-1}
+\star_{p+1} d_p
+\\
+&=&
+s_{p-1} (d\star d \star) +
+s_p (\star d \star d)
+\\
+&=&
+s_p\left[
+(-1)^n
+(d\star d \star) +
+(\star d \star d)
+\right]
+\eeqa
+
+
 
 Examples
 \begin{itemize} 
@@ -123,21 +320,22 @@ if $f(\rvr)$ is a 0-form
 \Delta f(\vecr)
 &=& \left[\cancel{d d^\dag }+  d^\dag d\right] f
 \\
-&=&{(-1)^{\Delta(p=1,n=3)}}\star d \star \left[\partial_1f \ul{dx} +\cdots\right]
+&=&s_1\star d \star \left[\partial_1f \ul{dx} +\cdots\right]
 \\
-&=&(-1)^{\Delta(1,3)}
+&=&s_1
 \star d\left[
 \partial_1 f \ul{dy\wedge dz}
 + \cdots\right]
 \\
-&=&(-1)^{\Delta(1,3)}
+&=&s_1
 \star \left[
 \nabla^2f \ul{dx \wedge dy \wedge dz}
 \right]
 \\
-&=&(-1)^{\Delta(1,3)}
+&=&s_1
 \nabla^2 f
 \eeqa
+For $n=3$, $s_1=1$
 \item 1-forms
 
 For $n=3$ and a 1-form $\pform{\omega}{}=\sum_i \omega_i \pform{dx^i}{}
@@ -145,26 +343,26 @@ $
 
 \beqa
 d d^\dag \omega_i \ul{dx^i}
-&=&
+&=& s_1
 d \star d \star  [\omega_1\ul{dx}+\cdots]
 \\
-&=&
+&=& s_1
 d \star d[ \omega_1  \ul{dy\wedge dz}+ \cdots]
 \\
-&=&
+&=& s_1
 d \star [ \partial^i\omega_i   \ul{dx\wedge dy\wedge dz}]
 \\
-&=&
+&=& s_1
 d \partial^i\omega_i   
 \\
-&=&
+&=& s_1
 \partial_j
 \partial^i \omega_i \ul{dx^j}
 \eeqa
 so
 
 \beq
-[d d^\dag \ul{\omega}]^\sharp=
+[d d^\dag \ul{\omega}]^\sharp= s_1
 \nabla (\nabla\cdot (\ul{\omega})^\sharp)
 \eeq
 
@@ -180,14 +378,14 @@ d^\dag
 +\cdots
 \right]
 \\
-&=&
+&=&s_2
 \star d \left[
 (\partial_2\omega_3-\partial_3\omega_2)
 \ul{dx}
 +\cdots
 \right]
 \\
-&=&
+&=& s_2
 \star \left[
 (\partial_2 A_3-
 \partial_3 A_2) 
@@ -195,7 +393,7 @@ d^\dag
 +\cdots
 \right]
 \\
-&=&
+&=& s_2
 \left[
 (\partial_2 A_3-
 \partial_3 A_2) 
@@ -209,6 +407,7 @@ A_1 =(\partial_2\omega_3-\partial_3\omega_2)
 =
 (\nabla\times \omega^\sharp)_1
 \eeq
+For $n=3$, $s_1=+1$ and $s_2=-1$
 
 \end{itemize}
 
@@ -386,11 +585,24 @@ In the Hodge decomposition,
 \av{\ul{\beta}, d \rvc}=0
 \eeq
 
-
 \qed
 
+The Hodge theory is intimately
+connected to the topology of the manifold (how many holes it has, etc.)
+For example, the dimension of  the 
+kernel\footnote{Recall that
+the kernel of a linear map is the set of 
+points that map to zero.}  of $\Delta:\wedge^p(M)\rarrow \wedge^p(M)$, i.e., the dimension of the space  of harmonic p-forms, is exactly the p-th {\bf Betti number} $b_p$:
 
+\beq
+\text{dim ker} (\Delta )= b_p
+\eeq
 
+p   1   2   3   4        
+1  +1  -1  +1  -1
+2  -1  -1  -1  -1
+3  +1  -1  +1  -1
+4  -1  -1  -1  -1
 
 
 \end{document}}
