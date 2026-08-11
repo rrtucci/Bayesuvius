@@ -84,9 +84,11 @@ sign(\s)T_{\s(\alpha\beta\gamma)}}_{T_{UA(\alpha \beta \gamma)}}
 \left[
 T_{\alp\beta\gamma}
 +
-\sum_{\s(\alp\beta\gamma)\neq  I} \sign(\s)(\cdot)
+SP(\alp\beta\gamma)\neq  I
 \right]
 \eeqa
+$SP(\alp\beta\gamma)\neq  I$ means
+signed permutations not equal to identity
 
 \beqa
 T_{S(\alpha \beta \gamma)}
@@ -100,9 +102,11 @@ T_{\s(\alpha\beta\gamma)}}_{T_{US(\alpha \beta \gamma)}}
 \left[
 T_{\alp\beta\gamma}
 +
-\sum_{\s(\alp\beta\gamma)\neq  I}(\cdot)
-\right]
+UP(\alp\beta\gamma)\neq  I\right]
 \eeqa
+$UP(\alp\beta\gamma)\neq  I$ means
+unsigned permutations not equal to identity
+
 
 \beq
 T_{\alp\beta\gamma}
@@ -572,7 +576,7 @@ X^2 Y^1= X^{UA(1}Y^{2)}
 \item p-forms
 
 A p-form $\ul{\omega}\in
-\underbrace{\wedge_\pi(M)\wedge \cdots \wedge_\pi(M)}_{\text{$p$ copies of $\wedge_\pi(M)$}}=
+\underbrace{\wedge_\pi(M)\wedge \cdots \wedge \wedge_\pi(M)}_{\text{$p$ copies of $\wedge_\pi(M)$}}=
 \wedge^p_\pi(M)$ is a LINEAR map
 
 \beq
@@ -1086,24 +1090,20 @@ d(d\ul{\alp})=0
 \beq
 \begin{array}{ccc}
 \xymatrix{
-f(\cdot)\ar[d]|d\ar[dr]|d &
+f(\cdot)\ar[d]|d
 \\
-\pform{df}{}
-\ar[d]|d&\Circle{0}
-& \pform{\omega}{}
-\ar[l]_1
-\\
-\Circle{0}
+\pform{\omega}{}
 }
 &&
 \xymatrix{
-\\
 \pform{\omega}{}
 \ar[d]^d
 \\
 \Circle{0}
 }\\
-\text{$\pform{\omega}{}$ Exact}&& \text{$\pform{\omega}{}$  Closed}
+\text{$\pform{\omega}{}$ Exact 
+(\qt{from-$d$}})
+&& \text{$\pform{\omega}{}$  Closed (\qt{no-$d$}})
 \\
 \exists \text{ \qt{potential function}} f(x) \ni \pform{\omega}{}=\pform{df}{}
 &&
@@ -1111,9 +1111,15 @@ d\pform{\omega}{}=0
 \end{array}
 \eeq
 
-$\pform{\omega}{}\text { exact} \implies \pform{\omega}{} \text{ closed}$.
+Clearly, $\pform{\omega}{}\text { exact} \implies \pform{\omega}{} \text{ closed}$.
 The converse is true locally
 but not globally.
+For example, consider the 1-form $\ul{d\theta}$ for polar coordinates 
+$(r, \theta)$
+with $M=$ the puncture plane $\RR^2-\{(0,0)\}$. $d(\ul{d\theta})=0$ so $\ul{d\theta}$ is closed but 
+$\int_0^{2\pi} d\theta =2\pi$ so there is no continuous 
+function $\alp$, (unlike $d\theta$ which is not continuous because it jumps at the cut)  defined over all $M$ such that $d\theta = d\alp$. Otherwise,
+$\int_{0}^{2\pi} d\theta= \int_{0}^{2\pi} d\alp = 0$.
 
 
 \subsection{Hodge star operator}
@@ -1126,7 +1132,7 @@ $
 is an {\bf oriented orthonormal dual t-basis}.
 Then we define the volume p-form by
 \beq
-\pform{vol}{n}=
+\pform{d^n x}{n}=
 \pform{\theta^1}{}\wedge\cdots\wedge \pform{\theta^n}{}
 \label{eq-def-vol}
 \eeq
@@ -1134,16 +1140,16 @@ For example, in the usual coordinate dual t-basis
 in 3 dimensions,
 
 \beq
-\pform{vol}{3}= \pform{dx}{}\wedge \pform{dy}{}\wedge \pform{dz}{}
+\pform{d^3x}{3}= \pform{dx}{}\wedge \pform{dy}{}\wedge \pform{dz}{}
 \eeq
 Note that the volume p-form can have
 positive or negative values!
 
 \beq
-\ul{vol}=
+\ul{d^3 x}=
 -\ul{dy}\wedge\ul{dx}\wedge \ul{dz}
 \eeq
-So the definition of the $\ul{vol}$ p-form assumes that a particular 
+So the definition of the $\ul{d^n x}$ p-form assumes that a particular 
 orientation of the manifold 
 $M$ has been chosen a priori.
 i.e., the order $x\rarrow y\rarrow z$
@@ -1160,7 +1166,7 @@ satisfies
 \pform{\alpha}{p}
 \wedge
 \pform{\star\omega}{n-p}
-= \av{\pform{\alpha}{p},\pform{\omega}{p}}\pform{vol}{n}
+= \av{\pform{\alpha}{p},\pform{\omega}{p}}\pform{d^n x}{n}
 \eeq
 for every p-form $\pform{\alpha}{p}$.
 
@@ -1211,7 +1217,7 @@ where the $j$'s are the complementary indices of the $i$'s, and the sign is chos
 \wedge\cdots\wedge
 \ul{\theta^{i_p}}
 )=
-\ul{vol}
+\ul{d^n x}
 \eeq
 
 Examples
@@ -1237,7 +1243,7 @@ $(\ul{dx^1}, \ul{dx^2}, \ul{dx^3}, \ul{dx^4}, \ul{dx^5})$
 \ul{dx^5}
 \\
 &=
--\s \ul{vol}
+-\s \ul{d^5 x}
 \end{align}
 so $\s=-1$
 
@@ -1250,7 +1256,7 @@ $
 Then
 
 \beq
-\ul{vol}=\star 1
+\ul{d^3 x}=\star 1
 =
 \ul{dx}\wedge \ul{dy}\wedge \ul{dz},
 \eeq
@@ -1294,7 +1300,7 @@ Now
 $g= (1,1)$ so
 
 \beq
-\ul{vol}=
+\ul{d^2 x}=
 \ul{\theta^1}\wedge \ul{\theta^2}=
 r \ul{dr}\wedge \ul{d\theta}
 \eeq
@@ -1902,10 +1908,20 @@ $\RR^3$, orthonormal coordinates $\hat{x}_i$ ( $=\check{x}_i$ in this case)
 for $i=1,2,3$
 
 \begin{claim}
+
+
+
 \beq
+\bcen
+\xymatrix{
+f\ar[d]_{\sharp\;d}
+\\
+\nabla  f
+}\ecen
+\quad\quad
 \boxed
 {\nabla f =
-(\sharp\circ d) [f]}
+(\sharp \;d) (f)}
 \eeq
 \end{claim}
 \proof
@@ -1919,26 +1935,33 @@ for $i=1,2,3$
 
 \begin{claim}
 \beq
+\bcen
+\xymatrix{
+(\vecV)^\flat\ar[d]_{\sharp \star d}
+\\
+\nabla \times \vecV
+}\ecen
+\quad\quad
 \boxed
 {\nabla \times \vecV=
-(\sharp\circ \star \circ d \circ \flat)(\vecV)}
+(\sharp \star  d \; \flat)(\vecV)}
 \eeq
 \end{claim}
 \proof
 
 \beq
 \vecV= \sum_i
-Q_1 \hatx_1
-+ Q_2 \hatx_2
-+ Q_3 \hatx_3
+V_1 \hatx_1
++ V_2 \hatx_2
++ V_3 \hatx_3
 \eeq
 
 \beq
 \pform{\omega}{}=
 [\vecV]^\flat=
-Q_1 \pform{dx^1}{}
-+ Q_2 \pform{dx^2}{}
-+ Q_3 \pform{dx^3}{}
+V_1 \pform{dx^1}{}
++ V_2 \pform{dx^2}{}
++ V_3 \pform{dx^3}{}
 \eeq
 
 \beq
@@ -1946,17 +1969,17 @@ Q_1 \pform{dx^1}{}
 \left\{
 \begin{array}{l}
 \left(
-\partial_1 Q_2 -\partial_2 Q_1
+\partial_1 V_2 -\partial_2 V_1
 \right)
 \pform{dx^1}{}\wedge \pform{dx^2}{}
 \\
 \left(
-\partial_2 Q_3 -\partial_3 Q_2
+\partial_2 V_3 -\partial_3 V_2
 \right)
 \pform{dx^2}{}\wedge \pform{dx^3}{}
 \\
 \left(
-\partial_3 Q_1 -\partial_1 Q_3
+\partial_3 V_1 -\partial_1 V_3
 \right)\pform{dx^3}{}\wedge \pform{dx^1}{}
 \end{array}
 \right.
@@ -1968,17 +1991,17 @@ Q_1 \pform{dx^1}{}
 \left\{
 \begin{array}{l}
 \left(
-\partial_1 Q_2 -\partial_2 Q_1
+\partial_1 V_2 -\partial_2 V_1
 \right)
 \pform{dx^3}{}
 \\
 \left(
-\partial_2 Q_3 -\partial_3 Q_2
+\partial_2 V_3 -\partial_3 V_2
 \right)
 \pform{dx^1}{}
 \\
 \left(
-\partial_3 Q_1 -\partial_1 Q_3
+\partial_3 V_1 -\partial_1 V_3
 \right)\pform{dx^2}{}
 \end{array}
 \right.
@@ -1988,34 +2011,41 @@ Q_1 \pform{dx^1}{}
 
 \begin{claim}
 \beq
+\bcen
+\xymatrix{
+(\vecV)^\flat\ar[d]_{\star d \star}
+\\
+\nabla \times \vecV
+}\ecen
+\quad\quad
 \boxed{
-\nabla \cdot \vec{Q}=
-(\star\circ
-d\circ
-\star\circ
+\nabla \cdot \vec{V}=
+(\star
+d
+\star
 \flat)
-\vec{Q}
+\vec{V}
 }
 \eeq
 \end{claim}
 \proof
 \beq
 \pform{\omega}{}=
-Q_1 \pform{dx^1}{}
-+ Q_2 \pform{dx^2}{}
-+ Q_3 \pform{dx^3}{}
+V_1 \pform{dx^1}{}
++ V_2 \pform{dx^2}{}
++ V_3 \pform{dx^3}{}
 \eeq
 
 \beq
 \pform{\star \omega}{2}=
-Q_1 \pform{dx^1}{}\wedge \pform{dx^2}{}
-+ Q_2 \pform{dx^2}{}\wedge \pform{dx^3}{}
-+ Q_3 \pform{dx^3}{}\wedge \pform{dx^1}{}
+V_1 \pform{dx^1}{}\wedge \pform{dx^2}{}
++ V_2 \pform{dx^2}{}\wedge \pform{dx^3}{}
++ V_3 \pform{dx^3}{}\wedge \pform{dx^1}{}
 \eeq
 
 \beq
 \pform{d\star\omega}{3}=
-\underbrace{(\sum_i\partial_i Q_i )}_{\nabla\cdot \vec{Q}}\pform{dx^1}{}\wedge \pform{dx^2}{}\wedge \pform{dx^3}{}
+\underbrace{(\sum_i\partial_i V_i )}_{\nabla\cdot \vec{V}}\pform{dx^1}{}\wedge \pform{dx^2}{}\wedge \pform{dx^3}{}
 \eeq
 
 \beq
@@ -2040,16 +2070,16 @@ Q_1 \pform{dx^1}{}\wedge \pform{dx^2}{}
 
 \beq
 \nabla \times (\nabla f)=
-(\sharp\circ \star \circ d \circ \flat)(\sharp\circ d) [f] =0
+(\sharp \star  d  \flat)(\sharp d) [f] =0
 \eeq
 because $d^2=0$.
 
 \beq
 \nabla \cdot (\nabla \times \vecV)=
-(\star\circ
-d\circ
-\star\circ
-\flat)(\sharp\circ \star \circ d \circ \flat)\vecV=0
+(\star
+d
+\star
+\flat)(\sharp \star  d  \flat)\vecV=0
 \eeq
 because $\star\star=\pm 1$ and $d^2=0$
 
@@ -2140,7 +2170,7 @@ $d^\dag_p$ as the adjoint of $d_p$
 \pform{\alp}{p}
 \wedge \star \pform{\beta}{p}=
 \av{\pform{\alp}{p}, \pform{\beta}{p}}
-\pform{vol}{n}
+\pform{d^nx}{n}
 \eeq
 so
 \beq
@@ -2323,7 +2353,7 @@ of this decomposition to p-forms
 
 
 
-The {\bf Hodge laplacian 
+The {\bf Laplace-Beltrami operator (generalized Laplacian)
 $\Delta$} is defined 
 as  follows
 when it acts on p-forms 
@@ -2533,9 +2563,34 @@ Laplacians and Hodge theory (see Section \ref{sec-hodge})
 behave differently 
 in non-Riemannian theories.
 
-\subsection{Stokes' Theorem}
+\subsection{Integration, Stokes' Theorem}
 
+\beq
+\ul{d^3 x}= \ul{dx}\wedge\ul{dy}\wedge\ul{dz}
+\eeq
 
+If 
+\beq
+d\vecr =\Delta x \hat{x}
++ \Delta y \hat{y}
++\Delta z \hat{z}
+\eeq
+then
+
+\beq
+\int
+f(\vecr)\ul{d^3 x}(d\vecr)
+=\int f(\vecr)\Delta x\; \Delta y \; \Delta z
+\eeq
+Similarly, one can define
+
+\beq
+\ul{d^2x}= \ul{dx}\wedge\ul{dy}
+\eeq
+
+\beq
+\ul{d^1x} = \ul{dx}
+\eeq
 
 Stokes' theorem
 \beq
@@ -2591,7 +2646,7 @@ F_3 \ul{dz}
 \ul{d\omega}=
 [\nabla \times \vec{F}]_1 \ul{dy}\wedge
 \ul{dz}
-+ \text{permutations}
++ (231) + (312)
 \eeq
 Thus, applying Stokes'
 theorem
@@ -2627,7 +2682,387 @@ Theorem.
 
 
 
+
 \subsection{Hodge Decomposition}
+\label{sec-hodge}
+
+
+\begin{claim}(Helmholtz decomposition)
+
+For any well behaved vector field $\vec{F}:\RR^3\rarrow \RR^3$, there exists functions $\phi:\RR^3\rarrow \RR$ ,
+$\vec{A}:\RR^3\rarrow \RR^3$
+and $\vec{H}:\RR^3\rarrow \RR^3$ such that
+$\vec{F}$
+can be decomposed into a sum of 3 parts, a gradient, a curl,
+and a harmonic function:
+
+\beq
+\vec{F}= \nabla \phi +
+\nabla \times \vec{A} + \vec{H}
+\eeq
+where
+
+\beq
+\nabla^2 \vec{H}=0
+\eeq
+\end{claim}
+\proof
+\qed
+
+
+The operators $d^\dag$ (adjoint derivative) and $\Delta$ (Hodge Laplacian)
+are defined in Section \ref{sec-laplacians}
+
+\begin{claim}(Hodge Decomposition)
+
+For any well behaved p-form
+$\pform{\omega}{p}$,
+there exist p-forms 
+$\pform{\alp}{p-1}$,
+$\pform{\beta}{p+1}$
+and $\pform{c}{p}$
+such that
+$\pform{\omega}{p}$ can be decomposed
+as follows:
+
+\beq
+\pform{\omega}{p}=
+\underbrace{d\pform{\alp}{p-1}}_{
+=\pform{a}{p}, \text{ exact part}}\quad
++\quad
+\underbrace{d^\dagger \pform{\beta}{p+1}}_
+{=\pform{b}{p}, \text{ coexact part}}
+\quad
++
+\underbrace{\pform{c}{p}}_{\text{
+harmonic part}}
+\eeq
+where
+
+\beq
+\Delta \pform{c}{p}=0
+\eeq
+
+\end{claim}
+\proof
+\qed
+
+\begin{claim}
+In the Hodge decomposition,
+
+\beq
+\bcen
+\xymatrix{
+&\rva
+\ar@{-}[dl]|{\av{\rva, \rvb}=0}
+\ar@{-}[dr]|{\av{\rva, \rvc}=0}
+\\
+\rvb
+\ar@{-}[rr]|{\av{\rvb, \rvc}=0}
+&
+&\rvc
+}
+\ecen
+\quad\quad
+\left\{
+\begin{array}{l}
+\av{\rva, \rvb}=0
+\\
+\av{\rva, \rvc}=0
+\\
+\av{\rvb, \rvc}=0
+\end{array}
+\right.
+\eeq
+\end{claim}
+\proof
+
+\beq
+\av{\rva, \rvb}=
+\av{d\ul{\alp}, d^\dagger \ul{\beta}}
+=
+\av{\ul{\alp}, d^\dag d^\dag \ul{\beta}}=0
+\eeq
+
+\beq
+\av{\rva, \rvc}=
+\av{d\ul{\alp}, \rvc}=
+\av{\ul{\alp}, d^\dagger \rvc}=0
+\eeq
+
+\beq
+\av{\rvb, \rvc}=
+\av{d^\dag\ul{\beta}, \rvc}=
+\av{\ul{\beta}, d \rvc}=0
+\eeq
+
+\qed
+
+The Hodge theory is intimately
+connected to the topology of the manifold (how many holes it has, etc.)
+
+Examples
+\begin{enumerate}
+\item 
+Consider polar coordinates $(r, \theta)$ with $M=\RR^2-\{(0,0)\}=$ punctured plane.
+
+We need punctured plane because 
+polar coordinates
+not well defined at the origin. $\theta$ not ell defined at $r=0$.
+
+\beq
+\star \ul{dr}=
+r\ul{d\theta},
+\quad
+\star \ul{d\theta}=
+-\;\frac{1}{r}
+\ul{dr}
+\eeq
+
+\beq
+\star \star \ul{dr}=
+-\ul{dr}
+\eeq
+$(-1)^{p(n-1)}=
+(-1)^{1(1)}=-1$
+
+
+\beq
+\pform{\omega}{}
+=
+\pform{d\alp}{}
++ 
+\star(\pform{b}{})
++ c \pform{d\theta}{}
+\eeq
+where $c$ is an arbitrary constant
+that arises because the gradient 
+$\alp$ is defined only up to $c \theta$
+
+\beq
+d^\dag \star \ul{b}=
+\star d \star\star \ul{b}=0
+\eeq
+
+\beq
+\ul{d\alp}=
+\alp_r \ul{dr} 
++
+\alp_\theta \ul{d\theta}
+\eeq
+
+\beq
+\ul{b}=
+b_r \ul{dr} 
++
+b_\theta \ul{d\theta}
+\eeq
+
+\beq
+\star \ul{b}=
+b_r(r\ul{d\theta})
++ b_\theta \left(
+-\;\frac{1}{r}\ul{dr}\right)
+\eeq
+
+Therefore
+
+\beq
+\ul{\omega}=f(r, \theta)\ul{d\theta}=
+\left(
+\alp_r -\;\frac{b_\theta}{r}
+\right)\ul{dr}
++
+(\alp_\theta 
++ rb_r+c)\ul{d\theta}
+\eeq
+
+
+\begin{subequations}
+\beq
+\alp_r -\frac{b_\theta}{r}=0
+\eeq
+
+\beq
+\alp_\theta + rb_r + c=f
+\eeq
+\label{eq-alp-b}
+\end{subequations}
+Eqs.(\ref{eq-alp-b})
+must be solved simultaneously for
+$(\alp_r, \alp_\theta)$
+and $(b_r, b_\theta)$.
+This requires 
+that we stipulated 
+boundary conditions
+because the manifold $M$ is not
+compact.
+
+Here is an approximate
+solution assuming
+$\alp_r \approx 0$:
+
+\beq
+\pform{\omega}{}=
+f(r, \theta)\pform
+{d\theta}{}
+\eeq
+find the 
+Hodge decomposition 
+of $\ul{\omega}$.
+
+Let $(\vece_1, \vece_2)=(\hat{r}, \hat{\theta})$
+and $(\ul{\theta^1},
+\ul{\theta^2})=
+(\ul{dr}, r\ul{d\theta})$.
+
+
+\beq
+\av{f}(r)=
+\frac{1}{2\pi}
+\int_0^{2\pi}d\theta \; f(r, \theta)
+\eeq
+
+\beq
+\delta f = f-\av{f}
+\eeq
+
+\beq
+\alp_0(r, \theta)=
+\int_{0}^\theta d\theta'\;
+\delta f(r, \theta')
+\quad \text{ for $\theta\in [0, 2\pi]$}
+\eeq
+Since $\alp(r, 0)=\alp_0(r, 2\pi)=0$,
+define $\alp(r, \theta)$ for all $\theta\in \RR$
+to be  periodic
+in $\theta$ with period $2\pi$.
+
+
+
+
+
+
+
+\beq
+d\alp =
+\partial_r \alp dr
++
+\delta f(r, \theta)d\theta
+\eeq
+
+\beq
+f(r, \theta)d\theta=
+d\alp-\partial_r \alp dr
++
+\av{f}(r)
+d\theta
+\eeq
+
+\beqa
+\ul{\omega}&=&
+f(r, \theta)\ul{d\theta}
+\\
+&=&
+\ul{d\alp}-\partial_r \alp \ul{dr}
++
+\av{f}(r)\ul{d\theta}
+\eeqa
+
+
+\beq
+b'(r)
+=\frac{\av{f}(r)}{r}
+ \eeq
+
+\beq
+\star \ul{db}=
+\star[b'(r)\ul{dr}]=
+rb'(r)\ul{d\theta}=
+\av{f}(r)
+\ul{d\theta}
+\eeq
+
+Since $\partial_r \alp\approx 0$,
+\beq
+\ul{\omega}\approx
+\underbrace{d[\ul{\alp}-c\theta]}_{\text{exact part}}\quad 
++\underbrace{ \star \ul{db}}_{\text{coexact part}}
++ \underbrace{c\ul{d\theta}}_{\text{harmonic part}}
+\eeq
+Note that the harmonic part 
+contains the cut discontinuity 
+and thus contains the
+topology information.
+
+\beq
+\oint_{r=R}d\theta = 2\pi
+\eeq
+
+\item $\ul{d\theta}$ properties for 
+polar coordinates on punctured plane
+
+\begin{claim}
+This
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+\rowcolor[HTML]{FFFE65} 
+$(\cdot)=\ul{d\theta}$ & True everywhere on punctured plane? \\ \hline
+$d(\cdot)=0$ (closed) & Yes \\ \hline
+$d^\dag(\cdot)=0$ (co-closed) & Yes \\ \hline
+$\Delta(\cdot)=0$ (harmonic) & Yes \\ \hline
+$(\cdot)=d\ul{\alp}$ (exact) & true locally but not globally \\ \hline
+$(\cdot)=d^\dag\ul{\beta}$ (co-exact)& Yes \\ \hline
+\end{tabular}
+\end{center}
+\end{claim}
+\proof
+
+$d(\ul{d\theta})=0$ from $d^2=0$
+
+\beq
+d^\dagger (\ul{d\theta})
+=\star d \star \ul{d\theta}
+=
+\star d\left(
+-\frac{1}{r}\ul{dr}\right)
+=0
+\eeq
+
+\beq
+\Delta(\ul{d\theta}) = \left[d d^\dagger + d^\dag d\right]\ul{d\theta}=0
+\eeq
+Let 
+
+\beq
+\ul{\beta}=-\ln(r)
+\ul{dr}\wedge
+\ul{d\theta}
+\eeq
+Then
+
+\beq
+d^\dag\ul{d\beta}=
+-\star d\star [-\ln(r)
+\ul{dr}\wedge
+\ul{d\theta}]=-
+\star d[\ln(r)]=-
+\star \frac{1}{r}
+\ul{dr}
+=\ul{d\theta}
+\eeq
+
+
+\qed
+
+
+
+
+
+\end{enumerate}
+
+
 
 \subsection{Frobenius Theorem}
 
@@ -3514,13 +3949,13 @@ v_i\pform{dx^i}{}
 \\
 &=&
 \left(
-\partial_1{v_2}-
-\partial_2{v_1}
+\partial_2{v_3}-
+\partial_3{v_2}
 \right)
-\pform{dx^1}{}
-\wedge
 \pform{dx^2}{}
-+ \text{permutations}
+\wedge
+\pform{dx^3}{}
++ (231)+ (312)
 \eeqa
 
 \beq
@@ -3532,7 +3967,7 @@ v_i\pform{dx^i}{}
 volume 3-form
 
 \beq
-\pform{vol}{3}=
+\pform{d^3 x}{3}=
 \pform{\star 1}{3}=
 \pform{dx}{}\wedge
 \pform{dy}{}\wedge
@@ -3577,24 +4012,26 @@ incompressible flow
 
 \beqa
 d\star \pform{\beta}{}
-&=&d\;\left[v^1 \pform{dx^2}{}\wedge\pform{dx^3}{}+\text{permutations}\right]
+&=&d\;\left[v^1 \pform{dx^2}{}\wedge\pform{dx^3}{}+
+(231)+ (312)\right]
 \\
 &=&
-[\nabla\cdot \vecv] \pform{vol}{3}
+[\nabla\cdot \vecv] \pform{d^3 x}{3}
 \eeqa
 
 
 \beqa
-d\;i_\vecv\;\pform{vol}{3}
-&=&d\;\left[v^1 \pform{dx^2}{}\wedge\pform{dx^3}{}+\text{permutations}\right]
+d\;i_\vecv\;\pform{d^3 x}{3}
+&=&d\;\left[v^1 \pform{dx^2}{}\wedge\pform{dx^3}{}+
+(231) + (312)\right]
 \\
 &=&
-[\nabla\cdot \vecv] \pform{vol}{3}
+[\nabla\cdot \vecv] \pform{d^3x}{3}
 \eeqa
 
 \beq
 d\star \pform{\beta}{} =
-d\;i_\vecv\;\pform{vol}{3} =0
+d\;i_\vecv\;\pform{d^3x}{3} =0
 \eeq
 
 \hrule
