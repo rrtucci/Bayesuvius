@@ -3056,6 +3056,404 @@ d^\dag\ul{d\beta}=
 
 
 \subsection{Frobenius Theorem}
+\hrule
+Fluid mechanics, simple example
+
+\beq
+\vecv = x \hat{y} + a\hat{z}
+\eeq
+
+\beq
+\nabla \times \vecv = 
+\left|
+\begin{array}{ccc}
+\hat{x} &\hat{y}&\hat{z}
+\\
+\partial_1 &\partial_2 &\partial_3
+\\
+0 & x & a
+\end{array}
+\right|
+= \hat{z}
+\eeq
+
+\beq
+\vecv\cdot (\nabla \times \vecv)= 
+\hat{z}\cdot [x \hat{y} +a \hat{z}] = a
+\eeq
+
+For a  fluid, $\nabla \times \vecv$ is called
+the {\bf vorticity} and 
+$\vecv \cdot (\nabla\times \vecv)$
+is called the
+{\bf helicity}. 
+Flows with non-zero helicity 
+can occur in Nature and be solutions
+of Navier-Stokes equation.
+No viscosity or turbulence
+is required to have them.
+
+Note that when $a=0$, $\nabla \times \vecv$ is still the same,
+but $\vecv\cdot (\nabla \times \vecv)=0$. 
+That's because 
+non-zero 
+$\vecv\cdot (\nabla \times \vecv)$ is impossible to achieve in 2-dim.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=3in]
+{differ-geo/helicity-example.png}
+\caption{Helicity example}
+\label{fig-helicity-example}
+\end{figure}
+
+
+
+A velocity field is said to be 
+{\bf integrable}  if
+and only if its streamlines
+at every   point $\pi$ 
+fall on a plane. 
+For non-integrable velocity fields,
+if you create a plane at a point $\pi$ with a bunch of streamlines,
+then there other streamlines at $\pi$
+ will exit the plane.
+Frobenius' Theorem for 
+3-dim fluid flows is the statement
+that a velocity field is integrable
+iff it has zero helicity everywhere.
+\hrule
+Fluid Mechanics, in general
+
+In general
+
+\beq
+\vecv\cdot(\nabla \times \vecv)= v_1(\partial_2 v_3 -\partial_3v_2)
++ (231)+ (312)
+\eeq
+If $\vecv$ is 2-dim, then we can rotate it so that $v_3=\partial_3=0$. Hence, 
+the helicity  is zero.
+
+\begin{claim}
+
+\beq
+\nabla\times (a\nabla f)=
+\nabla a \times \nabla f
+\eeq
+
+
+\end{claim}
+\proof
+
+\beqa
+\nabla\times (af)=&=&
+\left|
+\begin{array}{ccc}
+\hat{x}& \hat{y}&\hat{z}
+\\
+\partial_1
+&\partial_2
+ &\partial_3
+\\
+a\partial_1f
+&a\partial_2f
+&a\partial_3 f
+\end{array}
+\right|
+\\
+&=&
+\left|
+\begin{array}{ccc}
+\hat{x}& \hat{y}&\hat{z}
+\\
+\partial_ a
+&\partial_2a 
+&\partial_3a
+\\
+\partial_1f
+&\partial_2f
+&\partial_3 f
+\end{array}
+\right|
+\eeqa
+\qed
+
+\begin{claim} 
+$\vecv$ has zero helicity iff $\vecv=a\nabla f$
+for some functions $a(\vecr)$ and $f(\vecr)$
+\end{claim}
+\proof
+
+\beqa
+\vecv\cdot (\nabla \times \vecv)
+&=&
+a\nabla f\cdot
+(\nabla \times (a\nabla f))
+\\
+&=&
+a\nabla f
+\cdot (\nabla a \times \nabla f)
+\\
+&=&
+a
+\left|
+\begin{array}{ccc}
+\partial_1 f
+&\partial_2 f
+&\partial_3 f
+\\
+\partial_1 a
+&\partial_2 a
+&\partial_3 a
+\\
+\partial_1 f
+&\partial_2 f
+&\partial_3 f
+\end{array}
+\right|
+\\
+&=&
+0
+\eeqa
+
+\qed
+
+\hrule
+Fluid Mechanics, 1-forms
+
+Suppose
+
+\beq
+\ul{\omega} = v_1 \ul{dx} + v_2 \ul{dy}
++ v_3 \ul{dz}
+\eeq
+Then
+
+\beq 
+d\ul{\omega}=
+(\partial_2 v_3 -\partial_3 v_2)
+\ul{dy}\wedge \ul{dz} + (231) + (312)
+\eeq
+
+\beqa
+\ul{\omega}\wedge
+d\ul{\omega} &=&
+v_1 (\partial_2 v_3 -\partial_3 v_2)
+\ul{dx}\wedge \ul{dy}\wedge \ul{dz}
++ (231) + (312)
+\\
+&=&
+\vecv\cdot(\nabla \times \vecv)
+\ul{dx}\wedge \ul{dy}\wedge \ul{dz}
+\eeqa
+Hence
+
+\beq 
+\ul{\omega}\wedge d\ul{\omega}=
+0
+\quad
+\text{iff}\quad
+\vecv\cdot (\nabla \times \vecv)=0
+\eeq
+\hrule
+Frobenius Theorem for single and family of 1-forms
+
+The 
+Frobenius Theorem (FT)
+is a theorem
+about 1-forms. 
+We first state FT
+for a single 1-form.
+Then generalize FT to
+a family of 1-forms.
+
+\begin{claim}(Frobenius 
+Theorem
+for single 1-form)
+
+Suppose $\pform{\omega}{}$
+is a smooth 1-form in
+an $n$ dimensional
+manifold $M$.
+Suppose
+
+\beq
+\ul{\omega}(\vecX)=0
+\eeq
+for all vector fields $\vecX$.
+Define
+
+\beq
+D_\pi = \{\vecX\in T_\pi(M):
+\ul{\omega}(\vecX)=0\}
+\eeq
+Then the following statements 
+are equivalent
+\begin{enumerate}[(a)]
+\item $D_\pi$ is a $n-1$ dimensional hypersurface
+which deforms continuously as $\pi$ moves.
+
+
+\item There exist functions $a(\vecX)$ and $f(\vecX)$ such that
+
+\beq
+\ul{\omega}(\vecX)=
+a(\vecX)\ul{df(\vecX)}
+\eeq
+
+\item $\pform{\omega}{}$ satisfies  
+
+\beq
+\pform{\omega}{}\wedge
+d\pform{\omega}{}=0
+\eeq
+(always satisfied for $n\leq 2$)
+
+\item For any $\vecX, \vecY \in T_\pi(M)$
+
+
+
+\beq
+[\vecX_{op}, \vecY_{op}]=0
+\eeq 
+
+
+
+
+
+
+\end{enumerate}
+\end{claim}
+\proof
+\qed
+
+
+\begin{claim}(Frobenius 
+Theorem
+for family of independent 1-forms)
+
+Suppose $\{\pform{\omega^\alp}{}\}_{\alp=1}^n$
+is a family of INDEPENDENT  smooth 1-forms in
+an $n$ dimensional
+manifold $M$.
+Suppose
+
+\beq
+\ul{\omega^\alp}(\vecX)=0, \quad \text{for } \alp=1, 2, \ldots n
+\eeq
+for all vector fields $\vecX$.
+Define
+
+\beq
+D_\pi = \{\vecX\in T_\pi(M):
+\ul{\omega^\alp}(\vecX)=0 \text{ for }\alp=1, 2, \ldots n\}
+\eeq
+Then the following statements 
+are equivalent
+\begin{enumerate}[(a)]
+\item $D_\pi$ is a $n-1$ dimensional hypersurface
+which deforms continuously as $\pi$ moves.
+
+\item There exist 
+1-forms $\{\pform{\eta^\alp{}}\}$
+such that  
+\beq
+\pform{d\omega^\alp}
+{2}=
+\sum_\beta
+\pform{\eta\indices{^\alp_\beta}}{}
+\wedge
+\pform{\omega^\beta}{}
+\eeq
+
+\end{enumerate}
+
+\end{claim}
+\proof
+
+Note that for a single 
+1-form, 
+
+\beq
+\ul{d\omega}=\ul{\eta}\wedge \ul{\omega}
+\implies
+\ul{\omega}\wedge \ul{d\omega}=
+\ul{\omega}
+\wedge
+(\ul{\eta}\wedge \ul{\omega})
+=0
+\eeq
+\qed
+\hrule
+Ideals
+
+A {\bf p-form (PF) ideal} $\cali$ is a set
+of p-forms that satisfies the following condition:
+
+\begin{enumerate}
+\item $\ul{\alp}\in \cali$ implies 
+$\ul{\alp}\wedge \ul{\beta}\in \cali$ for any p-form $
+\ul{\beta}$ of any degree.
+\end{enumerate}
+
+Ideals are often specified by giving
+a set of generators. 
+Then the ideal is the set
+of all p-forms that have the generators as
+\qt{factors} under the wedge product.
+For example, 
+the ideal with
+generators $\{\ul{\theta},\ul{d\theta}\}$ is
+
+\beq
+Ideal\{\ul{\theta},\ul{d\theta}\}
+=\{\ul{\theta},\quad
+ \ul{d\theta}, \quad
+f\ul{\theta},\quad
+f\ul{d\theta},\quad
+\alp\wedge \ul{\theta},\quad
+ \ul{\alp}\wedge \ul{d\theta},\quad
+\beta\wedge \ul{\theta}\wedge\ul{d\theta},\quad 
+\ldots
+\}
+\eeq
+Given an ideal $\cali$ define $d\cali$ by
+
+\beq
+d\cali = \{ d\ul{\omega}: \omega\in \cali\}
+\eeq
+Thus $d\cali$ is the image of $\cali$ under $d$.
+We also define the {\bf differential ideal generated by $\cali$} as
+
+\beq
+\cali_{diff}= Ideal\{ \cali, d\cali\}
+\eeq
+\begin{claim}
+
+\beq
+\cali =\cali_{diff}\quad
+\text{ iff } \quad d\cali \subset \cali
+\eeq
+
+\end{claim}
+\proof
+
+Suppose $\cali =\cali_{diff}$. Then $d\cali \subset 
+\cali_{diff}=\cali$.
+
+Suppose $d\cali\subset \cali$. Then $\cali_{diff}=Ideal\{\cali, d\cali\}=\cali$.
+
+\qed
+
+Frobenius Theorem 
+asserts that $D_\pi$ is integrable
+iff $\cali=\cali_{diff}$ iff $d\cali\subset \cali$,
+where
+
+\beq
+\cali = Ideal\{ \pform{\omega^\alp}{}\}_{\alp=1}^n
+\eeq
+
 
 \section{Differential Geometry of General Manifolds}\label{sec-gen-differ-geo}
 
