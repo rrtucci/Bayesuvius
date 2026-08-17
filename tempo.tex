@@ -45,6 +45,8 @@ and $\ul{d\omega_{ij}}$.}
 \label{fig-dr1-de1}
 \end{figure}
 
+\hrule
+Gauss
 
 Start by parameterizing the surface
 
@@ -52,19 +54,6 @@ Start by parameterizing the surface
 \vecr = \vecr(u_1, u_2)
 \eeq
 $(u_1, u_2)=(u,v)$
-
-
-\newcommand{\gauE}{{\av{1|1}}}
-
-\newcommand{\gauF}{{\av{1|2}}}
-
-\newcommand{\gauG}{{\av{1|2}}}
-
-\newcommand{\gaue}{{\av{3|11}}}
-
-\newcommand{\gauf}{{\av{3|12}}}
-
-\newcommand{\gaug}{{\av{3|22}}}
 
 
 \beq
@@ -134,7 +123,7 @@ perpendicular to the surface
 +\Gamma^2_{12}
 \ket{2} 
 + f
-\ket{3}
+c\ket{3}
 =
 \Gamma^i_{12}\ket{i}+ f \ket{3}
 \eeq
@@ -151,6 +140,11 @@ _{\ket{22}}
 =
 \Gamma^i_{22}\ket{i}+ g \ket{3}
 \eeq
+Christoffel symbols
+
+\beq
+\Gamma^k_{ij}= \av{k|ij}
+\eeq
 
 \beq
 e=\gaue,
@@ -162,14 +156,22 @@ g=\gaug
 
 Second Fundamental quadratic form
 \beq
-Q'= du_i du_j \av{ij|3}
+Q_{II}= du_i du_j \av{3|ij}
 \eeq
+\hrule
+Cartan 
+
 
 Basis $(\ket{1}, \ket{2}, \ket{3})$ is  not 
 orthonormal.
 Cartan chooses 
 orthonormal basis
 $(\hate_1, \hate_2, \hate_3)$
+where
+
+\beq
+\hate_3 =\hatn=\ket{3}
+\eeq
 
 \beq
 \pform{d\vecr}{} =\pform{ \theta_1}
@@ -180,5 +182,515 @@ $(\hate_1, \hate_2, \hate_3)$
 =
 \pform{\theta_i}{}\hate_i
 \eeq
+
+\beq
+\ul{d\vecr}\cdot \ul{d\vecr}=
+\ul{\theta_1}^2 +\ul{\theta_2}^2
+\eeq
+
+\beq
+Q = du_idu_j \av{i|j}= \theta_i\theta_i
+\eeq
+
+\beq
+\hate_1 = \frac{\ket{1}}
+{\sqrt{\gauE}}
+\eeq
+
+\beq
+\hate_2=
+\frac{
+\gauE\ket{2}-
+\gauF\ket{1}
+}{D
+\sqrt{
+\gauE
+}
+}
+\eeq
+
+\beq
+\hate_3= \ket{3}
+\eeq
+where
+
+\beq
+D =\sqrt{\gauE\gauG-\gauF^2
+}
+\eeq
+
+\beq
+\theta_i = \hate_i\cdot d\vecr
+\eeq
+
+\beq
+\theta_1 = 
+\frac{1}{\sqrt{\gauE}}
+\left(
+\gauE du_1
++
+\gauF du_2
+\right)=
+\frac{
+\av{1|i}du_i
+}{\sqrt{\gauE}}
+\eeq
+
+\beq
+\theta_2=
+\frac{D du_2}
+{\sqrt{\gauE}}
+\eeq
+
+\begin{claim}
+If 
+\beq
+\omega_{12}=
+A_idu_i
+\eeq
+then
+
+\beq
+A_1 = 
+\frac{\gauE \partial_2\gauE
+-
+2\gauE \partial_1\gauF
++
+\gauF \partial_1\gauE}
+{
+2\gauE D
+}
+\eeq
+
+\beq
+A_2 =
+\frac{-\gauE \partial_1\gauG
++ \gauF \partial_2 \gauE
+}
+{
+2\gauE D}
+\eeq
+\end{claim}
+\proof
+\beq
+\left\{
+\begin{array}{ll}
+\theta_1 = \frac{\av{1|i}du_i}
+{\sqrt{\gauE}}
+&(a)
+\\
+\theta_2 =
+\frac{Ddu_2}
+{\sqrt{\gauE}}
+&(b)
+\\
+\omega_{12}= A_i du_i
+& (c)
+\\
+\ul{d\theta_1}=
+-\ul{\omega_{12}}
+\wedge \ul{\theta_2}
+&(d)
+\\
+\ul{d\theta_2}=
+\ul{\omega_{12}}\wedge
+\ul{\theta_1}
+& (e)
+\end{array}
+\right.
+\eeq
+Take the exterior derivative of $\theta_1$ given by $(a)$. Plug that and $(b), (c)$ into $(d)$ to get $A_1$.
+
+Take the exterior derivative of $\theta_2$
+given by $(b)$. Plug that and $(a), (c)$ into $(e)$ to get $A_2$.
+\qed
+
+
+\begin{table}[h!]
+\begin{tabular}{|l|l|l|}
+\hline
+ & \cellcolor[HTML]{FFCCC9}Gauss & \cellcolor[HTML]{FFCCC9}Cartan \\ \hline
+\cellcolor[HTML]{9AFF99}t-basis and normal unit vector & $(\ket{1}, \ket{2}, \ket{3})$ & $(\hate_1, \hate_2, \hatn)$ \\ \hline
+\cellcolor[HTML]{9AFF99}dual t-basis and normal unit vector& $(du_1, du_2, du_3)$ & $(\ul{\theta_1}, 
+\ul{\theta_2},
+\ul{\theta_3})$ \\ \hline
+\cellcolor[HTML]{9AFF99}connections & $\Gamma^k_{ij}=\av{k|ij}, \quad \av{3|i}$ 
+& $\ul{\omega_{12}},\quad
+ \ul{\omega_{23}},\quad
+ \ul{\omega_{13}}$ \\ \hline
+\end{tabular}
+\caption{Comparison between Gauss and Cartan formalism for studying surfaces}
+\label{tab-gauss-cartan-compare}
+\end{table}
+
+\beq
+\pform{d\vecr}{} =
+\pform{\theta_1}{}\hate_1
++
+\pform{\theta_2}{}\hate_2
+=
+\pform{\theta_i}{}\hate_i
+\eeq
+
+\beq
+\hate_i\cdot \hate_j=\delta_{ij}
+\eeq
+
+
+\beq
+\left[
+\begin{array}{c}
+\pform{d\hate_1}{}
+\\
+\pform{d\hate_2}{}
+\\
+\pform{d\hatn}{}
+\end{array}
+\right]
+=
+\left[
+\begin{array}{ccc}
+0
+&\pform{\omega_{12}}{}
+&\pform{\omega_{13}}{}
+\\
+-\pform{\omega_{12}}{}
+&0
+&\pform{\omega_{23}}{}
+\\
+-\pform{\omega_{13}}{}
+&-\pform{\omega_{23}}{}
+&0
+\end{array}
+\right]
+\left[
+\begin{array}{c}
+{\hate_1}{}
+\\
+{\hate_2}{}
+\\
+{\hatn}{}
+\end{array}
+\right]
+\eeq
+
+
+\begin{align}
+0&= d^2\ul{\vecr}
+\\
+&=
+d(\hate_i\ul{\theta_i})
+\\
+&=
+\hate_i \ul{d\theta_i}
++
+\ul{d\hate_i}\wedge \ul{\theta_i}
+\\
+&=
+\hate_i \ul{d\theta_i}
++
+\left[
+\ul{\omega_{12}}\hate_2
++\ul{\omega_{13}}\hatn
+\right]\wedge \ul{\theta_1}
++\left[
+-\ul{\omega_{12}}\hate_1
++\ul{\omega_{23}}\hatn
+\right]\wedge \ul{\theta_2}
+\\
+&=
+\hate_i \ul{d\theta_i}
++
+\hate_1\left[
+-\ul{\omega_{12}}\wedge\ul{\theta_2}
+\right]
++\hate_2
+\left[
+\ul{\omega_{12}}\wedge \ul{\theta_1}
+\right]
++\hatn
+\left[
+\ul{\omega_{13}}\wedge\ul{\theta_1}
++
+\ul{\omega_{23}}\wedge \ul{\theta_2}
+\right]
+\end{align}
+
+\beqa
+\ul{d\theta_1} &=&
+\ul{\omega_{12}}\wedge \ul{\theta_2}
+\\
+\ul{d\theta_2} &=&
+-\ul{\omega_{12}}\wedge\ul{\theta_1}
+\\
+0&=&
+\ul{\omega_{13}}\wedge\ul{\theta_1}
++
+\ul{\omega_{23}}\wedge \ul{\theta_2}
+\eeqa
+Cartan's first structure equations with zero torsion.'
+
+
+\beq
+\left[
+\begin{array}{c}
+\ul{\omega_{13}}
+\\
+\ul{\omega_{23}}
+\end{array}
+\right]
+=
+\underbrace
+{\left[
+\begin{array}{cc}
+h_{11}&h_{12}
+\\
+h_{21}&h_{22}
+\end{array}
+\right]}_\calh
+\left[
+\begin{array}{c}
+\ul{\theta_1}
+\\
+\ul{\theta_2}
+\end{array}
+\right]
+\eeq
+\beq
+\ul{\omega_{13}}\wedge\ul{\theta_1}
++
+\ul{\omega_{21}}\wedge \ul{\theta_2}
+\implies
+h_{12}=h_{21}
+\eeq
+
+
+\beq
+\left[
+\begin{array}{c}
+\ul{\theta_1}
+\\
+\ul{\theta_2}
+\end{array}
+\right]=
+\cala
+\left[
+\begin{array}{c}
+\ul{du_1}
+\\
+\ul{du_2}
+\end{array}
+\right]
+\eeq
+
+\beq
+Q_I
+=
+\left[
+\begin{array}{cc}
+\ul{du_1}
+&
+\ul{du_2}
+\end{array}
+\right]
+\calq_I
+\left[
+\begin{array}{c}
+\ul{du_1}
+\\
+\ul{du_2}
+\end{array}
+\right]=
+\left[
+\begin{array}{cc}
+\ul{\theta_1}
+&
+\ul{\theta_2}
+\end{array}
+\right]
+\underbrace{(\cala^{-1})^T\calq_I \cala^{-1}}_{1}
+\left[
+\begin{array}{c}
+\ul{\theta_1}
+\\
+\ul{\theta_2}
+\end{array}
+\right]
+\eeq
+
+\beq
+\calq_I = [\av{i|j}],\quad
+\calq_I=\cala^T\cala
+=\text{metric in $(u_1, u_2)$ coords}
+\eeq
+
+
+\beq
+Q_{II}
+=
+\left[
+\begin{array}{cc}
+\ul{du_1}
+&
+\ul{du_2}
+\end{array}
+\right]
+\calq_{II}
+\left[
+\begin{array}{c}
+\ul{du_1}
+\\
+\ul{du_2}
+\end{array}
+\right]=
+\left[
+\begin{array}{cc}
+\ul{\theta_1}
+&
+\ul{\theta_2}
+\end{array}
+\right]
+\underbrace{(\cala^{-1})^T \calq_{II} \cala^{-1}}_{\calh}
+\left[
+\begin{array}{c}
+\ul{\theta_1}
+\\
+\ul{\theta_2}
+\end{array}
+\right]
+\eeq
+
+\beq
+\calq_{II} = [\av{3|ij}],\quad
+\calq_{II} =
+\cala^T\calh\cala
+\eeq
+
+\beq
+\frac
+{\det{\calq_{II}}}
+{\det{\calq_{I}}}=
+\det\calh = K
+\eeq
+
+\beq
+\frac{eg-f^2}
+{EG-F^2}=
+h_{11}h_{22}-h_{12}^2
+=
+K
+\eeq
+
+
+
+
+
+
+
+
+\beq
+\left[
+\begin{array}{c}
+\ul{\omega_{13}}
+\\
+\ul{\omega_{23}}
+\end{array}
+\right]
+=
+\calh \cala 
+\left[
+\begin{array}{c}
+\ul{du_1}
+\\
+\ul{du_2}
+\end{array}
+\right]
+\eeq
+
+
+$\alp, \beta\in \{1,2,3\}$
+\beq
+\ul{d\hate_\alp}= \ul{\omega_{\alp\beta}}
+\hate_\beta
+\eeq
+
+\beqa 
+0&=&
+d\ul{d\hate_\alp}
+\\
+&=&
+d(\ul{\omega_{\alp\beta}})\hate_\beta
++
+\ul{d\hate_\mu}
+\wedge  \ul{\omega_{\alp\mu}}
+\\
+&=&
+d(\ul{\omega_{\alp\beta}})\hate_\beta
++
+\ul{\omega_{\mu\beta}}\hate_\beta
+\wedge 
+\omega_{\alp\mu}
+\eeqa
+
+\beq
+\ul{d\omega_{\alp\beta}}=
+\ul{\omega_{\alp\mu}}\wedge \ul{\omega_{\mu\beta}}
+\eeq
+
+\beq
+\ul{d\omega_{12}}= \ul{\omega_{13}}
+\wedge \ul{\omega_{32}}
+\eeq
+
+Definition of curvature $K$
+\beq
+\ul{d\omega_{12}}=
+K\ul{\theta_1}
+\wedge
+\ul{\theta_2}
+\eeq
+
+\beq
+\ket{j}=\calb_{jk}\hate_k
+\eeq
+
+\beqa
+\av{3|ij}&=&
+\hatn\cdot 
+\partial_i\partial_j\vecr
+\\
+&=&
+\hatn\cdot \partial_i\ket{j}
+\\
+&=&
+\hatn\cdot\partial_i[\calb_{jk}\hate_k]
+\\
+&=&
+\hatn\cdot[
+\cancel{\partial_i(\calb_{jk})\hate_k}
++
+\calb_{jk}\partial_i\hate_k]
+\\
+&=&
+\calb_{jk}\hatn\cdot \partial_i\hate_k
+\eeqa
+
+\beq
+\ul{d\hate_i} =
+\ul{\omega_{ij}}\hate_j +
+\ul{\omega_{i3}}\hat{n}
+\eeq
+
+\beq
+\hatn\cdot\ul{d\hate_i} =
+\ul{\omega_{i3}}
+\eeq
+
+
+
+
+$\vecpder{x}$
+
+
 \end{document}
 
