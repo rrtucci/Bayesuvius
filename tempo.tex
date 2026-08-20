@@ -44,17 +44,15 @@ g= \exp(t\vecX)
 where $g\in G$, $\vecX \in \ger{g}$, $t\geq 0$
 
 
-{\bf Left and right translations of $G$}
+{\bf Left and right translations by $g$}
 \beq
-L_h g = gh, \quad R_hg = hg
+L_g h = gh, \quad R_g h = hg
 \eeq
-(note that by convention, $g$ is on the left, 
-not $g$ is multiplied on the left)
 
-{\bf Left invariant vector field} is
-a vector field $\vecX_g\in T_g (G)$
-which is defined  for all $g\in G$ 
-given $\vecX_e\in  T_e(G)$, as follows.
+{\bf Left invariant (LI) vector field} is
+a vector field $\vecX\in\ger{X}_{LI}$ for which $\vecX_g\in T_g (G)$
+ is defined  for all $g\in G$ 
+merely from $\vecX_e\in  T_e(G)$, as follows.
 
 Define a path $g_\gamma(t)\in G$ 
 for $t>0$ such that
@@ -70,7 +68,7 @@ g_\gamma'(0)=\vecX_e
 (dL_g)_e\vecX_e = \AT{\frac{d\;}{dt}}{t=0} gg_\gamma(t)
 \label{eq-g-e-is-ge}
 \eeq
-For a left invariant field, 
+For an LI vector field $\vecX$, 
 for all $g\in G$,
 $\vecX_g$ is defined from $\vecX_e$ by
 
@@ -108,14 +106,13 @@ T_e(G)\eqdef  \{ \vecX_e=g_\gamma'(0)\mid
 \eeq
 
 \beq
-\ger{X}_{LIV}(G) \eqdef \{\vecX_g=(dL_g)_e \vecX_e\mid g\in G\}
+\ger{X}_{LI}(G) \eqdef \{\vecX\mid \vecX_g=(dL_g)_e \vecX_e\mid g\in G\}
 \eeq
 \beq
-\ger{g}\cong T_e(G)\cong \ger{X}_{LIV}(G)
+\ger{g}\cong T_e(G)\cong \ger{X}_{LI}(G)
 \eeq
-where $\ger{X}_{LIV}(G)$ is the set of left invariant vector fields for all $g\in G$.
 The map that makes the sets $T_e(G)$ and 
-$\ger{X}_{LIV}(G)$ isomorphic is precisely $(dL_g)_e$.
+$\ger{X}_{LI}(G)$ isomorphic is precisely $(dL_g)_e$.
 
 Call $T_g(G)=L_g(T_e(G))$. This reduces to $T_e(G) =T_e(G)$ as expected. Define 
 
@@ -127,13 +124,14 @@ $\ul{\omega_a}:T^p_a(G)\rarrow \RR$
 and $\vecX_a\in T^p_a(G)$,
 define the following pullback
 
+
 \beq
 (L_g)^{pb}_a(\ul{\omega_a}(\vecX_a))=
 \ul{\omega_{ga}}((L_g)_a \vecX_a)=
 \ul{\omega_{ga}}(\vecX_{ga})
 \eeq
 
-{\bf Left invariant p-forms}
+{\bf Left invariant (LI) p-forms}
 $\ul{\omega_a}$ satisfy
 
 \beq
@@ -146,9 +144,93 @@ In particular, if $a=e$,
 \ul{\omega_g}(\vecX_g)=\ul{\omega_e}(\vecX_e)
 \eeq
 Thus,  left invariant p-form
-is fully specified by its value 
+is fully specified  by its value 
 at each $\vecX_e\in \ger{g}$.
+It's also and \qt{constant}; i.e. the
+same for all  $g\in G$.
 
+
+For $\vecX_e, \vecY_e\in T_e(G) =\ger{g}$, let
+$[\vecX_e, \vecY_e]$ stand for the Lie bracket, which is
+assumed to be given. Then 
+for any LI vector fields
+$\vecX, \vecY\in \ger{X}_{LI}$,
+define
+
+\beq
+[\vecX,  \vecY]_g
+\eqdef
+\underbrace{
+(dL_g)_e
+\underbrace{[\vecX_e, \vecY_e]}
+_{\in T_e(G)}}_{\in T_g(G)}
+\eeq
+Note that
+
+\beq
+[\vecX, \vecY]_g\neq
+[\vecX_g, \vecY_g]
+\eeq
+because the right hand
+side is undefined. Furthermore,
+the right hand side
+contains only info about 
+$\vecX$ and $\vecY$ at $g$,
+not in the neighborhood 
+of $g$. The later info 
+is necessary to compute derivatives.
+
+
+Let $G$ be an $n$ dim Lie group ($n$
+is the dim of the manifold and of $T_e(G)$) with a Lie Algebra $\ger{g}= T_e(G)$.
+The {\bf Maurer-Cartan 1-form}
+$\pform{\theta}{}$ is defined as 
+follows.
+
+
+\beq
+\theta_g: T_p(G)\rarrow \ger{g},\quad \vecX_g \mapsto (dL_{g-1})_g\vecX_g
+\eeq
+
+Choose a basis $\{\vecE_\alp\}_{\alp=1}^n$ for $\ger{g}$. Assume
+
+\beq 
+[\vecE_\beta, \vecE_\gamma]= C\indices{^\alp_{\beta\gamma}}
+\vecE_\alp
+\eeq
+
+Expand 
+
+\beq
+\pform{\theta}{}=
+\pform{\theta^\alp}{}\vecE_\alp
+\eeq
+
+\beq
+\ul{\theta^\alp}(\vecE_\beta)=
+\delta^\alp_\beta
+\eeq
+
+\begin{claim}(Maurer-Cartan Equation)
+
+
+\beq
+\ul{d\theta} = -\;\frac{1}{2}
+[\ul{\theta}, \ul{\theta}]
+\eeq
+
+
+\beq
+\ul{d\theta^\alp}=
+-\;\frac{1}{2}
+C\indices{^\alp_{\beta\gamma}}
+\ul{\theta^\beta}
+\wedge
+\ul{\theta^\gamma}
+\eeq
+\end{claim}
+\proof
+\qed
 
 
 
