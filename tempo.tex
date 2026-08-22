@@ -23,25 +23,50 @@ of differential geometry
 and p-forms.
 
 
+Let
 
-
-$G=$ Lie group. This 
-is the manifold $M$
+$G=$ Lie group. This will be 
+the manifold $M$
 in the
-r geometry
+differential geometry
 interpretation.
+
+$\ger{g}=$ Lie algebra for group $G$.
 
 $e=$ identity of $G$
 
+$T_e (G)=$ tangent space at point $e$. We will
+equate $T_e(G)$ with $\ger{g}$
+
 $T_g (G)=$ tangent space at point $g$
 
-$\ger{g}=$ Lie algebra. 
+ 
+
+$\{E_\alp\}_{\alp=1}^n=$  generators of Lie algebra
 
 
 \beq
-g= \exp(t\vecX)
+g= \exp(t^\alp E_\alp)
 \eeq
-where $g\in G$, $\vecX \in \ger{g}$, $t\geq 0$
+where $g\in G$, $t_\alp\in\RR$.
+
+The various points $g$ of the manifold
+are different, but the tangent spaces
+$T_g(G)$ for  each $g\in G$ 
+are identical copies of each other.
+Remember, when we speak of a Lie algebra
+in a non-differential geometry context, 
+the elements of the Lie Algebra
+are not labelled by a point $g$. They
+are just a set of matrices (if a matrix representation
+is being used, which is almost always the case).
+So we first spend a  lot of ink 
+showing that we need only consider the tangent space
+at $e$. After we are finished expressing a 1-1 onto
+map of the tangent vectors $\vecX_e$ at $e$ 
+and the (Left Invariant) tangent vectors $\vecX_g$ at $g$, we will  
+talk of tangent vectors $\vecX$ which are 
+equivalence classes $\vecX = \{\vecX_g\mid g\in G\}$
 
 
 {\bf Left and right translations by $g$}
@@ -50,9 +75,8 @@ L_g h = gh, \quad R_g h = hg
 \eeq
 
 {\bf Left invariant (LI) vector field} is
-a vector field $\vecX\in\ger{X}_{LI}$ for which $\vecX_g\in T_g (G)$
- is defined  for all $g\in G$ 
-merely from $\vecX_e\in  T_e(G)$, as follows.
+a vector field $\vecX\in\ger{X}_{LI}$ such that for all $g\in G$, $\vecX_g\in T_g (G)$
+ is defined  from $\vecX_e\in  T_e(G)$, as follows.
 
 Define a path $g_\gamma(t)\in G$ 
 for $t>0$ such that
@@ -85,7 +109,8 @@ We extend the $dL_g$ map to
 so the path $h(t)$ is moved to $ah(h)$ before
 taking the derivative. Note that the right hand side 
 is not $\vecX_{ag}=a\vecX_g$.
-Essentially, from Eq.(\ref{eq-g-e-is-ge}),
+However, from Eq.(\ref{eq-g-e-is-ge}),
+if matrix representation are allowed,
 $(dL_g)_e$ acts like left multiplication by $g$
 
 \beq
@@ -97,24 +122,27 @@ and we extend that to
 g\vecX_a = \vecX_{ga}
 \eeq
 
-For a Lie group,\footnote{$\cong$ means isomorphic, i.e., there exists a 1-1 map between the two sets,
+For a Lie group,\footnote{$\cong$ means isomorphic, i.e., there exists a 1-1 onto map between the two sets,
 and operations are preserved too.} 
 
-\beq
-T_e(G)\eqdef  \{ \vecX_e=g_\gamma'(0)\mid
+\begin{align}
+T_e(G)&=  \{ \vecX_e=g_\gamma'(0)\mid
 \text{$g_\gamma(t)\in G$ is a path with $g_\gamma(0)=e$} \}
-\eeq
+\\
+&= \{ \vecX_e(\xi)\mid \xi\}\quad \text{if the different
+starting directions are parametrized by $\xi$}
+\\
+&= \ger{g}
+\end{align}
 
 \beq
-\ger{X}_{LI}(G) \eqdef \{\vecX\mid \vecX_g=(dL_g)_e \vecX_e\mid g\in G\}
+\ger{X}_{LI}(G) = \{\vecX(\xi)=\{\vecX_g(\xi)\mid g\in G\}\mid \xi\}
 \eeq
 \beq
-\ger{g}\cong T_e(G)\cong \ger{X}_{LI}(G)
+\ger{g}\cong \ger{X}_{LI}(G)
 \eeq
-The map that makes the sets $T_e(G)$ and 
-$\ger{X}_{LI}(G)$ isomorphic is precisely $(dL_g)_e$.
 
-Call $T_g(G)=L_g(T_e(G))$. This reduces to $T_e(G) =T_e(G)$ as expected. Define 
+Define 
 
 \beq T^p_g(G)= \underbrace{T_g(G)\times\cdots\times T_g(G)}_{\text{$p$ copies}}
 \eeq
@@ -142,12 +170,15 @@ In particular, if $a=e$,
 
 \beq
 \ul{\omega_g}(\vecX_g)=\ul{\omega_e}(\vecX_e)
+\label{eq-LI-p-form}
 \eeq
-Thus,  left invariant p-form
+Thus,  an LI p-form
 is fully specified  by its value 
 at each $\vecX_e\in \ger{g}$.
-It's also and \qt{constant}; i.e. the
-same for all  $g\in G$.
+For LI p-forms, we are fully
+justified in dropping the $g$
+subscripts and writing $\omega(\vecX)$ for both sides
+of Eq.(\ref{eq-LI-p-form}).
 
 
 For $\vecX_e, \vecY_e\in T_e(G) =\ger{g}$, let
@@ -165,15 +196,8 @@ define
 \underbrace{[\vecX_e, \vecY_e]}
 _{\in T_e(G)}}_{\in T_g(G)}
 \eeq
-Note that
-
-\beq
-[\vecX, \vecY]_g\neq
-[\vecX_g, \vecY_g]
-\eeq
-because the right hand
-side is undefined. Furthermore,
-the right hand side
+Note that we avoid using $[\vecX_g, \vecY_g]$
+due to a technicality. $[\vecX_g, \vecY_g]$
 contains only info about 
 $\vecX$ and $\vecY$ at $g$,
 not in the neighborhood 
@@ -181,16 +205,21 @@ of $g$. The later info
 is necessary to compute derivatives.
 
 
-Let $G$ be an $n$ dim Lie group ($n$
-is the dim of the manifold and of $T_e(G)$) with a Lie Algebra $\ger{g}= T_e(G)$.
+Let $G$ be aLie group and $\ger{g}= T_e(G)$.
 The {\bf Maurer-Cartan 1-form}
-$\pform{\theta}{}$ is defined as 
+$\pform{\vtheta}{}$ is defined as 
 follows.
 
 
 \beq
-\theta_g: T_p(G)\rarrow \ger{g},\quad \vecX_g \mapsto (dL_{g-1})_g\vecX_g
+\ul{\vtheta_g}: T_p(G)\rarrow T_e(G),\quad \vecX_g \mapsto (dL_{g^{-1}})_g\vecX_g = \vecX_e
 \eeq
+Note that $\ul{\vtheta}$  is a 1-form whose image
+is a tangent vector at $e$ (rather than a real number, like 
+the usual 1-forms). That is the reason why
+we have chosen both underline it and give it a
+vector sign. We have actually
+encountered vector valued 1-forms before, in $\ul{d\vecr}$.
 
 Choose a basis $\{\vecE_\alp\}_{\alp=1}^n$ for $\ger{g}$. Assume
 
@@ -202,7 +231,7 @@ Choose a basis $\{\vecE_\alp\}_{\alp=1}^n$ for $\ger{g}$. Assume
 Expand 
 
 \beq
-\pform{\theta}{}=
+\pform{\vtheta}{}=
 \pform{\theta^\alp}{}\vecE_\alp
 \eeq
 
@@ -211,27 +240,235 @@ Expand
 \delta^\alp_\beta
 \eeq
 
+
+\begin{claim}
+
+\beq
+\ul{d\theta^\alp}(\vecE_{\mu}, \vecE_\nu)=
+-C\indices{^\alp_{\mu\nu}}
+\eeq
+\end{claim}
+\proof
+
+
+Let
+
+\beq
+\ul{\theta^\alp}=\ul{dx^j}\theta^\alp_j,\quad
+\vecE_\beta = E^i_\beta \vecpder{x^i},
+\eeq
+
+\beq
+\theta^\alp_i E^i_\beta=
+\ul{\theta^\alp}(\vecE_\beta)=
+\delta^\alp_\beta
+\eeq
+
+\beqa
+\ul{d\theta^\alp}(\vecE_\mu, \vecE_\nu)&=&
+\left[
+\partial_i \theta^\alp_j
+-
+\partial_j\theta^\alp_i
+\right]
+\ul{dx^i}\wedge \ul{dx^j}
+(\vecE_\mu, \vecE_\nu)
+\\
+&=&
+\left[
+\partial_i \theta^\alp_j
+-
+\partial_j\theta^\alp_i
+\right]\ul{dx^i}(\vecE_\mu)\wedge \ul{dx^j}(\vecE_\nu)
+\\
+&=&
+\left[
+\partial_i \theta^\alp_j
+-
+\partial_j\theta^\alp_i
+\right]E^i_\mu E^j_\nu
+\\
+&=&
+\left\{
+\begin{array}{l}
+E^i_\mu\left[\partial_i
+\cancel{[\ul{\theta^\alp}(\vecE_\nu)]}
+-\theta_j^\alp\partial_i E^j_\nu
+\right]
+\\
+- (i\mu\swap j\nu)
+\end{array}
+\right.
+\\
+&=&
+-\theta^\alp_j E^i_\mu\partial_i E^j_\nu
++   \theta^\alp_i E^j_\nu\partial_j E^i_\mu
+\\
+&=&
+-\theta_j^\alp
+\left[
+E^i_\mu\partial_i E^j_\nu
+-
+E^i_\nu\partial_i E^j_\mu
+\right]
+\\
+&=&
+-\theta^\alp_j
+\left[
+(\vecE_\mu)^{op} E^j_\nu
+-
+(\vecE_\nu)^{op}E_\mu^j
+\right]\quad
+(\text{Use
+$E^i_\mu \partial_i = (\vecE_\mu)^{op}$})
+\\
+&=&
+-\theta^\alp_j
+\left[
+(\vecE_\mu)^{op}, (\vecE_\nu)^{op}
+\right]\vecr_j
+\\
+&=&
+-\theta^\alp_j 
+[\vecE_\mu, \vecE_\nu]^j
+\\
+&=&
+-C\indices{^\beta_{\mu\nu}}
+\theta^\alp_j E^j_\beta
+\\
+&=&-
+C\indices{^\beta_{\mu\nu}}
+\delta^\alp_\beta
+\\
+&=&
+-
+C\indices{^\alp_{\mu\nu}}
+\eeqa
+
+\qed
+
 \begin{claim}(Maurer-Cartan Equation)
 
 
 \beq
-\ul{d\theta} = -\;\frac{1}{2}
-[\ul{\theta}, \ul{\theta}]
+\ul{d\vtheta} = -\;\frac{1}{2}
+[\ul{\vtheta}, \ul{\vtheta}]
 \eeq
 
 
 \beq
-\ul{d\theta^\alp}=
--\;\frac{1}{2}
-C\indices{^\alp_{\beta\gamma}}
-\ul{\theta^\beta}
+\ul{d\theta^\alp}=-
+C\indices{^\alp_{\mu\nu}}
+\ul{\theta^\mu}
 \wedge
-\ul{\theta^\gamma}
+\ul{\theta^\nu}
+=
+-\;\frac{1}{2}
+C\indices{^\alp_{\mu\nu}}
+[\ul{\theta^\mu}
+,
+\ul{\theta^\nu}]
 \eeq
 \end{claim}
 \proof
+\beq
+\ul{d\theta^\alp}=
+\left[
+\partial_i \theta^\alp_j
+-
+\partial_j\theta^\alp_i
+\right]
+\ul{dx^i}\wedge \ul{dx^j}
+\eeq
+
+\beq
+\ul{d\theta^\alp}=
+\frac{1}{2}A\indices{^\alp_{\mu\nu}}
+\ul{\theta^\mu}
+\wedge \ul{\theta^\nu}
+\eeq
+Find $A\indices{^\alp_{\mu\nu}}$
+
+\beq
+\ul{\theta^\mu}\wedge\ul{\theta^\nu}(\vecE_\rho, \vecE_\s)=
+\frac{1}{2}
+(\delta^\mu_\rho\delta^\nu_\s
+-
+(\rho\swap \s))
+\eeq
+
+\beq
+C\indices{^\alp_{\mu\nu}}
+\ul{\theta^\mu}\wedge\ul{\theta^\nu}(\vecE_\rho, \vecE_\s)=C\indices{^\alp_{\rho\s}}
+\eeq
+
+\beq
+\ul{d\theta^\alp}(\vecE_\rho, \vecE_\s)=
+C\indices{^\alp_{\rho\s}}=
+C\indices{^\alp_{\mu\nu}}
+\ul{\theta^\mu}\wedge\ul{\theta^\nu}(\vecE_\rho, \vecE_\s)
+\eeq
+
+
+
+\beq
+\ul{\theta^\mu}\wedge \ul{\theta^\nu}=
+\frac{1}{2}\left[
+\ul{\theta^\mu}, \ul{\theta^\nu}
+\right]
+\eeq
+
+Second proof assuming $G$ has a matrix representation
+
+Assume 
+
+\beq
+\ul{\vtheta} = g^{-1}\ul{dg}
+\eeq
+Then
+
+\beq
+\ul{d\theta}=
+d(g^{-1}\ul{dg})
+=
+\ul{dg^{-1}}
+\wedge \ul{dg}
+\eeq
+
+\beq
+\ul{d(g^{-1})}=
+-g^{-1}(\ul{dg})g^{-1}
+\eeq
+
+\beq
+\ul{d\theta}=
+-[g^{-1}\ul{dg}g^{-1}]\wedge \ul{dg}=-
+[g^{-1}\ul{dg}]\wedge
+[g^{-1}\ul{dg}]
+=
+-\ul{\vtheta}\wedge\ul{\vtheta}
+\eeq
+
+Note that for ordinary 1-forms $\ul{\alp}=a \ul{dx}+
+b\ul{dy}$
+with scalar coefficients $a, b$,
+it's always true that
+$\ul{\alp}\wedge \ul{\alp}=0$. However,
+$\ul{dg}$ is not an ordinary 1-form: it's a
+1-form with matrix coefficients which don't commute in general.
+
+\beq
+\ul{dg}= A \ul{dx}+ B\ul{dy}
+\eeq
+so 
+\beq
+\ul{dg}\wedge \ul{dg}=
+[A, B]\ul{dx}\wedge \ul{dy}
+\eeq
+
 \qed
 
+The Maurer-Cartan equation is intrinsic to the group, independent of the connection.
 
 
 \end{document}
