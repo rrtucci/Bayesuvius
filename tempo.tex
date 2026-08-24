@@ -24,7 +24,8 @@ tools and language
 of differential geometry 
 and p-forms.
 
-\subsection{All tangent spaces identical}
+\subsection{All tangent spaces are
+identical copies}
 
 
 \begin{figure}[h!]
@@ -71,7 +72,8 @@ where $g\in G$, $t_\alp\in\RR$.
 The various points $g$ of the manifold
 are different, but the tangent spaces
 $T_g(G)$ for  each $g\in G$ 
-are identical copies of each other.
+are identical copies of each other
+(i.e., isomorphic).
 Remember, when we speak of a Lie algebra
 in a non-differential geometry context, 
 the elements of the Lie Algebra
@@ -80,11 +82,22 @@ are just a set of matrices (if a matrix representation
 is being used, which is almost always the case).
 So we first spend a  lot of ink 
 showing that we need only consider the tangent space
-at $e$. After we are finished expressing a 1-1 onto
+at $e$. 
+Actually, because groups are non-Abelian (i.e.,
+its elements don't commute in general),
+when $M$ is a group $G$, one can define 
+two isomorphic
+tangent spaces at each $g\in G$, the left-invariant (LI)
+tangent space $T^{LI}_g(G)$ and the right
+invariant (RI) tangent space $T^{RI}_g(G)$.
+We usually set $T_g(G)=T^{LI}_g(G)$
+early on,
+and ignore $T^{RI}_g(G)$ thereafter.
+After we are finished expressing a 1-1 onto
 map of the tangent vectors $\vecX_e$ at $e$ 
 and the (Left Invariant) tangent vectors $\vecX_g$ at $g$, we will  
 talk of tangent vectors $\vecX$ which are 
-equivalence classes $\vecX = \{\vecX_g\mid g\in G\}$
+functions that map $g\mapsto T_g(G)$
 
 
 {\bf Left and right translations by $g$}
@@ -92,25 +105,50 @@ equivalence classes $\vecX = \{\vecX_g\mid g\in G\}$
 L_g h = gh, \quad R_g h = hg
 \eeq
 
-{\bf Left invariant (LI) vector field} is
-a vector field $\vecX\in\ger{X}_{LI}$ such that for all $g\in G$, $\vecX_g\in T_g (G)$
- is defined  from $\vecX_e\in  T_e(G)$, as follows.
+{\bf Left invariant vector field (LIV)} is
+a vector field $\vecX\in\ger{X}_{LIV}$ such that for all $g\in G$, $\vecX_{g}\in T_g (G)$
+ is defined  from $\vecX_{e}\in  T_e(G)$, as follows.
 
-Define a path $g_\gamma(t)\in G$ 
+Define a path $\gamma(t)\in G$ 
 for $t>0$ such that
 
 \beq
-g_\gamma(0)=e, \quad
-g_\gamma'(0)=\vecX_e
+\gamma:[0,1]\rarrow G, \quad
+\gamma(0)=e, \quad
+\dotvec{\gamma}(0)=\vecX_{e}
 \eeq
 
 \beq
 (dL_g)_e: T_e(G)\rarrow T_g(G)
 ,\quad
-(dL_g)_e\vecX_e = \AT{\frac{d\;}{dt}}{t=0} gg_\gamma(t)
+(dL_g)_e\vecX_{e}= \AT{\frac{d\;}{dt}}{t=0} g\gamma(t)
 \label{eq-g-e-is-ge}
 \eeq
-For an LI vector field $\vecX$, 
+Note that the path $\gamma(t)\in G$ is
+arbitrary except for what it does in the
+neighborhood of $e$.
+Translation is
+very different from parallel
+transport which we will
+discuss when we define
+covariant derivatives.
+For parallel transport 
+you need to be able to
+measure the angle
+between a curve and a vector, 
+which means you need a \qt{connection}.
+After a LIV translation,
+$\vecX_e$ and $\vecX_g$ need not
+be parallel translations of each other.
+The relative angle between them is indeterminate.
+LIV translation 
+$\vecX_e \mapsto \vecX_g$
+is just one of many possible 1-1 onto maps
+ $T_e(G)\rarrow T_g(G)$.
+
+
+
+For a LIV $\vecX$, 
 for all $g\in G$,
 $\vecX_g$ is defined from $\vecX_e$ by
 
@@ -144,20 +182,20 @@ For a Lie group,\footnote{$\cong$ means isomorphic, i.e., there exists a 1-1 ont
 and operations are preserved too.} 
 
 \begin{align}
-T_e(G)&=  \{ \vecX_e=g_\gamma'(0)\mid
-\text{$g_\gamma(t)\in G$ is a path with $g_\gamma(0)=e$} \}
+T_e(G)&=  \{ \vecX_e=\dotvec{\gamma}(0)\mid
+\text{$\gamma(t)\in G$ is a path with $\gamma(0)=e$} \}
 \\
 &= \{ \vecX_e(\xi)\mid \xi\}\quad \text{if the different
 starting directions are parametrized by $\xi$}
-\\
-&= \ger{g}
 \end{align}
 
+$
+\ger{X}_{LI}(G) = \{\vecX(\xi)\mid \xi\}
+$
+where $\vecX(\xi)$ maps every $g\in G$
+to an element of $T_g(G)$.
 \beq
-\ger{X}_{LI}(G) = \{\vecX(\xi)=\{\vecX_g(\xi)\mid g\in G\}\mid \xi\}
-\eeq
-\beq
-\ger{g}\cong \ger{X}_{LI}(G)
+\ger{g}=T_e(G)\cong \ger{X}_{LI}(G)
 \eeq
 
 Define 
@@ -177,7 +215,7 @@ define the following pullback
 \ul{\omega_{ga}}(\vecX_{ga})
 \eeq
 
-{\bf Left invariant (LI) p-forms}
+{\bf Left invariant p-forms (LIP)}
 $\ul{\omega_a}$ satisfy
 
 \beq
@@ -190,10 +228,10 @@ In particular, if $a=e$,
 \ul{\omega_g}(\vecX_g)=\ul{\omega_e}(\vecX_e)
 \label{eq-LI-p-form}
 \eeq
-Thus,  an LI p-form
+Thus,  an LIP
 is fully specified  by its value 
 at each $\vecX_e\in \ger{g}$.
-For LI p-forms, we are fully
+For LIP, we are fully
 justified in dropping the $g$
 subscripts and writing $\omega(\vecX)$ for both sides
 of Eq.(\ref{eq-LI-p-form}).
@@ -223,15 +261,17 @@ of $g$. The later info
 is necessary to compute derivatives.
 
 \subsection{Cartan-Maurer equation}
-Let $G$ be aLie group and $\ger{g}= T_e(G)$.
+Let $G$ be a Lie group and $\ger{g}= T_e(G)$.
 The {\bf Maurer-Cartan 1-form}
 $\pform{\vtheta}{}$ is defined as 
 follows.
 
 
 \beq
-\ul{\vtheta_g}: T_p(G)\rarrow T_e(G),\quad \vecX_g \mapsto (dL_{g^{-1}})_g\vecX_g = \vecX_e
+\ul{\vtheta_g}: T_g(G)\rarrow T_e(G),\quad \vecX_g \mapsto (dL_{g^{-1}})_g\vecX_g = \vecX_e
 \eeq
+Note that $\ul{\vtheta_g}: T_g(G)\rarrow T_e(G)$
+whereas $(dL_g)_e: T_e(G)\rarrow T_g(G)$.
 Note that $\ul{\vtheta}$  is a 1-form whose image
 is a tangent vector at $e$ (rather than a real number, like 
 the usual 1-forms). That is the reason why
@@ -275,14 +315,15 @@ as equal to $L_{g^{-1}\ul{dg}}$.}
 \eeq
 
 \beq
-g_\gamma(0)=g,
-\quad g_\gamma'(t)=\vecX_g
+\gamma:[0,1]\rarrow G, \quad
+\gamma(1)=g,
+\quad \dotvec{\gamma}(1)=\vecX_g
 \eeq
 
 \beq
 (dL_{g^{-1}})_g\vecX_g=
 g^{-1} \vecX_g\cdot \nabla
- g_\gamma(0)
+ \gamma(1)
 = g^{-1}\ul{dg}(\vecX_g)
 \eeq
 \qed
@@ -667,18 +708,19 @@ case where $M$ is a Lie group.
 
 Suppose $M$ is a \Rien manifold with metric $\metric$.
 
-A {flow $\phi$ on $M$} 
-is a path $\phi: [0, 1]\rarrow M$ 
-\beq
-\phi'(t) = \vecX_{\phi(t)}
-\eeq
-so $\vecX_t$ is the
+A {\bf flow} on $M$
+is a set of vectors $\vecX_{\gamma(t)}=\dotvec{\gamma}(t) $
+for all $t\in[0,1]$ where 
+$\gamma: [0, 1]\rarrow M$  is a {\bf path} in the manifold.
+Hence,  $\vecX_t$ is the
 tangent vector to the
-path at time $t$.
+path for all $t$.\footnote{Formally,
+it's as if the time derivative is replaced by the $\vecX$ or vice versa.} The path itself 
+has no special properties.
 For example, if 
 
 \beq
-\phi(t) = 
+\gamma(t) = 
 \left[
 \begin{array}{cc}
 \cos t &-\sin t
@@ -714,7 +756,7 @@ C
 then 
 \beq
 \vecpder{x}=
- \pder{\phi}{x}=
+ \pder{\gamma}{x}=
 \left[
 \begin{array}{c}
 C
@@ -724,7 +766,7 @@ S
 \right],
 \quad
 \vecpder{y}=
-\pder{\phi}{y}=
+\pder{\gamma}{y}=
 \left[
 \begin{array}{c}
 -S
@@ -759,28 +801,28 @@ y\left[
 x\vecpder{y}
 \eeq
 
-Now suppose that 
-{\bf flow $\phi(t)$ preserves
-the metric}, by which we mean
+A {\bf path $\gamma:[0,1]\rarrow G$ 
+with $\gamma(0)=e$ preserves
+the metric} if
 
 
 \beq
-{\metric}(\vecX_{\phi(0)}, \vecY_{\phi(0)})
+{\metric}(\vecU_{e}, \vecV_{e})
 =
-{\metric}(\vecX_{\phi(t)}, \vecY_{\phi(t)})
+{\metric}(\vecU_{\gamma(t)}, \vecV_{\gamma(t)})
 \eeq
 or, written more succinctly with pullbacks
 
 \beq
-\phi(0)^{PB}{\metric} = \phi(t)^{PB}{\metric}
+{\metric} = \gamma(t)^{PB}{\metric}
 \label{eq-pb-metric}
 \eeq
 for all $t$.
 The vector 
-family $\vecX_{\phi(t)}$
+family $\vecX_{\gamma(t)}=\dotvec{\gamma}(t)$
 for $t\in[0,1]$ is called 
 a {\bf Killing Field}
-if the flow $\phi(t)$
+if the path $\gamma(t)$
 preserves the metric.
 
 Taking a time derivative at $t=0$ of Eq.(\ref{eq-pb-metric})
@@ -788,28 +830,182 @@ gives
 
 \beq
 \AT{\frac{d\;}{dt}}{t=0}
-\phi(t)^{PB}
+\gamma(t)^{PB}
 \metric =0
 \eeq
 But 
 
 \beq
 \AT{\frac{d\;}{dt}}{t=0}
-\phi(t)^{PB} = \call_{\vecX_{\phi(t)}}
+\gamma(t)^{PB} = \call_{\dotvec{\gamma}(t)}
 \eeq
 so
 \beq
-\call_{\vecX_{\phi(t)}}\metric
+\call_{\dotvec{\gamma}(t)}\metric
 =
 \AT{\frac{d\;}{dt}}{t=0}
-\metric(\vecX_{\phi(t)}, \vecY_{\phi(t)})
+\metric(\vecU_{\gamma(t)}, \vecV_{\gamma(t)})
 =0
 \eeq
 
+Assume a Torsion free,
+not necessarily \Rien theory
+like General Relativity
+
+\begin{claim}
+
+\beq
+(\call_\vecX  \vecY)=
+X^\mu \nnabla_\mu
+Y^\nu -
+Y^\mu \nnabla_\mu X^\nu
+\eeq
 
 
+\end{claim}
+\proof
+\beq
+\call_\vecX \vecY=
+[(\vecX)^{op}, (\vecY)^{op}]\vecr
+\eeq
 
-$\nnabla$
+\beq
+\vecX = X^\mu \vec{\partial}_\mu,\quad
+\vecY = Y^\nu \vec{\partial}_\nu
+\eeq
+
+\beqa
+[(\vecX)^{op}, (\vecY)^{op}]\vecr
+&=&
+X^\mu\partial_\mu
+Y^\nu\partial_\nu\vecr
+-
+(X\swap Y)
+\\
+&=&
+X^\mu\partial_\mu
+Y^\nu-
+(X\swap Y)
+\eeqa
+
+Next, we replace 
+the partial derivatives
+by covariant ones because the \Chris symbols
+cancel.
+
+\beq
+\nnabla_\mu V^\nu=
+\partial_\mu V^\nu
++
+\Gamma\indices{^\nu_{\mu_\lam}}V^\lam
+\eeq
+for $V=X, Y$
+
+
+\beq
+X^\mu\Gamma\indices{^\nu_{\mu\lam}}Y^\lam
+-
+(X\swap Y)=0
+\eeq
+because
+
+\beq
+\Gamma\indices{^\nu_{\mu\lam}} = 
+\Gamma\indices{^\nu_{\lam\mu}}
+\eeq
+The \Chris symbols are symmetric
+in $mu, \lam$ because the torsion
+is assumed to be zero.
+
+\qed
+
+\begin{claim}
+If 
+\beq
+\ul{\omega}=\omega_\nu \ul{dx^\nu}
+\eeq
+then
+
+\beq
+(\call_\vecX  \ul{\omega})_\nu
+=
+X^\mu \nnabla_\mu \omega_\nu
++
+\omega_\mu \nnabla_\nu X^\mu
+\eeq
+
+\end{claim}
+\proof
+
+Start from
+\beq
+(\call_\vecX  \ul{\omega})_\nu
+=
+X^\mu \partial_\mu \omega_\nu
++
+\omega_\mu \partial_\nu X^\mu
+\eeq
+Now replace the 
+partial derivatives 
+by covariant derivatives.
+
+\beq
+\nnabla_\mu \omega_\nu=
+\partial_\mu \omega_\nu -
+\Gamma\indices{^\lam_{\mu\nu}}\omega_\lam
+\eeq
+
+\beq
+\nnabla_\nu X^\mu=
+\partial_\nu X^\mu +
+\Gamma\indices{^\mu_{\nu\lam}}X^\lam
+\eeq
+
+
+\beq
+-X^\mu \Gamma\indices{^\lam_{\mu\nu}}\omega_\lam
++
+\omega_\mu
+\Gamma\indices{^\mu_{\nu\lam}}X^\lam
+=0
+\eeq
+
+\begin{claim}
+If 
+
+\beq
+T= T\indices{^{\mu}_{\nu}}
+\text{ where }
+\mu = (\mu_1\mu_2\cdots \mu_r), \quad
+\nu = (\nu_1\mu_2\cdots\nu_s)
+\eeq
+then
+
+\beq
+(\call_\vecX T)
+\indices{^\mu_\nu}=
+\left\{
+\begin{array}{l}
+X^\lam
+\nnabla_\lam
+T\indices{^{\mu}_{\nu}}
+\\
+-
+\sum_{i=1}^r
+\AT{T\indices{^{\mu}_{\nu}}}{\mu_i\rarrow \lam}
+\nnabla_\lam X^{\mu_i}
+\\
++ 
+\sum_{i=1}^s
+\AT{T\indices{^{\mu}_{\nu}}}{\nu_i\rarrow \lam}
+\nnabla_{\nu_i} X^{\lam}
+\end{array}
+\right.
+\eeq
+\end{claim}
+\proof
+\qed
+
 
 
 \end{document}
