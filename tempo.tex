@@ -702,21 +702,18 @@ g^{-1}\ul{dg}(\vecX_g) = g^{-1}g'=\vecX_e
 \eeq
 
 \subsection{Killing Fields}
-First, let us define Killing fields
-in general, not just for the special 
-case where $M$ is a Lie group.
 
-Suppose $M$ is a \Rien manifold with metric $\metric$.
+A vector field $\rvX$ is said to be a {\bf Killing field of the metric $\pform{\metric}{2}$} if
 
-A {\bf flow} on $M$
-is a set of vectors $\vecX_{\gamma(\tau)}^{\para \gamma}=\dotvec{\gamma}(\tau) $
-for all $\tau\in[0,1]$ where 
-$\gamma: [0, 1]\rarrow M$  is a {\bf path} in the manifold.
-Hence,  $\vecX$ is the
-tangent vector to the
-path for all $\tau$.\footnote{Formally,
-it's as if the time derivative is replaced by the $\vecX$ or vice versa.} The path itself 
-has no special properties.
+\beq
+\call_\vecX \pform{\metric}{2}=0
+\eeq
+
+\subsubsection{Covariant Derivative and 
+Lie Derivative along path $\gamma$}
+
+We call a function  $\gamma: [0, 1]\rarrow M$
+a {\bf path or curve} on $M$.
 For example, if 
 
 \beq
@@ -801,55 +798,148 @@ y\left[
 x\vecpder{y}
 \eeq
 
-A {\bf path $\gamma:[0,1]\rarrow G$ 
-with $\gamma(0)=e$ preserves
-the metric} if
 
+We say {\bf  vector $\vecX$ is tangent to curve $\gamma$ } if
 
 \beq
-{\metric}(\vecU_{e}, \vecV_{e})
+\vecX_{\gamma(\tau)}=\dotvec{\gamma}(\tau)
+\eeq
+for all  $\tau\in[0,1]$.
+In such a case we will write
+\beq
+\vecX_{\gamma(\tau)} = \vecX^{\para \gamma}_{\gamma(\tau)}
+\eeq
+Suppose $\vecX$
+is tangent to $\gamma(\cdot)$
+but $\vecY$ is not so in general.
+Then we define the {\bf covariant
+derivative $\nnabla=D/d\tau$ 
+along $\gamma$}  by
+
+\beq
+\frac{D\vecY_{\gamma(\tau)}}{d\tau}
 =
-{\metric}(\vecU_{\gamma(\tau)}, \vecV_{\gamma(\tau)})
+\nnabla_{\vecX_{\gamma(\tau)}^{\para \gamma}}\vecY_{\gamma(\tau)}
 \eeq
-or, written more succinctly with pullbacks
+We will drop the $\gamma(\tau)$
+subscripts  and write
 
 \beq
-{\metric} = \gamma(\tau)^{PB}{\metric}
-\label{eq-pb-metric}
+\frac{D\vecY}{d\tau}=
+\nnabla_{\vecX^{\para \gamma}}\vecY
 \eeq
-for all $t$.
-The vector 
-family $\vecX_{\gamma(\tau)}=\dotvec{\gamma}(\tau)$
-for $\tau\in[0,1]$ is called 
-a {\bf Killing Field}
-if the path $\gamma(\tau)$
-preserves the metric.
-
-Taking a time derivative at $\tau=0$ of Eq.(\ref{eq-pb-metric})
-gives
+In a coordinate system,
 
 \beq
+\frac{D Y^\mu}{d\tau}
+=
+\frac{d Y^\mu}{d\tau}
++\Gamma\indices{^\mu_{\nu\rho}}
+\dot{\gamma}^\nu
+Y^\rho
+\eeq
+or, equivalently,
+
+\beq
+[\nnabla_{\vecX^{\para \gamma}}\vecY]^\mu
+=
+({\vecX^{\para \gamma}})^\nu \partial_\nu Y^\mu
++
+\Gamma\indices{^\mu_{\nu\rho}}
+[{\vecX^{\para \gamma}}]^\nu
+Y^\rho
+\eeq
+
+{\bf Parallel transport along $\gamma$}  is simply
+
+\beq
+\nnabla_{\vecX^{\para \gamma}}\vecY=\frac{DY}{d\tau}=0
+\eeq
+
+The {\bf Lie derivative $\call_\vecX$ along $\gamma$} is
+\beq
+\call_{\vecX^{\para \gamma}} =
+\call_{\dotvec{\gamma}(\tau)}=
 \AT{\frac{d\;}{d\tau}}{\tau=0}
 \gamma(\tau)^{PB}
-\metric =0
 \eeq
-But 
+
+
+\subsubsection{
+Levi-Civita connection}
+
+A {\bf general affine connection $\nnabla$}, in the coordinate basis\footnote{Note that we will
+use the terms \qt{connection} and \qt{covariant derivative} and the symbol $\nnabla$ as synonymous.
+Some people reserve the term \qt{connection} and the symbol $\nnabla$ for the
+operator (linear map) and \qt{covariant derivative} for the image elements of that map, but it's a minor distinction we won't make.}, satisfies
 
 \beq
-\AT{\frac{d\;}{d\tau}}{\tau=0}
-\gamma(\tau)^{PB} = \call_{\dotvec{\gamma}(\tau)}
+[\call_\vecX \pform{\metric}{2}]_{\mu\nu}
+= 
+2 X^\lam \nnabla_\lam\metric_{\mu\nu}+
+\nnabla_\mu X_\nu+
+\nnabla_\nu X_\mu
+-
+X^\lam\left[T_{\lam\mu\nu} + (\mu\swap \nu)\right]
+\eeq
+where $T_{\lam \mu\nu}$ represents
+the torsion tensor with the $\lam$
+index lowered appropriately.
+
+For the {\bf Levi-Civita  connection (LCC) $\nnabla$},
+\begin{enumerate}
+\item  
+The metric is constant
+under parallel transport.  This situation
+is also referred to as 
+{\bf metric compatibility of the connection}
+\beq
+ \nnabla_\lam\metric_{\mu\nu}=0
+\eeq
+\item the torsion is zero
+
+\beq 
+T\indices{^\lam_{\mu\nu}}=0
+\eeq
+\end{enumerate}
+
+Hence, for the LCC 
+ $\nnabla$,
+
+\beq
+\nnabla_{\vecpder{x^\mu}}
+\vecpder{x^\nu}=
+\Gamma\indices{^\rho_{\mu\nu}}
 \eeq
 so
-\beq
-\call_{\dotvec{\gamma}(\tau)}\metric
-=
-\AT{\frac{d\;}{d\tau}}{\tau=0}
-\metric(\vecU_{\gamma(\tau)}, \vecV_{\gamma(\tau)})
-=0
-\eeq
 
+
+\beq
+[\nnabla_\vecX Y]^\rho=
+X^\mu \partial_\mu Y^\rho
++\Gamma\indices{^\rho_{\mu\nu}}
+X^\mu
+Y^\nu 
+\eeq
+Also, for the LLC, the Lie derivative takes this simple form in the coordinate basis,
+
+\beq
+[\call_\vecX 
+\pform{\metric}{2}]_{\mu\nu}= \nnabla_\mu X_\nu 
++ (\mu\swap \nu)
+\eeq
+and the Killing fields satisfy
+
+\beq
+0=
+[\call_\vecX 
+\pform{\metric}{2}]_{\mu\nu}= 
+\nnabla_\mu X_\nu 
++ (\mu\swap \nu)
+\eeq
+\subsubsection{Lie Derivative of general tensor in LCC}
 The following
-is valid for a Torsion free theory
+is valid for LCC 
 with possibly a non-\Rien metric.
 Specifically, the
 following is valid for General
@@ -980,7 +1070,7 @@ by covariant derivatives.
 If 
 
 \beq
-T= T\indices{^{\mu}_{\nu}}
+\TT= \TT\indices{^{\mu}_{\nu}}
 \text{ where }
 \mu = (\mu_1\mu_2\cdots \mu_r), \quad
 \nu = (\nu_1\mu_2\cdots\nu_s)
@@ -988,22 +1078,22 @@ T= T\indices{^{\mu}_{\nu}}
 then
 
 \beq
-(\call_\vecX T)
+(\call_\vecX \TT)
 \indices{^\mu_\nu}=
 \left\{
 \begin{array}{l}
 X^\lam
 \nnabla_\lam
-T\indices{^{\mu}_{\nu}}
+\TT\indices{^{\mu}_{\nu}}
 \\
 -
 \sum_{i=1}^r
-\AT{T\indices{^{\mu}_{\nu}}}{\mu_i\rarrow \lam}
+\AT{\TT\indices{^{\mu}_{\nu}}}{\mu_i\rarrow \lam}
 \nnabla_\lam X^{\mu_i}
 \\
 + 
 \sum_{i=1}^s
-\AT{T\indices{^{\mu}_{\nu}}}{\nu_i\rarrow \lam}
+\AT{\TT\indices{^{\mu}_{\nu}}}{\nu_i\rarrow \lam}
 \nnabla_{\nu_i} X^{\lam}
 \end{array}
 \right.
@@ -1012,173 +1102,56 @@ T\indices{^{\mu}_{\nu}}
 \proof
 \qed
 
-We say {\bf  vector $\vecX$ is tangent to curve $\gamma$ } if
+\subsubsection{Lie Group Metric}
+First, let us define Killing fields
+in general, not just for the special 
+case where $M$ is a Lie group.
+
+Suppose $M$ is a \Rien manifold with metric $\metric$.
+
+
+A {\bf path $\gamma:[0,1]\rarrow G$ 
+with $\gamma(0)=e$ preserves
+the metric} if
+
 
 \beq
-\vecX_{\gamma(\tau)}=\dotvec{\gamma}(\tau)
-\eeq
-for all  $\tau\in[0,1]$.
-In such a case we will write
-\beq
-\vecX_{\gamma(\tau)} = \vecX^{\para \gamma}_{\gamma(\tau)}
-\eeq
-Suppose $\vecX$
-is tangent to $\gamma(\cdot)$
-but $\vecY$ is not so in general.
-Then we define the covariant
-time derivative $D/d\tau$ by
-
-\beq
-\frac{D\vecY_{\gamma(\tau)}}{d\tau}
+{\metric}(\vecU_{e}, \vecV_{e})
 =
-\nnabla_{\vecX_{\gamma(\tau)}^{\para \gamma}}\vecY_{\gamma(\tau)}
+{\metric}(\vecU_{\gamma(\tau)}, \vecV_{\gamma(\tau)})
 \eeq
-We will drop the $\gamma(\tau)$
-subscripts and even the $\para \gamma$ superscript and write
+or, written more succinctly with pullbacks
 
 \beq
-\frac{D\vecY}{d\tau}=
-\nnabla_\vecX \vecY
+{\metric} = \gamma(\tau)^{PB}{\metric}
+\label{eq-pb-metric}
 \eeq
-In a coordinate system,
+for all $t$.
+The vector 
+family $\vecX_{\gamma(\tau)}=\dotvec{\gamma}(\tau)$
+for $\tau\in[0,1]$ is called 
+a {\bf Killing Field}
+if the path $\gamma(\tau)$
+preserves the metric.
+
+Taking a time derivative at $\tau=0$ of Eq.(\ref{eq-pb-metric})
+gives
 
 \beq
-\frac{D Y^\mu}{d\tau}=
-\frac{d Y^\mu}{d\tau}
-+\Gamma\indices{^\mu_{\nu\rho}}
-\dot{\gamma}^\nu
-Y^\rho
+\AT{\frac{d\;}{d\tau}}{\tau=0}
+\gamma(\tau)^{PB}
+\metric =0
 \eeq
-{\bf Parallel transport} is simply
+But 
 
+
+so
 \beq
-\frac{DY}{d\tau}=0
-\eeq
-
-
-
-\begin{claim}
-
-\beq
-[\call_\vecX \pform{\metric}{2}]_{\mu\nu}
+\call_{\dotvec{\gamma}(\tau)}\metric
 =
-X^\lam \partial_\lam\metric_{\mu\nu}+
-\nnabla_\mu X_\nu+
-\nnabla_\nu X_\mu
-\eeq
-
-\end{claim}
-\proof
-
-\qed
-
-A connection
-(i.e., expression for $\nnabla$) is 
-said to be 
-{\bf metric compatible (MC)} 
-for a metric $\ul{\metric}$ if
-
-\beq
-\nnabla_\vecX \ul{\metric}=0
-\eeq
-for all vector fields $\vecX$.
-Equivalent conditions for MC are
-
-\beq
-\nnabla \ul{\metric}=0,
-\quad 
-\nnabla_\lam \metric_{\mu\nu}=0
-\eeq
-
-\begin{claim}
-If , then
-\beq
-\call_\vecX \ul{\metric}=
-\nnabla_\vecX\ul{\metric}
-\eeq
-This explains the
-use of the term compatible: its Lie and covariant derivatives are equal.
-
-\end{claim}
-\proof
-
-\qed
-
-\subsubsection{Killing Fields for the
-Levi-Civita connection}
-A vector field $\rvX$ is said to be a {\bf Killing field of the metric $\pform{\metric}{2}$} if
-
-\beq
-\call_\vecX \pform{\metric}{2}=0
-\eeq
-
-
-For a {\bf general affine connection $\nnabla$}, in the coordinate basis\footnote{Note that we will
-use the terms \qt{connection} and \qt{covariant derivative} and the symbol $\nnabla$ as synonymous.
-Some people reserve the term \qt{connection} and the symbol $\nnabla$ for the
-operator (linear map) and \qt{covariant derivative} for the image elements of that map, but it's a minor distinction we won't make.}
-
-\beq
-[\nnabla_\vecX \vecY] ^\rho=
-X^\nu \Gamma\indices{^\rho_{\mu\nu}}Y^\mu
-\eeq
-
-
-\beq
-[\nnabla_\vecX Y]^\mu=
-X^\nu \partial_\nu Y^\mu
-+\Gamma\indices{^\mu_{\nu\rho}}
-X^\nu
-Y^\rho 
-\eeq
-and
-
-\beq
-[\call_\vecX \pform{\metric}{2}]_{\mu\nu}
-= 
-2 X^\lam \nnabla_\lam\metric_{\mu\nu}+
-\nnabla_\mu X_\nu+
-\nnabla_\nu X_\mu
--
-X^\lam\left[T_{\lam\mu\nu} + (\mu\swap \nu)\right]
-\eeq
-where $T_{\lam \mu\nu}$ represents
-the torsion tensor with the $\lam$
-index lowered appropriately.
-For the {\bf Levi-Civita (LC) connection $\nnabla$},
-\begin{enumerate}
-\item  
-The metric is constant
-under parallel transport.  This situation
-is also referred to as 
-{\bf metric compatibility of the connection}
-\beq
- \nnabla_\lam\metric_{\mu\nu}=0
-\eeq
-\item the torsion is zero
-
-\beq 
-T\indices{^\lam_{\mu\nu}}=0
-\eeq
-\end{enumerate}
-Hence, for the LC 
-connection $\nnabla$,
-the Lie derivative takes this simple form in the coordinate basis,
-
-\beq
-[\call_\vecX 
-\pform{\metric}{2}]_{\mu\nu}= 
-\nnabla_\mu X_\nu 
-+ (\mu\swap \nu)
-\eeq
-and the Killing fields satisfy
-
-\beq
-0=
-[\call_\vecX 
-\pform{\metric}{2}]_{\mu\nu}= 
-\nnabla_\mu X_\nu 
-+ (\mu\swap \nu)
+\AT{\frac{d\;}{d\tau}}{\tau=0}
+\metric(\vecU_{\gamma(\tau)}, \vecV_{\gamma(\tau)})
+=0
 \eeq
 
 
