@@ -461,17 +461,17 @@ E^i_\nu\partial_i E^j_\mu
 &=&
 -\theta^\alp_j
 \left[
-(\vecE_\mu)^{op} E^j_\nu
+\oper{\vecE_\mu} E^j_\nu
 -
-(\vecE_\nu)^{op}E_\mu^j
+\oper{\vecE_\nu} E_\mu^j
 \right]\quad
 (\text{Use
-$E^i_\mu \partial_i = (\vecE_\mu)^{op}$})
+$E^i_\mu \partial_i = \oper{\vecE_\mu}$})
 \\
 &=&
 -\theta^\alp_j
 \left[
-(\vecE_\mu)^{op}, (\vecE_\nu)^{op}
+\oper{\vecE_\mu}, \oper{\vecE_\nu}
 \right]\vecr_j
 \\
 &=&
@@ -703,7 +703,7 @@ g^{-1}\ul{dg}(\vecX_g) = g^{-1}g'=\vecX_e
 
 \subsection{Killing Fields}
 
-A vector field $\rvX$ is said to be a {\bf Killing field of the metric $\pform{\metric}{2}$} if
+A vector field $\vecX$ is said to be a {\bf Killing field of the metric $\pform{\metric}{2}$} if
 
 \beq
 \call_\vecX \pform{\metric}{2}=0
@@ -868,23 +868,6 @@ The {\bf Lie derivative $\call_\vecX$ along $\gamma$} is
 \subsubsection{
 Levi-Civita connection}
 
-A {\bf general affine connection $\nnabla$}, in the coordinate basis\footnote{Note that we will
-use the terms \qt{connection} and \qt{covariant derivative} and the symbol $\nnabla$ as synonymous.
-Some people reserve the term \qt{connection} and the symbol $\nnabla$ for the
-operator (linear map) and \qt{covariant derivative} for the image elements of that map, but it's a minor distinction we won't make.}, satisfies
-
-\beq
-[\call_\vecX \pform{\metric}{2}]_{\mu\nu}
-= 
-2 X^\lam \nnabla_\lam\metric_{\mu\nu}+
-\nnabla_\mu X_\nu+
-\nnabla_\nu X_\mu
--
-X^\lam\left[T_{\lam\mu\nu} + (\mu\swap \nu)\right]
-\eeq
-where $T_{\lam \mu\nu}$ represents
-the torsion tensor with the $\lam$
-index lowered appropriately.
 
 For the {\bf Levi-Civita  connection (LCC) $\nnabla$},
 \begin{enumerate}
@@ -903,16 +886,24 @@ T\indices{^\lam_{\mu\nu}}=0
 \eeq
 \end{enumerate}
 
-Hence, for the LCC 
- $\nnabla$,
+If
 
 \beq
 \nnabla_{\vecpder{x^\mu}}
 \vecpder{x^\nu}=
 \Gamma\indices{^\rho_{\mu\nu}}
 \eeq
-so
+then
 
+\beq
+T\indices{^\lam_{\mu\nu}}=0
+\quad
+\text{ iff }\quad
+\Gamma\indices{^\rho_{\mu\nu}}
+=
+\Gamma\indices{^\rho_{\nu\mu}}
+\eeq
+For LCC,
 
 \beq
 [\nnabla_\vecX Y]^\rho=
@@ -921,7 +912,26 @@ X^\mu \partial_\mu Y^\rho
 X^\mu
 Y^\nu 
 \eeq
-Also, for the LLC, the Lie derivative takes this simple form in the coordinate basis,
+
+A {\bf general affine connection $\nnabla$}, in the coordinate basis\footnote{Note that we will
+use the terms \qt{connection} and \qt{covariant derivative} and the symbol $\nnabla$ as synonymous.
+Some people reserve the term \qt{connection} and the symbol $\nnabla$ for the
+operator (linear map) and \qt{covariant derivative} for the image elements of that map, but it's a minor distinction we won't make.}, satisfies
+
+\beq
+[\call_\vecX \pform{\metric}{2}]_{\mu\nu}
+= 
+2 X^\lam \nnabla_\lam\metric_{\mu\nu}+
+\nnabla_\mu X_\nu+
+\nnabla_\nu X_\mu
+-
+X^\lam\left[T_{\lam\mu\nu} + (\mu\swap \nu)\right]
+\eeq
+where $T_{\lam \mu\nu}$ represents
+the torsion tensor with the $\lam$
+index lowered appropriately.
+
+For the LLC, the Lie derivative takes this simple form in the coordinate basis,
 
 \beq
 [\call_\vecX 
@@ -937,7 +947,7 @@ and the Killing fields satisfy
 \nnabla_\mu X_\nu 
 + (\mu\swap \nu)
 \eeq
-\subsubsection{Lie Derivative of general tensor in LCC}
+\subsubsection{Lie Derivative of general tensor in LCC}\label{sec-Lie-der-tensor}
 The following
 is valid for LCC 
 with possibly a non-\Rien metric.
@@ -962,7 +972,7 @@ Y^\mu \nnabla_\mu X^\nu
 \proof
 \beq
 \call_\vecX \vecY=
-[(\vecX)^{op}, (\vecY)^{op}]\vecr
+[\oper{\vecX}, \oper{\vecY}]\vecr
 \eeq
 
 \beq
@@ -971,7 +981,7 @@ Y^\mu \nnabla_\mu X^\nu
 \eeq
 
 \beqa
-[(\vecX)^{op}, (\vecY)^{op}]\vecr
+[\oper{\vecX}, \oper{\vecY}]\vecr
 &=&
 X^\mu\partial_\mu
 Y^\nu\partial_\nu\vecr
@@ -1067,13 +1077,24 @@ by covariant derivatives.
 \eeq
 
 \begin{claim}
-If 
+Suppose
+
+\beq
+\mu = (\mu_1\mu_2\cdots \mu_r), \quad
+\nu = (\nu_1\mu_2\cdots\nu_s)
+\eeq
 
 \beq
 \TT= \TT\indices{^{\mu}_{\nu}}
-\text{ where }
-\mu = (\mu_1\mu_2\cdots \mu_r), \quad
-\nu = (\nu_1\mu_2\cdots\nu_s)
+\vec{\partial}_{\mu_1}\otimes
+\vec{\partial}_{\mu_2}\otimes
+\cdots\otimes
+\vec{\partial}_{\mu_r}
+\otimes
+\ul{dx}^{\nu_1}\otimes
+\ul{dx}^{\nu_1}\otimes
+\cdots\otimes
+\ul{dx}^{\nu_s}
 \eeq
 then
 
@@ -1110,7 +1131,7 @@ on the right side of  Eq.(\ref{eq-lie-tt}) is
 X^\lam
 \nnabla_\lam
 \TT\indices{^{\mu}_{\nu}}=
-\underbrace{X^\lam\partial_\lam}_{(\vecX)^{op}}
+\underbrace{X^\lam\partial_\lam}_{\oper{\vecX}}
  \TT\indices{^\mu_\nu}  +  \text{\Chris term}
 \eeq
 
@@ -1167,7 +1188,138 @@ so
 =0
 \eeq
 
+\subsubsection{Covariant Derivative of General Tensor}
+The following results
+do not assume the LCC (Levi-Civita connection).
+We assume LCC in Section \ref{sec-Lie-der-tensor}
+about Lie derivatives
+in order to greatly
+simplify our formulae. 
+For example, Lie derivatives
+require differentiating
+the metric, so metric
+compatibility, 
+which is one of the conditions for LCC,
+simplifies the formulae.
 
+\begin{claim} (Scalars)
+
+For scalar 
+functions
+$f(\vecr)$ and $g(\vecr)$
+
+\beq
+\nnabla_\vecX f=
+\oper{\vecX} f
+\eeq
+
+\beq
+\nnabla(fg)=
+\oper{\vecX}(f)h +
+f\oper{\vecX}(h)
+\eeq
+\end{claim}
+\proof
+\qed
+
+\begin{claim} (Scalar times vector)
+
+\beq
+\nnabla_\vecX(f\vecY)=
+\oper{\vecX}(f)\vecY +
+f\nnabla_\vecX\vecY
+\eeq
+\end{claim}
+\proof
+\qed
+
+\begin{claim} (Scalar times covector (i.e., 1-form))
+
+
+\beq
+\nnabla_\vecX(f\ul{\omega})=
+\oper{\vecX}(f)\ul{\omega}
++
+f\nnabla_\vecX
+\ul{\omega}
+\eeq
+\end{claim}
+\proof
+\qed
+
+\begin{claim} (tensor product)
+
+
+\beq
+\nnabla_\vecX(\vecU
+\otimes \vecV)=
+(\nnabla_\vecX\vecU)\otimes \vecV
++
+\vecU\otimes
+(\nnabla_\vecX\vecV)
+\eeq
+Same identity
+is true if replace
+$\vecU\rarrow A$
+and $\vecV\rarrow B$
+where $A$ and
+$B$ are general tensors.
+\end{claim}
+\proof
+\qed
+
+
+
+\begin{claim} (General Tensor)
+
+Suppose
+
+\beq
+\mu = (\mu_1\mu_2\cdots \mu_r), \quad
+\nu = (\nu_1\mu_2\cdots\nu_s)
+\eeq
+
+\beq
+\TT= \TT\indices{^{\mu}_{\nu}}
+\vec{\partial}_{\mu_1}\otimes
+\vec{\partial}_{\mu_2}\otimes
+\cdots\otimes
+\vec{\partial}_{\mu_r}
+\otimes
+\ul{dx}^{\nu_1}\otimes
+\ul{dx}^{\nu_1}\otimes
+\cdots\otimes
+\ul{dx}^{\nu_s}
+\eeq
+then
+
+\beq
+(\nnabla_\vecX \TT)
+\indices{^\mu_\nu}=
+\left\{
+\begin{array}{l}
+X^\lam
+\partial_\lam
+\TT\indices{^{\mu}_{\nu}}
+\\
+-
+\sum_{i=1}^r
+\AT{\TT\indices{^{\mu}_{\nu}}}{\mu_i\rarrow \lam}
+X^\rho (-\Gamma\indices{^{\mu_i}
+_{\rho\lam}})
+\\
++ 
+\sum_{i=1}^s
+\AT{\TT\indices{^{\mu}_{\nu}}}{\nu_i\rarrow \lam}
+X^\rho
+(-\Gamma\indices{^\lam_{\rho \nu_i}})
+\end{array}
+\right.
+\label{eq-cov-der-tt}
+\eeq
+\end{claim}
+\proof
+\qed
 
 
 \end{document}
