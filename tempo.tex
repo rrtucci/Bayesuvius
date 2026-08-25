@@ -109,7 +109,7 @@ L_g h = gh, \quad R_g h = hg
 a vector field $\vecX\in\ger{X}_{LIV}$ such that for all $g\in G$, $\vecX_{g}\in T_g (G)$
  is defined  from $\vecX_{e}\in  T_e(G)$, as follows.
 
-Define a path $\gamma(t)\in G$ 
+Define a path $\gamma(\tau)\in G$ 
 for $t>0$ such that
 
 \beq
@@ -121,10 +121,10 @@ for $t>0$ such that
 \beq
 (dL_g)_e: T_e(G)\rarrow T_g(G)
 ,\quad
-(dL_g)_e\vecX_{e}= \AT{\frac{d\;}{dt}}{t=0} g\gamma(t)
+(dL_g)_e\vecX_{e}= \AT{\frac{d\;}{d\tau}}{\tau=0} g\gamma(\tau)
 \label{eq-g-e-is-ge}
 \eeq
-Note that the path $\gamma(t)\in G$ is
+Note that the path $\gamma(\tau)\in G$ is
 arbitrary except for what it does in the
 neighborhood of $e$.
 Translation is
@@ -162,7 +162,7 @@ We extend the $dL_g$ map to
 \vecX_{a} \eqdef
 \vecX_{ga}
 \eeq
-so the path $h(t)$ is moved to $ah(h)$ before
+so the path $h(\tau)$ is moved to $ah(h)$ before
 taking the derivative. Note that the right hand side 
 is not $\vecX_{ag}=a\vecX_g$.
 However, from Eq.(\ref{eq-g-e-is-ge}),
@@ -183,7 +183,7 @@ and operations are preserved too.}
 
 \begin{align}
 T_e(G)&=  \{ \vecX_e=\dotvec{\gamma}(0)\mid
-\text{$\gamma(t)\in G$ is a path with $\gamma(0)=e$} \}
+\text{$\gamma:[0,1]\rarrow G$ is a path with $\gamma(0)=e$} \}
 \\
 &= \{ \vecX_e(\xi)\mid \xi\}\quad \text{if the different
 starting directions are parametrized by $\xi$}
@@ -280,7 +280,7 @@ vector sign. We have actually
 encountered vector valued 1-forms before, in $\ul{d\vecr}$.
 
 \begin{claim}
-For any matrix $g(t)\in G$
+For any matrix $g(\tau)\in G$
 \beq
 d(g^{-1})=
 -g^{-1}dg g^{-1}
@@ -614,7 +614,7 @@ g = \exp(\vecX) = 1 + \vecX + \frac{1}{2}(\vecX)^2 + \ldots
 
 Note that
 \beq
-g(t) = \exp(t \vecX)
+g(\tau) = \exp(t \vecX)
 \eeq
 is a path in $G$. Since
 
@@ -709,18 +709,18 @@ case where $M$ is a Lie group.
 Suppose $M$ is a \Rien manifold with metric $\metric$.
 
 A {\bf flow} on $M$
-is a set of vectors $\vecX_{\gamma(t)}=\dotvec{\gamma}(t) $
-for all $t\in[0,1]$ where 
+is a set of vectors $\vecX_{\gamma(\tau)}^{\para \gamma}=\dotvec{\gamma}(\tau) $
+for all $\tau\in[0,1]$ where 
 $\gamma: [0, 1]\rarrow M$  is a {\bf path} in the manifold.
-Hence,  $\vecX_t$ is the
+Hence,  $\vecX$ is the
 tangent vector to the
-path for all $t$.\footnote{Formally,
+path for all $\tau$.\footnote{Formally,
 it's as if the time derivative is replaced by the $\vecX$ or vice versa.} The path itself 
 has no special properties.
 For example, if 
 
 \beq
-\gamma(t) = 
+\gamma(\tau) = 
 \left[
 \begin{array}{cc}
 \cos t &-\sin t
@@ -809,48 +809,54 @@ the metric} if
 \beq
 {\metric}(\vecU_{e}, \vecV_{e})
 =
-{\metric}(\vecU_{\gamma(t)}, \vecV_{\gamma(t)})
+{\metric}(\vecU_{\gamma(\tau)}, \vecV_{\gamma(\tau)})
 \eeq
 or, written more succinctly with pullbacks
 
 \beq
-{\metric} = \gamma(t)^{PB}{\metric}
+{\metric} = \gamma(\tau)^{PB}{\metric}
 \label{eq-pb-metric}
 \eeq
 for all $t$.
 The vector 
-family $\vecX_{\gamma(t)}=\dotvec{\gamma}(t)$
-for $t\in[0,1]$ is called 
+family $\vecX_{\gamma(\tau)}=\dotvec{\gamma}(\tau)$
+for $\tau\in[0,1]$ is called 
 a {\bf Killing Field}
-if the path $\gamma(t)$
+if the path $\gamma(\tau)$
 preserves the metric.
 
-Taking a time derivative at $t=0$ of Eq.(\ref{eq-pb-metric})
+Taking a time derivative at $\tau=0$ of Eq.(\ref{eq-pb-metric})
 gives
 
 \beq
-\AT{\frac{d\;}{dt}}{t=0}
-\gamma(t)^{PB}
+\AT{\frac{d\;}{d\tau}}{\tau=0}
+\gamma(\tau)^{PB}
 \metric =0
 \eeq
 But 
 
 \beq
-\AT{\frac{d\;}{dt}}{t=0}
-\gamma(t)^{PB} = \call_{\dotvec{\gamma}(t)}
+\AT{\frac{d\;}{d\tau}}{\tau=0}
+\gamma(\tau)^{PB} = \call_{\dotvec{\gamma}(\tau)}
 \eeq
 so
 \beq
-\call_{\dotvec{\gamma}(t)}\metric
+\call_{\dotvec{\gamma}(\tau)}\metric
 =
-\AT{\frac{d\;}{dt}}{t=0}
-\metric(\vecU_{\gamma(t)}, \vecV_{\gamma(t)})
+\AT{\frac{d\;}{d\tau}}{\tau=0}
+\metric(\vecU_{\gamma(\tau)}, \vecV_{\gamma(\tau)})
 =0
 \eeq
 
-Assume a Torsion free,
-not necessarily \Rien theory
-like General Relativity
+The following
+is valid for a Torsion free theory
+with possibly a non-\Rien metric.
+Specifically, the
+following is valid for General
+Relativity which is torsion
+free and has a pseudo-\Rien
+metric (i.e., one with 
+one or more negative eigenvalues)
 
 \begin{claim}
 
@@ -1005,6 +1011,176 @@ T\indices{^{\mu}_{\nu}}
 \end{claim}
 \proof
 \qed
+
+We say {\bf  vector $\vecX$ is tangent to curve $\gamma$ } if
+
+\beq
+\vecX_{\gamma(\tau)}=\dotvec{\gamma}(\tau)
+\eeq
+for all  $\tau\in[0,1]$.
+In such a case we will write
+\beq
+\vecX_{\gamma(\tau)} = \vecX^{\para \gamma}_{\gamma(\tau)}
+\eeq
+Suppose $\vecX$
+is tangent to $\gamma(\cdot)$
+but $\vecY$ is not so in general.
+Then we define the covariant
+time derivative $D/d\tau$ by
+
+\beq
+\frac{D\vecY_{\gamma(\tau)}}{d\tau}
+=
+\nnabla_{\vecX_{\gamma(\tau)}^{\para \gamma}}\vecY_{\gamma(\tau)}
+\eeq
+We will drop the $\gamma(\tau)$
+subscripts and even the $\para \gamma$ superscript and write
+
+\beq
+\frac{D\vecY}{d\tau}=
+\nnabla_\vecX \vecY
+\eeq
+In a coordinate system,
+
+\beq
+\frac{D Y^\mu}{d\tau}=
+\frac{d Y^\mu}{d\tau}
++\Gamma\indices{^\mu_{\nu\rho}}
+\dot{\gamma}^\nu
+Y^\rho
+\eeq
+{\bf Parallel transport} is simply
+
+\beq
+\frac{DY}{d\tau}=0
+\eeq
+
+
+
+\begin{claim}
+
+\beq
+[\call_\vecX \pform{\metric}{2}]_{\mu\nu}
+=
+X^\lam \partial_\lam\metric_{\mu\nu}+
+\nnabla_\mu X_\nu+
+\nnabla_\nu X_\mu
+\eeq
+
+\end{claim}
+\proof
+
+\qed
+
+A connection
+(i.e., expression for $\nnabla$) is 
+said to be 
+{\bf metric compatible (MC)} 
+for a metric $\ul{\metric}$ if
+
+\beq
+\nnabla_\vecX \ul{\metric}=0
+\eeq
+for all vector fields $\vecX$.
+Equivalent conditions for MC are
+
+\beq
+\nnabla \ul{\metric}=0,
+\quad 
+\nnabla_\lam \metric_{\mu\nu}=0
+\eeq
+
+\begin{claim}
+If , then
+\beq
+\call_\vecX \ul{\metric}=
+\nnabla_\vecX\ul{\metric}
+\eeq
+This explains the
+use of the term compatible: its Lie and covariant derivatives are equal.
+
+\end{claim}
+\proof
+
+\qed
+
+\subsubsection{Killing Fields for the
+Levi-Civita connection}
+A vector field $\rvX$ is said to be a {\bf Killing field of the metric $\pform{\metric}{2}$} if
+
+\beq
+\call_\vecX \pform{\metric}{2}=0
+\eeq
+
+
+For a {\bf general affine connection $\nnabla$}, in the coordinate basis\footnote{Note that we will
+use the terms \qt{connection} and \qt{covariant derivative} and the symbol $\nnabla$ as synonymous.
+Some people reserve the term \qt{connection} and the symbol $\nnabla$ for the
+operator (linear map) and \qt{covariant derivative} for the image elements of that map, but it's a minor distinction we won't make.}
+
+\beq
+[\nnabla_\vecX \vecY] ^\rho=
+X^\nu \Gamma\indices{^\rho_{\mu\nu}}Y^\mu
+\eeq
+
+
+\beq
+[\nnabla_\vecX Y]^\mu=
+X^\nu \partial_\nu Y^\mu
++\Gamma\indices{^\mu_{\nu\rho}}
+X^\nu
+Y^\rho 
+\eeq
+and
+
+\beq
+[\call_\vecX \pform{\metric}{2}]_{\mu\nu}
+= 
+2 X^\lam \nnabla_\lam\metric_{\mu\nu}+
+\nnabla_\mu X_\nu+
+\nnabla_\nu X_\mu
+-
+X^\lam\left[T_{\lam\mu\nu} + (\mu\swap \nu)\right]
+\eeq
+where $T_{\lam \mu\nu}$ represents
+the torsion tensor with the $\lam$
+index lowered appropriately.
+For the {\bf Levi-Civita (LC) connection $\nnabla$},
+\begin{enumerate}
+\item  
+The metric is constant
+under parallel transport.  This situation
+is also referred to as 
+{\bf metric compatibility of the connection}
+\beq
+ \nnabla_\lam\metric_{\mu\nu}=0
+\eeq
+\item the torsion is zero
+
+\beq 
+T\indices{^\lam_{\mu\nu}}=0
+\eeq
+\end{enumerate}
+Hence, for the LC 
+connection $\nnabla$,
+the Lie derivative takes this simple form in the coordinate basis,
+
+\beq
+[\call_\vecX 
+\pform{\metric}{2}]_{\mu\nu}= 
+\nnabla_\mu X_\nu 
++ (\mu\swap \nu)
+\eeq
+and the Killing fields satisfy
+
+\beq
+0=
+[\call_\vecX 
+\pform{\metric}{2}]_{\mu\nu}= 
+\nnabla_\mu X_\nu 
++ (\mu\swap \nu)
+\eeq
+
 
 
 
