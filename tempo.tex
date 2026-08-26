@@ -1202,6 +1202,13 @@ compatibility,
 which is one of the conditions for LCC,
 simplifies the formulae.
 
+\beq
+\nnabla_\lam=
+\nnabla_{\vecpder{x^\lam}},\quad
+\partial_\lam=
+\pder{\;}{x^\lam}
+\eeq
+
 \begin{claim} (Scalars)
 
 For scalar 
@@ -1268,6 +1275,65 @@ $B$ are general tensors.
 \proof
 \qed
 
+\begin{claim}
+
+\beq
+\nnabla_{\vecX}\vecpder{x^\mu}=
+X^\lam
+\Gamma\indices{^\rho_{\lam\mu}}
+\vecpder{x^\rho}
+\label{eq-def-nnabla-vec}
+\eeq
+
+\beq
+\nnabla_{\vecX}\ul{dx^\nu}=
+-X^\lam
+\Gamma\indices{^\nu_{\lam\rho}}
+\ul{dx^\rho}
+\eeq
+
+
+\end{claim}
+\proof
+
+Eq.(\ref{eq-def-nnabla-vec}) is
+just the definition
+of \Chris symbols.
+
+\beq
+\ul{dx^\nu}
+(\vecpder{x^\mu})
+=\delta^\nu_\mu
+\eeq
+
+\beq
+0=\nnabla_\lam
+\delta^\nu_\mu=
+(\nnabla_\lam \ul{dx^\nu})
+\circ
+\vecpder{x^\mu}
++
+\underbrace{\ul{dx^\nu}\circ
+\nnabla_\lam
+\vecpder{x^\mu}}_{
+\Gamma\indices{^\nu_{\lam\mu}}
+\text{ by Eq.(\ref{eq-def-nnabla-vec})}
+}
+\eeq
+
+\beqa
+(\nnabla_\lam \ul{dx^\nu})
+\circ
+\vecpder{x^\mu}
+&=&
+-\Gamma\indices{^\nu_{\lam\mu}}
+\\
+&=&
+-\Gamma\indices{^\nu_{\lam\rho}}
+\ul{dx^\rho}\circ \vecpder{x^\mu}
+\eeqa
+
+\qed
 
 
 \begin{claim} (General Tensor)
@@ -1320,6 +1386,74 @@ X^\rho
 \end{claim}
 \proof
 \qed
+
+
+As an application
+of these formulae,
+note that
+for a metric 
+tensor $\metric(\vecU, \vecV)$,
+
+
+\beq
+(\nnabla_\vecX
+\metric)(\vecU, \vecV)=
+\oper{\vecX}
+\metric(\vecU, \vecV)
+-
+\metric(\nnabla_\vecX \vecU, \vecV)
+-
+\metric(\vecU,
+\nnabla_\vecX \vecV)
+\eeq
+We say there is 
+{\bf metric 
+compatibility}
+if 
+\beq
+\nnabla \metric =0
+\eeq
+Metric compatibility 
+implies
+$\nnabla_\vecX\metric=0$ so
+
+\beq
+\oper{\vecX}\metric
+(\vecU, \vecV)=
+\metric(\nnabla_\vecX \vecU, \vecV)
++
+\metric(\vecU,
+\nnabla_\vecX \vecV)
+\eeq
+If we define $\vecX$ as being  
+tangent to a path $\gamma:[0, 1]\rarrow M$, so that
+
+\beq
+\vecX^{\para \gamma}=\dotvec{\gamma}
+\eeq
+then
+
+\beq
+\frac{D\metric}{dt}=\nnabla_{\vecX}\metric=0
+\eeq
+and
+\beq
+\frac{d\metric}{dt}=\oper{\vecX}\metric
+\eeq
+Hence
+
+\beq
+\frac{d\metric}{dt}=
+\metric(\nnabla_\vecX \vecU, \vecV)
++
+\metric(\vecU,
+\nnabla_\vecX \vecV)
+\eeq
+This is the reason 
+this property is called 
+metric compatibility (or zero 
+metric covariant derivative)
+
 
 
 \end{document}
