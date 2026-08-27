@@ -210,7 +210,7 @@ define the following pullback
 
 
 \beq
-(L_g)^{PB}_a(\ul{\omega_a}(\vecX_a))=
+(L_g)^*_a(\ul{\omega_a}(\vecX_a))=
 \ul{\omega_{ga}}((L_g)_a \vecX_a)=
 \ul{\omega_{ga}}(\vecX_{ga})
 \eeq
@@ -219,7 +219,7 @@ define the following pullback
 $\ul{\omega_a}$ satisfy
 
 \beq
-(L_g)^{PB}_a(\ul{\omega_a}(\vecX_a))=
+(L_g)^*_a(\ul{\omega_a}(\vecX_a))=
 \ul{\omega_{ga}}(\vecX_{ga})=\ul{\omega_a}(\vecX_a)
 \eeq
 In particular, if $a=e$,
@@ -703,14 +703,833 @@ g^{-1}\ul{dg}(\vecX_g) = g^{-1}g'=\vecX_e
 
 \subsection{Killing Fields}
 
-A vector field $\vecX$ is said to be a {\bf Killing field of the metric $\pform{\metric}{2}$} if
+A vector field $\vecX$ is said to be a {\bf Killing field of the metric $\metric$} if
 
 \beq
-\call_\vecX \pform{\metric}{2}=0
+\call_\vecX \metric=0
 \eeq
 
-\subsubsection{Covariant Derivative and 
-Lie Derivative along path $\gamma$}
+\subsubsection{Covariant Derivative of General Tensor}
+Assumptions in this section
+\begin{enumerate}
+\item We do not 
+assume a \Rien metric 
+(i.e., one with only positive eigenvalues).
+A metric with one or more negative
+eigenvalues is called a {\bf pseudo-\Rien metric}\footnote{Differential
+geometers eschew the term \qt{non-\Rien}  lest one think
+it refers to something
+called a metric that isn't
+the conventional differential geometry metric $\metric(\vecU, \vecV)$.}
+Most results in this chapter
+are valid for a metric
+with any signature. 
+An exception
+is Gauss's classical theory
+of surfaces, because
+that theory assumes that
+the surfaces are embedded in $\RR^3$ and thus inherit the
+Euclidean metric for $\RR^3$.
+However, even in that case,
+it is possible to 
+find corresponding definitions
+and theorems valid for
+pseudo-\Rien spaces.
+
+\item We assume a coordinate basis.
+Any time you see a
+partial derivative $\partial_\mu$ or $\nnabla_\mu$ in an equation,
+you know it assumes a 
+coordinate basis
+
+
+\item
+We do not assume the LCC (Levi-Civita connection).
+We assume LCC in Section \ref{sec-Lie-der-tensor}
+about Lie derivatives
+in order to greatly
+simplify our formulae. 
+For example, Lie derivatives
+require differentiating
+the metric, so metric
+compatibility, 
+which is one of the conditions for LCC,
+simplifies the formulae.
+\end{enumerate}
+
+\beq
+\nnabla_\lam=
+\nnabla_{\vecpder{x^\lam}},\quad
+\partial_\lam=
+\pder{\;}{x^\lam}
+\eeq
+
+\begin{claim} (Scalars)
+
+For scalar 
+functions
+$f(\vecr)$ and $g(\vecr)$
+
+\beq
+\nnabla_\vecX f=
+\oper{\vecX} f
+\eeq
+
+\beq
+\nnabla(fg)=
+\oper{\vecX}(f)h +
+f\oper{\vecX}(h)
+\eeq
+\end{claim}
+\proof
+\qed
+
+\begin{claim} (Scalar times vector)
+
+\beq
+\nnabla_\vecX(f\vecY)=
+\oper{\vecX}(f)\vecY +
+f\nnabla_\vecX\vecY
+\eeq
+\end{claim}
+\proof
+\qed
+
+\begin{claim} (Scalar times covector (i.e., 1-form))
+
+
+\beq
+\nnabla_\vecX(f\ul{\omega})=
+\oper{\vecX}(f)\ul{\omega}
++
+f\nnabla_\vecX
+\ul{\omega}
+\eeq
+\end{claim}
+\proof
+\qed
+
+\begin{claim} (tensor product)
+
+
+\beq
+\nnabla_\vecX(\vecU
+\otimes \vecV)=
+(\nnabla_\vecX\vecU)\otimes \vecV
++
+\vecU\otimes
+(\nnabla_\vecX\vecV)
+\eeq
+Same identity
+is true if replace
+$\vecU\rarrow A$
+and $\vecV\rarrow B$
+where $A$ and
+$B$ are general tensors.
+\end{claim}
+\proof
+\qed
+
+\begin{claim}
+
+\beq
+\nnabla_{\vecX}\vecpder{x^\mu}=
+X^\lam
+\Gamma\indices{^\rho_{\lam\mu}}
+\vecpder{x^\rho}
+\label{eq-def-nnabla-vec}
+\eeq
+
+\beq
+\nnabla_{\vecX}\ul{dx^\nu}=
+-X^\lam
+\Gamma\indices{^\nu_{\lam\rho}}
+\ul{dx^\rho}
+\eeq
+
+
+\end{claim}
+\proof
+
+Eq.(\ref{eq-def-nnabla-vec}) is
+just the definition
+of \Chris symbols.
+
+\beq
+\ul{dx^\nu}
+(\vecpder{x^\mu})
+=\delta^\nu_\mu
+\eeq
+
+\beq
+0=\nnabla_\lam
+\delta^\nu_\mu=
+(\nnabla_\lam \ul{dx^\nu})
+\circ
+\vecpder{x^\mu}
++
+\underbrace{\ul{dx^\nu}\circ
+\nnabla_\lam
+\vecpder{x^\mu}}_{
+\Gamma\indices{^\nu_{\lam\mu}}
+\text{ by Eq.(\ref{eq-def-nnabla-vec})}
+}
+\eeq
+
+\beqa
+(\nnabla_\lam \ul{dx^\nu})
+\circ
+\vecpder{x^\mu}
+&=&
+-\Gamma\indices{^\nu_{\lam\mu}}
+\\
+&=&
+-\Gamma\indices{^\nu_{\lam\rho}}
+\ul{dx^\rho}\circ \vecpder{x^\mu}
+\eeqa
+
+\qed
+
+
+\begin{claim} (General Tensor)
+
+Suppose
+
+\beq
+\mu = (\mu_1\mu_2\cdots \mu_r), \quad
+\nu = (\nu_1\mu_2\cdots\nu_s)
+\eeq
+
+\beq
+\TT= \TT\indices{^{\mu}_{\nu}}
+\vecpartial_{\mu_1}\otimes
+\vecpartial_{\mu_2}\otimes
+\cdots\otimes
+\vecpartial_{\mu_r}
+\otimes
+\ul{dx}^{\nu_1}\otimes
+\ul{dx}^{\nu_1}\otimes
+\cdots\otimes
+\ul{dx}^{\nu_s}
+\eeq
+then
+
+\beq
+(\nnabla_\vecX \TT)
+\indices{^\mu_\nu}=
+\left\{
+\begin{array}{l}
+X^\lam
+\partial_\lam
+\TT\indices{^{\mu}_{\nu}}
+\\
+-
+\sum_{i=1}^r
+\AT{\TT\indices{^{\mu}_{\nu}}}{\mu_i\rarrow \lam}
+X^\rho (-\Gamma\indices{^{\mu_i}
+_{\rho\lam}})
+\\
++ 
+\sum_{i=1}^s
+\AT{\TT\indices{^{\mu}_{\nu}}}{\nu_i\rarrow \lam}
+X^\rho
+(-\Gamma\indices{^\lam_{\rho \nu_i}})
+\end{array}
+\right.
+\label{eq-cov-der-tt}
+\eeq
+\end{claim}
+\proof
+\qed
+
+
+As an application
+of these formulae,
+note that
+for a metric 
+tensor $\metric(\vecU, \vecV)$,
+
+
+\beq
+(\nnabla_\vecX
+\metric)(\vecU, \vecV)=
+\oper{\vecX}
+\metric(\vecU, \vecV)
+-
+\metric(\nnabla_\vecX \vecU, \vecV)
+-
+\metric(\vecU,
+\nnabla_\vecX \vecV)
+\eeq
+We say there is 
+{\bf metric 
+compatibility}
+if 
+\beq
+\nnabla \metric =0
+\eeq
+Metric compatibility 
+implies
+$\nnabla_\vecX\metric=0$ so
+
+\beq
+\oper{\vecX}\metric
+(\vecU, \vecV)=
+\metric(\nnabla_\vecX \vecU, \vecV)
++
+\metric(\vecU,
+\nnabla_\vecX \vecV)
+\eeq
+If we define $\vecX$ as being  
+tangent to a path $\gamma:[0, 1]\rarrow M$, so that
+
+\beq
+\vecX^{\para \gamma}=\dotvec{\gamma}
+\eeq
+then
+
+\beq
+\frac{D\metric}{dt}=\nnabla_{\vecX}\metric=0
+\eeq
+and
+\beq
+\frac{d\metric}{dt}=\oper{\vecX}\metric
+\eeq
+Hence
+
+\beq
+\frac{d\metric}{dt}=
+\metric(\nnabla_\vecX \vecU, \vecV)
++
+\metric(\vecU,
+\nnabla_\vecX \vecV)
+\eeq
+This is the reason 
+this property is called 
+metric compatibility (or zero 
+metric covariant derivative)
+
+\subsubsection{Torsion}
+
+For a general affine connection (not necessarily
+the Levi-Civita one to be discussed later), the {\bf torsion $T$}
+is defined by
+
+\beq
+T(\vecX, \vecY)=
+\nnabla_\vecX \vecY  -\nnabla_\vecY \vecX -
+[\vecX, \vecY]
+\eeq
+
+\begin{claim}
+In the coordinate basis,
+
+\beq
+T=0\quad \iff \quad
+\Gamma\indices{^\rho_{\mu\nu}}
+=
+\Gamma\indices{^\rho_{\nu\mu}}
+\eeq
+\end{claim}
+\proof
+Set
+
+\beq
+\vecX = \vecpder{x^\mu}=\vecpartial_\mu,
+\quad
+\vecY=
+\vecpder{x^\nu}=\vecpartial_\nu
+\eeq
+Then
+
+\beq
+T(\vecpartial_\mu,
+\vecpartial_\nu)=
+\nnabla_{\vecpartial_\mu}
+\vec\partial_\nu
+-
+\nnabla_{\vecpartial_\nu}
+\vecpartial_\mu
+-
+[
+\vecpartial_\mu,
+\vecpartial_\nu
+]
+\eeq
+
+By the definition of
+the \Chris symbols,
+
+\beq
+\nnabla_{\vecpartial_\mu}
+\vecpartial_\nu = \Gamma\indices{^\rho_{\mu\nu}}\vecpartial_\rho
+\eeq
+and the same equation with $\mu\swap \nu$.
+
+For the coordinate basis, 
+the basis vectors commute
+because partial
+derivatives  commute.
+
+\beq
+[
+\vecpartial_\mu,
+\vecpartial_\nu
+]=
+[\partial_\mu, \partial_\nu]\vecr
+=0
+\eeq
+
+Thus,
+
+\beq
+T(\vecpartial_\mu,
+\vecpartial_\nu)=
+\left(
+\Gamma\indices{^\rho_{\mu\nu}}-
+\Gamma\indices{^\rho_{\nu\mu}}
+\right)\vecpartial_\rho
+\eeq
+\qed
+
+The last 
+claim is only valid
+in the coordinate basis.
+For a general basis (such
+as Cartan orthonormal frames) $\vece_\mu$,
+
+\beq
+[\vece_\mu, \vece_\nu]\neq0
+\eeq
+Instead
+
+\beq
+[\vece_\mu, \vece_\nu]=
+C\indices{^\rho_{\mu\nu}}\vece_\rho
+\eeq
+Then
+\beq
+T(\vece_\mu, \vece_\nu)=
+[\Gamma\indices{^\rho_{\mu\nu}}
+-
+\Gamma\indices{^\rho_{\nu\mu}}]\vece_\rho
+-
+[\vece_\mu, \vece_\nu]
+\eeq
+so
+
+
+\beq
+T\indices{^\rho_{\mu\nu}}=
+\Gamma\indices{^\rho_{\mu\nu}}
+-
+\Gamma\indices{^\rho_{\nu\mu}}
+-
+C\indices{^\rho_{\mu\nu}}
+\eeq
+
+
+\beq
+T=0\quad \iff
+\quad 
+\Gamma\indices{^\rho_{\mu\nu}}
+-
+\Gamma\indices{^\rho_{\nu\mu}}
+=
+C\indices{^\rho_{\mu\nu}}
+\eeq
+
+In Cartan's theory,
+
+\beq
+\pform{T^a}{2} = \pform{d\theta^a}{2} + \pform{\omega\indices{^a_b}}{}\wedge \pform{\theta^b}{}
+\eeq
+When $\ul{\theta^a} =\ul{dx^a}$, the 
+term $\ul{d\theta^a}$
+vanishes.
+
+
+\subsubsection{
+Levi-Civita connection}
+
+
+For the {\bf Levi-Civita  connection (LCC) $\nnabla$},
+\begin{enumerate}
+\item  
+The metric is constant
+under parallel transport.  This situation
+is also referred to as 
+{\bf metric compatibility of the connection}
+\beq
+ \nnabla_\lam\metric_{\mu\nu}=0
+\eeq
+\item the torsion is zero
+
+\beq 
+T\indices{^\lam_{\mu\nu}}=0
+\eeq
+\end{enumerate}
+
+If
+
+\beq
+[\nnabla_{\vecpartial_\mu}
+\vecpartial_\nu]^\rho=
+\Gamma\indices{^\rho_{\mu\nu}}
+\eeq
+then
+
+\beq
+T\indices{^\lam_{\mu\nu}}=0
+\quad
+\text{ iff }\quad
+\Gamma\indices{^\rho_{\mu\nu}}
+=
+\Gamma\indices{^\rho_{\nu\mu}}
+\eeq
+For LCC,
+
+\beq
+[\nnabla_\vecX Y]^\rho=
+X^\mu \partial_\mu Y^\rho
++\Gamma\indices{^\rho_{\mu\nu}}
+X^\mu
+Y^\nu 
+\eeq
+
+\begin{claim}
+For a { general affine connection $\nnabla$}, in the coordinate basis\footnote{Note that we will
+use the terms \qt{connection} and \qt{covariant derivative} and the symbol $\nnabla$ as synonymous.
+Some people reserve the term \qt{connection} and the symbol $\nnabla$ for the
+operator (linear map) and \qt{covariant derivative} for the image elements of that map, but it's a minor distinction we won't make.}
+
+\beq
+[\call_\vecX \metric]_{\mu\nu}
+= 
+X^\lam \nnabla_\lam\metric_{\mu\nu}+
+\nnabla_\mu X_\nu+
+\nnabla_\nu X_\mu
++
+X^\lam\left[T_{\lam\mu\nu} + (\mu\swap \nu)\right]
+\eeq
+where $T_{\lam \mu\nu}$ represents
+the torsion tensor with the $\lam$
+index lowered appropriately.
+\end{claim}
+\proof
+
+The coordinate-free
+definition is
+\beq
+(\call_\vecX \metric)
+(\vecU, \vecV)
+=
+\vecX[\metric(\vecU, \vecV)]
+-
+\metric([\vecX, \vecU], \vecV)
+-
+\metric(\vecU,
+[\vecX, \vecV])
+\eeq
+
+\beq
+\vecX[\metric(\vecU, \vecV)]
+=
+(\nnabla_\vecX\metric)(\vecU, \vecV)
++
+\metric)(
+\nnabla_\vecX
+\vecU, \vecV)
++
+\metric)(\vecU, 
+\nnabla_\vecX
+\vecV)
+\eeq
+
+\beq
+[\vecX, \vecY]=
+\nnabla_\vecX\vecY
+-
+\nnabla_\vecY \vecX 
+-
+T(\vecX, \vecY)
+\eeq
+for $\vecY = \vecU, \vecV$.
+Substituting, we get
+
+\beq
+(\call_\vecX)
+(\vecU, \vecV)
+=
+\left\{
+\begin{array}{l}
+(\nnabla_\vecX\metric)
+(\vecU, \vecV)
+\\
++
+\metric
+(\nnabla_\vecU
+\vecX, \vecV)
++
+\metric
+(\vecU, 
+\nnabla_\vecV
+\vecX)
+\\
++
+\metric
+(T(\vecX,\vecU), \vecV)
++
+\metric
+(\vecU, 
+T(\vecX,\vecV))
+\end{array}
+\right.
+\eeq
+Now replace
+
+\beq
+\vecU=\vecpartial_\mu,
+\quad \vecV=\vecpartial_\nu,
+\quad
+\vecX = X^\lam \vecpartial_\lam
+\eeq
+
+
+\beq
+\nnabla_\vecU\vecX=
+ \vecpartial_\lam\nnabla_\mu X^\lam
+\eeq
+
+\beq
+\quad
+\metric
+(\nnabla_\vecU
+\vecX, \vecV)=
+\metric_{\lam\nu}
+\nnabla_\mu X^\lam=
+\nnabla_\mu X_\nu
+\eeq
+
+\beq
+T(\vecX, \vecU)=
+X^\lam T\indices{^\rho_{\lam\mu}}
+\vecpartial_\rho
+\eeq
+
+\beq
+\metric(T(\vecX, \vecU), \vecV)=
+X^\lam T\indices{^\rho_{\lam\mu}}
+ \metric_{\rho\nu}
+=X^\lam T_{\nu\lam\mu}
+\eeq
+\qed
+
+For the LLC, the Lie derivative takes this simple form in the coordinate basis,
+
+\beq
+[\call_\vecX 
+\metric]_{\mu\nu}= \nnabla_\mu X_\nu 
++ (\mu\swap \nu)
+\eeq
+and the Killing fields satisfy
+
+\beq
+0=
+[\call_\vecX 
+\metric]_{\mu\nu}= 
+\nnabla_\mu X_\nu 
++ (\mu\swap \nu)
+\eeq
+\subsubsection{Lie Derivative of general tensor in LCC}\label{sec-Lie-der-tensor}
+The following
+is valid for LCC 
+with possibly a non-\Rien metric.
+Specifically, the
+following is valid for General
+Relativity which is torsion
+free and has a pseudo-\Rien
+metric (i.e., one with 
+one or more negative eigenvalues)
+
+\begin{claim}
+
+\beq
+(\call_\vecX  \vecY)=
+X^\mu \nnabla_\mu
+Y^\nu -
+Y^\mu \nnabla_\mu X^\nu
+\eeq
+
+
+\end{claim}
+\proof
+\beq
+\call_\vecX \vecY=
+[\oper{\vecX}, \oper{\vecY}]\vecr
+\eeq
+
+\beq
+\vecX = X^\mu \vecpartial_\mu,\quad
+\vecY = Y^\nu \vecpartial_\nu
+\eeq
+
+\beqa
+[\oper{\vecX}, \oper{\vecY}]\vecr
+&=&
+X^\mu\partial_\mu
+Y^\nu\partial_\nu\vecr
+-
+(X\swap Y)
+\\
+&=&
+X^\mu\partial_\mu
+Y^\nu-
+(X\swap Y)
+\eeqa
+
+Next, we replace 
+the partial derivatives
+by covariant ones because the \Chris symbols
+cancel.
+
+\beq
+\nnabla_\mu V^\nu=
+\partial_\mu V^\nu
++
+\Gamma\indices{^\nu_{\mu_\lam}}V^\lam
+\eeq
+for $V=X, Y$
+
+
+\beq
+X^\mu\Gamma\indices{^\nu_{\mu\lam}}Y^\lam
+-
+(X\swap Y)=0
+\eeq
+because
+
+\beq
+\Gamma\indices{^\nu_{\mu\lam}} = 
+\Gamma\indices{^\nu_{\lam\mu}}
+\eeq
+The \Chris symbols are symmetric
+in $mu, \lam$ because the torsion
+is assumed to be zero.
+
+\qed
+
+\begin{claim}
+If 
+\beq
+\ul{\omega}=\omega_\nu \ul{dx^\nu}
+\eeq
+then
+
+\beq
+(\call_\vecX  \ul{\omega})_\nu
+=
+X^\mu \nnabla_\mu \omega_\nu
++
+\omega_\mu \nnabla_\nu X^\mu
+\eeq
+
+\end{claim}
+\proof
+
+Start from
+\beq
+(\call_\vecX  \ul{\omega})_\nu
+=
+X^\mu \partial_\mu \omega_\nu
++
+\omega_\mu \partial_\nu X^\mu
+\eeq
+Now replace the 
+partial derivatives 
+by covariant derivatives.
+
+\beq
+\nnabla_\mu \omega_\nu=
+\partial_\mu \omega_\nu -
+\Gamma\indices{^\lam_{\mu\nu}}\omega_\lam
+\eeq
+
+\beq
+\nnabla_\nu X^\mu=
+\partial_\nu X^\mu +
+\Gamma\indices{^\mu_{\nu\lam}}X^\lam
+\eeq
+
+
+\beq
+-X^\mu \Gamma\indices{^\lam_{\mu\nu}}\omega_\lam
++
+\omega_\mu
+\Gamma\indices{^\mu_{\nu\lam}}X^\lam
+=0
+\eeq
+
+\begin{claim}
+Suppose
+
+\beq
+\mu = (\mu_1\mu_2\cdots \mu_r), \quad
+\nu = (\nu_1\mu_2\cdots\nu_s)
+\eeq
+
+\beq
+\TT= \TT\indices{^{\mu}_{\nu}}
+\vecpartial_{\mu_1}\otimes
+\vecpartial_{\mu_2}\otimes
+\cdots\otimes
+\vecpartial_{\mu_r}
+\otimes
+\ul{dx}^{\nu_1}\otimes
+\ul{dx}^{\nu_1}\otimes
+\cdots\otimes
+\ul{dx}^{\nu_s}
+\eeq
+then
+
+\beq
+(\call_\vecX \TT)
+\indices{^\mu_\nu}=
+\left\{
+\begin{array}{l}
+X^\lam
+\nnabla_\lam
+\TT\indices{^{\mu}_{\nu}}
+\\
+-
+\sum_{i=1}^r
+\AT{\TT\indices{^{\mu}_{\nu}}}{\mu_i\rarrow \lam}
+\nnabla_\lam X^{\mu_i}
+\\
++ 
+\sum_{i=1}^s
+\AT{\TT\indices{^{\mu}_{\nu}}}{\nu_i\rarrow \lam}
+\nnabla_{\nu_i} X^{\lam}
+\end{array}
+\right.
+\label{eq-lie-tt}
+\eeq
+\end{claim}
+\proof
+\qed
+
+Note  that the first term 
+on the right side of  Eq.(\ref{eq-lie-tt}) is
+
+\beq
+X^\lam
+\nnabla_\lam
+\TT\indices{^{\mu}_{\nu}}=
+\underbrace{X^\lam\partial_\lam}_{\oper{\vecX}}
+ \TT\indices{^\mu_\nu}  +  \text{\Chris term}
+\eeq
+
+\subsubsection{Derivatives along a path $\gamma$}
 
 We call a function  $\gamma: [0, 1]\rarrow M$
 a {\bf path or curve} on $M$.
@@ -861,279 +1680,9 @@ The {\bf Lie derivative $\call_\vecX$ along $\gamma$} is
 \call_{\vecX^{\para \gamma}} =
 \call_{\dotvec{\gamma}(\tau)}=
 \AT{\frac{d\;}{d\tau}}{\tau=0}
-\gamma(\tau)^{PB}
+\gamma(\tau)^*
 \eeq
 
-
-\subsubsection{
-Levi-Civita connection}
-
-
-For the {\bf Levi-Civita  connection (LCC) $\nnabla$},
-\begin{enumerate}
-\item  
-The metric is constant
-under parallel transport.  This situation
-is also referred to as 
-{\bf metric compatibility of the connection}
-\beq
- \nnabla_\lam\metric_{\mu\nu}=0
-\eeq
-\item the torsion is zero
-
-\beq 
-T\indices{^\lam_{\mu\nu}}=0
-\eeq
-\end{enumerate}
-
-If
-
-\beq
-\nnabla_{\vecpder{x^\mu}}
-\vecpder{x^\nu}=
-\Gamma\indices{^\rho_{\mu\nu}}
-\eeq
-then
-
-\beq
-T\indices{^\lam_{\mu\nu}}=0
-\quad
-\text{ iff }\quad
-\Gamma\indices{^\rho_{\mu\nu}}
-=
-\Gamma\indices{^\rho_{\nu\mu}}
-\eeq
-For LCC,
-
-\beq
-[\nnabla_\vecX Y]^\rho=
-X^\mu \partial_\mu Y^\rho
-+\Gamma\indices{^\rho_{\mu\nu}}
-X^\mu
-Y^\nu 
-\eeq
-
-A {\bf general affine connection $\nnabla$}, in the coordinate basis\footnote{Note that we will
-use the terms \qt{connection} and \qt{covariant derivative} and the symbol $\nnabla$ as synonymous.
-Some people reserve the term \qt{connection} and the symbol $\nnabla$ for the
-operator (linear map) and \qt{covariant derivative} for the image elements of that map, but it's a minor distinction we won't make.}, satisfies
-
-\beq
-[\call_\vecX \pform{\metric}{2}]_{\mu\nu}
-= 
-2 X^\lam \nnabla_\lam\metric_{\mu\nu}+
-\nnabla_\mu X_\nu+
-\nnabla_\nu X_\mu
--
-X^\lam\left[T_{\lam\mu\nu} + (\mu\swap \nu)\right]
-\eeq
-where $T_{\lam \mu\nu}$ represents
-the torsion tensor with the $\lam$
-index lowered appropriately.
-
-For the LLC, the Lie derivative takes this simple form in the coordinate basis,
-
-\beq
-[\call_\vecX 
-\pform{\metric}{2}]_{\mu\nu}= \nnabla_\mu X_\nu 
-+ (\mu\swap \nu)
-\eeq
-and the Killing fields satisfy
-
-\beq
-0=
-[\call_\vecX 
-\pform{\metric}{2}]_{\mu\nu}= 
-\nnabla_\mu X_\nu 
-+ (\mu\swap \nu)
-\eeq
-\subsubsection{Lie Derivative of general tensor in LCC}\label{sec-Lie-der-tensor}
-The following
-is valid for LCC 
-with possibly a non-\Rien metric.
-Specifically, the
-following is valid for General
-Relativity which is torsion
-free and has a pseudo-\Rien
-metric (i.e., one with 
-one or more negative eigenvalues)
-
-\begin{claim}
-
-\beq
-(\call_\vecX  \vecY)=
-X^\mu \nnabla_\mu
-Y^\nu -
-Y^\mu \nnabla_\mu X^\nu
-\eeq
-
-
-\end{claim}
-\proof
-\beq
-\call_\vecX \vecY=
-[\oper{\vecX}, \oper{\vecY}]\vecr
-\eeq
-
-\beq
-\vecX = X^\mu \vec{\partial}_\mu,\quad
-\vecY = Y^\nu \vec{\partial}_\nu
-\eeq
-
-\beqa
-[\oper{\vecX}, \oper{\vecY}]\vecr
-&=&
-X^\mu\partial_\mu
-Y^\nu\partial_\nu\vecr
--
-(X\swap Y)
-\\
-&=&
-X^\mu\partial_\mu
-Y^\nu-
-(X\swap Y)
-\eeqa
-
-Next, we replace 
-the partial derivatives
-by covariant ones because the \Chris symbols
-cancel.
-
-\beq
-\nnabla_\mu V^\nu=
-\partial_\mu V^\nu
-+
-\Gamma\indices{^\nu_{\mu_\lam}}V^\lam
-\eeq
-for $V=X, Y$
-
-
-\beq
-X^\mu\Gamma\indices{^\nu_{\mu\lam}}Y^\lam
--
-(X\swap Y)=0
-\eeq
-because
-
-\beq
-\Gamma\indices{^\nu_{\mu\lam}} = 
-\Gamma\indices{^\nu_{\lam\mu}}
-\eeq
-The \Chris symbols are symmetric
-in $mu, \lam$ because the torsion
-is assumed to be zero.
-
-\qed
-
-\begin{claim}
-If 
-\beq
-\ul{\omega}=\omega_\nu \ul{dx^\nu}
-\eeq
-then
-
-\beq
-(\call_\vecX  \ul{\omega})_\nu
-=
-X^\mu \nnabla_\mu \omega_\nu
-+
-\omega_\mu \nnabla_\nu X^\mu
-\eeq
-
-\end{claim}
-\proof
-
-Start from
-\beq
-(\call_\vecX  \ul{\omega})_\nu
-=
-X^\mu \partial_\mu \omega_\nu
-+
-\omega_\mu \partial_\nu X^\mu
-\eeq
-Now replace the 
-partial derivatives 
-by covariant derivatives.
-
-\beq
-\nnabla_\mu \omega_\nu=
-\partial_\mu \omega_\nu -
-\Gamma\indices{^\lam_{\mu\nu}}\omega_\lam
-\eeq
-
-\beq
-\nnabla_\nu X^\mu=
-\partial_\nu X^\mu +
-\Gamma\indices{^\mu_{\nu\lam}}X^\lam
-\eeq
-
-
-\beq
--X^\mu \Gamma\indices{^\lam_{\mu\nu}}\omega_\lam
-+
-\omega_\mu
-\Gamma\indices{^\mu_{\nu\lam}}X^\lam
-=0
-\eeq
-
-\begin{claim}
-Suppose
-
-\beq
-\mu = (\mu_1\mu_2\cdots \mu_r), \quad
-\nu = (\nu_1\mu_2\cdots\nu_s)
-\eeq
-
-\beq
-\TT= \TT\indices{^{\mu}_{\nu}}
-\vec{\partial}_{\mu_1}\otimes
-\vec{\partial}_{\mu_2}\otimes
-\cdots\otimes
-\vec{\partial}_{\mu_r}
-\otimes
-\ul{dx}^{\nu_1}\otimes
-\ul{dx}^{\nu_1}\otimes
-\cdots\otimes
-\ul{dx}^{\nu_s}
-\eeq
-then
-
-\beq
-(\call_\vecX \TT)
-\indices{^\mu_\nu}=
-\left\{
-\begin{array}{l}
-X^\lam
-\nnabla_\lam
-\TT\indices{^{\mu}_{\nu}}
-\\
--
-\sum_{i=1}^r
-\AT{\TT\indices{^{\mu}_{\nu}}}{\mu_i\rarrow \lam}
-\nnabla_\lam X^{\mu_i}
-\\
-+ 
-\sum_{i=1}^s
-\AT{\TT\indices{^{\mu}_{\nu}}}{\nu_i\rarrow \lam}
-\nnabla_{\nu_i} X^{\lam}
-\end{array}
-\right.
-\label{eq-lie-tt}
-\eeq
-\end{claim}
-\proof
-\qed
-
-Note  that the first term 
-on the right side of  Eq.(\ref{eq-lie-tt}) is
-
-\beq
-X^\lam
-\nnabla_\lam
-\TT\indices{^{\mu}_{\nu}}=
-\underbrace{X^\lam\partial_\lam}_{\oper{\vecX}}
- \TT\indices{^\mu_\nu}  +  \text{\Chris term}
-\eeq
 
 
 \subsubsection{Lie Group Metric}
@@ -1157,7 +1706,7 @@ the metric} if
 or, written more succinctly with pullbacks
 
 \beq
-{\metric} = \gamma(\tau)^{PB}{\metric}
+{\metric} = \gamma(\tau)^*{\metric}
 \label{eq-pb-metric}
 \eeq
 for all $t$.
@@ -1173,7 +1722,7 @@ gives
 
 \beq
 \AT{\frac{d\;}{d\tau}}{\tau=0}
-\gamma(\tau)^{PB}
+\gamma(\tau)^*
 \metric =0
 \eeq
 But 
@@ -1187,272 +1736,6 @@ so
 \metric(\vecU_{\gamma(\tau)}, \vecV_{\gamma(\tau)})
 =0
 \eeq
-
-\subsubsection{Covariant Derivative of General Tensor}
-The following results
-do not assume the LCC (Levi-Civita connection).
-We assume LCC in Section \ref{sec-Lie-der-tensor}
-about Lie derivatives
-in order to greatly
-simplify our formulae. 
-For example, Lie derivatives
-require differentiating
-the metric, so metric
-compatibility, 
-which is one of the conditions for LCC,
-simplifies the formulae.
-
-\beq
-\nnabla_\lam=
-\nnabla_{\vecpder{x^\lam}},\quad
-\partial_\lam=
-\pder{\;}{x^\lam}
-\eeq
-
-\begin{claim} (Scalars)
-
-For scalar 
-functions
-$f(\vecr)$ and $g(\vecr)$
-
-\beq
-\nnabla_\vecX f=
-\oper{\vecX} f
-\eeq
-
-\beq
-\nnabla(fg)=
-\oper{\vecX}(f)h +
-f\oper{\vecX}(h)
-\eeq
-\end{claim}
-\proof
-\qed
-
-\begin{claim} (Scalar times vector)
-
-\beq
-\nnabla_\vecX(f\vecY)=
-\oper{\vecX}(f)\vecY +
-f\nnabla_\vecX\vecY
-\eeq
-\end{claim}
-\proof
-\qed
-
-\begin{claim} (Scalar times covector (i.e., 1-form))
-
-
-\beq
-\nnabla_\vecX(f\ul{\omega})=
-\oper{\vecX}(f)\ul{\omega}
-+
-f\nnabla_\vecX
-\ul{\omega}
-\eeq
-\end{claim}
-\proof
-\qed
-
-\begin{claim} (tensor product)
-
-
-\beq
-\nnabla_\vecX(\vecU
-\otimes \vecV)=
-(\nnabla_\vecX\vecU)\otimes \vecV
-+
-\vecU\otimes
-(\nnabla_\vecX\vecV)
-\eeq
-Same identity
-is true if replace
-$\vecU\rarrow A$
-and $\vecV\rarrow B$
-where $A$ and
-$B$ are general tensors.
-\end{claim}
-\proof
-\qed
-
-\begin{claim}
-
-\beq
-\nnabla_{\vecX}\vecpder{x^\mu}=
-X^\lam
-\Gamma\indices{^\rho_{\lam\mu}}
-\vecpder{x^\rho}
-\label{eq-def-nnabla-vec}
-\eeq
-
-\beq
-\nnabla_{\vecX}\ul{dx^\nu}=
--X^\lam
-\Gamma\indices{^\nu_{\lam\rho}}
-\ul{dx^\rho}
-\eeq
-
-
-\end{claim}
-\proof
-
-Eq.(\ref{eq-def-nnabla-vec}) is
-just the definition
-of \Chris symbols.
-
-\beq
-\ul{dx^\nu}
-(\vecpder{x^\mu})
-=\delta^\nu_\mu
-\eeq
-
-\beq
-0=\nnabla_\lam
-\delta^\nu_\mu=
-(\nnabla_\lam \ul{dx^\nu})
-\circ
-\vecpder{x^\mu}
-+
-\underbrace{\ul{dx^\nu}\circ
-\nnabla_\lam
-\vecpder{x^\mu}}_{
-\Gamma\indices{^\nu_{\lam\mu}}
-\text{ by Eq.(\ref{eq-def-nnabla-vec})}
-}
-\eeq
-
-\beqa
-(\nnabla_\lam \ul{dx^\nu})
-\circ
-\vecpder{x^\mu}
-&=&
--\Gamma\indices{^\nu_{\lam\mu}}
-\\
-&=&
--\Gamma\indices{^\nu_{\lam\rho}}
-\ul{dx^\rho}\circ \vecpder{x^\mu}
-\eeqa
-
-\qed
-
-
-\begin{claim} (General Tensor)
-
-Suppose
-
-\beq
-\mu = (\mu_1\mu_2\cdots \mu_r), \quad
-\nu = (\nu_1\mu_2\cdots\nu_s)
-\eeq
-
-\beq
-\TT= \TT\indices{^{\mu}_{\nu}}
-\vec{\partial}_{\mu_1}\otimes
-\vec{\partial}_{\mu_2}\otimes
-\cdots\otimes
-\vec{\partial}_{\mu_r}
-\otimes
-\ul{dx}^{\nu_1}\otimes
-\ul{dx}^{\nu_1}\otimes
-\cdots\otimes
-\ul{dx}^{\nu_s}
-\eeq
-then
-
-\beq
-(\nnabla_\vecX \TT)
-\indices{^\mu_\nu}=
-\left\{
-\begin{array}{l}
-X^\lam
-\partial_\lam
-\TT\indices{^{\mu}_{\nu}}
-\\
--
-\sum_{i=1}^r
-\AT{\TT\indices{^{\mu}_{\nu}}}{\mu_i\rarrow \lam}
-X^\rho (-\Gamma\indices{^{\mu_i}
-_{\rho\lam}})
-\\
-+ 
-\sum_{i=1}^s
-\AT{\TT\indices{^{\mu}_{\nu}}}{\nu_i\rarrow \lam}
-X^\rho
-(-\Gamma\indices{^\lam_{\rho \nu_i}})
-\end{array}
-\right.
-\label{eq-cov-der-tt}
-\eeq
-\end{claim}
-\proof
-\qed
-
-
-As an application
-of these formulae,
-note that
-for a metric 
-tensor $\metric(\vecU, \vecV)$,
-
-
-\beq
-(\nnabla_\vecX
-\metric)(\vecU, \vecV)=
-\oper{\vecX}
-\metric(\vecU, \vecV)
--
-\metric(\nnabla_\vecX \vecU, \vecV)
--
-\metric(\vecU,
-\nnabla_\vecX \vecV)
-\eeq
-We say there is 
-{\bf metric 
-compatibility}
-if 
-\beq
-\nnabla \metric =0
-\eeq
-Metric compatibility 
-implies
-$\nnabla_\vecX\metric=0$ so
-
-\beq
-\oper{\vecX}\metric
-(\vecU, \vecV)=
-\metric(\nnabla_\vecX \vecU, \vecV)
-+
-\metric(\vecU,
-\nnabla_\vecX \vecV)
-\eeq
-If we define $\vecX$ as being  
-tangent to a path $\gamma:[0, 1]\rarrow M$, so that
-
-\beq
-\vecX^{\para \gamma}=\dotvec{\gamma}
-\eeq
-then
-
-\beq
-\frac{D\metric}{dt}=\nnabla_{\vecX}\metric=0
-\eeq
-and
-\beq
-\frac{d\metric}{dt}=\oper{\vecX}\metric
-\eeq
-Hence
-
-\beq
-\frac{d\metric}{dt}=
-\metric(\nnabla_\vecX \vecU, \vecV)
-+
-\metric(\vecU,
-\nnabla_\vecX \vecV)
-\eeq
-This is the reason 
-this property is called 
-metric compatibility (or zero 
-metric covariant derivative)
 
 
 
