@@ -703,11 +703,325 @@ g^{-1}\ul{dg}(\vecX_g) = g^{-1}g'=\vecX_e
 
 \subsection{Killing Fields}
 
+
+\subsubsection{Derivatives along a path $\gamma$}
+
+We call a function  $\gamma: [0, 1]\rarrow M$
+a {\bf path or curve} on $M$.
+
+We say {\bf  vector $\vecX$ is tangent to curve $\gamma$ } if
+
+\beq
+\vecX_{\gamma(\tau)}=\dotvec{\gamma}(\tau)
+\eeq
+for all  $\tau\in[0,1]$.
+In such a case we will write
+\beq
+\vecX_{\gamma(\tau)} = \vecX^{\para \gamma}_{\gamma(\tau)}
+\eeq
+Suppose $\vecX$
+is tangent to $\gamma(\cdot)$
+but $\vecY$ is not so in general.
+Then we define the {\bf covariant
+derivative $\nnabla=D/d\tau$ 
+along $\gamma$}  by
+
+\beq
+\frac{D\vecY_{\gamma(\tau)}}{d\tau}
+=
+\nnabla_{\vecX_{\gamma(\tau)}^{\para \gamma}}\vecY_{\gamma(\tau)}
+\eeq
+We will drop the $\gamma(\tau)$
+subscripts  and write
+
+\beq
+\frac{D\vecY}{d\tau}=
+\nnabla_{\vecX^{\para \gamma}}\vecY
+\eeq
+In a coordinate system,
+
+\beq
+\frac{D Y^\mu}{d\tau}
+=
+\frac{d Y^\mu}{d\tau}
++\Gamma\indices{^\mu_{\nu\rho}}
+\dot{\gamma}^\nu
+Y^\rho
+\eeq
+or, equivalently,
+
+\beq
+[\nnabla_{\vecX^{\para \gamma}}\vecY]^\mu
+=
+({\vecX^{\para \gamma}})^\nu \partial_\nu Y^\mu
++
+\Gamma\indices{^\mu_{\nu\rho}}
+[{\vecX^{\para \gamma}}]^\nu
+Y^\rho
+\eeq
+
+{\bf Parallel transport along $\gamma$}  is simply
+
+\beq
+\nnabla_{\vecX^{\para \gamma}}\vecY=\frac{DY}{d\tau}=0
+\eeq
+
+\hrule
+Consider a manifold $M$.
+
+Define a {\bf path} to be a map
+
+\beq
+\gamma(\cdot:\pi):[0, 1]\rarrow M,
+\quad \tau\mapsto \gamma(\tau;\pi)
+\eeq
+where $\pi\in M$  is a parameter of the function $\gamma(\cdot;\pi)$.
+For example, $\tau$ might be time and point
+$\pi=\gamma(0;\pi)$ might be the initial value
+of $\gamma(\cdot;\pi)$.
+
+Define a {\bf flow}  to be a map
+
+\beq
+\phi(\cdot:\tau):M \rarrow M,
+\quad \pi\mapsto \gamma(\tau;\pi)
+\eeq
+where $\tau\in[0,1]$  is a parameter of the function $\phi(\cdot;\tau)$.
+Thus, $\phi(\cdot;\tau)$ moves points
+on the manifold $M$ and is parametrized by a \qt{time} $\tau\in[0,1]$.
+
+Note that we can think of $\phi(\cdot;\tau)$ as being an $M$-slice (at fixed $\tau$)
+and of $\gamma(\cdot;\pi)$
+as being a $\tau$-slice (at fixed $\pi$)
+of a surface
+$\Phi:M\times [0,1]\rarrow M$
+such that 
+
+\beq
+\Phi(\tau, \pi)=\gamma(\tau;\pi)=\phi(\tau;\pi)
+\eeq
+
+The Lie derivative $\call_\vecX$
+can be defined in terms of pullbacks
+a follows. Consider the action of 
+$\call_\vecX$ on the metric function
+$\metric(\vecU, \vecV)$ as an example.
+
+
+
+\beq
+\call_{\vecX_\pi}
+\metric_\pi(\vecU_\pi \vecV_\pi)
+=
+\underbrace{\left(\AT{\frac{d}{d\tau}}{\tau=0}([\phi(\pi;\tau)]^*_\pi \metric_\pi)\right)}_{
+\AT{\frac{d}{d\tau}}{\tau=0}(\phi(\pi;\tau)^*
+\metric_\pi)}(\vecU_\pi \vecV_\pi)
+=
+\left[\AT{\frac{d}{d\tau}}{\tau=0}
+\metric_{\gamma(\tau;\pi)}\right]
+(\vecU_{\pi}
+ \vecV_{\pi})
+\eeq
+where 
+\beq
+\phi(\pi;\tau=0)=\pi
+\eeq
+
+\beq
+\vecX_{\gamma(\tau;\pi)}=\dotvec{\gamma}(\tau;\pi)
+\eeq
+
 A vector field $\vecX$ is said to be a {\bf Killing field of the metric $\metric$} if
 
 \beq
 \call_\vecX \metric=0
 \eeq
+
+
+\subsubsection{Examples of derivatives}
+\begin{enumerate}
+\item
+\begin{claim}
+Suppose $M=\RR^2$ with Euclidean metric
+$
+\metric=
+(\ul{dx})^2 + (\ul{dy})^2$.
+If
+
+\beq
+L_z = x\vecpder{y} -y\vecpder{x}=\begin{bmatrix}-y\\x\end{bmatrix}
+\eeq
+then 
+
+\beq
+\nnabla_\vecX L_z = 
+\begin{bmatrix}
+-X^2
+\\
+X^1
+\end{bmatrix}
+\eeq
+\end{claim}
+\proof
+
+In this case the \Chris symbols are 
+zero because the frame doesn't change
+under parallel transport. Hence
+
+\beq
+\nnabla_\mu = \partial_\mu
+\eeq
+
+\beq
+\nnabla_\vecX=
+ X^1\begin{bmatrix}
+0\\1
+\end{bmatrix}
++
+ X^2\begin{bmatrix}
+-1\\0
+\end{bmatrix}
+=
+\begin{bmatrix}
+-X^2
+\\
+X^1
+\end{bmatrix}
+\eeq
+
+\qed
+
+
+\item
+
+\begin{claim}
+Suppose $M=\RR^2$ with Euclidean metric
+\beq
+\metric(\vecU, \vecV)=
+\left[\ul{dx})^2 + (\ul{dy})^2\right
+](\vecU, \vecV)= U^1V^1 + U^2V^2 =
+\vecU^T \begin{bmatrix}1&0
+\\
+0&1\end{bmatrix}\vecV
+\eeq
+If
+
+\beq
+\vecX = y \vecpder{x}=\begin{bmatrix}y\\0\end{bmatrix}
+\eeq
+then 
+\beq
+\call_\vecX\metric = 2\ul{dx}\ul{dy}
+\eeq
+$\call_\vecX\metric\neq 0$ so 
+$\vecX$ is not a Killing field.
+This $\vecX$ is called a {\bf shear flow}.
+The metric changes along a shear flow.
+\end{claim}
+\proof
+
+First proof (from pullback definition):
+
+If
+
+\beq
+\gamma(\tau;t)=
+\begin{bmatrix}x+yt\\y\end{bmatrix}
+\eeq
+then
+\beq 
+\pi=\begin{bmatrix}x\\y\end{bmatrix},
+\quad
+ \vecX_\gamma = \dotvec{\gamma}
+\eeq
+
+\beq
+\metric_\pi = (\ul{dx})^2  + (\ul{dy})^2,
+\quad
+\metric_{\gamma(\tau;\pi)} = (\ul{dx} + t\ul{dy})^2 
++ (\ul{dy})^2
+\eeq
+
+\beq
+\call_\vecX \metric =
+\AT{\frac{d}{dt}}{\tau=0}\metric_{\gamma(t)}
+=2 \ul{dx}\ul{dy}
+\eeq
+
+Second proof (from formula):
+
+\beqa
+(\call_\vecX\metric)_{\mu\nu}
+&=&
+X^\lam \partial_\lam \metric_{\mu\nu}
++
+\metric_{\lam\nu}
+\partial_\mu X^\lam
++
+\metric_{\mu\lam}
+\partial_\nu X^\lam
+\\
+&=&
+X^\lam \partial_\lam \metric_{\mu\nu}
++
+(\partial_\mu X_\nu + (\mu\swap \nu))
+\eeqa
+
+\beq
+\partial_\lam \metric_{\mu\nu}=0
+\eeq
+
+\beq
+\vecX=
+\begin{bmatrix}
+y\\0
+\end{bmatrix}
+\implies 
+[\partial_\mu X_\nu]
+=
+\begin{bmatrix}
+0&1
+\\
+1&0
+\end{bmatrix}
+\eeq
+so 
+
+\beq
+[(\call_\vecX\metric)_{\mu\nu}]= 2 
+\begin{bmatrix}
+0&1
+\\
+1&0
+\end{bmatrix}
+\eeq
+
+\qed
+
+\item
+\begin{claim}
+Suppose $M=\RR^2$ with Euclidean metric
+$
+\metric=(\ul{dx})^2 + (\ul{dy})^2
+$.
+If
+
+\beq
+\vecX = y \vecpder{x}=\begin{bmatrix}y\\0\end{bmatrix}
+\eeq
+then 
+\beq
+\nnabla_\vecX\metric =0
+\eeq
+in the Levi-Civita connection (LCC)
+\end{claim}
+\proof
+This follows immediately from the definition of LCC.
+\qed
+
+\end{enumerate}
+
+
 
 \subsubsection{Covariant Derivative of General Tensor}
 Assumptions in this section
@@ -1529,214 +1843,8 @@ X^\lam
  \TT\indices{^\mu_\nu}  +  \text{\Chris term}
 \eeq
 
-\subsubsection{Derivatives along a path $\gamma$}
-
-We call a function  $\gamma: [0, 1]\rarrow M$
-a {\bf path or curve} on $M$.
-For example, if 
-
-\beq
-\gamma(\tau) = 
-\left[
-\begin{array}{cc}
-\cos t &-\sin t
-\\
-\sin t & \cos t
-\end{array}
-\right]
-\left[
-\begin{array}{c}
-x
-\\
-y
-\end{array}
-\right]
-=
-x 
-\left[
-\begin{array}{c}
-C
-\\
-S
-\end{array}
-\right]
-+
-y\left[
-\begin{array}{c}
--S
-\\
-C
-\end{array}
-\right]
-\eeq
-then 
-\beq
-\vecpder{x}=
- \pder{\gamma}{x}=
-\left[
-\begin{array}{c}
-C
-\\
-S
-\end{array}
-\right],
-\quad
-\vecpder{y}=
-\pder{\gamma}{y}=
-\left[
-\begin{array}{c}
--S
-\\
-C
-\end{array}
-\right]
-\eeq
-
-
-\beq
-\vecX_t =
-x 
-\left[
-\begin{array}{c}
--S
-\\
-C
-\end{array}
-\right]
-+
-y\left[
-\begin{array}{c}
--C
-\\
--S
-\end{array}
-\right]
-=
--y \vecpder{x}
-+
-x\vecpder{y}
-\eeq
-
-
-We say {\bf  vector $\vecX$ is tangent to curve $\gamma$ } if
-
-\beq
-\vecX_{\gamma(\tau)}=\dotvec{\gamma}(\tau)
-\eeq
-for all  $\tau\in[0,1]$.
-In such a case we will write
-\beq
-\vecX_{\gamma(\tau)} = \vecX^{\para \gamma}_{\gamma(\tau)}
-\eeq
-Suppose $\vecX$
-is tangent to $\gamma(\cdot)$
-but $\vecY$ is not so in general.
-Then we define the {\bf covariant
-derivative $\nnabla=D/d\tau$ 
-along $\gamma$}  by
-
-\beq
-\frac{D\vecY_{\gamma(\tau)}}{d\tau}
-=
-\nnabla_{\vecX_{\gamma(\tau)}^{\para \gamma}}\vecY_{\gamma(\tau)}
-\eeq
-We will drop the $\gamma(\tau)$
-subscripts  and write
-
-\beq
-\frac{D\vecY}{d\tau}=
-\nnabla_{\vecX^{\para \gamma}}\vecY
-\eeq
-In a coordinate system,
-
-\beq
-\frac{D Y^\mu}{d\tau}
-=
-\frac{d Y^\mu}{d\tau}
-+\Gamma\indices{^\mu_{\nu\rho}}
-\dot{\gamma}^\nu
-Y^\rho
-\eeq
-or, equivalently,
-
-\beq
-[\nnabla_{\vecX^{\para \gamma}}\vecY]^\mu
-=
-({\vecX^{\para \gamma}})^\nu \partial_\nu Y^\mu
-+
-\Gamma\indices{^\mu_{\nu\rho}}
-[{\vecX^{\para \gamma}}]^\nu
-Y^\rho
-\eeq
-
-{\bf Parallel transport along $\gamma$}  is simply
-
-\beq
-\nnabla_{\vecX^{\para \gamma}}\vecY=\frac{DY}{d\tau}=0
-\eeq
-
-The {\bf Lie derivative $\call_\vecX$ along $\gamma$} is
-\beq
-\call_{\vecX^{\para \gamma}} =
-\call_{\dotvec{\gamma}(\tau)}=
-\AT{\frac{d\;}{d\tau}}{\tau=0}
-\gamma(\tau)^*
-\eeq
-
-
 
 \subsubsection{Lie Group Metric}
-First, let us define Killing fields
-in general, not just for the special 
-case where $M$ is a Lie group.
-
-Suppose $M$ is a \Rien manifold with metric $\metric$.
-
-
-A {\bf path $\gamma:[0,1]\rarrow G$ 
-with $\gamma(0)=e$ preserves
-the metric} if
-
-
-\beq
-{\metric}(\vecU_{e}, \vecV_{e})
-=
-{\metric}(\vecU_{\gamma(\tau)}, \vecV_{\gamma(\tau)})
-\eeq
-or, written more succinctly with pullbacks
-
-\beq
-{\metric} = \gamma(\tau)^*{\metric}
-\label{eq-pb-metric}
-\eeq
-for all $t$.
-The vector 
-family $\vecX_{\gamma(\tau)}=\dotvec{\gamma}(\tau)$
-for $\tau\in[0,1]$ is called 
-a {\bf Killing Field}
-if the path $\gamma(\tau)$
-preserves the metric.
-
-Taking a time derivative at $\tau=0$ of Eq.(\ref{eq-pb-metric})
-gives
-
-\beq
-\AT{\frac{d\;}{d\tau}}{\tau=0}
-\gamma(\tau)^*
-\metric =0
-\eeq
-But 
-
-
-so
-\beq
-\call_{\dotvec{\gamma}(\tau)}\metric
-=
-\AT{\frac{d\;}{d\tau}}{\tau=0}
-\metric(\vecU_{\gamma(\tau)}, \vecV_{\gamma(\tau)})
-=0
-\eeq
-
 
 
 \end{document}
