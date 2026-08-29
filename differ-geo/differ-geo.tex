@@ -54,7 +54,7 @@ and general.
 \begin{tabular}[c]{@{}l@{}}pullback that \\takes $\phi$ to $\phi(x)$\end{tabular}
 & $(\phi^*f)(x)=f\circ \phi(x)$ & $
 \pback{\phi}{\phi(x)}{f}(\phi)$ \\ \hline
-\cellcolor[HTML]{9AFF99}vector field & \begin{tabular}[c]{@{}l@{}}$X$ or, more explicitly, $X_\pi$\\ where $\pi\in M$.\\ Replace $\pi$ by $g$ when\\ manifold $M$ is group\end{tabular} & \begin{tabular}[c]{@{}l@{}}$\vecX$ or, more explicitly, $\vecX_\pi$\\ where $\pi\in M$.\\ Replace $\pi$ by $g$ when\\ manifold $M$ is group $G$\end{tabular} \\ \hline
+\cellcolor[HTML]{9AFF99}vector field & \begin{tabular}[c]{@{}l@{}}\\$X$ or, more explicitly, $X_\pi$\\ where $\pi\in M$.\\ Replace $\pi$ by $g$ when\\ manifold $M$ is group\end{tabular} & \begin{tabular}[c]{@{}l@{}}$\vecX$ or, more explicitly, $\vecX_\pi$\\ where $\pi\in M$.\\ Replace $\pi$ by $g$ when\\ manifold $M$ is group $G$\end{tabular} \\ \hline
 \cellcolor[HTML]{9AFF99}\begin{tabular}[c]{@{}l@{}}coordinate vector\\ .\end{tabular} & $\pder{\;}{x^i}$ & $\vecpder{x^i}$ \\ \hline
 \cellcolor[HTML]{9AFF99}\begin{tabular}[c]{@{}l@{}}partial derivative\\
 .\end{tabular} & $\pder{\;}{x^i}$ & $\pder{\;}{x^i}$ or  $\oper{\vecpder{x^i}}$ \\ \hline
@@ -1116,6 +1116,142 @@ d(d\ul{\alp})=0
 \eeq
 \end{claim}
 \proof
+\qed
+
+\begin{claim}
+For a 1-form $\pform{\omega}{}$,
+
+\beq
+\ul{d\omega}(\vecX, \vecY)= 
+\vecX(\ul{\omega}(\vecY))
+-
+\vecY(\ul{\omega}(\vecX))
+- \ul{\omega}
+([\vecX, \vecY])
+\eeq
+
+\end{claim}
+\proof
+
+Start with 
+
+\beq
+\ul{\omega} =
+f\ul{dg}
+\eeq
+
+\beq
+\ul{\omega} =
+\sum_i
+f_i\ul{dg_i}
+\eeq
+Enough to prove for
+$f\ul{dg}$.
+
+\beq
+d(f\ul{dg})=
+\ul{df}
+\wedge \ul{dg}
++ f \cancel{\ul{d^2g}}
+\eeq
+
+\beqa
+\ul{d\omega}(\vecX, \vecY) &=&
+\ul{df}(\vecX)
+\ul{dg}(\vecY)
+-
+\ul{dg}(\vecX)
+\ul{df}(\vecY)
+\\
+&=&
+\vecX(f)\vecY(g)
+-
+(\vecX \swap \vecY)
+\eeqa
+
+\beq
+\ul{\omega}(\vecY)
+= f \ul{dg}(\vecY)
+=
+f\vecY(g)
+\eeq
+
+\beq
+\boxed{\vecX(\ul{\omega}(\vecY))
+=
+\vecX(f\vecY(g))
+=
+\vecX(f)\vecY(g)
++ f\vecX(\vecY(g))}
+\label{eq-x-omega-y}
+\eeq
+
+\beq
+\boxed{\text{Eq.(\ref{eq-x-omega-y}) with }
+(\vecX\swap \vecY)}
+\eeq
+
+\beq
+\ul{\omega}([\vecX, \vecY])=
+f\ul{dg}([\vecX, \vecY])=
+f[\vecX, \vecY](g)
+\eeq
+By the definition of Lie brackets,
+
+\beq
+[\vecX, \vecY](g)=
+\vecX(\vecY(g))
+-
+\vecY(\vecX(g))
+\eeq
+Hence
+
+\beq
+\boxed{\ul{\omega}([\vecX, \vecY])=
+f\left(
+\vecX(\vecY(g))
+-
+\vecY(\vecX(g))
+\right)}
+\eeq
+
+\beqa
+\vecX(\ul{\omega}(\vecY))-\vecY(\ul{\omega}(\vecX))
+-
+\ul{\omega}
+(
+[\vecX, \vecY]
+)
+&=&
+\left\{
+\begin{array}{l}
+\vecX(f)\vecY(g)
++
+{\color{blue}f\vecX(\vecY(g))}
+\\
+-\left[
+\vecX(f)\vecY(g)
++
+{\color{red}f\vecY(\vecX(g))}
+\right]
+\\
+-\left[
+{\color{blue}f\vecX(\vecY(g))}-
+{\color{red}f\vecY(\vecX(g))}
+\right]
+\end{array}
+\right\}
+\\
+&=&
+\vecX(f)\vecY(g)
+-
+(\vecX\swap \vecY)
+\\
+&=&
+\ul{d\omega}
+(\vecX, \vecY)
+\eeqa
+
 \qed
 
 \hrule Exact and Closed 1-form
@@ -3983,6 +4119,26 @@ T(\vecX, \vecY)=
 \nnabla_\vecX \vecY  -\nnabla_\vecY \vecX -
 [\vecX, \vecY]
 \eeq
+
+When $T=0$, 
+
+\beq
+[\vecX, \vecY] =
+\nnabla_\vecX \vecY  -\nnabla_\vecY \vecX
+\label{eq-lie-bra-nnablas}
+\eeq
+If you ever wonder,
+can I express a Lie bracket
+(which is connection  independent)
+in terms of covariant 
+derivatives (which embody the connection),
+or vice versa, covariant derivatives in terms
+of Lie brackets, the answer is yes,
+and 
+Eq.(\ref{eq-lie-bra-nnablas})
+shows how to do it (assuming zero torsion) 
+
+
 
 \begin{claim}
 In the coordinate basis,
