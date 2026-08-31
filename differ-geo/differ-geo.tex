@@ -7445,6 +7445,469 @@ saturated.
 
 \end{enumerate}
 
+\section{Systems of Differential Equations}
+
+\begin{enumerate}
+
+\item Two dependent and one independent variable.
+
+$t$ independent variable
+
+$(u_1, u_2)=[u_\mu]$ independent variables
+
+$(u_1(t), u_2(t))$ solution
+
+$(t, u^1, u^2)\in \RR^3$ ambient space
+
+\beq
+\frac{du_\mu}{dt}=
+P_\mu (t, u_1, u_2)
+\label{eq-sys-ode-t}
+\eeq
+Define 1-forms $\pform{\omega_\mu}{}$
+
+\beq
+\ul{\omega_\mu}=
+\ul{du_\mu}- P_\mu
+\ul{dt}
+\eeq
+
+\beq
+\cald = \cap_{\mu=1}^2
+{\rm ker\;}\ul{\omega_\mu}
+\eeq
+$\cald$ is 1-dim because there are 2 equations $\ul{\omega_\mu}=0$ and 3 unknowns $(t, u_1, u_2)$.
+Let us find a basis
+for $\cald$.
+Suppose
+
+\beq
+\vecV = A \vecpartial_t
++ B_\mu \vecpartial_\mu
+\eeq
+Then 
+
+\beq
+\ul{\omega_\mu}(\vecV)=
+B_\mu - P_\mu A
+\eeq
+
+\beq
+\ul{\omega_\mu}(\vecV)=0
+\implies B_\mu = P_\mu A
+\eeq
+Thus 
+
+\beq
+\vecV = \vecpartial_t +
+P_\mu \vecpartial_\mu
+\eeq
+and
+
+\beq \cald = span(\vecV), \quad 
+dim(\cald)=1
+\eeq
+
+Given a trajectory path
+
+\beq  \gamma(t)=(u_1(t), u_2(t))
+\eeq
+that satisfies the system 
+of ODE (ordinary differential equations) Eq.(\ref{eq-sys-ode-t}),
+define
+
+\beq
+\vecX^\para = \dot{\gamma}(t)
+\eeq
+Then
+
+\beq
+\pback{\vecX^\para}{\dot{\gamma}(t)}\ul{\omega_\mu}=0
+\eeq
+So all the equations
+$\ul{\omega_\mu}=0$ are satisfied by the path.
+Frobenius conditions
+are satisfied
+automatically for this case in which dim($\cald$)=1.
+
+
+
+
+\item Two dependent and two independent variables.
+
+
+
+$(x,y)=(x_1, x_2)=[x_a]$ where $a=1,2$, independent variables
+
+$(u,v)= (u_1, u_2)=[u_\mu]$ where $\mu=1,2$, dependent variables
+
+$u(x,y), v(x,y)$ solution
+
+
+$(x,y, u, v)=(x_1, x_2, u_1, u_2)\in \RR^4$ ambient space
+
+$\partial_\mu = \vecpder{u_\mu}$
+
+$\partial_a = \vecpder{x_a}$
+
+Duality relations for ambient space
+
+{\renewcommand{\arraystretch}{2}
+\beq
+\begin{array}{cc}
+\ul{dx_a}(\vecpartial_b)=\delta_{ab}
+&
+\ul{dx_a}(\vecpartial_\mu)=0
+\\
+\ul{du_\mu}(\vecpartial_a)=0
+&
+\ul{du_\mu}(\vecpartial_\nu)=\delta_{\mu\nu}
+\end{array}
+\eeq
+}
+
+\beq
+\partial_au _\mu=
+P_{a\mu}(x_1, x_2, u_1, u_2)
+\eeq
+
+
+\beq
+\ul{du_\mu}=
+ \ul{dx_a}\pder{u_\mu}{x_a}
+\eeq
+The solution must
+satisfy
+
+\beq
+\ul{du_\mu}=
+ \ul{dx_a}P_{a\mu}
+\eeq
+
+\beq
+\ul{\omega_\mu}=
+\ul{du_\mu}-
+ \ul{dx_a}P_{a\mu}
+\eeq
+The system of equations
+that must be satisfied is
+
+\beq
+\ul{\omega_\mu}=0 
+\eeq
+for $\mu=1,2$.
+
+
+Define $\cald$ to
+be the 
+common kernel 
+(a.k.a. the \qt{distribution}
+of 
+allowed tangent vectors)
+
+\beq
+\cald =
+{\rm ker }\ul{\omega_1}
+\cap
+{\rm ker }\ul{\omega_2}
+\eeq
+Define two 
+tangent vector fields
+
+\beq
+\vecX_a =
+\vecpartial_a
++
+P_{a\mu}
+\vecpartial_\mu
+\eeq
+for $a=1,2$.\footnote{Since
+$\pder{u_\mu}{x_a}
+=
+P_{a\mu}$, you might be tempted to write
+$\pder{x_a}{u_\mu}
+=
+(P^{-1})_{\mu a}$ and use
+the matrices $P$ and $P^{-1}$ (assuming
+the latter exists),
+to change from the basis
+$(\vecpder{x_1}, \vecpder{x_2})$
+and $(\vecpder{u_1}, \vecpder{u_2})$.
+However, this is only valid on the surface
+$u(x,y), v(x,y),
+$. In the ambient space, those four 
+\qt{basis} vectors are independent.
+}
+
+
+Hence
+\beqa
+\ul{\omega_\mu}(\vecX_b)
+&=&
+(\ul{du_\mu}
+-\ul{dx_a}P_{a\mu}
+)
+\left(
+\vecpartial_{b}
++
+P_{b\nu}\vecpartial_{\nu}
+\right)
+\\
+&=&
+P_{b\mu}-P_{b\mu}
+\\
+&=&
+0
+\eeqa
+for $b=1,2$.
+
+
+$\vecX_1$ and $\vecX_2$
+span ${\rm ker\;}\ul{\omega_1}$.
+They also span 
+${\rm ker\; }\ul{\omega_2}$.
+Hence,\footnote{Note
+that $(\vecX_1, \vecX_2)$
+is a legitimate  basis
+for $\cald$. You might
+be tempted to think, since 
+$\cald$ is 2 dim, 
+that $(\vecpder{x_1},
+\vecpder{x_2})$ is
+basis for $\cald$, 
+and that 
+$(\vecpder{u_1},
+\vecpder{u_2})$ 
+is another basis for $\cald$. Wrong!
+$\vecpder{x_a}\not \in \cald$ because
+$\ul{\omega_\mu}(\vecpder{x_a})=P_{a\mu}\neq 0$
+and $\vecpder{u_\mu}\not \in \cald$ because $\ul{\omega_\mu}(\vecpder{u_\nu}) =\delta_{\mu\nu}\neq 0$. 
+Think of $\vecX_a$ for $a=1,2$ as being 2 hyper-planes
+with non-zero slant, whereas $(\vecpder{x_1},
+\vecpder{x_2})$ define the $x_1, x_2$ plane.
+}
+
+\beq
+\cald= span(\vecX_1, \vecX_2), \quad
+dim(\cald) =2
+\eeq
+
+Another way to see
+this is: the constraints $\ul{\omega_1}=0$
+and $\ul{\omega_2}=0$
+give 2 equations 
+for 4 unknowns
+$\ul{dx_1}, \ul{dx_2}, \ul{du_1}, \ul{du_2}$,
+so there are 2
+degrees of freedom
+(dof)
+left (in general, barring
+$det(P)=0$).
+In general,
+
+\beq
+\# dof = 
+\underbrace{\left[\#(\mu) + \#(i)\right]}_{\text{\# unknowns}}
+ - \underbrace{\#(i)}_{\text{\# equations}}= \#(\mu)
+\eeq
+
+Frobenius says 
+
+\beq
+[\vecX_1, \vecX_2]\in \cald
+\eeq
+
+\begin{claim}
+
+\beq
+[\vecX_a, \vecX_b]=
+(\vecX_a (P_{b\mu})
+- \vecX_b (P_{a\mu}))
+\vecpartial_{\mu}
+\eeq
+\end{claim}
+\proof
+
+$[\vecX_a, \vecX_b]$ is a linear
+combination of the 4 vectors 
+$\vecpartial_{x_1},
+\vecpartial_{x_2},
+\vecpartial_{u_1},
+\vecpartial_{u_2}
+$.
+The coefficients of that linear combination
+can be found by letting 
+$[\vecX_a, \vecX_b]$ act on the
+4 coordinates
+${x_1},
+{x_2},
+{u_1},
+{u_2}
+$ of the ambient space.
+
+\beqa
+[\vecX_a, \vecX_b](x_c)
+&=&
+[\vecpartial_{a}
++
+P_{a\mu}\vecpartial_{\mu},
+\quad
+\vecpartial_{b}
++
+P_{b\nu}\vecpartial_{\nu}](x_c)
+\\
+&=&
+(\vecpartial_{a}
++
+P_{b\nu}\vecpartial_{\nu}) \delta_{c,b}
+-(a \swap b)
+\\
+&=&
+0
+\eeqa
+
+\beqa
+[\vecX_a, \vecX_b](u_\beta)
+&=&
+[\vecpartial_{a}
++
+P_{a\mu}\vecpartial_{\mu},
+\quad
+\vecpartial_{b}
++
+P_{b\nu}\vecpartial_{\nu}](u_\beta)
+\\
+&=&
+(\vecpartial_{a}
++
+P_{a\mu}\vecpartial_{\mu})P_{b\beta}
+-
+(a \swap b)
+\\
+&=&
+\vecX_a(P_{b\rho}
+\vecpartial_\rho)(u_\beta)
+-
+(a \swap b)
+\\
+&=&
+[\vecX_a(P_{b\rho})
+-
+\vecX_b(P_{a\rho})]
+\vecpartial_\rho(u_\beta)
+\eeqa
+\qed
+
+\begin{claim}
+
+\beq
+[\vecX_a, \vecX_b]\in \cald
+\iff
+[\vecX_a, \vecX_b] =0
+\eeq
+\end{claim}
+\proof
+
+If $[\vecX_a, \vecX_b]\in \cald$
+then
+\beqa
+[\vecX_a, \vecX_b]
+&=&
+f_c \vecX_c
+\\
+&=&
+f_c \vecpartial_c + f_c P_{c\mu}\vecpartial_\mu
+\eeqa
+Since we have
+already proven that
+the Lie bracket has
+no components along the
+$\vecpartial_a$ directions, it follows that
+
+\beq
+f_c=0
+\eeq
+for $c=1,2$.
+Hence, the Lie bracket is zero.
+This argument works in reverse.
+\qed
+
+\beq
+\vecX_a(P_{b\mu})
+-\vecX_b(P_{a\mu})=0
+\eeq
+
+{\bf Compatibility conditions}
+\beq
+\vecX_a(P_{b\mu})
+=\vecX_b(P_{a\mu})
+\eeq
+For the case of 2 independent variables,
+there are 2 compatibility condition
+
+\beq
+\vecX_1(P_{2\mu})
+=\vecX_2(P_{1\mu})
+\eeq
+for $\mu=1,2$.
+
+We can expand the 
+compatibility conditions. 
+
+\beq
+\vecX_a = \vecpartial_a
++
+P_{a\nu}\vecpartial_\nu
+\implies
+\vecX_a(P_{b\mu})=
+\partial_a P_{b\mu}
++ P_{a\nu}\partial_\nu(P_{b\mu})
+\eeq
+
+\beq
+\partial_a P_{b\mu}
++ P_{a\nu}\partial_\nu(P_{b\mu})
+=
+(a\swap b)
+\eeq
+
+\begin{claim}
+If functions $P_{a\mu}$ exist such that
+
+\beq
+\partial_b u_\mu = P_{b\mu}
+\eeq
+then the compatibility conditions are equivalent to
+
+
+\beq
+\partial_a\partial_b u_\mu = (a\swap b)
+\eeq
+
+\end{claim}
+\proof
+
+
+
+\beqa
+\partial_1\partial_b( u_\mu)
+&=&
+\left(\pder{\;} {x_1}+ \pder{u_\nu}{x_1}\pder{\;}{u_\nu}
+\right)P_{b\mu}
+\\
+&=&
+\left(\pder{\;} {x_1}+ P_{1\nu}\pder{\;}{u_\nu}
+\right)P_{b\mu}
+\eeqa
+
+\qed
+
+This notation makes the generalization to $m$ independent variables $x_a$ and $n$ dependent variables $u_\mu$ essentially automatic.
+\end{enumerate}
+
+
+
+
 \section{Fluid Mechanics}
 
 
