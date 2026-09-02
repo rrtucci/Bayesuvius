@@ -190,7 +190,8 @@ $\pi \mapsto
 \ul{\omega}(\vecX(\pi), \vecY(\pi))
 $}
 
-The set\footnote{$\sqcup$ is the symbol for the disjoint union, i.e., the union minus all the overlaps.} $T(M)=\sqcup_{\pi\in M}T_\pi(M)$
+The set\footnote{The disjoint union 
+$A\sqcup B$ of two sets $A$ and $B$ combines their elements while tagging each element with its original set to ensure no overlap.} $T(M)=\sqcup_{\pi\in M}T_\pi(M)$
 is called the {\bf fibre bundle}
 of $M$. Each
 $T_\pi(M)$ is a fibre.
@@ -1168,7 +1169,7 @@ For a 1-form $\pform{\omega}{}$,
 - \ul{\omega}
 ([\vecX, \vecY])
 \eeq
-
+\label{cl-d-1-form}
 \end{claim}
 \proof
 
@@ -10040,10 +10041,17 @@ starting directions are parametrized by $\xi$}
 \beq
 T_g(G)=T_{(g)_L}(G) = \{\vecX_g(\xi)\mid \xi\}
 \eeq
+
+\beq
+T(G)=\sqcup_{g\in G}T_{g}(G)
+=
+\{\vecX_g(\xi)\mid g, \xi\}=\text{  tangent bundle}
+\eeq
+
 \beq
 \ger{X}_L=\{\vecX(\xi)\mid \xi\}=\text{set of LIVF} 
 \quad\quad\text{ where }
-\vecX_{(\;)}(\xi)(G): G\rarrow T_{(g)_L}, \quad
+\vecX(\xi): G\rarrow T(G), \quad
 g\mapsto \vecX_g(\xi)
 \eeq
 \end{mybluearea}
@@ -10124,18 +10132,18 @@ follows.
 
 
 \beq
-\gmaur: T_g(G)\rarrow T_e(G),\quad \vecX_g \mapsto \dL{g^{-1}}{g}\vecX_g = \vecX_e
+\gmaurer: T_g(G)\rarrow T_e(G),\quad \vecX_g \mapsto \dL{g^{-1}}{g}\vecX_g = \vecX_e
 \eeq
-Note that $\gmaur: T_g(G)\rarrow T_e(G)$
+Note that $\gmaurer: T_g(G)\rarrow T_e(G)$
 whereas $\dL{g}{e}: T_e(G)\rarrow T_g(G)$
 so they go in opposite directions.
-Note that $\maur$  is a 1-form whose image
+Note that $\maurer$  is a 1-form whose image
 is a tangent vector at $e$ (rather than a real number, like 
 the usual 1-forms). That is the reason why
 we have chosen to do both, underline it and give it a
 vector sign. We have actually
 encountered vector valued 1-forms before, in $\ul{d\vecr}$.
-In fact, $\maur$ plays the same
+In fact, $\maurer$ plays the same
 role for Lie Groups as $\ul{\vec{dr}}$
 does in the generic
 Cartan theory. Both are 
@@ -10166,7 +10174,7 @@ For a matrix Lie group
 (or a Lie group with a matrix representation) and $g\in G$
 
 \beq
-\gmaur\vecX_g= g^{-1}\ul{dg}
+\gmaurer\vecX_g= g^{-1}\ul{dg}
 \eeq
 
 \end{claim}
@@ -10182,7 +10190,7 @@ Suppose
 Then
 
 \beq
-\gmaur \vecX_g=
+\gmaurer \vecX_g=
 \dL{g^{-1}}{g}\vecX_g=
 g^{-1} \vecX_g\cdot \nabla
  \gamma(0)
@@ -10378,6 +10386,66 @@ C\indices{^\beta_{\mu\nu}}
 C\indices{^\alp_{\mu\nu}}
 \eeqa
 
+Alternative proof:
+
+From Claim \ref{cl-d-1-form},
+for a 1-form $\pform{\omega}{}$,
+
+\beq
+\ul{d\omega}(\vecX, \vecY)= 
+\vecX(\ul{\omega}(\vecY))
+-
+\vecY(\ul{\omega}(\vecX))
+- \ul{\omega}
+([\vecX, \vecY])
+\eeq
+Normally, $\ul{\omega}(\vecY)$
+is a scalar function 
+which $\vecX$ then differentiates. But if 
+we apply this formula
+with $\ul{\omega}=\maurer$,
+and $\vecX, \vecY\in \ger{X}_L$,
+we get 
+
+\beq
+\vecX_g(\maurer(\vecY_g))=
+\vecX_g(\vecY_e)
+\eeq
+ $\vecX_g(\vecY_g)$ is undefined. But in this
+case, what we have
+is $\vecX_g(\vecY_e)$
+instead.
+In the matrix representation, 
+$\vecY_e$ is a matrix of
+constant scalar functions 
+(constant because they don't depend on $g$),
+so when $\vecX_g$
+ differentiates $\vecY_e$,
+it yields zero. Therefore
+
+\beq
+\vecX(\maurer(\vecY))=
+\vecY(\maurer(\vecX))=0
+\eeq
+so
+
+\beq
+d\maurer(\vecX, \vecX)=
+-\maurer([\vecX, \vecY])
+\eeq
+
+\beq
+d\maurer(\vecE_\mu, \vecE_\nu)=
+-C\indices{^\rho_{\mu\nu}}
+\maurer(\vecE_\rho)
+\eeq
+
+\beq
+d\ul{\Theta}^\alp(\vecE_\mu, \vecE_\nu)=
+-C\indices{^\alp_{\mu\nu}}
+\eeq
+
+
 \qed
 
 \begin{claim}(Maurer-Cartan Equation)
@@ -10385,7 +10453,7 @@ C\indices{^\alp_{\mu\nu}}
 
 \beq
 \ul{d\vTheta} = -\;\frac{1}{2}
-[\maur, \maur]
+[\maurer, \maurer]
 \eeq
 
 
@@ -10438,7 +10506,7 @@ Second proof assuming $G$ has a matrix representation
 Assume 
 
 \beq
-\maur(\vecX_g) = g^{-1}\ul{dg}
+\maurer(\vecX_g) = g^{-1}\ul{dg}
 (\vecX_g)
 \eeq
 Then
@@ -10466,7 +10534,7 @@ d(g^{-1}\ul{dg})(\vecX_g, \vecX_g)
 [g^{-1}\ul{dg}](\vecX_g, \vecX_g)
 \\
 &=&
--\maur\wedge\maur(\vecX_g, \vecX_g)
+-\maurer\wedge\maurer(\vecX_g, \vecX_g)
 \eeqa
 
 
