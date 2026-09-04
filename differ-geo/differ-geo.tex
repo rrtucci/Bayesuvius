@@ -1021,6 +1021,72 @@ more succinct but less precise. Using the pullback
 function can make some
 statements more symmetrical too. (for example, $(\phi^*U)(P, T)$ looks better than $U(\phi(P, T))$.\;).
 
+\subsection{Lie Bracket}
+What is meaning of $[\vecX, \vecY]$
+
+\beq
+[\vecX, \vecY]\neq
+\vecX\otimes\vecY-
+\vecY\otimes\vecX
+\eeq
+right side is meaningless
+
+$[\vecX, \vecY]$  is 
+defined such that for any smooth function $f$, 
+
+\beq
+[\vecX, \vecY]f=
+\vecX(\vecY(f))-
+\vecY(\vecX(f))
+\eeq
+To see how this works, 
+suppose
+
+\beq
+\vecX = X^i\vecpder{x_i},
+\quad \vecY = Y^j\vecpder{x_j}
+\eeq
+Then
+
+\beqa
+[\vecX, \vecY]f &=&
+X^i\left[\pder{Y_j}{x_i}
+\right]
+\pder{f}{x_j}
++ X^iY^j
+\pder{\;}{x_i}\pder{f}{x_j}
+-
+(X\swap Y)
+\\
+&=&
+X^i\left[\pder{Y_j}{x_i}
+\right]
+\pder{f}{x_j}
+-(X\swap Y)
+\eeqa
+Hence
+
+\beq
+[\vecX, \vecY]=
+X^i\left[\pder{Y_j}{x_i}
+\right]
+\vecpder{x_j}
+-(X\swap Y)
+\eeq
+This explains why
+most differential
+geometers use the
+same symbol $\pder{\;}{x_i}$ for 
+$\vecpder{x_i}$ and
+$\pder{\;}{x_i}$. 
+Whenever $\pder{\;}{x_i}$
+is acting 
+on a function $f(x)$,
+assume the differential
+operator. If there
+is no function $f(x)$
+to act on, assume the
+tangent vector.
 
 
 \subsection{Exterior Derivative}
@@ -3897,7 +3963,6 @@ Let
 
 \beq
 \boxed{
-[\nnabla_\mu(\cdot)]\indices{^\rho}\vecX=
 [\nnabla_{\mu}\vecX]^\rho=
 \partial_\mu
 X^\rho +
@@ -4617,6 +4682,7 @@ and the Killing fields satisfy
 \eeq
 
 \begin{claim}(Koszul Formula)
+\label{cl-Koszul}
 If we assume LCC, then
 \beq
 2\metric(\nnabla_\vecX\vecY, \vecZ)=
@@ -5151,7 +5217,7 @@ tensor)
 -
 \metric(\vecU, [\vecX, \vecV])
 \eeq
-Killing field $\call_\vecX =0$
+Killing field $\call_\vecX\metric =0$
 
 connection-dependent rewriting of the much more fundamental connection-free formulae
 
@@ -5512,6 +5578,96 @@ d\ul{\Omega} &=& \cancel{ d^2 \ul{\omega}}
 \eeqa
 
 \qed
+
+{\bf Metric compatibility}
+means
+
+\beq
+\nnabla \metric =0
+\eeq
+
+An {\bf orthonormal 
+basis} $\{e_a\}_{a=1}^n$
+is defined as one for which
+-
+\beq
+\metric(\vece_a, \vece_b)=
+\eta_{ab}
+\eeq
+where $\eta_{ab}$
+is a diagonal matrix whose diagonal elements are 
+either $+1$ or $-1$. If all the
+diagonal
+elements are
+$+1$, it's called
+a {\bf \Rien metric},
+and at least 
+one is $-1$ as in
+the Lorentz metric,
+its called a {\bf pseudo-\Rien} metric.
+\begin{claim}
+Given metric
+compatibility 
+and an orthonormal frame (i.e., tangent
+space basis),
+the connection 
+1-forms $\ul{\omega\indices{^a_b}}$
+are anti-symmetric.
+
+\beq
+\ul{\omega_{ab}}=-\ul{\omega_{ba}}
+\eeq
+\end{claim}
+\proof
+
+Define the 
+connection 
+1-forms by
+
+\beq
+\nnabla \vece_b =\ul{\omega\indices{^a_b}}\vece_a,
+\quad
+\nnabla_\vecX
+\vece_b=
+\ul{\omega\indices{^a_b}}(\vecX)\vece_a
+\eeq
+
+In general
+
+\beq
+\nnabla \metric(\vece_a, \vece_b)=
+\vecX[\metric(\vece_a, \vece_b)]
++
+\metric(\nnabla_\vecX\vece_a, \vece_b)
++
+\metric(\vece_a, \nnabla_\vecX \vece_b)
+\eeq
+The left side
+is zero by metric
+compatibility
+and the first term on the right side
+is zero by orthonormality.
+Hence
+
+\beqa
+0
+&=&
+\metric(\nnabla_\vecX\vece_a, \vece_b)
++
+\metric(\vece_a, \nnabla_\vecX \vece_b)
+\\
+&=&
+\metric(\ul{\omega\indices{^c_a}}(\vecX)\vece_c, \vece_b)
++
+\metric(
+\vece_a,
+\ul{\omega\indices{^c_b}}
+(\vecX)\vece_c
+)
+\\
+&=&
+\ul{\omega_{ba}}+\ul{\omega_{ab}}
+\eeqa
 
 \section{Differential Geometry of Curves}\label{sec-frenet-serret}
 
@@ -9842,806 +9998,4 @@ D\pform{\theta^a}{}\ar[d]|D
 \end{claim}
 \proof
 \qed
-
-\section{Lie Groups}
-
-We will assume
-the reader is familiar with
-the mathematical
-concepts of a vector space, Group,
-Algebra and Lie algebra.
-For some background on those,
-see the beginning chapters
-of my book, complementary to this one, 
-Bayesuvius Quantico ********%\cite{}
-What we aim to
-do in this section
-is to describe
-how Lie Groups
-can be interpret 
-using the
-tools and language
-of differential geometry 
-and p-forms.
-
-\subsection{All tangent spaces are
-isomorphic}
-
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=3.5in]
-{differ-geo/lie-group-manifold.png}
-\caption{Pictorial representation of
-the Lie Group manifold $G$.
-All tangent spaces are identical 
-copies of $T_e(G)=\ger{g}$
-}
-\label{fig-lie-group-man}
-\end{figure}
-
-
-
-$G=$ Lie group. This will be 
-the manifold $M$
-in the
-differential geometry
-interpretation.
-
-$\ger{g}=$ Lie algebra for group $G$.
-
-$e=$ identity of $G$
-
-$T_e (G)=$ tangent space at point $e$. We will
-equate $T_e(G)$ with $\ger{g}$
-
-$T_g (G)=$ tangent space at point $g$
-
- 
-
-$\{E_\alp\}_{\alp=1}^n=$  generators of Lie algebra
-
-
-\beq
-g= \exp(t^\alp E_\alp)
-\eeq
-where $g\in G$, $t_\alp\in\RR$.
-
-
-
-The various points $g$ of the manifold
-are different, but the tangent spaces
-$T_g(G)$ for  each $g\in G$ 
-are identical copies of each other
-(i.e., isomorphic).
-Remember, when we speak of a Lie algebra
-in a non-differential geometry context, 
-the elements of the Lie Algebra
-are not labelled by a point $g$. They
-are just a set of matrices (if a matrix representation
-is being used, which is almost always the case).
-So we first spend a  lot of ink 
-showing that we need only consider the tangent space
-at $e$. 
-Actually, because groups are non-Abelian (i.e.,
-its elements don't commute in general),
-when $M$ is a group $G$, one can define naturally at least
-two isomorphic
-tangent spaces at each $g\in G$, the left-invariant
-tangent space $T_{(g)_L}(G)$ and the right
-invariant  tangent space $T_{g_R}(G)$.
-We usually set $T_g(G)=T_{(g)_L}(G)$
-early on,
-and ignore $T_{g_R}(G)$ thereafter.
-After we are finished expressing a 1-1 onto
-map of the tangent vectors $\vecX_e$ at $e$ 
-and the (Left Invariant) tangent vectors $\vecX_g$ at $g$, we will  
-talk of tangent vectors fields $\vecX$ which are 
-defined for all $g\in G$ (i.e., 
-they are
-functions that map $g\mapsto T_g(G)$)
-
-
-Define {\bf Left $(g)_L$ and right $(g)_R$
- translations by $g$} by
-\beq
-(g)_L h = gh, \quad (g)_R h = hg
-\eeq
-
-A {\bf Left invariant vector field (LIVF)} is
-a vector field $\vecX$ such that for all $g\in G$, $\vecX_{g}\in T_{(g)_L} (G)$
- is defined  from $\vecX_{e}\in  T_e(G)$, as follows.
-
-For any path $\gamma$ such that
-
-\beq
-\gamma:[0,1]\rarrow G, \quad
-\gamma(0)=e, \quad
-\vecdot{\gamma}(0)=\vecX_{e}
-\eeq
-define the map $\dL{g}{e}$ by
-
-\beq
-\dL{g}{e}: T_e(G)\rarrow T_{(g)_L}(G)
-,\quad
-\dL{g}{e}\vecX_{e}= \AT{\frac{d\;}{d\tau}}{\tau=0} g\gamma(\tau)
-\label{eq-g-e-is-ge}
-\eeq
-Note that the path $\gamma(\tau)\in G$ is
-arbitrary except for what it does in the
-neighborhood of $e$.
-Translation is
-very different from parallel
-transport which we will
-discuss when we define
-covariant derivatives.
-For parallel transport 
-you need to be able to
-measure the angle
-between a curve and a vector, 
-which means you need a \qt{connection}.
-After a LIVF translation,
-$\vecX_e$ and $\vecX_g$ need not
-be parallel translations of each other.
-The relative angle between them is indeterminate.
-LIVF translation 
-$\vecX_e \mapsto \vecX_g$
-is just one of many possible 1-1 onto maps
- $T_e(G)\rarrow T_g(G)$.
-
-
-
-For a LIVF $\vecX$, 
-for all $g\in G$,
-$\vecX_g$ is defined from $\vecX_e$ by
-
-\beq
-\vecX_g = \dL{g}{e}\vecX_e
-\label{eq-dl-def}
-\eeq
-This map can be
-extended to
-\beq
-\dL{g}{a}
-\vecX_{a} \eqdef
-\vecX_{ga}
-\eeq
-for any $a\in G$.
-This is in fact why these
-tangent vectors are called
-left invariant: translating
-a vector of the vector field
-produces another vector of the
-vector field. Note that from Eq.(\ref{eq-g-e-is-ge}),
-if matrix representation are allowed,
-$\dL{g}{a}$ acts like  $(g)_L$
-
-\beq
-\dL{g}{a}
-\vecX_{a} \eqdef
-\vecX_{ga}
-=
-g\vecX_a
-\eeq
-
-For a Lie group,\footnote{$\cong$ means isomorphic, i.e., there exists a 1-1 onto map between the two sets,
-and operations are preserved too.} 
-
-Let
-\begin{mybluearea}
-\begin{align}
-T_e(G)&=  \{ \vecX_e=\vecdot{\gamma}(0)\mid
-\text{$\gamma:[0,1]\rarrow G$ is a path with $\gamma(0)=e$} \}
-\\
-&= \{ \vecX_e(\xi)\mid \xi\}\quad \text{if the different
-starting directions are parametrized by $\xi$}
-\nonumber
-\end{align}
-
-\beq
-T_g(G)=T_{(g)_L}(G) = \{\vecX_g(\xi)\mid \xi\}
-\eeq
-
-\beq
-T(G)=\sqcup_{g\in G}T_{g}(G)
-=
-\{\vecX_g(\xi)\mid g, \xi\}=\text{  tangent bundle}
-\eeq
-
-\beq
-\ger{X}_L=\{\vecX(\xi)\mid \xi\}=\text{set of LIVF} 
-\quad\quad\text{ where }
-\vecX(\xi): G\rarrow T(G), \quad
-g\mapsto \vecX_g(\xi)
-\eeq
-\end{mybluearea}
-Then
-\beq
-\ger{g}=T_e(G)\cong T_{g}(G)\cong \ger{X}_L(G)
-\eeq
-
-Define 
-
-\beq 
-T^p_g(G)= \underbrace{T_g(G)\times\cdots\times T_g(G)}_{\text{$p$ copies}}
-\eeq
-
-For 
-$\ul{\omega_a}:T^p_a(G)\rarrow \RR$
-and $\vecX_a\in T^p_a(G)$,
-define the following pullback
-
-
-\beq
-\pback{a}{ga}{\ul{\omega_a(\vecX_a)}}=
-\ul{\omega_{ga}}(\vecX_{ga})
-\eeq
-
-{\bf Left invariant p-forms (LIPF)}
-$\ul{\omega_a}$ satisfy
-
-\beq
-\pback{a}{ga}{\ul{\omega_a(\vecX_a)}}=
-\ul{\omega_{ga}}(\vecX_{ga})=\ul{\omega_a}(\vecX_a)
-\eeq
-In particular, if $a=e$,
-
-\beq
-\ul{\omega_g}(\vecX_g)=\ul{\omega_e}(\vecX_e)
-\label{eq-LI-p-form}
-\eeq
-Thus,  an LIPF
-is fully specified  by its value 
-at each $\vecX_e\in \ger{g}$.
-For LIPF, we are fully
-justified in dropping the $g$
-subscripts and writing $\omega(\vecX)$ for both sides
-of Eq.(\ref{eq-LI-p-form}).
-
-
-For $\vecX_e, \vecY_e\in T_e(G) =\ger{g}$, let
-$[\vecX_e, \vecY_e]$ stand for the Lie bracket, which is
-assumed to be given
-for the assumed Lie Algebra. Then 
-for any LIVF
-$\vecX, \vecY$,
-define
-the {\bf Left invariant Lie braket (LILB)} by
-
-\beq
-[\vecX,  \vecY]_g
-\eqdef
-\underbrace{
-\dL{g}{e}
-\underbrace{[\vecX_e, \vecY_e]}
-_{\in T_e(G)}}_{\in T_g(G)}
-\eeq
-Note that we avoid using $[\vecX_g, \vecY_g]$
-due to a technicality. $[\vecX_g, \vecY_g]$
-contains only info about 
-$\vecX$ and $\vecY$ at $g$,
-not in the neighborhood 
-of $g$. The latter info 
-is necessary to compute derivatives.
-
-\subsection{Maurer-Cartan equation}
-Let $G$ be a Lie group and $\ger{g}= T_e(G)$.
-The {\bf Maurer-Cartan 1-form}
-$\pform{\vTheta}{}$ is defined as 
-follows.
-
-
-\beq
-\gmaurer: T_g(G)\rarrow T_e(G),\quad \vecX_g \mapsto \dL{g^{-1}}{g}\vecX_g = \vecX_e
-\eeq
-Note that $\gmaurer: T_g(G)\rarrow T_e(G)$
-whereas $\dL{g}{e}: T_e(G)\rarrow T_g(G)$
-so they go in opposite directions.
-Note that $\maurer$  is a 1-form whose image
-is a tangent vector at $e$ (rather than a real number, like 
-the usual 1-forms). That is the reason why
-we have chosen to do both, underline it and give it a
-vector sign. We have actually
-encountered vector valued 1-forms before, in $\ul{d\vecr}$.
-In fact, $\maurer$ plays the same
-role for Lie Groups as $\ul{\vec{dr}}$
-does in the generic
-Cartan theory. Both are 
-expanded as $\theta^a \vece_a$.
-
-\begin{claim}
-For any matrix $g(\tau)\in G$
-\beq
-d(g^{-1})=
--g^{-1}dg g^{-1}
-\eeq
-
-\beq
-gd(g^{-1})=
-- g^{-1}dg
-\eeq
-\end{claim}
-\proof
-
-\beq
-0=d(g^{-1}g)=
-d(g^{-1})g + g^{-1}dg
-\eeq
-\qed
-
-\begin{claim}
-For a matrix Lie group
-(or a Lie group with a matrix representation) and $g\in G$
-
-\beq
-\gmaurer\vecX_g= g^{-1}\ul{dg}
-\eeq
-
-\end{claim}
-\proof
-
-Suppose
-
-\beq
-\gamma:[0,1]\rarrow G, \quad
-\gamma(0)=g,
-\quad \vecdot{\gamma}(0)=\vecX_g
-\eeq
-Then
-
-\beq
-\gmaurer \vecX_g=
-\dL{g^{-1}}{g}\vecX_g=
-g^{-1} \vecX_g\cdot \nabla
- \gamma(0)
-= g^{-1}\ul{dg}(\vecX_g)
-\eeq
-\qed
-
-What is $\ul{dg}$?
-
-If
-\beq
-g = [g_{\mu, \nu}]^{n\times n}
-\eeq
-then
-
-\beq
-\ul{dg}=
-[\ul{dg_{\mu, \nu}}]^{n\times n}
-\eeq
-so $\ul{dg}$ is an $n\times n$ matrix of 1-forms. For
-$n=2$, if $\{\ul{dx}, \ul{dy}\}$
-is a coordinate dual t-basis
-of $G$, 
-then
-
-\beq
-\ul{dg}=A\ul{dx}+ B\ul{dy}
-\eeq
-where $A$ and $B$ are $2\times 2$ matrices.
-
-It's always true that
-$\ul{\alp}\wedge \ul{\alp}=0$
-for ordinary 1-forms. For example,
-for ordinary 1-forms in $n=2$, $\ul{\alp}=a \ul{dx}+
-b\ul{dy}$
-with scalar coefficients $a, b$,
-so $\ul{\alp}\wedge \ul{\alp}=0$.
- However,
-$\ul{dg}$ is not an ordinary 1-form: it's a
-1-form with matrix coefficients which don't commute in general.
-For example, for $n=2$,
-
-\beq
-\ul{dg}= A \ul{dx}+ B\ul{dy}
-\eeq
-so 
-\beq
-\ul{dg}\wedge \ul{dg}=
-[A, B]\ul{dx}\wedge \ul{dy}
-\eeq
-
-
-
-
-
-Choose a basis $\{\vecE_\alp\}_{\alp=1}^n$ for $\ger{g}$. Assume
-
-\beq 
-[\vecE_\beta, \vecE_\gamma]= C\indices{^\alp_{\beta\gamma}}
-\vecE_\alp
-\eeq
-
-Expand 
-
-\beq
-\pform{\vTheta}{}=
-\pform{\Theta^\alp}{}\vecE_\alp
-\eeq
-Assume
-
-\beq
-\ul{\Theta^\alp}(\vecE_\beta)=
-\delta^\alp_\beta
-\eeq
-
-
-\begin{claim}
-
-\beq
-\ul{d\Theta^\alp}(\vecE_{\mu}, \vecE_\nu)=
--C\indices{^\alp_{\mu\nu}}
-\eeq
-\end{claim}
-\proof
-
-
-Let
-
-\beq
-\ul{\Theta^\alp}=\ul{dx^j}\Theta^\alp_j,\quad
-\vecE_\beta = E^i_\beta \vecpder{x^i},
-\quad
-\ul{dx^j}(\vecpder{x_i})=\delta_{ij}
-\eeq
-Then
-
-\beq
-\Theta^\alp_i E^i_\beta=
-\ul{\Theta^\alp}(\vecE_\beta)=
-\delta^\alp_\beta
-\eeq
-Therefore
-
-\beqa
-\ul{d\Theta^\alp}(\vecE_\mu, \vecE_\nu)&=&
-\frac{1}{2}
-\left[
-\partial_i \Theta^\alp_j
--
-\partial_j\Theta^\alp_i
-\right]
-\ul{dx^i}\wedge \ul{dx^j}
-(\vecE_\mu, \vecE_\nu)
-\\
-&=&
-\frac{1}{2}
-\left[
-\partial_i \Theta^\alp_j
--
-\partial_j\Theta^\alp_i
-\right]\ul{dx^i}(\vecE_\mu)\wedge \ul{dx^j}(\vecE_\nu)
-\\
-&=&\frac{1}{2}
-\left[
-\partial_i \Theta^\alp_j
--
-\partial_j\Theta^\alp_i
-\right](E^i_\mu E^j_\nu
--
-(i\swap j))
-\\
-&=&
-\left[
-\partial_i \Theta^\alp_j
--
-\partial_j\Theta^\alp_i
-\right]E^i_\mu E^j_\nu
-\\
-&=&
-\left\{
-\begin{array}{l}
-E^i_\mu\left[\cancel{\partial_i
-[\Theta_j E^j_\nu]}
--\Theta_j^\alp\partial_i E^j_\nu
-\right]
-\\
-- (\mu\swap \nu)
-\end{array}
-\right.
-\\
-&=&
--[\Theta^\alp_j E^i_\mu\partial_i E^j_\nu
-- (\mu \swap \nu)]
-\\
-&=&
--\Theta_j^\alp
-\left[
-E^i_\mu\partial_i E^j_\nu
--
-E^i_\nu\partial_i E^j_\mu
-\right]
-\\
-&=&
--\Theta^\alp_j
-\left[
-\oper{\vecE_\mu} E^j_\nu
--
-\oper{\vecE_\nu} E_\mu^j
-\right]\quad
-(\text{Use
-$E^i_\mu \vecpartial_i = \oper{\vecE_\mu}$})
-\\
-&=&
--\Theta^\alp_j
-\left[
-\oper{\vecE_\mu}, \oper{\vecE_\nu}
-\right]\vecr_j
-\\
-&=&
--\Theta^\alp_j 
-[\vecE_\mu, \vecE_\nu]^j
-\\
-&=&
--C\indices{^\beta_{\mu\nu}}
-\Theta^\alp_j E^j_\beta
-\\
-&=&-
-C\indices{^\beta_{\mu\nu}}
-\delta^\alp_\beta
-\\
-&=&
--
-C\indices{^\alp_{\mu\nu}}
-\eeqa
-
-Alternative proof:
-
-From Claim \ref{cl-d-1-form},
-for a 1-form $\pform{\omega}{}$,
-
-\beq
-\ul{d\omega}(\vecX, \vecY)= 
-\vecX(\ul{\omega}(\vecY))
--
-\vecY(\ul{\omega}(\vecX))
-- \ul{\omega}
-([\vecX, \vecY])
-\eeq
-Normally, $\ul{\omega}(\vecY)$
-is a scalar function 
-which $\vecX$ then differentiates. But if 
-we apply this formula
-with $\ul{\omega}=\maurer$,
-and $\vecX, \vecY\in \ger{X}_L$,
-we get 
-
-\beq
-\vecX_g(\maurer(\vecY_g))=
-\vecX_g(\vecY_e)
-\eeq
- $\vecX_g(\vecY_g)$ is undefined. But in this
-case, what we have
-is $\vecX_g(\vecY_e)$
-instead.
-In the matrix representation, 
-$\vecY_e$ is a matrix of
-constant scalar functions 
-(constant because they don't depend on $g$),
-so when $\vecX_g$
- differentiates $\vecY_e$,
-it yields zero. Therefore
-
-\beq
-\vecX(\maurer(\vecY))=
-\vecY(\maurer(\vecX))=0
-\eeq
-so
-
-\beq
-d\maurer(\vecX, \vecX)=
--\maurer([\vecX, \vecY])
-\eeq
-
-\beq
-d\maurer(\vecE_\mu, \vecE_\nu)=
--C\indices{^\rho_{\mu\nu}}
-\maurer(\vecE_\rho)
-\eeq
-
-\beq
-d\ul{\Theta}^\alp(\vecE_\mu, \vecE_\nu)=
--C\indices{^\alp_{\mu\nu}}
-\eeq
-
-
-\qed
-
-\begin{claim}(Maurer-Cartan Equation)
-
-
-\beq
-\ul{d\vTheta} = -\;\frac{1}{2}
-[\maurer, \maurer]
-\eeq
-
-
-\beq
-\ul{d\Theta^\alp}=
--\;\frac{1}{2}
-C\indices{^\alp_{\mu\nu}}
-\ul{\Theta^\mu}
-\wedge
-\ul{\Theta^\nu}
-=
--\;\frac{1}{2}
-C\indices{^\alp_{\mu\nu}}
-[\ul{\Theta^\mu}
-,
-\ul{\Theta^\nu}]
-\eeq
-\end{claim}
-\proof
-
-\beq
-\ul{\Theta^\mu}\wedge\ul{\Theta^\nu}(\vecE_\rho, \vecE_\s)=\delta^\mu_\rho\delta^\nu_\s
--
-(\mu\swap \nu)
-\eeq
-
-\beq
-C\indices{^\alp_{\mu\nu}}
-\ul{\Theta^\mu}\wedge\ul{\Theta^\nu}(\vecE_\rho, \vecE_\s)=2C\indices{^\alp_{\rho\s}}
-\eeq
-
-\beq
-\ul{d\Theta^\alp}(\vecE_\rho, \vecE_\s)=
--C\indices{^\alp_{\rho\s}}=
--\frac{1}{2}C\indices{^\alp_{\mu\nu}}
-\ul{\Theta^\mu}\wedge\ul{\Theta^\nu}(\vecE_\rho, \vecE_\s)
-\eeq
-
-
-
-\beq
-\ul{\Theta^\mu}\wedge \ul{\Theta^\nu}=
-\left[
-\ul{\Theta^\mu}, \ul{\Theta^\nu}
-\right]
-\eeq
-
-Second proof assuming $G$ has a matrix representation
-
-Assume 
-
-\beq
-\maurer(\vecX_g) = g^{-1}\ul{dg}
-(\vecX_g)
-\eeq
-Then
-
-\beq
-\ul{d\Theta}(\vecX_g, \vecX_g)=
-d(g^{-1}\ul{dg})(\vecX_g, \vecX_g)
-=
-\ul{dg^{-1}}
-\wedge \ul{dg}(\vecX_g, \vecX_g)
-\eeq
-
-\beq
-\ul{d(g^{-1})}=
--g^{-1}(\ul{dg})g^{-1}
-\eeq
-
-\beqa
-\ul{d\Theta}(\vecX_g, \vecX_g)
-&=&
--[g^{-1}\ul{dg}g^{-1}]\wedge \ul{dg}(\vecX_g, \vecX_g)
-\\
-&=& -
-[g^{-1}\ul{dg}]\wedge
-[g^{-1}\ul{dg}](\vecX_g, \vecX_g)
-\\
-&=&
--\maurer\wedge\maurer(\vecX_g, \vecX_g)
-\eeqa
-
-
-\qed
-
-
-
-\subsection{Exp, Adj and adj maps}
-
-In this section, we assume $G$
-has a matrix representation.
-
-For every $\vecX\in \ger{g}$ define
-the {\bf exponential map} $\exp(\cdot)$ by
-
-\beq
-\exp: \ger{g}\rarrow G, \quad
-\exp(\vecX) = 1 + \vecX + \frac{1}{2}(\vecX)^2 + \ldots
-\eeq
-
-Note that
-\beq
-g(\tau) = \exp(t \vecX)
-\eeq
-is a path in $G$. Since
-
-\beq
-e^{t_1 \vecX}e^{t_2\vecX}=
-e^{(t_1+t_2)\vecX}
-\eeq
-this path is a subgroup of $G$.
-
-For every $\vecX\in \ger{g}$, define
-the {\bf large A adjoint  map} $\Ad(\;)$ by
-
-\beq
-\Ad_g:\ger{g}\rarrow \ger{g}, \quad
-\Ad_g \vecX = g\vecX g^{-1}
-\eeq
-
-For every $\vecX\in \ger{g}$, define
-the {\bf small A adjoint map}  $\ad(\;)$ by
-
-\beq
-\ad_\vecX:\ger{g}\rarrow \ger{g}, \quad
-\ad_\vecX \vecY = [\vecY, \vecX]
-\eeq
-
-
-\begin{claim}
-
-For any $n\times n$ matrices $A$ and $B$,
-
-\beq
-e^{A}B e^{-A}=
-e^{[A,\cdot ]}B
-\eeq
-In particular, if $A=\vecX$
-\beq
-\Ad_{\exp\vecX}=
-\exp(\ad_\vecX)
-\eeq
-
-\end{claim}
-\proof
-
-Define $M(t)$ by
-\beq
-M(t)=e^{tA}Be^{-tA}
-\eeq
-Note that
-
-\beq
-M(0)=B
-\eeq
-and 
-\beq
-M'(t)= AM(t)- M(t)A= [A, M(t)]
-\eeq
-Think of $[A, \cdot]$ as an operator.
-Clearly, this differential equation
-and initial condition is satisfied 
-by $M(t)=e^{t[A,\cdot]}B$. Now set $t=1$ to get
-
-\beq
-e^{A}Be^{-A}= e^{[A,\cdot]}B
-\eeq
-
-\qed
-
-Connection with Maurer-Cartan form
-
-Suppose 
-
-\beq
-g(t)= e^{t \vecX_e}
-\eeq
-
-Note that 
-\beq
-g'=g\vecX_e
-\eeq
-Thus
-
-\beq
-\ul{\vtheta_g}(\vecX_g)=
-g^{-1}\ul{dg}(\vecX_g) = g^{-1}g\vecX_e=\vecX_e
-\eeq
-
 
