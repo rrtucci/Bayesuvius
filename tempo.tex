@@ -10,21 +10,23 @@ Rectangular coordinates $(x^i)_{i=1}^n$
 Orthogonal Curvilinear coordinates (OCC)
 $(\phi^\mu)_{\mu=1}^n$
 
-metric
+\begin{itemize}
+
+\item metric
 
 \beq
-ds^2 = \ell_\mu^2 
-(d\phi^\mu)^2
+ds^2 = \sum_{\mu=1}^n (\ell^\mu d\phi^\mu)^2
 \eeq
 
 \beq
 \metric_{\mu\nu}=
-\ell_\mu^2 \delta_{\mu\nu}
+(\ell^\mu)^2 \delta_{\mu\nu}
+\quad \text{(orthogonal-non-normal t-basis)}
 \eeq
 
 \beq
 (\metric^{-1})_{\mu\nu}=\metric^{\mu\nu}=
-\frac{1}{\ell_\mu^2}
+\frac{1}{(\ell^\mu)^2}
 \delta_{\mu\nu}
 \eeq
 
@@ -32,11 +34,24 @@ ds^2 = \ell_\mu^2
 \metric = [\metric_{\mu\nu}],
 \quad
 \det \metric = \prod_{\mu=1}^n
-\ell_\mu^2
+(\ell^\mu)^2
+\eeq
+\beq
+\ul{\theta^\mu}=\ell^\mu \ul{d\phi^\mu}
 \eeq
 
+\beq
+(ds^2) =\sum_\mu (\theta^\mu)^2
+\eeq
 
-\begin{itemize}
+\beq
+\hat{\metric}_{\mu\nu}=
+\hat{\metric}^{\mu\nu}
+=
+\delta_{\mu\nu}
+\quad(\text{orthonormal t-basis})
+\eeq
+
 \item engineering dimensions
 \beq
 \vecr= x^i\hat{x_i}
@@ -61,11 +76,11 @@ ds^2 = \ell_\mu^2
 \eeq
 
 \beq
-\engdim{\ell_\mu} =L,
+\engdim{\ell^\mu} =L,
 \quad\quad
 \engdim{\hat{\phi}_\mu} =
-\engdim{\frac{1}{\ell_\mu}\vecpder{\phi^\mu}}
-=\engdim{\frac{1}{\ell_\mu}\pder{\vecr}{\phi^\mu}}
+\engdim{\frac{1}{\ell^\mu}\vecpder{\phi^\mu}}
+=\engdim{\frac{1}{\ell^\mu}\pder{\vecr}{\phi^\mu}}
 = L^0
 \eeq
 Unit vectors always dimensionless.
@@ -73,10 +88,10 @@ For a scalar dimensionless function $f$
 \beq
 \engdim{(\nabla f)_\mu}=
 \engdim{\pder{f}{x^\mu}}=
-\engdim{\frac{1}{\ell_\mu}\pder{f}{\phi^\mu}}= L^{-1},
+\engdim{\frac{1}{\ell^\mu}\pder{f}{\phi^\mu}}= L^{-1},
 \quad 
 \engdim{\vecpder{x^\mu}}=
-\engdim{\frac{1}{\ell_\mu}\vecpder{\phi^\mu}} = L^0
+\engdim{\frac{1}{\ell^\mu}\vecpder{\phi^\mu}} = L^0
 \eeq
 so the gradient of $f$ and its 
 $x^\mu$ derivative have dimensions of 
@@ -107,6 +122,8 @@ all still have
 engineering 
 dimension $L^{-1}$
 
+\item Previous results from Section
+\ref{sec-expressing-grad-div-curl}
 
 \beq
 \bcen
@@ -152,6 +169,30 @@ d
 }
 \eeq
 
+\item Sharp and flat operator are linear 
+and retain the index
+position 
+in going from a vector to covector, but 
+you should  lower or raise that index with the metric
+
+\beq
+(\ul{dx^\mu})^\sharp=
+\partial^\mu=
+g^{\mu\nu}\partial_\nu
+\eeq
+
+\beq
+(\partial_\mu)^\flat=
+\ul{dx_\mu}=
+g_{\mu\nu}\ul{dx^\nu}
+\eeq
+This distinction
+is unimportant
+for Cartesian coordinates but 
+becomes crucial
+for curvilinear
+coordinates.
+
 
 
 \end{itemize}
@@ -161,7 +202,7 @@ For OCC, if $f$
 is a scalar unction, 
 \beq
 \nabla^{grad} f = 
-\frac{\hat{\phi^\mu}}{\ell_\mu}
+\frac{\hat{\phi_\mu}}{\ell^\mu}
 \pder{f}{\phi^\mu}
 \eeq
 
@@ -172,30 +213,51 @@ is a scalar unction,
 \pform{df}{}=
 \pder{f}{\phi^\mu}
 \pform{d\phi^\mu}{}
+=
+\frac{1}{\ell^\mu}
+\pder{f}{\phi^\mu}
+\ul{\theta^\mu}
 \eeq
 
+In orthonormal basis
 \beq
 \nabla^{grad}f=
 (\ul{df})^\sharp
+=
+\frac{1}{\ell^\mu}
+\pder{f}{\phi^\mu}
+(\ul{\theta}^\mu)^\sharp
+=
+\frac{1}{\ell^\mu}
+\pder{f}{\phi^\mu}
+\hat{\phi}^\mu
+=
+\frac{1}{\ell^\mu}
+\pder{f}{\phi^\mu}
+\hat{\phi}_\mu
 \eeq
+
+In orthogonal-non-normal t-basis
 
 \beq
 (\ul{d\phi^\mu})^\sharp
 =
 \metric^{\mu\nu}
-\vecpder{\phi^\nu}
+\vecpartial_\nu
 =
-\frac{1}{\ell^2_\mu}
-\vecpder{\phi^\nu}
+\frac{1}{(\ell^\mu)^2}
+\vecpder{\phi^\mu}
 \eeq
+
+
 
 \beq
 \nabla^{grad}f=
-\frac{1}{\ell_\mu^2}
+\frac{1}{(\ell^\mu)^2}
 \pder{f}{\phi^\mu}
-\vecpder{\phi^\nu}
+\vecpder{\phi^\mu}
 =
-\frac{1}{\ell_\mu}
+\frac{1}{\ell^\mu}
 \pder{f}{\phi^\mu}
 \hat{\phi}_\mu
 \eeq
@@ -234,10 +296,11 @@ For OCC, if
 
 \beq
 \vecX = X^\mu\vecpder{\phi^\mu}=
-\frac{v^\mu}{\ell_\mu}
+\frac{v^\mu}{\ell^\mu}
 \vecpder{\phi^\mu}
 =
 v^\mu \hat{\phi}_\mu
+\vecv
 \eeq
 then
 
@@ -245,7 +308,7 @@ then
 \nabla^{div}\cdot \vec{v}&=&
 \frac{1}{\sqrt{\det{\metric}}}\pder{\;}
 {\phi^\mu}\left[\sqrt{\det{\metric}}
-\frac{v^\mu}{\ell_\mu}\right]
+\frac{v^\mu}{\ell^\mu}\right]
 \\
 &=&
 \frac{1}{\sqrt{\det{\metric}}}\pder{[\sqrt{\det{\metric}}X^\mu]}{\phi^\mu}
@@ -328,6 +391,34 @@ X^\beta
 \partial_\beta\ln \sqrt{\det \metric}
 \eeq
 
+Alternative proof for $n=3$:
+
+\beq
+\star(\ul{\theta^1}
+\wedge
+\ul{\theta^2})=
+\ul{\theta^3}
+\eeq
+and 2 other cyclic
+permutations of 1,2,3.
+
+\beq
+\nabla \cdot \vecv=
+(\star
+d
+\star
+\flat)
+\vecv
+\eeq
+
+\beqa
+d(\star \flat \vecv)
+&=&
+d(\star v^\mu \hat{\phi}_\mu)
+\\
+&=&
+d(v^\mu )
+\eeqa
 
 
 
@@ -342,7 +433,7 @@ For OCC,
 \\
 &=&\frac{1}{\sqrt{\det{\metric}}}\pder{\;}
 {\phi^\mu}\left[\sqrt{\det{\metric}}
-\frac{\hat{\phi}_\mu}{\ell_\mu^2}
+\frac{\hat{\phi}_\mu}{(\ell^\mu)^2}
 \pder{f}{\phi^\mu}\right]
 \eeqa
 
@@ -357,46 +448,125 @@ For OCC in 3 dim, if
 
 \beq
 \vecX = X^\mu\vecpder{\phi^\mu}=
-\frac{v^\mu}{\ell_\mu}
+\frac{v^\mu}{\ell^\mu}
 \vecpder{\phi^\mu}
 =
 v^\mu \hat{\phi}_\mu
+=\vecv
 \eeq
 then
 
 \beq
 \nabla^{curl}\times \vec{v}=
-\frac{1}{\ell_1 \ell_2 \ell_3}
+\frac{1}{\ell^1 \ell^2 \ell^3}
 \left|
 \begin{array}{ccc}
-\ell_1\hat{\phi}_1
-&\ell_2\hat{\phi}_2
-&\ell_3\hat{\phi}_3
+\ell^1\hat{\phi}_1
+&\ell^2\hat{\phi}_2
+&\ell^3\hat{\phi}_3
 \\
-\partial_{q^1}
-&\partial_{q_2}
-&\partial_{q_3}
+\partial_{\phi^1}
+&\partial_{\phi_2}
+&\partial_{\phi_3}
 \\
-\ell_1 v^1
-&\ell_2 v^2
-&\ell_3 v^3
+\ell^1 v^1
+&\ell^2 v^2
+&\ell^3 v^3
 \end{array}
 \right|
 \eeq
 
 \beq
 [\nabla^{curl}\times \vecv]_1=
-\frac{1}{ \ell_2\ell_3}
+\frac{1}{ \ell^2\ell^3}
 \hat{\phi}_1
 \left[
-\pder{(\ell_3 v^3)}{q^2}
+\pder{(\ell^3 v^3)}{\phi^2}
 -
-\pder{(\ell_2 v^2)}{q^3}
+\pder{(\ell^2 v^2)}{\phi^3}
 \right]
 \eeq
 \end{claim}
 \proof
+
+\beq
+\nabla \times \vecv=
+(\sharp \star  d \; \flat)(\vecv)
+\eeq
+
+\beqa
+(d\flat)(v^\mu \hat{\phi}_\mu)
+&=&
+d
+(v^\mu \ul{\theta_\mu})
+\\
+&=&
+d(v^\mu \ul{\theta^\mu})
+\\
+&=&
+d(\ell^\mu v^\mu \ul{d\phi^\mu})
+\\
+&=&
+\partial_\nu{(\ell^\mu v^\mu)}
+\ul{d\phi^\nu}
+\wedge
+\ul{d\phi^\mu}
+\\
+&=&
+\frac{1}{2}
+[
+\partial_\nu{(\ell^\mu v^\mu)}-
+(\mu\swap \nu)]
+\ul{d\phi^\nu}
+\wedge
+\ul{d\phi^\mu}
+\\
+&=&
+\frac{1}{2\ell^\mu\ell^\nu}
+[
+\partial_\nu{(\ell^\mu v^\mu)}-
+(\mu\swap \nu)]
+\ul{\theta^\nu}
+\wedge
+\ul{\theta^\mu}
+\eeqa
+
+\beq
+\star(\ul{\theta^1}
+\wedge
+\ul{\theta^2})=
+\ul{\theta^3}
+\eeq
+and 2 other cyclic
+permutations of 1,2,3.
+
+\beq
+(\star d\flat)(v^\mu \hat{\phi}_\mu)
+=
+\frac{1}{\ell^2\ell^3}
+[
+\partial_2{(\ell^3 v^3)}-
+(2\swap 3)]
+\ul{\theta^1}
++ \cpermu{123}
+\eeq
+
+\beq
+(\sharp\star d\flat)(v^\mu \hat{\phi}_\mu)
+=
+\frac{1}{\ell^2\ell^3}
+[
+\partial_2{(\ell^3 v^3)}-
+(2\swap 3)]
+\hat{\phi}_1
++ \cpermu{123}
+\eeq
+
 \qed
+
+
+
+
 
 
 
