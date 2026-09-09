@@ -1,9 +1,84 @@
-\chapter{Differential Forms and Causal Diagrams}
-\label{ch-diff-forms}
+\chapter{Differential Geometry
+and Causal Diagrams}
+\label{ch-differ-geo}
+
+The main source for this chapter was ChatGPT and  a book by Schutz. %**************\cite{schutz}. 
+The book by Schutz is not a great favorite of mine.
+I did find its choice of topics helpful in mapping the subject and in formulating questions to ask ChatGPT about it. There is a plethora of books on the subject
+of Differential Geometry (DG), alternatives  to Schutz,
+ranging from 
+non-rigorous books
+by physicists and engineers 
+to very rigorous ones by mathematicians. 
 
 
+This chapter is meant
+as an introduction
+to
+Differential Geometry  (DG) and
+differential forms at a non-rigorous
+Physics/Engineering level
+with an eye to
+discussing the Physics/Computer Science
+applications of DG.
+Being an introduction to DG,
+this chapter assumes no
+prior knowledge of DG, but it does
+assume some 
+Physics/Engineering mathematical maturity from the reader.
+The subject of DG is 
+truly vast. This chapter only touches the tip of the iceberg.
 
-Commutative diagram
+The notations used in the
+field of DG are 
+often confusing
+to the beginner
+(at least they were to me)
+and vary a lot between authors.
+This makes the learning curve for DG, which is steep
+to begin with, steeper than it needs to be, in my opinion. 
+In this chapter,
+I tried to improve/enhance the 
+usual notation
+to make it clearer, and thus 
+diminish the slope of the learning curve.
+
+There are several powerful reasons why
+I feel a chapter
+on DG is
+relevant to a book like this one,
+on the subjects of
+causality and causal inference.
+Here are some:
+
+\begin{itemize}
+
+\item {\bf fertile ground for 
+causal diagrams}
+
+In Chapter \ref{ch-thermo} on Thermodynamics, we used a causal diagram in which the nodes were
+differentials like the differentials of energy $dU$,
+entropy $dS$, etc.
+But differentials (1-forms) 
+generalize to p-forms. So
+it stands to reason that
+the diagrams of
+Chapter \ref{ch-thermo} 
+can be generalized to have nodes 
+that carry p-forms
+instead of only 1-forms.
+
+Consider the following simple example of 
+what mathematicians call a
+commutative diagram.
+In this diagram, $X, Y$ and $Z$ are sets,
+and $f:X\rarrow Y$, $g:Y\rarrow Z$ 
+and $\phi:X\rarrow Z$
+are functions.
+The diagram
+represents
+the function composition $f\circ g= \phi$.
+
 \beq
 \xymatrix{
 X\ar[r]|f \ar[dr]|\phi
@@ -12,797 +87,57 @@ X\ar[r]|f \ar[dr]|\phi
 &Z
 }
 \eeq
+The diagrams that we use 
+in this chapter can be viewed as
+instantiations  of commutative diagrams. For example,
+the following diagram
+signifies $y =f(x)$,
+and $\phi(x)-g(f(x))=0$
 
-Instantiation  of commutative diagram
 \beq
 \xymatrix{
 x\ar[r]|f \ar[dr]|\phi
-& y\ar[d]|g
+& y\ar[d]|{-g}
 \\
 &\Circle{0}
 }
 \eeq
-$\phi(x) = g\circ f (x)$
 
-
-\section{Review of Differential Forms}
-
-Technically, a
-differential form is a $p+1$-form
-created by applying the exterior derivative $d$ to a $p$-form,
-so a p-form is slightly
-more general than a differential
-form, but we will seldom
-distinguish between the two.
-We will mostly use the term p-form
-because it is more succinct
-and general.
-
-
-
-\subsection{Notation}
-
-
-% Please add the following required packages to your document preamble:
-% \usepackage[table,xcdraw]{xcolor}
-% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
-\begin{table}[]
-\begin{tabular}{|l|l|l|}
-\hline
- & \cellcolor[HTML]{FFCCC9}Conventional notation & \cellcolor[HTML]{FFCCC9}My notation \\ \hline
-\cellcolor[HTML]{9AFF99}
-\begin{tabular}[c]{@{}l@{}}pullback that \\takes $\phi$ to $\phi(x)$\end{tabular}
-& $(\phi^*f)(x)=f\circ \phi(x)$ & $
-\pback{\phi}{\phi(x)}{f}(\phi)$ \\ \hline
-\cellcolor[HTML]{9AFF99}vector field & \begin{tabular}[c]{@{}l@{}}\\$X$ or, more explicitly, $X_\pi$\\ where $\pi\in M$.\\ Replace $\pi$ by $g$ when\\ manifold $M$ is group\end{tabular} & \begin{tabular}[c]{@{}l@{}}$\vecX$ or, more explicitly, $\vecX_\pi$\\ where $\pi\in M$.\\ Replace $\pi$ by $g$ when\\ manifold $M$ is group $G$\end{tabular} \\ \hline
-\cellcolor[HTML]{9AFF99}\begin{tabular}[c]{@{}l@{}}coordinate vector\\ .\end{tabular} & $\pder{\;}{x^i}$ & $\vecpder{x^i}$ \\ \hline
-\cellcolor[HTML]{9AFF99}\begin{tabular}[c]{@{}l@{}}partial derivative\\
-.\end{tabular} & $\pder{\;}{x^i}$ & $\pder{\;}{x^i}$ or  $\oper{\vecpder{x^i}}$ \\ \hline
-\cellcolor[HTML]{9AFF99}p-form & $\omega$ (Greek letters) & $\ul{\omega}$ or, more explicitly, $\pform{\omega}{p}$ \\ \hline
-\cellcolor[HTML]{9AFF99}metric & $g$ & $\metric$ \\ \hline
-\cellcolor[HTML]{9AFF99}group $G$ element & $g$ & $g$ \\ \hline
-\cellcolor[HTML]{9AFF99}\begin{tabular}[c]{@{}l@{}}covariant derivative\\ (acts on frame $\vece_\mu$)\end{tabular} & $\nabla_\mu$ & $\nnabla_\mu$ \\ \hline
-\cellcolor[HTML]{9AFF99}\begin{tabular}[c]{@{}l@{}}partial derivative\\ (treats frame $\vece_\mu$\\ as a constant)\end{tabular} & $\partial_\mu$ & $\partial_\mu=\nabla_\mu$ \\ \hline
-\end{tabular}
-\caption{Comparison of conventional and my notation for differential geometry}
-\label{tab-compare-notation-differ-geo}
-\end{table}
-
-\subsection{Preliminaries}
-\hrule
- Index bracket notation
-
-antisymmetric part, antisymmetrization
-\beq
-T_{A(\alp\beta)}=\frac{1}{2}
-\underbrace{(T_{\alp\beta}-T_{\beta\alp})}_
-{T_{UA(\alp \beta)}}
-\eeq
-$UA=$ un-normalized antisymmetrization
-
-symmetric part, symmetrization
-\beq
-T_{S(\alp\beta)}=\frac{1}{2}
-\underbrace{(T_{\alp\beta}+T_{\beta\alp})}_
-{T_{US(\alp \beta)}}
-\eeq
-$US=$ un-normalized symmetrization
-
-\beq
-T_{\alp \beta}=
-T_{A(\alp\beta)}+ T_{S(\alp\beta)}
-\eeq
-
-\beq
-T_{A(\alp\beta)}= - T_{A(\beta\alp)}
-\eeq
-
-\beq
-T_{S(\alp\beta)}=  T_{S(\beta\alp)}
-\eeq
-
-
-\beqa
-T_{A(\alpha \beta \gamma)}
-&=&
-\frac{1}{3!}
-\underbrace{\sum_{\s \in S_3}
-sign(\s)T_{\s(\alpha\beta\gamma)}}_{T_{UA(\alpha \beta \gamma)}}
-\\
-&=&
-\frac{1}{3!}
-\left[
-T_{\alp\beta\gamma}
-+
-\spermu{\alp\beta\gamma}
-\right]
-\eeqa
-$\spermu{\alp\beta\gamma}$ means
-signed permutations not equal to identity
-
-\beqa
-T_{S(\alpha \beta \gamma)}
-&=&
-\frac{1}{3!}
-\underbrace{\sum_{\s \in S_3}
-T_{\s(\alpha\beta\gamma)}}_{T_{US(\alpha \beta \gamma)}}
-\\
-&=&
-\frac{1}{3!}
-\left[
-T_{\alp\beta\gamma}
-+
-\permu{\alp\beta\gamma}\right]
-\eeqa
-$\permu{\alp\beta\gamma}$ means
-unsigned permutations not equal to identity
-
-
-\beq
-T_{\alp\beta\gamma}
-=
-T_{A(\alp\beta\gamma)}
-+
-T_{S(\alp\beta\gamma)}
-\eeq
-
-
-
-
-\subsection{Tangent Vectors, Vector Fields}
-
-Let
-
-$M=$ \qt{base} manifold (e.g. the surface of a sphere or Mobius strip)
-
-$\pi=$ a
-point on $M$
-
-$T_\pi (M)=$
-tangent space at $\pi$.
-A vector space.
-
-$\ZZ_1^n = \{ 1,2,\ldots n\}$
-
-$n=$ dimension of $T_\pi(M)$.
-
-$\{\vece_i\mid i\in \ZZ_1^n\}=$ {\bf tangent basis (t-basis)}, a basis for $T_\pi(M)$. These vectors need not be orthogonal nor normalized.
-
-$\{\check{x}_i\mid i\in \ZZ_1^n\}=$ {\bf coordinate t-basis}
-for coordinates
-$\{x^i\}_{i=1}^n$ , a special t-basis for $T_\pi(M)$.
-Unlike the generic t-basis
-$\{\vece_i\}_{i=1}^n$, a coordinate t-basis
-is guaranteed to come from a coordinate system $\{x^i\}_{i=1}^n$ on $M$
-for which differentiable functions $f(x^1, x^2, \cdots, x^n)$ exist.
- As with the basis  $\{\vece_i\}_{i=0}^n$, the  t-basis $\{\vecpder{x^i}\}_{i=0}^n$ need not be orthogonal nor normalized.
-
-A {\bf tangent vector} $\vec{v}\in T_\pi(M)$
-lives at a single point $\pi\in M$.
-A {\bf tangent vector field} $\vecX:
-M\rarrow \cup_{\pi\in}T_\pi(M)$ assigns a vector $X_\pi$
- to every point $\pi\in M$.
-\footnote{
-A p-form $\ul{\omega}$ (defined later) is also defined pointwise. When we write
-$\ul{\omega}(\vecX, \vecY)$,
-we really mean the function
-$\pi \mapsto
-\ul{\omega}(\vecX(\pi), \vecY(\pi))
-$}
-
-The set\footnote{The disjoint union 
-$A\sqcup B$ of two sets $A$ and $B$ combines their elements while tagging each element with its original set to ensure no overlap.} $T(M)=\sqcup_{\pi\in M}T_\pi(M)$
-is called the {\bf fibre bundle}
-of $M$. Each
-$T_\pi(M)$ is a fibre.
-$T(M)$ has dimension $2n$.
-
-Let
-\beq
-\vec{r}= x^i\vecpder{x^i},
-\quad d\vecr = dx^i \vecpder{x^i}
-\eeq
-Then
-\beq
-\vecpder{x^i}=
-\frac{\partial\vec{r}}{\partial x^i},\quad
-(\vecpder{x^i})_{op}=
-\pder{\;}{x^i}\quad\text{(op=operator)}
-\eeq
-\beq
-\hat{x}_i = \frac{\vecpder{x^i}}{|\vecpder{x^i}|}
-\eeq
-
-If
-\beq
-\vecV=V^i \vecpder{x^i},
-\eeq
-then
-
-\beq
-\vecV_{op}=\vecV\cdot \nabla=
- V^i\frac{\partial}{\partial x^i},
-\quad \vecV_{op} \vec{r}
-=\vecV
-\eeq
-
-
-\ul{It's conventional
-to use} $\pder{\;}{x^i}$
-\ul{to denote both
-$\vecpder{x^i}$ and
-$(\vecpder{x^i})_{op}$,
-but we won't follow
-that convention here.}
-
-
-Early workers in this field
-refer to
-a coordinate t-basis as a {\b holonomic} t-basis.
-The word \qt{holonomic}
-comes from the Greek
-words \qt{holos}=whole or complete
-and \qt{nomos}=a rule
-or prescription.
-
-In Mechanics, a {\bf holonomic (or integrable) constraint}
-is one that can be
-written exclusively
-in terms of the coordinates of the system and time:
-
-\beq
-f(\vecr, t)=0
-\eeq
-where $\vecr=(x^1, x^2, \dots, x^n)$.
-By contrast, a {\bf non-holonomic (or non-integrable)
-constraint} involves velocities:
-
-\beq
-g(\vecr, \dot{\vecr}, t)=0
-\eeq
-
-In differential geometry, the term holonomic refers to a t-basis of vectors
-$\{\vece_i\}_{i=0}^n$
-for which there exists
-a coordinate system
-$\{x^i\}_{i=1}^n$
-and a vector field\\
-$\vecr(x^1, x^2, \cdots, x^n)$ such that
-
-\beq
-\vece_i = \pder{\vecr}{x^i}
-\eeq
-for all $i\in\ZZ_1^n$.
-In conclusion,
-a coordinate t-basis and
-a holonomic t-basis are
-the same thing.
-
-A t-basis $\{\vece_i\}_{i=1}^n$ is a coordinate=holonomic
-t-basis iff
-\beq
-[(\vece_i)_{op},
-(\vece_j)_{op}]=0
-\eeq
-for all $i,j\in\ZZ_1^n$.
-For example, for Cartesian coordinates
-in 2-dim,
-\beq
-d\vecr = dx \hat{x} + dy  \hat{y}
-\eeq
-so
-$(\hat{x}, \hat{y})$
-is holonomic because
-
-\beq
-\ul{d\vecr} = \ul{dx} \hat{x} + \ul{dy}  \hat{y}
-=
-\ul{dx} \pder{\vecr}{x}
-+ \ul{dy} \pder{\vecr}{y}
-\eeq
-
-\beq
- \left[\pder{\vecr}{x}\right]_{op}=
-\pder{\;}{x},\quad
-\left[\pder{\vecr}{y}\right]_{op}
-=\pder{\;}{y}
-\eeq
-
-
-
-\beq
-\left[\pder{\;}{x}, \pder{\;}{y}
-\right]=0
-\eeq
-For polar coordinates in 2-dim,
-
-\beq
-d\vecr =
-dr \hat{r} + rd\theta \hat{\theta}
-\eeq
-
-$(\hat{r}, \hat{\theta})$ is a non-holonomic t-basis because
-
-\beq
-\ul{d\vecr} =
-\ul{dr} \hat{r} + \ul{rd\theta} \hat{\theta}=
-\ul{dr} \pder{\vecr}{r}
-+
-\ul{rd\theta}
-\left[\frac{1}{r}\pder{\vecr}{\theta}
-\right]
-\eeq
-
-\beq
- \left[\pder{\vecr}{r}\right]_{op}=
-\pder{\;}{r},
-\quad
-\left[
-\frac{1}{r}\pder{\vecr}{\theta}\right]_{op}
-=\frac{1}{r}\pder{\;}{\theta}
-\eeq
-
-\beq
-\left[
-\pder{\;}{r},
-\frac{1}{r}\pder{\;}{\theta}
-\right]\neq 0
-\eeq
-On the other hand,
-$(\hat{r}, r\hat{\theta})$
-is a holonomic t-basis because
-
-\beq
-\ul{d\vecr} =
-\ul{dr} \hat{r} + \ul{d\theta} r\hat{\theta}=
-\ul{dr} \pder{\vecr}{r}
-+
-\ul{d\theta} \pder{\vecr}{\theta}
-\eeq
-
-\beq
- \left[\pder{\vecr}{r}\right]_{op}=
-\pder{\;}{r},
-\quad
-\left[\pder{\vecr}{\theta}\right]_{op}
-=\pder{\;}{\theta}
-\eeq
-
-\beq
-\left[
-\pder{\;}{r},
-\pder{\;}{\theta}
-\right]= 0
-\eeq
-
-In the General Relativity section \ref{sec-gen-rel},
-we will introduce
-the so called tetrad
-(vierbein) t-basis. That t-basis is non-holonomic too.
-
-A t-basis 
-$\{\vece_i\}_{i=1}^n$ is orthogonal if
-$(\vece_i)^a 
-(\vece_j)_a=0$ for all $i\neq j$. That t-basis is said to be normalized if $(\vece_i)^a 
-(\vece_i)_a= 1$
-for all $i$.
-A basis is orthonormal if it is
-both  orthogonal
-and normalized.
-Whether a t-basis
-is orthogonal  or normalized has nothing to
-do with whether it is holonomic or not.
-
-\begin{table}[h!]
-\begin{tabular}{|l|l|l|}
-\hline
-\begin{tabular}[c]{@{}l@{}}My notation for\\ t-basis vectors\end{tabular} & \cellcolor[HTML]{FFCCC9}not orthonormal & \cellcolor[HTML]{FFCCC9}orthonormal \\ \hline
-\cellcolor[HTML]{9AFF99}\begin{tabular}[c]{@{}l@{}}coordinate\\ (holonomic) t-basis\end{tabular} & $\vecpder{x^i}$ & $\hat{x}_i$, e.g., $(\hat{x}, \hat{y})$ \\ \hline
-\cellcolor[HTML]{9AFF99}non-holonomic t-basis & $\vece_i$ & $\hate_i$, 
-e.g., $(\hat{r}, \hat{\theta})$\\ \hline
-\end{tabular}
-\caption{My notation for t-basis vectors with various properties. }
-\label{tab-basis-notation}
-\end{table}
-
-
-
-
-\begin{table}[h!]
-\begin{tabular}{|l|l|l|l|l|}
-\hline
-\rowcolor[HTML]{FFFC9E}
-\cellcolor[HTML]{FFFFFF} &  t-basis & dual t-basis & \begin{tabular}[c]{@{}l@{}}displacement \\ vector\end{tabular} &  \\ \hline
-\cellcolor[HTML]{DAE8FC}coordinate t-basis & $\vecpder{x^a}$ & $\pform{dx^a}{}$ & $\pform{d\vecr}{}= \vecpder{x^a}\pform{dx^a}{}$ & $\ul{dx^a}(\vecpder{x^b})=\delta^a_b$ \\ \hline
-\cellcolor[HTML]{DAE8FC}non-holonomic t-basis & $\vece_a$ & $\pform{\theta^a}{}$ & $\pform{d\vecr}{}=\vece_a\pform{\theta^a}{}$ & $\ul{\theta^a}(\vece_b)=\delta^a_b$ \\ \hline
-\end{tabular}
-\caption{Notation for coordinate (holonomic) and non-holonomic t-basis.}
-\label{tab-basis-dual-basis}
-\end{table}
-
-
-g\subsection{Lie Bracket}
-What is meaning of $[\vecX, \vecY]$
-
-\beq
-[\vecX, \vecY]\neq
-\vecX\otimes\vecY-
-\vecY\otimes\vecX
-\eeq
-right side is meaningless
-
-$[\vecX, \vecY]$  is 
-defined such that for any smooth function $f$, 
-
-\beq
-[\vecX, \vecY]f=
-\vecX(\vecY(f))-
-\vecY(\vecX(f))
-\eeq
-To see how this works, 
-suppose
-
-\beq
-\vecX = X^i\vecpder{x_i},
-\quad \vecY = Y^j\vecpder{x_j}
-\eeq
-Then
-
-\beqa
-[\vecX, \vecY]f &=&
-X^i\left[\pder{Y^j}{x_i}
-\right]
-\pder{f}{x_j}
-+ X^iY^j
-\pder{\;}{x_i}\pder{f}{x_j}
--
-(X\swap Y)
-\\
-&=&
-X^i\left[\pder{Y^j}{x_i}
-\right]
-\pder{f}{x_j}
--(X\swap Y)
-\eeqa
-Hence
-
-\beq
-[\vecX, \vecY]=
-X^i\left[\pder{Y^j}{x_i}
-\right]
-\vecpder{x_j}
--(X\swap Y)
-\eeq
-This explains why
-most differential
-geometers use the
-same symbol $\pder{\;}{x_i}$ for 
-$\vecpder{x_i}$ and
-$\pder{\;}{x_i}$. 
-They follow the rule:
-If $\pder{\;}{x_i}$
-is acting 
-on a function $f(x)$,
-assume the differential
-operator. If there
-is no function $f(x)$
-to act on, assume the
-tangent vector.
-
-
-\subsection{p-forms}
-
-When discussing most
-concepts about
-p-forms, I find it pedagogically
-advantageous to define the
-concept
-first for 0-forms, 1forms, 2-forms
-and then
-finally the general case of p-forms
-(form with $p$ slots).
-I will
-follow that
-strategy in this chapter.
-
-
-We will always
-underline p-forms
-and, except in special
-cases, use
-lower case
-Greek letter to represent them.
-Sometimes,
-we will be even
-more explicit and
-write
-$\pform{\omega}
-{p}$ for a
-p-form.
-$\$^p$, where
-represents $p$
-place holders or empty slots.
-
-Basically, for 1-forms
-$\ul{\alp_1},\ul {\alp_2},
-\ul{\alp_3}, \ldots$
-
-\beq
-\ul{\alp_1}\wedge\ul{\alp_2}=
-\ul{\alp_1}\otimes\ul{\alp_2}
--
-\ul{\alp_2}\otimes\ul{\alp_1}
-\quad
-\text{(No factor of 1/2!)}
-\eeq
-(It's confuse this with
-\beq
-\ul{\alp_1}\wedge \ul{\alp_2}=
-\frac{1}{2}[\ul{\alp_1}\wedge \ul{\alp_2}
--
-\ul{\alp_2}\wedge \ul{\alp_1}]
-\eeq
-which does have
-a factor of $1/2$.)
-
-\beq
-\ul{\alp_1}\wedge\ul{\alp_2}
-\wedge\ul{\alp_3}=
-\ul{\alp_1}\otimes\ul{\alp_2}
-\otimes \ul{\alp_3}
-+ \epermu{123}
-- \opermu{123}
-\eeq
-and so on for a wedge product
-of 4 or more 1-forms.
-
-
-
-
-\begin{itemize}
-\item  0-form:
-
-\beq
-\ul{\omega} = f,\quad
-f: M\rarrow \RR
-,\quad
-\pi \mapsto  f(\pi)
-\eeq
-For example,
-if
-\beq
-f(x,y)=x^2 + y \quad \text{and}
-\quad \pi= (2,3)\eeq
-then
-
-\beq f(\pi)= 2^2 + 3= 7
-\eeq
-
-\item 1-form:
-
-A 1-form
-$\ul{\omega}\in \wedge(M)$ is a LINEAR map
-
-\beq
-\ul{\omega}: T_\pi(M)\rarrow \RR,\quad
-\vecX\mapsto \ul{\omega}(\vecX)
-\eeq
-where $\vecX$ is an $n$-dim vector.
-$\wedge(M)$ is called the {\bf dual space of $T_\pi(M)$}.
-
-\beq
-\ul{\omega}(\vecX)=\sum_{i=1}^n \omega_i \ul{dx^i}(\vecX)
-\eeq
-
-$\{\pform{dx^i}{}\mid i\in \ZZ_1^n \}$
-are a basis for the 1-forms on $\wedge_\pi(M)$.
-They are called the {\bf coordinate dual t-basis} \footnote{
-A t-basis is often called a {\bf frame} and a dual t-basis is called a {\bf coframe}. We won't use that nomenclature.} for coordinates
-$\{x^i\}_{i=1}^n$.
- They satisfy
-
-\beq
-\ul{dx^i}(\vecpder{x^i})=\delta_i^j
-\eeq
-for $i, j\in\ZZ_1^n$.
-
-For example,
-if $\ul{\omega}$ is the following 1-form \pformIN{=2}:
-\beq
-\pform{\omega}{}= 2 \pform{dx}{}
-+ 5 \pform{dy}{},
-\quad
-\vecX = a \vecpder{x}
-+ b \vecpder{y}
-\eeq
-then,
-using $\ul{dx^i}(\vecpder{x^j})=\delta(i,j)$,
-
-\beq
-\ul{\omega}(\vecX)=
-2a + 5b
-\eeq
-
-\item 2-form:
-
-A 2-form
-$\ul{\omega}\in \wedge_\pi(M)\wedge \wedge_\pi(M)=\wedge^2_\pi(M)$
-is a LINEAR map
-\beq
-\ul{\omega}: T_\pi(M)\times T_\pi(M)=T^2_\pi(M)\rarrow \RR,\quad (\vecX,\vecY)\mapsto \ul{\omega}(\vecX, \vecY)
-\eeq
-where $\vecX$ and $\vecY$ are n-dim vectors.
-
-\beq
-\ul{\omega}(\vecX, \vecY)=\sum_{1\leq i < j\leq n} \omega_{ij} \ul{dx^i}(\vecX)
-\wedge \ul{dx^j}(\vecY)
-\eeq
-
-\beq
-\pform{dx^i}{}\wedge \pform{dx^j}{}=\pform{dx^i \wedge dx^j}{2}
-\eeq
-
-\beq
-\ul{dx^1}\wedge \ul{dx^1}=
-\ul{dx^2}\wedge \ul{dx^2}=0
-\eeq
-
-\beq
-\ul{dx^1}\wedge \ul{dx^2}=
--\ul{dx^2}\wedge \ul{dx^1}
-\eeq
-
-
-$\{\pform{dx^i}{}
-\wedge \pform{dx^j}{}\mid
-i\in \ZZ_1^n, j\in \ZZ_1^n,
-i<j\}$
-are a basis for the 2-forms on $T_\pi(M)\times
-T_\pi(M)$. They satisfy
-
-\beq
-\ul{dx^i}(\vecX)
-\wedge \ul{dx^j}(\vecY)=
-\ul{dx^i}(\vecX)
-\otimes \ul{dx^j}(\vecY)
--
-\ul{dx^i}(\vecY)
-\otimes \ul{dx^j}(\vecX)
-\eeq
-for $i, j\in\ZZ_1^n$.
-Hence,
-
-\beq
-\ul{dx^1}(\vecX)\wedge\ul{dx^2}(\vecY)=
--\ul{dx^1}(\vecY)\wedge\ul{dx^2}(\vecX)
-\eeq
-In other words, these basis elements
- change sign
-if you exchange the
-arguments $\vecX$ and $\vecY$.
-
-
-
-For example, if
-$\ul{\omega}$ is
-the following 2-form \pformIN{=2}
-
-\beq
-n=2,\quad
-\ul{\omega}=
-\ul{dx}\wedge \ul{dy},\quad
-\vecX= X^1 \vecpder{x}
-+ X^2 \vecpder{y}
-,\quad
-\vecY= Y^1 \vecpder{x}
-+ Y^2 \vecpder{y}
-\eeq
-then
-\beq
-\ul{\omega}(\vecX,\vecY)= X^1 Y^2 -
-X^2 Y^1= X^{UA(1}Y^{2)}
-\eeq
-
-\item p-forms
-
-A p-form $\ul{\omega}\in
-\underbrace{\wedge_\pi(M)\wedge \cdots \wedge \wedge_\pi(M)}_{\text{$p$ copies of $\wedge_\pi(M)$}}=
-\wedge^p_\pi(M)$ is a LINEAR map
-
-\beq
-\begin{array}{l}
-\ul{\omega}:
-\underbrace {T_\pi(M)
-\times
-\cdots
-T_\pi(M)}_{
-\text{ $p$ copies of } T_\pi(M)}=T^p_\pi(M)
-\rarrow \RR,
-\\
-(\vecX^{(1)}, \vecX^{(2)}, \ldots, \vecX^{(m)})\mapsto
-\ul{\omega_\pi}(\vecX^{(1)}, \vecX^{(2)}, \ldots, \vecX^{(m)})
-\end{array}
-\eeq
-where $\vecX^{(j)}$ for $j=1, 2, \dots p$ are n-dim vectors.
-
-Let
-
-\beq
-\ul{\otimes  dx^{i_1 i_2\cdots i_p}}
-(\vecX^{(1)}, \vecX^{(2)}, \ldots, \vecX^{(p)})
-=
-\ul{dx^{i_1}}(\vecX^{(1)})
-\otimes
-\ul{dx^{i_2}}(\vecX^{(2)})
-\otimes \cdots
-\otimes
-\ul{dx^{i_p}}(\vecX^{(p)})
-\eeq
-where $\otimes $ is
-Cartesian (order preserving) product for reals.
-
-\beq
-\ul{\wedge dx^{i_1 i_2\cdots i_p}}
-(\vecX^{(1)}, \vecX^{(2)}, \ldots, \vecX^{(p)})
-=
-\ul{dx^{i_1}}(\vecX^{(1)})
-\wedge
-\ul{dx^{i_2}}(\vecX^{(2)})
-\wedge\cdots
-\wedge
-\ul{dx^{i_p}}(\vecX^{(p)})
-\eeq
-
-
-
-\beq
-\cali^p =\{ I\mid I=(i_1, i_2, \cdots, i_p) , \quad 1\leq i_1, i_2,\cdots ,i_p\leq n\}
-\eeq
-
-\beq
-\cali^p_< =\{ I\mid I=(i_1, i_2, \cdots, i_p) , \quad 0\leq i_1< i_2<\cdots <i_p\leq n\}
-\eeq
-
-\beq
-\pform{\omega}{p}=
-\sum_{I \in \cali^p_<} \omega_I
-\pform{\wedge d x^I}{p}
-=
-\frac{1}{p!}
-\sum_{I \in \cali^p}
-\omega_I \pform{\wedge d x^I}{p}
-\eeq
-
-
-$\{\pform{\wedge dx^I}{}
-\mid I\in
-\cali^p_<\}$
-are a basis for the p-forms on $T^p_\pi(M)$. They satisfy
-
-\beq
-\ul{\wedge dx^I}(\vecX^{(I)})=
-\sum_{\s\in S_p}sign(\s)
-\ul{\otimes dx^I}(\vecX^{(\s(I))})
-=
-\ul{\otimes dx^I}(\vecX^{UA(I)})
-\eeq
-for $I \in \cali^p$,
-where $\s$ ranges over all possible permutations of $p$ symbols.
-Hence,
-
-\beq
-\ul{\wedge dx^I}(\vecX^{(I)})=
--\ul{\wedge dx^I}(\vecX^{(\s (I))})
-\eeq
-if $\s$ is a swap (transposition)
-of any two symbols of $I$.
-In other words, these basis elements
- change sign
-if you exchange any two
-arguments $\vecX$ and $\vecY$.
+\item {\bf fertile ground for
+studying LLM}
+
+DG
+is used in a large number of
+Physics/Engineering fields.
+This chapter alone
+covers its application to
+Systems of Differential Equations, Fluid Mechanics,
+Thermodynamics, Electromagnetism, Hamiltonian Mechanics, General Relativity, 
+Lie groups, and Probability 
+Theory/Information Theory.
+
+It is my contention that
+ modern AI (neural nets,
+transformers, LLM)
+deals with a gigantic 
+causally connected manifold
+to which the machinery 
+of DG can be applied.
+In fact, the nascent
+field of Information Geometry
+seems headed in that direction.
+Also, there are many current efforts (including my own Mappa Mundi)
+to add causal inference to 
+LLMs and I expect the machinery
+of DG will
+be helpful in this endeavor.
 
 
 \end{itemize}
+
+
+
+
 
 \subsection{Metric}
 
@@ -2112,7 +1447,7 @@ ds^2 = \sum_{\mu=1}^n (\ell^\mu d\phi^\mu)^2
 \quad(\text{orthonormal t-basis})
 \eeq
 
-\item engineering dimensions
+\item Engineering dimensions
 \beq
 \vecr= x^i\hat{x_i}
 \eeq
@@ -2179,7 +1514,7 @@ In OCC coordinates $\phi^\mu$,
 \eeq
 although they
 all still have 
-engineering 
+Engineering 
 dimension $L^{-1}$
 
 \item Previous results from Section
@@ -4685,7 +4020,7 @@ eigenvalues is called a {\bf pseudo-\Rien metric}\footnote{Differential
 geometers eschew the term \qt{non-\Rien}  lest one think
 it refers to something
 called a metric that isn't
-the conventional differential geometry metric $\metric(\vecU, \vecV)$.}
+the conventional Differential Geometry metric $\metric(\vecU, \vecV)$.}
 Most results in this chapter
 are valid for a metric
 with any signature. 
@@ -10832,7 +10167,7 @@ $\GG_{\mu\nu}$ & $\pform{\GG_a}{3}$ \\ \hline
 Roughly speaking, Cartan expressed
 the equations in terms of differentials
 and their generalizations, differential forms.
-When converting a physics
+When converting a Physics
 differential equation to the
 language of p-forms,
 this is very often what we do: recast the
@@ -10913,7 +10248,7 @@ how Lie Groups
 can be interpret 
 using the
 tools and language
-of differential geometry 
+of Differential Geometry 
 and p-forms.
 
 \subsection{All tangent spaces are
@@ -10937,7 +10272,7 @@ copies of $T_e(G)=\ger{g}$
 $G=$ Lie group. This will be 
 the manifold $M$
 in the
-differential geometry
+Differential Geometry
 interpretation.
 
 $\ger{g}=$ Lie algebra for group $G$.
@@ -10967,7 +10302,7 @@ $T^L_g$ for  each $g\in G$
 are identical copies of each other
 (i.e., isomorphic).
 Remember, when we speak of a Lie algebra
-in a non-differential geometry context, 
+in a non-Differential Geometry context, 
 the elements of the Lie Algebra
 are not labelled by a point $g$. They
 are just a set of matrices (if a matrix representation
