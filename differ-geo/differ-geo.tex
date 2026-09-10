@@ -2,11 +2,12 @@
 and Causal Diagrams}
 \label{ch-differ-geo}
 
-The main source for this chapter was ChatGPT and  a book by Schutz. %**************\cite{schutz}. 
-The book by Schutz is not a great favorite of mine.
-I did find its choice of topics helpful in mapping the subject and in formulating questions to ask ChatGPT about it. There is a plethora of books on the subject
-of Differential Geometry (DG), alternatives  to Schutz,
-ranging from 
+The main source for this chapter was a book by Schutz **************%\cite{schutz}. 
+and ChatGPT.
+The book by Schutz is not particularly stellar but
+I did find its choice of topics helpful in mapping the subject and in formulating questions to ask ChatGPT. There is a plethora of books on the subject
+of Differential Geometry (DG) that are good alternatives  to Schutz. These
+range from 
 non-rigorous books
 by physicists and engineers 
 to very rigorous ones by mathematicians. 
@@ -35,19 +36,20 @@ often confusing
 to the beginner
 (at least they were to me)
 and vary a lot between authors.
-This makes the learning curve for DG, which is steep
-to begin with, steeper than it needs to be, in my opinion. 
+In my opinion, this makes the learning curve for DG, which is steep
+to begin with, steeper than it needs to be. 
 In this chapter,
 I tried to improve/enhance the 
 usual notation
 to make it clearer, and thus 
 diminish the slope of the learning curve.
 
-There are several powerful reasons why
+There are several good reasons why
 I feel a chapter
 on DG is
 relevant to a book like this one,
-on the subjects of
+which deals with
+the subjects of
 causality and causal inference.
 Here are some:
 
@@ -103,8 +105,8 @@ x\ar[r]|f \ar[dr]|\phi
 }
 \eeq
 
-\item {\bf fertile ground for
-studying LLM}
+\item {\bf
+enhancing LLM's causal inference abilities}
 
 DG
 is used in a large number of
@@ -126,16 +128,720 @@ of DG can be applied.
 In fact, the nascent
 field of Information Geometry
 seems headed in that direction.
-Also, there are many current efforts (including my own Mappa Mundi)
-to add causal inference to 
-LLMs and I expect the machinery
+Also, there are many current efforts (including my own Mappa Mundi project)
+to enhance
+LLM's  causal inference abilities and I expect the machinery
 of DG will
-be helpful in this endeavor.
+be helpful in this regard.
 
 
 \end{itemize}
 
 
+
+\section{Review of Differential Forms}
+
+
+
+\subsection{Notation
+and Conventions}
+
+A p-form
+and a differential
+form are the same thing.
+We will mostly use the term p-form
+because it is more succinct.
+
+See Table \ref{tab-compare-notation-differ-geo}
+for a comparison of conventional and my notation for
+various 
+elements of 
+ Differential Geometry.
+This table won't make
+much sense to a reader
+who is new to DG,
+but it will become 
+clearer and clearer
+as he/she plows through this 
+chapter. 
+
+
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
+\begin{table}[]
+\begin{tabular}{|l|l|l|}
+\hline
+ & \cellcolor[HTML]{FFCCC9}Conventional notation & \cellcolor[HTML]{FFCCC9}My notation \\ \hline
+\cellcolor[HTML]{9AFF99}
+\begin{tabular}[c]{@{}l@{}}pullback that \\takes $\phi$ to $\phi(x)$\end{tabular}
+& $(\phi^*f)(x)=f\circ \phi(x)$ & $
+\pback{\phi}{\phi(x)}{f}(\phi)$ \\ \hline
+\cellcolor[HTML]{9AFF99}vector field & \begin{tabular}[c]{@{}l@{}}\\$X$ or, more explicitly, $X_\pi$\\ where $\pi\in M$.\\ Replace $\pi$ by $g$ when\\ manifold $M$ is group\end{tabular} & \begin{tabular}[c]{@{}l@{}}$\vecX$ or, more explicitly, $\vecX_\pi$\\ where $\pi\in M$.\\ Replace $\pi$ by $g$ when\\ manifold $M$ is group $G$\end{tabular} \\ \hline
+\cellcolor[HTML]{9AFF99}\begin{tabular}[c]{@{}l@{}}coordinate vector\\ .\end{tabular} & $\pder{\;}{x^i}$ & $\vecpder{x^i}$ \\ \hline
+\cellcolor[HTML]{9AFF99}\begin{tabular}[c]{@{}l@{}}partial derivative\\
+.\end{tabular} & $\pder{\;}{x^i}$ & $\pder{\;}{x^i}$ or  $\oper{\vecpder{x^i}}$ \\ \hline
+\cellcolor[HTML]{9AFF99}p-form & $\omega$ (Greek letters) & $\ul{\omega}$ or, more explicitly, $\pform{\omega}{p}$ \\ \hline
+\cellcolor[HTML]{9AFF99}metric & $g$ & $\metric$ \\ \hline
+\cellcolor[HTML]{9AFF99}group $G$ element & $g$ & $g$ \\ \hline
+\cellcolor[HTML]{9AFF99}\begin{tabular}[c]{@{}l@{}}covariant derivative\\ (acts on frame $\vece_\mu$)\end{tabular} & $\nabla_\mu$ & $\nnabla_\mu$ \\ \hline
+\cellcolor[HTML]{9AFF99}\begin{tabular}[c]{@{}l@{}}partial derivative\\ (treats frame $\vece_\mu$\\ as a constant)\end{tabular} & $\partial_\mu$ & $\partial_\mu=\nabla_\mu$
+\\ \hline
+\cellcolor[HTML]{9AFF99}\begin{tabular}[c]{@{}l@{}}Left/Right translation\\ for $g, h\in$ Lie group\end{tabular} &
+\begin{tabular}[c]{@{}l@{}}$L_g(h)=gh$
+\\
+$R_g(h) =hg$ 
+\end{tabular}&
+\begin{tabular}[c]{@{}l@{}} $(g)_L(h)= gh$\\
+$(g)_R(h)=hg$
+\end{tabular} \\ \hline
+\cellcolor[HTML]{9AFF99}\begin{tabular}[c]{@{}l@{}}Left/Right translation\\ of vector field $X$\end{tabular} &
+\begin{tabular}[c]{@{}l@{}} $(dL_g)_h X_h=X_{gh}$
+\\
+$(dR_g)_h X_h= X_{hg}$
+\end{tabular}  &
+\begin{tabular}[c]{@{}l@{}} $\dL{g}{h}\vecX_h= \vecX_{gh}$\\
+$\dR{g}{h}\vecX_h=\vecX_{hg}$
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{Comparison of conventional and my notation for
+various 
+elements of 
+ Differential Geometry}
+\label{tab-compare-notation-differ-geo}
+\end{table}
+
+
+\hrule
+ Symmetrization
+and Antisymmetrization 
+of tensor indices.
+
+In DG, it
+is often
+necessary to symmetrize
+or antisymmetrize the
+indices of a tensor. Consider just 2 indices 
+$\alp, \beta$ for starters.
+Given a tensor $T_{\alp\beta}$,
+\begin{itemize}
+\item define
+its {\bf antisymmetrization 
+or antisymmetrical part} by
+
+\beq
+T_{A(\alp\beta)}=\frac{1}{2}
+\underbrace{(T_{\alp\beta}-T_{\beta\alp})}_
+{T_{SP(\alp \beta)}}
+\eeq
+where
+
+$SP(\alp\beta)=$ signed permutations of $\alp\beta$
+
+\item define its {\bf symmetrization
+or symmetrical part} by
+
+\beq
+T_{S(\alp\beta)}=\frac{1}{2}
+\underbrace{(T_{\alp\beta}+T_{\beta\alp})}_
+{T_{P(\alp \beta)}}
+\eeq
+where
+
+$P(\alp\beta)=$ permutations of $\alp\beta$
+\end{itemize}
+
+Note that
+
+\beq
+T_{\alp \beta}=
+T_{A(\alp\beta)}+ T_{S(\alp\beta)}
+\eeq
+
+\beq
+T_{A(\alp\beta)}= - T_{A(\beta\alp)}
+\eeq
+
+\beq
+T_{S(\alp\beta)}=  T_{S(\beta\alp)}
+\eeq
+
+In case of a tensor $T_{\alp\beta\gamma}$
+with 3 indices, 
+
+\begin{itemize}
+\item
+define
+its {\bf antisymmetrization 
+or antisymmetric part} by
+
+\beqa
+T_{A(\alpha \beta \gamma)}
+&=&
+\frac{1}{3!}
+\underbrace{\sum_{\s \in S_3}
+sign(\s)T_{\s(\alpha\beta\gamma)}}_{T_{SP(\alpha \beta \gamma)}}
+\\
+&=&
+\frac{1}{3!}
+\left[
+T_{\alp\beta\gamma}
++
+\spermu{\alp\beta\gamma}
+\right]
+\eeqa
+where 
+
+$SP(\alp\beta\gamma)=$ signed permutations
+of $\alp\beta\gamma$
+
+$\spermu{\alp\beta\gamma}=$
+signed permutations 
+of $\alp\beta \gamma$ except for the identity
+permutation
+
+\item define its 
+{\bf symmetrization or symmetric  part} by 
+
+\beqa
+T_{S(\alpha \beta \gamma)}
+&=&
+\frac{1}{3!}
+\underbrace{\sum_{\s \in S_3}
+T_{\s(\alpha\beta\gamma)}}_{T_{P(\alpha \beta \gamma)}}
+\\
+&=&
+\frac{1}{3!}
+\left[
+T_{\alp\beta\gamma}
++
+\permu{\alp\beta\gamma}\right]
+\eeqa
+where
+
+$P(\alp\beta\gamma)=$
+permutations of $\alp\beta\gamma$.
+
+$\permu{\alp\beta\gamma}$=
+permutations
+of  $\alp\beta\gamma$ 
+except for the identity
+permutation.
+
+\end{itemize}
+
+Note that
+
+
+\beq
+T_{\alp\beta\gamma}
+=
+T_{A(\alp\beta\gamma)}
++
+T_{S(\alp\beta\gamma)}
+\eeq
+
+It's also convenient to 
+define
+
+ $EP(\alp\beta\gamma)=$
+{\bf even 
+permutations} of $\alp\beta\gamma$
+
+$OP(\alp\beta\gamma)=$
+{\bf odd
+permutations} of $\alp\beta\gamma$
+
+$CP(\alp\beta\gamma)=$
+{\bf cyclic
+permutations} of $\alp\beta\gamma$
+
+Hence
+
+\beq
+T_{SP(\alp\beta\gamma)}=
+T_{EP(alp\beta\gamma)}
+-
+T_{OP(\alp\beta\gamma)}
+\eeq
+
+The above
+notation for symmetrization
+and antisymmetrization can be easily
+generalized to more than 3 indices.
+
+\subsection{Tangent Vectors and Covectors}
+
+Let
+
+$\ZZ_1^n = \{1, 2, 3, \ldots, n\}$
+
+$M=$ \qt{base} {\bf manifold} (e.g., the surface of a sphere or Mobius strip)
+
+$\pi=$ a
+{\bf point on $M$}
+
+$T_\pi (M)=$
+{\bf tangent space at $\pi$}.
+A vector space.
+
+$n=$ dimension of $T_\pi(M)$.
+
+$\{\vece_i\}_{i=1}^n=$ {\bf tangent space basis (t-basis) a.k.a. a frame}, a basis for $T_\pi(M)$. These vectors need not be orthogonal nor normalized.
+
+$\{\vecpder{x^i}\}_{i=0}^n$ {\bf coordinate t-basis}
+for coordinates
+$\{x^i\}_{i=1}^n$ = a special t-basis for $T_\pi(M)$
+associated with the coordinate system $\{x^i\}_{i=1}^n$ on $M$.
+ As with the basis  $\{\vece_i\}_{i=0}^n$, the  t-basis $\{\vecpder{x^i}\}_{i=0}^n$ need not be orthogonal nor normalized.
+
+A {\bf tangent vector} $\vec{v}\in T_\pi(M)$
+lives at a single point $\pi\in M$.
+A {\bf tangent vector field} $\vecX:
+M\rarrow \cup_{\pi\in}T_\pi(M)$ assigns a vector $\vecX_\pi$
+ to every point $\pi\in M$.
+\footnote{
+A p-form $\ul{\omega}$ (defined later) is also defined pointwise. When we write
+$\ul{\omega}(\vecX, \vecY)$,
+we really mean the function
+$\pi \mapsto
+\ul{\omega_\pi}(\vecX_\pi, \vecY_\pi)
+$}
+
+The set\footnote{The disjoint union 
+$A\sqcup B$ of two sets $A$ and $B$ is similar to the usual union but it tags elements in the overlap so that $|A\sqcup B|=|A| + |B|$, even when $A$ and $B$ overlap.} $T(M)=\sqcup_{\pi\in M}T_\pi(M)$
+is called the {\bf fibre bundle}
+of $M$. Each
+$T_\pi(M)$ is a fibre.
+$T(M)$ has dimension $2n$.
+
+For coordinates $(x^i)_{i=1}^n$, let
+\beq
+\vec{r}= x^i\vecpder{x^i},
+\quad d\vecr = dx^i \vecpder{x^i}
+\eeq
+
+\beq
+\vecpder{x^i}=
+\frac{\partial\vec{r}}{\partial x^i},\quad
+\oper{\vecpder{x^i}}=
+\pder{\;}{x^i}\quad\text{(\qt{op}
+stands for \qt{operator})}
+\eeq
+
+\beq
+\hat{x}_i = \frac{\vecpder{x^i}}{|\vecpder{x^i}|}
+\eeq
+
+If
+\beq
+\vecV=V^i \vecpder{x^i},
+\eeq
+then
+
+\beq
+\vecV_{op}=\vecV\cdot \nabla=
+ V^i\frac{\partial}{\partial x^i},
+\quad \vecV_{op} \vec{r}
+=\vecV
+\eeq
+
+
+It's conventional
+to use $\pder{\;}{x^i}$
+to denote both
+$\vecpder{x^i}$ and
+$\oper{\vecpder{x^i}}$,
+but we won't follow
+that convention here.
+\\
+\hrule
+Coordinate versus non-holonomic bases
+
+
+Early workers in this field
+refer to
+a coordinate t-basis as a {\bf holonomic basis}.
+The word \qt{holonomic}
+comes from the Greek
+words \qt{holos}=whole or complete,
+and \qt{nomos}=a rule
+or prescription.
+
+
+In Classical Mechanics, a {\bf holonomic (or integrable) constraint}
+is one that can be
+written exclusively
+in terms of the coordinates of the system and time:
+
+\beq
+f(\vecr, t)=0
+\eeq
+where $\vecr=(x^1, x^2, \dots, x^n)$.
+By contrast, a {\bf non-holonomic (or non-integrable)
+constraint} involves velocities:
+
+\beq
+g(\vecr, \dot{\vecr}, t)=0
+\eeq
+
+In Differential Geometry, the term  {\bf holonomic basis (a.k.a., coordinate basis)}\footnote{Note that one defines a basis not the coordinates
+themselves as
+being holonomic or not.} refers to a t-basis 
+$\{\vece_i\}_{i=0}^n$
+for which there exists
+a coordinate system
+$\{\xi^i\}_{i=1}^n$ such that
+the incremental displacement $d\vecr$ can be expressed as
+
+\beq
+d\vecr = d\xi^i
+\vece_i
+\eeq
+Since 
+
+\beq
+d\vecr = d\xi^i \pder{\vecr}{\xi^i}
+\eeq
+this is equivalent to saying that
+
+
+\beq
+\vece_i = \pder{\vecr}{\xi^i}
+\eeq
+for all $i\in\ZZ_1^n$.
+
+For example, 
+
+\begin{claim} In polar coordinates
+$(r, \theta)$ in 2 dim,
+$(\hat{r}, \hat{\theta}) $
+is not a holonomic basis
+but $(\hat{r}, r\hat{\theta})$ is.
+\end{claim}
+\proof
+
+\beq 
+d\vecr = r \hat{r} + rd\theta \hat{\theta}=
+dr 
+\underbrace{\pder{\vecr}{r} }_{\vece_1}
++ d\theta 
+\underbrace{\pder{\vecr}{\theta}}
+_{\vece_2}
+\eeq
+If we choose
+$
+\vece_2=\hat{\theta}$
+then we arrive at the contradiction $rd\theta = d\theta$.
+
+If we choose 
+$
+\vece_2 = r\hat{\theta}
+$
+then we arrive at the tautology 
+$d\theta=d\theta$.
+
+
+\qed
+
+
+A t-basis $\{\vece_i\}_{i=1}^n$ is a coordinate=holonomic
+t-basis iff
+\beq
+[(\vece_i)_{op},
+(\vece_j)_{op}]=0
+\eeq
+for all $i,j\in\ZZ_1^n$.
+For example, for Cartesian coordinates
+in 2-dim,
+\beq
+d\vecr = dx \hat{x} + dy  \hat{y}
+\eeq
+so
+$(\hat{x}, \hat{y})$
+is holonomic because
+
+\beq
+\ul{d\vecr} = \ul{dx} \hat{x} + \ul{dy}  \hat{y}
+=
+\ul{dx} \pder{\vecr}{x}
++ \ul{dy} \pder{\vecr}{y}
+\eeq
+
+\beq
+ \oper{\pder{\vecr}{x}}=
+\pder{\;}{x},\quad
+\oper{\pder{\vecr}{y}}
+=\pder{\;}{y}
+\eeq
+
+
+
+\beq
+\left[\pder{\;}{x}, \pder{\;}{y}
+\right]=0
+\eeq
+For polar coordinates in 2-dim,
+
+\beq
+d\vecr =
+dr \hat{r} + rd\theta \hat{\theta}
+\eeq
+
+$(\hat{r}, \hat{\theta})$ is a non-holonomic t-basis because
+
+\beq
+\ul{d\vecr} =
+\ul{dr}
+ \underbrace{\hat{r} }_{\vece_1}
++ 
+\ul{rd\theta} 
+\underbrace{\hat{\theta}}_{\vece_2}
+=
+\ul{dr} 
+\underbrace{\pder{\vecr}{r}}_{\vec{e_1}}
++
+\ul{rd\theta}
+\underbrace{\left[\frac{1}{r}
+\pder{\vecr}{\theta}
+\right]}_{\vece_2}
+\eeq
+
+\beq
+ \oper{\pder{\vecr}{r}}=
+\pder{\;}{r},
+\quad
+\oper
+{\frac{1}{r}\pder{\vecr}{\theta}}
+=\frac{1}{r}\pder{\;}{\theta}
+\eeq
+
+\beq
+\left[
+\pder{\;}{r},
+\frac{1}{r}\pder{\;}{\theta}
+\right]\neq 0
+\eeq
+On the other hand,
+$(\hat{r}, r\hat{\theta})$
+is a holonomic t-basis because
+
+\beq
+\ul{d\vecr} =
+\ul{dr} 
+\underbrace{\hat{r}}_{\vece_1} 
++ 
+\ul{d\theta} 
+\underbrace{r\hat{\theta}}_{\vece_2}
+=
+\ul{dr}
+\underbrace{ \pder{\vecr}{r}}_{\vece_1}
++
+\ul{d\theta} 
+\underbrace{\pder{\vecr}{\theta}}_{\vece_2}
+\eeq
+
+\beq
+\oper{\pder{\vecr}{r}}=
+\pder{\;}{r},
+\quad
+\oper{\pder{\vecr}{\theta}}
+=\pder{\;}{\theta}
+\eeq
+
+\beq
+\left[
+\pder{\;}{r},
+\pder{\;}{\theta}
+\right]= 0
+\eeq
+
+In the General Relativity section \ref{sec-gen-rel},
+we will introduce
+the so called tetrad
+(vierbein) t-basis. That t-basis is non-holonomic too.
+
+
+A t-basis 
+$\{\vece_i\}_{i=1}^n$ is {\bf orthogonal} if
+$(\vece_i)^a 
+(\vece_j)_a=0$ for all $i\neq j$. That t-basis is said to be {\bf normalized} if $(\vece_i)^a 
+(\vece_i)_a= 1$
+for all $i$.
+A basis is {\bf orthonormal} if it is
+both  orthogonal
+and normalized.
+Whether a t-basis
+is orthonormal or not has nothing to
+do with whether it is holonomic or not. See Table
+\ref{tab-basis-notation}
+for may notation to express this
+fact.
+
+\begin{table}[h!]
+\begin{tabular}{|l|l|l|}
+\hline
+\begin{tabular}[c]{@{}l@{}}My notation for\\ t-basis vectors\end{tabular} & \cellcolor[HTML]{FFCCC9}not orthonormal & \cellcolor[HTML]{FFCCC9}orthonormal \\ \hline
+\cellcolor[HTML]{9AFF99}\begin{tabular}[c]{@{}l@{}}coordinate\\ (holonomic) t-basis\end{tabular} & $\vecpder{x^i}$ & $\hat{x}_i$, e.g., $(\hat{x}, \hat{y})$ \\ \hline
+\cellcolor[HTML]{9AFF99}non-holonomic t-basis & $\vece_i$ & $\hate_i$, 
+e.g., $(\hat{r}, \hat{\theta})$\\ \hline
+\end{tabular}
+\caption{My notation for t-basis vectors 
+that are orthonormal or not and holonomic or not. }
+\label{tab-basis-notation}
+\end{table}
+
+
+
+\hrule
+Duality relations
+
+A {\bf 1-form} $\pform{\omega}{}=\ul{\omega}(\cdot)$ is just a linear function
+from $T_\pi(M)$ to $\RR$. Later on
+we will generalize 1-forms to p-forms.
+For now,
+just keep in mind
+that we underline 
+1-forms and put a vector sign 
+over vectors, and no sign on real numbers,
+so $\ul{\omega}(\vecX)=a$;
+i.e., the 1-form eats vectors and produces reals. When it does,
+the underline and vector 
+signs cancel each other.
+
+ Differentials like
+$dx$ are replaced by a 1-form $\ul{dx}$ in Differential Geometry.
+
+With the coordinate t-basis $\{\vecpder{x^a}\}_{a=1}^n$ 
+we associate a basis of 1-forms $\{\ul{dx^a}\}_{a=1}^n$
+called the {\bf (coordinate) dual t-basis or covector basis or coframe}.
+This pair of bases obeys the {\bf duality relation}
+
+\beq
+\ul{dx^a}(\vecpder{x^b})=\delta^a_b
+\eeq
+Likewise, with a non-holonomic
+t-basis  $\{e_a\}_{a=1}^n$ we associate a basis of 1-forms $\{ \ul{\theta^a}\}_{a=1}^n$
+called the {\bf dual t-basis
+or covector basis
+or coframe}.
+This pair of bases
+obey the {\bf duality relation}
+
+\beq
+\ul{\theta^a}(\vece_b)=
+\delta^b_a
+\eeq
+See Table 
+\ref{tab-basis-dual-basis} for a summary
+of this notation
+concerning duality relations.
+
+We will call
+$T_\pi(M)$
+the vector space that 
+the t-basis spans and $\wedge_\pi(M)$ the vector space that the coframe basis spans
+(at point $\pi\in M$)
+
+
+\begin{table}[h!]
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{FFFC9E}
+\cellcolor[HTML]{FFFFFF} &  t-basis & dual t-basis & \begin{tabular}[c]{@{}l@{}}displacement \\ vector\end{tabular} &
+\begin{tabular}[c]{@{}l@{}}duality \\ relations \end{tabular}\\\hline
+\cellcolor[HTML]{DAE8FC}coordinate t-basis & $\vecpder{x^a}$ & $\pform{dx^a}{}$ & $\pform{d\vecr}{}= \vecpder{x^a}\pform{dx^a}{}$ & $\ul{dx^a}(\vecpder{x^b})=\delta^a_b$ \\ \hline
+\cellcolor[HTML]{DAE8FC}non-holonomic t-basis & $\vece_a$ & $\pform{\theta^a}{}$ & $\pform{d\vecr}{}=\vece_a\pform{\theta^a}{}$ & $\ul{\theta^a}(\vece_b)=\delta^a_b$ \\ \hline
+\end{tabular}
+\caption{Notation for coordinate (holonomic) and non-holonomic
+duality relations.}
+\label{tab-basis-dual-basis}
+\end{table}
+
+
+
+\subsection{Lie Bracket}
+
+The {\bf Lie bracket}
+$[\vecX, \vecY]$
+of two vector fields $\vecX$ and $\vecY$
+is NOT defined by
+
+\beq
+[\vecX, \vecY]=
+\vecX\otimes\vecY-
+\vecY\otimes\vecX
+\quad\text{(Incorrect!)}
+\eeq
+because the right side 
+of this equation is meaningless
+or at least never used.
+Instead, 
+$[\vecX, \vecY]$  is 
+defined so that for any smooth function $f$, 
+
+\beq
+[\vecX, \vecY]f=
+\vecX(\vecY(f))-
+\vecY(\vecX(f))
+\eeq
+So a Lie bracket
+is defined, not as the difference of the tensor 
+product of $\vecX$ and $\vecY$
+in two different  orders,
+but as the difference of the function composition
+of  $\vecX$ and $\vecY$
+in two different  orders.
+To see how this works, 
+suppose
+
+\beq
+\vecX = X^i\vecpder{x^i},
+\quad \vecY = Y^j\vecpder{x^j}
+\eeq
+Then
+
+\beqa
+[\vecX, \vecY]f &=&
+X^i\left[\pder{Y^j}{x^i}
+\right]
+\pder{f}{x^j}
++ X^iY^j
+\pder{\;}{x^i}\pder{f}{x^j}
+-
+(X\swap Y)
+\\
+&=&
+X^i\left[\pder{Y^j}{x^i}
+\right]
+\pder{f}{x^j}
+-(X\swap Y)
+\eeqa
+Hence
+
+\beq
+[\vecX, \vecY]=
+X^i\left[\pder{Y^j}{x^i}
+\right]
+\vecpder{x^j}
+-(X\swap Y)
+\eeq
+This explains why
+most differential
+geometers use the
+same symbol $\pder{\;}{x^i}$ for 
+$\vecpder{x^i}$ and
+$\pder{\;}{x^i}$. 
+They follow the rule:
+If $\pder{\;}{x^i}$
+is acting 
+on a function $f(x)$,
+assume the differential
+operator. If there
+is no function $f(x)$
+to act on, assume the
+tangent vector.
 
 
 
