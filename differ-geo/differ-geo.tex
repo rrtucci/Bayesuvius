@@ -656,6 +656,11 @@ is a holonomic t-basis because
 \pder{\;}{\theta}
 \right]= 0
 \eeq
+Note that $\vecpder{\theta}$
+is well defined in
+the non-holonomic basis, but 
+it's not $\vece_2$.
+In the holonomic basis, it is $\vece_2$.
 
 In the General Relativity section \ref{sec-gen-rel},
 we will introduce
@@ -843,20 +848,359 @@ is no function $f(x)$
 to act on, assume the
 tangent vector.
 
+\subsection{p-forms}
+
+
+We will always
+underline p-forms,
+and, except in special
+cases, use
+Greek letters to represent them (e.g., $\ul{\omega}$)
+Sometimes,
+we will be 
+more explicit and
+write
+$\pform{\omega}
+{p}$ for a
+p-form, where
+$\$^p$
+represents $p$
+place holders or empty slots
+to be filled by $p$ vector fields.
+
+Let's state first
+the gist of this section before we present it in excruciating detail. For 1-forms
+$\ul{\alp_1},\ul {\alp_2},
+\ul{\alp_3}, \ldots$, we define
+ 2-forms by
+
+\beq
+\ul{\alp_1}\wedge\ul{\alp_2}=
+\ul{\alp_1}\otimes\ul{\alp_2}
+-
+\ul{\alp_2}\otimes\ul{\alp_1}
+\eeq
+Note that there is no factor of 1/2
+on the right side of this definition of 2-forms. It's easy to confuse this definition with
+\beq
+\ul{\alp_1}\wedge \ul{\alp_2}=
+\frac{1}{2}[\ul{\alp_1}\wedge \ul{\alp_2}
+-
+\ul{\alp_2}\wedge \ul{\alp_1}]
+\eeq
+which does have
+a factor of $1/2$.
+We define 3-forms by
+
+\beqa
+\ul{\alp_1}\wedge\ul{\alp_2}
+\wedge\ul{\alp_3}
+&=&
+\ul{\alp_1}\otimes\ul{\alp_2}
+\otimes \ul{\alp_3}
++ \spermu{123}
+\\
+&=&
+\ul{\alp_1}\otimes\ul{\alp_2}
+\otimes \ul{\alp_3}
++ \epermu{123}
+- \opermu{123}
+\eeqa
+We define p-forms with $p\geq 4$
+in a similar manner.
+
+Now, a more detailed description:
+
+
+\begin{itemize}
+\item  0-form:
+
+A 0-form is just
+a smooth function $f$ such that
+
+\beq
+\ul{\omega} = f,\quad
+f: M\rarrow \RR
+,\quad
+\pi \mapsto  f(\pi)
+\eeq
+For example,
+if
+\beq
+f(x,y)=x^2 + y \quad \text{and}
+\quad \pi= (2,3)\eeq
+then
+
+\beq f(\pi)= 2^2 + 3= 7
+\eeq
+
+\item 1-form:
+
+A 1-form
+$\ul{\omega}\in \wedge_\pi(M)$ is a LINEAR map
+
+\beq
+\ul{\omega}: T_\pi(M)\rarrow \RR,\quad
+\vecX\mapsto \ul{\omega}(\vecX)
+\eeq
+where $\vecX$ is an $n$-dim vector.
+$T_\pi(M)$ is called the {\bf tangent space at $\pi$} and
+$\wedge_\pi(M)$ is called the {\bf dual tangent space at $\pi$}.
+We can always 
+express $\vecX$ and $\pform{\omega}{}$
+as
+
+\beq
+\vecX = X^i\vecpder{x^i}, \quad
+\ul{\omega}(\vecX)=\sum_{i=1}^n \omega_i \ul{dx^i}(\vecX)
+\eeq
+
+where
+$\{\vecpder{x^i}\}_{i=1}^n$
+is the {\bf coordinate t-basis} and $\{\pform{dx^i}{}\}_{i=1}^n$
+is the {\bf coordinate dual t-basis}  for coordinates
+$\{x^i\}_{i=1}^n$.
+ These two bases satisfy
+the {\bf duality relation}
+
+\beq
+\ul{dx^j}(\vecpder{x^i})=\delta_i^j
+\eeq
+for $i, j\in\ZZ_1^n$.
+
+For example,
+if $\ul{\omega}$ and $\vecX$ 
+are as follows
+\beq
+\pform{\omega}{}= 2 \pform{dx}{}
++ 5 \pform{dy}{},
+\quad
+\vecX = a \vecpder{x}
++ b \vecpder{y}
+\eeq
+then,
+using $\ul{dx^i}(\vecpder{x^j})=\delta(i,j)$, we get
+
+\beq
+\ul{\omega}(\vecX)=
+2a + 5b
+\eeq
+
+\item 2-form:
+
+A 2-form
+$\ul{\omega}\in \wedge_\pi(M)\wedge \wedge_\pi(M)=\wedge^2_\pi(M)$
+is a LINEAR map
+\beq
+\ul{\omega}: T_\pi(M)\times T_\pi(M)=T^2_\pi(M)\rarrow \RR,\quad (\vecX,\vecY)\mapsto \ul{\omega}(\vecX, \vecY)
+\eeq
+where $\vecX$ and $\vecY$ are n-dim vectors.
+We can always 
+express $\pform{\omega}{2}$
+as
+
+\beq
+\ul{\omega}(\vecX, \vecY)=\sum_{1\leq i < j\leq n} \omega_{ij} \ul{dx^i}(\vecX)
+\wedge \ul{dx^j}(\vecY)
+\eeq
+where
+
+\beq
+\pform{dx^i}{}\wedge \pform{dx^j}{}=\pform{dx^i \wedge dx^j}{2}
+\eeq
+
+
+\beq
+\ul{dx^1}\wedge \ul{dx^1}=
+\ul{dx^2}\wedge \ul{dx^2}=0
+\eeq
+
+\beq
+\ul{dx^1}\wedge \ul{dx^2}=
+-\ul{dx^2}\wedge \ul{dx^1}
+\eeq
+
+
+$\{\pform{dx^i}{}
+\wedge \pform{dx^j}{}\mid
+i\in \ZZ_1^n, j\in \ZZ_1^n,
+i<j\}$
+is a basis for the 2-forms on $T_\pi(M)\times
+T_\pi(M)$. It's defined by
+
+\beq
+\ul{dx^i}(\vecX)
+\wedge \ul{dx^j}(\vecY)=
+\ul{dx^i}(\vecX)
+\otimes \ul{dx^j}(\vecY)
+-
+\ul{dx^i}(\vecY)
+\otimes \ul{dx^j}(\vecX)
+\eeq
+for $i, j\in\ZZ_1^n$.
+Hence,
+
+\beq
+\ul{dx^1}(\vecX)\wedge\ul{dx^2}(\vecY)=
+-\ul{dx^1}(\vecY)\wedge\ul{dx^2}(\vecX)=
+\ul{dx^2}(\vecX)\wedge\ul{dx^1}(\vecY)
+\eeq
+In other words, these basis elements
+ change sign
+if one swaps the
+arguments $\vecX$ and $\vecY$
+or one swaps the indices 1,2.
+
+
+
+For example, if
+$\ul{\omega}$ 
+and $\vecX, \vecY$ are defined as follows
+
+\beq
+n=2,\quad
+\ul{\omega}=
+\ul{dx}\wedge \ul{dy},\quad
+\vecX= X^1 \vecpder{x}
++ X^2 \vecpder{y}
+,\quad
+\vecY= Y^1 \vecpder{x}
++ Y^2 \vecpder{y}
+\eeq
+then
+\beq
+\ul{\omega}(\vecX,\vecY)= X^1 Y^2 -
+X^2 Y^1
+\eeq
+
+\item p-forms
+
+A p-form $\ul{\omega}\in
+\underbrace{\wedge_\pi(M)\wedge \cdots \wedge \wedge_\pi(M)}_{\text{$p$ copies of $\wedge_\pi(M)$}}=
+\wedge^p_\pi(M)$ is a LINEAR map
+
+\beq
+\begin{array}{l}
+\ul{\omega}:
+\underbrace {T_\pi(M)
+\times
+\cdots
+T_\pi(M)}_{
+\text{ $p$ copies of } T_\pi(M)}=T^p_\pi(M)
+\rarrow \RR,
+\\
+(\vecX^{(1)}, \vecX^{(2)}, \ldots, \vecX^{(p)})\mapsto
+\ul{\omega}(\vecX^{(1)}, \vecX^{(2)}, \ldots, \vecX^{(p)})
+\end{array}
+\eeq
+where $\vecX^{(j)}$ for $j=1, 2, \dots p$ are n-dim vectors.
+
+Let
+
+\beq
+\ul{\otimes  dx^{i_1 i_2\cdots i_p}}
+(\vecX^{(1)}, \vecX^{(2)}, \ldots, \vecX^{(p)})
+=
+\ul{dx^{i_1}}(\vecX^{(1)})
+\otimes
+\ul{dx^{i_2}}(\vecX^{(2)})
+\otimes \cdots
+\otimes
+\ul{dx^{i_p}}(\vecX^{(p)})
+\eeq
+where $\otimes $ is the
+Cartesian (order preserving) product for reals.
+
+\beq
+\ul{\wedge dx^{i_1 i_2\cdots i_p}}
+(\vecX^{(1)}, \vecX^{(2)}, \ldots, \vecX^{(p)})
+=
+\ul{dx^{i_1}}(\vecX^{(1)})
+\wedge
+\ul{dx^{i_2}}(\vecX^{(2)})
+\wedge\cdots
+\wedge
+\ul{dx^{i_p}}(\vecX^{(p)})
+\eeq
+
+
+
+\beq
+\cali^p =\{ I\mid I=(i_1, i_2, \cdots, i_p) , \quad 1\leq i_1, i_2,\cdots ,i_p\leq n\}
+\eeq
+
+\beq
+\cali^p_< =\{ I\mid I=(i_1, i_2, \cdots, i_p) , \quad 0\leq i_1< i_2<\cdots <i_p\leq n\}
+\eeq
+Then we can express $\pform{\omega}{p}$ as
+
+\beq
+\pform{\omega}{p}=
+\sum_{I \in \cali^p_<} \omega_I
+\pform{\wedge d x^I}{p}
+=
+\frac{1}{p!}
+\sum_{I \in \cali^p}
+\omega_I \pform{\wedge d x^I}{p}
+\eeq
+
+
+$\{\pform{\wedge dx^I}{}
+\mid I\in
+\cali^p_<\}$
+is a basis for the p-forms in $T^p_\pi(M)$. It satisfies
+
+\beq
+\ul{\wedge dx^I}(\vecX^{(I)})=
+\sum_{\s\in S_p}sign(\s)
+\ul{\otimes dx^I}(\vecX^{(\s(I))})
+\eeq
+for $I \in \cali^p$,
+where $\s$ ranges over all possible permutations of $p$ symbols.
+Hence,
+
+\beq
+\ul{\wedge dx^I}(\vecX^{(I)})=
+-\ul{\wedge dx^I}(\vecX^{(\s (I))})
+\eeq
+if $\s$ is a swap (transposition)
+of any two symbols of $I$.
+In other words, these basis elements
+ change sign
+if you exchange any two
+arguments $\vecX$ and $\vecY$.
+
+
+\end{itemize}
+
 
 
 \subsection{Metric}
 
 Given two vector fields
-$\vecU = U^i \vecpder{x^i}$,
-and $\vecV = V^i \vecpder{x^i}$,
+
+\beq\vecU = U^i \vece_i,
+\quad
+\vecV = V^i \vece_i\eeq
 the metric function $\metric(\vecU, \vecV)$ satisfies
 \beq
 \metric(\vecU, \vecV)=
 \metric(\vecV, \vecU) = V^i U^j
-\underbrace{\metric(\vecpder{x^i}, \vecpder{x^j})}_{\vecpder{x^i}
-\cdot\vecpder{x^j}=\metric_{ij}}
+\metric(\vece_i, \vece_j)
 \eeq
+where
+
+\beq
+\metric(\vece_i, \vece_j)
+=\av{\vece_i
+,\vece_j}=\metric_{ij}
+\eeq
+for some inner product $\av{\cdot, \cdot}$. For example,
+one can use
+the coordinate t-basis
+$\vece_i=\vecpder{x^i}$
+and the dot product 
+as inner product.
 
 Let $\metric$ represent the metric
 matrix
@@ -882,6 +1226,9 @@ we have
 $\metric=diag(1, r^2)$ so
 $(ds)^2 = (dr)^2 + r^2 (d\theta)^2$.
 
+Next we discuss
+so properties of $\metric$
+
 \begin{itemize}
 
 \item signature
@@ -891,6 +1238,20 @@ is $(N^-, N^+)$, where $N^+$ (resp., $N^-$)
 is  number of positive (resp., negative) eigenvalues. A metric 
 with $N^-=0$ is  said to be 
 a {\bf \Rien metric}.
+For example, the Euclidean metric
+in $n$-dim,
+ 
+\beq\metric = diag(\underbrace{1, 1, \cdots, 1}_{n \text{ ones}})\eeq
+ A metric with
+$N^-\geq 1$ is said
+to be a {\bf pseudo- \Rien} metric.
+For example, the 
+Lorentz metric 
+in 4-dim 
+
+\beq
+\metric= diag(-1, 1, 1, 1)
+\eeq
 
 \item $\metric$ is symmetric
 
@@ -918,29 +1279,33 @@ For example, in polar
 coordinates, $\metric=diag(1, r^2)$, $\metric^{-1}= (1, 1/r^2)$.
 
 \item raising and lowering indices with $\metric$
+and $\metric^{-1}$
+
 \beq
 V_j = V^i \metric_{ij},\quad
 V^j = V_i\metric^{ij}
 \eeq
 
-\item computing magnitude of a vector with $g$
+\item computing magnitude of a vector with $\metric$
+
 \beq
-|\vecV|^2 = \metric(\vecV, \vecV)=
+|\vecV|^2 
+=\av{\vecV, \vecV}= \metric(\vecV, \vecV)=
 V^i V^j \metric_{ij}= V^i V_i
 \eeq
 \item inner product
-\beqa
-\av{\vecpder{x^i}, \vecpder{x^j}}&=& \metric_{ij}
-\\
-\av{\ul{dx^i},\vecpder{x^j}} &=&
-\ul{d x^i} (\vecpder{x^j})=\delta_i^j
-\\
-\av{\ul{dx^i}, \ul{dx^j}}&=&
-\metric^{ij}
-\eeqa
+in coordinate t-basis.
 
+We can use the metric in the
+coordinate t-basis
+to define an inner product 
+of not just 2 vectors
+<vector, vector>,
+but also
+an inner product of <vector,  1-form>,
+<1-form, 1-form>, and <p-form, q-form>.
 
-
+Suppose
 
 \beq
 \left\{
@@ -957,6 +1322,22 @@ V^i V^j \metric_{ij}= V^i V_i
 \end{array}
 \right.
 \eeq
+Then
+
+\beqa
+\av{\vecpder{x^i}, \vecpder{x^j}}&=& \metric_{ij}
+\\
+\av{\ul{dx^i},\vecpder{x^j}} &=&
+\ul{d x^i} (\vecpder{x^j})=\delta_i^j
+\\
+\av{\ul{dx^i}, \ul{dx^j}}&=&
+\metric^{ij}
+\eeqa
+
+
+
+
+
 
 \beqa
 \metric(\vecU,\vecV)&=&
@@ -976,13 +1357,16 @@ U^i V^j
 )}_{\metric^{ij}}
 \eeqa
 
-p-forms
+Suppose we are given 
+a  p-form $\pform{\alp}{p}$
+and a q-form $\pform{\beta}{q}$:
 
 \beq
 \pform{\alp}{p}=\sum_{I\in \cali^p_<}\alp_I \pform{\wedge dx^I}{p},
 \quad
 \pform{\beta}{q}=\sum_{I\in \cali^q_<}\beta_I \pform{\wedge dx^I}{q}
 \eeq
+Then define their inner product by
 
 \beq
 \av{\pform{\alp}{p}, \pform{\beta}{q} }=
@@ -1097,38 +1481,44 @@ x\ar[r]|\phi
 \pback{\phi}{\phi(x)}{f}(\phi)=f\circ\phi(x)
 \eeq
 
+
 The pullback function is often denoted by
- $(\phi^*f)(x)$ in the literature.
+ $(\phi^*f)(x)$ in the literature. Hence
 
 \beq
 (\phi^*f)(x) = \pback{\phi}{\phi(x)}{f}(\phi)
 \eeq
+$\pback{\phi}{\phi(x)}$ is my own notation.
 Both notations can be useful.
 
 
-The  pullback function
-is seldom used by physicists.
+Pullback functions
+are seldom used by physicists.
 They will either use $f(\phi(x))$ only,
 or they will
 write slightly confusing statements like
-$f(x)= f(\phi)$ (as they do in Thermodynamics, were they
+$f(x)= f(\phi)$ (as they do in Thermodynamics, where they
 write statements like $U(S, V)= U(P, T)$
 instead of $U(S, V)= U(\phi(P, T))$.\quad).
-It's a tradeoff. Not using pullback functions makes
+It's a tradeoff. Not using pullback functions or $\phi$ as in $U(S, V)= U(P, T)$ makes
 the notation
 more succinct but less precise. Using the pullback
 function can make some
-statements more symmetrical too. (for example, $(\phi^*U)(P, T)$ looks better than $U(\phi(P, T))$.\;).
-
+statements look less cluttered. (for example, $(\phi^*U)(P, T)$ looks better than $U(\phi(P, T))$.\;).
 
 
 \subsection{Exterior Derivative}
 
+The {\bf exterior derivative $d$} maps
+
 
 \beq
-d\;\pform{\omega}{p}=
+d:\wedge^p_\pi(M)\rarrow \wedge^{p+1}_\pi(M), \quad
+\pform{\omega}{p}\mapsto
 \pform{d\omega}{p+1}
 \eeq
+Let us define it first for $p=0, 1, 2$ before
+we  define it for arbitrary $p$.
 
 \begin{itemize}
 \item $d$ acting on 0-form $f(x)$:
@@ -1138,16 +1528,29 @@ d\;\pform{\omega}{p}=
 
 \item $d$ acting on 1-form $\pform{\omega}{}$:
 
+Suppose
+
 \beq
 \pform{\omega}{}= \sum_{i=1}^n \omega^i\pform{dx^i}{}
 \eeq
-
+Then
 
 
 \beqa
 \pform{d\omega}{2} &=&
 \sum_{i,j}
 \pder{\omega^i}{x^j}
+\pform{dx^j}{}
+\wedge\pform{dx^i}{}
+\\
+&=&
+\frac{1}{2}
+\sum_{i,j}
+\left[
+\pder{\omega^i}{x^j}
+-
+\pder{\omega^j}{x^i}
+\right]
 \pform{dx^j}{}
 \wedge\pform{dx^i}{}
 \\
@@ -1161,7 +1564,7 @@ d\;\pform{\omega}{p}=
 \pform{dx^j}{}
 \wedge\pform{dx^i}{}
 \eeqa
-
+where we've used 
 \beq
 a_{12}\;
 \ul{dx^1}\wedge \ul{dx^2}
@@ -1176,10 +1579,13 @@ a_{21}\;
 
 \item $d$ acting on p-form $\pform{\omega}{p}$:
 
+Suppose
+
 \beq
 \pform{\omega}{p}=
 \frac{1}{p!} \sum_{I\in \cali^p} \omega^I\pform{\wedge dx^I}{p}
 \eeq
+Then
 
 
 
@@ -1221,6 +1627,16 @@ For $p=1$, this reduces to
 \right]
 \pform{dx^j}{}\wedge
 \pform{dx^i}{}
+\\
+&=&
+\frac{1}{2}
+\sum_{(j, i) \in \cali^2}
+\left[\pder{\omega^i}{x^j}
+-
+\pder{\omega^j}{x^i}
+\right]
+\pform{dx^j}{}\wedge
+\pform{dx^i}{}
 \eeqa
 as expected.
 
@@ -1228,37 +1644,128 @@ as expected.
 
 
 \begin{claim}
-For any two p-forms
-$\pform{\alp}{p}$
-and $\pform{\beta}{q}$
-and function $f(x)$
+For any p-form
+$\pform{\alp}{p}$,
+q-form $\pform{\beta}{q}$
+and scalar function $f(x)$
 
 \beq
 d(f\ul{\alp})=
 \ul{df}\wedge \ul{\alp}
+\label{eq-d-f-alp}
 \eeq
 
 \beq
 d(\ul{\alp} + \ul{\beta})=
 d\ul{\alp} + d\ul{\beta}
+\label{eq-d-alp-beta}
 \eeq
 
 \beq
 d(\ul{\alp}\wedge \ul{\beta})=
 d\ul{\alp}\wedge \ul{\beta}
-+(-1)^{pq}
++(-1)^{p}
 \ul{\alp}\wedge d\ul{\beta}
+\label{eq-d_alp-wedge-beta}
 \eeq
 
 \beq
 d(d\ul{\alp})=0
+\label{eq-d-sq-alp}
 \eeq
 \end{claim}
 \proof
+
+Eq.(\ref{eq-d-f-alp}) and Eq.(\ref{eq-d-alp-beta})
+are standard behavior
+for any derivative operator.
+
+Let's prove Eq.(\ref{eq-d_alp-wedge-beta})
+for the 
+following special case so the reader can see
+what is going on. Suppose
+
+\beq
+\ul{\alp}=
+a \ul{dx^1}\wedge \ul{dx^2}\wedge\ul{dx^3},
+\quad
+\ul{\beta}=
+b \ul{dx^4}\wedge \ul{dx^5}
+\eeq
+Then
+
+\begin{align}
+d\ul{\omega}
+&=
+\sum_i [(\partial_i a )
+b+ a \partial_i b]
+ \ul{dx^i}\wedge \ul{\wedge dx^{12345}}
+\\
+&=
+\left[
+\sum_i 
+\partial_i a
+\ul{dx^i}\wedge
+\ul{\wedge dx^{123}}
+\right]
+\left[
+b\ul{\wedge dx^{45}}
+\right]
+-
+\left[
+a
+\ul{\wedge dx^{123}}
+\right]
+\left[\sum_i \partial_i
+b\ul{dx^i}\wedge
+\ul{\wedge dx^{45}}
+\right]
+\\
+&=
+\ul{d\alp}\wedge \ul{\beta}
++ (-1)^p\ul{\alp}
+\wedge
+\ul{d\beta}
+\end{align}
+because the $\ul{dx^i}$ has to move across  the  
+$\ul{dx^j}$ with
+$j=1,2,3$,
+and there are $p=3$ of them.
+
+Let's prove Eq.(\ref{eq-d-sq-alp})
+for the 
+following special case so the reader can see
+what is going on. Suppose
+
+\beq
+\ul{d\omega}=
+\sum_i \partial_i a
+\ul{dx^i}\wedge \ul{dx^1}
+\eeq
+Then
+
+\beqa
+d(\ul{d\omega})
+&=&
+\sum_j \sum_i\partial_j\partial_i a
+\ul{dx^j}\wedge
+\ul{dx^i}\wedge \ul{dx^1}
+=0
+\eeqa
+because the product
+of a symmetric 
+quantity
+$\partial_j\partial_i a$ and
+an anti-symmetric 
+quantity 
+$\ul{dx^j}\wedge
+\ul{dx^i}$ is zero. 
+
 \qed
 
 \begin{claim}
-For a 1-form $\pform{\omega}{}$,
+For a 1-form $\pform{\omega}{}$
+and vector fields $\vecX, \vecY$,
 
 \beq
 \ul{d\omega}(\vecX, \vecY)= 
@@ -1272,41 +1779,56 @@ For a 1-form $\pform{\omega}{}$,
 \end{claim}
 \proof
 
-Start with 
-
-\beq
-\ul{\omega} =
-f\ul{dg}
-\eeq
-
+In general, 
 \beq
 \ul{\omega} =
 \sum_i
 f_i\ul{dg_i}
 \eeq
-Enough to prove for
-$f\ul{dg}$.
+Because of linearity,
+it's
+enough to prove this claim for
 
 \beq
+\ul{\omega}=f\ul{dg}
+\eeq
+
+\begin{itemize}
+\item Left side
+of Eq.(\ref{cl-d-1-form}), 
+find
+$\ul{d\omega}(\vecX, \vecY)$
+
+Note that
+
+\beq
+d\ul{\omega}=
 d(f\ul{dg})=
 \ul{df}
 \wedge \ul{dg}
 + f \cancel{\ul{d^2g}}
 \eeq
+so
 
-\beqa
-\ul{d\omega}(\vecX, \vecY) &=&
+
+\beq
+\boxed
+{\ul{d\omega}(\vecX, \vecY) =
 \ul{df}(\vecX)
 \ul{dg}(\vecY)
 -
 \ul{dg}(\vecX)
 \ul{df}(\vecY)
-\\
-&=&
+=
 \vecX(f)\vecY(g)
 -
-(\vecX \swap \vecY)
-\eeqa
+(\vecX \swap \vecY)}
+\eeq
+
+\item Right side
+of Eq.(\ref{cl-d-1-form}),
+find $\vecX(\ul{\omega}(\vecY))$ and
+$\vecY(\ul{\omega}(\vecY))$
 
 \beq
 \ul{\omega}(\vecY)
@@ -1329,6 +1851,9 @@ f\vecY(g)
 \boxed{\text{Eq.(\ref{eq-x-omega-y}) with }
 (\vecX\swap \vecY)}
 \eeq
+
+\item Right side of Eq.(\ref{cl-d-1-form}),
+find $\ul{\omega}([\vecX, \vecY])$
 
 \beq
 \ul{\omega}([\vecX, \vecY])=
@@ -1354,14 +1879,16 @@ f\left(
 \right)}
 \eeq
 
-\beqa
+\item Putting it all together
+
+\begin{align}
 \vecX(\ul{\omega}(\vecY))-\vecY(\ul{\omega}(\vecX))
 -
 \ul{\omega}
 (
 [\vecX, \vecY]
 )
-&=&
+&=
 \left\{
 \begin{array}{l}
 \vecX(f)\vecY(g)
@@ -1369,7 +1896,7 @@ f\left(
 {\color{blue}f\vecX(\vecY(g))}
 \\
 -\left[
-\vecX(f)\vecY(g)
+\vecY(f)\vecX(g)
 +
 {\color{red}f\vecY(\vecX(g))}
 \right]
@@ -1381,19 +1908,31 @@ f\left(
 \end{array}
 \right\}
 \\
-&=&
+&=
 \vecX(f)\vecY(g)
 -
 (\vecX\swap \vecY)
 \\
-&=&
+&=
 \ul{d\omega}
 (\vecX, \vecY)
-\eeqa
+\end{align}
+Two red terms cancel. Two blue
+terms cancel.
+\end{itemize}
 
 \qed
 
-\hrule Exact and Closed 1-form
+\hrule Exact and Closed 1-forms
+
+An 1-form $\pform{\omega}{}$ 
+is said to be {\bf exact}
+if there exists a \qt{potential function} $f(x)$ such that $\pform{\omega}{}=\pform{df}{}$. It comes \qt{from a derivative $d$}.
+
+An 1-form $\pform{\omega}{}$ 
+is said to be {\bf closed}
+if $d\pform{\omega}{}=0$.
+It has \qt{no derivative $d$}
 
 \beq
 \begin{array}{ccc}
@@ -1426,310 +1965,12 @@ For example, consider the 1-form $\ul{d\theta}$ for polar coordinates
 $(r, \theta)$
 with $M=$ the puncture plane $\RR^2-\{(0,0)\}$. $d(\ul{d\theta})=0$ so $\ul{d\theta}$ is closed but 
 $\int_0^{2\pi} d\theta =2\pi$ so there is no continuous 
-function $\alp$, (unlike $d\theta$ which is not continuous because it jumps at the cut)  defined over all $M$ such that $d\theta = d\alp$. Otherwise,
-$\int_{0}^{2\pi} d\theta= \int_{0}^{2\pi} d\alp = 0$.
-
-
-\subsection{Hodge star operator}
-
-Suppose
-$
-\ul{\theta^1},\ldots,
-\ul{\theta^n}
-$
-is an {\bf oriented orthonormal dual t-basis}.
-Then we define the volume p-form by
-\beq
-\pform{d^n x}{n}=
-\pform{\theta^1}{}\wedge\cdots\wedge \pform{\theta^n}{}
-\label{eq-def-vol}
-\eeq
-For example, in the usual coordinate dual t-basis
-in 3 dimensions,
-
-\beq
-\pform{d^3x}{3}= \pform{dx}{}\wedge \pform{dy}{}\wedge \pform{dz}{}
-\eeq
-Note that the volume p-form can have
-positive or negative values!
-
-\beq
-\ul{d^3 x}=
--\ul{dy}\wedge\ul{dx}\wedge \ul{dz}
-\eeq
-So the definition of the $\ul{d^n x}$ p-form assumes that a particular 
-orientation of the manifold 
-$M$ has been chosen a priori.
-i.e., the order $x\rarrow y\rarrow z$
-has been declared a positive orientation.
-
-
-
-For every p-form $\pform{\omega}{p}$, the {\bf Hodge star} $(n-p)$-form $
-\pform{\star \omega}{n-p}$ is 
-defined as the unique form that
-satisfies
-
-\beq
-\pform{\alpha}{p}
-\wedge
-\pform{\star\omega}{n-p}
-= \av{\pform{\alpha}{p},\pform{\omega}{p}}\pform{d^n x}{n}
-\eeq
-for every p-form $\pform{\alpha}{p}$.
-
-Here
-$\av{
-\ul{\alpha},
-\ul{\omega}}$ is the point-wise inner product on p-forms induced by the metric. It was defined earlier in
- Eq.(\ref{eq-point-inner-p}).
-
-Note that the sign and value of the
-Hodge star of a p-form
-can change if we change
-the orientation or metric.
-You can determine
-the orientation of a dual t-basis
-from the metric.
-They are totally independent 
-quantities.
-The Hodge star depends on both.
-
-
-
-
-The Hodge star is especially simple to calculate on an orthonormal dual t-basis
-$\ul{\theta^1}, \ul{\theta^2}
-\cdots, \ul{\theta^n}$.
-For example,
-\beq
-\star(\ul{\theta^{i_1}}
-\wedge\cdots\wedge
-\ul{\theta^{i_p}}
-)=
-\pm
-\ul{\theta^{j_1}}
-\wedge\cdots\wedge
-\ul{\theta^{j_{n-p}}}
-\eeq
-where the $j$'s are the complementary indices of the $i$'s, and the sign is chosen so that
-
-\beq
-(\ul{\theta^{i_1}}
-\wedge\cdots\wedge
-\ul{\theta^{i_p}}
-)
-\wedge
-\star(
-\ul{\theta^{i_1}}
-\wedge\cdots\wedge
-\ul{\theta^{i_p}}
-)=
-\ul{d^n x}
-\eeq
-
-Examples
-\begin{enumerate}
-
-\item $n=5$. Take the oriented orthonormal dual t-basis
-$(\ul{dx^1}, \ul{dx^2}, \ul{dx^3}, \ul{dx^4}, \ul{dx^5})$
-
-\beq
-\star(\ul{dx^1}\wedge \ul{dx^3} \wedge \ul{dx^5})
-=\s \ul{dx^2}\wedge \ul{dx^4}
-\eeq
-
-\begin{align}
-\s
-(\ul{dx^1}\wedge \ul{dx^3} \wedge \ul{dx^5})\wedge 
-(\ul{dx^2}\wedge \ul{dx^4})
-&=-\s
-\ul{dx^1}\wedge
-\ul{dx^2}\wedge
-\ul{dx^3}\wedge
-\ul{dx^4}\wedge
-\ul{dx^5}
-\\
-&=
--\s \ul{d^5 x}
-\end{align}
-so $\s=-1$
-
-
-
-\item $n=3$. Take the orthonormal basis
-$
-\ul{dx},\ul{dy},\ul{dz}
-$
-Then
-
-\beq
-\ul{d^3 x}=\star 1
-=
-\ul{dx}\wedge \ul{dy}\wedge \ul{dz},
-\eeq
-
-\beq
-\star \ul{dx} =
-\ul{dy}\wedge \ul{dz},
-\eeq
-and cyclic permutations of $x,y,z$
-
-
-\beq
-\star(\ul{dx}\wedge \ul{dy})
-=
-\ul{dz}
-\eeq
-and cyclic permutations of $x,y,z$
-
-\item 2-dim polar coordinates.
-
-The coordinate dual t-basis is
-$
-(\ul{dr}, \ul{d\theta})
-$
-but these are not orthonormal because
-$
-g
-=
-{dr}^2+r^2{d\theta}^2$.
-Instead define the orthonormal dual
-t-basis
-
-\beq
-\begin{array}{ll}
-\ul{\theta^1}=\ul{dr},& \vecpder{x^1} = \hat{r}
-\\
-\ul{\theta^2}=r\ul{d\theta}, & \vecpder{x^2} =\hat{\theta}
-\end{array}
-\eeq
-Now
-$g= (1,1)$ so
-
-\beq
-\ul{d^2 x}=
-\ul{\theta^1}\wedge \ul{\theta^2}=
-r \ul{dr}\wedge \ul{d\theta}
-\eeq
-
-\beq
-\star \ul{\theta^1}=\ul{\theta^2}, \quad
-\star \ul{\theta^2}=-\ul{\theta^1}
-\eeq
-Hence
-
-\beq
-\star \ul{dr}=r\ul{d\theta},\quad
-\star \ul{d\theta}=-\frac{1}{r}\ul{dr}
-\eeq
-\end{enumerate}
-General coordinate formula
-
-Suppose
-
-\beq
-\ul{\omega}
-=
-\frac{1}{p!}
-\omega_{i_1\cdots i_p}
-\ul{dx^{i_1}}
-\wedge\cdots\wedge
-\ul{dx^{i_p}}
-\eeq
-Then
-
-\beq
-(\star\ul{\omega})_{j_1\cdots j_{n-p}}=
-\frac{\sqrt{|\metric|}}{p!}
-\omega^{i_1\cdots i_p}
-\eps_{i_1\cdots i_pj_1\cdots j_{n-p}}
-\eeq
-where
-$\metric=\det(\metric_{ij})$, and $\eps$ is the Levi-Civita symbol.
-
-\begin{claim}
-For a  \Rien metric (no negative
-eigenvalues), we have
-\beq
-\star\star\pform{\omega}{p}=
-(-1)^{p(n-p)}\pform{\omega}{p}
-\eeq
-In particular
-
-\beq
-\star\star = 1
-\eeq
-for $n=3$.
-More generally, we get 
-Table \ref{tab-p-n-minus-p}.
-
-\begin{table}[h!]
-\begin{tabular}{|l|l|l|l|l|}
-\hline
-\begin{tabular}[c]{@{}l@{}}$p$ right\\ $n$ down\end{tabular} & \cellcolor[HTML]{FFCCC9}1 & \cellcolor[HTML]{FFCCC9}2 & \cellcolor[HTML]{FFCCC9}3 & \cellcolor[HTML]{FFCCC9}4 \\ \hline
-\cellcolor[HTML]{9AFF99}1 & +1 & +1 & +1 & +1 \\ \hline
-\cellcolor[HTML]{9AFF99}2 & $-1$ & +1 & $-1$ & +1 \\ \hline
-\cellcolor[HTML]{9AFF99}3 & +1 & +1 & +1 & +1 \\ \hline
-\cellcolor[HTML]{9AFF99}4 & $-1$ & +1 & $-1$ & +1 \\ \hline
-\end{tabular}
-\caption{Values of $(-1)^{p(n-p)}$}
-\label{tab-p-n-minus-p}
-\end{table}
-\end{claim}
-\proof
-
-Define
-\beq
-\ul{\omega}^{j^p}=
-\ul{\theta^{j_1}}
-\wedge
-\ul{\theta^{j_2}}
-\wedge
-\ldots
-\ul{\theta^{j_p}}
-\eeq
-where $j^p=(j_1, j_2, \ldots, j_p)$.
-
-
-\beq
-\star \ul{\theta^{12\ldots p}}
-=
-\eps_{12\ldots p j^{n-p}}
-\ul{\theta^{j^{n-p}}}
-\eeq
-
-\beq
-\star\star\ul{\theta^{12\ldots p}}
-=
-\eps_{12\ldots p j^{n-p}}
-\eps_{j^{n-p} 12\ldots}
-\ul{\theta^{12\ldots p}}
-\eeq
-
-\beq
-\eps_{12\ldots p j^{n-p}}
-\eps_{j^{n-p} 12\ldots}=
-(-1)^{p(n-p)}
-[\eps_{12\ldots p j^{n-p}}]^2
-\eeq
-
-\qed
-
-\begin{claim}
-For a non-\Rien metric with 
-$N^-$ negative eigenvalues, we have
-\beq
-\star\star\pform{\omega}{p}=
-(-1)^{p(n-p) + N^-}\pform{\omega}{p}
-\eeq
-\end{claim}
-\proof
-
-All $n$ indices are raised or lowered 
-and $N^-$ of them produce a negative 
-sign.
-\qed
+function $f$  defined over all $M$ such that $d\theta = df$. Otherwise,
+$\int_{0}^{2\pi} d\theta= \int_{0}^{2\pi} df = 0$.
+$d\theta$ is continuous
+except at the cut at $\theta=\theta_0$
+where it equals
+$\delta(\theta-\theta_0)$.
 
 
 \subsection{Contractions (Interior Product)}
@@ -1750,7 +1991,9 @@ its first slot.
 i_\vecX(\pform{\omega}{})= \omega(\vecX)
 \eeq
 
-For example, suppose $\ul{\omega}$ is the following 1-form \pformIN{=2}:
+For example, if $\ul{\omega}$ 
+and $\vecX$ are
+defined as follows
 
 \beq
 \ul{\omega}=
@@ -1777,7 +2020,9 @@ i_\vecX \pform{\omega}{2}=
 \eeq
 For example, if
 $\ul{\omega}$
-is the following 2-form \pformIN{=2}
+and $\vecX$
+are defined as 
+follows
 
 \beq
 \ul{\omega} = \ul{dx}\wedge \ul{dy}
@@ -5928,8 +6173,11 @@ directional derivative
 
 \item 1-form:
 
-Suppose $\omega$
-is the following  1-form \pformIN{}
+Suppose if
+$\omega$
+and $\vecX$ 
+are defined
+as follows:
 
 \beq
 \ul{\omega}=
@@ -8843,7 +9091,7 @@ of ODE Eq.(\ref{eq-sys-ode-t}),
 then
 
 \beq
-\pback{\vecX}{\vec{u}(t)}\ul{\omega_\mu}(\rvX)=0
+\pback{\vecX}{\vec{u}(t)}\ul{\omega_\mu}(\vecX)=0
 \eeq
 So all the equations
 $\ul{\omega_\mu}=0$ are satisfied by the trajectory.
