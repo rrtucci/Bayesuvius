@@ -1301,7 +1301,11 @@ in $n$-dim,
 \beq\metric = diag(\underbrace{1, 1, \cdots, 1}_{n \text{ ones}})\eeq
  A metric with
 $N^-\geq 1$ is said
-to be a {\bf pseudo- \Rien} metric.
+to be a {\bf pseudo- \Rien} metric.\footnote{Differential
+geometers eschew the term \qt{non-\Rien}  lest one think
+it refers to something
+called a metric that isn't
+the conventional Differential Geometry metric $\metric(\vecU, \vecV)$.}
 For example, the 
 Lorentz metric 
 in 4-dim 
@@ -2246,8 +2250,14 @@ where
 $\metric$ is the metric, and $\eps$ is the Levi-Civita symbol.
 
 \begin{claim}
-For a  \Rien metric (no negative
-eigenvalues), we have
+\label{cl-star-star-p-n-p}
+For a dif-form
+$\pform{\omega}{p}$
+defined on an $n$
+dimensional
+\Rien
+manifold $M$,
+
 \beq
 \star\star\pform{\omega}{p}=
 (-1)^{p(n-p)}\pform{\omega}{p}
@@ -2276,45 +2286,95 @@ Table \ref{tab-p-n-minus-p}.
 \end{claim}
 \proof
 
+Consider an
+oriented 
+orthonormal 
+coframe 
+$\{ \ul{\theta^i}\}_{i=1}^n$.
+Let
+
+ \beq
+I=(i_1, i_2, \ldots, i_p)
+\eeq
 Define
 \beq
-\ul{\omega}^{j^p}=
-\ul{\theta^{j_1}}
+\ul{\theta^I}=
+\ul{\theta^{i_1}}
 \wedge
-\ul{\theta^{j_2}}
+\ul{\theta^{i_2}}
 \wedge
 \ldots
-\ul{\theta^{j_p}}
+\ul{\theta^{i_p}}
 \eeq
-where $j^p=(j_1, j_2, \ldots, j_p)$.
-
+Consider
+the dif-form
 
 \beq
-\star \ul{\theta^{12\ldots p}}
+\pform{\omega}{p}=\ul{\theta^I}
+\eeq
+Let
+
+\beq
+J=(j_1, j_2, \ldots, j_{n-p})
+\eeq
+be the indices
+complementary to $I$.
+We must have
+
+\beq
+\underbrace{\ul{\theta^I}}
+_{\ul{\omega}}
+\wedge 
+\underbrace{\ul{\theta^J}}
+_{\star\ul{\omega}}=
+\ul{vol}
+\eeq
+and
+
+\beq
+\underbrace{\ul{\theta^J}}
+_{\star\ul{\omega}}
+\wedge 
+\underbrace{\s\ul{\theta^I}}
+_{\star\star\ul{\omega}}=
+\ul{vol}
+\eeq
+But
+
+\beq
+\underbrace{\ul{\theta^I}}
+_{\ul{\omega}}
+\wedge 
+\underbrace{\ul{\theta^J}}
+_{\star\ul{\omega}}
 =
-\eps_{12\ldots p j^{n-p}}
-\ul{\theta^{j^{n-p}}}
-\eeq
-
-\beq
-\star\star\ul{\theta^{12\ldots p}}
-=
-\eps_{12\ldots p j^{n-p}}
-\eps_{j^{n-p} 12\ldots}
-\ul{\theta^{12\ldots p}}
-\eeq
-
-\beq
-\eps_{12\ldots p j^{n-p}}
-\eps_{j^{n-p} 12\ldots}=
 (-1)^{p(n-p)}
-[\eps_{12\ldots p j^{n-p}}]^2
+\underbrace{\ul{\theta^J}}
+_{\star\ul{\omega}}
+\wedge
+\underbrace{\ul{\theta^I}}
+_{\ul{\omega}}
 \eeq
+Thus
+
+\beq
+(-1)^{p(n-p)}
+\underbrace{\ul{\theta^I}}
+_{\ul{\omega}}=
+\underbrace{\s\ul{\theta^I}}
+_{\star\star\ul{\omega}}
+\eeq
+
+\beq
+\s = (-1)^{p(n-p)}
+\eeq
+
 
 \qed
 
+
 \begin{claim}
-For a non-\Rien metric with 
+For a pseudo-\Rien metric with 
 $N^-$ negative eigenvalues, we have
 \beq
 \star\star\pform{\omega}{p}=
@@ -3548,12 +3608,7 @@ d^\dagger=s_p (\star d \star)\quad
 s_p = np +1
 \eeq
 is consistent with referring to
-$d^\dagger$ as the adjoint of $d$
-if we assume
-
-\beq
-\star_{n-p}\star_p = (-1)^{p(n-p)}
-\eeq
+$d^\dagger$ as the adjoint of $d$.
 
 
 \end{claim}
@@ -3661,7 +3716,9 @@ be true if
 (-1)^{p+1}d_{n-p-1} \star_{p+1} = \star_{p} d^\dag_{p}
 \label{eq-pre-d-dagger-sign}
 \eeq
-Using the assumption
+Next
+use Claim
+\ref{cl-star-star-p-n-p} which says
 
 \beq
 \star_{n-p}\star_p = (-1)^{p(n-p)}
@@ -3990,9 +4047,255 @@ The last claim fails for a pseudo-\Rien
 metric such as the Lorentz metric.
 Laplacians and Hodge theory (see Section \ref{sec-hodge})
 behave differently 
-in non-\Rien theories.
+in pseudo-\Rien theories.
 
 
+\subsection{Integration, Stokes' Theorem}
+
+Suppose
+
+\beq
+\ul{d^2 x}= \ul{dx}\wedge\ul{dy}
+\eeq
+
+\beq
+\vecr = x\hat{x} + y\hat{y}, \quad
+\Delta\vecr =\Delta x \hat{x}
++ \Delta y \hat{y}
+\eeq
+and
+
+\beq
+\ul{\omega} = f(\vecr)
+\ul{d^2 x}(\vecr)
+\eeq
+Then we define
+
+\beq
+\int \ul{\omega}\eqdef
+\int
+f(\vecr)\ul{d^2 x}(\Delta\vecr)
+=\int f(\vecr)\Delta x\; \Delta y
+\rarrow 
+\int d^2x\;f(\vecr)
+\eeq
+Note that $\vecr$ 
+is used as the argument
+of $f$ but
+$\Delta \vecr$
+is used as the argument 
+of $d^2x$.
+
+Similarly, given an $n$ dimensional manifold $M$,
+if
+
+\beq
+\ul{d^nx}= 
+\ul{dx^1}
+\wedge
+\ul{dx^2}
+\wedge
+\cdots
+\wedge
+\ul{dx^n}
+\eeq
+and
+
+\beq
+\pform{\omega}{n}=
+f(x)\pform{d^n x}{n}
+\eeq
+then one can define
+the {\bf integral of a diff-form} by
+
+\beq
+\int_M \pform{\omega}{n}
+=
+\int_M d^nx\; f(x)
+\eeq
+
+Given a function $f:X\rarrow Y$,
+its {\bf restriction} 
+$f_A$ to a set $A\subset X$
+is the function $f_A:A\rarrow Y$
+such that $f_A(a)=
+f(a)$ for all $a\in A$.
+One can restrict
+a diff-form $\pform{\omega}{n}:
+{T^n_\pi(M)}\rarrow \RR$
+to a vector space
+$\calv\subset
+T^n_\pi(M)$.
+
+If we hold one 
+coordinate fixed (say $x^1=a$),
+then define
+
+
+\beq
+\AT{\ul{d^nx}}{x^1=a}=
+\ul{dx^2}
+\wedge \ul{dx^3}
+\cdots \ul{d^nx}
+\eeq
+ 
+and 
+
+\beq
+\int_{\AT{M}{x^1=a}}
+\ul{\omega}=
+\int_{\AT{M}{x^1=a}}
+f(x)\AT{\ul{d^nx}}{x^1=a}
+\eeq
+
+
+
+\begin{claim}
+(Change of Variables)
+
+Suppose 
+
+\beq
+x=(x^1, x^2, \ldots, x^n),\quad
+u=(u^1, u^2, \ldots, u^n)
+\eeq
+
+
+If
+\beq
+\pback{x}{x(u)} f(x) = f(x(u))
+\eeq
+then
+
+\beq
+\pback{x}{x(u)}
+\ul{dx^n}(x)=
+J
+\ul{du^n}(u)
+\eeq
+where $J$ is the Jacobian
+
+\beq
+J=
+\pder{x(u)}
+{u}
+\eeq
+\end{claim}
+\proof
+\qed
+
+If 
+
+\beq
+\ul{\omega} = f
+\;
+\ul{d^n x}
+\eeq
+then
+
+\beq
+\int_M \ul{\omega}=
+\int_M \ul{d^n x} f(x)=
+\int_{x^{-1}(M)} J\;\ul{d^nu}(u)\; f(x(u))=
+\int_{x^{-1}(M)} \pback{x}{ x(u)}\ul{\omega}
+\eeq
+
+Stokes' theorem
+\beq
+\int_U d\pform{\omega}{p}
+=
+\int_{\partial U}\pform{\omega}{p}
+\label{eq-stokes-dif-forms}
+\eeq
+
+\beq
+\underbrace{\iint\cdots\int}_{\text{$p+1$ times}} d \pform{\omega}{p}
+=
+\underbrace{\iint\cdots\int}_{\text{$p$ times}}\pform{\omega}{p}
+\eeq
+
+
+\begin{claim}
+Stokes' Theorem
+Eq.(\ref{eq-stokes-dif-forms}) implies
+
+\beq
+\iint_Sd\vec{S}\cdot
+\nabla\times \vec{F}
+=
+\oint_C d\vecr \cdot\vec{F}
+\quad
+\text{(Curl Theorem)}
+\eeq
+
+\beq
+\iiint_V\; dV
+\nabla\cdot \vec{F}=
+\iint_{\partial V}
+d\vec{S}\cdot
+\vec{F}
+\quad\text{(Divergence Theorem)}
+\eeq
+
+
+\end{claim}
+\proof
+
+Let
+
+\beq
+\vec{F}= [F_1, F_2, F_3], \quad
+\ul{\omega}=
+F_1 \ul{dx}
++ F_2 \ul{dy}
++
+F_3 \ul{dz}
+\eeq
+
+
+\begin{itemize}
+
+\item Curl Theorem
+
+\beq
+\ul{d\omega}=
+[\nabla \times \vec{F}]_1 \ul{dy}\wedge
+\ul{dz}
++ \cpermu{123}
+\eeq
+Thus, applying Stokes'
+theorem
+to $d\ul{\omega}$ leads to
+the Curl
+Theorem.
+
+\item Divergence Theorem
+
+\beq
+\star\ul{\omega}=
+F_1 \ul{dy}\wedge\ul{dz}
++
+F_2 \ul{dz}\wedge\ul{dx}
++
+F_3 \ul{dx}\wedge\ul{dy}
+\eeq
+
+\beq
+d\star\ul{\omega}=
+\nabla\cdot \vec{F}
+\ul{dx}\wedge
+\ul{dy}\wedge
+\ul{dz}
+\eeq
+Thus, applying Stokes'
+theorem
+to $d\star\ul{\omega}$ leads to
+the Divergence
+Theorem.
+
+\end{itemize}
+
+\qed
 
 
 
@@ -5356,11 +5659,7 @@ Assumptions in this section
 assume a \Rien metric 
 (i.e., one with only positive eigenvalues).
 A metric with one or more negative
-eigenvalues is called a {\bf pseudo-\Rien metric}\footnote{Differential
-geometers eschew the term \qt{non-\Rien}  lest one think
-it refers to something
-called a metric that isn't
-the conventional Differential Geometry metric $\metric(\vecU, \vecV)$.}
+eigenvalues is called a {\bf pseudo-\Rien metric}.
 Most results in this chapter
 are valid for a metric
 with any signature. 
@@ -6798,7 +7097,7 @@ connection-dependent rewriting of the much more fundamental connection-free form
 
 The following
 is valid for LCC 
-with possibly a non-\Rien metric.
+with possibly a pseudo-\Rien metric.
 Specifically, the
 following is valid for General
 Relativity which is torsion
