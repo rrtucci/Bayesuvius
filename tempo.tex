@@ -2,311 +2,187 @@
 \documentclass[draft=true, 12pt]{report}
 \input{bayesuvius.sty}
 \begin{document}
-\subsection{Hodge star operator}
 
-Suppose
-$
-\ul{\theta^1},\ldots,
-\ul{\theta^n}
-$
-is an {\bf oriented orthonormal dual t-basis}.
-Then we define the volume p-form by
+\subsection{Integration, Stokes' Theorem}
+Let
+
 \beq
-\pform{d^n x}{n}=
-\pform{\theta^1}{}\wedge\cdots\wedge \pform{\theta^n}{}
-\label{eq-def-vol}
+\ul{d^2 x}= \ul{dx}\wedge\ul{dy}
 \eeq
-For example, in the usual coordinate dual t-basis
-in 3 dimensions,
 
 \beq
-\pform{d^3x}{3}= \pform{dx}{}\wedge \pform{dy}{}\wedge \pform{dz}{}
+\vecr = x\hat{x} + y\hat{y}, \quad
+d\vecr =\Delta x \hat{x}
++ \Delta y \hat{y}
 \eeq
-Note that the volume p-form can have
-positive or negative values!
+and
 
 \beq
-\ul{d^3 x}=
--\ul{dy}\wedge\ul{dx}\wedge \ul{dz}
+\ul{\omega} = f(\vecr)
+\ul{d^2 x}(\vecr)
 \eeq
-So the definition of the $\ul{d^n x}$ p-form assumes that a particular 
-orientation of the manifold 
-$M$ has been chosen a priori.
-i.e., the order $x\rarrow y\rarrow z$
-has been declared a positive orientation.
-
-
-
-For every p-form $\pform{\omega}{p}$, the {\bf Hodge star} $(n-p)$-form $
-\pform{\star \omega}{n-p}$ is 
-defined as the unique form that
-satisfies
+Then we define
 
 \beq
-\pform{\alpha}{p}
+\int \ul{\omega}\eqdef
+\int
+f(\vecr)\ul{d^2 x}(d\vecr)
+=\int f(\vecr)\Delta x\; \Delta y
+\eeq
+Note that $\vecr$ 
+is used as the argument
+of $f$ and $d\vecr$ as
+the argument of $\ul{d^2 x}$.
+Similarly, one can define
+
+\beq
+\ul{d^nx}= 
+\ul{dx^1}
 \wedge
-\pform{\star\omega}{n-p}
-= \av{\pform{\alpha}{p},\pform{\omega}{p}}\pform{d^n x}{n}
-\eeq
-for every p-form $\pform{\alpha}{p}$.
-
-Here
-$\av{
-\ul{\alpha},
-\ul{\omega}}$ is the point-wise inner product on p-forms induced by the metric. It was defined earlier in
- Eq.(\ref{eq-point-inner-p}).
-
-Note that the sign and value of the
-Hodge star of a p-form
-can change if we change
-the orientation or metric.
-You can determine
-the orientation of a dual t-basis
-from the metric.
-They are totally independent 
-quantities.
-The Hodge star depends on both.
-
-
-
-
-The Hodge star is especially simple to calculate on an orthonormal dual t-basis
-$\ul{\theta^1}, \ul{\theta^2}
-\cdots, \ul{\theta^n}$.
-For example,
-\beq
-\star(\ul{\theta^{i_1}}
-\wedge\cdots\wedge
-\ul{\theta^{i_p}}
-)=
-\pm
-\ul{\theta^{j_1}}
-\wedge\cdots\wedge
-\ul{\theta^{j_{n-p}}}
-\eeq
-where the $j$'s are the complementary indices of the $i$'s, and the sign is chosen so that
-
-\beq
-(\ul{\theta^{i_1}}
-\wedge\cdots\wedge
-\ul{\theta^{i_p}}
-)
+\ul{dx^2}
 \wedge
-\star(
-\ul{\theta^{i_1}}
-\wedge\cdots\wedge
-\ul{\theta^{i_p}}
-)=
+\cdots
+\wedge
+\ul{dx^p}
+\eeq
+
+
+
+Change of variables
+
+Suppose 
+
+\beq
+x=(x^1, x^2, \ldots, x^n),\quad
+u=(u^1, u^2, \ldots, u^n)
+\eeq
+
+\beq
+\pback{x}{x(u)} f(x) = f(x(u)),
+\quad
+\pback{x}{x(u)}
+\ul{dx^n}(x)=
+J
+\ul{du^n}(u)
+\eeq
+where $J$ is the Jacobian
+
+\beq
+J=
+\pder{x(u)}
+{u}
+\eeq
+If 
+
+\beq
+\ul{\omega} = f
+\;
 \ul{d^n x}
 \eeq
 
-Examples
-\begin{enumerate}
-
-\item $n=5$. Take the oriented orthonormal dual t-basis
-$(\ul{dx^1}, \ul{dx^2}, \ul{dx^3}, \ul{dx^4}, \ul{dx^5})$
-
 \beq
-\star(\ul{dx^1}\wedge \ul{dx^3} \wedge \ul{dx^5})
-=\s \ul{dx^2}\wedge \ul{dx^4}
+\int \ul{\omega}=
+\int \ul{d^n x} f(x)=
+\int J\;\ul{d^nu}(u)\; f(x(u))=
+\int \pback{x}{ x(u)}\ul{\omega}
 \eeq
 
-\begin{align}
-\s
-(\ul{dx^1}\wedge \ul{dx^3} \wedge \ul{dx^5})\wedge 
-(\ul{dx^2}\wedge \ul{dx^4})
-&=-\s
-\ul{dx^1}\wedge
-\ul{dx^2}\wedge
-\ul{dx^3}\wedge
-\ul{dx^4}\wedge
-\ul{dx^5}
-\\
-&=
--\s \ul{d^5 x}
-\end{align}
-so $\s=-1$
-
-
-
-\item $n=3$. Take the orthonormal basis
-$
-\ul{dx},\ul{dy},\ul{dz}
-$
-Then
-
+Stokes' theorem
 \beq
-\ul{d^3 x}=\star 1
+\int_U d\pform{\omega}{p}
 =
-\ul{dx}\wedge \ul{dy}\wedge \ul{dz},
+\int_{\partial U}\pform{\omega}{p}
+\label{eq-stokes-dif-forms}
 \eeq
 
 \beq
-\star \ul{dx} =
-\ul{dy}\wedge \ul{dz},
-\eeq
-and cyclic permutations of $x,y,z$
-
-
-\beq
-\star(\ul{dx}\wedge \ul{dy})
+\underbrace{\iint\cdots\int}_{\text{$p+1$ times}} d \pform{\omega}{p}
 =
+\underbrace{\iint\cdots\int}_{\text{$p$ times}}\pform{\omega}{p}
+\eeq
+
+
+\begin{claim}
+Stokes' Theorem
+Eq.(\ref{eq-stokes-dif-forms}) implies
+
+\beq
+\iint_Sd\vec{S}\cdot
+\nabla\times \vec{F}
+=
+\oint_C d\vecr \cdot\vec{F}
+\quad
+\text{(Curl Theorem)}
+\eeq
+
+\beq
+\iiint_V\; dV
+\nabla\cdot \vec{F}=
+\iint_{\partial V}
+d\vec{S}\cdot
+\vec{F}
+\quad\text{(Divergence Theorem)}
+\eeq
+
+
+\end{claim}
+\proof
+
+Let
+
+\beq
+\vec{F}= [F_1, F_2, F_3], \quad
+\ul{\omega}=
+F_1 \ul{dx}
++ F_2 \ul{dy}
++
+F_3 \ul{dz}
+\eeq
+
+
+\begin{itemize}
+
+\item Curl Theorem
+
+\beq
+\ul{d\omega}=
+[\nabla \times \vec{F}]_1 \ul{dy}\wedge
+\ul{dz}
++ \cpermu{123}
+\eeq
+Thus, applying Stokes'
+theorem
+to $d\ul{\omega}$ leads to
+the Curl
+Theorem.
+
+\item Divergence Theorem
+
+\beq
+\star\ul{\omega}=
+F_1 \ul{dy}\wedge\ul{dz}
++
+F_2 \ul{dz}\wedge\ul{dx}
++
+F_3 \ul{dx}\wedge\ul{dy}
+\eeq
+
+\beq
+d\star\ul{\omega}=
+\nabla\cdot \vec{F}
+\ul{dx}\wedge
+\ul{dy}\wedge
 \ul{dz}
 \eeq
-and cyclic permutations of $x,y,z$
+Thus, applying Stokes'
+theorem
+to $d\star\ul{\omega}$ leads to
+the Divergence
+Theorem.
 
-\item 2-dim polar coordinates.
-
-The coordinate dual t-basis is
-$
-(\ul{dr}, \ul{d\theta})
-$
-but these are not orthonormal because
-$
-g
-=
-{dr}^2+r^2{d\theta}^2$.
-Instead define the orthonormal dual
-t-basis
-
-\beq
-\begin{array}{ll}
-\ul{\theta^1}=\ul{dr},& \vecpder{x^1} = \hat{r}
-\\
-\ul{\theta^2}=r\ul{d\theta}, & \vecpder{x^2} =\hat{\theta}
-\end{array}
-\eeq
-Now
-$g= (1,1)$ so
-
-\beq
-\ul{d^2 x}=
-\ul{\theta^1}\wedge \ul{\theta^2}=
-r \ul{dr}\wedge \ul{d\theta}
-\eeq
-
-\beq
-\star \ul{\theta^1}=\ul{\theta^2}, \quad
-\star \ul{\theta^2}=-\ul{\theta^1}
-\eeq
-Hence
-
-\beq
-\star \ul{dr}=r\ul{d\theta},\quad
-\star \ul{d\theta}=-\frac{1}{r}\ul{dr}
-\eeq
-\end{enumerate}
-General coordinate formula
-
-Suppose
-
-\beq
-\ul{\omega}
-=
-\frac{1}{p!}
-\omega_{i_1\cdots i_p}
-\ul{dx^{i_1}}
-\wedge\cdots\wedge
-\ul{dx^{i_p}}
-\eeq
-Then
-
-\beq
-(\star\ul{\omega})_{j_1\cdots j_{n-p}}=
-\frac{\sqrt{|\metric|}}{p!}
-\omega^{i_1\cdots i_p}
-\eps_{i_1\cdots i_pj_1\cdots j_{n-p}}
-\eeq
-where
-$\metric=\det(\metric_{ij})$, and $\eps$ is the Levi-Civita symbol.
-
-\begin{claim}
-For a  \Rien metric (no negative
-eigenvalues), we have
-\beq
-\star\star\pform{\omega}{p}=
-(-1)^{p(n-p)}\pform{\omega}{p}
-\eeq
-In particular
-
-\beq
-\star\star = 1
-\eeq
-for $n=3$.
-More generally, we get 
-Table \ref{tab-p-n-minus-p}.
-
-\begin{table}[h!]
-\begin{tabular}{|l|l|l|l|l|}
-\hline
-\begin{tabular}[c]{@{}l@{}}$p$ right\\ $n$ down\end{tabular} & \cellcolor[HTML]{FFCCC9}1 & \cellcolor[HTML]{FFCCC9}2 & \cellcolor[HTML]{FFCCC9}3 & \cellcolor[HTML]{FFCCC9}4 \\ \hline
-\cellcolor[HTML]{9AFF99}1 & +1 & +1 & +1 & +1 \\ \hline
-\cellcolor[HTML]{9AFF99}2 & $-1$ & +1 & $-1$ & +1 \\ \hline
-\cellcolor[HTML]{9AFF99}3 & +1 & +1 & +1 & +1 \\ \hline
-\cellcolor[HTML]{9AFF99}4 & $-1$ & +1 & $-1$ & +1 \\ \hline
-\end{tabular}
-\caption{Values of $(-1)^{p(n-p)}$}
-\label{tab-p-n-minus-p}
-\end{table}
-\end{claim}
-\proof
-
-Define
-\beq
-\ul{\omega}^{j^p}=
-\ul{\theta^{j_1}}
-\wedge
-\ul{\theta^{j_2}}
-\wedge
-\ldots
-\ul{\theta^{j_p}}
-\eeq
-where $j^p=(j_1, j_2, \ldots, j_p)$.
-
-
-\beq
-\star \ul{\theta^{12\ldots p}}
-=
-\eps_{12\ldots p j^{n-p}}
-\ul{\theta^{j^{n-p}}}
-\eeq
-
-\beq
-\star\star\ul{\theta^{12\ldots p}}
-=
-\eps_{12\ldots p j^{n-p}}
-\eps_{j^{n-p} 12\ldots}
-\ul{\theta^{12\ldots p}}
-\eeq
-
-\beq
-\eps_{12\ldots p j^{n-p}}
-\eps_{j^{n-p} 12\ldots}=
-(-1)^{p(n-p)}
-[\eps_{12\ldots p j^{n-p}}]^2
-\eeq
+\end{itemize}
 
 \qed
-
-\begin{claim}
-For a non-\Rien metric with 
-$N^-$ negative eigenvalues, we have
-\beq
-\star\star\pform{\omega}{p}=
-(-1)^{p(n-p) + N^-}\pform{\omega}{p}
-\eeq
-\end{claim}
-\proof
-
-All $n$ indices are raised or lowered 
-and $N^-$ of them produce a negative 
-sign.
-\qed
-
-
-
-
-
 
 
 \end{document}
