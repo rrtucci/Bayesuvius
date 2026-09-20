@@ -4,6 +4,1101 @@
 \begin{document}
 
 
+\subsection{Lie Derivatives}
+
+Consider a manifold $M$.
+
+Define a {\bf path} to be a map
+
+\beq
+\gamma(\cdot:\pi):[0, 1]\rarrow M,
+\quad \tau\mapsto \gamma(\tau;\pi)
+\eeq
+where $\pi\in M$  is a parameter of the function $\gamma(\cdot;\pi)$.
+For example, $\tau$ might be time and 
+$\pi$ might be the initial value
+of $\gamma(\cdot;\pi)$, i.e., $\pi=\gamma(0;\pi)$.
+
+Define a {\bf flow}  to be a map
+
+\beq
+\phi(\cdot;\tau):M \rarrow M,
+\quad \pi\mapsto 
+\phi(\pi;\tau)=\gamma(\tau;\pi)
+\eeq
+where $\tau\in[0,1]$  is a parameter of the function $\phi(\cdot;\tau)$.
+Thus, $\phi(\cdot;\tau)$ moves points
+on the manifold $M$ and is parametrized by a \qt{time} $\tau\in[0,1]$.
+
+Note that we can think of $\phi(\cdot;\tau)$ as being an $M$-slice (at fixed $\tau$)
+and of $\gamma(\cdot;\pi)$
+as being a $\tau$-slice (at fixed $\pi$)
+of a surface
+$\Phi:M\times [0,1]\rarrow M$
+such that 
+
+\beq
+\Phi(\tau, \pi)=\gamma(\tau;\pi)=\phi(\tau;\pi)
+\eeq
+
+The Lie derivative $\call_\vecX$
+can be defined in terms of pullbacks
+a follows. Consider the action of 
+$\call_\vecX$ on the metric function
+$\metric(\vecU, \vecV)$ as an example.
+
+
+
+\beq
+\call_{\vecX_\pi}
+\metric_\pi(\vecU_\pi ,\vecV_\pi)
+=
+\left(\AT{\frac{d}{d\tau}}{\tau=0}
+\pback{\pi}{\phi(\pi;\tau)}
+{\metric_\pi}
+\right)(\vecU_\pi ,\vecV_\pi)
+=
+\left[\AT{\frac{d}{d\tau}}{\tau=0}
+\metric_{\gamma(\tau;\pi)}\right]
+(\vecU_{\pi},
+ \vecV_{\pi})
+\eeq
+where 
+\beq
+\phi(\pi;\tau=0)=\pi
+\eeq
+
+\beq
+\vecX_{\gamma(\tau;\pi)}=\dot{\vgamma}(\tau;\pi)
+\eeq
+
+A vector field $\vecX$ is said to be a {\bf Killing field of the metric $\metric$} if
+
+\beq
+\call_\vecX \metric=0
+\eeq
+
+
+The Lie derivative
+measure how a quantity
+changes along a trajectory.
+It's defined for vector fields
+and dif-forms
+
+The {\bf Lie Derivative $\call_\vecV$  of a vector field
+$\vec{U}$} equals
+
+\beq
+\call_\vecV\vecU= [\vecU, \vecV]\in\gerX(M)
+\eeq
+
+\beq
+\begin{array}{cc}
+\bcen
+\xymatrix{
+& \ar[dl]|{\oper{\vecU}}
+\\
+\call_\vecV \vecU(\vecr)
+&&\vecr
+\ar[ul]|{\oper{\vecV}}
+\ar[dl]|{\oper{\vecU}}
+\\
+&\ar[ul]|{-\oper{\vecV}}
+}\ecen
+&
+\call_{\vecV}\vecU(\vecr)=
+\left[
+\oper{\vecV}, \oper{\vecU}
+\right](\vecr)\in \RR
+\end{array}
+\eeq
+
+Coordinate expression
+
+Suppose
+
+\beq
+\oper{\vecV} = V^i\partial_i=
+\vecV\cdot \nabla,
+\quad
+\oper{\vecU} =  U^j \partial_j = \vecU\cdot \nabla
+\eeq
+
+\beqa
+\call_\vecV(\vecU)
+&=&
+\vecV\cdot \nabla
+[
+\vecU\cdot \nabla \vecr
+]
+-
+\vecU\cdot \nabla
+[
+\vecV\cdot \nabla \vecr
+]
+\\
+&=&
+[\vecV\cdot \nabla (\vecU)-
+\vecU\cdot \nabla (\vecV )
+]\cdot
+\nabla \vecr
+\\
+&=&
+[\vecV\cdot \nabla (U^i)-
+\vecU\cdot \nabla (V^i )
+]
+\underbrace{\partial_i \vecr}_{\vecpder{x^i}}
+\\
+&=&
+\oper{\vecV}(\vecU)-
+\oper{\vecU}(\vecV)
+\eeqa
+
+\begin{claim}
+
+\beq
+\call_\vecV \vecX =
+[\vecX, \vecV]
+\eeq
+\end{claim}
+\proof
+
+\beq
+\dotPhi^t = \vecX_{\Phi^t}
+\eeq
+
+
+\beq
+\call_\vecX V_\pi
+=
+\AT{\frac{d}{dt}}
+{t=0}
+\dPhi{-t}{\Phi^t(\pi)}
+\indi_{\Phi^t}\vecV_\pi
+\eeq
+
+\beq
+\Phi^t: M\rarrow M
+\eeq
+
+\beq
+\Phi^t \Phi^s=
+\Phi^{t+s}
+\eeq
+ 
+\beq
+\Phi^t \Phi^s(\pi)=
+\Phi^t \circ\Phi^s(\pi)
+\eeq
+
+
+
+
+\beq
+\indi_{\Phi^t}\vecV_\pi=
+\vecV_{\Phi^t(\pi)}
+\eeq
+
+\beq
+\dPhi{t}{\pi}:
+T_\pi(M)\rarrow T_{\Phi^t(\pi)}(M),
+\quad
+\vecV_\pi \mapsto 
+\dPhi{t}{\pi} \vecV_\pi
+\eeq
+
+$\dPhi{t}{\pi}$ 
+is a linear function that maps
+
+\beq
+\AT{\vecpder{x^i}}{\pi}
+\mapsto
+\AT{\vecpder{x^i}}{\Phi^t(\pi)}
+\eeq
+
+
+
+
+\beq
+\xymatrix@C=4pc{
+T_\pi(M)
+\ar[r]_{\indi_{\Phi^t(\pi)}}
+&T_{\Phi^t(\pi)}(M)
+\ar[r]_{\dPhi{-t}{\Phi^t(\pi)}}
+&T_\pi(M)
+}
+\eeq
+
+\beq
+\vecV = V^i\vecpartial_i,
+\quad
+\vecX = X^i\vecpartial_i
+\eeq
+
+\beqa
+\call_\vecX V_\pi
+&=&
+\AT{\frac{d}{dt}}
+{t=0}
+\dPhi{-t}{\Phi^t(\pi)}
+\left(\vecV_{\Phi^t(\pi)}\right)
+\\
+&=&
+\AT{\frac{d}{dt}}
+{t=0}
+\dPhi{-t}{\Phi^t(\pi)}
+\left(V^i_{\Phi^t(\pi)
+}\vecpartial_i\right)
+\\
+&=&
+\AT{\frac{d}{dt}}
+{t=0} \ul{dx^j}
+\left[\AT{\partial_j
+\Phi^{-t}}
+{\Phi^t(\pi)}\right]
+\left(V^i_{\Phi^t(\pi)
+}\vecpartial_i\right)
+\\
+&=&
+\AT{\frac{d}{dt}}
+{t=0} \AT{\partial_j
+\Phi^{-t}}
+{\Phi^t(\pi)}
+\underbrace
+{V^j_{\Phi^t(\pi)}}_{\indi_{\Phi^t}
+V^j_\pi}
+\eeqa
+
+\beq
+\call_\vecX V^i_\pi=
+\AT{\frac{d}{dt}}
+{t=0}
+{A\indices{^i_j}(t)B^j(t)}
+\eeq
+
+\beq
+\frac{dB^j(0)}{dt}=
+\AT{\frac{d}{dt}}{t=0}
+\underbrace{V^j_{\Phi^t(\pi)}}
+_{\indi_{\Phi^t}
+V^j_\pi}
+=
+\dotPhi^k\partial_kV^j_\pi=
+X^k_\pi\partial_k V^j_\pi
+\eeq
+
+\beq
+\frac{dA\indices{^i_j}(0)}{dt}=
+\AT{\frac{d}{dt}}
+{t=0} \AT{\partial_j
+\Phi^{-t, i}}
+{\Phi^t(\pi)}
+=-\partial_jX^i_\pi
+\eeq
+
+\beq
+B^j(0)= V^j_\pi
+\eeq
+
+\beq
+A\indices{^i_j}(0)
+=\partial_j \pi^i
+=
+\pder{x^i}{x^j}=
+\delta^i_j
+\eeq
+
+
+
+\beqa
+[\call_\vecX V_\pi]^i
+&=&
+\frac{d A\indices{^i_j}(0)}
+{dt} B^j(0)
++
+A\indices{^i_j}(0)
+\frac{dB^j(0)}{dt}
+\\
+&=&
+\left[
+-\partial_j X_\pi^i
+\right]V^j_\pi
++
+\delta^i_j
+\left[X^k_\pi \partial_k \vecV_\pi^j\right]
+\\
+&=&
+-V^j_\pi\partial_j X_\pi^i
++
+X^k_\pi \partial_k V_\pi^i
+\\
+&=&
+[\vecX, \vecV]_\pi^i
+\eeqa
+\qed
+
+
+
+The {\bf Lie derivative of a dif-form}
+is given by
+{\bf Cartan's Magic Formula}:
+
+\beq
+\begin{array}{cc}
+\bcen
+\xymatrix{
+&\ar[dl]|{d}
+\\
+\call_\vecX \pform{\omega}{p}
+&& \pform{\omega}{p}
+\ar[ul]|{i_\vecX}
+\ar[dl]|d
+\\
+&\ar[ul]|{i_\vecX}
+}\ecen
+&
+\boxed
+{\call_\vecX = i_\vecX d + d\;i_\vecX}
+\end{array}
+\eeq
+In Cartan's Magic Formula
+\begin{itemize}
+\item exterior derivative $d(\;)$ gives change at a point.
+
+\item {Lie derivative} $\call_\vecX(\;)$ gives
+change along a trajectory
+\end{itemize}
+
+
+
+
+$d(\;)$ raises the degree of a dif-form by 1 and $i_\vecX(\;)$
+lowers it by one,
+so both summands in Cartan Magic Formula
+leave the degree
+of a dif-form
+unchanged.
+
+\begin{itemize}
+\item 0-forms:
+
+\beqa
+\call_{\vecX}f(\cdot)
+&=&
+i_\vecX(df) + \cancel{d(i_\vecX f)}^0
+\\
+&=&
+\ul{df}(\vecX)
+\\
+&=&
+\vecX\cdot \nabla f
+=  \vecX_{op}(f)
+\eeqa
+directional derivative
+
+\item 1-form:
+
+Suppose if
+$\omega$
+and $\vecX$ 
+are defined
+as follows:
+
+\beq
+\ul{\omega}=
+\sum_{i=1}^n
+\omega_i(x)\ul{dx^i}
+\eeq
+and
+
+\beq
+\vecX =\sum_i X^i(x) \vecpder{x^i}
+\eeq
+
+\beq
+i_\vecX\ul{\omega}=
+\ul{\omega}(\vecX)=
+\omega_i X^i
+\eeq
+
+\beq
+\boxed
+{d(i_\vecX \ul{\omega})=
+\partial_j
+(\omega_i X^i)
+\ul{dx^j}}
+\label{eq-cmf-part1}
+\eeq
+
+\beqa
+d\ul{\omega}
+&=&
+d \left[ \omega_i
+\ul {dx^i}\right]
+\\
+&=&
+\partial_j{\omega_i}
+\ul{dx^j}\wedge
+\ul{dx^i}
+\\
+&=&
+\frac{1}{2}
+[\partial_j \omega_i -\partial_i\omega_j]
+\ul{dx^j}\wedge
+\ul{dx^i}
+\eeqa
+
+\beq
+i_\vecX
+[\ul{dx^j}
+\wedge \ul{dx^i}]=
+X^j \ul{dx^i}-
+X^i \ul{dx^j}
+\eeq
+
+\beq
+\boxed
+{i_\vecX
+d\ul{\omega}=
+\partial_j\omega_i
+\left[
+X^j \ul{dx^i}-
+X^i\ul{dx^j}
+\right]}
+\label{eq-cmf-part2}
+\eeq
+
+Combining Eq.(\ref{eq-cmf-part1}) and Eq.(\ref{eq-cmf-part2}), we finally get
+
+\beqa
+\call_\vecX \pform{\omega}{}
+&=&
+\left(
+X^j\partial_j
+\omega_k
++\omega_j \partial_k X^j
+\right)
+\pform{dx^k}{}
+\\
+&=&
+\vecX\cdot\nabla \pform{\omega}{}
+-
+\omega_j
+\pform{d X^j}{}
+\eeqa
+
+\end{itemize}
+
+
+\subsubsection{Lie derivative of general tensor}\label{sec-Lie-der-tensor}
+
+definition of the Lie derivative is free of
+\begin{itemize} \item connection \item metric \item coordinates.
+\end{itemize}
+ It uses only the action of vector fields and Lie brackets.
+
+\begin{claim}
+Suppose $f$ is a
+scalar function
+(i.e., ${0\choose 0}$ tensor).
+Then
+
+\beq
+\call_\vecX f = \vecX(f)
+\eeq
+\end{claim}
+\proof
+\qed
+
+\begin{claim}
+Suppose $\vecY$ is a
+vector field
+(i.e., ${1\choose 0}$ tensor).
+Then
+
+\beq
+\call_\vecX \vecY = 
+[\vecX, \vecY]
+\eeq
+\end{claim}
+\proof
+\qed
+
+
+\begin{claim}
+Suppose $\pform{\omega}{}$ is a 1-form (i.e., covector, ${0\choose 1}$ tensor).
+Then
+
+\beq
+\call_\vecX
+\ul{\omega}(\vecY)=
+\vecX(\ul{\omega}(\vecY))-
+\ul{\omega}(
+[\vecX, \vecY]
+)
+\eeq
+\end{claim}
+\proof
+\qed
+
+
+
+
+\begin{claim}
+For any smooth tensors
+$S$ and $T$,
+\beq
+\call_\vecX(S\otimes T)=
+(\call_\vecX S)\otimes
+T
++
+S\otimes 
+(\call_\vecX T)
+\eeq
+\end{claim}
+\proof
+\qed
+
+\begin{claim}
+Suppose $T$ is a type
+$u\choose d$ tensor
+and
+
+\beq
+\ul{\alp}= (\ul{\alp^1},\ul{\alp^2},\cdots, \ul{\alp^u}), \quad
+\vecY = (\vecY_1,{\vecY}_2,\cdots,\vecY_d)
+\eeq
+Then
+
+\beq
+(\call_\vecX)
+T(\ul{\alp},\vecY)
+=
+\left\{
+\begin{array}{l}
+\vecX[
+T(\ul{\alp},\vecY)
+]
+\\
+-\sum_{i=1}^u
+\AT{T(\ul{\alp},\vecY)}
+{\ul{\alp^i}
+\rarrow \call_\vecX
+\ul{\alp^i}}
+\\
+-\sum_{i=1}^d
+\AT{T(\ul{\alp},\vecY)}
+{\vecY_i
+\rarrow 
+[\vecX, \vecY_i]}
+\end{array}
+\right.
+\eeq
+where
+
+\beq
+(\call_\vecX\ul{\alp^i})(\vecZ)=
+\vecX(\ul{\alp^i}(\vecZ))
+-
+\ul{\alp^i}
+([\vecX, \vecZ])
+\eeq
+
+
+\end{claim}
+\proof
+\qed
+
+For metric $\metric$
+(type ${0\choose 2}$
+tensor) 
+
+\beq
+\call_\vecX \metric(\vecU, \vecV)
+=
+\vecX(\metric(\vecU, \vecV))
+-
+\metric([\vecX, \vecU], \vecV)
+-
+\metric(\vecU, [\vecX, \vecV])
+\label{eq-lie-deriv-metric}
+\eeq
+Killing field $\call_\vecX\metric =0$
+
+connection-dependent rewriting of the much more fundamental connection-free formulae
+
+\hrule Expressions assuming LCC
+
+The following
+is valid for LCC 
+with possibly a pseudo-\Rien metric.
+Specifically, the
+following is valid for General
+Relativity which is torsion
+free and has a pseudo-\Rien
+metric (i.e., one with 
+one or more negative eigenvalues)
+
+\begin{claim}
+
+\beq
+(\call_\vecX  \vecY)=
+X^\mu \nnabla_\mu
+Y^\nu -
+Y^\mu \nnabla_\mu X^\nu
+\eeq
+
+
+\end{claim}
+\proof
+\beq
+\call_\vecX \vecY=
+[\oper{\vecX}, \oper{\vecY}]
+\eeq
+
+\beq
+\vecX = X^\mu \vecpartial_\mu,\quad
+\vecY = Y^\nu \vecpartial_\nu
+\eeq
+
+\beqa
+[\oper{\vecX}, \oper{\vecY}]
+&=&
+X^\mu\partial_\mu
+Y^\nu\partial_\nu\vecr
+-
+(X\swap Y)
+\\
+&=&
+X^\mu\partial_\mu
+Y^\nu-
+(X\swap Y)
+\eeqa
+
+Next, we replace 
+the partial derivatives
+by covariant ones because the \Chris symbols
+cancel.
+
+\beq
+\nnabla_\mu V^\nu=
+\partial_\mu V^\nu
++
+\Gamma\indices{^\nu_{\mu_\lam}}V^\lam
+\eeq
+for $V=X, Y$
+
+
+\beq
+X^\mu\Gamma\indices{^\nu_{\mu\lam}}Y^\lam
+-
+(X\swap Y)=0
+\eeq
+because
+
+\beq
+\Gamma\indices{^\nu_{\mu\lam}} = 
+\Gamma\indices{^\nu_{\lam\mu}}
+\eeq
+The \Chris symbols are symmetric
+in $mu, \lam$ because the torsion
+is assumed to be zero.
+
+\qed
+
+\begin{claim}
+If 
+\beq
+\ul{\omega}=\omega_\nu \ul{dx^\nu}
+\eeq
+then
+
+\beq
+(\call_\vecX  \ul{\omega})_\nu
+=
+X^\mu \nnabla_\mu \omega_\nu
++
+\omega_\mu \nnabla_\nu X^\mu
+\eeq
+
+\end{claim}
+\proof
+
+Start from
+\beq
+(\call_\vecX  \ul{\omega})_\nu
+=
+X^\mu \partial_\mu \omega_\nu
++
+\omega_\mu \partial_\nu X^\mu
+\eeq
+Now replace the 
+partial derivatives 
+by covariant derivatives.
+
+\beq
+\nnabla_\mu \omega_\nu=
+\partial_\mu \omega_\nu -
+\Gamma\indices{^\lam_{\mu\nu}}\omega_\lam
+\eeq
+
+\beq
+\nnabla_\nu X^\mu=
+\partial_\nu X^\mu +
+\Gamma\indices{^\mu_{\nu\lam}}X^\lam
+\eeq
+
+
+\beq
+-X^\mu \Gamma\indices{^\lam_{\mu\nu}}\omega_\lam
++
+\omega_\mu
+\Gamma\indices{^\mu_{\nu\lam}}X^\lam
+=0
+\eeq
+
+\begin{claim}
+Suppose $T$ is a type
+$u\choose d$ tensor
+
+\beq
+\mu = (\mu_1\mu_2\cdots \mu_u), \quad
+\nu = (\nu_1\mu_2\cdots\nu_d)
+\eeq
+
+\beq
+T= T\indices{^{\mu}_{\nu}}
+\vecpartial_{\mu_1}\otimes
+\vecpartial_{\mu_2}\otimes
+\cdots\otimes
+\vecpartial_{\mu_u}
+\otimes
+\ul{dx}^{\nu_1}\otimes
+\ul{dx}^{\nu_1}\otimes
+\cdots\otimes
+\ul{dx}^{\nu_d}
+\eeq
+then
+
+\beq
+(\call_\vecX T)
+\indices{^\mu_\nu}=
+\left\{
+\begin{array}{l}
+X^\lam
+\nnabla_\lam
+T\indices{^{\mu}_{\nu}}
+\\
+-
+\sum_{i=1}^u
+\AT{T\indices{^{\mu}_{\nu}}}{\mu_i\rarrow \lam}
+\nnabla_\lam X^{\mu_i}
+\\
++ 
+\sum_{i=1}^d
+\AT{T\indices{^{\mu}_{\nu}}}{\nu_i\rarrow \lam}
+\nnabla_{\nu_i} X^{\lam}
+\end{array}
+\right.
+\label{eq-lie-tt}
+\eeq
+\end{claim}
+\proof
+\qed
+
+Note  that the first term 
+on the right side of  Eq.(\ref{eq-lie-tt}) is
+
+\beq
+X^\lam
+\nnabla_\lam
+T\indices{^{\mu}_{\nu}}=
+\underbrace{X^\lam\partial_\lam}_{\oper{\vecX}}
+ T\indices{^\mu_\nu}  +  \text{\Chris term}
+\eeq
+
+\subsubsection{Examples}
+
+\begin{enumerate}
+\item
+
+\begin{claim}
+Suppose $M=\RR^2$ with Euclidean metric
+\beq
+\metric(\vecU, \vecV)=
+\left[\ul{dx})^2 + (\ul{dy})^2\right
+](\vecU, \vecV)= U^1V^1 + U^2V^2 =
+\vecU^T \begin{bmatrix}1&0
+\\
+0&1\end{bmatrix}\vecV
+\eeq
+If
+
+\beq
+\vecX = y \vecpder{x}=\begin{bmatrix}y\\0\end{bmatrix}
+\eeq
+then 
+\beq
+\call_\vecX\metric = 2\ul{dx}\ul{dy}
+\eeq
+$\call_\vecX\metric\neq 0$ so 
+$\vecX$ is not a Killing field.
+This $\vecX$ is called a {\bf shear flow}.
+The metric changes along a shear flow.
+\end{claim}
+\proof
+
+First proof (from pullback definition):
+
+If
+
+\beq
+\gamma(\tau;t)=
+\begin{bmatrix}x+yt\\y\end{bmatrix}
+\eeq
+then
+\beq 
+\pi=\begin{bmatrix}x\\y\end{bmatrix},
+\quad
+ \vecX_\gamma = \dot{\vgamma}
+\eeq
+
+\beq
+\metric_\pi = (\ul{dx})^2  + (\ul{dy})^2,
+\quad
+\metric_{\gamma(\tau;\pi)} = (\ul{dx} + t\ul{dy})^2 
++ (\ul{dy})^2
+\eeq
+
+\beq
+\call_\vecX \metric =
+\AT{\frac{d}{dt}}{\tau=0}\metric_{\gamma(t)}
+=2 \ul{dx}\ul{dy}
+\eeq
+
+Second proof (from formula):
+
+\beqa
+(\call_\vecX\metric)_{\mu\nu}
+&=&
+X^\lam \partial_\lam \metric_{\mu\nu}
++
+\metric_{\lam\nu}
+\partial_\mu X^\lam
++
+\metric_{\mu\lam}
+\partial_\nu X^\lam
+\\
+&=&
+X^\lam \partial_\lam \metric_{\mu\nu}
++
+(\partial_\mu X_\nu + (\mu\swap \nu))
+\eeqa
+
+\beq
+\partial_\lam \metric_{\mu\nu}=0
+\eeq
+
+\beq
+\vecX=
+\begin{bmatrix}
+y\\0
+\end{bmatrix}
+\implies 
+[\partial_\mu X_\nu]
+=
+\begin{bmatrix}
+0&1
+\\
+1&0
+\end{bmatrix}
+\eeq
+so 
+
+\beq
+[(\call_\vecX\metric)_{\mu\nu}]= 2 
+\begin{bmatrix}
+0&1
+\\
+1&0
+\end{bmatrix}
+\eeq
+
+\qed
+
+\item
+\begin{claim}
+For a { general affine connection $\nnabla$}, in the coordinate basis
+\beq
+[\call_\vecX \metric]_{\mu\nu}
+= 
+X^\lam \nnabla_\lam\metric_{\mu\nu}+
+\nnabla_\mu X_\nu+
+\nnabla_\nu X_\mu
++
+X^\lam\left[\TT_{\lam\mu\nu} + (\mu\swap \nu)\right]
+\eeq
+where $\TT_{\lam \mu\nu}$ represents
+the torsion tensor with the $\lam$
+index lowered appropriately.
+\end{claim}
+\proof
+
+The coordinate-free
+definition is
+\beq
+(\call_\vecX \metric)
+(\vecU, \vecV)
+=
+\vecX[\metric(\vecU, \vecV)]
+-
+\metric([\vecX, \vecU], \vecV)
+-
+\metric(\vecU,
+[\vecX, \vecV])
+\eeq
+
+\beq
+\vecX[\metric(\vecU, \vecV)]
+=
+(\nnabla_\vecX\metric)(\vecU, \vecV)
++
+\metric)(
+\nnabla_\vecX
+\vecU, \vecV)
++
+\metric)(\vecU, 
+\nnabla_\vecX
+\vecV)
+\eeq
+
+\beq
+[\vecX, \vecY]=
+\nnabla_\vecX\vecY
+-
+\nnabla_\vecY \vecX 
+-
+\TT(\vecX, \vecY)
+\eeq
+for $\vecY = \vecU, \vecV$.
+Substituting, we get
+
+\beq
+(\call_\vecX)
+(\vecU, \vecV)
+=
+\left\{
+\begin{array}{l}
+(\nnabla_\vecX\metric)
+(\vecU, \vecV)
+\\
++
+\metric
+(\nnabla_\vecU
+\vecX, \vecV)
++
+\metric
+(\vecU, 
+\nnabla_\vecV
+\vecX)
+\\
++
+\metric
+(\TT(\vecX,\vecU), \vecV)
++
+\metric
+(\vecU, 
+\TT(\vecX,\vecV))
+\end{array}
+\right.
+\eeq
+Now replace
+
+\beq
+\vecU=\vecpartial_\mu,
+\quad \vecV=\vecpartial_\nu,
+\quad
+\vecX = X^\lam \vecpartial_\lam
+\eeq
+
+
+\beq
+\nnabla_\vecU\vecX=
+ \vecpartial_\lam\nnabla_\mu X^\lam
+\eeq
+
+\beq
+\quad
+\metric
+(\nnabla_\vecU
+\vecX, \vecV)=
+\metric_{\lam\nu}
+\nnabla_\mu X^\lam=
+\nnabla_\mu X_\nu
+\eeq
+
+\beq
+\TT(\vecX, \vecU)=
+X^\lam \TT\indices{^\rho_{\lam\mu}}
+\vecpartial_\rho
+\eeq
+
+\beq
+\metric(\TT(\vecX, \vecU), \vecV)=
+X^\lam \TT\indices{^\rho_{\lam\mu}}
+ \metric_{\rho\nu}
+=X^\lam \TT_{\nu\lam\mu}
+\eeq
+\qed
+
+For the LLC, the Lie derivative takes this simple form in the coordinate basis,
+
+\beq
+[\call_\vecX 
+\metric]_{\mu\nu}= \nnabla_\mu X_\nu 
++ (\mu\swap \nu)
+\eeq
+and the Killing fields satisfy
+
+\beq
+0=
+[\call_\vecX 
+\metric]_{\mu\nu}= 
+\nnabla_\mu X_\nu 
++ (\mu\swap \nu)
+\eeq
+
+
+\end{enumerate}
+
+Dif-form between 
+tangent spaces of different manifolds. 
+Generalization of 
+dif-forms that can often be useful (for example, it is
+used in definition of a Lie Derivative)
+
+\beq
+\Phi: M\rarrow N
+\eeq
+
+\beq
+\ul{d\Phi_\pi}:
+T_\pi(M) \rarrow T_{\Phi(\pi)}(N),
+\eeq
+
+Linear 
+\beq
+\ul{d\Phi_\pi}(a\vecX + b\vecY)=
+a\ul{d\Phi_\pi}(\vecX)
++
+a\ul{d\Phi_\pi}
+(\vecY)
+\eeq
+When $T_{\Phi(\pi)}(N)\cong \RR$,
+this is a 1-form.
+
+Chain rule discussed in Section \ref{sec-chain-rule}
+
 
 
 
