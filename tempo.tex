@@ -164,7 +164,7 @@ Suppose
 \proof
 
 \beq
-\dotPhi^t = \vecX_{\Phi^t}
+\dot{\vPhi}^t = \vecX_{\vPhi^t}
 \eeq
 
 
@@ -173,47 +173,47 @@ Suppose
 =
 \AT{\frac{d}{dt}}
 {t=0}
-\dPhi{-t}{\Phi^t(\pi)}
-\indi_{\Phi^t}\vecV_\pi
+\dvPhi{-t}{\vPhi^t(\pi)}
+\indi_{\vPhi^t}\vecV_\pi
 \eeq
 
 \beq
-\Phi^t: M\rarrow M
+\vPhi^t: M\rarrow M
 \eeq
 
 \beq
-\Phi^t \Phi^s=
-\Phi^{t+s}
+\vPhi^t \vPhi^s=
+\vPhi^{t+s}
 \eeq
  
 \beq
-\Phi^t \Phi^s(\pi)=
-\Phi^t \circ\Phi^s(\pi)
+\vPhi^t \vPhi^s(\pi)=
+\vPhi^t \circ\vPhi^s(\pi)
 \eeq
 
 
 
 
 \beq
-\indi_{\Phi^t}\vecV_\pi=
-\vecV_{\Phi^t(\pi)}
+\indi_{\vPhi^t}\vecV_\pi=
+\vecV_{\vPhi^t(\pi)}
 \eeq
 
 \beq
-\dPhi{t}{\pi}:
-T_\pi(M)\rarrow T_{\Phi^t(\pi)}(M),
+\dvPhi{t}{\pi}:
+T_\pi(M)\rarrow T_{\vPhi^t(\pi)}(M),
 \quad
 \vecV_\pi \mapsto 
-\dPhi{t}{\pi} \vecV_\pi
+\dvPhi{t}{\pi} \vecV_\pi
 \eeq
 
-$\dPhi{t}{\pi}$ 
+$\dvPhi{t}{\pi}$ 
 is a linear function that maps
 
 \beq
 \AT{\vecpder{x^i}}{\pi}
 \mapsto
-\AT{\vecpder{x^i}}{\Phi^t(\pi)}
+\AT{\vecpder{x^i}}{\vPhi^t(\pi)}
 \eeq
 
 
@@ -222,9 +222,9 @@ is a linear function that maps
 \beq
 \xymatrix@C=4pc{
 T_\pi(M)
-\ar[r]_{\indi_{\Phi^t(\pi)}}
-&T_{\Phi^t(\pi)}(M)
-\ar[r]_{\dPhi{-t}{\Phi^t(\pi)}}
+\ar[r]_{\indi_{\vPhi^t(\pi)}}
+&T_{\vPhi^t(\pi)}(M)
+\ar[r]_{\dvPhi{-t}{\vPhi^t(\pi)}}
 &T_\pi(M)
 }
 \eeq
@@ -236,36 +236,36 @@ T_\pi(M)
 \eeq
 
 \beqa
-\call_\vecX V_\pi
+\call_\vecX \vecV_\pi
 &=&
 \AT{\frac{d}{dt}}
 {t=0}
-\dPhi{-t}{\Phi^t(\pi)}
-\left(\vecV_{\Phi^t(\pi)}\right)
+\dvPhi{-t}{\vPhi^t(\pi)}
+\left(\vecV_{\vPhi^t(\pi)}\right)
 \\
 &=&
 \AT{\frac{d}{dt}}
 {t=0}
-\dPhi{-t}{\Phi^t(\pi)}
-\left(V^i_{\Phi^t(\pi)
+\dvPhi{-t}{\vPhi^t(\pi)}
+\left(V^i_{\vPhi^t(\pi)
 }\vecpartial_i\right)
 \\
 &=&
 \AT{\frac{d}{dt}}
 {t=0} \ul{dx^j}
 \left[\AT{\partial_j
-\Phi^{-t}}
-{\Phi^t(\pi)}\right]
-\left(V^i_{\Phi^t(\pi)
+\vPhi^{-t}}
+{\vPhi^t(\pi)}\right]
+\left(V^i_{\vPhi^t(\pi)
 }\vecpartial_i\right)
 \\
 &=&
 \AT{\frac{d}{dt}}
 {t=0} \AT{\partial_j
-\Phi^{-t}}
-{\Phi^t(\pi)}
+\vPhi^{-t}}
+{\vPhi^t(\pi)}
 \underbrace
-{V^j_{\Phi^t(\pi)}}_{\indi_{\Phi^t}
+{V^j_{\vPhi^t(\pi)}}_{\indi_{\vPhi^t}
 V^j_\pi}
 \eeqa
 
@@ -279,11 +279,11 @@ V^j_\pi}
 \beq
 \frac{dB^j(0)}{dt}=
 \AT{\frac{d}{dt}}{t=0}
-\underbrace{V^j_{\Phi^t(\pi)}}
-_{\indi_{\Phi^t}
+\underbrace{V^j_{\vPhi^t(\pi)}}
+_{\indi_{\vPhi^t}
 V^j_\pi}
 =
-\dotPhi^k\partial_kV^j_\pi=
+\dot{\Phi}^k\partial_kV^j_\pi=
 X^k_\pi\partial_k V^j_\pi
 \eeq
 
@@ -292,7 +292,7 @@ X^k_\pi\partial_k V^j_\pi
 \AT{\frac{d}{dt}}
 {t=0} \AT{\partial_j
 \Phi^{-t, i}}
-{\Phi^t(\pi)}
+{\vPhi^t(\pi)}
 =-\partial_jX^i_\pi
 \eeq
 
@@ -1100,7 +1100,282 @@ this is a 1-form.
 Chain rule discussed in Section \ref{sec-chain-rule}
 
 
+\subsection{Integral Curves}
 
+Vector fields generate integral curves.
+Here is the definition of integral curves and related terminology.
+
+
+We will call a function  $\vgamma: [0, 1]\rarrow M$
+a {\bf path or curve} on
+a manifold $M$. The domain 
+is irrelevant for doing non-rigorous calculus as we are doing,
+as long as it's some closed 
+interval of real numbers.
+
+Note 
+that we will be abusing  notation
+with regard to vector signs. 
+To be precise
+
+\beq
+\xymatrix@C=5pc{
+\gamma(t)\in M
+\ar[r]_{
+\begin{tabular}{c}
+local 
+\\ chart
+\\ map
+\end{tabular}
+}
+&
+\vgamma(t)\in \RR^n
+\ar[r]_{\begin{tabular}{c}
+$\frac{d}{dt}$
+\end{tabular}}
+& [\dot{\gamma^i}(t)]\in \RR^n
+\ar[r]_{
+\begin{tabular}{c}
+uncharting 
+\\
+map
+\end{tabular}
+}
+& \dot{\vgamma}(t)\in T(M)
+}
+\eeq
+We will be using
+$\vgamma(t)$ for both 
+$\gamma(t)$ and $\vgamma(t)$ as 
+there is a bijection between them. We will also be using
+$\dot{\vgamma}(t)$ for
+both $[\dot{\gamma}^i(t)]$
+and $\dot{\vgamma}(t)$
+as there is a bijection between them too.
+As physicists usually do, we define
+a vector as any array with $n$
+components, and put a vector
+sign over all such arrays.
+We define
+ a {\bf position vector} as a vector that 
+measures position relative to an origin,
+and a {\bf displacement vector}
+as a vector that measures
+the separation between 2 positions and is thus origin independent.
+The set of position vectors in $\RR^n$ is not even a vector space 
+in the mathematicians' sense because
+the difference of two position vectors is no
+longer a position vector.
+That's why affine spaces
+were invented.
+
+It's important to realize that neither $M$ nor
+$T(M)$ 
+\begin{enumerate}
+\item have components
+\item have an origin.
+All its vectors are
+displacement vectors
+\end{enumerate} 
+One must use charts to get 1 and 2.
+
+
+We say {\bf curve $\vgamma$ is tangent to a vector field $\vecX$} if
+
+\beq
+\dot{\vgamma}(\tau)=
+\vecX_{\vgamma(\tau)}
+\label{eq-gamma-para-X}
+\eeq
+for all  $\tau\in[0,1]$.
+In such a case we will write
+\beq
+\vecX_{\vgamma(\tau)} = \vecX^{\para \vgamma}_{\vgamma(\tau)}
+\eeq
+
+A curve $\vgamma$ that
+satisfies Eq.(\ref{eq-gamma-para-X})
+is called an {\bf integral curve}
+of the vector field $\vecX$.
+Note that curves, and in particular 
+integral curves,
+are 1 dimensional objects.
+
+A {\bf congruence} is a family of integral curves that fills some region of the manifold, with exactly one curve passing through each point of the region.
+Normally, one 
+specifies a 
+congruence as a 
+set of curves
+$\{\vgamma(\cdot: s)\mid s\in [a, b]\}$
+where $s$ is a parameter and
+
+\beq
+\partial_\tau 
+\vgamma(\tau; s)=
+\vecX_{\vgamma(\tau; s)}
+\eeq
+
+A {\bf streamline}
+is an integral 
+curve of a velocity  field in Fluid
+Mechanics.
+If a fluid has a velocity field
+$\vecV(\vecx, t)$, where
+$\vecx$ is a 
+position vector and
+$t$ is time,
+then a streamline
+$\vgamma$ satisfies
+
+\beq
+\partial_\tau 
+\vgamma(\tau)=
+\vecV(\vgamma(\tau), t)
+\eeq
+Note that a streamline is not generally the {\bf particle trajectory} of an individual fluid particle.
+For that, one solves
+
+\beq
+\AT{\partial_\tau 
+\vgamma(\tau)}{\tau=t}
+=
+\AT{\vecV(\vgamma(\tau), t)}{\tau=t}
+\eeq
+What this means is that
+for a particle trajectory,  the clocks 
+on the 
+particle and on
+the observer agree
+(assuming classical, non-relativistic, time).
+When the 
+velocity field
+is time independent,
+this
+distinction between
+a streamline
+and a particle trajectory, disappears.
+
+Suppose $f:M\rarrow\RR$
+is a scalar function
+on an $n$ dimensional manifold $M$.
+A {\bf constant or level surface} 
+is an $n-1$
+dimensional manifold defined by
+
+\beq
+f(\vecx)=k
+\eeq
+for some constant $k\in\RR$.
+The tangent
+vectors
+$\vecT$ of
+the constant surface satisfy
+
+\beq
+\ul{df}(\vecT)=
+\vecT\cdot \nabla f=0
+\eeq
+Thus, the vector 
+field $\vecN$ perpendicular to
+the constant surfaces everywhere satisfies
+
+\beq
+\vecN =\nabla f
+\eeq 
+Note that if
+$\vecT$ is the tangent vector
+field of $f(\cdot)$
+and $\vgamma$
+is an integral curve of $\vecT$,
+then 
+
+\beq
+\frac{df(\vgamma(t))}{dt}=
+\dot{\vgamma}\cdot
+\nabla f=0
+\eeq
+Hence, an integral
+curve of $\vecT$ is confined  to
+a single constant 
+surface of $f(\cdot)$ and
+
+\beq
+f(\vgamma(t))=k
+\eeq
+
+A {\bf flow}
+$\vPhi^t(\pi)$
+is a family of
+integral curves,
+just like a congruence,
+but with more 
+mathematical structure (trappings)
+associated with it.
+$\vPhi^t(\pi)$ is quantitatively
+equal to a path
+$\vgamma(t; \pi)$
+that depends 
+on time $t$
+and a point
+$\pi\in M$, but
+$\pi$ is now the 
+independent variable and 
+$t$  is now the parameter. So
+$\pi$ and $t$
+have switched roles.
+
+\beq
+\vPhi^t: M\rarrow M, \quad
+\vPhi^t(\pi) = \vgamma(t;\pi),
+\quad \vPhi^0 (\pi)=\vgamma(0;\pi) =\pi
+\eeq
+
+A flow $\vPhi^t$
+satisfies
+
+\beq
+\vPhi^s\circ\vPhi^t=
+\vPhi^{t+s}
+\eeq
+whenever $\vPhi$ 
+is defined at those time parameters.
+Hence, the superscript $t$
+in $\vPhi^t$
+behaves like a power.
+
+A flow moves a point in an integral
+curve to another point
+on the same
+integral curve. 
+
+One can always find a flow that
+preserves the constant surfaces
+of a scalar function $f(\cdot)$
+
+\beq
+f(\vPhi^t(\pi))=
+f(\vgamma(t;\pi))=k= f(\vgamma(0;\pi))=f(\Phi^0(\pi))= f(\pi)
+\eeq
+so
+
+\beq
+f(\vPhi^t(\pi))= f(\pi)
+\eeq
+To find such a flow,
+first find the vector field $\vecT$
+that is tangential to the constant
+surfaces of $f(\cdot)$, then
+find the integral curves $\vgamma(t;\pi)=\vPhi^t(\pi)$
+of that vector field.
+
+A {\bf foliation} is a decomposition of a manifold into disjoint submanifolds called {\bf leaves}, which look  locally like parallel flat subspaces.
+For example, a congruence
+is a foliation of a manifold into 
+1-dim leaves. Constant surfaces are a
+foliation of an $n$ dim manifold into 
+$n-1$ dim leaves.
+
+The Frobenius theorem (see Section \ref{sec-Frob-theorem}) gives necessary and sufficient conditions for a {\bf distribution} to be locally tangent to a foliation.
 
 
 
