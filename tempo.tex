@@ -8,16 +8,6 @@
 
 Consider a manifold $M$.
 
-Define a {\bf path} to be a map
-
-\beq
-\gamma(\cdot:\pi):[0, 1]\rarrow M,
-\quad \tau\mapsto \gamma(\tau;\pi)
-\eeq
-where $\pi\in M$  is a parameter of the function $\gamma(\cdot;\pi)$.
-For example, $\tau$ might be time and 
-$\pi$ might be the initial value
-of $\gamma(\cdot;\pi)$, i.e., $\pi=\gamma(0;\pi)$.
 
 Define a {\bf flow}  to be a map
 
@@ -27,19 +17,7 @@ Define a {\bf flow}  to be a map
 \phi(\pi;\tau)=\gamma(\tau;\pi)
 \eeq
 where $\tau\in[0,1]$  is a parameter of the function $\phi(\cdot;\tau)$.
-Thus, $\phi(\cdot;\tau)$ moves points
-on the manifold $M$ and is parametrized by a \qt{time} $\tau\in[0,1]$.
 
-Note that we can think of $\phi(\cdot;\tau)$ as being an $M$-slice (at fixed $\tau$)
-and of $\gamma(\cdot;\pi)$
-as being a $\tau$-slice (at fixed $\pi$)
-of a surface
-$\Phi:M\times [0,1]\rarrow M$
-such that 
-
-\beq
-\Phi(\tau, \pi)=\gamma(\tau;\pi)=\phi(\tau;\pi)
-\eeq
 
 The Lie derivative $\call_\vecX$
 can be defined in terms of pullbacks
@@ -504,7 +482,8 @@ scalar function
 Then
 
 \beq
-\call_\vecX f = \vecX(f)
+\call_\vecX f = \vecX(f)=
+X^i\partial_i f
 \eeq
 \end{claim}
 \proof
@@ -1349,7 +1328,7 @@ on the same
 integral curve. 
 
 One can always find a flow that
-preserves the constant surfaces
+remains confined to a single constant surface
 of a scalar function $f(\cdot)$
 
 \beq
@@ -1376,6 +1355,319 @@ foliation of an $n$ dim manifold into
 $n-1$ dim leaves.
 
 The Frobenius theorem (see Section \ref{sec-Frob-theorem}) gives necessary and sufficient conditions for a {\bf distribution} to be locally tangent to a foliation.
+
+\subsection{Chain Rule}
+\label{sec-chain-rule}
+
+
+Consider the {\bf chain
+rule for differentiating 
+a composite function} $g\circ f$ where
+$f:\RR\rarrow \RR$
+and $g:\RR\rarrow \RR$.
+
+\beq
+\pder{g\circ f(x)}{x}=
+\pder{g(f)}{f}
+\pder{f(x)}{x}
+\eeq
+Suppose scalar functions
+$f$ and $g$ map 
+
+
+\beq
+\xymatrix{
+M\ar[r]_f
+&\RR
+\ar[r]_{g}
+&
+\RR
+}
+\eeq
+
+\beq
+\xymatrix{
+\pi\ar[r]_f
+&f(\pi)
+\ar[r]_{g}
+&
+g\circ f(\pi)
+}
+\eeq
+Next compute degree 1
+dif-forms  $\ul{df}$
+and $\ul{dg}$ that map
+
+\beq
+\xymatrix@C=3pc{
+T_\pi(M)
+\ar[r]_{\ul{df_{|\pi}}}
+&
+\RR
+\ar[r]_{\ul{dg_{|f(\pi)}}}
+&
+\RR
+}
+\eeq
+
+\beq
+\xymatrix@C=4pc{
+\vecV
+\ar[r]_{\ul{df_{|\pi}}}
+&
+\ul{df_{|\pi}}(\vecV)
+\ar[r]_<<<<<<<{\ul{dg_{|f(\pi)}}}
+&
+\ul{dg_{|f(\pi)}}\circ \ul{df_{|\pi}}(\vecV)
+}
+\eeq
+Then 
+the chain rule
+for differentiating
+the composite function $g\circ f$ is
+
+\beq
+\ul{d(g\circ f)_{|\pi}}
+=
+\ul{dg_{|f(\pi)}}
+\circ \ul{df_{|\pi}}
+\label{eq-chain-rule-basic}
+\eeq
+
+
+In Eq.(\ref{eq-chain-rule-basic}),
+we stated in terms of dif-forms,
+the chain rule for differentiating 
+a composite function $g\circ f$
+where $f$ and $g$
+are real valued functions.
+Next, 
+we will generalize this to differentiating
+a composite function $\vGamma\circ \vPhi$,
+where $\vPhi$ and $\vGamma$
+are {\bf inter-manifold maps}.
+Suppose  functions
+$\vPhi$ and $\vGamma$ map
+manifolds $P, Q, R$ as follows
+
+
+\beq
+\xymatrix{
+P
+\ar[r]_\vPhi
+&Q
+\ar[r]_\vGamma
+&R
+}
+\eeq
+Next compute degree 1
+dif-forms\footnote{Actually,
+$\ul{d\vPhi}$
+and $\ul{d\vGamma}$
+are not normal 1-forms
+because normal 1-forms
+map a tangent space to the reals
+whereas these dif-forms 
+map a tangent space to another tangent space.
+You can still think of 
+them as 1-forms because
+they posses many 
+of the same
+properties as 1-forms.
+Just like normal 1-forms, 
+$\ul{d\vPhi}$
+and $\ul{d\vGamma}$ 
+are 
+linear in their 
+vector arguments and 
+satisfy the chain rule.
+}  $\ul{d\vPhi}$
+and $\ul{d\vGamma}$ that map
+
+\beq
+\xymatrix@C=4pc{
+T_\pi(P)
+\ar[r]_{\ul{d\vPhi_{|\pi}}}
+&T_{\vPhi(\pi)}(Q)
+\ar[r]_{\ul{d\vGamma_{|\vPhi(\pi)}}}
+& T_{\vGamma\circ \vPhi(\pi)}(R)
+}
+\eeq
+Then the chain rule for differentiating 
+the composite function $\vGamma\circ \vPhi$ is
+
+\beq
+\ul{d(\vGamma\circ\vPhi)_{|\pi}}
+=
+\ul{
+d\vGamma_{|\vPhi(\pi)}
+}\circ
+\ul{d\vPhi_{|\pi}}
+\label{eq-chain-rule-fancy}
+\eeq
+
+Note that
+$\vGamma\circ \vPhi(\vecx)$
+can be expressed as a pullback
+
+\beq
+\vGamma\circ \vPhi(\vecx)=
+\pback{\vecy}{\vPhi(\vecx)}
+\vGamma(\vecy)
+\eeq
+
+Next we express the Eq.(\ref{eq-chain-rule-fancy}) 
+in component form.
+Suppose
+
+
+\beq
+\vecx= [x^1, x^2, \ldots, x^m]
+\quad
+\vecy = [y^1, y^2, \ldots, y^n]
+\eeq
+
+
+
+
+\beq
+\xymatrix{
+\vecx
+\ar[r]_{\vPhi}
+&
+\vPhi(\vecx)
+\ar[r]_{\vGamma}
+&
+\vGamma\circ\vPhi(\vecx)
+}
+\eeq
+
+Replace $\pi$ by $\vecx$ and $\vPhi(\vecx)$ by
+$\vecy$
+
+\beq
+\pi =\vecx,
+\quad
+\vPhi(\vecx)=
+\vecy
+\eeq
+
+
+
+\beq
+\ul{d(\vGamma\circ \vPhi)}(\vecx)=
+\pback{\vecy}{\vPhi(\vecx)}
+\ul{d\vGamma}(\vecy)
+\eeq
+
+\beq
+[\ul{d(\vGamma\circ \vPhi)}]^c=
+\underbrace
+{\pder{\Gamma^c}{y^b}}_{\text{Jacobian $\calj$}}
+\quad
+\underbrace{\pder{\Phi^b}{x^a}}_{\text{Jacobian $J$}}
+\ul{dx^a}
+\eeq
+Define
+
+\beq
+J\indices{^b_a}=
+\pder{\Phi^b}{x^a},
+\quad
+J = [J\indices{^b_a}]
+\eeq
+Note that $J$ is not
+necessarily square.
+Then
+
+\beq
+\ul{d\Phi^b}=
+\pder{\Phi^b}{x^a} \ul{dx^a}
+=
+J\indices{^b_a}
+\ul{dx^a}
+\eeq
+
+\beq
+\ul{d\Phi^b}\left(V^a\vecpder{x^a}\right)=
+J\indices{^b_a}V^a
+\eeq
+
+Define
+\beq
+\calj\indices{^c_b}=
+\pder{\Gamma^c}{y^b},
+\quad
+\calj = [\calj\indices{^c_b}]
+\eeq
+$\calj$ is a
+second Jacobian matrix.
+If $\vGamma$ has no components and is a scalar function, then
+$\calj\indices{^c_b}$ becomes a row vector $\calj_b$.
+
+\subsection{Change of variables in integration}
+
+Suppose 
+
+\beq
+\pform{\omega}{p}
+=
+\frac{1}{p!}
+\omega_{\mu_1\cdots \mu_p}
+\ul{dy^{\mu_1}}
+\wedge
+\cdots
+\wedge
+\ul{dy^{\mu_p}}
+\eeq
+
+\beq
+\Phi^*\ul{\omega}(\vecx)=
+\pback{\vPhi}{\vPhi(\vecx)}\ul{\omega}
+(\vPhi)=
+\frac{1}{p!}
+\omega_{\mu_1\cdots\mu_p}(\vPhi(\vecx))
+\ul{d\Phi^{\mu_1}}
+\wedge
+\cdots
+\wedge
+\ul{d\Phi^{\mu_p}}
+\eeq
+Now use
+
+\beq
+\ul{d\Phi^{\mu}}=
+\pder{\Phi^{\mu}}
+{x^\nu}\ul{dx^\nu}
+\eeq
+
+\beq
+\Phi^*\ul{\omega}(\vecx)=
+\frac{1}{p!}
+\omega_{\mu_1\cdots\mu_p}(\vPhi(\vecx))
+\pder{\Phi^{\mu_1}}
+{x^{\nu_1}}\cdots
+\pder{\Phi^{\mu_p}}
+{x^{\nu_p}}
+\ul{dx^{\nu_1}}
+\wedge
+\cdots
+\wedge
+\ul{dx^{\nu_p}}
+\label{eq-final-change-vars}
+\eeq
+When $p=n$,
+the Jacobian matrix
+
+\beq
+J\indices{^\mu_\nu}
+=\pder{\Phi^\mu}{x^\nu}
+\eeq
+is a square matrix
+and the derivative factors in Eq.(\ref{eq-final-change-vars})
+combine to give the determinant of the Jacobian matrix
+that we are familiar with from
+\qt{Advanced Calculus}.
 
 
 
