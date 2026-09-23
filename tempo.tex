@@ -6,144 +6,116 @@
 
 \subsection{Lie Derivatives}
 
-Consider a manifold $M$.
-
-
-Define a {\bf flow}  to be a map
-
-\beq
-\phi(\cdot;\tau):M \rarrow M,
-\quad \pi\mapsto 
-\phi(\pi;\tau)=\gamma(\tau;\pi)
-\eeq
-where $\tau\in[0,1]$  is a parameter of the function $\phi(\cdot;\tau)$.
-
-
-The Lie derivative $\call_\vecX$
-can be defined in terms of pullbacks
-a follows. Consider the action of 
-$\call_\vecX$ on the metric function
-$\metric(\vecU, \vecV)$ as an example.
-
-
-
-\beq
-\call_{\vecX_\pi}
-\metric_\pi(\vecU_\pi ,\vecV_\pi)
-=
-\left(\AT{\frac{d}{d\tau}}{\tau=0}
-\pback{\pi}{\phi(\pi;\tau)}
-{\metric_\pi}
-\right)(\vecU_\pi ,\vecV_\pi)
-=
-\left[\AT{\frac{d}{d\tau}}{\tau=0}
-\metric_{\gamma(\tau;\pi)}\right]
-(\vecU_{\pi},
- \vecV_{\pi})
-\eeq
-where 
-\beq
-\phi(\pi;\tau=0)=\pi
-\eeq
-
-\beq
-\vecX_{\gamma(\tau;\pi)}=\dot{\vgamma}(\tau;\pi)
-\eeq
-
-A vector field $\vecX$ is said to be a {\bf Killing field of the metric $\metric$} if
-
-\beq
-\call_\vecX \metric=0
-\eeq
 
 
 The Lie derivative
-measure how a quantity
-changes along a trajectory.
-It's defined for vector fields
-and dif-forms
+measures how a quantity (a tensor 
+of arbitrary type)
+changes along a
+streamline of a vector field.
 
-The {\bf Lie Derivative $\call_\vecV$  of a vector field
-$\vec{U}$} equals
+
+The {\bf Lie Derivative $\call_\vecX$  of a vector field
+$\vecV$} equals
+(proof given below)
 
 \beq
-\call_\vecV\vecU= [\vecU, \vecV]\in\gerX(M)
+\call_\vecX\vecV= [\vecX, \vecV]\in\gerX(M)
 \eeq
 
 \beq
 \begin{array}{cc}
 \bcen
 \xymatrix{
-& \ar[dl]|{\oper{\vecU}}
+& \ar[dl]|{\oper{\vecV}}
 \\
-\call_\vecV \vecU(\vecr)
+\call_\vecX \vecV(\vecr)
 &&\vecr
-\ar[ul]|{\oper{\vecV}}
-\ar[dl]|{\oper{\vecU}}
+\ar[ul]|{\oper{\vecX}}
+\ar[dl]|{\oper{\vecV}}
 \\
-&\ar[ul]|{-\oper{\vecV}}
+&\ar[ul]|{-\oper{\vecX}}
 }\ecen
 &
-\call_{\vecV}\vecU(\vecr)=
+\call_{\vecX}\vecV(\vecr)=
 \left[
-\oper{\vecV}, \oper{\vecU}
+\oper{\vecX}, \oper{\vecV}
 \right](\vecr)\in \RR
 \end{array}
 \eeq
 
-Coordinate expression
+Meaning of Lie Bracket:
 
 Suppose
 
 \beq
-\oper{\vecV} = V^i\partial_i=
-\vecV\cdot \nabla,
+\oper{\vecX} = X^i\partial_i=
+\vecX\cdot \nabla,
 \quad
-\oper{\vecU} =  U^j \partial_j = \vecU\cdot \nabla
+\oper{\vecV} =  V^j \partial_j = \vecV\cdot \nabla
 \eeq
 
 \beqa
-\call_\vecV(\vecU)
+\call_\vecX(\vecV)
 &=&
-\vecV\cdot \nabla
-[
-\vecU\cdot \nabla \vecr
-]
--
-\vecU\cdot \nabla
+\vecX\cdot \nabla
 [
 \vecV\cdot \nabla \vecr
 ]
+-
+\vecV\cdot \nabla
+[
+\vecX\cdot \nabla \vecr
+]
 \\
 &=&
-[\vecV\cdot \nabla (\vecU)-
-\vecU\cdot \nabla (\vecV )
+[\vecX\cdot \nabla (\vecV)-
+\vecV\cdot \nabla (\vecX )
 ]\cdot
 \nabla \vecr
 \\
 &=&
-[\vecV\cdot \nabla (U^i)-
-\vecU\cdot \nabla (V^i )
+[\vecX\cdot \nabla (U^i)-
+\vecV\cdot \nabla (X^i )
 ]
 \underbrace{\partial_i \vecr}_{\vecpder{x^i}}
 \\
 &=&
-\oper{\vecV}(\vecU)-
-\oper{\vecU}(\vecV)
+\oper{\vecX}(\vecV)-
+\oper{\vecV}(\vecX)
 \eeqa
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2in]
+{differ-geo/lie-derivative.png}
+\caption{The Lie derivative $\call_\vecX \vecV$
+is composed of
+the  directional derivative $X^k\partial_k \vecV$
+of $\vecV$ in the $\vecX$
+direction minus
+the directional derivative $V^k\partial_k \vecX$
+of $\vecX$
+in the $\vecV$ direction.}
+\label{fig-lie-derivative}
+\end{figure}
 
 \begin{claim}
 
 \beq
-\call_\vecV \vecX =
+\call_\vecX\vecV =
 [\vecX, \vecV]
 \eeq
 \end{claim}
 \proof
 
+Consider a flow\footnote{Flows are discussed in Section \ref{sec-integral-curves}} $\vPhi^t: M\rarrow M$ defined by
+
+
 \beq
 \dot{\vPhi}^t = \vecX_{\vPhi^t}
 \eeq
+By definition
 
 
 \beq
@@ -154,64 +126,40 @@ Suppose
 \dvPhi{-t}{\vPhi^t(\pi)}
 \indi_{\vPhi^t}\vecV_\pi
 \eeq
+where
 
 \beq
-\vPhi^t: M\rarrow M
-\eeq
-
-\beq
-\vPhi^t \vPhi^s=
-\vPhi^{t+s}
-\eeq
- 
-\beq
-\vPhi^t \vPhi^s(\pi)=
-\vPhi^t \circ\vPhi^s(\pi)
-\eeq
-
-
-
-
-\beq
+\indi_{\vPhi^t}:
+T_\pi(M)\rarrow T_{\vPhi^t(\pi)}(M),
+\quad
 \indi_{\vPhi^t}\vecV_\pi=
 \vecV_{\vPhi^t(\pi)}
 \eeq
+and 
 
 \beq
-\dvPhi{t}{\pi}:
-T_\pi(M)\rarrow T_{\vPhi^t(\pi)}(M),
-\quad
-\vecV_\pi \mapsto 
-\dvPhi{t}{\pi} \vecV_\pi
-\eeq
-
-$\dvPhi{t}{\pi}$ 
-is a linear function that maps
-
-\beq
-\AT{\vecpder{x^i}}{\pi}
+\dvPhi{-t}{\vPhi^t(\pi)}:
+ T_{\vPhi^t(\pi)}(M)
+\rarrow T_\pi(M),
+\quad 
+\dvPhi{-t}{\vPhi^t(\pi)} \vecV_\pi
 \mapsto
-\AT{\vecpder{x^i}}{\vPhi^t(\pi)}
+\vecU_\pi
 \eeq
+Note that $\vecU_\pi\neq \vecV_\pi$.
+Otherwise,
+$\dvPhi{-t}{\vPhi^t(\pi)}$ would be the
+inverse of
+$\indi_{\vPhi^t}$
+and $\call_\vecX \vecV$ would be zero. 
 
-
-
-
-\beq
-\xymatrix@C=4pc{
-T_\pi(M)
-\ar[r]_{\indi_{\vPhi^t(\pi)}}
-&T_{\vPhi^t(\pi)}(M)
-\ar[r]_{\dvPhi{-t}{\vPhi^t(\pi)}}
-&T_\pi(M)
-}
-\eeq
-
+Let
 \beq
 \vecV = V^i\vecpartial_i,
 \quad
 \vecX = X^i\vecpartial_i
 \eeq
+Then
 
 \beqa
 \call_\vecX \vecV_\pi
@@ -246,6 +194,7 @@ T_\pi(M)
 {V^j_{\vPhi^t(\pi)}}_{\indi_{\vPhi^t}
 V^j_\pi}
 \eeqa
+Hence
 
 \beq
 \call_\vecX V^i_\pi=
@@ -253,6 +202,25 @@ V^j_\pi}
 {t=0}
 {A\indices{^i_j}(t)B^j(t)}
 \eeq
+where
+
+\beq
+\frac{dA\indices{^i_j}(0)}{dt}=
+\AT{\frac{d}{dt}}
+{t=0} \AT{\partial_j
+\Phi^{-t, i}}
+{\vPhi^t(\pi)}
+=-\partial_jX^i_\pi
+\eeq
+
+\beq
+A\indices{^i_j}(0)
+=\partial_j \pi^i
+=
+\pder{x^i}{x^j}=
+\delta^i_j
+\eeq
+
 
 \beq
 \frac{dB^j(0)}{dt}=
@@ -265,28 +233,11 @@ V^j_\pi}
 X^k_\pi\partial_k V^j_\pi
 \eeq
 
-\beq
-\frac{dA\indices{^i_j}(0)}{dt}=
-\AT{\frac{d}{dt}}
-{t=0} \AT{\partial_j
-\Phi^{-t, i}}
-{\vPhi^t(\pi)}
-=-\partial_jX^i_\pi
-\eeq
 
 \beq
 B^j(0)= V^j_\pi
 \eeq
-
-\beq
-A\indices{^i_j}(0)
-=\partial_j \pi^i
-=
-\pder{x^i}{x^j}=
-\delta^i_j
-\eeq
-
-
+Thus
 
 \beqa
 [\call_\vecX V_\pi]^i
@@ -318,6 +269,8 @@ X^k_\pi \partial_k V_\pi^i
 
 
 The {\bf Lie derivative of a dif-form}
+of any degree $p$
+(including $p=0$)
 is given by
 {\bf Cartan's Magic Formula}:
 
@@ -339,23 +292,16 @@ is given by
 {\call_\vecX = i_\vecX d + d\;i_\vecX}
 \end{array}
 \eeq
-In Cartan's Magic Formula
-\begin{itemize}
-\item exterior derivative $d(\;)$ gives change at a point.
-
-\item {Lie derivative} $\call_\vecX(\;)$ gives
-change along a trajectory
-\end{itemize}
-
-
-
-
-$d(\;)$ raises the degree of a dif-form by 1 and $i_\vecX(\;)$
+Note that in Cartan's Magic Formula,  $d$ is independent
+of $\vecX$
+whereas $i_\vecX$ does depend on $\vecX$.
+$d$ raises the degree of a dif-form by 1 and $i_\vecX$
 lowers it by one,
 so both summands in Cartan Magic Formula
 leave the degree
 of a dif-form
-unchanged.
+unchanged.\footnote{A good mnemonic is  $d\rarrow$ differentiate 
+and $i_\vecX\rarrow$ integrate.}
 
 \begin{itemize}
 \item 0-forms:
@@ -370,9 +316,8 @@ i_\vecX(df) + \cancel{d(i_\vecX f)}^0
 \\
 &=&
 \vecX\cdot \nabla f
-=  \vecX_{op}(f)
+=  \oper{\vecX}(f)
 \eeqa
-directional derivative
 
 \item 1-form:
 
@@ -470,10 +415,33 @@ X^j\partial_j
 
 \subsubsection{Lie derivative of general tensor}\label{sec-Lie-der-tensor}
 
-definition of the Lie derivative is free of
-\begin{itemize} \item connection \item metric \item coordinates.
+We started by 
+showing that the Lie derivative of a vector field (type $1\choose 0$ tensor)
+is just a Lie bracket.
+Then we introduced 
+Cartan's magic formula
+which allows us to calculate
+the Lie derivative
+of a general dif-form
+(type $0\choose d$ tensor).
+In this section,
+we will show how to
+calculate te Lie derivative
+of a general tensor
+of type $u\choose d$.
+
+
+Note that the expressions for Lie derivatives  given
+in this section are free of
+any reference to the 
+following
+\begin{itemize} \item a connection $\nnabla$
+\item a metric $\metric$ 
+\item coordinates and their
+derivatives $\partial_\mu$.
 \end{itemize}
- It uses only the action of vector fields and Lie brackets.
+They only avail themselves of the action of vector fields and Lie brackets.
+
 
 \begin{claim}
 Suppose $f$ is a
@@ -588,7 +556,7 @@ where
 \proof
 \qed
 
-For metric $\metric$
+For metric $\metric(\vecU, \vecV)$
 (type ${0\choose 2}$
 tensor) 
 
@@ -602,24 +570,39 @@ tensor)
 \metric(\vecU, [\vecX, \vecV])
 \label{eq-lie-deriv-metric}
 \eeq
-Killing field $\call_\vecX\metric =0$
+A {\bf Killing field}
+is defined as a vector field $\vecX$
+along which the metric $\metric$ does 
+not change:
 
-connection-dependent rewriting of the much more fundamental connection-free formulae
 
-\hrule Expressions assuming LCC
+\beq
+\call_\vecX\metric =0
+\eeq
 
-The following
-is valid for LCC 
-with possibly a pseudo-\Rien metric.
-Specifically, the
-following is valid for General
-Relativity which is torsion
-free and has a pseudo-\Rien
-metric (i.e., one with 
-one or more negative eigenvalues)
+
+
+\hrule Lie Derivative of general tensor assuming LCC
+
+In this section, we will rewrite the connection-independent formulae
+for the Lie derivative
+of a general 
+tensor in a less 
+fundamental way that \ul{that 
+assumes the LCC} (Levi-Civita connection).
+In this less
+fundamental
+rewriting,
+the Lie brackets are
+replaced by covariant
+derivatives. 
+The rewriting is valid
+for a theory with a pseudo-\Rien metric,
+such as General
+Relativity.
 
 \begin{claim}
-
+.
 \beq
 (\call_\vecX  \vecY)=
 X^\mu \nnabla_\mu
@@ -632,7 +615,7 @@ Y^\mu \nnabla_\mu X^\nu
 \proof
 \beq
 \call_\vecX \vecY=
-[\oper{\vecX}, \oper{\vecY}]
+[\vecX, \vecY]
 \eeq
 
 \beq
@@ -640,19 +623,14 @@ Y^\mu \nnabla_\mu X^\nu
 \vecY = Y^\nu \vecpartial_\nu
 \eeq
 
-\beqa
-[\oper{\vecX}, \oper{\vecY}]
-&=&
-X^\mu\partial_\mu
-Y^\nu\partial_\nu\vecr
+\beq
+[{\vecX}, {\vecY}]
+=
+X^\mu(\partial_\mu
+Y^\nu)\vecpartial_\nu
 -
 (X\swap Y)
-\\
-&=&
-X^\mu\partial_\mu
-Y^\nu-
-(X\swap Y)
-\eeqa
+\eeq
 
 Next, we replace 
 the partial derivatives
@@ -680,7 +658,7 @@ because
 \Gamma\indices{^\nu_{\lam\mu}}
 \eeq
 The \Chris symbols are symmetric
-in $mu, \lam$ because the torsion
+in $\mu, \lam$ because the torsion
 is assumed to be zero.
 
 \qed
@@ -716,29 +694,36 @@ partial derivatives
 by covariant derivatives.
 
 \beq
-\nnabla_\mu \omega_\nu=
+X^\mu\nnabla_\mu \omega_\nu=
+X^\mu\left[
 \partial_\mu \omega_\nu -
-\Gamma\indices{^\lam_{\mu\nu}}\omega_\lam
+\Gamma\indices{^\lam_{\mu\nu}}\omega_\lam\right]
 \eeq
 
 \beq
-\nnabla_\nu X^\mu=
-\partial_\nu X^\mu +
-\Gamma\indices{^\mu_{\nu\lam}}X^\lam
+\omega_\mu\nnabla_\nu X^\mu=
+\omega_\mu
+\left[\partial_\nu X^\mu +
+\Gamma\indices{^\mu_{\nu\lam}}X^\lam\right]
 \eeq
 
 
 \beq
 -X^\mu \Gamma\indices{^\lam_{\mu\nu}}\omega_\lam
 +
-\omega_\mu
-\Gamma\indices{^\mu_{\nu\lam}}X^\lam
+\underbrace{\omega_\mu
+\Gamma\indices{^\mu_{\nu\lam}}X^\lam}_{
+\omega_\lam
+\Gamma\indices{^\lam_{\nu\mu}}X^\mu
+}
 =0
 \eeq
+\qed
 
 \begin{claim}
-Suppose $T$ is a type
+If $T$ is a type
 $u\choose d$ tensor
+and
 
 \beq
 \mu = (\mu_1\mu_2\cdots \mu_u), \quad
@@ -794,6 +779,24 @@ X^\lam
 T\indices{^{\mu}_{\nu}}=
 \underbrace{X^\lam\partial_\lam}_{\oper{\vecX}}
  T\indices{^\mu_\nu}  +  \text{\Chris term}
+\eeq
+
+For the LLC, the Lie derivative 
+of the metric $\metric(\vecU, \vecV)$ takes the following simple form in the coordinate basis:
+
+\beq
+[\call_\vecX 
+\metric]_{\mu\nu}= \nnabla_\mu X_\nu 
++ (\mu\swap \nu)
+\eeq
+Hence, the Killing fields satisfy
+
+\beq
+0=
+[\call_\vecX 
+\metric]_{\mu\nu}= 
+\nnabla_\mu X_\nu 
++ (\mu\swap \nu)
 \eeq
 
 \subsubsection{Examples}
@@ -1030,53 +1033,58 @@ X^\lam \TT\indices{^\rho_{\lam\mu}}
 \eeq
 \qed
 
-For the LLC, the Lie derivative takes this simple form in the coordinate basis,
 
-\beq
-[\call_\vecX 
-\metric]_{\mu\nu}= \nnabla_\mu X_\nu 
-+ (\mu\swap \nu)
-\eeq
-and the Killing fields satisfy
-
-\beq
-0=
-[\call_\vecX 
-\metric]_{\mu\nu}= 
-\nnabla_\mu X_\nu 
-+ (\mu\swap \nu)
-\eeq
 
 
 \end{enumerate}
 
-Dif-form between 
-tangent spaces of different manifolds. 
-Generalization of 
-dif-forms that can often be useful (for example, it is
-used in definition of a Lie Derivative)
+
+
+Consider a manifold $M$.
+
+
+Define a {\bf flow}  to be a map
 
 \beq
-\Phi: M\rarrow N
+\phi(\cdot;\tau):M \rarrow M,
+\quad \pi\mapsto 
+\phi(\pi;\tau)=\gamma(\tau;\pi)
+\eeq
+where $\tau\in[0,1]$  is a parameter of the function $\phi(\cdot;\tau)$.
+
+
+The Lie derivative $\call_\vecX$
+can be defined in terms of pullbacks
+a follows. Consider the action of 
+$\call_\vecX$ on the metric function
+$\metric(\vecU, \vecV)$ as an example.
+
+
+
+\beq
+\call_{\vecX_\pi}
+\metric_\pi(\vecU_\pi ,\vecV_\pi)
+=
+\left(\AT{\frac{d}{d\tau}}{\tau=0}
+\pback{\pi}{\phi(\pi;\tau)}
+{\metric_\pi}
+\right)(\vecU_\pi ,\vecV_\pi)
+=
+\left[\AT{\frac{d}{d\tau}}{\tau=0}
+\metric_{\gamma(\tau;\pi)}\right]
+(\vecU_{\pi},
+ \vecV_{\pi})
+\eeq
+where 
+\beq
+\phi(\pi;\tau=0)=\pi
 \eeq
 
 \beq
-\ul{d\Phi_\pi}:
-T_\pi(M) \rarrow T_{\Phi(\pi)}(N),
+\vecX_{\gamma(\tau;\pi)}=\dot{\vgamma}(\tau;\pi)
 \eeq
 
-Linear 
-\beq
-\ul{d\Phi_\pi}(a\vecX + b\vecY)=
-a\ul{d\Phi_\pi}(\vecX)
-+
-a\ul{d\Phi_\pi}
-(\vecY)
-\eeq
-When $T_{\Phi(\pi)}(N)\cong \RR$,
-this is a 1-form.
 
-Chain rule discussed in Section \ref{sec-chain-rule}
 
 
 
