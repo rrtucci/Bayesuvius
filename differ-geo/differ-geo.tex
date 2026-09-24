@@ -792,6 +792,142 @@ duality relations.}
 \label{tab-basis-dual-basis}
 \end{table}
 
+\subsection{Coordinate transformations}
+\label{sec-coord-trans}
+
+A tensor of {\bf tensor type} ${u\choose d}$ is a tensor
+with $u$ upper indices
+and $d$ lower indices.
+
+We call
+
+lower indices: {\bf covariant indices}
+
+
+upper indices: {\bf contravariant indices}
+
+
+MNEMONIC:
+
+\boxed {\text{{covariant= docile = down}}}
+
+\boxed
+{\text{contravariant=
+unruly = up}}
+
+
+See Table \ref{sec-coord-trans}
+for examples of this nomenclature
+for upper and lower
+indices.
+
+The terms 
+covariant and contravariant 
+also refer to how a 
+quantity transforms under coordinate 
+transformations.
+
+Suppose we want to transform from coordinates
+$(x^i)_{i=1}^n$
+to coordinates 
+$(u^\mu)_{\mu=1}^n$.
+
+
+
+\begin{table}[h!]
+\begin{tabular}{|l|l|l|l|}
+\hline
+ & \cellcolor[HTML]{FFCCC9}example & \cellcolor[HTML]{FFCCC9}\begin{tabular}[c]{@{}l@{}}tensor type\\ $u\choose d$\end{tabular} & \cellcolor[HTML]{FFCCC9}terminology \\ \hline
+\cellcolor[HTML]{9AFF99}vector & $\vecX = X^i\ \vecpartial_i$ & $1\choose 0$ & 1 contravariant (unruly) index \\ \hline
+\cellcolor[HTML]{9AFF99}1-form & $\ul{\omega}=\omega_i \ul{dx^i}$ & $0 \choose 1$ & 1 covariant (docile) index \\ \hline
+\end{tabular}
+\caption{Nomenclature for upper and lower indices of a tensor.}
+\label{tab-covariant-contravariant}
+\end{table}
+
+
+\begin{table}[h!]
+\begin{tabular}{|
+>{\columncolor[HTML]{FFCCC9}}l |
+>{\columncolor[HTML]{DAE8FC}}l |}
+\hline
+Contravariant transformation & Covariant Transformation \\ \hline
+$V^\mu = J\indices{^\mu_j} V^j$ & $\vecpartial_\mu=\vecpartial_j J\indices{^j_\mu}$ \\ \hline
+$\ul{du^\mu} = J\indices{^\mu_j} \ul{dx^j}$ & $\omega_\mu=\omega_j J\indices{^j_\mu}$ \\ \hline
+\end{tabular}
+\caption{How basis vectors, vector components, basis covector and covector components transform. }
+\label{tab-covariant-contravariant-trans}
+\end{table}
+
+
+Let 
+
+\beq 
+J\indices{^\mu_i}=
+\pder{u^\mu}{x^i},
+\quad
+J\indices{^i_\mu}=
+\pder{x^i}{u^\mu}
+\eeq
+Note that
+
+\beq
+J\indices{^\mu_i}
+J\indices{^i_\nu}= \delta^\mu_\nu,
+\quad
+J\indices{^i_\mu}
+J\indices{^\mu_j}= \delta^i_j
+\eeq
+This just means that if you transform
+coordinates  from $u\rarrow x\rarrow u$,
+or from
+$x\rarrow u\rarrow x$,
+then you end up where you started.
+
+Let
+
+\beq
+\vecpartial_i= 
+\vecpder{x^i},
+\quad 
+\vecpartial_\mu= \vecpder{u^\mu}
+\eeq
+Then Table 
+\ref{tab-covariant-contravariant-trans}
+tells us how
+the basis vectors, vector components,
+basis covectors
+and covector
+components transform
+under the change 
+of coordinates.
+This is the meaning of the terms {\bf covariant transformation}  and {\bf contravariant transformation}.
+These 
+transformation rules  insure that
+
+\beq
+V^\mu\vecpartial_\mu= V^i\vecpartial_i
+\eeq
+and
+
+\beq
+\omega_\mu \ul{du^\mu}=
+\omega_i \ul{dx^i}
+\eeq
+
+If a tensor has multiple upper and lower indices, then the upper ones each transform individually
+like the single upper component of a vector.
+Likewise, the lower components each transform individually like the single lower component of a 1 form. For example,
+
+\beq
+(\TT\;')\indices{^\alp^\beta_\mu}=
+J\indices{^\alp_i}
+ J\indices{^\beta_j}
+\TT\indices{^i^j_k} J\indices{^k_\mu}
+\eeq
+
+
+
 \subsection{Integral Curves}
 \label{sec-integral-curves}
 
@@ -875,7 +1011,7 @@ contains only
 \qt{displacement vectors}; $T(M)$ is a true vector space in the Mathematicians' sense.
 
 
-We say {\bf curve $\vgamma$ is tangent to a vector field $\vecX$} if
+We say {\bf curve $\vgamma$ is tangential to a vector field $\vecX$} if
 
 \beq
 \dot{\vgamma}(\tau)=
@@ -1066,6 +1202,27 @@ so
 \beq
 f(\vPhi^t(\pi))= f(\pi)
 \eeq
+
+A flow can be defined from a vector field,
+without
+any allusions to a scalar function $f(\;)$, thus:
+
+\beq
+\partial_t \vPhi^t(\pi)=
+\vecX_\pi
+\quad(\text{same as saying in path language }
+\dot{\vgamma}(t;\pi) = X_{\vgamma(t;\pi)})
+\eeq
+For example, we might have $\vecX=\vecT=\nabla f$ for some scalar function $f(\;)$.
+In such a case,
+we say the {\bf flow 
+is  tangential to
+the vector field $\vecX$} and write informally
+
+\beq
+\vPhi^t = \invpder{t} \vecX
+\eeq
+
 
 A {\bf foliation} is a decomposition of a manifold into disjoint submanifolds called {\bf leaves}, which look  locally like parallel flat subspaces.
 For example, a congruence
@@ -6214,8 +6371,11 @@ where
 
 A tensor with {\bf tensor type} ${u\choose d}$ is a tensor
 with $u$ upper indices
-and $d$ lower indices.
-A  1-form (a.k.a. covector) has tensor type ${0\choose 1}$. A vector field $\vecX$ has tensor type ${1\choose 0}$.
+and $d$ lower indices. A vector field $\vecX$ has tensor type ${1\choose 0}$.
+
+
+A  1-form (a.k.a. covector) has tensor type ${0\choose 1}$.
+See Section \ref{sec-coord-trans}.
 
 
 
@@ -6243,13 +6403,13 @@ Defined for all tensor types. Differentiates
 without changing tensor type 
 
 \beq
-\nnabla_\vecX: T^u_{d,\pi}(M)\rarrow T^u_{d,\pi}(M)
+\nnabla_\vecX: \calt^u_{d,\pi}(M)\rarrow \calt^u_{d,\pi}(M)
 \eeq
 
-However, note that $\nnabla_X T= 
-X^\mu\nnabla_\mu T$ so if 
-$T$ is type ${u \choose d}$
-then $\nnabla_\mu T$ 
+However, note that $\nnabla_X \TT= 
+X^\mu\nnabla_\mu \TT$ so if 
+$\TT$ is type ${u \choose d}$
+then $\nnabla_\mu \TT$ 
 is of type ${u\choose d+1}$.
 
 
@@ -6262,7 +6422,7 @@ Defined for all tensor types. Differentiates
 without changing tensor type.
 
 \beq
-\call_\vecX: T^u_{d,\pi}(M)\rarrow T^u_{d,\pi}(M)
+\call_\vecX: \calt^u_{d,\pi}(M)\rarrow \calt^u_{d,\pi}(M)
 \eeq
 
 Closely related to the Lie  derivative is the {\bf Lie bracket} $[\vecX, \vecY]$.
@@ -6673,7 +6833,7 @@ Hence
 
 \begin{claim} (General Tensor)
 
-Suppose $T$ is a type
+Suppose $\TT$ is a type
 $u\choose d$ tensor.
 Let
 
@@ -6684,7 +6844,7 @@ Let
 and 
 
 \beq
-T= T\indices{^{\mu}_{\nu}}
+\TT= \TT\indices{^{\mu}_{\nu}}
 \vecpartial_{\mu_1}\otimes
 \vecpartial_{\mu_2}\otimes
 \cdots\otimes
@@ -6698,23 +6858,23 @@ T= T\indices{^{\mu}_{\nu}}
 Then
 
 \beq
-(\nnabla_\vecX T)
+(\nnabla_\vecX \TT)
 \indices{^\mu_\nu}=
 \left\{
 \begin{array}{l}
 X^\lam
 \partial_\lam
-T\indices{^{\mu}_{\nu}}
+\TT\indices{^{\mu}_{\nu}}
 \\
 -
 \sum_{i=1}^u
-\AT{T\indices{^{\mu}_{\nu}}}{\mu_i\rarrow \lam}
+\AT{\TT\indices{^{\mu}_{\nu}}}{\mu_i\rarrow \lam}
 X^\rho (-\Gamma\indices{^{\mu_i}
 _{\rho\lam}})
 \\
 + 
 \sum_{i=1}^d
-\AT{T\indices{^{\mu}_{\nu}}}{\nu_i\rarrow \lam}
+\AT{\TT\indices{^{\mu}_{\nu}}}{\nu_i\rarrow \lam}
 X^\rho
 (-\Gamma\indices{^\lam_{\rho \nu_i}})
 \end{array}
