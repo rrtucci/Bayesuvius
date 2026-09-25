@@ -206,8 +206,9 @@ chapter.
  & \cellcolor[HTML]{FFCCC9}Conventional notation & \cellcolor[HTML]{FFCCC9}My notation \\ \hline
 \cellcolor[HTML]{9AFF99}
 \begin{tabular}[c]{@{}l@{}}pullback that \\takes $\phi$ to $\phi(x)$\end{tabular}
-& $(\phi^*f)(x)=f\circ \phi(x)$ & $
-\pback{\phi}{\phi(x)}{f}(\phi)$ \\ \hline
+& $\phi^*f(x)=f\circ \phi(x)$ & $
+\pback{\phi}{\phi(x)}{f}(\phi)$
+\text{ or }$\phi^*(f)(x)$ \\ \hline
 \cellcolor[HTML]{9AFF99}vector field & \begin{tabular}[c]{@{}l@{}}\\$X$ or, more explicitly, $X_\pi$\\ where $\pi\in M$.\\ Replace $\pi$ by $g$ when\\ manifold $M$ is group\end{tabular} & \begin{tabular}[c]{@{}l@{}}$\vecX$ or, more explicitly, $\vecX_\pi$\\ where $\pi\in M$.\\ Replace $\pi$ by $g$ when\\ manifold $M$ is group $G$\end{tabular} \\ \hline
 \cellcolor[HTML]{9AFF99}\begin{tabular}[c]{@{}l@{}}coordinate vector\\ .\end{tabular} & $\pder{\;}{x^i}$ & $\vecpder{x^i}$ \\ \hline
 \cellcolor[HTML]{9AFF99}\begin{tabular}[c]{@{}l@{}}partial derivative\\
@@ -798,13 +799,11 @@ duality relations.}
 A tensor of {\bf tensor type} ${u\choose d}$ is a tensor
 with $u$ upper indices
 and $d$ lower indices.
-
-We call
-
-lower indices: {\bf covariant indices}
-
-
-upper indices: {\bf contravariant indices}
+Lower indices are called {\bf covariant indices}
+and upper indices are  called {\bf contravariant indices}. See Table \ref{sec-coord-trans}
+for examples of this nomenclature
+for upper and lower
+indices.
 
 
 MNEMONIC:
@@ -815,11 +814,6 @@ MNEMONIC:
 {\text{contravariant=
 unruly = up}}
 
-
-See Table \ref{sec-coord-trans}
-for examples of this nomenclature
-for upper and lower
-indices.
 
 The terms 
 covariant and contravariant 
@@ -855,7 +849,7 @@ Contravariant transformation & Covariant Transformation \\ \hline
 $V^\mu = J\indices{^\mu_j} V^j$ & $\vecpartial_\mu=\vecpartial_j J\indices{^j_\mu}$ \\ \hline
 $\ul{du^\mu} = J\indices{^\mu_j} \ul{dx^j}$ & $\omega_\mu=\omega_j J\indices{^j_\mu}$ \\ \hline
 \end{tabular}
-\caption{How basis vectors, vector components, basis covector and covector components transform. }
+\caption{How basis vectors, vector components, dual basis covector and covector components transform. }
 \label{tab-covariant-contravariant-trans}
 \end{table}
 
@@ -896,7 +890,7 @@ Then Table
 \ref{tab-covariant-contravariant-trans}
 tells us how
 the basis vectors, vector components,
-basis covectors
+dual basis covectors
 and covector
 components transform
 under the change 
@@ -906,14 +900,17 @@ These
 transformation rules  insure that
 
 \beq
+\vecV=
 V^\mu\vecpartial_\mu= V^i\vecpartial_i
 \eeq
 and
 
 \beq
+\ul{\omega}=
 \omega_\mu \ul{du^\mu}=
 \omega_i \ul{dx^i}
 \eeq
+are basis independent.
 
 If a tensor has multiple upper and lower indices, then the upper ones each transform individually
 like the single upper component of a vector.
@@ -1220,7 +1217,7 @@ is  tangential to
 the vector field $\vecX$} and write informally
 
 \beq
-\vPhi^t = \invpder{t} \vecX
+\vPhi^t = \invpartial{t} \vecX
 \eeq
 
 
@@ -1663,7 +1660,7 @@ where $\vecX^{(j)}$ for $j=1, 2, \dots p$ are n-dim vectors.
 Let
 
 \beq
-\ul{\otimes  dx^{i_1 i_2\cdots i_p}}
+\otimesdx^{i_1 i_2\cdots i_p}
 (\vecX^{(1)}, \vecX^{(2)}, \ldots, \vecX^{(p)})
 =
 \ul{dx^{i_1}}(\vecX^{(1)})
@@ -1677,7 +1674,7 @@ where $\otimes $ is the
 Cartesian (order preserving) product for reals.
 
 \beq
-\ul{\wedge dx^{i_1 i_2\cdots i_p}}
+\wedgedx^{i_1 i_2\cdots i_p}
 (\vecX^{(1)}, \vecX^{(2)}, \ldots, \vecX^{(p)})
 =
 \ul{dx^{i_1}}(\vecX^{(1)})
@@ -1702,31 +1699,31 @@ Then we can express $\pform{\omega}{p}$ as
 \beq
 \pform{\omega}{p}=
 \sum_{I \in \cali^p_<} \omega_I
-\pform{\wedge d x^I}{p}
+\pform{[\wedge d x]^I}{p}
 =
 \frac{1}{p!}
 \sum_{I \in \cali^p}
-\omega_I \pform{\wedge d x^I}{p}
+\omega_I \pform{[\wedge d x]^I}{p}
 \eeq
 
 
-$\{\pform{\wedge dx^I}{}
+$\{\pform{[\wedge dx]^I}{}
 \mid I\in
 \cali^p_<\}$
 is a basis for the dif-forms in $T^p_\pi(M)$. It satisfies
 
 \beq
-\ul{\wedge dx^I}(\vecX^{(I)})=
+\wedgedx^I(\vecX^{(I)})=
 \sum_{\s\in S_p}sign(\s)
-\ul{\otimes dx^I}(\vecX^{(\s(I))})
+\otimesdx^I(\vecX^{(\s(I))})
 \eeq
 for $I \in \cali^p$,
 where $\s$ ranges over all possible permutations of $p$ symbols.
 Hence,
 
 \beq
-\ul{\wedge dx^I}(\vecX^{(I)})=
--\ul{\wedge dx^I}(\vecX^{(\s (I))})
+\wedgedx^I(\vecX^{(I)})=
+-\wedgedx^I(\vecX^{(\s (I))})
 \eeq
 if $\s$ is a swap (transposition)
 of any two symbols of $I$.
@@ -1843,7 +1840,7 @@ Suppose
 
 \beq
 \pform{\omega}{p}=
-\frac{1}{p!} \sum_{I\in \cali^p} \omega^I\pform{\wedge dx^I}{p}
+\frac{1}{p!} \sum_{I\in \cali^p} \omega^I\pform{[\wedge dx]^I}{p}
 \eeq
 Then
 
@@ -1855,19 +1852,19 @@ Then
 \sum_{j=1}^n \sum_{I\in \cali^p}
 \pder{\omega^I}{x^j}
 \pform{dx^j}{}
-\wedge\pform{\wedge dx^I}{p}
+\wedge\pform{[\wedge dx]^I}{p}
 \\
 &=&
 \frac{1}{p!}
 \sum_{(j,I)\in \cali^{p+1}}
 \pder{\omega^I}{x^j}
-\pform{\wedge dx^{j, I}}{p+1}
+\pform{[\wedge dx]^{j, I}}{p+1}
 \\
 &=&
 \underbrace{\frac{(p+1)!}{p!}}_{p+1}
 \sum_{(j,I)\in \cali^{p+1}_<}
 \pder{\omega^I}{x^j}
-\pform{\wedge dx^{j, I}}{p+1}
+\pform{[\wedge dx]^{j, I}}{p+1}
 \eeqa
 
 For $p=1$, this reduces to
@@ -1959,26 +1956,27 @@ d\ul{\omega}
 &=
 \sum_i [(\partial_i a )
 b+ a \partial_i b]
- \ul{dx^i}\wedge \ul{\wedge dx^{12345}}
+ \ul{dx^i}\wedge \wedgedx^{12345}
 \\
 &=
 \left[
 \sum_i 
 \partial_i a
 \ul{dx^i}\wedge
-\ul{\wedge dx^{123}}
+\wedgedx^{123}
 \right]
+\wedge
 \left[
-b\ul{\wedge dx^{45}}
+b\wedgedx^{45}
 \right]
 -
 \left[
 a
-\ul{\wedge dx^{123}}
-\right]
+\wedgedx^{123}
+\right]\wedge
 \left[\sum_i \partial_i
 b\ul{dx^i}\wedge
-\ul{\wedge dx^{45}}
+\wedgedx^{45}
 \right]
 \\
 &=
@@ -2247,7 +2245,7 @@ X\ar[r]|\phi
 & Z
 }
 \eeq
-The {\bf pullback function}
+The {\bf pullback function}\footnote{$\pback{\phi}{\phi(x)}$ is my own notation.}
 $\pback{\phi}{\phi(x)}{f}
 (\phi)$
 maps the function $f(\phi)$
@@ -2268,14 +2266,19 @@ x\ar[r]|\phi
 \eeq
 
 
-The pullback function is often denoted by
- $(\phi^*f)(x)$ in the literature. Hence
+The pullback function is usually denoted by
+ $\phi^*f(x)$ in the mathematical literature.
+I find both notations useful
+and use them both. However, 
+I think $\phi^*(f)(x)$
+is much clearer than $\phi^*f(x)$ \footnote{Using $\phi^*(f)(x)$ instead of $\phi^*f(x)$ prevents you from assuming $\phi^*f(x)=\phi^*(f(x))$ which is false.}
+and will use that instead. Hence
 
 \beq
-(\phi^*f)(x) = \pback{\phi}{\phi(x)}{f}(\phi)
+\phi^*(f)(x) =
+f\circ \phi(x)
 \eeq
-$\pback{\phi}{\phi(x)}$ is my own notation.
-Both notations can be useful.
+
 
 
 Pullback functions
@@ -2290,7 +2293,7 @@ It's a trade-off. Not using pullback functions or $\phi$ as in $U(S, V)= U(P, T)
 the notation
 more succinct but less precise. Using the pullback
 function can make some
-statements look less cluttered. (for example, $(\phi^*U)(P, T)$ looks better than $U(\phi(P, T))$.\;).
+statements look less cluttered. (for example, $\phi^*(U)(P, T)$ looks better than $U(\phi(P, T))$.\;).
 
 
 \subsection{Chain Rule}
@@ -2850,9 +2853,9 @@ dif-forms $\pform{\alp}{p}$
 and  $\pform{\beta}{q}$:
 
 \beq
-\pform{\alp}{p}=\sum_{I\in \cali^p_<}\alp_I \pform{\wedge dx^I}{p},
+\pform{\alp}{p}=\sum_{I\in \cali^p_<}\alp_I \pform{[\wedge dx]^I}{p},
 \quad
-\pform{\beta}{q}=\sum_{I\in \cali^q_<}\beta_I \pform{\wedge dx^I}{q}
+\pform{\beta}{q}=\sum_{I\in \cali^q_<}\beta_I \pform{[\wedge dx]^I}{q}
 \eeq
 Then define their inner product by
 
@@ -3017,10 +3020,10 @@ Suppose
 \beq
 \pform{\omega}{p}=
 \sum_{I \in \cali^p_<} \omega_I
-\pform{\wedge d x^I}{p}
+\pform{[\wedge dx]^I}{p}
 =
 \sum_{I \in \cali^p_{<}}
-\omega_I [\pform{\otimes d x^{I}}{p}
+\omega_I [\pform{[\otimes dx]^{I}}{p}
 + \spermu{I}]
 \eeq
 Then
@@ -3034,7 +3037,7 @@ Then
 \sum_{I \in \cali^p_{<}}
 \omega_I 
 \left[
-\begin{array}{l}\ul{\otimes d x^{I}}
+\begin{array}{l}\otimesdx^{I}
 (\vecV, \vecX^{(1)}, \vecX^{(2)},\cdots, \vecX^{(p-1)})
 \\
 + \spermu{I}
@@ -5199,7 +5202,7 @@ Suppose
 Then
 
 \beq
-\vecx\;^*\ul{\omega}(\vecx)=
+\vecx\;^*(\ul{\omega})(\vecx)=
 \pback{\vecx}{\vecx(\vecu)}\ul{\omega}
 (\vecx)=
 \frac{1}{p!}
@@ -5220,7 +5223,7 @@ Now use
 to get
 
 \beq
-\vecx\;^*\ul{\omega}(\vecx)=
+\vecx\;^*(\ul{\omega})(\vecx)=
 \frac{1}{p!}
 \omega_{\mu_1\cdots\mu_p}(\vecx(\vecu))
 \pder{x^{\mu_1}}
