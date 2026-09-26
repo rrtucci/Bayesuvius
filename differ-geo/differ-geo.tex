@@ -7654,7 +7654,9 @@ so both summands in Cartan Magic Formula
 leave the degree
 of a dif-form
 unchanged.\footnote{A good mnemonic is  $d\rarrow$ differentiate 
-and $i_\vecX\rarrow$ integrate.}
+and $i_\vecX\rarrow$ integrate.
+Although I think the $i$ was originally chosen because
+$i_\vecX$ is called an \qt{interior product} or contraction.}
 
 \begin{claim}
 If $f(\cdot)$ is a scalar function, then
@@ -8300,7 +8302,7 @@ Then we define the Lie Derivative of $\TT$ by
 \beq
 \call_\vecX\TT=
 \AT{\frac{d}{dt}}{t=0}
-\vPhi^{-t}\:^*(\TT)
+\vPhi^{t}\:^*(\TT)
 \eeq
 where
 
@@ -8312,7 +8314,7 @@ and\footnote{Pullback notation explained in Section \ref{sec-pullback}.}
 
 
 \beq
-\vPhi^{-t}\:^*(\TT)=
+\vPhi^{t}\:^*(\TT)=
 \prod_{i\in I}
 \pback{\vecpartial_{i}}
 {\dvPhi{{-t}}{\vPhi^{t}(\pi)
@@ -8320,7 +8322,7 @@ and\footnote{Pullback notation explained in Section \ref{sec-pullback}.}
 \prod_{j\in J}
 \pback{
 \ul{dx^j}}{
-[\dvPhi{-{t}}{\vPhi^{t}(\pi)}]^*
+[\dvPhi{+{t}}{\vPhi^{t}(\pi)}]^*
 (\ul{dx^j})}\TT
 \eeq
 \end{mybluearea}
@@ -8336,10 +8338,10 @@ We have
 and
 
 \beq
-[\dvPhi{-{t}}{\vPhi^{t}(\pi)}]^*
+[\dvPhi{{t}}{\vPhi^{t}(\pi)}]^*
 (\ul{dx^j})=
-\ul{dx^a}\partial_a\Phi^{-{t}, k}\ul{dx^j}(\vecpartial_k)=
-\ul{dx^a}\partial_a\Phi^{-{t}, j}
+\ul{dx^a}\partial_a\Phi^{{t}, k}\ul{dx^j}(\vecpartial_k)=
+\ul{dx^a}\partial_a\Phi^{{t}, j}
 \eeq
 Hence
 
@@ -8354,7 +8356,7 @@ Hence
 \prod_{j\in J}
 \pback{
 \ul{dx^j}}{
-\ul{dx^a}\partial_a\Phi^{-{t}, j}}\TT
+\ul{dx^a}\partial_a\Phi^{{t}, j}}\TT
 \eeq
 \end{mybluearea}
 
@@ -8546,6 +8548,115 @@ X^k_\pi \partial_k V_\pi^i
 [\vecX, \vecV]_\pi^i
 \eeqa
 \qed
+
+\begin{claim}
+The Lie derivative and exterior derivative commute when acting on a 
+dif-form $\pform{\omega}{p}$
+
+\beq
+[\call_\vecX, d]\pform{\omega}{p}=0
+\eeq
+\end{claim}
+\proof
+
+The proof is trivial
+except for one step, to be 
+proven below
+\beqa
+\call_\vecX(d\ul{\omega})
+&=&
+\AT{\frac{d}{dt}}{t=0}[\vPhi^{t}]^*(d\ul{\omega})
+\\
+&=&
+\AT{\frac{d}{dt}}{t=0}d\left[
+[\vPhi^{t}]^*(\ul{\omega})\right]
+\quad\text{(proven below)}
+\label{eq-pullback-and-d}
+\\
+&=&
+d\AT{\frac{d}{dt}}{t=0}[\vPhi^{t}]^*(\ul{\omega})
+\\
+&=&
+d\call_\vecX(\ul{\omega})
+\eeqa
+To prove Eq.(\ref{eq-pullback-and-d})
+which says that
+the pullback of the flow and $d$ commute,
+we proceed as follows.
+
+Let
+\beq
+I =(i_1, i_2, \ldots, i_p), \quad
+\wedgedx^I = \ul{dx^{i_1}}\wedge
+\ldots\ul{dx^{i_p}}
+\eeq
+and
+
+\beq
+\pform{\omega}{p}
+=
+\frac{1}{p!}\omega_I
+\wedgedx^I
+\eeq
+Then
+
+\beq
+F^*(\ul{\omega})=
+\frac{1}{p!}\omega_I(F(x))
+\wedged{F}^I
+\eeq
+Next use the identity
+
+\beq
+d[\ul{\alp}\wedge\ul{\beta}]=
+d\ul{\alp}\wedge\beta
++
+(-1)^{deg(\alp)}
+\ul{\alp}\wedge d\ul{\beta}
+\eeq
+to get
+
+\beq
+d[F^*(\ul{\omega})]=
+\frac{1}{p!}
+[\ul{d\omega_I(F(x))}]
+\wedge
+\wedged{F}^I
+\eeq
+But note that
+
+\beqa
+\ul{d
+\omega_I(F(x))}
+&=&
+\sum_{i\in I}
+\pder{\omega_I(F(x))}{F^i(x)}
+\ul{dF^i(x)}
+\\
+&=&
+\pback{F}{F(x)}\sum_{i\in I}
+\pder{\omega_I(F)}{F^i}
+\ul{dF^i}
+\\
+&=&
+\ul{F^*(d\omega_I)}
+\eeqa
+Hence
+
+\beqa
+d[F^*(\ul{\omega})]
+&=&
+\frac{1}{p!}
+\ul{F^*(d\omega_I)}
+\wedge
+\wedged{F}^I
+\\
+&=&
+F^*[d\ul{\omega}]
+\eeqa
+
+\qed
+
 
 \subsubsection{Examples}
 
