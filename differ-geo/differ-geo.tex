@@ -2231,7 +2231,7 @@ where it equals
 $\delta(\theta-\theta_0)$.
 
 
-\subsection{Pullback map}
+\subsection{Pullback map}\label{sec-pullback}
 
 Suppose functions
 $\phi: X\rarrow Y$ and $f: Y\rarrow Z$  satisfy
@@ -7533,8 +7533,1267 @@ which uses the \Weit connection.
 
 
 
+\subsection{Lie Derivatives}
+
+\subsubsection{Introduction to Lie Derivatives}
 
 
+The Lie derivative (LD)
+measures how a quantity (a tensor 
+of arbitrary type)
+changes along a
+streamline of a vector field.
+
+
+The {\bf Lie Derivative $\call_\vecX\vecV$  of a vector field
+$\vecV$} is
+(proof given later, in Claim \ref{cl-call-X-of-V})
+
+\beq
+\call_\vecX\vecV= [\vecX, \vecV]\in\gerX(M)
+\eeq
+
+\beq
+\begin{array}{cc}
+\bcen
+\xymatrix{
+& \ar[dl]|{\oper{\vecV}}
+\\
+\call_\vecX \vecV(\vecr)
+&&\vecr
+\ar[ul]|{\oper{\vecX}}
+\ar[dl]|{\oper{\vecV}}
+\\
+&\ar[ul]|{-\oper{\vecX}}
+}\ecen
+&
+\call_{\vecX}\vecV(\vecr)=
+\left[
+\oper{\vecX}, \oper{\vecV}
+\right](\vecr)\in \RR
+\end{array}
+\eeq
+
+Meaning of Lie Bracket:
+
+Suppose
+
+\beq
+\oper{\vecX} = X^i\partial_i=
+\vecX\cdot \nabla,
+\quad
+\oper{\vecV} =  V^j \partial_j = \vecV\cdot \nabla
+\eeq
+Then
+
+\beqa
+[\vecX, \vecV]
+&=&
+\vecX\cdot \nabla
+[
+\vecV\cdot \nabla \vecr
+]
+-
+\vecV\cdot \nabla
+[
+\vecX\cdot \nabla \vecr
+]
+\\
+&=&
+[\vecX\cdot \nabla (\vecV)-
+\vecV\cdot \nabla (\vecX )
+]\cdot
+\nabla \vecr
+\\
+&=&
+[\vecX\cdot \nabla (U^i)-
+\vecV\cdot \nabla (X^i )
+]
+\underbrace{\partial_i \vecr}_{\vecpder{x^i}}
+\\
+&=&
+\oper{\vecX}(\vecV)-
+\oper{\vecV}(\vecX)
+\eeqa
+
+
+
+
+
+The {\bf Lie derivative $\call_\vecX\ul{\omega}$ of a dif-form
+$\pform{\omega}{p}$}
+of any degree $p$
+(including $p=0$)
+is given by
+{\bf Cartan's Magic Formula}:
+
+\beq
+\begin{array}{cc}
+\bcen
+\xymatrix{
+&\ar[dl]|{d}
+\\
+\call_\vecX \pform{\omega}{p}
+&& \pform{\omega}{p}
+\ar[ul]|{i_\vecX}
+\ar[dl]|d
+\\
+&\ar[ul]|{i_\vecX}
+}\ecen
+&
+\boxed
+{\call_\vecX = i_\vecX d + d\;i_\vecX}
+\end{array}
+\eeq
+Note that in Cartan's Magic Formula,  $d$ is independent
+of $\vecX$
+whereas $i_\vecX$ does depend on $\vecX$.
+$d$ raises the degree of a dif-form by 1 and $i_\vecX$
+lowers it by one,
+so both summands in Cartan Magic Formula
+leave the degree
+of a dif-form
+unchanged.\footnote{A good mnemonic is  $d\rarrow$ differentiate 
+and $i_\vecX\rarrow$ integrate.}
+
+\begin{claim}
+If $f(\cdot)$ is a scalar function, then
+Cartan's Magic Formula implies
+
+\beq
+\call_\vecX f=
+\oper{\vecX}(f)
+\eeq
+
+\end{claim}
+\proof
+
+\beqa
+\call_{\vecX}f(\cdot)
+&=&
+i_\vecX(df) + \cancel{d(i_\vecX f)}^0
+\\
+&=&
+\ul{df}(\vecX)
+\\
+&=&
+\vecX\cdot \nabla f
+=  \oper{\vecX}(f)
+\eeqa
+\qed
+
+\begin{claim}
+If $\pform{\omega}{}$
+is a 1-form, then
+Cartan's Magic Formula implies
+
+\beq
+\call_\vecX \pform{\omega}{}=
+\vecX\cdot\nabla \pform{\omega}{}
++
+\omega_j
+\pform{d X^j}{}
+\eeq
+\end{claim}
+\proof
+
+Suppose 
+\beq
+\ul{\omega}=
+\sum_{i=1}^n
+\omega_i(x)\ul{dx^i}
+, \quad
+\vecX =\sum_i X^i(x) \vecpder{x^i}
+\eeq
+Then
+
+\beq
+i_\vecX\ul{\omega}=
+\ul{\omega}(\vecX)=
+\omega_i X^i
+\eeq
+so
+
+\beq
+\boxed
+{d(i_\vecX \ul{\omega})=
+\partial_j
+(\omega_i X^i)
+\ul{dx^j}}
+\label{eq-cmf-part1}
+\eeq
+Furthermore
+
+\beqa
+d\ul{\omega}
+&=&
+d \left[ \omega_i
+\ul {dx^i}\right]
+\\
+&=&
+\partial_j{\omega_i}
+\ul{dx^j}\wedge
+\ul{dx^i}
+\\
+&=&
+\frac{1}{2}
+[\partial_j \omega_i -\partial_i\omega_j]
+\ul{dx^j}\wedge
+\ul{dx^i}
+\eeqa
+and
+
+\beq
+i_\vecX
+[\ul{dx^j}
+\wedge \ul{dx^i}]=
+X^j \ul{dx^i}-
+X^i \ul{dx^j}
+\eeq
+so
+
+\beq
+\boxed
+{i_\vecX
+d\ul{\omega}=
+\partial_j\omega_i
+\left[
+X^j \ul{dx^i}-
+X^i\ul{dx^j}
+\right]}
+\label{eq-cmf-part2}
+\eeq
+Combining Eq.(\ref{eq-cmf-part1}) and Eq.(\ref{eq-cmf-part2}), we finally get
+
+\beqa
+\call_\vecX \pform{\omega}{}
+&=&
+\partial_j
+(\omega_i X^i)
+\ul{dx^j}
++ \partial_j\omega_i
+\left[
+X^j \ul{dx^i}-
+X^i\ul{dx^j}
+\right]
+\\
+&=&
+\omega_i
+\partial_j
+X^i
+\ul{dx^j}
++ \partial_j\omega_i
+\left[
+X^j \ul{dx^i}
+\right]
+\\
+&=&
+\omega_i
+\partial_k
+X^i
+\ul{dx^k}
++ \partial_j\omega_k
+\left[
+X^j \ul{dx^k}
+\right]
+\\
+&=&
+\left(
+X^j\partial_j
+\omega_k
++\omega_j \partial_k X^j
+\right)
+\pform{dx^k}{}
+\\
+&=&
+\vecX\cdot\nabla \pform{\omega}{}
++
+\omega_j
+\pform{d X^j}{}
+\eeqa
+
+\qed
+
+
+\subsubsection{LD from Lie Brackets }\label{sec-Lie-der-tensor}
+
+We started by 
+showing that the Lie derivative of a vector field (type $1\choose 0$ tensor)
+is just a Lie bracket.
+Then we introduced 
+Cartan's magic formula
+which allows us to calculate
+the Lie derivative
+of a general dif-form
+(type $0\choose d$ tensor).
+In this section,
+we will show how to
+calculate the Lie derivative
+of a general tensor
+of type $u\choose d$.
+
+
+Note that the expressions for Lie derivatives  given
+in this section are free of
+any reference to the 
+following
+\begin{itemize} \item a connection $\nnabla$
+\item a metric $\metric$ 
+\item coordinates and their
+derivatives $\partial_\mu$.
+\end{itemize}
+They only avail themselves of the action of vector fields and Lie brackets.
+
+
+\begin{claim}
+Suppose $f$ is a
+scalar function
+(i.e., ${0\choose 0}$ tensor).
+Then
+
+\beq
+\call_\vecX f = \vecX(f)=
+X^i\partial_i f
+\eeq
+\end{claim}
+\proof
+\qed
+
+\begin{claim}
+Suppose $\vecY$ is a
+vector field
+(i.e., ${1\choose 0}$ tensor).
+Then
+
+\beq
+\call_\vecX \vecY = 
+[\vecX, \vecY]
+\eeq
+\end{claim}
+\proof
+\qed
+
+
+\begin{claim}
+Suppose $\pform{\omega}{}$ is a 1-form (i.e., covector, ${0\choose 1}$ tensor).
+Then
+
+\beq
+\call_\vecX
+\ul{\omega}(\vecY)=
+\vecX(\ul{\omega}(\vecY))-
+\ul{\omega}(
+[\vecX, \vecY]
+)
+\eeq
+\end{claim}
+\proof
+\qed
+
+
+
+
+\begin{claim}
+For any smooth tensors
+$\SSS$ and $\TT$,
+\beq
+\call_\vecX(\SSS\otimes \TT)=
+(\call_\vecX \SSS)\otimes
+\TT
++
+\SSS\otimes 
+(\call_\vecX \TT)
+\eeq
+\end{claim}
+\proof
+\qed
+
+\begin{claim}
+Suppose $\TT$ is a type
+$u\choose d$ tensor
+and
+
+\beq
+\ul{\alp}= (\ul{\alp^1},\ul{\alp^2},\cdots, \ul{\alp^u}), \quad
+\vecY = (\vecY_1,{\vecY}_2,\cdots,\vecY_d)
+\eeq
+Then
+
+\beq
+(\call_\vecX)
+\TT(\ul{\alp},\vecY)
+=
+\left\{
+\begin{array}{l}
+\vecX[
+\TT(\ul{\alp},\vecY)
+]
+\\
+-\sum_{i=1}^u
+\AT{\TT(\ul{\alp},\vecY)}
+{\ul{\alp^i}
+\rarrow \call_\vecX
+\ul{\alp^i}}
+\\
+-\sum_{i=1}^d
+\AT{\TT(\ul{\alp},\vecY)}
+{\vecY_i
+\rarrow 
+[\vecX, \vecY_i]}
+\end{array}
+\right.
+\eeq
+where
+
+\beq
+(\call_\vecX\ul{\alp^i})(\vecZ)=
+\vecX(\ul{\alp^i}(\vecZ))
+-
+\ul{\alp^i}
+([\vecX, \vecZ])
+\eeq
+
+
+\end{claim}
+\proof
+\qed
+
+For a metric $\metric(\vecU, \vecV)$
+(type ${0\choose 2}$
+tensor) 
+
+\beq
+\call_\vecX \metric(\vecU, \vecV)
+=
+\vecX(\metric(\vecU, \vecV))
+-
+\metric([\vecX, \vecU], \vecV)
+-
+\metric(\vecU, [\vecX, \vecV])
+\label{eq-lie-deriv-metric}
+\eeq
+A {\bf Killing field}
+is defined as a vector field $\vecX$
+along which the metric $\metric$ does 
+not change:
+
+
+\beq
+\call_\vecX\metric =0
+\eeq
+
+
+
+\subsubsection{LD from Covariant Derivatives}
+
+In this section, we will rewrite the connection-independent formulae
+for the Lie derivative
+of a general 
+tensor in a less 
+fundamental way that \ul{
+assumes the LCC} (Levi-Civita connection).
+In this less
+fundamental
+rewriting,
+the Lie brackets are
+replaced by covariant
+derivatives. 
+The rewriting is valid
+for a theory with a pseudo-\Rien metric,
+such as General
+Relativity.
+
+\begin{claim}
+Assuming a LCC, if $\vecY$ is a vector field, then
+
+\beq
+(\call_\vecX  \vecY)=
+X^\mu \nnabla_\mu
+Y^\nu -
+Y^\mu \nnabla_\mu X^\nu
+\eeq
+
+
+\end{claim}
+\proof
+\beq
+\call_\vecX \vecY=
+[\vecX, \vecY]
+\eeq
+
+\beq
+\vecX = X^\mu \vecpartial_\mu,\quad
+\vecY = Y^\nu \vecpartial_\nu
+\eeq
+
+\beq
+[{\vecX}, {\vecY}]
+=
+X^\mu(\partial_\mu
+Y^\nu)\vecpartial_\nu
+-
+(X\swap Y)
+\eeq
+
+Next, we replace 
+the partial derivatives
+by covariant ones because the \Chris symbols
+cancel.
+
+\beq
+\nnabla_\mu V^\nu=
+\partial_\mu V^\nu
++
+\Gamma\indices{^\nu_{\mu_\lam}}V^\lam
+\eeq
+for $V=X, Y$
+
+
+\beq
+X^\mu\Gamma\indices{^\nu_{\mu\lam}}Y^\lam
+-
+(X\swap Y)=0
+\eeq
+because
+
+\beq
+\Gamma\indices{^\nu_{\mu\lam}} = 
+\Gamma\indices{^\nu_{\lam\mu}}
+\eeq
+The \Chris symbols are symmetric
+in $\mu, \lam$ because the Torsion
+is zero for the LCC
+and zero  Torsion implies this 
+\Chris symmetry.
+
+\qed
+
+\begin{claim}
+Assuming a LCC, if $\pform{\omega}{}$
+is a 1-form, then
+
+
+\beq
+(\call_\vecX  \ul{\omega})_\nu
+=
+X^\mu \nnabla_\mu \omega_\nu
++
+\omega_\mu \nnabla_\nu X^\mu
+\eeq
+
+\end{claim}
+\proof
+
+Start from
+\beq
+(\call_\vecX  \ul{\omega})_\nu
+=
+X^\mu \partial_\mu \omega_\nu
++
+\omega_\mu \partial_\nu X^\mu
+\eeq
+Now replace the 
+partial derivatives 
+by covariant derivatives.
+
+\beq
+X^\mu\nnabla_\mu \omega_\nu=
+X^\mu\left[
+\partial_\mu \omega_\nu -
+\Gamma\indices{^\lam_{\mu\nu}}\omega_\lam\right]
+\eeq
+
+\beq
+\omega_\mu\nnabla_\nu X^\mu=
+\omega_\mu
+\left[\partial_\nu X^\mu +
+\Gamma\indices{^\mu_{\nu\lam}}X^\lam\right]
+\eeq
+
+
+\beq
+-X^\mu \Gamma\indices{^\lam_{\mu\nu}}\omega_\lam
++
+\underbrace{\omega_\mu
+\Gamma\indices{^\mu_{\nu\lam}}X^\lam}_{
+\omega_\lam
+\Gamma\indices{^\lam_{\nu\mu}}X^\mu
+}
+=0
+\eeq
+\qed
+
+\begin{claim}
+Assuming a LCC, if $\TT$ is a type
+$u\choose d$ tensor
+and
+
+\beq
+\mu = (\mu_1\mu_2\cdots \mu_u), \quad
+\nu = (\nu_1\mu_2\cdots\nu_d)
+\eeq
+
+\beq
+\TT= \TT\indices{^{\mu}_{\nu}}
+\vecpartial_{\mu_1}\otimes
+\vecpartial_{\mu_2}\otimes
+\cdots\otimes
+\vecpartial_{\mu_u}
+\otimes
+\ul{dx}^{\nu_1}\otimes
+\ul{dx}^{\nu_1}\otimes
+\cdots\otimes
+\ul{dx}^{\nu_d}
+\eeq
+then
+
+\beq
+(\call_\vecX \TT)
+\indices{^\mu_\nu}=
+\left\{
+\begin{array}{l}
+X^\lam
+\nnabla_\lam
+\TT\indices{^{\mu}_{\nu}}
+\\
+-
+\sum_{i=1}^u
+\AT{\TT\indices{^{\mu}_{\nu}}}{\mu_i\rarrow \lam}
+\nnabla_\lam X^{\mu_i}
+\\
++ 
+\sum_{i=1}^d
+\AT{\TT\indices{^{\mu}_{\nu}}}{\nu_i\rarrow \lam}
+\nnabla_{\nu_i} X^{\lam}
+\end{array}
+\right.
+\label{eq-lie-tt}
+\eeq
+\end{claim}
+\proof
+\qed
+
+Note  that the first term 
+on the right side of  Eq.(\ref{eq-lie-tt}) is
+
+\beq
+X^\lam
+\nnabla_\lam
+\TT\indices{^{\mu}_{\nu}}=
+\underbrace{X^\lam\partial_\lam}_{\oper{\vecX}}
+\TT\indices{^\mu_\nu}  +  \text{\Chris term}
+\eeq
+
+For the LLC, the Lie derivative 
+of the metric $\metric(\vecU, \vecV)$ takes the following simple form in the coordinate basis:
+
+\beq
+[\call_\vecX 
+\metric]_{\mu\nu}= \nnabla_\mu X_\nu 
++ (\mu\swap \nu)
+\eeq
+Hence, the Killing fields satisfy
+
+\beq
+0=
+[\call_\vecX 
+\metric]_{\mu\nu}= 
+\nnabla_\mu X_\nu 
++ (\mu\swap \nu)
+\eeq
+
+
+
+\subsubsection{LD from Flow}
+
+Calculating LD from a flow
+is actually the most
+fundamental of 
+all the approaches; it's
+whence originate the approaches of LD from Lie brackets and LD from covariant derivatives. But
+we left this approach for last because it's also
+the most technical.
+
+Consider  a vector
+space $V$  with basis $\ket{\vecv_\mu}$ 
+and dual basis $\bra{\vecv^\nu}$
+such that\footnote{It's not necessary to use both Dirac notation and raised and lowered indices. One of the two is sufficient. I will use both for pedagogical reasons, so you can see that, indeed, they are equivalent.}
+\beq
+\av{\vecv^\mu|\vecv_\nu}=\delta^\mu_\nu
+\eeq
+Likewise, consider
+a vector
+space $W$  with basis $\ket{\vecw_a}$ 
+and dual basis $\bra{\vecw^a}$
+such that
+\beq
+\av{\vecw^a|\vecw_b}=\delta^a_b
+\eeq
+Suppose $A$
+is a
+linear map 
+between vector spaces $V$ and $W$
+\beq
+A: V\rarrow W
+, \quad 
+A=\sum_{\mu, a} \ket{\vecw_a}A\indices{^a_\mu}\bra{\vecv^\mu}
+\eeq
+The {\bf dual (or pushback) map} $A^*$ of $A$ is defined by\footnote{By $\wedge(V)$ we mean 
+the 1-forms on vector space $V$.}
+
+\beq
+A^*: \wedge(W)\rarrow \wedge(V),
+\quad
+A^*(\pform{\omega}{})=\pform{\omega}{}\circ A
+\eeq
+For any 1-form $\pform{\omega}{}$,
+
+\beq
+A^*(\ul{\omega})\ket{\vecv}=
+\ul{\omega}
+(A\ket{\vecv})
+\eeq
+Hence, if
+
+\beq
+\ket{\vecv}=\ket{\vecv_\mu}, \quad \ul{\omega} = \bra{\vecw^a}
+\eeq
+then
+
+\beq
+A^*(\bra{\vecw^a})\ket{\vecv_\mu}=A\indices{^a_\mu}
+\eeq
+
+Define
+
+\beq
+I = (i_1,i_2, \dots, i_n),
+\quad 
+J = (j_1, j_2, \ldots, j_n)
+\eeq
+and
+
+\beq
+[\otimes\vecpartial]_I =
+\vecpartial_{i_1}
+\otimes
+\vecpartial_{i_2}
+\otimes\ldots \otimes
+\vecpartial_{i_n},
+\quad\otimesdx^J=
+\ul{dx^{j_1}}
+\otimes
+\ul{dx^{j_2}}
+\otimes\ldots \otimes
+\ul{dx^{j_n}}
+\eeq
+Consider a tensor $\TT$ given by
+
+\beq
+\TT = \TT\indices{^I_J}\quad [\otimes \vecpartial]_I
+\otimes
+\otimesdx^J
+\eeq
+Then we define the Lie Derivative of $\TT$ by
+
+\begin{mybluearea}
+\beq
+\call_\vecX\TT=
+\AT{\frac{d}{dt}}{t=0}
+\vPhi^{-t}\:^*(\TT)
+\eeq
+where
+
+\beq
+\partial_{t}\vPhi^{t} = \vecX \quad \text{ (or  $\vPhi^{t}=\invpartial{{t}} \vecX$)}
+\eeq
+and\footnote{Pullback notation explained in Section \ref{sec-pullback}.}
+
+
+
+\beq
+\vPhi^{-t}\:^*(\TT)=
+\prod_{i\in I}
+\pback{\vecpartial_{i}}
+{\dvPhi{{-t}}{\vPhi^{t}(\pi)
+}\vecpartial_{i}}
+\prod_{j\in J}
+\pback{
+\ul{dx^j}}{
+[\dvPhi{-{t}}{\vPhi^{t}(\pi)}]^*
+(\ul{dx^j})}\TT
+\eeq
+\end{mybluearea}
+
+Let's unpack this monster.
+We have
+\beq
+\dvPhi{{-t}}{\vPhi^{t}(\pi)
+}\vecpartial_{i}=\partial_i
+\vPhi^{-t}=
+(\partial_i\Phi^{{-t},a})\vecpartial_a
+\eeq
+and
+
+\beq
+[\dvPhi{-{t}}{\vPhi^{t}(\pi)}]^*
+(\ul{dx^j})=
+\ul{dx^a}\partial_a\Phi^{-{t}, k}\ul{dx^j}(\vecpartial_k)=
+\ul{dx^a}\partial_a\Phi^{-{t}, j}
+\eeq
+Hence
+
+\begin{mybluearea}
+\beq
+\vPhi^{-t}\:^*(\TT)=
+\prod_{i\in I}
+\pback{\vecpartial_{i}}
+{
+(\partial_i\Phi^{{-t},a})\vecpartial_a
+}
+\prod_{j\in J}
+\pback{
+\ul{dx^j}}{
+\ul{dx^a}\partial_a\Phi^{-{t}, j}}\TT
+\eeq
+\end{mybluearea}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2in]
+{differ-geo/lie-derivative.png}
+\caption{The Lie derivative $\call_\vecX \vecV$
+is composed of
+the  directional derivative $X^k\partial_k \vecV$
+of $\vecV$ in the $\vecX$
+direction minus
+the directional derivative $V^k\partial_k \vecX$
+of $\vecX$
+in the $\vecV$ direction.}
+\label{fig-lie-derivative}
+\end{figure}
+
+\begin{claim}
+\label{cl-call-X-of-V}
+For a vector field $\vecV$
+
+\beq
+\call_\vecX\vecV =
+[\vecX, \vecV]
+\eeq
+\end{claim}
+\proof
+
+Consider a flow\footnote{Flows are discussed in Section \ref{sec-integral-curves}} $\vPhi^t: M\rarrow M$ defined by
+
+
+\beq
+\dot{\vPhi}^t = \vecX_{\vPhi^t}
+\eeq
+or, informally,
+
+\beq
+\vPhi^t = \invpartial{t}\vecX_{\vPhi^t}
+\eeq
+
+By definition
+
+
+\beq
+\call_\vecX V_\pi
+=
+\AT{\frac{d}{dt}}
+{t=0}
+\dvPhi{-t}{\vPhi^t(\pi)}
+\indi_{\vPhi^t}\vecV_\pi
+\eeq
+where
+
+\beq
+\indi_{\vPhi^t}:
+T_\pi(M)\rarrow T_{\vPhi^t(\pi)}(M),
+\quad
+\indi_{\vPhi^t}\vecV_\pi=
+\vecV_{\vPhi^t(\pi)}
+\eeq
+and 
+
+\beq
+\dvPhi{-t}{\vPhi^t(\pi)}:
+ T_{\vPhi^t(\pi)}(M)
+\rarrow T_\pi(M),
+\quad 
+\dvPhi{-t}{\vPhi^t(\pi)} \vecV_\pi
+\mapsto
+\vecU_\pi
+\eeq
+Note that $\vecU_\pi\neq \vecV_\pi$.
+Otherwise,
+$\dvPhi{-t}{\vPhi^t(\pi)}$ would be the
+inverse of
+$\indi_{\vPhi^t}$
+and $\call_\vecX \vecV$ would be zero. 
+
+Let
+\beq
+\vecV = V^i\vecpartial_i,
+\quad
+\vecX = X^i\vecpartial_i
+\eeq
+Then
+
+\beqa
+\call_\vecX \vecV_\pi
+&=&
+\AT{\frac{d}{dt}}
+{t=0}
+\dvPhi{-t}{\vPhi^t(\pi)}
+\left(\vecV_{\vPhi^t(\pi)}\right)
+\\
+&=&
+\AT{\frac{d}{dt}}
+{t=0}
+\dvPhi{-t}{\vPhi^t(\pi)}
+\left(V^i_{\vPhi^t(\pi)
+}\vecpartial_i\right)
+\\
+&=&
+\AT{\frac{d}{dt}}
+{t=0} \ul{dx^j}
+\left[\AT{\partial_j
+\vPhi^{-t}}
+{\vPhi^t(\pi)}\right]
+\left(V^i_{\vPhi^t(\pi)
+}\vecpartial_i\right)
+\\
+&=&
+\AT{\frac{d}{dt}}
+{t=0} \AT{\partial_j
+\vPhi^{-t}}
+{\vPhi^t(\pi)}
+\underbrace
+{V^j_{\vPhi^t(\pi)}}_{\indi_{\vPhi^t}
+V^j_\pi}
+\eeqa
+Hence
+
+\beq
+\call_\vecX V^i_\pi=
+\AT{\frac{d}{dt}}
+{t=0}
+{A\indices{^i_j}(t)B^j(t)}
+\eeq
+where
+
+\beq
+\frac{dA\indices{^i_j}(0)}{dt}=
+\AT{\frac{d}{dt}}
+{t=0} \AT{\partial_j
+\Phi^{-t, i}}
+{\vPhi^t(\pi)}
+=-\partial_jX^i_\pi
+\eeq
+
+\beq
+A\indices{^i_j}(0)
+=\partial_j \pi^i
+=
+\pder{x^i}{x^j}=
+\delta^i_j
+\eeq
+
+
+\beq
+\frac{dB^j(0)}{dt}=
+\AT{\frac{d}{dt}}{t=0}
+\underbrace{V^j_{\vPhi^t(\pi)}}
+_{\indi_{\vPhi^t}
+V^j_\pi}
+=
+\dot{\Phi}^k\partial_kV^j_\pi=
+X^k_\pi\partial_k V^j_\pi
+\eeq
+
+
+\beq
+B^j(0)= V^j_\pi
+\eeq
+Thus
+
+\beqa
+[\call_\vecX V_\pi]^i
+&=&
+\frac{d A\indices{^i_j}(0)}
+{dt} B^j(0)
++
+A\indices{^i_j}(0)
+\frac{dB^j(0)}{dt}
+\\
+&=&
+\left[
+-\partial_j X_\pi^i
+\right]V^j_\pi
++
+\delta^i_j
+\left[X^k_\pi \partial_k \vecV_\pi^j\right]
+\\
+&=&
+-V^j_\pi\partial_j X_\pi^i
++
+X^k_\pi \partial_k V_\pi^i
+\\
+&=&
+[\vecX, \vecV]_\pi^i
+\eeqa
+\qed
+
+\subsubsection{Examples}
+
+\begin{enumerate}
+\item
+
+\begin{claim}
+Suppose $M=\RR^2$ with the Euclidean metric
+\beq
+\metric(\vecU, \vecV)=
+\left[\ul{dx})^2 + (\ul{dy})^2\right
+](\vecU, \vecV)= U^1V^1 + U^2V^2 =
+\vecU^T \begin{bmatrix}1&0
+\\
+0&1\end{bmatrix}\vecV
+\eeq
+If
+
+\beq
+\vecX = y \vecpder{x}=\begin{bmatrix}y\\0\end{bmatrix}
+\eeq
+then 
+\beq
+\call_\vecX\metric = 2\ul{dx}\ul{dy}
+\eeq
+$\call_\vecX\metric\neq 0$ so 
+$\vecX$ is not a Killing field.
+This $\vecX$ is called a {\bf shear flow}.
+The metric changes along a shear flow.
+\end{claim}
+\proof
+
+First proof (from pullback definition):
+
+If
+
+\beq
+\vec{\pi}=\begin{bmatrix}x\\y\end{bmatrix},
+\quad
+\gamma(\tau;\pi)=
+\begin{bmatrix}x+y\tau\\y\end{bmatrix}
+\eeq
+and
+
+\beq
+ \vecX_\gamma = \dot{\vgamma}=
+\begin{bmatrix}
+y\\0
+\end{bmatrix}
+\eeq
+then
+
+\beq
+\metric_\pi = (d\pi)^2=(\ul{dx})^2  + (\ul{dy})^2
+\eeq
+
+\beq
+\metric_{\gamma(\tau;\pi)} = (d{\vgamma})^2
+=(\ul{dx} + \tau\ul{dy})^2 
++ (\ul{dy})^2
+\eeq
+
+\beq
+\call_\vecX \metric =
+\AT{\frac{d}{d\tau}}{\tau=0}\metric_{\gamma(\tau)}
+=2 \ul{dx}\ul{dy}
+\eeq
+
+Second proof (from formula):
+
+\beqa
+(\call_\vecX\metric)_{\mu\nu}
+&=&
+X^\lam \partial_\lam \metric_{\mu\nu}
++
+\metric_{\lam\nu}
+\partial_\mu X^\lam
++
+\metric_{\mu\lam}
+\partial_\nu X^\lam
+\\
+&=&
+X^\lam \partial_\lam \metric_{\mu\nu}
++
+(\partial_\mu X_\nu + (\mu\swap \nu))
+\eeqa
+
+\beq
+\metric_{\mu\nu}=\delta^\mu_\nu\implies
+\partial_\lam \metric_{\mu\nu}=0
+\eeq
+
+\beq
+\vecX=
+\begin{bmatrix}
+y\\0
+\end{bmatrix}
+\implies 
+[\partial_\mu X_\nu]
+=
+\begin{bmatrix}
+0&0
+\\
+1&0
+\end{bmatrix}
+\eeq
+so 
+
+\beq
+[(\call_\vecX\metric)_{\mu\nu}]=  
+\begin{bmatrix}
+0&1
+\\
+1&0
+\end{bmatrix}
+\eeq
+
+\qed
+
+\item
+\begin{claim}
+For a { general affine connection $\nnabla$}, in the coordinate basis
+\beq
+[\call_\vecX \metric]_{\mu\nu}
+= 
+X^\lam \nnabla_\lam\metric_{\mu\nu}+
+\nnabla_\mu X_\nu+
+\nnabla_\nu X_\mu
++
+X^\lam\left[\TT_{\lam\mu\nu} + (\mu\swap \nu)\right]
+\eeq
+where $\TT_{\lam \mu\nu}$ represents
+the torsion tensor with the $\lam$
+index lowered appropriately.
+\end{claim}
+\proof
+
+The coordinate-free
+definition is
+\beq
+(\call_\vecX \metric)
+(\vecU, \vecV)
+=
+\vecX[\metric(\vecU, \vecV)]
+-
+\metric([\vecX, \vecU], \vecV)
+-
+\metric(\vecU,
+[\vecX, \vecV])
+\eeq
+where
+
+\beq
+\vecX[\metric(\vecU, \vecV)]
+=
+(\nnabla_\vecX\metric)(\vecU, \vecV)
++
+\metric(
+\nnabla_\vecX
+\vecU, \vecV)
++
+\metric(\vecU, 
+\nnabla_\vecX
+\vecV)
+\eeq
+and
+
+\beq
+[\vecX, \vecY]=
+\nnabla_\vecX\vecY
+-
+\nnabla_\vecY \vecX 
+-
+\TT(\vecX, \vecY)\quad
+\text{for }\vecY = \vecU, \vecV
+\eeq
+Substituting, we get
+
+\beq
+(\call_\vecX)
+(\vecU, \vecV)
+=
+\left\{
+\begin{array}{l}
+(\nnabla_\vecX\metric)
+(\vecU, \vecV)
+\\
++
+\metric
+(\nnabla_\vecU
+\vecX, \vecV)
++
+\metric
+(\vecU, 
+\nnabla_\vecV
+\vecX)
+\\
++
+\metric
+(\TT(\vecX,\vecU), \vecV)
++
+\metric
+(\vecU, 
+\TT(\vecX,\vecV))
+\end{array}
+\right.
+\eeq
+Now let
+
+\beq
+\vecU=\vecpartial_\mu,
+\quad \vecV=\vecpartial_\nu,
+\quad
+\vecX = X^\lam \vecpartial_\lam
+\eeq
+Then
+
+
+\beq
+\nnabla_\vecU\vecX=
+ \vecpartial_\lam\nnabla_\mu X^\lam
+\eeq
+
+\beq
+\quad
+\metric
+(\nnabla_\vecU
+\vecX, \vecV)=
+\metric_{\lam\nu}
+\nnabla_\mu X^\lam=
+\nnabla_\mu X_\nu
+\eeq
+
+\beq
+[\TT(\vecX, \vecU)]_\mu=
+X^\lam \TT\indices{^\rho_{\lam\mu}}
+\vecpartial_\rho
+\eeq
+
+\beq
+\metric(\TT(\vecX, \vecU), \vecV)=
+X^\lam \TT\indices{^\rho_{\lam\mu}}
+ \metric_{\rho\nu}
+=X^\lam \TT_{\nu\lam\mu}
+\eeq
+\qed
+
+\end{enumerate}
 
 
 \section{Differential Geometry of General Manifolds}\label{sec-gen-differ-geo}
