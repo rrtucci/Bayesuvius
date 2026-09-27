@@ -7299,7 +7299,7 @@ we get
 \metric(\vecY, \nnabla_\vecX \vecZ)
 \label{eq-kos-sub-formula}
 \eeq
-By permmuting cyclically the vector fields,
+By permuting cyclically the vector fields,
 we also get
 
 \beq
@@ -8302,63 +8302,74 @@ Then we define the Lie Derivative of $\TT$ by
 \beq
 \call_\vecX\TT=
 \AT{\frac{d}{dt}}{t=0}
-\vPhi^{t}\:^*(\TT)
+\vPhi^{t, *}(T\indices{^I_J})
+\quad
+[\otimes \vPhi^{t,*}\vecpartial]_I\quad
+\quad
+ [\otimes\vPhi^{t,*}\ul{dx}]^J
 \eeq
-where
+Hence, the pullback acts on $\TT\indices{^I_J}$
+, each $\vecpartial_i$ and
+each $\ul{dx^i}$
+before 
+$\AT{\frac{d}{dt}}{t=0}$
+acts on all of them.
+The effect of the
+pullback on vectors
+and 1-forms (covectors)
+is different, and is given by
 
 \beq
-\partial_{t}\vPhi^{t} = \vecX \quad \text{ (or  $\vPhi^{t}=\invpartial{{t}} \vecX$)}
+\vPhi^{t, *}(\TT\indices{^I_J})(\pi)=
+\TT\indices{^I_J}(\vPhi^t(\pi))
 \eeq
-and\footnote{Pullback notation explained in Section \ref{sec-pullback}.}
-
-
 
 \beq
-\vPhi^{t}\:^*(\TT)=
-\prod_{i\in I}
-\pback{\vecpartial_{i}}
-{\dvPhi{{-t}}{\vPhi^{t}(\pi)
-}\vecpartial_{i}}
-\prod_{j\in J}
-\pback{
-\ul{dx^j}}{
-[\dvPhi{+{t}}{\vPhi^{t}(\pi)}]^*
-(\ul{dx^j})}\TT
+\vPhi^{t,*}(\vecV_\pi)=
+\dvPhi{-t}{\vPhi^t(\pi)}
+\vecV_{\vPhi^t(\pi)}
 \eeq
+
+\beq
+\vPhi^{t,*}(\ul{\omega_\pi})(\vecV_\pi)=
+\ul{\omega_{\vPhi^t(\pi)}}
+\left(\dvPhi{t}{\pi}(\vecV_\pi)\right)
+\eeq
+
 \end{mybluearea}
 
-Let's unpack this monster.
-We have
-\beq
-\dvPhi{{-t}}{\vPhi^{t}(\pi)
-}\vecpartial_{i}=\partial_i
-\vPhi^{-t}=
-(\partial_i\Phi^{{-t},a})\vecpartial_a
-\eeq
-and
+
+
+\begin{claim}
+For a scalar function $f(\;)$
 
 \beq
-[\dvPhi{{t}}{\vPhi^{t}(\pi)}]^*
-(\ul{dx^j})=
-\ul{dx^a}\partial_a\Phi^{{t}, k}\ul{dx^j}(\vecpartial_k)=
-\ul{dx^a}\partial_a\Phi^{{t}, j}
+\call_\vecX f = \oper{X}(f)
 \eeq
-Hence
 
-\begin{mybluearea}
-\beq
-\vPhi^{-t}\:^*(\TT)=
-\prod_{i\in I}
-\pback{\vecpartial_{i}}
-{
-(\partial_i\Phi^{{-t},a})\vecpartial_a
-}
-\prod_{j\in J}
-\pback{
-\ul{dx^j}}{
-\ul{dx^a}\partial_a\Phi^{{t}, j}}\TT
-\eeq
-\end{mybluearea}
+\qed
+\end{claim}
+\proof
+
+\beqa
+\call_\vecX f(x)&=&
+\AT{\frac{d}{dt}}{t=0}
+[\vPhi^t(f)]^*(\pi)
+\\
+&=&
+\AT{\frac{d}{dt}}{t=0}
+f(\vPhi^t(\pi))
+\\
+&=&
+[\partial_t\vPhi^{t,i}]
+\partial_if(\pi)
+\\
+&=&
+X^i_\pi
+\partial_if(\pi)
+\eeqa
+
+\qed
 
 \begin{figure}[h!]
 \centering
@@ -8401,14 +8412,18 @@ or, informally,
 By definition
 
 
-\beq
-\call_\vecX V_\pi
-=
+\beqa
+\call_\vecX \vecV_\pi
+&=&
+\AT{\frac{d}{dt}}
+{t=0} \vPhi^{t, *}\vecV_\pi
+\\
+&=&
 \AT{\frac{d}{dt}}
 {t=0}
 \dvPhi{-t}{\vPhi^t(\pi)}
 \indi_{\vPhi^t}\vecV_\pi
-\eeq
+\eeqa
 where
 
 \beq
@@ -8548,6 +8563,127 @@ X^k_\pi \partial_k V_\pi^i
 [\vecX, \vecV]_\pi^i
 \eeqa
 \qed
+
+\begin{claim}
+For a 1-form $\pform{\omega}{}$
+
+\begin{subequations}
+\beqa
+\call_\vecX \ul{\omega}(\vecV)
+&=& \vecX\cdot\nabla \ul{\omega}(\vecV)
++
+\omega_j
+\ul{d X^j}(\vecV)
+\label{eq-lie-der-omega-ver1}
+\\
+&=&
+\vecX(\ul{\omega}(\vecV))-
+\ul{\omega}(
+[\vecX, \vecV]
+)
+\label{eq-lie-der-omega-ver2}
+\eeqa
+\end{subequations}
+
+\end{claim}
+\proof
+
+By definition,
+
+\beqa
+\call_\vecX\alp_\pi(\vecV_\pi)&=&
+\AT{\frac{d}{dt}}{t=0}
+\vPhi^{t,*}(\ul{\omega_\pi})(\vecV_\pi)
+\\
+&=&
+\AT{\frac{d}{dt}}{t=0}
+\ul{\omega_{\vPhi^t(\pi)}}
+\left(\dvPhi{t}{\pi}(\vecV_\pi)\right)
+\eeqa
+Suppose
+
+\beq
+\vecX = X^j\vecpartial_j,
+\quad \ul{\omega}=
+\omega_i\ul{dx^i}
+, \quad 
+\vecV = V^i\vecpartial_i
+\eeq
+Then
+
+\beq
+\ul{\omega_{\vPhi^t(\pi)}}
+\left(\dvPhi{t}{\pi}(\vecV_\pi)\right)=
+\omega_i(\vPhi^t(\pi))
+(\partial_j\Phi^{t,i}(\pi)) V^j
+\eeq
+and
+
+\beqa
+\call_\vecX \ul{\omega_\pi}(\vecV)
+&=&
+(\partial_t \Phi^{t, k} )(\partial_k\omega_i) V^i
++
+\omega_i 
+[\partial_j\partial_t \Phi^{t, i}]
+V^j
+\\
+&=&
+X^k(\partial_k\omega_j) V^j
++
+\omega_i 
+[\partial_jX^i]
+V^j
+\\
+&=&
+\left[X^k(\partial_k\omega_j)
++
+\omega_i 
+[\partial_jX^i]\right]
+V^j
+\eeqa
+This proves Eq.(\ref{eq-lie-der-omega-ver1}).
+
+To prove Eq.(\ref{eq-lie-der-omega-ver2}), note that
+
+\beq
+\vecX(\ul{\omega}(\vecV))=
+X^k(\partial_k \omega_i)V^i +
+\omega_i X^k \partial_k V^i
+\eeq
+and
+
+\beq
+[\vecX, \vecV]^i=
+X^k\partial_k V^i-
+V^k \partial_k X^i
+\eeq
+so
+
+
+\beqa
+\vecX(\ul{\omega}(\vecV))-
+\ul{\omega}(
+[\vecX, \vecV]
+)&=&
+\left\{
+\begin{array}{l}
+X^k(\partial_k \omega_i)V^i +
+\omega_i X^k \partial_k V^i
+\\
+\omega_i
+[-X^k\partial_k V^i+
+V^k \partial_k X^i]
+\end{array}
+\right.
+\\
+&=&
+[X^k(\partial_k\omega_j)
++\omega_i \partial_jX^i]V^j
+\eeqa
+
+\qed
+
 
 \begin{claim}
 The Lie derivative and exterior derivative commute when acting on a 
