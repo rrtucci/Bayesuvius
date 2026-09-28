@@ -25,7 +25,7 @@ $a\in M$ to $b\in M$
 {\AT{\vecX\cdot \nnabla  \vecV}{\pi} =\AT{\nnabla_\vecX\vecV}{\pi}
 =
 \AT{\frac{d}{dt}}{t=0}
-PT_{\pi\mid \vgamma(t)} \vecV_{\vgamma(t)}
+PT(\pi| \vgamma(t)) \vecV_{\vgamma(t)}
 \label{eq-gamma-def-nnabla}}
 \eeq
 
@@ -67,9 +67,17 @@ X^j
 \end{claim}
 \proof
 
+Suppose vector field
+$\vecU$ is tangent to
+the curve $\vgamma(t)$:
+
 \beq
-\vecV_{\gamma(t)}=
-V^i(\vgamma(t))[\vecpartial_i]_{\vgamma(t)}
+\nnabla_{\dot{\vgamma}}\vecU=0
+\eeq
+
+\beq
+\vecU_{\gamma(t)}=
+U^i(\vgamma(t))[\vecpartial_i]_{\vgamma(t)}
 \eeq
 
 \beq
@@ -88,15 +96,75 @@ V^i(\vgamma(t))[\vecpartial_i]_{\vgamma(t)}
 \eeq
 
 \beq
-\nnabla_{\dot{\gamma}}\vecV=
+\nnabla_{\dot{\vgamma}}\vecU=
+\left(
+\frac{dU^i}{dt}
++
+\Gamma\indices{^i_{jk}}\dot{\gamma}^j U^k
+\right)
+\vecpartial_i=0
+\eeq
+Therefore, parallel transport implies
+
+\beq
+\frac{dU^i}{dt}
++
+\Gamma\indices{^i_{jk}}\dot{\gamma}^j U^k=0
+\eeq
+We only need parallel transport
+to first order in $t$
+
+\beq
+\vecU(0)=\vecV_\pi
 \eeq
 
+\beq
+\frac{dU(0)}{dt}=-\Gamma\indices{^i_{jk}}X^j_\pi V^k_\pi
+\eeq
+
+\beq
+PT(\vgamma(t)|\pi)
+U^i_\pi
+=
+U^i(t)\approx V^i_\pi -
+t \Gamma\indices{^i_{jk}}X^j_\pi V^k_\pi + \calo(t^2)
+\eeq
+
+\beq
+PT(\pi|\vgamma(t))
+V^i_{\vgamma(t)}
+\approx V^i_{\vgamma(t)} +
+t \Gamma\indices{^i_{jk}}X^j_{\vgamma(t)} V^k_{\vgamma(t)} + \calo(t^2)
+\eeq
+
+\beq
+V^i_{\vgamma(t)}
+\approx V^i_\pi + t X^i_\pi \partial_j V^i_\pi + \calo(t^2)
+ \eeq
+
+\beq
+PT(\pi|\vgamma(t))
+V^i_{\vgamma(t)}
+\approx
+V^i_\pi + t X^i_\pi \partial_j V^i_\pi
++
+t \Gamma\indices{^i_{jk}}X^j_{\pi} V^k_{\pi} + \calo(t^2)
+\eeq
+
+\beqa
+\nnabla_\vecX  \vecV
+&=&
+\lim_{t\rarrow 0}
+\frac{PT(\pi|\vgamma(t))\vecV_{\vgamma(t)}- \vecV_\pi}{t}
+\\
+&=&
+\left(X^i \partial_j V^i
++
+ \Gamma\indices{^i_{jk}}X^j V^k\right)
+\vecpartial_i
+\eeqa
 
 \qed
-
-
-
-
 
 \end{document}
 
