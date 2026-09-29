@@ -6492,7 +6492,7 @@ All 3 derivatives become the usual derivative for 0-forms (i.e., scalar function
 
 Note: We will
 use the terms {\bf connection} and  the symbol $\nnabla$ as synonymous.
-We will use the  term {\bf covariant derivative} 
+We will use the  term {\bf covariant derivative} (CD)
 for $\nnabla_\mu$ and $\nnabla_\vecX$.
 
 Suppose
@@ -6602,20 +6602,18 @@ are vector fields, then
 (f\nnabla_\vecU + g\nnabla_\vecV)\vecX
 \eeq
 
-
-\hrule
-Path picture, parallel transport:
+\subsubsection{Parallel Transport}
 
 Let
 \beq
 U^\mu \nnabla_\mu(f) =\frac{df}{d\tau}
 \eeq
-(this is often called a {\bf directional derivative})
 
 We will call a function  $\vgamma: [0, 1]\rarrow M$
 a {\bf path or curve} on $M$.
 
-We say {\bf curve $\vgamma$ is tangent to a vector field $\vecX$} if
+We say {\bf 
+ vector field $\vecX$ is tangent to a curve $\vgamma$} if
 
 \beq
 \vecX_{\vgamma(\tau)}=\dot{\vgamma}(\tau)
@@ -6681,11 +6679,13 @@ is defined as occurring when
 \frac{D\vecV_{\vgamma(\tau)}}{d\tau}=0
 \eeq
 This is called the {\bf parallel transport equation}.
-Note that we are not assuming that
-$\vecV$ is parallel to $\vgamma(\tau)$
+Note that we are \ul{not assuming that
+$\vecV$ is parallel to $\vgamma(\tau)$}
 (indicated by $\vecV = \vecV^{\para \vgamma}$)
-which would require that $\vecV_{\vgamma(\tau)}=\dot{\vgamma}(\tau)$.  We are merely assuming that 
-$\vecV_{\vgamma(\tau)}\in T_{\vgamma(\tau)}(M)$.
+which would require that $\vecV_{\vgamma(\tau)}=\dot{\vgamma}(\tau)$. 
+We are also \ul{not assuming that curve $\vgamma(t)$ is a geodesic}, which 
+would require  
+that $\vgamma(t)$ satisfy the geodesic equation given below.
 
 If $\vecV=\vecV^{\para \vgamma}$ also, then 
 the parallel transport equation 
@@ -6698,8 +6698,263 @@ defines a {\bf geodesic curve $\vgamma(\tau)$} .
 This equation is called the {\bf geodesic equation}. It looks the same as the parallel transport equation, but
 it's more constrained. 
 
+\begin{claim}
+Suppose 
+\begin{enumerate}
+\item curve $\vgamma(t)$ is a geodesic, 
+\item vector field $\vecT$ is tangent to the curve
+$\vgamma(t)$, and
+\item 
+vector field $\vecV$
+is parallel-transported along $\vgamma(t)$.
+\end{enumerate} 
+Furthermore, assume
+the LCC (Levi-Civita connection). Then
 
-\subsubsection{Covariant derivative of general tensor}
+\beq
+\cos \theta =
+\frac{\av{\vecV, \vecT}}{|\vecV|\;|\vecT|}= \text{constant}
+\eeq
+
+
+\end{claim}
+\proof
+
+The 3 numbered  assumptions imply
+
+\beq
+\nnabla_\vecT \vecT=0,
+\quad
+\vecT =\dot{\vgamma},
+\quad
+\quad \nnabla_\vecT \vecV=0
+\eeq
+If the connection is metric-compatible (as is the case for LCC), then
+
+
+\beq
+\frac{d}{dt}\av{\vecV, \vecT}=
+\av{\nnabla_\vecT \vecV, \vecT}+
+\av{\vecV, \nnabla_\vecT \vecT}=0
+\eeq
+Likewise,
+
+\beq
+\frac{d}{dt}\av{\vecV, \vecV}=
+\frac{d}{dt}\av{\vecT, \vecT}=0
+\eeq
+
+\qed
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2.5in]
+{differ-geo/parallel-transport-s2.png}
+\caption{Parallel transport of a vector around a closed loop consisting of geodesic segments on the sphere (from A to N to B and back to A). The angle $\alp$ by which the vector changes direction during a full closed loop, is proportional to the area inside the loop. (This figure and mildly altered caption came from Fred the Oyster in the Wikipedia article on \qt{Parallel\_Transport}).}
+\label{fig-parallel-transport-s2}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.9in]
+{differ-geo/parallel-transport-s1.png}
+\caption{$(a)$ parallel transport of a vector along a circle of unit radius, assuming the metric $(ds)^2 = (dr)^2 + (d\theta)^2$ so the circle IS a geodesic
+of the manifold $M=S^1=$ unit circle.
+$(b)$ parallel transport along the circle of unit radius, assuming the metric $(ds)^2 = (dx)^2 + (dy)^2=
+(dr)^2 + r^2(d\theta)^2$ so the circle IS NOT a geodesic of the manifold $M=\RR^2$. Straight lines are.}
+\label{fig-parallel-transport-s1}
+\end{figure}
+
+See Figs.\ref{fig-parallel-transport-s2}
+and \ref{fig-parallel-transport-s1}
+for examples of parallel transport.
+Note that the angle between the curve
+$\vgamma(t)$
+and the parallel-transported vector $\vecV$ remains constant as long as the
+curve is smooth, but if the
+curve is only
+piece-wise smooth (has corners),
+then how much the angle of the vector changes when transitioning a corner depends on the curvature of the manifold (there is no change for a flat manifold.)
+
+
+\subsubsection{Path Picture of CD}
+Suppose
+\beq
+\dot{\vgamma}(t) = \vecX_{\vgamma(t)}
+,\quad
+\vgamma(0) =\pi
+\quad
+(\;\vgamma=\invpartial{t}\vecX\;)
+\eeq
+
+Define
+
+$\calt(\vgamma(b)|\vgamma(a))=\calt_{b|a}=$
+operator that parallel-transports 
+a vector field from 
+$\vgamma(a)\in M$ to $\vgamma(b)\in M$
+
+Then the covariant
+derivative $\nnabla_\vecX \vecV$
+can be defined as (see Fig. \ref{fig-covariant-derivative})
+
+\beq
+\boxed
+{\AT{\vecX\cdot \nnabla  \vecV}{\pi} =\AT{\nnabla_\vecX\vecV}{\pi}
+=
+\AT{\frac{d}{dt}}{t=0}
+\calt_{0|t} \vecV_{\vgamma(t)}=
+\lim_{\Delta t\rarrow 0}
+\frac{\calt_{0|\Delta t}\vecV_{\vgamma(\Delta t)}-\vecV_\pi}{\Delta t}
+\label{eq-gamma-def-nnabla}}
+\eeq
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=3in]
+{differ-geo/covariant-derivative.png}
+\caption{Geometrical
+interpretation of 
+covariant derivative $\vecX\cdot\nnabla \vecV=\nnabla_\vecX\vecV$.}
+\label{fig-covariant-derivative}
+\end{figure}
+
+\begin{claim}
+
+Let 
+
+\beq
+\vecpartial_i = \vecpder{x_i},
+\quad\vecV= V^i
+\vecpartial_i
+,\quad
+\quad\vecX= X^i
+\vecpartial_i
+\eeq
+Eq.(\ref{eq-gamma-def-nnabla}) implies
+
+\beq
+\nnabla_\vecX \vecV=
+X^j
+\left(
+\partial_j V^i +
+\Gamma\indices{^i_{jk}}V^k
+\right)
+\vecpartial_i
+\eeq
+
+\end{claim}
+\proof
+
+Suppose vector field
+$\vecU$ is parallel-transported
+along the curve $\vgamma(t)$
+for $t\in [-1,1]$. Hence,
+it satisfies the parallel
+transport equation:
+
+\beq
+\nnabla_{\dot{\vgamma}}\vecU=0
+\eeq
+for $t\in[-1, 1]$.
+Let
+
+\beq
+\vecU_{\gamma(t)}=
+U^i_{\vgamma(t)}[\vecpartial_i]_{\vgamma(t)}
+\eeq
+The \Chris symbols $\Gamma\indices{^i_{jk}}$ are defined by
+
+
+\beq
+\nnabla_{\vecpartial_j}\vecpartial_k=
+\nnabla_j\vecpartial_k=
+\Gamma\indices{^i_{jk}}\vecpartial_i
+\eeq
+It follows that
+
+\beq
+\nnabla_{\dot{\vgamma}}\vecpartial_k
+=
+\dot{\gamma}^j
+\nnabla_j\vecpartial_k 
+=
+\dot{\gamma}^j \Gamma\indices{^i_{jk}}\vecpartial_i
+\eeq
+
+\beq
+\nnabla_{\dot{\vgamma}}\vecU=
+\left(
+\frac{dU^i}{dt}
++
+\Gamma\indices{^i_{jk}}\dot{\gamma}^j U^k
+\right)
+\vecpartial_i=0
+\eeq
+Therefore, parallel transport implies
+
+\beq
+\frac{dU^i}{dt}
++
+\Gamma\indices{^i_{jk}}\dot{\gamma}^j U^k=0
+\eeq
+We only need to solve
+the parallel transport equation 
+to first order in $t$
+
+\beq
+U^i(t)=
+\calt_{t|0}
+U^i_\pi
+= U^i_\pi -
+t \Gamma\indices{^i_{jk}}\dot{\gamma}^j(0) U^k_\pi + \calo(t^2)
+\eeq
+
+When specializing this solution 
+from $\vecU$ starting at $t=0$ to $\vecV$ starting at $t=\Delta t$, we need to replace the $t$ by $-\Delta t$
+
+\beq
+\calt_{ 0| \Delta t}
+V^i_{\vgamma(\Delta t)}
+\approx V^i_{\vgamma(\Delta t)} +
+\Delta t \Gamma\indices{^i_{jk}}X^j_{\vgamma(\Delta t)} V^k_{\vgamma(\Delta t)} + \calo(\Delta t^2)
+\eeq
+Now expand the first term on the right side
+of the last equation to first order in $\Delta t$
+
+\beq
+V^i_{\vgamma(\Delta t)}
+\approx V^i_\pi + \Delta t X^i_\pi \partial_j V^i_\pi + \calo(\Delta t^2)
+ \eeq
+Finally
+
+\beq
+\calt_{0|\Delta t}
+V^i_{\vgamma(\Delta t}
+\approx
+V^i_\pi + \Delta t X^i_\pi \partial_j V^i_\pi
++
+\Delta t \Gamma\indices{^i_{jk}}X^j_{\pi} V^k_{\pi} + \calo(\Delta t^2)
+\eeq
+
+\beqa
+\nnabla_\vecX  \vecV
+&=&
+\lim_{\Delta t\rarrow 0}
+\frac{\calt_{0|\Delta t}\vecV_{\vgamma(\Delta t)}- \vecV_\pi}{\Delta t}
+\\
+&=&
+\left(X^i \partial_j V^i
++
+ \Gamma\indices{^i_{jk}}X^j V^k\right)
+\vecpartial_i
+\eeqa
+
+\qed
+
+
+
+\subsubsection{CD of general tensor}
 Assumptions in this section
 \begin{enumerate}
 \item We do not 
@@ -6990,6 +7245,8 @@ metric compatibility (or zero
 metric covariant derivative)
 
 
+
+
 \subsubsection{Examples}
 
 \begin{enumerate}
@@ -7045,7 +7302,26 @@ X^1
 
 \qed
 
+\item \begin{claim}
+Both of the metrics
+
+\beq
+(ds)^2= (dr)^2 + (d\theta)^2
+\eeq
+
+\beq
+(ds)^2= (dr)^2 + r^2(d\theta)^2
+\eeq
+in the punctured plane are  metric 
+compatible.
+\end{claim}
+\proof
+
+\qed
+
 \end{enumerate}
+
+
 
 \subsection{Torsion}
 
@@ -7567,8 +7843,6 @@ which uses the \Weit connection.
 
 
 \subsection{Lie Derivatives}
-
-\subsubsection{Introduction to Lie Derivatives}
 
 
 The Lie derivative (LD)
