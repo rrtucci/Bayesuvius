@@ -2,8 +2,7 @@
 and Causal Diagrams}
 \label{ch-differ-geo}
 
-The main source for this chapter was a book by Schutz **************%\cite{schutz}
-, ChatGPT and articles from Wikipedia.
+The main source for this chapter was a book by Schutz \cite{schutz}, ChatGPT and articles from Wikipedia.
 The book by Schutz is not particularly stellar but
 I did find its choice of topics very helpful. Those topics I then proceeded to unravel using ChatGPT and Wikipedia. 
 There is a plethora of books on the subject
@@ -236,7 +235,7 @@ $(dR_g)_h X_h= X_{hg}$
 $\dR{g}{h}\vecX_h=\vecX_{hg}$
 \end{tabular} \\ \hline
 \end{tabular}
-\caption{Comparison of conventional and my notation for
+\caption{Comparison of conventional notation and my notation for
 various 
 elements of 
  Differential Geometry}
@@ -4228,8 +4227,7 @@ If we set $\nu=\mu$ and sum over $\mu$
 \partial_\mu X^\mu +
 \Gamma\indices{^\mu_{\mu\beta}}X^\beta
 \eeq
-Now use the index version of Koszul's 
-identity (see Eq.(\ref{eq-Koszul-index-version}))\footnote{Kozsul's identity assumes 
+Now use the index version of the Koszul identity (see Eq.(\ref{eq-Koszul-index-version}))\footnote{The Kozsul identity assumes 
 the Levi-Civita Connection (LCC)}
 which says:
 
@@ -5884,7 +5882,7 @@ shown.
 This family of planes fails to determine a surface. Indeed, if you tried to lay a rug on this figure, its $z$ coordinate would decrease with each right-handed turn about the $+Z$ axis.
 Notice that the family of planes seems to turn around a  \qt{vortex}, the $Z$ axis.
 It has \qt{vorticity}.
-(This figure comes from the Wikipedia article for \qt{Frobenius theorem}. I changed the $X$ and $Y$
+(This figure comes from the Wikipedia article for \qt{Frobenius theorem} Ref.\cite{wiki-frobenius-theorem}. I changed the $X$ and $Y$
 axes to fit my example.)}
 \label{fig-stadard_contact_structure}
 \end{figure}
@@ -6613,7 +6611,7 @@ We will call a function  $\vgamma: [0, 1]\rarrow M$
 a {\bf path or curve} on $M$.
 
 We say {\bf 
- vector field $\vecX$ is tangent (parallel) to a curve $\vgamma$} if
+ vector field $\vecX$ is tangent (i.e., parallel) to a curve $\vgamma$} if
 
 \beq
 \vecX_{\vgamma(\tau)}=\dot{\vgamma}(\tau)
@@ -6750,7 +6748,7 @@ Likewise,
 \centering
 \includegraphics[width=2.5in]
 {differ-geo/parallel-transport-s2.png}
-\caption{Parallel transport of a vector around a closed loop consisting of geodesic segments on the sphere (from A to N to B and back to A). The angle $\alp$ by which the vector changes direction during a full closed loop, is proportional to the area inside the loop. (This figure and mildly altered caption came from Fred the Oyster in the Wikipedia article on \qt{Parallel\_Transport}).}
+\caption{Parallel transport of a vector around a closed loop consisting of geodesic segments on the sphere (from A to N to B and back to A). The angle $\alp$ by which the vector changes direction during a full closed loop, is proportional to the area inside the loop. (This figure and mildly altered caption came from Fred the Oyster in the Wikipedia article on \qt{Parallel\_Transport} Ref.\cite{wiki-parallel-transport}).}
 \label{fig-parallel-transport-s2}
 \end{figure}
 
@@ -7303,21 +7301,103 @@ X^1
 \qed
 
 \item \begin{claim}
-Both of the metrics
+For polar coordinates $(r, \theta)$
+on the 
+punctured plane $\RR^2-\{(0,0)\}$,
+the \Chris symbols are
 
 \beq
-(ds)^2= (dr)^2 + (d\theta)^2
+\Gamma\indices{^r_{\theta\theta}}=-r,
+\quad
+\Gamma\indices{^\theta_{r\theta}}=
+\Gamma\indices{^\theta_{\theta r}}
+=\frac{1}{r},
+\quad\text{All others  zero}
 \eeq
+and the metric, which is,
 
 \beq
 (ds)^2= (dr)^2 + r^2(d\theta)^2
 \eeq
-in the punctured plane are  metric 
+is  metric 
 compatible.
 \end{claim}
 \proof
 
+\beq
+x^1=r,\quad x^2=\theta
+\eeq
+
+\beq
+\metric_{ij} = \begin{pmatrix}
+1&0
+\\
+0&r^2
+\end{pmatrix},
+\quad
+\metric^{ij}=
+ \begin{pmatrix}
+1&0
+\\
+0&\frac{1}{r^2}
+\end{pmatrix}
+\eeq
+Now use the Koszul
+identity
+Eq.(\ref{eq-Koszul-index-version})
+
+\beq
+\Gamma\indices{^k_{ij}}=
+\frac{1}{2}
+\metric^{ka}
+(
+\partial_i \metric_{aj}
++
+\partial_j \metric_{ai}
+-
+\partial_a
+\metric_{ij}
+)
+\eeq
+to derive the \Chris 
+symbols.
+We leave the algebra
+to the reader. Alternatively,
+he/she can use a Python 
+package for calculating \Chris 
+coefficients symbolically using 
+SymPy\footnote{ChatGPT and most modern AIs use SymPy too.
+They use transformers
+to write a game plan
+and text, then they call SymPy to
+do symbolic algebra. 
+}
+
+To prove metric compatibility, one must prove:
+
+\beq
+0=\nnabla_a \metric_{ r  r }
+= \partial_a \metric_{ r  r }
+-
+\Gamma\indices{^k_{a r }}\metric_{k r }
+-
+\Gamma\indices{^k_{a r }}\metric_{ r  k}
+\eeq
+for $a=r, \theta$ and
+
+\beq
+0=\nnabla_a \metric_{\theta\theta}
+= \partial_a \metric_{\theta\theta}
+-
+\Gamma\indices{^k_{a\theta}}\metric_{k\theta}
+-
+\Gamma\indices{^k_{a\theta}}\metric_{\theta k}
+\eeq
+for $a=r, \theta$.
+
+
 \qed
+
 
 \end{enumerate}
 
@@ -7535,7 +7615,7 @@ In the coordinate basis,
 
 
 
-\begin{claim}(Koszul Formula)
+\begin{claim}(Koszul Identity)
 \label{cl-Koszul}
 
 If we assume LCC, then
@@ -7818,13 +7898,24 @@ then
 
 \qed
 
-The Koszul formula
+The Koszul identity
 shows that the
 \Chris symbols of LCC and thus the LCC
 itself 
 is unique once
 the metric
 is specified.
+
+ Eq.(\ref{eq-Koszul-index-version}) is often used  to calculate \Chris symbols in curvilinear coordinates and General Relativity.
+
+We will refer to Eq.(\ref{eq-Koszul-index-version})
+as the Koszul identity. It's also
+commonly called the
+ \Chris formula for \Chris symbols,
+because \Chris discovered it almost 100 years before Koszul. 
+Koszul generalized it
+and expressed it in the language of modern
+differential geometry.
 
 The LCC has very nice
 properties which
@@ -10310,9 +10401,7 @@ back to where it started.
 \caption{Burgers vector in an edge dislocation (left) and in a screw dislocation (right). The edge dislocation can be imagined as the introduction of a half plane (gray boxes) that does not fit the crystal symmetry. The screw dislocation can be imagined as cut and shear operation along a half plane.
 (This image and caption by Martin Fleck comes
 from the Wikipedia article
-on Burgers Vector
-*******
-%\cite{wiki-burgers}
+on Burgers Vector \cite{wiki-burgers}
 )}
 \label{fig-burgers-vector}
 \end{figure}
@@ -14319,7 +14408,7 @@ Algebra and Lie algebra.
 For some background on those,
 see the beginning chapters
 of my book, complementary to this one, 
-Bayesuvius Quantico ********%\cite{}
+Bayesuvius Quantico \cite{bayesuvius-quantico}
 What we aim to
 do in this section
 is to describe
@@ -15704,8 +15793,8 @@ C_{\gamma\alp\beta}
 \end{claim}
 \proof
 
-If we assume LCC, then
-Koszul's formula (see
+If we assume LCC, 
+then the Koszul identity (see
 Claim  \ref{cl-Koszul}) holds. Hence
 
 \beq
