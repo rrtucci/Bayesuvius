@@ -408,16 +408,19 @@ Let
 
 $\ZZ_1^n = \{1, 2, 3, \ldots, n\}$
 
-$M=$ \qt{base} {\bf manifold} (e.g., the surface of a sphere or Mobius strip)
+$M=$ \qt{base} {\bf manifold} (e.g., the surface of a sphere or Mobius strip). 
+
+$n=$ dimension of $M$.
 
 $\pi=$ a
 {\bf point on $M$}
 
 $T_\pi (M)=$
-{\bf tangent space at $\pi$}.
-A vector space.
+{\bf tangent plane/space at $\pi$}.
+An $n$-dim vector space. Important: The dimension of every tangent \qt{plane} is $n$, the  same as the dimension of $M$. For $n=2$, $M$ is a true surface and tangent planes are true planes. But 
+for $n=3$, manifold $M$ is a 3-dim hypersurface and its tangent \qt{planes} are 3-dim hyperplanes.
 
-$n=$ dimension of $T_\pi(M)$.
+
 
 $\{\vece_i\}_{i=1}^n=$ {\bf tangent space basis (t-basis) a.k.a. a frame}, a basis for $T_\pi(M)$. These vectors need not be orthogonal nor normalized.
 
@@ -6696,32 +6699,46 @@ This equation is called the {\bf geodesic equation}. It looks the same as the pa
 it's more constrained. 
 
 \begin{claim}
+Assume
+the LCC (Levi-Civita connection).
 Suppose 
 \begin{enumerate}
-\item curve $\vgamma(t)$ is a geodesic, 
+ 
 \item vector field $\vecT$ is tangent to the curve
-$\vgamma(t)$, and
+$\vgamma(t)$,
 \item 
 vector field $\vecV$
-is parallel-transported along $\vgamma(t)$.
+is parallel-transported along $\vgamma(t)$,
+\item curve $\vgamma(t)$ is a geodesic
 \end{enumerate} 
-Furthermore, assume
-the LCC (Levi-Civita connection). Then
+ Then
+$|\vecV|$ and $|\vecT|$
+and
 
 \beq
 \cos \theta =
-\frac{\av{\vecV, \vecT}}{|\vecV|\;|\vecT|}= \text{constant}
+\frac{\av{\vecV, \vecT}}{|\vecV|\;|\vecT|}
 \eeq
+are constant (i.e., independent of $t$).
 
+ If the 
+first two assumptions hold,
+but not the third one (that $\vgamma(t)$ is a geodesic), then 
+$|\vecV|$ is still constant, and 
+if we assume $t$ is arc length so $|\vecT|=1$, then
+
+\beq
+\frac{d}{dt}\cos\theta=
+\frac{\av{\vecV, \nnabla_\vecT\vecT}}
+{|\vecV|}
+\eeq
 
 \end{claim}
 \proof
 
-The 3 numbered  assumptions imply
+If the first two assumptions hold, then
 
 \beq
-\nnabla_\vecT \vecT=0,
-\quad
 \vecT =\dot{\vgamma},
 \quad
 \quad \nnabla_\vecT \vecV=0
@@ -6731,14 +6748,26 @@ If the connection is metric-compatible (as is the case for LCC), then
 
 \beq
 \frac{d}{dt}\av{\vecV, \vecT}=
-\av{\nnabla_\vecT \vecV, \vecT}+
-\av{\vecV, \nnabla_\vecT \vecT}=0
+\cancel{\av{\nnabla_\vecT \vecV, \vecT}}
++
+\av{\vecV, \nnabla_\vecT \vecT}
 \eeq
 Likewise,
 
 \beq
 \frac{d}{dt}\av{\vecV, \vecV}=
-\frac{d}{dt}\av{\vecT, \vecT}=0
+2\av{\nnabla _\vecT \vecV, \vecV}=0
+\eeq
+
+\beq
+\frac{d}{dt}\av{\vecT, \vecT}=
+2\av{\nnabla _\vecT \vecT, \vecT}
+\eeq
+
+If $\vgamma(t)$ is a geodesic, then
+
+\beq
+\nnabla_\vecT \vecT=0
 \eeq
 
 \qed
@@ -6753,12 +6782,9 @@ Likewise,
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=1.9in]
+\includegraphics[width=.8in]
 {differ-geo/parallel-transport-s1.png}
-\caption{$(a)$ parallel transport of a vector along a circle of unit radius, assuming the metric $(ds)^2 = (dr)^2 + (d\theta)^2$ so the circle IS a geodesic
-of the manifold $M=S^1=$ unit circle.
-$(b)$ parallel transport along the circle of unit radius, assuming the metric $(ds)^2 = (dx)^2 + (dy)^2=
-(dr)^2 + r^2(d\theta)^2$ so the circle IS NOT a geodesic of the manifold $M=\RR^2$. Straight lines are.}
+\caption{Parallel transport along the circle of unit radius, assuming manifold $M=\RR^2$, coordinates $(x,y)$ and metric $(ds)^2 = (dx)^2 + (dy)^2=(dr)^2 + r^2(d\theta)^2$. Here the circle IS NOT a geodesic of the manifold $M=\RR^2$. Straight lines are.}
 \label{fig-parallel-transport-s1}
 \end{figure}
 
@@ -6772,6 +6798,7 @@ curve is smooth, but if the
 curve is only
 piece-wise smooth (has corners),
 then how much the angle of the vector changes when transitioning a corner depends on the curvature of the manifold (there is no change for a flat manifold.)
+
 
 
 \subsection{Path Picture of CD}
@@ -7393,6 +7420,247 @@ for $a=r, \theta$ and
 \Gamma\indices{^k_{a\theta}}\metric_{\theta k}
 \eeq
 for $a=r, \theta$.
+
+
+\qed
+
+
+\item The following claim is a result 
+commonly
+taught in a Classical Mechanics
+but we review it here 
+as a prelude to future claims.
+\begin{claim}
+Assume $M=\RR^2$. Use polar coordinates $(r, \theta)$
+with unit vectors basis $(\hat{r}, \hat{\theta})$. If $\vgamma(t)=(r(t), \theta(t))$
+describes the 
+position  of a 
+particle, then
+
+\beq
+\dot{\hatr}=
+\dot{\theta}
+\htheta,
+\quad
+\dot{\htheta}=-\dot{\theta}\hatr
+\label{eq-hatr-htheta}
+\eeq
+
+\beq
+\vgamma = r\hatr
+\eeq
+
+\beq
+\dot{\vgamma}=
+\dot{r}\hatr
++
+r\dot{\theta}\htheta
+\eeq
+
+\beq
+\ddot{\vgamma}=\left(
+\ddot{r}-
+r\dot{\theta}^2
+\right)\hatr
++
+\left(
+r\ddot{\theta}
++
+2\dot{r}\dot{\theta}
+\right)\htheta
+\label{eq-ddot-gamma-polar}
+\eeq
+For a free particle,
+
+ 
+\beq
+\ddot{\vgamma}=0
+\eeq
+so
+
+\beq
+\ddot{r}= r\dot{\theta}^2= \text{Centrifugal pseudo (i.e., inertial) force}
+\eeq
+
+\beq
+\ddot{\theta}=
+-\frac{2\dot{r}\dot{\theta}}{r}=
+\text{Coriolis pseudo (i.e., inertial) force}
+\eeq
+
+
+
+\end{claim}
+\proof
+
+Eqs.(\ref{eq-hatr-htheta})
+come from the following geometrical considerations. Over infinitesimal time 
+$\Delta t$, we have
+\beq
+\Delta\hatr =(\Delta \theta)\htheta,
+\quad 
+\Delta \htheta=-
+(\Delta \theta)
+\hatr
+\eeq
+Now divide
+both of the previous equations by $\Delta t$.
+
+Using Eqs.(\ref{eq-hatr-htheta}),
+the velocity
+$\dot{\vgamma}$
+and acceleration $\ddot{\vgamma}$ follow by simple
+differentiation.
+
+\beq
+\dot{\vgamma}=
+\dot{r}\hatr
++
+r\dot{\hatr}
+=
+\dot{r}\hatr+
+r\dot{\theta}\htheta
+\eeq
+
+\beqa
+\ddot{\gamma}
+&=&
+\left\{
+\begin{array}{l}
+\ddot{r}\hatr +
+\dot{r}\dot{\hatr}
++\\
+\dot{r}\dot{\theta}\htheta
++
+r\ddot{\theta}\htheta  
++
+r\dot{\theta}\dot{\htheta}
+\end{array}
+\right.
+\\
+&=&
+\left\{
+\begin{array}{l}
+\ddot{r}\hatr +
+\dot{r}\dot{\theta}\htheta
++\\
+\dot{r}\dot{\theta}\htheta
++
+r\ddot{\theta}\htheta  
+-
+r\dot{\theta}^2\hatr
+\end{array}
+\right.
+\eeqa
+
+\qed
+
+\item
+
+\begin{claim}
+Assume $M=\RR^2$ and use polar coordinates $(r, \theta)$. 
+Show that
+
+\beq
+\frac{D^2{\vgamma}(t)}{dt^2}=
+\nnabla_{\dot{\vgamma}}\dot{\vgamma}=\ddot{\vgamma}=
+\frac{d^2{\vgamma}(t)}{dt^2}
+\eeq
+where $\ddot{\vgamma}$
+is given by Eq.(\ref{eq-ddot-gamma-polar}).
+
+\end{claim}
+\proof
+
+
+For $M=\RR^2$
+and polar coordinates,
+the \Chris symbols (assuming the LCC) are
+
+\beq
+\Gamma\indices{^r_{\theta\theta}}=-r,\quad
+\Gamma\indices{^\theta_{r\theta}}=
+\Gamma\indices{^\theta_{\theta r
+}}=\frac{1}{r}
+\eeq
+
+We must also have
+
+\beq
+\hatr=\vecpartial_r
+,\quad
+\htheta=\frac{1}{r}\vecpartial_\theta
+\eeq
+and
+
+\beq
+\nnabla_\mu \vecpartial_\nu= 
+\Gamma\indices{^\rho_{\mu\nu}}
+\vecpartial_\rho
+\implies
+\nnabla_\theta\vecpartial_r = \Gamma\indices{^\theta_{\theta r}}
+\vecpartial_\theta=
+\frac{1}{r}\vecpartial_\theta
+,\quad
+\nnabla_r\vecpartial_r = \Gamma\indices{^\rho_{rr}}
+\vecpartial_\rho=0
+\eeq
+Hence, by the chain rule,
+
+\beq
+\dot{\hatr}= \dot{\theta}\htheta
+\eeq
+an already familiar result. Hence
+
+
+\beq
+\dot{\hatr}=
+\dot{r}\hatr
++
+r\dot{\theta}
+\htheta
+=
+\dot{r}\vecpartial_r
++
+\dot{\theta}
+\vecpartial_\theta
+\eeq
+and
+
+\beq
+\nnabla_{\dot{\vgamma}}\dot{\vgamma}=
+\left(
+\ddot{r}+
+\Gamma\indices{^r_{\mu\nu }}
+\dot{x}^\mu
+\dot{x}^\nu
+\right)\vecpartial_r
++
+\left(
+\ddot{\theta}
++
+\Gamma\indices{^\theta_{\mu\nu }}
+\dot{x}^\mu
+\dot{x}^\nu
+\right)
+\vecpartial_\theta
+\eeq
+Substituting the \Chris symbols gives
+
+\beq
+\nnabla_{\dot{\vgamma}}
+\dot{\vgamma}=
+\left(
+\ddot{r}-
+r\dot{\theta}^2
+\right)\vecpartial_r
++
+\left(
+\ddot{\theta}
++
+\frac{2\dot{r}\dot{\theta}}{r}
+\right)\vecpartial_\theta
+\eeq
 
 
 \qed
