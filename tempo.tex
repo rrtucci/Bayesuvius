@@ -6,10 +6,14 @@
 \newcommand{\nn}[0]{{\tilde{n}}}
 
 
-Frobenius Thorem Section \ref{sec-Frob-theorem}
+{\bf Contact Geometry} (CG) deals with 1-forms that violate \qt{maximally} Frobenius Theorem (see Section \ref{sec-Frob-theorem}).
+We begin our discussion of
+CG by revisiting the shear flow
+example considered in the Frobenius Theorem section.
 
 
-{\bf Shear flow} example
+
+{\bf Shear flow} example: 
 
 $M=\RR^3$.
 At each point $\vecr=(x,y,z)\in M$,
@@ -24,32 +28,97 @@ x\ul{dy} + \ul{dz}
 
 Define the {\bf  distributions }
 \beq
-\cald_\pi=\{\vecV
-\in T_\pi(M)\mid \ul{\omega}_\pi(\vecV)=0\}
+\cald_\pi=\{\vecV_\pi
+\in T_\pi(M)\mid \ul{\omega}_\pi(\vecV_\pi)=0\}
+\label{eq-distri1}=\ker (\ul{\omega}_\pi)
 \eeq
 
 \beq
 \cald = \bigsqcup_{\pi \in M}
 \cald_\pi
 \eeq
-
- 
  $\cald_\pi$ specifies a tangent plane at $\pi\in M$
-and $\cald$ specifies a family of tangent planes. 
+and $\cald$ specifies a family of tangent planes.
+
+In general, $\ul{\omega}_\pi=0$ 
+constitutes on equation out of 
+$n$ unknowns.
+Therefore, the number of
+degrees of freedom (dofs)
+in $\cald_\pi$ is
+
+
+\beq
+\#dofs(\cald_\pi)=
+\dim\cald_\pi=\dim \ker\ul{\omega_\pi}=
+2\nn+1-1= 2\nn
+\eeq
+
+\begin{claim}
+
+For the shear 1-form Eq.(\ref{eq-shear-fear})
+
+\beq
+\cald_\pi = \ker \ul{\omega}_\pi=
+span
+\left(
+\vecpartial_1, \vecpartial_2 -x\vecpartial_3
+\right)
+\eeq
+\end{claim}
+\proof
+
+First note that
+$\nn=1$ and $n=3$
+so $\#dofs (\cald_\pi)=2$.
+
+Set
+
+\beq
+\vecV_\pi=
+V^i\vecpartial_i
+\eeq
+Then
+
+\beq
+\ul{\omega}_\pi(\vecV_\pi)=
+xV^2 + V^3=0
+\eeq
+so
+
+\beq
+-xV^2= V^3
+\eeq
+
+\beq
+\vecV=V^1\vecpartial_1 + V^2(\vecpartial_2 -x\vecpartial_3)
+\eeq
+
+
+
+
+\qed
+
 The question
 which Frobenius Theorem 
 answers with necessary and sufficient
 conditions is: when can the family of tangent planes $\cald$ 
 be consider the
 family of tangent planes to a surface.
-If it can be, then that surface would be described by an equation of the type
+If it can be, then that surface can be described by an equation of the type
 
 \beq
-F(x,y,z)=0
+f(x,y,z)=0
 \eeq
 and we say that $\cald$ is {\bf integrable}.
 
-The shear flow example is {\bf not integrable}. Indeed, suppose 
+
+\begin{claim}
+The shear flow example Eq.(\ref{eq-shear-fear}) is {\bf not integrable}.
+\end{claim}
+\proof
+
+
 \beq
 \xymatrix@C=4pc{
 y
@@ -86,36 +155,61 @@ $dz=0$ because $dy=0$
 \item $D\rarrow A$:
 $dz=0$ because $x=0$
 
-$dz=-1$ for full trip $A\rarrow B\rarrow C\rarrow D\rarrow A$.
-Since on this closed trip,
-the $z$ does not
-return to itrs initial value,
-$\cald$ cannot possibly be tangential to a family of surfaces.
+
+
 
 \end{enumerate}
 
+$dz=-1$ for full trip $A\rarrow B\rarrow C\rarrow D\rarrow A$.
+Since on this closed trip,
+the $z$ does not
+return to its initial value,
+$\cald$ cannot possibly be tangential to a family of surfaces.
+\qed
+
 
 Let $M$ br an $n=2\nn+1$ dimensional manifold.
-A {bf contact form} is a 1-form $\pform{\omega}{}$
+A {\bf contact dif-form} is a 1-form $\pform{\omega}{}$
 such that
 
 \beq
 \ul{\omega}\wedge
-(\wedge \ul{d\omega})^\nn=0
+(\wedge \ul{d\omega})^\nn\neq 0
+\label{eq-def-contact-form}
 \eeq
+everywhere (i.e., 
+for all points in its domain).
+
+Eq.(\ref{eq-def-contact-form})
+is sufficient
+but not necessary condition for
+non- integrability.
+
+Note that for any contact dif-form
+$\ul{\omega}$, we have  $\ul{d\omega}\neq 0$.
+
+If Eq.(\ref{eq-def-contact-form}) were an outright equation, it would remove one out of the $n=2\nn = 1$ dofs in $M$, but 
+it's not even an equation.
+As one might expect from a weak constraint  
+like Eq.(\ref{eq-def-contact-form}), contact dif-forms are 
+common.
+
+Consider the cases of $\nn=1$ and $\nn>1$.
+
 
 \begin{itemize}
 
-\item $\nn=1, n=3$. 
+\item CASE: $\nn=1, n=3$. 
 
 \beq
-\ul{\omega}\wedge \ul{d\omega}=0
+\ul{\omega}\wedge \ul{d\omega}
+\neq 0
 \eeq
 
 \begin{claim}
 
 The shear 1-form Eq.(\ref{eq-shear-fear})
-is a contact form
+is a contact dif-form.
 
 \end{claim}
 \proof
@@ -140,27 +234,57 @@ d(x\ul{dy} +\ul{dz})
 \eeqa
 \qed
 
-\begin{claim}
 
-For the shear 1-form Eq.(\ref{eq-shear-fear})
 
-\beq
-\cald = \ker \ul{\omega}=
-span
-\left(
-\vecpartial_3, \vecpartial_2 -x\vecpartial_z
-\right)
-\eeq
-\end{claim}
-\proof
+\item CASE: $\nn
+>1$, $n=2\nn+1>3$
 
-\item arbitrary $\nn
-$
+
 
 \end{itemize}
 
+Suppose $M\subset \RR^{2\nn+1}$ with coordinates 
 
+\beq
+(q^1, \ldots, q^\nn, p_1,\ldots, p_\nn, z)
+\eeq
+The {\bf standard contact dif-form}
+is defined as
 
+\beq
+\pform{\omega}{}=
+\ul{dz}
+-\sum_i p_i \ul{dq^i}
+\eeq
+For this 1-form,
+
+\beq
+\ul{d\omega}=
+-
+\sum_i
+\ul{dp_i}\wedge \ul{dq^i}
+=
+\sum_i
+\ul{dq^i}\wedge \ul{dp_i}
+\eeq
+so
+
+\beq
+\ul{\omega}
+\wedge
+[\wedge
+\ul{d\omega}
+]^\nn=
+\pm
+\ul{dq^1}
+\wedge\cdots\wedge
+\ul{dq^\nn}
+\wedge
+\ul{dp_1}
+\wedge\cdots\wedge
+\ul{dp_\nn}
+\neq 0
+\eeq
 
 
 
