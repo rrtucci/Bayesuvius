@@ -1536,6 +1536,9 @@ $\ul{\alp_1}$ or $\ul{\alp_2}$ exclusively. Hence,
 \ul{\alp_2}(\vecY)
 \eeq
 
+Note that you either permute the vector fields $\vecX$ and $\vecY$
+or you permute the 1-forms $\pform{\alp_1}{}$ and $\pform{\alp_2}{}$ but not both.
+
 
 Sometimes $\ul{\alp_1}$ is defined originally to accept vectors $\vecX$ in a vector space $\calx$ 
 and 
@@ -12369,7 +12372,7 @@ saturated.
 \end{enumerate}
 
 
-\section{Contact Geometry}
+\section{Contact Manifold}
 \label{sec-contact-geo}
 
 
@@ -12558,10 +12561,11 @@ such that
 
 \beq
 \ul{\omega}\wedge
-(\wedge \ul{d\omega})^\nn=\pm
+(\wedge \ul{d\omega})^\nn=k
 \ul{d^{2\nn +1}x}
 \label{eq-def-contact-form}
 \eeq 
+where $k\neq 0$.
 
 Eq.(\ref{eq-def-contact-form})
 is a sufficient
@@ -12669,7 +12673,9 @@ so
 
 
 
-\section{Symplectic Geometry}
+\section{Symplectic Manifold}
+
+\section{Kahler Manifold}
 
 \section{Systems of Differential Equations}
 
@@ -14166,199 +14172,7 @@ $d\star F=4\pi \star J$ implies
 
 
 
-\section{Hamiltonian Mechanics}
 
-phase space
-$M=\{(q_1, \ldots, q_n, p_1, \ldots q_n)\in \RR^{2n}\}$
-
-\beq
-\pform{\lam}{} =\sum_i q_i \pform{dp_i}{}
-\eeq
-
-\beq
-\pform{\s}{2}=\pform{d\lam}{2}=
-\sum_i \pform{dq_i}{}
-\wedge \pform{dp_i}{}
-\eeq
-
-\beq
-\vecX=
-\sum_i
-\left[
-q_i \vecpder{q^i}+
-p_i \vecpder{p^i}
-\right]
-\eeq
-
-\beq
-\vecV=\dot{\vecX}=
-\sum_i
-\left[
-\dot{q}_i \vecpder{q^i} +
-\dot{p}_i \vecpder{p^i}
-\right]
-\eeq
-
-\begin{claim}
-Hamilton's equations given by
-\beq
-\dot{q}_i=\pder{H}{p_i},
-\quad
-\dot{p}_i=-\pder{H}{q_i}
-\label{eq-ham-eqs}
-\eeq
-for  $i=1, 2\cdots, n$ are satisfied iff
-
-\beq
-\begin{array}{cc}
-\bcen
-\xymatrix{
-\pform{dH}{}\ar[d]_1
-& \pform{i_\vecV\s}{}\ar[dl]|1
-\\
-\Circle{0}&\pform{\s}{2}\ar[u]|{i_\vecV}
-}\ecen
-&
-\pform{i_\vecV \s}{}
-=
-\pform{dH}{}
-\end{array}
-\eeq
-
-\end{claim}
-\proof
-
-\beq
-\xymatrix@R=3pc{
-\pform{dq}{}
-\ar[d]|{\partial_q H}
-\ar@/_1pc/[dr]|<<<{\dot{p}}
-&\pform{dp}{}
-\ar[dl]|{\partial_p H}
-\ar[r]|q
-\ar[d]|{-\dot{q}}
-&\pform{\lam}{}
-\ar@/^2pc/[dd]|d
-\\
-\pform{dH}{}
-\ar[d]^1
-&\pform{i_\vecV\s}{}
-\ar[dl]|1
-\ar[d]_>>>>1
-&\pform{i_\vecV\s}{}
-\ar[dl]|1
-\\
-\Circle{0}
-&\Circle{0}
-&\pform{\s}{2}
-\ar[u]|{i_\vecV}
-}
-\eeq
-
-
-\beq
-i_\vecV \pform{dq_i}{} =\dot{q}_i,
-\quad
-i_\vecV \pform{dp_i}{} =\dot{p}_i
-\eeq
-
-
-\beqa
-i_\vecV\pform{\s}{2}
-&=&
-\sum_i
-i_\vecV[\pform{dq_i}{}\wedge
-\pform{dp_i}{}]
-\\
-&=&
-\sum_i
-\left[\ul{i_\vecV dq_i}\wedge \pform{dp_i}{}
--
-\pform{dq_i}{}\wedge \ul{i_\vecV dp_i}
-\right]
-\\
-&=&
-\sum_i \left
-[\dot{q}_i\pform{dp_i}{}
--
-\dot{p}_i \pform{dq_i}{}
-\right]
-\eeqa
-
-\beq
-\pform{dH}{}=\sum_i
-\left[
-\pder{H}{q_i}\pform{dq_i}{}
-+
-\pder{H}{p_i}\pform{dp_i}{}
-\right]
-\eeq
-Comparing the last two equations
-for $i_\vecV\pform {\s}{2}$ and
-$\pform{dH}{}$, and assuming they are
-equals yields Hamilton's equations, given by
-Eq.(\ref{eq-ham-eqs})
-
-\qed
-
-\begin{claim}
-Hamiltonian mechanics preserves volume in phase space
-\beq
-\call_\vecV\ul{\s} =0
-\eeq
-\end{claim}
-\proof
-
-$\ul{\s}$ is closed:
-\beq
-d\ul{\s} = d^2\ul{\lam}=0
-\eeq
-Therefore
-\beq
-\call_\vecV \ul{\s}
-=
-d \;\underbrace{i_\vecV \ul{\s}}_{d\ul{H}}
-+
-\cancel{i_\vecV d\ul{\s}}^0
-=0
-\eeq
-\qed
-
-\beq
-\frac{dH}{dt} + \call_\vecV H=0
-\eeq
-
-\begin{claim}
-
-\beq
-\call_\vecV H
-=
-\frac{dH}{dt}=0
-\eeq
-along a	 trajectory
-
-\end{claim}
-\proof
-
-\beqa
-\call_\vecV H
-&=&\oper{\vecV}(H)
-\\
-&=&
-\ul{dH}(\vecV)
-\\
-&=&
-[i_\vecV \ul{\s}](\vecV)
-\\
-&=&
-\ul{\s}(\vecV, \vecV)
-\\
-&=& 0
-\eeqa
-\qed
-
-$\pform{\omega_ab}{}$
-connection 1-forms
 
 \section{General Relativity}\label{sec-gen-rel}
 

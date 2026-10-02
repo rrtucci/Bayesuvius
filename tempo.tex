@@ -5,8 +5,491 @@
 
 
 
-\section{Symplectic Geometry}
+\section{Symplectic Manifold (Hamiltonian Mechanics)}
 
+
+Symplectic manifolds
+find their inspiration 
+in Hamiltonian Mechanics (HM),
+a sub-field of Classical Mechanics.
+
+A {\bf symplectic manifold}
+is defined as a $2\nn$ dimensional manifold equipped with a 2-form
+$\pform{\Sigma}{2}$
+which satisfies 2 constraints
+
+\begin{enumerate}
+\item closed
+
+\beq
+d\ul{\Sigma}=0
+\eeq
+
+\item gives a non-degenerate
+inner product
+
+\beq
+\ul{\Sigma} (\vecX, \vecY)\neq 0
+\eeq
+for all $\rvX, \rvY$.
+\end{enumerate}
+
+Compare this to a {\bf \Rien manifold} which is equipped with a metric $\metric(\vecX, \vecY)$
+
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
+\begin{table}[h!]
+\centering
+\begin{tabular}{|
+>{\columncolor[HTML]{FFFFC7}}l |
+>{\columncolor[HTML]{9AFF99}}l |}
+\hline
+\Rien manifold                                                                                       & Symplectic Manifold                                                                                          \\ \hline
+\begin{tabular}[c]{@{}l@{}}$\metric(\vecX, \vecY)$ is \\ symmetric in its two arguments\end{tabular} & \begin{tabular}[c]{@{}l@{}}$\ul{\Sigma}(\vecX, \vecY)$ is \\ anti-symmetric in its 2 arguments.\end{tabular} \\ \hline
+$\metric(\vecX, \vecX)$ measures vector length                                                       & $\ul{\Sigma} (\vecX, \vecX)=0$                                                                                     \\ \hline
+$\metric(\vecX, \vecY)$ measures angles                                                              & \begin{tabular}[c]{@{}l@{}}$\ul{\Sigma} (\vecX, \vecY)$ measures\\  area of a parallelogram\end{tabular}           \\ \hline
+\end{tabular}
+\caption{Comparison of \Rien manifold's metric $\metric(\vecX, \vecY)$ and Symplectic manifold's 2-form $\ul{\Sigma} (\vecX, \vecY)$.}
+\label{tab-rien-symp}
+\end{table}
+
+
+\subsection{Hamiltonian Theory}
+
+Define {\bf phase space}
+as $\nn$ position, momenta pairs $M=\{(q_i, p^i)\}_{i=1}^\nn\in \RR^{2\nn}$. 
+
+\beq
+\pform{\lam}{} =\sum_i q_i \pform{dp_i}{}
+\eeq
+
+\beq
+\pform{\s}{2}=\pform{d\lam}{2}=
+\sum_i \pform{dq_i}{}
+\wedge \pform{dp_i}{}
+\eeq
+
+\beq
+\vecX=
+\sum_i
+\left[
+q_i \vecpder{q^i}+
+p_i \vecpder{p^i}
+\right]
+\eeq
+
+\beq
+\vecV=\dot{\vecX}=
+\sum_i
+\left[
+\dot{q}_i \vecpder{q^i} +
+\dot{p}_i \vecpder{p^i}
+\right]
+\label{eq-vecv-def-ham}
+\eeq
+
+\begin{claim}
+Hamilton's equations given by
+\beq
+\dot{q}_i=\pder{H}{p_i},
+\quad
+\dot{p}_i=-\pder{H}{q_i}
+\label{eq-ham-eqs}
+\eeq
+for  $i=1, 2\cdots, \nn$ are satisfied iff
+
+\beq
+\begin{array}{cc}
+\bcen
+\xymatrix{
+\pform{dH}{}\ar[d]_1
+& \pform{i_\vecV\s}{}\ar[dl]|1
+\\
+\Circle{0}&\pform{\s}{2}\ar[u]|{i_\vecV}
+}\ecen
+&
+\pform{i_\vecV \s}{}
+=
+\pform{dH}{}
+\end{array}
+\eeq
+
+\end{claim}
+\proof
+
+\beq
+\xymatrix@R=3pc{
+\pform{dq}{}
+\ar[d]|{\partial_q H}
+\ar@/_1pc/[dr]|<<<{\dot{p}}
+&\pform{dp}{}
+\ar[dl]|{\partial_p H}
+\ar[r]|q
+\ar[d]|{-\dot{q}}
+&\pform{\lam}{}
+\ar@/^2pc/[dd]|d
+\\
+\pform{dH}{}
+\ar[d]^1
+&\pform{i_\vecV\s}{}
+\ar[dl]|1
+\ar[d]_>>>>1
+&\pform{i_\vecV\s}{}
+\ar[dl]|1
+\\
+\Circle{0}
+&\Circle{0}
+&\pform{\s}{2}
+\ar[u]|{i_\vecV}
+}
+\eeq
+
+
+\beq
+i_\vecV \pform{dq_i}{} =\dot{q}_i,
+\quad
+i_\vecV \pform{dp_i}{} =\dot{p}_i
+\eeq
+
+
+\beqa
+i_\vecV\pform{\s}{2}
+&=&
+\sum_i
+i_\vecV[\pform{dq_i}{}\wedge
+\pform{dp_i}{}]
+\\
+&=&
+\sum_i
+\left[\ul{i_\vecV dq_i}\wedge \pform{dp_i}{}
+-
+\pform{dq_i}{}\wedge \ul{i_\vecV dp_i}
+\right]
+\\
+&=&
+\sum_i \left
+[\dot{q}_i\pform{dp_i}{}
+-
+\dot{p}_i \pform{dq_i}{}
+\right]
+\eeqa
+
+\beq
+\pform{dH}{}=\sum_i
+\left[
+\pder{H}{q_i}\pform{dq_i}{}
++
+\pder{H}{p_i}\pform{dp_i}{}
+\right]
+\eeq
+Comparing the last two equations
+for $i_\vecV\pform {\s}{2}$ and
+$\pform{dH}{}$, and assuming they are
+equals yields Hamilton's equations, given by
+Eq.(\ref{eq-ham-eqs})
+
+\qed
+
+\begin{claim}
+Hamiltonian mechanics preserves volume in phase space
+\beq
+\call_\vecV\ul{\s} =0
+\eeq
+\end{claim}
+\proof
+
+$\ul{\s}$ is closed:
+\beq
+d\ul{\s} = d^2\ul{\lam}=0
+\eeq
+Therefore
+\beq
+\call_\vecV \ul{\s}
+=
+d \;\underbrace{i_\vecV \ul{\s}}_{d\ul{H}}
++
+\cancel{i_\vecV d\ul{\s}}^0
+=0
+\eeq
+\qed
+
+\beq
+\frac{dH}{dt} + \call_\vecV H=0
+\eeq
+
+\begin{claim}
+
+\beq
+\call_\vecV H
+=
+\frac{dH}{dt}=0
+\eeq
+along a	 trajectory
+
+\end{claim}
+\proof
+
+\beqa
+\call_\vecV H
+&=&\oper{\vecV}(H)
+\\
+&=&
+\ul{dH}(\vecV)
+\\
+&=&
+[i_\vecV \ul{\s}](\vecV)
+\\
+&=&
+\ul{\s}(\vecV, \vecV)
+\\
+&=& 0
+\eeqa
+\qed
+
+$\pform{\omega_ab}{
+}$
+connection 1-forms
+
+\subsection{Poisson Brackets}
+
+For a scalar function $f(\;)$,
+define the {\bf Hamiltonian vector
+field $\hamfield{f}$} by
+
+\beq
+i_{\hamfield{f}}\ul{\Sigma} =
+\ul{df}
+\eeq
+
+Note that 
+if $\vecV$ is vector field defined
+in Eq.(\ref{eq-vecv-def-ham}) then Hamilton's equations can be written as
+
+\beq
+\vecV= \hamfield{H}
+\eeq
+
+\begin{claim}
+In the phase canonical
+coordinates,
+
+
+
+\beq
+\hamfield{f}=
+\sum_{i=1}^n
+\left(
+\pder{f}{p_i}
+\vecpder{q^i}
+-
+\pder{f}{q^i}
+\vecpder{p_i
+}
+\right)
+\eeq
+
+\end{claim}
+\proof
+
+Let 
+
+\beq
+\hamfield{f}=
+\sum_i \left(
+A^i \vecpder{q^i}
++ B_i \vecpder{p_i}
+\right)
+\eeq
+
+\beq
+\ul{\Sigma}=\ul{\s}=
+\sum_i \ul{dq^i}
+\wedge \ul{dp_i}
+\eeq
+Then
+
+\beqa
+i_{\hamfield{f}}
+\ul{\s}
+&=&
+\ul{dq^i}(\hamfield{f})
+\ul{dp_i}
+-
+\ul{dp_i}(\hamfield{f})\ul{dq^i}
+\\
+&=&
+A^i\ul{dp_i}
+- B_i \ul{dq^i}
+\eeqa
+Also
+
+\beq
+\ul{df}=
+\sum_i\left(
+\pder{f}{q^i}
+\ul{dq^i}
++
+\pder{f}{dp_i}
+\ul{p_i}
+\right)
+\eeq
+so
+
+\beq
+A^i = \pder{f}{q^i}
+,\quad
+B_i = -
+\pder{f}{p_i}
+\eeq
+
+\qed
+
+For two scalar functions $f(\;)$ and $g(\;)$,
+define their {\bf Poisson bracket} by
+
+\beq
+\{f, g\}=
+\sum_{i=1}^\nn
+\left(
+\pder{f}{q^i}
+\pder{g}{p_i}
+-
+\pder{f}{p_i}
+\pder{g}{q^i}
+\right)
+\eeq
+
+\begin{claim}
+
+\beq
+\{ f, g\}=
+\ul{\s}\left(
+\hamfield{f}, \hamfield{g}
+\right)=
+\oper{\hamfield{g}}(f)=-\oper{\hamfield{f}}(g)
+\eeq
+\end{claim}
+\proof
+
+\beq
+\hamfield{f}=
+\sum_{i=1}^\nn
+\left(
+\pder{f}{p_i}
+\vecpder{q^i}
+-
+\pder{f}{q^i}
+\vecpder{p_i
+}
+\right)
+\eeq
+
+\beq
+\hamfield{g}=
+\sum_{i=1}^\nn
+\left(
+\pder{g}{p_i}
+\vecpder{q^i}
+-
+\pder{g}{q^i}
+\vecpder{p_i
+}
+\right)
+\eeq
+
+\beqa
+\ul{\s}(
+\hamfield{f}, \hamfield{g})
+&=&
+\sum_i
+\left(
+\ul{dq^i}(\hamfield{f})
+\ul{dp_i}(\hamfield{g})
+-
+\ul{dp_i}(\hamfield{f})
+\ul{dq^i}(\hamfield{g})
+\right)
+\\
+&=&
+\sum_{i=1}^\nn
+\left(
+\pder{f}{q^i}
+\pder{g}{p_i}
+-
+\pder{f}{p_i}
+\pder{g}{q^i}
+\right)
+\eeqa
+
+\beq
+\oper{\hamfield{g}}(f)=
+\sum_{i=1}^\nn
+\left(
+\pder{g}{p_i}
+\vecpder{q^i}
+-
+\pder{g}{q^i}
+\vecpder{p_i
+}
+\right)f
+\eeq
+
+\beq
+\oper{\hamfield{f}}(g)=
+\sum_{i=1}^\nn
+\left(
+\pder{f}{p_i}
+\vecpder{q^i}
+-
+\pder{f}{q^i}
+\vecpder{p_i
+}
+\right)g
+\eeq
+\qed
+
+\begin{claim}
+Hamilton's equations can be 
+written as
+
+\beq
+\dot{f}=\{f, H\}
+\eeq
+for $f= q^i, p_i$.
+
+\end{claim}
+\proof
+
+\beq
+\dot{f} =
+\sum_{i}
+\left(
+\pder{f}{q^i}\dot{q}^i
++
+\pder{f}{p_i}\dot{p}_i
+\right)
+\eeq
+
+\beq
+\{f, H\}=
+\sum_{i=1}^\nn
+\left(
+\pder{f}{q^i}
+\pder{H}{p_i}
+-
+\pder{f}{p_i}
+\pder{H}{q^i}
+\right)
+\eeq
+
+
+\qed
+
+
+
+\subsection{Darboux Theorem}
 
 
 
