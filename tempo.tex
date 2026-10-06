@@ -190,7 +190,8 @@ and can be understood
 without them. Dif-forms give a new 
 interpretation to them and suggest generalizations of them.
 
-Suppose we have break up the body into $N$ particles with {\bf positions} $\{\vecr_\alp\}_{\alp=1}^N$ and {\bf generalized coordinates (configuration space)}
+Suppose we have break up the body into $N$ particles with $N$  {\bf positions} $\{\vecr_\alp\}_{\alp=1}^N$ and
+$n$  {\bf generalized coordinates }
 $\{q_i\}_{i=1}^n$.
 
 
@@ -202,17 +203,6 @@ $\{q_i\}_{i=1}^n$.
 \eeq
 for $\alp=1, 2, \ldots, N$.
 
-{\bf Newton's Law} for particle $\alp$ says
-
-\beq
-m_\alp \ddot{\vecr}_\alp = \vec{F}^\infty_\alp
-+ \vec{F}^0_\alp
-\eeq
-where $\vec{F}^0_\alp$ are 
-the contact forces and $\vec{F}^\infty_\alp$
-are the non-contact 
-forces on particle $\alp$.
-
 $\vec{F}^\infty_\alp=$ {\bf non-contact force}
 on particle $\alp$
 
@@ -223,6 +213,15 @@ Non-contact forces
 are forces that act at a distance, such as gravity (in the Newtonian description).
 Contact forces  are associated with {\bf motion constraints}. For example, if a bead is constrained to a wire, the wire exerts a
 contact  force that keeps the bead on the wire. Constraints can be specified thus:
+
+
+{\bf Newton's Law} for particle $\alp$ says
+
+\beq
+m_\alp \ddot{\vecr}_\alp = \vec{F}^\infty_\alp
++ \vec{F}^0_\alp
+\eeq
+
 
 \beq
 \vec{F}^0_\alp\cdot
@@ -254,7 +253,7 @@ $T=$ {\bf kinetic energy}
 
 $V=$ {\bf potential energy}
 
-$L(\vecq, \dot{\vecq}, t)=T-V=$ {\bf Lagrangian function}
+$L(\vecq, \dot{\vecq}, t)=T-V=$ {\bf Lagrangian}
 
 {\bf Euler-Lagrange's Equations}
 
@@ -264,7 +263,7 @@ $L(\vecq, \dot{\vecq}, t)=T-V=$ {\bf Lagrangian function}
 \eeq
 for $i=1, 2, \ldots, n$.
 
-$H(\vecq, \vecp, t)=T+V=$ {\bf Hamiltonian function}
+$H(\vecq, \vecp, t)=T+V=$ {\bf Hamiltonian}
 
 {\bf Hamilton's equations}
 
@@ -274,6 +273,94 @@ $H(\vecq, \vecp, t)=T+V=$ {\bf Hamiltonian function}
 \eeq
 for $i=1, 2, \ldots, n$.
 
+
+\begin{claim}
+
+\beq
+L_\alp=T_\alp-V_\alp,\quad H_\alp= T_\alp+V_\alp
+\eeq
+for a point particle $\alp$
+for a point particle 
+experiencing a conservative force
+$-\nabla V_\alp$.
+(For multiple particles,  $L=\sum_\alp L$, $H=\sum_\alp H_\alp$)
+
+\end{claim}
+\proof 
+
+We'll drop the  particle
+subscript $\alp$ in the 
+confines of this proof.
+
+The Lagrangian is defined by
+
+\beq
+L(\vecr, \vecv)=
+T(\vecv)
+- V(\vecr)
+\eeq
+where
+
+\beq
+\vecv=\dot{\vecr}
+, \quad
+T = \frac{1}{2}\vecv^2
+\eeq
+
+$L$ is defined this way so that the Euler-Lagrange equations reproduce
+Newton's equation.
+If $\vecr=(x^1, x^2, x^3)$ and $\vecv = (\dot{x}^1, \dot{x}^2, \dot{x}^3)=(v^1, v^2, v^3)$, then
+
+\beq
+\pder{L}{v^i}=
+mv_i,
+\quad
+\pder{L}{x^i}= -\pder{V}{x^i}
+\eeq
+
+\beq
+0=\frac{d}{dt}
+\pder{L}{v^i}-
+\pder{L}{x^i}=
+m\ddot{x_i}+\pder{V}{x^i}
+\eeq 
+so
+
+\beq m\ddot{\vecr}= -\nabla V
+\eeq
+The Hamiltonian
+is defined by a Legrendre transform as
+\beq
+H(\vecr, \vecp)=
+\sum _i p_i v^i - L(\vecr, \vecv)
+\eeq
+where 
+
+\beq
+p_i=
+\pder{L}{v^i}=
+m v^i
+\eeq
+Therefore
+
+\beqa
+H&=& \sum_i m(v^i)^2-L
+\\
+&=&
+\frac{1}{2}m\vecv^2 
++
+V 
+\\&=&
+T+V
+\eeqa
+
+
+
+
+
+
+
+\qed
 
 
 We shall follow the 
@@ -646,8 +733,12 @@ dt
 
 \subsection{Hamiltonian Theory}
 
-Define {\bf phase space}
-as $\nn$ position, momenta pairs $M=\{(q_i, p^i)\}_{i=1}^\nn\in \RR^{2\nn}$. 
+Define {\bf configuration space}
+as a manifold $M=\{\{q^i\}_{i=1}^\nn\in \RR^{\nn}\}$ parametrized by $\nn$ position $q^i$.
+ 
+Define {\bf 
+phase space}
+as a manifold $M=\{(q^i, p_i)\}_{i=1}^\nn\in \RR^{2\nn}\}$ parametrized by $\nn$ position $q^i$, and $\nn$ momenta $p_i$. 
 
 \beq
 \pform{\lam}{} =\sum_i q_i \pform{dp_i}{}
@@ -947,6 +1038,9 @@ define their {\bf Poisson bracket} by
 \pder{f}{p_i}
 \pder{g}{q^i}
 \right)
+=
+\sum_i
+\underbrace{\det \pder{(f, g)}{(q^i, p_i)}}_{\text{det of Jacobian Matrix}}
 \eeq
 
 \begin{claim}
@@ -1076,8 +1170,106 @@ for $f= q^i, p_i$.
 \qed
 \subsection{Canonical Transformations}
 
+A {\bf canonical transformation} (CT) is
+a change of phase space coordinates
 
+\beq
+\{(q^i, p_i)\}_{i=1}^\nn
+\rarrow \{(Q^i, P_i)\}_{i=1}^\nn
+\eeq
+that \qt{preserves} the
+form of the Hamiltonian
+equations.
+By this 
+we mean that if
+the old coordinates
+satisfy
 
+\beq
+\dot{q}^i = 
+\pder{H}{p_i}
+,\quad
+\dot{p}_i = -\pder{H}{q^i}
+\eeq
+for $i=1, 2, \ldots,\nn$, 
+then the new coordinates 
+satisfy
+
+\beq
+\dot{Q}^i = 
+\pder{K}{P_i}
+,\quad
+\dot{P}_i = -\pder{K}{Q^i}
+\eeq
+for $i=1, 2, \ldots,\nn$.
+Here $H(\vecq, \vecp)$ is the old Hamiltonian and
+$K(\vec{Q}, \vec{P})$ is the new one.
+
+A {generating function} for the 
+CT satisfies 
+
+\beq
+\vecz = \begin{pmatrix}
+\vec{p}
+\\
+\vec{q}
+\end{pmatrix}
+,\quad
+\vecZ = \begin{pmatrix}
+\vec{Q}
+\\
+\vec{P}
+\end{pmatrix}
+\eeq
+
+\beq
+A = \begin{pmatrix}
+0& I_\nn
+\\
+I_\nn &0
+\end{pmatrix}
+\eeq
+
+\beq
+J_{Z/z}=\pder{\vecZ}{\vecz}
+=
+\begin{pmatrix}
+\pder{Z^1}{z^1}&\cdots&\pder{Z^1}{z^\nn}
+\\
+\vdots&\vdots&\vdots
+\\
+\pder{Z^\nn}{z^1}&\cdots&\pder{Z^\nn}{z^\nn}
+\end{pmatrix}
+\eeq
+{\bf Vector Hamilton equations}
+
+\beq
+\dot{\vecz}=
+A \nabla_\vecz H,\quad
+\dot{\vecZ}=
+A \nabla_\vecZ K
+\eeq
+
+\begin{claim}
+The  following statements are equivalent
+\begin{enumerate}
+\item
+Transformation $\vecz\rarrow \vecZ$ is canonical
+(i.e., preserves the form of Hamilton's cequations)
+\item
+\beq
+J_{Z/z} A J^T_{Z/z}=A
+\eeq
+
+\item
+\beq \ul{dq}\wedge\ul{dp}= \pm \ul{dQ}\wedge \ul{dP}
+\eeq
+\end{enumerate}
+\end{claim}
+\proof
+\qed
+
+\subsection{Contact Transformations}
 
 \subsection{Hamilton-Jacobi theory}
 
