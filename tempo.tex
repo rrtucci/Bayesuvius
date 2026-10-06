@@ -1204,34 +1204,44 @@ satisfy
 for $i=1, 2, \ldots,\nn$.
 Here $H(\vecq, \vecp)$ is the old Hamiltonian and
 $K(\vec{Q}, \vec{P})$ is the new one.
+A {\bf generating function} for the 
+CT satisfies
 
-A {generating function} for the 
-CT satisfies 
+Notation so far: $\vec{A} = A^i \vecpartial_{x^i}=A^i\partial_i$
+
+ 
+
+New notation:
+
+ $\colvec{A}=\begin{bmatrix}A^1\\A^2\\\vdots\\ A^n\end{bmatrix}$: {\bf column vector/array}
+
+ $\colvec{A}^T:$ {\bf row vector/array}
+
+$\partial_\colvec{x}=\begin{bmatrix}\partial_1\\\partial_2\\\vdots\\ \partial_n\end{bmatrix}$,
+
+$\partial_\colvec{A} = \colvec{A}^T \partial_{\colvec{x}}$
+
+
+
 
 \beq
-\vecz = \begin{pmatrix}
-\vec{p}
+\colvec{z} = \begin{pmatrix}
+\colvec{p}
 \\
-\vec{q}
+\colvec{q}
 \end{pmatrix}
 ,\quad
-\vecZ = \begin{pmatrix}
-\vec{Q}
+\colvec{Z} = \begin{pmatrix}
+\colvec{Q}
 \\
-\vec{P}
+\colvec{P}
 \end{pmatrix}
 \eeq
 
-\beq
-A = \begin{pmatrix}
-0& I_\nn
-\\
-I_\nn &0
-\end{pmatrix}
-\eeq
+
 
 \beq
-J_{Z/z}=\pder{\vecZ}{\vecz}
+J_{Z/z}=\pder{\colvec{Z}}{\colvec{z}}
 =
 \begin{pmatrix}
 \pder{Z^1}{z^1}&\cdots&\pder{Z^1}{z^\nn}
@@ -1241,32 +1251,171 @@ J_{Z/z}=\pder{\vecZ}{\vecz}
 \pder{Z^\nn}{z^1}&\cdots&\pder{Z^\nn}{z^\nn}
 \end{pmatrix}
 \eeq
+Jacobian matrix. Note that our convention: In your head, rewrite
+$\pder{x}{y}$ as $\partial x/\partial y$. This suggests that $x_i$ label the rows and $y_j$ label the columns
+
+\beq
+J_{z/Z}= J^T_{Z/z}
+\eeq
+
+\beq
+J_{Z/z}J_{z/Z}=J_{z/Z}J_{Z/z}=1
+\eeq
+
+\beq
+(\det J_{Z/z})^2 = (\det J_{z/Z})^2 =1
+\eeq
+
+\beq
+\det(J_{Z/z})=\pm 1
+\eeq
+
+\beq
+\colvec{Z}= J_{Z/z}\colvec{z},
+\quad
+\colvec{z}= J_{z/Z}\colvec{Z}
+\eeq
+
+\beq
+\partial_{\colvec{Z}}^T= \partial_\colvec{z}^T J_{z/Z},
+\quad
+\partial_{\colvec{z}}^T=
+ \partial_\colvec{Z}^TJ_{Z/z}
+\eeq
+
+\beq
+\partial_{\colvec{Z}}= J_{Z/z}\partial_\colvec{z},
+\quad
+\partial_{\colvec{z}}=J_{z/Z}
+ \partial_\colvec{Z}
+\eeq
+(This are the covariant and contravariant
+transformations of vectors and covectors. Se section ******)
+
+
+
+
+
 {\bf Vector Hamilton equations}
 
 \beq
-\dot{\vecz}=
-A \nabla_\vecz H,\quad
-\dot{\vecZ}=
-A \nabla_\vecZ K
+A = \begin{pmatrix}
+0& I_\nn
+\\
+-I_\nn &0
+\end{pmatrix}
 \eeq
+Note 
+\beq A^2= 1
+\eeq
+
+\beq
+\colvec{\dot{z}}=
+A \partial_\colvec{z} H,\quad
+\colvec{\dot{Z}}=
+A \partial_\colvec{Z} K
+\eeq
+
+\beq
+J_{Z/z}\partial_{\colvec{z}}H=
+\partial_{\colvec{Z}}K
+\eeq
+
+
+
 
 \begin{claim}
 The  following statements are equivalent
 \begin{enumerate}
-\item
-Transformation $\vecz\rarrow \vecZ$ is canonical
-(i.e., preserves the form of Hamilton's cequations)
-\item
+\item \label{enum-symp-can}
+Transformation $\colvec{z}\rarrow \colvec{Z}$ is canonical
+(i.e., preserves the form of Hamilton's equations)
+\item \label{enum-symp-jaj}
 \beq
 J_{Z/z} A J^T_{Z/z}=A
 \eeq
 
-\item
-\beq \ul{dq}\wedge\ul{dp}= \pm \ul{dQ}\wedge \ul{dP}
+\item \label{enum-symp-2form}
+\beq
+\sum_i \ul{dq^i}\wedge\ul{dp_i}=  \sum_\alp \ul{dQ^\alp}\wedge \ul{dP_\alp}
 \eeq
 \end{enumerate}
 \end{claim}
 \proof
+
+\ref{enum-symp-can} $\iff$ \ref{enum-symp-jaj}:
+
+\beq
+\colvec{\dot{Z}}=
+J_{Z/z}\colvec{\dot{z}}=
+J_{Z/z} [A\partial_\colvec{z}H]=
+J_{Z/z}A [J_{z/Z}\partial_\colvec{Z}]H=
+J_{Z/z}A J_{z/Z}\partial_\colvec{Z}K
+\eeq
+
+
+\beq
+\colvec{\dot{Z}}=
+A\partial_{\colvec{Z}}K
+\eeq
+
+
+\beq
+J_{Z/z}A J_{z/Z}=A
+\eeq
+
+\ref{enum-symp-jaj} $\iff$
+\ref{enum-symp-2form} :
+
+\beq
+\ul{\omega}_{q,p}
+=
+\sum_i \ul{dq^i}
+\wedge
+\ul{dp_i}
+=
+\sum_i 
+\left(
+\ul{d\colvec{q}}^T\ul{d\colvec{p}}-
+\ul{d\colvec{p}}^T\ul{d\colvec{q}}
+\right)
+=
+(\ul{\colvec{dz}})^T
+A\ul{\colvec{dz}}
+\eeq
+
+\beq
+\ul{\omega}_{Q,P}=
+(\ul{\colvec{dZ}})^T
+A\ul{\colvec{dZ}}
+=
+(J_{Z/z}\ul{\colvec{dz}})^T
+AJ_{Z/z}\ul{\colvec{dz}}=
+(\ul{\colvec{dZ}})^T
+J_{z/Z}A J_{z/Z}
+A\ul{\colvec{dZ}}
+\eeq
+
+\qed
+
+\begin{claim}
+A canonical transformation
+preserves the Poisson brackets.
+
+
+\end{claim}
+\proof
+
+\beq
+\{f, g\}_{Q, P}=
+\det \pder{(f, g)}{(Q, P)}=
+\det\left(
+\pder{(f, g)}{(q, p)}J_{z/Z}
+\right)
+=
+\underbrace{\det \left(\pder{(f, g)}{(q, p)}\right)}_{\{f,g\}_{p, q}}
+\det J_{z/Z}
+\eeq
 \qed
 
 \subsection{Contact Transformations}
