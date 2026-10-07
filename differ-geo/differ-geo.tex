@@ -854,8 +854,14 @@ $(u^\mu)_{\mu=1}^n$.
 >{\columncolor[HTML]{DAE8FC}}l |}
 \hline
 Contravariant transformation & Covariant Transformation \\ \hline
-$V^\mu = J\indices{^\mu_j} V^j$ & $\vecpartial_\mu=\vecpartial_j J\indices{^j_\mu}$ \\ \hline
-$\ul{du^\mu} = J\indices{^\mu_j} \ul{dx^j}$ & $\omega_\mu=\omega_j J\indices{^j_\mu}$ \\ \hline
+$V^\mu = \pder{u^\mu}{x^j}V^j\quad( \colvec{V_u} = J\colvec{V_x})$ & $\vecpartial_\mu=\vecpartial_j
+\pder{x^j}{u^\mu}\quad (\colvec{\partial}_u^T=\colvec{\partial}_x^T J^{-1})$ \\ \hline
+$\ul{du^\mu} = \pder{u^\mu}{x^j} \ul{dx^j}
+\quad (\colvec{\ul{du}}= J \colvec{\ul{dx}})$ 
+& $\omega_\mu=\omega_j \pder{x^j}{u^\mu}
+\quad
+(\colvec{\omega}^T_u= \colvec{\omega}^T_x J^{-1})
+$ \\ \hline
 \end{tabular}
 \caption{How basis vectors, vector components, dual basis covector and covector components transform. }
 \label{tab-covariant-contravariant-trans}
@@ -868,23 +874,27 @@ Let
 J\indices{^\mu_i}=
 \pder{u^\mu}{x^i},
 \quad
-J\indices{^i_\mu}=
-\pder{x^i}{u^\mu}
+(J^{-1})\indices{^i_\mu}=
+\pder{x^i}{u^\mu},
+\quad
+(J^T)\indices{^\mu_i}= J\indices{^i_\mu}=
+\pder{u^i}{x^\mu}
 \eeq
-Note that
+so, by the chain rule,
 
 \beq
 J\indices{^\mu_i}
-J\indices{^i_\nu}= \delta^\mu_\nu,
+(J^{-1})\indices{^i_\nu}= \delta^\mu_\nu,
 \quad
-J\indices{^i_\mu}
+(J^{-1})\indices{^i_\mu}
 J\indices{^\mu_j}= \delta^i_j
 \eeq
-This just means that if you transform
-coordinates  from $u\rarrow x\rarrow u$,
-or from
-$x\rarrow u\rarrow x$,
-then you end up where you started.
+
+It's easy to confuse $J^T$ and $J^{-1}$, especially when translating from index to matrix notation, but they are generally different, except when $J$ 
+is orthogonal, i.e., $J J^T=1$. For general coordinate
+transformations, $J$ doesn't need to be orthogonal. Orthogonal coordinate transformations preserve angles and lengths,
+but general coordinate transformations can
+cause shearing and stretching. 
 
 Let
 
@@ -892,8 +902,10 @@ Let
 \vecpartial_i= 
 \vecpder{x^i},
 \quad 
-\vecpartial_\mu= \vecpder{u^\mu}
+\vecpartial_{\mu}= \vecpder{u^\mu}
 \eeq
+Let $\colvec{a}$ represent a column vector
+and $\colvec{a}^T$ a row vector in a matrix equation.
 Then Table 
 \ref{tab-covariant-contravariant-trans}
 tells us how

@@ -1040,8 +1040,14 @@ define their {\bf Poisson bracket} by
 \right)
 =
 \sum_i
-\underbrace{\det \pder{(f, g)}{(q^i, p_i)}}_{\text{det of Jacobian Matrix}}
+\underbrace{\det \pder{(f, g)}{(q^i, p_i)}}_{\text{det of $2\times 2$ Jacobian Matrix}}
 \eeq
+
+Note that $\{f, g\}$ is a sum of determinants of $2\times 2$ matrices, but it's NOT a single determinant. We have two functions, $f$ and $g$,
+so to create a square matrix (only square matrices have determinants), we pick a set of 
+complementary variables $(q^i,p_i)$ for some $i$. If $\{f, g\}$ were the determinant of a $2\nn\times 2\nn$ matrix,
+we could label the \ul{columns} by the $2\nn$ phase space
+variables, but then we would only have two labels ($f$ and $g$) for the \ul{rows}.
 
 \begin{claim}
 
@@ -1213,9 +1219,9 @@ Notation so far: $\vec{A} = A^i \vecpartial_{x^i}=A^i\partial_i$
 
 New notation:
 
- $\colvec{A}=\begin{bmatrix}A^1\\A^2\\\vdots\\ A^n\end{bmatrix}$: {\bf column vector/array}
+ $\colvec{A}=\begin{bmatrix}A^1\\A^2\\\vdots\\ A^n\end{bmatrix}$: {\bf column vector} in  matrix equations
 
- $\colvec{A}^T:$ {\bf row vector/array}
+ $\colvec{A}^T:$ {\bf row vector} in matrix equations.
 
 $\partial_\colvec{x}=\begin{bmatrix}\partial_1\\\partial_2\\\vdots\\ \partial_n\end{bmatrix}$,
 
@@ -1241,6 +1247,7 @@ $\partial_\colvec{A} = \colvec{A}^T \partial_{\colvec{x}}$
 
 
 \beq
+\text{Jacobian matrix:}\quad
 J_{Z/z}=\pder{\colvec{Z}}{\colvec{z}}
 =
 \begin{pmatrix}
@@ -1251,23 +1258,64 @@ J_{Z/z}=\pder{\colvec{Z}}{\colvec{z}}
 \pder{Z^\nn}{z^1}&\cdots&\pder{Z^\nn}{z^\nn}
 \end{pmatrix}
 \eeq
-Jacobian matrix. Note that our convention: In your head, rewrite
-$\pder{x}{y}$ as $\partial x/\partial y$. This suggests that $x_i$ label the rows and $y_j$ label the columns
+Note our convention
+for translating a Jacobian matrix from index to matrix notation: In your head, rewrite
+$\pder{x}{y}$ as $\partial x/\partial y$. This suggests that $x_i$ label the rows and $y_j$ label the columns.
 
-\beq
-J_{z/Z}= J^T_{Z/z}
-\eeq
+Note that
 
 \beq
 J_{Z/z}J_{z/Z}=J_{z/Z}J_{Z/z}=1
 \eeq
+so
 
 \beq
-(\det J_{Z/z})^2 = (\det J_{z/Z})^2 =1
+J^{-1}_{z/Z}= J_{Z/z}, \quad
+J^{-1}_{Z/z} = J_{z/Z}
+\eeq
+
+For an orthogonal transformation (preserves angles and lengths)
+\beq
+J_{Z/z}J^T_{Z/z}=J_{z/Z}J^T_{z/Z}=1
 \eeq
 
 \beq
+(\det J_{Z/z})^2 = (\det J_{z/Z})^2 =1
+\quad \implies 
 \det(J_{Z/z})=\pm 1
+\eeq
+Actually, we refer to a transformation with $\det J = 1$ as orthogonal and 
+one with $\det J=-1$  as a reflection.
+
+For a symplectic transformation (preserves certain areas):
+
+\beq
+J_{Z/z} A J_{Z/z} = J_{z/Z}A J_{z/Z}=A
+\eeq
+Just as in the orthogonal case,
+
+\beq
+(\det J_{Z/z})^2 = (\det J_{z/Z})^2 =1
+\quad \implies 
+\det(J_{Z/z})=\pm 1
+\eeq
+Actually, we refer to a transformation with $\det J = 1$ as symplectic and 
+one with $\det J=-1$  as anti-symplectic.
+
+A general coordinate transformation need 
+not be either orthogonal nor symplectic. In general, $J_{Z/z} J_{z/Z}$ is not necessarily $1$. However,
+canonical transformations are always required to be 
+symplectic transformations.
+
+An example of a transformation that is symplectic but not orthogonal is
+
+\beq
+J_{Z/z}=
+\begin{pmatrix}
+a&0
+\\
+0& \frac{1}{a}
+\end{pmatrix}
 \eeq
 
 \beq
@@ -1277,20 +1325,20 @@ J_{Z/z}J_{z/Z}=J_{z/Z}J_{Z/z}=1
 \eeq
 
 \beq
-\partial_{\colvec{Z}}^T= \partial_\colvec{z}^T J_{z/Z},
+\colvec{\partial}^T_Z= \colvec{\partial}_z^T J_{z/Z},
 \quad
-\partial_{\colvec{z}}^T=
- \partial_\colvec{Z}^TJ_{Z/z}
+\colvec{\partial}^T_z=
+ \colvec{\partial}_Z^TJ_{Z/z}
 \eeq
 
 \beq
-\partial_{\colvec{Z}}= J_{Z/z}\partial_\colvec{z},
+\colvec{\partial}_Z= J_{z/Z}^T\colvec{\partial}_z,
 \quad
-\partial_{\colvec{z}}=J_{z/Z}
- \partial_\colvec{Z}
+\colvec{\partial}_z=J_{Z/z}^T
+ \colvec{\partial}_Z
 \eeq
 (This are the covariant and contravariant
-transformations of vectors and covectors. Se section ******)
+transformations of vectors and covectors. See Section \ref{sec-coord-trans})
 
 
 
@@ -1309,16 +1357,18 @@ Note
 \beq A^2= 1
 \eeq
 
+Hamilton's equations for $\vecZ$ and $\vecz$
 \beq
 \colvec{\dot{z}}=
-A \partial_\colvec{z} H,\quad
+A \colvec{\partial}_z H,\quad
 \colvec{\dot{Z}}=
-A \partial_\colvec{Z} K
+A \colvec{\partial}_Z K
 \eeq
 
+chain rule
 \beq
-J_{Z/z}\partial_{\colvec{z}}H=
-\partial_{\colvec{Z}}K
+J_{Z/z}\colvec{\partial}_zH=
+\colvec{\partial}_ZH= \colvec{\partial}_Z K
 \eeq
 
 
@@ -1332,8 +1382,11 @@ Transformation $\colvec{z}\rarrow \colvec{Z}$ is canonical
 (i.e., preserves the form of Hamilton's equations)
 \item \label{enum-symp-jaj}
 \beq
-J_{Z/z} A J^T_{Z/z}=A
+J_{Z/z} A J^T_{Z/z}=A,
+\quad \det J=+1
 \eeq
+This means $J\in Sp(2\nn, \RR)$ 
+
 
 \item \label{enum-symp-2form}
 \beq
@@ -1345,56 +1398,65 @@ J_{Z/z} A J^T_{Z/z}=A
 
 \ref{enum-symp-can} $\iff$ \ref{enum-symp-jaj}:
 
-\beq
-\colvec{\dot{Z}}=
-J_{Z/z}\colvec{\dot{z}}=
-J_{Z/z} [A\partial_\colvec{z}H]=
-J_{Z/z}A [J_{z/Z}\partial_\colvec{Z}]H=
-J_{Z/z}A J_{z/Z}\partial_\colvec{Z}K
-\eeq
+\beqa
+\colvec{\dot{Z}}&=&
+J_{Z/z}\colvec{\dot{z}}
+\\&=&
+J_{Z/z} [A\colvec{\partial}_zH]
+\\&=&
+J_{Z/z}A [J^T_{Z/z}\colvec{\partial}_Z]H
+\\
+&=&
+J_{Z/z}A J^T_{Z/z}\colvec{\partial}_ZK
+\eeqa
 
 
 \beq
 \colvec{\dot{Z}}=
-A\partial_{\colvec{Z}}K
+A\colvec{\partial}_ZK
 \eeq
 
 
 \beq
-J_{Z/z}A J_{z/Z}=A
+J_{Z/z}A J^T_{Z/z}=A
 \eeq
 
 \ref{enum-symp-jaj} $\iff$
 \ref{enum-symp-2form} :
 
-\beq
+\beqa
 \ul{\omega}_{q,p}
-=
+&=&
 \sum_i \ul{dq^i}
 \wedge
 \ul{dp_i}
-=
+\\
+&=&
 \sum_i 
 \left(
 \ul{d\colvec{q}}^T\ul{d\colvec{p}}-
 \ul{d\colvec{p}}^T\ul{d\colvec{q}}
 \right)
-=
+\\
+&=&
 (\ul{\colvec{dz}})^T
 A\ul{\colvec{dz}}
-\eeq
+\eeqa
 
-\beq
-\ul{\omega}_{Q,P}=
+\beqa
+\ul{\omega}_{Q,P} &=&
 (\ul{\colvec{dZ}})^T
 A\ul{\colvec{dZ}}
-=
+\\
+&=&
 (J_{Z/z}\ul{\colvec{dz}})^T
-AJ_{Z/z}\ul{\colvec{dz}}=
+AJ_{Z/z}\ul{\colvec{dz}}
+\\
+&=&
 (\ul{\colvec{dZ}})^T
-J_{z/Z}A J_{z/Z}
+J^T_{Z/z}A J_{Z/z}
 A\ul{\colvec{dZ}}
-\eeq
+\eeqa
 
 \qed
 
@@ -1403,19 +1465,28 @@ A canonical transformation
 preserves the Poisson brackets.
 
 
+\beq
+\{ f, g\}_{Q,P}=\{f,g\}_{q,p}
+\eeq
+
 \end{claim}
 \proof
 
-\beq
-\{f, g\}_{Q, P}=
-\det \pder{(f, g)}{(Q, P)}=
+\beqa
+\{f, g\}_{Q, P} &=&
+\sum_i
+\det \pder{(f, g)}{(Q^i, P_i)}
+\\
+&=&
+\sum_i
 \det\left(
-\pder{(f, g)}{(q, p)}J_{z/Z}
+\pder{(f, g)}{(q^i, p_i)}J_{z^i/Z^i}
 \right)
-=
-\underbrace{\det \left(\pder{(f, g)}{(q, p)}\right)}_{\{f,g\}_{p, q}}
-\det J_{z/Z}
-\eeq
+\\
+&=&
+\underbrace{\det \left(\pder{(f, g)}{(q^i, p_i)}\right)}_{\{f,g\}_{p, q}}
+\underbrace{\det J_{z^i/Z^1}}_{+1}
+\eeqa
 \qed
 
 \subsection{Contact Transformations}
@@ -1423,8 +1494,15 @@ preserves the Poisson brackets.
 \subsection{Hamilton-Jacobi theory}
 
 
+More general transformations:
+I have assumed so far that the coordinate
+transformations are orthogonal. 
+
+
 
 
 
 \end{document}
+
+
 
