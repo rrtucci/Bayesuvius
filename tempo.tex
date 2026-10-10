@@ -5,7 +5,7 @@
 
 
 
-\section{Symplectic Manifold (Hamiltonian Mechanics)}
+\section{Symplectic Geometry (Hamiltonian Mechanics)}
 
 
 Symplectic manifolds
@@ -179,7 +179,7 @@ its initial value after one turn.
 
 \end{enumerate}
 
-\subsection{Classical Mechanics Review}
+\subsection{Review of Classical Mechanics}
 This Appendix presents 
 some results from
 Classical Mechanics 
@@ -561,14 +561,19 @@ L=T-V
 
 
 \qed
+\beq
+S(t_2|t_1)=
+\int_{t_1}^{t_2}
+dt\;
+L(\vecq(t)
+, \dot{\vecq}(t), t)
+\label{eq-lagrangian-action}
+\eeq
 
 \begin{claim}
 The Euler-Lagrange equations also follow from 
 extremizing 
-the action.
-
-
-
+the action $S(t_2|t_1)$
 
 \end{claim}
 \proof
@@ -582,15 +587,9 @@ L = L(\vecq,
 \eeq
 We want to extremize
 its action $S(t_2|t_1)$
-using calculus of variations].
+using calculus of variations.
 
-\beq
-S(t_2|t_1)=
-\int_{t_1}^{t_2}
-dt\;
-L(\vecq(t)
-, \dot{\vecq}(t), t)
-\eeq
+
 We want the physical trajectory $\vecq(t)$ to make $S(t_2|t_1)$ stationary.
 Take a one-parameter family of nearby curves
 
@@ -673,6 +672,8 @@ The Euler-Lagrange equations imply Hamilton's equations via Legendre transformat
 \end{claim}
 \proof
 
+
+
 \beq
 p_i =\pder{L}{\dot{q}^i}
 ,\quad
@@ -728,10 +729,78 @@ dt
 \eeq
 \qed
 
-\subsection{Lagrangian Theory}
 
 
-\subsection{Hamiltonian Theory}
+\begin{figure}[h!]
+$$\begin{array}{ccc}
+\xymatrix{
+dq^i 
+\ar[d]_{\dot{p}_i}
+\\
+dL 
+\\
+d\dot{q}^i
+\ar[u]^{p_i}
+}
+&
+\quad
+\xymatrix{
+dq^i 
+\ar[dr]^{-\dot{p}_i}
+&&
+\\
+&dH
+&
+\\
+&
+&dp_i
+\ar[lu]_{\dot{q}^i}
+}
+\quad
+&
+\xymatrix{
+dq^i 
+\ar[d]_{\dot{p}_i}
+\ar[dr]^{-\dot{p}_i}
+&&
+\\
+dL \ar[rd]|{-1}
+&dH
+\ar[d]|{-1}
+&
+\\
+d\dot{q}^i
+\ar[u]^{p_i}
+\ar[r]_{p_i}
+&\Circle{0}
+&dp_i
+\ar[lu]_{\dot{q}^i}
+\ar[l]^{\dot{q}^i}
+}
+\\
+(a)&(b)&(c)
+\end{array}
+$$
+\caption{$(a)$ Representation of
+Euler-Lagrange equations
+$(b)$ Representation of Hamilton's equations.
+$(c)$ Representation of 3 things: the Euler-Lagrange equations, Hamilton's equations
+and the Legendre transform
+that relates them.
+}
+\label{fig-L-H-legendre-trans}
+\end{figure}
+
+See Figure \ref{fig-L-H-legendre-trans}.
+Let dofs=  degrees of freedom.
+Assume 2-dim phase space for simplicity. $(a)$ This figure represents 3 unknowns (the nodes $dq, dL, d\dot{q}$) and 1 equation so it has 2 dofs.
+$(b)$  This figure represents 3 unknowns (the nodes $dQ, dK, dP$) and 1 equation so it has 2 dofs. $(c)$ 
+This figure represents 5 unknowns (the nodes except the zero one) and 3 equations so it has 2 dofs. In conclusion,
+figures $(a)$, $(b)$ snd $(c)$ all have 2 dofs.
+
+\subsection{$dL$ and $dH$ geometrical relationship}
+
+\subsection{$\underline{dH}$ and $\underline{\sigma}$ geometrical relationship}
 
 Define {\bf configuration space}
 as a manifold $M=\{\{q^i\}_{i=1}^\nn\in \RR^{\nn}\}$ parametrized by $\nn$ position $q^i$.
@@ -771,13 +840,7 @@ p_i \vecpder{p_i}
 
 \begin{claim}
 Hamilton's equations given by
-\beq
-\dot{q}_i=\pder{H}{p_i},
-\quad
-\dot{p}_i=-\pder{H}{q^i}
-\label{eq-ham-eqs}
-\eeq
-for  $i=1, 2\cdots, \nn$ are satisfied iff
+ are satisfied iff
 
 \beq
 \begin{array}{cc}
@@ -865,6 +928,8 @@ i_{\dot{\vecz}}[\pform{dq^i}{}\wedge
 \pform{dp_i}{}
 \right]
 \eeq
+
+
 
 \qed
 
@@ -1206,22 +1271,56 @@ we mean that if
 the old coordinates
 satisfy
 
+{\renewcommand{\arraystretch}{1.5}
 \beq
+\bcen
+\xymatrix{
+dq^i
+\ar[d]_{-\dot{p}_i}
+\\
+dH
+\\
+dp_i
+\ar[u]^{\dot{q}^i}
+}
+\ecen
+\left\{
+\begin{array}{l}
 \dot{q}^i = 
 \pder{H}{p_i}
-,\quad
+\\
 \dot{p}_i = -\pder{H}{q^i}
+\end{array}
+\right.
 \eeq
+}
 for $i=1, 2, \ldots,\nn$, 
 then the new coordinates 
 satisfy
 
+{\renewcommand{\arraystretch}{1.5}
 \beq
+\bcen
+\xymatrix{
+dQ^i
+\ar[d]_{-\dot{P}_i}
+\\
+dK
+\\
+dP_i
+\ar[u]^{\dot{Q}^i}
+}
+\ecen
+\left\{
+\begin{array}{l}
 \dot{Q}^i = 
 \pder{K}{P_i}
-,\quad
+\\
 \dot{P}_i = -\pder{K}{Q^i}
+\end{array}
+\right.
 \eeq
+}
 for $i=1, 2, \ldots,\nn$.
 Here $H(\vecq, \vecp)$ is the old Hamiltonian and
 $K(\vec{Q}, \vec{P})$ is the new one.
@@ -1505,7 +1604,7 @@ preserves the Poisson brackets.
 \eeqa
 \qed
 
-\hrule
+\subsection{Generating Functions}
 
 4 types of {\bf generating functions} $F_i(\cdot)$
 
@@ -1546,19 +1645,17 @@ If
 {\renewcommand{\arraystretch}{1.5}
 \beq
 \bcen
-\xymatrix@C=1pc@R=1pc{
+\xymatrix@C=2pc@R=1pc{
 dq^i\ar[dr]^{p_i}
-\ar[d]_{-\dot{p}^i}
  &&
 \\
-dH
 & dF_2 
-&
+& 
 \\
-dp_i\ar[u]^{\dot{q}^i}
 && dP_i\ar[ul]_{Q^i}
 }
 \ecen
+\quad
 \left\{
 \begin{array}{l}
 p_i=\pder{F_2}{q^i}
@@ -1600,17 +1697,426 @@ Q^idP_i
 \qed
 
 
+\begin{figure}[h!]
+$$
+\begin{array}{ccc}
+\xymatrix{
+dq^i
+\ar[d]_{-\dot{p}_i}
+\\
+dH
+\\
+dp_i
+\ar[u]^{\dot{q}^i}
+}
+&\quad
+\xymatrix{
+dQ^i
+\ar[d]_{-\dot{P}_i}
+\\
+dK
+\\
+dP_i
+\ar[u]^{\dot{Q}^i}
+}
+\quad
+&
+\xymatrix{
+dq^i\ar[dr]^{p_i}
+\ar[d]_{-\dot{p}_i}
+ &&dQ^i\ar[d]^{-\dot{P}_i}
+\\
+dH
+& dF_2 
+&   dK
+\\
+dp_i\ar[u]^{\dot{q}^i}
+&& dP_i\ar[ul]_{Q^i}
+\ar[u]_{\dot{Q}^i}
+}
+\\
+(a) & (b) & (c)
+\end{array}
+$$
+\caption{$(a)$ Representation of
+Hamilton's equations for $q^i, p_i$
+$(b)$ Representation of Hamilton's equations
+for $Q^i, P_i$.
+$(c)$ Representation of 3 things: Hamilton's equations
+for $q^i, p^i$, Hamilton's equations for $Q^i, P_i$
+and the generating function $F_2$ 
+that relates them.
+}
+\label{fig-canonical-trans}
+\end{figure}
 
+See Fig.\ref{fig-canonical-trans}.
+Let dofs=  degrees of freedom.
+Assume 2-dim phase space for simplicity.
+$(a)$ This figure represents 3 unknowns (the nodes $dq, dH, dp$) and 1 equation so it has 2 dofs.
+$(b)$  This figure represents 3 unknowns (the nodes $dQ, dK, dP$) and 1 equations so it has 2 dofs. $(c)$ 
+This figure represents 7 unknowns (all the nodes) and 3 equations so it has 4 dofs.
+
+
+Whereas for Fig. \ref{fig-L-H-legendre-trans},
+
+\beq
+dofs(c)= dofs(b)
+= dofs(c)=2
+\eeq
+for Fig. \ref{fig-canonical-trans}
+\beq 
+dofs(c)= dofs(a) +dofs(b)=4
+\eeq
+Maybe that's because 
+Fig.\ref{fig-L-H-legendre-trans}
+replaces the $L$ theory by the $H$ one whereas 
+Fig. \ref{fig-canonical-trans}
+is not replacing anything. It
+is complementing the $q,p$ theory by the $Q, P$ theory rather than 
+replacing it.
 
 \subsection{Contact Transformations}
 
 \subsection{Hamilton-Jacobi theory}
 
+Recall
+{\bf Lagrangian action}
+Eq.(\ref{eq-lagrangian-action})
 
-More general transformations:
-I have assumed so far that the coordinate
-transformations are orthogonal. 
+\beq
+S(t_2|t_1)=
+\int_{t_1}^{t_2}
+dt\;
+L(\vecq(t)
+, \dot{\vecq}(t), t)
+\eeq
 
+
+{\bf Hamiltonian action}
+\beq
+\cala = 
+\int_{t_1}^{t_2}
+dt
+\underbrace{\left(
+p_i \dot{q}^i -
+H(\vec{q}, \vec{p}, t)\right)}_{L}
+\eeq
+
+\begin{claim}
+Hamilton's equations follow
+from Calculus of Variations by setting the
+$\delta \cala=0$ assuming 
+$\delta q(t) =\delta p(t)=0$ 
+at the endpoints 
+$t_1$ and $t_2$.
+\end{claim}
+
+\begin{align}
+\delta \cala&=
+\int_{t_1}^{t_2} dt
+\left(
+\delta(p_i\dot{q}^i) -\delta H
+\right)
+\\
+&=
+\int_{t_1}^{t_2} dt
+\left(
+\dot{q}^i\delta p_i +
+p_i \delta\dot{q}^i
+-\pder{H}{q^i}\delta q^i
+-\pder{H}{p_i}\delta p_i
+\right)
+\\
+&=
+\int_{t_1}^{t_2} dt
+\left(
+\left[\dot{q}^i-\pder{H}{p_i}\right]\delta p_i
++p_i \delta\dot{q}^i
+-\pder{H}{q^i}\delta q^i
+\right)
+\\
+&=
+\int_{t_1}^{t_2} dt
+\left(
+\left[\dot{q}^i-\pder{H}{p_i}\right]\delta p_i
+-\dot{p}_i \delta{q}^i
+-\pder{H}{q^i}\delta q^i
+\right)
++ \cancel{[p_i\delta q^i]_{t_1}^{t_2}}
+\end{align}
+
+\qed
+
+\begin{claim}
+
+\beq
+K = H + \pder{F_2}{t}
+\label{eq-K-is-H-dtF2}
+\eeq
+
+\end{claim}
+\proof
+
+First proof: (comparing
+actions)
+
+\beq
+ \cala_{q,p}=
+\int_{t_1}^{t_2} dt
+\left(
+p_i\dot{q}^i - H(\vecq, \vecp, t)
+\right)
+\eeq
+
+\beq
+ \cala_{Q, P}=
+\int_{t_1}^{t_2} dt
+\left(
+P_i\dot{Q}^i - K(\vec{Q}, \vec{P}, t)
+\right)
+\eeq
+added time dependence
+
+\beq
+\xymatrix{
+&
+dq^i\ar[dr]^{p_i}
+\ar[d]_{-\dot{p}_i}
+ &&dQ^i\ar[d]^{\color{red}-\dot{P}_i}
+\\
+dt \ar[r]_{\partial_t H}&
+dH\ar@[blue][ddr]|{\color{blue} 1}
+& dF_2 
+&  dK\ar@[blue][ddl]|{\color{blue}-1}
+&dt\ar[l]^{ \partial_t K}
+\\
+&
+dp_i\ar[u]^{\dot{q}^i}
+&
+dt \ar[u]|{\partial_t F_2}
+\ar@[blue][d]|{
+\color{blue}\partial_t dF_2}
+& dP_i\ar[ul]_{Q^i}
+\ar[u]_{\color{red}\dot{Q}^i}
+\\
+&&
+\Circle{0}
+}
+\label{eq-xypic-H-F2-K}
+\eeq
+
+
+\beqa
+dH = -\dot{p}_i dq^i +\dot{q}^idp_i +dt\partial_t H
+&\implies& \dot{H} = \partial_t H
+\\
+dF_2 =
+p_idq^i + Q^i dP_i + dt\partial_t F_2
+&\implies&
+\dot{F}_2 =
+p_i \dot{q}_i + Q^i\dot{P}_i
++\partial_t F_2
+\\
+dK=
+-\dot{P}_idQ^i + \dot{Q}^i dP_i + dt\partial_t K
+&\implies& \dot{K}=\partial_t K
+\eeqa
+
+\beqa
+\partial_t F_2 &=&
+-p_i \dot{q}_i - \dot{P}_iQ^i
++\dot{F}_2
+\\
+&=&
+(-p_i\dot{q}^i
++ P_i\dot{Q}^i)
++
+\frac{d}{dt}
+\left(
+F_2 -P_iQ^i \right)
+\eeqa
+
+\beq
+(-p_i\dot{q}^i
++ P_i\dot{Q}^i)
+=
+\partial_t F_2 -
+\frac{d}{dt}(F_2-P_iQ^i)
+\eeq
+
+\beq
+\cala_{Q,P}-\cala_{q,p}=
+\int_{t_1}^{t_2}dt\;
+(H-K +\partial_t F_2)
+\eeq
+
+Second Proof: (without actions)
+
+Assume 
+Eq.(\ref{eq-K-is-H-dtF2})
+and everything in Eq.(\ref{eq-xypic-H-F2-K})
+\ul{except} for the red stuff, then prove the red stuff. In other words,
+assume  that if 
+$\calk(\vec{Q}, \vec{P}, t)$
+satisfies
+
+\beq
+\calk(Q, P, t) = H(q,p, t)  +  \partial_t F_2
+(q, P, t)
+\eeq
+then
+
+\beq
+\dot{Q} ^i = \pder{\calk}{P_i},
+\quad
+\dot{P}_i=-\pder{\calk}{Q^i}
+\eeq
+
+\beqa
+\pder{\calk}{P_i|Q,t}
+&=&
+\pder{H}{P_i|Q,t} + \partial_t
+\pder{F_2}{P_i|Q,t}
+\\
+&=&\cancel{\pder{q^j}{P_i|Q,t}\pder{H}{q^j|p,t}}
++ \underbrace{\pder{p_j}{P_i|Q,t}}_{\pder{\;}{P_i}\pder{F_2}{q_j|P,t}}
+\underbrace{\pder{H}{p_j|q,t}}_
+{\dot{q}^j}
++
+\partial_t{Q}^i
+\\
+&=&
+\dot{q}^j
+\pder{Q^i}{q_j|P,t}
++\partial_t Q^i
+\\
+&=&
+\dot{Q}^i
+\eeqa
+
+\begin{align}
+\pder{\calk}{Q^i|P,t}
+&=
+\pder{H}{Q^i|P,t}+
+\partial_t \pder{F_2}{Q^i|P,t}
+\\
+&=
+\pder{q^j}{Q^i|P,t}
+\underbrace{\pder{H}{q^j|p,t}}
+_{-\dot{p}_j}
++ \underbrace{\pder{p_j}{Q^i|P,t}}_{
+\pder{\;}{Q^i}\pder{F_2}{q^j}
+}
+\underbrace{\pder{H}{p_j|q,t}}
+_{\dot{q}^j} 
++ \partial_t\pder{F_2}{q^j|P,t}
+\pder{q^j}{Q^i|P,t}
+\\
+&=
+-\dot{p}_j\pder{q^j|P,t}{Q^i|P,t}
++
+\dot{q}^j\pder{\;}{q^j|P,t}\pder{F_2}{Q^i|P,t}
++
+[ \partial_t\pder{F_2}{q^j|P,t}]
+\pder{q^j}{Q^i|P,t}
+\\\
+&=
+\pder{q^j}{Q^i|P,t}(-\dot{p}_j
++\partial_t p_j)
++
+\dot{q}^j\pder{\;}{q^j|P,t}\pder{F_2}{Q^i|P,t}
+\end{align}
+
+\beq
+\dot{p}_j=
+\frac{d}{dt}
+\pder{F_2}{q^j|P,t}=
+\dot{q}_k
+\pder{\;}{q_k|P,t}
+\pder{F_2}{q^j|P,t}
++
+\dot{P^k}\pder{\;}{P^k|q,t}
+\pder{F_2}{q^j|P,t}
++
+\partial_t p_j
+\eeq
+
+\beq
+\pder{\calk}{Q^i|P,t}
+=
+\pder{q^j}{Q^i|P,t}
+\left(
+\cancel{-\dot{q}_k
+\pder{\;}{q_k|P,t}
+\pder{F_2}{q^j|P,t}}
+-
+\dot{P^k}\pder{\;}{P^k|q,t}
+\pder{F_2}{q^j|P,t}
+\right)
++
+\cancel{\dot{q}^j\pder{\;}{q^j}\pder{F_2}{Q^i|P,t}}
+\eeq
+
+\beq
+\pder{\calk}{Q^i|P,t}
+=
+\pder{q^j}{Q^i|P,t}
+\left(
+-
+\dot{P^k}\pder{\;}{q^j|P,t}
+\pder{F_2}{P_k|q,t}
+\right)=
+-\dot{P}_k\pder{Q^k}{Q^i|P,t}=
+-\dot{P}_i
+\eeq
+
+
+
+\qed
+
+\hrule
+Hamilton-Jacobi equation
+
+Assume $F_2(\vecq, \vec{P})$ canonical transformation with $K=0$.
+Then
+
+\beq
+p_i = \pder{F_2}{q^i},
+\quad 
+Q^i= \pder{F_2}{P_i}
+\eeq
+
+
+\beq
+\dot{Q}^i = \pder{K}{P_i}=0
+,\quad 
+\dot{P}_i = -\pder{K}{Q^i}=0
+\eeq
+
+
+\beq
+F_2(\vecq, \underbrace{\vec{P}}_{\text{constant in time =} \vec{P}_0}, t)
+=\cals (\vecq, t; \vec{P}_0)
+\eeq
+
+\beq
+K=H +\partial_t F_2\implies
+\quad\quad 0= H\left(\vecq, \pder{\;}{q^i}\cals(\vecq, t) , t\right) + \partial_t \cals(\vecq, t)
+\label{eq-ham-jac}
+\eeq
+Eq.(\ref{eq-ham-jac})
+is called the
+{\bf Hamilton-Jacobi (HJ) Equation}.
+Whereas the Euler-Lagrange
+equations and the Hamilton equations find particle trajectories,
+the HJ equation finds 
+wavefronts (i.e., surfaces)
+to which those trajectories
+are normal. This echoes
+the wave-particle duality 
+in Quantum Mechanics (and 
+also the ray-wavefront duality in Optics.)
 
 
 
