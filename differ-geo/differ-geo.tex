@@ -12707,7 +12707,2149 @@ so
 
 
 
-\section{Symplectic Geometry}
+\section{Symplectic Geometry (Hamiltonian Mechanics)}
+
+
+Symplectic manifolds
+find their inspiration 
+in Hamiltonian Mechanics (HM),
+a sub-field of Classical Mechanics.
+
+A {\bf symplectic manifold} $(M, \ul{\Sigma})$
+is defined as a $2\nn$ dimensional manifold $M$ equipped with a 2-form
+$\pform{\Sigma}{2}$
+which satisfies 2 constraints
+
+\begin{enumerate}
+\item closed
+
+\beq
+d\ul{\Sigma}=0
+\eeq
+
+\item gives a non-degenerate
+inner product
+
+\beq
+\ul{\Sigma} (\vecX, \vecY)\neq 0
+\eeq
+for all nonzero $\rvX, \rvY$.
+\end{enumerate}
+
+Compare this to a {\bf \Rien manifold} which is equipped with a metric $\metric(\vecX, \vecY)$
+
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
+\begin{table}[h!]
+\centering
+\begin{tabular}{|
+>{\columncolor[HTML]{FFFFC7}}l |
+>{\columncolor[HTML]{9AFF99}}l |}
+\hline
+\Rien manifold                                                                                       & Symplectic Manifold                                                                                          \\ \hline
+\begin{tabular}[c]{@{}l@{}}$\metric(\vecX, \vecY)$ is \\ symmetric in its two arguments\end{tabular} & \begin{tabular}[c]{@{}l@{}}$\ul{\Sigma}(\vecX, \vecY)$ is \\ anti-symmetric in its 2 arguments.\end{tabular} \\ \hline
+$\metric(\vecX, \vecX)$ measures vector length                                                       & $\ul{\Sigma} (\vecX, \vecX)=0$                                                                                     \\ \hline
+$\metric(\vecX, \vecY)$ measures angles                                                              & \begin{tabular}[c]{@{}l@{}}$\ul{\Sigma} (\vecX, \vecY)$ measures\\  area of a parallelogram\end{tabular}           \\ \hline
+\end{tabular}
+\caption{Comparison of \Rien manifold's metric $\metric(\vecX, \vecY)$ and Symplectic manifold's 2-form $\ul{\Sigma} (\vecX, \vecY)$.}
+\label{tab-rien-symp}
+\end{table}
+
+\subsection{Darboux Theorem}
+
+\begin{claim}(Darboux Theorem)
+
+Let $(M, \ul{\Sigma}$
+be a $2\nn$ dimensional symplectic manifold. 
+Then for every point $\pi\in M$,
+there exists canonical phase space coordinates 
+$(q^i, p_i)_{i=1}^\nn$
+(called {\bf Darboux coordinates})
+such that
+if we define
+
+\beq
+\ul{\s}
+\eqdef
+\sum_i \ul{dq^i}
+\wedge \ul{dp_i}
+\eeq
+then
+
+\beq
+\ul{\Sigma}=\ul{\s}
+\eeq
+\ul{in an open patch
+containing $\pi$.}
+\end{claim}
+\proof
+\qed
+
+
+This means that in the future,
+we can assume that
+$\ul{\Sigma}=\ul{\s}$.
+
+This also means that 
+Symplectic theories are
+unique once you fix the manifold dimension $\nn$.
+The manifold doesn't have
+any distinguishing features
+like curvature.
+
+Two simplest examples of symplectic theories are the symplectic plane $(\RR^2, \ul{\s})$ and the 
+symplectic sphere $(S^2, \ul{\s})$.
+For these 2 cases,
+finding a possible
+choice of Darboux coordinates is trivial. Darboux Theorem is much more amazing for $\nn>1$ because then
+a lot of diagonalization occurs in order to achieve the canonical 2-form  $\ul{\s}$
+
+\begin{enumerate}
+
+\item \begin{claim} A possible choice of Darboux coordinates
+for the symplectic plane $(\RR^2, \ul{\s})$
+where
+
+\beq
+\ul{\s}= f(x, y)\ul{dx}\wedge \ul{dy}
+\eeq
+where $f(x,y)\neq 0$
+is
+
+\beq
+q=x,\quad
+p(x, y)= \int_{y_0}^y dy'\;
+f(x, y')
+\eeq
+\end{claim}
+\proof
+
+\beq
+dq = dx
+\eeq
+
+\beq
+dp= f(x,y) dy
+\eeq
+
+\beq
+\pder{(q,p)}{(x,y)}=
+\left|
+\begin{array}{cc}
+1&0
+\\
+\partial_x p & \partial_y p
+\end{array}
+\right|=\partial_y p=f(x,y)\neq 0
+\eeq
+\qed
+
+
+\item 
+\begin{claim} A possible choice of Darboux coordinates
+for the symplectic sphere $(S^2, \ul{\s})$
+where
+
+\beq
+\ul{\s}=R^2 \sin\phi\;  \ul{d\phi}\wedge\ul{d\theta}
+\eeq
+is
+
+\beq
+q=\theta,\quad
+p=R^2\cos\phi
+\eeq
+\end{claim}
+\proof
+
+\beq
+dq = d\theta
+\eeq
+
+\beq
+dp=-R^2\sin \phi d\phi
+\eeq
+
+
+\qed
+
+Note that these coordinates are not global coordinates for the sphere.
+The coordinate $\theta$ fails at the north and south poles, and doesn't return to
+its initial value after one turn.
+
+\end{enumerate}
+
+\subsection{Review of Classical Mechanics}
+This Appendix presents 
+some results from
+Classical Mechanics 
+that are alluded to in this section.
+These results were 
+discovered without the use of dif-forms
+and can be understood 
+without them. Dif-forms give a new 
+interpretation to them and suggest generalizations of them.
+
+Suppose we have break up the body into $N$ particles with $N$  {\bf positions} $\{\vecr_\alp\}_{\alp=1}^N$ and
+$n$  {\bf generalized coordinates }
+$\{q^i\}_{i=1}^n$.
+
+
+
+
+\beq
+\vecr_\alp=
+\vecr_\alp(q^1, q^2, \ldots, q^n)
+\eeq
+for $\alp=1, 2, \ldots, N$.
+
+$\vec{F}^\infty_\alp=$ {\bf non-contact force}
+on particle $\alp$
+
+$\vec{F}^0_\alp=$ {\bf contact force}
+on particle $\alp$.
+A contact force is a physical force that arises because two bodies are physically touching.
+Non-contact forces 
+are forces that act at a distance, such as gravity (in the Newtonian description).
+Contact forces  are associated with {\bf motion constraints}. For example, if a bead is constrained to a wire, the wire exerts a
+contact  force that keeps the bead on the wire. Constraints can be specified thus:
+
+
+{\bf Newton's Law} for particle $\alp$ says
+
+\beq
+m_\alp \ddot{\vecr}_\alp = \vec{F}^\infty_\alp
++ \vec{F}^0_\alp
+\eeq
+
+
+\beq
+\vec{F}^0_\alp\cdot
+\delta \vecr_\alp=0
+\eeq
+
+$\delta \vecr_\alp=$
+{\bf virtual displacement} of particle $\alp$.
+A virtual displacement
+is a man imagined displacement that is not necessarily the displacement that the particle actually makes during the next instant of time.
+However, it must be consistent with the constraint.
+
+$\delta W=
+\sum_\alp \vec{F}_\alp
+\cdot \delta 
+\vecr_\alp=$ {\bf virtual work}
+
+{\bf D'Alembert's principle}
+
+\beq
+\sum_\alp
+(\vec{F}_\alp   -
+m_\alp \ddot{r}_\alp)\cdot \delta \vecr_\alp=0
+\eeq
+
+
+
+$T=$ {\bf kinetic energy}
+
+$V=$ {\bf potential energy}
+
+$L(\vecq, \dot{\vecq}, t)=T-V=$ {\bf Lagrangian}
+
+{\bf Euler-Lagrange's Equations}
+
+\beq
+\frac{d}{dt}\pder{L}{\dot{q}}^i -
+\pder{L}{q^i}=0
+\eeq
+for $i=1, 2, \ldots, n$.
+
+$H(\vecq, \vecp, t)=T+V=$ {\bf Hamiltonian}
+
+{\bf Hamilton's equations}
+
+\beq
+\dot{q}^i= \pder{H}{p_i},\quad
+\dot{p}_i =-\pder{H}{q^i}
+\eeq
+for $i=1, 2, \ldots, n$.
+
+
+\begin{claim}
+
+\beq
+L_\alp=T_\alp-V_\alp,\quad H_\alp= T_\alp+V_\alp
+\eeq
+for a point particle $\alp$
+for a point particle 
+experiencing a conservative force
+$-\nabla V_\alp$.
+(For multiple particles,  $L=\sum_\alp L$, $H=\sum_\alp H_\alp$)
+
+\end{claim}
+\proof 
+
+We'll drop the  particle
+subscript $\alp$ in the 
+confines of this proof.
+
+The Lagrangian is defined by
+
+\beq
+L(\vecr, \vecv)=
+T(\vecv)
+- V(\vecr)
+\eeq
+where
+
+\beq
+\vecv=\dot{\vecr}
+, \quad
+T = \frac{1}{2}\vecv^2
+\eeq
+
+$L$ is defined this way so that the Euler-Lagrange equations reproduce
+Newton's equation.
+If $\vecr=(x^1, x^2, x^3)$ and $\vecv = (\dot{x}^1, \dot{x}^2, \dot{x}^3)=(v^1, v^2, v^3)$, then
+
+\beq
+\pder{L}{v^i}=
+mv_i,
+\quad
+\pder{L}{x^i}= -\pder{V}{x^i}
+\eeq
+
+\beq
+0=\frac{d}{dt}
+\pder{L}{v^i}-
+\pder{L}{x^i}=
+m\ddot{x_i}+\pder{V}{x^i}
+\eeq 
+so
+
+\beq m\ddot{\vecr}= -\nabla V
+\eeq
+The Hamiltonian
+is defined by a Legrendre transform as
+\beq
+H(\vecr, \vecp)=
+\sum _i p_i v^i - L(\vecr, \vecv)
+\eeq
+where 
+
+\beq
+p_i=
+\pder{L}{v^i}=
+m v^i
+\eeq
+Therefore
+
+\beqa
+H&=& \sum_i m(v^i)^2-L
+\\
+&=&
+\frac{1}{2}m\vecv^2 
++
+V 
+\\&=&
+T+V
+\eeqa
+
+
+
+
+
+
+
+\qed
+
+
+We shall follow the 
+historical path:
+
+\beq
+\xymatrix@R=1pc{
+\text{Newton's Equation}\ar[d]
+\\
+\text{Virtual work, D'Alembert's principle}\ar[d]
+\\\text{Euler-Lagrange Equations}
+\ar[d]
+\\\text{Hamilton's Equations}\ar[d]
+\\
+\text{Contact transformations, Poisson brackets}\ar[d]
+\\
+\text{Symplectic Geometry}
+}
+\eeq
+
+
+
+
+\begin{claim}
+Newton's equation implies the Euler-Lagrange equations  via the D'Alembert's principle.
+(and the converse too)
+
+\end{claim}
+\proof
+
+
+
+\beq
+\sum_\alp
+m_\alp
+\ddot{\vecr}_\alp
+\cdot \delta \vecr_\alp
+=
+\sum_\alp  
+(\vec{F}^\infty_\alp + \vec{F}^0_\alp)
+\cdot \delta \vecr_\alp
+=
+\sum_\alp  
+\vec{F}^\infty_\alp 
+\cdot \delta  \vecr_\alp
+\eeq
+
+
+
+\beq 
+\vec{F}^\infty_\alp
+=
+-\nabla  V_\alp
+\eeq
+
+\beq
+\delta \vecr_\alp 
+=
+\sum_i
+\pder{\vecr_\alp}{q^i}
+\delta q^i
+\eeq
+
+\beq
+\vec{F}^\infty_\alp\cdot
+\delta \vecr_\alp=
+-\nabla V_\alp\cdot \delta \vecr_\alp=
+-\delta V_\alp
+=-
+\sum_i
+\pder{V_\alp}
+{q^i}\delta q^i
+\eeq
+
+\beq
+\sum_\alp
+m_\alp
+\ddot{\vecr}_\alp
+\cdot \pder{\vecr_\alp}{q^i}=
+-
+\sum_\alp  
+\pder{V_\alp}
+{q^i}
+\eeq
+
+
+\beq
+T=\frac{1}{2}
+\sum_\alp m_\alp
+\ddot{\vecr}_\alp
+\eeq
+
+
+Note that in general,
+if $f(\vecq, t)$ is a
+function of the 
+generalized coordinates 
+$q^i$ and time $t$, but 
+is independent of the velocities
+$\dot{q}^i$, then
+
+
+\beq
+\dot{f}=\sum_i \pder{f}{q^i}\dot{q^i} + \pder{f}
+{t}
+\eeq
+so
+
+\beq
+\pder{\dot{f}}{\dot{q}^i}(\vecq, t)=
+\pder{f}{q^i}(
+\vecq, t)
+\eeq
+
+
+\beq
+\Lambda_i=
+\frac{d}{dt}
+\pder{\;}{\dot{q}^i}
+-
+\pder{\;}{
+q^i}
+\eeq
+
+\beqa
+\frac{d}{dt}
+\pder{\;}{\dot{q}^i}
+(\dot{\vecr})^2
+&=&
+\frac{d}{dt}
+\left(
+2\dot{\vecr}\cdot\pder{\dot{\vecr}}{\dot{q}^i}
+\right)
+\\
+&=&
+2\ddot{\vecr}
+\cdot
+\pder{\dot{\vecr}}{\dot{q}^i}
++
+2
+\dot{\vecr}
+\cdot
+\pder{\ddot{\vecr}}
+{\dot{q}^i}
+\\
+&=&
+2\ddot{\vecr}
+\cdot
+\pder{{\vecr}}{{q}^i}
++
+2
+\dot{\vecr}
+\cdot
+\pder{\dot{\vecr}}
+{{q}^i}
+\eeqa
+
+\beq
+\pder{\;}{
+q^i}(\dot{\vecr})^2
+=2 \dot{\vecr}\cdot
+\pder{
+\dot{\vecr}
+}{q^i}
+\eeq
+
+
+\beq
+\Lambda_i \left[\frac{1}{2}(\dot{\vecr})^2
+\right]
+= \ddot{\vecr}
+\cdot
+\pder{{\vecr}}
+{{q}^i}
+\eeq
+
+\beq
+\Lambda_i T=
+-\sum_\alp \pder{V_\alp}{q^i}
+\eeq
+
+\beq
+V=\sum_\alp V_\alp
+\eeq
+
+\beq
+L=T-V
+\eeq
+
+\beq
+\pder{V}{\dot{q}^i}=0
+\eeq
+
+\beq
+\Lambda_i L=0
+\eeq
+
+
+
+\qed
+\beq
+S(t_2|t_1)=
+\int_{t_1}^{t_2}
+dt\;
+L(\vecq(t)
+, \dot{\vecq}(t), t)
+\label{eq-lagrangian-action}
+\eeq
+
+\begin{claim}
+The Euler-Lagrange equations also follow from 
+extremizing 
+the action $S(t_2|t_1)$
+
+\end{claim}
+\proof
+
+Consider the 
+Lagrangian
+
+\beq
+L = L(\vecq,
+\dot{\vecq}, t)
+\eeq
+We want to extremize
+its action $S(t_2|t_1)$
+using calculus of variations.
+
+
+We want the physical trajectory $\vecq(t)$ to make $S(t_2|t_1)$ stationary.
+Take a one-parameter family of nearby curves
+
+\beq
+q^i(t, \eps)=
+q^i(t)
++
+\eps \eta^i(t)
+\eeq
+where the endpoints
+are fixed:
+
+\beq
+\eta^i(t_1)=
+\eta^i(t_2)=0
+\eeq
+Note that
+
+\beq
+\pder{{q}^i}{\eps}=
+{\eta}^i,\quad
+\pder{\dot{q}^i}{\eps}=
+\dot{\eta}^i
+\eeq
+Assume the action is stationary
+
+\beq
+0=
+\AT{\frac{dS}{d\eps}}{\eps=0}
+=
+\int_{t_1}^{t_2}dt\;
+\AT{\frac{dL}{d\eps}}{\eps=0}=
+\int_{t_1}^{t_2}dt\;
+\left(
+\pder{L}{q^i}
+\eta^i
++
+\pder{L}{\dot{q}^i}
+\dot{\eta}^i
+\right)
+\eeq
+
+\beq
+\pder{L}{\dot{q}^i}
+\dot{\eta}^i=
+\frac{d}{dt}
+\left(
+\pder{L}{\dot{q}^i}
+{\eta}^i
+\right)
+-{\eta}^i
+\frac{d}{dt}
+\pder{L}{\dot{q}^i}
+\eeq
+Integrate by parts
+
+\beq
+0=
+\left[
+\pder{L}{\dot{q}^i}
+{\eta}^i
+\right]_{t_1}^{t_2}
++
+\int_{t_1}^{t_2}dt\;
+\left(
+\pder{L}{q^i}
+-
+\frac{d}{dt}
+\pder{L}{\dot{q}^i}
+\right)\eta^i
+\eeq
+Boundary terms vanish because $\eta^i=0$ at endpoints. The variational functions $\eta^i$
+are arbitrary so integrand must be zero.
+
+
+\qed
+
+\begin{claim}
+The Euler-Lagrange equations imply Hamilton's equations via Legendre transformation trick. (and the converse too)
+\end{claim}
+\proof
+
+
+
+\beq
+p_i =\pder{L}{\dot{q}^i}
+,\quad
+\dot{p}_i=
+\frac{d}{dt}
+\underbrace{\pder{L}{\dot{q}^i} }_{p_i}
+= \pder{L}{q^i}
+\eeq
+
+\beq H(\vecq, \vecp)=
+p_i \dot{q}^i -
+L
+\eeq
+
+\beq
+dH =(dp_i) \dot{q}^i +
+p_i d\dot{q}^i
+-dL
+\eeq
+
+\beq
+dL= \underbrace{\pder{L}{q^i}}
+_{\dot{p}_i}
+dq^i
++ \underbrace{\pder{L}{\dot{q}^i}}_{p_i}
+d\dot{q}^i
++
+\pder{L}{t} dt
+\eeq
+
+\beq
+dH =
+\dot{q}^i dp_i 
+-
+\dot{p_i}
+dq^i
++
+\pder{L}{t}dt
+\eeq
+
+\beq
+dH=
+\underbrace{\pder{H}{p_i}}
+_{\dot{q}^i}
+dp_i
++
+\underbrace{\pder{H}{q^i}}_
+{-\dot{p}_i}
+dq^i
++
+\underbrace{\pder{H}{t}}_{\pder{L}{t}}
+dt
+\eeq
+\qed
+
+
+
+\begin{figure}[h!]
+$$\begin{array}{ccc}
+\xymatrix{
+dq^i 
+\ar[d]_{\dot{p}_i}
+\\
+dL 
+\\
+d\dot{q}^i
+\ar[u]^{p_i}
+}
+&
+\quad
+\xymatrix{
+dq^i 
+\ar[dr]^{-\dot{p}_i}
+&&
+\\
+&dH
+&
+\\
+&
+&dp_i
+\ar[lu]_{\dot{q}^i}
+}
+\quad
+&
+\xymatrix{
+dq^i 
+\ar[d]_{\dot{p}_i}
+\ar[dr]^{-\dot{p}_i}
+&&
+\\
+dL \ar[rd]|{-1}
+&dH
+\ar[d]|{-1}
+&
+\\
+d\dot{q}^i
+\ar[u]^{p_i}
+\ar[r]_{p_i}
+&\Circle{0}
+&dp_i
+\ar[lu]_{\dot{q}^i}
+\ar[l]^{\dot{q}^i}
+}
+\\
+(a)&(b)&(c)
+\end{array}
+$$
+\caption{$(a)$ Representation of
+Euler-Lagrange equations
+$(b)$ Representation of Hamilton's equations.
+$(c)$ Representation of 3 things: the Euler-Lagrange equations, Hamilton's equations
+and the Legendre transform
+that relates them.
+}
+\label{fig-L-H-legendre-trans}
+\end{figure}
+
+See Figure \ref{fig-L-H-legendre-trans}.
+Let dofs=  degrees of freedom.
+Assume 2-dim phase space for simplicity. $(a)$ This figure represents 3 unknowns (the nodes $dq, dL, d\dot{q}$) and 1 equation so it has 2 dofs.
+$(b)$  This figure represents 3 unknowns (the nodes $dQ, dK, dP$) and 1 equation so it has 2 dofs. $(c)$ 
+This figure represents 5 unknowns (the nodes except the zero one) and 3 equations so it has 2 dofs. In conclusion,
+figures $(a)$, $(b)$ snd $(c)$ all have 2 dofs.
+
+\subsection{
+Geometrical relationship 
+between $L$, $H$ and $\underline{\sigma}$}
+
+Define {\bf configuration space}
+as a manifold $M_q=\{\{q^i\}_{i=1}^\nn\in \RR^{\nn}\}$ parametrized by $\nn$ positions variables $q^i$.
+ 
+Define {\bf 
+phase space}
+as a manifold $M_{q,p}=\{(q^i, p_i)\}_{i=1}^\nn\in \RR^{2\nn}\}$ parametrized by $\nn$ positiosn $q^i$, and $\nn$ momenta $p_i$. 
+
+
+
+$T_\pi(M_q)=$ tangent space  at $\pi$, contains all vectors tangent at point $\pi\in M_q$.
+
+$CT_\pi(M_q)=$ cotangent space at $\pi$. Contains all covectors at 6point $\pi\in M_q$
+
+$T(M_q)=\bigcup_{\pi\in M}(\pi, T_\pi(M_q))$ a tangent bundle, set of pairs 
+$(\vecq, \dot{\vecq})$ 
+
+$CT(M_q)=\bigcup_{\pi\in M}(\pi, CT_\pi(M_q))$ a cotangent bundle, set of pairs 
+$(\vecq, \ul{\lam})$ 
+
+Legendre Transform induced map between tangent
+and cotangent bundle
+\beq
+F:
+T(M_q)\rarrow CT(M_q),
+\quad
+(\vec{q}, \dot{\vecq})
+\mapsto (\vecq, \underbrace{q^i \pform{dp_i}{}}_{\ul{\lam}})
+\eeq
+where
+
+\beq
+p_i=\pder{L}{q^i}
+\eeq
+
+A Lagrangian is just a real valued function
+of $(\vecq, \dot{\vecq}, t) $,
+and a Hamiltonian is just a real valued function of $(\vecq, \vecp, t)$
+
+
+\beq
+\pform{\lam}{} =\sum_i q^i \pform{dp_i}{}
+\eeq
+
+\beq
+\pform{\s}{2}=\pform{d\lam}{2}=
+\sum_i \pform{dq^i}{}
+\wedge \pform{dp_i}{}
+\eeq
+
+\beq
+\vecz=
+\sum_i
+\left[
+q^i \vecpder{q^i}+
+p_i \vecpder{p_i}
+\right]
+\eeq
+
+\beq
+{\dot{\vecz}}=
+\sum_i
+\left[
+\dot{q}_i \vecpder{q^i} +
+\dot{p}_i \vecpder{p_i}
+\right]
+\label{eq-vecv-def-ham}
+\eeq
+
+\begin{claim}
+Hamilton's equations given by
+ are satisfied iff
+
+\beq
+\begin{array}{cc}
+\bcen
+\xymatrix{
+\pform{dH}{}\ar[d]_1
+& \pform{i_{\dot{\vecz}}\s}{}\ar[dl]|1
+\\
+\Circle{0}&\pform{\s}{2}\ar[u]|{i_{\dot{\vecz}}}
+}\ecen
+&
+\pform{i_{\dot{\vecz}} \s}{}
+=
+\pform{dH}{}
+\end{array}
+\eeq
+
+\end{claim}
+\proof
+
+\beq
+\xymatrix@R=3pc{
+\pform{dq}{}
+\ar[d]|{\partial_q H}
+\ar@/_1pc/[dr]|<<<{\dot{p}}
+&\pform{dp}{}
+\ar[dl]|{\partial_p H}
+\ar[r]|q
+\ar[d]|{-\dot{q}}
+&\pform{\lam}{}
+\ar@/^2pc/[dd]|d
+\\
+\pform{dH}{}
+\ar[d]^1
+&\pform{i_{\dot{\vecz}}\s}{}
+\ar[dl]|1
+\ar[d]_>>>>1
+&\pform{i_{\dot{\vecz}}\s}{}
+\ar[dl]|1
+\\
+\Circle{0}
+&\Circle{0}
+&\pform{\s}{2}
+\ar[u]|{i_{\dot{\vecz}}}
+}
+\eeq
+
+
+\beq
+i_{\dot{\vecz}} \pform{dq^i}{} =\dot{q}_i,
+\quad
+i_{\dot{\vecz}} \pform{dp_i}{} =\dot{p}_i
+\eeq
+
+
+\beqa
+i_{\dot{\vecz}}\pform{\s}{2}
+&=&
+\sum_i
+i_{\dot{\vecz}}[\pform{dq^i}{}\wedge
+\pform{dp_i}{}]
+\\
+&=&
+\sum_i
+\left[\ul{i_{\dot{\vecz}} dq^i}\wedge \pform{dp_i}{}
+-
+\pform{dq^i}{}\wedge \ul{i_{\dot{\vecz}} dp_i}
+\right]
+\\
+&=&
+\sum_i \left
+[\dot{q}_i\pform{dp_i}{}
+-
+\dot{p}_i \pform{dq^i}{}
+\right]
+\eeqa
+
+\beq
+\pform{dH}{}=\sum_i
+\left[
+\underbrace{\pder{H}{q^i}}_{-\dot{p}_i}
+\pform{dq^i}{}
++
+\underbrace{\pder{H}{p_i}}_{\dot{q}^i}
+\pform{dp_i}{}
+\right]
+\eeq
+
+
+
+\qed
+
+\begin{claim}
+Hamiltonian mechanics preserves volume in phase space
+\beq
+\call_{\dot{\vecz}}\ul{\s} =0
+\eeq
+\end{claim}
+\proof
+
+$\ul{\s}$ is closed:
+\beq
+d\ul{\s} = d^2\ul{\lam}=0
+\eeq
+Therefore
+\beq
+\call_{\dot{\vecz}} \ul{\s}
+=
+d \;\underbrace{i_{\dot{\vecz}} \ul{\s}}_{d\ul{H}}
++
+\cancel{i_{\dot{\vecz}} d\ul{\s}}^0
+=0
+\eeq
+\qed
+
+
+
+\begin{claim}
+
+\beq
+\call_{\dot{\vecz}} H
+=
+\frac{dH}{dt}=0
+\eeq
+along a	 trajectory
+
+\end{claim}
+\proof
+
+For a  scalar function $f(\;)$,
+
+\beq
+\call_\vecX f= \oper{X}(f)
+\eeq
+Hence
+
+\beqa
+\call_{\dot{\vecz}} H
+&=&
+\dot{\vecz}(H)
+\\
+&=&\sum_i \left(\dot{q}^i 
+\underbrace{\pder{H}{q^i}}_{-\dot{p}_i}
++ \dot{p}_i 
+\underbrace{\pder{H}{p_i}}_{\dot{q}^i}
+ \right)
+\\
+&=& 0
+\eeqa
+
+\beq
+\frac{dH}{dt}= \sum_i
+\left(
+\dot{q}^i 
+\underbrace{\pder{H}{q^i}}_{-\dot{p}_i}
++
+\dot{p}_i 
+\underbrace{\pder{H}{p_i}}_{\dot{q}^i}
+\right) =0
+\eeq
+
+\qed
+
+
+
+\subsection{Poisson Brackets}
+
+For a scalar function $f(\;)$,
+define the {\bf Hamiltonian vector
+field $\hamfield{f}$} by
+
+\beq
+i_{\hamfield{f}}\ul{\s} =
+\ul{df}
+\eeq
+
+Note that 
+if ${\dot{\vecz}}$ is vector field defined
+in Eq.(\ref{eq-vecv-def-ham}) then Hamilton's equations can be written as
+
+\beq
+{\dot{\vecz}}= \hamfield{H}
+\eeq
+
+\begin{claim}
+In the phase canonical
+coordinates,
+
+
+
+\beq
+\hamfield{f}=
+\sum_{i=1}^n
+\left(
+\pder{f}{p_i}
+\vecpder{q^i}
+-
+\pder{f}{q^i}
+\vecpder{p_i
+}
+\right)
+\eeq
+
+\end{claim}
+\proof
+
+Let 
+
+\beq
+\hamfield{f}=
+\sum_i \left(
+A^i \vecpder{q^i}
++ B_i \vecpder{p_i}
+\right)
+\eeq
+
+\beq
+\ul{\s}=
+\sum_i \ul{dq^i}
+\wedge \ul{dp_i}
+\eeq
+Then
+
+\beqa
+i_{\hamfield{f}}
+\ul{\s}
+&=&
+\ul{dq^i}(\hamfield{f})
+\ul{dp_i}
+-
+\ul{dp_i}(\hamfield{f})\ul{dq^i}
+\\
+&=&
+A^i\ul{dp_i}
+- B_i \ul{dq^i}
+\eeqa
+Also
+
+\beq
+\ul{df}=
+\sum_i\left(
+\pder{f}{q^i}
+\ul{dq^i}
++
+\pder{f}{dp_i}
+\ul{p_i}
+\right)
+\eeq
+so
+
+\beq
+A^i = \pder{f}{q^i}
+,\quad
+B_i = -
+\pder{f}{p_i}
+\eeq
+
+\qed
+
+For two scalar functions $f(\;)$ and $g(\;)$,
+define their {\bf Poisson bracket} by
+
+\beq
+\{f, g\}=
+\sum_{i=1}^\nn
+\left(
+\pder{f}{q^i}
+\pder{g}{p_i}
+-
+\pder{f}{p_i}
+\pder{g}{q^i}
+\right)
+=
+\sum_i
+\underbrace{\det \pder{(f, g)}{(q^i, p_i)}}_{\text{det of $2\times 2$ Jacobian Matrix}}
+\eeq
+
+Note that $\{f, g\}$ is a sum of determinants of $2\times 2$ matrices, but it's NOT a single determinant. We have two functions, $f$ and $g$,
+so to create a square matrix (only square matrices have determinants), we pick a set of 
+complementary variables $(q^i,p_i)$ for some $i$. If $\{f, g\}$ were the determinant of a $2\nn\times 2\nn$ matrix,
+we could label the \ul{columns} by the $2\nn$ phase space
+variables, but then we would only have two labels ($f$ and $g$) for the \ul{rows}.
+
+\begin{claim}
+
+\beq
+\{ f, g\}=
+\ul{\s}\left(
+\hamfield{f}, \hamfield{g}
+\right)=
+\oper{\hamfield{g}}(f)=-\oper{\hamfield{f}}(g)
+\eeq
+\end{claim}
+\proof
+
+\beq
+\hamfield{f}=
+\sum_{i=1}^\nn
+\left(
+\pder{f}{p_i}
+\vecpder{q^i}
+-
+\pder{f}{q^i}
+\vecpder{p_i
+}
+\right)
+\eeq
+
+\beq
+\hamfield{g}=
+\sum_{i=1}^\nn
+\left(
+\pder{g}{p_i}
+\vecpder{q^i}
+-
+\pder{g}{q^i}
+\vecpder{p_i
+}
+\right)
+\eeq
+
+\beqa
+\ul{\s}(
+\hamfield{f}, \hamfield{g})
+&=&
+\sum_i
+\left(
+\ul{dq^i}(\hamfield{f})
+\ul{dp_i}(\hamfield{g})
+-
+\ul{dp_i}(\hamfield{f})
+\ul{dq^i}(\hamfield{g})
+\right)
+\\
+&=&
+\sum_{i=1}^\nn
+\left(
+\pder{f}{q^i}
+\pder{g}{p_i}
+-
+\pder{f}{p_i}
+\pder{g}{q^i}
+\right)
+\eeqa
+
+\beq
+\oper{\hamfield{g}}(f)=
+\sum_{i=1}^\nn
+\left(
+\pder{g}{p_i}
+\vecpder{q^i}
+-
+\pder{g}{q^i}
+\vecpder{p_i
+}
+\right)f
+\eeq
+
+\beq
+\oper{\hamfield{f}}(g)=
+\sum_{i=1}^\nn
+\left(
+\pder{f}{p_i}
+\vecpder{q^i}
+-
+\pder{f}{q^i}
+\vecpder{p_i
+}
+\right)g
+\eeq
+\qed
+
+\begin{claim}
+Hamilton's equations can be 
+written as
+
+\beq
+\dot{f}=\{f, H\}
+\eeq
+for $f= q^i, p_i$.
+This  implies, in particular, that
+
+\beq
+\frac{dH}{dt}=0
+\eeq
+
+\end{claim}
+\proof
+
+\beq
+\dot{f} =
+\sum_{i}
+\left(
+\pder{f}{q^i}\dot{q}^i
++
+\pder{f}{p_i}\dot{p}_i
+\right)
+\eeq
+
+\beq
+\{f, H\}=
+\sum_{i=1}^\nn
+\left(
+\pder{f}{q^i}
+\pder{H}{p_i}
+-
+\pder{f}{p_i}
+\pder{H}{q^i}
+\right)
+\eeq
+
+
+\qed
+\subsection{Canonical Transformations}
+
+A {\bf canonical transformation} (CT) is
+a change of phase space coordinates
+
+\beq
+\{(q^i, p_i)\}_{i=1}^\nn
+\rarrow \{(Q^i, P_i)\}_{i=1}^\nn
+\eeq
+that \qt{preserves} the
+form of the Hamiltonian
+equations.
+By this 
+we mean that if
+the old coordinates
+satisfy
+
+{\renewcommand{\arraystretch}{1.5}
+\beq
+\bcen
+\xymatrix{
+dq^i
+\ar[d]_{-\dot{p}_i}
+\\
+dH
+\\
+dp_i
+\ar[u]^{\dot{q}^i}
+}
+\ecen
+\left\{
+\begin{array}{l}
+\dot{q}^i = 
+\pder{H}{p_i}
+\\
+\dot{p}_i = -\pder{H}{q^i}
+\end{array}
+\right.
+\eeq
+}
+for $i=1, 2, \ldots,\nn$, 
+then the new coordinates 
+satisfy
+
+{\renewcommand{\arraystretch}{1.5}
+\beq
+\bcen
+\xymatrix{
+dQ^i
+\ar[d]_{-\dot{P}_i}
+\\
+dK
+\\
+dP_i
+\ar[u]^{\dot{Q}^i}
+}
+\ecen
+\left\{
+\begin{array}{l}
+\dot{Q}^i = 
+\pder{K}{P_i}
+\\
+\dot{P}_i = -\pder{K}{Q^i}
+\end{array}
+\right.
+\eeq
+}
+for $i=1, 2, \ldots,\nn$.
+Here $H(\vecq, \vecp)$ is the old Hamiltonian and
+$K(\vec{Q}, \vec{P})$ is the new one.
+
+
+
+\hrule
+Notation so far: $\vec{A} = A^i \vecpartial_{x^i}=A^i\partial_i$
+
+ 
+
+New notation:
+
+ $\colvec{A}=\begin{bmatrix}A^1\\A^2\\\vdots\\ A^n\end{bmatrix}$: {\bf column vector} in  matrix equations
+
+ $\colvec{A}^T:$ {\bf row vector} in matrix equations.
+
+$\partial_\colvec{x}=\begin{bmatrix}\partial_1\\\partial_2\\\vdots\\ \partial_n\end{bmatrix}$,
+
+$\partial_\colvec{A} = \colvec{A}^T \partial_{\colvec{x}}$
+
+
+
+
+\beq
+\colvec{z} = \begin{pmatrix}
+\colvec{p}
+\\
+\colvec{q}
+\end{pmatrix}
+,\quad
+\colvec{Z} = \begin{pmatrix}
+\colvec{Q}
+\\
+\colvec{P}
+\end{pmatrix}
+\eeq
+
+
+
+\beq
+\text{Jacobian matrix:}\quad
+J_{Z/z}=\pder{\colvec{Z}}{\colvec{z}}
+=
+\begin{pmatrix}
+\pder{Z^1}{z^1}&\cdots&\pder{Z^1}{z^\nn}
+\\
+\vdots&\vdots&\vdots
+\\
+\pder{Z^\nn}{z^1}&\cdots&\pder{Z^\nn}{z^\nn}
+\end{pmatrix}
+\eeq
+Note our convention
+for translating a Jacobian matrix from index to matrix notation: In your head, rewrite
+$\pder{x}{y}$ as $\partial x/\partial y$. This suggests that $x_i$ label the rows and $y_j$ label the columns.
+
+Note that
+
+\beq
+J_{Z/z}J_{z/Z}=J_{z/Z}J_{Z/z}=1
+\eeq
+so
+
+\beq
+J^{-1}_{z/Z}= J_{Z/z}, \quad
+J^{-1}_{Z/z} = J_{z/Z}
+\eeq
+
+For an orthogonal transformation (preserves angles and lengths)
+\beq
+J_{Z/z}J^T_{Z/z}=J_{z/Z}J^T_{z/Z}=1
+\eeq
+
+\beq
+(\det J_{Z/z})^2 = (\det J_{z/Z})^2 =1
+\quad \implies 
+\det(J_{Z/z})=\pm 1
+\eeq
+Actually, we refer to a transformation with $\det J = 1$ as orthogonal and 
+one with $\det J=-1$  as a reflection.
+
+For a symplectic transformation (preserves certain areas):
+
+\beq
+J_{Z/z} A J_{Z/z} = J_{z/Z}A J_{z/Z}=A
+\eeq
+Just as in the orthogonal case,
+
+\beq
+(\det J_{Z/z})^2 = (\det J_{z/Z})^2 =1
+\quad \implies 
+\det(J_{Z/z})=\pm 1
+\eeq
+Actually, we refer to a transformation with $\det J = 1$ as symplectic and 
+one with $\det J=-1$  as anti-symplectic.
+
+A general coordinate transformation need 
+not be either orthogonal nor symplectic. In general, $J_{Z/z} J_{z/Z}$ is not necessarily $1$. However,
+canonical transformations are always required to be 
+symplectic transformations.
+
+An example of a transformation that is symplectic but not orthogonal is
+
+\beq
+J_{Z/z}=
+\begin{pmatrix}
+a&0
+\\
+0& \frac{1}{a}
+\end{pmatrix}
+\eeq
+
+\beq
+\colvec{Z}= J_{Z/z}\colvec{z},
+\quad
+\colvec{z}= J_{z/Z}\colvec{Z}
+\eeq
+
+\beq
+\colvec{\partial}^T_Z= \colvec{\partial}_z^T J_{z/Z},
+\quad
+\colvec{\partial}^T_z=
+ \colvec{\partial}_Z^TJ_{Z/z}
+\eeq
+
+\beq
+\colvec{\partial}_Z= J_{z/Z}^T\colvec{\partial}_z,
+\quad
+\colvec{\partial}_z=J_{Z/z}^T
+ \colvec{\partial}_Z
+\eeq
+(This are the covariant and contravariant
+transformations of vectors and covectors. See Section \ref{sec-coord-trans})
+
+
+
+
+
+{\bf Vector Hamilton equations}
+
+\beq
+A = \begin{pmatrix}
+0& I_\nn
+\\
+-I_\nn &0
+\end{pmatrix}
+\eeq
+Note 
+\beq A^2= 1
+\eeq
+
+Hamilton's equations for $\vecZ$ and $\vecz$
+\beq
+\colvec{\dot{z}}=
+A \colvec{\partial}_z H,\quad
+\colvec{\dot{Z}}=
+A \colvec{\partial}_Z K
+\eeq
+
+chain rule
+\beq
+J_{Z/z}\colvec{\partial}_zH=
+\colvec{\partial}_ZH= \colvec{\partial}_Z K
+\eeq
+
+
+
+
+\begin{claim}
+The  following statements are equivalent
+\begin{enumerate}
+\item \label{enum-symp-can}
+Transformation $\colvec{z}\rarrow \colvec{Z}$ is canonical
+(i.e., preserves the form of Hamilton's equations)
+\item \label{enum-symp-jaj}
+\beq
+J_{Z/z} A J^T_{Z/z}=A,
+\quad \det J=+1
+\eeq
+This means $J\in Sp(2\nn, \RR)$ 
+
+
+\item \label{enum-symp-2form}
+\beq
+\sum_i \ul{dq^i}\wedge\ul{dp_i}=  \sum_\alp \ul{dQ^\alp}\wedge \ul{dP_\alp}
+\eeq
+\end{enumerate}
+\end{claim}
+\proof
+
+\ref{enum-symp-can} $\iff$ \ref{enum-symp-jaj}:
+
+\beqa
+\colvec{\dot{Z}}&=&
+J_{Z/z}\colvec{\dot{z}}
+\\&=&
+J_{Z/z} [A\colvec{\partial}_zH]
+\\&=&
+J_{Z/z}A [J^T_{Z/z}\colvec{\partial}_Z]H
+\\
+&=&
+J_{Z/z}A J^T_{Z/z}\colvec{\partial}_ZK
+\eeqa
+
+
+\beq
+\colvec{\dot{Z}}=
+A\colvec{\partial}_ZK
+\eeq
+
+
+\beq
+J_{Z/z}A J^T_{Z/z}=A
+\eeq
+
+\ref{enum-symp-jaj} $\iff$
+\ref{enum-symp-2form} :
+
+\beqa
+\ul{\omega}_{q,p}
+&=&
+\sum_i \ul{dq^i}
+\wedge
+\ul{dp_i}
+\\
+&=&
+\sum_i 
+\left(
+\ul{d\colvec{q}}^T\ul{d\colvec{p}}-
+\ul{d\colvec{p}}^T\ul{d\colvec{q}}
+\right)
+\\
+&=&
+(\ul{\colvec{dz}})^T
+A\ul{\colvec{dz}}
+\eeqa
+
+\beqa
+\ul{\omega}_{Q,P} &=&
+(\ul{\colvec{dZ}})^T
+A\ul{\colvec{dZ}}
+\\
+&=&
+(J_{Z/z}\ul{\colvec{dz}})^T
+AJ_{Z/z}\ul{\colvec{dz}}
+\\
+&=&
+(\ul{\colvec{dZ}})^T
+J^T_{Z/z}A J_{Z/z}
+A\ul{\colvec{dZ}}
+\eeqa
+
+\qed
+
+\begin{claim}
+A canonical transformation
+preserves the Poisson brackets.
+
+
+\beq
+\{ f, g\}_{Q,P}=\{f,g\}_{q,p}
+\eeq
+
+\end{claim}
+\proof
+
+\beqa
+\{f, g\}_{Q, P} &=&
+\sum_i
+\det \pder{(f, g)}{(Q^i, P_i)}
+\\
+&=&
+\sum_i
+\det\left(
+\pder{(f, g)}{(q^i, p_i)}J_{z^i/Z^i}
+\right)
+\\
+&=&
+\underbrace{\det \left(\pder{(f, g)}{(q^i, p_i)}\right)}_{\{f,g\}_{p, q}}
+\underbrace{\det J_{z^i/Z^1}}_{+1}
+\eeqa
+\qed
+
+\subsection{Generating Functions}
+
+4 types of {\bf generating functions} $F_i(\cdot)$
+
+\beq
+\bcen
+\xymatrix@C=3pc{
+\vec{q}\ar@{-}[d]|H
+\ar@{-}[r]|{F_1}
+\ar@{-}[rd]|<<{F_2}
+&\vec{Q}\ar@{-}[d]|K
+\\
+\vec{p}
+\ar@{-}[r]|{F_4}
+\ar@{-}[ru]|<<{F_3}
+&\vec{P}
+}
+\ecen
+\left\{
+\begin{array}{l}
+H(\vec{q}, \vec{p})
+\\
+K(\vec{Q}, \vec{P})
+\\
+F_1(\vec{q}, \vec{Q})
+\\
+F_2(\vec{q},\vec{P})
+\\
+F_3(\vec{p}, \vec{Q})
+\\
+F_4(\vec{p},\vec{P})
+\end{array}
+\right.
+\eeq
+
+\begin{claim}
+If
+
+{\renewcommand{\arraystretch}{1.5}
+\beq
+\bcen
+\xymatrix@C=2pc@R=1pc{
+dq^i\ar[dr]^{p_i}
+ &&
+\\
+& dF_2 
+& 
+\\
+&& dP_i\ar[ul]_{Q^i}
+}
+\ecen
+\quad
+\left\{
+\begin{array}{l}
+p_i=\pderAB{F_2}{q^i|P}
+\\
+Q^i =\pderAB{F_2}{P_i|q}
+\end{array}
+\right.
+\eeq
+}
+then the transformation
+$(\vec{q}, \vec{p})\rarrow (\vec{Q}, \vec{P})$
+is automatically canonical.
+\end{claim}
+\proof
+
+\beq
+dF_2 = \sum_i\left(
+ \pderAB{F_2}{q^i}dq^i
++
+\pderAB{F_2}{P_i}dP_i
+\right)=
+\sum_i
+\left(
+p_i dq^i +
+Q^idP_i
+\right)
+\eeq
+
+\beq
+0=d^2F_2=
+\sum_i
+\left(
+\ul{dp_i}\wedge \ul{dq^i}
++
+\ul{dQ^i}\wedge \ul{dP_i}
+\right)
+\eeq
+
+\qed
+
+
+\begin{figure}[h!]
+$$
+\begin{array}{ccc}
+\xymatrix{
+dq^i
+\ar[d]_{-\dot{p}_i}
+\\
+dH
+\\
+dp_i
+\ar[u]^{\dot{q}^i}
+}
+&\quad
+\xymatrix{
+dQ^i
+\ar[d]_{-\dot{P}_i}
+\\
+dK
+\\
+dP_i
+\ar[u]^{\dot{Q}^i}
+}
+\quad
+&
+\xymatrix{
+dq^i\ar[dr]^{p_i}
+\ar[d]_{-\dot{p}_i}
+ &&dQ^i\ar[d]^{-\dot{P}_i}
+\\
+dH
+& dF_2 
+&   dK
+\\
+dp_i\ar[u]^{\dot{q}^i}
+&& dP_i\ar[ul]_{Q^i}
+\ar[u]_{\dot{Q}^i}
+}
+\\
+(a) & (b) & (c)
+\end{array}
+$$
+\caption{$(a)$ Representation of
+Hamilton's equations for $q^i, p_i$
+$(b)$ Representation of Hamilton's equations
+for $Q^i, P_i$.
+$(c)$ Representation of 3 things: Hamilton's equations
+for $q^i, p^i$, Hamilton's equations for $Q^i, P_i$
+and the generating function $F_2$ 
+that relates them.
+}
+\label{fig-canonical-trans}
+\end{figure}
+
+See Fig.\ref{fig-canonical-trans}.
+Let dofs=  degrees of freedom.
+Assume 2-dim phase space for simplicity.
+$(a)$ This figure represents 3 unknowns (the nodes $dq, dH, dp$) and 1 equation so it has 2 dofs.
+$(b)$  This figure represents 3 unknowns (the nodes $dQ, dK, dP$) and 1 equations so it has 2 dofs. $(c)$ 
+This figure represents 7 unknowns (all the nodes) and 3 equations so it has 4 dofs.
+
+
+Whereas for Fig. \ref{fig-L-H-legendre-trans},
+
+\beq
+dofs(c)= dofs(b)
+= dofs(c)=2
+\eeq
+for Fig. \ref{fig-canonical-trans}
+\beq 
+dofs(c)= dofs(a) +dofs(b)=4
+\eeq
+Maybe that's because 
+Fig.\ref{fig-L-H-legendre-trans}
+replaces the $L$ theory by the $H$ one whereas 
+Fig. \ref{fig-canonical-trans}
+is not replacing anything. It
+is complementing the $q,p$ theory by the $Q, P$ theory rather than 
+replacing it.
+
+
+Recall
+{\bf Lagrangian action}
+Eq.(\ref{eq-lagrangian-action})
+
+\beq
+S(t_2|t_1)=
+\int_{t_1}^{t_2}
+dt\;
+L(\vecq(t)
+, \dot{\vecq}(t), t)
+\eeq
+
+
+{\bf Hamiltonian action}
+\beq
+\cala = 
+\int_{t_1}^{t_2}
+dt
+\underbrace{\left(
+p_i \dot{q}^i -
+H(\vec{q}, \vec{p}, t)\right)}_{L}
+\eeq
+
+\begin{claim}
+Hamilton's equations follow
+from Calculus of Variations by setting the
+$\delta \cala=0$ assuming 
+$\delta q(t) =\delta p(t)=0$ 
+at the endpoints 
+$t_1$ and $t_2$.
+\end{claim}
+
+\begin{align}
+\delta \cala&=
+\int_{t_1}^{t_2} dt
+\left(
+\delta(p_i\dot{q}^i) -\delta H
+\right)
+\\
+&=
+\int_{t_1}^{t_2} dt
+\left(
+\dot{q}^i\delta p_i +
+p_i \delta\dot{q}^i
+-\pderAB{H}{q^i}\delta q^i
+-\pderAB{H}{p_i}\delta p_i
+\right)
+\\
+&=
+\int_{t_1}^{t_2} dt
+\left(
+\left[\dot{q}^i-\pderAB{H}{p_i}\right]\delta p_i
++p_i \delta\dot{q}^i
+-\pderAB{H}{q^i}\delta q^i
+\right)
+\\
+&=
+\int_{t_1}^{t_2} dt
+\left(
+\left[\dot{q}^i-\pderAB{H}{p_i}\right]\delta p_i
+-\dot{p}_i \delta{q}^i
+-\pderAB{H}{q^i}\delta q^i
+\right)
++ \cancel{[p_i\delta q^i]_{t_1}^{t_2}}
+\end{align}
+
+\qed
+
+\begin{claim}
+
+\beq
+K = H + \pderAB{F_2}{t}
+\label{eq-K-is-H-dtF2}
+\eeq
+
+\end{claim}
+\proof
+
+First proof: (comparing
+actions)
+
+\beq
+ \cala_{q,p}=
+\int_{t_1}^{t_2} dt
+\left(
+p_i\dot{q}^i - H(\vecq, \vecp, t)
+\right)
+\eeq
+
+\beq
+ \cala_{Q, P}=
+\int_{t_1}^{t_2} dt
+\left(
+P_i\dot{Q}^i - K(\vec{Q}, \vec{P}, t)
+\right)
+\eeq
+added time dependence
+
+\beq
+\xymatrix{
+&
+dq^i\ar[dr]^{p_i}
+\ar[d]_{-\dot{p}_i}
+ &&dQ^i\ar[d]^{\color{red}-\dot{P}_i}
+\\
+dt \ar[r]_{\partial_t H}&
+dH\ar@[blue][ddr]|{\color{blue} 1}
+& dF_2 
+&  dK\ar@[blue][ddl]|{\color{blue}-1}
+&dt\ar[l]^{ \partial_t K}
+\\
+&
+dp_i\ar[u]^{\dot{q}^i}
+&
+dt \ar[u]|{\partial_t F_2}
+\ar@[blue][d]|{
+\color{blue}\partial_t dF_2}
+& dP_i\ar[ul]_{Q^i}
+\ar[u]_{\color{red}\dot{Q}^i}
+\\
+&&
+\Circle{0}
+}
+\label{eq-xypic-H-F2-K}
+\eeq
+
+
+\beqa
+dH = -\dot{p}_i dq^i +\dot{q}^idp_i +dt\partial_t H
+&\implies& \dot{H} = \partial_t H
+\\
+dF_2 =
+p_idq^i + Q^i dP_i + dt\partial_t F_2
+&\implies&
+\dot{F}_2 =
+p_i \dot{q}_i + Q^i\dot{P}_i
++\partial_t F_2
+\\
+dK=
+-\dot{P}_idQ^i + \dot{Q}^i dP_i + dt\partial_t K
+&\implies& \dot{K}=\partial_t K
+\eeqa
+
+\beqa
+\partial_t F_2 &=&
+-p_i \dot{q}_i - \dot{P}_iQ^i
++\dot{F}_2
+\\
+&=&
+(-p_i\dot{q}^i
++ P_i\dot{Q}^i)
++
+\frac{d}{dt}
+\left(
+F_2 -P_iQ^i \right)
+\eeqa
+
+\beq
+(-p_i\dot{q}^i
++ P_i\dot{Q}^i)
+=
+\partial_t F_2 -
+\frac{d}{dt}(F_2-P_iQ^i)
+\eeq
+
+\beq
+\cala_{Q,P}-\cala_{q,p}=
+\int_{t_1}^{t_2}dt\;
+(H-K +\partial_t F_2)
+\eeq
+
+Second Proof: (without actions)
+
+Assume 
+Eq.(\ref{eq-K-is-H-dtF2})
+and everything in Eq.(\ref{eq-xypic-H-F2-K})
+\ul{except} for the red stuff, then prove the red stuff. In other words,
+assume  that if 
+$\calk(\vec{Q}, \vec{P}, t)$
+satisfies
+
+\beq
+\calk(Q, P, t) = H(q,p, t)  +  \partial_t F_2
+(q, P, t)
+\eeq
+then
+
+\beq
+\dot{Q} ^i = \pderAB{\calk}{P_i},
+\quad
+\dot{P}_i=-\pderAB{\calk}{Q^i}
+\eeq
+
+\beqa
+\pderAB{\calk}{P_i|Q,t}
+&=&
+\pderAB{H}{P_i|Q,t} + \partial_t
+\pderAB{F_2}{P_i|Q,t}
+\\
+&=&\cancel{\pderAB{q^j}{P_i|Q,t}\pderAB{H}{q^j|p,t}}
++ \underbrace{\pderAB{p_j}{P_i|Q,t}}_{\pderAB{\;}{P_i}\pderAB{F_2}{q_j|P,t}}
+\underbrace{\pderAB{H}{p_j|q,t}}_
+{\dot{q}^j}
++
+\partial_t{Q}^i
+\\
+&=&
+\dot{q}^j
+\pderAB{Q^i}{q_j|P,t}
++\partial_t Q^i
+\\
+&=&
+\dot{Q}^i
+\eeqa
+
+\begin{align}
+\pderAB{\calk}{Q^i|P,t}
+&=
+\pderAB{H}{Q^i|P,t}+
+\partial_t \pderAB{F_2}{Q^i|P,t}
+\\
+&=
+\pderAB{q^j}{Q^i|P,t}
+\underbrace{\pderAB{H}{q^j|p,t}}
+_{-\dot{p}_j}
++ \underbrace{\pderAB{p_j}{Q^i|P,t}}_{
+\pderAB{\;}{Q^i}\pderAB{F_2}{q^j}
+}
+\underbrace{\pderAB{H}{p_j|q,t}}
+_{\dot{q}^j} 
++ \partial_t\pderAB{F_2}{q^j|P,t}
+\pderAB{q^j}{Q^i|P,t}
+\\
+&=
+-\dot{p}_j\pderAB{q^j|P,t}{Q^i|P,t}
++
+\dot{q}^j\pderAB{\;}{q^j|P,t}\pderAB{F_2}{Q^i|P,t}
++
+[ \partial_t\pderAB{F_2}{q^j|P,t}]
+\pderAB{q^j}{Q^i|P,t}
+\\\
+&=
+\pderAB{q^j}{Q^i|P,t}(-\dot{p}_j
++\partial_t p_j)
++
+\dot{q}^j\pderAB{\;}{q^j|P,t}\pderAB{F_2}{Q^i|P,t}
+\end{align}
+
+\beq
+\dot{p}_j=
+\frac{d}{dt}
+\pderAB{F_2}{q^j|P,t}=
+\dot{q}_k
+\pderAB{\;}{q_k|P,t}
+\pderAB{F_2}{q^j|P,t}
++
+\dot{P^k}\pderAB{\;}{P^k|q,t}
+\pderAB{F_2}{q^j|P,t}
++
+\partial_t p_j
+\eeq
+
+\beq
+\pderAB{\calk}{Q^i|P,t}
+=
+\pderAB{q^j}{Q^i|P,t}
+\left(
+\cancel{-\dot{q}_k
+\pderAB{\;}{q_k|P,t}
+\pderAB{F_2}{q^j|P,t}}
+-
+\dot{P^k}\pderAB{\;}{P^k|q,t}
+\pderAB{F_2}{q^j|P,t}
+\right)
++
+\cancel{\dot{q}^j\pderAB{\;}{q^j|P,t}\pderAB{F_2}{Q^i|P,t}}
+\eeq
+
+\beq
+\pderAB{\calk}{Q^i|P,t}
+=
+\pderAB{q^j}{Q^i|P,t}
+\left(
+-
+\dot{P^k}\pderAB{\;}{q^j|P,t}
+\pderAB{F_2}{P_k|q,t}
+\right)=
+-\dot{P}_k\pderAB{Q^k}{Q^i|P,t}=
+-\dot{P}_i
+\eeq
+
+
+
+\qed
+
+\hrule
+Hamilton-Jacobi equation
+
+Assume $F_2(\vecq, \vec{P})$ canonical transformation with $K=0$.
+Then
+
+\beq
+p_i = \pderAB{F_2}{q^i},
+\quad 
+Q^i= \pderAB{F_2}{P_i}
+\eeq
+
+
+\beq
+\dot{Q}^i = \pderAB{K}{P_i}=0
+,\quad 
+\dot{P}_i = -\pderAB{K}{Q^i}=0
+\eeq
+
+
+\beq
+F_2(\vecq, \underbrace{\vec{P}}_{\text{constant in time =} \vec{P}_0}, t)
+=\cals (\vecq, t; \vec{P}_0)
+\eeq
+
+\beq
+K=H +\partial_t F_2\implies
+\quad\quad 0= H\left(\vecq, \pderAB{\;}{q^i}\cals(\vecq, t) , t\right) + \partial_t \cals(\vecq, t)
+\label{eq-ham-jac}
+\eeq
+Eq.(\ref{eq-ham-jac})
+is called the
+{\bf Hamilton-Jacobi (HJ) Equation}.
+Whereas the Euler-Lagrange
+equations and the Hamilton equations find particle trajectories,
+the HJ equation finds 
+wavefronts (i.e., surfaces)
+to which those trajectories
+are normal. This echoes
+the wave-particle duality 
+in Quantum Mechanics (and 
+also the ray-wavefront duality in Optics.)
+
+
 
 \section{Kahler Manifold}
 
