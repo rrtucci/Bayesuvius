@@ -3,519 +3,268 @@
 \input{bayesuvius.sty}
 \begin{document}
 
+K\"{a}hler manifold 
+is defined as a $2\nn$ dimensional manifold
+$M=\{(x^k, y^k)\}_{k=1}^\nn$ with 3 
+gadgets
 
+\begin{enumerate}
+\item
+Symplectic Structure
+given by  metric $\metric(\vecX, \vecY)$
 
-\subsection{Generating Functions}
-
-4 types of {\bf generating functions} $F_i(\cdot)$
+\item 
+Complex Structure given bt a {\bf $\pi/2$ rotation operator} $\cala: T_\pi(M)\rarrow T_\pi(M)$
+that satisfies
 
 \beq
-\bcen
-\xymatrix@C=3pc{
-\vec{q}\ar@{-}[d]|H
-\ar@{-}[r]|{F_1}
-\ar@{-}[rd]|<<{F_2}
-&\vec{Q}\ar@{-}[d]|K
-\\
-\vec{p}
-\ar@{-}[r]|{F_4}
-\ar@{-}[ru]|<<{F_3}
-&\vec{P}
-}
-\ecen
-\left\{
-\begin{array}{l}
-H(\vec{q}, \vec{p})
-\\
-K(\vec{Q}, \vec{P})
-\\
-F_1(\vec{q}, \vec{Q})
-\\
-F_2(\vec{q},\vec{P})
-\\
-F_3(\vec{p}, \vec{Q})
-\\
-F_4(\vec{p},\vec{P})
-\end{array}
-\right.
+\cala^2=-1
+\eeq
+$\cala$ must also be integrable which means that locally, there must be a coordinate basis for the tangent space such that
+
+\beq
+\cala\vecpder{x^k}=\vecpder{y^k},
+\quad
+\cala \vecpder{y^k}=-\;\vecpder{x^k}
+\eeq
+for $k=1, 2, \ldots, \nn$
+
+
+\item
+Symplectic Structure given by a
+simplectic 2-form $\ul{\s}(\vecX, \vecY)$ that satisfies
+
+\beq
+\ul{\s}(\vecX, \vecY)=
+\metric(\cala\vecX, \vecY)
+,\quad
+\ul{d\s}=0
+\eeq
+Note that this implies
+
+\beq
+\metric(\cala\vecX, \cala\vecY)=
+\ul{\s}(\vecX, \cala\vecY)
+=
+-\ul{\s}(\cala \vecY, \vecX)=-\metric(\cala^2\vecX, \vecY)=\metric(\vecX, \vecY)
+\eeq
+\end{enumerate}
+
+
+
+Complexification of K\"{a}hler manifold
+
+Define 
+
+\beq
+z^{k\pm}=x^k \pm i y^k
+\eeq
+
+\beq
+z^{k+}=
+z^k, \quad z^{k-}=
+\ol{z^k}
+\eeq
+
+\beq
+\vecpartial_{z^{k\pm}}=
+\frac{1}{2}\left(
+\vecpartial_{x^k}
+\mp i
+\vecpartial_{y^k}
+\right)
+\eeq
+
+Note that
+
+\beq
+\vecpartialz{k+}z^{k+}=
+\frac{1}{2}(\partial_{x^k}
+- i
+\partial_{y^k})(x^k + i y^k) =1
+\eeq
+In general,
+
+\beq
+\vecpartialz{k\pm}z^{k\pm}
+=1,
+\quad 
+\vecpartialz{k\pm}z^{k\mp}
+=0
 \eeq
 
 \begin{claim}
-If
+$\vecpartialz{k\pm}$
+are the eigenvectors of $\cala$ with eigenvalues $\pm i$.
 
-{\renewcommand{\arraystretch}{1.5}
-\beq
-\bcen
-\xymatrix@C=2pc@R=1pc{
-dq^i\ar[dr]^{p_i}
- &&
-\\
-& dF_2 
-& 
-\\
-&& dP_i\ar[ul]_{Q^i}
-}
-\ecen
-\quad
-\left\{
-\begin{array}{l}
-p_i=\pderAB{F_2}{q^i|P}
-\\
-Q^i =\pderAB{F_2}{P_i|q}
-\end{array}
-\right.
+\beq \cala \vecpartialz{k\pm}=
+\pm i
+\vecpartialz{k\pm}
 \eeq
-}
-then the transformation
-$(\vec{q}, \vec{p})\rarrow (\vec{Q}, \vec{P})$
-is automatically canonical.
 \end{claim}
 \proof
 
-\beq
-dF_2 = \sum_i\left(
- \pderAB{F_2}{q^i}dq^i
-+
-\pderAB{F_2}{P_i}dP_i
-\right)=
-\sum_i
-\left(
-p_i dq^i +
-Q^idP_i
+\beqa
+\cala \vecpartialz{k\pm}
+&=&
+\cala 
+\frac{1}{2}\left(
+\vecpartial_{x^k}
+\mp i
+\vecpartial_{y^k}
 \right)
-\eeq
-
-\beq
-0=d^2F_2=
-\sum_i
-\left(
-\ul{dp_i}\wedge \ul{dq^i}
-+
-\ul{dQ^i}\wedge \ul{dP_i}
+\\
+&=&
+\frac{1}{2}\left(
+\vecpartial_{y^k}
+\pm i
+\vecpartial_{x^k}
 \right)
-\eeq
+\\&=&
+\pm i
+\frac{1}{2}\left(
+\mp i\vecpartial_{y^k}
++
+\vecpartial_{x^k}
+\right)
+\\
+&=&\pm i
+\vecpartialz{k\pm}
+\eeqa
 
 \qed
 
 
-\begin{figure}[h!]
-$$
-\begin{array}{ccc}
-\xymatrix{
-dq^i
-\ar[d]_{-\dot{p}_i}
-\\
-dH
-\\
-dp_i
-\ar[u]^{\dot{q}^i}
-}
-&\quad
-\xymatrix{
-dQ^i
-\ar[d]_{-\dot{P}_i}
-\\
-dK
-\\
-dP_i
-\ar[u]^{\dot{Q}^i}
-}
+The most general tensor $\TT$
+is said to be of type $\TT{u^+ u^-\choose d^+ d^-}$ if
+
+\beq
+\TT =
+T\indices{^{\alp^+, \alp^-}_
+{\beta^+,\beta-}}
+\vecpartialz{\alp+}
+\otimes\vecpartialz{\alp-}
+\otimes \ul{dz^{\beta+}}
+\otimes
+\otimes \ul{dz^{\beta-}}
+\eeq
+where
+
+\beq
+\alp^\pm = \alp_1, \alp_2, \ldots, \alp_{u^\pm}
 \quad
-&
-\xymatrix{
-dq^i\ar[dr]^{p_i}
-\ar[d]_{-\dot{p}_i}
- &&dQ^i\ar[d]^{-\dot{P}_i}
-\\
-dH
-& dF_2 
-&   dK
-\\
-dp_i\ar[u]^{\dot{q}^i}
-&& dP_i\ar[ul]_{Q^i}
-\ar[u]_{\dot{Q}^i}
-}
-\\
-(a) & (b) & (c)
-\end{array}
-$$
-\caption{$(a)$ Representation of
-Hamilton's equations for $q^i, p_i$
-$(b)$ Representation of Hamilton's equations
-for $Q^i, P_i$.
-$(c)$ Representation of 3 things: Hamilton's equations
-for $q^i, p^i$, Hamilton's equations for $Q^i, P_i$
-and the generating function $F_2$ 
-that relates them.
-}
-\label{fig-canonical-trans}
-\end{figure}
+\beta^\pm =
+\beta_1, \beta_2, \dots, \beta_{d^\pm}
+\eeq
 
-See Fig.\ref{fig-canonical-trans}.
-Let dofs=  degrees of freedom.
-Assume 2-dim phase space for simplicity.
-$(a)$ This figure represents 3 unknowns (the nodes $dq, dH, dp$) and 1 equation so it has 2 dofs.
-$(b)$  This figure represents 3 unknowns (the nodes $dQ, dK, dP$) and 1 equations so it has 2 dofs. $(c)$ 
-This figure represents 7 unknowns (all the nodes) and 3 equations so it has 4 dofs.
-
-
-Whereas for Fig. \ref{fig-L-H-legendre-trans},
+Hence
 
 \beq
-dofs(c)= dofs(b)
-= dofs(c)=2
+\vecpartialz{k+} \in \TT{10\choose 00}\eqdef \TT^+
+,\quad
+\vecpartialz{k-} \in \TT{01\choose 00}\eqdef \TT^-
 \eeq
-for Fig. \ref{fig-canonical-trans}
-\beq 
-dofs(c)= dofs(a) +dofs(b)=4
-\eeq
-Maybe that's because 
-Fig.\ref{fig-L-H-legendre-trans}
-replaces the $L$ theory by the $H$ one whereas 
-Fig. \ref{fig-canonical-trans}
-is not replacing anything. It
-is complementing the $q,p$ theory by the $Q, P$ theory rather than 
-replacing it.
-
-
-Recall
-{\bf Lagrangian action}
-Eq.(\ref{eq-lagrangian-action})
+and
 
 \beq
-S(t_2|t_1)=
-\int_{t_1}^{t_2}
-dt\;
-L(\vecq(t)
-, \dot{\vecq}(t), t)
+\ul{dz^{k+}} \in \TT{00\choose 10}\eqdef \TT_{+}
+,\quad
+\ul{dz^{k-}} \in \TT{00\choose 01}\eqdef \TT_{-}
 \eeq
 
+As we shall see, many operations preserve the type $\TT{u^+ u^-\choose d^+ d^-}$ of the  tensor.
 
-{\bf Hamiltonian action}
+
+
+Note that since $\metric(\vecX, \vecY)$ is Hermitian in the real $T_\pi(M)$ basis, it must be Hermitian in the 
+complex basis too, and therefore, in the complex basis
+
 \beq
-\cala = 
-\int_{t_1}^{t_2}
-dt
-\underbrace{\left(
-p_i \dot{q}^i -
-H(\vec{q}, \vec{p}, t)\right)}_{L}
+\underbrace{\metric(\vecpartialz{i+}, \vecpartialz{j+})}_
+{\metric_{i+, j+}}
+=
+\underbrace{\metric(\vecpartialz{i-}, \vecpartialz{j-})}
+_{\metric_{i-, j-}}
+=0
+\eeq
+for all $i, j$.
+Thus, if we divide the metric matrix into
+4 square quadrants,
+the two diagonal quadrants are zero. 
+
+Likewise, the symplectic 
+2-form only has
+mixed sign components. Indeed,
+
+\beq
+\ul{\s}(\vecpartialz{i+},
+\vecpartialz{j+})=
+\metric(\cala\vecpartialz{i+}, \vecpartialz{j+})=i
+\metric(\vecpartialz{i-},
+\vecpartialz{j+})=0
+\eeq
+As for its same sign components,
+'
+\beq
+\ul{\s}(\vecpartialz{i+},
+\vecpartialz{j-})=
+\metric(\cala\vecpartialz{i+}, \vecpartialz{j+})=i
+\metric(\vecpartialz{i-},
+\vecpartialz{j+})=
+i\metric_{i-, j+}
 \eeq
 
-\begin{claim}
-Hamilton's equations follow
-from Calculus of Variations by setting the
-$\delta \cala=0$ assuming 
-$\delta q(t) =\delta p(t)=0$ 
-at the endpoints 
-$t_1$ and $t_2$.
-\end{claim}
 
-\begin{align}
-\delta \cala&=
-\int_{t_1}^{t_2} dt
-\left(
-\delta(p_i\dot{q}^i) -\delta H
-\right)
-\\
-&=
-\int_{t_1}^{t_2} dt
-\left(
-\dot{q}^i\delta p_i +
-p_i \delta\dot{q}^i
--\pderAB{H}{q^i}\delta q^i
--\pderAB{H}{p_i}\delta p_i
-\right)
-\\
-&=
-\int_{t_1}^{t_2} dt
-\left(
-\left[\dot{q}^i-\pderAB{H}{p_i}\right]\delta p_i
-+p_i \delta\dot{q}^i
--\pderAB{H}{q^i}\delta q^i
-\right)
-\\
-&=
-\int_{t_1}^{t_2} dt
-\left(
-\left[\dot{q}^i-\pderAB{H}{p_i}\right]\delta p_i
--\dot{p}_i \delta{q}^i
--\pderAB{H}{q^i}\delta q^i
-\right)
-+ \cancel{[p_i\delta q^i]_{t_1}^{t_2}}
-\end{align}
 
-\qed
+
 
 \begin{claim}
 
 \beq
-K = H + \pderAB{F_2}{t}
-\label{eq-K-is-H-dtF2}
+0=\nnabla \cala = \nnabla \metric =\nabla \ul{\s}
 \eeq
-
 \end{claim}
 \proof
 
-First proof: (comparing
-actions)
+$
+\nnabla \metric=0$
+follows from 
+assuming the Levi-Civita connection.
+
+One can show that 
+$\nnabla \cala=0$
+using the Koszul Identity (see Claim \ref{cl-Koszul})
 
 \beq
- \cala_{q,p}=
-\int_{t_1}^{t_2} dt
-\left(
-p_i\dot{q}^i - H(\vecq, \vecp, t)
-\right)
+\nnabla_\vecV \ul{\s}(\vecX, \vecY)=
+\nnabla_\vecV\metric(\cala \vecX, \vecY)=0
 \eeq
-
-\beq
- \cala_{Q, P}=
-\int_{t_1}^{t_2} dt
-\left(
-P_i\dot{Q}^i - K(\vec{Q}, \vec{P}, t)
-\right)
-\eeq
-added time dependence
-
-\beq
-\xymatrix{
-&
-dq^i\ar[dr]^{p_i}
-\ar[d]_{-\dot{p}_i}
- &&dQ^i\ar[d]^{\color{red}-\dot{P}_i}
-\\
-dt \ar[r]_{\partial_t H}&
-dH\ar@[blue][ddr]|{\color{blue} 1}
-& dF_2 
-&  dK\ar@[blue][ddl]|{\color{blue}-1}
-&dt\ar[l]^{ \partial_t K}
-\\
-&
-dp_i\ar[u]^{\dot{q}^i}
-&
-dt \ar[u]|{\partial_t F_2}
-\ar@[blue][d]|{
-\color{blue}\partial_t dF_2}
-& dP_i\ar[ul]_{Q^i}
-\ar[u]_{\color{red}\dot{Q}^i}
-\\
-&&
-\Circle{0}
-}
-\label{eq-xypic-H-F2-K}
-\eeq
-
-
-\beqa
-dH = -\dot{p}_i dq^i +\dot{q}^idp_i +dt\partial_t H
-&\implies& \dot{H} = \partial_t H
-\\
-dF_2 =
-p_idq^i + Q^i dP_i + dt\partial_t F_2
-&\implies&
-\dot{F}_2 =
-p_i \dot{q}_i + Q^i\dot{P}_i
-+\partial_t F_2
-\\
-dK=
--\dot{P}_idQ^i + \dot{Q}^i dP_i + dt\partial_t K
-&\implies& \dot{K}=\partial_t K
-\eeqa
-
-\beqa
-\partial_t F_2 &=&
--p_i \dot{q}_i - \dot{P}_iQ^i
-+\dot{F}_2
-\\
-&=&
-(-p_i\dot{q}^i
-+ P_i\dot{Q}^i)
-+
-\frac{d}{dt}
-\left(
-F_2 -P_iQ^i \right)
-\eeqa
-
-\beq
-(-p_i\dot{q}^i
-+ P_i\dot{Q}^i)
-=
-\partial_t F_2 -
-\frac{d}{dt}(F_2-P_iQ^i)
-\eeq
-
-\beq
-\cala_{Q,P}-\cala_{q,p}=
-\int_{t_1}^{t_2}dt\;
-(H-K +\partial_t F_2)
-\eeq
-
-Second Proof: (without actions)
-
-Assume 
-Eq.(\ref{eq-K-is-H-dtF2})
-and everything in Eq.(\ref{eq-xypic-H-F2-K})
-\ul{except} for the red stuff, then prove the red stuff. In other words,
-assume  that if 
-$\calk(\vec{Q}, \vec{P}, t)$
-satisfies
-
-\beq
-\calk(Q, P, t) = H(q,p, t)  +  \partial_t F_2
-(q, P, t)
-\eeq
-then
-
-\beq
-\dot{Q} ^i = \pderAB{\calk}{P_i},
-\quad
-\dot{P}_i=-\pderAB{\calk}{Q^i}
-\eeq
-
-\beqa
-\pderAB{\calk}{P_i|Q,t}
-&=&
-\pderAB{H}{P_i|Q,t} + \partial_t
-\pderAB{F_2}{P_i|Q,t}
-\\
-&=&\cancel{\pderAB{q^j}{P_i|Q,t}\pderAB{H}{q^j|p,t}}
-+ \underbrace{\pderAB{p_j}{P_i|Q,t}}_{\pderAB{\;}{P_i}\pderAB{F_2}{q_j|P,t}}
-\underbrace{\pderAB{H}{p_j|q,t}}_
-{\dot{q}^j}
-+
-\partial_t{Q}^i
-\\
-&=&
-\dot{q}^j
-\pderAB{Q^i}{q_j|P,t}
-+\partial_t Q^i
-\\
-&=&
-\dot{Q}^i
-\eeqa
-
-\begin{align}
-\pderAB{\calk}{Q^i|P,t}
-&=
-\pderAB{H}{Q^i|P,t}+
-\partial_t \pderAB{F_2}{Q^i|P,t}
-\\
-&=
-\pderAB{q^j}{Q^i|P,t}
-\underbrace{\pderAB{H}{q^j|p,t}}
-_{-\dot{p}_j}
-+ \underbrace{\pderAB{p_j}{Q^i|P,t}}_{
-\pderAB{\;}{Q^i}\pderAB{F_2}{q^j}
-}
-\underbrace{\pderAB{H}{p_j|q,t}}
-_{\dot{q}^j} 
-+ \partial_t\pderAB{F_2}{q^j|P,t}
-\pderAB{q^j}{Q^i|P,t}
-\\
-&=
--\dot{p}_j\pderAB{q^j|P,t}{Q^i|P,t}
-+
-\dot{q}^j\pderAB{\;}{q^j|P,t}\pderAB{F_2}{Q^i|P,t}
-+
-[ \partial_t\pderAB{F_2}{q^j|P,t}]
-\pderAB{q^j}{Q^i|P,t}
-\\\
-&=
-\pderAB{q^j}{Q^i|P,t}(-\dot{p}_j
-+\partial_t p_j)
-+
-\dot{q}^j\pderAB{\;}{q^j|P,t}\pderAB{F_2}{Q^i|P,t}
-\end{align}
-
-\beq
-\dot{p}_j=
-\frac{d}{dt}
-\pderAB{F_2}{q^j|P,t}=
-\dot{q}_k
-\pderAB{\;}{q_k|P,t}
-\pderAB{F_2}{q^j|P,t}
-+
-\dot{P^k}\pderAB{\;}{P^k|q,t}
-\pderAB{F_2}{q^j|P,t}
-+
-\partial_t p_j
-\eeq
-
-\beq
-\pderAB{\calk}{Q^i|P,t}
-=
-\pderAB{q^j}{Q^i|P,t}
-\left(
-\cancel{-\dot{q}_k
-\pderAB{\;}{q_k|P,t}
-\pderAB{F_2}{q^j|P,t}}
--
-\dot{P^k}\pderAB{\;}{P^k|q,t}
-\pderAB{F_2}{q^j|P,t}
-\right)
-+
-\cancel{\dot{q}^j\pderAB{\;}{q^j|P,t}\pderAB{F_2}{Q^i|P,t}}
-\eeq
-
-\beq
-\pderAB{\calk}{Q^i|P,t}
-=
-\pderAB{q^j}{Q^i|P,t}
-\left(
--
-\dot{P^k}\pderAB{\;}{q^j|P,t}
-\pderAB{F_2}{P_k|q,t}
-\right)=
--\dot{P}_k\pderAB{Q^k}{Q^i|P,t}=
--\dot{P}_i
-\eeq
-
+because both $\nnabla_\vecV\metric$
+and $\nnabla_\vecV\cala$
+are zero.
 
 
 \qed
 
-\hrule
-Hamilton-Jacobi equation
-
-Assume $F_2(\vecq, \vec{P})$ canonical transformation with $K=0$.
+Suppose 
+\beq
+\nnabla_{\dot{\vgamma}}\vecX=0
+\eeq
 Then
 
 \beq
-p_i = \pderAB{F_2}{q^i},
-\quad 
-Q^i= \pderAB{F_2}{P_i}
+\nnabla_{\dot{\vgamma}}(\cala \vecX)= \cala\nnabla_{\dot{\vgamma}}(\vecX)=0
 \eeq
 
+Examples
 
-\beq
-\dot{Q}^i = \pderAB{K}{P_i}=0
-,\quad 
-\dot{P}_i = -\pderAB{K}{Q^i}=0
-\eeq
+\begin{enumerate}
 
+\item $M=\CC^\nn$
 
-\beq
-F_2(\vecq, \underbrace{\vec{P}}_{\text{constant in time =} \vec{P}_0}, t)
-=\cals (\vecq, t; \vec{P}_0)
-\eeq
+\item
 
-\beq
-K=H +\partial_t F_2\implies
-\quad\quad 0= H\left(\vecq, \pderAB{\;}{q^i}\cals(\vecq, t) , t\right) + \partial_t \cals(\vecq, t)
-\label{eq-ham-jac}
-\eeq
-Eq.(\ref{eq-ham-jac})
-is called the
-{\bf Hamilton-Jacobi (HJ) Equation}.
-Whereas the Euler-Lagrange
-equations and the Hamilton equations find particle trajectories,
-the HJ equation finds 
-wavefronts (i.e., surfaces)
-to which those trajectories
-are normal. This echoes
-the wave-particle duality 
-in Quantum Mechanics (and 
-also the ray-wavefront duality in Optics.)
-
+\end{enumerate}
 
 \end{document}
 
