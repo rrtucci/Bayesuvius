@@ -504,33 +504,33 @@ Then
 CP^1  =\{L_{\alp, \beta} : (\alp, \beta)\in \CC-\{(0,0)\}\}
 \eeq
 
-For $z\in \CC$, define a quantum mechanical {\bf qubit} $\psi_z$ by
+For $Z\in \CC$, define a quantum mechanical {\bf qubit} $\psi_Z$ by
 
 \beq
-\psi_z = \frac{1}{\sqrt{1 + |z|^2}}
+\psi_Z = \frac{1}{\sqrt{1 + |Z|^2}}
 \begin{pmatrix}
 1\\
-z
+Z
 \end{pmatrix}
 \eeq
 and let
 
 \beq
-L_z = \{w\psi_z: w\in \CC\}
+L_Z = \{w\psi_Z: w\in \CC\}
 \eeq
 Clearly, if
 
 \beq
-z = \frac{\beta}{\alp}
+Z = \frac{\beta}{\alp}
 \eeq
 then 
 
-\beq  L_{\alp, \beta} = L_z
+\beq  L_{\alp, \beta} = L_Z
 \eeq
 and
 
 \beq
-CP^1 =\{ \psi_z : z\in \CC\}
+CP^1 =\{ \psi_Z : Z\in \CC\}
 \eeq
 This shows that $CP^1$ is 2 dimensional
 and isomorphic to the complex plane $\CC$.
@@ -15174,7 +15174,8 @@ for $k=1, 2, \ldots, \nn$
 
 \item
 Symplectic Structure given by a
-simplectic 2-form $\ul{\s}(\vecX, \vecY)$ that satisfies
+simplectic 2-form $\ul{\s}(\vecX, \vecY)$ 
+(called the {\bf K\"{a}hler form}) that satisfies
 
 \beq
 \ul{\s}(\vecX, \vecY)=
@@ -15182,7 +15183,27 @@ simplectic 2-form $\ul{\s}(\vecX, \vecY)$ that satisfies
 ,\quad
 \ul{d\s}=0
 \eeq
-Note that this implies
+
+\end{enumerate}
+
+\begin{claim}
+
+\beq
+\metric(\cala \vecX, \vecX)=0
+\eeq
+
+\beq
+\metric(\cala\vecX, \cala\vecY)=
+\metric(\vecX, \vecY)
+\eeq
+\end{claim}
+\proof
+
+\beq
+0=\ul{\s}(\vecX, \vecX)=
+\metric(\cala \vecX, \vecX)
+\eeq
+
 
 \beq
 \metric(\cala\vecX, \cala\vecY)=
@@ -15190,7 +15211,7 @@ Note that this implies
 =
 -\ul{\s}(\cala \vecY, \vecX)=-\metric(\cala^2\vecX, \vecY)=\metric(\vecX, \vecY)
 \eeq
-\end{enumerate}
+\qed
 
 \hrule
 $M=\RR^{2\nn}$ 
@@ -15281,20 +15302,35 @@ $\ul{d\s}=0$ as expected for a K\"{a}hler manifold.
 In general, any 
 even dimensional space  with a \Rien metric is a K\"{a}hler manifold.
 
+\begin{claim}
 General Relativity,
-with its
-pseudo-\Rien metric with signature $N_-=1, N_+=3$,
-is not 
-a K\"{a}hler manifold, because,
-as can be proven,
-no symplectic 2-form exists on it. Intuitively,
-its impossible to divide
-the GR manifold into two equivalent half spaces, because the metric in one half space will have one negative
-and one positive eigenvalue whereas the metric
-of the other half space
-will have two positive eigenvalue.)
+because of its pseudo-\Rien metric,
+cannot be made into a K\"{a}hler manifold.
 
+\end{claim}
+\proof
+Suppose $\metric_{\mu,\nu}
+=diag(-1, 1, 1, 1)$ 
+for simplicity.
+In general,
+for any vector $\vecv\in\RR^4$, 
 
+\beq
+0=\ul{\s}(\vecv, \vecv)=
+\metric(\cala\vecv, \vecv)
+\label{eq-gr-not-kahler1}
+\eeq
+and
+
+\beq
+\metric(\vecv, \vecv)=
+\metric(\cala \vecv, \cala \vecv)
+\label{eq-gr-not-kahler2}
+\eeq
+If $\vecv=(1,0,0,0)$,
+then, by Eq.(\ref{eq-gr-not-kahler1}), we must have $\cala \vecv= (0, a,b, c)$ for some $a,b,c\in\RR$. But then $ \av{\vecv, \vecv}=-1$ and $\av{\cala\vecv, \cala\vecv}>0$,
+in contradiction with Eq.(\ref{eq-gr-not-kahler2}).
+\qed
 
 \hrule
 Complexification of K\"{a}hler manifold
@@ -15499,7 +15535,7 @@ dy^k=
 \begin{claim}
 
 \beq
-0=\nnabla \cala = \nnabla \metric =\nabla \ul{\s}
+0=\nnabla \cala = \nnabla \metric =\nnabla \ul{\s}
 \eeq
 \end{claim}
 \proof
@@ -15509,17 +15545,31 @@ $
 follows from 
 assuming the Levi-Civita connection.
 
-One can show that 
-$\nnabla \cala=0$
-using the Koszul Identity (see Claim \ref{cl-Koszul})
+Use the Koszul Identity (see Claim \ref{cl-Koszul})
+to prove that 
+
+\beq
+\nnabla_{\vecpartial_i}\vecpartial_j=0
+\eeq
+Therefore
+
+\beq
+\underbrace{\nnabla_\vecX(\cala\vecY)}_0
+=
+\nnabla_\vecX(\cala)\vecY
++
+\underbrace{\cala(\nnabla_\vecX \vecY)}_0
+\eeq
+
+Both $\nnabla_\vecV\metric$
+and $\nnabla_\vecV\cala$
+are zero so
 
 \beq
 \nnabla_\vecV \ul{\s}(\vecX, \vecY)=
 \nnabla_\vecV\metric(\cala \vecX, \vecY)=0
 \eeq
-because both $\nnabla_\vecV\metric$
-and $\nnabla_\vecV\cala$
-are zero.
+
 
 
 \qed
@@ -15537,6 +15587,8 @@ Then
 Examples
 
 \begin{enumerate}
+
+
 
 \item 
 \begin{claim}
@@ -15677,6 +15729,22 @@ letters for the coordinates of a point on the surface of the sphere
 upper case letters for the coordinates of a point in the complex plane.
 \end{itemize}
 
+\begin{mybluearea}
+
+$P_\circ$ spherical coordinates to rectangular coordinates
+
+\beq
+(x,y,z)=R(\sin\phi \cos \theta,
+\sin\phi \sin \theta, \cos\phi)
+\eeq
+
+$P_-$ spherical coordinates to rectangular coordinates
+
+\beq
+(X,Y)=r_-(\cos\Theta, \sin\Theta)
+\eeq
+
+
 $P_\circ$ rectangular
 coordinates  to $P_-$ rectangular
 coordinates and vice versa (See Fig.\ref{fig-stereo})
@@ -15697,7 +15765,7 @@ $P_\circ$ spherical coordinates  to $P_-$ polar coordinates and vice versa
 \beq
 \left\{
 \begin{array}{l}
-P_-: (\rho, \Theta)=
+P_-: (r_-, \Theta)=
 \left(
 \frac{R\sin \phi}{1-\cos\phi}, \theta
 \right)
@@ -15707,12 +15775,14 @@ P_-: (\rho, \Theta)=
 \\
 P_\circ: (\phi, \theta)=
 \left(
-2 \arctan \frac{R}{\rho},
+2 \arctan \frac{R}{r_-},
 \Theta
 \right)
 \end{array}
 \right.
 \eeq
+
+\end{mybluearea}
 
 \begin{figure}[h!]
 \centering
@@ -15729,7 +15799,7 @@ Let
 \beq
 Z^{\pm} = X \pm i Y
 \eeq
-After some straightforward math, one can prove that
+After some straightforward math (transform from $P_\circ(\phi, \theta)$ to $P_-(r_-, \Theta)$ to $P_-(X, Y)$), one can prove that
 
 
 \beqa
@@ -15741,7 +15811,7 @@ After some straightforward math, one can prove that
 {R d\phi}\right)^2
 \\
 &=&
-\frac{4R^2}{(1+|Z|^2)}
+\frac{4R^4}{(R^2+|Z|^2)^2}
 dZ^+ dZ^-
 \label{eq-fub-stu-met}
 \eeqa
@@ -15756,7 +15826,7 @@ R^2 \sin \phi\;
 \ul{d\phi}
 \\
 &=&
-\frac{2iR^2}{(1+|Z|^2)^2}
+\frac{2iR^4}{(R^2+|Z|^2)^2}
 \ul{dZ^+}
 \wedge
 \ul{dZ^-}
