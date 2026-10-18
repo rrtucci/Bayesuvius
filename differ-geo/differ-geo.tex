@@ -405,6 +405,146 @@ notation for symmetrization
 and antisymmetrization can be easily
 generalized to more than 3 indices.
 
+\section{Stereographic Projection}
+\label{sec-stereo-proj}
+Let's review the formulae and pictorial representation for the stereographic projection of the sphere
+onto the complex plane.
+
+We shall follow the convention of the 
+Wikipedia article
+(see Ref.\cite{wiki-stereo-proj}) on stereographic projection and use
+\begin{itemize} 
+\item lower case 
+letters for the coordinates of a point on the surface of the sphere
+(of radius $R$) 
+\item
+upper case letters for the coordinates of a point in the complex plane.
+\end{itemize}
+
+\begin{mybluearea}
+
+$P_\circ$ spherical coordinates to rectangular coordinates
+
+\beq
+(x,y,z)=R(\sin\phi \cos \theta,
+\sin\phi \sin \theta, \cos\phi)
+\eeq
+
+$P_-$ spherical coordinates to rectangular coordinates
+
+\beq
+(X,Y)=R_N(\cos\Theta, \sin\Theta)
+\eeq
+
+
+$P_\circ$ rectangular
+coordinates  to $P_-$ rectangular
+coordinates and vice versa (See Fig.\ref{fig-stereo})
+\beq
+\left\{
+\begin{array}{l}
+P_-: (X, Y)=
+\frac{R}{R-z}(x, y)
+\\
+P_\circ: (x, y, z)=\frac{R}{R^2+ X^2+Y^2}
+(2RX, 2RY, -R^2+ X^2 + Y^2)
+\end{array}
+\right.
+\eeq
+
+
+$P_\circ$ spherical coordinates  to $P_-$ polar coordinates and vice versa
+\beq
+\left\{
+\begin{array}{l}
+P_-: (R_N, \Theta)=
+\left(
+\frac{R\sin \phi}{1-\cos\phi}, \theta
+\right)
+=
+\left(R\cot \frac{\phi}{2}, \theta
+\right)
+\\
+P_\circ: (\phi, \theta)=
+\left(
+2 \arctan \frac{R}{R_N},
+\Theta
+\right)
+\end{array}
+\right.
+\eeq
+
+\end{mybluearea}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=3.7in]
+{differ-geo/stereo.png}
+\caption{Pictorial representation of the stereographic projection in the $XZ$ plane.
+$P_-$ represents a point of the complex plane $\CC$ and $P_\circ$
+represents the corresponding point on the surface of the sphere  of radius $1$. If the radius of the sphere is $R$ instead of 1, add $R$'s to the equations so as to make the
+engineering  dimensions correct, assuming $\engdim{R}=\engdim{Z}=\engdim{z}=L$. In convention $(a)$, the complex plane on which we project has $z=0$. In convention $(b)$, the complex plane has $z=-1$. We will use convention $(a)$ instead of $(b)$. Scaling in both conventions just differs by a factor of 2.}
+\label{fig-stereo}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=3in]
+{differ-geo/stereo-north-south-poles}
+\caption{The plane containing the points
+$P_\circ$ ,  $\calo$ and $P_-$ in
+ stereographic projection. The point $P_\circ$ is projected onto the XY plane 
+(1) from the North Pole onto  $P_-$
+ and 
+(2) from the South Pole onto $P_-'$.
+ This figure is used to prove that  $R_-'$ is the inverse of $R_-$, where $\ol{\calo P_-}=R_-$
+and $\ol{\calo P_-'}= R_-'$.
+}
+\label{fig-stereo-ns-poles}
+\end{figure}
+
+\begin{claim}
+
+
+\beq
+R_-=\cot\frac{\phi}{2},
+\quad
+R_-'=\tan\frac{\phi}{2}
+\eeq
+Thus
+\beq
+R'_- =\frac{1}{R_-}
+\eeq
+
+\end{claim}
+\proof
+
+See Fig.{fig-stereo-ns-poles}.
+
+\beq
+\frac{\ol{\calo P_-'}(=R'_-)}
+{\ol{\calo S}(=1)}
+=
+\frac{\ol{\calo N}(=1)}
+{\ol{\calo P_-}(=R_-)}
+\implies R'_- = \frac{1}{R_-}
+\eeq
+
+\beq
+\frac{\ol{\calo P_-'}(=R'_-)}
+{\ol{\calo S}(=1)}
+=
+\frac{\ol{AP_\circ}(=\sin\phi)}
+{\ol{SA}(=1+\cos\phi)}
+\implies R'_- = 
+\frac{\sin\phi}{1+\cos\phi}
+=
+\tan\frac{\phi}{2}
+\eeq
+
+
+
+\qed
 \section{Some basic sets and isomorphisms}
 \label{sec-basic-sets-isomor}
 
@@ -448,7 +588,7 @@ set of {\bf complex rotations} (dim=1)
 \item $S^2=\{ (x_1, x_2, x_3)\in\RR^3 : (x_1)^2 + (x_2)^2 + (x_3)^2=1\}$= surface of $\RR^3$ unit sphere (dim=2)
 
 The stereographic projection
-(see Fig.\ref{fig-stereo})
+(see Section \ref{sec-stereo-proj})
 projects every point of $S^2$ into $\CC$ (except the North Pole). Hence
 
 \beq
@@ -457,6 +597,11 @@ S^2 \cong \CC\cup \{\infty\}}
 \eeq
 
 \item $S^3=\{ (x_1, x_2, x_3, x_4)\in \RR^4 : (x_1)^2 + (x_2)^2 + (x_3)^2 + (x_4)^2=1\}$= volume of $\RR^3$ unit sphere (also surface of $\RR^4$ unit sphere) (dim=3)
+
+\item $B^n(r, \vecx_0)=\{\vecx=(x^1, x^2, \cdots, x^n): |\vecx-\vecx_0|\leq r \}=$ {\bf open ball} of radius $r$ centered at $\vecx_0$. Use 
+$\ol{B^n}(r, \vecx_0)=B^n(r, \vecx_0) \cup \partial B^n(r, \vecx_0)$ for {\bf closed ball} and use just $B^n$ if $r=1$ and $\vecx_0=0$. Note that 
+$\partial B^n = S^{n-1}$
+
 
 \item $RP^2 = $ set of all lines in $\RR^3$ that 
 go through origin (dim=2)
@@ -15766,144 +15911,7 @@ What remains for us to show is
 that one can set up the 
 the K\"{a}hler metric, complex and symplectic structure in just one of those 3 sets. The other 2 sets will inherit it.
 
-Let's review the formulae and pictorial representation for the stereographic projection of the sphere
-onto the complex plane.
 
-We shall follow the convention of the 
-Wikipedia article
-(see Ref.\cite{wiki-stereo-proj}) on stereographic projection and use
-\begin{itemize} 
-\item lower case 
-letters for the coordinates of a point on the surface of the sphere
-(of radius $R$) 
-\item
-upper case letters for the coordinates of a point in the complex plane.
-\end{itemize}
-
-\begin{mybluearea}
-
-$P_\circ$ spherical coordinates to rectangular coordinates
-
-\beq
-(x,y,z)=R(\sin\phi \cos \theta,
-\sin\phi \sin \theta, \cos\phi)
-\eeq
-
-$P_-$ spherical coordinates to rectangular coordinates
-
-\beq
-(X,Y)=R_N(\cos\Theta, \sin\Theta)
-\eeq
-
-
-$P_\circ$ rectangular
-coordinates  to $P_-$ rectangular
-coordinates and vice versa (See Fig.\ref{fig-stereo})
-\beq
-\left\{
-\begin{array}{l}
-P_-: (X, Y)=
-\frac{R}{R-z}(x, y)
-\\
-P_\circ: (x, y, z)=\frac{R}{R^2+ X^2+Y^2}
-(2RX, 2RY, -R^2+ X^2 + Y^2)
-\end{array}
-\right.
-\eeq
-
-
-$P_\circ$ spherical coordinates  to $P_-$ polar coordinates and vice versa
-\beq
-\left\{
-\begin{array}{l}
-P_-: (R_N, \Theta)=
-\left(
-\frac{R\sin \phi}{1-\cos\phi}, \theta
-\right)
-=
-\left(R\cot \frac{\phi}{2}, \theta
-\right)
-\\
-P_\circ: (\phi, \theta)=
-\left(
-2 \arctan \frac{R}{R_N},
-\Theta
-\right)
-\end{array}
-\right.
-\eeq
-
-\end{mybluearea}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=3.7in]
-{differ-geo/stereo.png}
-\caption{Pictorial representation of the stereographic projection in the $XZ$ plane.
-$P_-$ represents a point of the complex plane $\CC$ and $P_\circ$
-represents the corresponding point on the surface of the sphere  of radius $1$. If the radius of the sphere is $R$ instead of 1, add $R$'s to the equations so as to make the
-engineering  dimensions correct, assuming $\engdim{R}=\engdim{Z}=\engdim{z}=L$. In convention $(a)$, the complex plane on which we project has $z=0$. In convention $(b)$, the complex plane has $z=-1$. We will use convention $(a)$ instead of $(b)$. Scaling in both conventions just differs by a factor of 2.}
-\label{fig-stereo}
-\end{figure}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=3in]
-{differ-geo/stereo-north-south-poles}
-\caption{The plane containing the points
-$P_\circ$ ,  $\calo$ and $P_-$ in
- stereographic projection. The point $P_\circ$ is projected onto the XY plane 
-(1) from the North Pole onto  $P_-$
- and 
-(2) from the South Pole onto $P_-'$.
- This figure is used to prove that  $R_-'$ is the inverse of $R_-$, where $\ol{\calo P_-}=R_-$
-and $\ol{\calo P_-'}= R_-'$.
-}
-\label{fig-stereo-ns-poles}
-\end{figure}
-
-\begin{claim}
-
-
-\beq
-R_-=\cot\frac{\phi}{2},
-\quad
-R_-'=\tan\frac{\phi}{2}
-\eeq
-Thus
-\beq
-R'_- =\frac{1}{R_-}
-\eeq
-
-\end{claim}
-\proof
-
-See Fig.{fig-stereo-ns-poles}.
-
-\beq
-\frac{\ol{\calo P_-'}(=R'_-)}
-{\ol{\calo S}(=1)}
-=
-\frac{\ol{\calo N}(=1)}
-{\ol{\calo P_-}(=R_-)}
-\implies R'_- = \frac{1}{R_-}
-\eeq
-
-\beq
-\frac{\ol{\calo P_-'}(=R'_-)}
-{\ol{\calo S}(=1)}
-=
-\frac{\ol{AP_\circ}(=\sin\phi)}
-{\ol{SA}(=1+\cos\phi)}
-\implies R'_- = 
-\frac{\sin\phi}{1+\cos\phi}
-=
-\tan\frac{\phi}{2}
-\eeq
-
-
-
-\qed
 
 Let 
 
