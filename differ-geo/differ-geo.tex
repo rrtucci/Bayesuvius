@@ -509,8 +509,9 @@ For $Z\in \CC$, define a quantum mechanical {\bf qubit} $\psi_Z$ by
 \beq
 \psi_Z = \frac{1}{\sqrt{1 + |Z|^2}}
 \begin{pmatrix}
-1\\
 Z
+\\
+1
 \end{pmatrix}
 \eeq
 and let
@@ -538,11 +539,61 @@ and isomorphic to the complex plane $\CC$.
 \beq
 \boxed{CP^1\cong \CC}
 \eeq
-Since, by stereographic projection,
-$\CC\cong S^2$, this is often called (especially by physicists) the 
-{\bf Bloch Sphere}.
+\hrule
+Bloch Sphere, Bloch vector
 
 
+Physicists usually call $S^2\cong CP^1$, the {\bf Bloch sphere}. They call an
+element of that set a {\bf qubit}
+or {\bf Bloch vector}.
+The notation
+and parametrization they use                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            is as follows
+(see Fig.\ref{fig-bloch-sphere})
+
+
+\beq
+\ket{-}=\ket{0}=\begin{pmatrix}1\\0\end{pmatrix}
+,\quad
+\ket{+}=\ket{1}=\begin{pmatrix}0\\1\end{pmatrix}
+\eeq
+
+\beq
+\ket{\psi}= \cos\frac{\phi}{2} \ket{0}
++ e^{i\theta}\sin\frac{\phi}{2}\ket{1}=
+\begin{pmatrix}
+\cos\frac{\phi}{2}
+\\
+\sin\frac{\phi}{2}e^{i\theta}
+\end{pmatrix}
+=
+\begin{pmatrix}
+\psi_0
+\\
+\psi_1
+\end{pmatrix}
+=
+\frac{1}{\sqrt{1 + |\psi_0/\psi_1|^2}}
+\begin{pmatrix}
+\frac{\psi_0}{\psi_1}
+\\
+1
+\end{pmatrix}
+\eeq
+
+\beq
+\frac{\psi_0}{\psi_1}= \underbrace{\cot\frac{\phi}{2}}_{R_-}
+e^{-i\theta}
+\eeq
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=4.5in]
+{differ-geo/Bloch_Sphere.png}
+\caption{Parametrization of Bloch sphere and Bloch vector $\ket{\psi}$
+commonly used by Physicists. $(R_-, \theta)$ are
+the polar coordinates for stereographic projection from the North Pole.}
+\label{fig-bloch-sphere}
+\end{figure}
 
 \item $SU(2)=$
 $2\times 2$ unitary matrices with determinant 1 (dim=3)
@@ -15741,7 +15792,7 @@ $P_\circ$ spherical coordinates to rectangular coordinates
 $P_-$ spherical coordinates to rectangular coordinates
 
 \beq
-(X,Y)=r_-(\cos\Theta, \sin\Theta)
+(X,Y)=R_N(\cos\Theta, \sin\Theta)
 \eeq
 
 
@@ -15765,7 +15816,7 @@ $P_\circ$ spherical coordinates  to $P_-$ polar coordinates and vice versa
 \beq
 \left\{
 \begin{array}{l}
-P_-: (r_-, \Theta)=
+P_-: (R_N, \Theta)=
 \left(
 \frac{R\sin \phi}{1-\cos\phi}, \theta
 \right)
@@ -15775,7 +15826,7 @@ P_-: (r_-, \Theta)=
 \\
 P_\circ: (\phi, \theta)=
 \left(
-2 \arctan \frac{R}{r_-},
+2 \arctan \frac{R}{R_N},
 \Theta
 \right)
 \end{array}
@@ -15786,20 +15837,80 @@ P_\circ: (\phi, \theta)=
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=2in]
+\includegraphics[width=3.7in]
 {differ-geo/stereo.png}
 \caption{Pictorial representation of the stereographic projection in the $XZ$ plane.
 $P_-$ represents a point of the complex plane $\CC$ and $P_\circ$
-represents the corresponding point on the surface of the sphere  of radius $R$, call it $R*S^2$. }
+represents the corresponding point on the surface of the sphere  of radius $1$. If the radius of the sphere is $R$ instead of 1, add $R$'s to the equations so as to make the
+engineering  dimensions correct, assuming $\engdim{R}=\engdim{Z}=\engdim{z}=L$. In convention $(a)$, the complex plane on which we project has $z=0$. In convention $(b)$, the complex plane has $z=-1$. We will use convention $(a)$ instead of $(b)$. Scaling in both conventions just differs by a factor of 2.}
 \label{fig-stereo}
 \end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=3in]
+{differ-geo/stereo-north-south-poles}
+\caption{The plane containing the points
+$P_\circ$ ,  $\calo$ and $P_-$ in
+ stereographic projection. The point $P_\circ$ is projected onto the XY plane 
+(1) from the North Pole onto  $P_-$
+ and 
+(2) from the South Pole onto $P_-'$.
+ This figure is used to prove that  $R_-'$ is the inverse of $R_-$, where $\ol{\calo P_-}=R_-$
+and $\ol{\calo P_-'}= R_-'$.
+}
+\label{fig-stereo-ns-poles}
+\end{figure}
+
+\begin{claim}
+
+
+\beq
+R_-=\cot\frac{\phi}{2},
+\quad
+R_-'=\tan\frac{\phi}{2}
+\eeq
+Thus
+\beq
+R'_- =\frac{1}{R_-}
+\eeq
+
+\end{claim}
+\proof
+
+See Fig.{fig-stereo-ns-poles}.
+
+\beq
+\frac{\ol{\calo P_-'}(=R'_-)}
+{\ol{\calo S}(=1)}
+=
+\frac{\ol{\calo N}(=1)}
+{\ol{\calo P_-}(=R_-)}
+\implies R'_- = \frac{1}{R_-}
+\eeq
+
+\beq
+\frac{\ol{\calo P_-'}(=R'_-)}
+{\ol{\calo S}(=1)}
+=
+\frac{\ol{AP_\circ}(=\sin\phi)}
+{\ol{SA}(=1+\cos\phi)}
+\implies R'_- = 
+\frac{\sin\phi}{1+\cos\phi}
+=
+\tan\frac{\phi}{2}
+\eeq
+
+
+
+\qed
 
 Let 
 
 \beq
 Z^{\pm} = X \pm i Y
 \eeq
-After some straightforward math (transform from $P_\circ(\phi, \theta)$ to $P_-(r_-, \Theta)$ to $P_-(X, Y)$), one can prove that
+After some straightforward math (transform from $P_\circ(\phi, \theta)$ to $P_-(R_N, \Theta)$ to $P_-(X, Y)$), one can prove that
 
 
 \beqa
