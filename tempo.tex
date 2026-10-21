@@ -8,10 +8,189 @@
 Thermodynamics = Tdynamics
 Thermodynamical= Tdynamical
 
-\subsection{Tdynamic Equilibrium}
+Recall that
+
+$U=$ internal energy, 
+
+$p=$ pressure,
+
+ $V=$ volume,
+
+ $T=$ temperature,
+
+ $S=$ entropy,
+
+ $N_i=$ number of particles of type (\qt{species}) $i$,
+
+These are all {\bf state variables}. $T, p, \{\mu_i\}$ 
+are {\bf intrinsic variables} 
+and the rest are {\bf extrinsic variables} (i.e., they double if
+the number of particles doubles)
+
+\subsection{Review of Laws of Thermodynamics}
+Before embarking in our journey 
+of expressing Tdynamics in differential geometry language,
+let us review the 4 laws of thermodynamics (zeroth, first, second and third).
+
+
+
+$\mu_i=$ chemical
+potential of particles of type $i$
+
+\begin{itemize}
+\item {\bf Zeroth Law} (thermal equilibrium)
+
+{\bf Statement:} If two systems are each in thermal equilibrium with a third system, then they are in thermal equilibrium with each other.
+
+transitivity in temperatures: If systems $A$, $B$ and $C$ satisfy 
+
+\beq
+T_A=T_B,\quad T_B=T_C
+\eeq
+then
+
+\beq
+T_A=T_C
+\eeq
+This law postulates the existence thermal equilibrium and temperature (a state variable)
+at equilibrium, and it
+explains how to use temperature.
+
+Combining all the laws,
+we are able to arrive at a precise definition of temperature, namely
+
+\beq
+T =\partial_{S|V, \{N_i\}}U
+\eeq
+
+\item {\bf First Law} (conservation of energy)
+
+{\bf Statement:} Energy is conserved. The change in a system's internal energy is determined by the heat supplied to it and the work done on it.
+
+\beq
+\Delta U = Q_{in}
++ W_{on}
+\eeq
+($W_{by}=-W_{on}$, $Q_{out}=-Q_{in}$.)
+
+For an infinitesimal {\bf quasistatic process}, the corresponding differential relation is
+
+\beq
+dU =\delta Q_{in} + \delta W_{on}
+\eeq
+
+$\delta Q$ is not
+a differential form. $Q$ is not a function of the 
+state variables. $Q$ is a process-dependent quantities, not generally coordinates or functions on a manifold.
+$d\delta Q$ is not zero. It doesn't even have a meaning.
+
+$dU$ is a true 1-form because $U$ is a state variable. $d^2U=0$.
+
+For a simple compressible system with fixed composition,
+during a {\bf reversible quasistatic} process, the
+following mechanical work is done on the system  and the system absorbs this amount of heat:
+\beq
+\delta W_{on}= -pdV,
+\quad \delta Q_{in, rev}= TdS
+\eeq
+
+\beq
+dU =\delta Q -pdV
+\eeq
+For a system with variable particle numbers, this generalizes to
+
+\beq
+dU =\delta Q -pdV
++\sum_i \mu_i dN_i
+\quad \text{(First Law)}
+\eeq
+
+\item {\bf Second Law:}(entropy and irreversibility)
+
+{\bf Statement:} In an isolated system, entropy cannot decrease. It remains constant for a reversible process and increases for an irreversible process.
+
+For an {\bf isolated system},
+
+\beq
+\Delta S\geq 0
+\eeq
+Equality holds for a reversible process; strict inequality holds for an irreversible process.
+
+\begin{claim}
+Heat flows spontaneously from a hotter body to a colder one, not the other way around without external intervention.
+\end{claim}
+\proof
+
+
+\beq
+\delta Q_{A^c} = -\delta Q_A
+\eeq
+
+\beq
+0\leq dS = dS_A + dS_{A^c}=
+\frac{\delta Q_A}{T_A}
++
+\frac{\delta Q_{A^c}}{T_{A^c}}
+=
+\delta Q_{A}
+\left(
+\frac{1}{T_A}
+-\frac{1}{T_{A^c}}
+\right)
+\eeq
+
+\beq
+\delta Q_A (T_{A^c}-T_A)\geq 0
+\eeq
+If $\delta Q_A>0$ then $T_{A^c}> T_A$.
+
+\qed
+
+
+\begin{claim}
+(Clausius inequality)
+
+\beq
+\oint \frac{\delta Q_{A}}{T_{A^c}}=\oint \frac{dU_A-\delta W_{A,on}}{T_{A^c}}\leq 0
+\eeq
+with equality for a reversible {\bf cycle}, for a system $A$ in contact with $A^c=res=$ a heat reservoir   (i.e., a large body with constant temperature)
+\end{claim}
+\proof
+
+Divide a cycle into 2 parts.
+
+\beq
+dS_{A, 1} -\frac{\delta Q_{A,1}}{T_{A^c}}\geq 0
+\eeq
+
+\beq
+dS_{A, 2} -\frac{\delta Q_{A,2}}{T_{A^c}}\geq 0
+\eeq
+
+\beq
+\underbrace{dS_{A, 1}
++ dS_{A, 2}}_0 -\oint \frac{Q_A}{T_{A^c}}
+\geq 0
+\eeq
+
+
+\qed
+
+
+\item {\bf Third Law} (zero temperature limit)
+
+{\bf Statement:} The entropy of a quantum system with a unique ground state (e.g, a perfect crystal) approaches zero as its temperature approaches absolute zero.
+Systems with ground-state degeneracy or other complications may require a more careful formulation.
+
+\beq  
+\lim_{T\rarrow 0^+}S= 0
+\eeq
+
+\end{itemize}
+
+\subsection{Carath\'{e}odory's Geometric Perspective}
 \Cara
 
-First, Second and Third Laws
 
 \subsection{Four Manifolds}
 When expressing Tds in 
@@ -29,16 +208,103 @@ If set $q^{a}(i)=q^\mu$ and $p_a(i)= p_\nu$ (so Greek indices label conjugate va
 
 \item $(\calm_{stat}, \metric_{F})$= {\bf statistical manifold}. This manifold describes a family of
 probability distributions. 
-If we write the family as $\rho(x; \lam^1, \lam^2, \ldots, \lam^d)$, then its coordinates are the parameters $(\lam^1, \lam^2, \ldots, \lam^d)$ and it has $d$ coordinates.
+If we write the family as $\rho(x; \theta^1, \theta^2, \ldots, \theta^d)$, then its coordinates are the parameters $(\theta^1, \theta^2, \ldots, \theta^d)$ and it has $d$ coordinates.
 
 The {\bf  Fisher Information metric (F metric) }
 is 
 \beq
-\metric^F_{ab}=
-\int dx\; \rho(x;\lam)
-\pder{\ln\rho}{\lam^a}
-\pder{\ln \rho}{\lam^b}
+\metric^F_{ij}=
+\int dx\; \rho(x;\theta)
+\pder{\ln\rho}{\theta^i}
+\pder{\ln \rho}{\theta^j}
+=
+E_{\rvx|\theta} \left[
+\pder{\ln\rho}{\theta^i}
+\pder{\ln \rho}{\theta^j}
+\right]
 \eeq
+(Note that this is not a second derivative but a
+product of two first derivatives.)
+
+Recall that 
+the Kullback-Leibler 
+divergence (i.e., discrepancy)
+between 2 continuous, infinitesimally close probability
+distributions
+$P(x|\theta)$ and $P(x|\theta + d\theta)$ is
+
+\beq
+D_{KL}(P(x|\theta)// P(x|\theta+d\theta))=
+\int dx\;
+P(x|\theta)
+\ln \frac{P(x|\theta)}{P(x|\theta + d\theta)}
+\eeq
+
+
+\begin{claim}
+
+\beq
+D_{KL} = \frac{1}{2}\metric^F_{ij} d\theta^i d\theta^j
+\eeq
+\end{claim}
+\proof
+
+\beq P(x|\theta +d\theta)\approx
+\left[ 1+ d\theta^i
+\partial_{\theta^i}
++
+\frac{1}{2}
+d\theta^i d\theta^j
+ \partial_{\theta^i}\partial_{\theta^j}
+\right]P(x|\theta)
+\eeq
+Let $P(x|\theta)=\calp$. Consider the 
+single parameter case for simplicity.
+
+\beq
+\ln (1+ R)= R -\frac{R^2}{2}
++\calo(R^3)
+\eeq
+
+\beq
+\Delta \calp=
+d\theta \partial_\theta \calp + \calo((d\theta)^2)
+\eeq
+
+\beq
+\calp \ln\frac{\calp}{\calp + \Delta \calp}=
+-\calp \ln\left(1+\frac{\Delta \calp}{\calp}\right)
+\approx -\calp \frac{\Delta\calp}{\calp}
+\left(
+1-\frac{\Delta\calp}{2\calp}
+\right)
+\eeq
+
+\beq
+D_{KL}\approx
+\int dx\
+\left[
+-\Delta \calp + \frac{1}{2\calp}(\Delta \calp)^2
+\right]
+\eeq
+
+\beq
+\int dx\;\Delta \calp =
+\int dx\; d\theta \partial_\theta \calp
+=
+d\theta \partial_\theta 
+\underbrace{\int dx \;\calp}_{1}=0
+\eeq
+
+\beq
+D_{KL}=\frac{1}{2}
+\underbrace{
+\int dx\; \calp
+\left(\partial_\theta \ln  \calp\right)^2}_{\metric^F}
+\eeq
+\qed
+
+
 \item
 $\cale$= {\bf Equilibrium state manifold},
 
@@ -90,7 +356,7 @@ of  the equation of state vanishes.
 
 
 intensive variables: $p, T, \{\mu_i\}$
-$
+
 extensive variables: $U, S, V, \{N_i\}$
 
 $i=1, 2, \cdots, n_c$. $N_c$ is 
@@ -118,9 +384,6 @@ $U, S, V, T, P, \{N_i\}, \{\mu_i\}$ are all called {\bf state variables}
 \end{table}
 
 
-\subsection{Gibbs-Duhem Equation}
-
-\subsection{Gibbs Phase Rule}
 
 \subsection{Maxwell Relations and more \\complicated derivative relationships}
 \beq
@@ -386,6 +649,11 @@ d\left(
 
 \qed
 
+\subsection{Gibbs-Duhem Equation}
+
+\subsection{Gibbs Phase Rule}
+
+
 \subsection{Claperyon Equation}
 
 \subsection{Thermodynamic Stability Conditions}
@@ -393,6 +661,8 @@ d\left(
 \subsection{Partition function}
 
 \section{Cramer-Rao Bound}
+
+
 
 
 
