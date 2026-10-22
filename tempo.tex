@@ -22,10 +22,50 @@ $p=$ pressure,
 
  $N_i=$ number of particles of type (\qt{species}) $i$,
 
-These are all {\bf state variables}. $T, p, \{\mu_i\}$ 
-are {\bf intrinsic variables} 
-and the rest are {\bf extrinsic variables} (i.e., they double if
-the number of particles doubles)
+$\mu_i=$ chemical potential of type $i$ particles.
+
+
+These are all {\bf state variables}. {\bf Extensive variables}  $U, S, V, \{N_i\}$  double if
+the number of particles doubles.
+{\bf Intensive variables}  $p, T, \{\mu_i\}$ stay the same.
+
+Language pointer
+
+\begin{itemize}
+\item
+{\bf Path:}  A function $\gamma:[a,b]\to M$
+for some manifold $M$.
+
+\item {\bf Quasi-static path:} A path that passes through a continuous sequence of equilibrium states.
+A curve through the equilibrium-state manifold $\cale$.
+We often use the term \qt{path}
+as short for \qt{quasi-static path}
+
+\item {\bf Process:} A physical transformation of a system from one state to another. Some processes may be represented by a quasi-static path.
+In the geometric representation,
+we usually refer to processes that are quasi-static paths. 
+
+
+\item {\bf Step:} Usually a small portion of a process, connecting two nearby states. Infinitesimally, we describe it using differentials such as $dU$, $dS$, and the heat increment $\delta Q$.
+
+
+
+\item {\bf Reversible path:} A path representing a process that can be reversed so that both the system and its surroundings are restored to their initial states, with no net change (especially in entropy) in either.
+\ul{Not all quasi-static paths are reversible.}
+For example, quasi-static path involving friction is not  reversible.
+For a reversible path, 
+\beq
+\delta Q_{rev} = T dS
+\eeq
+and 
+\beq
+\oint \delta Q_{rev}=0
+\eeq
+for a {\bf cycle} (i.e., closed path)
+
+\item {\bf adiabatic path:} A path for which $\delta Q=0$
+
+\end{itemize}
 
 \subsection{Review of Laws of Thermodynamics}
 Before embarking in our journey 
@@ -189,7 +229,65 @@ Systems with ground-state degeneracy or other complications may require a more c
 \end{itemize}
 
 \subsection{Carath\'{e}odory's Geometric Perspective}
-\Cara
+
+\Cara gave a geometric
+explanation of how temperature $T$ and entropy $S$ arise in Tdynamics. For simplicity, assume the 1-form
+
+\beq
+\ul{\alp} =\delta Q = dU + pdV  -\sum_i \mu_i dN_i
+\eeq
+which assumes a quasi-static processes.
+If we assume that $\ul{\alp}$ is integrable,
+then there is an integrating factor $1/T$
+such that $\delta Q/T=dS$
+where $T$ and $S$ can be identified as  temperature
+and entropy of the system.
+\Cara gave a physical reason for this integrability.
+He considered states that are inaccessible from a given equilibrium state through adiabatic paths. Under suitable regularity assumptions, his accessibility principle leads to the existence of constant-entropy hypersurfaces,
+along which $dS=0$. Reversible adiabatic paths lie within these surfaces.  For paths that describe reversible heat transfer between equilibrium states,
+$\delta Q = T dS$.
+
+
+Once we accept that $\ul{\alp}$ is integrable,
+Frobenius' Theorem (see Section
+\ref{sec-Frob-theorem})
+tells us that the following 
+equivalent conditions
+must be satisfied. In a state space of dimensions 1 and 2, these conditions are satisfied
+automatically.
+\begin{itemize}
+\item the 
+distribution
+\beq
+\cald=\bigcup_{\pi\in \cale} \{\vecX_\pi: \ul{\alp_\pi}(\vecX_\pi)=0\}
+\eeq
+becomes integrable.
+\item
+
+\beq
+\delta Q =T dS
+\eeq
+\item
+
+\beq
+\ul{\alp}\wedge \ul{d\alp}
+ =0
+\eeq
+
+
+\item If 
+
+\beq
+\ul{\alp}(\vecX)=\ul{\alp}(\vecY)=0
+\eeq
+then
+
+\beq
+\ul{\alp}([\vecX, \vecY])=0
+\eeq
+(Alternatively, you can say: if $\vecX, \vecY\in \ger{X}(\cald)$, then 
+$[\vecX, \vecY]\in \ger{X}(\cald)$)
+\end{itemize}
 
 
 \subsection{Four Manifolds}
@@ -355,9 +453,7 @@ of  the equation of state vanishes.
 
 
 
-intensive variables: $p, T, \{\mu_i\}$
 
-extensive variables: $U, S, V, \{N_i\}$
 
 $i=1, 2, \cdots, n_c$. $N_c$ is 
 the number of components in chemical mixture.
