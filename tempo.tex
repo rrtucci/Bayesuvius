@@ -12,32 +12,27 @@ Recall that
 
 $U=$ internal energy, 
 
-$p=$ pressure,
+$(p, V)=$ pressure and volume (conjugate variables)
 
- $V=$ volume,
+ $(T, S)=$ temperature and entropy (conjugate variables)
 
- $T=$ temperature,
-
- $S=$ entropy,
-
- $N_i=$ number of particles of type (\qt{species}) $i$,
-
-$\mu_i=$ chemical potential of type $i$ particles.
+ $(\mu_i, N_i)=$ chemical potential of type (\qt{species}) $i$ particles,
+and their number. (conjugate variables)
 
 
 These are all {\bf state variables}. {\bf Extensive variables}  $U, S, V, \{N_i\}$  double if
 the number of particles doubles.
-{\bf Intensive variables}  $p, T, \{\mu_i\}$ stay the same.
+{\bf Intensive variables}  $T, p, \{\mu_i\}$ stay the same.
+Thus, conjugate variables defined above are an intensive and extensive pair of variables.
 
 Language pointer
 
 \begin{itemize}
 \item
-{\bf Path:}  A function $\gamma:[a,b]\to M$
+{\bf Path:}  A function (\qt{curve}) $\gamma:[a,b]\to M$
 for some manifold $M$.
 
-\item {\bf Quasi-static path:} A path that passes through a continuous sequence of equilibrium states.
-A curve through the equilibrium-state manifold $\cale$.
+\item {\bf Quasi-static path:} A path that passes through a continuous sequence of equilibrium states  or tight sets of equilibrium states (i.e., points or small balls in the equilibrium-state manifold $\cale$). A quasi-static path must traverse $\cale$ slowly. By slowly, we mean, with $\eps=\frac{\tau_{relax}}{\tau_{process}} \ll 1$ where $\tau_{relax}$ and $\tau_{process}$ are characteristic times for relaxation and for the main process. $\tau_{relax}$ might be an average of relaxation times for different sub processes, like chemical reactions, pressure propagation, etc.
 We often use the term \qt{path}
 as short for \qt{quasi-static path}
 
@@ -50,7 +45,8 @@ we usually refer to processes that are quasi-static paths.
 
 
 
-\item {\bf Reversible path:} A path representing a process that can be reversed so that both the system and its surroundings are restored to their initial states, with no net change (especially in entropy) in either.
+\item {\bf Reversible path:} A path representing a process that can be reversed so that both the system and its surroundings are restored to their initial states, with no net change (especially no  entropy
+production) in either.
 \ul{Not all quasi-static paths are reversible.}
 For example, quasi-static path involving friction is not  reversible.
 For a reversible path, 
@@ -61,7 +57,9 @@ and
 \beq
 \oint \delta Q_{rev}=0
 \eeq
-for a {\bf cycle} (i.e., closed path)
+for a {\bf cycle} (i.e., closed path).
+For an irreversible process, $\delta Q$ and $dS$ need not satisfy these equations. There might not even be a
+unique, well defined $T$.
 
 \item {\bf adiabatic path:} A path for which $\delta Q=0$
 
@@ -339,13 +337,13 @@ When expressing Tds in
 Differential Geometry language, we 
 consider the following 4 manifolds
 \begin{enumerate}
-\item $(\calp, \pform{\omega}{2})$= {\bf microscopic symplectic manifold},
+\item $(\calp, \pform{\s}{2})$= {\bf microscopic symplectic manifold},
 
 coordinates are $\{q^1(i), q^2(i), q^3(i), p_1(i), p_2(i), p_3(i)\}_{i=1}^{N_p}$ so $6N_p$ coordinates. $N_p$ is the number of particles.
 If set $q^{a}(i)=q^\mu$ and $p_a(i)= p_\nu$ (so Greek indices label conjugate variable pairs), then
 
 \beq
-\ul{\omega} =\sum_\mu \ul{dq^\mu}\wedge \ul{dp_\mu}
+\ul{\s} =\sum_\mu \ul{dq^\mu}\wedge \ul{dp_\mu}
 \eeq
 
 \item $(\calm_{stat}, \metric_{F})$= {\bf statistical manifold}. This manifold describes a family of
@@ -512,9 +510,25 @@ $U, S, V, T, P, \{N_i\}, \{\mu_i\}$ are all called {\bf state variables}
 \begin{tabular}{|l|l|l|}
 \hline
 \rowcolor[HTML]{9AFF99} 
-\begin{tabular}[c]{@{}l@{}}potential Symbol\\ and name\end{tabular}   & Legendre Transformation       & \begin{tabular}[c]{@{}l@{}}differential and\\ independent variables\end{tabular}                   \\ \hline
-\begin{tabular}[c]{@{}l@{}}$U$, \\ internal energy\end{tabular}       & $U$                           & \begin{tabular}[c]{@{}l@{}}$dU = TdS-pdV+\sum_i\mu_i dN_i$\\ $S, V, \{N_i\}$\end{tabular}          \\ \hline
-\begin{tabular}[c]{@{}l@{}}$H$,\\ Enthalpy\end{tabular}               & $H=U+pV$                      & \begin{tabular}[c]{@{}l@{}}$dH = TdS + Vdp+\sum_i\mu_i dN_i$\\ $S, p, \{N_i\}$\end{tabular}        \\ \hline
+\begin{tabular}[c]{@{}l@{}}potential Symbol\\ and name\end{tabular}   & \begin{tabular}[c]{@{}l@{}}Legendre\\Transformation\end{tabular}& \begin{tabular}[c]{@{}l@{}}differential and\\ independent variables\end{tabular}                   \\ \hline
+\begin{tabular}[c]{@{}l@{}}$U$, \\ internal energy\end{tabular}       & $U$                           & \begin{tabular}[c]{@{}l@{}}$dU = TdS-pdV+\sum_i\mu_i dN_i$\\ $S, V, \{N_i\}$\end{tabular}          \\\hline
+\begin{tabular}[c]{@{}l@{}}
+$S$,
+\\ Entropy
+\end{tabular}               & $S$                      & \begin{tabular}[c]{@{}l@{}}$dS =
+\frac{1}{T}( dU + pdV-\sum_i\mu_i dN_i)$
+\\ $U, V, \{N_i\}$
+\end{tabular}        
+\\ 
+\hline
+\begin{tabular}[c]{@{}l@{}}
+$H$,
+\\ Enthalpy
+\end{tabular}               & $H=U+pV$                      & \begin{tabular}[c]{@{}l@{}}$dH = TdS + Vdp+\sum_i\mu_i dN_i$
+\\ $S, p, \{N_i\}$
+\end{tabular}        
+\\ 
+\hline
 \begin{tabular}[c]{@{}l@{}}$F$,\\ Helmholtz\\ free energy\end{tabular} & $F=U-TS$                      & \begin{tabular}[c]{@{}l@{}}$dF = SdT -pdV +\sum_i \mu_i dN_i$,\\ $T, V, \{N_i\}$\end{tabular}      \\ \hline
 \begin{tabular}[c]{@{}l@{}}$G$,\\ Gibbs\\ free energy\end{tabular}    & $G = U -TS +pV$               & \begin{tabular}[c]{@{}l@{}}$dG = -SdT + Vdp +\sum_i N_i dN_i$,\\ $T, p, \{N_i\}$\end{tabular}       \\ \hline
 \begin{tabular}[c]{@{}l@{}}$\Omega$,\\ Grand Potential\end{tabular}   & $\Omega=U-TS-\sum_i\mu_i N_i$ & \begin{tabular}[c]{@{}l@{}}$d\Omega= SdT -pdV-\sum_i N_i d\mu_i$ ,\\ $T,V, \{\mu_i\}$\end{tabular} \\ \hline
@@ -798,7 +812,298 @@ d\left(
 
 \subsection{Thermodynamic Stability Conditions}
 
-\subsection{Partition function}
+\subsection{Four Major Ensembles}
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{9AFF99} 
+\begin{tabular}[c]{@{}l@{}}Potential Symbol\\ and name\end{tabular} & \begin{tabular}[c]{@{}l@{}}Legendre\\Transformation\end{tabular}& fixed & fluctuate & Ensemble \\ \hline
+\begin{tabular}[c]{@{}l@{}}$U$, \\ internal energy\end{tabular} & $U$ & $S, V, \{N_i\}$ &  &  \\ \hline
+\begin{tabular}[c]{@{}l@{}}$S$,\\ Entropy\end{tabular} & $S$ & $U, V, \{N_i\}$ & None & \begin{tabular}[c]{@{}l@{}}Micro-\\ canonical\end{tabular} \\ \hline
+\begin{tabular}[c]{@{}l@{}}$H$,\\ Enthalpy\end{tabular} & $H=U+pV$ & $S, p, \{N_i\}$ &  &  \\ \hline
+\begin{tabular}[c]{@{}l@{}}$F$,\\ Helmholz\\ free energy\end{tabular} & $F=U-TS$ & $T, V, \{N_i\}$ & $U$ & Canonical \\ \hline
+\begin{tabular}[c]{@{}l@{}}$G$,\\ Gibbs\\ free energy\end{tabular} & $G = U -TS +PV$ & $T, p, \{N_i\}$ & $U, V$ & \begin{tabular}[c]{@{}l@{}}isothermal-\\ isobaric\end{tabular} \\ \hline
+\begin{tabular}[c]{@{}l@{}}$\Omega$,\\ Grand Potential\end{tabular} & $\Omega=U-TS-\sum_i\mu_i N_i$ & $T,V, \{\mu_i\}$ & $U, \{N_i\}$ & \begin{tabular}[c]{@{}l@{}}Grand\\ Canonical\end{tabular} \\ \hline
+\end{tabular}
+\caption{4 Major Ensembles and their natural potentials. 
+The \qt{fixed}
+column gives the variables that are independent variables of the potential. These variables are fixed in the ensemble. The \qt{fluctuate}s column gives the
+variables that fluctuate in the ensemble.}
+\label{tab-four-ensembles}
+\end{table}
+
+
+\subsection{Canonical Ensemble}
+
+{\bf Canonical Ensemble}
+
+\beq
+\rho =
+\frac{1}{Z} e^{-\beta H}
+,\quad (P_r = \frac{1}{Z} e^{-\beta E_r})
+\eeq
+where
+
+\beq
+\beta = \frac{1}{k_B T}
+\eeq
+In order to satisfy
+
+\beq
+\int dx\; \rho =1,
+\quad (\sum _r P_r =1)
+\eeq
+we must have
+
+\beq
+Z =\int dx \; e^{-\beta H},
+\quad (Z= \sum_r 
+e^{-\beta E_r})
+\eeq
+
+\beq
+U = \av{E}= \sum_r P_r r^{-\beta E_r}
+\eeq
+
+\beq
+S= -k_B\sum_r P_r \ln P_r
+\eeq
+
+\beq
+F= U-TS
+\eeq
+
+\begin{claim}
+
+\beq
+\beta =\frac{1}{k_B T}\implies
+\partial_\beta =
+-{k_B T^2}\partial_T
+,\quad
+dT=-k_B T^2  d\beta
+\eeq
+\end{claim}
+\proof
+\beq
+\pder{\;}{\beta}=\pder{T}{\beta}\pder{\;}{T}=
+k_B \frac{1}{\partial_T  (1/T)}
+\pder{\;}{T}= -k_B T^2 \pder{\;}
+{T}
+\eeq
+
+\qed
+
+\begin{claim}
+If we assume the canonical ensemble, then
+
+\beq
+U= -\partial_\beta \ln Z
+\eeq
+
+\beq
+S= k_B(\ln Z + \beta U)
+\eeq
+
+\beq
+F= -k_B T \ln Z
+\eeq
+
+\end{claim}
+\proof
+
+\beq
+\partial_\beta \ln Z=
+-\;\frac{1}{Z}
+\sum_r E_r e^{-\beta E_r}=
+-\av{E}=-U
+\eeq
+
+\beq
+\ln P_r = -\beta E_r - \ln Z
+\eeq
+
+\beqa
+S &=& -k_B\sum_r P_r
+(-\beta E_r -\ln Z)
+\\
+&=&
+k_B \beta U + k_B Z 
+\\
+&=&
+k_B \beta U 
++k_B \ln  Z
+\eeqa         
+
+\beq
+F= U-TS =
+U - k_BT(\ln Z +\beta U)=
+-k_B T \ln Z
+\eeq
+\qed
+
+\begin{claim}
+The canonical ensemble satisfies the First Law of Thermodynamics:
+
+\beq
+dU = TdS - pdV
++\sum_i \mu_i dN_i
+\eeq
+
+\end{claim}
+\proof
+Call $\cale_U$ this equation 
+\beq
+dU = TdS - pdV
++\sum_i \mu_i dN_i 
+\eeq
+and call $\cale_F$ this one 
+
+\beq
+dF = SdT -pdV +\sum_i \mu_i dN_i
+\eeq
+To derive Table \ref{tab-thermo-pot-ai}, one proves that
+$\cale_U$ and $F= U-TS$ implies $\cale_F$. In this case, one proves the converse, assuming $F=U-TS$. That is, one proves that
+$\cale_F$ and $F=U-TS$ implies $\cale_U$.
+Both proofs are straightforward algebra.
+\qed
+
+The heat capacity at constant volume is defined by
+
+\beq 
+C_V =\partial_{T|V, \{N_i\}}U
+\eeq
+At constant volume and particle numbers,
+
+\beq
+dU = TdS
+\eeq
+Hence, also
+
+\beq
+C_V = T \partial_{T|V, \{N_i\}}S
+\eeq
+
+
+
+\qed
+
+
+Let 
+
+\beq
+\av{E,E} = Var(E)=
+\av{(E-\av{E})^2}
+= \av{E^2}-\av{E}^2
+\eeq
+\begin{claim}
+If we assume the canonical ensemble, then
+
+\beq
+U =-\partial_\beta \ln Z = \av{E}
+\eeq
+\beq
+\partial_\beta U =
+-\partial_\beta^2 \ln Z= -\av{E, E}
+\eeq
+
+\beq
+C_V = \frac{\av{E, E}}
+{k_B T^2}
+\eeq
+\end{claim}
+\proof
+
+\beq
+\partial_\beta \ln Z
+= -U
+\eeq
+
+\beqa
+\partial_\beta^2\ln Z&=&
+\partial_\beta\left(
+Z^{-1}\sum_r (-E_r) e^{-\beta E_r}
+\right)
+\\
+&=&
+-\partial_\beta(Z^{-1})[Z\av{E}]
++
+\av{E^2}
+\\
+&=&
+\frac{1}{Z^2}[Z\av{E}][Z\av{E}]
++
+\av{E^2}
+\\
+&=&
+\av{E,E}
+\eeqa
+
+\beq
+C_V = \partial_T U =
+ -
+\frac{1}{k_B T^2} \partial_\beta  U
+=
+\frac{\av{E,E}}{ k_B T^2}
+\eeq
+\qed
+
+This connects a macroscopic quantity $C_V$ with a microscopic on $\av{E, E}$.
+Although $C_V\geq 0$ 
+for the canonical ensemble,
+this need not be the case for
+other ensembles.
+
+\begin{claim}
+If we assume the canonical ensemble,
+then the Fisher 
+Information metric
+for the single parameter $\beta$ (or $T$) is
+
+\beq
+\metric_{\beta\beta} = \av{E, E}=k_B T^2 C_V
+\eeq
+
+\beq
+\metric_{TT}=
+\frac{\av{E, E}}{(k_BT^2)^2}=
+\frac{C_V}{k_B T^2}
+\eeq
+\end{claim}
+\proof
+
+\beq
+\ln P_r =
+-\beta E_r
+-\ln Z
+\eeq
+
+\beq
+\partial_\beta \ln P_r = - E_r + \av{E}
+\eeq
+
+\beqa
+\metric_{\beta\beta} &=&
+\sum_r P_r
+(\partial_\beta \ln P_r)^2
+\\
+&=&
+\sum_r P_r
+(E_r + -\av{E})^2
+\\
+&=&
+\av{E, E}
+\eeqa
+
+\beq
+\metric_{TT}=\frac{1}{(k_B T^2)^2}\metric_{\beta\beta}
+\eeq
+\qed
+
 
 \section{Cramer-Rao Bound}
 
