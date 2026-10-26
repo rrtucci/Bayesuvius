@@ -561,6 +561,794 @@ Blank cells or cells with $X-X$ are ignored. Only cells with an $X$ or a $-X$ an
 \label{tab-pot-indep-vars}
 \end{table}
 
+\subsection{Probabilistic Potentials}
+
+Probabilistic Potentials
+
+Suppose we express a probability
+ $P_\rvx(x)$ as follows
+\beq
+P_\rvx(x) = \frac{\phi_\rvx(x)}{Z_\rvx}
+\eeq
+We will refer to $\phi_\rvx(x)$ as a 
+{\bf probabilistic potential (ppotential)} and
+to $Z_\rvx$ as a {\bf partition function}. 
+A ppotential is simply
+an un-normalized probability.
+
+
+Note that 
+$\sum_x P_\rvx(x)=1$ implies
+
+\beq
+Z_\rvx = \sum_x \phi_\rvx(x)
+\eeq
+
+\begin{claim}
+
+\beq 
+\sum_{x}\phi_{\rvx,\rvy}(x,y)
+=
+\phi_\rvy(y)\frac{Z_{\rvx,\rvy}}{Z_\rvx }
+\eeq
+\end{claim}
+\proof
+
+\beq
+\sum_{x} 
+{P_{\rvx, \rvy}(x,y)}
+=
+P_\rvy(y)
+\eeq
+
+\beq
+\sum_{x}
+\frac{\phi_{\rvx, \rvy}(x,y)}{Z_{\rvx,\rvy}}
+=
+\frac{\phi_\rvy(y)}{Z_\rvy}
+\eeq
+
+
+\qed
+
+
+
+
+
+
+\begin{claim}
+\beq
+P_{\rvy|\rvx}(y|x)=
+\frac{\phi_{\rvx,\rvy}(x,y)}{\phi_\rvx(x)}
+\frac{Z_\rvx}{Z_{\rvx,\rvy}}
+\eeq
+
+\end{claim}
+\proof
+
+\beq
+P_{\rvy|\rvx}(y|x)=
+\frac{P_{\rvx,\rvy}(x,y)}
+{P_\rvx(x)}=
+\frac{\phi_{\rvx,\rvy}(x,y)}{Z_{\rvx,\rvy}}
+\frac{Z_\rvx}{\phi_\rvx(x)}
+\eeq
+
+\qed
+
+\begin{claim}
+If 
+
+\beq
+P_{\rvx,\rvy}(x,y)=P_\rvx(x)P_\rvy(y)
+\eeq
+then
+
+\beq
+\phi_{\rvx,\rvy}(x,y)=
+\phi_\rvx(x)\phi_\rvy(y)
+\frac{Z_{\rvx, \rvy}}{Z_\rvx Z_\rvy}
+\eeq
+
+\end{claim}
+\proof
+Obvious.
+\qed
+
+
+
+Define
+
+\beq
+P_{\rvy|\rvx}(y|x) = \frac{\phi_{\rvy|\rvx}(y|x)}{Z_x}
+\eeq
+
+
+\beq
+\phi_{\rvy|\rvx}(y|x)\neq
+\frac{\phi_{\rvx,\rvy}(x,y)}{\phi_\rvx(x)}
+\eeq
+
+\begin{claim}
+If
+
+\beq
+Z_x= \sum_y f(x,y)
+\eeq
+then
+
+\beq
+f(x,y)=P_{\rvy|x}(y|x)Z_x
+\eeq
+
+\end{claim}
+\proof
+$f(x,y)$ must be proportional to
+$P_{\rvy|\rvx}(y|x)$.
+
+\qed
+
+\begin{claim}
+ $Z_{\rvx,\rvy}= Z_\rvx Z_\rvy$
+iff $P_{\rvx,\rvy}(x,y)
+=P_\rvx(x)P_\rvy(y)$
+\end{claim}
+\proof
+
+Assume
+
+\beq
+Z_{\rvx,\rvy}= Z_\rvx Z_\rvy
+\eeq
+Then
+
+\beq
+\sum_{x,y}\phi_{\rvx\rvy}(x,y)
+=
+\sum_{x,y}\phi_\rvx(x)\phi_\rvy(y)
+\eeq
+Thus
+
+\beq
+\phi_{\rvx\rvy}(x,y)=
+\phi_\rvx(x)\phi_\rvy(y) \underbrace{\frac{Z_{\rvx,\rvy}}{Z_\rvx Z_\rvy}}_{1}
+\eeq
+Thus
+
+\beq
+P_{\rvx\rvy}(x,y)=P_\rvx(x)P_\rvy(y)
+\eeq
+Run this argument backwards to
+prove the converse.
+
+
+
+\qed
+\subsection{Four Major Ensembles}
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
+\begin{table}[]
+\centering
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{9AFF99} 
+Ensemble & \begin{tabular}[c]{@{}l@{}}Natural\\ Potential\end{tabular} & \begin{tabular}[c]{@{}l@{}}not-exchanged\\ fixed\\ quantities\end{tabular} & \begin{tabular}[c]{@{}l@{}}exchanged\\ quantities\end{tabular} & Description \\ \hline
+ & \begin{tabular}[c]{@{}l@{}}$U(S, V, \vec{N})$\\ internal energy\end{tabular} &  &  &  \\ \hline
+\rowcolor[HTML]{FFCCC9} 
+\begin{tabular}[c]{@{}l@{}}Micro-\\ canonical\end{tabular} & \begin{tabular}[c]{@{}l@{}}$S(U, V, \vec{N})$,\\ entropy\end{tabular} & $U, V, \vec{N}$ & None & isolated \\ \hline
+ & \begin{tabular}[c]{@{}l@{}}$H(S, p, \vec{N})$,\\ enthalpy\end{tabular} &  &  &  \\ \hline
+\rowcolor[HTML]{FFCCC9} 
+Canonical & \begin{tabular}[c]{@{}l@{}}$F(T, V, \vec{N}$\\ Helmholtz\\ free energy\end{tabular} & $T, V, \vec{N}$ & $U$ & \begin{tabular}[c]{@{}l@{}}heat reservoir $(T)$\\ fixed $V$\\ fixed $\vec{N}$\end{tabular} \\ \hline
+\rowcolor[HTML]{FFCCC9} 
+\begin{tabular}[c]{@{}l@{}}isobaric-\\ isothermal\end{tabular} & \begin{tabular}[c]{@{}l@{}}$G(T, p, \vec{N}$\\ Gibbs\\ free energy\end{tabular} & $T,p, \vec{N}$ & $U, V$ & \begin{tabular}[c]{@{}l@{}}heat reservoir $(T)$,\\ fixed $p$, \\ fixed  $\vec{N}$\\ $V$ can change\end{tabular} \\ \hline
+\rowcolor[HTML]{FFCCC9} 
+\begin{tabular}[c]{@{}l@{}}Grand-\\ canonical\end{tabular} & \begin{tabular}[c]{@{}l@{}}$\Omega(T, V, \vec{\mu})$\\ Grand Potential\end{tabular} & $T,V, \vec{\mu}$ & $U, \vec{N}$ & \begin{tabular}[c]{@{}l@{}}heat reservoir $(T)$\\ fixed $V$\\ $\vec{N}$ can change\end{tabular} \\ \hline
+\end{tabular}
+\caption{Four major ensembles, their natural potential, not-exchanged and exchanged quantities.
+A quantity is \qt{fixed}
+if it doesn't change during the process being considered, but can be changed prior to the process to set it up. The exchanged quantities are extensive quantities that can be exchanged between the system and the surroundings. This can include volume changes permitted by a movable boundary, transfer of energy or transfer of particles.
+A heat reservoir at fixed temperature $T$
+can exchange energy $U$ with the system.}
+\label{tab-four-ensembles}
+\end{table}
+
+$E_r=$ allowed energy level
+
+$P_r=P(\rvr=r)=$ probability of $E_r$
+
+$\beta = \frac{1}{k_B T}
+$
+
+
+
+
+
+
+\begin{enumerate}
+\item {\bf Microcanonical Ensemble}
+
+\beq
+\boxed{P(\rvr=r)= \frac{1}{\Omega(U, V, \vec{N})}}
+\eeq
+$P_r$ independent of $r$ 
+so all states have
+same probability.
+
+\beq
+S(U, V, \vec{N})=-
+k_B\sum_r P_r \ln P_r = k_B \ln \Omega
+\eeq
+
+
+
+\item{\bf Canonical Ensemble}
+
+\beq
+\boxed{P(\rvr=r)=
+\frac{1}{Z_{can}}
+e^{-\beta E_r(V,\vec{N})}}
+\eeq
+$P_r$ is called the
+{\bf Boltzmann distribution}.
+
+\beq
+Z_{can}(T, V, \vec{N}) = \sum_r e^{-\beta E_r}
+\eeq
+
+\beq
+F = -k_B T \ln Z_{can}
+\eeq
+
+\item{\bf Isothermal-Isobaric Ensemble}
+
+\beq
+\boxed{P(\rvr=r, \ul{V}=V)=
+\frac{e^{-\beta \left(E_r (V)+PV\right)}}
+{Z_{ii}}}
+\eeq
+
+\beq
+Z_{ii}(T, P, \vec{N})
+=
+\int_0^\infty 
+dV\;
+e^{-\beta PV}
+Z_{can }
+(T, V,
+\vec{N})
+\eeq
+
+\beq
+G = -k_B T \ln Z_{ii}
+\eeq
+
+\item {\bf Grand Canonical Ensemble}
+
+
+\beq
+\boxed{P(\rvr=r, \ul
+{\vec{N}}=\vec{N})=
+\frac{e^{-\beta \left(E_r (\vec{N})-\sum_i \mu_i N_i\right)}}
+{Z_{gcan}}}
+\eeq
+
+\beq
+Z_{gcan}(T, V, \vec{\mu}) =\sum_{\vec{N}}
+e ^{\beta \sum_i \mu_i N_i}
+Z_{can }(T, V,\vec{N})
+\eeq
+
+\beq
+\Omega = -k_B T \ln Z_{gcan}
+\eeq
+
+\item {\bf Quantum Corrections to Grand Canonical Ensemble}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=5in]
+{differ-geo/bosons-fermions-occupation.png}
+\caption{Example of energy level occupation numbers $n_r$ fermions and bosons. Spin-up and spin-down electron states with the same energy are treated as distinct single-particle quantum states and given different occupation numbers. Fermions obey the {\bf Pauli exclusion 
+principle} which says that only 
+two electrons, with spin-up and spin-down, can occupy
+the same energy level.}
+\label{fig-bosons-fermions-occ}
+\end{figure}
+
+fermions: electrons, protons, neutrons, and other particles with half-integer spin.
+
+bosons: photons, helium-4 atoms, and other particles with integer spin.
+
+For fermions, each macroscopic energy level $E_r$
+has two quantum
+sublevels, let's call them $r=0, 1$.
+For bosons, the macroscopic energy level $E_r$ has infinitely many sublevels, let's call them
+$\nu=0,1, 2,3,\ldots$.
+For both bosons
+and fermions, how those sublevels
+are filled is dictated 
+by Quantum Mechanics: fermions obey Fermi 
+statistics and bosons obey
+Bose-Einstein statistics.
+
+Assume
+the experimental conditions (fixed and exchanged quantities) for a Grand Canonical ensemble
+with a single species with chemical
+potential $\mu$  to apply.
+
+
+Let 
+
+$P_r= P(\rvr=r)=$ probability that system lies in macroscopic energy level $E_r$. 
+
+$P_{\nu|r} = P(\ul{\nu}=\nu | \rvr=r)$ where $\nu=0, 1,2, \ldots$
+
+$P_{r,\nu} =P_{\nu|r}P_r$
+
+$\av{\nu}_r = \sum_{\nu=0}^\infty \nu P_{\nu|r}$
+
+\beq
+\boxed{x_r = e^{-\beta(\eps_r-\mu)}}
+\eeq
+For bosons, $\eps_r\geq \mu$. $\eps_r =\mu$ for
+Bose-Einstein condensation. Hence $x_r\in [0, 1]$.
+
+For fermions,
+can have $\mu\geq \eps_i$. Hence $x_r \in [0, \infty]$
+
+
+ 
+\begin{itemize}
+\item bosons:
+
+{\bf Bose-Einstein distribution (statistics)}
+
+\beq
+P_{\nu|r} =(1-x_r) (x_r)^\nu
+\eeq
+for $\nu=0,1, 2, \ldots$.
+(check: $\sum_{\mu=0}^\infty P_{\nu|r} = 1$)
+
+\beqa
+\av{\nu}_r &=& (1-x_r)\sum_{\nu=0}^\infty \nu (x_r)^\nu
+\\
+&=&
+(1-x_r)\frac{x_r}{(1-x_r)^2}
+\\&=&
+\frac{x_r}{1-x_r}
+\eeqa
+
+\beq
+\boxed{\av{\nu}_r \in [0,\infty],
+\quad x_r\in [0,1]}
+\eeq
+
+\beq
+\boxed{\av{\nu}_r = \frac{x_r}{1-x_r}
+=
+\frac{1}{e^{\beta(\eps_r-\mu)}-1}}
+\eeq
+If invert,
+
+\beq
+x_r= \frac{\av{\nu}_r}{1+\av{\nu}_r}
+\eeq
+\item fermions: 
+
+{\bf Fermi distribution (statistics)}
+
+\beq
+P_{\nu|r} =\frac{(x_r)^\nu}{1+x_r}\indi(\nu\in \{0,1\})
+\eeq
+(check: $\sum_{\mu=0}^\infty P_{\nu|r} = 1$)
+
+\beqa
+\av{\nu}_r &=& \sum_{\nu=0}^1 \nu \frac{(x_r)^\nu}{1+x_r}
+\\
+&=&
+\frac{x_r}{1+x_r}
+\eeqa
+
+\beq
+\boxed{\av{\nu}_r\in [0, 1],
+\quad x_r\in [0, \infty]}
+\eeq
+
+\beq
+\boxed{\av{\nu}_r =
+\frac{x_r}{1+x_r}
+=\frac{1}{e^{\beta(\eps_r-\mu)}+1}}
+\eeq
+
+
+If invert
+
+\beq
+x_r =\frac{\av{\nu}_r}{1-\av{\nu}_r}
+\eeq
+Important: In the notation 
+we are using, spin-up and spin-down states with the same energy are treated as different single-particle quantum states,
+with different $r$
+
+
+\item fermions or bosons when $x_r\ll 1$: 
+
+{\bf Boltzmann distribution}:
+
+$\eps_r\gg \mu$, $x_r \approx\av{\nu}_r\approx e^{-\beta\eps_r}$
+
+\beq
+P_{\nu|r} =(1-x_r) (x_r)^\nu
+\eeq
+for $\nu=0,1, 2, \ldots$.
+Same function of $x_r$ as
+for bosons, but
+different $x_r$ (now $\mu\approx 0$ in $x_r$).
+\end{itemize}
+\hrule
+
+Define
+
+\beq
+E(\vec{n}) = \sum_{r=1}^\infty n_r\eps_r,
+\quad
+N(\vec{n}) = \sum_{r=1}^\infty n_r
+\eeq
+
+$\nu$ becomes $n_r$
+\beq
+x_r(T, V, \mu) = e^{-\beta(\eps_r(V)-\mu)},\quad
+\phi(n_r;r) = (x_r)^{n_r},\quad
+Z_r(T,V, \mu) = \sum_{n_r=0}^\infty\phi(n_r;r)
+\eeq
+
+For clarity, assume 3 levels so $r=1,2,3$
+
+\beq
+Z^{gcan}(T, V, \mu) =
+\sum_{N=0}^\infty 
+\underbrace{\sum_{n_1=0}^\infty
+\sum_{n_2=0}^\infty
+\sum_{n_3=0}^\infty
+\delta(\sum_{r=1}^3 n_r , N)
+\overbrace{\phi(n_1;1)
+\phi(n_2;2)
+\phi(n_3, 3)}^{e^{-\beta(E(\vec{n})-\mu N(\vec{n}))}}
+}_{
+Z_N(T, V,\mu)
+}
+\eeq
+
+
+
+\beqa
+Z^{gcan}(T, V, \mu) &=&
+\sum_{n_1=0}^\infty
+\sum_{n_2=0}^\infty
+\sum_{n_3=0}^\infty
+\overbrace
+{\phi(n_1;1)\phi(n_2;2)
+\phi(n_3, 3)}^{e^{-\beta(E(\vec{n})-\mu N(\vec{n}))}}
+\\
+&=&
+\prod_{r=1}^3
+\underbrace
+{\left(
+\sum_{n_r=0}^\infty
+\phi(n_r; r)
+\right)}_{Z_r(T,V, \mu)}
+\eeqa
+
+\hrule
+Distinction between 
+statistical manifold
+$\calm_{stat}$
+and equilibrium manifold $\cale$
+
+Note that if you choose 
+an ensemble, then the coordinates of $\calm_{stat}$ are those of the natural Tpotential for that 
+ensemble. But those are 
+the same coordinates as those
+of $\cale$ when you
+use that Tpotential.
+For example, if you choose the Canonical Ensemble for $\calm_{stat}$ and
+the Helmholtz free energy for $\cale$ , then the coordinates of both
+$\calm_{stat}$ and $\cale$
+are $T, V, N$.\footnote{Since $N$ is a discrete variable, we consider one smooth manifold for each value of $N$}.
+So it would seem that there is no difference between $\calm_{stat}$
+and $\cale$ in this case.
+But note that it is still
+useful to distinguish them for at least 2 reasons. 
+
+First, $\calm_{stat}$
+and $\cale$ are equipped with
+different machinery and are used to investigate
+different issues. 
+For example, $\calm_{stat}$ has a Fisher Information metric and the canonical ensemble consequences. $\cale$ has the laws of Tdynamics. 
+
+The second reason is that $\calm_{stat}$ has an extra random variable $r$ (for discrete)
+or $x$ (for continuous) with associated probability distribution $P_{r|T, V, N}$ or $\rho(x; T, V, N)$ 
+$r$ (or $x$) label
+{\bf microstates}
+whereas $T,V, N$
+(equilibrium or ensemble coordinates)
+label a {\bf macrostate}.
+$\calm_{stat}$
+provides a bridge between
+the microscopic and macroscopic worlds.
+$\cale$ is just the destination end of the bridge.
+
+
+ 
+
+
+
+\end{enumerate}
+
+\subsection{Canonical Ensemble}
+
+{\bf Canonical Ensemble}
+
+\beq
+\rho =
+\frac{1}{Z} e^{-\beta H}
+,\quad (P_r = \frac{1}{Z} e^{-\beta E_r})
+\eeq
+where $
+\beta = \frac{1}{k_B T}$
+In order to satisfy
+
+\beq
+\int dx\; \rho =1,
+\quad (\sum _r P_r =1)
+\eeq
+we must have
+
+\beq
+Z =\int dx \; e^{-\beta H},
+\quad (Z= \sum_r 
+e^{-\beta E_r})
+\eeq
+
+\beq
+U = \av{E}= \sum_r P_r r^{-\beta E_r}
+\eeq
+
+\beq
+S= -k_B\sum_r P_r \ln P_r
+\eeq
+
+\beq
+F= U-TS
+\eeq
+
+\begin{claim}
+
+\beq
+\beta =\frac{1}{k_B T}\implies
+\partial_\beta =
+-{k_B T^2}\partial_T
+,\quad
+dT=-k_B T^2  d\beta
+\eeq
+\end{claim}
+\proof
+\beq
+\pder{\;}{\beta}=\pder{T}{\beta}\pder{\;}{T}=
+k_B \frac{1}{\partial_T  (1/T)}
+\pder{\;}{T}= -k_B T^2 \pder{\;}
+{T}
+\eeq
+
+\qed
+
+\begin{claim}
+If we assume the canonical ensemble, then
+
+\beq
+U= -\partial_\beta \ln Z
+\eeq
+
+\beq
+S= k_B(\ln Z + \beta U)
+\eeq
+
+\beq
+F= -k_B T \ln Z
+\eeq
+
+\end{claim}
+\proof
+
+\beq
+\partial_\beta \ln Z=
+-\;\frac{1}{Z}
+\sum_r E_r e^{-\beta E_r}=
+-\av{E}=-U
+\eeq
+
+\beq
+\ln P_r = -\beta E_r - \ln Z
+\eeq
+
+\beqa
+S &=& -k_B\sum_r P_r
+(-\beta E_r -\ln Z)
+\\
+&=&
+k_B \beta U + k_B Z 
+\\
+&=&
+k_B \beta U 
++k_B \ln  Z
+\eeqa         
+
+\beq
+F= U-TS =
+U - k_BT(\ln Z +\beta U)=
+-k_B T \ln Z
+\eeq
+\qed
+
+\begin{claim}
+The canonical ensemble satisfies the First Law of Thermodynamics:
+
+\beq
+dU = TdS - pdV
++\sum_i \mu_i dN_i
+\eeq
+
+\end{claim}
+\proof
+Call $\cale_U$ this equation 
+\beq
+dU = TdS - pdV
++\sum_i \mu_i dN_i 
+\eeq
+and call $\cale_F$ this one 
+
+\beq
+dF = SdT -pdV +\sum_i \mu_i dN_i
+\eeq
+To derive Table \ref{tab-thermo-pot-ai}, one proves that
+$\cale_U$ and $F= U-TS$ implies $\cale_F$. In this case, one proves the converse, assuming $F=U-TS$. That is, one proves that
+$\cale_F$ and $F=U-TS$ implies $\cale_U$.
+Both proofs are straightforward algebra.
+\qed
+
+The heat capacity at constant volume is defined by
+
+\beq 
+C_V =\partial_{T|V, \vec{N}}U
+\eeq
+At constant volume and particle numbers,
+
+\beq
+dU = TdS
+\eeq
+Hence, also
+
+\beq
+C_V = T \partial_{T|V, \vec{N}}S
+\eeq
+
+
+
+\qed
+
+
+Let 
+
+\beq
+\av{E,E} = Var(E)=
+\av{(E-\av{E})^2}
+= \av{E^2}-\av{E}^2
+\eeq
+\begin{claim}
+If we assume the canonical ensemble, then
+
+\beq
+U =-\partial_\beta \ln Z = \av{E}
+\eeq
+\beq
+\partial_\beta U =
+-\partial_\beta^2 \ln Z= -\av{E, E}
+\eeq
+
+\beq
+C_V = \frac{\av{E, E}}
+{k_B T^2}
+\eeq
+\end{claim}
+\proof
+
+\beq
+\partial_\beta \ln Z
+= -U
+\eeq
+
+\beqa
+\partial_\beta^2\ln Z&=&
+\partial_\beta\left(
+Z^{-1}\sum_r (-E_r) e^{-\beta E_r}
+\right)
+\\
+&=&
+-\partial_\beta(Z^{-1})[Z\av{E}]
++
+\av{E^2}
+\\
+&=&
+\frac{1}{Z^2}[Z\av{E}][Z\av{E}]
++
+\av{E^2}
+\\
+&=&
+\av{E,E}
+\eeqa
+
+\beq
+C_V = \partial_T U =
+ -
+\frac{1}{k_B T^2} \partial_\beta  U
+=
+\frac{\av{E,E}}{ k_B T^2}
+\eeq
+\qed
+
+This connects a macroscopic quantity $C_V$ with a microscopic on $\av{E, E}$.
+Although $C_V\geq 0$ 
+for the canonical ensemble,
+this need not be the case for
+other ensembles.
+
+\begin{claim}
+If we assume the canonical ensemble,
+then the Fisher 
+Information metric
+for the single parameter $\beta$ (or $T$) is
+
+\beq
+\metric_{\beta\beta} = \av{E, E}=k_B T^2 C_V
+\eeq
+
+\beq
+\metric_{TT}=
+\frac{\av{E, E}}{(k_BT^2)^2}=
+\frac{C_V}{k_B T^2}
+\eeq
+\end{claim}
+\proof
+
+\beq
+\ln P_r =
+-\beta E_r
+-\ln Z
+\eeq
+
+\beq
+\partial_\beta \ln P_r = - E_r + \av{E}
+\eeq
+
+\beqa
+\metric_{\beta\beta} &=&
+\sum_r P_r
+(\partial_\beta \ln P_r)^2
+\\
+&=&
+\sum_r P_r
+(E_r + -\av{E})^2
+\\
+&=&
+\av{E, E}
+\eeqa
+
+\beq
+\metric_{TT}=\frac{1}{(k_B T^2)^2}\metric_{\beta\beta}
+\eeq
+\qed
 
 
 \subsection{Maxwell Relations and more \\complicated derivative relationships}
@@ -829,761 +1617,250 @@ d\left(
 
 \subsection{Gibbs-Duhem Equation}
 
+A function $
+f(\vecx)$ is said to be {\bf homogeneous of degree $k$} if 
+
+\beq
+f(\lam \vecx)= \lam^k f(\vecx)
+\eeq
+for some $\lam>0$
+
+\begin{claim}(Euler's Theorem for homogeneous functions)
+
+If smooth function $f(\vecx)$ is 
+homogeneous of degree $k$, then
+
+\beq
+\sum_i x^i\pder{f(\vecx)}
+{x^i} = k f(\vecx)
+\eeq
+
+\end{claim}
+\proof
+
+Differentiate with respect to $\lam$
+both sides of the definition of homogeneous. 
+
+\beq
+\sum_i x^i \pder{f(\lam x^i)}{\lam x^i} = k \lam^{k-1}f(\vecx)
+\eeq
+Now set $\lam$ to one.
+
+\qed
+
+First law
+\beq
+dU = TdS - pdV +\sum_i \mu_i dN_i
+\eeq
+
+\beq
+dU = \sum_\mu \cali_\mu d\cale_\mu
+\eeq
+
+Euler's Theorem 
+\beq
+U = \sum_\mu \cale_\mu \cali_\mu
+\eeq
+
+\beq
+dU = \sum_\mu (\cale_\mu d\cali_\mu + \cali_\mu d\cale_\mu)
+\eeq
+
+Gibbs-Duhem (GD ) equation is
+\beq
+\sum_\mu \cale_\mu d\cali_\mu =0
+\eeq
+The GD equation is a constraint on the space of intensive variables.
+It reduces the number of dofs (degrees of freedom) of that space by one.
+That superfluous dof that is being removed (or fixed) can be understood as the scale of the system.
+
+Rather than fixing the value
+of one intensive variable, thereby reducing the dimensionality of the space of intensive variables, it's more convenient to
+keep the dimensionality of the space the same and constrain the allowed points in that space to lie on a sub-surface of one dimension less. Thus, the dimensions of manifolds $\calm_{stat}$,
+$\cale$ and $\calt$ remain the same, even though their coordinates are now constrained. The dimension of $\calp$ doesn't change either, but for a different reason: it concerns the microscopic phase space dofs which unaffected by the choice of intensive variables.
+
+In this point of view where the 
+dimensions of $\cale$ stays the same,
+the GD equation can be viewed as 
+constraining the infinitesimal steps of a process, rather than reducing $dim\; \cale$.
+
+
+
 \subsection{Gibbs Phase Rule}
 
 
-\subsection{Claperyon Equation}
 
-\subsection{Thermodynamic Stability Conditions}
 
-\subsection{Probabilistic Potentials}
 
-Probabilistic Potentials
+Let 
 
-Suppose we express a probability
- $P_\rvx(x)$ as follows
+$\phi\in \{ 1, 2, \ldots \ol{\phi}\}$  phase labels
+
+$c=\{1, 2, \ldots, \ol{c}\}$ component labels.,
+
+$\#iv=$ number of independent variables
+
+$N_c^\phi=$ number of particles 
+of component $c$ in phase $\phi$.
+
+$N^\phi =\sum_{c=1}^{\ol{c}} N^\phi_c$
+
+$x_c^\phi= \frac{N_c^\phi}
+{N^\phi}$ fraction of component $c$
+in phase $\phi$.
+
+$\mu_c^\phi=$ chemical
+potential of component $c$ and phase $\phi$. 
+
+$C_\phi =$ number of components for phase $\phi$
+
+$\Phi_c=$ = number of phases 
+for component $c$.
+
+
+\hrule
+At equilibrium,
 \beq
-P_\rvx(x) = \frac{\phi_\rvx(x)}{Z_\rvx}
+dG^\phi= S^\phi dT -V^\phi dp +\sum_{c=1}^{\ol{c}} \mu_c  dN_c^\phi
 \eeq
-We will refer to $\phi_\rvx(x)$ as a 
-{\bf probabilistic potential (ppotential)} and
-to $Z_\rvx$ as a {\bf partition function}. 
-A ppotential is simply
-an un-normalized probability.
-
-
-Note that 
-$\sum_x P_\rvx(x)=1$ implies
+for $\phi=1, 2, \ldots \ol{\phi}$.
+Let 
 
 \beq
-Z_\rvx = \sum_x \phi_\rvx(x)
-\eeq
-
-\begin{claim}
-
-\beq 
-\sum_{x}\phi_{\rvx,\rvy}(x,y)
-=
-\phi_\rvy(y)\frac{Z_{\rvx,\rvy}}{Z_\rvx }
-\eeq
-\end{claim}
-\proof
-
-\beq
-\sum_{x} 
-{P_{\rvx, \rvy}(x,y)}
-=
-P_\rvy(y)
+N^\phi = \sum_c N^\phi_c,
+\quad x^\phi_c = \frac{N^\phi_c}{N^\phi}
 \eeq
 
 \beq
-\sum_{x}
-\frac{\phi_{\rvx, \rvy}(x,y)}{Z_{\rvx,\rvy}}
-=
-\frac{\phi_\rvy(y)}{Z_\rvy}
+dg^\phi = s^\phi dT - v^\phi dp 
++\sum_{c=1}^{\ol{c}} \mu_c^\phi dx^\phi_c
 \eeq
-
-
-\qed
-
-
-
-
-
-
-\begin{claim}
-\beq
-P_{\rvy|\rvx}(y|x)=
-\frac{\phi_{\rvx,\rvy}(x,y)}{\phi_\rvx(x)}
-\frac{Z_\rvx}{Z_{\rvx,\rvy}}
-\eeq
-
-\end{claim}
-\proof
-
-\beq
-P_{\rvy|\rvx}(y|x)=
-\frac{P_{\rvx,\rvy}(x,y)}
-{P_\rvx(x)}=
-\frac{\phi_{\rvx,\rvy}(x,y)}{Z_{\rvx,\rvy}}
-\frac{Z_\rvx}{\phi_\rvx(x)}
-\eeq
-
-\qed
-
-\begin{claim}
-If 
-
-\beq
-P_{\rvx,\rvy}(x,y)=P_\rvx(x)P_\rvy(y)
-\eeq
-then
-
-\beq
-\phi_{\rvx,\rvy}(x,y)=
-\phi_\rvx(x)\phi_\rvy(y)
-\frac{Z_{\rvx, \rvy}}{Z_\rvx Z_\rvy}
-\eeq
-
-\end{claim}
-\proof
-Obvious.
-\qed
-
-
-
-Define
-
-\beq
-P_{\rvy|\rvx}(y|x) = \frac{\phi_{\rvy|\rvx}(y|x)}{Z_x}
-\eeq
-
-
-\beq
-\phi_{\rvy|\rvx}(y|x)\neq
-\frac{\phi_{\rvx,\rvy}(x,y)}{\phi_\rvx(x)}
-\eeq
-
-\begin{claim}
-If
-
-\beq
-Z_x= \sum_y f(x,y)
-\eeq
-then
-
-\beq
-f(x,y)=P_{\rvy|x}(y|x)Z_x
-\eeq
-
-\end{claim}
-\proof
-$f(x,y)$ must be proportional to
-$P_{\rvy|\rvx}(y|x)$.
-
-\qed
-
-\begin{claim}
- $Z_{\rvx,\rvy}= Z_\rvx Z_\rvy$
-iff $P_{\rvx,\rvy}(x,y)
-=P_\rvx(x)P_\rvy(y)$
-\end{claim}
-\proof
-
-Assume
-
-\beq
-Z_{\rvx,\rvy}= Z_\rvx Z_\rvy
-\eeq
-Then
-
-\beq
-\sum_{x,y}\phi_{\rvx\rvy}(x,y)
-=
-\sum_{x,y}\phi_\rvx(x)\phi_\rvy(y)
-\eeq
-Thus
-
-\beq
-\phi_{\rvx\rvy}(x,y)=
-\phi_\rvx(x)\phi_\rvy(y) \underbrace{\frac{Z_{\rvx,\rvy}}{Z_\rvx Z_\rvy}}_{1}
-\eeq
-Thus
-
-\beq
-P_{\rvx\rvy}(x,y)=P_\rvx(x)P_\rvy(y)
-\eeq
-Run this argument backwards to
-prove the converse.
-
-
-
-\qed
-\subsection{Four Major Ensembles}
-
-% Please add the following required packages to your document preamble:
-% \usepackage[table,xcdraw]{xcolor}
-% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
-\begin{table}[]
-\centering
-\begin{tabular}{|l|l|l|l|l|}
-\hline
-\rowcolor[HTML]{9AFF99} 
-Ensemble & \begin{tabular}[c]{@{}l@{}}Natural\\ Potential\end{tabular} & \begin{tabular}[c]{@{}l@{}}not-exchanged\\ fixed\\ quantities\end{tabular} & \begin{tabular}[c]{@{}l@{}}exchanged\\ quantities\end{tabular} & Description \\ \hline
- & \begin{tabular}[c]{@{}l@{}}$U(S, V, \vec{N})$\\ internal energy\end{tabular} &  &  &  \\ \hline
-\rowcolor[HTML]{FFCCC9} 
-\begin{tabular}[c]{@{}l@{}}Micro-\\ canonical\end{tabular} & \begin{tabular}[c]{@{}l@{}}$S(U, V, \vec{N})$,\\ entropy\end{tabular} & $U, V, \vec{N}$ & None & isolated \\ \hline
- & \begin{tabular}[c]{@{}l@{}}$H(S, p, \vec{N})$,\\ enthalpy\end{tabular} &  &  &  \\ \hline
-\rowcolor[HTML]{FFCCC9} 
-Canonical & \begin{tabular}[c]{@{}l@{}}$F(T, V, \vec{N}$\\ Helmholtz\\ free energy\end{tabular} & $T, V, \vec{N}$ & $U$ & \begin{tabular}[c]{@{}l@{}}heat reservoir (T)\\ fixed $V$\\ fixed $\vec{N}$\end{tabular} \\ \hline
-\rowcolor[HTML]{FFCCC9} 
-\begin{tabular}[c]{@{}l@{}}isobaric-\\ isothermal\end{tabular} & \begin{tabular}[c]{@{}l@{}}$G(T, p, \vec{N}$\\ Gibbs\\ free energy\end{tabular} & $T,p, \vec{N}$ & $U, V$ & \begin{tabular}[c]{@{}l@{}}heat reservoir (T),\\ fixed $p$, \\ fixed  $\vec{N}$\\ $V$ can change\end{tabular} \\ \hline
-\rowcolor[HTML]{FFCCC9} 
-\begin{tabular}[c]{@{}l@{}}Grand-\\ canonical\end{tabular} & \begin{tabular}[c]{@{}l@{}}$\Omega(T, V, \vec{\mu})$\\ Grand Potential\end{tabular} & $T,V, \vec{\mu}$ & $U, \vec{N}$ & \begin{tabular}[c]{@{}l@{}}heat reservoir (T)\\ fixed $V$\\ $\vec{N}$ can change\end{tabular} \\ \hline
-\end{tabular}
-\caption{Four major ensembles, their natural potential, not-exchanged and exchanged quantities.
-A quantity is \qt{fixed}
-if it doesn't change during the process being considered, but can be changed prior to the process to set it up. The exchanged quantities are extensive quantities that can be exchanged between the system and the surroundings. This can include volume changes permitted by a movable boundary, transfer of energy or transfer of particles.
-A heat reservoir at fixed temperature $T$
-can exchange energy $U$ with the system.}
-\label{tab-four-ensembles}
-\end{table}
-
-$E_r=$ allowed energy level
-
-$P_r=P(\rvr=r)=$ probability of $E_r$
-
-$\beta = \frac{1}{k_B T}
-$
-
 
 
 
 
 
 \begin{enumerate}
-\item {\bf Microcanonical Ensemble}
+\item $\mu^\phi_c$ constraints
 
 \beq
-\boxed{P(\rvr=r)= \frac{1}{\Omega(U, V, \vec{N})}}
-\eeq
-$P_r$ independent of $r$ 
-so all states have
-same probability.
-
-\beq
-S(U, V, \vec{N})=-
-k_B\sum_r P_r \ln P_r = k_B \ln \Omega
-\eeq
-
-
-
-\item{\bf Canonical Ensemble}
-
-\beq
-\boxed{P(\rvr=r)=
-\frac{1}{Z_{can}}
-e^{-\beta E_r(V,\vec{N})}}
-\eeq
-$P_r$ is called the
-{\bf Boltzmann distribution}.
-
-\beq
-Z_{can}(T, V, \vec{N}) = \sum_r e^{-\beta E_r}
+\begin{tabular}{|
+>{\columncolor[HTML]{FFFC9E}}l |l|l|}
+\hline
+\cellcolor[HTML]{FFFFFF}$c\backslash \phi$ & \cellcolor[HTML]{9AFF99}1 & \cellcolor[HTML]{9AFF99}2 \\ \hline
+1 &  & $\mu_1$ \\ \hline
+2 & $\mu_2$ & $\mu_2$ \\ \hline
+3 & $\mu_3$ &  \\ \hline
+\end{tabular}
+\quad\quad
+\#(\mu_c^\phi \text{ constraints } ) = \sum_{c=1}^{\ol{c}}  \Phi_c-\ol{c}=4-3=1
 \eeq
 
+At a phase boundary, the chemical
+potentials equilibrate
+across phases
+for each component (i.e., $\mu^\phi_c$ becomes independent of $\phi$):
 \beq
-F = -k_B T \ln Z_{can}
+\mu_c^1=\mu_c^2=\cdots=\mu_c^{\Phi_c}=\mu_c
 \eeq
+for $c=1, 2, \ldots, \ol{c}$.
+This gives
+$\sum_{c=1}^{\ol{c}}\Phi_c -\ol{c}$ independent equations.
 
-\item{\bf Isothermal-Isobaric Ensemble}
+\item $x^\phi_c$ constraints
 
 \beq
-\boxed{P(\rvr=r, \ul{V}=V)=
-\frac{e^{-\beta \left(E_r (V)+PV\right)}}
-{Z_{ii}}}
+\begin{tabular}{|
+>{\columncolor[HTML]{FFFC9E}}l |l|l|}
+\hline
+\cellcolor[HTML]{FFFFFF}$c\backslash\phi$ & \cellcolor[HTML]{9AFF99}1 & \cellcolor[HTML]{9AFF99}2 \\ \hline
+1 & $x^1_1$ & $x^2_1$ \\ \hline
+2 & $x^1_2$ & $x^2_2$ \\ \hline
+3 & $x^1_3$ &  \\ \hline
+\end{tabular}\quad
+\#(x_c^\phi\text{ independent variables) } = \sum_{\phi=1}^{\ol{\phi}} C_\phi-\ol{\phi}=5-2=3
 \eeq
 
 \beq
-Z_{ii}(T, P, \vec{N})
-=
-\int_0^\infty 
-dV\;
-e^{-\beta PV}
-Z_{can }
-(T, V,
-\vec{N})
+\sum_{c=1}^{C_1} x_c^1=1,
+\quad 
+\sum_{c=1}^{C_2} x_c^2=1,
+\quad 
+\ldots
+\sum_{c=1}^{C_{\ol{\phi}}} x^{\ol{\phi}}_c=1
 \eeq
+This gives $\ol{\phi}$ independent equations.
+
+\item Gibbs-Duhem? No
+
+
+The Gibbs-Duhem Equation in this case is
 
 \beq
-G = -k_B T \ln Z_{ii}
+\sum_{c=1}^{\ol{c}} x^\phi_c d\mu_c^\phi=0
 \eeq
-
-\item {\bf Grand Canonical Ensemble}
-
-
-\beq
-\boxed{P(\rvr=r, \ul
-{\vec{N}}=\vec{N})=
-\frac{e^{-\beta \left(E_r (\vec{N})-\sum_i \mu_i N_i\right)}}
-{Z_{gcan}}}
-\eeq
-
-\beq
-Z_{gcan}(T, V, \vec{\mu}) =\sum_{\vec{N}}
-e ^{\beta \sum_i \mu_i N_i}
-Z_{can }(T, V,\vec{N})
-\eeq
-
-\beq
-\Omega = -k_B T \ln Z_{gcan}
-\eeq
-
-\item {\bf Quantum Corrections to Grand Canonical Ensemble}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=5in]
-{differ-geo/bosons-fermions-occupation.png}
-\caption{Example of energy level occupation numbers $n_r$ fermions and bosons. Spin-up and spin-down electron states with the same energy are treated as distinct single-particle quantum states and given different occupation numbers. Fermions obey the {\bf Pauli exclusion 
-principle} which says that only 
-two electrons, with spin-up and spin-down, can occupy
-the same energy level.}
-\label{fig-bosons-fermions-occ}
-\end{figure}
-
-fermions: electrons, protons, neutrons, and other particles with half-integer spin.
-
-bosons: photons, helium-4 atoms, and other particles with integer spin.
-
-For fermions, each macroscopic energy level $E_r$
-has two quantum
-sublevels, let's call them $r=0, 1$.
-For bosons, the macroscopic energy level $E_r$ has infinitely many sublevels, let's call them
-$\nu=0,1, 2,3,\ldots$.
-For both bosons
-and fermions, how those sublevels
-are filled is dictated 
-by Quantum Mechanics: fermions obey Fermi 
-statistics and bosons obey
-Bose-Einstein statistics.
-
-Assume
-the experimental conditions (fixed and exchanged quantities) for a Grand Canonical ensemble
-with a single species with chemical
-potential $\mu$  to apply.
-
-
-Let 
-
-$P_r= P(\rvr=r)=$ probability that system lies in macroscopic energy level $E_r$. 
-
-$P_{\nu|r} = P(\ul{\nu}=\nu | \rvr=r)$ where $\nu=0, 1,2, \ldots$
-
-$P_{r,\nu} =P_{\nu|r}P_r$
-
-$\av{\nu}_r = \sum_{\nu=0}^\infty \nu P_{\nu|r}$
-
-\beq
-\boxed{x_r = e^{-\beta(\eps_r-\mu)}}
-\eeq
-For bosons, $\eps_r\geq \mu$. $\eps_r =\mu$ for
-Bose-Einstein condensation. Hence $x_r\in [0, 1]$.
-
-For fermions,
-can have $\mu\geq \eps_i$. Hence $x_r \in [0, \infty]$
-
-
- 
-\begin{itemize}
-\item bosons:
-
-{\bf Bose-Einstein distribution (statistics)}
-
-\beq
-P_{\nu|r} =(1-x_r) (x_r)^\nu
-\eeq
-for $\nu=0,1, 2, \ldots$.
-(check: $\sum_{\mu=0}^\infty P_{\nu|r} = 1$)
-
-\beqa
-\av{\nu}_r &=& (1-x_r)\sum_{\nu=0}^\infty \nu (x_r)^\nu
-\\
-&=&
-(1-x_r)\frac{x_r}{(1-x_r)^2}
-\\&=&
-\frac{x_r}{1-x_r}
-\eeqa
-
-\beq
-\boxed{\av{\nu}_r \in [0,\infty],
-\quad x_r\in [0,1]}
-\eeq
-
-\beq
-\boxed{\av{\nu}_r = \frac{x_r}{1-x_r}
-=
-\frac{1}{e^{\beta(\eps_r-\mu)}-1}}
-\eeq
-If invert,
-
-\beq
-x_r= \frac{\av{\nu}_r}{1+\av{\nu}_r}
-\eeq
-\item fermions: 
-
-{\bf Fermi distribution (statistics)}
-
-\beq
-P_{\nu|r} =\frac{(x_r)^\nu}{1+x_r}\indi(\nu\in \{0,1\})
-\eeq
-(check: $\sum_{\mu=0}^\infty P_{\nu|r} = 1$)
-
-\beqa
-\av{\nu}_r &=& \sum_{\nu=0}^1 \nu \frac{(x_r)^\nu}{1+x_r}
-\\
-&=&
-\frac{x_r}{1+x_r}
-\eeqa
-
-\beq
-\boxed{\av{\nu}_r\in [0, 1],
-\quad x_r\in [0, \infty]}
-\eeq
-
-\beq
-\boxed{\av{\nu}_r =
-\frac{x_r}{1+x_r}
-=\frac{1}{e^{\beta(\eps_r-\mu)}+1}}
-\eeq
-
-
-If invert
-
-\beq
-x_r =\frac{\av{\nu}_r}{1-\av{\nu}_r}
-\eeq
-Important: In the notation 
-we are using, spin-up and spin-down states with the same energy are treated as different single-particle quantum states,
-with different $r$
-
-
-\item fermions or bosons when $x_r\ll 1$: 
-
-{\bf Boltzmann distribution}:
-
-$\eps_r\gg \mu$, $x_r \approx\av{\nu}_r\approx e^{-\beta\eps_r}$
-
-\beq
-P_{\nu|r} =(1-x_r) (x_r)^\nu
-\eeq
-for $\nu=0,1, 2, \ldots$.
-Same function of $x_r$ as
-for bosons, but
-different $x_r$ (now $\mu\approx 0$ in $x_r$).
-\end{itemize}
+for $\phi=1,2, \ldots, \ol{\phi}$.
+It will not be included as a constraint
+because it constrains
+infinitesimal steps in a process rather than the actual variables.
+\end{enumerate}
 \hrule
 
-Define
+
+
+
+
+
+
+
+\beq
+\boxed{\#iv =\underbrace{2}_{p, T} + \underbrace{\left(\sum_{\phi=1}^{\ol{\phi}} C_\phi-\ol{\phi}\right)}_{\text {\# independent $x_c^\phi$}}
+- \underbrace{\left(\sum_{c=1}^{\ol
+{c}}P_c -\ol{c} \right)}_{\text{\# $\mu_c^\phi$ constraints}}}
+\label{eq-gibbs-ph-rule}
+\eeq
+This is called {\bf Gibbs Phase Rule.}
+Note that if 
 
 \beq
-E = \sum_{r=1}^\infty n_r\eps_r,
-\quad
-N = \sum_{r=1}^\infty n_r
+\sum_{\phi=1}^{\ol{\phi}} C_\phi=
+\sum_{c=1}^{\ol{c}} P_c
 \eeq
-
-$\nu$ becomes $n_r$
-\beq
-x_r(T, V, \mu) = e^{-\beta(\eps_r(V)-\mu)},\quad
-\phi(n_r;r) = (x_r)^{n_r},\quad
-Z_r(T,V, \mu) = \sum_{n_r=0}^\infty\phi(n_r;r)
-\eeq
-
-For clarity, assume 3 levels so $r=1,2,3$
+then
 
 \beq
-Z^{gcan}(T, V, \mu) =
-\sum_{N=0}^\infty 
-\underbrace{\sum_{n_1=0}^\infty
-\sum_{n_2=0}^\infty
-\sum_{n_3=0}^\infty
-\delta(\sum_{r=1}^3 n_r , N)
-\overbrace{\phi(n_1;1)
-\phi(n_2;2)
-\phi(n_3, 3)}^{e^{-\beta(E-\mu N)}}
-}_{
-Z_N(T, V,\mu)
-}
+\boxed{\#iv = 2 +\ol{\phi}-\ol{c}}
 \eeq
+Examples
+
+\begin{enumerate}
+\item
+liquid water at room temperature
+
+$\ol{c}=\ol{\phi}=1 $ so $\#iv =2+1-1=2$
+
+You can use $p, T$ as ivs.
+
+\item
+water in liquid
+vapor equilibrium
+
+$\ol{c}=1, \ol{\phi}=2$ so $\#iv = 2+1-2=1$
 
 
+\item
+water at its triple point
 
-\beqa
-Z^{gcan}(T, V, \mu) &=&
-\sum_{n_1=0}^\infty
-\sum_{n_2=0}^\infty
-\sum_{n_3=0}^\infty
-\overbrace
-{\phi(n_1;1)\phi(n_2;2)
-\phi(n_3, 3)}^{e^{-\beta(E-\mu N)}}
-\\
-&=&
-\prod_{r=1}^3
-\underbrace
-{\left(
-\sum_{n_r=0}^\infty
-\phi(n_r; r)
-\right)}_{Z_r(T,V, \mu)}
-\eeqa
-
-
-
+$\ol{c}=1, \ol{\phi} =3$ so $\#iv = 2+1-3 =0$
 
 
 \end{enumerate}
 
-\subsection{Canonical Ensemble}
 
-{\bf Canonical Ensemble}
+\subsection{Claperyon Equation}
 
-\beq
-\rho =
-\frac{1}{Z} e^{-\beta H}
-,\quad (P_r = \frac{1}{Z} e^{-\beta E_r})
-\eeq
-where $
-\beta = \frac{1}{k_B T}$
-In order to satisfy
+\subsection{Thermodynamic Stability Cnditions}
 
-\beq
-\int dx\; \rho =1,
-\quad (\sum _r P_r =1)
-\eeq
-we must have
-
-\beq
-Z =\int dx \; e^{-\beta H},
-\quad (Z= \sum_r 
-e^{-\beta E_r})
-\eeq
-
-\beq
-U = \av{E}= \sum_r P_r r^{-\beta E_r}
-\eeq
-
-\beq
-S= -k_B\sum_r P_r \ln P_r
-\eeq
-
-\beq
-F= U-TS
-\eeq
-
-\begin{claim}
-
-\beq
-\beta =\frac{1}{k_B T}\implies
-\partial_\beta =
--{k_B T^2}\partial_T
-,\quad
-dT=-k_B T^2  d\beta
-\eeq
-\end{claim}
-\proof
-\beq
-\pder{\;}{\beta}=\pder{T}{\beta}\pder{\;}{T}=
-k_B \frac{1}{\partial_T  (1/T)}
-\pder{\;}{T}= -k_B T^2 \pder{\;}
-{T}
-\eeq
-
-\qed
-
-\begin{claim}
-If we assume the canonical ensemble, then
-
-\beq
-U= -\partial_\beta \ln Z
-\eeq
-
-\beq
-S= k_B(\ln Z + \beta U)
-\eeq
-
-\beq
-F= -k_B T \ln Z
-\eeq
-
-\end{claim}
-\proof
-
-\beq
-\partial_\beta \ln Z=
--\;\frac{1}{Z}
-\sum_r E_r e^{-\beta E_r}=
--\av{E}=-U
-\eeq
-
-\beq
-\ln P_r = -\beta E_r - \ln Z
-\eeq
-
-\beqa
-S &=& -k_B\sum_r P_r
-(-\beta E_r -\ln Z)
-\\
-&=&
-k_B \beta U + k_B Z 
-\\
-&=&
-k_B \beta U 
-+k_B \ln  Z
-\eeqa         
-
-\beq
-F= U-TS =
-U - k_BT(\ln Z +\beta U)=
--k_B T \ln Z
-\eeq
-\qed
-
-\begin{claim}
-The canonical ensemble satisfies the First Law of Thermodynamics:
-
-\beq
-dU = TdS - pdV
-+\sum_i \mu_i dN_i
-\eeq
-
-\end{claim}
-\proof
-Call $\cale_U$ this equation 
-\beq
-dU = TdS - pdV
-+\sum_i \mu_i dN_i 
-\eeq
-and call $\cale_F$ this one 
-
-\beq
-dF = SdT -pdV +\sum_i \mu_i dN_i
-\eeq
-To derive Table \ref{tab-thermo-pot-ai}, one proves that
-$\cale_U$ and $F= U-TS$ implies $\cale_F$. In this case, one proves the converse, assuming $F=U-TS$. That is, one proves that
-$\cale_F$ and $F=U-TS$ implies $\cale_U$.
-Both proofs are straightforward algebra.
-\qed
-
-The heat capacity at constant volume is defined by
-
-\beq 
-C_V =\partial_{T|V, \vec{N}}U
-\eeq
-At constant volume and particle numbers,
-
-\beq
-dU = TdS
-\eeq
-Hence, also
-
-\beq
-C_V = T \partial_{T|V, \vec{N}}S
-\eeq
-
-
-
-\qed
-
-
-Let 
-
-\beq
-\av{E,E} = Var(E)=
-\av{(E-\av{E})^2}
-= \av{E^2}-\av{E}^2
-\eeq
-\begin{claim}
-If we assume the canonical ensemble, then
-
-\beq
-U =-\partial_\beta \ln Z = \av{E}
-\eeq
-\beq
-\partial_\beta U =
--\partial_\beta^2 \ln Z= -\av{E, E}
-\eeq
-
-\beq
-C_V = \frac{\av{E, E}}
-{k_B T^2}
-\eeq
-\end{claim}
-\proof
-
-\beq
-\partial_\beta \ln Z
-= -U
-\eeq
-
-\beqa
-\partial_\beta^2\ln Z&=&
-\partial_\beta\left(
-Z^{-1}\sum_r (-E_r) e^{-\beta E_r}
-\right)
-\\
-&=&
--\partial_\beta(Z^{-1})[Z\av{E}]
-+
-\av{E^2}
-\\
-&=&
-\frac{1}{Z^2}[Z\av{E}][Z\av{E}]
-+
-\av{E^2}
-\\
-&=&
-\av{E,E}
-\eeqa
-
-\beq
-C_V = \partial_T U =
- -
-\frac{1}{k_B T^2} \partial_\beta  U
-=
-\frac{\av{E,E}}{ k_B T^2}
-\eeq
-\qed
-
-This connects a macroscopic quantity $C_V$ with a microscopic on $\av{E, E}$.
-Although $C_V\geq 0$ 
-for the canonical ensemble,
-this need not be the case for
-other ensembles.
-
-\begin{claim}
-If we assume the canonical ensemble,
-then the Fisher 
-Information metric
-for the single parameter $\beta$ (or $T$) is
-
-\beq
-\metric_{\beta\beta} = \av{E, E}=k_B T^2 C_V
-\eeq
-
-\beq
-\metric_{TT}=
-\frac{\av{E, E}}{(k_BT^2)^2}=
-\frac{C_V}{k_B T^2}
-\eeq
-\end{claim}
-\proof
-
-\beq
-\ln P_r =
--\beta E_r
--\ln Z
-\eeq
-
-\beq
-\partial_\beta \ln P_r = - E_r + \av{E}
-\eeq
-
-\beqa
-\metric_{\beta\beta} &=&
-\sum_r P_r
-(\partial_\beta \ln P_r)^2
-\\
-&=&
-\sum_r P_r
-(E_r + -\av{E})^2
-\\
-&=&
-\av{E, E}
-\eeqa
-
-\beq
-\metric_{TT}=\frac{1}{(k_B T^2)^2}\metric_{\beta\beta}
-\eeq
-\qed
 
 
 \section{Cramer-Rao Bound}
