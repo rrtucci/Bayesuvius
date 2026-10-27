@@ -17589,6 +17589,1353 @@ i_\vecv \pform{\omega}{2}
 
 \section{Thermodynamics and Statistical Mechanics}
 
+Thermodynamics = Tdynamics
+Thermodynamical= Tdynamical
+
+Recall that
+
+$U=$ internal energy, 
+
+$(p, V)=$ pressure and volume (conjugate variables)
+
+ $(T, S)=$ temperature and entropy (conjugate variables)
+
+ $(\mu_i, N_i)=$ chemical potential of type (\qt{species}) $i$ particles,
+and their number. (conjugate variables)
+
+
+These are all {\bf state variables}. {\bf Extensive variables}  $U, S, V, \vec{N}$  double if
+the number of particles doubles.
+{\bf Intensive variables}  $T, p, \vec{\mu}$ stay the same.
+Thus, conjugate variables defined above are an intensive and extensive pair of variables.
+
+Language pointer
+
+\begin{itemize}
+\item
+{\bf Path:}  A function (\qt{curve}) $\gamma:[a,b]\to M$
+for some manifold $M$.
+
+\item {\bf Quasi-static path:} A path that passes through a continuous sequence of equilibrium states  or tight sets of equilibrium states (i.e., points or small balls in the equilibrium-state manifold $\cale$). A quasi-static path must traverse $\cale$ slowly. By slowly, we mean, with $\eps=\frac{\tau_{relax}}{\tau_{process}} \ll 1$ where $\tau_{relax}$ and $\tau_{process}$ are characteristic times for relaxation and for the main process. $\tau_{relax}$ might be an average of relaxation times for different sub processes, like chemical reactions, pressure propagation, etc.
+We often use the term \qt{path}
+as short for \qt{quasi-static path}
+
+\item {\bf Process:} A physical transformation of a system from one state to another. Some processes may be represented by a quasi-static path.
+In the geometric representation,
+we usually refer to processes that are quasi-static paths. 
+
+
+\item {\bf Step:} Usually a small portion of a process, connecting two nearby states. Infinitesimally, we describe it using differentials such as $dU$, $dS$, and the heat increment $\delta Q$.
+
+
+
+\item {\bf Reversible path:} A path representing a process that can be reversed so that both the system and its surroundings are restored to their initial states, with no net change (especially no  entropy
+production) in either.
+\ul{Not all quasi-static paths are reversible.}
+For example, quasi-static path involving friction is not  reversible.
+For a reversible path, 
+\beq
+\delta Q_{rev} = T dS
+\eeq
+and 
+\beq
+\oint \delta Q_{rev}=0
+\eeq
+for a {\bf cycle} (i.e., closed path).
+For an irreversible process, $\delta Q$ and $dS$ need not satisfy these equations. There might not even be a
+unique, well defined $T$.
+
+\item {\bf adiabatic path:} A path for which $\delta Q=0$
+
+\end{itemize}
+
+\subsection{Review of Laws of Thermodynamics}
+Before embarking in our journey 
+of expressing Tdynamics in differential geometry language,
+let us review the 4 laws of thermodynamics (zeroth, first, second and third).
+
+
+
+$\mu_i=$ chemical
+potential of particles of type $i$
+
+\begin{itemize}
+\item {\bf Zeroth Law} (thermal equilibrium)
+
+{\bf Statement:} If two systems are each in thermal equilibrium with a third system, then they are in thermal equilibrium with each other.
+
+transitivity in temperatures: If systems $A$, $B$ and $C$ satisfy 
+
+\beq
+T_A=T_B,\quad T_B=T_C
+\eeq
+then
+
+\beq
+T_A=T_C
+\eeq
+This law postulates the existence thermal equilibrium and temperature (a state variable)
+at equilibrium, and it
+explains how to use temperature.
+
+Combining all the laws,
+we are able to arrive at a precise definition of temperature, namely
+
+\beq
+T =\partial_{S|V, \vec{N}}U
+\eeq
+
+\item {\bf First Law} (conservation of energy)
+
+{\bf Statement:} Energy is conserved. The change in a system's internal energy is determined by the heat supplied to it and the work done on it.
+
+\beq
+\Delta U = Q_{in}
++ W_{on}
+\eeq
+($W_{by}=-W_{on}$, $Q_{out}=-Q_{in}$.)
+
+For an infinitesimal {\bf quasistatic process}, the corresponding differential relation is
+
+\beq
+dU =\delta Q_{in} + \delta W_{on}
+\eeq
+
+$\delta Q$ is not
+a differential form. $Q$ is not a function of the 
+state variables. $Q$ is a process-dependent quantities, not generally coordinates or functions on a manifold.
+$d\delta Q$ is not zero. It doesn't even have a meaning.
+
+$dU$ is a true 1-form because $U$ is a state variable. $d^2U=0$.
+
+For a simple compressible system with fixed composition,
+during a {\bf reversible quasistatic} process, the
+following mechanical work is done on the system  and the system absorbs this amount of heat:
+\beq
+\delta W_{on}= -pdV,
+\quad \delta Q_{in, rev}= TdS
+\eeq
+
+\beq
+dU =\delta Q -pdV
+\eeq
+For a system with variable particle numbers, this generalizes to
+
+\beq
+dU =\delta Q -pdV
++\sum_i \mu_i dN_i
+\quad \text{(First Law)}
+\eeq
+
+\item {\bf Second Law:}(entropy and irreversibility)
+
+{\bf Statement:} In an isolated system, entropy cannot decrease. It remains constant for a reversible process and increases for an irreversible process.
+
+For an {\bf isolated system},
+
+\beq
+\Delta S\geq 0
+\eeq
+Equality holds for a reversible process; strict inequality holds for an irreversible process.
+
+\begin{claim}
+Heat flows spontaneously from a hotter body to a colder one, not the other way around without external intervention.
+\end{claim}
+\proof
+
+
+\beq
+\delta Q_{A^c} = -\delta Q_A
+\eeq
+
+\beq
+0\leq dS = dS_A + dS_{A^c}=
+\frac{\delta Q_A}{T_A}
++
+\frac{\delta Q_{A^c}}{T_{A^c}}
+=
+\delta Q_{A}
+\left(
+\frac{1}{T_A}
+-\frac{1}{T_{A^c}}
+\right)
+\eeq
+
+\beq
+\delta Q_A (T_{A^c}-T_A)\geq 0
+\eeq
+If $\delta Q_A>0$ then $T_{A^c}> T_A$.
+
+\qed
+
+
+\begin{claim}
+(Clausius inequality)
+
+\beq
+\oint \frac{\delta Q_{A}}{T_{A^c}}=\oint \frac{dU_A-\delta W_{A,on}}{T_{A^c}}\leq 0
+\eeq
+with equality for a reversible {\bf cycle}, for a system $A$ in contact with $A^c=res=$ a heat reservoir   (i.e., a large body with constant temperature)
+\end{claim}
+\proof
+
+Divide a cycle into 2 parts.
+
+\beq
+dS_{A, 1} -\frac{\delta Q_{A,1}}{T_{A^c}}\geq 0
+\eeq
+
+\beq
+dS_{A, 2} -\frac{\delta Q_{A,2}}{T_{A^c}}\geq 0
+\eeq
+
+\beq
+\underbrace{dS_{A, 1}
++ dS_{A, 2}}_0 -\oint \frac{Q_A}{T_{A^c}}
+\geq 0
+\eeq
+
+
+\qed
+
+
+\item {\bf Third Law} (zero temperature limit)
+
+{\bf Statement:} The entropy of a quantum system with a unique ground state (e.g, a perfect crystal) approaches zero as its temperature approaches absolute zero.
+Systems with ground-state degeneracy or other complications may require a more careful formulation.
+
+\beq  
+\lim_{T\rarrow 0^+}S= 0
+\eeq
+
+\end{itemize}
+
+\subsection{Carath\'{e}odory-Frobenius Geometric Perspective}
+
+\Cara gave a geometric
+explanation of how temperature $T$ and entropy $S$ arise in Tdynamics. For simplicity, assume the 1-form
+
+\beq
+\ul{\alp} =\delta Q = dU + pdV  -\sum_i \mu_i dN_i
+\eeq
+which assumes a quasi-static processes.
+If we assume that $\ul{\alp}$ is integrable,
+then there is an integrating factor $1/T$
+such that $\delta Q/T=dS$
+where $T$ and $S$ can be identified as  temperature
+and entropy of the system.
+\Cara gave a physical reason for this integrability.
+He considered states that are inaccessible from a given equilibrium state through adiabatic paths. Under suitable regularity assumptions, his accessibility principle leads to the existence of constant-entropy hypersurfaces,
+along which $dS=0$. Reversible adiabatic paths lie within these surfaces.  For paths that describe reversible heat transfer between equilibrium states,
+$\delta Q = T dS$.
+
+
+Once we accept that $\ul{\alp}$ is integrable,
+Frobenius' Theorem (see Section
+\ref{sec-Frob-theorem})
+tells us that the following 
+equivalent conditions
+must be satisfied. In a state space of dimensions 1 and 2, these conditions are satisfied
+automatically.
+\begin{itemize}
+\item the 
+distribution
+\beq
+\cald=\bigcup_{\pi\in \cale} \{\vecX_\pi: \ul{\alp_\pi}(\vecX_\pi)=0\}
+\eeq
+becomes integrable.
+\item
+
+\beq
+\delta Q =T dS
+\eeq
+\item
+
+\beq
+\ul{\alp}\wedge \ul{d\alp}
+ =0
+\eeq
+
+
+\item If 
+
+\beq
+\ul{\alp}(\vecX)=\ul{\alp}(\vecY)=0
+\eeq
+then
+
+\beq
+\ul{\alp}([\vecX, \vecY])=0
+\eeq
+(Alternatively, you can say: if $\vecX, \vecY\in \ger{X}(\cald)$, then 
+$[\vecX, \vecY]\in \ger{X}(\cald)$)
+\end{itemize}
+
+\begin{claim}
+Given that an ideal gas satisfies
+
+\beq
+PV= Nk_BT, \quad
+U=C_VT, \quad
+\ul{\alp}=\ul{dU} + p\ul{dV}
+\eeq
+where $k_B$ is Boltzmann's constant and 
+$C_V$ is the 
+heat capacity (assumed constant),
+show that 
+if 
+\beq
+dS = \frac{\alp}{T} 
+\eeq
+then $S$ is integrable to
+
+\beq
+S = C_v \ln T + N k_B \ln V + \text{const.}
+\eeq
+\end{claim}
+\proof
+
+\beq
+p = \frac{NkT}{V}=
+\frac{NkU}{CV}
+\eeq
+
+\beq
+\alp = dU + \frac{NkU}{CV}dV
+\eeq
+
+\beq
+dS = \frac{\alp}{T}=
+C\frac{dU}{U}
++
+NK \frac{dV}{V}
+\eeq
+
+
+\qed
+
+
+
+\subsection{Four Manifolds}
+When expressing Tds in 
+Differential Geometry language, we 
+consider the following 4 manifolds
+\begin{enumerate}
+\item $(\calp, \pform{\s}{2})$= {\bf microscopic symplectic manifold},
+
+coordinates are $\{q^1(i), q^2(i), q^3(i), p_1(i), p_2(i), p_3(i)\}_{i=1}^{N_p}$ so $6N_p$ coordinates. $N_p$ is the number of particles.
+If set $q^{a}(i)=q^\mu$ and $p_a(i)= p_\nu$ (so Greek indices label conjugate variable pairs), then
+
+\beq
+\ul{\s} =\sum_\mu \ul{dq^\mu}\wedge \ul{dp_\mu}
+\eeq
+
+\item $(\calm_{stat}, \metric_{F})$= {\bf statistical manifold}. This manifold describes a family of
+probability distributions. 
+If we write the family as $\rho(x; \theta^1, \theta^2, \ldots, \theta^d)$, then its coordinates are the parameters $(\theta^1, \theta^2, \ldots, \theta^d)$ and it has $d$ coordinates.
+
+The {\bf  Fisher Information metric (F metric) }
+is 
+\beq
+\metric^F_{ij}=
+\int dx\; \rho(x;\theta)
+\pder{\ln\rho}{\theta^i}
+\pder{\ln \rho}{\theta^j}
+=
+E_{\rvx|\theta} \left[
+\pder{\ln\rho}{\theta^i}
+\pder{\ln \rho}{\theta^j}
+\right]
+\eeq
+(Note that this is not a second derivative but a
+product of two first derivatives.)
+
+Recall that 
+the Kullback-Leibler 
+divergence (i.e., discrepancy)
+between 2 continuous, infinitesimally close probability
+distributions
+$P(x|\theta)$ and $P(x|\theta + d\theta)$ is
+
+\beq
+D_{KL}(P(x|\theta)// P(x|\theta+d\theta))=
+\int dx\;
+P(x|\theta)
+\ln \frac{P(x|\theta)}{P(x|\theta + d\theta)}
+\eeq
+
+
+\begin{claim}
+
+\beq
+D_{KL} = \frac{1}{2}\metric^F_{ij} d\theta^i d\theta^j
+\eeq
+\end{claim}
+\proof
+
+\beq P(x|\theta +d\theta)\approx
+\left[ 1+ d\theta^i
+\partial_{\theta^i}
++
+\frac{1}{2}
+d\theta^i d\theta^j
+ \partial_{\theta^i}\partial_{\theta^j}
+\right]P(x|\theta)
+\eeq
+Let $P(x|\theta)=\calp$. Consider the 
+single parameter case for simplicity.
+
+\beq
+\ln (1+ R)= R -\frac{R^2}{2}
++\calo(R^3)
+\eeq
+
+\beq
+\Delta \calp=
+d\theta \partial_\theta \calp + \calo((d\theta)^2)
+\eeq
+
+\beq
+\calp \ln\frac{\calp}{\calp + \Delta \calp}=
+-\calp \ln\left(1+\frac{\Delta \calp}{\calp}\right)
+\approx -\calp \frac{\Delta\calp}{\calp}
+\left(
+1-\frac{\Delta\calp}{2\calp}
+\right)
+\eeq
+
+\beq
+D_{KL}\approx
+\int dx\
+\left[
+-\Delta \calp + \frac{1}{2\calp}(\Delta \calp)^2
+\right]
+\eeq
+
+\beq
+\int dx\;\Delta \calp =
+\int dx\; d\theta \partial_\theta \calp
+=
+d\theta \partial_\theta 
+\underbrace{\int dx \;\calp}_{1}=0
+\eeq
+
+\beq
+D_{KL}=\frac{1}{2}
+\underbrace{
+\int dx\; \calp
+\left(\partial_\theta \ln  \calp\right)^2}_{\metric^F}
+\eeq
+\qed
+
+
+\item
+$\cale$= {\bf Equilibrium state manifold},
+
+coordinates depend on thermodynamic potential used
+(see Table \ref{tab-thermo-pot-ai}). For example, $U=U(S, V, \vec{N}_{i=1}^{n_c})$ so $2 + 2n_c$ coordinates.
+This is called a {\bf state equation}. Regardless of the thermodynamic potential you choose, it's the same manifold,
+just expressed in different coordinates.
+
+First Law, at equilibrium:
+
+\beq
+dU = TdS -pDV + \sum_i \mu_i dN_i
+\eeq
+
+\beq
+T = \partial_{S|V, \vec{N}}U,\quad
+p=-\partial_{V|S, \vec{N}}U,
+,\quad
+\mu_i =
+\partial_{N_i|S,V, \{N_j\}_{j\neq i}}U
+\eeq
+
+\item
+$(\calt, \pform{\vartheta}{})$= {\bf thermodynamic contact manifold},
+
+coordinates are $(U, S, V, T, P, \vec{\mu}_{i=1}^{n_c}, \vec{N}_{i=1}^{n_c})$ so  $5 +2n_c$  coordinates.
+
+The {\bf contact form } $\ul{\vartheta}$ is defined as
+
+\beq
+\ul{\vartheta}= \ul{dU}  - T\ul{dS}
++P\ul{dV}
+-
+\sum_i \mu_i \ul{dN_i}
+\eeq
+This is before equilibrium. At equilibrium,
+
+\beq
+\AT{\ul{\vartheta}}{\cale}=0
+\eeq
+so the differential
+of  the equation of state vanishes.
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+$i=1, 2, \cdots, n_c$. $N_c$ is 
+the number of components in chemical mixture.
+
+
+\subsection{Legendre Transformations and Tdynamical potentials}
+
+
+$U, S, V, T, P, \vec{N}, \vec{\mu}$ are all called {\bf state variables}
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\rowcolor[HTML]{9AFF99} 
+\begin{tabular}[c]{@{}l@{}}potential Symbol\\ and name\end{tabular}   & \begin{tabular}[c]{@{}l@{}}Legendre\\Transformation\end{tabular}& \begin{tabular}[c]{@{}l@{}}differential and\\ independent variables\end{tabular}                   \\ \hline
+\begin{tabular}[c]{@{}l@{}}$U$, \\ internal energy\end{tabular}       & $U$                           & \begin{tabular}[c]{@{}l@{}}$dU = TdS-pdV+\sum_i\mu_i dN_i$\\ $S, V, \vec{N}$\end{tabular}          \\\hline
+\begin{tabular}[c]{@{}l@{}}
+$S$,
+\\ Entropy
+\end{tabular}               & $S$                      & \begin{tabular}[c]{@{}l@{}}$dS =
+\frac{1}{T}( dU + pdV-\sum_i\mu_i dN_i)$
+\\ $U, V, \vec{N}$
+\end{tabular}        
+\\ 
+\hline
+\begin{tabular}[c]{@{}l@{}}
+$H$,
+\\ Enthalpy
+\end{tabular}               & $H=U+pV$                      & \begin{tabular}[c]{@{}l@{}}$dH = TdS + Vdp+\sum_i\mu_i dN_i$
+\\ $S, p, \vec{N}$
+\end{tabular}        
+\\ 
+\hline
+\begin{tabular}[c]{@{}l@{}}$F$,\\ Helmholtz\\ free energy\end{tabular} & $F=U-TS$                      & \begin{tabular}[c]{@{}l@{}}$dF = SdT -pdV +\sum_i \mu_i dN_i$,\\ $T, V, \vec{N}$\end{tabular}      \\ \hline
+\begin{tabular}[c]{@{}l@{}}$G$,\\ Gibbs\\ free energy\end{tabular}    & $G = U -TS +pV$               & \begin{tabular}[c]{@{}l@{}}$dG = -SdT + Vdp +\sum_i N_i dN_i$,\\ $T, p, \vec{N}$\end{tabular}       \\ \hline
+\begin{tabular}[c]{@{}l@{}}$\Omega$,\\ Grand Potential\end{tabular}   & $\Omega=U-TS-\sum_i\mu_i N_i$ & \begin{tabular}[c]{@{}l@{}}$d\Omega= SdT -pdV-\sum_i N_i d\mu_i$ ,\\ $T,V, \vec{\mu}$\end{tabular} \\ \hline
+\end{tabular}
+\caption{Thermodynamic potentials}
+\label{tab-thermo-pot-ai}
+\end{table}
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|
+>{\columncolor[HTML]{FFCCC9}}l |l|
+>{\columncolor[HTML]{FFCCC9}}l |l|
+>{\columncolor[HTML]{FFCCC9}}l |l|
+>{\columncolor[HTML]{FFCCC9}}l |}
+\hline
+\cellcolor[HTML]{9AFF99} & \cellcolor[HTML]{9AFF99}$dU$ & \cellcolor[HTML]{9AFF99}$dp$ & \cellcolor[HTML]{9AFF99}$dV$ & \cellcolor[HTML]{9AFF99}$dT$ & \cellcolor[HTML]{9AFF99}$dS$ & \cellcolor[HTML]{9AFF99}$\{d\mu_i\}$ & \cellcolor[HTML]{9AFF99}$\{dN_i\}$ \\ \hline
+$U$ & $X$ &  & $X$ &  & $X$ &  & $X$ \\ \hline
+$dS$ & $-X$ &  & $-X$ &  & $X-X$ &  & $-X$ \\ \hline
+$dH$ & $X-X$ & $X$ & $X-X$ &  & $-X$ &  & $-X$ \\ \hline
+$dF$ & $X-X$ &  & $-X$ & $X$ & $X-X$ &  & $-X$ \\ \hline
+$dG$ & $X-X$ & $X$ & $X-X$ & $X$ & $-X$ &  & $-X$ \\ \hline
+$d\Omega$ & $X-X$ &  & $-X$ & $X$ & $X-X$ & $X$ & $X-X$ \\ \hline
+\end{tabular}
+\caption{This table allows you to decide quickly what the independent variables.
+Blank cells or cells with $X-X$ are ignored. Only cells with an $X$ or a $-X$ announce an independent variable. For example, for $dF$, you get $dV, dT$ and $\{dN_i\} $}
+\label{tab-pot-indep-vars}
+\end{table}
+
+\subsection{Probabilistic Potentials}
+
+Probabilistic Potentials
+
+Suppose we express a probability
+ $P_\rvx(x)$ as follows
+\beq
+P_\rvx(x) = \frac{\phi_\rvx(x)}{Z_\rvx}
+\eeq
+We will refer to $\phi_\rvx(x)$ as a 
+{\bf probabilistic potential (ppotential)} and
+to $Z_\rvx$ as a {\bf partition function}. 
+A ppotential is simply
+an un-normalized probability.
+
+
+Note that 
+$\sum_x P_\rvx(x)=1$ implies
+
+\beq
+Z_\rvx = \sum_x \phi_\rvx(x)
+\eeq
+
+\begin{claim}
+
+\beq 
+\sum_{x}\phi_{\rvx,\rvy}(x,y)
+=
+\phi_\rvy(y)\frac{Z_{\rvx,\rvy}}{Z_\rvx }
+\eeq
+\end{claim}
+\proof
+
+\beq
+\sum_{x} 
+{P_{\rvx, \rvy}(x,y)}
+=
+P_\rvy(y)
+\eeq
+
+\beq
+\sum_{x}
+\frac{\phi_{\rvx, \rvy}(x,y)}{Z_{\rvx,\rvy}}
+=
+\frac{\phi_\rvy(y)}{Z_\rvy}
+\eeq
+
+
+\qed
+
+
+
+
+
+
+\begin{claim}
+\beq
+P_{\rvy|\rvx}(y|x)=
+\frac{\phi_{\rvx,\rvy}(x,y)}{\phi_\rvx(x)}
+\frac{Z_\rvx}{Z_{\rvx,\rvy}}
+\eeq
+
+\end{claim}
+\proof
+
+\beq
+P_{\rvy|\rvx}(y|x)=
+\frac{P_{\rvx,\rvy}(x,y)}
+{P_\rvx(x)}=
+\frac{\phi_{\rvx,\rvy}(x,y)}{Z_{\rvx,\rvy}}
+\frac{Z_\rvx}{\phi_\rvx(x)}
+\eeq
+
+\qed
+
+\begin{claim}
+If 
+
+\beq
+P_{\rvx,\rvy}(x,y)=P_\rvx(x)P_\rvy(y)
+\eeq
+then
+
+\beq
+\phi_{\rvx,\rvy}(x,y)=
+\phi_\rvx(x)\phi_\rvy(y)
+\frac{Z_{\rvx, \rvy}}{Z_\rvx Z_\rvy}
+\eeq
+
+\end{claim}
+\proof
+Obvious.
+\qed
+
+
+
+Define
+
+\beq
+P_{\rvy|\rvx}(y|x) = \frac{\phi_{\rvy|\rvx}(y|x)}{Z_x}
+\eeq
+
+
+\beq
+\phi_{\rvy|\rvx}(y|x)\neq
+\frac{\phi_{\rvx,\rvy}(x,y)}{\phi_\rvx(x)}
+\eeq
+
+\begin{claim}
+If
+
+\beq
+Z_x= \sum_y f(x,y)
+\eeq
+then
+
+\beq
+f(x,y)=P_{\rvy|x}(y|x)Z_x
+\eeq
+
+\end{claim}
+\proof
+$f(x,y)$ must be proportional to
+$P_{\rvy|\rvx}(y|x)$.
+
+\qed
+
+\begin{claim}
+ $Z_{\rvx,\rvy}= Z_\rvx Z_\rvy$
+iff $P_{\rvx,\rvy}(x,y)
+=P_\rvx(x)P_\rvy(y)$
+\end{claim}
+\proof
+
+Assume
+
+\beq
+Z_{\rvx,\rvy}= Z_\rvx Z_\rvy
+\eeq
+Then
+
+\beq
+\sum_{x,y}\phi_{\rvx\rvy}(x,y)
+=
+\sum_{x,y}\phi_\rvx(x)\phi_\rvy(y)
+\eeq
+Thus
+
+\beq
+\phi_{\rvx\rvy}(x,y)=
+\phi_\rvx(x)\phi_\rvy(y) \underbrace{\frac{Z_{\rvx,\rvy}}{Z_\rvx Z_\rvy}}_{1}
+\eeq
+Thus
+
+\beq
+P_{\rvx\rvy}(x,y)=P_\rvx(x)P_\rvy(y)
+\eeq
+Run this argument backwards to
+prove the converse.
+
+
+
+\qed
+\subsection{Four Major Ensembles}
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
+\begin{table}[]
+\centering
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{9AFF99} 
+Ensemble & \begin{tabular}[c]{@{}l@{}}Natural\\ Potential\end{tabular} & \begin{tabular}[c]{@{}l@{}}not-exchanged\\ fixed\\ quantities\end{tabular} & \begin{tabular}[c]{@{}l@{}}exchanged\\ quantities\end{tabular} & Description \\ \hline
+ & \begin{tabular}[c]{@{}l@{}}$U(S, V, \vec{N})$\\ internal energy\end{tabular} &  &  &  \\ \hline
+\rowcolor[HTML]{FFCCC9} 
+\begin{tabular}[c]{@{}l@{}}Micro-\\ canonical\end{tabular} & \begin{tabular}[c]{@{}l@{}}$S(U, V, \vec{N})$,\\ entropy\end{tabular} & $U, V, \vec{N}$ & None & isolated \\ \hline
+ & \begin{tabular}[c]{@{}l@{}}$H(S, p, \vec{N})$,\\ enthalpy\end{tabular} &  &  &  \\ \hline
+\rowcolor[HTML]{FFCCC9} 
+Canonical & \begin{tabular}[c]{@{}l@{}}$F(T, V, \vec{N}$\\ Helmholtz\\ free energy\end{tabular} & $T, V, \vec{N}$ & $U$ & \begin{tabular}[c]{@{}l@{}}heat reservoir $(T)$\\ fixed $V$\\ fixed $\vec{N}$\end{tabular} \\ \hline
+\rowcolor[HTML]{FFCCC9} 
+\begin{tabular}[c]{@{}l@{}}isobaric-\\ isothermal\end{tabular} & \begin{tabular}[c]{@{}l@{}}$G(T, p, \vec{N}$\\ Gibbs\\ free energy\end{tabular} & $T,p, \vec{N}$ & $U, V$ & \begin{tabular}[c]{@{}l@{}}heat reservoir $(T)$,\\ fixed $p$, \\ fixed  $\vec{N}$\\ $V$ can change\end{tabular} \\ \hline
+\rowcolor[HTML]{FFCCC9} 
+\begin{tabular}[c]{@{}l@{}}Grand-\\ canonical\end{tabular} & \begin{tabular}[c]{@{}l@{}}$\Omega(T, V, \vec{\mu})$\\ Grand Potential\end{tabular} & $T,V, \vec{\mu}$ & $U, \vec{N}$ & \begin{tabular}[c]{@{}l@{}}heat reservoir $(T)$\\ fixed $V$\\ $\vec{N}$ can change\end{tabular} \\ \hline
+\end{tabular}
+\caption{Four major ensembles, their natural potential, not-exchanged and exchanged quantities.
+A quantity is \qt{fixed}
+if it doesn't change during the process being considered, but can be changed prior to the process to set it up. The exchanged quantities are extensive quantities that can be exchanged between the system and the surroundings. This can include volume changes permitted by a movable boundary, transfer of energy or transfer of particles.
+A heat reservoir at fixed temperature $T$
+can exchange energy $U$ with the system.}
+\label{tab-four-ensembles}
+\end{table}
+
+$E_r=$ allowed energy level
+
+$P_r=P(\rvr=r)=$ probability of $E_r$
+
+$\beta = \frac{1}{k_B T}
+$
+
+
+
+
+
+
+\begin{enumerate}
+\item {\bf Microcanonical Ensemble}
+
+\beq
+\boxed{P(\rvr=r)= \frac{1}{\Omega(U, V, \vec{N})}}
+\eeq
+$P_r$ independent of $r$ 
+so all states have
+same probability.
+
+\beq
+S(U, V, \vec{N})=-
+k_B\sum_r P_r \ln P_r = k_B \ln \Omega
+\eeq
+
+
+
+\item{\bf Canonical Ensemble}
+
+\beq
+\boxed{P(\rvr=r)=
+\frac{1}{Z_{can}}
+e^{-\beta E_r(V,\vec{N})}}
+\eeq
+$P_r$ is called the
+{\bf Boltzmann distribution}.
+
+\beq
+Z_{can}(T, V, \vec{N}) = \sum_r e^{-\beta E_r}
+\eeq
+
+\beq
+F = -k_B T \ln Z_{can}
+\eeq
+
+\item{\bf Isothermal-Isobaric Ensemble}
+
+\beq
+\boxed{P(\rvr=r, \ul{V}=V)=
+\frac{e^{-\beta \left(E_r (V)+PV\right)}}
+{Z_{ii}}}
+\eeq
+
+\beq
+Z_{ii}(T, P, \vec{N})
+=
+\int_0^\infty 
+dV\;
+e^{-\beta PV}
+Z_{can }
+(T, V,
+\vec{N})
+\eeq
+
+\beq
+G = -k_B T \ln Z_{ii}
+\eeq
+
+\item {\bf Grand Canonical Ensemble}
+
+
+\beq
+\boxed{P(\rvr=r, \ul
+{\vec{N}}=\vec{N})=
+\frac{e^{-\beta \left(E_r (\vec{N})-\sum_i \mu_i N_i\right)}}
+{Z_{gcan}}}
+\eeq
+
+\beq
+Z_{gcan}(T, V, \vec{\mu}) =\sum_{\vec{N}}
+e ^{\beta \sum_i \mu_i N_i}
+Z_{can }(T, V,\vec{N})
+\eeq
+
+\beq
+\Omega = -k_B T \ln Z_{gcan}
+\eeq
+
+\item {\bf Quantum Corrections to Grand Canonical Ensemble}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=5in]
+{differ-geo/bosons-fermions-occupation.png}
+\caption{Example of energy level occupation numbers $n_r$ fermions and bosons. Spin-up and spin-down electron states with the same energy are treated as distinct single-particle quantum states and given different occupation numbers. Fermions obey the {\bf Pauli exclusion 
+principle} which says that only 
+two electrons, with spin-up and spin-down, can occupy
+the same energy level.}
+\label{fig-bosons-fermions-occ}
+\end{figure}
+
+fermions: electrons, protons, neutrons, and other particles with half-integer spin.
+
+bosons: photons, helium-4 atoms, and other particles with integer spin.
+
+For fermions, each macroscopic energy level $E_r$
+has two quantum
+sublevels, let's call them $r=0, 1$.
+For bosons, the macroscopic energy level $E_r$ has infinitely many sublevels, let's call them
+$\nu=0,1, 2,3,\ldots$.
+For both bosons
+and fermions, how those sublevels
+are filled is dictated 
+by Quantum Mechanics: fermions obey Fermi 
+statistics and bosons obey
+Bose-Einstein statistics.
+
+Assume
+the experimental conditions (fixed and exchanged quantities) for a Grand Canonical ensemble
+with a single species with chemical
+potential $\mu$  to apply.
+
+
+Let 
+
+$P_r= P(\rvr=r)=$ probability that system lies in macroscopic energy level $E_r$. 
+
+$P_{\nu|r} = P(\ul{\nu}=\nu | \rvr=r)$ where $\nu=0, 1,2, \ldots$
+
+$P_{r,\nu} =P_{\nu|r}P_r$
+
+$\av{\nu}_r = \sum_{\nu=0}^\infty \nu P_{\nu|r}$
+
+\beq
+\boxed{x_r = e^{-\beta(\eps_r-\mu)}}
+\eeq
+For bosons, $\eps_r\geq \mu$. $\eps_r =\mu$ for
+Bose-Einstein condensation. Hence $x_r\in [0, 1]$.
+
+For fermions,
+can have $\mu\geq \eps_i$. Hence $x_r \in [0, \infty]$
+
+
+ 
+\begin{itemize}
+\item bosons:
+
+{\bf Bose-Einstein distribution (statistics)}
+
+\beq
+P_{\nu|r} =(1-x_r) (x_r)^\nu
+\eeq
+for $\nu=0,1, 2, \ldots$.
+(check: $\sum_{\mu=0}^\infty P_{\nu|r} = 1$)
+
+\beqa
+\av{\nu}_r &=& (1-x_r)\sum_{\nu=0}^\infty \nu (x_r)^\nu
+\\
+&=&
+(1-x_r)\frac{x_r}{(1-x_r)^2}
+\\&=&
+\frac{x_r}{1-x_r}
+\eeqa
+
+\beq
+\boxed{\av{\nu}_r \in [0,\infty],
+\quad x_r\in [0,1]}
+\eeq
+
+\beq
+\boxed{\av{\nu}_r = \frac{x_r}{1-x_r}
+=
+\frac{1}{e^{\beta(\eps_r-\mu)}-1}}
+\eeq
+If invert,
+
+\beq
+x_r= \frac{\av{\nu}_r}{1+\av{\nu}_r}
+\eeq
+\item fermions: 
+
+{\bf Fermi distribution (statistics)}
+
+\beq
+P_{\nu|r} =\frac{(x_r)^\nu}{1+x_r}\indi(\nu\in \{0,1\})
+\eeq
+(check: $\sum_{\mu=0}^\infty P_{\nu|r} = 1$)
+
+\beqa
+\av{\nu}_r &=& \sum_{\nu=0}^1 \nu \frac{(x_r)^\nu}{1+x_r}
+\\
+&=&
+\frac{x_r}{1+x_r}
+\eeqa
+
+\beq
+\boxed{\av{\nu}_r\in [0, 1],
+\quad x_r\in [0, \infty]}
+\eeq
+
+\beq
+\boxed{\av{\nu}_r =
+\frac{x_r}{1+x_r}
+=\frac{1}{e^{\beta(\eps_r-\mu)}+1}}
+\eeq
+
+
+If invert
+
+\beq
+x_r =\frac{\av{\nu}_r}{1-\av{\nu}_r}
+\eeq
+Important: In the notation 
+we are using, spin-up and spin-down states with the same energy are treated as different single-particle quantum states,
+with different $r$
+
+
+\item fermions or bosons when $x_r\ll 1$: 
+
+{\bf Boltzmann distribution}:
+
+$\eps_r\gg \mu$, $x_r \approx\av{\nu}_r\approx e^{-\beta\eps_r}$
+
+\beq
+P_{\nu|r} =(1-x_r) (x_r)^\nu
+\eeq
+for $\nu=0,1, 2, \ldots$.
+Same function of $x_r$ as
+for bosons, but
+different $x_r$ (now $\mu\approx 0$ in $x_r$).
+\end{itemize}
+\hrule
+
+Define
+
+\beq
+E(\vec{n}) = \sum_{r=1}^\infty n_r\eps_r,
+\quad
+N(\vec{n}) = \sum_{r=1}^\infty n_r
+\eeq
+
+$\nu$ becomes $n_r$
+\beq
+x_r(T, V, \mu) = e^{-\beta(\eps_r(V)-\mu)},\quad
+\phi(n_r;r) = (x_r)^{n_r},\quad
+Z_r(T,V, \mu) = \sum_{n_r=0}^\infty\phi(n_r;r)
+\eeq
+
+For clarity, assume 3 levels so $r=1,2,3$
+
+\beq
+Z^{gcan}(T, V, \mu) =
+\sum_{N=0}^\infty 
+\underbrace{\sum_{n_1=0}^\infty
+\sum_{n_2=0}^\infty
+\sum_{n_3=0}^\infty
+\delta(\sum_{r=1}^3 n_r , N)
+\overbrace{\phi(n_1;1)
+\phi(n_2;2)
+\phi(n_3, 3)}^{e^{-\beta(E(\vec{n})-\mu N(\vec{n}))}}
+}_{
+Z_N(T, V,\mu)
+}
+\eeq
+
+
+
+\beqa
+Z^{gcan}(T, V, \mu) &=&
+\sum_{n_1=0}^\infty
+\sum_{n_2=0}^\infty
+\sum_{n_3=0}^\infty
+\overbrace
+{\phi(n_1;1)\phi(n_2;2)
+\phi(n_3, 3)}^{e^{-\beta(E(\vec{n})-\mu N(\vec{n}))}}
+\\
+&=&
+\prod_{r=1}^3
+\underbrace
+{\left(
+\sum_{n_r=0}^\infty
+\phi(n_r; r)
+\right)}_{Z_r(T,V, \mu)}
+\eeqa
+
+\hrule
+Distinction between 
+statistical manifold
+$\calm_{stat}$
+and equilibrium manifold $\cale$
+
+Note that if you choose 
+an ensemble, then the coordinates of $\calm_{stat}$ are those of the natural Tpotential for that 
+ensemble. But those are 
+the same coordinates as those
+of $\cale$ when you
+use that Tpotential.
+For example, if you choose the Canonical Ensemble for $\calm_{stat}$ and
+the Helmholtz free energy for $\cale$ , then the coordinates of both
+$\calm_{stat}$ and $\cale$
+are $T, V, N$.\footnote{Since $N$ is a discrete variable, we consider one smooth manifold for each value of $N$}.
+So it would seem that there is no difference between $\calm_{stat}$
+and $\cale$ in this case.
+But note that it is still
+useful to distinguish them for at least 2 reasons. 
+
+First, $\calm_{stat}$
+and $\cale$ are equipped with
+different machinery and are used to investigate
+different issues. 
+For example, $\calm_{stat}$ has a Fisher Information metric and the canonical ensemble consequences. $\cale$ has the laws of Tdynamics. 
+
+The second reason is that $\calm_{stat}$ has an extra random variable $r$ (for discrete)
+or $x$ (for continuous) with associated probability distribution $P_{r|T, V, N}$ or $\rho(x; T, V, N)$ 
+$r$ (or $x$) label
+{\bf microstates}
+whereas $T,V, N$
+(equilibrium or ensemble coordinates)
+label a {\bf macrostate}.
+$\calm_{stat}$
+provides a bridge between
+the microscopic and macroscopic worlds.
+$\cale$ is just the destination end of the bridge.
+
+
+ 
+
+
+
+\end{enumerate}
+
+\subsection{Canonical Ensemble}
+
+{\bf Canonical Ensemble}
+
+\beq
+\rho =
+\frac{1}{Z} e^{-\beta H}
+,\quad (P_r = \frac{1}{Z} e^{-\beta E_r})
+\eeq
+where $
+\beta = \frac{1}{k_B T}$
+In order to satisfy
+
+\beq
+\int dx\; \rho =1,
+\quad (\sum _r P_r =1)
+\eeq
+we must have
+
+\beq
+Z =\int dx \; e^{-\beta H},
+\quad (Z= \sum_r 
+e^{-\beta E_r})
+\eeq
+
+\beq
+U = \av{E}= \sum_r P_r r^{-\beta E_r}
+\eeq
+
+\beq
+S= -k_B\sum_r P_r \ln P_r
+\eeq
+
+\beq
+F= U-TS
+\eeq
+
+\begin{claim}
+
+\beq
+\beta =\frac{1}{k_B T}\implies
+\partial_\beta =
+-{k_B T^2}\partial_T
+,\quad
+dT=-k_B T^2  d\beta
+\eeq
+\end{claim}
+\proof
+\beq
+\pder{\;}{\beta}=\pder{T}{\beta}\pder{\;}{T}=
+k_B \frac{1}{\partial_T  (1/T)}
+\pder{\;}{T}= -k_B T^2 \pder{\;}
+{T}
+\eeq
+
+\qed
+
+\begin{claim}
+If we assume the canonical ensemble, then
+
+\beq
+U= -\partial_\beta \ln Z
+\eeq
+
+\beq
+S= k_B(\ln Z + \beta U)
+\eeq
+
+\beq
+F= -k_B T \ln Z
+\eeq
+
+\end{claim}
+\proof
+
+\beq
+\partial_\beta \ln Z=
+-\;\frac{1}{Z}
+\sum_r E_r e^{-\beta E_r}=
+-\av{E}=-U
+\eeq
+
+\beq
+\ln P_r = -\beta E_r - \ln Z
+\eeq
+
+\beqa
+S &=& -k_B\sum_r P_r
+(-\beta E_r -\ln Z)
+\\
+&=&
+k_B \beta U + k_B Z 
+\\
+&=&
+k_B \beta U 
++k_B \ln  Z
+\eeqa         
+
+\beq
+F= U-TS =
+U - k_BT(\ln Z +\beta U)=
+-k_B T \ln Z
+\eeq
+\qed
+
+\begin{claim}
+The canonical ensemble satisfies the First Law of Thermodynamics:
+
+\beq
+dU = TdS - pdV
++\sum_i \mu_i dN_i
+\eeq
+
+\end{claim}
+\proof
+Call $\cale_U$ this equation 
+\beq
+dU = TdS - pdV
++\sum_i \mu_i dN_i 
+\eeq
+and call $\cale_F$ this one 
+
+\beq
+dF = SdT -pdV +\sum_i \mu_i dN_i
+\eeq
+To derive Table \ref{tab-thermo-pot-ai}, one proves that
+$\cale_U$ and $F= U-TS$ implies $\cale_F$. In this case, one proves the converse, assuming $F=U-TS$. That is, one proves that
+$\cale_F$ and $F=U-TS$ implies $\cale_U$.
+Both proofs are straightforward algebra.
+\qed
+
+The heat capacity at constant volume is defined by
+
+\beq 
+C_V =\partial_{T|V, \vec{N}}U
+\eeq
+At constant volume and particle numbers,
+
+\beq
+dU = TdS
+\eeq
+Hence, also
+
+\beq
+C_V = T \partial_{T|V, \vec{N}}S
+\eeq
+
+
+
+\qed
+
+
+Let 
+
+\beq
+\av{E,E} = Var(E)=
+\av{(E-\av{E})^2}
+= \av{E^2}-\av{E}^2
+\eeq
+\begin{claim}
+If we assume the canonical ensemble, then
+
+\beq
+U =-\partial_\beta \ln Z = \av{E}
+\eeq
+\beq
+\partial_\beta U =
+-\partial_\beta^2 \ln Z= -\av{E, E}
+\eeq
+
+\beq
+C_V = \frac{\av{E, E}}
+{k_B T^2}
+\eeq
+\end{claim}
+\proof
+
+\beq
+\partial_\beta \ln Z
+= -U
+\eeq
+
+\beqa
+\partial_\beta^2\ln Z&=&
+\partial_\beta\left(
+Z^{-1}\sum_r (-E_r) e^{-\beta E_r}
+\right)
+\\
+&=&
+-\partial_\beta(Z^{-1})[Z\av{E}]
++
+\av{E^2}
+\\
+&=&
+\frac{1}{Z^2}[Z\av{E}][Z\av{E}]
++
+\av{E^2}
+\\
+&=&
+\av{E,E}
+\eeqa
+
+\beq
+C_V = \partial_T U =
+ -
+\frac{1}{k_B T^2} \partial_\beta  U
+=
+\frac{\av{E,E}}{ k_B T^2}
+\eeq
+\qed
+
+This connects a macroscopic quantity $C_V$ with a microscopic on $\av{E, E}$.
+Although $C_V\geq 0$ 
+for the canonical ensemble,
+this need not be the case for
+other ensembles.
+
+\begin{claim}
+If we assume the canonical ensemble,
+then the Fisher 
+Information metric
+for the single parameter $\beta$ (or $T$) is
+
+\beq
+\metric_{\beta\beta} = \av{E, E}=k_B T^2 C_V
+\eeq
+
+\beq
+\metric_{TT}=
+\frac{\av{E, E}}{(k_BT^2)^2}=
+\frac{C_V}{k_B T^2}
+\eeq
+\end{claim}
+\proof
+
+\beq
+\ln P_r =
+-\beta E_r
+-\ln Z
+\eeq
+
+\beq
+\partial_\beta \ln P_r = - E_r + \av{E}
+\eeq
+
+\beqa
+\metric_{\beta\beta} &=&
+\sum_r P_r
+(\partial_\beta \ln P_r)^2
+\\
+&=&
+\sum_r P_r
+(E_r + -\av{E})^2
+\\
+&=&
+\av{E, E}
+\eeqa
+
+\beq
+\metric_{TT}=\frac{1}{(k_B T^2)^2}\metric_{\beta\beta}
+\eeq
+\qed
+
+
+\subsection{Maxwell Relations and more \\complicated derivative relationships}
 \beq
 \pform{dU}{}=T \pform{dS}{}-p\pform{dV}{}
 \eeq
@@ -17852,7 +19199,532 @@ d\left(
 
 \qed
 
-Explain Carathedory stuff
+\subsection{Gibbs-Duhem Equation}
+
+A function $
+f(\vecx)$ is said to be {\bf homogeneous of degree $k$} if 
+
+\beq
+f(\lam \vecx)= \lam^k f(\vecx)
+\eeq
+for some $\lam>0$
+
+\begin{claim}(Euler's Theorem for homogeneous functions)
+
+If smooth function $f(\vecx)$ is 
+homogeneous of degree $k$, then
+
+\beq
+\sum_i x^i\pder{f(\vecx)}
+{x^i} = k f(\vecx)
+\eeq
+
+\end{claim}
+\proof
+
+Differentiate with respect to $\lam$
+both sides of the definition of homogeneous. 
+
+\beq
+\sum_i x^i \pder{f(\lam x^i)}{\lam x^i} = k \lam^{k-1}f(\vecx)
+\eeq
+Now set $\lam$ to one.
+
+\qed
+
+First law
+\beq
+dU = TdS - pdV +\sum_i \mu_i dN_i
+\eeq
+
+\beq
+dU = \sum_\mu \cali_\mu d\cale_\mu
+\eeq
+
+Euler's Theorem 
+\beq
+U = \sum_\mu \cale_\mu \cali_\mu
+\eeq
+
+\beq
+dU = \sum_\mu (\cale_\mu d\cali_\mu + \cali_\mu d\cale_\mu)
+\eeq
+
+Gibbs-Duhem (GD ) equation is
+\beq
+\sum_\mu \cale_\mu d\cali_\mu =0
+\eeq
+The GD equation is a constraint on the space of intensive variables.
+It reduces the number of dofs (degrees of freedom) of that space by one.
+That superfluous dof that is being removed (or fixed) can be understood as the scale of the system.
+
+Rather than fixing the value
+of one intensive variable, thereby reducing the dimensionality of the space of intensive variables, it's more convenient to
+keep the dimensionality of the space the same and constrain the allowed points in that space to lie on a sub-surface of one dimension less. Thus, the dimensions of manifolds $\calm_{stat}$,
+$\cale$ and $\calt$ remain the same, even though their coordinates are now constrained. The dimension of $\calp$ doesn't change either, but for a different reason: it concerns the microscopic phase space dofs which unaffected by the choice of intensive variables.
+
+In this point of view where the 
+dimensions of $\cale$ stays the same,
+the GD equation can be viewed as 
+constraining the infinitesimal steps of a process, rather than reducing $dim\; \cale$.
+
+
+
+\subsection{Gibbs Phase Rule}
+
+
+
+
+
+Let 
+
+$\phi\in \{ 1, 2, \ldots \ol{\phi}\}$  phase labels
+
+$c=\{1, 2, \ldots, \ol{c}\}$ component labels.,
+
+$\#iv=$ number of independent variables
+
+$N_c^\phi=$ number of particles 
+of component $c$ in phase $\phi$.
+
+$N^\phi =\sum_{c=1}^{\ol{c}} N^\phi_c$
+
+$x_c^\phi= \frac{N_c^\phi}
+{N^\phi}$ fraction of component $c$
+in phase $\phi$.
+
+$\mu_c^\phi=$ chemical
+potential of component $c$ and phase $\phi$. 
+
+$C_\phi =$ number of components for phase $\phi$
+
+$\Phi_c=$ = number of phases 
+for component $c$.
+
+
+\hrule
+At thermal (single $T$) and mechanical (single $p$) equilibrium,
+\beq
+dG^\phi= -S^\phi dT +V^\phi dp +\sum_{c=1}^{\ol{c}} \mu_c^\phi  dN_c^\phi
+\eeq
+for $\phi=1, 2, \ldots \ol{\phi}$. Summing over $\phi$
+and using
+
+\beq
+G = \sum_{\phi=1}^{\ol{\phi}}
+G^\phi,\quad
+V=\sum_{\phi=1}^{\ol{\phi}}
+V^\phi,\quad
+S = \sum_{\phi=1}^{\ol{\phi}} S^\phi
+\eeq
+we get
+
+\beq
+dG = -SdT + Vdp +\sum_{\phi=1}^{\ol{\phi}}
+\sum_{c=1} ^{\ol{c}}
+\mu^\phi_c dN^\phi_c
+\eeq
+
+\beq
+N^\phi = \sum_c N^\phi_c,
+\quad x^\phi_c = \frac{N^\phi_c}{N^\phi}
+\eeq
+
+\beq
+dg^\phi = -s^\phi dT + v^\phi dp 
++\sum_{c=1}^{\ol{c}} \mu_c^\phi dx^\phi_c
+\eeq
+
+
+
+
+
+\begin{enumerate}
+\item $\mu^\phi_c$ constraints
+
+\beq
+\begin{tabular}{|
+>{\columncolor[HTML]{FFFC9E}}l |l|l|}
+\hline
+\cellcolor[HTML]{FFFFFF}$c\backslash \phi$ & \cellcolor[HTML]{9AFF99}1 & \cellcolor[HTML]{9AFF99}2 \\ \hline
+1 &  & $\mu_1$ \\ \hline
+2 & $\mu_2$ & $\mu_2$ \\ \hline
+3 & $\mu_3$ &  \\ \hline
+\end{tabular}
+\quad\quad
+\#(\mu_c^\phi \text{ constraints } ) = \sum_{c=1}^{\ol{c}}  \Phi_c-\ol{c}=4-3=1
+\eeq
+
+At a phase boundary, the chemical
+potentials equilibrate
+across phases
+for each component (i.e., $\mu^\phi_c$ becomes independent of $\phi$):
+\beq
+\mu_c^1=\mu_c^2=\cdots=\mu_c^{\Phi_c}=\mu_c
+\eeq
+for $c=1, 2, \ldots, \ol{c}$.
+This gives
+$\sum_{c=1}^{\ol{c}}\Phi_c -\ol{c}$ independent equations.
+
+\item $x^\phi_c$ constraints
+
+\beq
+\begin{tabular}{|
+>{\columncolor[HTML]{FFFC9E}}l |l|l|}
+\hline
+\cellcolor[HTML]{FFFFFF}$c\backslash\phi$ & \cellcolor[HTML]{9AFF99}1 & \cellcolor[HTML]{9AFF99}2 \\ \hline
+1 & $x^1_1$ & $x^2_1$ \\ \hline
+2 & $x^1_2$ & $x^2_2$ \\ \hline
+3 & $x^1_3$ &  \\ \hline
+\end{tabular}\quad
+\#(x_c^\phi\text{ independent variables) } = \sum_{\phi=1}^{\ol{\phi}} C_\phi-\ol{\phi}=5-2=3
+\eeq
+
+\beq
+\sum_{c=1}^{C_1} x_c^1=1,
+\quad 
+\sum_{c=1}^{C_2} x_c^2=1,
+\quad 
+\ldots
+\sum_{c=1}^{C_{\ol{\phi}}} x^{\ol{\phi}}_c=1
+\eeq
+This gives $\ol{\phi}$ independent equations.
+
+\item Gibbs-Duhem? No
+
+
+The Gibbs-Duhem Equation in this case is
+
+\beq
+\sum_{c=1}^{\ol{c}} x^\phi_c d\mu_c^\phi=0
+\eeq
+for $\phi=1,2, \ldots, \ol{\phi}$.
+It will not be included as a constraint
+because it constrains
+infinitesimal steps in a process rather than the actual variables.
+\end{enumerate}
+\hrule
+
+
+
+
+
+
+
+
+\beq
+\boxed{\#iv =\underbrace{2}_{p, T} + \underbrace{\left(\sum_{\phi=1}^{\ol{\phi}} C_\phi-\ol{\phi}\right)}_{\text {\# independent $x_c^\phi$}}
+- \underbrace{\left(\sum_{c=1}^{\ol
+{c}}\Phi_c -\ol{c} \right)}_{\text{\# $\mu_c^\phi$ constraints}}}
+\label{eq-gibbs-ph-rule}
+\eeq
+This is called {\bf Gibbs Phase Rule.}
+Note that if 
+
+\beq
+\sum_{\phi=1}^{\ol{\phi}} C_\phi=
+\sum_{c=1}^{\ol{c}} \Phi_c
+\eeq
+then
+
+\beq
+\boxed{\#iv = 2 +\ol{\phi}-\ol{c}}
+\eeq
+Examples
+
+\begin{enumerate}
+\item
+liquid water at room temperature
+
+$\ol{c}=\ol{\phi}=1 $ so $\#iv =2+1-1=2$
+
+You can use $p, T$ as ivs.
+
+\item
+water in liquid
+vapor equilibrium
+
+$\ol{c}=1, \ol{\phi}=2$ so $\#iv = 2+1-2=1$
+
+
+\item
+water at its triple point
+
+$\ol{c}=1, \ol{\phi} =3$ so $\#iv = 2+1-3 =0$
+
+
+\end{enumerate}
+
+
+\subsection{Claperyon Equation}
+
+Consider a 
+{\bf coexistence curve}
+between 2 phases
+
+Let
+
+$P=$ pressure, same at two phases
+
+$T=$ temperature, same at two  phases
+
+$\Delta S = S_2-S_1=$ the entropy change between the 2 phases
+
+$\Delta V = V_2-V_1=$ the volume change between the two phases
+
+\begin{claim}(Claperyon Equation)
+
+The slope of the coexistence
+curve in the $(p,T)$ plane equals
+
+\beq
+\frac{dp}{dT}= \frac{\Delta S}{\Delta V}
+\eeq
+\end{claim}
+\proof
+
+\beq
+G_1(p,T)=G_2(p,T)
+\eeq
+
+\beq
+dG_i = -S_i dT + V_i dp
+\eeq
+
+\beq
+-S_1dT + V_1 dp =
+-S_2 dT +V_2 dp
+\eeq
+
+\beq
+(S_2-S_1)dT=
+(V_2-V_1) dp
+\eeq
+The {\bf latent 
+heat} $L$
+is defined by
+
+\beq
+L=T \Delta S
+\eeq
+If  $L$
+is approximately constant along the coexistence curve,
+
+\beq
+\frac{dp}{dT}= \frac{L}{T\Delta V}
+\eeq
+
+
+
+\qed
+
+
+\subsection{Thermodynamic Stability Conditions}
+
+Entropy is bounded below (by 0) and above for a finite system. 
+
+\begin{claim} (Entropy
+Maximimum principle)
+
+At equilibrium, the entropy $S(U, V, N)$ is locally maximized, meaning 
+
+\beq
+\AT{\partial_{U|V,N}S}{U=U^*}=0,
+\quad
+\AT{(\partial_{U|V,N})^2S}{U=U^*}\leq 0
+\eeq
+for some equilibrium energy $U^*$.
+\end{claim}
+\proof
+
+Assume that the system $U, S(U), T$
+is in equilibrium and in thermal contact with a reservoir 
+$U_R, S(U_R), T$.
+Assume the subsystems can exchange energy but not particles or volume. Assume energy and entropy is additive. Then
+
+\beq
+\ol{U} = U + U_R,
+\quad
+S(\ol{U})=
+S(U) + S(U_R)
+\eeq
+
+
+
+\beqa
+\partial_{U}S(\ol{U})
+&=&
+\partial_{U}S(U)
++
+\partial_{U}S(U_R=\ol{U}-U)
+\\
+&=&
+\partial_U S(U) -\partial_{U_R}S(U_R)
+\\
+&=&
+\frac{1}{T}-\frac{1}{T}
+\\
+&=&
+0
+\eeqa
+
+Thus
+\begin{subequations}
+\beq
+\partial_{U}S(\ol{U})=0
+\eeq
+and
+
+\beq
+\partial_{U}S(U) =\frac{1}{T}
+\eeq
+\label{eqs-du-ds-zero-one-T}
+\end{subequations}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2.3in]
+{differ-geo/entropy-max.png}
+\caption{Pictorial representation of Eqs.(\ref{eqs-du-ds-zero-one-T}), which mean that, at
+equilibrium, 
+entropy is sitting at a local maximum.}
+\label{fig-entropy-max}
+\end{figure}
+
+As you can see from Fig.\ref{fig-entropy-max},
+the fact that
+$T>0$ and $U_R>0$ implies that
+$S(\ol{U})$ has a maximum 
+at $\ol{U}= U + U_R$.
+
+
+
+
+\qed
+
+The {\bf heat capacity at
+constant volume} is
+defined by
+
+\beq
+C_V =  \partial_{T|V,\vec{N}} U
+\eeq
+
+At constant volume and particle numbers,
+
+\beq
+dU = TdS
+\eeq
+Hence, also
+
+\beq
+C_V = T \partial_{T|V, \vec{N}}S
+\eeq
+
+
+\begin{claim}
+
+\beq
+C_V\geq 0
+\eeq
+
+\end{claim}
+\proof
+
+At constant $V, \vec{N}$,
+\beq
+dU= TdS
+\eeq
+At equilibrium,
+
+\beq
+\underbrace{\pder{^2 S}{U^2}}_{\leq 0}
+=
+-\;\frac{1}{T^2}
+\underbrace{\pder{T}{U}}_{\frac{1}{C_V}}
+\eeq
+\qed
+
+The {\bf bulk modulus (at constant temperature)}
+is defined 
+ by
+
+\beq
+\kappa_T =
+-V\partial_{V|T, \vec{N}}p
+\eeq
+
+\begin{claim}
+\beq
+\kappa_T\geq 0
+\eeq
+
+\end{claim}
+\proof
+
+Consider a
+system at fixed $T, \vec{N} $ in contact with a pressure 
+reservoir 
+at constant pressure $p_R$. The systems
+volume can vary. Define
+
+\beq
+\Phi(V) = F(T, V, \vec{N}) + p_R V
+\eeq
+where $F= U-TS$ is the
+Helmholtz free energy.
+
+\beq
+dF = -SdT -pdV +
+\sum_i  \mu_i dN_i
+\eeq
+
+\beq
+\partial_{V|T, \vec{N}}F=-p
+,\quad
+(\partial_{V|T, \vec{N}})^2F= -\partial_{V|T, \vec{{N}}}p=\frac{\kappa_T}{V}
+\eeq
+
+From here on, all
+partials will hold
+$T, \vec{N}$
+fixed, so we won't indicate this.
+
+\beq
+\partial_V \Phi=
+\partial_V F + p_R=
+-p + p_R
+\eeq
+At equilibrium, $p=p_R$ so
+
+\beq
+\partial_{V}\Phi =0
+\eeq
+Also 
+
+\beq
+(\partial_V)^2 \Phi =
+(\partial_V)^2 F
+\eeq
+So $\Phi$ has an extremum at
+equilibrium.
+We must decide whether it 
+is a maximum or a minimum.
+If assume it is a
+maximum, then $\kappa_T = V (\partial_V)^2 \Phi<0$.
+If we assume
+it is a
+minimum, then $\kappa_T = V (\partial_V)^2 \Phi>0$.
+It must be a minimum
+because the maximum alternative is mechanically unstable  (volume always increasing
+as you increase the pressure). 
+
+\qed
+
+Heat capacity positivity  comes from
+energy redistribution stability ($(\partial_U)^2 S$) at equilibrium, whereas the bulk modulus positivity comes from volume changes stability
+($(\partial_{V})^2 F$)
+at equilibrium.
 
 \section{Electromagnetism}
 
