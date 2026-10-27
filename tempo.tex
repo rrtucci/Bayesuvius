@@ -1719,12 +1719,27 @@ for component $c$.
 
 
 \hrule
-At equilibrium,
+At thermal (single $T$) and mechanical (single $p$) equilibrium,
 \beq
-dG^\phi= S^\phi dT -V^\phi dp +\sum_{c=1}^{\ol{c}} \mu_c  dN_c^\phi
+dG^\phi= -S^\phi dT +V^\phi dp +\sum_{c=1}^{\ol{c}} \mu_c^\phi  dN_c^\phi
 \eeq
-for $\phi=1, 2, \ldots \ol{\phi}$.
-Let 
+for $\phi=1, 2, \ldots \ol{\phi}$. Summing over $\phi$
+and using
+
+\beq
+G = \sum_{\phi=1}^{\ol{\phi}}
+G^\phi,\quad
+V=\sum_{\phi=1}^{\ol{\phi}}
+V^\phi,\quad
+S = \sum_{\phi=1}^{\ol{\phi}} S^\phi
+\eeq
+we get
+
+\beq
+dG = -SdT + Vdp +\sum_{\phi=1}^{\ol{\phi}}
+\sum_{c=1} ^{\ol{c}}
+\mu^\phi_c dN^\phi_c
+\eeq
 
 \beq
 N^\phi = \sum_c N^\phi_c,
@@ -1732,7 +1747,7 @@ N^\phi = \sum_c N^\phi_c,
 \eeq
 
 \beq
-dg^\phi = s^\phi dT - v^\phi dp 
+dg^\phi = -s^\phi dT + v^\phi dp 
 +\sum_{c=1}^{\ol{c}} \mu_c^\phi dx^\phi_c
 \eeq
 
@@ -1816,7 +1831,7 @@ infinitesimal steps in a process rather than the actual variables.
 \beq
 \boxed{\#iv =\underbrace{2}_{p, T} + \underbrace{\left(\sum_{\phi=1}^{\ol{\phi}} C_\phi-\ol{\phi}\right)}_{\text {\# independent $x_c^\phi$}}
 - \underbrace{\left(\sum_{c=1}^{\ol
-{c}}P_c -\ol{c} \right)}_{\text{\# $\mu_c^\phi$ constraints}}}
+{c}}\Phi_c -\ol{c} \right)}_{\text{\# $\mu_c^\phi$ constraints}}}
 \label{eq-gibbs-ph-rule}
 \eeq
 This is called {\bf Gibbs Phase Rule.}
@@ -1824,7 +1839,7 @@ Note that if
 
 \beq
 \sum_{\phi=1}^{\ol{\phi}} C_\phi=
-\sum_{c=1}^{\ol{c}} P_c
+\sum_{c=1}^{\ol{c}} \Phi_c
 \eeq
 then
 
@@ -1859,8 +1874,155 @@ $\ol{c}=1, \ol{\phi} =3$ so $\#iv = 2+1-3 =0$
 
 \subsection{Claperyon Equation}
 
-\subsection{Thermodynamic Stability Cnditions}
+Consider a 
+{\bf coexistence curve}
+between 2 phases
 
+Let
+
+$P=$ pressure, same at two phases
+
+$T=$ temperature, same at two  phases
+
+$\Delta S = S_2-S_1=$ the entropy change between the 2 phases
+
+$\Delta V = V_2-V_1=$ the volume change between the two phases
+
+\begin{claim}(Claperyon Equation)
+
+The slope of the coexistence
+curve in the $(p,T)$ plane equals
+
+\beq
+\frac{dp}{dT}= \frac{\Delta S}{\Delta V}
+\eeq
+\end{claim}
+\proof
+
+\beq
+G_1(p,T)=G_2(p,T)
+\eeq
+
+\beq
+dG_i = -S_i dT + V_i dp
+\eeq
+
+\beq
+-S_1dT + V_1 dp =
+-S_2 dT +V_2 dp
+\eeq
+
+\beq
+(S_2-S_1)dT=
+(V_2-V_1) dp
+\eeq
+The {\bf latent 
+heat} $L$
+is defined by
+
+\beq
+L=T \Delta S
+\eeq
+If  $L$
+is approximately constant along the coexistence curve,
+
+\beq
+\frac{dp}{dT}= \frac{L}{T\Delta V}
+\eeq
+
+
+
+\qed
+
+
+\subsection{Thermodynamic Stability Conditions}
+
+Entropy is bounded below (by 0) and above for a finite system. 
+
+\begin{claim} (Entropy
+Maximimum principle
+)
+
+At equilibrium, the entropy $S(U, V, N)$ is locally maximized, meaning 
+
+\beq
+\AT{\partial_{U|V,N}S}{U=U^*}=0,
+\quad
+\AT{(\partial_{U|V,N})^2S}{U=U^*}\leq 0
+\eeq
+for some equilibrium energy $U^*$.
+\end{claim}
+\proof
+
+Break the system $\ol{U}, S(\ol{U}), T$
+into two parts 
+$U, S(U), T$ and $U', S(U'), T$ in thermal equilibrium.
+Assume the subsystems can exchange energy but not particles or volume. Assume energy and entropy is additive. Then
+
+\beq
+\ol{U} = U + U',
+\quad
+S(\ol{U})=
+S(U) + S(U')
+\eeq
+
+
+
+\beqa
+\partial_{U}S(\ol{U})
+&=&
+\partial_{U}S(U)
++
+\partial_{U}S(U'=\ol{U}-U)
+\\
+&=&
+\partial_U S(U) -\partial_{U'}S(U')
+\\
+&=&
+\frac{1}{T}-\frac{1}{T}
+\\
+&=&
+0
+\eeqa
+
+Thus
+\beq
+\partial_{U}S(\ol{U})=0
+\eeq
+and
+
+\beq
+\AT{\partial_{U}S(\ol{U})}{U'=0} =\frac{1}{T}
+\eeq
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2.3in]
+{differ-geo/entropy-max.png}
+\caption{Pictorial representation of reason that
+entropy is sitting at a local maximum in equilibrium.}
+\label{fig-entropy-max}
+\end{figure}
+
+As you can see from Fig.\ref{fig-entropy-max},
+the fact that
+$T>0$ and $U'>0$ implies that
+$S(\ol{U})$ has a maximum 
+at $\ol{U}= U + U'$.
+
+
+
+
+\qed
+
+The heat capacity at
+constant volume is
+
+\beq
+C_V
+\eeq
+
+ 
 
 
 \section{Cramer-Rao Bound}
