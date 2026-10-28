@@ -18084,6 +18084,191 @@ of  the equation of state vanishes.
 $i=1, 2, \cdots, n_c$. $N_c$ is 
 the number of components in chemical mixture.
 
+\subsection{Cramer-Rao Bound}
+
+
+Let
+
+$LL= \ln P(x|\theta)=$ {\bf log-likelihood}
+
+ $\partial_\theta LL=$
+the $\theta$-derivative (slope) of log-likelihood
+
+{\bf unbiased estimator $\htheta(\rvx;\theta)$
+of $\theta$} is a random variable
+$\ul{\htheta}$ that satisfies
+
+\beq
+E[\hat{\theta}(\rvx;\theta)]=\theta
+\eeq
+
+\begin{claim}
+
+\beq
+E[(\rv{\htheta}-\theta)
+\partial_\theta LL]=1
+\eeq
+
+
+\end{claim}
+\proof
+
+\beqa
+E[\ul{\htheta}LL]
+&=&
+\int dx\; P(x|\theta)
+ \htheta(x)
+\partial_\theta \ln P(x|\theta)
+\\
+&=&
+\int dx\; \htheta(x)
+\partial_\theta P(x|\theta)
+\\
+&=&
+\partial_\theta
+E[\ul{\htheta}]
+\\
+&=&
+1
+\eeqa
+
+\beq
+E[\theta LL]
+=
+\theta E[LL]
+=
+\theta\partial_\theta 1=0
+\eeq
+\qed
+
+{\bf Fisher information}
+\beq
+I(\theta)=
+E[(\partial_\theta LL)^2]
+\eeq
+
+Note that if $\rvx = (\rvx_1, \rvx_2, \ldots, \rvx_N)$ 
+where the $\rvx_i$ are iid (independent, identically distributed)
+
+\beq
+P(x|\theta)=
+\prod_i P(x_1|\theta),
+\quad
+LL= \sum_i LL_i
+\eeq
+do
+
+\beq
+I_\rvx(\theta)=
+\int dx\;
+\prod_i P(x_1|\theta)
+(\sum_j LL_j)^2=
+NI_{\rvx_1}(\theta)
+\eeq
+
+\begin{claim}
+
+\beq
+\av{\rv{\htheta}, \rv{\htheta}} \geq 
+\frac{1}{I(\theta)}
+\eeq
+
+\end{claim}
+\proof
+
+\beq
+\Delta \rva =
+\rva -\av{\rva},
+\;
+\Delta \rvb =
+\rvb -\av{\rvb}
+\eeq
+
+\beq
+\av{\rva, \rvb}=
+\av{\Delta \rva, \Delta \rvb}
+\eeq
+
+\beq
+\av{\rva, \rvb}=
+\av{\Delta \rva, \Delta \rvb}=\av{\rva \;\rvb}-\av{\rva}\av{\rvb}
+\eeq
+
+Recall the Cauchy-Schwartz inequality for
+random variables:
+
+\beq
+\av{\rva, \rvb}^2
+\leq \av{\rva, \rva}\av{\rvb, \rvb}
+\eeq
+
+
+\beq
+\underbrace{\av{\rv{\htheta}-\theta, LL}^2}_{1}\leq 
+\underbrace{\av{\rv{\htheta}-\theta,\rv{\htheta}-\theta}}_{\av{\rv{\htheta}, \rv{\htheta}}}
+\underbrace{\av{LL, LL}}_{I(\theta)}
+\eeq
+
+
+\beq
+\av{\rv{\htheta}-\theta, LL}=\av{(\rv{\htheta}-\theta) LL}
+= 1
+\eeq
+
+\beq
+\av{\rv{\htheta}-\theta,\rv{\htheta}-\theta}=
+\av{\rv{\htheta},\rv{\htheta}}
+\eeq
+
+\beq
+\av{LL}=
+\partial_\theta\int dx\; P(x|\theta)=0
+\eeq
+so 
+\beq
+\av{LL, LL}= \av{(LL)^2}= I(\theta)
+\eeq
+
+
+\qed
+
+Suppose 
+$\theta$ is a vector instead of a real number
+
+\beq
+\vec{\theta} = (\theta^1, \theta^2, \ldots \theta^n)
+\eeq
+with unbiased estimators $\rv{\htheta^i}(\rvx;\vec{\theta})$
+
+\beq
+E[\rv{\htheta^i}]=\theta^i
+\eeq
+
+{\bf Fisher Information matrix}
+\beq
+\metric_{ij}=
+E[\;(\partial_{\theta^i}LL)\;
+(\partial_{\theta^j}LL)\;]
+\eeq
+
+\beq
+\delta^i_k\leq
+\av{\rv{\htheta^i}, \rv{\htheta^j}}\metric_{jk}
+\eeq
+
+\beq
+(\metric^{-1})^{ij}\leq \av{\rv{\htheta^i}, \rv{\htheta^j}}
+\eeq
+Hence, for
+any vector $v_i$
+
+\beq
+v_i (\metric^{-1})^{ij}
+v_j
+\leq
+\av{v_i\rv{\htheta^i}, v_j\rv{\htheta^j}}
+\eeq
+
 
 \subsection{Legendre Transformations and Tdynamical potentials}
 
@@ -19526,14 +19711,15 @@ Entropy is bounded below (by 0) and above for a finite system.
 \begin{claim} (Entropy
 Maximimum principle)
 
-At equilibrium, the entropy $S(U, V, N)$ is locally maximized, meaning 
+At equilibrium, the entropy $S(U, V, \vec{N})$ is maximized at fixed $V, \vec{N}$.
+We have
 
-\beq
-\AT{\partial_{U|V,N}S}{U=U^*}=0,
-\quad
-\AT{(\partial_{U|V,N})^2S}{U=U^*}\leq 0
+ \beq
+(\partial_{U|V, \vec{N}})^2 S\leq 0
+,\quad \partial_{U|V, \vec{N}}S = 1/T\neq 0, \quad \partial_{U|V, \vec{N}} S(U+U_R, V, \vec{N}) =0
 \eeq
-for some equilibrium energy $U^*$.
+for some $U_R\geq 0$.
+
 \end{claim}
 \proof
 
@@ -19625,7 +19811,7 @@ C_V = T \partial_{T|V, \vec{N}}S
 \begin{claim}
 
 \beq
-C_V\geq 0
+C_V= -\;\frac{1}{T^2} (\partial_{U|T,\vec{N}})^2 S \geq 0
 \eeq
 
 \end{claim}
@@ -19656,7 +19842,7 @@ is defined
 
 \begin{claim}
 \beq
-\kappa_T\geq 0
+\kappa_T= V (\partial_{V|T, \vec{N}})^2 F \geq 0
 \eeq
 
 \end{claim}
@@ -19725,6 +19911,10 @@ Heat capacity positivity  comes from
 energy redistribution stability ($(\partial_U)^2 S$) at equilibrium, whereas the bulk modulus positivity comes from volume changes stability
 ($(\partial_{V})^2 F$)
 at equilibrium.
+
+
+
+
 
 \section{Electromagnetism}
 
