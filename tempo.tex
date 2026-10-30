@@ -29,6 +29,11 @@ underline the random variables.
 Normally, when speaking of either one or the other,
 but not both, we underline both. 
 
+\beq
+P(\rvy=y|\rvx=x)=\prob{\rvy|\rvx}{y|x}=
+P_{\rvy|\rvx}(y|x)=P(y|x)
+\eeq
+
 \beq 
 \xymatrix{\rvx
 \ar[r]
@@ -66,15 +71,25 @@ P(x,y)= P(y|x)P(x)
 
 
 
-$(x, y)=$ coordinates of the {\bf microscopic manifold} (see Section \ref{sec-four-manifolds-tdynamics} on four manifolds of Thermodynamics). We are assuming $(x,y)\in \bool^2$
-
-$\{ \prob{\rvy|\rvx}{y|x}: (x, y)\in \bool^2\}=$ joint distribution coordinates of {\bf statistical manifold}.
+$(x, y)=$ coordinates of the {\bf microscopic manifold} $\calp$ (see Section \ref{sec-four-manifolds-tdynamics} on four manifolds of Thermodynamics). We are assuming $(x,y)\in \bool^2$
 
 $\{ \prob{\rvx}{0},
 \prob{\rvy|\rvx}{0|0},
 \prob{\rvy|\rvx}{1|0}
 \}=$
-bnet coordinates of {\bf statistical manifold}.
+bnet coordinates of {\bf statistical manifold}. Call the number of coordinates of this manifold 
+$dim \calm_{stat}=3$
+
+
+$\{ \prob{\rvy|\rvx}{y|x}: (x, y)\in \bool^2\}=$ joint distribution coordinates of {\bf statistical manifold} $\calm_{stat}$.
+The dimension of this manifold is also
+$dim \calm_{stat} = 2^2-1=3$.
+The $-1$ is because of the 
+constraint
+$\sum_{(x,y)\in \bool^2}\prob{\rvx,\rvy}{x,y}=1$.
+
+
+
 
 \beq
 \prob{\rvx, \rvy}{1, 0}=
@@ -87,26 +102,179 @@ In general
 &=&
 \text{  product of }\{ \prob{\rvx}{0},
 \prob{\rvy|\rvx}{0|0},
-\prob{\rvy|\rvx}{1|0},
+\prob{\rvy|\rvx}{0|1},
 1-\prob{\rvx}{0},
 1-\prob{\rvy|\rvx}{0|0},
-1-\prob{\rvy|\rvx}{1|0}
+1-\prob{\rvy|\rvx}{0|1}
 \}
 \\
 &=&
 \text{nonlinear function of }
 ( \prob{\rvx}{0},
 \prob{\rvy|\rvx}{0|0},
-\prob{\rvy|\rvx}{1|0})
+\prob{\rvy|\rvx}{0|1})
 \\
 &=&
 \Phi( \prob{\rvx}{0},
 \prob{\rvy|\rvx}{0|0},
-\prob{\rvy|\rvx}{1|0})
+\prob{\rvy|\rvx}{0|1})
 \eeqa
 
 \beq
-\Phi: [0,1]^3\rarrow \RR
+\Phi:[0,1]^3 \rarrow [0,1]
+\eeq
+
+\begin{claim}
+Suppose $x\in\{0,1, 2\} $ and 
+$\sum_{x=0}^2P(x)=1$.
+Also let $P(x)=p_x$
+and
+
+\beq
+\metric_{p_{x'} p_{x''}}
+=
+E
+\left[(\partial_{p_{x'}}\ln P(x))
+(\partial_{p_{x''}}\ln P(x))\right]
+\eeq
+Then
+
+\beq
+\metric_{p_0 p_0}
+=\metric_{p_1 p_1}=
+\frac{1}{p_0\para p_2}
+\eeq
+and
+
+\beq
+\metric_{p_1p_0}=
+\metric_{p_0p_1} = \frac{1}{p_2}
+\eeq
+where
+\footnote{We are borrowing
+notation from Electronics for the resistance $R_1\para R_2$ for 2 resistors $R_1$ and $R_2$ in parallel.}
+
+\beq
+p_0\para p_2 =
+\left(
+\frac{1}{p_0} + \frac{1}{p_2}
+\right)^{-1}
+\eeq
+
+\end{claim}
+\proof
+
+
+\qed
+
+Note that if $\rvx$ has 2 states instead of 3, we get
+
+\beq
+\metric_{p_0 p_0}=
+\frac{1}{p_0\para p_1}= \frac{1}{p_0p_1}
+\eeq
+
+
+
+\hrule
+\beq
+\bcen
+\xymatrix{
+&\rvy\ar[rd]
+\\
+\rvx\ar[rr]
+\ar[ru]
+&&\rvz
+}
+\ecen
+\quad\quad
+P(x,y,z)= P(z|y,x) P(y|x) P(x)
+\eeq
+
+\beq
+[\prob{\rvx}{x}] =
+\begin{bmatrix}
+\prob{\rvx}{0}
+\\
+1-\prob{\rvx}{0}
+\end{bmatrix}
+\eeq
+
+\beq
+[\prob{\rvy|\rvx}{y|x}] =
+\begin{bmatrix}
+\prob{\rvy|\rvx}{0|0}
+& \prob{\rvy|\rvx}{0|1}
+\\
+1-\prob{\rvy|\rvx}{0|0}
+& 1-\prob{\rvy|\rvx}{0|1}
+\end{bmatrix}
+\eeq
+
+\beq
+[\prob{\rvz|\rvx, \rvy}{z|x, y}] =
+\begin{bmatrix}
+\prob{\rvz|\rvx, \rvy}{0|00}
+& \prob{\rvz|\rvx, \rvy}{0|01}
+&\prob{\rvz|\rvx, \rvy}{0|10}
+&
+\prob{\rvz|\rvx, \rvy}{0|11}
+\\
+1-\prob{\rvz|\rvx, \rvy}{0|00}
+& 1-\prob{\rvz|\rvx, \rvy}{0|01}
+&
+1-
+\prob{\rvz|\rvx, \rvy}{0|10}
+&
+1-
+\prob{\rvz|\rvx, \rvy}{0|11}
+\end{bmatrix}
+\eeq
+
+
+$\{\vece_j\}_{j=1}^n=$ t-basis
+
+$\{\wul{\chi}^i\}_{i=1}^n=$ dual  t-basis
+(covector basis)
+
+$n=7$ in this case
+
+
+\beq
+\wul{\chi}^i(\vece_j)= \delta_j^i
+\eeq
+
+\beq
+\metric =\sum_{i=1}^7
+\wul{\chi}^i
+\otimes
+\wul{\chi}^i
+\eeq
+
+
+curvilinear coordinates 
+(see Section \ref{sec-curvilinear-coords})
+
+\beq
+\{\phi^i\}_{i=1}^7
+=
+\left\{
+\begin{array}{l}
+\prob{\rvx}{0},
+\\
+\{\prob{\rvy|\rvx}{0|x}:x\in \bool\},
+\\
+\{\prob{\rvz|\rvx, \rvy}{0|x,y}:(x,y)\in \bool^2\}
+\end{array}
+\right\}
+\eeq
+
+Fisher metric
+
+\beq
+\metric_{ij}=
+E[(\partial_{\phi^i}\ln P(x,y,z))
+(\partial_{\phi^j}\ln P(x,y,z))]
 \eeq
 
 
