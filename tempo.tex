@@ -125,9 +125,11 @@ In general
 \eeq
 
 \begin{claim}
-Suppose $x\in\{0,1, 2\} $ and 
-$\sum_{x=0}^2P(x)=1$.
-Also let $P(x)=p_x$
+\label{cl-fisher-metric-bnet}
+
+Suppose $x\in\{0,1, 2, \ldots, R\} $ and 
+$\sum_{x=0}^R P(x)=1$.
+Let $P(x)=p_x$
 and
 
 \beq
@@ -137,12 +139,26 @@ E
 \left[(\partial_{p_{x'}}\ln P(x))
 (\partial_{p_{x''}}\ln P(x))\right]
 \eeq
+for $x', x''\in\{ 0, 1, 2\ldots, R\}$
+with $p_0, p_1, \ldots, p_{R-1}$ as independent variables and
+$p_R= 1-\sum_{i=0}^{R-1}p_i$
+as a dependent one.
 Then
 
+For $R=1$,
+
 \beq
-\metric_{p_0 p_0}
-=\metric_{p_1 p_1}=
-\frac{1}{p_0\para p_2}
+\metric_{p_0 p_0}=
+\frac{1}{p_0\para p_1}= \frac{1}{p_0p_1}
+\eeq
+
+For $R=2$,
+
+\beq
+\metric_{p_0 p_0}=
+\frac{1}{p_0\para p_2}, \quad
+\metric_{p_1 p_1}=
+\frac{1}{p_1\para p_2}
 \eeq
 and
 
@@ -161,18 +177,77 @@ p_0\para p_2 =
 \right)^{-1}
 \eeq
 
+$\metric_{p_{x'} p_{x''}}$ for arbitrary $R$
+is evident from the $R=1$ and $R=2$ cases.
+
 \end{claim}
 \proof
+
+Consider the $R=2$ case.
+
+\beqa
+\partial_{p_0}\ln P(x)
+&=&
+\partial_{p_0}
+\left(
+\ln p_0 \delta_x^0 
++ \ln p_1 \delta_x^1
++
+\ln(1-p_0-p_1)\delta_x^2
+\right)
+\\
+&=&
+\left(
+\frac{\delta_x^0}{p_0}
+-
+\frac{\delta_x^2}{p_2}
+\right)
+\eeqa
+
+\beq
+\metric_{p_0p_0} =
+\sum_x p_x\left(
+\frac{\delta_x^0}{p_0}
+-
+\frac{\delta_x^2}{p_2}
+\right)^2
+=
+\frac{p_0}{p_0^2} + \frac{p_2}{p_2^2}
+=
+\frac{1}{p_0} + \frac{1}{p_2}
+\eeq
+
+\beq
+\metric_{p_0 p_1}
+=
+\sum_x p_x 
+\left(
+\frac{\delta_x^0}{p_0}
+-
+\frac{\delta_x^2}{p_2}
+\right)
+\left(
+\frac{\delta_x^1}{p_1}
+-
+\frac{\delta_x^2}{p_2}
+\right)
+=
+\frac{p_2}{p_2^2}
+=
+\frac{1}{p_2}
+\eeq
+
+
 
 
 \qed
 
-Note that if $\rvx$ has 2 states instead of 3, we get
+To calculate the Fisher metric for this DAG, use the 
+results of Claim \ref{cl-fisher-metric-bnet}, but note
+that if 
 
-\beq
-\metric_{p_0 p_0}=
-\frac{1}{p_0\para p_1}= \frac{1}{p_0p_1}
-\eeq
+
+
 
 
 
@@ -275,6 +350,80 @@ Fisher metric
 \metric_{ij}=
 E[(\partial_{\phi^i}\ln P(x,y,z))
 (\partial_{\phi^j}\ln P(x,y,z))]
+\eeq
+
+
+\beq
+\left[
+\partial_{\prob{\rvx|\rva}{0|a}}\ln P(x|a)\right]^2
+=L(x|a)
+\eeq
+then
+
+\beq
+E_{\rvx}[L(x|a)]=
+P(a)E_{\rvx|a}[L(x|a)]
+\eeq
+
+\beq
+(ds)^2=
+\metric_{ij}d\phi^i d\phi^j=
+E[d\ln P(x,y,z)
+d\ln P(x,y,z)]
+\eeq
+
+\beq
+g_{ii}=
+\left\{
+\begin{array}{l}
+A (d\prob{\rvx}{0})^2
+\\
++ \sum_{x=0}^1
+B_x(d\prob{\rvy|\rvx}{0|x})^2
+\\
++ \sum_{y=0}^1\sum_{x=0}^1
+C_{x,y}(d\prob{\rvz|\rvx, \rvy}{0|x, y})^2
+\end{array}
+\right.
+\eeq
+where
+
+\beq
+A = \frac{1}{\prob{\rvx}{0}
+\prob{\rvx}{1}}
+,\quad
+B_x = \frac{\prob{\rvx}{x}}{\prob{\rvy|\rvx}{0|x}
+\prob{\rvy|\rvx}{1|x}}
+,\quad
+C_{x,y} = \frac{\prob{\rvx, \rvy}{x,y}}{\prob{\rvz|\rvx,\rvy}{0|x, y}
+\prob{\rvz|\rvx, \rvy}{1|x, y}}
+\eeq
+
+\beq
+\ell= \sqrt{A},
+\quad 
+\ell_{x} =\sqrt{B_x}
+,\quad
+\ell_{x,y}=\sqrt{C_{x,y}}
+\eeq
+
+\beq
+(ds)^2 = \sum_{i=1}^7(\ell^i d\phi^i)^2
+\eeq
+
+Choose 
+
+\beq
+\chi^i = \ell^i d\phi^i
+,\quad
+\vece_i=
+\frac{1}{\ell^i} \vecpder{\phi^i}
+\eeq
+
+\beq
+\Gamma\indices{^\rho_{\mu\nu}}=
+-e\indices{^\alp_\nu}\partial_\mu e\indices{_\alp^\rho}=
+e\indices{_\alp^{\rho}}\partial_\mu e\indices{^\alp_\nu}
 \eeq
 
 
