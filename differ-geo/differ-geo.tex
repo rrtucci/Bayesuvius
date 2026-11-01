@@ -11123,7 +11123,7 @@ X^\lam \TT\indices{^\rho_{\lam\mu}}
 >{\columncolor[HTML]{9AFF99}}l |l|}
 \hline
 def. displacement vector & $\pform{d\vecr}{}= \vece \pform{\chi}{}$ \\ \hline
-def. connections & $\pform{d\vece}{} =  \vece \pform{\omega}{}$ \\ \hline
+def. connections & $\pform{\nnabla\vece}{} =  \vece \pform{\omega}{}$ \\ \hline
 def. torsion (Cartan SE 1) & $\pform\TT{2} = D\pform{\chi}{} =d\pform{\chi}{} + \pform{\omega}{}\wedge \pform{\chi}{}$ \\ \hline
 def. curvature (Cartan SE 2) & $\pform{\Omega}{2} = D\pform{\omega}{} = d\pform{\omega}{} +\pform{\omega}{}\wedge\pform{\omega}{}$ \\ \hline
 d(torsion) (Bianchi 1) & $D\pform\TT{2} = \pform{\Omega}{2}\wedge \pform{\chi}{}$ \\ \hline
@@ -11183,7 +11183,7 @@ $(\pform{\chi^1}{}, \pform{\chi^2}{} \ldots, \pform{\chi^n}{})=$ dual t-basis. I
 $\pform{\omega\indices{^a_b}}{}=$ connection 1-form. It satisfies:
 
 \beq
-\pform{d\vece_b}{} =\vece_b
+\pform{\nnabla\vece_a}{} =\vece_b
 \pform{\omega\indices{^b_a}}{}
 \label{eq-de-w-e}
 \eeq
@@ -11208,6 +11208,152 @@ Cartan's Second SE
 \wedge
 \pform{\omega\indices{^c_b}}{}
 \eeq
+\hrule
+Relationship between connection 1-form and  \Chris symbols
+
+For any frame, 
+not necessarily a coordinate
+(holonomic)
+frame, let
+
+\beq
+\ul{\chi^a}(\vece_b)=\delta^a_b
+\eeq
+
+\beq
+\nnabla_{\vece_c}=\nnabla_c
+\eeq
+
+Definition
+of \Chris 
+symbols $\Gamma\indices{^b_{ca}}$:
+\beq
+\nnabla_c \vece_a =\Gamma\indices{^b_{ca}}\vece_b
+\eeq
+
+Definition of connection 1-form $\ul{\omega\indices{^a_b}}$:
+
+\beq
+\nnabla \vece_a =
+\vece_b \ul{\omega\indices{^a_b}}
+\eeq
+Therefore
+
+\beq
+\boxed{\nnabla = \ul{\chi^c}
+\nnabla_c,
+\quad
+\ul{\omega}
+\indices{^b_a}=
+\Gamma\indices{^b_{ca}}\ul{\chi^c}}
+\eeq
+Note that
+
+\beq
+\nnabla\TT(\vecX)=
+(\ul{\chi^c}\nnabla_c)\TT(\vecX)=
+\ul{\chi^c}(\vecX)
+\nnabla_c\TT= X^c\nnabla_c\TT= \nnabla_{\vecX}\TT
+\eeq
+and 
+
+\beq
+\ul{\omega\indices{^a_b}}(\vecX)= \Gamma\indices{^b_{ca}}X^c
+\eeq
+
+
+Cartan's structure 
+equations are
+defined independently of whether the frame is holonomic or not.
+
+
+For a holonomic frame
+
+\beq
+\vece_a=\vecpder{x^a}, \quad \ul{\chi^a}=dx^a
+\eeq
+so
+
+\beq
+\ul{d\chi^a}=0
+\eeq
+
+\begin{claim}
+For a non-holonomic frame
+
+\beq
+\ul{d\chi^a} = -\;
+\frac{1}{2} C\indices{^a_{bc}}
+\ul{\chi^b}
+\wedge \ul{\chi^c}
+\eeq
+where 
+
+\beq
+[\vece_b, \vece_c]=
+C\indices{^a_{bc}}\vece_a
+\eeq
+\end{claim}
+\proof
+
+\beq
+\ul{d\alp}(\vecX, \vecY)=
+\vecX[\ul{\alp}(\vecY)]
+-
+\vecY[\ul{\alp}(\vecX)]-
+\ul{\alp}([\vecX, \vecY])
+\eeq
+
+\beq
+\ul{\alp}=
+\ul{\chi^a}
+,\quad
+\vecX  = \vece_b
+,\quad
+\vecY =\vece_c
+\eeq
+
+\beq
+\ul{d\chi^a}(\vece_b, \vece_c)=
+\vece_b[\ul{\chi^a}(\vece_c)]
+-
+\vece_c[\ul{\theta^a}(\vece_b)]
+-
+\ul{\chi^a}
+([\vece_b, \vece_c])
+\eeq
+First two terms of the right side vanish because 
+
+\beq
+\vece_b[\ul{\chi^a}(\vece_c)]=
+\vece_b[\delta^a_c]=0
+\eeq
+Hence
+
+\beq
+\ul{d\chi^a}(\vece_b, \vece_c)=
+-
+\ul{\chi^a}
+([\vece_b, \vece_c])
+\eeq
+
+\beqa
+\ul{d\chi^a}&=&
+\frac{1}{2}
+\ul{d\chi^a}(\vece_b, \vece_c)
+\ul{\chi^b}
+\wedge
+\ul{\chi^c}
+\\
+&=&
+-\;\frac{1}
+{2}\ul{\chi^a}([\vece_b, \vece_c])
+\ul{\chi^b}
+\wedge
+\ul{\chi^c}
+\eeqa
+
+\qed
 
 \begin{claim}(Bianchi Identities)
 
@@ -11368,6 +11514,9 @@ Hence
 &=&
 \ul{\omega_{ba}}+\ul{\omega_{ab}}
 \eeqa
+
+
+
 
 \section{Differential Geometry of Curves}\label{sec-frenet-serret}
 
@@ -18496,6 +18645,30 @@ P_{\rvx\rvy}(x,y)=P_\rvx(x)P_\rvy(y)
 \eeq
 Run this argument backwards to
 prove the converse.
+\hrule
+Bayes rule can be expressed in 
+terms of potentials.
+
+\begin{claim}(Bayes Rule)
+
+\beq
+P(b|a) =\frac{\phi(a, b)}{Z(a)}
+,
+\quad
+\text{ where } Z(a)= \sum_b \phi(a,b)
+\eeq
+
+\end{claim}
+\proof
+
+\beq
+P(b|a) =\frac{P(a|b)P(b)}
+{P(a)}=
+\frac{P(a,b)}{\sum_b P(a,b)}
+\eeq
+
+
+\qed
 
 
 
@@ -20822,7 +20995,8 @@ Tetrad t-basis
 (frame basis)
 
 \beq
-\vece_a = e\indices{_a^\mu}\vec{\partial}_\mu
+\vece_a = e\indices{_a^\mu}
+\underbrace{\vecpder{x^\mu}}_{\vec{\partial}_\mu}
 \eeq
 where Greek index letters label the 4 coordinates and range over $\{0,1,2,3\}$
 and the Latin index letters label the four frame vectors
