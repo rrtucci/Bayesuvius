@@ -20,7 +20,7 @@ $\nint{6}$
 
 \newcommand{\prob}[2]{P^{#1}_{#2}}
 
-
+\section{Probability and Statistics}
 In this section, since there are both dif-forms and random variables in the discussion,
 we will wavy-underline 
 dif-forms
@@ -425,19 +425,19 @@ Choose
 -e\indices{^\alp_\nu}\partial_\mu e\indices{_\alp^\rho}=
 e\indices{_\alp^{\rho}}\partial_\mu e\indices{^\alp_\nu}
 \eeq
-
-In Statistics, we say $S(\rvx)$ is a {\bf sufficient statistic for $\rv{x}$} if
+\subsection{Sufficient Statistics}
+In Statistics, we say $\cals(\rvx)$ is a {\bf sufficient statistic for $\rv{x}$} if
 
 $$P(\rvx=x|
 \rv{\theta}
-=\theta, \rv{S}=S(x))\quad\propto\quad P(\rv{S}=S(x)|\rv{\theta}=\theta)$$
-so knowing the distribution of $S(\rvx)$ is
+=\theta, \rv{\cals}=\cals(x))\quad\propto\quad P(\rv{\cals}=\cals(x)|\rv{\theta}=\theta)$$
+so knowing the distribution of $\cals(\rvx)$ is
 sufficient to know
 the distribution of $\rvx$.
 
-
+\subsection{Exponential Family of Distributions}
 {\bf Exponential family
-of distributions}
+of distributions} (EFD)
 
 \beq
 P(\vecx;\vec{\theta})=
@@ -449,7 +449,7 @@ probability potential (un-normalized probability)
 \phi(\vec{x};\vec{\theta})=
 W(\vec{x})
 \exp\left(
-\sum_i\theta^i S_i(\vecx)
+\sum_i\theta^i \cals_i(\vecx)
 \right)
 \eeq
 
@@ -458,8 +458,9 @@ partition function
 Z(\vec{\theta})=
 \sum_{\vecx}\phi(\vecx;\vec{\theta})
 \eeq
-$S_i(\vecx)$ are called {\bf sufficient statistics}.
+$\cals_i(\vecx)$ are called {\bf sufficient statistics}and the $\theta^i$ are called parameters.
 
+EFD is a
 generalization of the {\bf exponential distribution}
 \beq
 P(x;\lam) = \frac{e^{-\lam x}}
@@ -469,8 +470,184 @@ P(x;\lam) = \frac{e^{-\lam x}}
 \eeq
 for $x\in [0, \infty)$.
 
+\beq
+\boxed{E[\cals_i(\rv{\vecx})]=
+\partial_{\theta^i}\ln Z(\vec{\theta})}
+\eeq
+
+\beq
+\underbrace{\ln P({\vecx};\vec{\theta})
+}_{LL=\text{log likelihood}}
+=
+\theta^i \cals_i({\vecx})-
+\ln Z(\vec{\theta})
++
+\ln W({\vecx})
+\eeq
+
+\beq
+A_i(\vecx, \vec{\theta})=
+\partial_{\theta^i}
+LL(\vecx,\vec{\theta})
+=
+\cals_i({\vecx})
+-\underbrace{\partial_{\theta^i}\ln Z(\vec{\theta})}_{E[\cals_i({\vecx})](\vec{\theta})}
+\eeq
+
+\beq
+B_{ij}(\vec{\theta})=\partial_{\theta^i}
+\underbrace
+{\partial_{\theta^j}LL(\vecx, \vec{\theta})}_{A_j}
+=-
+\partial_{\theta^j}
+E[\cals_i(\vec{x})](\vec{\theta})
+\eeq
+
+\beq
+\boxed
+{\metric_{\theta^i\theta^j}
+=
+E[
+A_iA_j
+]=
+\av{\cals_i(\rv{\vecx}), 
+\cals_j(\rv{\vecx})}=-
+\partial_{\theta^i}\partial_{\theta^j}\ln Z(\vec{\theta})}
+\eeq
 
 
+\subsection{Three connections for EFD}
+
+
+
+
+
+\begin{claim}
+The \Chris symbols for Levi-Civita (LC) connection for 
+EFD
+
+\beq
+\Gamma^{LC}_{ijk}
+=
+E[B_{ij}A_k]+\frac{1}{2}E[A_i A_j A_k]
+\eeq
+
+\end{claim}
+\proof
+
+\beq
+\Gamma^{LC}_{ijk}=
+\frac{1}{2}
+\left(
+\partial_i\metric_{jk}
++
+\partial_j
+\metric_{ik
+}-
+\partial_k
+\metric_{ij}
+\right)
+\eeq
+
+\beq
+\metric_{jk}=
+E[A_j A_k]
+,\quad
+B_{ij}=
+\partial_i A_j
+\eeq
+
+\beq
+\partial_{\theta^i} P(\vecx;\vec{\theta})=P\partial_{\theta^i}LL =
+PA_i
+\eeq
+
+
+\beq
+\partial_i
+\metric_{jk}=
+E[B_{ij}A_k+ A_j B_{ik}+
+A_i A_j A_k]
+\eeq
+
+\beq
+\partial_j\metric_{ik}=
+E[
+B_{ij}A_k +
+A_i B_{jk}
++
+A_j A_i A_k
+]
+\eeq
+
+\beq
+\partial_k\metric_{ij}=
+E[
+B_{ik}A_j + A_i B_{jk}
++
+A_k A_i A_k
+]
+\eeq
+
+\beq
+\Gamma^{LC}_{ijk}=
+\frac{1}{2}
+E\left[
+\begin{array}{l}
++B_{ij}A_k
++
+{\color{red}A_j B_{ik}}
++
+A_i A_j A _k
+\\
++B_{ij}A_k
++
+{\color{blue}A_i B_{jk}}
++
+{\color{green}A_j A_i A_k}
+\\
+-{\color{red}B_{ik}A_j}
+-
+{\color{blue}A_i B_{jk}}
+-
+{\color{green}A_k A_i A_j}
+\end{array}
+\right]
+\eeq
+
+\qed
+
+The 
+\Chris symbols for the 
+$\alp=\pm 1$ connection 
+are defined by
+\beqa
+\Gamma^{(\alp)}_{ijk}
+&=&
+E[B_{ij} A_k]
++
+\frac{(1-\alp)}{2}E[A_i A_j A_k]
+\\
+&=&
+\Gamma^{LC}_{ijk}-
+\; \frac{\alp}{2}E[A_i A_j A_k]
+\eeqa
+Note that this formula
+also gives the \Chris symbols
+for the LC conection if we set $\alp=0$.
+
+\beq
+\Gamma^{(+1)}_{ijk}
+= E[B_{ij}(\vec{\theta})A_k]=
+B_{ij}(\vec{\theta})E[A_k]=  0
+\eeq
+
+\beq
+\Gamma\indices{^{(+1)k}_{ij}}=
+g^{km}\Gamma^{(+1)}_{ijm}=0
+\eeq
+
+\subsection{How to define new connections}
 
 \end{document}
 
