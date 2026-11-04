@@ -237,21 +237,796 @@ Consider the $R=2$ case.
 \frac{1}{p_2}
 \eeq
 
+\qed
+
+Consider the 
+bnet $\rvx\rarrow  \rvy$ with  both nodes binary.
+Let 
+
+\beq
+a = \prob{\rvx}{0}
+,\quad
+b_0=\prob{\rvy|\rvx}{0|0}
+,\quad
+b_1=\prob{\rvy|\rvx}{0|1}
+\eeq
+
+\beq
+x^c = 1-x
+\eeq
+for $x\in \bool$
+
+\hrule
+Fisher metric
+
+\beq
+\metric=
+diag
+\left(
+\frac{1}{a a^c},
+\quad
+\frac{a^c}
+{b_0 b_0^c}
+,\quad
+\frac{a}{b_1 b_1^c}
+\right)
+\eeq
+\hrule
+Connection 1-form for Levi-Civita connection
+
+Define
+
+\beq
+\wul{\chi^1}=
+\frac{\wul{da}}
+{\sqrt{aa^c}}
+,\quad
+\chi^2= 
+\sqrt{
+\frac{a^c}
+{b_0b_0^c}
+} db_0
+,\quad
+\chi^3 =
+\sqrt{
+\frac{a}{b_1 b_1^c}
+}db_1
+\eeq
+
+\beq
+(ds)^2 =
+(\chi^1)^2
++
+(\chi^2)^2
++
+(\chi^3)^2
+\eeq
 
 
+\beq
+\wul{d\chi^a}= -\wul{\omega\indices{^a_b}}
+\wedge \wul{\chi^b}
+\eeq
+
+
+\beq
+\wul{\chi^1}
+\wedge
+\wul{\chi^2}=
+\frac{1}{
+\sqrt{a b_0 b_0^c}}
+\wul{da}
+\wedge
+\wul{db_0}
+\eeq
+
+\beq
+\wul{\chi^1}
+\wedge
+\wul{\chi^3}=
+\frac{1}{
+\sqrt{a^c b_1 b_1^c}}
+\wul{da}
+\wedge
+\wul{db_1}\eeq
+
+\beq
+\wul{d\chi^1}=0
+\eeq
+
+\beqa
+\wul{d\chi^2}&=&
+\frac{-1}{
+2\sqrt{
+a^c b_0 b_0^c}}
+\wul{da}
+\wedge
+\wul{db_0}
+\\
+&=&
+\frac{-\sqrt{a b_0 b_0^c}}{\sqrt{
+a^c b_0 b_0^c}}
+\wul{\chi^1}\wedge
+\wul{\chi^2}
+\\
+&=&
+-\sqrt{\frac{a}{a^c}} \wul{\chi^1}\wedge
+\wul{\chi^2}
+\eeqa
+
+\beq
+\wul{d\chi^2}=-
+\wul{\omega\indices{^2_1}}
+\wedge\wul{\chi^1}
+\implies
+\boxed{\wul{\omega\indices{^2_1}}
+=
+-\sqrt{\frac{a}{a^c}}
+\wul{\chi^2}}
+\eeq
+
+
+\beqa
+\wul{d\chi^3}&=&
+\frac{1}{
+2\sqrt{
+a b_0 b_0^c}}
+\wul{da}
+\wedge
+\wul{db_1}
+\\
+&=&
+\frac{\sqrt{a^c b_0 b_0^c}}{\sqrt{
+a b_0 b_0^c}}
+\wul{\chi^1}\wedge
+\wul{\chi^3}
+\\
+&=&
+\sqrt{\frac{a^c}
+{a}} \wul{\chi^1}\wedge
+\wul{\chi^3}
+\eeqa
+
+\beq
+\wul{d\chi^3}=-
+\wul{\omega\indices{^3_1}}
+\wedge\wul{\chi^1}
+\implies
+\boxed{\wul{\omega\indices{^3_1}}
+=
+\sqrt{\frac{a^c}{a}}
+\wul{\chi^3}}
+\eeq
+
+
+Abbreviations
+
+\beq
+A= \frac{1-2a}{2\sqrt{a a^c}}
+=\frac{d}
+{da}\sqrt{a a^c}
+\eeq
+
+\beq
+B = \frac{1}{2}\sqrt{\frac{a}{a^c}}
+\eeq
+
+\beq
+C =-\;\frac{1}{2}
+\sqrt{\frac{a^c}{a}}
+\eeq
+
+Metric compatibility implies antisymmetry:
+
+\beq
+\wul{\omega\indices{^a_b}}=
+-
+\wul{(\omega^T)\indices{^a_b}}
+=
+-\wul{\omega\indices{^b_a}}
+\eeq
+
+\beq
+[\wul{\omega\indices{^a_b}}]=
+\begin{pmatrix}
+0 &B\wul{\chi^2}
+&C\wul{\chi^3}
+\\
+-B\wul{\chi^2}&0&0
+\\
+-C\wul{\chi^3}&0&0
+\end{pmatrix}
+\eeq
+
+
+
+\subsection{Sufficient Statistics}
+In Statistics, we say $\cals(\rvx)$ is a {\bf sufficient statistic for $\rv{x}$} if
+
+$$P(\rvx=x|
+\rv{\theta}
+=\theta, \rv{\cals}=\cals(x))\quad\propto\quad P(\rv{\cals}=\cals(x)|\rv{\theta}=\theta)$$
+so knowing the distribution of $\cals(\rvx)$ is
+sufficient to know
+the distribution of $\rvx$.
+
+\subsection{Exponential Family of Distributions}
+{\bf Exponential family
+of distributions} (EFD)
+
+\beq
+P(\vecx;\vec{\theta})=
+\frac{\phi(\vecx; \vec{\theta})}{Z(\vec{\theta})}
+\eeq
+
+probability potential (un-normalized probability)
+\beq
+\phi(\vec{x};\vec{\theta})=
+W(\vec{x})
+\exp\left(
+\sum_i\theta^i \cals_i(\vecx)
+\right)
+\eeq
+
+partition function
+\beq
+Z(\vec{\theta})=
+\sum_{\vecx}\phi(\vecx;\vec{\theta})
+\eeq
+$\cals_i(\vecx)$ are called {\bf sufficient statistics}and the $\theta^i$ are called parameters.
+
+EFD is a
+generalization of the {\bf exponential distribution}
+\beq
+P(x;\lam) = \frac{e^{-\lam x}}
+{Z(\lam)}
+=
+\lam  e^{-\lam x}
+\eeq
+for $x\in [0, \infty)$.
+
+\beq
+\boxed{E[\cals_i(\rv{\vecx})]=
+\partial_{\theta^i}\ln Z(\vec{\theta})}
+\eeq
+
+\beq
+\underbrace{\ln P({\vecx};\vec{\theta})
+}_{LL=\text{log likelihood}}
+=
+\theta^i \cals_i({\vecx})-
+\ln Z(\vec{\theta})
++
+\ln W({\vecx})
+\eeq
+
+\beq
+A_i(\vecx, \vec{\theta})=
+\partial_{\theta^i}
+LL(\vecx,\vec{\theta})
+=
+\cals_i({\vecx})
+-\underbrace{\partial_{\theta^i}\ln Z(\vec{\theta})}_{E[\cals_i({\vecx})](\vec{\theta})}
+\eeq
+
+\beq
+B_{ij}(\vec{\theta})=\partial_{\theta^i}
+\underbrace
+{\partial_{\theta^j}LL(\vecx, \vec{\theta})}_{A_j}
+=-
+\partial_{\theta^j}
+E[\cals_i(\vec{x})](\vec{\theta})
+\eeq
+
+\beq
+\boxed
+{\metric_{\theta^i\theta^j}
+=
+E[
+A_iA_j
+]=
+\av{\cals_i(\rv{\vecx}), 
+\cals_j(\rv{\vecx})}=-
+\partial_{\theta^i}\partial_{\theta^j}\ln Z(\vec{\theta})}
+\eeq
+
+Next, 
+EDF applied to bnets.
+
+\hrule
+Sufficient statistics and 
+EFD variables
+
+Define
+
+\beq
+a = \prob{\rvx}{0}
+,\quad
+b_0=\prob{\rvy|\rvx}{0|0}
+,\quad
+b_1=\prob{\rvy|\rvx} {0|1}
+\eeq
+
+\beq
+x^c= 1-x
+\eeq
+for $x\in \bool$.
+
+The next claim assumes $a, B_0, b_1$ can vary freely. If you impose functional dependencies among them, you may obtain a lower-dimensional submanifold of this three-dimensional exponential family.
+
+\begin{claim}
+Consider bnet $\rvx\rarrow\rvy$ with both nodes binary.
+
+
+
+\beq
+\begin{tabular}{|l|l|}
+\hline
+\rowcolor[HTML]{9AFF99} 
+$\cals_i$ & $\theta^i$ \\ \hline
+\rowcolor[HTML]{FFFFFF} 
+$\cals(x)=\delta_0^x$ & $\theta=\ln[\prob{\rvx,\rvy}{01}/\prob{\rvx,\rvy}{11}]=\ln\left[
+ab_0^c/(a^c
+b_1^c)
+\right]$ \\ \hline
+\rowcolor[HTML]{FFFFFF} 
+\begin{tabular}[c]{@{}l@{}}
+$\cals_{x'}(x,y)=\delta_{x'}^x \delta_0^y$\\
+for $x'=0,1$ 
+\end{tabular}& \cellcolor[HTML]{FFFFFF}\begin{tabular}[c]{@{}l@{}}$\theta^{x'}=\ln
+[\prob{\rvx,\rvy}{x'1}/ \prob{\rvx,\rvy}{11}]=
+\ln \left(b_{x'}/b_{x'}^c\right)$
+\\ for $x'=0,1$ 
+\end{tabular}
+\\ \hline
+\end{tabular}
+\eeq
+and 
+
+\beq
+Z =
+ 1 + e^{\theta^1}
++
+e^\theta(1+ e^{\theta^0})
+= \frac{1}{\prob{\rvx,\rvy}{11}}=
+\frac{1}{
+(1-a)(1-b_1)
+}
+\eeq
+
+
+\end{claim}
+\proof
+
+\beqa
+P(x,y)&=&
+\exp\left(
+\ln[P(y|x)P(x)]
+\right)
+\\
+&=&
+\exp
+\left(
+\begin{array}{l}
+\ln P(x)
+\\
++\ln P(y|x)
+\end{array}
+\right)
+\\
+&=&
+\exp
+\left(
+\begin{array}{l}
+\sum_{x'=0}^1 \delta_{x'}^x\ln P(x')
+\\
++\sum_{x'=0}^1\sum_{y'=0}^1
+\delta_{x'}^x
+\delta_{y'}^y\ln P(y'|x')
+\end{array}
+\right)
+\\
+&=&
+\exp
+\left(
+\begin{array}{l}
+ \delta_{0}^x\ln \prob{\rvx}{0}
++
+\underbrace{\delta_{1}^x}_{1-\delta_0^x}
+\ln (1-\prob{\rvx}{0})
+\\
+\sum_{x'=0}^1
+\delta_{x'}^x
+\left[ \delta_{0}^y\ln \prob{\rvy|\rvx}{0|x'}
++
+\underbrace{\delta_{1}^y}_{1-\delta_0^y}
+\ln (1-\prob{\rvy|\rvx}{0|x'})
+\right]
+\end{array}
+\right)
+\eeqa
+
+Choose sufficient statistics
+\beqa
+\theta&&
+\cals(x)= \delta_0^x
+\\
+\theta^{x'}
+&&
+\cals_{x'}(x,y) = \delta_{x'}^x\delta_0^y
+\quad\quad
+\text { for $x'=0,1$}
+\eeqa
+
+\beq
+P(x,y)=
+\frac{1}{Z}
+\exp\left(
+\delta_0^x \theta
++\delta_0^x
+\delta_0^y\theta^0
++
+\delta_1^x
+\delta_0^y\theta^1
+\right)
+\eeq
+
+\beqa
+Z &=&
+\sum_{x=0}^1
+\sum_{y=0}^1
+\exp\left(
+\delta_0^x \theta
++\delta_0^x
+\delta_0^y\theta^0
++
+\delta_1^x
+\delta_0^y\theta^1
+\right)
+\\
+&=&
+\left\{
+\begin{array}{ll}
+e^{\theta + \theta^0}
+& (\text { when } x=0,y=0)
+\\
++ e^\theta
+& (\text { when } x=0,y=1)
+\\
++e^{\theta^1}
+& (\text { when } x=1,y=0)
+\\
++1
+& (\text { when } x=1,y=1)
+\end{array}
+\right\}
+\\
+&=&
+ 1 + e^{\theta^1}
++
+e^\theta(1+ e^{\theta^0})
+\eeqa
+
+\beq
+\prob{\rvx,\rvy}{00}=
+\prob{\rvy|\rvx}{0|0}
+\prob{\rvx}
+{0
+}=\frac{1}
+{Z}e^{\theta +\theta^0}
+\eeq
+
+\beq
+\prob{\rvx,\rvy}{01}=
+\prob{\rvy|\rvx}{1|0}
+\prob{\rvx}
+{0
+}=\frac{1}
+{Z}e^{\theta}
+\eeq
+
+\beq
+\prob{\rvx,\rvy}{10}=
+\prob{\rvy|\rvx}{0|1}
+\prob{\rvx}
+{1
+}=\frac{1}
+{Z}e^{\theta^1}
+\eeq
+
+\beq
+\prob{\rvx,\rvy}{11}=
+\prob{\rvy|\rvx}{1|1}
+\prob{\rvx}
+{1
+}=\frac{1}
+{Z}
+\eeq
+
+\beq
+Z = \frac{1}{\prob{\rvx,\rvy}{11}}=
+\frac{1}{
+a^cb_1^c
+}
+\eeq
+
+\beq
+\theta =
+\ln \frac{
+\prob{\rvx,\rvy}{01}
+}{
+\prob{\rvx,\rvy}{11}
+}=
+\ln
+\frac{ab_0^c}{a^c b_1^c}
+\eeq
+
+
+
+
+
+\beq
+\theta^x =
+\ln \frac{
+\prob{\rvy|\rvx}{0|x'}
+}{
+\prob{\rvy|\rvx}{1|x'}
+} =
+\ln
+\frac{b_{x'}}{b_{x'}^c}
+\eeq
 
 \qed
 
-To calculate the Fisher metric for this DAG, use the 
-results of Claim \ref{cl-fisher-metric-bnet}, but note
-that if 
+\hrule
+Metric for EFD variables
+
+\beq
+P(x, y)=P(\rvx=x, \rvy=y)
+\eeq
+
+\beq
+\metric_{\theta^i\theta^j}=
+\av{\cals_i, \cals_j}
+\eeq
+
+\beq
+\av{\delta_0^\rvx} = a
+\eeq
+
+\beqa
+\av{\delta_{x'}^\rvx
+ \delta_0^\rvy}
+&=&
+P(0,0)\delta_{x'}^0 + P(1, 0)\delta_{x'}^1 
+\\
+&=&
+P(x', 0)
+\eeqa
+
+\beq
+\av{\delta_0^\rvx,
+\quad \delta_0^\rvx}=
+\av{\delta_0^\rvx}-\av{\delta_0^\rvx}^2=a-a^2 = a a^c
+\eeq
+
+\beqa
+\av{\delta_0^\rvx,
+\quad \delta_{x'}^\rvx
+\delta_0^\rvy
+}&=&
+\av{\delta_0^{\rvx}
+\delta_{x'}^\rvx
+\delta_0^\rvy
+}-\av{\delta_0^\rvx}
+\av{\delta_{x'}^\rvx\delta_0^\rvy}
+\\
+&=&
+\delta_0^{x'}P(0,0)
+-a P(x', 0)
+\\
+&=&
+\left\{
+\begin{array}{ll}
+P(0,0)a^c& \text {if }x'=0
+\\
+-P(1,0)a& \text{if } x'=1
+\end{array}
+\right.
+\eeqa
+
+\beqa
+\av{\delta_{x'}^\rvx
+\delta_0^\rvy,\quad
+\delta_{x''}^\rvx
+\delta_0^\rvy}
+&=&
+\av{\delta_{x'}^\rvx
+\delta_0^\rvy
+\delta_{x''}^\rvx
+\delta_0^\rvy
+}-
+\av{\delta_{x'}^\rvx
+\delta_0^\rvy}\av{
+\delta_{x''}^\rvx
+\delta_0^\rvy
+}
+\\
+\
+&=&
+\delta_{x'}^{x''}P(x', 0)-
+P(x', 0)P(x'', 0)
+\\
+&=&
+P(x', 0)[
+\delta_{x'}^{x''}-P(x'', 0)
+]
+\\
+&=&
+\left\{
+\begin{array}{ll}
+P(x', 0)P^c(x', 0)
+&\text{if } x'=x''
+\\
+-P(1,0)P(0, 0)
+&\text{if } x'\neq x''
+\end{array}
+\right.
+\eeqa
 
 
-
-
+\beq
+\metric =
+\begin{pmatrix}
+aa^c & P(0,0)a^c&- P(1,0)a
+\\
+P(0,0)a^c & P(0,0)P^c(0,0)
+& -P(1,0)P(0,0)
+\\
+-P(1,0)a
+&-P(1,0)P(0,0)
+& P(1,0)P^c(1,0)
+\end{pmatrix}
+\eeq
+with the following row and column order: 
+is $(\theta, \theta^0, \theta^1)$
 
 
 \hrule
+Three connections for EFD variables
+
+
+
+
+
+\begin{claim}
+The \Chris symbols for Levi-Civita (LC) connection for 
+EFD
+
+\beq
+\Gamma^{LC}_{ijk}
+=
+E[B_{ij}A_k]+\frac{1}{2}E[A_i A_j A_k]
+\eeq
+
+\end{claim}
+\proof
+
+\beq
+\Gamma^{LC}_{ijk}=
+\frac{1}{2}
+\left(
+\partial_i\metric_{jk}
++
+\partial_j
+\metric_{ik
+}-
+\partial_k
+\metric_{ij}
+\right)
+\eeq
+
+\beq
+\metric_{jk}=
+E[A_j A_k]
+,\quad
+B_{ij}=
+\partial_i A_j
+\eeq
+
+\beq
+\partial_{\theta^i} P(\vecx;\vec{\theta})=P\partial_{\theta^i}LL =
+PA_i
+\eeq
+
+
+\beq
+\partial_i
+\metric_{jk}=
+E[B_{ij}A_k+ A_j B_{ik}+
+A_i A_j A_k]
+\eeq
+
+\beq
+\partial_j\metric_{ik}=
+E[
+B_{ij}A_k +
+A_i B_{jk}
++
+A_j A_i A_k
+]
+\eeq
+
+\beq
+\partial_k\metric_{ij}=
+E[
+B_{ik}A_j + A_i B_{jk}
++
+A_k A_i A_k
+]
+\eeq
+
+\beq
+\Gamma^{LC}_{ijk}=
+\frac{1}{2}
+E\left[
+\begin{array}{l}
+B_{ij}A_k
++
+{\color{red}A_j B_{ik}}
++
+A_i A_j A _k
+\\
++B_{ij}A_k
++
+{\color{blue}A_i B_{jk}}
++
+{\color{green}A_j A_i A_k}
+\\
+-{\color{red}B_{ik}A_j}
+-
+{\color{blue}A_i B_{jk}}
+-
+{\color{green}A_k A_i A_j}
+\end{array}
+\right]
+\eeq
+
+\qed
+
+The 
+\Chris symbols for the 
+$\alp=\pm 1$ connection 
+are defined by
+\beqa
+\Gamma^{(\alp)}_{ijk}
+&=&
+E[B_{ij} A_k]
++
+\frac{(1-\alp)}{2}E[A_i A_j A_k]
+\\
+&=&
+\Gamma^{LC}_{ijk}-
+\; \frac{\alp}{2}E[A_i A_j A_k]
+\eeqa
+Note that this formula
+also gives the \Chris symbols
+for the LC conection if we set $\alp=0$.
+
+\beq
+\Gamma^{(+1)}_{ijk}
+= E[B_{ij}(\vec{\theta})A_k]=
+B_{ij}(\vec{\theta})E[A_k]=  0
+\eeq
+
+\beq
+\Gamma\indices{^{(+1)k}_{ij}}=
+\metric^{km}\Gamma^{(+1)}_{ijm}=0
+\eeq
+
+\subsection{How to define new connections}
+
+\subsection{Fully Connected 3 node bnet}
 \beq
 \bcen
 \xymatrix{
@@ -373,7 +1148,7 @@ d\ln P(x,y,z)]
 \eeq
 
 \beq
-g_{ii}=
+\metric_{ii}=
 \left\{
 \begin{array}{l}
 A (d\prob{\rvx}{0})^2
@@ -420,234 +1195,10 @@ Choose
 \frac{1}{\ell^i} \vecpder{\phi^i}
 \eeq
 
-\beq
-\Gamma\indices{^\rho_{\mu\nu}}=
--e\indices{^\alp_\nu}\partial_\mu e\indices{_\alp^\rho}=
-e\indices{_\alp^{\rho}}\partial_\mu e\indices{^\alp_\nu}
-\eeq
-\subsection{Sufficient Statistics}
-In Statistics, we say $\cals(\rvx)$ is a {\bf sufficient statistic for $\rv{x}$} if
-
-$$P(\rvx=x|
-\rv{\theta}
-=\theta, \rv{\cals}=\cals(x))\quad\propto\quad P(\rv{\cals}=\cals(x)|\rv{\theta}=\theta)$$
-so knowing the distribution of $\cals(\rvx)$ is
-sufficient to know
-the distribution of $\rvx$.
-
-\subsection{Exponential Family of Distributions}
-{\bf Exponential family
-of distributions} (EFD)
-
-\beq
-P(\vecx;\vec{\theta})=
-\frac{\phi(\vecx; \vec{\theta})}{Z(\vec{\theta})}
-\eeq
-
-probability potential (un-normalized probability)
-\beq
-\phi(\vec{x};\vec{\theta})=
-W(\vec{x})
-\exp\left(
-\sum_i\theta^i \cals_i(\vecx)
-\right)
-\eeq
-
-partition function
-\beq
-Z(\vec{\theta})=
-\sum_{\vecx}\phi(\vecx;\vec{\theta})
-\eeq
-$\cals_i(\vecx)$ are called {\bf sufficient statistics}and the $\theta^i$ are called parameters.
-
-EFD is a
-generalization of the {\bf exponential distribution}
-\beq
-P(x;\lam) = \frac{e^{-\lam x}}
-{Z(\lam)}
-=
-\lam  e^{-\lam x}
-\eeq
-for $x\in [0, \infty)$.
-
-\beq
-\boxed{E[\cals_i(\rv{\vecx})]=
-\partial_{\theta^i}\ln Z(\vec{\theta})}
-\eeq
-
-\beq
-\underbrace{\ln P({\vecx};\vec{\theta})
-}_{LL=\text{log likelihood}}
-=
-\theta^i \cals_i({\vecx})-
-\ln Z(\vec{\theta})
-+
-\ln W({\vecx})
-\eeq
-
-\beq
-A_i(\vecx, \vec{\theta})=
-\partial_{\theta^i}
-LL(\vecx,\vec{\theta})
-=
-\cals_i({\vecx})
--\underbrace{\partial_{\theta^i}\ln Z(\vec{\theta})}_{E[\cals_i({\vecx})](\vec{\theta})}
-\eeq
-
-\beq
-B_{ij}(\vec{\theta})=\partial_{\theta^i}
-\underbrace
-{\partial_{\theta^j}LL(\vecx, \vec{\theta})}_{A_j}
-=-
-\partial_{\theta^j}
-E[\cals_i(\vec{x})](\vec{\theta})
-\eeq
-
-\beq
-\boxed
-{\metric_{\theta^i\theta^j}
-=
-E[
-A_iA_j
-]=
-\av{\cals_i(\rv{\vecx}), 
-\cals_j(\rv{\vecx})}=-
-\partial_{\theta^i}\partial_{\theta^j}\ln Z(\vec{\theta})}
-\eeq
 
 
-\subsection{Three connections for EFD}
+\subsection{3 Node Markov Chain}
 
-
-
-
-
-\begin{claim}
-The \Chris symbols for Levi-Civita (LC) connection for 
-EFD
-
-\beq
-\Gamma^{LC}_{ijk}
-=
-E[B_{ij}A_k]+\frac{1}{2}E[A_i A_j A_k]
-\eeq
-
-\end{claim}
-\proof
-
-\beq
-\Gamma^{LC}_{ijk}=
-\frac{1}{2}
-\left(
-\partial_i\metric_{jk}
-+
-\partial_j
-\metric_{ik
-}-
-\partial_k
-\metric_{ij}
-\right)
-\eeq
-
-\beq
-\metric_{jk}=
-E[A_j A_k]
-,\quad
-B_{ij}=
-\partial_i A_j
-\eeq
-
-\beq
-\partial_{\theta^i} P(\vecx;\vec{\theta})=P\partial_{\theta^i}LL =
-PA_i
-\eeq
-
-
-\beq
-\partial_i
-\metric_{jk}=
-E[B_{ij}A_k+ A_j B_{ik}+
-A_i A_j A_k]
-\eeq
-
-\beq
-\partial_j\metric_{ik}=
-E[
-B_{ij}A_k +
-A_i B_{jk}
-+
-A_j A_i A_k
-]
-\eeq
-
-\beq
-\partial_k\metric_{ij}=
-E[
-B_{ik}A_j + A_i B_{jk}
-+
-A_k A_i A_k
-]
-\eeq
-
-\beq
-\Gamma^{LC}_{ijk}=
-\frac{1}{2}
-E\left[
-\begin{array}{l}
-+B_{ij}A_k
-+
-{\color{red}A_j B_{ik}}
-+
-A_i A_j A _k
-\\
-+B_{ij}A_k
-+
-{\color{blue}A_i B_{jk}}
-+
-{\color{green}A_j A_i A_k}
-\\
--{\color{red}B_{ik}A_j}
--
-{\color{blue}A_i B_{jk}}
--
-{\color{green}A_k A_i A_j}
-\end{array}
-\right]
-\eeq
-
-\qed
-
-The 
-\Chris symbols for the 
-$\alp=\pm 1$ connection 
-are defined by
-\beqa
-\Gamma^{(\alp)}_{ijk}
-&=&
-E[B_{ij} A_k]
-+
-\frac{(1-\alp)}{2}E[A_i A_j A_k]
-\\
-&=&
-\Gamma^{LC}_{ijk}-
-\; \frac{\alp}{2}E[A_i A_j A_k]
-\eeqa
-Note that this formula
-also gives the \Chris symbols
-for the LC conection if we set $\alp=0$.
-
-\beq
-\Gamma^{(+1)}_{ijk}
-= E[B_{ij}(\vec{\theta})A_k]=
-B_{ij}(\vec{\theta})E[A_k]=  0
-\eeq
-
-\beq
-\Gamma\indices{^{(+1)k}_{ij}}=
-g^{km}\Gamma^{(+1)}_{ijm}=0
-\eeq
-
-\subsection{How to define new connections}
 
 \end{document}
 
