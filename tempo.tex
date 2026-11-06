@@ -3,1532 +3,300 @@
 \input{bayesuvius.sty}
 \begin{document}
 
-\newcommand{\nint}[1]
-{\underbrace{\int\cdot\cdot\int}_{#1}}
-
-
-$\nint{6}$
-
-\setlength{\ULdepth}{3pt}
-
-\newcommand{\wul}[1]{{\uwave{#1}}}
-
-\newcommand{\wpform}[2]{
-\uwave{#1}{(\$^{#2})}
-}
-
-
-\newcommand{\prob}[2]{P^{#1}_{#2}}
-
-\section{Probability and Statistics}
-In this section, since there are both dif-forms and random variables in the discussion,
-we will wavy-underline 
-dif-forms
-and 
-underline the random variables.
-Normally, when speaking of either one or the other,
-but not both, we underline both. 
-
-\beq
-P(\rvy=y|\rvx=x)=\prob{\rvy|\rvx}{y|x}=
-P_{\rvy|\rvx}(y|x)=P(y|x)
-\eeq
-
-\beq 
-\xymatrix{\rvx
-\ar[r]
-&\rv{y}}
-\quad\quad
-P(x,y)= P(y|x)P(x)
-\eeq
-
-
-\beq
-[\prob{\rvx}{x}] =
-\begin{bmatrix}
-\prob{\rvx}{0}
-\\
-1-\prob{\rvx}{0}
-\end{bmatrix}
-\eeq
-
-\beq
-[\prob{\rvy|\rvx}{y|x}] =
-\begin{bmatrix}
-\prob{\rvy|\rvx}{0|0}
-& \prob{\rvy|\rvx}{0|1}
-\\
-1-\prob{\rvy|\rvx}{0|0}
-& 1-\prob{\rvy|\rvx}{0|1}
-\end{bmatrix}
-\eeq
-
-\beq
-[\prob{\rvx,\rvy}{x,y}]=
-[\prob{\rvy|\rvx}{y|x}]
-\otimes [\prob{\rvx}{x}]
-\eeq
-
-
-
-$(x, y)=$ coordinates of the {\bf microscopic manifold} $\calp$ (see Section \ref{sec-four-manifolds-tdynamics} on four manifolds of Thermodynamics). We are assuming $(x,y)\in \bool^2$
-
-$\{ \prob{\rvx}{0},
-\prob{\rvy|\rvx}{0|0},
-\prob{\rvy|\rvx}{1|0}
-\}=$
-bnet coordinates of {\bf statistical manifold}. Call the number of coordinates of this manifold 
-$dim \calm_{stat}=3$
-
-
-$\{ \prob{\rvy|\rvx}{y|x}: (x, y)\in \bool^2\}=$ joint distribution coordinates of {\bf statistical manifold} $\calm_{stat}$.
-The dimension of this manifold is also
-$dim \calm_{stat} = 2^2-1=3$.
-The $-1$ is because of the 
-constraint
-$\sum_{(x,y)\in \bool^2}\prob{\rvx,\rvy}{x,y}=1$.
-
-
-
-
-\beq
-\prob{\rvx, \rvy}{1, 0}=
-\prob{\rvy|\rvx}{0|1}(1-\prob{\rvx}{0})
-\eeq
-In general
-
-\beqa
-\prob{\rvx, \rvy}{x,y}
-&=&
-\text{  product of }\{ \prob{\rvx}{0},
-\prob{\rvy|\rvx}{0|0},
-\prob{\rvy|\rvx}{0|1},
-1-\prob{\rvx}{0},
-1-\prob{\rvy|\rvx}{0|0},
-1-\prob{\rvy|\rvx}{0|1}
-\}
-\\
-&=&
-\text{nonlinear function of }
-( \prob{\rvx}{0},
-\prob{\rvy|\rvx}{0|0},
-\prob{\rvy|\rvx}{0|1})
-\\
-&=&
-\Phi( \prob{\rvx}{0},
-\prob{\rvy|\rvx}{0|0},
-\prob{\rvy|\rvx}{0|1})
-\eeqa
-
-\beq
-\Phi:[0,1]^3 \rarrow [0,1]
-\eeq
-
-\begin{claim}
-\label{cl-fisher-metric-bnet}
-
-Suppose $x\in\{0,1, 2, \ldots, R\} $ and 
-$\sum_{x=0}^R P(x)=1$.
-Let $P(x)=p_x$
-and
-
-\beq
-\metric_{p_{x'} p_{x''}}
-=
-E
-\left[(\partial_{p_{x'}}\ln P(x))
-(\partial_{p_{x''}}\ln P(x))\right]
-\eeq
-for $x', x''\in\{ 0, 1, 2\ldots, R\}$
-with $p_0, p_1, \ldots, p_{R-1}$ as independent variables and
-$p_R= 1-\sum_{i=0}^{R-1}p_i$
-as a dependent one.
-Then
-
-For $R=1$,
-
-\beq
-\metric_{p_0 p_0}=
-\frac{1}{p_0\para p_1}= \frac{1}{p_0p_1}
-\eeq
-
-For $R=2$,
-
-\beq
-\metric_{p_0 p_0}=
-\frac{1}{p_0\para p_2}, \quad
-\metric_{p_1 p_1}=
-\frac{1}{p_1\para p_2}
-\eeq
-and
-
-\beq
-\metric_{p_1p_0}=
-\metric_{p_0p_1} = \frac{1}{p_2}
-\eeq
-where
-\footnote{We are borrowing
-notation from Electronics for the resistance $R_1\para R_2$ for 2 resistors $R_1$ and $R_2$ in parallel.}
-
-\beq
-p_0\para p_2 =
-\left(
-\frac{1}{p_0} + \frac{1}{p_2}
-\right)^{-1}
-\eeq
-
-$\metric_{p_{x'} p_{x''}}$ for arbitrary $R$
-is evident from the $R=1$ and $R=2$ cases.
-
-\end{claim}
-\proof
-
-Consider the $R=2$ case.
-
-\beqa
-\partial_{p_0}\ln P(x)
-&=&
-\partial_{p_0}
-\left(
-\ln p_0 \delta_x^0 
-+ \ln p_1 \delta_x^1
-+
-\ln(1-p_0-p_1)\delta_x^2
-\right)
-\\
-&=&
-\left(
-\frac{\delta_x^0}{p_0}
--
-\frac{\delta_x^2}{p_2}
-\right)
-\eeqa
-
-\beq
-\metric_{p_0p_0} =
-\sum_x p_x\left(
-\frac{\delta_x^0}{p_0}
--
-\frac{\delta_x^2}{p_2}
-\right)^2
-=
-\frac{p_0}{p_0^2} + \frac{p_2}{p_2^2}
-=
-\frac{1}{p_0} + \frac{1}{p_2}
-\eeq
-
-\beq
-\metric_{p_0 p_1}
-=
-\sum_x p_x 
-\left(
-\frac{\delta_x^0}{p_0}
--
-\frac{\delta_x^2}{p_2}
-\right)
-\left(
-\frac{\delta_x^1}{p_1}
--
-\frac{\delta_x^2}{p_2}
-\right)
-=
-\frac{p_2}{p_2^2}
-=
-\frac{1}{p_2}
-\eeq
-
-\qed
-
-Consider the 
-bnet $\rvx\rarrow  \rvy$ with  both nodes binary.
-Let 
-
-\beq
-a = \prob{\rvx}{0}
-,\quad
-b_0=\prob{\rvy|\rvx}{0|0}
-,\quad
-b_1=\prob{\rvy|\rvx}{0|1}
-\eeq
-
-\beq
-x^c = 1-x
-\eeq
-for $x\in \bool$
-
-\hrule
-Fisher metric
-
-\beq
-\metric=
-diag
-\left(
-\frac{1}{a a^c},
-\quad
-\frac{a^c}
-{b_0 b_0^c}
-,\quad
-\frac{a}{b_1 b_1^c}
-\right)
-\eeq
-\hrule
-Connection 1-form for Levi-Civita connection
-
-Define
-
-\beq
-\wul{\chi^1}=
-\frac{\wul{da}}
-{\sqrt{aa^c}}
-,\quad
-\chi^2= 
-\sqrt{
-\frac{a^c}
-{b_0b_0^c}
-} db_0
-,\quad
-\chi^3 =
-\sqrt{
-\frac{a}{b_1 b_1^c}
-}db_1
-\eeq
-
-\beq
-(ds)^2 =
-(\chi^1)^2
-+
-(\chi^2)^2
-+
-(\chi^3)^2
-\eeq
-
-
-\beq
-\wul{d\chi^a}= -\wul{\omega\indices{^a_b}}
-\wedge \wul{\chi^b}
-\eeq
-
-
-\beq
-\wul{\chi^1}
-\wedge
-\wul{\chi^2}=
-\frac{1}{
-\sqrt{a b_0 b_0^c}}
-\wul{da}
-\wedge
-\wul{db_0}
-\eeq
-
-\beq
-\wul{\chi^1}
-\wedge
-\wul{\chi^3}=
-\frac{1}{
-\sqrt{a^c b_1 b_1^c}}
-\wul{da}
-\wedge
-\wul{db_1}\eeq
-
-\beq
-\wul{d\chi^1}=0
-\eeq
-
-\beqa
-\wul{d\chi^2}&=&
-\frac{-1}{
-2\sqrt{
-a^c b_0 b_0^c}}
-\wul{da}
-\wedge
-\wul{db_0}
-\\
-&=&
-\frac{-\sqrt{a b_0 b_0^c}}{2\sqrt{
-a^c b_0 b_0^c}}
-\wul{\chi^1}\wedge
-\wul{\chi^2}
-\\
-&=&
--\;
-\frac{1}{2}\sqrt{\frac{a}{a^c}} \wul{\chi^1}\wedge
-\wul{\chi^2}
-\eeqa
-
-\beq
-\wul{d\chi^2}=-
-\wul{\omega\indices{^2_1}}
-\wedge\wul{\chi^1}
-\implies
-\boxed{\wul{\omega\indices{^2_1}}
-=
--\;\frac{1}{2}\sqrt{\frac{a}{a^c}}
-\wul{\chi^2}}
-\eeq
-
-
-\beqa
-\wul{d\chi^3}&=&
-\frac{1}{
-2\sqrt{
-a b_0 b_0^c}}
-\wul{da}
-\wedge
-\wul{db_1}
-\\
-&=&
-\frac{\sqrt{a^c b_0 b_0^c}}{2\sqrt{
-a b_0 b_0^c}}
-\wul{\chi^1}\wedge
-\wul{\chi^3}
-\\
-&=&\frac{1}{2}
-\sqrt{\frac{a^c}
-{a}} \wul{\chi^1}\wedge
-\wul{\chi^3}
-\eeqa
-
-\beq
-\wul{d\chi^3}=-
-\wul{\omega\indices{^3_1}}
-\wedge\wul{\chi^1}
-\implies
-\boxed{\wul{\omega\indices{^3_1}}
-=
-\frac{1}{2}
-\sqrt{\frac{a^c}{a}}
-\wul{\chi^3}}
-\eeq
-
-
-Abbreviations
-
-\beq
-A= \frac{1-2a}{2\sqrt{a a^c}}
-=\frac{d}
-{da}\sqrt{a a^c}
-\eeq
-
-\beq
-B = \frac{1}{2}\sqrt{\frac{a}{a^c}}
-\eeq
-
-\beq
-C =-\;\frac{1}{2}
-\sqrt{\frac{a^c}{a}}
-\eeq
-
-Metric compatibility implies antisymmetry:
-
-\beq
-\wul{\omega\indices{^a_b}}=
--
-\wul{(\omega^T)\indices{^a_b}}
-=
--\wul{\omega\indices{^b_a}}
-\eeq
-
-\beq
-[\wul{\omega\indices{^a_b}}]=
-\begin{pmatrix}
-0 &B\wul{\chi^2}
-&C\wul{\chi^3}
-\\
--B\wul{\chi^2}&0&0
-\\
--C\wul{\chi^3}&0&0
-\end{pmatrix}
-\eeq
-
-This is a good example of why Cartan's method is often preferable to calculating \Chris coefficients directly. We obtained the entire Levi-Civita connection from just three exterior derivatives and the antisymmetry condition, without having to calculate 27 \Chris coefficients.
-\hrule
-Curvature
-
-
-
-\begin{claim}
-
-\beq
-\wul{dB}
- = \frac{1}
-{4a^c}\wul{\chi^1}
-\eeq
-
-\beq
-\wul{dC}
- = \frac{1}
-{4a}\wul{\chi^1}
-\eeq
-
-\end{claim}
-\proof
-
-\beq
-B=
-\frac{1}{2}\sqrt{
-\frac{a}{a^c}}
-\eeq
-so
-
-\beqa
-d\ln B&=&
-\frac{1}{2} \left(
-\frac{da}{a} + \frac{da}{a^c}
-\right)
-\\
-&=&
-\frac{da}{2}\left(
-\frac{a+a^c}{a a^c}
-\right)
-\\
-&=&
-\frac{da}{2a a^c}
-\eeqa
-
-\beq
-dB = B\frac{da}
-{2a a^c}=
-\frac{da}{4a^c
-\sqrt{a a^c}}
-\eeq
-
-\beq
-dC=
-\frac{da}{4a
-\sqrt{a a^c}}
-\eeq
-
-\qed
-
-\beq
-\wul{\Omega\indices{^a_b}}=
-\wul{d\omega\indices{^a_b}}
-+
-\wul{\omega\indices{^a_c}}
-\wedge
-\wul{\omega\indices{^c_b}}
-\eeq
-
-\beqa
-\wul{\Omega\indices{^1_2}}&=&
-\wul{d(B\chi^2)}
-+
-\cancel{\wul{\omega\indices{^1_3}}
-\wedge
-\wul{\omega\indices{^3_2}}}
-\\
-&=&
-\wul{dB}
-\wedge \wul{\chi^2}
-+
-B\wul{d\chi^2}
-\eeqa
-
-\beq
-\wul{dB}=
-\frac{1}{4a^c}\wul{\chi^1},\quad
-\wul{d\chi^2}=
--B\wul{\chi^1}
-\wedge\wul{\chi^2}
-\eeq
-
-\beq
-\Omega\indices{^1_2}=
-\left(
-\frac{1}{4a^c}
--B^2
-\right)
-\wul{\chi^1}
-\wedge\wul{\chi^2}
-\eeq
-
-\beq
-\frac{1}{4a^c}
--B^2 =
-\frac{1}{4a^c}
-\left(
-1-a
-\right)
-=
-\frac{1}{4}
-\eeq
-
-\beq
-\boxed{\wul{\Omega\indices{^1_2}}=\frac{1}{4}\wul{\chi^1}
-\wedge\wul{\chi^2}}
-\eeq
-
-\beqa
-\wul{\Omega\indices{^1_3}}&=&
-\wul{d(C\chi^3)}
-+
-\cancel{\wul{\omega\indices{^1_2}}
-\wedge
-\wul{\omega\indices{^2_3}}}
-\\
-&=&
-\wul{dC}
-\wedge \wul{\chi^3}
-+
-C\wul{d\chi^3}
-\eeqa
-
-\beq
-\wul{dB}=
-\frac{1}{4a}\wul{\chi^1},\quad
-\wul{d\chi^3}=
--C\wul{\chi^1}
-\wedge\wul{\chi^3}
-\eeq
-
-\beq
-\Omega\indices{^1_3}=
-\left(
-\frac{1}{4a}
--C^2
-\right)
-\wul{\chi^1}
-\wedge\wul{\chi^3}
-\eeq
-
-\beq
-\frac{1}{4a}
--C^2 =
-\frac{1}{4a}
-\left(
-a
-\right)
-=
-\frac{1}{4}
-\eeq
-
-\beq
-\boxed{\wul{\Omega\indices{^1_3}}=\frac{1}{4}\wul{\chi^1}
-\wedge\wul{\chi^2}}
-\eeq
-
-\beqa
-\wul{\Omega\indices{^2_3}}&=&
-\cancel{\wul{d\omega}\indices{^2_3}}
-+ 
-\wul{\omega\indices{^2_1}}
-\wedge \wul{\omega\indices{^1_3}}
-\\
-&=&
-(-B\wul{\chi^2})
-\wedge
-(C\wul{d\chi^3
-})=
--BC
-\wul{\chi^2}\wedge\wul{\chi^3}
-\eeqa
-
-\beq
-BC = -\;\frac{1}{4}
-\eeq
-
-\beq
-\boxed{\wul{\Omega\indices{^2_3}}=
-\frac{1}{4}\wul{\chi^2}\wedge\wul{\chi^3}}
-\eeq
-
-$\wul{\omega\indices{^a_b}}$ is
-antisymmetric
-\beq
-\wul{\omega\indices{^a_b}}
-=
--\wul{\omega\indices{^b_a}}
-\eeq
-
-\beq
-[\wul{\omega\indices{^a_b}}]
-=
-\frac{1}{4}
-\begin{pmatrix}
-0 & 
-\wul{\chi^1}\wedge\wul{\chi^2} & \wul{\chi^1}\wedge\wul{\chi^3}
-\\
--\wul{\chi^1}\wedge\wul{\chi^2}&0
-&\wul{\chi^2}\wedge\wul{\chi^3}
-\\
--\wul{\chi^1}\wedge\wul{\chi^3}&
--\wul{\chi^2}\wedge\wul{\chi^3}&0 
-\end{pmatrix}
-\eeq
-
-\beq
-K=\frac{1}
-{4}
-\eeq
-\hrule
-Case
-random variables $\rvx$ and $\rvy$
-are independent
-
-The Fisher metric is
-\beq
-(ds)^2=
-\frac{(da)^2}{a a^c}
-+
-\frac{a^c(db_0)^2}{b_0 b_0^c}
-+
-\frac{a(db_1)^2}{b_1 b_1^c}
-\eeq
-
-\beq
-a= \sin^2
-\alp,\quad
-b_0 =
-\sin^2 \beta_0
-,\quad
-b_1 =
-\sin^2 \beta_1
-\eeq
-
-\beq
-\alp, \beta_0, \beta_1\in [0, \frac{\pi}{2}]
-\eeq
-
-\beq
-d\alp=
-2\sin\alp
-\cos\alp
-=
-\sin 2\alp \;d\alp
-\eeq
-
-\beq
-\frac{(d\alp)^2}{a a^c}=
-\frac{\sin^2 2\alp(d\alp)^2}
-{\frac{1}{4}\sin^22\alp}=
-4(d\alp)^2
-\eeq
-Similarly
-
-\beq
-\frac{
-(db_x)^2}
-{b_x b_x^c}
-=
-4(d\beta_x)^2
-\eeq
-for $x=0,1$.
-
-\beq
-(ds)^2=
-4
-\left((d\alp)^2
-+
-\cos^2
-\alp
-\;
-(d\beta_0)^2
-+
-\sin^2
-\alp
-\;
-(d\beta_1)^2\right)
-\eeq
-As the angles $(\alp, \beta_0, \beta_1)$ range over their
-allowed values, this covers an 1/8 
-of a ball of radius $R=2$ in 3 dimensions. 
-The value $R=2$ comes from
-the definition
-of the Fisher Metric.
-
-\begin{figure}[h!]
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
+\begin{table}[h!]
 \centering
-\includegraphics[width=3in]
-{differ-geo/weird-spherical-coords.png}
-\caption{The dual basis 
-$(d\alp, d\beta_0, d\beta_1)$ is orthogonal because its metric matrix is diagonal.
-The dual basis $(Rd\alp, R\cos\alp d\beta_0,R\sin\alp d\beta_1 )$ is orthonormal because its metric matrix is $diag(1,1,1)$.}
-\label{fig-weird-spherical}
-\end{figure}
-
-
-Since $K=1/R^2$,
-this explains that $K=\frac{1}{4}$.
-
-When $\rvx$ and $\rvy$ are 
-independent, 
-
-\beq
-b_0= b_1=b,\quad
-\beta_0=\beta_1 = \beta
-\eeq
-
-\beq
-(ds)^2 = (d\alp)^2 + (d\beta)^2
-\eeq
-So the locus of points
-representing the independence case is
-a FLAT 2 dim surface
-
-
-
-
-
-\subsection{Sufficient Statistics}
-In Statistics, we say $\cals(\rvx)$ is a {\bf sufficient statistic for $\rv{x}$} if
-
-$$P(\rvx=x|
-\rv{\theta}
-=\theta, \rv{\cals}=\cals(x))\quad\propto\quad P(\rv{\cals}=\cals(x)|\rv{\theta}=\theta)$$
-so knowing the distribution of $\cals(\rvx)$ is
-sufficient to know
-the distribution of $\rvx$.
-
-\subsection{Exponential Family of Distributions}
-{\bf Exponential family
-of distributions} (EFD)
-
-\beq
-P(\vecx;\vec{\theta})=
-\frac{\phi(\vecx; \vec{\theta})}{Z(\vec{\theta})}
-\eeq
-
-probability potential (un-normalized probability)
-\beq
-\phi(\vec{x};\vec{\theta})=
-W(\vec{x})
-\exp\left(
-\sum_i\theta^i \cals_i(\vecx)
-\right)
-\eeq
-
-partition function
-\beq
-Z(\vec{\theta})=
-\sum_{\vecx}\phi(\vecx;\vec{\theta})
-\eeq
-$\cals_i(\vecx)$ are called {\bf sufficient statistics}and the $\theta^i$ are called parameters.
-
-EFD is a
-generalization of the {\bf exponential distribution}
-\beq
-P(x;\lam) = \frac{e^{-\lam x}}
-{Z(\lam)}
-=
-\lam  e^{-\lam x}
-\eeq
-for $x\in [0, \infty)$.
-
-\beq
-\boxed{E[\cals_i(\rv{\vecx})]=
-\partial_{\theta^i}\ln Z(\vec{\theta})}
-\eeq
-
-\beq
-\underbrace{\ln P({\vecx};\vec{\theta})
-}_{LL=\text{log likelihood}}
-=
-\theta^i \cals_i({\vecx})-
-\ln Z(\vec{\theta})
-+
-\ln W({\vecx})
-\eeq
-
-\beq
-A_i(\vecx, \vec{\theta})=
-\partial_{\theta^i}
-LL(\vecx,\vec{\theta})
-=
-\cals_i({\vecx})
--\underbrace{\partial_{\theta^i}\ln Z(\vec{\theta})}_{E[\cals_i({\vecx})](\vec{\theta})}
-\eeq
-
-\beq
-B_{ij}(\vec{\theta})=\partial_{\theta^i}
-\underbrace
-{\partial_{\theta^j}LL(\vecx, \vec{\theta})}_{A_j}
-=-
-\partial_{\theta^j}
-E[\cals_i(\vec{x})](\vec{\theta})
-\eeq
-
-\beq
-\boxed
-{\metric_{\theta^i\theta^j}
-=
-E[
-A_iA_j
-]=
-\av{\cals_i(\rv{\vecx}), 
-\cals_j(\rv{\vecx})}=-
-\partial_{\theta^i}\partial_{\theta^j}\ln Z(\vec{\theta})}
-\eeq
-
-Next, 
-EDF applied to bnets.
-
-\hrule
-Sufficient statistics and 
-EFD variables
-
-Define
-
-\beq
-a = \prob{\rvx}{0}
-,\quad
-b_0=\prob{\rvy|\rvx}{0|0}
-,\quad
-b_1=\prob{\rvy|\rvx} {0|1}
-\eeq
-
-\beq
-x^c= 1-x
-\eeq
-for $x\in \bool$.
-
-The next claim assumes $a, B_0, b_1$ can vary freely. If you impose functional dependencies among them, you may obtain a lower-dimensional submanifold of this three-dimensional exponential family.
-
-\begin{claim}
-Consider bnet $\rvx\rarrow\rvy$ with both nodes binary.
-
-
-
-\beq
 \begin{tabular}{|l|l|}
 \hline
-\rowcolor[HTML]{9AFF99} 
-$\cals_i$ & $\theta^i$ \\ \hline
+\rowcolor[HTML]{FFFC9E} 
+Ball or Sphere & Definition \\ \hline
 \rowcolor[HTML]{FFFFFF} 
-$\cals(x)=\delta_0^x$ & $\theta=\ln[\prob{\rvx,\rvy}{01}/\prob{\rvx,\rvy}{11}]=\ln\left[
-ab_0^c/(a^c
-b_1^c)
-\right]$ \\ \hline
+$S_0(R)=\partial B_1(R)$ & $\{x\in\RR: x=\pm R \}$ \\ \hline
 \rowcolor[HTML]{FFFFFF} 
-\begin{tabular}[c]{@{}l@{}}
-$\cals_{x'}(x,y)=\delta_{x'}^x \delta_0^y$\\
-for $x'=0,1$ 
-\end{tabular}& \cellcolor[HTML]{FFFFFF}\begin{tabular}[c]{@{}l@{}}$\theta^{x'}=\ln
-[\prob{\rvx,\rvy}{x'1}/ \prob{\rvx,\rvy}{11}]=
-\ln \left(b_{x'}/b_{x'}^c\right)$
-\\ for $x'=0,1$ 
+$B_1(R)$ & \cellcolor[HTML]{FFFFFF}$\{x\in\RR: x^2<R^2 \}$ \\ \hline
+$S_1(R)=\partial B_2(R)$ & \cellcolor[HTML]{FFFFFF}$\{(x,y)\in\RR^2: x^2 + y^2 =R^2 \}$ \\ \hline
+$B_2(R)$ & \cellcolor[HTML]{FFFFFF}$\{(x,y)\in\RR^2: x^2 + y^2 < R^2 \}$ \\ \hline
+$S_2(R)=\partial B_3(R)$ & $\{(x,y, z)\in\RR^3: x^2 + y^2 + z^2= R^2 \}$ \\ \hline
+$B_3(R)$ & $\{(x,y, z)\in\RR^3: x^2 + y^2 + z^2< R^2 \}$ \\ \hline
+$S_3(R)=\partial B_4(R)$ & $\{(x,y, z, t)\in\RR^4: x^2 + y^2 + z^2 + t^2= R^2 \}$ \\ \hline
+$B_4(R)$ & $\{(x,y, z, t)\in\RR^4: x^2 + y^2 + z^2 + t^2< R^2 \}$ \\ \hline
 \end{tabular}
+\caption{Definition of the sets $B_n(R)$ (open ball) and $S_n(R)$ (sphere).}
+\label{tab-ball-sphere-defs}
+\end{table}
+
+\hrule 
+Relationship between Spheres and Open Balls
+
+\begin{table}[h!]
+$$
+\xymatrix@C=4pc{
+0\ar@{-}[r]
+&1\ar@{-}[r]
+&2\ar@{-}[r]
+&3\ar@{-}[r]
+&4\ar[r]
+&\text{dim}
+\\
+S_0
+&B_1\ar[l]_{\subset,\;\; \partial}
+\\
+&S_1\ar[u]^{\text{st}}
+&B_2\ar[l]_{\subset,\;\; \partial}
+\\
+&&S_2\ar[u]^{\text{st}}
+&B_3\ar[l]_{\subset,\;\; \partial}
+\\
+&&&S_3\ar[u]^{\text{st}}
+&B_4\ar[l]_{\subset,\;\; \partial}
+\\
+&&&&S_4 \ar[u]^{\text{st}}
+&B_5\ar[l]_{\subset,\;\; \partial}
+}
+$$
+\caption{Staircase relationship between all the $n$-dim spheres $S_n$
+all $n'$-dim open balls $B_{n'}$.
+Here $\subset$ means \qt{subset} as usual, $\partial$ means \qt{boundary of}
+and \qt{st} stands 
+for a stereographic projection.
+For example, $S_1\subset B_2$, $S_1=\partial B_2$,
+and $st(S_2/{+1, -1})=B^2$,
+where $S_2/\{+1, -1\}$ stands for \qt{half} (the Southern Hemisphere) of $S_2$. Note that $\partial$ when applied to a set, lowers its dimension by one,
+whereas $st(\;)$ does not change the dimension of a set.}
+\label{tab-SB-staircase}
+\end{table}
+\hrule 
+Ball and Sphere parametrizations
+and metrics
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\rowcolor[HTML]{FFFC9E} 
+Ball & Metric $(ds)^2$ in rectangular coordinates \\ \hline
+\rowcolor[HTML]{FFFFFF} 
+$B_1(R)$ & $(dx_1)^2$ \\ \hline
+\rowcolor[HTML]{FFFFFF} 
+$B_2(R)$ & \cellcolor[HTML]{FFFFFF}$(dx_1)^2 + (dx_2)^2$ \\ \hline
+$B_3(R)$ & \cellcolor[HTML]{FFFFFF}$(dx_1)^2 + (dx_2)^2 + (dx_3)^2$ \\ \hline
+$B_4(R)$ & \cellcolor[HTML]{FFFFFF}$(dx_1)^2 + (dx_2)^2 + (dx_3)^2 + (dx_4)^2$ \\ \hline
+$B_5(R)$ & $(dx_1)^2 + (dx_2)^2 + (dx_3)^2 + (dx_4)^2 + (dx_5)^2$ \\ \hline
+\end{tabular}
+\caption{Metric for open ball $B_n(R)$ in rectangular coordinates. }
+\label{tab-ball-rect-coords}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\rowcolor[HTML]{FFFC9E} 
+Ball & Metric $(ds)^2$ in polar coordinates \\ \hline
+\rowcolor[HTML]{FFFFFF} 
+$B_1(R)$ & $(dr)^2$ \\ \hline
+\rowcolor[HTML]{FFFFFF} 
+$B_2(R)$ & \cellcolor[HTML]{FFFFFF}$(dr)^2+(r d\theta_1)^2$ \\ \hline
+$B_3(R)$ & $(dr)^2+(r d\theta_1)^2+(r S_1d\theta_2)^2$ \\ \hline
+$B_4(R)$ & $(dr)^2+(r d\theta_1)^2+(r S_1d\theta_2)^2+(r S_1 S_2d\theta_3)^2$ \\ \hline
+$B_5(R)$ &
+ $(dr)^2+(rd\theta_1)^2+(r S_1d\theta_2)^2+(r S_1 S_2d\theta_3)^2
++(r S_1 S_2 S_3 d\theta_4)^2$
 \\ \hline
 \end{tabular}
-\eeq
-and 
-
-\beq
-Z =
- 1 + e^{\theta^1}
-+
-e^\theta(1+ e^{\theta^0})
-= \frac{1}{\prob{\rvx,\rvy}{11}}=
-\frac{1}{
-(1-a)(1-b_1)
+\caption{Metric for open ball $B_n(R)$ in polar coordinates. The angular coordinate ranges are:
+$0\leq\theta_1,\ldots,\theta_{n-2}\leq\pi$ and $ 0\leq\theta_{n-1}<2\pi.$\\
+ The boundary $\partial B_n(R)$ of the open ball $B_n(R)$ is obtained by setting $r=R$ and $dr=0$.
+Note that every ball $B_n(R)$ has a flat Euclidean metric, even though its expression in polar coordinates becomes increasingly complicated as $n$ increases.
 }
-\eeq
+\label{tab-ball-hyper-polar}
+\end{table}
 
-
-\end{claim}
-\proof
-
+polar coordinates parametrization of $B_2(R)$
 \beqa
-P(x,y)&=&
-\exp\left(
-\ln[P(y|x)P(x)]
-\right)
-\\
-&=&
-\exp
-\left(
-\begin{array}{l}
-\ln P(x)
-\\
-+\ln P(y|x)
-\end{array}
-\right)
-\\
-&=&
-\exp
-\left(
-\begin{array}{l}
-\sum_{x'=0}^1 \delta_{x'}^x\ln P(x')
-\\
-+\sum_{x'=0}^1\sum_{y'=0}^1
-\delta_{x'}^x
-\delta_{y'}^y\ln P(y'|x')
-\end{array}
-\right)
-\\
-&=&
-\exp
-\left(
-\begin{array}{l}
- \delta_{0}^x\ln \prob{\rvx}{0}
-+
-\underbrace{\delta_{1}^x}_{1-\delta_0^x}
-\ln (1-\prob{\rvx}{0})
-\\
-\sum_{x'=0}^1
-\delta_{x'}^x
-\left[ \delta_{0}^y\ln \prob{\rvy|\rvx}{0|x'}
-+
-\underbrace{\delta_{1}^y}_{1-\delta_0^y}
-\ln (1-\prob{\rvy|\rvx}{0|x'})
-\right]
-\end{array}
-\right)
-\eeqa
-
-Choose sufficient statistics
-\beqa
-\theta&&
-\cals(x)= \delta_0^x
-\\
-\theta^{x'}
-&&
-\cals_{x'}(x,y) = \delta_{x'}^x\delta_0^y
-\quad\quad
-\text { for $x'=0,1$}
+x&=& r\cos\theta\\
+y&=& r\sin\theta
 \eeqa
 
 \beq
-P(x,y)=
-\frac{1}{Z}
-\exp\left(
-\delta_0^x \theta
-+\delta_0^x
-\delta_0^y\theta^0
+x_1^2 + x_2^2 = r^2(\cos^2\theta
 +
-\delta_1^x
-\delta_0^y\theta^1
-\right)
+\sin^2\theta)= r^2
 \eeq
 
 \beqa
-Z &=&
-\sum_{x=0}^1
-\sum_{y=0}^1
-\exp\left(
-\delta_0^x \theta
-+\delta_0^x
-\delta_0^y\theta^0
-+
-\delta_1^x
-\delta_0^y\theta^1
-\right)
+dx&=& dr\cos\theta -r \sin\theta \;d\theta
 \\
-&=&
-\left\{
-\begin{array}{ll}
-e^{\theta + \theta^0}
-& (\text { when } x=0,y=0)
-\\
-+ e^\theta
-& (\text { when } x=0,y=1)
-\\
-+e^{\theta^1}
-& (\text { when } x=1,y=0)
-\\
-+1
-& (\text { when } x=1,y=1)
-\end{array}
-\right\}
-\\
-&=&
- 1 + e^{\theta^1}
-+
-e^\theta(1+ e^{\theta^0})
+y&=& dr\sin\theta + \cos\theta \;d\theta
 \eeqa
 
 \beq
-\prob{\rvx,\rvy}{00}=
-\prob{\rvy|\rvx}{0|0}
-\prob{\rvx}
-{0
-}=\frac{1}
-{Z}e^{\theta +\theta^0}
+(ds)^2 = (dx_1)^2 + (dx_2)^2 =
+(dr)^2 + (rd\theta)^2
 \eeq
+
+Spherical (all angles) parametrization of $\partial B_2(R)= S_1(R)$. Set $r=R$ 
+in $B_2(R)$ parametrization to
+get $S_1(R)$ parametrization 
+\beqa
+x&=&R \cos \theta
+\\
+y&=&R \sin\theta
+\eeqa
+with $r\in (0, R]$ and $\theta\in [0, 2\pi]$.
+Set $dr=0$ and $r=R$ in $B_2(R)$
+metric to get $S_1(R)$ metric.
 
 \beq
-\prob{\rvx,\rvy}{01}=
-\prob{\rvy|\rvx}{1|0}
-\prob{\rvx}
-{0
-}=\frac{1}
-{Z}e^{\theta}
+(ds)^2 = R^2 (d\theta)^2
 \eeq
+
+Parametrization of $B_4(R)$
+
+Abbreviations
+\beq
+C_i = \cos\theta_i,
+\quad
+S_i = \sin\theta_i
+\eeq
+\begin{subequations}
+\beqa
+x_1 &=& rC_1
+\\
+x_2 &=& r S_1 C_2
+\\
+x_3 &=& rS_1 S_2 C_3
+\\
+x_4 &=& r S_1 S_2 S_3
+\eeqa
+\label{eq-param-normal}
+\end{subequations}
+where $r\in (0, R]$, $\theta_1, \theta_2\in[0, \pi]$ and $\theta_3\in [0, 2\pi]$.
+
+It's easy  to see that for this  parametrization 
+\beq
+(x_1)^2 + (x_2)^2 + (x_3)^2 + (x_4)
+^2 = r^2
+\eeq
+
+After calculating the differentials of the $dx_i$ and adding their 
+squares, cross-terms cancel and we arrive at
 
 \beq
-\prob{\rvx,\rvy}{10}=
-\prob{\rvy|\rvx}{0|1}
-\prob{\rvx}
-{1
-}=\frac{1}
-{Z}e^{\theta^1}
+(ds)^2 =\sum_{i=1}^4 (dx_i)^2=
+(dr)^2+(r d\theta_1)^2+(r S_1d\theta_2)^2+(r S_1 S_2d\theta_3)^2
 \eeq
+
+Coordinates are said to be orthogonal
+if their metric $(ds)^2$ is diagonal (has no cross terms).
+If the metric is
+diagonal, and all the coefficients 
+are 1 as in the rectangular metric $(ds)^2=\sum_i(dx_i))^2$,
+then the coordinates are said to be orthonormal.
+
+Alternative parametrization of $B_4(R)$ (and of $\partial B_4(R)=S_3(R)$ by setting $r=R$ and $dr=0$), called the {\bf Hopf 
+parametrization}.
+Let $S_\alp = \sin \alp$, $S_i = \sin \theta_i$ for $i=0,1$, and similarly abbreviate $\cos$ by $C$.
+
+\begin{subequations}
+\beqa
+x_1 &=& rC_\alp C_0
+\\
+x_2 &=& rC_\alp S_0
+\\
+x_3 &=& r S_\alp C_1
+\\
+x_4 &=& r S_\alp S_1
+\eeqa
+\label{eqs-param-hopf-tree}
+\end{subequations}
+where $r\in (0, R]$ and
+$\alp, \theta_0, \theta_1\in [0, \pi]$.
+
+It's easy  to see that for this  parametrization 
+\beq
+(x_1)^2 + (x_2)^2 + (x_3)^2 + (x_4)
+^2 = r^2
+\eeq
+After calculating the differentials of the $dx_i$ and adding their 
+squares, cross-terms cancel and we arrive at
 
 \beq
-\prob{\rvx,\rvy}{11}=
-\prob{\rvy|\rvx}{1|1}
-\prob{\rvx}
-{1
-}=\frac{1}
-{Z}
+(ds)^2 = (dr)^2 + (r d\alp)^2+
+(r C_\alp d\beta_0)^2
++ (r S_\alp d\beta_1)^2
 \eeq
-
-\beq
-Z = \frac{1}{\prob{\rvx,\rvy}{11}}=
-\frac{1}{
-a^cb_1^c
-}
-\eeq
-
-\beq
-\theta =
-\ln \frac{
-\prob{\rvx,\rvy}{01}
-}{
-\prob{\rvx,\rvy}{11}
-}=
-\ln
-\frac{ab_0^c}{a^c b_1^c}
-\eeq
-
-
-
-
-
-\beq
-\theta^x =
-\ln \frac{
-\prob{\rvy|\rvx}{0|x'}
-}{
-\prob{\rvy|\rvx}{1|x'}
-} =
-\ln
-\frac{b_{x'}}{b_{x'}^c}
-\eeq
-
-\qed
+ 
+\begin{figure}[h!]
+\centering
+\includegraphics[width=5.8in]
+{differ-geo/weird-spherical-coords}
+\caption{
+Two parametrizations of $B_4(R)$.
+$(a)$ Parametrization Eqs.(\ref{eq-param-normal}).
+$(b)$Parametrization Eqs.(\ref{eqs-param-hopf-tree})}
+\label{fig-weird-spherical-coords}
+\end{figure}
 
 \hrule
-Metric for EFD variables
+Volumes and Areas
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\cellcolor[HTML]{FFFC9E}Ball or Sphere & \cellcolor[HTML]{FFFC9E}Area & Volume \\ \hline
+\cellcolor[HTML]{FFFFFF}$S_0(R)=\partial B_1(R)$ & \cellcolor[HTML]{FFFFFF}0 &  \\ \hline
+\cellcolor[HTML]{FFFFFF}$B_1(R)$ & \cellcolor[HTML]{FFFFFF} & $2R$ \\ \hline
+$S_1(R)=\partial B_2(R)$ & \cellcolor[HTML]{FFFFFF}$2\pi R$ &  \\ \hline
+$B_2(R)$ & \cellcolor[HTML]{FFFFFF} & $\pi R^2$ \\ \hline
+$S_2(R)=\partial B_3(R)$ & $4\pi R^2$ &  \\ \hline
+$B_3(R)$ &  & $\frac{4}{3}\pi R^3$ \\ \hline
+$S_3(R)=\partial B_4(R)$ & $2\pi^2 R^3$ &  \\ \hline
+$B_4(R)$ &  & $\frac{1}{2}\pi^2 R^4$ \\ \hline
+$S_4(R)=\partial B_5(R)$ & $\frac{8}{3} \pi^2 R^4$ &  \\ \hline
+$B_5(R)$ &  & $\frac{8}{15}\pi^2 R^5$ \\ \hline
+\end{tabular}
+\caption{xx}
+\label{tab-ball-sphere-area-vol}
+\end{table}
+
 
 \beq
-P(x, y)=P(\rvx=x, \rvy=y)
+\Gamma(x+1)= x\Gamma(x),
+\quad
+\Gamma(k+1)= k!
 \eeq
 
 \beq
-\metric_{\theta^i\theta^j}=
-\av{\cals_i, \cals_j}
-\eeq
-
-\beq
-\av{\delta_0^\rvx} = a
-\eeq
-
-\beqa
-\av{\delta_{x'}^\rvx
- \delta_0^\rvy}
-&=&
-P(0,0)\delta_{x'}^0 + P(1, 0)\delta_{x'}^1 
-\\
-&=&
-P(x', 0)
-\eeqa
-
-\beq
-\av{\delta_0^\rvx,
-\quad \delta_0^\rvx}=
-\av{\delta_0^\rvx}-\av{\delta_0^\rvx}^2=a-a^2 = a a^c
-\eeq
-
-\beqa
-\av{\delta_0^\rvx,
-\quad \delta_{x'}^\rvx
-\delta_0^\rvy
-}&=&
-\av{\delta_0^{\rvx}
-\delta_{x'}^\rvx
-\delta_0^\rvy
-}-\av{\delta_0^\rvx}
-\av{\delta_{x'}^\rvx\delta_0^\rvy}
-\\
-&=&
-\delta_0^{x'}P(0,0)
--a P(x', 0)
-\\
-&=&
-\left\{
-\begin{array}{ll}
-P(0,0)a^c& \text {if }x'=0
-\\
--P(1,0)a& \text{if } x'=1
-\end{array}
-\right.
-\eeqa
-
-\beqa
-\av{\delta_{x'}^\rvx
-\delta_0^\rvy,\quad
-\delta_{x''}^\rvx
-\delta_0^\rvy}
-&=&
-\av{\delta_{x'}^\rvx
-\delta_0^\rvy
-\delta_{x''}^\rvx
-\delta_0^\rvy
-}-
-\av{\delta_{x'}^\rvx
-\delta_0^\rvy}\av{
-\delta_{x''}^\rvx
-\delta_0^\rvy
-}
-\\
-\
-&=&
-\delta_{x'}^{x''}P(x', 0)-
-P(x', 0)P(x'', 0)
-\\
-&=&
-P(x', 0)[
-\delta_{x'}^{x''}-P(x'', 0)
-]
-\\
-&=&
-\left\{
-\begin{array}{ll}
-P(x', 0)P^c(x', 0)
-&\text{if } x'=x''
-\\
--P(1,0)P(0, 0)
-&\text{if } x'\neq x''
-\end{array}
-\right.
-\eeqa
-
-
-\beq
-\metric =
-\begin{pmatrix}
-aa^c & P(0,0)a^c&- P(1,0)a
-\\
-P(0,0)a^c & P(0,0)P^c(0,0)
-& -P(1,0)P(0,0)
-\\
--P(1,0)a
-&-P(1,0)P(0,0)
-& P(1,0)P^c(1,0)
-\end{pmatrix}
-\eeq
-with the following row and column order: 
-is $(\theta, \theta^0, \theta^1)$
-
-
-\hrule
-Three connections for EFD variables
-
-
-
-
-
-\begin{claim}
-The \Chris symbols for Levi-Civita (LC) connection for 
-EFD
-
-\beq
-\Gamma^{LC}_{ijk}
-=
-E[B_{ij}A_k]+\frac{1}{2}E[A_i A_j A_k]
-\eeq
-
-\end{claim}
-\proof
-
-\beq
-\Gamma^{LC}_{ijk}=
-\frac{1}{2}
-\left(
-\partial_i\metric_{jk}
-+
-\partial_j
-\metric_{ik
-}-
-\partial_k
-\metric_{ij}
-\right)
-\eeq
-
-\beq
-\metric_{jk}=
-E[A_j A_k]
-,\quad
-B_{ij}=
-\partial_i A_j
-\eeq
-
-\beq
-\partial_{\theta^i} P(\vecx;\vec{\theta})=P\partial_{\theta^i}LL =
-PA_i
+\nu=\frac{n+1}{2}
 \eeq
 
 
 \beq
-\partial_i
-\metric_{jk}=
-E[B_{ij}A_k+ A_j B_{ik}+
-A_i A_j A_k]
+Area(S_n(R))=
+\frac{2 \pi^\nu R^n}{\Gamma(\nu)}
 \eeq
 
 \beq
-\partial_j\metric_{ik}=
-E[
-B_{ij}A_k +
-A_i B_{jk}
-+
-A_j A_i A_k
-]
+Vol(B_{n+1}(R))= \frac{\pi^\nu R^{n+1}}{\Gamma(\nu+1)}
 \eeq
 
 \beq
-\partial_k\metric_{ij}=
-E[
-B_{ik}A_j + A_i B_{jk}
-+
-A_k A_i A_k
-]
+\frac{d}{dR}Vol(B_{n+1}(R))=
+Area(S_n(R))
 \eeq
 
 \beq
-\Gamma^{LC}_{ijk}=
-\frac{1}{2}
-E\left[
-\begin{array}{l}
-B_{ij}A_k
-+
-{\color{red}A_j B_{ik}}
-+
-A_i A_j A _k
-\\
-+B_{ij}A_k
-+
-{\color{blue}A_i B_{jk}}
-+
-{\color{green}A_j A_i A_k}
-\\
--{\color{red}B_{ik}A_j}
--
-{\color{blue}A_i B_{jk}}
--
-{\color{green}A_k A_i A_j}
-\end{array}
-\right]
-\eeq
-
-\qed
-
-The 
-\Chris symbols for the 
-$\alp=\pm 1$ connection 
-are defined by
-\beqa
-\Gamma^{(\alp)}_{ijk}
-&=&
-E[B_{ij} A_k]
-+
-\frac{(1-\alp)}{2}E[A_i A_j A_k]
-\\
-&=&
-\Gamma^{LC}_{ijk}-
-\; \frac{\alp}{2}E[A_i A_j A_k]
-\eeqa
-Note that this formula
-also gives the \Chris symbols
-for the LC conection if we set $\alp=0$.
-
-\beq
-\Gamma^{(+1)}_{ijk}
-= E[B_{ij}(\vec{\theta})A_k]=
-B_{ij}(\vec{\theta})E[A_k]=  0
+Vol(B_2(R))=
+\int_{\theta=0}^{2\pi}\int_{r=0}^R r dr d\theta = \frac{R^2}{2}2\pi= \pi R^2
 \eeq
 
 \beq
-\Gamma\indices{^{(+1)k}_{ij}}=
-\metric^{km}\Gamma^{(+1)}_{ijm}=0
+Area(S_1(R))=\int_{\theta=0}^{2\pi}Rd\theta = 2\pi R
 \eeq
-
-\subsection{How to define new connections}
-
-\subsection{Fully Connected 3 node bnet}
-\beq
-\bcen
-\xymatrix{
-&\rvy\ar[rd]
-\\
-\rvx\ar[rr]
-\ar[ru]
-&&\rvz
-}
-\ecen
-\quad\quad
-P(x,y,z)= P(z|y,x) P(y|x) P(x)
-\eeq
-
-\beq
-[\prob{\rvx}{x}] =
-\begin{bmatrix}
-\prob{\rvx}{0}
-\\
-1-\prob{\rvx}{0}
-\end{bmatrix}
-\eeq
-
-\beq
-[\prob{\rvy|\rvx}{y|x}] =
-\begin{bmatrix}
-\prob{\rvy|\rvx}{0|0}
-& \prob{\rvy|\rvx}{0|1}
-\\
-1-\prob{\rvy|\rvx}{0|0}
-& 1-\prob{\rvy|\rvx}{0|1}
-\end{bmatrix}
-\eeq
-
-\beq
-[\prob{\rvz|\rvx, \rvy}{z|x, y}] =
-\begin{bmatrix}
-\prob{\rvz|\rvx, \rvy}{0|00}
-& \prob{\rvz|\rvx, \rvy}{0|01}
-&\prob{\rvz|\rvx, \rvy}{0|10}
-&
-\prob{\rvz|\rvx, \rvy}{0|11}
-\\
-1-\prob{\rvz|\rvx, \rvy}{0|00}
-& 1-\prob{\rvz|\rvx, \rvy}{0|01}
-&
-1-
-\prob{\rvz|\rvx, \rvy}{0|10}
-&
-1-
-\prob{\rvz|\rvx, \rvy}{0|11}
-\end{bmatrix}
-\eeq
-
-
-$\{\vece_j\}_{j=1}^n=$ t-basis
-
-$\{\wul{\chi}^i\}_{i=1}^n=$ dual  t-basis
-(covector basis)
-
-$n=7$ in this case
-
-
-\beq
-\wul{\chi}^i(\vece_j)= \delta_j^i
-\eeq
-
-\beq
-\metric =\sum_{i=1}^7
-\wul{\chi}^i
-\otimes
-\wul{\chi}^i
-\eeq
-
-
-curvilinear coordinates 
-(see Section \ref{sec-curvilinear-coords})
-
-\beq
-\{\phi^i\}_{i=1}^7
-=
-\left\{
-\begin{array}{l}
-\prob{\rvx}{0},
-\\
-\{\prob{\rvy|\rvx}{0|x}:x\in \bool\},
-\\
-\{\prob{\rvz|\rvx, \rvy}{0|x,y}:(x,y)\in \bool^2\}
-\end{array}
-\right\}
-\eeq
-
-Fisher metric
-
-\beq
-\metric_{ij}=
-E[(\partial_{\phi^i}\ln P(x,y,z))
-(\partial_{\phi^j}\ln P(x,y,z))]
-\eeq
-
-
-\beq
-\left[
-\partial_{\prob{\rvx|\rva}{0|a}}\ln P(x|a)\right]^2
-=L(x|a)
-\eeq
-then
-
-\beq
-E_{\rvx}[L(x|a)]=
-P(a)E_{\rvx|a}[L(x|a)]
-\eeq
-
-\beq
-(ds)^2=
-\metric_{ij}d\phi^i d\phi^j=
-E[d\ln P(x,y,z)
-d\ln P(x,y,z)]
-\eeq
-
-\beq
-\metric_{ii}=
-\left\{
-\begin{array}{l}
-A (d\prob{\rvx}{0})^2
-\\
-+ \sum_{x=0}^1
-B_x(d\prob{\rvy|\rvx}{0|x})^2
-\\
-+ \sum_{y=0}^1\sum_{x=0}^1
-C_{x,y}(d\prob{\rvz|\rvx, \rvy}{0|x, y})^2
-\end{array}
-\right.
-\eeq
-where
-
-\beq
-A = \frac{1}{\prob{\rvx}{0}
-\prob{\rvx}{1}}
-,\quad
-B_x = \frac{\prob{\rvx}{x}}{\prob{\rvy|\rvx}{0|x}
-\prob{\rvy|\rvx}{1|x}}
-,\quad
-C_{x,y} = \frac{\prob{\rvx, \rvy}{x,y}}{\prob{\rvz|\rvx,\rvy}{0|x, y}
-\prob{\rvz|\rvx, \rvy}{1|x, y}}
-\eeq
-
-\beq
-\ell= \sqrt{A},
-\quad 
-\ell_{x} =\sqrt{B_x}
-,\quad
-\ell_{x,y}=\sqrt{C_{x,y}}
-\eeq
-
-\beq
-(ds)^2 = \sum_{i=1}^7(\ell^i d\phi^i)^2
-\eeq
-
-Choose 
-
-\beq
-\chi^i = \ell^i d\phi^i
-,\quad
-\vece_i=
-\frac{1}{\ell^i} \vecpder{\phi^i}
-\eeq
-
-
-
-\subsection{3 Node Markov Chain}
-
-
 
 
 \end{document}
