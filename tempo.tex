@@ -339,6 +339,8 @@ Consider the ${N}=2$ case.
 
 
 \begin{claim}
+\label{cl-metric-bnet-coords}
+
 \beq
 \metric=
 diag
@@ -350,6 +352,16 @@ diag
 ,\quad
 \frac{a}{b_1 b_1^C}
 \right)
+\eeq
+
+\beq
+\wul{(ds)^2}=
+\frac{1}{a a^C}(\wul{da})^2
++
+\frac{a^C}{b_0 b_0^C}
+(\wul{db_0})^2
++
+\frac{a}{b_1 b_1^C}(\wul{db_1})^2
 \eeq
 \end{claim}
 \proof
@@ -468,25 +480,25 @@ Define
 \frac{\wul{da}}
 {\sqrt{aa^C}}
 ,\quad
-\chi^2= 
+\wul{\chi^2}= 
 \sqrt{
 \frac{a^C}
 {b_0b_0^C}
-} db_0
+} \wul{db_0}
 ,\quad
-\chi^3 =
+\ul{\chi^3} =
 \sqrt{
 \frac{a}{b_1 b_1^C}
-}db_1
+}\ul{db_1}
 \eeq
 
 \beq
-(ds)^2 =
-(\chi^1)^2
+\wul{(ds)^2} =
+(\wul{\chi^1})^2
 +
-(\chi^2)^2
+(\wul{\chi^2})^2
 +
-(\chi^3)^2
+(\wul{\chi^3})^2
 \eeq
 
 
@@ -625,9 +637,156 @@ Metric compatibility implies antisymmetry:
 \\
 -C\wul{\chi^3}&0&0
 \end{pmatrix}
+\label{eq-connection-one-form-bnet-coords}
 \eeq
 
 This is a good example of why Cartan's method is often preferable to calculating \Chris coefficients directly. We obtained the entire Levi-Civita connection from just three exterior derivatives and the antisymmetry condition, without having to calculate 27 \Chris coefficients.
+
+Suppose
+(see Section 
+\ref{sec-curvilinear-coords}
+on curvilinear coordinates)
+
+\beq
+\wul{(ds)^2}=
+\sum_i 
+(\wul{\elli{i} dp^i})^2
+\eeq
+
+\beq
+\wul{\chi^i}=
+\elli{i} \wul{dp^i},
+\quad
+\vece_i =
+\frac{1}{\elli{i}}\vecpartial_{p^i}
+\eeq
+
+\begin{claim}
+The Levi-Civita connection
+1-form is
+
+\beq
+\wul{\omega\indices{^i_j}}=
+\underbrace{\frac
+{\partial_{p^j}\ln \elli{i}}
+{\elli{j}}} _{A_j^{(i)}}
+\wul{\chi^i}
+-
+(i\swap j)
+\eeq
+
+\end{claim}
+\proof
+
+\beq
+\nnabla\vece_i =
+\vece_j \wul{\omega\indices{^j_i}}
+\eeq
+
+Metric compatibility of LC implies
+\beq
+\wul{\omega\indices{^j_i}}
+=
+-
+\wul{\omega\indices{^i_j}}
+\eeq
+LC torsionless implies
+
+\beq
+\wul{d\chi^i}
++
+\wul{\omega\indices{^i_j}}
+\wedge \wul{\chi^j}=0
+\eeq
+
+\beq
+\wul{\chi^i}=
+\wul{d\elli{i}}
+\wedge \wul{dp^i}
+\eeq
+
+\beq
+\wul{d\elli{i}}=
+\partial_{p_j}
+\elli{i} \wul{dp^j
+}=
+\frac{\partial_{p_j}
+\elli{i}}{\elli{j}} \wul{\chi^j
+}
+\eeq
+
+\beq
+\wul{d\chi^i}=
+\underbrace{\frac{\partial_{p^j}
+\ln\elli{i}
+}{\elli{j}}}_{A_j^{(i)}}
+\wul{\chi^j}
+\wedge
+\wul{\chi^i}
+=
+\wul{\chi^j}\wedge
+(A^{(i)}_j\wul{\chi^i})
+\eeq
+
+\beq
+\wul{d\chi^i} +
+(A^{(i)}_j\wul{\chi^i})
+\wedge \wul{\chi^j}
+=0
+\eeq
+
+\beq
+\wul{d\chi^i} +
+\left[(A^{(i)}_j\wul{\chi^i})
+-(i\swap j)\right]
+\wedge \wul{\chi^j}
+=0
+\eeq
+
+\qed
+
+Check:
+
+\beq
+\elli{1}=\frac{1}{\sqrt{a a^C}},
+\quad
+\elli{2}=
+\sqrt{
+\frac{a^C}{b_0 b_0^C}
+}
+\eeq
+
+\beq
+A^{(1)}_2=
+\frac{\partial_{b_0}
+\ln \elli{1}
+}{\elli{2}}
+=0
+\eeq
+
+\beq
+A^{(2)}_1=
+\frac{
+\partial_a\ln \elli{2}
+}{\elli{1}}=
+\sqrt{a a^C}\frac{-1}{2a^C}
+=
+-\;\frac{1}{2}
+\sqrt{
+\frac{a}{a^C}
+}
+\eeq
+
+\beq
+\wul{\omega\indices{^1_2}}=
+\cancel{A^{(1)}_2 \wul{\chi^1}}
+-
+A^{(2)}_1 \wul{\chi^2}
+=
+\frac{1}{2}
+\sqrt{\frac{a}{a^C}} \wul{\chi^2}
+\eeq
+
 \hrule
 Curvature
 
@@ -819,16 +978,16 @@ BC = -\;\frac{1}{4}
 \frac{1}{4}\wul{\chi^2}\wedge\wul{\chi^3}}
 \eeq
 
-$\wul{\omega\indices{^a_b}}$ is
+$\wul{\Omega\indices{^a_b}}$ is
 antisymmetric
 \beq
-\wul{\omega\indices{^a_b}}
+\wul{\Omega\indices{^a_b}}
 =
--\wul{\omega\indices{^b_a}}
+-\wul{\Omega\indices{^b_a}}
 \eeq
 
 \beq
-[\wul{\omega\indices{^a_b}}]
+[\wul{\Omega\indices{^a_b}}]
 =
 \frac{1}{4}
 \begin{pmatrix}
@@ -854,12 +1013,12 @@ are independent
 
 The Fisher metric is
 \beq
-(ds)^2=
-\frac{(da)^2}{a a^C}
+\wul{(ds)^2}=
+\frac{(\wul{da})^2}{a a^C}
 +
-\frac{a^C(db_0)^2}{b_0 b_0^C}
+\frac{a^C(\wul{db_0})^2}{b_0 b_0^C}
 +
-\frac{a(db_1)^2}{b_1 b_1^C}
+\frac{a(\wul{db_1})^2}{b_1 b_1^C}
 \eeq
 
 \beq
@@ -1447,11 +1606,11 @@ P(x,y)&=&
 
 Choose sufficient statistics
 \beqa
-\theta^{|.}&&
+\theta^{|.}&:&
 \cals_{|.}(x)= \delta_0^x
 \\
 \theta^{|x'}
-&&
+&:&
 \cals_{x'}(x,y) = \delta_{x'}^x\delta_0^y
 \quad\quad
 \text { for $x'=0,1$}
@@ -1590,13 +1749,13 @@ a^Cb_1^C
 \cellcolor[HTML]{FFFFFF}frame $\backslash$ connection & \cellcolor[HTML]{9AFF99}\begin{tabular}[c]{@{}l@{}}Levi-Civita\\ connection\end{tabular} & \cellcolor[HTML]{9AFF99}\begin{tabular}[c]{@{}l@{}}$\alp=+1$\\ exponential\\ connection\end{tabular} & \cellcolor[HTML]{9AFF99}\begin{tabular}[c]{@{}l@{}}$\alp=-1$\\ mixture\\ connection\end{tabular} \\ \hline
 \begin{tabular}[c]{@{}l@{}}bnet coords  frame\\ $da, db_0, db_1$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$\metric$ diag\\ $\Gamma\indices{^\s_{\mu\nu}}\neq 0$\\ $\wul{\omega\indices{^a_b}}\neq 0$\\ Curvature $\neq 0$\\ Torsion $=0$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$\metric$ diag\\ $\Gamma\indices{^\s_{\mu\nu}}\neq 0$\\ $\wul{\omega\indices{^a_b}}\neq 0$\\ Curvature $=0$\\ Torsion $=0$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$\metric$ diag\\ $\Gamma\indices{^\s_{\mu\nu}}\neq 0$\\ $\wul{\omega\indices{^a_b}}\neq 0$\\ Curvature $\neq 0$\\ Torsion $=0$\end{tabular} \\ \hline
 \begin{tabular}[c]{@{}l@{}}FED coords frame\\ $d\theta^1, d\theta^2, d\theta^3$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$\metric$ non-diag\\ $\Gamma\indices{^\s_{\mu\nu}}\neq 0$\\ $\wul{\omega\indices{^a_b}}\neq 0$\\ Curvature $\neq 0$\\ Torsion $=0$\end{tabular} & \cellcolor[HTML]{FFCCC9}\begin{tabular}[c]{@{}l@{}}$\metric$ non-diag\\ $\Gamma\indices{^\s_{\mu\nu}}=0$\\ $\wul{\omega\indices{^a_b}}=0$\\ Curvature $=0$\\ Torsion $=0$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$\metric$ non-diag\\ $\Gamma\indices{^\s_{\mu\nu}}\neq 0$\\ $\wul{\omega\indices{^a_b}}\neq 0$\\ Curvature $\neq 0$\\ Torsion $=0$\end{tabular} \\ \hline
-\begin{tabular}[c]{@{}l@{}}Cartan frame\\ $\wul{\chi^1}, \wul{\chi^2}, \wul{\chi^3}$\\ $\wul{\chi^i}=\ell^i \wul{dp^i}$\\ $(p^1, p^2, p^3)=(a, b_0, b_1)$\end{tabular} & \cellcolor[HTML]{FFCCC9}\begin{tabular}[c]{@{}l@{}}$\metric=diag(1,1,1)$\\ $\Gamma\indices{^\s_{\mu\nu}}\neq 0$\\ $\wul{\omega\indices{^a_b}}\neq 0$\\ Curvature $\neq 0$\\ Torsion $=0$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$\metric=diag(1,1,1)$\\ $\Gamma\indices{^\s_{\mu\nu}}\neq 0$\\ $\wul{\omega\indices{^a_b}}\neq 0$\\ Curvature $=0$\\ Torsion $=0$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$\metric=diag(1,1,1)$\\ $\Gamma\indices{^\s_{\mu\nu}}\neq 0$\\ $\wul{\omega\indices{^a_b}}\neq 0$\\ Curvature $\neq 0$\\ Torsion $=0$\end{tabular} \\ \hline
+\begin{tabular}[c]{@{}l@{}}Cartan frame\\ $\wul{\chi^1}, \wul{\chi^2}, \wul{\chi^3}$\\ $\wul{\chi^i}=\elli{i} \wul{dp^i}$\\ $(p^1, p^2, p^3)=(a, b_0, b_1)$\end{tabular} & \cellcolor[HTML]{FFCCC9}\begin{tabular}[c]{@{}l@{}}$\metric=diag(1,1,1)$\\ $\Gamma\indices{^\s_{\mu\nu}}\neq 0$\\ $\wul{\omega\indices{^a_b}}\neq 0$\\ Curvature $\neq 0$\\ Torsion $=0$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$\metric=diag(1,1,1)$\\ $\Gamma\indices{^\s_{\mu\nu}}\neq 0$\\ $\wul{\omega\indices{^a_b}}\neq 0$\\ Curvature $=0$\\ Torsion $=0$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$\metric=diag(1,1,1)$\\ $\Gamma\indices{^\s_{\mu\nu}}\neq 0$\\ $\wul{\omega\indices{^a_b}}\neq 0$\\ Curvature $\neq 0$\\ Torsion $=0$\end{tabular} \\ \hline
 \end{tabular}
 \caption{Properties of various geometrical quantities for all Frame-Connection combinations. The ones in pink are the ones I will be using most often.  coords stands for coordinates, diag for diagonal and FED for Family of Exponential Distributions.}
 \label{tab-frame-connection-combos}
 \end{table}
 
-\subsection{FED coordinates and exponential connection}
+\subsection{3 Connections in FED coordinates}
 Metric for FED coordinates
 
 \beq
@@ -1812,6 +1971,11 @@ A_i A_j A _k
 
 \qed
 
+\beq
+E[B_{ij}(\vec{\theta})A_k]=
+B_{ij}(\vec{\theta})E[A_k]=  0
+\eeq
+
 The 
 \Chris symbols for the 
 $\alp=\pm 1$ connection 
@@ -1819,8 +1983,6 @@ are defined by
 \beqa
 \Gamma^{(\alp)}_{ijk}
 &=&
-E[B_{ij} A_k]
-+
 \frac{(1-\alp)}{2}E[A_i A_j A_k]
 \\
 &=&
@@ -1833,8 +1995,7 @@ for the LC conection if we set $\alp=0$.
 
 \beq
 \Gamma^{(+1)}_{ijk}
-= E[B_{ij}(\vec{\theta})A_k]=
-B_{ij}(\vec{\theta})E[A_k]=  0
+=  0
 \eeq
 
 \beq
@@ -1842,26 +2003,183 @@ B_{ij}(\vec{\theta})E[A_k]=  0
 \metric^{km}\Gamma^{(+1)}_{ijm}=0
 \eeq
 
-\subsection{Cartan Frame and Exponential Connection}
+\subsection{3 Connections in Cartan Frame}
 
+The metric is the same as that
+found in Claim \ref{cl-metric-bnet-coords},
+but with a different dual t-basis
 
 \beq
-(ds)^2 = \sum_{i=1}^3(\ell^i d\phi^i)^2
+\metric=
+diag(1,1,1)
+\eeq
+
+\beq
+\wul{(ds)^2} = \sum_{i=1}^3(\wul{\elli{i} dp^i})^2
+\eeq
+
+\beq
+(p^1, p^2, p^3)= (a, b_0, b_1)
+\eeq
+
+\beq
+\elli{1}=\sqrt{\frac{1}{aa^C}},\quad
+\elli{2}=\sqrt{\frac{a^C}{b_0 b_0^C}}
+,\quad
+\elli{3} = \sqrt{\frac{a}{b_1 b_1^C}}
 \eeq
 
 Cartan frame
 
 \beq
-\chi^i = \ell^i d\phi^i
+\wul{\chi^i} = \wul{\elli{i} dp^i}
 ,\quad
 \vece_i=
-\frac{1}{\ell^i} \vecpder{\phi^i}
+\frac{1}{\elli{i}} \vecpder{p^i}
+\eeq
+We recognize this as curvilinear coordinates (See Section \ref{sec-curvilinear-coords})
+
+The connection 1-form has already been calculated.
+It's given by 
+Eq.(\ref{eq-connection-one-form-bnet-coords}).
+The connections 1-form and the covectors $\wul{\chi^a}$
+are the same regardless of t-basis, but the \Chris
+symbols are not:
+
+\beq
+\text {coordinate t-basis:} \quad
+\left\{\vecpder{p^i}\right\}_{i=1}^n\implies
+\Gamma\indices{^a_{cb}}= 
+\wul{\omega\indices{^a_b}}(\vecpder{p^c})
+\eeq
+  
+\beq
+\text{non-holonomic t-basis:}\quad
+\left\{\frac{1}{\elli{i}}\vecpder{p^i}\right\}_{i=1}^n\implies
+\tilde{\Gamma}\indices{^a_{cb}}= 
+\wul{\omega\indices{^a_b}}(\frac{1}{\elli{c}}\vecpder{p^c})
+\eeq
+
+
+Let
+\beq
+LL=\ln \prob{\rvx,\rvy}{x,y}
+,\quad
+A_{p^i}= \partial_{p^i}LL
 \eeq
 
 \beq
-Z = 1 + E_2 + E_1 + E_1 E_3
+\tilde{T}_{ijk}=
+E[\vece_i(LL)
+\vece_j(LL)
+\vece_k(LL)
+]=\frac{1}{\elli{i}\elli{j}\elli{k}}E[A_{p^i}A_{p^j}A_{p^k}
+]
 \eeq
 
+
+\begin{claim}
+
+\beq
+A_{p^1}=\frac{1}{a a^C}
+(\delta_0^x-a)
+,\quad
+A_{p^2}=
+\frac{\delta_0^x}{b_0 b_0^C}
+(\delta_0^y-b_0)
+,\quad
+A_{p^3}=
+\frac{\delta_1^x}{b_1 b_1^C}
+(\delta_0^y-b_1)
+\eeq
+
+\end{claim}
+\proof
+
+\beqa
+LL &=&\ln P(x,y)
+\\
+&=&
+\delta_{00}^{xy}\ln\prob{\rvx,\rvy}{0,0}
++
+\delta_{01}^{xy}\ln\prob{\rvx,\rvy}{0,1}
++
+\delta_{10}^{xy}\ln\prob{\rvx,\rvy}{1,0}
++\delta_{11}^{xy}\ln\prob{\rvx,\rvy}{1,1}
+\\
+&=&
+\delta_{00}^{xy}\ln b_0a
++
+\delta_{01}^{xy}\ln b_0^C a
++
+\delta_{10}^{xy}\ln b_1 a^C
++\delta_{11}^{xy}\ln b_1^C a^C
+\eeqa
+
+
+\beqa
+A_{p^1}&=&
+\frac{\delta_{00}^{xy}}{a}
++\frac{\delta_{01}^{xy}}{a}
+-\frac{\delta_{10}^{xy}}{a^C}
+-\frac{\delta_{11}^{xy}}{a^C}
+\\
+&=&
+\frac{\delta_0^x}{a}
+-\frac{\delta_1^x}{a^C}
+\\
+&=&
+\frac{1}{aa^C}[a^C \delta_0^x-a\delta_1^x]
+\\
+&=&
+\frac{1}{aa^C}[ \delta_0^x-a]
+\eeqa
+
+\beqa
+A_{p^2}&=&
+\frac{\delta_{00}^{xy}}{b_0}
+-
+\frac{\delta_{01}^{xy}}{b_0^C}
+\\
+&=&
+\frac{\delta_0^x}{b_0 b_0^C}(b_0^C\delta_0^y -
+b_0\delta_1^y)
+\\
+&=&
+\frac{\delta_0^x}{b_0 b_0^C}(\delta_0^y -
+b_0)
+\eeqa
+
+\qed
+
+Let
+\beq
+LL=\ln \prob{\rvx,\rvy}{x,y}
+,\quad
+A_{\theta^i}= \partial_{\theta^i}LL
+\eeq
+
+\begin{claim}
+
+\beq
+A_{\theta^1} = a a^C A_{p^1}
+=\delta_0^x  -a
+\eeq
+
+\beq
+A_{\theta^2} = b_0 b_0^C A_{p^2}=
+\delta_0^x(\delta_0^y -b_0)
+\eeq
+
+\beq
+A_{\theta^3} = b_1 b_1^C A_{p^3}=
+\delta_1^x(\delta_0^y -b_1)
+\eeq
+
+\end{claim}
+\proof
+
+\qed
 
 \subsection{Fully Connected 3 node bnet}
 \beq
@@ -2014,27 +2332,31 @@ C_{x,y} = \frac{\prob{\rvx, \rvy}{x,y}}{\prob{\rvz|\rvx,\rvy}{0|x, y}
 \beq
 \ell= \sqrt{A},
 \quad 
-\ell_{x} =\sqrt{B_x}
+\elli{x} =\sqrt{B_x}
 ,\quad
-\ell_{x,y}=\sqrt{C_{x,y}}
+\elli{x,y}=\sqrt{C_{x,y}}
 \eeq
 
 \beq
-(ds)^2 = \sum_{i=1}^7(\ell^i d\phi^i)^2
+(ds)^2 = \sum_{i=1}^7(\elli{i} d\phi^i)^2
 \eeq
 
 Choose 
 
 \beq
-\chi^i = \ell^i d\phi^i
+\chi^i = \elli{i} d\phi^i
 ,\quad
 \vece_i=
-\frac{1}{\ell^i} \vecpder{\phi^i}
+\frac{1}{\elli{i}} \vecpder{\phi^i}
 \eeq
 
 
 
 \subsection{3 Node Markov Chain}
+
+
+
+
 
 
 
