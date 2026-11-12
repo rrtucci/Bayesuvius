@@ -333,6 +333,31 @@ Consider the ${N}=2$ case.
 
 \qed
 
+Define
+(see Section 
+\ref{sec-curvilinear-coords}
+on curvilinear coordinates)
+
+\beq
+(p^1, p^2, p^3)=(a, b^0, b^1)
+\eeq
+\beq
+\wul{\chi^i}=
+\elli{i} \wul{dp^i},
+\quad
+\vece_i =
+\frac{1}{\elli{i}}\vecpartial_{p^i}
+\eeq
+
+\beq
+\wul{(ds)^2}=
+\sum_{i=1}^3
+(\elli{i} \wul{dp^i})^2
+=
+\sum_{i=1}^3(\wul{\chi^i})^2
+\eeq
+
+
 
 
 
@@ -341,28 +366,27 @@ Consider the ${N}=2$ case.
 \begin{claim}
 \label{cl-metric-bnet-coords}
 
+
+\beq
+\elli{1}=\sqrt{\frac{1}{aa^C}},\quad
+\elli{2}=\sqrt{\frac{a^C}{b_0 b_0^C}}
+,\quad
+\elli{3} = \sqrt{\frac{a}{b_1 b_1^C}}
+\eeq
+
 \beq
 \metric=
 diag
 \left(
-\frac{1}{a a^C},
+(\elli{1})^2,
 \quad
-\frac{a^C}
-{b_0 b_0^C}
+(\elli{2})^2
 ,\quad
-\frac{a}{b_1 b_1^C}
+(\elli{3})^2
 \right)
 \eeq
 
-\beq
-\wul{(ds)^2}=
-\frac{1}{a a^C}(\wul{da})^2
-+
-\frac{a^C}{b_0 b_0^C}
-(\wul{db_0})^2
-+
-\frac{a}{b_1 b_1^C}(\wul{db_1})^2
-\eeq
+
 \end{claim}
 \proof
 \beqa
@@ -473,34 +497,49 @@ a^C\left[
 \hrule
 Connection 1-form for Levi-Civita connection
 
-Define
+Abbreviations
 
 \beq
-\wul{\chi^1}=
-\frac{\wul{da}}
-{\sqrt{aa^C}}
-,\quad
-\wul{\chi^2}= 
-\sqrt{
-\frac{a^C}
-{b_0b_0^C}
-} \wul{db_0}
-,\quad
-\ul{\chi^3} =
-\sqrt{
-\frac{a}{b_1 b_1^C}
-}\ul{db_1}
+A= \frac{1-2a}{2\sqrt{a a^C}}
+=\frac{d}
+{da}\sqrt{a a^C}
 \eeq
 
 \beq
-\wul{(ds)^2} =
-(\wul{\chi^1})^2
-+
-(\wul{\chi^2})^2
-+
-(\wul{\chi^3})^2
+B = \frac{1}{2}\sqrt{\frac{a}{a^C}}
 \eeq
 
+\beq
+C =-\;\frac{1}{2}
+\sqrt{\frac{a^C}{a}}
+\eeq
+
+\begin{claim}
+
+\beq
+[\wul{\omega\indices{^a_b}}]=
+\begin{pmatrix}
+0 &B\wul{\chi^2}
+&C\wul{\chi^3}
+\\
+-B\wul{\chi^2}&0&0
+\\
+-C\wul{\chi^3}&0&0
+\end{pmatrix}
+=
+\begin{pmatrix}
+0 &B\elli{2}\wul{dp^2}
+&C\elli{3}\wul{dp^3}
+\\
+-B\elli{2}\wul{dp^2}&0&0
+\\
+-C\elli{3}\wul{dp^3}&0&0
+\end{pmatrix}
+\label{eq-connection-one-form-bnet-coords}
+\eeq
+
+\end{claim}
+\proof
 
 \beq
 \wul{d\chi^a}= -\wul{\omega\indices{^a_b}}
@@ -600,22 +639,7 @@ a b_0 b_0^C}}
 \eeq
 
 
-Abbreviations
 
-\beq
-A= \frac{1-2a}{2\sqrt{a a^C}}
-=\frac{d}
-{da}\sqrt{a a^C}
-\eeq
-
-\beq
-B = \frac{1}{2}\sqrt{\frac{a}{a^C}}
-\eeq
-
-\beq
-C =-\;\frac{1}{2}
-\sqrt{\frac{a^C}{a}}
-\eeq
 
 Metric compatibility implies antisymmetry:
 
@@ -637,29 +661,12 @@ Metric compatibility implies antisymmetry:
 \\
 -C\wul{\chi^3}&0&0
 \end{pmatrix}
-\label{eq-connection-one-form-bnet-coords}
 \eeq
+\qed
 
 This is a good example of why Cartan's method is often preferable to calculating \Chris coefficients directly. We obtained the entire Levi-Civita connection from just three exterior derivatives and the antisymmetry condition, without having to calculate 27 \Chris coefficients.
 
-Suppose
-(see Section 
-\ref{sec-curvilinear-coords}
-on curvilinear coordinates)
 
-\beq
-\wul{(ds)^2}=
-\sum_i 
-(\wul{\elli{i} dp^i})^2
-\eeq
-
-\beq
-\wul{\chi^i}=
-\elli{i} \wul{dp^i},
-\quad
-\vece_i =
-\frac{1}{\elli{i}}\vecpartial_{p^i}
-\eeq
 
 \begin{claim}
 The Levi-Civita connection
@@ -670,7 +677,7 @@ The Levi-Civita connection
 \underbrace{\frac
 {\partial_{p^j}\ln \elli{i}}
 {\elli{j}}} _{A_j^{(i)}}
-\wul{\chi^i}
+\underbrace{\wul{\chi^i}}_{\elli{i}\wul{dp^i}}
 -
 (i\swap j)
 \eeq
@@ -2087,38 +2094,50 @@ LL=\ln \prob{\rvx,\rvy}{x,y},
 \eeq
 
 \beq
+(\wul{\omega\indices{_i_j}})^{(LC)}
+=
+\underbrace{\frac
+{\partial_{p^j}\ln \elli{i}}
+{\elli{j}}} _{A_j^{(i)}}
+\underbrace{\wul{\chi_i}}_{\elli{i}\metric_{ir}\wul{dp^r}}
+-
+(i\swap j)
+\eeq
+
+
+\beq
 \Gamma\indices{_{ijk}}=
-\underbrace{(\omega\indices{^i_j}(\vece_k))^{(LC)}}_{(\Gamma\indices{_{ijk}})^{(LC)}}
-+
-\underbrace{E[\vece_i(LL)
-\vece_j(LL)
-\vece_k(LL)
+\underbrace{(\wul{\omega\indices{_i_j}}(\vece\;'_k))^{(LC)}}_{(\Gamma\indices{_{ijk}})^{(LC)}}
+-\alp
+\underbrace{E[\vece\;'_i(LL)
+\vece\;'_j(LL)
+\vece\;'_k(LL)
 ]}_{T_{ijk}}
 \eeq
 
 
 
 \begin{itemize}
-\item coordinate t-basis: $\vece_i\rarrow
+\item coordinate t-basis: $\vece\;'_i\rarrow
 \vecpder{p^i}$
 
 \beq
 \Gamma\indices{_{ijk}}=
-\underbrace{(\omega\indices{^i_j}(\vecpartial_{p^k}))^{(LC)}}_{(\Gamma\indices{_{ijk}})^{(LC)}}
-+
+\underbrace{(\wul{\omega\indices{_i_j}}(\vecpartial_{p^k}))^{(LC)}}_{(\Gamma\indices{_{ijk}})^{(LC)}}
+-\alp
 \underbrace{E[A_{p^i}
 A_{p^j}
 A_{p^k}
 ]}_{T_{ijk}}
 \eeq
   
-\item non-holonomic t-basis: $\vece_i\rarrow
+\item non-holonomic t-basis: $\vece\;'_i\rarrow
 \frac{1}{\elli{i}}\vecpder{p^i}$
 
 \beq
 \check{\Gamma}\indices{_{ijk}}=
-\underbrace{\frac{1}{\elli{k}}(\omega\indices{^i_j}(\vecpartial_{p^k}))^{(LC)}}_{(\check{\Gamma}\indices{_{ijk}})^{(LC)}}
-+
+\underbrace{\frac{1}{\elli{k}}\wul{(\omega\indices{_i_j}}(\vecpartial_{p^k}))^{(LC)}}_{(\check{\Gamma}\indices{_{ijk}})^{(LC)}}
+-\alp
 \underbrace{
 \frac{1}{\elli{i}\elli{j}\elli{k}}
 E[
@@ -2130,9 +2149,7 @@ A_{p^i}A_{p^j}A_{p^k}
 (\check{\Gamma}\indices{_{ijk}})^{(LC)}=
 \frac{1}{\elli{k}}
 (\Gamma\indices{_{ijk}})^{(LC)}
-\eeq
-
-\beq
+,\quad
 \check{T}_{ijk}=
 \frac{1}{\elli{i}\elli{j}\elli{k}}
 T_{ijk}
@@ -2387,6 +2404,27 @@ _{A_{\theta^3}=\delta_{10}^{xy}-b_1a^C}
 \eeqa
 
 \qed
+
+\beq
+[\wul{\omega\indices{^i_j}}]=
+\begin{pmatrix}
+\alp \$
+\wul{\chi^1}
+&0
+&0
+\\
+\$ \wul{\chi^2}
++
+\alp\$ \ul{\chi^2}
+& \alp\$ \wul{\chi^1}
++\alp \$ \wul{\chi^2}
+&0
+\\
+\$ \wul{\chi^3} + \alp \$ \wul{\chi^3}
+&0
+& \alp\$\wul{\chi^1} +\alp\$ \wul{\chi^3}
+\end{pmatrix}
+\eeq
 
 \subsection{Fully Connected 3 node bnet}
 \beq
