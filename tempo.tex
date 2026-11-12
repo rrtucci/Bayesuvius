@@ -1498,13 +1498,7 @@ b_0=\prob{\rvy|\rvx}{0|0}
 ,\quad
 b_1=\prob{\rvy|\rvx} {0|1}
 \eeq
-Also let
-
-\beq
-(\theta^1, \theta^2 ,\theta^3)=(\theta^{|.}, \theta^{|0}, \theta^{|1}),\quad
-(\cals_1, \cals_2, \cals_3)=
-(\cals_{|.}, \cals_{|0}, \cals_{|1})
-\eeq
+Also abbreviate
 
 \beq
 E_i= \exp(\theta_i)
@@ -1514,30 +1508,24 @@ E_i= \exp(\theta_i)
 
 \begin{claim}
 Consider bnet $\rvx\rarrow\rvy$ with both nodes binary.
-
-
+If
 
 \beq
-\begin{tabular}{|l|l|}
-\hline
-\rowcolor[HTML]{9AFF99} 
-$\cals_i$ & $\theta^i$ \\ \hline
-\rowcolor[HTML]{FFFFFF} 
-$\cals_{|.}(x)=\delta_0^x$ & $\theta^{|.}=\ln[\prob{\rvx,\rvy}{01}/\prob{\rvx,\rvy}{11}]=\ln\left[
-ab_0^C/(a^C
-b_1^C)
-\right]$ \\ \hline
-\rowcolor[HTML]{FFFFFF} 
-\begin{tabular}[c]{@{}l@{}}
-$\cals_{|x'}(x,y)=\delta_{x'}^x \delta_0^y$\\
-for $x'=0,1$ 
-\end{tabular}& \cellcolor[HTML]{FFFFFF}\begin{tabular}[c]{@{}l@{}}$\theta^{|x'}=\ln
-[\prob{\rvx,\rvy}{x'1}/ \prob{\rvx,\rvy}{11}]=
-\ln \left(b_{x'}/b_{x'}^C\right)$
-\\ for $x'=0,1$ 
-\end{tabular}
-\\ \hline
-\end{tabular}
+\cals_1= \delta_0^x,
+\quad \cals_2 = \delta_{00}^{xy}
+,\quad
+\cals_3 = \delta_{10}^{xy}
+\eeq
+then
+
+\beq
+\theta^1 =
+\ln
+\frac{ab_0^C}{a^C b_1^C}
+,\quad
+\theta^2 = \ln \frac{b_0}{b_0^C}
+,\quad
+\theta^3 = \ln \frac{b_1}{b_1^C}
 \eeq
 and 
 
@@ -1548,7 +1536,7 @@ Z =
 E_1(1+ E_2)
 = \frac{1}{\prob{\rvx,\rvy}{11}}=
 \frac{1}{
-(1-a)(1-b_1)
+a^C b_1^C
 }
 \eeq
 
@@ -1604,28 +1592,18 @@ P(x,y)&=&
 \right)
 \eeqa
 
-Choose sufficient statistics
-\beqa
-\theta^{|.}&:&
-\cals_{|.}(x)= \delta_0^x
-\\
-\theta^{|x'}
-&:&
-\cals_{x'}(x,y) = \delta_{x'}^x\delta_0^y
-\quad\quad
-\text { for $x'=0,1$}
-\eeqa
+
 
 \beq
 P(x,y)=
 \frac{1}{Z}
 \exp\left(
-\delta_0^x \theta^{|.}
+\delta_0^x \theta^1
 +\delta_0^x
-\delta_0^y\theta^{|0}
+\delta_0^y\theta^2
 +
 \delta_1^x
-\delta_0^y\theta^{|1}
+\delta_0^y\theta^3
 \right)
 \eeq
 
@@ -1634,12 +1612,12 @@ Z &=&
 \sum_{x=0}^1
 \sum_{y=0}^1
 \exp\left(
-\delta_0^x \theta^{|.}
+\delta_0^x \theta^1
 +\delta_0^x
-\delta_0^y\theta^{|0}
+\delta_0^y\theta^2
 +
 \delta_1^x
-\delta_0^y\theta^{|1}
+\delta_0^y\theta^3
 \right)
 \\
 &=&
@@ -1709,7 +1687,7 @@ a^Cb_1^C
 \eeq
 
 \beq
-\theta^{|.} =
+\theta^1 =
 \ln \frac{
 \prob{\rvx,\rvy}{01}
 }{
@@ -1724,14 +1702,25 @@ a^Cb_1^C
 
 
 \beq
-\theta^{|x} =
+\theta^{2} =
 \ln \frac{
-\prob{\rvy|\rvx}{0|x'}
+\prob{\rvx,\rvy}{0,0}
 }{
-\prob{\rvy|\rvx}{1|x'}
+\prob{\rvx,\rvy}{0,1}
 } =
 \ln
-\frac{b_{x'}}{b_{x'}^C}
+\frac{b_0}{b_{0}^C}
+\eeq
+
+\beq
+\theta^{3} =
+\ln \frac{
+\prob{\rvx,\rvy}{1,0}
+}{
+\prob{\rvx,\rvy}{1,1}
+} =
+\ln
+\frac{b_1}{b_{1}^C}
 \eeq
 
 \qed
@@ -1756,7 +1745,68 @@ a^Cb_1^C
 \end{table}
 
 \subsection{3 Connections in FED coordinates}
+
+\begin{claim}
+
+\beq
+\av{\cals_1}=\prob{\rvx}{0}=a
+,\quad
+\av{\cals_2}= \prob{\rvx,\rvy}{0,0}= b_0a
+,\quad
+\av{\cals_3}= \prob{\rvx,\rvy}{1,0}= b_1a^C
+\eeq
+
+\beq
+A_1= \delta_0^x - a
+,\quad
+A_2 = \delta_{00}^{xy}  - b_0a
+,\quad
+A_3 = \delta_{10}^{xy}-b_1 a^C
+\eeq
+
+\end{claim}
+\proof
+
+\beq
+\av{\cals_1}=\av{\delta_{0}^{\rvx}}= \prob{\rvx}{0}= a
+\eeq
+
+\beq
+\av{\cals_2}=\av{\delta_{00}^{\rvx,\rvy}}= \prob{\rvx,\rvy}{0,0}=
+\prob{\rvy|\rvx}{0|0}\prob{\rvx}{0}= b_0a
+\eeq
+
+\beq
+\av{\cals_3}=\av{\delta_{10}^{\rvx,\rvy}}= \prob{\rvx,\rvy}{1,0}=
+\prob{\rvy|\rvx}{0|1}\prob{\rvx}{1}= b_1a^C
+\eeq
+
+\qed
+
+
 Metric for FED coordinates
+
+\begin{claim}
+\beq
+[\metric_{\theta^i\theta^j}] =[\av{\cals_i, \cals_j}]=
+\begin{pmatrix}
+aa^C & P(0,0)a^C&- P(1,0)a
+\\
+P(0,0)a^C & P(0,0)P^C(0,0)
+& -P(1,0)P(0,0)
+\\
+-P(1,0)a
+&-P(1,0)P(0,0)
+& P(1,0)P^C(1,0)
+\end{pmatrix}
+\eeq
+with the following row and column order: 
+$(\theta^1, \theta^2, \theta^3)=(\theta^1, \theta^2, \theta^3)$
+
+
+\end{claim}
+
+\proof
 
 \beq
 P(x, y)=P(\rvx=x, \rvy=y)
@@ -1783,13 +1833,13 @@ P(x', 0)
 
 \beq
 \av{\delta_0^\rvx,
-\quad \delta_0^\rvx}=
+\; \delta_0^\rvx}=
 \av{\delta_0^\rvx}-\av{\delta_0^\rvx}^2=a-a^2 = a a^C
 \eeq
 
 \beqa
 \av{\delta_0^\rvx,
-\quad \delta_{x'}^\rvx
+\; \delta_{x'}^\rvx
 \delta_0^\rvy
 }&=&
 \av{\delta_0^{\rvx}
@@ -1814,7 +1864,7 @@ P(0,0)a^C& \text {if }x'=0
 
 \beqa
 \av{\delta_{x'}^\rvx
-\delta_0^\rvy,\quad
+\delta_0^\rvy,\;
 \delta_{x''}^\rvx
 \delta_0^\rvy}
 &=&
@@ -1850,23 +1900,8 @@ P(x', 0)P^C(x', 0)
 \end{array}
 \right.
 \eeqa
+\qed
 
-
-\beq
-\metric =
-\begin{pmatrix}
-aa^C & P(0,0)a^C&- P(1,0)a
-\\
-P(0,0)a^C & P(0,0)P^C(0,0)
-& -P(1,0)P(0,0)
-\\
--P(1,0)a
-&-P(1,0)P(0,0)
-& P(1,0)P^C(1,0)
-\end{pmatrix}
-\eeq
-with the following row and column order: 
-$(\theta^1, \theta^2, \theta^3)=(\theta^{|.}, \theta^{|0}, \theta^{|1})$
 
 
 \hrule
@@ -2044,38 +2079,69 @@ It's given by
 Eq.(\ref{eq-connection-one-form-bnet-coords}).
 The connections 1-form and the covectors $\wul{\chi^a}$
 are the same regardless of t-basis, but the \Chris
-symbols are not:
+symbols are not.
 
 \beq
-\text {coordinate t-basis:} \quad
-\left\{\vecpder{p^i}\right\}_{i=1}^n\implies
-\Gamma\indices{^a_{cb}}= 
-\wul{\omega\indices{^a_b}}(\vecpder{p^c})
-\eeq
-  
-\beq
-\text{non-holonomic t-basis:}\quad
-\left\{\frac{1}{\elli{i}}\vecpder{p^i}\right\}_{i=1}^n\implies
-\tilde{\Gamma}\indices{^a_{cb}}= 
-\wul{\omega\indices{^a_b}}(\frac{1}{\elli{c}}\vecpder{p^c})
-\eeq
-
-
-Let
-\beq
-LL=\ln \prob{\rvx,\rvy}{x,y}
-,\quad
-A_{p^i}= \partial_{p^i}LL
+LL=\ln \prob{\rvx,\rvy}{x,y},
+\quad A_{p^i}= \partial_{p^i}LL
 \eeq
 
 \beq
-\tilde{T}_{ijk}=
-E[\vece_i(LL)
+\Gamma\indices{_{ijk}}=
+\underbrace{(\omega\indices{^i_j}(\vece_k))^{(LC)}}_{(\Gamma\indices{_{ijk}})^{(LC)}}
++
+\underbrace{E[\vece_i(LL)
 \vece_j(LL)
 \vece_k(LL)
-]=\frac{1}{\elli{i}\elli{j}\elli{k}}E[A_{p^i}A_{p^j}A_{p^k}
-]
+]}_{T_{ijk}}
 \eeq
+
+
+
+\begin{itemize}
+\item coordinate t-basis: $\vece_i\rarrow
+\vecpder{p^i}$
+
+\beq
+\Gamma\indices{_{ijk}}=
+\underbrace{(\omega\indices{^i_j}(\vecpartial_{p^k}))^{(LC)}}_{(\Gamma\indices{_{ijk}})^{(LC)}}
++
+\underbrace{E[A_{p^i}
+A_{p^j}
+A_{p^k}
+]}_{T_{ijk}}
+\eeq
+  
+\item non-holonomic t-basis: $\vece_i\rarrow
+\frac{1}{\elli{i}}\vecpder{p^i}$
+
+\beq
+\check{\Gamma}\indices{_{ijk}}=
+\underbrace{\frac{1}{\elli{k}}(\omega\indices{^i_j}(\vecpartial_{p^k}))^{(LC)}}_{(\check{\Gamma}\indices{_{ijk}})^{(LC)}}
++
+\underbrace{
+\frac{1}{\elli{i}\elli{j}\elli{k}}
+E[
+A_{p^i}A_{p^j}A_{p^k}
+]}_{\check{T}_{ijk}}
+\eeq
+
+\beq
+(\check{\Gamma}\indices{_{ijk}})^{(LC)}=
+\frac{1}{\elli{k}}
+(\Gamma\indices{_{ijk}})^{(LC)}
+\eeq
+
+\beq
+\check{T}_{ijk}=
+\frac{1}{\elli{i}\elli{j}\elli{k}}
+T_{ijk}
+\eeq
+
+
+\end{itemize}
+
+
 
 
 \begin{claim}
@@ -2150,6 +2216,12 @@ b_0\delta_1^y)
 b_0)
 \eeqa
 
+\beq
+A_{p^3}=
+\frac{\delta_1^x}{b_1 b_1^C}
+(\delta_0^y-b_1)
+\eeq
+
 \qed
 
 Let
@@ -2159,25 +2231,160 @@ LL=\ln \prob{\rvx,\rvy}{x,y}
 A_{\theta^i}= \partial_{\theta^i}LL
 \eeq
 
-\begin{claim}
+$A_{\theta^i}$ was being denoted by $A_i$ previously. But now, due to the proliferation of $A$'s, we
+are being more explicit. 
+
+Recall that
 
 \beq
-A_{\theta^1} = a a^C A_{p^1}
-=\delta_0^x  -a
+\theta^1 =
+\ln
+\frac{ab_0^C}{a^C b_1^C}
+,\quad
+\theta^2 = \ln \frac{b_0}{b_0^C}
+,\quad
+\theta^3 = \ln \frac{b_1}{b_1^C}
+\eeq
+and
+
+\beq
+(p^1, p^2, p^3)=(a, b_0, b_1)
 \eeq
 
-\beq
-A_{\theta^2} = b_0 b_0^C A_{p^2}=
-\delta_0^x(\delta_0^y -b_0)
-\eeq
+\begin{claim}(Second proof via $A_{\theta^i}$)
 
 \beq
-A_{\theta^3} = b_1 b_1^C A_{p^3}=
-\delta_1^x(\delta_0^y -b_1)
+A_{p^1}=\frac{1}{a a^C}
+(\delta_0^x-a)
+,\quad
+A_{p^2}=
+\frac{\delta_0^x}{b_0 b_0^C}
+(\delta_0^y-b_0)
+,\quad
+A_{p^3}=
+\frac{\delta_1^x}{b_1 b_1^C}
+(\delta_0^y-b_1)
 \eeq
 
 \end{claim}
 \proof
+
+\beqa
+\partial_{p^1|p^2,p^3}&=&
+\sum_j
+\partial_{p^1|p^2,p^3}(\theta^j)
+\partial_{\theta^j|\{\theta^k:k\neq j\}}
+\\
+&=&
+\partial_a (\ln\frac{a}{a^C})
+\partial_{\theta^1}
+\\
+&=&
+\left(\frac{1}{a}+\frac{1}{a^C}
+\right)
+\partial_{\theta^1}
+\\
+&=&
+\frac{1}{a a^C}
+\partial_{\theta^1}
+\eeqa
+
+\beq
+\underbrace{\partial_{p^1}LL}_
+{A_{p^1}}=
+\frac{1}{a a^C}
+\underbrace{\partial_{\theta^1}LL}_{A_{\theta^1}=\delta_0^x-a}
+\eeq
+
+\beqa
+\partial_{p^2|p^1,p^3}&=&
+\sum_j
+\partial_{p^2|p^1,p^3}(\theta^j)
+\partial_{\theta^j|\{\theta^k:k\neq j\}}
+\\
+&=&
+\partial_{b_0}(\ln b_0^C)\partial_{\theta^1}
++
+\partial_{b_0}(\ln\frac{b_0}{b_0^C} )\partial_{\theta^2}
+\\
+&=&
+-\;\frac{1}{b_0^C}\partial_{\theta^1}
++\left(
+\frac{1}{b_0}
++\frac{1}{b_0^C}\right)\partial_{\theta^2}
+\\
+&=&
+-\;\frac{1}{b_0^C}\partial_{\theta^1}
++\frac{1}{b_0b_0^C}\partial_{\theta^2}
+\eeqa
+
+\beqa
+A_{p^2}&=&\partial_{p^2}LL
+\\
+&=&
+-\;\frac{1}{b_0^C}
+\underbrace{\partial_{\theta^1}LL}
+_{A_{\theta^1}=\delta_0^x - a}
++
+\frac{1}{b_0b_0^C}
+\underbrace{\partial_{\theta^2}LL}
+_{A_{\theta^2}=\delta_{00}^{xy}-b_0a}
+\\
+&=&
+\frac{1}{b_0 b_0^C}
+\left(-b_0\delta_0^x + \cancel{b_0a} +\delta_{00}^{xy}-\cancel{b_0a} \right)
+\\
+&=&
+\frac{\delta_0^x}{b_0 b_0^C}(\delta_0^y-b_0)
+\eeqa
+
+
+
+\beqa
+\partial_{p^3|p^1,p^2}&=&
+\sum_j
+\partial_{p^3|p^1,p^2}(\theta^j)
+\partial_{\theta^j|\{\theta^k:k\neq j\}}
+\\
+&=&
+-\partial_{b_1}(\ln b_1^C)\partial_{\theta^1}
++
+\partial_{b_1}(\ln\frac{b_1}{b_1^C} )\partial_{\theta^3}
+\\
+&=&
+\frac{1}{b_1^C}\partial_{\theta^1}
++\left(
+\frac{1}{b_1}
++\frac{1}{b_1^C}\right)\partial_{\theta^3}
+\\
+&=&
+\frac{1}{b_1^C}\partial_{\theta^1}
++\frac{1}{b_1b_1^C}\partial_{\theta^3}
+\eeqa
+
+\beqa
+A_{p^3}&=&\partial_{p^3}LL
+\\
+&=&
+\;\frac{1}{b_1^C}
+\underbrace{\partial_{\theta^1}LL}
+_{A_{\theta^1}=\delta_0^x - a}
++
+\frac{1}{b_1b_1^C}
+\underbrace{\partial_{\theta^3}LL}
+_{A_{\theta^3}=\delta_{10}^{xy}-b_1a^C}
+\\
+&=&
+\frac{1}{b_1 b_1^C}
+\left(b_1\delta_0^x  -{b_1a} +\delta_{10}^{xy}-{b_1a^C} \right)
+\\
+&=&
+\frac{1}{b_1 b_1^C}
+\left(b_1\delta_0^x  +\delta_{10}^{xy}-b_1 \right)
+\\
+&=&
+\frac{\delta_1^x}{b_1 b_1^C}(\delta_0^y-b_1)
+\eeqa
 
 \qed
 
