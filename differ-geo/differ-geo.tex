@@ -23055,3 +23055,2708 @@ C_{\beta\gamma\alp}
 \qed
 
 
+\section{Probability and Information Theory}
+
+The theory in this section is commonly referred to as {\bf Information Geometry} (IG).
+Basically, what this theory does is to analyze Bayesian Networks (bnets)
+from a Differential Geometry perspective.
+IG is a fairly new theory,
+spearheaded since the 1980's by a Japanese school led by S. Amari.
+There is currently 
+a brief Wikipedia article  %********Ref.\cite{wiki-info-geo}
+on the subject.
+This section is mostly based
+on what I learned by asking questions to ChatGPT.
+
+In Section \ref{sec-thermo-stat-differ-geo}
+on Thermodynamics, we discussed many 
+nice uses of Differential Geometry in Probability and Statistics.
+For example, we introduced 
+the Fisher information metric there.
+This section should 
+be read after the section on Thermodynamics, and should be viewed as an addition to it, focusing on the topic of bnets.
+
+
+\subsection{2 Node bnet}
+
+Normally, when speaking of dif-forms  only or random variables only,
+not both, we underline both with a straight line. 
+This section contains  both dif-forms and random variables in the discussion. To avoid confusion,
+we will underline 
+dif-forms with a wavy line
+and 
+underline random variables with a straight line.
+
+
+For starters, we will
+introduce IG by considering the simplest bnet possible, the 2 node bnet with both nodes binary:
+
+\beq 
+\xymatrix{\rvx
+\ar[r]
+&\rv{y}}
+\quad\quad
+P(x,y)= P(y|x)P(x)
+\eeq
+where $x\in \bool$.
+Later on we will also discuss 3 node bnets.
+
+All of the following will
+stand for the same thing.
+Which one we use is a matter of taste.
+\beq
+P(\rvy=y|\rvx=x)=\prob{\rvy|\rvx}{y|x}=
+P_{\rvy|\rvx}(y|x)=P(y|x)
+\eeq
+
+Let
+\beq
+\boxed{x^C = 1-x}
+\eeq
+for $x\in \bool$.
+
+The Transition Probability Matrices (TPM)
+(a.k.a. Conditional Probability Tables (CPT))
+for this bnet are
+
+
+
+
+\beq
+[\prob{\rvx}{x}] =
+\begin{bmatrix}
+\prob{\rvx}{0}
+\\
+1-\prob{\rvx}{0}
+\end{bmatrix}
+\eeq
+
+\beq
+[\prob{\rvy|\rvx}{y|x}] =
+\begin{bmatrix}
+\prob{\rvy|\rvx}{0|0}
+& \prob{\rvy|\rvx}{0|1}
+\\
+1-\prob{\rvy|\rvx}{0|0}
+& 1-\prob{\rvy|\rvx}{0|1}
+\end{bmatrix}
+\eeq
+
+\beq
+[\prob{\rvx,\rvy}{x,y}]=
+[\prob{\rvy|\rvx}{y|x}]
+\otimes [\prob{\rvx}{x}]
+\eeq
+
+
+For this bnet,
+
+\begin{itemize}
+
+\item $(x, y)=$ coordinates of the {\bf microscopic manifold} $\calp$ (see Section \ref{sec-four-manifolds-tdynamics} on four manifolds of Thermodynamics). We are assuming $(x,y)\in \bool^2$
+
+\item $\{ \prob{\rvx}{0},
+\prob{\rvy|\rvx}{0|0},
+\prob{\rvy|\rvx}{1|0}
+\}=$
+bnet coordinates of {\bf statistical manifold}. Call the number of coordinates of this manifold 
+$dim \calm_{stat}=3$
+
+We will often abbreviate
+\beq
+a = \prob{\rvx}{0}
+,\quad
+b_0=\prob{\rvy|\rvx}{0|0}
+,\quad
+b_1=\prob{\rvy|\rvx}{0|1}
+\eeq
+We will assume that $a, b_0, b_1$ can vary freely. If we impose functional dependencies among them, then this 
+will constrain us to a lower-dimensional submanifold of $\calm_{stat}$.
+
+Consider a general bnet of the 
+form
+
+\beq
+P(x_1, x_2, \ldots, x_N)=
+\prod_{i=1}^N
+P(x_i\mid pa(x_i))
+\eeq
+We will assume
+that in the TPM $P(x_i|pa(x_i))$,
+for each column $pa(x_i)$, all row entries except the last one can vary independently. The last one is set to 1 minus all the other row entries for that column. 
+Hence,\footnote{For any random variable $\rvx$,
+we denote the set of values that $\rvx$ can assume by 
+$val(\rvx)$, 
+and the size of that set by $|val(\rvx)|$}
+
+\beq
+dim \calm_{stat}=
+\sum_{i=1}^N
+|val(pa(\rvx_i))| \;( |val(\rvx_i)|-1)
+\eeq
+
+If we define an $n$ dimensional {\bf simplex} $\Delta_n$ by
+
+\beq
+\Delta_n =\{ p_1+p_2 +\ldots + p_n+ p_{n+1} =1\mid  p_i\in [0, 1]\}
+\eeq
+then
+
+\beq
+\calm_{stat}= \prod_{i=1}^N \prod_{\pi_i\in val (pa(\rvx_i))}\Delta_{|val(\rvx_i)|-1}
+\eeq
+
+
+
+
+\item $\{ \prob{\rvx, \rvy}{x,y}: (x, y)\in \bool^2\}=$ joint distribution coordinates of {\bf statistical manifold} $\calm_{stat}$.
+The dimension of this manifold is also
+$dim \calm_{stat} = 2^2-1=3$.
+The $-1$ is because of the 
+constraint
+$\sum_{(x,y)\in \bool^2}\prob{\rvx,\rvy}{x,y}=1$.
+\end{itemize}
+
+
+\beq
+\prob{\rvx, \rvy}{1, 0}=
+\prob{\rvy|\rvx}{0|1}\prob{\rvx C}{0}
+\eeq
+In general, the joint coordinates can be expressed in terms of the bnet coordinates:
+
+\beqa
+\prob{\rvx, \rvy}{x,y}
+&=&
+\text{  product of }\{ \prob{\rvx}{0},
+\prob{\rvy|\rvx}{0|0},
+\prob{\rvy|\rvx}{0|1},
+(\prob{\rvx}{0})^C,
+(\prob{\rvy|\rvx}{0|0})^C,
+(\prob{\rvy|\rvx}{0|1})^C
+\}
+\\
+&=&
+\text{nonlinear function of }
+( \prob{\rvx}{0},
+\prob{\rvy|\rvx}{0|0},
+\prob{\rvy|\rvx}{0|1})
+\\
+&=&
+\Phi_{x,y}( \prob{\rvx}{0},
+\prob{\rvy|\rvx}{0|0},
+\prob{\rvy|\rvx}{0|1})
+\eeqa
+
+\beq
+\Phi:[0,1]^3 \rarrow \Delta_3,
+\quad\quad
+( \prob{\rvx}{0},
+\prob{\rvy|\rvx}{0|0},
+\prob{\rvy|\rvx}{0|1})\mapsto [\prob{\rvx, \rvy}{x,y}]
+\eeq
+
+For a general bnet with $n$ nodes,
+
+\beq
+\phi: [0,1]^{dim \calm_{stat}}
+\rarrow \Delta_{dim\calm_{stat}}
+\eeq
+\beq
+\Phi\left(\left\{\left\{\{P(x_i\mid pa(x_i))\}_{x_i\in val(\rvx_i)-{1}}\right\}_{pa(x_i)\in val(pa(\rvx_i))}\right\}_{i=1}^n\right)
+\mapsto [\prob{\vec{\rvx}}{x^N}]
+\eeq
+The map $\Phi$ is 1-1 and thus invertible if the bnet is fully connected.
+\hrule
+Fisher metric
+
+Let\footnote{We are borrowing
+notation from Electronics for the resistance $R_1\para R_2$ for 2 resistors $R_1$ and $R_2$ in parallel.}
+\beq
+R_1\para R_2 = \left(
+\frac{1}{R_1}+\frac{1}{R_2}\right)^{-1}=
+\frac{R_1 R_2}{R_1 + R_2}
+\eeq
+
+\begin{claim}
+\label{cl-fisher-metric-bnet}
+
+Suppose $x\in\{0,1, 2, \ldots, {\ol{x}}\} $ and 
+$\sum_{x=0}^{\ol{x}} P(x)=1$.
+Let $P(x)=p_x$
+and
+
+\beq
+\metric_{p_{x'} p_{x''}}
+=
+E
+\left[(\partial_{p_{x'}}\ln P(x))
+(\partial_{p_{x''}}\ln P(x))\right]
+\eeq
+for $x', x''\in\{ 0, 1, 2\ldots, {\ol{x}}\}$
+with $p_0, p_1, \ldots, p_{{\ol{x}}-1}$ as independent variables and
+$p_{\ol{x}}= 1-\sum_{i=0}^{{\ol{x}}-1}p_i$
+as a dependent one.
+Then
+
+For ${\ol{x}}=1$,
+
+\beq
+\metric_{p_0 p_0}=
+\frac{1}{p_0\para p_1}= \frac{1}{p_0p_1}
+\eeq
+
+For ${\ol{x}}=2$,
+
+\beq
+\metric_{p_0 p_0}=
+\frac{1}{p_0\para p_2}, \quad
+\metric_{p_1 p_1}=
+\frac{1}{p_1\para p_2}
+\eeq
+and
+
+\beq
+\metric_{p_1p_0}=
+\metric_{p_0p_1} = \frac{1}{p_2}
+\eeq
+
+
+$\metric_{p_{x'} p_{x''}}$ for arbitrary ${\ol{x}}$
+is evident from the ${\ol{x}}=1$ and ${\ol{x}}=2$ cases.
+
+\end{claim}
+\proof
+
+Consider the ${\ol{x}}=2$ case.
+
+\beqa
+\partial_{p_0}\ln P(x)
+&=&
+\partial_{p_0}
+\left(
+\ln p_0 \delta_x^0 
++ \ln p_1 \delta_x^1
++
+\ln(1-p_0-p_1)\delta_x^2
+\right)
+\\
+&=&
+\left(
+\frac{\delta_x^0}{p_0}
+-
+\frac{\delta_x^2}{p_2}
+\right)
+\eeqa
+
+\beq
+\metric_{p_0p_0} =
+\sum_x p_x\left(
+\frac{\delta_x^0}{p_0}
+-
+\frac{\delta_x^2}{p_2}
+\right)^2
+=
+\frac{p_0}{p_0^2} + \frac{p_2}{p_2^2}
+=
+\frac{1}{p_0} + \frac{1}{p_2}
+\eeq
+
+\beq
+\metric_{p_0 p_1}
+=
+\sum_x p_x 
+\left(
+\frac{\delta_x^0}{p_0}
+-
+\frac{\delta_x^2}{p_2}
+\right)
+\left(
+\frac{\delta_x^1}{p_1}
+-
+\frac{\delta_x^2}{p_2}
+\right)
+=
+\frac{p_2}{p_2^2}
+=
+\frac{1}{p_2}
+\eeq
+
+\qed
+
+Define
+(see Section 
+\ref{sec-curvilinear-coords}
+on curvilinear coordinates)
+
+\beq
+(p^1, p^2, p^3)=(a, b^0, b^1)
+\eeq
+\beq
+\wul{\chi^i}=
+\elli{i} \wul{dp^i},
+\quad
+\vece_i =
+\frac{1}{\elli{i}}\vecpartial_{p^i}
+\eeq
+
+\beq
+\wul{(ds)^2}=
+\sum_{i=1}^3
+(\elli{i} \wul{dp^i})^2
+=
+\sum_{i=1}^3(\wul{\chi^i})^2
+\eeq
+
+
+
+
+
+
+
+\begin{claim}
+\label{cl-metric-bnet-coords}
+
+
+\beq
+\elli{1}=\sqrt{\frac{1}{aa^C}},\quad
+\elli{2}=\sqrt{\frac{a^C}{b_0 b_0^C}}
+,\quad
+\elli{3} = \sqrt{\frac{a}{b_1 b_1^C}}
+\eeq
+
+\beq
+\metric=
+diag
+\left(
+(\elli{1})^2,
+\quad
+(\elli{2})^2
+,\quad
+(\elli{3})^2
+\right)
+\eeq
+
+
+\end{claim}
+\proof
+\beqa
+\ln P(x,y)
+&=&
+\ln P(y|x) + \ln P(x)
+\\
+&=&
+\left\{
+\begin{array}{l}
+\delta_{00}^{xy}\ln\prob{\rvy|\rvx}{0|0}
++ \delta_{01}^{xy}\ln\prob{\rvy|\rvx}{1|0}
++\delta_{10}^{xy}\ln \prob{\rvy|\rvx}{0|1}
++\delta_{11}^{xy}\ln \prob{\rvy|\rvx}{1|1}
+\\
++ \delta_0^x \prob{\rvx}{0}
++ \delta_1^x \prob{\rvx}{1}
+\end{array}
+\right.
+\\
+&=&
+\left\{
+\begin{array}{l}
+\delta_{00}^{xy}\ln b_0
++ \delta_{01}^{xy}\ln b_0^C
++\delta_{10}^{xy}\ln b_1
++\delta_{11}^{xy}\ln b_1^C
+\\
++ \delta_0^x a_0
++ \delta_1^x a_0^C
+\end{array}
+\right.
+\eeqa
+
+\beq
+d\ln P(x,y)=
+\left[
+\frac{\delta_{00}^{xy}}{b_0}
+-\frac{\delta_{01}^{xy}}{b_0^C}
+\right]db_0
++
+\left[
+\frac{\delta_{10}^{xy}}{b_1}
+-\frac{\delta_{11}^{xy}}{b_1^C}
+\right]db_1
++
+\left[
+\frac{\delta_0^x}{a}-\frac{\delta_1^x}{a^C}
+\right]da
+\eeq
+
+\begin{align}
+(ds)^2 &= E[(d\ln P(\rvx,\rvy))^2]
+\\
+&=
+\left[
+\frac{\prob{\rvx\rvy}{00}}{(b_0)^2}
++\frac{\prob{\rvx\rvy}{01}}{(b_0^C)^2}
+\right](db_0)^2
++
+\left[
+\frac{\prob{\rvx\rvy}{10}}{(b_1)^2}
++\frac{\prob{\rvx\rvy}{11}}{(b_1^C)^2}
+\right](db_1)^2
++
+\left[
+\frac{\prob{\rvx}{0}}{a^2}
++\frac{\prob{\rvx}{1}}{(a^C)^2}
+\right](da)^2
+\\
+&=
+\left[
+\frac{b_0 a}{(b_0)^2}
++\frac{b_0^C a}{(b_0^C)^2}
+\right](db_0)^2
++
+\left[
+\frac{b_1 a^C}{(b_1)^2}
++\frac{b_1 a^C}{(b_1^C)^2}
+\right](db_1)^2
++
+\left[
+\frac{a}{a^2}
++\frac{a^C}{(a^C)^2}
+\right](da)^2
+\\
+&=
+a\left[
+\frac{1}{b_0}
++\frac{1}{b_0^C}
+\right](db_0)^2
++
+a^C\left[
+\frac{1}{b_1}
++\frac{1}{b_1^C}
+\right](db_1)^2
++
+\left[
+\frac{1}{a}
++\frac{1}{a^C}
+\right](da)^2
+\end{align}
+
+
+
+
+\qed
+\hrule
+Connection 1-form for Levi-Civita connection
+
+Abbreviations
+
+\beq
+B = \frac{1}{2}\sqrt{\frac{a}{a^C}}
+\eeq
+
+\beq
+C =-\;\frac{1}{2}
+\sqrt{\frac{a^C}{a}}
+\eeq
+
+\begin{claim}
+
+\beq
+[\wul{\omega\indices{^a_b}}]=
+\begin{pmatrix}
+0 &B\wul{\chi^2}
+&C\wul{\chi^3}
+\\
+-B\wul{\chi^2}&0&0
+\\
+-C\wul{\chi^3}&0&0
+\end{pmatrix}
+=
+\begin{pmatrix}
+0 &B\elli{2}\wul{dp^2}
+&C\elli{3}\wul{dp^3}
+\\
+-B\elli{2}\wul{dp^2}&0&0
+\\
+-C\elli{3}\wul{dp^3}&0&0
+\end{pmatrix}
+\label{eq-connection-one-form-bnet-coords}
+\eeq
+
+\end{claim}
+\proof
+
+\beq
+\wul{d\chi^a}= -\wul{\omega\indices{^a_b}}
+\wedge \wul{\chi^b}
+\eeq
+
+
+\beq
+\wul{\chi^1}
+\wedge
+\wul{\chi^2}=
+\frac{1}{
+\sqrt{a b_0 b_0^C}}
+\wul{da}
+\wedge
+\wul{db_0}
+\eeq
+
+\beq
+\wul{\chi^1}
+\wedge
+\wul{\chi^3}=
+\frac{1}{
+\sqrt{a^C b_1 b_1^C}}
+\wul{da}
+\wedge
+\wul{db_1}\eeq
+
+\beq
+\wul{d\chi^1}=0
+\eeq
+
+\beqa
+\wul{d\chi^2}&=&
+\frac{-1}{
+2\sqrt{
+a^C b_0 b_0^C}}
+\wul{da}
+\wedge
+\wul{db_0}
+\\
+&=&
+\frac{-\sqrt{a b_0 b_0^C}}{2\sqrt{
+a^C b_0 b_0^C}}
+\wul{\chi^1}\wedge
+\wul{\chi^2}
+\\
+&=&
+-\;
+\frac{1}{2}\sqrt{\frac{a}{a^C}} \wul{\chi^1}\wedge
+\wul{\chi^2}
+\eeqa
+
+\beq
+\wul{d\chi^2}=-
+\wul{\omega\indices{^2_1}}
+\wedge\wul{\chi^1}
+\implies
+\boxed{\wul{\omega\indices{^2_1}}
+=
+-\;\frac{1}{2}\sqrt{\frac{a}{a^C}}
+\wul{\chi^2}}
+\eeq
+
+
+\beqa
+\wul{d\chi^3}&=&
+\frac{1}{
+2\sqrt{
+a b_0 b_0^C}}
+\wul{da}
+\wedge
+\wul{db_1}
+\\
+&=&
+\frac{\sqrt{a^C b_0 b_0^C}}{2\sqrt{
+a b_0 b_0^C}}
+\wul{\chi^1}\wedge
+\wul{\chi^3}
+\\
+&=&\frac{1}{2}
+\sqrt{\frac{a^C}
+{a}} \wul{\chi^1}\wedge
+\wul{\chi^3}
+\eeqa
+
+\beq
+\wul{d\chi^3}=-
+\wul{\omega\indices{^3_1}}
+\wedge\wul{\chi^1}
+\implies
+\boxed{\wul{\omega\indices{^3_1}}
+=
+\frac{1}{2}
+\sqrt{\frac{a^C}{a}}
+\wul{\chi^3}}
+\eeq
+
+
+
+
+Metric compatibility implies antisymmetry:
+
+\beq
+\wul{\omega\indices{^a_b}}=
+-
+\wul{(\omega^T)\indices{^a_b}}
+=
+-\wul{\omega\indices{^b_a}}
+\eeq
+
+\beq
+[\wul{\omega\indices{^a_b}}]=
+\begin{pmatrix}
+0 &B\wul{\chi^2}
+&C\wul{\chi^3}
+\\
+-B\wul{\chi^2}&0&0
+\\
+-C\wul{\chi^3}&0&0
+\end{pmatrix}
+\eeq
+\qed
+
+This is a good example of why Cartan's method is often preferable to calculating \Chris coefficients directly. We obtained the entire Levi-Civita connection from just three exterior derivatives and the antisymmetry condition, without having to calculate 27 \Chris coefficients.
+
+
+
+\begin{claim}
+The Levi-Civita connection
+1-form is
+
+\beq
+\wul{\omega\indices{^i_j}}=
+\underbrace{\frac
+{\partial_{p^j}\ln \elli{i}}
+{\elli{j}}} _{A_j^{(i)}}
+\underbrace{\wul{\chi^i}}_{\elli{i}\wul{dp^i}}
+-
+(i\swap j)
+\eeq
+
+\end{claim}
+\proof
+
+\beq
+\nnabla\vece_i =
+\vece_j \wul{\omega\indices{^j_i}}
+\eeq
+
+Metric compatibility of LC implies
+\beq
+\wul{\omega\indices{^j_i}}
+=
+-
+\wul{\omega\indices{^i_j}}
+\eeq
+LC torsionless implies
+
+\beq
+\wul{d\chi^i}
++
+\wul{\omega\indices{^i_j}}
+\wedge \wul{\chi^j}=0
+\eeq
+
+\beq
+\wul{\chi^i}=
+\wul{d\elli{i}}
+\wedge \wul{dp^i}
+\eeq
+
+\beq
+\wul{d\elli{i}}=
+\partial_{p_j}
+\elli{i} \wul{dp^j
+}=
+\frac{\partial_{p_j}
+\elli{i}}{\elli{j}} \wul{\chi^j
+}
+\eeq
+
+\beq
+\wul{d\chi^i}=
+\underbrace{\frac{\partial_{p^j}
+\ln\elli{i}
+}{\elli{j}}}_{A_j^{(i)}}
+\wul{\chi^j}
+\wedge
+\wul{\chi^i}
+=
+\wul{\chi^j}\wedge
+(A^{(i)}_j\wul{\chi^i})
+\eeq
+
+\beq
+\wul{d\chi^i} +
+(A^{(i)}_j\wul{\chi^i})
+\wedge \wul{\chi^j}
+=0
+\eeq
+
+\beq
+\wul{d\chi^i} +
+\left[(A^{(i)}_j\wul{\chi^i})
+-(i\swap j)\right]
+\wedge \wul{\chi^j}
+=0
+\eeq
+
+\qed
+
+Check:
+
+\beq
+\elli{1}=\frac{1}{\sqrt{a a^C}},
+\quad
+\elli{2}=
+\sqrt{
+\frac{a^C}{b_0 b_0^C}
+}
+\eeq
+
+\beq
+A^{(1)}_2=
+\frac{\partial_{b_0}
+\ln \elli{1}
+}{\elli{2}}
+=0
+\eeq
+
+\beq
+A^{(2)}_1=
+\frac{
+\partial_a\ln \elli{2}
+}{\elli{1}}=
+\sqrt{a a^C}\frac{-1}{2a^C}
+=
+-\;\frac{1}{2}
+\sqrt{
+\frac{a}{a^C}
+}
+\eeq
+
+\beq
+\wul{\omega\indices{^1_2}}=
+\cancel{A^{(1)}_2 \wul{\chi^1}}
+-
+A^{(2)}_1 \wul{\chi^2}
+=
+\frac{1}{2}
+\sqrt{\frac{a}{a^C}} \wul{\chi^2}
+\eeq
+
+\hrule
+Curvature
+
+
+
+\begin{claim}
+
+\beq
+\wul{dB}
+ = \frac{1}
+{4a^C}\wul{\chi^1}
+\eeq
+
+\beq
+\wul{dC}
+ = \frac{1}
+{4a}\wul{\chi^1}
+\eeq
+
+\end{claim}
+\proof
+
+\beq
+B=
+\frac{1}{2}\sqrt{
+\frac{a}{a^C}}
+\eeq
+so
+
+\beqa
+d\ln B&=&
+\frac{1}{2} \left(
+\frac{da}{a} + \frac{da}{a^C}
+\right)
+\\
+&=&
+\frac{da}{2}\left(
+\frac{a+a^C}{a a^C}
+\right)
+\\
+&=&
+\frac{da}{2a a^C}
+\eeqa
+
+\beq
+dB = B\frac{da}
+{2a a^C}=
+\frac{da}{4a^C
+\sqrt{a a^C}}
+\eeq
+
+\beq
+dC=
+\frac{da}{4a
+\sqrt{a a^C}}
+\eeq
+
+\qed
+
+\beq
+\wul{\Omega\indices{^a_b}}=
+\wul{d\omega\indices{^a_b}}
++
+\wul{\omega\indices{^a_c}}
+\wedge
+\wul{\omega\indices{^c_b}}
+\eeq
+
+\beqa
+\wul{\Omega\indices{^1_2}}&=&
+\wul{d(B\chi^2)}
++
+\cancel{\wul{\omega\indices{^1_3}}
+\wedge
+\wul{\omega\indices{^3_2}}}
+\\
+&=&
+\wul{dB}
+\wedge \wul{\chi^2}
++
+B\wul{d\chi^2}
+\eeqa
+
+\beq
+\wul{dB}=
+\frac{1}{4a^C}\wul{\chi^1},\quad
+\wul{d\chi^2}=
+-B\wul{\chi^1}
+\wedge\wul{\chi^2}
+\eeq
+
+\beq
+\Omega\indices{^1_2}=
+\left(
+\frac{1}{4a^C}
+-B^2
+\right)
+\wul{\chi^1}
+\wedge\wul{\chi^2}
+\eeq
+
+\beq
+\frac{1}{4a^C}
+-B^2 =
+\frac{1}{4a^C}
+\left(
+1-a
+\right)
+=
+\frac{1}{4}
+\eeq
+
+\beq
+\boxed{\wul{\Omega\indices{^1_2}}=\frac{1}{4}\wul{\chi^1}
+\wedge\wul{\chi^2}}
+\eeq
+
+\beqa
+\wul{\Omega\indices{^1_3}}&=&
+\wul{d(C\chi^3)}
++
+\cancel{\wul{\omega\indices{^1_2}}
+\wedge
+\wul{\omega\indices{^2_3}}}
+\\
+&=&
+\wul{dC}
+\wedge \wul{\chi^3}
++
+C\wul{d\chi^3}
+\eeqa
+
+\beq
+\wul{dB}=
+\frac{1}{4a}\wul{\chi^1},\quad
+\wul{d\chi^3}=
+-C\wul{\chi^1}
+\wedge\wul{\chi^3}
+\eeq
+
+\beq
+\Omega\indices{^1_3}=
+\left(
+\frac{1}{4a}
+-C^2
+\right)
+\wul{\chi^1}
+\wedge\wul{\chi^3}
+\eeq
+
+\beq
+\frac{1}{4a}
+-C^2 =
+\frac{1}{4a}
+\left(
+a
+\right)
+=
+\frac{1}{4}
+\eeq
+
+\beq
+\boxed{\wul{\Omega\indices{^1_3}}=\frac{1}{4}\wul{\chi^1}
+\wedge\wul{\chi^2}}
+\eeq
+
+\beqa
+\wul{\Omega\indices{^2_3}}&=&
+\cancel{\wul{d\omega}\indices{^2_3}}
++ 
+\wul{\omega\indices{^2_1}}
+\wedge \wul{\omega\indices{^1_3}}
+\\
+&=&
+(-B\wul{\chi^2})
+\wedge
+(C\wul{d\chi^3
+})=
+-BC
+\wul{\chi^2}\wedge\wul{\chi^3}
+\eeqa
+
+\beq
+BC = -\;\frac{1}{4}
+\eeq
+
+\beq
+\boxed{\wul{\Omega\indices{^2_3}}=
+\frac{1}{4}\wul{\chi^2}\wedge\wul{\chi^3}}
+\eeq
+
+$\wul{\Omega\indices{^a_b}}$ is
+antisymmetric
+\beq
+\wul{\Omega\indices{^a_b}}
+=
+-\wul{\Omega\indices{^b_a}}
+\eeq
+
+\beq
+[\wul{\Omega\indices{^a_b}}]
+=
+\frac{1}{4}
+\begin{pmatrix}
+0 & 
+\wul{\chi^1}\wedge\wul{\chi^2} & \wul{\chi^1}\wedge\wul{\chi^3}
+\\
+-\wul{\chi^1}\wedge\wul{\chi^2}&0
+&\wul{\chi^2}\wedge\wul{\chi^3}
+\\
+-\wul{\chi^1}\wedge\wul{\chi^3}&
+-\wul{\chi^2}\wedge\wul{\chi^3}&0 
+\end{pmatrix}
+\eeq
+
+\beq
+K=\frac{1}
+{4}
+\eeq
+\hrule
+Case
+random variables $\rvx$ and $\rvy$
+are independent
+
+The Fisher metric is
+\beq
+\wul{(ds)^2}=
+\frac{(\wul{da})^2}{a a^C}
++
+\frac{a^C(\wul{db_0})^2}{b_0 b_0^C}
++
+\frac{a(\wul{db_1})^2}{b_1 b_1^C}
+\eeq
+
+\beq
+a= \sin^2
+\alp,\quad
+b_0 =
+\sin^2 \beta_0
+,\quad
+b_1 =
+\sin^2 \beta_1
+\eeq
+
+\beq
+\alp, \beta_0, \beta_1\in [0, \frac{\pi}{2}]
+\eeq
+
+\beq
+da=
+2\sin\alp
+\cos\alp\; d\alp
+=
+\sin 2\alp \;d\alp
+\eeq
+
+\beq
+\frac{(da)^2}{a a^C}=
+\frac{\sin^2 2\alp(d\alp)^2}
+{\frac{1}{4}\sin^22\alp}=
+4(d\alp)^2
+\eeq
+Similarly
+
+\beq
+\frac{
+(db_x)^2}
+{b_x b_x^C}
+=
+4(d\beta_x)^2
+\eeq
+for $x=0,1$.
+Therefore
+
+\beq
+(ds)^2=
+4
+\left((d\alp)^2
++
+\cos^2
+\alp
+\;
+(d\beta_0)^2
++
+\sin^2
+\alp
+\;
+(d\beta_1)^2\right)
+\eeq
+This metric is the Hopf parametrization of the
+rectangular coordinates for $\partial B_4(R)= S_3(R)$. (see Section \ref{sec-balls-and-spheres}).
+As the angles $(\alp, \beta_0, \beta_1)$ range over their
+allowed values, this covers an 1/8 of
+$S_3(R=2)$.
+
+Since $K=1/R^2$,
+this explains why $K=\frac{1}{4}$.
+The value $R=2$ comes from
+the normalization
+of the Fisher Metric.
+It's not a fundamental constant.
+
+
+When $\rvx$ and $\rvy$ are 
+independent, 
+
+\beq
+b_0= b_1=b,\quad
+\beta_0=\beta_1 = \beta
+\eeq
+
+\beq
+(ds)^2 = (d\alp)^2 + (d\beta)^2
+\eeq
+So the locus of points
+representing the independence case is
+a FLAT 2 dim surface
+
+
+
+
+
+\subsection{Sufficient Statistics}
+
+Let 
+
+$x^N = (x_1, x_2, \ldots, x_N)=$ $N$ i.i.d. (independent identically distributed) observations.
+
+
+$\cals(x^N)=$ function of $x^N$. For example, $\cals(x^N)=\sum_i x_i$.
+
+$\theta=$ a parameter. For example, $\theta=p_1$ where $p_1$ is the probability a coin lands heads.
+
+In general
+
+\beq
+P(x^N|{\rv{\cals}}=\cals(x^N),\theta)= 
+\frac{P(x^N, {\rv{\cals}}=\cals(x^N)|\theta)}
+{\underbrace{\sum_{x^N} numerator}_{Z_{\rvx^N}(\theta)}}=
+P(x^N|{\rv{\cals}}=\cals(x^N), \theta)\frac{P({\rv{\cals}}=\cals(x^N)|\theta)}
+{Z_{\rvx^N}(\theta)}
+\label{eq-pre-sufficient-stat}
+\eeq
+
+We say $\cals(x^N)$ is a {\bf sufficient statistic} at fixed $\theta$ if
+
+\beq
+P(x^N|{\rv{\cals}}=\cals(x^N), \theta)= P(x^N|{\rv{\cals}}=\cals(x^N))
+\eeq
+in Eq.(\ref{eq-pre-sufficient-stat})
+so
+
+\beq
+\begin{array}{c}
+P(x^N|{\rv{\cals}}=\cals(x^N),\theta)= 
+\frac{P(x^N, {\rv{\cals}}=\cals(x^N)|\theta)}
+{Z_{\rvx^N}(\theta)}=
+P(x^N|{\rv{\cals}}=\cals(x^N))
+\frac{P({\rv{\cals}}=\cals(x^N)| \theta)}
+{Z_{\rvx^N}(\theta)}
+\\
+\bcen
+\xymatrix{
+\cals(x^N)\ar[dr]
+\\
+\theta\ar[r] & x^N
+}
+\ecen
+\quad=\quad
+\frac{1}{Z_{\rvx^N}(\theta)}
+\bcen
+\xymatrix{
+\theta \ar[r]&\cals(x^N)\ar[r]& x^N
+}
+\ecen
+\end{array}
+\label{eq-sufficient-stat}
+\eeq
+Written in terms of probabilistic 
+potentials (ppotentials), this  is
+reads
+
+\beq
+\phi_{\rvx^N}(x^N, \cals(x^N), \theta)=
+\phi_{\rvx^N}(x^N, \cals(x^N))
+\phi_{{\rv{\cals}}}(\cals(x^N), \theta)
+\eeq
+The important thing to
+notice is that the $x^N$ and $\theta$
+dependencies are factored.
+As a result,
+
+\beq
+\frac{
+P(x^N, {\rv{\cals}}=\cals(x^N)|\theta_1)
+}
+{
+P(x^N,{\rv{\cals}}=\cals(x^N)|\theta_2)
+}
+=
+\frac{
+P({\rv{\cals}}=\cals(x^N)| \theta_1)}
+{
+P({\rv{\cals}}=\cals(x^N)| \theta_2)
+}
+\eeq
+
+
+A simple example of sufficient statistics is when the i.i.d. $x^N$ satisfy $P(\rvx_i=0)=1-p_1, P(\rvx_i=1)
+=p_1$ (Hence they are Bernoulli coin tosses), $\theta=p_1$ and $\cals(x^N)= \sum_i x_i$. Then
+
+\beq
+P(x^N|{\rv{\cals}}=\cals(x^N), p_1)=
+\prod_i(p_1^{x_i}(1-p_1)^{1-x_i})=
+p_1^{\cals(x^N)}(1-p_1)^{n - \cals(x^N)}
+\eeq
+
+\subsection{How to define new connections}
+
+\Weit connection discussed in Section \ref{sec-weit-connection}
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
+\begin{table}[]
+\centering
+\begin{tabular}{|
+>{\columncolor[HTML]{FFFFFF}}l |
+>{\columncolor[HTML]{FFFFFF}}l |
+>{\columncolor[HTML]{FFFFFF}}l |l|
+>{\columncolor[HTML]{FFFFFF}}l |}
+\hline
+ & \cellcolor[HTML]{FFFC9E}\begin{tabular}[c]{@{}l@{}}Levi-Civita\\ connection\end{tabular} & \cellcolor[HTML]{FFFC9E}\begin{tabular}[c]{@{}l@{}}$\alp=+1$\\ exponential\\ connection\end{tabular} & \cellcolor[HTML]{FFFC9E}\begin{tabular}[c]{@{}l@{}}$\alp=-1$\\ mixture\\ connection\end{tabular} & \cellcolor[HTML]{FFFC9E}\begin{tabular}[c]{@{}l@{}}\Weit\\ connection\end{tabular} \\ \hline
+metric compatible & Y &  &  & Y \\ \hline
+zero torsion & Y & Y & Y &  \\ \hline
+zero curvature &  & Y &  & \begin{tabular}[c]{@{}l@{}}Y in a \\ special\\ frame\end{tabular} \\ \hline
+\begin{tabular}[c]{@{}l@{}}Adds tensor to\\ Levi-Civita \\ connection\end{tabular} &  & Y & Y & \begin{tabular}[c]{@{}l@{}}Y (added \\ tensor\\ is frame \\ dependent)\end{tabular} \\ \hline
+\end{tabular}
+\caption{Zero curvature does not
+necessarily mean zero \Chris symbols or 
+zero connection 1-form although the converse is
+true.
+}
+\label{tab-connection-comparison}
+\end{table}
+
+New \qt{affine} connections 
+can be defined by adding a type $1\choose 2$ tensor to the
+\Chris symbols of the
+Levi-Civita (LC) connection,
+but the resulting connection
+may loose 
+some of the nice 
+properties of the LC connection.
+It may, of course gain some nice properties not
+that the LC connection does not have.
+
+
+Our new connection
+$\nnabla'$ can be expressed
+in terms of the LC connection $\nnabla$ as
+
+\beq
+\nnabla'_{\vecX} \vecY = \nnabla_\vecX \vecY
++ A(\vecX, \vecY)
+\eeq
+
+\begin{itemize}
+
+\item Metric Compatibility
+
+In general,
+\beqa
+(\nnabla'_\vecX
+\metric)(\vecU, \vecV)
+&=&
+\vecX
+\metric(\vecU, \vecV)
+-
+\metric(\nnabla'_\vecX \vecU, \vecV)
+-
+\metric(\vecU,
+\nnabla'_\vecX \vecV)
+\\
+&=&
+\underbrace{\nnabla\metric(\vecU, \vecV)}_{0}
+-\metric(A(\vecX, \vecU), \vecV)
+-
+\metric(\vecU, A(\vecX, \vecV))
+\eeqa
+so 
+
+\beq
+\nnabla'_\vecX \metric(\vecU, \vecV)=0
+\iff
+\metric(A(\vecX, \vecU), \vecV)
+=
+-
+\metric( A(\vecX, \vecV), \vecU)
+\eeq
+
+
+
+
+\item Torsion
+
+\beqa
+\TT'(\vecX, \vecY)
+&=&
+\nnabla'_\vecX\vecY-
+\nnabla'_\vecY \vecX -[\vecX, \vecY]
+\\
+&=&
+\nnabla_\vecX\vecY-
+\nnabla_\vecY \vecX -[\vecX, \vecY]
++ A(\vecX, \vecY)-A(\vecY, \vecX)
+\\
+&=&
+\underbrace{\TT(\vecX, \vecY)}_{0}
++ A(\vecX, \vecY)-A(\vecY, \vecX)
+\eeqa
+so 
+
+\beq
+\TT(\vecX, \vecY)=0\iff 
+A(\vecX, \vecY)=
+-A(\vecY, \vecX)
+\eeq
+
+If we require both torsion-freeness and metric compatibility, then $A=0$.
+
+That is exactly the uniqueness theorem for the Levi-Civita connection.
+
+So any genuinely different connection must give up at least one of those two properties.
+
+\item
+Curvature
+
+\beq
+\ul{\RR}(\vecX, \vecY)(\vecU)=
+\left[
+\nnabla_\vecX \nnabla_\vecY - \nnabla_\vecY \nnabla _\vecX - \nnabla_{[\vecX, \vecY]}
+\right]\vecU
+\eeq
+
+\beq
+\ul{\RR}'(\vecX, \vecY)(\vecU)=
+\left[
+\nnabla'_\vecX \nnabla'_\vecY - \nnabla'_\vecY \nnabla' _\vecX - \nnabla'_{[\vecX, \vecY]}
+\right]\vecU
+\eeq
+After some tedious but straightforward algebra, we get
+
+\beq
+\RR'(\vecX, \vecY)(\vecU)
+=\left\{\begin{array}{l}
+R(\vecX, \vecY)\vecU
+\\
+(\nnabla_\vecX A)(\vecY, \vecU)
+- (\vecX\swap\vecY)
+\\
+A(\vecX, A(\vecY, \vecU))
+- (\vecX \swap \vecY)
+\end{array}
+\right.
+\eeq
+
+
+\end{itemize}
+
+
+
+\subsection{Family of Exponential Distributions}
+{\bf Family of Exponential Distributions} (FED)
+
+\beq
+P(x^N;\vec{\theta})=
+\frac{\phi(x^N; \vec{\theta})}{Z(\vec{\theta})}
+\eeq
+
+probability potential (un-normalized probability)
+\beq
+\phi(x^N;\vec{\theta})=
+W(x^N)
+\exp\left(
+\sum_i\theta^i \cals_i(x^N)
+\right)
+\eeq
+
+partition function
+\beq
+Z(\vec{\theta})=
+\sum_{x^N}\phi(x^N;\vec{\theta})
+\eeq
+$\cals_i(x^N)$ are called {\bf sufficient statistics}and the $\theta^i$ are called parameters.
+
+FED is a
+generalization of the {\bf exponential distribution}
+\beq
+P(x;\lam) = \frac{e^{-\lam x}}
+{Z(\lam)}
+=
+\lam  e^{-\lam x}
+\eeq
+for $x\in [0, \infty)$.
+\begin{claim}
+
+\beq
+\partial_{\theta^i}\ln Z(\vec{\theta})=
+E[\cals_i(\rv{x^N})]
+\eeq
+
+\beq
+\partial_{\theta^j}
+\partial_{\theta^i}
+\ln Z(\vec{\theta})=
+-\av{\cals_i(\rv{x^N}), 
+\cals_j(\rv{x^N})}
+\eeq
+
+
+
+\end{claim}
+\proof
+
+\beq
+\partial_{\theta^i}\ln Z(\vec{\theta})=
+\frac{1}{Z}\sum_{x^N}\cals_i(x^N)
+\phi(x^N;\vec{\theta})
+=
+E[\cals_i(\ul{x^N}]
+\eeq
+
+\beqa
+\partial_{\theta^j}
+\partial_{\theta^i}
+\ln Z(\vec{\theta})
+&=&
+\frac{-1}{Z^2}\left(\sum_{x^N}\cals_j \phi\right)
+\left(
+\sum_{x^N}\cals_i \phi
+\right)
++\frac{1}{Z}\sum_x^N\cals_j\cals_i\phi
+\\
+&=&
+E[\cals_j]E[\cals_i]-E[\cals_j \cals_i]
+\\
+&=&
+-\av{\cals_j, \cals_i}
+\eeqa
+
+\qed
+
+\beq
+\underbrace{\ln P({x^N};\vec{\theta})
+}_{LL=\text{log likelihood}}
+=
+\theta^i \cals_i({x^N})-
+\ln Z(\vec{\theta})
++
+\ln W({x^N})
+\eeq
+
+\beq
+A_i(x^N, \vec{\theta})=
+\partial_{\theta^i}
+LL(x^N,\vec{\theta})
+=
+\cals_i({x^N})
+-\underbrace{\partial_{\theta^i}\ln Z(\vec{\theta})}_{E[\cals_i({x^N})](\vec{\theta})}
+\eeq
+
+\beq
+B_{ij}(\vec{\theta})=\partial_{\theta^i}
+\underbrace
+{\partial_{\theta^j}LL(x^N, \vec{\theta})}_{A_j}
+=-
+\partial_{\theta^j}
+E[\cals_i(x^N)](\vec{\theta})
+\eeq
+
+\beq
+\boxed
+{\metric_{\theta^i\theta^j}
+=
+E[
+A_iA_j
+]=
+\av{\cals_i(\rv{x^N}), 
+\cals_j(\rv{x^N})}=-
+\partial_{\theta^i}\partial_{\theta^j}\ln Z(\vec{\theta})}
+\eeq
+
+Next, 
+EDF applied to the simplest bnet, $\rvx\rarrow\rvy$.
+
+\hrule
+FED-parameters and sufficient statistics 
+
+
+
+
+Define
+
+\beq
+a = \prob{\rvx}{0}
+,\quad
+b_0=\prob{\rvy|\rvx}{0|0}
+,\quad
+b_1=\prob{\rvy|\rvx} {0|1}
+\eeq
+Also abbreviate
+
+\beq
+E_i= \exp(\theta_i)
+\eeq
+
+
+
+\begin{claim}
+Consider bnet $\rvx\rarrow\rvy$ with both nodes binary.
+If
+
+\beq
+\cals_1= \delta_0^x,
+\quad \cals_2 = \delta_{00}^{xy}
+,\quad
+\cals_3 = \delta_{10}^{xy}
+\eeq
+then
+
+\beq
+\theta^1 =
+\ln
+\frac{ab_0^C}{a^C b_1^C}
+,\quad
+\theta^2 = \ln \frac{b_0}{b_0^C}
+,\quad
+\theta^3 = \ln \frac{b_1}{b_1^C}
+\eeq
+and 
+
+\beq
+Z =
+ 1 + E_3
++
+E_1(1+ E_2)
+= \frac{1}{\prob{\rvx,\rvy}{11}}=
+\frac{1}{
+a^C b_1^C
+}
+\eeq
+
+
+\end{claim}
+\proof
+
+\beqa
+P(x,y)&=&
+\exp\left(
+\ln[P(y|x)P(x)]
+\right)
+\\
+&=&
+\exp
+\left(
+\begin{array}{l}
+\ln P(x)
+\\
++\ln P(y|x)
+\end{array}
+\right)
+\\
+&=&
+\exp
+\left(
+\begin{array}{l}
+\sum_{x'=0}^1 \delta_{x'}^x\ln P(x')
+\\
++\sum_{x'=0}^1\sum_{y'=0}^1
+\delta_{x'}^x
+\delta_{y'}^y\ln P(y'|x')
+\end{array}
+\right)
+\\
+&=&
+\exp
+\left(
+\begin{array}{l}
+ \delta_{0}^x\ln \prob{\rvx}{0}
++
+\underbrace{\delta_{1}^x}_{1-\delta_0^x}
+\ln (1-\prob{\rvx}{0})
+\\
+\sum_{x'=0}^1
+\delta_{x'}^x
+\left[ \delta_{0}^y\ln \prob{\rvy|\rvx}{0|x'}
++
+\underbrace{\delta_{1}^y}_{1-\delta_0^y}
+\ln (1-\prob{\rvy|\rvx}{0|x'})
+\right]
+\end{array}
+\right)
+\eeqa
+
+
+
+\beq
+P(x,y)=
+\frac{1}{Z}
+\exp\left(
+\delta_0^x \theta^1
++\delta_0^x
+\delta_0^y\theta^2
++
+\delta_1^x
+\delta_0^y\theta^3
+\right)
+\eeq
+Note $W=1$
+
+\beqa
+Z &=&
+\sum_{x=0}^1
+\sum_{y=0}^1
+\exp\left(
+\delta_0^x \theta^1
++\delta_0^x
+\delta_0^y\theta^2
++
+\delta_1^x
+\delta_0^y\theta^3
+\right)
+\\
+&=&
+\left\{
+\begin{array}{ll}
+E_1 E_2
+& (\text { when } x=0,y=0)
+\\
++ E_1
+& (\text { when } x=0,y=1)
+\\
++E_3
+& (\text { when } x=1,y=0)
+\\
++1
+& (\text { when } x=1,y=1)
+\end{array}
+\right\}
+\\
+&=&
+ 1 + E_3
++
+E_1(1+ E_2)
+\eeqa
+
+\beq
+\prob{\rvx,\rvy}{00}=
+\prob{\rvy|\rvx}{0|0}
+\prob{\rvx}
+{0
+}=\frac{1}
+{Z}E_1E_2
+\eeq
+
+\beq
+\prob{\rvx,\rvy}{01}=
+\prob{\rvy|\rvx}{1|0}
+\prob{\rvx}
+{0
+}=\frac{1}
+{Z}E_1
+\eeq
+
+\beq
+\prob{\rvx,\rvy}{10}=
+\prob{\rvy|\rvx}{0|1}
+\prob{\rvx}
+{1
+}=\frac{1}
+{Z}E_3
+\eeq
+
+\beq
+\prob{\rvx,\rvy}{11}=
+\prob{\rvy|\rvx}{1|1}
+\prob{\rvx}
+{1
+}=\frac{1}
+{Z}
+\eeq
+
+\beq
+Z = \frac{1}{\prob{\rvx,\rvy}{11}}=
+\frac{1}{
+a^Cb_1^C
+}
+\eeq
+
+\beq
+\theta^1 =
+\ln \frac{
+\prob{\rvx,\rvy}{01}
+}{
+\prob{\rvx,\rvy}{11}
+}=
+\ln
+\frac{ab_0^C}{a^C b_1^C}
+\eeq
+
+
+
+
+
+\beq
+\theta^{2} =
+\ln \frac{
+\prob{\rvx,\rvy}{0,0}
+}{
+\prob{\rvx,\rvy}{0,1}
+} =
+\ln
+\frac{b_0}{b_{0}^C}
+\eeq
+
+\beq
+\theta^{3} =
+\ln \frac{
+\prob{\rvx,\rvy}{1,0}
+}{
+\prob{\rvx,\rvy}{1,1}
+} =
+\ln
+\frac{b_1}{b_{1}^C}
+\eeq
+
+\qed
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
+\begin{table}[h!]
+\centering
+\begin{tabular}{|
+>{\columncolor[HTML]{FFFC9E}}l |
+>{\columncolor[HTML]{FFFFFF}}l |
+>{\columncolor[HTML]{FFFFFF}}l |l|}
+\hline
+\cellcolor[HTML]{FFFFFF}frame $\backslash$ connection & \cellcolor[HTML]{9AFF99}\begin{tabular}[c]{@{}l@{}}Levi-Civita\\ connection\end{tabular} & \cellcolor[HTML]{9AFF99}\begin{tabular}[c]{@{}l@{}}$\alp=+1$\\ exponential\\ connection\end{tabular} & \cellcolor[HTML]{9AFF99}\begin{tabular}[c]{@{}l@{}}$\alp=-1$\\ mixture\\ connection\end{tabular} \\ \hline
+\begin{tabular}[c]{@{}l@{}}bnet coords  frame\\ $da, db_0, db_1$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$\metric$ diag\\ $\Gamma\indices{^\s_{\mu\nu}}\neq 0$\\ $\wul{\omega\indices{^a_b}}\neq 0$\\ Curvature $\neq 0$\\ Torsion $=0$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$\metric$ diag\\ $\Gamma\indices{^\s_{\mu\nu}}\neq 0$\\ $\wul{\omega\indices{^a_b}}\neq 0$\\ Curvature $=0$\\ Torsion $=0$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$\metric$ diag\\ $\Gamma\indices{^\s_{\mu\nu}}\neq 0$\\ $\wul{\omega\indices{^a_b}}\neq 0$\\ Curvature $\neq 0$\\ Torsion $=0$\end{tabular} \\ \hline
+\begin{tabular}[c]{@{}l@{}}FED coords frame\\ $d\theta^1, d\theta^2, d\theta^3$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$\metric$ non-diag\\ $\Gamma\indices{^\s_{\mu\nu}}\neq 0$\\ $\wul{\omega\indices{^a_b}}\neq 0$\\ Curvature $\neq 0$\\ Torsion $=0$\end{tabular} & \cellcolor[HTML]{FFCCC9}\begin{tabular}[c]{@{}l@{}}$\metric$ non-diag\\ $\Gamma\indices{^\s_{\mu\nu}}=0$\\ $\wul{\omega\indices{^a_b}}=0$\\ Curvature $=0$\\ Torsion $=0$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$\metric$ non-diag\\ $\Gamma\indices{^\s_{\mu\nu}}\neq 0$\\ $\wul{\omega\indices{^a_b}}\neq 0$\\ Curvature $\neq 0$\\ Torsion $=0$\end{tabular} \\ \hline
+\begin{tabular}[c]{@{}l@{}}Cartan frame\\ $\wul{\chi^1}, \wul{\chi^2}, \wul{\chi^3}$\\ $\wul{\chi^i}=\elli{i} \wul{dp^i}$\\ $(p^1, p^2, p^3)=(a, b_0, b_1)$\end{tabular} & \cellcolor[HTML]{FFCCC9}\begin{tabular}[c]{@{}l@{}}$\metric=diag(1,1,1)$\\ $\Gamma\indices{^\s_{\mu\nu}}\neq 0$\\ $\wul{\omega\indices{^a_b}}\neq 0$\\ Curvature $\neq 0$\\ Torsion $=0$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$\metric=diag(1,1,1)$\\ $\Gamma\indices{^\s_{\mu\nu}}\neq 0$\\ $\wul{\omega\indices{^a_b}}\neq 0$\\ Curvature $=0$\\ Torsion $=0$\end{tabular} & \begin{tabular}[c]{@{}l@{}}$\metric=diag(1,1,1)$\\ $\Gamma\indices{^\s_{\mu\nu}}\neq 0$\\ $\wul{\omega\indices{^a_b}}\neq 0$\\ Curvature $\neq 0$\\ Torsion $=0$\end{tabular} \\ \hline
+\end{tabular}
+\caption{Properties of various geometrical quantities for all Frame-Connection combinations. The ones in pink are the ones I will be using most often.  coords stands for coordinates, diag for diagonal and FED for Family of Exponential Distributions.}
+\label{tab-frame-connection-combos}
+\end{table}
+
+\subsection{3 Connections in FED coordinates}
+
+\begin{claim}
+
+\beq
+\av{\cals_1}=\prob{\rvx}{0}=a
+,\quad
+\av{\cals_2}= \prob{\rvx,\rvy}{0,0}= b_0a
+,\quad
+\av{\cals_3}= \prob{\rvx,\rvy}{1,0}= b_1a^C
+\eeq
+
+\beq
+A_1= \delta_0^x - a
+,\quad
+A_2 = \delta_{00}^{xy}  - b_0a
+,\quad
+A_3 = \delta_{10}^{xy}-b_1 a^C
+\eeq
+
+\end{claim}
+\proof
+
+\beq
+\av{\cals_1}=\av{\delta_{0}^{\rvx}}= \prob{\rvx}{0}= a
+\eeq
+
+\beq
+\av{\cals_2}=\av{\delta_{00}^{\rvx,\rvy}}= \prob{\rvx,\rvy}{0,0}=
+\prob{\rvy|\rvx}{0|0}\prob{\rvx}{0}= b_0a
+\eeq
+
+\beq
+\av{\cals_3}=\av{\delta_{10}^{\rvx,\rvy}}= \prob{\rvx,\rvy}{1,0}=
+\prob{\rvy|\rvx}{0|1}\prob{\rvx}{1}= b_1a^C
+\eeq
+
+\qed
+
+
+Metric for FED coordinates
+
+\begin{claim}
+\beq
+[\metric_{\theta^i\theta^j}] =[\av{\cals_i, \cals_j}]=
+\begin{pmatrix}
+aa^C & P(0,0)a^C&- P(1,0)a
+\\
+P(0,0)a^C & P(0,0)P^C(0,0)
+& -P(1,0)P(0,0)
+\\
+-P(1,0)a
+&-P(1,0)P(0,0)
+& P(1,0)P^C(1,0)
+\end{pmatrix}
+\eeq
+with the following row and column order: 
+$(\theta^1, \theta^2, \theta^3)=(\theta^1, \theta^2, \theta^3)$
+
+
+\end{claim}
+
+\proof
+
+\beq
+P(x, y)=P(\rvx=x, \rvy=y)
+\eeq
+
+\beq
+\metric_{\theta^i\theta^j}=
+\av{\cals_i, \cals_j}
+\eeq
+
+\beq
+\av{\delta_0^\rvx} = a
+\eeq
+
+\beqa
+\av{\delta_{x'}^\rvx
+ \delta_0^\rvy}
+&=&
+P(0,0)\delta_{x'}^0 + P(1, 0)\delta_{x'}^1 
+\\
+&=&
+P(x', 0)
+\eeqa
+
+\beq
+\av{\delta_0^\rvx,
+\; \delta_0^\rvx}=
+\av{\delta_0^\rvx}-\av{\delta_0^\rvx}^2=a-a^2 = a a^C
+\eeq
+
+\beqa
+\av{\delta_0^\rvx,
+\; \delta_{x'}^\rvx
+\delta_0^\rvy
+}&=&
+\av{\delta_0^{\rvx}
+\delta_{x'}^\rvx
+\delta_0^\rvy
+}-\av{\delta_0^\rvx}
+\av{\delta_{x'}^\rvx\delta_0^\rvy}
+\\
+&=&
+\delta_0^{x'}P(0,0)
+-a P(x', 0)
+\\
+&=&
+\left\{
+\begin{array}{ll}
+P(0,0)a^C& \text {if }x'=0
+\\
+-P(1,0)a& \text{if } x'=1
+\end{array}
+\right.
+\eeqa
+
+\beqa
+\av{\delta_{x'}^\rvx
+\delta_0^\rvy,\;
+\delta_{x''}^\rvx
+\delta_0^\rvy}
+&=&
+\av{\delta_{x'}^\rvx
+\delta_0^\rvy
+\delta_{x''}^\rvx
+\delta_0^\rvy
+}-
+\av{\delta_{x'}^\rvx
+\delta_0^\rvy}\av{
+\delta_{x''}^\rvx
+\delta_0^\rvy
+}
+\\
+\
+&=&
+\delta_{x'}^{x''}P(x', 0)-
+P(x', 0)P(x'', 0)
+\\
+&=&
+P(x', 0)[
+\delta_{x'}^{x''}-P(x'', 0)
+]
+\\
+&=&
+\left\{
+\begin{array}{ll}
+P(x', 0)P^C(x', 0)
+&\text{if } x'=x''
+\\
+-P(1,0)P(0, 0)
+&\text{if } x'\neq x''
+\end{array}
+\right.
+\eeqa
+\qed
+
+
+
+\hrule
+Three connections for FED coordinates
+
+
+
+
+
+\begin{claim}
+The \Chris symbols for Levi-Civita (LC) connection for 
+FED
+
+\beq
+\Gamma^{LC}_{ijk}
+=
+E[B_{ij}A_k]+\frac{1}{2}E[A_i A_j A_k]
+\eeq
+
+\end{claim}
+\proof
+
+\beq
+\Gamma^{LC}_{ijk}=
+\frac{1}{2}
+\left(
+\partial_i\metric_{jk}
++
+\partial_j
+\metric_{ik
+}-
+\partial_k
+\metric_{ij}
+\right)
+\eeq
+
+\beq
+\metric_{jk}=
+E[A_j A_k]
+,\quad
+B_{ij}=
+\partial_i A_j
+\eeq
+
+\beq
+\partial_{\theta^i} P(x^N;\vec{\theta})=P\partial_{\theta^i}LL =
+PA_i
+\eeq
+
+
+\beq
+\partial_i
+\metric_{jk}=
+E[B_{ij}A_k+ A_j B_{ik}+
+A_i A_j A_k]
+\eeq
+
+\beq
+\partial_j\metric_{ik}=
+E[
+B_{ij}A_k +
+A_i B_{jk}
++
+A_j A_i A_k
+]
+\eeq
+
+\beq
+\partial_k\metric_{ij}=
+E[
+B_{ik}A_j + A_i B_{jk}
++
+A_k A_i A_k
+]
+\eeq
+
+\beq
+\Gamma^{LC}_{ijk}=
+\frac{1}{2}
+E\left[
+\begin{array}{l}
+B_{ij}A_k
++
+{\color{red}A_j B_{ik}}
++
+A_i A_j A _k
+\\
++B_{ij}A_k
++
+{\color{blue}A_i B_{jk}}
++
+{\color{green}A_j A_i A_k}
+\\
+-{\color{red}B_{ik}A_j}
+-
+{\color{blue}A_i B_{jk}}
+-
+{\color{green}A_k A_i A_j}
+\end{array}
+\right]
+\eeq
+
+\qed
+
+\beq
+E[B_{ij}(\vec{\theta})A_k]=
+B_{ij}(\vec{\theta})E[A_k]=  0
+\eeq
+
+The 
+\Chris symbols for the 
+$\alp=\pm 1$ connection 
+are defined by
+\beqa
+\Gamma^{(\alp)}_{ijk}
+&=&
+\frac{(1-\alp)}{2}E[A_i A_j A_k]
+\\
+&=&
+\Gamma^{LC}_{ijk}-
+\; \frac{\alp}{2}E[A_i A_j A_k]
+\eeqa
+Note that this formula
+also gives the \Chris symbols
+for the LC conection if we set $\alp=0$.
+
+\beq
+\Gamma^{(+1)}_{ijk}
+=  0
+\eeq
+
+\beq
+\Gamma\indices{^{(+1)k}_{ij}}=
+\metric^{km}\Gamma^{(+1)}_{ijm}=0
+\eeq
+
+\subsection{3 Connections in Cartan Frame}
+
+The metric is the same as that
+found in Claim \ref{cl-metric-bnet-coords},
+but with a different dual t-basis
+
+\beq
+\metric=
+diag(1,1,1)
+\eeq
+
+\beq
+\wul{(ds)^2} = \sum_{i=1}^3(\wul{\elli{i} dp^i})^2
+\eeq
+
+\beq
+(p^1, p^2, p^3)= (a, b_0, b_1)
+\eeq
+
+\beq
+\elli{1}=\sqrt{\frac{1}{aa^C}},\quad
+\elli{2}=\sqrt{\frac{a^C}{b_0 b_0^C}}
+,\quad
+\elli{3} = \sqrt{\frac{a}{b_1 b_1^C}}
+\eeq
+
+Cartan frame
+
+\beq
+\wul{\chi^i} = \wul{\elli{i} dp^i}
+,\quad
+\vece_i=
+\frac{1}{\elli{i}} \vecpder{p^i}
+\eeq
+We recognize this as curvilinear coordinates (See Section \ref{sec-curvilinear-coords})
+
+The connection 1-form has already been calculated.
+It's given by 
+Eq.(\ref{eq-connection-one-form-bnet-coords}).
+The connections 1-form and the covectors $\wul{\chi^a}$
+are the same regardless of t-basis, but the \Chris
+symbols are not.
+
+\beq
+LL=\ln \prob{\rvx,\rvy}{x,y},
+\quad A_{p^i}= \partial_{p^i}LL
+\eeq
+
+\beq
+(\wul{\omega\indices{_i_j}})^{(LC)}=
+(\wul{\omega\indices{^i_j}})^{(LC)}
+=
+\underbrace{\frac
+{\partial_{p^j}\ln \elli{i}}
+{\elli{j}}} _{A_j^{(i)}}
+\underbrace{\wul{\chi^i}}_{\elli{i}\wul{dp^i}}
+-
+(i\swap j)
+\eeq
+
+
+\beq
+\Gamma\indices{_{ijk}}=
+\underbrace{(\wul{\omega\indices{_i_j}}(\vece\;'_k))^{(LC)}}_{(\Gamma\indices{_{ijk}})^{(LC)}}
+-\alp
+\underbrace{E[\vece\;'_i(LL)
+\vece\;'_j(LL)
+\vece\;'_k(LL)
+]}_{T_{ijk}}
+\eeq
+
+
+
+\begin{itemize}
+\item coordinate t-basis: $\vece\;'_i\rarrow
+\vecpder{p^i}$
+
+\beq
+\Gamma\indices{_{ijk}}=
+\underbrace{(\wul{\omega\indices{_i_j}}(\vecpartial_{p^k}))^{(LC)}}_{(\Gamma\indices{_{ijk}})^{(LC)}}
+-\alp
+\underbrace{E[A_{p^i}
+A_{p^j}
+A_{p^k}
+]}_{T_{ijk}}
+\eeq
+  
+\item non-holonomic t-basis: $\vece\;'_i\rarrow
+\frac{1}{\elli{i}}\vecpder{p^i}$
+
+\beq
+\check{\Gamma}\indices{_{ijk}}=
+\underbrace{\frac{1}{\elli{k}}\wul{(\omega\indices{_i_j}}(\vecpartial_{p^k}))^{(LC)}}_{(\check{\Gamma}\indices{_{ijk}})^{(LC)}}
+-\alp
+\underbrace{
+\frac{1}{\elli{i}\elli{j}\elli{k}}
+E[
+A_{p^i}A_{p^j}A_{p^k}
+]}_{\check{T}_{ijk}}
+\eeq
+
+\beq
+(\check{\Gamma}\indices{_{ijk}})^{(LC)}=
+\frac{1}{\elli{k}}
+(\Gamma\indices{_{ijk}})^{(LC)}
+,\quad
+\check{T}_{ijk}=
+\frac{1}{\elli{i}\elli{j}\elli{k}}
+T_{ijk}
+\eeq
+
+
+\end{itemize}
+
+
+
+
+\begin{claim}
+
+\beq
+A_{p^1}=\frac{1}{a a^C}
+(\delta_0^x-a)
+,\quad
+A_{p^2}=
+\frac{\delta_0^x}{b_0 b_0^C}
+(\delta_0^y-b_0)
+,\quad
+A_{p^3}=
+\frac{\delta_1^x}{b_1 b_1^C}
+(\delta_0^y-b_1)
+\eeq
+
+\end{claim}
+\proof
+
+\beqa
+LL &=&\ln P(x,y)
+\\
+&=&
+\delta_{00}^{xy}\ln\prob{\rvx,\rvy}{0,0}
++
+\delta_{01}^{xy}\ln\prob{\rvx,\rvy}{0,1}
++
+\delta_{10}^{xy}\ln\prob{\rvx,\rvy}{1,0}
++\delta_{11}^{xy}\ln\prob{\rvx,\rvy}{1,1}
+\\
+&=&
+\delta_{00}^{xy}\ln b_0a
++
+\delta_{01}^{xy}\ln b_0^C a
++
+\delta_{10}^{xy}\ln b_1 a^C
++\delta_{11}^{xy}\ln b_1^C a^C
+\eeqa
+
+
+\beqa
+A_{p^1}&=&
+\frac{\delta_{00}^{xy}}{a}
++\frac{\delta_{01}^{xy}}{a}
+-\frac{\delta_{10}^{xy}}{a^C}
+-\frac{\delta_{11}^{xy}}{a^C}
+\\
+&=&
+\frac{\delta_0^x}{a}
+-\frac{\delta_1^x}{a^C}
+\\
+&=&
+\frac{1}{aa^C}[a^C \delta_0^x-a\delta_1^x]
+\\
+&=&
+\frac{1}{aa^C}[ \delta_0^x-a]
+\eeqa
+
+\beqa
+A_{p^2}&=&
+\frac{\delta_{00}^{xy}}{b_0}
+-
+\frac{\delta_{01}^{xy}}{b_0^C}
+\\
+&=&
+\frac{\delta_0^x}{b_0 b_0^C}(b_0^C\delta_0^y -
+b_0\delta_1^y)
+\\
+&=&
+\frac{\delta_0^x}{b_0 b_0^C}(\delta_0^y -
+b_0)
+\eeqa
+
+\beq
+A_{p^3}=
+\frac{\delta_1^x}{b_1 b_1^C}
+(\delta_0^y-b_1)
+\eeq
+
+\qed
+
+Let
+\beq
+LL=\ln \prob{\rvx,\rvy}{x,y}
+,\quad
+A_{\theta^i}= \partial_{\theta^i}LL
+\eeq
+
+$A_{\theta^i}$ was being denoted by $A_i$ previously. But now, due to the proliferation of $A$'s, we
+are being more explicit. 
+
+Recall that
+
+\beq
+\theta^1 =
+\ln
+\frac{ab_0^C}{a^C b_1^C}
+,\quad
+\theta^2 = \ln \frac{b_0}{b_0^C}
+,\quad
+\theta^3 = \ln \frac{b_1}{b_1^C}
+\eeq
+and
+
+\beq
+(p^1, p^2, p^3)=(a, b_0, b_1)
+\eeq
+
+\begin{claim}(Second proof via $A_{\theta^i}$)
+
+\beq
+A_{p^1}=\frac{1}{a a^C}
+(\delta_0^x-a)
+,\quad
+A_{p^2}=
+\frac{\delta_0^x}{b_0 b_0^C}
+(\delta_0^y-b_0)
+,\quad
+A_{p^3}=
+\frac{\delta_1^x}{b_1 b_1^C}
+(\delta_0^y-b_1)
+\eeq
+
+\end{claim}
+\proof
+
+\beqa
+\partial_{p^1|p^2,p^3}&=&
+\sum_j
+\partial_{p^1|p^2,p^3}(\theta^j)
+\partial_{\theta^j|\{\theta^k:k\neq j\}}
+\\
+&=&
+\partial_a (\ln\frac{a}{a^C})
+\partial_{\theta^1}
+\\
+&=&
+\left(\frac{1}{a}+\frac{1}{a^C}
+\right)
+\partial_{\theta^1}
+\\
+&=&
+\frac{1}{a a^C}
+\partial_{\theta^1}
+\eeqa
+
+\beq
+\underbrace{\partial_{p^1}LL}_
+{A_{p^1}}=
+\frac{1}{a a^C}
+\underbrace{\partial_{\theta^1}LL}_{A_{\theta^1}=\delta_0^x-a}
+\eeq
+
+\beqa
+\partial_{p^2|p^1,p^3}&=&
+\sum_j
+\partial_{p^2|p^1,p^3}(\theta^j)
+\partial_{\theta^j|\{\theta^k:k\neq j\}}
+\\
+&=&
+\partial_{b_0}(\ln b_0^C)\partial_{\theta^1}
++
+\partial_{b_0}(\ln\frac{b_0}{b_0^C} )\partial_{\theta^2}
+\\
+&=&
+-\;\frac{1}{b_0^C}\partial_{\theta^1}
++\left(
+\frac{1}{b_0}
++\frac{1}{b_0^C}\right)\partial_{\theta^2}
+\\
+&=&
+-\;\frac{1}{b_0^C}\partial_{\theta^1}
++\frac{1}{b_0b_0^C}\partial_{\theta^2}
+\eeqa
+
+\beqa
+A_{p^2}&=&\partial_{p^2}LL
+\\
+&=&
+-\;\frac{1}{b_0^C}
+\underbrace{\partial_{\theta^1}LL}
+_{A_{\theta^1}=\delta_0^x - a}
++
+\frac{1}{b_0b_0^C}
+\underbrace{\partial_{\theta^2}LL}
+_{A_{\theta^2}=\delta_{00}^{xy}-b_0a}
+\\
+&=&
+\frac{1}{b_0 b_0^C}
+\left(-b_0\delta_0^x + \cancel{b_0a} +\delta_{00}^{xy}-\cancel{b_0a} \right)
+\\
+&=&
+\frac{\delta_0^x}{b_0 b_0^C}(\delta_0^y-b_0)
+\eeqa
+
+
+
+\beqa
+\partial_{p^3|p^1,p^2}&=&
+\sum_j
+\partial_{p^3|p^1,p^2}(\theta^j)
+\partial_{\theta^j|\{\theta^k:k\neq j\}}
+\\
+&=&
+-\partial_{b_1}(\ln b_1^C)\partial_{\theta^1}
++
+\partial_{b_1}(\ln\frac{b_1}{b_1^C} )\partial_{\theta^3}
+\\
+&=&
+\frac{1}{b_1^C}\partial_{\theta^1}
++\left(
+\frac{1}{b_1}
++\frac{1}{b_1^C}\right)\partial_{\theta^3}
+\\
+&=&
+\frac{1}{b_1^C}\partial_{\theta^1}
++\frac{1}{b_1b_1^C}\partial_{\theta^3}
+\eeqa
+
+\beqa
+A_{p^3}&=&\partial_{p^3}LL
+\\
+&=&
+\;\frac{1}{b_1^C}
+\underbrace{\partial_{\theta^1}LL}
+_{A_{\theta^1}=\delta_0^x - a}
++
+\frac{1}{b_1b_1^C}
+\underbrace{\partial_{\theta^3}LL}
+_{A_{\theta^3}=\delta_{10}^{xy}-b_1a^C}
+\\
+&=&
+\frac{1}{b_1 b_1^C}
+\left(b_1\delta_0^x  -{b_1a} +\delta_{10}^{xy}-{b_1a^C} \right)
+\\
+&=&
+\frac{1}{b_1 b_1^C}
+\left(b_1\delta_0^x  +\delta_{10}^{xy}-b_1 \right)
+\\
+&=&
+\frac{\delta_1^x}{b_1 b_1^C}(\delta_0^y-b_1)
+\eeqa
+
+\qed
+
+Metric compatibility is lost
+so anti-symmetry is lost:
+
+\beq
+\wul{\omega_{ij}}\neq-\wul{\omega_{ji}}
+\eeq
+
+However, the following duality 
+relation holds
+
+\beq
+(\wul{\omega_{ij}})^{(\alp)}=-\wul(\omega_{ji})^{(-\alp)}
+\eeq
+
+
+
+\beq
+[\wul{\omega\indices{_i_j}}]=
+[\wul{\omega\indices{^i_j}}]=
+\begin{pmatrix}
+\alp R
+\wul{\chi^1}
+& B(1+\alp)\wul{\chi^2}
+& C(1+\alp)\wul{\chi^3}
+\\
+B(-1+\alp) \wul{\chi^2}
+& \alp (B \wul{\chi^1}
++S \wul{\chi^2})
+&0
+\\
+C(-1+\alp) \wul{\chi^3}
+&0
+& \alp (C\wul{\chi^1} + T \wul{\chi^3})
+\end{pmatrix}
+\eeq
+
+\beq
+B = \frac{1}{2}\sqrt{\frac{a}{a^C}}
+,\quad
+C=-\;\frac{1}{2}\sqrt{\frac{a^C}{a}}
+\eeq
+
+\beq
+R =-\;\frac{1-2a}
+{2\sqrt{a a^C}}
+,\quad
+S= -\;\frac{1-2b_0}
+{2\sqrt{a^C b_0 b_0^C}}
+,\quad
+T=-\;
+\frac{1-2b_1}
+{2\sqrt{a b_1 b_1^C}}
+\eeq
+
+\subsection{Fully Connected 3 node bnet}
+\beq
+\bcen
+\xymatrix{
+&\rvy\ar[rd]
+\\
+\rvx\ar[rr]
+\ar[ru]
+&&\rvz
+}
+\ecen
+\quad\quad
+P(x,y,z)= P(z|y,x) P(y|x) P(x)
+\eeq
+
+\beq
+[\prob{\rvx}{x}] =
+\begin{bmatrix}
+\prob{\rvx}{0}
+\\
+1-\prob{\rvx}{0}
+\end{bmatrix}
+\eeq
+
+\beq
+[\prob{\rvy|\rvx}{y|x}] =
+\begin{bmatrix}
+\prob{\rvy|\rvx}{0|0}
+& \prob{\rvy|\rvx}{0|1}
+\\
+1-\prob{\rvy|\rvx}{0|0}
+& 1-\prob{\rvy|\rvx}{0|1}
+\end{bmatrix}
+\eeq
+
+\beq
+[\prob{\rvz|\rvx, \rvy}{z|x, y}] =
+\begin{bmatrix}
+\prob{\rvz|\rvx, \rvy}{0|00}
+& \prob{\rvz|\rvx, \rvy}{0|01}
+&\prob{\rvz|\rvx, \rvy}{0|10}
+&
+\prob{\rvz|\rvx, \rvy}{0|11}
+\\
+1-\prob{\rvz|\rvx, \rvy}{0|00}
+& 1-\prob{\rvz|\rvx, \rvy}{0|01}
+&
+1-
+\prob{\rvz|\rvx, \rvy}{0|10}
+&
+1-
+\prob{\rvz|\rvx, \rvy}{0|11}
+\end{bmatrix}
+\eeq
+
+
+$\{\vece_j\}_{j=1}^n=$ t-basis
+
+$\{\wul{\chi}^i\}_{i=1}^n=$ dual  t-basis
+(covector basis)
+
+$n=7$ in this case
+
+
+\beq
+\wul{\chi}^i(\vece_j)= \delta_j^i
+\eeq
+
+\beq
+\metric =\sum_{i=1}^7
+\wul{\chi}^i
+\otimes
+\wul{\chi}^i
+\eeq
+
+
+curvilinear coordinates 
+(see Section \ref{sec-curvilinear-coords})
+
+\beq
+\{\phi^i\}_{i=1}^7
+=
+\left\{
+\begin{array}{l}
+\prob{\rvx}{0},
+\\
+\{\prob{\rvy|\rvx}{0|x}:x\in \bool\},
+\\
+\{\prob{\rvz|\rvx, \rvy}{0|x,y}:(x,y)\in \bool^2\}
+\end{array}
+\right\}
+\eeq
+
+Fisher metric
+
+\beq
+\metric_{ij}=
+E[(\partial_{\phi^i}\ln P(x,y,z))
+(\partial_{\phi^j}\ln P(x,y,z))]
+\eeq
+
+
+\beq
+\left[
+\partial_{\prob{\rvx|\rva}{0|a}}\ln P(x|a)\right]^2
+=L(x|a)
+\eeq
+then
+
+\beq
+E_{\rvx}[L(x|a)]=
+P(a)E_{\rvx|a}[L(x|a)]
+\eeq
+
+\beq
+(ds)^2=
+\metric_{ij}d\phi^i d\phi^j=
+E[d\ln P(x,y,z)
+d\ln P(x,y,z)]
+\eeq
+
+\beq
+\metric_{ii}=
+\left\{
+\begin{array}{l}
+A (d\prob{\rvx}{0})^2
+\\
++ \sum_{x=0}^1
+B_x(d\prob{\rvy|\rvx}{0|x})^2
+\\
++ \sum_{y=0}^1\sum_{x=0}^1
+C_{x,y}(d\prob{\rvz|\rvx, \rvy}{0|x, y})^2
+\end{array}
+\right.
+\eeq
+where
+
+\beq
+A = \frac{1}{\prob{\rvx}{0}
+\prob{\rvx}{1}}
+,\quad
+B_x = \frac{\prob{\rvx}{x}}{\prob{\rvy|\rvx}{0|x}
+\prob{\rvy|\rvx}{1|x}}
+,\quad
+C_{x,y} = \frac{\prob{\rvx, \rvy}{x,y}}{\prob{\rvz|\rvx,\rvy}{0|x, y}
+\prob{\rvz|\rvx, \rvy}{1|x, y}}
+\eeq
+
+\beq
+\ell= \sqrt{A},
+\quad 
+\elli{x} =\sqrt{B_x}
+,\quad
+\elli{x,y}=\sqrt{C_{x,y}}
+\eeq
+
+\beq
+(ds)^2 = \sum_{i=1}^7(\elli{i} d\phi^i)^2
+\eeq
+
+Choose 
+
+\beq
+\chi^i = \elli{i} d\phi^i
+,\quad
+\vece_i=
+\frac{1}{\elli{i}} \vecpder{\phi^i}
+\eeq
+
+
+
+\subsection{3 Node Markov Chain}
+
+
+\subsection{Universal Partition Formula}
+
+\beq
+P(x^N)=
+\prod_{\mu=1}^N
+P(x_\mu |pa(\rvx_\mu)=\pi_\mu)
+\eeq
+
+Let 
+
+$val(\rvx_\mu)=$ set of values (i.e., states) that $\rvx_\mu$ can assume
+
+$N_{\rvx_\mu}= |val(\rvx_\mu)|=$ size of set $val(\rvx_\mu)$.
+
+For all $\mu\in\{1, 2, \ldots, N\}$ and $\pi_\mu\in val(pa(\rvx_\mu))$,
+define
+
+\beqa
+\cals_{x_\mu, \pi_\mu}(x^N)&=&
+\left\{
+\begin{array}{ll}
+\delta_{x_\mu}^{x_\mu(x^N)}
+\delta_{\pi_\mu}^{\pi_\mu(x^N)}
+&\text{if } x_\mu= 1, 2, \ldots, N_{\rvx_\mu}-1
+\\
+0 &\text{if } x_\mu= N_{\rvx_\mu}
+\end{array}
+\right.
+\\
+&=&
+(1-\delta_{x_\mu}^{N_{\rvx_\mu}})
+\delta_{x_\mu}^{x_\mu(x^N)}
+\delta_{\pi_\mu}^{\pi_\mu(x^N)}
+\eeqa
+
+Abbreviate 
+
+
+$i = (\mu, x_\mu, \pi_\mu)\in \prod_{\mu=1}^N\left(
+val(\rvx_\mu)
+\times
+val(pa(\rvx_\mu))
+\right)$
+
+
+
+\beq
+P(x^N;\vec{\theta})
+=\frac{1}{Z}
+\exp\left(\sum_i \theta^i \cals_i(x^N)\right)
+\eeq
+
+\begin{align}
+Z(\vec{\theta}) &= \sum_{x^N}\exp\left(\sum_i \theta^i \cals_i(x^N)\right)
+\\
+&= \sum_{x^N}\exp\left(\sum_{\mu=1}^N
+\sum_{x_\mu\in val(\rvx_\mu)}
+\sum_{\pi_\mu \in val(pa(\rvx_\mu))}
+ \theta^{\mu, x_\mu, \pi_\mu}
+(1-\delta_{x_\mu}^{N_{\rvx_\mu}}) \delta_{x_\mu}^{x_\mu(x^N)}
+\delta_{\pi_\mu}^{\pi_\mu(x^N)}\right)
+\\
+&= \sum_{x^N}\exp\left(\sum_{\mu=1}^N
+ (1-\delta_{x_\mu}^{N_{\rvx_\mu}})
+\theta^{\mu, x_\mu(x^N), \pi_\mu(x^N)}
+\right)
+\\
+&= \sum_{x^N}\exp\left(\sum_{\mu=1}^N
+ (1-\delta_{x_\mu}^{N_{\rvx_\mu}})
+\theta^{\mu, x_\mu, \pi_\mu}
+\right)
+\end{align}
+
+
+\beq
+y^N=\pback{x_{\mu_0}} {y_{\mu_0}} x^N
+\eeq
+
+\beq
+\ln \frac {P(y^N)}{P(x^N)}=
+\eeq
