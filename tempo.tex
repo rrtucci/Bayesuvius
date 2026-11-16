@@ -5,11 +5,24 @@
 
 \section{The 3 Languages of Differential Geometry}
 
+In this section,
+we discuss the 3 Languages
+of Differential Geometry
+and give examples of how to convert equations from one language to another.
+One of those languages (the index-free one)
+does not assume a
+particular frame whereas
+the other 2 assume
+different frame types
+that are already familiar to us.
+Let us start by discussing
+those 2 frame types
+and how to transform between them. By a frame (and coframe)
+we mean a t-basis  (and dual t-basis) for tangent vectors (and covectors).
 
+\begin{enumerate} 
+\item Coordinate  (\Chris) t-basis
 
-\begin{itemize}
-\item The coordinate (holonomic)
-basis is orthonormal
 \beq
 \vecpartial_\mu=\vecpder{x^\mu}, \quad
 \av{\ul{dx^\nu}|\vecpartial_\mu}=\delta_\mu^\nu
@@ -18,7 +31,9 @@ basis is orthonormal
 \vecpartial_\nu= \delta^\mu_\nu
 \eeq
 
-\item Cartan's (no-holonomic) basis is in general neither
+\item Cartan's (no-holonomic) t-basis
+
+In general, this t-basis is  neither
 normalized nor orthogonal.
 \beq
 \av{\ul{\chi^b}|\vece_a}
@@ -29,7 +44,20 @@ normalized nor orthogonal.
 \vece_a\cdot \vece_b \neq
 0 \text{ for $a\neq b$}
 \eeq
-\item The t-basis used in curvilinear coordinates
+
+We can view the coordinate 
+t-basis as a special case of the
+Cartan t-basis
+and set
+
+\beq
+\vece_a= \vecpartial_a,\quad
+\ul{\chi^a}=
+\ul{dx^a}
+\eeq
+
+The t-basis used in curvilinear coordinates
+can also be viewed as as a special case of the Cartan t-basis.
 
 \beq 
 \vece_a=\frac{1}{\elli{a}} \vecpartial_{\phi^a},
@@ -37,9 +65,17 @@ normalized nor orthogonal.
 \ul{\chi^a}=
 \elli{a} \ul{d\phi^a}
 \eeq
-is orthogonal but 
+The curvilinear t-basis is orthogonal but 
 not normalized.
-\end{itemize}
+\end{enumerate}
+
+Sometimes, when transforming 
+from one of the 3 languages
+of Differential Geometry to another, we need to
+transform from the
+coordinate t-basis to the Cartan t-basis or vice versa.
+Fig.\ref{fig-ops-between-bases} defines  the matrices
+that accomplish these transformations.
 
 \begin{figure}[h!]
 $$
@@ -62,10 +98,10 @@ $$
 &\delta^b_a
 }$$
 \caption{Definition
-of matrices that transform between a coordinate basis and a non-holonomic Cartan basis. We prove that $X\indices{^a_\mu}=E\indices{^a_\mu}$ and $X\indices{^\mu_a}=E\indices{^\mu_a}$.}
+of matrices that transform between a coordinate t-basis and a Cartan t-basis. We prove that $X\indices{^a_\mu}=E\indices{^a_\mu}$ and $X\indices{^\mu_a}=E\indices{^\mu_a}$.}
 \label{fig-ops-between-bases}
 \end{figure}
-
+These matrices must satisfy the following identities:
 
 \beq
 \left\{
@@ -134,8 +170,20 @@ Note that
 E\indices{^\mu_a}= E\indices{^a_\mu}=\delta_a^\mu
 \eeq
 
-Note  the Dirac bra-ket notation
-that we provide 
+Note that normally, if
+an equation only has 
+indices referring to a
+single basis, we sometimes
+use lower case Latin indices $i, a$, etc., whereas other times we use lower case Greek indices $\mu, \nu$, etc.
+But in this section,
+some equations refer to
+2 different bases at the same time, and Latin indices refer to one basis,
+and Greek indices refer to a different basis.
+
+
+Note that the Dirac bra-ket notation
+provided
+above
 expresses the same
 distinction that
 we are already 
@@ -172,15 +220,6 @@ basis.
 \eeq
 
 
-Note that normally, if
-an equation only has 
-indices referring to a
-single basis, we sometimes
-use lower case Latin indices $i, a$, etc., whereas other times we use lower case Greek indices $\mu, \nu$, etc.
-But in this section,
-some equations refer to
-2 different bases at the same time, and Latin indices refer to one basis,
-and Greek indices refer to a different basis.
 
 Note that we could replace $E\indices{^\mu_a}$
 by its transpose $(E^T)
@@ -207,10 +246,11 @@ in an intuitive,  unique and consistent way.
 
 The 3 languages
 of Differential Geometry
+are:
 
 \begin{enumerate}
 \item
-{\bf Coordinate (\Chris) notation ($\Gamma$N):} Everything is expressed in terms of components in a coordinate basis.
+{\bf Coordinate frame (\Chris) notation ($\Gamma$N):} Everything is expressed in terms of components in a coordinate basis.
 
 \beq
 \vecpartial_\mu =\vecpder{x^\mu}
@@ -298,25 +338,24 @@ Conversion tips
 $$
 \xymatrix{
 & AN
-\ar@/_1pc/[dl]
-\ar@/^1pc/[dr]
+\ar[dl]
+\ar[dr]
 \\
 \Gamma N
-\ar[ru]
-\ar[rr]
-&&CN\ar[lu]
+&&CN\ar[ll]
 }
 $$
 \caption{The arrows indicate the directions of
 the conversion for which
 we provide examples in this
-section. $\Gamma$N=\Chris Notation, CN=Cartan Notation, AN=Abstract Notation.}
+section. Arrows point from more abstract (fewer indices)
+to less abstract (more indices). $\Gamma$N=\Chris Notation, CN=Cartan Notation, AN=Abstract Notation.}
 \label{fig-conversions-3-lang}
 \end{figure}
 
 
 
-\subsection{$\Gamma$N to CN}
+\subsection{CN to $\Gamma$N}
 
 \begin{claim}
 
@@ -480,19 +519,8 @@ E\indices{^c_\rho}
 
 \qed
 
-\subsection{CN to AN}
 
-
-\beq
-\nnabla_\vecX \vecY
-=
-X(Y^a)
-\vece_a
-+Y^b
-\underbrace{\nnabla_\vecX \vece_b}_{\ul{\omega\indices{^a_b}(\vecX)}\vece_a}
-\eeq
-
-\subsection{$\Gamma$N to AN}
+\subsection{AN to $\Gamma$N}
 
 \beq
 \nnabla_\vecX \vecY
@@ -503,7 +531,7 @@ X(Y^a)
 \underbrace{\nnabla_\vecX \vecpartial_\nu}_{X^\mu\Gamma\indices{^\rho_{\mu\nu}}\vecpartial_\rho}
 \eeq
 
-\subsection{AN to $\Gamma$N}
+
 
 \Rie 
 tensor in all 3 languages
@@ -637,7 +665,17 @@ implies
 
 \qed
 
-\subsection {AN to CN}
+\subsection{AN to CN}
+
+
+\beq
+\nnabla_\vecX \vecY
+=
+X(Y^a)
+\vece_a
++Y^b
+\underbrace{\nnabla_\vecX \vece_b}_{\ul{\omega\indices{^a_b}(\vecX)}\vece_a}
+\eeq
 
 Define
 \beq
