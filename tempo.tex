@@ -3,7 +3,91 @@
 \input{bayesuvius.sty}
 \begin{document}
 
+\subsection{M\"{o}bius Inversion Theorem}
 
+There is a very common version of the MIT used
+in Number Theory. This particular special case of MIT is its application to a 
+binary lattice.
+
+
+\begin{claim}
+(M\"{o}bius Inversion Theorem)
+
+If 
+
+\beq
+f(A)= \sum_B \indi(B\subset A)
+\theta(B)
+\eeq
+then
+
+\beq
+\theta(B)=
+\sum_C \indi(C\subset B)
+(-1)^{|B|-|C|}
+f(C)
+\eeq
+\end{claim}
+\proof
+
+Let's define $f^*(A)$ as follows and prove that
+$f^*(A)=f(A)$.
+
+\begin{align}
+f^*(A)&=
+\sum_{B}
+\indi(B\subset A)
+\sum_C \indi(C\subset B)
+(-1)^{|B|-|C|}
+f(C)
+\\
+&=
+\sum_{C}
+\indi(C\subset A) f(C)
+\underbrace{\sum_B
+\indi(C\subset B \subset A) (-1)^{|B|-|C|}}_{\Delta(A, C)}
+\quad\text{(changed summation order)}
+\label{eq-mid-mobius-inv}
+\end{align} 
+$\Delta(A, C)$ seems independent of $A$. However, for the edge case $A=B=C$, it equals 1. On the other hand,
+if $A\neq C$, then
+
+\beq
+\Delta(A, C)=
+\sum_{|C|=0}^{|B|}
+{ |B| \choose |C|}
+(-1)^{|B|-|C|}
+=
+(1-1)^{|B|}=0
+\eeq
+Thus
+
+\beq
+\Delta(A, C)= 
+\indi(A=C)
+\eeq
+and Eq.(\ref{eq-mid-mobius-inv}) reduces to
+\beq
+f^*(A)= \sum_C \indi(C\subset A )f(C)\indi(A=C)= f(A)
+\eeq
+
+
+\qed
+
+Example:
+
+Let 
+
+\beq 
+f(\{a,b,c, \dots\})= f_{abc\ldots}
+\eeq
+Consider subsets of $\Omega =\{1,2\}$
+
+\beq
+\begin{pmatrix}
+f_\varnothing
+\end{pmatrix}
+\eeq
 
 
 
