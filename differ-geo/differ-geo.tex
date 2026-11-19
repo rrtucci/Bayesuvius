@@ -26869,6 +26869,232 @@ Choose
 
 \subsection{3 Node Markov Chain}
 
+\subsection{M\"{o}bius Inversion Theorem}
+
+There is a very common version of the MIT used
+in Number Theory. This particular special case of MIT is its application to a 
+binary lattice.
+
+Let $\Omega=\{1, 2, 3, \ldots, n\}$. The set of subsets of $\Omega$ (including $\Omega$ and $\varnothing$ )is called the {\bf power set} of $\Omega$
+We will denote it as $\calp(\Omega)$
+
+\beq 
+\calp(\Omega)= \{ A: A\subset \Omega\}
+\eeq
+
+\beq
+|\calp(\Omega)|=\sum_{k=0}^{n}
+{n \choose k}= (1+1)^n = 2^n
+\eeq
+
+
+
+\begin{claim}
+(M\"{o}bius Inversion Theorem)
+
+If 
+
+\beq
+f(A)= \sum_{B\in \calp(\Omega)} \indi(B\subset A)
+\theta(B)
+\eeq
+then
+
+\beq
+\theta(B)=
+\sum_{C\in \calp(\Omega)} \indi(C\subset B)
+(-1)^{|B|-|C|}
+f(C)
+\eeq
+\end{claim}
+\proof
+
+Let's define $f^*(A)$ as follows and prove that
+$f^*(A)=f(A)$.
+
+\begin{align}
+f^*(A)&=
+\sum_{B}
+\indi(B\subset A)
+\sum_C \indi(C\subset B)
+(-1)^{|B|-|C|}
+f(C)
+\\
+&=
+\sum_{C}
+\indi(C\subset A) f(C)
+\underbrace{\sum_B
+\indi(C\subset B \subset A) (-1)^{|B|-|C|}}_{\Delta(A, C)}
+\quad\text{(changed summation order)}
+\label{eq-mid-mobius-inv}
+\end{align} 
+$\Delta(A, C)$ seems independent of $A$. However, for the edge case $A=B=C$, it equals 1. On the other hand,
+if $A\neq C$, then
+
+\beq
+\Delta(A, C)=
+\sum_{|C|=0}^{|B|}
+{ |B| \choose |C|}
+(-1)^{|B|-|C|}
+=
+(1-1)^{|B|}=0
+\eeq
+Thus
+
+\beq
+\Delta(A, C)= 
+\indi(A=C)
+\eeq
+and Eq.(\ref{eq-mid-mobius-inv}) reduces to
+\beq
+f^*(A)= \sum_C \indi(C\subset A )f(C)\indi(A=C)= f(A)
+\eeq
+
+
+\qed
+
+Example:
+
+Let 
+
+\beq 
+f(\{a,b,c, \dots\})= f_{abc\ldots}
+\eeq
+Consider subsets of $\Omega =\{1,2\}$
+
+\beq
+\begin{pmatrix}
+f_\varnothing\\f_1\\f_2\\f_{12}
+\end{pmatrix}=
+\underbrace{\begin{pmatrix}
+1&0&0&0
+\\
+1&1&0&0
+\\
+1&0&1&0
+\\
+1&1&1&1
+\end{pmatrix}}_{\calm}
+\begin{pmatrix}
+\theta_\varnothing\\\theta_1\\\theta_2\\\theta_{12}
+\end{pmatrix}
+\eeq
+Note that $\calm_{B,A}=\indi(B\supset A)$
+
+\beq
+\begin{pmatrix}
+\theta_\varnothing\\\theta_1\\\theta_2\\\theta_{12}
+\end{pmatrix}
+=
+\underbrace
+{\begin{pmatrix}
+1&0&0&0
+\\
+-1&1&0&0
+\\
+-1&0&1&0
+\\
+1&-1&-1&1
+\end{pmatrix}}_{\calm^{-1}}
+\begin{pmatrix}
+f_\varnothing\\f_1\\f_2\\f_{12}
+\end{pmatrix}
+\eeq
+Note that
+both $\calm$ and $\calm^{-1}$ are lower triangular and $\calm^{-1}$ has exactly the same
+non-zero entries
+as $\calm$, but
+whereas
+all non-zero entries of $\calm$
+are 1, $\calm^{-1}$ non-zero entries are either $+1$ or $-1$.
+The $-1$ entries occur along  subdiagonals of $\calm^{-1}$ according to the prescription $(-1)^{|A|-|B|}$.
+
+
+
+\beq
+(0^A 1^{A^c})= (x_1, x_2, \ldots, x_n)  \text { where } x_i = \indi(i\in A^c)
+\eeq
+This gives a 1-1 onto map 
+
+\beq
+x^n(\cdot): \calp(\Omega)
+\rarrow \bool^2
+,\quad x^n(A)= 0^A 1^{A^c}
+\eeq
+Note that $|\calp(\Omega)|=
+|\bool^n|= 2^n$.
+As an example of this map, consider $\Omega=\{1,2\}$.
+
+\beq
+\left\{
+\begin{array}{l}
+x^n(\varnothing)= 0^\varnothing 1^{\{1,2\}}= (1,1)
+\\
+x^n(\{1\})= 0^{\{1\}} 1^{\{2\}}= (0,1)
+\\
+x^n(\{2\})= 0^{\{2\}} 1^{\{1\}}= (1,0)
+\\
+x^n(\{1,2\})= 0^{\{1,2\}} 1^{\varnothing}= (0,0)
+\end{array}
+\right.
+\eeq
+
+Define
+
+\beq
+\cals_A(0^B 1^{B^c})=
+\indi(A\subset B) = \indi(A\in pa(B))
+\eeq
+
+
+\beq
+\ln P(0^B 1^{B^c})=
+\sum_{A\subset \Omega}
+\underbrace{\indi(A\subset B)}_
+{\cals_A(0^B 1^{B^c})}
+\theta_A
+\eeq
+
+\beq
+\theta_A =
+\sum_{B\subset \Omega}
+\indi(B\subset A)
+(-1)^{|B|-|A|}\ln P(0^B 1^{B^c})
+\eeq
+
+
+For example, for $\Omega=\{ 1, 2\}$, 
+
+\beq
+\begin{array}{l}
+\cals_{A}(0^B 1^{B^c})=
+\\
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+ & \cellcolor[HTML]{9AFF99}$\varnothing \mapsto (1,1)$ & \cellcolor[HTML]{9AFF99}$\{1\}\mapsto (0,1)$ & \cellcolor[HTML]{9AFF99}$\{2\}\mapsto (1,0)$ & \cellcolor[HTML]{9AFF99}$\{1,2\} \mapsto (1,1)$ \\ \hline
+\cellcolor[HTML]{FFCE93}$\varnothing \mapsto (1,1)$ & 1 & 0 & 0 & 0 \\ \hline
+\cellcolor[HTML]{FFCE93}$\{1\}\mapsto (0,1)$ & 1 & 1 & 0 & 0 \\ \hline
+\cellcolor[HTML]{FFCE93}$\{2\}\mapsto (1,0)$ & 1 & 0 & 1 & 0 \\ \hline
+\cellcolor[HTML]{FFCE93}$\{1,2\} \mapsto (1,1)$ & 1 & 1 & 1 & 1 \\ \hline
+\end{tabular}
+\end{array}
+\eeq
+so
+
+\beq
+\left\{
+\begin{array}{l}
+\cals_{(1,1)}(x,y)=\delta_{1,1}^{x,y}
+\\
+\cals_{(0,1)}(x,y)=\delta_0^y
+\\
+\cals_{(1,0)}(x,y)=\delta_0^x
+\\
+\cals_{(1,1)}(x,y)=1
+\end{array}
+\right.
+\eeq
+
 
 \subsection{Universal Partition Formula}
 

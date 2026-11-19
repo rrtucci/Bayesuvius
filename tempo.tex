@@ -3,92 +3,238 @@
 \input{bayesuvius.sty}
 \begin{document}
 
-\subsection{M\"{o}bius Inversion Theorem}
+\subsection{Posets}
 
-There is a very common version of the MIT used
-in Number Theory. This particular special case of MIT is its application to a 
-binary lattice.
+A {\bf partial order set or poset}
+$(P, \pord )$
+consists of a set $P$ on which a relation $\pord $ is defined. For all $a,b,c\in P$, the  relation must 
+satisfy:
+
+\begin{enumerate}
+\item
+{\bf reflexivity:}
+$a\pord  a$
+
+\item 
+{\bf antisymmetry:}
+if $a\pord  b$ and $b\pord  a$ then $a=b$.
+
+\item{\bf transitivity:}
+if $a\pord  b$ and $b\pord  c$ then $a\pord  c$.
+
+Given a general poset $(P, \pord)$ with two elements $a, b\in P$,
+if we cannot find a path of $a\pord x_1 \pord x_2\pord\ldots\pord b$,
+or a path connecting $a$ and $b$  in the other direction,  then we say $a$ and $b$ are {\bf non-comparable}.
+General posets can have
+non-comparable elements.
+A {\bf total order} is a poset
+in which all elements are comparable.
+
+\end{enumerate}
+
+A {strict poset} $(P, \spord )$
+consists of a set $P$ on which a relation $\spord $ is defined. For all $a,b,c\in P$, the  relation must 
+satisfy:
+
+\begin{enumerate}
+\item
+{\bf anti reflexivity:}
+No element $a\in P$ satisfies $a\spord  a$
+
+\item 
+{\bf antisymmetry:}
+if $a\spord b$ then
+not  $b\spord a$
+
+\item{\bf transitivity:}
+if $a\spord  b$ and $b\spord  c$ then $a\spord  c$
+
+\end{enumerate}
+
+A {\bf logic matrix} 
+for a poset $(P,  \pord )$ is a matrix $M$ such that
+
+\beq
+M_{ab} =\indi(a \pord  b)
+\eeq
+for all $a, b\in P$.
+See Fig.
+\begin{figure}[h!]
+$$
+\bcen
+\xymatrix{
+&5\ar[dl]\ar[dr]
+\\
+3\ar[dr]
+&&4\ar[dl]
+\\
+&2\ar[d]
+\\
+&1
+}
+\ecen
+M=
+\begin{pmatrix}
+0&1&1&1&1
+\\
+0&0&1&1&1
+\\
+0&0&0&0&1
+\\
+0&0&0&0&1
+\\
+0&0&0&0&0
+\end{pmatrix}
+,\quad
+\ol{M}=
+\begin{pmatrix}
+1&1&1&1&1
+\\
+0&1&1&1&1
+\\
+0&0&1&0&1
+\\
+0&0&0&1&1
+\\
+0&0&0&0&1
+\end{pmatrix}
+$$
+\caption{Hasse diagram with its logic matrix $M$ for a poset and its logic matrix $\ol{M}$ for
+strict poset. Note that $M$ and $\ol{M}$ have identical nondiagonal entries.
+Along the diagonal, $M$ has only zeros  and $\ol{M}$
+has only ones.}
+\label{fig-logic-matrices}
+\end{figure}
+
+Fig.\ref{fig-logic-matrices}
+gives an example of a 
+logic matrix for a poset and a strict poset.
+
+
+3 types of similar diagrams that can be used to represent a poset:
+
+\begin{enumerate}
+
+\item A {\bf DAG} is a directed acyclic graph. It represents a bnet. 
+
+In a DAG, we say an {\bf arrow 
+$\rvx\rarrow \rvy$ is transitive}  if there is a node $\rvm$ \qt{in between} $\rvx$ and $\rvy$ ;i.e.,  if there is 
+a node $\rvm$ and arrows $\rvx\rarrow \rvm$, $\rvm\rarrow \rvy$.
+A DAG can be used to represent a 
+poset but not all DAGs represent a poset. That's because a DAG can contain some
+but not all of the transitive arrows whereas poset is normally represented by a DAG with no transitive arrows although one  could say the transitive arrows are implicit.
+
+\item A {\bf Hasse diagram} is a minimal representation of a poset.
+By this we mean that 
+it contains an arrow $\rva\larrow \rvb$ iff $\rva \pord \rvb$ and there is no 
+$\rvx$ such that $\rva\pord \rvx\pord \rvb$.
+Hence, a Hasse diagram is a DAG 
+without any transitive arrows
+
+\item A {\bf lattice} is a poset $(P, \pord)$ equipped with two binary operations $\A$ and $\V$, such that, for every pair $a, b\in P$, 
+
+\begin{enumerate}
+\item there exists a unique {\bf supremum (sup)} (a.k.a join)
+denoted by $a\A b$.
+By a supremum, we mean an element $sup\in P$ 
+which satisfies
+
+\beq
+a\pord sup, \quad b\pord sup
+\eeq
+and is the largest element
+of $P$ to do so.
+
+
+\item there is  a unique
+{\bf infimum (inf)}, or the {meet} denoted by $a\V b$.
+
+By an infimum, we mean an element $inf\in P$ 
+which satisfies
+
+\beq
+inf \pord a, \quad inf\pord b
+\eeq
+and is the smallest element
+of $P$ to do so.
+\end{enumerate}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.5in]
+{poset/join-meet.png}
+\caption{Hasse diagram with sup and inf of $3$ and $4$. The links in a Hasse diagram  normally are depicted without arrowheads. The arrows are implicit rather than explicit and assumed to be pointing downwards. 3 and 4 are not comparable but 4 and  1 are.}
+\label{fig-pomp}
+\end{figure}
+
+
+
+\beq
+a\pord (a \A b) , \quad b\pord (a \A b)
+\eeq
 
 
 \begin{claim}
-(M\"{o}bius Inversion Theorem)
-
-If 
+$\pord$ is defined
+in terms of $\V$ and $\A$ by  either
 
 \beq
-f(A)= \sum_B \indi(B\subset A)
-\theta(B)
+a\pord b \iff a\A b =b
 \eeq
-then
+or, equivalently,
 
 \beq
-\theta(B)=
-\sum_C \indi(C\subset B)
-(-1)^{|B|-|C|}
-f(C)
+a\pord b \iff a \V b =a
 \eeq
 \end{claim}
 \proof
-
-Let's define $f^*(A)$ as follows and prove that
-$f^*(A)=f(A)$.
-
-\begin{align}
-f^*(A)&=
-\sum_{B}
-\indi(B\subset A)
-\sum_C \indi(C\subset B)
-(-1)^{|B|-|C|}
-f(C)
-\\
-&=
-\sum_{C}
-\indi(C\subset A) f(C)
-\underbrace{\sum_B
-\indi(C\subset B \subset A) (-1)^{|B|-|C|}}_{\Delta(A, C)}
-\quad\text{(changed summation order)}
-\label{eq-mid-mobius-inv}
-\end{align} 
-$\Delta(A, C)$ seems independent of $A$. However, for the edge case $A=B=C$, it equals 1. On the other hand,
-if $A\neq C$, then
-
-\beq
-\Delta(A, C)=
-\sum_{|C|=0}^{|B|}
-{ |B| \choose |C|}
-(-1)^{|B|-|C|}
-=
-(1-1)^{|B|}=0
-\eeq
-Thus
-
-\beq
-\Delta(A, C)= 
-\indi(A=C)
-\eeq
-and Eq.(\ref{eq-mid-mobius-inv}) reduces to
-\beq
-f^*(A)= \sum_C \indi(C\subset A )f(C)\indi(A=C)= f(A)
-\eeq
-
-
 \qed
 
-Example:
+Thus, a lattice
+is a special type of poset.
+Whereas a general poset can have
+a pair of non-comparable elements, 
+all the elements of a lattice are comparable, because
+the relation $\pord$ is defined
+for every pair of elements $a, b$ in terms of $\A$ or $\V$.
 
-Let 
 
-\beq 
-f(\{a,b,c, \dots\})= f_{abc\ldots}
-\eeq
-Consider subsets of $\Omega =\{1,2\}$
+ 
 
-\beq
-\begin{pmatrix}
-f_\varnothing
-\end{pmatrix}
-\eeq
 
+
+\end{enumerate}
+
+
+
+$$
+\xymatrix{
+&\{1,2,3\}
+\ar[dl]
+\ar[d]\ar[dr]
+&
+\\
+\{1,2\}
+\ar[d]
+\ar[dr]
+&\{1,3\}
+\ar[dl]
+\ar[dr]
+&\{2,3\}
+\ar[d]
+\ar[dl]
+\\
+\{1\}
+\ar[dr]
+&\{2\}
+\ar[d]
+&\{3\}
+\ar[dl]
+\\
+&
+\varnothing
+}
+$$
 
 
 \end{document}
