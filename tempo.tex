@@ -5,8 +5,97 @@
 
 \chapter{Moral Graphs}
 
+We say the query $\rvx\perp\rvz\mid \rvy?$
+is true if
+
+\beq
+P(x| z, y)=P(x|y)
+\eeq
+In Chapter \ref{ch-dsep},
+we gave necessary and sufficient
+graphical conditions on a bnet
+for $\rvx\perp\rvz\mid \rvy$ to be true.
+When those conditions, called d-separation conditions are
+satisfied, we will say $\rvx\perp_{bnet} \rvz\mid \rvy$ is true. Thus
+
+\beq
+\rvx\perp \rvz\mid \rvy
+\iff
+\rvx\perp_{bnet} \rvz\mid \rvy
+\eeq
+
+In this Chapter, we will show that given
+a bnet, one can always build from it a unique 
+undirected graph (UG) called the {\bf ancestral
+moral (AM) graph}.
+One can also define d-separation
+conditions for the AM graph in such a way that those conditions are satisfied iff 
+$\rvx\perp_{bnet}\rvz\mid  \rvy$. Hence
+
+\beq
+\boxed{\rvx\perp_{bnet} \rvz\mid \rvy
+\iff
+\rvx\perp_{AM} \rvz\mid \rvy}
+\label{eq-perp-bnet-AM}
+\eeq
+Recall that the d-separation conditions for
+an bnet handle 
+colliders, mediators and  forks differently.
+A nice feature of the the d-separation conditions for an AM graph is that
+they are the same for colliders, mediators and  forks, as one might 
+expect, since there is no difference
+between those 3 in an undirected graph.
+
+For an AM graph, $\rvx\perp_{AM}\rvz\mid \rvy.$
+iff all (undirected) paths from 
+$\rvx$ to $\rvz$ are blocked by a node in $\rvy.$ (in general, $\rvy.$ can be a  set (i.e., mulri-node), including the empty set).
 
 
+\begin{figure}[h!]
+$$
+\begin{array}{ccc}
+\xymatrix{
+\rva\ar[r]\ar[d]
+&{\rvb}\ar[d]
+\\
+{\rvc}\ar[r]\ar[d]
+&{\rvd}\ar[d]
+\\
+\rvf
+&\rve\ar[l]
+}
+&&
+\xymatrix{
+\rva\ar@{-}[r]\ar@{-}[d]
+&{\rvb}\ar@{-}[d]\ar@{-}[dl]
+\\
+{\rvc}\ar@{-}[r]\ar@{-}[d]\ar@{-}[dr]
+&{\rvd}\ar@{-}[d]
+\\
+\rvf
+&\rve\ar@{-}[l]
+}
+\\
+(a)
+&& (b)
+\end{array}
+$$
+\caption{Example of construction of a moral graph $(b)$ from a bnet $(a)$.}
+\label{fig-moral-g}
+\end{figure}
+Fig.\ref{fig-moral-g}
+shows an example of how to construct a
+moral graph from a bnet.
+All one hast to do is 
+\begin{enumerate}
+\item Add an undirected line (edge) between all 
+pairs of \qt{unwed} (i.e., not connected by an arrow already) parents of all colliders. If the collider
+has 2 parents, then one adds $2!/2=1$ edges.
+If the collider has 3 parents, then one adds $3!/2=3$ edges which form a clique (i.e.,
+fully connected subgraph). And so forth
+for more than 3 parents.
+\item Remove arrow directions
+\end{enumerate}
 
 
 \begin{figure}
@@ -14,35 +103,35 @@ $$
 \begin{array}{cccccc}
 \xymatrix@C=1pc{
 \rva\ar[r]\ar[d]
-&\Circle{\rvb}\ar[d]\ar[dr]
+&\Circle{\rvb}\ar[d]
 \\
-\Circle{\rvc}\ar[r]\ar[dr]
-&\Circle{\rvd}\ar[r]
-&\rve
+\Circle{\rvc}\ar[r]\ar[d]
+&\Circle{\rvd}\ar[d]
 \\
-&\rvf\ar[ur]
+\rvf
+&\rve\ar[l]
 }
 &
 \xymatrix@C=1pc{
 \Circle{\rva}\ar[r]\ar[d]
-&\Circle{\rvb}\ar[d]\ar[dr]
+&\Circle{\rvb}\ar[d]
 \\
-\Circle{\rvc}\ar[r]\ar[dr]
-&\Circle{\rvd}\ar[r]
-&\rve
+\Circle{\rvc}\ar[r]\ar[d]
+&\Circle{\rvd}\ar[d]
 \\
-&\rvf\ar[ur]
+\rvf
+&\rve\ar[l]
 }
 &
 \xymatrix@C=1pc{
 \Circle{\rva}\ar@[red][r]\ar@[red][d]
-&\Circle{\rvb}\ar@[red][d]\ar[dr]
+&\Circle{\rvb}\ar@[red][d]
 \\
-\Circle{\rvc}\ar@[red][r]\ar[dr]
-&\Circle{\rvd}\ar[r]
-&\rve
+\Circle{\rvc}\ar@[red][r]\ar[d]
+&\Circle{\rvd}\ar[d]
 \\
-&\rvf\ar[ur]
+\rvf
+&\rve\ar[l]
 }
 &
 \xymatrix@C=1pc{
@@ -56,6 +145,7 @@ $$
 \xymatrix@C=1pc{
 \Circle{\rva}\ar@[red][r]\ar@[red][d]
 &\Circle{\rvb}\ar@[red][d]
+\ar@[red]@{-}[dl]
 \\
 \Circle{\rvc}\ar@[red][r]
 &\Circle{\rvd}
@@ -80,14 +170,58 @@ $$
 \end{array}
 $$
 \caption{Construction of ancestral moral graph
-for query $\rvc\perp \rvb\mid \rvd$}
+for query $\rvc\perp \rvb\mid \rvd?$}
 \label{fig-anc-moral-c-b-d}
 \end{figure}
 
+Fig.\ref{fig-anc-moral-c-b-d}
+showa a example of how to construct an Ancestral Moral (AM) graph
+of a given bnet for the query 
+$\rvc\perp \rvb\mid \rvd?$.
+In that figure
+we perform the following steps
 
+\begin{enumerate}
+\item Circle the 3 nodes involved 
+in the query $\rvc\perp \rvb\mid \rvd?$.
+The set of $S=\{\rvc, \rvd, \rvb\}$
+is called the {\bf scope} of the query.
 
+\item Add to the scope of the  query 
+all ancestors of $S$, including $S$ itself.
+This set of nodes is often denoted as $An(S)$.
+
+\item Mark red all arrows, and only the arrows between the 
+nodes in $An(S)$.
+
+\item Remove non-red arrows
+
+\item Add undirected line between all 
+pairs of \qt{unwed} (i.e., not connected by an arrow already) parents of all colliders.
+
+\item Remove the direction of all arrows.
+
+\end{enumerate}
+
+We will not prove rigorously the 
+equivalence Eq.(\ref{eq-perp-bnet-AM})
+between the bnet and AM 
+d-separation
+conditions.
+Instead, we give the
+following examples to 
+convince the reader
+that its true. 
+Figs.\ref{fig-moral-fork}/
+\ref{fig-moral-mediator}/
+\ref{fig-moral-collider}
+gives some 
+examples of application of the 
+bnet and AM d-separation conditions to a fork/mediator/collider node.
+
+\begin{figure}[h!]
 $$
-\begin{tabular}{c|c|c|c|c|c}
+\begin{tabular}{c|c|c|c|c|c|}
 {bnet}
 &{query}
 &\begin{tabular}{c}
@@ -117,21 +251,21 @@ d-sep
 {answer}
 \\
 {from}
-\\ Am
+\\ AM
 \\
 {d-sep}
 \end{tabular}
 \\ \hline\hline %row 1
 \xymatrix@C=1pc{
 \rvx
-&\rvy\ar[l]\ar[r]
+&*++[o][F*:yellow]{\rvy}\ar[l]\ar[r]
 &\rvz
 }
 & $\rvx\perp \rvz\mid \rvy?$ 
 &\text{Yes}
 &$\{\rvx, \rvy,\rvz\}$
 & \xymatrix@C=1pc{\rvx
-	&\rvy\ar@{-}[l]\ar@{-}[r]
+	&*++[o][F*:yellow]{\rvy}\ar@{-}[l]\ar@{-}[r]
 	&\rvz}
 & \text{Yes}
 \\
@@ -145,7 +279,7 @@ d-sep
 &\text{No}
 &$\{\rvx, \rvz\}$
 & \xymatrix@C=1pc{\rvx
-	&
+	&\rvy\ar@{-}[l]\ar@{-}[r]
 	&\rvz}
 & \text{No}
 \\
@@ -153,7 +287,7 @@ d-sep
 \begin{tabular}{c}
 \xymatrix@C=1pc{
 \rvx\ar@/_1pc/[rr]
-&\rvy\ar[l]\ar[r]
+&*++[o][F*:yellow]{\rvy}\ar[l]\ar[r]
 &\rvz
 }
 \\
@@ -163,7 +297,7 @@ d-sep
 &\text{No}
 &$\{\rvx, \rvy,\rvz\}$
 & \xymatrix@C=1pc{\rvx\ar@/_1pc/@{-}[rr]
-	&\rvy\ar@{-}[l]\ar@{-}[r]
+	&*++[o][F*:yellow]{\rvy}\ar@{-}[l]\ar@{-}[r]
 	&\rvz}
 & \text{No}
 \\
@@ -187,9 +321,14 @@ d-sep
 \\ \hline
 \end{tabular}
 $$
+\caption{{Examples of application of the  bnet and AM d-separation conditions to a fork node.}}
+\label{fig-moral-fork}
+\end{figure}
 
-$$
-\begin{tabular}{c|c|c|c|c|c}
+
+\begin{figure}[h!]
+$$e
+\begin{tabular}{c|c|c|c|c|c|}
 {bnet}
 &{query}
 &\begin{tabular}{c}
@@ -226,14 +365,14 @@ d-sep
 \\ \hline\hline %row 1
 \xymatrix@C=1pc{
 \rvx\ar[r]
-&\rvy\ar[r]
+&*++[o][F*:yellow]{\rvy}\ar[r]
 &\rvz
 }
 & $\rvx\perp \rvz\mid \rvy?$ 
 &\text{Yes}
 &$\{\rvx, \rvy,\rvz\}$
 & \xymatrix@C=1pc{\rvx
-	&\rvy\ar@{-}[l]\ar@{-}[r]
+	&*++[o][F*:yellow]{\rvy}\ar@{-}[l]\ar@{-}[r]
 	&\rvz}
 & \text{Yes}
 \\
@@ -247,7 +386,7 @@ d-sep
 &\text{No}
 &$\{\rvx, \rvz\}$
 & \xymatrix@C=1pc{\rvx
-	&
+	&{\rvy}\ar@{-}[l]\ar@{-}[r]
 	&\rvz}
 & \text{No}
 \\
@@ -255,7 +394,7 @@ d-sep
 \begin{tabular}{c}
 \xymatrix@C=1pc{
 \rvx\ar@/_1pc/[rr]\ar[r]
-&\rvy\ar[r]
+&*++[o][F*:yellow]{\rvy}\ar[r]
 &\rvz
 }
 \\
@@ -265,7 +404,7 @@ d-sep
 &\text{No}
 &$\{\rvx, \rvy,\rvz\}$
 & \xymatrix@C=1pc{\rvx\ar@/_1pc/@{-}[rr]
-	&\rvy\ar@{-}[l]\ar@{-}[r]
+	&*++[o][F*:yellow]{\rvy}\ar@{-}[l]\ar@{-}[r]
 	&\rvz}
 & \text{No}
 \\
@@ -273,7 +412,8 @@ d-sep
 \begin{tabular}{c}
 \xymatrix@C=1pc{
 \rvx\ar@/_1pc/[rr]
-&\rvy\ar[l]\ar[r]
+\ar[r]
+&\rvy\ar[r]
 &\rvz
 }
 \\
@@ -289,6 +429,158 @@ d-sep
 \\ \hline
 \end{tabular}
 $$
+\caption{Examples of application of the 
+bnet and AM 
+ d-separation conditions to a mediator node.}
+\label{fig-moral-mediator}
+\end{figure}
+
+\begin{figure}[h!]
+$$
+\begin{tabular}[t]{l|l|l|l|l|l|}
+{bnet}
+&{query}
+&\begin{tabular}{c}
+{query}
+\\
+{answer}
+\\
+{from}
+\\
+bnet
+\\
+d-sep
+\end{tabular}
+&
+{scope}
+&
+\begin{tabular}{c}
+{ancestral}
+\\
+{moral}
+\\
+{graph}
+\end{tabular}
+&\begin{tabular}{c}
+{query}
+\\
+{answer}
+\\
+{from}
+\\ Am
+\\
+{d-sep}
+\end{tabular}
+\\ \hline\hline %row 1
+\xymatrix@R=1pc@C=1pc{
+&\rva\ar[d]
+\\
+&\rvb
+\ar[dr]
+\\
+\rvx\ar[dr]\ar[ur]
+&&\rvz\ar[dl]
+\\
+&*++[o][F*:yellow]{\rvy}\ar[d]
+\\
+\rve\ar[r]&\rvd
+}
+&$\rvx\perp\rvz\mid \rvy?$
+&No
+&$\{\rvx, \rvy, \rvz\}$
+&\xymatrix@R=1pc@C=1pc{
+&\rva
+\ar@{-}[d]
+\\
+&\rvb
+\\
+\rvx\ar@{-}[dr]
+&&\rvz\ar@{-}[dl]\ar@{-}[ul]
+\ar@{-}[ll]
+\\
+&*++[o][F*:yellow]{\rvy}
+}
+&No
+\\
+\hline %row 2
+\begin{tabular}{c}
+\xymatrix@R=1pc@C=1pc{
+&\rva\ar[d]
+\\
+&\rvb
+\\
+\rvx\ar[dr]
+\ar[ur]
+&&\rvz\ar[dl]
+\ar[ul]
+\\
+&\rvy\ar[d]
+\\
+\rve\ar[r]
+&\rvd
+}
+\end{tabular}
+& $\rvx\perp \rvz?$ 
+&Yes
+&$\{\rvx, \rvz\}$
+&
+\xymatrix@C=1pc@R=1pc{
+&
+\\
+&
+\\
+\rvx
+&&\rvz
+}
+& Yes
+\\
+\hline %row 3
+\begin{tabular}{c}
+\xymatrix@R=1pc@C=1pc{
+&\rva\ar[d]
+\\
+&\rvb
+\\
+\rvx\ar[dr]
+\ar[ur]
+&&\rvz\ar[dl]
+\ar[ul]
+\\
+&\rvy\ar[d]
+\\
+\rve\ar[r]
+&*++[o][F*:yellow]{\rvd}
+}
+\end{tabular}
+& $\rvx\perp \rvz\mid \rvd?$
+&No
+&$\{\rvx, \rvz, \rvd\}$
+&\xymatrix@R=1pc@C=1pc{
+&\rva\ar@{-}[d]
+\\
+&\rvb
+\\
+\rvx\ar@{-}[dr]
+\ar@{-}[ur]
+&&\rvz\ar@{-}[dl]
+\ar@{-}[ll]
+\ar@{-}[ul]
+\\
+&\rvy\ar@{-}[d]
+\\
+\rve\ar@{-}[r]
+&*++[o][F*:yellow]{\rvd}
+}
+& No
+\\ \hline 
+\end{tabular}
+$$
+\caption{Examples of application of the 
+bnet and AM d-separation conditions to a collider node.}
+\label{fig-moral-collider}
+\end{figure}
+
+
 
 
 \end{document}
