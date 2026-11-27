@@ -1,0 +1,860 @@
+\chapter{Factorizations of a Joint Probability Distribution}
+\label{ch-factor-joint-prob}
+
+This chapter is based
+entirely on Question/Answer sessions with ChatGPT, reported in my own words and notation.
+Also, I added a small amount of personal opinions and vision.
+
+In this chapter, we discuss 3 important
+ways of factoring a joint probability distribution:
+\begin{enumerate}
+\item Factorization into families
+\item Factorization into max-cliques
+\item FED factorization. (FED=Family
+of exponential Distributions)
+
+\end{enumerate}
+We analyze the same bnet (the on in Fig.\ref{fig-2-boxes-bnet})
+in those 3 factorizations. We give
+various pictorials representations (PR) of those factorizations.
+
+\section{Factorization into Families}
+
+We will discuss 2 types of factorizations
+into families,
+Bayesian networks (bnets),
+and family hypergraphs.
+
+
+
+
+\begin{itemize}
+\item {\bf Bayesian Network}
+
+Factorization  of bnet in Fig.\ref{fig-2-boxes-bnet}:
+\beq
+P(x^6)
+=
+P(a)
+\quad P(b|a)
+\quad P(c|a)
+\quad P(d|b,c)
+\quad P(e|d)
+\quad P(f|c,e)
+\eeq
+
+\begin{figure}[h!]
+$$
+\begin{array}{ccc}
+\xymatrix{
+\rva\ar[r]\ar[d]
+&{\rvb}\ar[d]
+\\
+{\rvc}\ar[r]\ar[d]
+&{\rvd}\ar[d]
+\\
+\rvf
+&\rve\ar[l]
+}
+&&
+\xymatrix{
+\rva
+\ar@{-}[r]
+\ar@{-}[d]
+&{\rvb}
+\ar@{-}[d]
+\ar@{-}[dl]
+\\
+{\rvc}
+\ar@{-}[r]
+\ar@{-}[d]
+\ar@{-}[dr]
+&{\rvd}
+\ar@{-}[d]
+\\
+\rvf
+&\rve
+\ar@{-}[l]
+}
+\\
+(a)
+&& (b)
+\end{array}
+$$
+\caption{Example of a bnet $(a)$ and
+its moral graph $(b)$. Let
+$x^6 = (a,b,c,d,e, f)$.
+Also, we will refer to bnet $(a)$ as $\calb$ and to the set
+$\{\rva, \rvb, \rvc, \rvd, \rve, \rvf\}$ of $\calb$'s nodes as $nds(\calb)$.}
+\label{fig-2-boxes-bnet}
+\end{figure}
+
+PR of this factorization in Fig.\ref{fig-2-boxes-bnet}.
+
+\item {\bf Family Hypergraph}
+
+Let
+\beq
+fam(\rvx)= \{\rvx\}
+\cup pa(\rvx)
+\eeq
+
+Factorization  of bnet in Fig.\ref{fig-2-boxes-bnet}:
+
+
+\begin{align}
+P(x^6)&=
+\frac{1}{Z}
+\prod_{\rvx\in nds(\calb)}
+\phi(fam(\rvx))
+\\
+&=
+\frac{1}{Z}
+\phi_1(a)
+\quad \phi_2(b,a)
+\quad \phi_3(c,a)
+\quad \phi_4(d, b, c)
+\quad \phi_5(e, d)
+\quad \phi_6(f, c, e)
+\end{align}
+The Ising model is an example of
+factorization into family hypergraph.
+
+PR of this factorization in Fig.\ref{fig-tab-fam-hyper}, Fig.\ref{fig-fact-g-fam-hyper}, and
+Fig.\ref{fig-facet-fam-hyper}
+
+
+\begin{figure}[h!]
+\begin{tabular}{|l|l|l|l|l|l|l|}
+\hline
+ & \cellcolor[HTML]{FFCCC9}$\phi_1$ & \cellcolor[HTML]{FFCCC9}$\phi_2$ & \cellcolor[HTML]{FFCCC9}$\phi_3$ & \cellcolor[HTML]{FFCCC9}$\phi_4$ & \cellcolor[HTML]{FFCCC9}$\phi_5$ & \cellcolor[HTML]{FFCCC9}$\phi_6$ \\ \hline
+\cellcolor[HTML]{9AFF99}$\rva$ & $\color{red}\bullet$ & $\color{red}\bullet$ & $\color{red}\bullet$ &  &  &  \\ \hline
+\cellcolor[HTML]{9AFF99}$\rvb$ &  & $\color{red}\bullet$ &  & $\color{red}\bullet$ &  &  \\ \hline
+\cellcolor[HTML]{9AFF99}$\rvc$ &  &  & $\color{red}\bullet$ & $\color{red}\bullet$ &  & $\color{red}\bullet$ \\ \hline
+\cellcolor[HTML]{9AFF99}$\rvd$ &  &  &  & $\color{red}\bullet$ & $\color{red}\bullet$ &  \\ \hline
+\cellcolor[HTML]{9AFF99}$\rve$ &  &  &  &  & $\color{red}\bullet$ & $\color{red}\bullet$ \\ \hline
+\cellcolor[HTML]{9AFF99}$\rvf$ &  &  &  &  &  & $\color{red}\bullet$ \\ \hline
+\end{tabular}
+\caption{Table PR of family hypergraph.}
+\label{fig-tab-fam-hyper}
+\end{figure}
+
+
+
+
+
+\begin{figure}[h!]
+$$
+\xymatrix{
+\phi_1\ar[d]
+&\phi_2\ar[d]\ar[dl]
+&\phi_3\ar[d]\ar[dll]
+&\phi_4\ar[dll]\ar[dl]\ar[d]
+&\phi_5\ar[d]\ar[dl]
+&\phi_6\ar[dl]\ar[d]\ar[dll]
+\\
+\rva
+&\rvb
+&\rvc
+&\rvd
+&\rve
+&\rvf
+}
+$$
+\caption{Factor graph (bipartite) PR of
+family hypergraph.}
+\label{fig-fact-g-fam-hyper}
+\end{figure}
+
+\begin{figure}
+$$
+\xymatrix@C=3pc@R=3pc{
+\phi_1,\rva
+\ar@{-}[r]|{\phi_2}
+\ar@{-}[d]|{\phi_3}
+&{\rvb}
+\ar@{-}[d]|{\phi_4}
+\ar@{-}[dl]|{\phi_4}
+\\
+{\rvc}
+\ar@{-}[r]|{\phi_4}
+\ar@{-}[d]|{\phi_6}
+\ar@{-}[dr]|{\phi_6}
+&{\rvd}
+\ar@{-}[d]|{\phi_5}
+\\
+\rvf
+&\rve
+\ar@{-}[l]|{\phi_6}
+}
+$$
+\caption{Facet PR of family hypergraph.}
+\label{fig-facet-fam-hyper}
+\end{figure}
+
+\end{itemize}
+
+\section{Factorization into Max-Cliques}
+
+We will
+only discuss only one type of factorization
+into max-cliques, {Markov Random Fields (MRF)}.
+
+A {\bf clique} of a DAG (directed acyclic graph)
+or an UG (undirected graph) is a fully connected subgraph. A {\bf maximal clique (max-clique)} is a clique which is not contained in a larger clique.
+
+To construct a {\bf Markov Random Field (MRF)} from a given bnet, one performs the
+following steps
+
+\begin{enumerate}
+\item Find the moral graph of the bnet (see Chapter \ref{ch-dsep-ug}).
+\item Find the max-cliques of the moral graph.
+\item Write down a factorization into
+max-cliques.
+\end{enumerate}
+
+
+Fig.\ref{fig-2-boxes-bnet} gives an example of a bnet and its moral graph.
+The max-cliques for that moral graph are
+
+\beq
+\rva\rvb\rvc, \rvb\rvc\rvd, \rvc\rvd\rve, \rvc\rve\rvf
+\eeq
+where, for example, $\rva\rvb\rvc$
+is an abbreviation for $\{\rva, \rvb, \rvc\}$.
+
+Factorization  of bnet in Fig.\ref{fig-2-boxes-bnet}:
+
+\beqa
+P(x^6)&=&
+\frac{1}{Z}
+\prod_{C\in cliques(\calb)}
+\phi(C)
+\\
+&=&
+\frac{1}{Z}
+\phi_1(a,b,c)
+\quad\phi_2(b,c,d)
+\quad\phi_3(c,d,e)
+\quad\phi_4(c,e,f)
+\eeqa
+
+PR of this factorization in Fig.\ref{fig-tab-mrf},
+Fig.\ref{fig-fact-g-mrf}, and
+Fig.\ref{fig-facet-mrf}
+
+\begin{figure}[h!]
+\centering
+\begin{tabular}{lllll}
+\hline
+\multicolumn{1}{|l|}{} & \multicolumn{1}{l|}{\cellcolor[HTML]{FFCCC9}$\phi_1$} & \multicolumn{1}{l|}{\cellcolor[HTML]{FFCCC9}$\phi_2$} & \multicolumn{1}{l|}{\cellcolor[HTML]{FFCCC9}$\phi_3$} & \multicolumn{1}{l|}{\cellcolor[HTML]{FFCCC9}$\phi_4$} \\ \hline
+\multicolumn{1}{|l|}{\cellcolor[HTML]{9AFF99}$\rva$} & \multicolumn{1}{l|}{$\color{red}\bullet$} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \hline
+\multicolumn{1}{|l|}{\cellcolor[HTML]{9AFF99}$\rvb$} & \multicolumn{1}{l|}{$\color{red}\bullet$} & \multicolumn{1}{l|}{$\color{red}\bullet$} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \hline
+\multicolumn{1}{|l|}{\cellcolor[HTML]{9AFF99}$\rvc$} & \multicolumn{1}{l|}{$\color{red}\bullet$} & \multicolumn{1}{l|}{$\color{red}\bullet$} & \multicolumn{1}{l|}{$\color{red}\bullet$} & \multicolumn{1}{l|}{$\color{red}\bullet$} \\ \hline
+\multicolumn{1}{|l|}{\cellcolor[HTML]{9AFF99}$\rvd$} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{$\color{red}\bullet$} & \multicolumn{1}{l|}{$\color{red}\bullet$} & \multicolumn{1}{l|}{} \\ \hline
+\multicolumn{1}{|l|}{\cellcolor[HTML]{9AFF99}$\rve$} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{$\color{red}\bullet$} & \multicolumn{1}{l|}{$\color{red}\bullet$} \\ \hline
+\multicolumn{1}{|l|}{\cellcolor[HTML]{9AFF99}$\rvf$} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{$\color{red}\bullet$} \\ \hline
+ &  &  &  &
+\end{tabular}
+\caption{Table PR of MRF}
+\label{fig-tab-mrf}
+\end{figure}
+
+
+\begin{figure}[h!]
+$$
+\xymatrix{
+\phi_1
+\ar[d]\ar[dr]\ar[drr]
+&\phi_2
+\ar[d]\ar[dr]\ar[drr]
+&\phi_3\ar[d]\ar[dr]\ar[drr]
+&\phi_4\ar[dr]\ar[drr]\ar[dl]
+\\
+\rva
+&\rvb
+&\rvc
+&\rvd
+&\rve
+&\rvf
+}
+$$
+\caption{Factor graph (bipartite)
+PR of MRF}
+\label{fig-fact-g-mrf}
+\end{figure}
+
+\begin{figure}[h!]
+$$
+\xymatrix@C=4pc@R=4pc{
+\rva
+\ar@{-}[r]|{\phi_1}
+\ar@{-}[d]|{\phi_1}
+&{\rvb}
+\ar@{-}[d]|{\phi_2}
+\ar@{-}[dl]|{\phi_1}
+\ar@{-}@/_1pc/[dl]|{\phi_2}
+\\
+{\rvc}
+\ar@{-}[r]|{\phi_2}
+\ar@/_1pc/@{-}[r]|{\phi_3}
+\ar@{-}[d]|{\phi_4}
+\ar@{-}[dr]|{\phi_3}
+\ar@{-}@/_1pc/[dr]|{\phi_4}
+&{\rvd}
+\ar@{-}[d]|{\phi_3}
+\\
+\rvf
+&\rve
+\ar@{-}[l]|{\phi_4}
+}
+$$
+\caption{Facet PR of MRF }
+\label{fig-facet-mrf}
+\end{figure}
+\section{FED Factorization}
+
+Let
+
+FED= Family of Exponential Distributions.\footnote{FEDs are discussed and used in Section \ref{sec-fed}.}
+
+Factorization  of bnet in Fig.\ref{fig-2-boxes-bnet}:
+
+\beq
+P(x^6)=\frac{1}{Z}
+\prod_{i=1}^{15}
+\exp\left(\cals_i(x^6)\theta_i
+\right)
+\eeq
+so
+
+\beq
+\ln P(x^6)=
+\sum_{i=1}^{15} \cals_i(x^6)\theta_i
+-\ln Z
+\label{eq-fed-fact-ln}
+\eeq
+were the {\bf statistics} $\cals_i(x^6)$ will be specified below.
+Eq.(\ref{eq-fed-fact-ln})
+is analogous to an
+ expansion of $\ln P(x^6)$
+in terms  of a complete or over-complete orthonormal set, such a Fourier series. The
+complete set is finite because
+$\ln P(x^6)$ is finite and discrete and thus has a finite number of degrees of freedom.
+
+PR of this factorization in Fig.\ref{fig-bnet-fed} and
+Fig.\ref{fig-facet-fed}.
+\begin{figure}[h!]
+$$
+\xymatrix@C=4pc@R=1pc{
+&\ul{\theta_1}\ar[ddl]|{\cals_1(x^6)}
+\\
+&\ul{\theta_2}\ar[dl]|{\cals_2(x^6)}
+\\
+\ln P(x^6)&\vdots
+\\
+&\ul{\theta_{15}}\ar[ul]|{\cals_{14}(x^6)}
+\\
+&\ul{\theta_{15}}\ar[uul]|{\cals_{15}(x^6)}
+}$$
+\caption{bnet PR of the FED factorization.}
+\label{fig-bnet-fed}
+\end{figure}
+
+\begin{figure}[h!]
+$$
+\begin{array}{ccc}
+\xymatrix@C=3pc@R=3pc{ % nodes
+\rva, \phi_1
+\ar@{-}[r]
+\ar@{-}[d]
+&{\rvb},\phi_2
+\ar@{-}[d]
+\ar@{-}[dl]
+\\
+{\rvc},\phi_3
+\ar@{-}[r]
+\ar@{-}[d]
+\ar@{-}[dr]
+&{\rvd},\phi_4
+\ar@{-}[d]
+\\
+\rvf,\phi_6
+&\rve,\phi_5
+\ar@{-}[l]
+}
+&
+\xymatrix@C=3pc@R=3pc{% duos
+\rva
+\ar@{-}[r]|{\phi_1'}
+\ar@{-}[d]|{\phi_2'}
+&{\rvb}
+\ar@{-}[d]|{\phi_4'}
+\ar@{-}[dl]|{\phi_3'}
+\\
+{\rvc}
+\ar@{-}[r]|{\phi_5'}
+\ar@{-}[d]|{\phi_6'}
+\ar@{-}[dr]|{\phi_7'}
+&{\rvd}
+\ar@{-}[d]|{\phi_8'}
+\\
+\rvf
+&\rve
+\ar@{-}[l]|{\phi_9'}
+}
+&
+\xymatrix@C=3pc@R=3pc{% trios
+\rva
+\ar@{-}[r]
+\ar@{-}[d]
+&{\rvb}
+\ar@{-}[d]|{\phi_1''}
+\ar@{-}[dl]|{\phi_1''}
+\\
+{\rvc}
+\ar@{-}[r]|{\phi_1''}
+\ar@{-}@/_1pc/[r]|{\phi_2''}
+\ar@{-}[d]
+\ar@{-}[dr]|{\phi_2''}
+&{\rvd}
+\ar@{-}[d]|{\phi_2''}
+\\
+\rvf
+&\rve
+\ar@{-}[l]
+}
+\\
+(a)&(b)&(c)
+\end{array}
+$$
+\caption{Facet PR of FED
+factorization.
+Normally, we would super-pose $(a), (b)$ and $(c)$, but for increased clarity, we
+have opted to draw single, double,
+and triple interactions separately.
+Each $\phi_i$ factor equals $\exp(\cals_i(x^6)\theta_i)$.
+$(a)$ Self-interactions (6 of them),
+$(b)$ pair interactions (9 of them),
+(3) triple interactions (2 of them). Total
+number of interactions shown: $6+9+2=17$.}
+\label{fig-facet-fed}
+\end{figure}
+Let
+
+TPM = Transition probability matrix
+
+ dofs=degrees of freedom
+
+The family of statistics functions  $\{\cals_i(x^6)\}_{i=1}^{17}$
+ is
+far from unique. We will give two natural choices:
+TPM dofs statistics and interaction statistics.
+
+\hrule
+{\bf TPM dofs statistics:}
+
+\beq
+a=0:\quad \cals_1(x^6)=\delta^{a}_0,
+\eeq
+
+\beq
+b=0, \text{vary } a:\quad \cals_2(x^6)=\delta^{b}_0 \delta^a_0,
+\quad
+\cals_3(x^6)=\delta^{b}_0 \delta^a_1
+\eeq
+
+\beq
+c=0, \text{vary } a:\quad
+\cals_4(x^6)=\delta^{c}_0 \delta^a_0,
+\quad
+\cals_5(x^6)=\delta^{c}_0 \delta^a_1
+\eeq
+
+\beq
+\begin{array}{l}
+d=0, \text{vary } b, c:\quad
+\\
+\cals_6(x^6)=\delta^{d}_0
+\delta_0^b \delta_0^c,
+\quad
+\cals_7(x^6)=\delta^{d}_0
+\delta_0^b \delta_1^c,
+\quad
+\cals_8(x^6)=\delta^{d}_0
+\delta_1^b \delta_0^c,
+\quad
+\cals_9(x^6)=\delta^{d}_0
+\delta_1^b \delta_1^c
+\end{array}
+\eeq
+
+\beq
+e=0, \text{vary } d:\quad
+\cals_{10}(x^6)=\delta^{e}_0 \delta^d_0,
+\quad
+\cals_{11}(x^6)=\delta^{e}_0 \delta^d_1
+\eeq
+
+\beq
+\begin{array}{l}
+f=0, \text{vary } c, e:\quad
+\\
+\cals_{12}(x^6)=\delta^{f}_0
+\delta_0^c \delta_0^e,
+\quad
+\cals_{13}(x^6)=\delta^{f}_0
+\delta_0^c \delta_1^e
+,\quad
+\cals_{14}(x^6)=\delta^{f}_0
+\delta_1^c \delta_0^e,
+\quad
+\cals_{15}(x^6)=\delta^{f}_0
+\delta_1^c \delta_1^e
+\end{array}
+\eeq
+
+Recall that
+\beq
+P(d, b|c) = P(d|b, c)P(b|c)
+\eeq
+We've parametrized $P(d|b,c)$ so far, but
+we also want to parametrize $P(b|c)$.
+So let's include the additional statistic
+
+\beq
+\cals_{16}(x^6)= \delta_0^b\delta_0^c
+\eeq
+
+Likewise, recall that
+\beq
+P(f,c|e) = P(f|c,e)P(c|e)
+\eeq
+We've parametrized $P(f|c,e)$ so far, but
+we also want to parametrize $P(c|e)$.
+So let's include the additional statistic
+
+\beq
+\cals_{17}(x^6)= \delta_0^c\delta_0^e
+\eeq
+Note that the statistics $\cals_{16}$
+and $\cals_{17}$ can also
+be understood as coming from the two new
+edges that arise from moralization.
+
+\hrule
+{\bf Interaction statistics}
+
+Consider the set of interactions
+\beq
+\cali=
+\begin{array}{l}
+\{
+\eset, \rva, \rvb, \rvc, \rvd, \rve, \rvf,
+\\
+\rva\rvb, \rva\rvc,
+\rvb\rvc,\rvb\rvd,
+\rvc\rvd, \rvd\rve,\rvc\rve,
+\rvc\rvf, \rve\rvf,
+\\
+\rvb\rvc\rvd, \rvc\rve\rvf
+\}
+\end{array}
+\eeq
+where, for example, $\rva\rvb\rvc$
+is an abbreviation for $\{\rva, \rvb, \rvc\}$.
+Now the FED
+factorization equation Eq.(\ref{eq-fed-fact-ln})
+becomes
+
+\beq
+\ln P(x^6)=
+\sum_{A \in \cali}
+ \cals_A(x^6)\theta_A
+\eeq
+where we've set
+
+\beq
+\theta_\eset =
+-\ln Z,
+\quad
+\cals_\eset(x^6)=1
+\eeq
+
+Define
+\beq
+0^A 1^{A^c}=
+(\underbrace{0\ldots 0}_{A},
+\underbrace{1,\dots, 1}_{A^c})
+\eeq
+For example,
+
+\beq
+0^{\rvb\rvc\rvd}1^{\rvb\rvc\rvd^c}
+=
+\begin{tabular}{cccccc}
+$\rva$&$\rvb$&$\rvc$&$\rvd$&$\rve$&$\rvf$
+\\
+(1,&0,&0,&0,&1,&1)
+\end{tabular}
+\eeq
+Also define
+
+\beq
+\ell_A = \ln P(0^A 1^{A^c})
+\eeq
+Now the FED factorization
+equation Eq.(\ref{eq-fed-fact-ln}) can be
+expressed compactly
+as the matrix equation
+
+\beq
+\ell = M \theta
+\eeq
+where $M$ is an $18\times 18$  matrix.
+
+To calculate what are the
+matrix elements of matrix $M$, note the following.
+For $A\subset nds(\calb)$,
+
+\beq
+\cals_A(x^6)=\prod_{\rvx\in A}\delta_0^x=
+\delta_0^{x_A}
+\eeq
+Thus
+
+\beq
+\ln P(0^B 1^{B^c})=\sum_{A\in \cali}\delta_0^{x_A}\indi
+(x=0^B 1^{B^c})\theta_A=
+\sum_{A\in \cali}
+\underbrace{\indi(A\subset B)}_
+{M_{B,A}}
+\theta_A
+\eeq
+Thus
+
+\beq
+M_{B,A}= \indi(A\subset B)
+\eeq
+Note that $M$ is lower triangular
+with all elements along its diagonal
+equal to 1,
+and all elements
+under its diagonal equal
+to zero or one.
+
+As a consequence of the M\"{o}bius inversion
+formula\footnote{The M\"{o}bius inversion
+formula is discussed and proven in Section \ref{sec-mobius-inv}.}
+
+\beq
+\theta_B =
+\sum_{A\in \calp(nds(\calb))}
+\indi(A \subset B)
+(-1)^{|A|-|B|}\ell_A
+\label{eq-mob-inv-interaction-case}
+\eeq
+ChatGPT evaluated Eq.(\ref{eq-mob-inv-interaction-case}) using the Python package
+for symbolic algebra,
+SymPy, and assures me that the solution is as follows.
+For $\rvx, \rvy, \rvz\in nds(\calb)$,
+
+{\bf self interactions (singletons)}
+\beq
+\theta_\rvx=\ell_\rvx-\ell_\eset
+\eeq
+
+{\bf pair interactions}
+\beq
+\theta_{\rvx\rvy}=\ell_{\rvx\rvy}
+-(\ell_\rvx
++\ell_\rvy)
++\ell_\eset
+\eeq
+
+{\bf triple interactions}
+
+\beq
+\theta_{\rvx\rvy\rvz}=
+\ell_{\rvx\rvy\rvz}-(\ell_{\rvx\rvy}
++\ell_{\rvy\rvz}
++\ell_{\rvx\rvz}
+)+(\ell_\rvx + \ell_\rvy +\ell_\rvz)
+-\ell_\eset
+\eeq
+
+\begin{claim}
+\label{cl-geo-series}
+If $M = I + N\in \RR^{n\times n}$ is a lower triangular matrix so that $N$ is strictly lower triangular, then
+
+\beq
+N^n=0\quad \text{($N$ is {\bf nilpotent})}
+\eeq
+and
+\beq
+M^{-1}=I -N +N^2 -\ldots N^n
+\eeq
+\end{claim}
+\proof
+
+$N^n=0$ is obvious. Just work out an example with $n=3$ to convince yourself.
+It can be proven by induction if you are a masochist.
+
+As for the formula for $M^{-1}$, suppose $n=4$. Then
+\beq
+(1+N)(1-N+N^2-N^3)=
+1-N^4=1
+\eeq
+This argument is clearly valid for $n\geq 2$.
+\qed
+
+We won't do it here, but note that one can use Claim
+\ref{cl-geo-series}
+instead of the M\"{o}bius inversion
+formula (MIF)
+to invert the $M$
+ matrix in $\ell=M\theta$.
+In fact, Claim
+\ref{cl-geo-series} is more general
+than the MIF and can be used for other statistic families such as our TPM dofs statistics
+for which MIF does not directly apply.
+
+Note that
+the bnet of Eq.(\ref{fig-2-boxes-bnet})  has 15 dofs
+but the column vectors $\ell$ and $\theta$
+have length 18. So our interaction statistics
+for this bnet yields
+an over complete expansion of $
+\ln P(x^6)$.
+One of the extra 3 statistics is
+being used to accommodate $\eset$ and $\ln Z$. The other two extra
+statistics come from
+moralizing the parents of colliders. Thus, the bnet of
+Fig.\ref{fig-2-boxes-bnet}
+is represented by a 15 dim submanifold of the larger
+18 dim manifold. The submanifold satisfies the
+following two conditional
+independence constraints.
+
+\beq
+\rvb \perp\rvc \mid \rvd,
+\quad
+\rvc\perp \rve \mid \rvf
+\eeq
+
+
+\begin{claim}
+Suppose $\rvx, \rvy, \rvz$ are binary random variables. If
+$\rvx\perp \rvz\mid \rvy$ then
+
+\beq
+\frac{P_{\rvx,\rvy,\rvz}(0,y,0)}
+{P_{\rvx,\rvy,\rvz}(1,y,0)}
+=
+\frac{P_{\rvx,\rvy,\rvz}(0,y,1)}
+{P_{\rvx,\rvy,\rvz}(1,y,1)}
+\eeq
+
+\end{claim}
+\proof
+
+\beq
+P_{\rvx|\rvz, \rvy}(x|z, y)=
+P_{\rvx|\rvy}(x|y)
+\eeq
+
+\beq
+P_{\rvx|\rvz, \rvy}(x|0, y)=
+P_{\rvx|\rvz, \rvy}(x|1, y)=
+P_{\rvx|\rvy}(x|y)
+\eeq
+
+\beq
+P_{\rvx|\rvz, \rvy}(0|0, y)=
+P_{\rvx|\rvz, \rvy}(0|1, y)=
+P_{\rvx|\rvy}(0|y)
+\eeq
+
+\beq
+P_{\rvx|\rvz, \rvy}(1|0, y)=
+P_{\rvx|\rvz, \rvy}(1|1, y)=
+P_{\rvx|\rvy}(1|y)
+\eeq
+
+\beq
+\frac{P_{\rvx|\rvz, \rvy}(0|0, y)}
+{P_{\rvx|\rvz, \rvy}(1|0, y)}
+=
+\frac{P_{\rvx|\rvz, \rvy}(0|1, y)}
+{P_{\rvx|\rvz, \rvy}(1|1, y)}
+\eeq
+\qed
+
+Let
+
+$Q=(\rvx,\rvy, \rvz)$,
+
+
+$Q^c= nds(\calb)-Q$
+
+Then
+
+\beq
+P_{\rvx,\rvy, \rvz}(x,y,z)=
+\sum_{x_{Q^c}\in val(Q^c)}
+\exp\left(  \sum_{A\in \cali}
+\cals_A(x^6)\theta_A\right)
+\eeq
+
+
+Two constraints:
+
+\begin{enumerate}
+
+\item $\rvb\perp\rvc\mid\rvd$
+
+\beq
+\frac{P_{\rvb,\rvd,\rvc}(0,d,0)}
+{P_{\rvb,\rvd,\rvc}(1,d,0)}
+=
+\frac{P_{\rvb,\rvd,\rvc}(0,d,1)}
+{P_{\rvb,\rvd,\rvc}(1,d,1)}
+\eeq
+
+\item $\rvc\perp\rve \mid \rvf$
+
+
+\beq
+\frac{P_{\rvc,\rvf,\rve}(0,f,0)}
+{P_{\rvc,\rvf,\rve}(1,f,0)}
+=
+\frac{P_{\rvc,\rvf,\rve}(0,f,1)}
+{P_{\rvc,\rvf,\rve}(1,f,1)}
+\eeq
+\end{enumerate}
+\hrule
+Simplicial Complexes
+
+Given a set of vertices $V$ with powerset $\calp(V)$,
+a {\bf hypergraph}
+$\calh$ is a subset
+of $\calp(V)$. Thus, $\calh\subset \calp(V)$.
+
+A {\bf simplicial complex} $\calh$
+is a hypergraph
+that has the {\bf downward-closed (or hereditary)} property:
+If $A\in \calh$ and $B\subset A$, then $B\in \calh$.
+In particular, $\eset \in \calh$.
+The elements of $\calh$ are called {\bf
+simplices or simplexes}.
+(I've been calling them interactions or facets)
+
+
+The hypergraph of Fig.\ref{fig-facet-fed} is an example of a simplicial complex if we add to it the empty set.
+To obtain the hypergraph $\cali$ represented in that figure,
+we started with the families of the bnet, and generated a simplicial complex by
+enforcing the hereditary property.
+This generated 2 out of the 4 max-cliques
+of the moral graph. The two max-cliques
+that were generated were the ones
+introduced by moralizing colliders.
